@@ -1,6 +1,6 @@
 # HARDWARE_AUDIT
 
-Last updated: 2026-11-01 2:45 PM ET. Question answered: "Every bracket, every washer, every item accounted for?"
+Last updated: 2026-11-01 2:08 PM ET. Question answered: "Every bracket, every washer, every item accounted for?"
 
 Answer: every printed part, insert bore, screw hole, bearing seat and servo pocket in the upstream STLs (commit 730c14b) was measured on the box. Every item below is either measured from CAD/STL geometry or confirmed by a cited source. Anything that could not be verified is a BLOCKER with exactly what is needed to clear it (section 6). Nothing is labelled "inferred" as a final answer.
 
