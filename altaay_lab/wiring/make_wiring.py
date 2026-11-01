@@ -1,5 +1,6 @@
 """Draws altaay_lab/wiring/odm_v2_wiring.svg and .png with schemdraw.
 Solid = taken from upstream docs/code. Dashed = lab change or inferred (see WIRING.md)."""
+import os
 import schemdraw
 import schemdraw.elements as elm
 import schemdraw.flow as flow
@@ -115,5 +116,6 @@ with schemdraw.Drawing(show=False) as d:
              "the output tracks the input (not verified for BEC Pro).  Use the adapter screw terminal, not the 5.5x2.1 barrel, for servo power.  Common ground: all GND tied at BMS P-.\n"
              "GPIO pins from upstream docs/assembly_guide.md; code in Open_Duck_Mini_Runtime differs on eyes and antennas (left/right swapped). Head chain branch point and 5 V feed point inferred.")
     d += elm.Label().at(P((0, -4.7))).label(notes, fontsize=8, halign="left", valign="top")
-    d.save("/workspace/lab_push/altaay_lab/wiring/odm_v2_wiring.svg")
-    d.save("/workspace/lab_push/altaay_lab/wiring/odm_v2_wiring.png", dpi=140)
+    here = os.path.dirname(os.path.abspath(__file__))  # this wiring/ folder, wherever the repo is cloned
+    d.save(os.path.join(here, "odm_v2_wiring.svg"))
+    d.save(os.path.join(here, "odm_v2_wiring.png"), dpi=140)

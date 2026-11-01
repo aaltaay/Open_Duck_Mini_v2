@@ -1,7 +1,7 @@
 # START HERE: Open Duck Mini v2 (Altaay lab fork)
 
 Read this file first. It is written so a new agent on a different account can pick up the duck build with no other context.
-Last written: 2026-11-01 2:40 PM ET by Legged Robots, Grok Bot agent of Ahmed Altaay.
+Last written: 2026-11-01 2:18 PM ET by Legged Robots, Grok Bot agent of Ahmed Altaay.
 
 ## What this is
 This repo is a public fork of [apirrone/Open_Duck_Mini](https://github.com/apirrone/Open_Duck_Mini). Upstream branch `v2` is left untouched at b23317a. All Altaay lab work lives ONLY on branch `altaay-lab`, ONLY in this `altaay_lab/` folder.
@@ -9,6 +9,8 @@ This repo is a public fork of [apirrone/Open_Duck_Mini](https://github.com/apirr
 The robot: Open Duck Mini v2, an open source bipedal robot by Antoine Pirrone, inspired by Disney's BDX droid. About 42 cm tall, about 2.11 kg (sim mass), 14 Feetech STS3215 serial bus servos (5 per leg, 4 in the neck and head), Raspberry Pi Zero 2 W, BNO055 IMU, 2S 18650 pack. It walks with an RL policy trained in MuJoCo Playground and exported to ONNX.
 
 Owner bot: **Legged Robots, Grok Bot agent of Ahmed Altaay**. The duck is one of four Altaay legged robots (with Minto, Tom and a humanoid, all in private lab repos).
+
+Naming: "Mento" and "Minto" in older files and commits refer to the same owner bot, now named Legged Robots (Grok Bot agent of Ahmed Altaay).
 
 ## Current status (plain words)
 - Research and hardware audit done. Nothing bought, nothing printed.
@@ -18,7 +20,7 @@ Owner bot: **Legged Robots, Grok Bot agent of Ahmed Altaay**. The duck is one of
 - BOM before shipping and tax: build $715.27, with expression pack $761.22, with tools $899.89 (BOM.md, bom.json).
 - Servo: evidence points to STS3215 7.4 V 1:345 "19 kg.cm" (C001), about 85 % confidence (SERVO_DEEP_DIVE.md).
 - Power: Castle Creations CC BEC Pro set to 7.2 V plus a 15 A ATO fuse (decided by Ahmed 2026-11-01 1:09 PM ET; POWER.md, WIRING.md).
-- Issue #48 question: posted upstream by aaltaay on 2026-11-01 1:08 PM ET: https://github.com/apirrone/Open_Duck_Mini/issues/48#issuecomment-6561836208 . DECISIONS.md D1 still says "not posted"; this file is newer.
+- Issue #48 question: posted upstream by aaltaay on 2026-11-01 1:08 PM ET: https://github.com/apirrone/Open_Duck_Mini/issues/48#issuecomment-6561836208 . DECISIONS.md D1 records this too.
 
 ## Hard requirements (lab-wide, set by Ahmed)
 1. Self-charging dock: the robot finds a dock by itself (AprilTag), charges through pogo pins, and goes back to the dock at about 20 % battery.
@@ -40,7 +42,7 @@ Open Duck Mini v2 exceptions (Ahmed, 2026-11-01):
 - No em dashes in any file. Plain, short language. Say "sim pass only" for sim results.
 - Full lab rules: altaay-lab-shared/AGENTS.md (private repo).
 
-Duck note on "bus servos only": the 14 joint servos are serial bus. The optional antenna servos in the upstream design are SG90 PWM servos, which conflict with this rule. BOM.md line 14 lists them; GAPS.md B10 flags them only under the Chinese parts rule, not the bus rule. Ahmed has not ruled on this yet.
+Duck note on "bus servos only": the 14 joint servos are serial bus. The optional antenna servos in the upstream design are SG90 PWM servos, which conflict with this rule. BOM.md line 14 lists them; GAPS.md B10a records this as a lab-rule gap; the stock build keeps them because Ahmed chose stock first, and a bus-servo swap belongs to the later lab step.
 
 ## Repo map (altaay_lab/ only)
 | Path | What it is |

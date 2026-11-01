@@ -54,6 +54,8 @@ B9. Trained policy: present for walking (BEST_WALK_ONNX.onnx, BEST_WALK_ONNX_2.o
 
 B10. Chinese parts rule. STS3215 is borderline (partial spec, short warranty, sim yes). Waveshare adapter, BMS, UBEC, charger, holder and SG90s fail (no spec or warranty).
 
+B10a. Bus servos only rule (added 2026-11-01). The 2 SG90-class antenna servos (BOM.md row 14) are PWM hobby servos, not bus servos, so they break the lab "bus servos only" rule. This is a lab-rule gap, not a defect of the upstream design: the stock build keeps them because Ahmed chose to build v2 stock first (2026-11-01 12:53 PM ET, DECISIONS.md). A bus-servo swap (for example 2 more Feetech STS-series bus servos on the neck chain) belongs to the later lab step, together with docking and get-up.
+
 B11. Non-US sellers. Upstream BOM links are EU and China only. US equivalents found for every line (BOM.md). Nothing is sold only through Discord.
 
 B12. Licensing. Runtime, Playground and reference motion generator have no license file.

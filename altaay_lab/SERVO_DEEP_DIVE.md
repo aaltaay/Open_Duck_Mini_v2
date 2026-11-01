@@ -79,6 +79,8 @@ Not likely: the commented-out velocity clip in v2_rl_walk_mujoco.py. The servo f
 
 ## 7. Draft question for issue #48 (TEXT ONLY, NOT POSTED, needs Ahmed's approval)
 
+Update 2026-11-01: this question was posted on issue #48 by aaltaay at 1:08 PM ET: https://github.com/apirrone/Open_Duck_Mini/issues/48#issuecomment-6561836208 . The heading above is kept as written.
+
 Title: none (comment on #48)
 
 Body:
