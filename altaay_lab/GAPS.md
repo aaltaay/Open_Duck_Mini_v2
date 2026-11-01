@@ -2,7 +2,7 @@
 
 ## A. Gaps for building it as designed
 
-A1. Servo variant is ambiguous. The BOM text resolves to STS3215 C001 (1:345), but builders in issue #48 (open) see poor tracking and feet that barely lift. The runtime has max_motor_velocity 5.24 rad/s with clipping commented out, which C001 cannot reach.
+A1. Servo variant: resolved to STS3215 7.4 V 1:345 (C001), about 85% confidence (SERVO_DEEP_DIVE.md). Not confirmed by apirrone in writing, and his servo firmware version is unknown. Issue #48 (open) still reports poor tracking and feet that barely lift. The likely causes are servo register or firmware state, supply sag or mislabeled 12 V units, not the BOM variant. The C001 reaches about 5.45 rad/s at 7.4 V, matching the 5.24 rad/s in sim. Bench test before the full build.
 
 A2. Over-voltage. A 2S pack charges to 8.4 V, the STS3215 C001 is rated 6 to 7.4 V, and Feetech excludes over-voltage damage from warranty (issue #51). The Waveshare adapter (A) is specced for 9 to 12.6 V input and passes voltage straight to the bus.
 
@@ -46,7 +46,7 @@ B7. Stairs: not possible. EXEMPT by Ahmed on 2026-11-01, no action needed. Lab s
 
 B8. Sim model: present. MJCF in Open_Duck_Playground (playground/open_duck_mini_v2/xmls/open_duck_mini_v2.xml, plus a backlash variant) and URDF plus MJCF in Open_Duck_Mini/mini_bdx/robots/open_duck_mini_v2. Actuator model from BAM (kp 13.37, forcerange 3.23 Nm).
 
-B9. Trained policy: present for walking (BEST_WALK_ONNX.onnx, BEST_WALK_ONNX_2.onnx). Not tested on hardware by us. Trained against an unconfirmed servo variant (A1).
+B9. Trained policy: present for walking (BEST_WALK_ONNX.onnx, BEST_WALK_ONNX_2.onnx). Not tested on hardware by us. Trained against the BAM model of apirrone's 7.4 V 1:345 servos (A1), so faster variants would not match it.
 
 B10. Chinese parts rule. STS3215 is borderline (partial spec, short warranty, sim yes). Waveshare adapter, BMS, UBEC, charger, holder and SG90s fail (no spec or warranty).
 

@@ -30,4 +30,4 @@ Goal of this folder: build the robot exactly as designed upstream, and record ev
 CAD, STL and sim assets are not copied here. Use the upstream commits above.
 
 ## Files
-STATE.md, DECISIONS.md, BOM.md, GAPS.md, REFERENCES.md
+STATE.md, DECISIONS.md, BOM.md, GAPS.md, REFERENCES.md, SERVO_DEEP_DIVE.md
