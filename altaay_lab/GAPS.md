@@ -61,4 +61,4 @@ B11. Non-US sellers. Upstream BOM links are EU and China only. US equivalents fo
 B12. Licensing. Runtime, Playground and reference motion generator have no license file.
 
 
-A12. Adapter (Waveshare bus servo adapter, board.stl on trunk_top) has only 2 servo sockets (H3, H5, wired in parallel), but 3 chains leave it (left leg, right leg, neck). A made Y-lead S1Y is needed (CABLE_MAP.md). Upstream join method is BLOCKER B19.
+A12. Adapter (Waveshare bus servo adapter, board.stl on trunk_top) has only 2 servo sockets (H3, H5, wired in parallel), but 3 chains leave it (left leg, right leg, neck). No Y-lead is needed: the neck chain hangs off the left ankle's free bus port through one made lead S14 (Tnkr wiring of the upstream assembly, no splitter; CABLE_MAP.md). B19 cleared 2026-11-01.

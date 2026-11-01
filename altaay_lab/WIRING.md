@@ -42,7 +42,7 @@ IDs are from the Runtime and assembly guide [U]. Order inside each chain follows
 | Adapter port | Chain order (ID, joint) | Tag |
 |---|---|---|
 | Port 1 | 20 left_hip_yaw, 21 left_hip_roll, 22 left_hip_pitch, 23 left_knee, 24 left_ankle | [U] |
-| Port 1 (branch) | 30 neck_pitch, 31 head_pitch, 32 head_yaw, 33 head_roll | [U] IDs. The adapter has 2 servo sockets (H3, H5, in parallel) for 3 chains, so a made Y-lead S1Y joins the neck chain (CABLE_MAP.md). Upstream join method: BLOCKER B19 |
+| Port 1 (branch) | 30 neck_pitch, 31 head_pitch, 32 head_yaw, 33 head_roll | [U] IDs. The adapter has 2 servo sockets (H3, H5, in parallel) for 3 chains, so the neck chain hangs off the left ankle's free BUS 2 through one made lead S14, no splitter (Tnkr wiring, CABLE_MAP.md). B19 cleared |
 | Port 2 | 10 right_hip_yaw, 11 right_hip_roll, 12 right_hip_pitch, 13 right_knee, 14 right_ankle | [U] |
 
 The bus is electrically one shared line (V+, GND, half-duplex data), so the branch point does not matter for the protocol. It does matter for current: port 1 carries 9 servos. Keep the cable from the adapter to servo 20 and to servo 30 as short as the CAD allows, and measure the voltage at servo 24 and 33 under load [I].
@@ -82,7 +82,7 @@ Eyes and antennas: wire to the code, not the table, or swap the pin numbers in e
 |---|---|---|---|
 | Pack, BMS, XT30, fuse, switch, BEC input | about 11 A continuous at 10 A out, 20 A bursts | 16 AWG silicone | BNTECHGO SW16A252008F25C2 (Amazon B01MCRY7OT) [L] |
 | BEC output to adapter | 15 A continuous max (BEC rating, with airflow) | 16 AWG | same [L] |
-| BMS balance lead | under 0.1 A | 26 AWG silicone | solder to the holder series strap (BLOCKER B27) |
+| BMS balance lead | under 0.1 A | 26 AWG silicone | solder to the holder series strap (B27 cleared: Tnkr m1 and m2 MID take-off) |
 | UBEC in and out | about 1 to 2 A | 20 AWG | any [I] |
 | Servo bus | up to about 5 A per chain while walking | cables shipped with STS3215 | Feetech [U] |
 | GPIO, I2C, I2S | mA | 26 AWG silicone, soldered | CABLE_MAP.md D-rows |
