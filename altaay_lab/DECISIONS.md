@@ -4,7 +4,7 @@ D1. Servo variant. Deep dive done (SERVO_DEEP_DIVE.md). Evidence says apirrone u
 
 D2. Accept Feetech under the lab rule? Spec gives rated torque but no thermal duty curve. Warranty is 12 months, 6 months for motor, gears and housing, with round-trip freight paid by us and over-voltage excluded. A sim model exists (MJCF plus BAM). Accept, or require a duty test in the lab first?
 
-D3. Supply voltage. A full 2S pack is 8.4 V, above the 6 to 7.4 V servo rating, and over-voltage voids the Feetech warranty (issue #51). Options: keep as designed, add a buck stage, or use the 12 V STS3215 C018 (redesign, not as-is).
+D3. Supply voltage. DECIDED 2026-11-01 1:09 PM ET: add a regulator (see Decided). Implemented as a lab change: Castle CC BEC Pro set to 7.2 V, 15 A ATO fuse (POWER.md, WIRING.md, BOM.md lab change lines).
 
 D4. Generic Chinese power parts (BMS, UBEC, charger, holder) have no spec or warranty. Swap the UBEC for Pololu D36V28F5 (US, spec'd)? Swapping changes the as-is build.
 
@@ -17,3 +17,4 @@ D7. Pi Zero 2 W is out of stock at US resellers (2026-11-01). Wait, pay eBay pri
 ## Decided
 - 2026-11-01 12:51 PM ET (Ahmed): The Open Duck Mini v2 is EXEMPT from the lab 15-step stair rule (see GAPS.md B7). Self-docking and get-up after falls are not exempted.
 - 2026-11-01 12:53 PM ET (Ahmed, answers D5): Build v2 stock first, exactly as designed. Add self-docking and get-up after falls later as a separate lab step.
+- 2026-11-01 1:09 PM ET (Ahmed, answers D3): Add a regulator so the servos never see more than 7.4 V. Lab pick: Castle Creations CC BEC Pro 010-0004-01 set to 7.2 V, programmed with Castle Link V4 011-0173-00, plus a Littelfuse 15 A ATO fuse after BMS P+ (POWER.md). Nothing bought.

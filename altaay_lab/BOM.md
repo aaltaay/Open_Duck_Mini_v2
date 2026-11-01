@@ -46,13 +46,33 @@ Prices in USD, checked 2026-11-01 via web search unless marked (not verified). N
 
 **Expression total: $45.95. Grand total: $616.07**
 
+## Lab change lines (Ahmed D3, 2026-11-01 1:09 PM ET: servos never above 7.4 V)
+
+The stock lines above stay as they are. These lines are added on top. Details in POWER.md and WIRING.md.
+
+| # | Part | Qty | Exact model | Unit USD | Line USD | US seller | Ships to USA | Origin | Warranty / longevity | Continuous rating | Single source | Backup |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| L1 | Servo buck regulator | 1 | Castle Creations CC BEC Pro, P/N 010-0004-01, set to 7.2 V | 54.95 | 54.95 | https://castlecreations.com/products/voltage-regulator-cc-bec-pro-20a-010-0004-01 | Yes (Castle, Olathe KS; store shows available 2026-11-01, an older Castle page says temporarily out of stock) | USA brand, assembled in the Philippines | Castle 1 year from purchase, plus non-warranty replacement program | 15 A cont at 2S to 4S with 5 mph airflow, 20 A peak | No | Castle CC BEC 2.0 WP 010-0153-00 $56.95 (9 A cont); Pololu D42V110F6 6 V fixed |
+| L2 | BEC programmer (one-time tool) | 1 | Castle Link V4 USB Programming Kit, P/N 011-0173-00 (Windows 10+, Castle Link 2) | 29.95 | 29.95 | https://castlecreations.com/products/accessories-castle-link-v4-psoc-usb-programming-kit-011-0173-00 | Yes (in stock at Castle, Havoc Speed FL, Nitro Hobbies on 2026-11-01) | USA brand, assembled in the Philippines | Castle 1 year | n/a | No | Castle Link V3 is discontinued |
+| L3 | Inline fuse holder | 1 | Littelfuse FHAC0001ZXJ, ATO, 20 A, 32 V, 16 AWG leads | 7.74 | 7.74 | Newark (US), search FHAC0001ZXJ (stock not verified) | Yes | USA brand | Littelfuse standard | 20 A | No | DigiKey, Mouser |
+| L4 | Fuse | 5 | Littelfuse ATO 15 A 32 V, 0287015.PXCN | 0.45 | 2.25 | DigiKey (price from EUR 0.39 listing, US price not verified) | Yes | USA brand | n/a | 15 A | No | any ATO 15 A from a named brand |
+| L5 | Power wire | 1 | BNTECHGO 16 AWG silicone, red and black 25 ft each, SW16A252008F25C2 | 19.98 | 19.98 | https://www.amazon.com/dp/B01MCRY7OT (in stock, ships from Amazon, sold by BNTECHGO-US) | Yes | China (not stated) | Amazon returns until 2027-01-31 | 252 strands 0.08 mm tinned copper, 200 C, 600 V | No | any 16 AWG silicone |
+
+**Lab change total: $114.87** (L2 is a one-time tool: $84.92 without it)
+
+Not costed yet (open):
+- Power switch rated 15 A DC or more (stock rocker has no rating). Model not chosen.
+- Spot-welded 2S pack, only if the spring holder drop is over about 0.3 V at 10 A (POWER.md section 5).
+
+**Totals with lab changes: core walking robot $684.99, grand total with expression $730.94** (stock: $570.12 and $616.07). No shipping, tax or tariffs.
+
 ## Lab rule check for Chinese parts (full spec + real warranty + sim model)
 
 | Part | Full spec incl. continuous rating | Real warranty | Sim model | Verdict |
 |---|---|---|---|---|
 | Feetech STS3215 | Partial: rated torque published (6.5 kg.cm @6V) but sellers disagree (5 kg.cm on Seeed); no thermal duty curve | 12 mo / 6 mo wear parts, buyer pays round-trip freight from US, over-voltage excluded | Yes: MJCF class sts3215 plus BAM identification | Borderline, Ahmed decision (DECISIONS D2) |
 | Waveshare Bus Servo Adapter (A) | Rated 9 to 12.6 V input, used at 7.4 to 8.4 V | Not found | n/a | Fails warranty rule |
-| 2S BMS, UBEC, USB-C charger, holder, switch | No datasheet | None | n/a | Fails; US backups needed (Pololu regulator) |
+| 2S BMS, UBEC, USB-C charger, holder, switch | No datasheet | None | n/a | Fails; US backups needed (Pololu regulator). Servo supply now via Castle CC BEC Pro (lab change L1) |
 | SG90 antenna servos | No | None | Antennas not in MJCF | Fails (non-critical) |
 
 Non-Chinese key parts: Pi Zero 2 W (Raspberry Pi Ltd), BNO055 (Bosch chip, Adafruit board), Molicel P30B (Taiwan), Omron SS-10.

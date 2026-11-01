@@ -5,10 +5,13 @@
 A1. Servo variant: resolved to STS3215 7.4 V 1:345 (C001), about 85% confidence (SERVO_DEEP_DIVE.md). Not confirmed by apirrone in writing, and his servo firmware version is unknown. Issue #48 (open) still reports poor tracking and feet that barely lift. The likely causes are servo register or firmware state, supply sag or mislabeled 12 V units, not the BOM variant. The C001 reaches about 5.45 rad/s at 7.4 V, matching the 5.24 rad/s in sim. Bench test before the full build.
 
 A2. Over-voltage. A 2S pack charges to 8.4 V, the STS3215 C001 is rated 6 to 7.4 V, and Feetech excludes over-voltage damage from warranty (issue #51). The Waveshare adapter (A) is specced for 9 to 12.6 V input and passes voltage straight to the bus.
+Lab change (D3 decided 2026-11-01): Castle CC BEC Pro set to 7.2 V feeds the bus (POWER.md). Open: BEC dropout behavior and setpoint accuracy not published, measure on the bench.
 
 A3. Battery holder current. Spring holder contacts limit current for 14 servos (issue #51). No fuse anywhere in the power path.
+Lab change: 15 A ATO fuse (Littelfuse 0287015.PXCN in FHAC0001ZXJ) right after BMS P+, 16 AWG harness. Holder still open: measure drop at 10 A, replace with a spot-welded pack if over about 0.3 V (POWER.md section 5).
 
 A4. No real schematic. Wiring is a block diagram (docs/open_duck_mini_v2_wiring_diagram.png), a pictorial of the head (wiring.png) and a Pi pin table. No wire gauges, connector part numbers or fuse. The UBEC is "stuffed in the back" (issue #1).
+Lab answer: WIRING.md plus wiring/odm_v2_wiring.svg and .png, with gauges, connectors, part numbers, and upstream vs inferred marked. Upstream pin table and Runtime code disagree on eyes and antennas (left and right swapped).
 
 A5. Fasteners not counted. assembly_guide.md says "X m3 screws (TODO : add the exact number)". M3x6 and M3x10 are named, plus plastic screws from the servo kits. M3 insert length and diameter not stated.
 
@@ -31,6 +34,7 @@ A13. Policy training data and exact training config for the shipped ONNX are not
 ## B. Gaps against lab rules
 
 B1. Wiring access. Ahmed requires full wiring, cabling and schematic access. Only diagrams exist (A4). We must draw our own schematic from the CAD and pin table.
+Done 2026-11-01 as a block-level schematic (WIRING.md). Head chain branch point and the Pi 5 V feed point are inferred.
 
 B2. Servo durability. No continuous duty or thermal spec for STS3215. Warranty on motor and gears is 6 months. Expect wear in knees and hips. No published lifetime data.
 
