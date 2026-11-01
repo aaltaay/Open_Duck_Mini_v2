@@ -42,7 +42,7 @@ B5. Self docking: missing. No AprilTag code, no camera in the build, no pogo pin
 
 B6. Get up after falls: missing. Training only terminates the episode on a fall. No get-up policy or motion.
 
-B7. Stairs: not possible. Lab stair rise is 197 mm (254 mm tread, 15 steps). Thigh is about 79 mm and shin about 79 mm. Hip pitch axis is about 220 mm above ground with straight legs and about 150 mm in the walking crouch. The rise is about 90% of the fully straight leg and about 130% of walking hip height. The 104 mm foot fits the tread, but the robot cannot lift a foot onto the step. Even a scaled design would need roughly 2x leg length.
+B7. Stairs: not possible. EXEMPT by Ahmed on 2026-11-01, no action needed. Lab stair rise is 197 mm (254 mm tread, 15 steps). Thigh is about 79 mm and shin about 79 mm. Hip pitch axis is about 220 mm above ground with straight legs and about 150 mm in the walking crouch. The rise is about 90% of the fully straight leg and about 130% of walking hip height. The 104 mm foot fits the tread, but the robot cannot lift a foot onto the step. Even a scaled design would need roughly 2x leg length.
 
 B8. Sim model: present. MJCF in Open_Duck_Playground (playground/open_duck_mini_v2/xmls/open_duck_mini_v2.xml, plus a backlash variant) and URDF plus MJCF in Open_Duck_Mini/mini_bdx/robots/open_duck_mini_v2. Actuator model from BAM (kp 13.37, forcerange 3.23 Nm).
 

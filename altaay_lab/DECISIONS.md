@@ -13,3 +13,6 @@ D5. Lab-rule features not in the design (docking, get-up, stairs). Build v2 stri
 D6. Runtime and Playground have no license. Ask upstream to add one before we modify or redistribute code from them? (No message sent; needs Ahmed approval.)
 
 D7. Pi Zero 2 W is out of stock at US resellers (2026-11-01). Wait, pay eBay prices (about $82+), or test a different board (not as-is)?
+
+## Decided
+- 2026-11-01 12:51 PM ET (Ahmed): The Open Duck Mini v2 is EXEMPT from the lab 15-step stair rule (see GAPS.md B7). Self-docking and get-up after falls are not exempted.
