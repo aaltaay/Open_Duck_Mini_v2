@@ -1,0 +1,86 @@
+{
+"head_yaw_to_roll.stl": [
+0.1,
+3
+],
+"right_roll_to_pitch.stl": [
+0.1,
+3
+],
+"left_roll_to_pitch.stl": [
+0.1,
+3
+],
+"trunk_top.stl": [
+0.1,
+9
+],
+"head_roll_mount.stl": [
+0.01,
+3
+],
+"left_knee_to_ankle_left_sheet.stl": [
+0.01,
+4
+],
+"left_knee_to_ankle_right_sheet.stl": [
+0.01,
+4
+],
+"roll_motor_top.stl": [
+0.01,
+6
+],
+"neck_left_sheet.stl": [
+0.0,
+1
+],
+"neck_right_sheet.stl": [
+0.0,
+1
+],
+"roll_motor_bottom.stl": [
+-0.0,
+6
+],
+"head_pitch_to_yaw.stl": [
+-0.5,
+0
+],
+"foot_side.stl": [
+-0.8,
+0
+],
+"foot_top.stl": [
+-1.95,
+0
+],
+"head.stl": [
+-2.94,
+0
+],
+"trunk_bottom.stl": [
+-3.72,
+0
+],
+"body_middle_top.stl": [
+-4.64,
+0
+],
+"body_middle_bottom.stl": [
+-4.96,
+0
+],
+"right_cache.stl": [
+-8.19,
+0
+],
+"left_cache.stl": [
+-8.23,
+0
+],
+"head_bot_sheet.stl": [
+-9.12,
+0
+]
+}

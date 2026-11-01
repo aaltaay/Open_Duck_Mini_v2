@@ -21,8 +21,8 @@ Tags used below:
 | 8a | pack bus | Castle CC BEC Pro input | 16 AWG | solder to BEC input leads (input lead gauge not published) | [L] |
 | 8b | CC BEC Pro output, 7.2 V | Waveshare Bus Servo Adapter (A) green screw terminal | 16 AWG | both BEC 3-pin output leads cut and joined, red to +, black to - (Castle: each 3-pin lead is good for 5 A continuous; above 10 A replace the connectors) | [L] |
 | 9 | pack bus | HENGE 4A UBEC 5 V input | 20 AWG | solder | [U] |
-| 10 | UBEC 5 V out | Pi Zero 2 W pin 2 or 4 (5 V), GND pin 6 | 20 AWG | 2-pin Dupont or solder to header | [U] UBEC to Pi, [I] feed point (could also be micro-USB PWR) |
-| 11 | Pi micro-USB (OTG data port) | Adapter USB-C | short cable, 15 cm | micro-USB to USB-C (BOM line 22) | [U] (/dev/ttyACM0, 1 Mbaud) |
+| 10 | UBEC 5 V out | Pi Zero 2 W pin 2 (5 V), GND pin 6 | 20 AWG | solder to header pins (CABLE_MAP.md P-rows) | [U] UBEC to Pi. Feed point chosen: GPIO 5 V pins, as in the upstream pin table |
+| 11 | Pi micro-USB (OTG data port) | Adapter USB-C | cable, 50 cm (measured route 502.6 mm by rule, test fit BLOCKER B18) | micro-USB to USB-C (BOM line 22) | [U] (/dev/ttyACM0, 1 Mbaud) |
 | 12 | Adapter servo ports | servo chains (section 2) | Feetech 3-wire cables that ship with the servos | 3-pin bus connector | [U] |
 
 Grounds: all grounds are common and return to BMS P-. The Pi, the BNO055, the UBEC and the servo bus share ground [U].
@@ -42,7 +42,7 @@ IDs are from the Runtime and assembly guide [U]. Order inside each chain follows
 | Adapter port | Chain order (ID, joint) | Tag |
 |---|---|---|
 | Port 1 | 20 left_hip_yaw, 21 left_hip_roll, 22 left_hip_pitch, 23 left_knee, 24 left_ankle | [U] |
-| Port 1 (branch) | 30 neck_pitch, 31 head_pitch, 32 head_yaw, 33 head_roll | [U] IDs, [I] branch point (upstream diagram draws the neck chain with a dashed line joining near the left leg) |
+| Port 1 (branch) | 30 neck_pitch, 31 head_pitch, 32 head_yaw, 33 head_roll | [U] IDs. The adapter has 2 servo sockets (H3, H5, in parallel) for 3 chains, so a made Y-lead S1Y joins the neck chain (CABLE_MAP.md). Upstream join method: BLOCKER B19 |
 | Port 2 | 10 right_hip_yaw, 11 right_hip_roll, 12 right_hip_pitch, 13 right_knee, 14 right_ankle | [U] |
 
 The bus is electrically one shared line (V+, GND, half-duplex data), so the branch point does not matter for the protocol. It does matter for current: port 1 carries 9 servos. Keep the cable from the adapter to servo 20 and to servo 30 as short as the CAD allows, and measure the voltage at servo 24 and 33 under load [I].
@@ -51,7 +51,7 @@ The bus is electrically one shared line (V+, GND, half-duplex data), so the bran
 
 | Device | Signal | Pi pin | Tag | Note |
 |---|---|---|---|---|
-| BNO055 (Adafruit 4646) | VIN | pin 1 (3V3) | [U] | |
+| BNO055 (Adafruit 2472) | VIN | pin 1 (3V3) | [U] | |
 | BNO055 | GND | pin 9 | [U] | |
 | BNO055 | SDA | pin 3 (GPIO2) | [U] | I2C1 |
 | BNO055 | SCL | pin 5 (GPIO3) | [U] | I2C1 |
@@ -82,10 +82,10 @@ Eyes and antennas: wire to the code, not the table, or swap the pin numbers in e
 |---|---|---|---|
 | Pack, BMS, XT30, fuse, switch, BEC input | about 11 A continuous at 10 A out, 20 A bursts | 16 AWG silicone | BNTECHGO SW16A252008F25C2 (Amazon B01MCRY7OT) [L] |
 | BEC output to adapter | 15 A continuous max (BEC rating, with airflow) | 16 AWG | same [L] |
-| BMS balance lead | under 0.1 A | 22 AWG | any [I] |
+| BMS balance lead | under 0.1 A | 26 AWG silicone | solder to the holder series strap (BLOCKER B27) |
 | UBEC in and out | about 1 to 2 A | 20 AWG | any [I] |
 | Servo bus | up to about 5 A per chain while walking | cables shipped with STS3215 | Feetech [U] |
-| GPIO, I2C, I2S | mA | 26 AWG Dupont | any [I] |
+| GPIO, I2C, I2S | mA | 26 AWG silicone, soldered | CABLE_MAP.md D-rows |
 
 ## 5. Lab change parts (see BOM.md, "Lab change" table)
 

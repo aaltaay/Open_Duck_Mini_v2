@@ -47,3 +47,49 @@
 - Upstream pins and code: Open_Duck_Mini docs/assembly_guide.md (pin table), Runtime mini_bdx_runtime eyes.py, antennas.py, feet_contacts.py
 - BAM STS3215 model (vin 7.4 V): https://github.com/Rhoban/bam bam/feetech/actuator.py
 - Sim: Open_Duck_Playground playground/open_duck_mini_v2/mujoco_infer.py and mujoco_infer_base.py
+
+## Hardware audit sources (2026-11-01)
+- Upstream STLs: apirrone/Open_Duck_Mini_v2 print/ at commit 730c14bc50e4e60c4a983f57fd739e015510cc76
+- https://boltdepot.com/Product-Details?product=6370
+- https://boltdepot.com/Product-Details?product=6371
+- https://boltdepot.com/Product-Details?product=6372
+- https://boltdepot.com/Product-Details?product=6377
+- https://boltdepot.com/Product-Details?product=6378
+- https://boltdepot.com/Product-Details?product=6379
+- https://boltdepot.com/Product-Details?product=6380
+- https://boltdepot.com/Product-Details?product=6381
+- https://cnckitchenus.store/products/heat-set-insert-m3-x-5-7-100-pieces
+- https://crawfordtool.com/products/bondhus-12192-metric-hex-key-set-l-wrenches-7-pieces-1-5mm-to-6mm
+- https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf
+- https://files.waveshare.com/wiki/Bus-Servo-Adapter-(A
+- https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/2194/PA-09_PA-20_Compatibility_Chart_5-4-17.pdf
+- https://pine64.com/product/pinecil-smart-mini-portable-soldering-iron/
+- https://pine64.com/product/pinecil-threaded-insert-tips-set-and-adapter/
+- https://www.18650batterystore.com/products/molicel-p30b-18650-3000mah-36a-battery
+- https://www.adafruit.com/product/2472
+- https://www.adafruit.com/product/3006
+- https://www.adafruit.com/product/5291
+- https://www.amazon.com/AITRIP-Lithium-Battery-Charger-Balance/dp/B08NSTF8CT
+- https://www.amazon.com/Adeept-18650-Charge-Charging-Board/dp/B0BJTW4QBR
+- https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE
+- https://www.amazon.com/BNTECHGO-Silicone-Spool-Color-100ft/dp/B09X4KY56S
+- https://www.amazon.com/Engineer-PA-09-Micro-Connector-Crimpers/dp/B002AVVO7K
+- https://www.amazon.com/Malockos-HENGE-Aeroplane-Helicopter-Mulitcopter/dp/B0DBPXNN7N
+- https://www.amazon.com/Wirefy-180-Heat-Shrink-Tubing/dp/B084GDLSCK
+- https://www.amazon.com/dp/B004L439FE
+- https://www.amazon.com/dp/B072V529YD
+- https://www.amazon.com/dp/B08F9CF85N
+- https://www.amazon.com/dp/B08P5HVMYT
+- https://www.amazon.com/dp/B09LCK7QJ2
+- https://www.amazon.com/dp/B09WCT8672
+- https://www.amazon.com/dp/B0B67NKCSW
+- https://www.amazon.com/dp/B0BGMP1MZ7
+- https://www.amazon.com/dp/B0D99THG1M
+- https://www.digikey.com/en/products/result?keywords=0287015.PXCN
+- https://www.digikey.com/en/products/result?keywords=omron%20SS-10
+- https://www.homedepot.com/p/Klein-Tools-Klein-Kurve-Wire-Stripper-and-Cutter-20-30-AWG-Solid-22-32-AWG-Stranded-11057/100352112
+- https://www.imscrews.com/products/imscrews-100-pcs-m2-x-5mm-black-self-tapping-screws-304-stainless-steel-phillips-pan-washer-head-natural-black-no-peeling-type-a-point-for-metal-wood-plastic
+- https://www.mantech.co.za/Datasheets/Products/STS3215-200620A.pdf
+- https://www.mouser.com/c/?q=08-70-1040
+- https://www.mouser.com/c/?q=50-37-5033
+- https://www.newark.com/search?st=FHAC0001ZXJ

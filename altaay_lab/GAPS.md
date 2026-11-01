@@ -13,13 +13,13 @@ Lab change: 15 A ATO fuse (Littelfuse 0287015.PXCN in FHAC0001ZXJ) right after B
 A4. No real schematic. Wiring is a block diagram (docs/open_duck_mini_v2_wiring_diagram.png), a pictorial of the head (wiring.png) and a Pi pin table. No wire gauges, connector part numbers or fuse. The UBEC is "stuffed in the back" (issue #1).
 Lab answer: WIRING.md plus wiring/odm_v2_wiring.svg and .png, with gauges, connectors, part numbers, and upstream vs inferred marked. Upstream pin table and Runtime code disagree on eyes and antennas (left and right swapped).
 
-A5. Fasteners not counted. assembly_guide.md says "X m3 screws (TODO : add the exact number)". M3x6 and M3x10 are named, plus plastic screws from the servo kits. M3 insert length and diameter not stated.
+A5. Fasteners not counted. assembly_guide.md says "X m3 screws (TODO : add the exact number)". M3x6 and M3x10 are named, plus plastic screws from the servo kits. M3 insert length and diameter not stated. RESOLVED 2026-11-01 by measurement: 58 M3 inserts (bore 3.9 to 4.2, CNC Kitchen M3x5.7), 193 screws to buy by size, 80 from the servo bags, 0 nuts, 0 washers. See HARDWARE_AUDIT.md. Still open: servo bag split by size (B2), 6 holes with no anchor (B4, B5).
 
-A6. Bearings not named. BOM says 3 bearings. The CAD bearing model is 32x32x7 mm, so 6804ZZ (20x32x7) is inferred, not confirmed.
+A6. Bearings. RESOLVED 2026-11-01 by measurement: the CAD bearing model is 19.99 ID x 32.19 OD x 7.0 mm (the earlier 32x32x7 note was wrong), seats measure 32.19 mm in trunk_bottom (2) and head (1). That is 6804ZZ (20x32x7), confirmed against the ISO 15 dimension table. See PRINT_CHECK.md.
 
 A7. Assembly guide is incomplete: servo driver board mount "TODO take a photo", expression features "TODO add instructions". Runtime docs have TODOs for the udev rule and for flashing offsets, and prepare_robot.md is outdated.
 
-A8. Print guide error: the bulb part is listed x1 but 2 are needed (issue #26). TPU hardness not stated.
+A8. Print guide error: the bulb part is listed x1 but 2 are needed (issue #26). TPU hardness not stated. Confirmed by geometry: the assembly uses 2 bulb copies (sites_head.json, one per eye). TPU hardness still open (B26).
 
 A9. BOM is in EUR with amazon.fr, alibaba and aliexpress links. Several lines name no exact model (switch, charger, holder, wire, SD card). Chinese-language BOM and guide are on feishu.
 
@@ -57,3 +57,6 @@ B10. Chinese parts rule. STS3215 is borderline (partial spec, short warranty, si
 B11. Non-US sellers. Upstream BOM links are EU and China only. US equivalents found for every line (BOM.md). Nothing is sold only through Discord.
 
 B12. Licensing. Runtime, Playground and reference motion generator have no license file.
+
+
+A12. Adapter (Waveshare bus servo adapter, board.stl on trunk_top) has only 2 servo sockets (H3, H5, wired in parallel), but 3 chains leave it (left leg, right leg, neck). A made Y-lead S1Y is needed (CABLE_MAP.md). Upstream join method is BLOCKER B19.

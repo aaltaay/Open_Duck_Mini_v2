@@ -1,0 +1,252 @@
+[
+ {
+  "a": "('board.stl', 'trunk_assembly')",
+  "b": "left_hip_yaw",
+  "poly": 63.8,
+  "straight": 63.8,
+  "joints": {}
+ },
+ {
+  "a": "left_hip_yaw",
+  "b": "left_hip_roll",
+  "poly": 56.6,
+  "straight": 54.3,
+  "joints": {
+   "left_hip_yaw": 1.05
+  }
+ },
+ {
+  "a": "left_hip_roll",
+  "b": "left_hip_pitch",
+  "poly": 82.3,
+  "straight": 56.2,
+  "joints": {
+   "left_hip_roll": 0.87
+  }
+ },
+ {
+  "a": "left_hip_pitch",
+  "b": "left_knee",
+  "poly": 92.1,
+  "straight": 67.3,
+  "joints": {
+   "left_hip_pitch": 1.75
+  }
+ },
+ {
+  "a": "left_knee",
+  "b": "left_ankle",
+  "poly": 92.1,
+  "straight": 78.7,
+  "joints": {
+   "left_knee": 3.14
+  }
+ },
+ {
+  "a": "('board.stl', 'trunk_assembly')",
+  "b": "right_hip_yaw",
+  "poly": 63.8,
+  "straight": 63.8,
+  "joints": {}
+ },
+ {
+  "a": "right_hip_yaw",
+  "b": "right_hip_roll",
+  "poly": 56.6,
+  "straight": 54.3,
+  "joints": {
+   "right_hip_yaw": 1.05
+  }
+ },
+ {
+  "a": "right_hip_roll",
+  "b": "right_hip_pitch",
+  "poly": 82.3,
+  "straight": 56.2,
+  "joints": {
+   "right_hip_roll": 0.87
+  }
+ },
+ {
+  "a": "right_hip_pitch",
+  "b": "right_knee",
+  "poly": 91.6,
+  "straight": 67.3,
+  "joints": {
+   "right_hip_pitch": 1.75
+  }
+ },
+ {
+  "a": "right_knee",
+  "b": "right_ankle",
+  "poly": 92.1,
+  "straight": 78.7,
+  "joints": {
+   "right_knee": 3.14
+  }
+ },
+ {
+  "a": "('board.stl', 'trunk_assembly')",
+  "b": "neck_pitch",
+  "poly": 87.3,
+  "straight": 87.3,
+  "joints": {}
+ },
+ {
+  "a": "neck_pitch",
+  "b": "head_pitch",
+  "poly": 80.0,
+  "straight": 66.0,
+  "joints": {
+   "neck_pitch": 1.48
+  }
+ },
+ {
+  "a": "head_pitch",
+  "b": "head_yaw",
+  "poly": 106.3,
+  "straight": 51.6,
+  "joints": {
+   "head_pitch": 1.57,
+   "head_yaw": 5.59
+  }
+ },
+ {
+  "a": "head_yaw",
+  "b": "head_roll",
+  "poly": 51.6,
+  "straight": 49.6,
+  "joints": {
+   "head_roll": 1.05
+  }
+ },
+ {
+  "a": "('raspberrypizerow.stl', None)",
+  "b": "('board.stl', 'trunk_assembly')",
+  "poly": 320.5,
+  "straight": 208.9,
+  "joints": {
+   "head_roll": 1.05,
+   "head_yaw": 5.59,
+   "head_pitch": 1.57,
+   "neck_pitch": 1.48
+  }
+ },
+ {
+  "a": "('raspberrypizerow.stl', None)",
+  "b": "('bno055.stl', None)",
+  "poly": 329.3,
+  "straight": 223.4,
+  "joints": {
+   "head_roll": 1.05,
+   "head_yaw": 5.59,
+   "head_pitch": 1.57,
+   "neck_pitch": 1.48
+  }
+ },
+ {
+  "a": "('raspberrypizerow.stl', None)",
+  "b": "('foot_bottom_pla.stl', 'foot_assembly')",
+  "poly": 602.4,
+  "straight": 414.7,
+  "joints": {
+   "head_roll": 1.05,
+   "head_yaw": 5.59,
+   "head_pitch": 1.57,
+   "neck_pitch": 1.48,
+   "left_hip_yaw": 1.05,
+   "left_hip_roll": 0.87,
+   "left_hip_pitch": 1.75,
+   "left_knee": 3.14,
+   "left_ankle": 3.14
+  }
+ },
+ {
+  "a": "('raspberrypizerow.stl', None)",
+  "b": "('foot_bottom_pla.stl', 'foot_assembly_2')",
+  "poly": 632.4,
+  "straight": 435.4,
+  "joints": {
+   "head_roll": 1.05,
+   "head_yaw": 5.59,
+   "head_pitch": 1.57,
+   "neck_pitch": 1.48,
+   "right_hip_yaw": 1.05,
+   "right_hip_roll": 0.87,
+   "right_hip_pitch": 1.75,
+   "right_knee": 3.14,
+   "right_ankle": 3.14
+  }
+ },
+ {
+  "a": "('raspberrypizerow.stl', None)",
+  "b": "('sg90.stl', None)",
+  "poly": 106.6,
+  "straight": 106.6,
+  "joints": {}
+ },
+ {
+  "a": "('raspberrypizerow.stl', None)",
+  "b": "('usb_c_charger.stl', None)",
+  "poly": 367.3,
+  "straight": 243.6,
+  "joints": {
+   "head_roll": 1.05,
+   "head_yaw": 5.59,
+   "head_pitch": 1.57,
+   "neck_pitch": 1.48
+  }
+ },
+ {
+  "a": "('raspberrypizerow.stl', None)",
+  "b": "('power_switch.stl', None)",
+  "poly": 354.0,
+  "straight": 211.2,
+  "joints": {
+   "head_roll": 1.05,
+   "head_yaw": 5.59,
+   "head_pitch": 1.57,
+   "neck_pitch": 1.48
+  }
+ },
+ {
+  "a": "('raspberrypizerow.stl', None)",
+  "b": "('bms.stl', None)",
+  "poly": 380.6,
+  "straight": 271.5,
+  "joints": {
+   "head_roll": 1.05,
+   "head_yaw": 5.59,
+   "head_pitch": 1.57,
+   "neck_pitch": 1.48
+  }
+ },
+ {
+  "a": "('bms.stl', None)",
+  "b": "('holder.stl', None)",
+  "poly": 30.2,
+  "straight": 30.2,
+  "joints": {}
+ },
+ {
+  "a": "('bms.stl', None)",
+  "b": "('usb_c_charger.stl', None)",
+  "poly": 39.4,
+  "straight": 39.4,
+  "joints": {}
+ },
+ {
+  "a": "('bms.stl', None)",
+  "b": "('power_switch.stl', None)",
+  "poly": 79.4,
+  "straight": 79.4,
+  "joints": {}
+ },
+ {
+  "a": "('power_switch.stl', None)",
+  "b": "('board.stl', 'trunk_assembly')",
+  "poly": 51.9,
+  "straight": 51.9,
+  "joints": {}
+ }
+]
