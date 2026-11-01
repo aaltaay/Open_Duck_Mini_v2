@@ -16,3 +16,4 @@ D7. Pi Zero 2 W is out of stock at US resellers (2026-11-01). Wait, pay eBay pri
 
 ## Decided
 - 2026-11-01 12:51 PM ET (Ahmed): The Open Duck Mini v2 is EXEMPT from the lab 15-step stair rule (see GAPS.md B7). Self-docking and get-up after falls are not exempted.
+- 2026-11-01 12:53 PM ET (Ahmed, answers D5): Build v2 stock first, exactly as designed. Add self-docking and get-up after falls later as a separate lab step.
