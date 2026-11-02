@@ -1,6 +1,6 @@
 # BOM (final, end to end)
 
-Last updated: 2026-11-01 about 10:00 PM ET (sourcing pass from SOURCING_2026-11-02.md: lines 30 to 33, tools T6 to T10, test equipment TE1 to TE4, evening stock rechecks; earlier 7:00 PM ET print-readiness pass and 2:52 PM ET blocker pass). Prices read on supplier pages 2026-11-01, before tax. Shipping is excluded by the owner's rule; every line ships to the USA. Nothing purchased.
+Last updated: 2026-11-01 about 10:50 PM ET (fastener schedule pass from fasteners/FASTENERS.md and DECISIONS.md D19 to D21: Need for 17a, 17d, 17e and 17h, new lines 17j to 17l, tools T11 to T13, test order TO16; earlier 10:00 PM ET sourcing pass from SOURCING_2026-11-02.md, 7:00 PM ET print-readiness pass and 2:52 PM ET blocker pass). Prices read on supplier pages 2026-11-01, before tax. Shipping is excluded by the owner's rule; every line ships to the USA. Nothing purchased.
 
 Rules: every quantity comes from CAD/STL measurement (HARDWARE_AUDIT.md, PRINT_CHECK.md, CABLE_MAP.md, MOUNTING.md) or a cited source. Anything that could not be verified is marked BLOCKER with what is needed. Spares are 10 to 20% or the pack minimum, whichever is larger.
 
@@ -38,20 +38,23 @@ Subtotal: $623.53
 | # | Item | Spec | Need | Buy | Pack | Line $ | Supplier | Link | Ships to USA | Verified |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 16 | M3 heat-set insert | CNC Kitchen M3 x 5.7, D1 4.6 mm, hole 4.0 mm | 58 | 100 | 100 | 10.90 | CNC Kitchen USA | https://cnckitchenus.store/products/heat-set-insert-m3-x-5-7-100-pieces | Yes (US store) | Yes |
-| 17a | M3x8 SHCS | DIN 912 A2 stainless, Bolt Depot 6379 | 44 | 52 | each | 3.12 | Bolt Depot | https://boltdepot.com/Product-Details?product=6379 | Yes (US) | Yes |
+| 17a | M3x8 SHCS | DIN 912 A2 stainless, Bolt Depot 6379 | 28 | 33 | each | 1.98 | Bolt Depot | https://boltdepot.com/Product-Details?product=6379 | Yes (US) | Yes. Need 28 by the per-screw count (fasteners/FASTENERS.md section 2; was 44), Buy cut to the spare rule. $0.06 each from the earlier read (52 for $3.12); Bolt Depot refused plain curl at 2026-11-01 10:30 PM ET (HTTP 403, Cloudflare challenge), so not re-read |
 | 17b | M3x10 SHCS | DIN 912 A2, Bolt Depot 6380 | 12 | 14 | each | 0.84 | Bolt Depot | https://boltdepot.com/Product-Details?product=6380 | Yes | Yes |
 | 17c | M3x12 SHCS | DIN 912 A2, Bolt Depot 6381 | 2 | 3 | each | 0.18 | Bolt Depot | https://boltdepot.com/Product-Details?product=6381 | Yes | Yes |
-| 17d | M3x6 SHCS | DIN 912 A2, Bolt Depot 6378 (horn screws) | 88 | 100 | 100 | 3.83 | Bolt Depot | https://boltdepot.com/Product-Details?product=6378 | Yes | Yes |
-| 17e | M3x5 SHCS | DIN 912 A2, Bolt Depot 6377 (short horn sites) | 12 | 14 | each | 0.70 | Bolt Depot | https://boltdepot.com/Product-Details?product=6377 | Yes | Yes |
-| 17f | M2.5x6 SHCS | DIN 912 A2, Bolt Depot 6370 (electronics) | 17 | 20 | each | 1.80 | Bolt Depot | https://boltdepot.com/Product-Details?product=6370 | Yes | Yes (the head board.stl is the Pi footprint, one board, B7) |
-| 17g | M2.5x8 SHCS | DIN 912 A2, Bolt Depot 6371 (eyes) | 8 | 10 | each | 0.90 | Bolt Depot | https://boltdepot.com/Product-Details?product=6371 | Yes | Yes |
-| 17i | M2.5x10 SHCS | DIN 912 A2, Bolt Depot 6372 (battery lid, pilot depth 2.1 to 15.3 mm) | 4 | 5 | each | 0.50 | Bolt Depot | https://boltdepot.com/Product-Details?product=6372 | Yes | Yes: head sits proud on the lid face, clamp 5.2 mm, engagement 4.8 mm, no interference (GLB measured, B3) |
-| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit with M2x4, M2x5, M2x6, M2x8: 2 x M2x5 at the short servo sites, 4 x M2x4 for the camera | 6 | 1 | kit | 9.49 | Amazon (ships from Amazon) | https://www.amazon.com/dp/B0FS13B75Y | Yes | Price yes: $9.49, "Only 6 left in stock - order soon", sold by METALLIXITY, ships from Amazon, read 2026-11-01 9:08 PM ET (same count as the afternoon read). Head fit and camera length on test order (B21, B9). Not out, so no swap; no drop-in kit was found with both M2x4 and M2x5: MCMASKE B0B7SK7BKN $13.99 "In Stock" has M2x5 but no M2x4, LBY B07GL2WLDD $9.89 has only M2x6, x10, x16 |
+| 17d | M3x6 SHCS | DIN 912 A2, Bolt Depot 6378 (horn screws; the 10 hip pitch sites take line 17j, D19) | 78 | 100 | 100 | 3.83 | Bolt Depot | https://boltdepot.com/Product-Details?product=6378 | Yes | Yes. Need 78 by the per-screw count (FASTENERS.md section 2; was 88); one pack of 100 still covers it |
+| 17e | M3x5 SHCS | DIN 912 A2, Bolt Depot 6377 (short horn sites: every neck chain horn screw, FASTENERS.md section 4) | 28 | 33 | each | 1.65 | Bolt Depot | https://boltdepot.com/Product-Details?product=6377 | Yes | Yes. Need 28 by the per-screw count (was 12). $0.05 each, $3.78 per 100 (read via search index 2026-11-01 about 10:45 PM ET; plain curl refused, HTTP 403) |
+| 17f | M2.5x6 SHCS | DIN 912 A2, Bolt Depot 6370 (electronics) | 17 | 20 | each | 1.80 | Bolt Depot | https://boltdepot.com/Product-Details?product=6370 | Yes | Yes (one board: nothing is fitted at the head board.stl copy, B7, FASTENERS.md finding 22) |
+| 17g | M2.5x8 SHCS | DIN 912 A2, Bolt Depot 6371 (eyes, each with one 0.5 mm washer from line 17l, D21) | 8 | 10 | each | 0.90 | Bolt Depot | https://boltdepot.com/Product-Details?product=6371 | Yes | Yes |
+| 17i | M2.5x10 SHCS | DIN 912 A2, Bolt Depot 6372 (battery lid, pilot depth 2.1 to 15.3 mm; the 2.5 mm lid holes are drilled to 2.7 mm, D20) | 4 | 5 | each | 0.50 | Bolt Depot | https://boltdepot.com/Product-Details?product=6372 | Yes | Yes: head sits proud on the lid face, clamp 5.2 mm, engagement 4.8 mm, no interference (GLB measured, B3) |
+| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M2x8 and M2.6x6, x8, x10, x12; M2 head 3.7 x 1.4 mm (listing images). Used: 22 x M2x5 and 2 x M2x8 at servo case pilots, 2 x M2x4 at head_roll_mount and 4 x M2x4 for the camera (FASTENERS.md section 4); its 50 M2x6 also cover the 42 servo-bag screws if a bag is short (B2) | 30 (M2x5 22, M2x4 6, M2x8 2) | 1 | kit | 9.49 | Amazon (ships from Amazon) | https://www.amazon.com/dp/B0FS13B75Y | Yes | Yes: $9.49, "Only 6 left in stock - order soon", sold by METALLIXITY, ships from Amazon, read 2026-11-01 10:30 PM ET with plain curl; 50 pcs of each size and the head size from the listing images, read 10:31 PM ET. The kit covers every size with spares (50 against 22, 6 and 2), so no extra line. Head fit on coupon C4 and camera length on test order (B21, B9). Alternatives checked 9:08 PM ET: MCMASKE B0B7SK7BKN $13.99 has M2x5 but no M2x4, LBY B07GL2WLDD $9.89 has only M2x6, x10, x16 |
+| 17j | M3x6 button head | ISO 7380-1 A2 stainless hex socket button head (head 5.7 x 1.65 mm max, ISO 7380-1), BelMetric SB3X6SS; the 10 hip pitch sites: idle horn F196, F198, F200, F247 (left), F209, F211, F213, F254 (right) and leg_spacer F002, F010 (D19) | 10 | 12 | each | 1.08 | BelMetric (US: "Stocked in the USA", since 1976, +1-978-649-6201) | https://belmetric.com/m3x0-5-button-head-cap-screw-a2-stainless-iso-7380-1/ | Yes (US) | Yes: $0.09 each (1 to 24), $0.07 at 25 to 99, in stock, variant 6 mm SB3X6SS, read 2026-11-01 10:34 PM ET (variant price from the store's own attribute call). Not Bolt Depot: it refused plain curl. Commodity, many sources |
+| 17k | M2.5x5 SHCS | DIN 912 A2, BelMetric BSH2.5X5SS; speaker_interface to the 4 side pilots of speaker_stand, F352 to F355 (HARDWARE_AUDIT B8) | 4 | 5 | each | 0.60 | BelMetric (US) | https://belmetric.com/m2-5x0-45-a2-stainless-din-912-allen-socket-head-cap-screw/ | Yes (US) | Yes: $0.12 each (1 to 24), in stock, variant 5 mm BSH2.5X5SS, read 2026-11-01 10:36 PM ET. Commodity |
+| 17l | M2.5 flat washer, small series | ISO 7092 A2 HV200, 2.7 x 5.0 x 0.5 mm, BelMetric Y7092-A2-2.5-2000; one under each eye screw head (D21) | 8 | 2000 | 2000 (minimum box) | 20.00 | BelMetric (US) | https://belmetric.com/iso-flat-washer-small-od-a2-stainless-hv200-iso-7092/ | Yes (US) | Yes: $0.01 each, minimum box 2000, sold as a "1-2 Week Special Order" (not returnable), in stock and purchasable; ID 2.7, OD 5 mm, 0.5 mm from the variant data; read 2026-11-01 10:36 PM ET. Cheaper option: BelMetric WFHV2.5X5SSA4 (A4, ISO 7092, OD 5 mm), stocked, $0.07 each, read 10:44 PM ET, but its page lists 0.3 mm thick, which leaves only 0.3 mm to the pilot floor (the lab margin). Amazon B0D9M1P756 (50 pcs, OD 5 mm, 0.5 mm, 304; title from the search index) gave HTTP 500 to plain curl at 10:39 and 10:44 PM ET. Bolt Depot's M2.5 washer is DIN 125, OD 6 mm (search index) |
 | 18 | Ball bearing | 6804ZZ 20x32x7 (CAD model measured 19.99/32.19/7.0), Motoforti 10-pack | 3 | 10 | 10 | 7.74 | Amazon | https://www.amazon.com/dp/B0D99THG1M | Yes | UNVERIFIED at the 2026-11-01 evening recheck: the Motoforti page returned HTTP 503 to plain curl 6 times from 9:08 to 9:40 PM ET while other Amazon pages loaded; the search index has no copy of the listing. Last good read: $7.74, "only 1 left" earlier on 2026-11-01. In-stock US alternative: VXB Bearings (Anaheim, CA) 6804ZZ, 20 x 32 x 7 mm, chrome steel, double metal shields, pre-lubricated, $7.77 each, schema "InStock" (https://vxb.com/products/6804zz-bearing-20x32x7-shielded-20mm-bore); or VXB 10-pack $39.99, "InStock" (https://vxb.com/products/10-pack-6804zz-bearings), read 9:27 PM ET. Fallback buy: 4 singles (3 needed plus 1 spare) = $31.08 |
 | 19 | Threadlocker | Loctite 243, 6 mL, P/N 1330799 | 1 | 1 | 1 | 9.90 | Amazon | https://www.amazon.com/dp/B004L439FE | Yes | Yes |
 | 29 | Foam mounting tape | 3M VHB 4950, 3/4 in x 5 yd, 1.1 mm (45 mil) acrylic foam, for the BEC Pro, fuse holder, Pololu 2815 and 5 V regulator (MOUNTING.md) | 0.3 m | 1 | 5 yd | 19.00 | Zoro (3M) | https://www.zoro.com/3m-double-sided-foam-tape-34-in-w-5-yd-l-45-mil-acrylic-foam-double-sided-4950/i/G4323846 | Yes | Read via search index (zoro.com refuses curl, 403); price is the low end of the range shown, stock not verified |
 
-Subtotal: $68.90
+Subtotal: $90.39
 
 ## Cables, connectors, wire
 
@@ -113,8 +116,11 @@ Subtotal: $82.40
 | T8 | microSD card reader (optional, often on hand) | Adafruit 5212 USB Type C microSD card reader/writer, mass storage, no driver (page); USB-C plug, so the PC needs a USB-C port | 1 | 1 | 1 | 6.95 | Adafruit 5212 | https://www.adafruit.com/product/5212 | Yes (US store) | Yes: $6.95, "86 in stock", read 2026-11-01 9:23 PM ET. USB-A readers checked are out: Adafruit 939 "No longer stocked", SparkFun COM-13004 "Out of stock", PiShop reader "Out of stock" |
 | T9 | Wire stripper 12 to 20 AWG | Klein 11055, "Strips, cuts, loops 10-18 AWG solid and 12-20 AWG stranded wire" (page); covers the 16 AWG and 20 AWG runs that T5 (22 to 32 AWG) cannot | 1 | 1 | 1 | 20.99 | Home Depot | https://www.homedepot.com/p/Klein-Tools-Solid-and-Stranded-Copper-Wire-Stripper-and-Cutter-11055/100630708 | Yes | Yes: $20.99, page data buyable, not discontinued, stock count not in the page; read 2026-11-01 9:31 PM ET |
 | T10 | Heat gun | Wagner Furno 300, dual temperature, corded, 10 A, 20 cu ft/min, minimum temperature 750 F, 2 year limited warranty (page specs); for the adhesive lined 3:1 heat shrink (line 26); shrink each joint before it goes near printed PLA | 1 | 1 | 1 | 29.00 | Home Depot | https://www.homedepot.com/p/Wagner-Furno-300-Dual-Temperature-Corded-Heat-Gun-0503059/206723935 | Yes | Yes: $29.00, page data buyable, not discontinued, stock count not in the page; read 2026-11-01 9:31 PM ET |
+| T11 | Drill bit 6.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 70 mm flutes, Qualtech DWDMM6.00; opens the 24 neck chain screw recesses from 5.5 to 6.0 mm after printing and on coupon C4 (D20, print/PRINT_PLAN.md "After printing") | 1 | 1 | 1 | 1.41 | Drills and Cutters (Doral, FL) | https://drillsandcutters.com/6-00mm-hss-jobber-length-drill-bit/ | Yes (US) | Yes: $1.41 (list $2.47), "Ships Today!", read 2026-11-01 10:42 PM ET. Commodity, many sources |
+| T12 | Drill bit 2.7 mm | HSS jobber, black oxide, 118 deg point, round shank, Qualtech DWDMM2.70; opens the 4 battery_pack_lid clearance holes from 2.5 to 2.7 mm (D20) | 1 | 1 | 1 | 0.74 | Drills and Cutters (Doral, FL) | https://drillsandcutters.com/2-70mm-hss-jobber-length-drill-bit/ | Yes (US) | Yes: $0.74 (list $1.29), "Ships Today!", read 2026-11-01 10:42 PM ET. Commodity, many sources |
+| T13 | Hand holder for T11 and T12 | Qualtech DWTD328 T-handle tap wrench for 1/16 to 1/4 in taps, carbon steel; turns the bits by hand, slowly, so the cut in PLA stays controlled (no power tool) | 1 | 1 | 1 | 7.99 | Drills and Cutters (Doral, FL) | https://drillsandcutters.com/1-16-1-4-t-handle-tap-wrench/ | Yes (US) | Price yes: $7.99 (list $14.01), "Ships Today!", read 2026-11-01 10:42 PM ET. The page rates it by tap size only; its grip on round 2.7 and 6.0 mm shanks is not stated (UNVERIFIED). Fallback: turn the bits by hand, as print/PRINT_PLAN.md already does with bare bits, or a cordless drill at low speed if one is on hand |
 
-Subtotal: $238.03
+Subtotal: $248.17
 
 ## Test equipment (if not on hand)
 
@@ -134,22 +140,24 @@ Subtotal: $1032.92
 | Scope | $ |
 |---|---|
 | Robot | 623.53 |
-| Fasteners and mechanical | 68.90 |
+| Fasteners and mechanical | 90.39 |
 | Cables, connectors, wire | 122.30 |
 | Print material | 53.97 |
 | Expression (optional upstream) | 82.40 |
-| Tools (one-time) | 238.03 |
-| Build total (robot + fasteners + cables + filament) | 868.70 |
-| Build + expression pack | 951.10 |
-| Build + expression + tools | 1189.13 |
+| Tools (one-time) | 248.17 |
+| Build total (robot + fasteners + cables + filament) | 890.19 |
+| Build + expression pack | 972.59 |
+| Build + expression + tools | 1220.76 |
 
 Change 2026-11-01 evening (print-readiness pass, D4, D7, D8, D10, D13, D15): Tenergy BMS (+$16.10 vs JZK), Pololu 2815 main switch ($8.49, the old $6.00 placeholder becomes the line 10b control switch), Pololu D30V30F5 (+$12.66 vs HENGE), game controller (+$64.99, line 15), foam tape (+$19.00, line 29), Adafruit USB cable (-$1.50), Same Sky speaker (+$2.43). Before this pass the build total was $716.65.
 
 Change 2026-11-01 late evening (sourcing pass, SOURCING_2026-11-02.md): solder (+$9.25, line 30), flux pen (+$7.95, line 31), cable ties (+$9.41, line 32) and polyimide tape for the BMS wrap (+$4.95, line 33) add $31.56 to the build total, now $868.70. Tools add the Pinecil PD supply and 5 A cable (T6, T6b), the 5 V robot charge adapter and cable (T7, T7b), the optional microSD reader (T8), a 12 to 20 AWG stripper for the 16 and 20 AWG runs (T9) and a heat gun (T10): +$99.36, so build + expression + tools is $1,189.13 ($1,182.18 without T8). The new Test equipment section ($1,032.92) stays outside every total. Before this pass the build total was $837.14 and build + expression + tools $1,058.21.
 
+Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need from the per-screw count: 17a 44 to 28 (Buy 52 to 33, -$1.14), 17d 88 to 78 (Buy unchanged, one pack of 100), 17e 12 to 28 (Buy 14 to 33, +$0.95), 17h 6 to 30 by size (22 M2x5, 6 M2x4, 2 M2x8; the kit holds 50 of each, so no new line). New lines: 17j M3x6 ISO 7380 button heads for the 10 hip pitch sites (D19, +$1.08), 17k M2.5x5 for speaker_interface (+$0.60), 17l M2.5 small series washers for the eye screws (D21, +$20.00: the only small series 0.5 mm washer read live comes in a minimum box of 2000). Fasteners and mechanical $68.90 to $90.39; build total +$21.49, now $890.19; build + expression $972.59. Tools T11 to T13 (6.0 and 2.7 mm HSS bits and a T-handle holder for the D20 drill steps) add $10.14, so build + expression + tools is $1,220.76. Test order: TO16 (+$9.65, coupon C4 recess test), total $226.46. Before this pass the build total was $868.70 and build + expression + tools $1,189.13.
+
 Previous BOM (before this audit): core $684.99, grand $730.94 with lab changes. The build total now adds fasteners, inserts, bearings, filament, wire, connectors and heat shrink that were missing or unverified, and moves the Castle Link to Tools.
 
-Order minimums (B29, cleared): Bolt Depot has no minimum order (service page); DigiKey and Newark allow qty 1 on every line used; Mouser has no minimum for stocked parts (help page, read via search index); the rest are pack products. Shipping is excluded by the owner's rule.
+Order minimums (B29, cleared): Bolt Depot has no minimum order (service page); DigiKey and Newark allow qty 1 on every line used; Mouser has no minimum for stocked parts (help page, read via search index); the rest are pack products. BelMetric (17j to 17l): "No Quantity Minimums" for stocked parts (its 50th anniversary page, read 2026-11-01 10:36 PM ET), its store data shows a $5 minimum checkout (these 3 lines are $21.68), and special order parts such as 17l come only in whole boxes. Drills and Cutters (T11 to T13): single pieces in the cart, no minimum seen. Shipping is excluded by the owner's rule.
 
 Not costed: sales tax and the line 10b control switch (upstream part, $6.00 placeholder, price not readable). The test equipment section (TE1 to TE4, $1,032.92) is listed but kept out of the totals because Ahmed may own it.
 
@@ -174,7 +182,9 @@ Not costed: sales tax and the line 10b control switch (upstream part, $6.00 plac
 
 ## BLOCKERS that affect this BOM
 
-See HARDWARE_AUDIT.md section 6 for all 29 with the method for each.
+See HARDWARE_AUDIT.md section 6 for all 32 with the method for each.
+- 17j: hip pitch button heads clear roll_to_pitch by +0.16 mm in CAD; checked on the first leg (B31, D19).
+- 17e, T11, T13: the 24 neck chain recesses are drilled to 6.0 mm after printing, confirmed on coupon C4 first (B32, D20).
 - 3 Compute: B24, out of stock online 2026-11-01.
 - 8 2S BMS: B12, JZK fits but is rated 8 A; decide the fuse or find a 15 A board that fits 17.75 x 47.2 x 5.33 mm.
 - 10 Power switch: B22, no fitting 15 A part; $6.00 placeholder.
@@ -196,10 +206,11 @@ Parts where only a real part can settle the question. Every line below is alread
 | TO8 | Raspberry Pi Camera Module 3, Adafruit 5657 | 1 | 29.25 | E6 | Screw length on the 3.1 mm pilots (B9) |
 | TO9 | Pi Zero camera cable 150 mm, Adafruit 3157 | 1 | 5.95 | E7 | Cable reaches the Pi on the head floor |
 | TO10 | Aurorad S5 reflector | 1 | 9.15 | E5 | Height in the 20.0 mm seat |
-| TO11 | Bolt Depot M2.5x8 SHCS, 10 pcs, plus a left_eye test print | 10 | 0.90 | 17g | Left eye pilot 2.2 mm vs right 2.05 mm (B14); eye glass disc fit |
+| TO11 | Bolt Depot M2.5x8 SHCS, 10 pcs, plus a left_eye test print | 10 | 0.90 | 17g | Left eye pilot 2.2 mm vs right 2.05 mm (B14); eye glass disc fit; the pilots are blind, so clamp 5.5 mm under the head (D21, PRINT_PLAN T1) |
 | TO12 | CNC Kitchen M3 inserts, 100 pcs | 1 | 10.90 | 16 | Bore depth 5.8 vs 6.7 (B15); foot_top wall 1.5 mm pull test (B16) |
 | TO13 | Overture TPU 95A 1 kg | 1 | 23.99 | 28 | Print foot_bottom_tpu, grip and fit (B26) |
 | TO14 | Omron SS-10, DigiKey | 1 | 2.94 | 13 | Press fit in the foot_top 6.4 x 19.8 mm slot |
 | TO15 | Adeept USB-C 2S charge board | 1 | 7.99 | 11 | Hole pattern vs CAD 2.5 mm at 14.4 mm pitch (no drawing published) |
+| TO16 | Bolt Depot M3x5 SHCS, 5 pcs, the 6.0 mm HSS bit and the T-handle holder | 5 + 1 + 1 | 9.65 | 17e, T11, T13 | Coupon C4 recess fit: a DIN 912 M3 head in the 5.5 mm recesses, then one recess opened to 6.0 mm (D20, B32); the M2 heads come from TO1 and TO4 |
 
-Test order total: $216.81.
+Test order total: $226.46.

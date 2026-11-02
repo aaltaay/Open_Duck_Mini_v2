@@ -4,6 +4,8 @@ Written 2026-11-01 6:55 PM ET by the Claude Code agent (DECISIONS.md D8 to D15).
 
 Updated 2026-11-01 about 10:10 PM ET by the Claude Code agent (sourcing pass, SOURCING_2026-11-02.md, plus the sim agent's proposed text): section 0 lists the BOM test equipment lines TE1 to TE4 and says which tests use the supply and which the load; 3.2 and 3.3 run on the electronic load; every "under 1 ohm" pass is read in ohms; 7.3 holds by current (sim/RUNTIME_THERMAL.md); new step 8.0 checks mass and centre of mass (sim/ADDED_MASS_SIM.md).
 
+Updated 2026-11-01 about 10:55 PM ET by the Claude Code agent (bench scripts from the software agent, software/SOFTWARE.md, scripts in bench/): sections 6, 7.1, 7.3, 9, 10.2, 11 and 12 now name the bench script for each step; section 11 follows the DECISIONS.md D16 note; section 12 no longer uses fc_test.py.
+
 Rules: never connect or disconnect a cable with power on (upstream issue 49: bus errors; Bulk Man style warning applies to every robot). First power always from a current-limited bench supply, never the pack. Log every measured value in a new history/ file.
 
 ## 0. Equipment
@@ -65,13 +67,13 @@ Pass 2.0 A from the bench supply through the V+ conductor of one kit cable hop, 
 - Gate: if a hop is over 40 mOhm per conductor, plan 22 AWG made leads for the leg hops (BOM contingency X1/X2) before the full assembly.
 
 ## 6. Servo bus adapter (USB only, D15)
-Waveshare adapter on the Pi USB, H1 not powered, jumper on B. Pass: /dev/ttyACM0 appears; scripts/check_motors.py finds a single servo powered from the bench supply through its own power lead. This confirms the adapter logic runs from USB VBUS (schematic) with the servo power bypassing it.
+Waveshare adapter on the Pi USB, H1 not powered, jumper on B, one servo powered from the bench supply through its own power lead. Pass: /dev/ttyACM0 appears (USB 1a86:55d3) and bench/first_servo_check.py --steps 6 finds exactly one servo (check_motors.py only addresses the 14 joint IDs; a new servo is ID 1). This confirms the adapter logic runs from USB VBUS (schematic) with the servo power bypassing it.
 
 ## 7. First servo (test order TO1)
 Bench supply at 7.4 V, limit 3 A, servo alone.
-1. configure_motor.py with the ID it will have; then read back registers 41, 44, 46, 84, 85, 86 and the firmware version. Pass: 85 = 0 (UPSTREAM_ISSUES.md G1), firmware written down.
+1. configure_motor.py with the ID it will have; then read back registers 41, 44, 46, 84, 85, 86 and the firmware version. Pass: 85 = 0 (UPSTREAM_ISSUES.md G1), firmware written down. Use bench/first_servo_check.py --configure ID --fix-config; power-cycle and re-read register 85 (the stock configure script can lose writes, software/SOFTWARE.md section 3).
 2. No-load speed: a 2 rad step and a 1.5 Hz 0.4 rad sine (SERVO_DEEP_DIVE.md section 6). Pass: about 5 rad/s or more at 7.4 V.
-3. Thermal (D2): fix the servo horn against a rigid stop and command a position past it so that Present Current reads 1.5 A (the knee walking RMS current in the backlash model, sim/RUNTIME_THERMAL.md) at 7.2 V. Log Present Temperature, Present Current and Present Voltage every 10 s for 30 minutes, or until the temperature rises less than 0.5 C per minute; write down the room temperature and read the Max Temperature Limit register once. Compute the thermal resistance and time constant as in sim/RUNTIME_THERMAL.md. Pass: the predicted knee temperature after 31 minutes of continuous walking (3.7 W plain model and 5.8 W backlash model) is at least 10 C below both the Max Temperature Limit register and the 70 C over-temperature cut of the C001 spec. If the servo cuts its torque during the hold, write down when and at what temperature.
+3. Thermal (D2): fix the servo horn against a rigid stop and command a position past it so that Present Current reads 1.5 A (the knee walking RMS current in the backlash model, sim/RUNTIME_THERMAL.md) at 7.2 V. Log Present Temperature, Present Current and Present Voltage every 10 s for 30 minutes, or until the temperature rises less than 0.5 C per minute; write down the room temperature and read the Max Temperature Limit register once. Compute the thermal resistance and time constant as in sim/RUNTIME_THERMAL.md. Pass: the predicted knee temperature after 31 minutes of continuous walking (3.7 W plain model and 5.8 W backlash model) is at least 10 C below both the Max Temperature Limit register and the 70 C over-temperature cut of the C001 spec. If the servo cuts its torque during the hold, write down when and at what temperature. If the servo unloads (2 A protection), repeat at a lower current and record the C/s rise rate.
 4. Note: the servo cuts its torque after more than 2 A for 2 s by default (Feetech spec via the parts check). Do not mistake this for a fault.
 
 ## 8. Staged power-up of the assembled robot (bench supply in place of the pack, at the XT30)
@@ -85,17 +87,19 @@ Bench supply at 7.4 V, limit 3 A, servo alone.
 Pack at full charge (8.3 V or more) and again at nominal (about 7.4 V open circuit). Log Present Voltage and Present Current of all 14 servos at 50 Hz for 60 s of walking, plus any bus checksum errors.
 - Pass: no servo under 4.5 V at any time; no ankle under 6.0 V for more than 10% of the walk at nominal; no checksum errors.
 - Compare with sim/POWER_PATH_SIM.md (Y/star wiring, typical corner: worst ankle 5.0 V minimum, under 6 V about 20% of the time at nominal). If the real numbers are worse than the high-side corner, stop and fix the wiring before more walking.
+- Log with bench/power_log.py --walk (25 Hz with --decimate 2 if the loop warns). Star-wiring sim: the newer replay puts the ankles at 30% and 34% of the walk under 6 V at nominal charge (software/SOFTWARE.md section 8), not the 20% above, so this gate is expected to fail as wired; a power path follow-up is running.
 
 ## 10. IMU
 1. 1000 reads with the robot still: no single read jumps (UPSTREAM_ISSUES.md G2; if it does, move the BNO055 to software I2C, dtoverlay=i2c-gpio).
-2. Tilt test with scripts/calibrate_imu.py: pitch nose down gives the sign the policy expects (B20).
+2. Tilt test: run scripts/calibrate_imu.py from scripts/, then bench/imu_check.py --tilt. Pass: pitch nose down gives the sign the policy expects (B20). calibrate_imu.py only calibrates and saves the offsets (software/SOFTWARE.md section 2).
 
 ## 11. Battery cut-off (software, needed because the BMS cuts only at 2.40 V per cell)
 - Stop walking and go to the dock (later lab step) at about 3.5 V per cell under load, about 7.0 V at the pack. In this range the BEC is in dropout, so servo Present Voltage reads about the pack voltage minus the path drop.
-- Hard stop (torque off, shut down the Pi) at servo Present Voltage 6.0 V, about 3.3 V per cell. The Molicel P30B minimum is 2.5 V; the Tenergy board would only cut at 2.40 V.
+- Hard stop (torque off, shut down the Pi) at servo Present Voltage 6.0 V while standing, about 3.3 V per cell at light load, or 5.4 V while walking. The Molicel P30B minimum is 2.5 V; the Tenergy board would only cut at 2.40 V.
+- Implemented in bench/battery_guard.py, run inside the walk by bench/walk_with_guard.py. Walk stop rule (DECISIONS.md D16 note): the 5 s mean of the 14-servo median Present Voltage at or under 6.0 V while walking (about 3.57 V per cell, sim pass only); hard stop on the 3 s mean at or under 6.0 V standing or the 2 s mean at or under 5.4 V walking. Check it with battery_guard.py --monitor and a bench supply sweep (software/SOFTWARE.md section 9).
 - For the docking step, add a pack voltage and current monitor on the pack line (later, not in the stock build).
 
 ## 12. Foot switches (D17)
 - Before power: each foot circuit (2 switches in parallel) reads under 1 ohm closed and open over 1 Mohm, at the Pi header (read in ohms, as in section 2).
-- Powered, robot hanging: scripts/fc_test.py (Runtime) shows each foot change state on every press; 200 presses per foot with no missed or stuck reading.
+- Powered, robot hanging: bench/feet_check.py --presses 200 (never fc_test.py: it starts the walk and the OpenAI client) shows each foot change state on every press; 200 presses per foot with no missed or stuck reading.
 - On the floor, standing still: both feet read "contact" for 60 s without a flicker. A flicker here goes straight into the policy observation.
