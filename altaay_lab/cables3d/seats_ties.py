@@ -412,6 +412,7 @@ def mount_patch(s, link, c, axis, reach, parts=None, base=None, height=None, max
 
 def place_retention(s, data, anchors):
     items = []
+    loop_ref = {}
     for c in data["cables"]:
         for r in c.get("runs", []):
             P, B = run_world(s, r)
@@ -452,10 +453,12 @@ def place_retention(s, data, anchors):
                                       ties_at_mm=[round(a0, 1), round(a1, 1)]))
                     if a0 > 1.0:
                         want.append((a0, "joint crossing, %s side (end of the %.0f mm free loop)" % (B[i], S)))
+                        loop_ref[(round(a0, 4), want[-1][1])] = (loops[-1], 0)
                     else:
                         loops[-1]["anchor_a"] = "connector (no tie needed)"
                     if a1 < total - 1.0:
                         want.append((a1, "joint crossing, %s side (end of the %.0f mm free loop)" % (B[i + 1], S)))
+                        loop_ref[(round(a1, 4), want[-1][1])] = (loops[-1], 1)
                     else:
                         loops[-1]["anchor_b"] = "connector (no tie needed)"
             r["service_loops"] = loops
@@ -478,7 +481,8 @@ def place_retention(s, data, anchors):
                 q = P[i] + (P[i + 1] - P[i]) * t
                 link = B[i] if t < 0.5 or B[i] == B[i + 1] else B[i + 1]
                 ax = (P[i + 1] - P[i]) / max(seg[i], 1e-9)
-                items.append(dict(cable=c["id"], run=r["name"], p=q, axis=ax, link=link, why=why, d=r["d_mm"]))
+                items.append(dict(cable=c["id"], run=r["name"], p=q, axis=ax, link=link, why=why, d=r["d_mm"],
+                                  ref=loop_ref.get((round(a, 4), why))))
     # merge ties of the same link within TIE_NEAR
     merged = []
     for it in items:
@@ -488,10 +492,16 @@ def place_retention(s, data, anchors):
                 m["whys"].add(it["why"])
                 m["ds"].append(it["d"])
                 m["pts"].append(it["p"])
+                m["refs"].append(it["ref"])
                 break
         else:
             merged.append(dict(link=it["link"], p=it["p"], pts=[it["p"]], axis=it["axis"], cables={it["cable"]},
-                               whys={it["why"]}, ds=[it["d"]]))
+                               whys={it["why"]}, ds=[it["d"]], refs=[it["ref"]]))
+    for k, m in enumerate(merged):            # each loop end names the tie that holds it
+        for ref in m["refs"]:
+            if ref:
+                lp_, side = ref
+                lp_.setdefault("tie_ids", [None, None])[side] = "T%03d" % (k + 1)
     an = [a for a in anchors]
     out = []
 

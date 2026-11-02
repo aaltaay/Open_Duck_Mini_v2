@@ -5,6 +5,7 @@ the time under 6.0 V by phase of the control cycle (odm_bench/vsampler.py). The 
 that code with a virtual clock and a synthetic voltage whose exact time share is known; the last
 ones run the real Runtime walk loop on the simulated bus.
 """
+import bisect
 import random
 
 import power_log as pl
@@ -90,17 +91,16 @@ def virtual_walk(seconds=120.0, period_s=0.020, busy_s=0.006, dip_s=0.004, dip_c
     c = VClock()
     rng = random.Random(seed)
     st = dict(state="walk", last_write=None, prev_write=None, cycle=0)
-    arrivals = []
+    arrivals, t_arr = [], []
+
+    def on(cyc):
+        return dip_cycles is None or (cyc % gait) in dip_cycles
 
     def volts(t):
-        k = len(arrivals) - 1
-        while k >= 0 and arrivals[k][0] > t:
-            k -= 1
+        k = bisect.bisect_right(t_arr, t) - 1
         if k < 0:
             return 6.6
-        t_arr, cyc = arrivals[k]
-        on = dip_cycles is None or (cyc % gait) in dip_cycles
-        return 5.6 if on and t - t_arr < dip_s else 6.6
+        return 5.6 if on(arrivals[k][1]) and t - arrivals[k][0] < dip_s else 6.6
 
     def row(status, state, phase, room, v=None):
         r = dict(status=status, state=state, phase_ms="" if phase is None else f"{phase * 1e3:.4f}",
@@ -127,35 +127,45 @@ def virtual_walk(seconds=120.0, period_s=0.020, busy_s=0.006, dip_s=0.004, dip_c
     sch.start(0.0)
     while c.t < seconds:
         t_cycle = c.t
-        if per_cycle_at is not None:
-            lw = st["last_write"]
-            per_cycle.append(row("cycle", "walk", None if lw is None else t_cycle + per_cycle_at - lw, None,
-                                 volts(t_cycle + per_cycle_at)))
         c.t += busy_s + rng.uniform(-jitter_s, jitter_s)
         st["prev_write"], st["last_write"] = st["last_write"], c.t
         st["cycle"] += 1
         arrivals.append((c.t + write_delay_s, st["cycle"]))
+        t_arr.append(c.t + write_delay_s)
+        if per_cycle_at is not None and st["prev_write"] is not None:
+            t_s = t_cycle + per_cycle_at
+            lw = c.t if t_s >= c.t else st["prev_write"]
+            per_cycle.append(row("cycle", "walk", t_s - lw, None, volts(t_s)))
+        rows.append(dict(t_s=f"{c.t:.6f}", status="write", state="walk"))
         sch.idle(max(0.0, period_s - (c.t - t_cycle)))
-    step = 0.00005                      # exact share on a 50 us grid of the whole virtual walk
-    n = int(c.t / step)
-    under = sum(volts(k * step) < 6.0 for k in range(n))
-    return rows, per_cycle, task.stats(), under / n
+    # exact share of the time under 6 V between the first and the last goal write (the span the
+    # time count weighs): each dip lasts dip_s or until the next write arrives
+    a, b = t_arr[0] - write_delay_s, t_arr[-1] - write_delay_s
+    under = sum(max(0.0, min(t1 + dip_s, t2, b) - max(t1, a)) for (t1, cyc), (t2, _) in zip(arrivals, arrivals[1:])
+                if on(cyc))
+    return rows, per_cycle, task.stats(), under / (b - a)
 
 
 def test_time_count_matches_the_exact_share_at_any_coverage():
     """A dip locked to the goal writes (4 ms of every 20.2 ms cycle: 19.8 % of the time). The
-    Runtime's busy part grows from 4 to 12 ms, so the timer reads 60 % down to 20 % of the walk.
+    Runtime's busy part grows from 4 to 10 ms, so the timer reads 60 % down to 30 % of the walk.
     The phase-weighted count stays within 1 point of the exact share; the share of readings (U)
-    does not, which is why it is not the gate value."""
-    for busy in (0.004, 0.008, 0.012):
+    does not, which is why it is not the gate value. When the busy part is so long that the read
+    part of the cycle ends inside the dip, the count can only come out high."""
+    u_err = []
+    for busy in (0.004, 0.007, 0.010):
         rows, _, st, exact = virtual_walk(period_s=0.0202, busy_s=busy)
         d = vsampler.time_count(rows, [24])[24]
         assert abs(exact - 0.198) < 0.002, exact
         assert abs(d["time_frac"] - exact) <= 0.01, (busy, d["time_frac"], exact, st)
         assert d["walk_frac"] <= exact + 0.01                   # L: never above the true share
-        assert d["sampled_frac"] > exact + 0.10                 # U: far too high when the busy part is unread
+        u_err.append(d["sampled_frac"] - exact)                 # U: too high when the busy part is unread
         assert st["overruns"] == 0 and st["read"] + st["busy"] + st["own"] + st["room"] == st["slots"]
         assert vsampler.recovery_ok(d)
+    assert min(u_err) > 0.05 and u_err[-1] > 0.2, u_err
+    rows, _, st, exact = virtual_walk(period_s=0.0202, busy_s=0.0135)    # reads end 2.7 ms after the write
+    d = vsampler.time_count(rows, [24])[24]
+    assert d["walk_frac"] <= exact + 0.01 and d["time_frac"] >= exact, (d["time_frac"], exact)
 
 
 def test_the_phase_locked_old_count_is_fooled_and_the_timer_is_not():
@@ -225,7 +235,9 @@ def test_scheduler_reads_only_in_the_sleep_and_records_a_late_read():
         assert any(a <= t_start < b and end_by <= b for a, b, _ in sleeps)
 
 
-def _rows(volts_by_id, n=400, phase=None):
+def _rows(volts_by_id, n=400, phase=None, busy_every=0):
+    """Synthetic log rows: n readings; with busy_every, one more unread slot (18 ms after the write,
+    in the Runtime's busy part) after every busy_every readings."""
     rows = []
     for k in range(n):
         r = {"t_s": f"{k * 0.027:.3f}", "status": "read", "state": "walk", "failed": "",
@@ -234,6 +246,9 @@ def _rows(volts_by_id, n=400, phase=None):
             r[f"v_{i}"] = f"{volts_by_id(i, k):.1f}"
             r[f"i_{i}"] = "0.5"
         rows.append(r)
+        if busy_every and k % busy_every == 0:
+            rows.append({"t_s": f"{k * 0.027 + 0.01:.3f}", "status": "busy", "state": "walk", "failed": "",
+                         "phase_ms": "18.0", "room_ms": ""})
     return rows
 
 
@@ -254,9 +269,15 @@ def test_analyze_gates():
     st, _ = _status(_rows(lambda i, k: 7.0, n=100))                   # too few readings to score
     assert st["9.ankle"] == "INCOMPLETE"
     # 5 % under 6 V, but all of it in the last third of the sampled window: not recovering
-    late = _rows(lambda i, k: 5.8 if (i == 24 and k % 20 == 0) else 6.6, phase=lambda k: 11.0 if k % 20 == 0 else 2.0)
+    late = _rows(lambda i, k: 5.8 if (i == 24 and k % 20 == 0) else 6.6, phase=lambda k: 11.0 if k % 20 == 0 else 2.0,
+                 busy_every=3)
     st, rep = _status(late)
     assert st["9.recovery"] == "WARN" and st["9.ankle"] == "INCOMPLETE", rep.items
+    # the same readings spread over the cycle (the dips early): recovering, and it passes
+    early = _rows(lambda i, k: 5.8 if (i == 24 and k % 20 == 0) else 6.6,
+                  phase=lambda k: 1.0 if k % 20 == 0 else 2.0 + (k % 10), busy_every=3)
+    st, rep = _status(early)
+    assert st["9.recovery"] == "PASS" and st["9.ankle"] == "PASS", rep.items
     # the wiring check uses the sim corner of the wiring built (--feeds): 25 % passes the star corner only
     worse = _rows(lambda i, k: 5.8 if (i == 14 and k % 4 == 0) else 6.6)
     assert _status(worse, feeds="d23")[0]["9.wiring"] == "FAIL"

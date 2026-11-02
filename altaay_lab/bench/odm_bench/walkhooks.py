@@ -21,7 +21,7 @@ How it plugs in, without editing a Runtime file:
     sleep and returns when the sleep would have ended; every other time function is the real
     one. A task read starts only if it ends before the next cycle, so it never delays a control
     read or write. hwi.set_position_all is wrapped to note when each goal write returned
-    (last_write_t), the reference for the read phase.
+    (last_write_t, and write_log for the time count), the reference for the read phase.
 The walk runs from the Runtime scripts/ folder, as the image launcher does, because RLWalk and
 raw_imu.py open ./polynomial_coefficients.pkl and ./imu_calib_data.pkl relative to the CWD.
 """
@@ -128,6 +128,7 @@ def build_walk_class(RLWalk):
             self.paused_ticks = 0
             self.last_write_t = None     # monotonic time when the last goal write returned
             self.prev_write_t = None     # and the one before it
+            self.write_log = None        # [(time, state)] of every goal write, when idle tasks run
             self.stop_cfg = dict(settle_s=1.0, double_support_cycles=3, double_support_timeout_s=4.0, blend_s=2.0)
             self.stop_cfg.update(stop_cfg or {})
             self._stop = None            # dict with the stop sequence state
@@ -148,9 +149,12 @@ def build_walk_class(RLWalk):
                     return write(joints_positions)
                 finally:
                     self.prev_write_t, self.last_write_t = self.last_write_t, time.monotonic()
+                    if self.write_log is not None:          # a list append: nothing slow on the control path
+                        self.write_log.append((self.last_write_t, self._state_now()))
             self.hwi.set_position_all = set_position_all
             self.idle = None
             if idle_tasks:
+                self.write_log = []
                 self.idle = vsampler.IdleScheduler(idle_tasks, ctx=self.walk_state)
                 sys.modules[RLWalk.__module__].time = _LoopClock(self.idle)
             if self.commands:
@@ -174,10 +178,13 @@ def build_walk_class(RLWalk):
             for h in self._hooks:
                 h.on_cycle(self, self.t(), paused)
 
+        def _state_now(self):
+            return "paused" if self.paused else ("walk" if self._stop is None else self._stop["phase"])
+
         def walk_state(self):
             """For idle-task records: 'walk', 'paused' or the stop phase; the last two goal writes; the cycle."""
-            state = "paused" if self.paused else ("walk" if self._stop is None else self._stop["phase"])
-            return dict(state=state, last_write=self.last_write_t, prev_write=self.prev_write_t, cycle=self.cycles)
+            return dict(state=self._state_now(), last_write=self.last_write_t, prev_write=self.prev_write_t,
+                        cycle=self.cycles)
 
         def get_obs(self):
             now = time.monotonic()

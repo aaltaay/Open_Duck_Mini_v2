@@ -241,7 +241,7 @@ def _median_record(reads):
 def analyze(rows, pack, rep, feeds="d23", min_samples=300, sim_ref_path=SIM_REF, rate_hz=None):
     statuses = {r.get("status", "read") for r in rows}
     phase_locked = "cycle" in statuses
-    sel = [r for r in rows if r.get("state", "") in WALK_STATES]
+    sel = [r for r in rows if r.get("state", "") in WALK_STATES and r.get("status") != "write"]
     reads = [r for r in sel if r.get("status", "read") in ("read", "cycle")]
     rep.add("9.samples", "readings while walking / timer slots while walking", "INFO" if reads else "INCOMPLETE",
             f"{len(reads)} / {len(sel)}")
@@ -282,9 +282,9 @@ def analyze(rows, pack, rep, feeds="d23", min_samples=300, sim_ref_path=SIM_REF,
                 {name: dict(late_pct=_pct(d["late_frac"]), late_readings=d["late"], all_pct=_pct(d["sampled_frac"]))
                  for name, d in ank.items()}, "late <= all + 2 standard errors", "vsampler.recovery_ok")
     if not phase_locked:
-        rep.add("9.profile", "per 1 ms after the goal write (last bin: 20 ms or more): [slots, ankle readings, "
-                "% of them under 6.0 V]", "INFO",
-                {name: {f"{b:g}": [ns, nr, _pct(u, 0)] for b, ns, nr, u in d["bins"] if ns or nr}
+        rep.add("9.profile", "per 1 ms after the goal write (last bin: 20 ms or more): [% of the walking time, "
+                "ankle readings, % of them under 6.0 V]", "INFO",
+                {name: {f"{b:g}": [_pct(w), nr, _pct(u, 0)] for b, w, nr, u in d["bins"] if w or nr}
                  for name, d in ank.items()})
     if pack == "nominal":
         why = ""
@@ -486,6 +486,9 @@ def run_walk(a):
         code = 3
     if walk.torque_check is not None and not walkhooks.report_torque_check(rep, "9.torque_off", walk.torque_check):
         code = walkhooks.EXIT_TORQUE_ON          # 10: a hard stop could not confirm torque off
+    t0 = walk.t0_monotonic or 0.0
+    for t, state in walk.write_log or ():        # goal write times: the exact time per phase bin
+        lg.write(t - t0, "", "write", state)
     lg.close()
     rows = load_csv(path)
     analyze(rows, a.pack, rep, feeds=a.feeds, min_samples=a.min_samples,

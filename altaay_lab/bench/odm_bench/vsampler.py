@@ -16,8 +16,8 @@ Rule: a read never delays a control write. The servo bus is one wire, so a read 
 time the walk loop does not: the Runtime loop ends each cycle with time.sleep(1/50 - took)
 (scripts/v2_rl_walk_mujoco.py RLWalk.run). walkhooks puts IdleScheduler.idle() in place of that
 sleep. A read starts only if its expected time (the longest of the last 10 reads, each shrunk by
-10 % per slot since) plus a margin ends before the sleep would have ended; otherwise the slot is
-skipped and counted.
+10 % per slot since but not below their median) plus a margin ends before the sleep would have
+ended; otherwise the slot is skipped and counted.
 
 Each slot ends as one record (on_slot callback), with its phase: the time from the last goal
 write before the slot to the slot (or to the read start):
@@ -28,13 +28,15 @@ write before the slot to the slot (or to the read start):
 Times come from `clock` (time.monotonic); `sleep` is the real time.sleep. Both can be replaced
 (tests drive the scheduler with a virtual clock).
 
-Counting in time (time_count): the slots are uniform in time, so the share of slots in each
-1 ms phase bin is that bin's share of the walking time, whether the slot was read or not; the
-reads in a bin give that bin's share under the threshold. The time share is the sum over bins.
+Counting in time (time_count): the goal writes (walkhooks write_log) give the exact share of the
+walking time in each 1 ms bin of the time since the last write (the slots, uniform in time, give
+the same in the mean); the reads in a bin give that bin's share under the threshold. The time
+share is the sum over bins.
 Bins never read (the busy end of each cycle, before the next goal write) take the share of the
-last bins read (up to 3 bins, 50 readings); the voltage recovers toward the end of each cycle
-(the current peaks just after the write), so this fill is high, not low, while recovery_ok()
-holds.
+last bins read (back from the last one until 50 readings); the voltage recovers toward the end of
+each cycle (the current peaks just after the write), so this fill is high, not low, while
+recovery_ok() holds. If the read part of the cycle ends inside a dip, the fill is the dip: the
+count is then too high, never too low.
 """
 import random
 import time
@@ -110,13 +112,15 @@ class TimedRead:
 
     def cost_s(self):
         """Expected time of the next read: the longest of the last `cost_window` reads, each one
-        shrunk by cost_decay per slot since it was made (so one very slow read cannot stop all
-        later reads: a read longer than the whole sleep would otherwise never let another start),
-        or the first guess before any read was timed."""
+        shrunk by cost_decay per slot since it was made, but never below their median (the
+        typical read). So a slow read keeps the next reads away for a while, and one read longer
+        than the whole sleep cannot stop every later read. Before any read: the first guess."""
         if not self.recent:
             return self.first_cost_s
         k = self.timer.k
-        return max(d * self.cost_decay ** max(0, k - j) for j, d in self.recent)
+        ds = sorted(d for _, d in self.recent)
+        typical = ds[len(ds) // 2]
+        return max(typical, max(d * self.cost_decay ** max(0, k - j) for j, d in self.recent))
 
     # ------------------------------------------------------------------ records
     def _record(self, status, st, **kw):
@@ -226,24 +230,47 @@ def _bin(ph, bin_ms, n_bins):
     return min(n_bins, int(ph // bin_ms))
 
 
-def time_count(rows, ids, threshold=6.0, states=("walk", ""), bin_ms=1.0, n_bins=20, fill_min=50, fill_bins=3):
+def write_weights(rows, states=("walk", ""), bin_ms=1.0, n_bins=20, max_gap_s=0.5):
+    """Time (ms) in each phase bin, from the goal writes ('write' rows: t_s, state): every gap
+    between two writes, the first one in a walking state and at most max_gap_s long, covers phases
+    0 to its length. None if the rows hold no writes."""
+    w = sorted((float(r["t_s"]), r.get("state", "")) for r in rows
+               if r.get("status") == "write" and _f(r.get("t_s")) is not None)
+    if len(w) < 2:
+        return None
+    out = [0.0] * (n_bins + 1)
+    for (t1, s1), (t2, _) in zip(w, w[1:]):
+        gap = (t2 - t1) * 1e3
+        if s1 not in states or not 0 < gap <= max_gap_s * 1e3:
+            continue
+        for b in range(n_bins):
+            out[b] += max(0.0, min((b + 1) * bin_ms, gap) - b * bin_ms)
+        out[n_bins] += max(0.0, gap - n_bins * bin_ms)
+    return out if sum(out) > 0 else None
+
+
+def time_count(rows, ids, threshold=6.0, states=("walk", ""), bin_ms=1.0, n_bins=20, fill_min=50, fill_bins=None):
     """Count time under `threshold` per servo from slot rows (power_log.py CSV rows as dicts).
 
-    Only rows whose state is in `states` count (paused and stop phases do not). Each slot stands
-    for the same length of walking time (one read time drawn uniformly per slot). For servo i:
-      time_frac    phase-weighted share of the walking time (module doc): the gate value
+    Only rows whose state is in `states` count (paused and stop phases do not). The time in each
+    phase bin comes from the goal writes when the rows hold them (write_weights), else from the
+    phases of the slots (uniform in time, so the same in the mean, with more scatter). For servo i:
+      time_frac    sum over bins of (bin share of the walking time) x (bin readings under / readings):
+                   the gate value (module doc)
       sampled_frac readings under / readings      (U: share of the sampled time)
       walk_frac    readings under / walk slots    (L: unsampled time counted as above; L <= true)
-    Rows without a phase (a fixed-rate log with no control loop) give time_frac = sampled_frac.
+    Rows without any phase (a fixed-rate log, no control loop) give time_frac = sampled_frac.
     Bin n_bins holds every phase of n_bins x bin_ms or more (late cycles)."""
-    walk = [r for r in rows if r.get("state", "") in states]
+    walk = [r for r in rows if r.get("state", "") in states and r.get("status") != "write"]
     n_slots = len(walk)
-    slots_b = [0] * (n_bins + 1)
-    for r in walk:
-        ph = _f(r.get("phase_ms"))
-        if ph is not None and ph >= 0:
-            slots_b[_bin(ph, bin_ms, n_bins)] += 1
-    n_phase = sum(slots_b)
+    weights = write_weights(rows, states, bin_ms, n_bins)
+    if weights is None:
+        weights = [0.0] * (n_bins + 1)
+        for r in walk:
+            ph = _f(r.get("phase_ms"))
+            if ph is not None and ph >= 0:
+                weights[_bin(ph, bin_ms, n_bins)] += 1.0
+    total = sum(weights)
     out = {}
     for i in ids:
         vals, late, late_under = [], 0, 0
@@ -265,7 +292,7 @@ def time_count(rows, ids, threshold=6.0, states=("walk", ""), bin_ms=1.0, n_bins
                 late_under += v < threshold
         n = len(vals)
         under = sum(v < threshold for v in vals)
-        frac, filled, fill = _phase_weighted(slots_b, reads_b, under_b, n_phase, fill_min, fill_bins)
+        frac, filled, fill = _phase_weighted(weights, reads_b, under_b, total, fill_min, fill_bins)
         if frac is None and n:
             frac = under / n
         out[i] = dict(slots=n_slots, sampled=n, under=under, time_frac=frac,
@@ -275,16 +302,16 @@ def time_count(rows, ids, threshold=6.0, states=("walk", ""), bin_ms=1.0, n_bins
                       filled_bins=filled, fill_frac=fill,
                       v_min=min(vals) if vals else None, v_mean=sum(vals) / n if n else None,
                       late=late, late_frac=late_under / late if late else None,
-                      bins=[(k * bin_ms, slots_b[k], reads_b[k], (under_b[k] / reads_b[k] if reads_b[k] else None))
-                            for k in range(n_bins + 1)])
+                      bins=[(k * bin_ms, (weights[k] / total if total else None), reads_b[k],
+                             (under_b[k] / reads_b[k] if reads_b[k] else None)) for k in range(n_bins + 1)])
     return out
 
 
 def _phase_weighted(slots_b, reads_b, under_b, n_phase, fill_min, fill_bins):
-    """Sum over phase bins of (share of slots in the bin) x (share of the bin's reads under).
-    A bin with slots but no reads takes the pooled share of the nearest read bins before it
-    (until fill_min reads, at most fill_bins bins), or after it if none comes before. Returns
-    (frac, filled bins, last fill value)."""
+    """Sum over phase bins of (bin weight / total weight) x (share of the bin's reads under).
+    A bin with weight but no reads takes the pooled share of the nearest read bins before it
+    (until fill_min reads; at most fill_bins bins if set), or after it if none comes before.
+    Returns (frac, filled bins, last fill value)."""
     if not n_phase or not any(reads_b):
         return None, [], None
     nb = len(slots_b)
@@ -298,7 +325,7 @@ def _phase_weighted(slots_b, reads_b, under_b, n_phase, fill_min, fill_bins):
             continue
         idx = [j for j in range(k - 1, -1, -1) if reads_b[j]] or [j for j in range(k + 1, nb) if reads_b[j]]
         n = u = 0
-        for j in idx[:fill_bins]:
+        for j in idx[:fill_bins] if fill_bins else idx:
             n += reads_b[j]
             u += under_b[j]
             if n >= fill_min:

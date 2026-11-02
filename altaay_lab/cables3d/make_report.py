@@ -79,23 +79,26 @@ def curated(data):
     jc = int(math.ceil((j["length_max_mm"] + 40) / 10.0) * 10)
     out.append(("build-blocking", "Foot switch jumpers D3 and D4 (FSL1 to FSL2, FSR1 to FSR2, one wire each): the two "
                 "foot_top slots are 50 mm apart (viewer seats); each jumper routes %.0f mm inside the foot with full "
-                "clearance, the netlist cut is 40 mm. Cut %d mm (exact edits below)." % (j["length_max_mm"], jc)))
+                "clearance, the netlist cut is 40 mm. Cut %d mm (exact edits below). Status 2026-11-02: applied in the netlist "
+                "(110 mm)." % (j["length_max_mm"], jc)))
     d7 = cab(data, "D7")
     out.append(("print-blocking (head.stl)", "Projector LED (D7): flash_light_module sits outside the head's left wall and "
                 "its 4 mm lead channel opens at the module back (x 67) outside the shell; the stock head.stl has no "
                 "passage, so no inside route exists. Proposed CAD edit: a 4 mm hole through the head wall (3.2 mm thick) "
                 "on y at world (64.5, 84.8, 209.3), 2.5 mm behind the module. With it D7 runs inside the head to the hole, "
                 "through it and into the channel: %.0f mm worst, the 160 mm cut passes. Without the hole the leads would "
-                "have to run outside the shell (an earlier route went under the head floor): not acceptable." %
-                d7.get("worst_mm", 0)))
+                "have to run outside the shell (an earlier route went under the head floor): not acceptable. Status 2026-11-02: "
+                "decided by D24 without an STL edit: the 4.0 mm hole is drilled in the printed head (print/PRINT_PLAN.md "
+                "\"After printing\" step 4)." % d7.get("worst_mm", 0)))
     out.append(("note", "Clearance: every run was checked against the exact meshes (centreline samples every 1 mm, 3 mm "
                 "left out at each terminal): no tube enters a part (smallest gap %.2f mm, i.e. touching). The routing "
                 "grid uses the cable radius + 1.0 mm so the 1 mm voxels cannot hide a penetration." % min(
                     (c.get("clearance_min_mm") for c in data["cables"] if c.get("clearance_min_mm") is not None), default=0)))
     fr = sorted([(c.get("free_stretch_mm") or 0, c["id"]) for c in data["cables"]], reverse=True)
-    out.append(("note", "Free stretches (no seat and no tie): longest %s. Ties are placed at most 76.2 mm apart (Table 9-1) "
-                "on fixed pieces; longer free stretches left are free spans at joints (the designed loops) or runs "
-                "inside the closed head shell where the stick-on mounts of the gap list hold them." % (
+    out.append(("note", "Free stretches (no seat and no tie): longest %s. Ties are placed at most 76.2 mm apart on fixed pieces "
+                "(a lab support spacing: NASA-STD-8739.4A Table 9-1 is the spacing of the ties that bind a harness, 19.1 mm "
+                "for a harness of 6.4 mm or less, and the standard gives no number for fixing a harness to the structure); "
+                "longer free stretches left are the designed loops at the joints." % (
                     ", ".join("%s %.0f mm" % (cid, v) for v, cid in fr[:6]))))
     rooms = [x for c in data["cables"] for x in c.get("connector_room", []) if x.get("plug_gap_mm") is not None]
     ank = [x for x in rooms if x["end"].startswith(("SV24", "SV14"))]
@@ -124,20 +127,27 @@ def curated(data):
                                     150 - b.get("worst_mm", 0), cab(data, "S12").get("worst_mm", 0))))
     d12 = cab(data, "D12")
     out.append(("note (test fit)", "Camera ribbon D12 (Adafruit 3157, 150 mm): the Pi camera connector is on the Pi's back "
-                "edge and the camera on the front wall, route %.0f mm, so 24 mm spare instead of 40. Keep it and fit it on "
-                "the test order (TO9), or use a longer Zero camera cable." % d12.get("worst_mm", 0)))
+                "edge and the camera on the front wall, route %.0f mm, so %.0f mm spare instead of 40. Keep it and fit it on "
+                "the test order (TO9). Proposal (BOM E7 not changed): the Raspberry Pi Standard-Mini camera cable, 200 mm, "
+                "Adafruit 5818, 22-pin 0.5 mm to 15-pin 1 mm, $2.70, in stock (https://www.adafruit.com/product/5818, read "
+                "2026-11-02 1:46 AM ET); Kiwi Electronics lists the same Raspberry Pi cable (MPN SC1892) for the Pi 5, Zero "
+                "and CM4 (https://www.kiwi-electronics.com/en/raspberry-pi-camera-cable-standard-mini-200mm-11588, read "
+                "1:46 AM ET). It leaves %.0f mm over the 40 mm slack; the spare ribbon folds flat inside the head." % (
+                    d12.get("worst_mm", 0), 150 - d12.get("worst_mm", 0), 200 - 40 - d12.get("worst_mm", 0))))
     d9 = cab(data, "D9")
     out.append(("note", "SG90 right antenna lead D9: routed %.0f mm worst, so the 250 mm lead reaches with %.0f mm to spare; "
                 "the 20 mm extension in the netlist is not needed (CABLE_MAP measured 228 mm through part centres). The "
                 "SG90 lead exit point is UNVERIFIED (the CAD body has no lead): even 23 mm worse it still fits. Edit: D9 "
-                "cut_mm 270 -> 250 and gauge 'SG90 lead' on its three wires." % (d9.get("worst_mm", 0),
-                                                                              250 - 40 - d9.get("worst_mm", 0))))
+                "cut_mm 270 -> 250 and gauge 'SG90 lead' on its three wires. Status 2026-11-02: applied in the netlist (250 mm, "
+                "no extension)." % (d9.get("worst_mm", 0), 250 - 40 - d9.get("worst_mm", 0))))
     out.append(("build-blocking", "Battery bay leads with the seats as placed: P6/P8 (BMS P to XT30 female, the XT30 seated "
                 "left of the holder as Tnkr places it, the BMS on the right) need 140 mm; P7 load (fuse holder far end to "
                 "the 2815) needs 130 mm, so the 90 mm holder lead must be extended with 16 AWG (the netlist note already "
                 "allows it); the fuse holder's -y end lead leaves only about 4 mm from the body wall, so it turns at once. "
                 "P11 (BEC output leads joint to the power splices) needs 100 mm, or join the BEC leads nearer the splices "
-                "(BEC lead length not published)."))
+                "(BEC lead length not published). Status 2026-11-02: applied in the netlist (P6 and P8 150 mm, P11 100 mm; "
+                "P7 holder leads extended at splices JFI and JFO; the JFI extension is 30 mm since the splice pass, so 120 "
+                "and 130 mm per conductor)."))
     out.append(("note", "BNO055 (D2): the board hangs under the trunk_top plate with a 3 mm gap above it (section at y 0), so "
                 "its four wires must be soldered from the underside and leave downward; the header edge (front) is a [L] "
                 "choice tied to B20."))
@@ -156,23 +166,46 @@ def curated(data):
     lp = [(c["id"], x) for c in data["cables"] for x in c.get("service_loops", [])]
     bad = [(cid, x) for cid, x in lp if not x["ok"]]
     bad_rt = [(cid, x) for cid, x in lp if not x["ok_runtime"]]
-    out.append(("build-blocking" if bad_rt else "note", "Service loops: %d joint crossings now have a designed free "
-                "section (ties pushed back from the crossing). %d still cannot reach R >= 3 x OD over the full URDF range "
-                "(%s), %d within the Runtime head ranges%s. The limit is route room between neighbouring crossings: the "
-                "fix is a longer free section by the builder (more slack between the two ties, so the ties sit further "
-                "from the joint) or a smaller joint range in software." % (
-                    len(lp), len(bad), ", ".join(sorted({"%s %s" % (cid, "+".join(x["joints"])) for cid, x in bad}))[:600],
-                    len(bad_rt), (" (" + ", ".join(sorted({"%s %s" % (cid, "+".join(x["joints"])) for cid, x in bad_rt})) + ")")
-                    if bad_rt else "")))
+    out.append(("build-blocking (test fit)" if bad else "note", "Service loops: the two ties of every joint crossing are pushed "
+                "away from the crossing until the loop between them meets 3 x OD in two models (uniform bend over the largest "
+                "joint angle, and the length the loop needs at the farthest pose stored as one arc over the closest "
+                "tie-to-tie chord). %d of %d loops meet both over the full URDF range (free length between the ties %.0f to "
+                "%.0f mm). %d cannot inside the route room: %s. Within the Runtime head ranges %d still fail the length "
+                "storage model, because the loop carries the cable the full URDF range needs. The build does instead: dress "
+                "each loop with the length in the table below, then turn the joint through its whole range by hand at the "
+                "TEST_PLAN 1.4 fit and look for a kink or a pull at the ties." % (
+                    len(lp) - len(bad), len(lp), min(x["free_mm"] for _, x in lp), max(x["free_mm"] for _, x in lp), len(bad),
+                    "; ".join("%s at %s: free %.0f mm, bend R %.1f mm, storage R %.1f mm, needs %.1f mm" % (
+                        cid, "+".join(x["joints"]), x["free_mm"], x["radius_bend_mm"], x["radius_storage_mm"], x["rule_mm"])
+                        for cid, x in bad) or "none", len(bad_rt))))
     out.append(("note", "Speaker seat (terminals: speaker) is not credible from the CAD: the 36.1 mm speaker clears the CAD "
                 "parts only 4.3 mm behind speaker_interface (B8, test order 7). D11 is routed to that seat."))
     R = data.get("retention", [])
-    out.append(("build-blocking", "Retention: %d tie points by the rule; only %d meet a hole or slot in the stock CAD, %d need "
-                "a stick-on cable tie mount (gap list), %d are free air where only a bundle tie is possible (a printed "
-                "guide is needed to fix the cable there). The stick-on mounts are not in the BOM yet (part number not "
-                "chosen, UNVERIFIED)." % (len(R), sum(1 for t in R if t["kind"] == "existing printed feature"),
-                                          sum(1 for t in R if t["kind"] == "adhesive tie mount"),
-                                          sum(1 for t in R if t.get("gap") and t["kind"] == "cable tie"))))
+    mt = Counter((t.get("mount_fit") or {}).get("type") or "none" for t in R if t["kind"] == "adhesive tie mount")
+    op = [t for t in R if t.get("open")]
+    out.append(("build-blocking", "Retention: %d tie points. %d existing printed features; %d stick-on mount spots, checked "
+                "with exact rays for a flat patch with the mount height free above it: the BOM line 34 MB3A (19 x 19 x 4.8 "
+                "mm) fits at %d, only the smaller HellermannTyton MB2APT (13 x 13 x 4.1 mm, not in the BOM) at %d, neither "
+                "at %d; %d points (free air, or a mount spot with no flat patch) tied to a neighbour cable that its own mount "
+                "or feature holds; %d free-air points with nothing to tie to. Open (nothing holds them yet): %d (%s), mostly on the neck brackets and the leg "
+                "sheets where the servos leave no flat face: a printed guide, a drilled tie hole or a route change is a "
+                "design decision (HARDWARE_AUDIT B35). Until then a tie around the bundle only, checked at the TEST_PLAN 1.4 "
+                "fit." % (len(R), sum(1 for t in R if t["kind"] == "existing printed feature"),
+                          sum(1 for t in R if t["kind"] == "adhesive tie mount"), mt.get("MB3A", 0), mt.get("MB2APT", 0),
+                          mt.get("none", 0), sum(1 for t in R if t["kind"] == "cable tie to a neighbour cable"),
+                          sum(1 for t in R if t["kind"] == "cable tie"), len(op), ", ".join(t["id"] for t in op))))
+    sp = {e["id"]: e for e in data.get("cable_ends", [])}
+    out.append(("note (splices)", "Splice tails: JG20, JG10 and JG30 float in the bundle (no part holds them), so their "
+                "tails are judged with the leads they join, fixed end to fixed end. A tail must hold 3.5 mm in the terminal "
+                "(Molex 5263 catalog drawing B-101: crimp section 3.50 of the 7.00 mm terminal), the lap (3 to 6 wire "
+                "diameters, NASA-STD-8739.4A 19.4.1 c) and the 15 mm adhesive sleeve, cut from a 3.5 in Wirefy kit piece "
+                "(BOM 26 listing, read 2026-11-02 1:31 AM ET), that reaches 2 x OD = 3.4 mm onto the insulation (19.2.6): "
+                "about 15 mm at least. The tails are now 30 mm, so the stiff sleeve sits past the bend at the plug exit "
+                "(7.2.36: no splice in a bend); the 3D model puts each splice centre 23.5 mm along the route from the plug "
+                "(%s). YG3 sits 15 mm past YD3 on the adapter H3 lead (stem G 45 mm, stem D 30 mm), so the two sleeves do "
+                "not overlap (7.2.35, splices staggered); the 3D model draws both at Y.SD1. The P7 JFI extension (16 AWG) is "
+                "30 mm, room for the XT30 cup sleeve and the JFI sleeve (2 x 3.0 mm onto the insulation)." % ", ".join(
+                    "%s at %s" % (k, sp[k]["p_world0"]) for k in ("JG20", "JG10", "JG30") if k in sp)))
     return out
 
 
@@ -187,10 +220,10 @@ def main():
     w = L.append
     w("# CABLES_3D: every cable in 3D, bound to the links, checked over the joint ranges")
     w("")
-    w("Last updated: %s by the Claude Code cable agent (agent C). Generated by altaay_lab/cables3d/make_report.py from "
-      "cables3d.json (scripts: route_cables.py, seats_ties.py, check_cables.py, render_cables.py). Nothing here is built "
-      "or bought. Numbers are measured on the upstream CAD at the zero pose and swept over the joint ranges: geometry "
-      "checks only, not a physical test." % clock)
+    w("Last updated: %s. Generated by altaay_lab/cables3d/make_report.py from cables3d.json (scripts: route_cables.py, "
+      "seats_ties.py, check_cables.py, render_cables.py; routes by agent C, splice tails, loop ties, mount fit and this "
+      "report by agent CAB on 2026-11-02). Nothing here is built or bought. Numbers are measured on the upstream CAD at the "
+      "zero pose and swept over the joint ranges: geometry checks only, not a physical test." % clock)
     w("")
     w("Pictures: cables_all.png (whole robot, two views), cables_detail.png (left leg and neck with seats and ties).")
     w("Viewer: VIEWER_NOTE.md says how to draw the tubes per link. Data: cables3d.json (%d cables, %d runs, %d ties, "
@@ -221,19 +254,40 @@ def main():
     w("| Length | cut_mm of a conductor chain (fixed end to fixed end, through floating inline splices) >= worst routed "
       "length + 20 mm service slack per fixed end (40 mm) | [L] CABLE_MAP.md length rule, its 2 x 20 mm service-slack "
       "term; its connector tolerance (2 x 22.6 mm) and 10 mm per radian terms are replaced by measured terminals and the "
-      "joint sweep. Inline splices (VSW, G, YD3, YG3, JG20, JG10, JG30, J5, JG) float, so their tails are judged as part "
-      "of the chain |")
-    w("| Bend radius | NASA-STD-8739.4A Table 7-1, harness of AWG 10 or smaller without coax: minimum 3 x OD, optimum "
-      "10 x OD (OD of the bundle). Measured on the taut route after relaxing it inside free space (circle through points "
-      "3 mm apart) | [I] https://standards.nasa.gov/sites/default/files/standards/NASA/A/4/nasa-std-87394a_w_change_4_0.pdf |")
+      "joint sweep. Inline splices (VSW, G, YD3, YG3, JG20, JG10, JG30, J5, JG; JFI and JFO are summed into P7) are solder "
+      "splices that no part holds: they float, so their tails are judged as part of the chain. SPV and SPG are seated on the "
+      "belly (MOUNTING.md) and JB is where the BEC leads end: fixed ends |")
+    w("| Splice tail | at least 15 mm for 22 AWG: 3.5 mm in the terminal, 3 to 6 wire diameters of lap, a 15 mm adhesive "
+      "sleeve reaching 2 x OD onto the insulation; no splice in a bend; splices staggered | [I] Molex 5263 catalog page "
+      "MX01 B-101 (terminal 7.00 mm, crimp section 3.50 mm; https://www.rcscomponents.kiev.ua/datasheets/mx5263-datasheet.pdf, "
+      "read 2026-11-02 1:29 AM ET); NASA-STD-8739.4A Change 4 19.4.1 c, 19.2.6, 7.2.35, 7.2.36 (URL below, read 1:27 AM ET); "
+      "Wirefy 3:1 kit, 7 sizes 3/32 to 3/4 in, precut 3.5 in (https://www.amazon.com/dp/B084GDLSCK, read 1:31 AM ET) |")
+    w("| Bend radius | NASA-STD-8739.4A Change 4 (2016-06-30) 7.2.19 and Table 7-1, overall harness of AWG 10 or smaller "
+      "without coax: minimum 3 x OD, optimum 10 x OD (OD of the bundle), for bending in the installed harness; the standard "
+      "has no separate value for repeated flexing (7.2.11 asks for protection from flexing). The BNTECHGO 22 and 26 AWG "
+      "listings give no bend radius (read 2026-11-02 1:45 AM ET). Measured on the taut route after relaxing it inside free "
+      "space (circle through points 3 mm apart) | [I] https://standards.nasa.gov/sites/default/files/standards/NASA/A/4/"
+      "nasa-std-87394a_w_change_4_0.pdf (read 2026-11-02 1:27 AM ET) |")
+    w("| Service loop | the loop between the two ties of a crossing meets 3 x OD in both models: bend R = free length / "
+      "largest joint angle from zero; length storage R = the cable the loop needs at the farthest pose (fixed pieces plus "
+      "the span chord) bowed as one circular arc over the closest tie-to-tie chord (61 samples per joint). The ties are "
+      "pushed out from the crossing (at most 60 mm per side, up to the previous tie and the midpoint to the next crossing) "
+      "until both hold | [L] on the Table 7-1 minimum |")
     w("| Rub | smallest surface gap to a part of another link, every nearby joint swept alone (13 samples), connector "
       "zones (8 mm) left out; flagged under %.1f mm. Free spans are reported apart (taut straight span) | [L] |" %
       meta.get("check", {}).get("rub_warn_mm", 2.0))
     w("| Connector room | free straight length along the exit of each terminal (exact ray) >= 3 x OD + OD/2 | [L] from "
       "Table 7-1 minimum radius |")
     w("| Retention | a fixed point on both sides of every joint crossing; first tie 25.4 to 50.8 mm from each connector "
-      "(Table 9-2, bundles under 12.7 mm); then at most 76.2 mm apart (Table 9-1, largest spacing); ties within 8 mm on "
-      "one link merged | [I] NASA-STD-8739.4A Tables 9-1, 9-2 (same URL); 7.2.29 support to limit vibration stress |")
+      "(Table 9-2, harness under 12.7 mm); then at most 76.2 mm apart; ties within 8 mm on one link merged | [I] "
+      "NASA-STD-8739.4A Table 9-2 and 7.2.29 (support to limit vibration stress, no number). [L] the 76.2 mm support spacing: "
+      "Table 9-1 is the spacing of the ties that bind a harness, 19.1 mm for a harness of 6.4 mm or less, not a support "
+      "spacing |")
+    w("| Stick-on mount | a flat patch under the whole base (within 0.4 mm of the plane, normals within 15 deg) with the "
+      "mount height free above it, centre at most 20 mm from the cable line: MB3A 19.0 x 19.0 x 4.8 mm (BOM 34), else MB2APT "
+      "13.0 x 13.0 x 4.1 mm | [I] HellermannTyton 151-01629 spec sheet (https://ftcelectronics.com/datasheets-3c/151-01629.pdf, "
+      "read 2026-11-02 1:52 AM ET); HellermannTyton Product Catalogue 2016/2017 p. 1.7, MB2APT 151-00996, ties up to 2.7 mm "
+      "(https://docs.rs-online.com/fd67/0900766b8139134b.pdf, read 1:53 AM ET); [L] tolerances |")
     w("| Wire OD | 16 AWG 3.0, 20 AWG 1.8, 22 AWG 1.7, 26 AWG 1.5 mm (BNTECHGO listings), USB 3.5 mm (BOM line 20); "
       "kit cable, SG90 lead, FPC, BEC lead UNVERIFIED (drawn 1.3, 1.0, 1.0, 2.0 mm) | [I] cables3d.json meta.sources |")
     w("")
@@ -244,7 +298,13 @@ def main():
     w("- %d active cables routed, 0 left as straight placeholders. Length: %d pass (%d of them with notes), %d fail the "
       "slack rule, of which %d still fit taut (the cut covers the worst routed length, not the 40 mm slack)." % (
           len(C), npass, sum(1 for c in C if c["check"] == "pass with notes"), nfail, nfit))
-    w("- Retention: %d ties (%s)." % (len(R), ", ".join("%d %s" % (v, k) for k, v in Counter(t["kind"] for t in R).most_common())))
+    mt = Counter((t.get("mount_fit") or {}).get("type") or "none" for t in R if t["kind"] == "adhesive tie mount")
+    w("- Retention: %d tie points (%s); stick-on mount spots by fit: MB3A %d, only MB2APT %d, none %d; open %d." % (
+        len(R), ", ".join("%d %s" % (v, k) for k, v in Counter(t["kind"] for t in R).most_common()), mt.get("MB3A", 0),
+        mt.get("MB2APT", 0), mt.get("none", 0), sum(1 for t in R if t.get("open"))))
+    lp_all = [x for c in C for x in c.get("service_loops", [])]
+    w("- Service loops: %d of %d meet 3 x OD in both models over the full URDF range." % (
+        sum(1 for x in lp_all if x["ok"]), len(lp_all)))
     w("")
     w("## Findings that change the build")
     w("Severity: print-blocking (fix before printing), build-blocking (fix before or at assembly, or the cable cannot be "
@@ -278,23 +338,25 @@ def main():
             "; ".join(c.get("findings", [])).replace("|", "/") or "-"))
     w("")
     w("## Service loops at the joints")
-    w("Each joint crossing gets a free section between its two ties (retention items 'joint crossing ... end of the free "
-      "loop'). Rule: bend radius under the joint motion R = free length / largest joint angle from zero (uniform bend "
-      "model, conservative) >= 3 x OD (NASA-STD-8739.4A Table 7-1 minimum). The ties are pushed back from the crossing "
-      "until the free length meets the rule or the route runs out (previous crossing, or 25.4 mm from a terminal).")
+    w("Each joint crossing gets a free loop between its two ties (retention items 'joint crossing ... end of the free loop', "
+      "or the plug when the loop runs to a connector). Rule (both models, NASA-STD-8739.4A Table 7-1 minimum 3 x OD): "
+      "bend R = free length / largest joint angle from zero; length storage R = the loop length to leave (the cable the loop "
+      "needs at the farthest pose) bowed as one arc over the closest tie-to-tie chord. Leave = cable to leave between the "
+      "two ties; extra = how much of it is slack at the zero pose (dress it as a loop).")
     w("")
-    w("| Cable | Run | Joints | Angle rad (RT) | OD | Rule R | Free mm | R full | R RT | OK full | OK RT |")
-    w("|---|---|---|---|---|---|---|---|---|---|---|")
+    w("| Cable | Run | Joints | Angle rad (RT) | OD | Rule R | Free mm | Leave mm | Extra mm | Closest chord mm | Bend R | Storage R | Storage R RT | OK full | OK RT |")
+    w("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     nl = nbad = nbad_rt = 0
     for c in C:
         for x in c.get("service_loops", []):
             nl += 1
             nbad += not x["ok"]
             nbad_rt += not x["ok_runtime"]
-            w("| %s | %s | %s | %.2f (%.2f) | %.1f | %.1f | %.0f | %s | %s | %s | %s |" % (
+            w("| %s | %s | %s | %.2f (%.2f) | %.1f | %.1f | %.0f | %s | %s | %s | %s | %s | %s | %s | %s |" % (
                 c["id"], x["run"], "+".join(x["joints"]), x["angle_rad"], x["angle_runtime_rad"], x["od_mm"], x["rule_mm"],
-                x["free_mm"], f(x["radius_mm"], 1), f(x["radius_runtime_mm"], 1), "yes" if x["ok"] else "NO",
-                "yes" if x["ok_runtime"] else "NO"))
+                x["free_mm"], f(x.get("loop_length_mm")), f(x.get("dress_extra_mm")), f(x.get("chord_min_mm"), 1),
+                f(x.get("radius_bend_mm"), 1), f(x.get("radius_storage_mm"), 1), f(x.get("radius_storage_runtime_mm"), 1),
+                "yes" if x["ok"] else "NO", "yes" if x["ok_runtime"] else "NO"))
     w("")
     w("%d loops: %d meet the rule over the full URDF ranges, %d do not; within the Runtime head ranges %d do not." % (
         nl, nl - nbad, nbad, nbad_rt))
@@ -381,30 +443,40 @@ def main():
     w("")
     gaps = [t for t in R if t.get("gap")]
     w("## Gap list (no tie anchor in the stock CAD)")
-    w("%d of %d tie points have no hole, slot or bar to loop a tie through within 15 mm on the same link. Proposed fix "
-      "for each: a stick-on cable tie mount on the named printed surface (adhesive, generic 12.7 x 12.7 mm base; part "
-      "number not chosen, UNVERIFIED), or later a printed guide. The community parts in print/mods/v2_Jaimes_Mods "
-      "(Hip Cable Holder 14 x 8 x 22 mm, Upper and Lower Cable Guides about 25 x 11 x 27 mm, measured from the 3MF "
-      "files) have no screw holes and their mounting interface cannot be checked here (the assembly STEP needs a CAD "
-      "kernel this machine lacks): fit on stock parts UNVERIFIED, test print before relying on them." % (len(gaps), len(R)))
+    w("%d of %d tie points have no hole, slot or bar to loop a tie through within 15 mm on the same link. Each is held by a "
+      "stick-on tie mount where a flat patch fits (MB3A, BOM 34; or MB2APT 13 x 13 mm, not in the BOM), by a tie to a "
+      "neighbour cable that its own mount or feature holds, or it is open (a printed guide, a drilled tie hole or a route "
+      "change is needed, HARDWARE_AUDIT B35). The community parts in print/mods/v2_Jaimes_Mods (Hip Cable Holder 14 x 8 x "
+      "22 mm, Upper and Lower Cable Guides about 25 x 11 x 27 mm, measured from the 3MF files) have no screw holes and their "
+      "mounting interface cannot be checked here: fit on stock parts UNVERIFIED, test print before relying on them." % (
+          len(gaps), len(R)))
     w("")
-    w("| Tie | Cables | Link | Part to fix to | Note |")
-    w("|---|---|---|---|---|")
+    w("| Tie | Cables | Link | Kind | Mount fit | Part to fix to | Note |")
+    w("|---|---|---|---|---|---|---|")
     for t in gaps:
-        w("| %s | %s | %s | %s | %s |" % (t["id"], ", ".join(t["cables"]), t["link"], t.get("part") or "-", t["note"]))
+        mf = t.get("mount_fit") or {}
+        w("| %s | %s | %s | %s | %s | %s | %s |" % (
+            t["id"], ", ".join(t["cables"]), t["link"], t["kind"] + (" (OPEN)" if t.get("open") else ""),
+            ("%s, %.0f mm from the cable" % (mf["type"], mf["from_cable_mm"])) if mf.get("type") else
+            ("none" if t["kind"] == "adhesive tie mount" else "-"), t.get("part") or "-", t["note"]))
     w("")
     w("## Tie count by size")
     cnt = Counter(t["tie"] for t in R)
     for k, v in cnt.most_common():
-        w("- %s: %d" % (k, v))
-    w("- adhesive tie mounts (stick-on bases) needed: %d" % sum(1 for t in R if t["kind"] == "adhesive tie mount"))
-    w("- ties through existing printed features: %d; free-air bundle ties (no surface within 15 mm): %d" % (
-        sum(1 for t in R if t["kind"] == "existing printed feature"), sum(1 for t in R if t.get("gap") and t["kind"] == "cable tie")))
+        w("- %s: %d (one per tie point)" % (k, v))
+    w("- stick-on mount spots: %d (MB3A fits %d, only MB2APT fits %d, no flat patch %d)" % (
+        sum(1 for t in R if t["kind"] == "adhesive tie mount"), mt.get("MB3A", 0), mt.get("MB2APT", 0), mt.get("none", 0)))
+    w("- ties through existing printed features: %d; ties to an anchored neighbour cable: %d; free-air points with nothing "
+      "to tie to: %d; open in all: %d" % (
+          sum(1 for t in R if t["kind"] == "existing printed feature"),
+          sum(1 for t in R if t["kind"] == "cable tie to a neighbour cable"), sum(1 for t in R if t["kind"] == "cable tie"),
+          sum(1 for t in R if t.get("open"))))
     w("")
     w("## Regenerate")
     w("```")
     w("S=/path/outside/the/repo   # grid cache, about 45 MB")
-    w("python3 altaay_lab/cables3d/route_cables.py --scratch $S    # routes, binding, sweeps (about 4 min, 10 min first run)")
+    w("python3 altaay_lab/cables3d/route_cables.py --scratch $S    # routes, binding, sweeps (about 4 min, 10 min first run);")
+    w("#   --only SP1,SP2,SP3,SD1,SD2 writes $S/cables3d_partial.json (splice positions from the netlist cuts) to merge by hand")
     w("python3 altaay_lab/cables3d/seats_ties.py                   # seats, tie anchors, retention")
     w("python3 altaay_lab/cables3d/check_cables.py --scratch $S    # length, rub, bend, connector room")
     w("python3 altaay_lab/cables3d/make_report.py \"$(TZ=America/New_York date '+%Y-%m-%d %-I:%M %p ET')\"")
