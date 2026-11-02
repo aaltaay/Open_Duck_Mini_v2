@@ -11,6 +11,9 @@ the full part, re-measures the feature it is meant to test, and writes:
                             and the physical pass/fail test
 The insert coupons C2a, C2b and C3 also get a light copy (C2aL, C2bL, C3L: same cut, the light profile of their part
 with a solid ring round the bore, DECISIONS.md D22). The copies print next to them in session S1: that is the D22 gate.
+T1 (the left eye) comes with the two printed pieces of the real eye screw stack: T1b, a whole bulb, and T1w, the head
+front wall behind the left eye. With the two 0.3 mm washers of BOM 17l under each head they clamp what the robot clamps
+(DECISIONS.md D21 note; the washer, screw and stack numbers are read from altaay_lab/fasteners/fasteners.json).
 Then slice them with:  python3 slice.py coupons --out SLICE_DIR --coupons OUT_DIR
 
 Coordinates below are the upstream print STL frame (mm). Feature positions come from
@@ -26,8 +29,26 @@ from shapely.geometry import Polygon
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 PRINT_DIR = os.path.join(REPO, "print")
+FASTENERS = os.path.join(REPO, "altaay_lab", "fasteners", "fasteners.json")
 UP = {"+x": (1, 0, 0), "-x": (-1, 0, 0), "+y": (0, 1, 0), "-y": (0, -1, 0),
       "+z": (0, 0, 1), "-z": (0, 0, -1)}
+
+
+def eye_stack():
+    """The left eye screws in the fastener schedule: washers under the head, what the screw passes before the pilot
+    (near: bulb + head wall), the pilot floor (far), the stock length and the thread engaged."""
+    recs = [f for f in json.load(open(FASTENERS))["fasteners"] if f.get("into") == "left_eye" and f.get("washer")]
+    if not recs:
+        sys.exit("fasteners.json has no left eye screw with a washer (D21): cannot write the T1 stack test")
+    f = recs[0]
+    w = f["washer"]
+    return dict(t=float(w["t"]), n=int(w.get("n", 1)), each=float(w.get("t_each", w["t"])), near=float(f["near"]),
+                far=float(f["far"]), L=float(f["length_mm"]), e=float(f["e"]), tip_gap=float(f["tip_gap"]),
+                spec=f["spec"], ids=[r["id"] for r in recs])
+
+
+ES = eye_stack()
+STACK = ES["t"] + ES["near"]          # under each eye screw head in the robot: washers + bulb + head wall
 
 COUPONS = [
     dict(id="C1", file="C1_trunk_bottom_bearing_seat.stl", source="trunk_bottom.stl", up="+z",
@@ -88,15 +109,45 @@ COUPONS = [
          material="PLA", overrides="wall3",
          what="Whole left_eye (B14: its 4 screw pilots are 2.2 mm, the right eye has 2.05 mm). The pilots are "
               "blind, 3.0 mm deep behind a 1.3 mm front skin (D21). Printed in the eye profile (3 walls, wall3: D22 "
-              "keeps the eyes heavy); it is the robot's left eye.",
+              "keeps the eyes heavy); it is the robot's left eye. Tested with T1b and T1w, the printed parts of the "
+              "real screw stack.",
          blockers="B14, D21, BOM E4 (eye glass disc), test order TO11",
          test=["Depth rod of the calipers in each pilot: about 3.0 mm, blind (CAD 3.0 mm, 1.3 mm front skin on this eye).",
-               "In the robot the screw passes a 0.5 mm washer, the bulb (2.0 mm) and the head wall (3.0 mm) before the eye (D21). So clamp 5.5 mm under each M2.5x8 head (11 of the 0.5 mm washers from BOM 17l, or the bulb plus 3.5 mm of scrap with a 2.7 mm hole): it then engages 2.5 mm, as in the robot. Never drive a bare M2.5x8 to the pilot floor: it would push through the skin.",
-               "Drive the M2.5x8 DIN 912 into each of the 4 pilots with a 2.0 mm hex key: it cuts its own thread and needs clear torque to turn.",
+               "Build the robot stack (D21 note) at each pilot: under the M2.5x8 head %d washers of %.1f mm from BOM 17l (%.1f mm), "
+               "then T1b (the bulb, 2.0 mm), then T1w (the head wall, 3.0 mm), then the eye. That is %.1f mm under the head, "
+               "so the screw engages %.1f mm and stops %.1f mm short of the pilot floor, as in the robot. T1, T1b and T1w "
+               "are each 35 x 35 mm: line up their edges and the 4 holes. Never drive a bare M2.5x8 to the pilot floor: it "
+               "would push through the skin." % (ES["n"], ES["each"], ES["t"], STACK, ES["L"] - STACK,
+                                                   ES["far"] - ES["near"] - (ES["L"] - STACK)),
+               "Calipers before driving: T1b 2.0 mm and T1w 3.0 mm thick next to a hole, so the stack with the washers is "
+               "%.1f mm. Over %.1f mm leaves less than %.1f mm of thread: note it." % (STACK, STACK + 0.1, ES["L"] - STACK - 0.1),
+               "Drive the M2.5x8 DIN 912 through the stack into each of the 4 pilots with a 2.0 mm hex key: it passes T1b and "
+               "T1w freely, cuts its own thread in the eye and needs clear torque to turn.",
                "Snug each screw firmly with the short arm of the key: no stripping, the screw does not spin free.",
-               "Pull the eye by hand with 4 screws in: nothing moves.",
+               "Pull the eye by hand with 4 screws in: nothing moves, and the front skin shows no bulge or crack over a pilot.",
                "The eye glass disc (29.6 x 1.85 mm seat) drops into its seat and stays in when tipped.",
                "FAIL if any pilot strips: B14 stays open (use an M2.5 thread-forming screw or ask Ahmed about a 2.05 mm pilot)."]),
+    dict(id="T1b", file="T1b_bulb_whole.stl", source="bulb.stl", up="-x", box=None,
+         material="PLA", overrides="",
+         what="Whole bulb: 2.0 mm thick at the eye screws, with 4 clearance holes of 2.7 mm on the 25 mm square of the "
+              "eye pilots. In the robot it is the first part under the eye screw heads (D21). Bulb profile (light: 2 "
+              "walls, 15 %). Part of the T1 stack; the robot set still prints its 2 bulbs on the plates, so this one is a "
+              "spare if it passes.",
+         blockers="B14, D21 note, test order TO11",
+         test=["Calipers: 2.0 mm thick next to each of the 4 screw holes (CAD 2.0).",
+               "An M2.5 screw passes each of the 4 holes by hand without threading (2.7 mm holes).",
+               "Then build the T1 stack with it (T1 tests)."]),
+    dict(id="T1w", file="T1w_head_wall_left_eye.stl", source="head.stl", up="-z",
+         box=[[116.0, 22.5, 121.91], [120.5, 57.5, 156.91]], material="PLA", overrides="insert",
+         what="Head front wall behind the left eye, cut to the eye's 35 x 35 mm outline: 3.0 mm thick, with the 25 mm "
+              "eye opening and the 4 clearance holes of 2.7 mm that the eye screws pass. Same orientation (on its edge, so "
+              "the holes print horizontal, as in the head) and profile (insert, 4 walls) as the head. Part of the T1 stack.",
+         blockers="B14, D21 note, test order TO11",
+         test=["Calipers: 3.0 mm thick next to each of the 4 screw holes (CAD 3.0).",
+               "An M2.5 screw passes each of the 4 holes by hand without threading (2.7 mm holes, printed horizontal as in "
+               "the head). If one binds, open it with the 2.7 mm bit (BOM T12) turned by hand and note it: the same 8 "
+               "holes in the head then need the bit too.",
+               "Then build the T1 stack with it (T1 tests)."]),
     dict(id="T2", file="T2_foot_bottom_tpu_whole.stl", source="foot_bottom_tpu.stl", up="-z", box=None,
          material="TPU", overrides="",
          what="Whole foot_bottom_tpu in Overture TPU 95A at 40% infill (B26). If it passes it is the left leg sole.",
@@ -266,6 +317,26 @@ def check(cid, m):
         r = dict(pilots=p, pilot_depth=depth, front_skin=skin,
                  ok=len(p) == 4 and all(abs(d - 2.2) < 0.05 for d in p)
                  and len(depth) == 4 and all(abs(x - 3.0) < 0.1 for x in depth))
+    elif cid in ("T1b", "T1w"):
+        # the two printed layers of the eye screw stack: 4 clearance holes on the pilot square and the thickness the
+        # screw passes, by a ray along the screw axis 1.6 mm off each hole centre (just outside the 2.7 mm hole)
+        # (the bulb's centre opening is a tapered LED pocket, not round: only the head wall's 25 mm eye opening is checked)
+        xs, yc, big = (116.0, -40.0, None) if cid == "T1b" else (118.5, 40.0, (24.5, 25.5))
+        circ = section_circles(m, [xs, yc, 139.41], [1, 0, 0])
+        cs = [(c, d) for c, d in circ if 2.6 < d < 2.8]
+        opening = [round(d, 2) for c, d in circ if big and big[0] < d < big[1]] if big else None
+        x0 = m.bounds[0][0] - 1.0
+        thick = []
+        for c, d in cs:
+            h = hits(m, np.array([x0, c[1] + 1.6, c[2]]), np.array([1.0, 0, 0]))
+            if len(h) >= 2:
+                thick.append(round(h[1] - h[0], 2))
+        want = 2.0 if cid == "T1b" else 3.0
+        r = dict(holes=sorted(round(d, 2) for c, d in cs), opening=opening, thickness=thick,
+                 ok=len(cs) == 4 and len(thick) == 4 and all(abs(t - want) < 0.05 for t in thick)
+                 and (opening is None or len(opening) == 1))
+        if opening is None:
+            del r["opening"]
     elif cid == "T2":
         e = sorted(np.round(m.extents, 1).tolist())
         r = dict(extents=e, ok=abs(e[2] - 101.9) < 0.2 and abs(e[1] - 40.7) < 0.2 and abs(e[0] - 8.0) < 0.1)
@@ -281,6 +352,7 @@ def main():
     os.makedirs(out, exist_ok=True)
     man = {"upstream_print_dir": PRINT_DIR, "coupons": []}
     all_ok = True
+    meas_of = {}
     for c in COUPONS:
         src = os.path.join(PRINT_DIR, c["source"])
         part = trimesh.load(src)
@@ -292,6 +364,7 @@ def main():
         else:
             cut = part.copy()
         meas = check(c.get("light_of") or c["id"], cut)
+        meas_of[c["id"]] = meas
         all_ok &= meas["ok"]
         m = cut.copy()
         m.apply_transform(rot_up(c["up"]))
@@ -308,6 +381,23 @@ def main():
             c["id"], c["file"], rec["volume_cm3"], rec["footprint_mm"][0], rec["footprint_mm"][1],
             rec["height_mm"], rec["bodies"], "OK" if meas["ok"] else "FAILED",
             {k: v for k, v in meas.items() if k != "ok"}))
+    # T1 stack: the washers from the fastener schedule plus the measured T1b and T1w, against what the robot clamps
+    tb, tw, te = meas_of.get("T1b", {}), meas_of.get("T1w", {}), meas_of.get("T1", {})
+    if tb.get("thickness") and tw.get("thickness") and te.get("pilot_depth"):
+        printed = max(tb["thickness"]) + max(tw["thickness"])
+        stack = ES["t"] + printed
+        eng = ES["L"] - stack
+        st = dict(washers="%d x %.1f mm, BOM 17l (fasteners.json %s)" % (ES["n"], ES["each"], ", ".join(ES["ids"])),
+                  washer_mm=ES["t"], bulb_mm=max(tb["thickness"]), head_wall_mm=max(tw["thickness"]),
+                  stack_mm=round(stack, 2), robot_stack_mm=round(STACK, 2), screw=ES["spec"], screw_mm=ES["L"],
+                  engaged_mm=round(eng, 2), schedule_engaged_mm=ES["e"],
+                  tip_gap_mm=round(min(te["pilot_depth"]) - eng, 2), schedule_tip_gap_mm=ES["tip_gap"])
+        st["ok"] = abs(stack - STACK) < 0.05 and abs(printed - ES["near"]) < 0.05 and abs(eng - ES["e"]) < 0.05
+        man["t1_stack"] = st
+        all_ok &= st["ok"]
+        print("T1 stack: washers %.1f + bulb %.2f + head wall %.2f = %.2f mm (robot %.2f); M2.5x%g engages %.2f mm, tip %.2f mm "
+              "short of the pilot floor; check %s" % (ES["t"], st["bulb_mm"], st["head_wall_mm"], stack, STACK, ES["L"], eng,
+                                                     st["tip_gap_mm"], "OK" if st["ok"] else "FAILED"))
     json.dump(man, open(os.path.join(out, "manifest.json"), "w"), indent=1)
     if not all_ok:
         sys.exit("a coupon check failed: the cut does not hold the feature it should")

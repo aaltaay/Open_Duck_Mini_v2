@@ -22,14 +22,25 @@ For altaay_lab/viewer/make_viewer_data.py and the exploded parts-check page. Dat
 - Colours: `cables[].colors` is one hex colour per conductor in netlist order (red, black, yellow, ...); `color` is the
   first. Kit servo cables are `#b8c4cc` (their real colours are not published). A multi-conductor run can be drawn as
   one thin tube per conductor around the centreline (render_cables.py, `c3d_lib.bundle_tubes`).
-- Status: `check` is one of "pass", "pass with notes", "fail"; reasons in `findings`; numbers in `length_*_mm`,
-  `cut_mm`, `worst_mm`, `required_mm`, `margin_mm`.
+- Status: `check` is one of "pass", "pass with notes", "test fit", "fail"; reasons in `findings`; numbers in
+  `length_*_mm`, `cut_mm`, `worst_mm`, `required_mm`, `margin_mm`. "test fit": the cable reaches (cut over the worst
+  routed length) but has less than the 2 x 20 mm slack, so the TEST_PLAN.md 1.4 test fit decides (VERIFICATION.md C3
+  WARN; now D12, S2 and S7, fixed-length parts); "fail": it cannot reach. Show "test fit" as a warning, not a failure.
 
 ## Ties, seats and seated parts
 - `retention[]`: one visible part each. `center_mm` is world at the zero pose; `p` is the same point in `link`'s frame
   (move it with that link). `axis` is the cable direction: draw a ring of diameter `bundle_d_mm` + 1.6 mm around it.
-  `kind` is "existing printed feature", "adhesive tie mount" or "cable tie"; `gap` is true when the stock CAD has no
-  anchor there (stick-on mount proposed, or a free-air bundle tie). `tie` names the tie size for the BOM count.
+  `kind` is "existing printed feature", "adhesive tie mount", "drilled printed feature" (two 4.0 mm tie holes
+  drilled after printing, record `tie_holes`), "cable tie to a neighbour cable" (`tied_to`, `anchor_tie`) or "cable
+  tie" (free air); `gap` is true when the stock CAD has no anchor there. `tie` names the tie size for the BOM count:
+  one tie per item.
+- Mount parts (D25): `mount_fit.type` is "MB3A" (BOM line 34) or "ABM1M" (BOM line 34b, Panduit ABM1M-AT-C), or null
+  (no fit: the point is `open`); `mount_fit.on_servo_case` marks a mount on an STS3215 case. Count the two types on
+  separate rows. One item = one tie = at most one mount: a point that shares a nearby anchor is merged into that item
+  (`also_holds` lists the merged points), so ids have gaps.
+- `hold` = "bundle tie, test fit" (with `test_fit`: true and kind "cable tie"): no anchor fits, a tie round the bundle
+  only, checked at the TEST_PLAN 1.4 test fit (D25); `plan` says so. `open`: true would mean nothing holds the point and
+  no plan is set (none now).
 - `cables[].seats[]` and `runs[].seats[]`: where the cable meets a printed part (hole, channel, edge, none) with
   `center_mm`, `axis`, `part`, `point_index` into that run's points.
 - `terminals[]`: the six parts seated by this work (xt30, amp, speaker, led_1, led_2, led_3): `center_mm`,

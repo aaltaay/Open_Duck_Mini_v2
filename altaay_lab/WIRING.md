@@ -1,6 +1,6 @@
 # WIRING: Open Duck Mini v2, altaay-lab build
 
-Last updated: 2026-11-02 (America/New_York). Follows the wiring decisions D8 to D13, D15, D17 and D23 in DECISIONS.md (D15 replaced D14; D23, the ankle second feeds, 2026-11-02).
+Last updated: 2026-11-02 (America/New_York). Follows the wiring decisions D8 to D13, D15, D17, D23 and D25 in DECISIONS.md (D15 replaced D14; D23, the ankle second feeds, 2026-11-02; D25, cable retention and twist, 2026-11-02).
 
 Source of truth: wiring/netlist.yaml (every part, pin, wire, colour, cut length and expected current; schema at the top of the file). Generated from it:
 - Drawings: wiring/sheets/WIRING_SHEETS.md, five A3 sheets (power, servo bus, Pi and sensors, head expression, harness overview) made by wiring/sheets/make_sheets.py; the run stops if any netlist wire is not drawn in full.
@@ -24,7 +24,7 @@ All drawings show the robot seen from behind: robot left is on the left.
 | 3 | BMS: Tenergy P/N 32175 (board RYD-02S-032). 10 A working, over-current detect 22 +/- 5 A, loop 25 mOhm max, 34 x 16 x 4.5 mm, no balancing | | | pads from the Tenergy product image: B-, B1 (mid tap), B+, P-, P+, T (NTC output) | [L] D10 |
 | 4 | BMS P+ / P- | USB-C charger B+ / B- | P4 / P5 20 AWG | Adeept B0BJTW4QBR, solder | [U] |
 | 5 | BMS P+ / P- | XT30U female + / - | P6 / P8 16 AWG | Amass XT30U, solder cups | [U] |
-| 6 | XT30U male + | fuse holder lead 1, lead 2 to 2815 VIN | P7: the 2 holder leads (16 AWG, 90 mm each), lengthened with 16 AWG red at splices JFI (20 mm) and JFO (40 mm) | Littelfuse 0287015.PXCN 15 A ATO in FHAC0001ZXJ (50 x 17.2 x 17.2 mm) | [L] D3 |
+| 6 | XT30U male + | fuse holder lead 1, lead 2 to 2815 VIN | P7: the 2 holder leads (16 AWG, 90 mm each), lengthened with 16 AWG red at splices JFI (30 mm) and JFO (40 mm) | Littelfuse 0287015.PXCN 15 A ATO in FHAC0001ZXJ (50 x 17.2 x 17.2 mm) | [L] D3 |
 | 7 | XT30U male - | splice G | P14 16 AWG | solder splice, heat shrink | [L] |
 | 8 | Pololu 2815 VOUT | splice VSW (switched pack, 6.0 to 8.4 V) | P9 16 AWG | solder in the large hole | [L] D8 |
 | 9 | 2815 SW pad + its GND pad (pair marked with a switch symbol) | stock panel switch SW2 in the body_back cutout | P15 26 AWG x2 | solder lugs; use the 2 lugs that close when ON [I] | [L] D8 |
@@ -70,7 +70,7 @@ Why: the adapter schematic marks "MAX:6A" at the servo header (all servo current
 
 - Adapter: H3 and H5 get a Molex 50-37-5033 housing with only D and G (V position empty). H1 screw terminal NOT connected. Jumper on B (USB). Its 3.3 V logic runs from USB VBUS through diodes (Waveshare schematic). Bench check: the adapter must enumerate and drive the bus with H1 unpowered.
 - H3 and H5 are in parallel and the board does not print which socket is which [I], so either socket can take either lead.
-- Each first-servo housing has one wire per terminal; the two grounds are spliced before the housing (JG20, JG30, JG10).
+- Each first-servo housing has one wire per terminal; the two grounds are spliced before the housing (JG20, JG30, JG10) on a 30 mm tail, so the 15 mm splice sleeve sits past the bend at the plug exit (CABLE_MAP.md, splice tails). On the adapter H3 lead the ground Y splice YG3 sits 15 mm past the data Y splice YD3 (stem 45 mm and 30 mm), so the two sleeves do not overlap.
 - Ports: in on BUS 2, out on BUS 1 (Tnkr). ID 33 has BUS 1 free; 24 and 14 take SP4 and SP5 on BUS 1. Kit cable: 5264-3P, 150 mm, 1:1, gauge not published (as shipped). S1, S6 and S14 are gone.
 - Port pins (Feetech STS3215 sheet item 6-7): 1 GND, 2 Vcc, 3 signal, V in the middle. The Waveshare adapter numbers its sockets from the other end (1 D, 2 V, 3 G). Copy a kit cable housing for every made lead and check it with a meter.
 - Bus data and bus power share the servo ground; the data line is 3.3 V logic from the adapter buffers.
@@ -110,15 +110,20 @@ Eyes and antennas are swapped compared with the upstream assembly_guide pin tabl
 - BNO055 3VO and RST, MAX98357A GAIN and SD: not connected [U]. Speaker: Same Sky CMS0361KLX, 8 ohm, 2 W, on the amp + and - (D11).
 - IMU and the BEC: the walk script (scripts/v2_rl_walk_mujoco.py) uses raw_imu.py, which sets NDOF mode, and the policy reads only the raw gyro and accelerometer, so the BEC near the IMU does not affect the policy inputs [U code].
 
-## 4. Wire gauges and expected current (sim pass only, sim/CURRENT_BUDGET.md, pack at 7.4 V)
+## 4. Wire gauges and expected current (sim pass only; the netlist source field of each wire names its source)
+
+Mean and worst 100 ms of the power rows: sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners; SP rows: VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (the larger of the conductors of each cable); falls: sim/CURRENT_BUDGET.md at a 7.4 V pack. Copied into wiring/netlist.yaml on 2026-11-02 from the sim run on the netlist at sha256 44c0e8ea30.
 
 | Run | Mean | Worst 100 ms | Fall, 20 ms | Gauge |
 |---|---|---|---|---|
-| Pack path P1, P2, P6, P7, P8, P14, P9 | 4.2 A | 7.5 A | up to 17 A | 16 AWG |
-| BEC input P10 | 3.75 A | 5.62 A | 14.6 A | 16 AWG |
-| BEC output P11 (bus current) | 3.19 A | 4.78 A | 12.5 A | 16 AWG; ngspice: 8.3 to 9.1 A peaks |
-| SP1, SP2, SP3 | not simulated per branch | | | 22 AWG (terminal limit) |
-| SP4, SP5 (D23) | about 1.0 A | about 1.5 A | about 2.9 A | 22 AWG; sim/POWER_FIX.md ngspice, our build, nominal pack |
+| Pack path P1, P2, P6, P7, P8, P14, P9 | 5.66 A | 7.04 A | up to 17 A | 16 AWG |
+| BEC input P10 | 4.77 A | 6.23 A | 14.6 A | 16 AWG |
+| BEC output P11 (bus current, the joined pair to SPV and SPG) | 4.25 A | 5.56 A | 12.5 A | 16 AWG; each of the two BEC leads 2.13 A mean, 2.78 A worst 100 ms (equal split); ngspice: 8.3 to 9.1 A peaks |
+| SP1, left leg first feed (V, G to JG20, tail) | 0.85 A | 1.64 A | | 22 AWG (Molex 08-70-1040: 3.0 A at 22 AWG) |
+| SP2, right leg first feed | 0.84 A | 2.22 A | | 22 AWG |
+| SP3, neck feed | 0.85 A | 1.52 A | | 22 AWG |
+| SP4, left ankle second feed (D23) | 1.15 A | 1.98 A | | 22 AWG |
+| SP5, right ankle second feed (D23) | 1.18 A | 2.11 A | | 22 AWG |
 | 5 V feed P13 (neck) | 0.48 A | 1.91 A | | 20 AWG |
 | 5 V out P12 | 0.6 A | 2.4 A | | 20 AWG |
 | P17 to the SG90s and amp | | 1.9 A [I] | | 20 AWG |
@@ -150,3 +155,4 @@ Real servos may draw up to 2 x the sim numbers until a bench log exists (CURRENT
 7. Feet (D17): fit SS-01 if it was in stock, else SS-10; with R4 and R5 a closed foot carries about 1.5 mA. Check both feet read reliably (feet_contacts.py prints them) over a long stand and walk.
 8. If you run code other than Runtime 376de65, check the eye, antenna and foot pins against it.
 9. Second feeds (D23): at ID 24 and ID 14 BUS 1 the V and G cavities beep to SPV and SPG and the data cavity is empty.
+10. Twisted cables (D25): SP3, SP4, SP5, P13, D2, D3, D4, D6, D10 and SD1 branch b are twisted at the lay HARNESS_BUILD.md gives for each (8 to 16 x the bundle OD, NASA-STD-8739.4A 7.2.16 to 7.2.18), 20 mm untwisted at each end; their cuts carry the take-up. The other made cables are too short for one lay or are not a pair (reason per cable in wiring/netlist.yaml 'twist'); kit cables stay as shipped.

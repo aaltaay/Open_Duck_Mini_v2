@@ -1,0 +1,32 @@
+{
+ "source": "d23: sim/POWER_PATH_SIM.md section 'As built: D15 star plus the D23 ankle feeds SP4 and SP5' (agent PWR, about 2:05 AM ET), results table and the table 'Why the as-built numbers differ', last row; none: sim/POWER_FIX.md table 'The options' row 1 (agent PW) and the POWER_PATH_SIM.md 'Before' and star rows. Read 2026-11-02 2:27 AM ET by the bench agent (SW); d23 values refreshed 2026-11-02 about 6:16 AM ET by agent SFX from the as-built re-run on the netlist after agent CAB's later cut changes (sha256 0f4af5bff3).",
+ "sim_pass_only": true,
+ "metric": "ngspice, walk with the backlash model, 10 to 16 s, worse of the trained-mass and our-build traces unless noted. *_pct: share of the walk under 6.0 V counted in time, worst servo of the group (%). ankle_min: lowest ankle voltage (V). lowest_v: lowest voltage of any servo (V). null: not in the source.",
+ "feeds": {
+  "d23": "as built: D15 star plus the second feeds SP4 and SP5 into BUS 1 of IDs 24 and 14 (DECISIONS.md D23)",
+  "none": "D15 star wiring without the second feeds (POWER_FIX option 1)"
+ },
+ "cases": {
+  "nominal": {
+   "d23": {
+    "typical": {"ankle_min": 5.70, "ankle_pct": 6.4, "knee_pct": 9.8, "head_roll_pct": 6.8, "lowest_v": 5.58},
+    "high_side": {"ankle_min": 5.33, "ankle_pct": 21.4, "knee_pct": 31.1, "head_roll_pct": 33.5, "lowest_v": 4.88}
+   },
+   "none": {
+    "typical": {"ankle_min": 5.03, "ankle_pct": 23.9, "knee_pct": null, "head_roll_pct": 3.8, "lowest_v": 5.03},
+    "high_side": {"ankle_min": 3.44, "ankle_pct": 67.0, "knee_pct": null, "head_roll_pct": 29.0, "lowest_v": 3.44}
+   }
+  },
+  "full": {
+   "d23": {
+    "typical": {"ankle_min": null, "ankle_pct": 0.0, "knee_pct": 0.0, "head_roll_pct": 0.0, "lowest_v": 6.52},
+    "high_side": {"ankle_min": null, "ankle_pct": 0.0, "knee_pct": 0.2, "head_roll_pct": 0.1, "lowest_v": 5.91}
+   },
+   "none": {
+    "typical": {"ankle_min": 5.99, "ankle_pct": 0.0, "knee_pct": null, "head_roll_pct": null, "lowest_v": 5.99},
+    "high_side": {"ankle_min": 4.40, "ankle_pct": 14.0, "knee_pct": null, "head_roll_pct": null, "lowest_v": 4.40}
+   }
+  }
+ },
+ "notes": "d23 ankle_min is the trained-mass trace only (the as-built table gives our build's lowest servo, not its ankle). none: ankle numbers are POWER_FIX row 1 (worse of both masses); head roll from the POWER_PATH_SIM 'Before' rows (trained mass); full pack from the star rows (trained mass, time below 6 V 0.00 s and 0.84 s of 6 s). The 30 and 34 % of sim_profiles_summary.json are the star wiring sampled at 50 Hz in phase with the control updates, not time."
+}

@@ -1,7 +1,9 @@
 """C4a and C4b: every screw in altaay_lab/fasteners/fasteners.json (fasteners agent) against the BOM and the joint ranges.
 
 C4a  every fitted screw has a BOM line that exists in BOM.md (or the servo / SG90 bag it ships in), its size and length
-     are what that line buys, and the count per line is covered by Buy and equals Need
+     are what that line buys, and the count per line is covered by Buy and equals Need; for a kit line, the count per
+     size the line states ("50 each of M2x4, M2x5, ...", "50 pcs of each size") covers the schedule size by size (WARN
+     when the line states no count per size)
 C4b  no head or tip collision over the joint ranges (the sweep in fasteners.json, sweep_fasteners.py) except known,
      decided ones (D18: the outer hip roll screw is left out)
 Usage: VERIFY_OUT=<folder outside the repo> python3 altaay_lab/verify/c4_fasteners.py
@@ -28,11 +30,50 @@ def size_len(spec):
     return (m.group(1), float(m.group(2))) if m else (None, None)
 
 
+def size_key(size, L):
+    return "%sx%g" % (size, L)
+
+
+def expand_sizes(txt):
+    """'M2x4, M2x5, M2x6, M2x8 and M2.6x6, x8, x10, x12' -> ['M2x4', ..., 'M2.6x6', 'M2.6x8', 'M2.6x10', 'M2.6x12']
+    (a bare 'x8' takes the diameter of the size before it)."""
+    out, d = [], None
+    for tok in re.findall(r"\b(M\d(?:\.\d)?)?x(\d+(?:\.\d)?)\b", txt or ""):
+        d = tok[0] or d
+        if d:
+            out.append(size_key(d, float(tok[1])))
+    return out
+
+
+def kit_counts(b):
+    """How many of each size one kit holds, read from the BOM line text: '50 each of M2x4, M2x5, ...' (sizes named) and
+    '50 pcs of each size' (applies to the sizes named in the kit description, before 'Used'). Returns
+    ({size: count}, [quotes], [problems]); an empty dict when the line states no count per size."""
+    text = " | ".join(b.get(k, "") for k in ("Item", "Spec", "Verified"))     # '|' ends a size list at a column edge
+    desc = re.split(r"\bUsed\b", b.get("Item", "") + " " + b.get("Spec", ""))[0]
+    counts, quotes, probs = {}, [], []
+    for m in re.finditer(r"\b(\d+)\s+each\s+of\s+(.+?)(?=;|:|\||\.\s|\.$|$)", text):
+        sizes = expand_sizes(m.group(2))
+        quotes.append(m.group(0).strip())
+        for s in sizes:
+            if s in counts and counts[s] != int(m.group(1)):
+                probs.append("%s: %d and %s in the line" % (s, counts[s], m.group(1)))
+            counts[s] = int(m.group(1))
+    for m in re.finditer(r"\b(\d+)\s+(?:pcs|pieces)\s+(?:of\s+)?each\s+size\b", text):
+        quotes.append(m.group(0).strip())
+        for s in (list(counts) or expand_sizes(desc)):
+            if s in counts and counts[s] != int(m.group(1)):
+                probs.append("%s: %d and %s in the line" % (s, counts[s], m.group(1)))
+            counts.setdefault(s, int(m.group(1)))
+    return counts, quotes, probs
+
+
 def c4a(D, bom):
     R = V.Result("C4a", "Every fitted screw has a BOM line, a length that line buys, and a count it covers (fasteners.json vs BOM.md)",
                  "VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py",
                  "Every fitted screw in fasteners.json (servo case screws included): BOM line exists, size and length match the "
-                 "line's Item and Spec, count per line vs Need and Buy, screws with no line; washers and other new items",
+                 "line's Item and Spec, count per line vs Need and Buy, per size for a kit (the count per size its line "
+                 "states, e.g. '50 each of'), screws with no line; washers and other new items",
                  "Servo and SG90 bag contents by size (B2, test order TO1 and TO6), thread engagement (fasteners agent), stock "
                  "at order time")
     R.inp(FJ, V.lab("BOM.md"))
@@ -68,6 +109,7 @@ def c4a(D, bom):
         R.find("FAIL", "%d fitted screws have no BOM line: %s" % (sum(n for _, n in unmatched), "; ".join("%d x %s" % (n, s) for s, n in unmatched)),
                fix="add a BOM.md line for each, or change the screw to a length the BOM buys", where="altaay_lab/BOM.md")
     bag_lines = {"1": "STS3215 servo bag (18 screws per servo, B2)", "14": "SG90 bag"}
+    kit_note = []
     for line, fs in sorted(by_line.items(), key=lambda kv: kv[0]):
         if line not in bom:
             R.find("FAIL", "%d screws name BOM line %s, which is not in BOM.md" % (len(fs), line))
@@ -104,8 +146,46 @@ def c4a(D, bom):
                    fix="BOM.md line %s: Need %d (fasteners.json count)%s" % (line, len(fs), "; and state how many of each size the kit holds" if pack == "kit" else ""),
                    where="altaay_lab/BOM.md line %s" % line)
         if pack == "kit":
-            R.find("WARN", "line %s is a kit: how many of each size it holds is not in BOM.md, so %d screws (%s) cannot be checked against it"
-                   % (line, len(fs), dict(specs)), fix="write the kit's count per size into BOM.md line %s" % line)
+            per, quotes, probs = kit_counts(b)
+            nkit = buy or 1
+            if not per:
+                R.find("WARN", "line %s is a kit: how many of each size it holds is not in BOM.md, so %d screws (%s) cannot be checked against it"
+                       % (line, len(fs), dict(specs)), fix="write the kit's count per size into BOM.md line %s" % line)
+                kit_note.append("kit %s holds an unstated count per size" % line)
+                continue
+            for p_ in probs:
+                R.find("FAIL", "line %s states two counts for one size: %s" % (line, p_), where="altaay_lab/BOM.md line %s" % line)
+            used, short_, missing = [], [], []
+            for s, n in sorted(specs.items(), key=lambda kv: -kv[1]):
+                size, L = size_len(s)
+                k = size_key(size, L) if size else s
+                if k not in per:
+                    missing.append("%d x %s" % (n, s))
+                    continue
+                used.append("%s %d of %d" % (k, n, per[k] * nkit))
+                if n > per[k] * nkit:
+                    short_.append("%s: the schedule fits %d, %g kit(s) hold %d" % (k, n, nkit, per[k] * nkit))
+            R.ev("line %s kit, count per size from the line text (%s): %s" % (line, "; ".join("'%s'" % q for q in quotes), ", ".join(used) or "none"))
+            for x in short_:
+                R.find("FAIL", "line %s kit is short: %s" % (line, x), fix="BOM.md line %s: buy more kits or a second line for that size" % line,
+                       where="altaay_lab/BOM.md line %s" % line)
+            if missing:
+                R.find("FAIL", "line %s kit does not hold %s (sizes in the kit: %s)" % (line, ", ".join(missing), ", ".join(sorted(per))),
+                       fix="BOM.md: a line that buys that size", where="altaay_lab/BOM.md line %s" % line)
+            # Need per size, when the line writes it ('30 (M2x5 22, M2x4 6, M2x8 2)'), against the schedule
+            need_sz = {size_key(m.group(1), float(m.group(2))): int(m.group(3))
+                       for m in re.finditer(r"\b(M\d(?:\.\d)?)x(\d+(?:\.\d)?)\s+(\d+)\b", b["Need"] or "")}
+            sched_sz = Counter()
+            for s, n in specs.items():
+                size, L = size_len(s)
+                sched_sz[size_key(size, L) if size else s] += n
+            if need_sz and need_sz != dict(sched_sz):
+                R.find("WARN", "line %s Need by size %s, the schedule fits %s" % (line, need_sz, dict(sched_sz)),
+                       fix="BOM.md line %s Need: %s" % (line, ", ".join("%s %d" % kv for kv in sched_sz.items())),
+                       where="altaay_lab/BOM.md line %s" % line)
+            kit_note.append("kit %s holds %s per size by its line text, enough for %s" % (
+                line, "/".join(str(v) for v in sorted(set(per.values()))), ", ".join(used)) if not (short_ or missing)
+                else "kit %s is short or lacks a size (see FAIL)" % line)
     others = [b for b in D.get("bom", []) if b.get("line") == "new"]
     screw_specs = {f["spec"] for f in no_line}
     for b in others:
@@ -119,9 +199,9 @@ def c4a(D, bom):
     nl = sum(len(v) for v in by_line.values())
     off = sorted({re.search(r"line (\w+)", f["text"]).group(1) for f in R.d["findings"] if f["sev"] == "FAIL" and re.search(r"^line \w+", f["text"])})
     R.key("%d fitted screws and %d inserts; %d screws name no BOM line in fasteners.json (BOM.md buys %d of them); Need differs "
-          "from the schedule on lines: %s; kit 17h holds an unstated count per size" % (
+          "from the schedule on lines: %s; %s" % (
               len(fit), sum(1 for f in F if f["kind"] == "insert"), len(no_line), len(no_line) - sum(n for _, n in unmatched),
-              ", ".join(off) or "none"))
+              ", ".join(off) or "none", "; ".join(kit_note) or "no kit line"))
     ins = [f for f in F if f["kind"] == "insert"]
     R.ev("inserts: %d in fasteners.json, BOM 16 Need %s" % (len(ins), bom["16"]["Need"]))
     if len(ins) != V.num(bom["16"]["Need"]):

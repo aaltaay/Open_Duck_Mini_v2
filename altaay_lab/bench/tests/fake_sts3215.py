@@ -17,7 +17,10 @@ Model (test model, not a datasheet model):
     register 40, yet robots stand up, so the real servo must do this or start with torque on).
   - position follows the goal at up to 3400 steps/s (BAM default_max_velocity, SERVO_DEEP_DIVE
     E5); if register 85 is not 0 the speed ramps at reg85 x 40 steps/s^2 (slow, like G1).
-  - Present Voltage = floor(10 x V) from a constant or a time profile per servo ID.
+  - Present Voltage = floor(10 x V) from a constant or a time profile per servo ID, optionally
+    minus a dip that starts at each Goal Position write (goal_dip = (volts, seconds)): a voltage
+    locked to the control loop, like the current peak after each 50 Hz command (sim/POWER_FIX.md).
+    goal_times keeps the time of every goal write so a test knows the exact time under a level.
   - Present Current from speed and an optional external torque (load rig, D2 thermal test),
     with the servo's own over-current unload (registers 28 and 35, like TEST_PLAN 7.4).
   - temperature: first order, T_ss = ambient + k x I^2.
@@ -135,6 +138,8 @@ class FakeServo:
         self.ext_torque_nm = 0.0                   # load rig torque while holding
         self.volts = volts
         self.profile = None
+        self.goal_dip = None                       # (volts, seconds): dip after each goal write
+        self.goal_times = []                       # monotonic time of each goal write
         self.i_ext = None                          # forced current profile (callable now -> A)
         self.temp_profile = None                   # forced temperature (callable now -> C), tests
         self.over_i_since = None
@@ -150,11 +155,14 @@ class FakeServo:
         self.mem[a], self.mem[a + 1] = v & 0xFF, v >> 8
 
     def supply(self, now):
+        v = None
         if self.profile is not None:
             v = self.profile.at(self.mem[5], now)
-            if v is not None:
-                return v
-        return self.volts
+        if v is None:
+            v = self.volts
+        if self.goal_dip and self.goal_times and 0.0 <= now - self.goal_times[-1] < self.goal_dip[1]:
+            v -= self.goal_dip[0]
+        return v
 
     def update(self, now):
         with self.lock:
@@ -229,6 +237,8 @@ class FakeServo:
             if addr <= 42 < addr + len(data) or addr <= 43 < addr + len(data):
                 self.mem[40] = 1                    # goal write turns torque on (see module doc)
                 self.mem[65] &= ~0x28 & 0xFF
+                if len(self.goal_times) < 200000:
+                    self.goal_times.append(now)
             if addr <= 40 < addr + len(data) and self.mem[40] == 1:
                 self.mem[65] &= ~0x28 & 0xFF
 
@@ -361,11 +371,11 @@ class FakeBus:
     def _handle(self, pkt, t_rx):
         sid, inst, params = pkt[2], pkt[4], pkt[5:-1]
         self.counts[inst] = self.counts.get(inst, 0) + 1
-        now = time.monotonic()
         t = self._wait_bytes(len(pkt), t_rx) + self.usb_latency_s
         if self.usb_latency_s:
             while time.monotonic() < t:
                 time.sleep(0.0001)
+        now = time.monotonic()        # with wire timing: when the packet's last byte has arrived
         if inst == SYNC_READ:
             addr, ln, ids = params[0], params[1], params[2:]
             for i in ids:

@@ -6,8 +6,10 @@ Molex 08-70-1040 terminal. Extends audit/erc.py (which checks the crimp gauge ra
      V position empty at the adapter (D15)
   c. counts: housings and crimp terminals in the netlist vs BOM.md lines 21 and 22 (Need), CABLE_MAP.md and WIRING.md
   d. kit cables used vs kit cables shipped (one per servo, BOM line 1)
-  e. crimp ends: gauge in 22 to 28 AWG (from the erc.py report of E1, not re-checked) and insulation outer diameter vs
-     the terminal ([I] 08-70-1040 insulation max 1.9 mm, Farnell listing via search index, 2026-11-02; Molex sheet not read)
+  e. crimp ends vs the Molex 08-70-1040 terminal data written in CABLE_MAP.md 'Connector parts' (Molex catalog page MX01
+     B-101 and the Molex 0008701039 part sheet, URLs and read times there): wire gauge in the listed AWG sizes, wire
+     insulation outer diameter (BNTECHGO OD + 0.1 mm tolerance) <= the insulation maximum, and every simulated current on
+     a crimped wire (netlist i_mean_a, i_peak_a) <= the terminal current for its gauge
   f. pin groups that are connectors with no wire and not marked nc
 Usage: VERIFY_OUT=<folder outside the repo> python3 altaay_lab/verify/c2_connectors.py [--selftest]
 """
@@ -43,8 +45,30 @@ CLASSES = [  # class, connector text pattern, allowed end patterns
     ("axial lead", r"axial leads", [r"resistor lead", r"^solder$"]),
     ("LED lead", r"LED bead leads", [r"LED lead", r"^solder$"]),
 ]
-INS_MAX = 1.9          # mm, [I] 08-70-1040 insulation diameter max (Farnell listing via search index)
 OD = {"22 AWG": 1.7, "24 AWG": None, "26 AWG": 1.5, "28 AWG": None}   # BNTECHGO silicone, cables3d/route_cables.py sources
+
+
+def molex_terminal(text):
+    """08-70-1040 data from CABLE_MAP.md 'Connector parts': {awg: [..], ins_max, amps: {awg: A}, sources: [...], read}"""
+    m = re.search(r"Molex 08-70-1040 terminal data(.*?)(?:\n\n|$)", text, re.S)
+    if not m:
+        return None
+    t = m.group(1)
+    out = {}
+    g = re.search(r"wire ((?:\d+, )*\d+ and \d+) AWG", t)
+    out["awg"] = [int(x) for x in re.findall(r"\d+", g.group(1))] if g else []
+    i = re.search(r"insulation diameter ([\d.]+) mm max", t)
+    out["ins_max"] = float(i.group(1)) if i else None
+    out["amps"] = {int(a): float(v) for v, a in re.findall(r"([\d.]+) A on (\d+)", t)}
+    lst = re.search(r"current [\d.]+ A on 22 AWG \(([^)]*)\)", t)
+    if lst:
+        for v, a in re.findall(r"([\d.]+) A on (\d+)", lst.group(1)):
+            out["amps"][int(a)] = float(v)
+        for v, a in re.findall(r"([\d.]+) A on (\d+) AWG", lst.group(1)):
+            out["amps"][int(a)] = float(v)
+    out["sources"] = re.findall(r"https?://[^\s,;)]+", t)
+    out["read"] = re.findall(r"read (\d{4}-\d\d-\d\d [\d:]+ [AP]M ET)", t)
+    return out
 
 
 def klass(conn):
@@ -165,22 +189,46 @@ def main():
     R.ev("kit cables used %d (%s) of %d shipped (one per servo, BOM line 1)" % (len(kit), ", ".join(kit), shipped))
     if len(kit) > shipped:
         R.find("FAIL", "more kit cables used than shipped")
-    # e. crimps: gauge from E1 (erc.py), insulation diameter here
+    # e. crimps vs the Molex terminal data in CABLE_MAP.md
+    mx = molex_terminal(cm)
     g = Counter(w["gauge"] for w, _ in res["crimp_rows"])
-    R.ev("crimp ends by gauge: %s (gauge range 22 to 28 AWG checked by erc.py, E1: 0 crimp findings)" % dict(g))
+    R.ev("crimp ends by gauge: %s" % dict(g))
+    if not mx or not mx["awg"] or mx["ins_max"] is None or not mx["amps"] or not mx["sources"] or not mx["read"]:
+        R.find("WARN", "CABLE_MAP.md 'Connector parts' has no complete Molex 08-70-1040 terminal data (gauges, insulation "
+               "maximum, current, source URL and read time): %s" % mx,
+               fix="write the Molex 5263 / 08-70-1040 values with the URL and read time into CABLE_MAP.md 'Connector parts'",
+               where="altaay_lab/CABLE_MAP.md")
+        mx = mx or {}
+    else:
+        R.ev("08-70-1040 data from CABLE_MAP.md: wire %s AWG, insulation %.2f mm max, current %s A by AWG; sources %s (read %s)" % (
+            ", ".join(map(str, mx["awg"])), mx["ins_max"], ", ".join("%d: %.1f" % (a, v) for a, v in sorted(mx["amps"].items())),
+            ", ".join(mx["sources"]), "; ".join(sorted(set(mx["read"])))))
     for gauge, n in g.items():
+        awg = int(re.match(r"(\d+)", gauge).group(1)) if re.match(r"\d+ AWG", gauge) else None
+        if mx.get("awg") and awg not in mx["awg"]:
+            R.find("FAIL", "%d crimp ends on %s: the 08-70-1040 takes %s AWG" % (n, gauge, mx["awg"]))
         od = OD.get(gauge)
         if od is None:
             R.find("WARN", "%d crimp ends on %s: no insulation diameter on file" % (n, gauge))
-        elif od + 0.1 > INS_MAX:
-            R.find("FAIL", "%s silicone OD %.1f +/- 0.1 mm over the terminal insulation max %.1f mm" % (gauge, od, INS_MAX))
-        else:
-            R.ev("%s silicone OD %.1f +/- 0.1 mm vs 08-70-1040 insulation max %.1f mm ([I] listing via search index): fits, "
-                 "%.1f mm left at the top of the tolerance" % (gauge, od, INS_MAX, INS_MAX - od - 0.1))
-    R.find("WARN", "08-70-1040 insulation range and 3 A rating come from distributor listings read via a search index (Molex "
-           "sheet not read; uk.rs-online.com and octopart.com are outside this session's network)",
-           fix="read the Molex 5263 / 08-70-1040 product sheet and write the insulation range and current rating into "
-               "CABLE_MAP.md 'Connector parts'", where="altaay_lab/CABLE_MAP.md")
+        elif mx.get("ins_max") is not None and od + 0.1 > mx["ins_max"]:
+            R.find("FAIL", "%s silicone OD %.1f +/- 0.1 mm over the terminal insulation max %.2f mm" % (gauge, od, mx["ins_max"]))
+        elif mx.get("ins_max") is not None:
+            R.ev("%s silicone OD %.1f +/- 0.1 mm vs 08-70-1040 insulation max %.2f mm (Molex): fits, %.1f mm left at the top "
+                 "of the tolerance" % (gauge, od, mx["ins_max"], mx["ins_max"] - od - 0.1))
+    over, unsim = [], []
+    for w, ref in res["crimp_rows"]:
+        awg = int(re.match(r"(\d+)", w["gauge"]).group(1)) if re.match(r"\d+ AWG", w["gauge"]) else None
+        lim = (mx.get("amps") or {}).get(awg)
+        cur = [v for v in (w.get("i_mean_a"), w.get("i_peak_a")) if v is not None]
+        if not cur:
+            unsim.append("%s %s" % (w["cable"], ref))
+        elif lim is not None and max(cur) > lim:
+            over.append("%s %s %.2f A > %.1f A" % (w["cable"], ref, max(cur), lim))
+    R.ev("crimped wires with a netlist current: %d checked against the terminal current for their gauge, %d over; %d have no "
+         "per-wire current in the netlist (the servo chain currents through these contacts are checked by C7 from the sim)" % (
+             len(res["crimp_rows"]) - len(unsim), len(over), len(unsim)))
+    for o in over:
+        R.find("FAIL", "crimp contact over the Molex current: %s" % o, where="altaay_lab/wiring/netlist.yaml")
     # f. connector groups with no wire on any pin and not nc
     used = Counter()
     for w in res["wires"]:
@@ -208,7 +256,9 @@ def main():
         if len(R2.fails()) < 2:
             R.find("FAIL", "self-test: the check missed an injected fault")
     R.key("%d wire ends match their connector class; housings %d and terminals %d agree with BOM 21/22, CABLE_MAP, WIRING.md; "
-          "22 AWG OD 1.7 mm vs terminal max 1.9 mm" % (2 * len(res["wires"]), res["housings"], res["crimps"]))
+          "22 AWG OD 1.7 +/- 0.1 mm vs Molex 08-70-1040 insulation max %s mm, gauges %s AWG, %s A at 22 AWG (Molex catalog)" % (
+              2 * len(res["wires"]), res["housings"], res["crimps"], mx.get("ins_max", "?"),
+              ", ".join(map(str, mx.get("awg") or [])) or "?", (mx.get("amps") or {}).get(22, "?")))
     R.write()
 
 

@@ -5,7 +5,9 @@ Usage: python3 altaay_lab/cables3d/check_cables.py --scratch <folder outside the
 Needs the grid cache written by route_cables.py in the same scratch folder.
 
 Checks (rules and sources in CABLES_3D.md):
-1. Length: every wire, cut_mm >= worst routed length over the full URDF range of the joints it crosses + SLACK_MM.
+1. Length: every wire, cut_mm >= worst routed length over the full URDF range of the joints it crosses + SLACK_MM,
+   judged per conductor chain through the floating splices (INLINE); the routed length of a twisted made cable is
+   multiplied by its take-up at the shortest lay (wiring/netlist.yaml cable 'twist', D25).
    SLACK_MM = 2 x 20 mm, the service-slack term of the lab length rule (CABLE_MAP.md); the other terms of that rule
    (2 x 22.6 mm connector tolerance, 10 mm per radian) are replaced here by measured terminals and the joint sweep.
 2. Rub: smallest gap between the cable surface and any part of another link, joints swept one at a time over the
@@ -13,7 +15,8 @@ Checks (rules and sources in CABLES_3D.md):
    cable's own link. Connector zones (8 mm from a run end) are left out.
 3. Bend radius: at every corner of a fixed run, the largest fillet that fits the two adjacent straight pieces,
    against NASA-STD-8739.4A Table 7-1 (harness of AWG 10 or smaller: minimum 3 x OD, optimum 10 x OD). Service loops:
-   radius of the arc that stores the free-span length change.
+   the loop between the two ties of each crossing (seats_ties.py service_loops): bend R = free length / largest joint
+   angle, and length storage R = the cable the loop needs at the farthest pose bowed over the closest tie-to-tie chord.
 4. Connector room: free straight length along each terminal's exit direction, against 3 x OD + OD/2.
 """
 import argparse
@@ -38,6 +41,32 @@ END_ZONE = 8.0          # mm from a run end treated as the connector zone
 
 
 INLINE = {"VSW", "G", "YD3", "YG3", "JG20", "JG10", "JG30", "J5", "JG"}     # floating inline splices
+
+
+def twist_factors():
+    """cable id -> (take-up factor, branch or None) for the twisted made cables (wiring/netlist.yaml cable 'twist': the
+    length a twisted pair needs over the route at the shortest lay, NASA-STD-8739.4A 7.2.16 to 7.2.18 [L]). The factor
+    is put on the whole routed length of each twisted wire (the 2 x 20 mm untwisted ends left in: conservative)"""
+    import yaml
+    net = yaml.safe_load(open(RC.NETLIST))
+    out = {}
+    for cb in net.get("cables", []):
+        tw = cb.get("twist") or {}
+        if tw.get("lay_mm") and tw.get("takeup_max"):
+            m = str(tw.get("wires", ""))
+            out[cb["id"]] = (float(tw["takeup_max"]), m.split()[1] if m.startswith("branch ") else None)
+    return out
+
+
+TWIST = {}
+
+
+def routed(cid, w):
+    """worst routed length of a wire with the twist take-up of its cable (TWIST)"""
+    f, br = TWIST.get(cid, (1.0, None))
+    if br is not None and w.get("branch") != br:
+        f = 1.0
+    return w["length_max_mm"] * f, w.get("length_max_runtime_mm", w["length_max_mm"]) * f
 
 
 def node(pin):
@@ -233,13 +262,14 @@ def loop_radius(c, a):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--scratch", required=True)
+    ap.add_argument("--json", default=RC.OUT_JSON, help="cables3d.json to read and rewrite (default: the lab file)")
     a = ap.parse_args()
     t0 = time.time()
     s = RC.make_scene()
     for jn, j in s.joints.items():
         RC.REV[jn] = (j["lo"], j["hi"])
     g0 = RC.load_grid(s, os.path.abspath(a.scratch))
-    data = json.load(open(RC.OUT_JSON))
+    data = json.load(open(a.json))
     seats = {t["id"]: dict(link=t["link"], center=t["center_mm"], dims=t["dims_xyz_mm"]) for t in data["terminals"]}
     g = g0.overlay([(v["link"], tuple(v["center"]), tuple(v["dims"]), None, k) for k, v in seats.items() if v["center"]])
     trees = link_trees(g)
@@ -250,6 +280,8 @@ def main():
     ends = {e["id"]: e for e in data["cable_ends"]}
     global CHAINS
     CHAINS = chains(data["cables"])
+    TWIST.update(twist_factors())
+    print("twist take-up on the chain lengths: %s" % {k: v[0] for k, v in sorted(TWIST.items())}, flush=True)
     summary = []
     for c in data["cables"]:
         findings = []
@@ -262,8 +294,8 @@ def main():
             res = []
             for ch in mine:
                 cuts = [x["cut_mm"] for _, x in ch]
-                Lmax = sum(x["length_max_mm"] for _, x in ch)
-                Lrt = sum(x.get("length_max_runtime_mm", x["length_max_mm"]) for _, x in ch)
+                Lmax = sum(routed(ci, x)[0] for ci, x in ch)
+                Lrt = sum(routed(ci, x)[1] for ci, x in ch)
                 need = Lmax + SLACK_MM
                 if any(v is None for v in cuts):
                     res.append(dict(chain=["%s:%s>%s" % (ci, x["from"], x["to"]) for ci, x in ch], length_max_mm=round(Lmax, 1),
@@ -427,13 +459,13 @@ def main():
             findings.append("bend: taut route radius %.1f mm < 3 x OD %.1f mm (dress the slack into a wider bend there)" % (
                 bend_min[0], BEND_MIN * od))
         if bad_lp:
+            wl = min(bad_lp, key=lambda x: x["radius_mm"] or 0)
             findings.append("service loop: %d of %d loops cannot reach R >= 3 x OD over the full range (worst %s: free %.0f mm "
-                            "over %.2f rad gives R %.1f mm, needs %.1f mm; route room limits it)%s" % (
-                                len(bad_lp), len(lp), "+".join(min(bad_lp, key=lambda x: x["radius_mm"] or 0)["joints"]),
-                                min(bad_lp, key=lambda x: x["radius_mm"] or 0)["free_mm"],
-                                min(bad_lp, key=lambda x: x["radius_mm"] or 0)["angle_rad"],
-                                min(bad_lp, key=lambda x: x["radius_mm"] or 0)["radius_mm"] or 0,
-                                min(bad_lp, key=lambda x: x["radius_mm"] or 0)["rule_mm"],
+                            "between the ties, bend R %.1f mm over %.2f rad, length storage R %.1f mm (loop %.0f mm over a "
+                            "%.1f mm closest tie-to-tie chord), needs %.1f mm; route room limits it)%s" % (
+                                len(bad_lp), len(lp), "+".join(wl["joints"]), wl["free_mm"], wl.get("radius_bend_mm") or 0,
+                                wl["angle_rad"], wl.get("radius_storage_mm") or 0, wl.get("loop_length_mm") or 0,
+                                wl.get("chord_min_mm") or 0, wl["rule_mm"],
                                 "; within the Runtime head ranges %d fail" % len(bad_rt)))
         cls = [(r_["clearance_min_mm"], r_["clearance_part"], r_["name"], r_.get("clearance_at")) for r_ in c["runs"]
                if r_.get("clearance_min_mm") is not None]
@@ -450,7 +482,17 @@ def main():
         unrouted = [r["name"] for r in c["runs"] if not r.get("routed", True)]
         if unrouted:
             findings.append("no clear path found for run(s) %s (straight placeholder)" % unrouted)
-        c["check"] = "fail" if (worst_fail or unrouted) else ("pass" if not findings else "pass with notes")
+        # verdict: "fail" only when a wire cannot reach (its worst routed length is over its cut) or a run has no path; a
+        # cable that reaches but has less than the 2 x 20 mm slack is "test fit": the TEST_PLAN.md 1.4 test fit at both
+        # joint limits decides, as VERIFICATION.md C3 judges it (WARN). The fixed-length kit cables and the bought camera
+        # FPC cannot be cut longer; a made cable can, and its finding gives the shortfall.
+        cannot = [w for w in c["wires"] if w.get("margin_mm") is not None and w["margin_mm"] < 0 and (w.get("fits_mm") or 0) < 0]
+        if cannot or unrouted:
+            c["check"] = "fail"
+        elif worst_fail:
+            c["check"] = "test fit"
+        else:
+            c["check"] = "pass" if not findings else "pass with notes"
         c["findings"] = findings
         live = [w for w in c["wires"] if w.get("runs") and w.get("cut_mm")]
         if live:
@@ -465,7 +507,7 @@ def main():
     data["meta"]["check"] = dict(script="altaay_lab/cables3d/check_cables.py", slack_mm=SLACK_MM,
                                  bend_rule="NASA-STD-8739.4A Table 7-1: minimum 3 x OD, optimum 10 x OD",
                                  rub_warn_mm=RUB_WARN, generated_utc=time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()))
-    RC.write_json_atomic(data, RC.OUT_JSON)
+    RC.write_json_atomic(data, a.json)
     print("checked %d cables in %.1f s" % (len(summary), time.time() - t0))
 
 

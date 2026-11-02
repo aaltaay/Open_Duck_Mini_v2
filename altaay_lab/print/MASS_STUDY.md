@@ -19,7 +19,7 @@ All numbers [L] (mass_study.py tables and budget). Filament grams include suppor
 
 - **(c) wins back 128.2 g** against today (b), 48 % of the 267.4 g by which the parts the trained CAD also has outweigh it (sim/MASS_BUDGET.md table 3) [L]. Where (sim pass only) [L]: trunk -49.5 g, each thigh -21.7 g, each foot -10.7 g, each hip pitch link -3.6 g, each shin -1.7 g, head -1.6 g, each hip roll link -0.8 g, neck chain 0 g. The feet end 2.7 g over the trained model (13.4 g today), the thighs 20.9 g (42.6 g today).
 - **Centre of mass** (home pose, trunk frame, sim pass only) [L]: today (-28.1, 0.5, 47.0) mm, (c) (-27.6, 0.4, 49.8) mm, trained (-25.6, -0.6, 44.0) mm. (c) moves it **0.5 mm forward** and 2.9 mm up, because the mass comes off the trunk shells behind it and the legs below it. It sits 2.3 mm ahead of the foot sites (today 1.7 mm, trained 4.2 mm), about 1.0 mm ahead of the ankle servo axes.
-- **Walking** (sim pass only, the sim agent's cases, 6 seeds, rough terrain 18) [L]: (c) is as good as today or better in every case: forward 0.70 of the command (today 0.67, trained 0.73), turn 0.81 (0.79), backlash model 0.90 (0.88), 15 N pushes no falls in either; rough terrain falls as often as today (18 of 18 seeds, mean first fall 11.3 s against 11.4 s); the backward centre of mass margin is unchanged. **The side step stays at 0.25 (today 0.23, trained 0.46)**: no print setting brings it back; even (a) gives 0.25.
+- **Walking** (sim pass only, the sim agent's cases, 6 seeds, rough terrain 18) [L]: (c) is as good as today or better in every case: forward 0.70 of the command (today 0.67, trained 0.73), turn 0.81 (0.79), backlash model 0.90 (0.88), 15 N pushes no falls in either; rough terrain falls about as often as today (16 of 18 seeds against 18 of 18, mean first fall 11.6 s against 11.4 s); the backward centre of mass margin is unchanged. **The side step stays at 0.24 (today 0.23, trained 0.46)**: no print setting brings it back; even (a) gives 0.25. The (c) walk numbers are the re-run on today's 2652.8 g model (Walking section, re-run 2026-11-02 6:02 AM ET).
 - **Why the head stays heavy**: of the parts we could lighten, the head is the one that sits well ahead of the robot centre of mass (51 mm), so lightening it moves the centre of mass back. (d), the light head (2 walls with 21 rings, 48.7 g less), meets every strength and fit rule, but in the sim it costs one step of the backward margin test (about 0.9 mm) and falls sooner on rough terrain (mean first fall 7.7 s) [L]. The backward margin is the narrow side (sim/ADDED_MASS_SIM.md), so (c) keeps the head at today's 4 walls.
 - **What stays heavy**: the head (above); the 5 neck chain parts (5 walls, 40 %, upstream issue 33, G5); the G6 thinnest parts at 3 walls (knee sheets, roll_motor_bottom, antenna holders); the frame, trunk_top and trunk_bottom, as today (both legs and the neck hang from them; light versions would save only 13.1 g); the eyes and speaker_stand (screw pilots, tested profile, under 1 g). All spares keep today's settings.
 - **What changes**: every other part prints at the upstream default of 2 walls and 15 %, and the parts with M3 inserts or screw pilots get a **solid ring round each such hole** (a PrusaSlicer infill modifier) instead of extra walls on the whole part. The G-code puts as much plastic within the rule distance of every ringed hole as today's walls do (Table 1).
@@ -168,14 +168,16 @@ Where the centre of mass moves (home pose, sim pass only) [L]: with the light he
 
 mass_study.py walk imports sim/added_mass_sim.py unchanged (write_variant, run, gait_stats; policy BEST_WALK_ONNX_2, the same cases, seeds and fall rule) and writes model copies for (a), (b), (c) and (d) in the scratch folder. Check [L]: the trained model and (b) reproduce ADDED_MASS_SIM.md tables 1 and 2 on flat ground (trained: forward 0.73, turn 0.82, side 0.46, pushes 6 of 6 fall; ours: forward 0.67, side 0.23, pushes 0 of 6). Rough terrain for (b) moved after the BEC Pro seat fix (nominal fall at 8.64 s against 4.3 s there; seeds 6 of 6 against 5 of 6), which shows how sensitive that case is; 18 seeds are used below for that reason. Model names: stock = trained, ours_b = (b), light_c = (c), light_d = (d), upstream_a = (a).
 
+Re-run 2026-11-02 5:59 to 6:02 AM ET by agent SFX (sim pass only): the (c) column of the two tables below, the (c) rows of the backward margin table and the (c) rough terrain seeds come from `mass_study.py walk` run again on today's model: the (c) slice table of print/SLICE_SUMMARY.md (the D22 print as adopted) and today's netlist, 2652.8 g (sim/MASS_BUDGET.md; 2638.7 g in this study: +14.1 g of wire from the netlist final pass and agent CAB's later cut changes). Why: VERIFICATION.md C8 compares its own walk of the build model with this column; after the cut changes its 15 N pushes run tracked 0.618 against the 0.63 here, past the check's 0.011. Run-to-run change of the nominal runs against the study: forward -0.004, turn -0.004, side -0.001, backlash -0.003, pushes -0.013 (0.631 to 0.618). The same script with the study's own slice table (left_roll_to_pitch support 1.29 against 1.30 g, 0.01 g) gives 0.626 for pushes and 0.237 for side, and the 6 seeded pushes runs span 0.614 to 0.629 (0.617 to 0.638 in the study): a single run moves by up to about 0.01 from tiny model changes, which is run-to-run noise, not a change in the walk. No run fell on flat ground (35 runs). Rough terrain stays chaotic: 16 of 18 seeds fall (18 of 18 in the study), mean first fall 11.6 s (11.3 s); the nominal run falls at 6.86 s (25.78 s). The backward margin runs fall at the same steps as before (fall times within 0.08 s). The trained, (b), (d) and (a) columns and tables 1 to 3 stay the study's run at its inputs.
+
 | Case (nominal run) | trained (stock) | (b) today | (c) proposed | (d) light head | (a) upstream |
 | --- | --- | --- | --- | --- | --- |
-| walk_side_0.2 | 0.47, pitch +0.8 deg | 0.23, pitch +1.0 deg | 0.25, pitch +0.9 deg | 0.25, pitch +0.7 deg | 0.25, pitch +0.6 deg |
+| walk_side_0.2 | 0.47, pitch +0.8 deg | 0.23, pitch +1.0 deg | 0.24, pitch +0.9 deg | 0.25, pitch +0.7 deg | 0.25, pitch +0.6 deg |
 | walk_forward_0.15 | 0.73, pitch +1.6 deg | 0.67, pitch +2.9 deg | 0.70, pitch +2.6 deg | 0.67, pitch +2.1 deg | 0.67, pitch +1.8 deg |
-| turn_1.0 | 0.82, pitch +1.1 deg | 0.78, pitch +2.2 deg | 0.81, pitch +2.1 deg | 0.80, pitch +1.7 deg | 0.80, pitch +1.5 deg |
-| walk_backlash | 0.95, pitch +2.1 deg | 0.88, pitch +4.2 deg | 0.90, pitch +3.6 deg | 0.92, pitch +3.0 deg | 0.94, pitch +2.6 deg |
-| walk_pushes | fell at 10.68 s | 0.60, pitch +3.0 deg | 0.63, pitch +3.0 deg | 0.59, pitch +2.4 deg | 0.61, pitch +2.1 deg |
-| walk_rough_backlash_raised_start | fell at 9.14 s | fell at 8.64 s | fell at 25.78 s | fell at 7.22 s | - |
+| turn_1.0 | 0.82, pitch +1.1 deg | 0.78, pitch +2.2 deg | 0.81, pitch +2.0 deg | 0.80, pitch +1.7 deg | 0.80, pitch +1.5 deg |
+| walk_backlash | 0.95, pitch +2.1 deg | 0.88, pitch +4.2 deg | 0.90, pitch +3.7 deg | 0.92, pitch +3.0 deg | 0.94, pitch +2.6 deg |
+| walk_pushes | fell at 10.68 s | 0.60, pitch +3.0 deg | 0.62, pitch +2.9 deg | 0.59, pitch +2.4 deg | 0.61, pitch +2.1 deg |
+| walk_rough_backlash_raised_start | fell at 9.14 s | fell at 8.64 s | fell at 6.86 s | fell at 7.22 s | - |
 
 Tracking is measured speed over command. Torso pitch is positive nose down.
 
@@ -183,7 +185,7 @@ Tracking is measured speed over command. Torso pitch is positive nose down.
 | --- | --- | --- | --- | --- |
 | walk_side_0.2 | trained (stock) | 0 of 6 | - | 0.46 (0.42 to 0.47) |
 | walk_side_0.2 | (b) today | 0 of 6 | - | 0.23 (0.23 to 0.24) |
-| walk_side_0.2 | (c) proposed | 0 of 6 | - | 0.25 (0.24 to 0.25) |
+| walk_side_0.2 | (c) proposed | 0 of 6 | - | 0.24 (0.24 to 0.25) |
 | walk_side_0.2 | (d) light head | 0 of 6 | - | 0.24 (0.23 to 0.25) |
 | walk_side_0.2 | (a) upstream | 0 of 6 | - | 0.25 (0.23 to 0.26) |
 | walk_forward_0.15 | trained (stock) | 0 of 6 | - | 0.73 (0.73 to 0.74) |
@@ -193,7 +195,7 @@ Tracking is measured speed over command. Torso pitch is positive nose down.
 | walk_forward_0.15 | (a) upstream | 0 of 6 | - | 0.67 (0.67 to 0.68) |
 | turn_1.0 | trained (stock) | 0 of 6 | - | 0.82 (0.82 to 0.82) |
 | turn_1.0 | (b) today | 0 of 6 | - | 0.79 (0.79 to 0.79) |
-| turn_1.0 | (c) proposed | 0 of 6 | - | 0.81 (0.81 to 0.81) |
+| turn_1.0 | (c) proposed | 0 of 6 | - | 0.81 (0.80 to 0.81) |
 | turn_1.0 | (d) light head | 0 of 6 | - | 0.79 (0.79 to 0.80) |
 | turn_1.0 | (a) upstream | 0 of 6 | - | 0.80 (0.79 to 0.80) |
 | walk_backlash | trained (stock) | 0 of 6 | - | 0.95 (0.95 to 0.95) |
@@ -203,15 +205,15 @@ Tracking is measured speed over command. Torso pitch is positive nose down.
 | walk_backlash | (a) upstream | 0 of 6 | - | 0.93 (0.93 to 0.94) |
 | walk_pushes | trained (stock) | 6 of 6 | 20.0, 22.8, 14.3, 14.1, 22.7, 20.0 | - |
 | walk_pushes | (b) today | 0 of 6 | - | 0.60 (0.59 to 0.61) |
-| walk_pushes | (c) proposed | 0 of 6 | - | 0.63 (0.62 to 0.64) |
+| walk_pushes | (c) proposed | 0 of 6 | - | 0.62 (0.61 to 0.63) |
 | walk_pushes | (d) light head | 0 of 6 | - | 0.60 (0.58 to 0.61) |
 | walk_pushes | (a) upstream | 0 of 6 | - | 0.60 (0.58 to 0.61) |
 | walk_rough_backlash_raised_start | trained (stock) | 10 of 18 | 8.0, 5.7, 6.4, 22.2, 5.5, 5.1, 4.0, 23.8, 13.2, 6.7 | 0.85 (0.82 to 0.87) |
 | walk_rough_backlash_raised_start | (b) today | 18 of 18 | 14.9, 6.3, 8.7, 12.0, 11.5, 6.5, 25.5, 6.6, 16.2, 6.7, 14.7, 4.5, 4.7, 24.7, 4.2, 16.2, 13.8, 7.1 | - |
-| walk_rough_backlash_raised_start | (c) proposed | 18 of 18 | 28.3, 6.3, 24.2, 14.1, 12.3, 6.5, 8.2, 21.0, 18.4, 8.2, 5.4, 5.4, 4.7, 4.8, 4.3, 14.4, 9.2, 7.1 | - |
+| walk_rough_backlash_raised_start | (c) proposed | 16 of 18 | 8.3, 6.6, 8.0, 17.8, 13.0, 6.5, 29.0, 15.5, 4.7, 9.3, 4.3, 4.8, 4.3, 4.2, 6.2, 7.0 | 0.83 (0.82 to 0.84) |
 | walk_rough_backlash_raised_start | (d) light head | 17 of 18 | 2.4, 6.9, 8.5, 9.1, 4.8, 6.6, 4.6, 6.1, 17.9, 4.6, 5.8, 4.3, 5.0, 5.4, 4.0, 7.8, 5.3 | 0.82 (0.82 to 0.82) |
 
-Mean first fall, counting a run that does not fall as 30 s: trained 18.9 s, (b) 11.4 s, (c) 11.3 s, (d) 7.7 s; against (b), (c) falls later in 8 seeds, earlier in 5 and within 0.5 s in 5; (d) falls earlier in 10 and later in 3 [L].
+Mean first fall, counting a run that does not fall as 30 s: trained 18.9 s, (b) 11.4 s, (c) 11.6 s, (d) 7.7 s; against (b), (c) falls later in 5 seeds, earlier in 7 and within 0.5 s in 6; (d) falls earlier in 10 and later in 3 [L].
 
 **Backward margin** (the sim agent's test, sim/ADDED_MASS_SIM.md table 7): trunk centre of mass moved back in steps, stand 10 s and walk forward 12 s, runs with no seed and seeds 1 to 3, from the upstream start (soles 10.7 mm in the floor) and from a start raised 12 mm [L].
 
@@ -223,12 +225,12 @@ Mean first fall, counting a run that does not fall as 30 s: trained 18.9 s, (b) 
 | (b) today | -17.5 | -6.2 | -4.5 | 0.98, 1.24, none, none | 0.98, 1.24, none, none | none, none, none, none | none, none, none, none |
 | (b) today | -20.0 | -7.1 | -5.4 | 0.92, 1.00, none, 1.56 | 0.92, 1.00, none, 1.56 | none, none, none, 1.20 | none, none, none, 1.20 |
 | (b) today | -25.0 | -8.9 | -7.2 | - | - | 0.96, 1.02, none, 0.96 | 0.96, 1.02, none, 0.96 |
-| (c) proposed | -10.0 | -3.5 | -1.3 | none, none, none, none | none, none, none, none | - | - |
-| (c) proposed | -12.5 | -4.4 | -2.2 | none, none, none, none | none, none, none, none | none, none, none, none | none, none, none, none |
-| (c) proposed | -15.0 | -5.3 | -3.0 | 1.26, none, none, none | 1.26, none, none, none | none, none, none, none | none, none, none, none |
-| (c) proposed | -17.5 | -6.2 | -3.9 | 1.06, 1.32, none, none | 1.06, 1.32, none, none | none, none, none, none | none, none, none, none |
-| (c) proposed | -20.0 | -7.1 | -4.8 | 0.94, 1.04, none, none | 0.94, 1.04, none, none | none, none, none, 1.26 | none, none, none, 1.26 |
-| (c) proposed | -25.0 | -8.9 | -6.6 | - | - | 1.06, 1.04, none, 0.98 | 1.06, 1.04, none, 0.98 |
+| (c) proposed | -10.0 | -3.5 | -1.4 | none, none, none, none | none, none, none, none | - | - |
+| (c) proposed | -12.5 | -4.4 | -2.3 | none, none, none, none | none, none, none, none | none, none, none, none | none, none, none, none |
+| (c) proposed | -15.0 | -5.3 | -3.2 | 1.22, none, none, none | 1.22, none, none, none | none, none, none, none | none, none, none, none |
+| (c) proposed | -17.5 | -6.2 | -4.1 | 1.04, 1.24, none, none | 1.04, 1.24, none, none | none, none, none, none | none, none, none, none |
+| (c) proposed | -20.0 | -7.1 | -5.0 | 0.94, 1.02, none, none | 0.94, 1.02, none, none | none, none, none, 1.22 | none, none, none, 1.22 |
+| (c) proposed | -25.0 | -8.9 | -6.7 | - | - | 1.00, 1.04, none, 0.98 | 1.00, 1.04, none, 0.98 |
 | (d) light head | -10.0 | -3.6 | -2.1 | none, none, none, none | none, none, none, none | - | - |
 | (d) light head | -12.5 | -4.5 | -3.1 | 1.24, none, none, none | 1.24, none, none, none | none, none, none, none | none, none, none, none |
 | (d) light head | -15.0 | -5.4 | -4.0 | 1.06, 1.24, none, none | 1.06, 1.24, none, none | none, none, none, none | none, none, none, none |
@@ -239,9 +241,9 @@ Mean first fall, counting a run that does not fall as 30 s: trained 18.9 s, (b) 
 Measured from each robot's own estimate, the whole-robot centre of mass can move back 4.4 mm without a fall and falls from 5.3 mm (upstream start), or 6.2 mm and 7.1 mm (gentle start), in both (b) and (c); (d) falls one step earlier (3.6 and 4.5 mm; 5.4 and 6.3 mm) [L]. ADDED_MASS_SIM.md gives 4 to 6 mm for (b); the small differences come from the BEC Pro seat fix.
 
 What this means for the build (sim pass only):
-1. (c) keeps today's margins and walks a little better on flat ground: forward 0.70 against 0.67, turn 0.81 against 0.79, backlash 0.90 against 0.88, push tracking 0.63 against 0.60, torso 0.3 degrees less nose down.
+1. (c) keeps today's margins and walks a little better on flat ground: forward 0.70 against 0.67, turn 0.81 against 0.79, backlash 0.90 against 0.88, push tracking 0.62 against 0.60, torso 0.3 degrees less nose down.
 2. The side step does not come back with print mass: 0.23 today, 0.24 to 0.25 for (c), (d) and even (a), against 0.46 trained. In the sim agent's sweep the side step follows the trunk centre of mass x (0.20 at 10 mm back, 0.29 at 10 mm forward; ADDED_MASS_SIM.md table 6) [L], so its lever is where mass sits, not how the prints are filled.
-3. Rough terrain stays as bad as today: every seed of (b) and of (c) falls, against 10 of 18 trained.
+3. Rough terrain stays as bad as today: every seed of (b) and 16 of 18 of (c) fall, against 10 of 18 trained.
 
 ## Recommendation
 

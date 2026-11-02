@@ -409,6 +409,7 @@ RUNS = [
     dict(cable="P10", run="main", a=("VSW", "G"), b="U1.IN"),
     dict(cable="P11", run="leads", a="U1.OUT", b="JB"),
     dict(cable="P11", run="main", a="JB", b="SPV.IN"),
+    # split distances below are defaults; main() replaces them from the netlist cut (split_from_netlist)
     dict(cable="SP1", run="main", a="SP.L", b="JG20", split=("JG20", "SP.L", "SV20.BUS2", 20.0)),
     dict(cable="SP1", run="tail", a="JG20", b="SV20.BUS2"),
     dict(cable="SP2", run="main", a="SP.R", b="JG10", split=("JG10", "SP.R", "SV10.BUS2", 20.0)),
@@ -478,6 +479,7 @@ def chain(par, a, b):
 
 
 REV = {}
+SPLIT = {}
 # head joint ranges the Runtime commands from the gamepad (Open_Duck_Mini_Runtime 376de65,
 # mini_bdx_runtime/mini_bdx_runtime/xbox_controller.py lines 15-17); other joints keep the URDF range
 RUNTIME = {"head_pitch": (-0.78, 0.3), "head_yaw": (-0.5, 0.5), "head_roll": (-0.5, 0.5)}
@@ -638,6 +640,21 @@ PIN_MAP = [("PACK.MID", "PACK.MID"), ("PACK.", "PACK.LEADS"), ("BMS.B", "BMS.B")
            ("SGL.", "SGL"), ("SGR.", "SGR"), ("AMP.SPK", "AMP.SPK"), ("AMP.", "AMP.HDR"), ("SPK.", "SPK.TABS"),
            ("CAM.", "CAM.CSI"), ("FSL1.", "FSL1"), ("FSL2.", "FSL2"), ("FSR1.", "FSR1"), ("FSR2.", "FSR2")]
 SPLICE_ALIAS = {"P11": "SPV.IN", "SP1": "SP.L", "SP2": "SP.R", "SP3": "SP.N", "SP4": "SP.L", "SP5": "SP.R"}
+# where a splice sits along a crimped lead: the cut minus the part inside the terminal and half the lap splice
+TERM_IN = 3.5     # mm of the cut inside the 08-70-1040 crimp section (Molex 5263 catalog drawing B-101: 3.50 of 7.00 mm)
+HALF_LAP = 3.0    # mm, half of a 6 mm lap splice (NASA-STD-8739.4A 19.4.1 c: 3 to 6 wire diameters; 22 AWG OD 1.7 mm)
+SPLIT_WIRE = {"JG20": ("JG20.S", "SV20.BUS2.G"), "JG10": ("JG10.S", "SV10.BUS2.G"), "JG30": ("JG30.S", "SV30.BUS2.G"),
+              "Y.SD1": ("U2.H3.D", "YD3.S")}
+
+
+def split_from_netlist(wires):
+    """splice id -> distance along the route from the crimped end (cut - TERM_IN - HALF_LAP), from the netlist cuts"""
+    out = {}
+    for tid, (a, b) in SPLIT_WIRE.items():
+        w = [x for x in wires if {x["from"], x["to"]} == {a, b}]
+        if w and w[0].get("cut_mm"):
+            out[tid] = float(w[0]["cut_mm"]) - TERM_IN - HALF_LAP
+    return out
 
 # D23 (altaay_lab/sim/POWER_FIX.md): second power feed to each ankle servo. Used only until the lead adds the records
 # to wiring/netlist.yaml (then the netlist version wins). cut_mm here is the power agent's estimate; the routed value
@@ -720,6 +737,8 @@ def main():
             print("D23: %s not in the netlist yet, provisional record used" % rec["id"])
     cabrec = {c["id"]: c for c in net["cables"]}
     wires = [w for w in net["wires"] if cabrec[w["cable"]]["status"] == "active"]
+    SPLIT.update(split_from_netlist(wires))
+    print("splice positions from the netlist cuts (mm along the route from the crimped end): %s" % SPLIT, flush=True)
     par = tree(s)
     ld = LinkDist(g)
     poser = Poser(s)
@@ -758,6 +777,8 @@ def main():
             # place a splice on the route between two terminals: (new id, from, to, distance); distance > 0 is
             # measured back from `to`, < 0 forward from `from`
             tid, fa, fb, dist = R["split"]
+            if tid in SPLIT:
+                dist = SPLIT[tid] if dist > 0 else -SPLIT[tid]
             pa_, la_, da_, _ = ref(fa)
             pb_, lb_, db_, _ = ref(fb)
             u0 = free_near(g, pa_ + 1.0 * da_, d=da_, r=12.0, need=clr)
@@ -776,8 +797,9 @@ def main():
             k = min(max(k, 1), len(Pr) - 2)
             q = Pr[k]
             T.add(tid, la_ if dist < 0 else lb_, q, (Pr[k + 1] - Pr[k - 1]) / np.linalg.norm(Pr[k + 1] - Pr[k - 1]),
-                  "solder splice", "[L] splice %.0f mm along the route %s from %s (netlist length)" % (
-                      abs(dist), "back" if dist > 0 else "forward", fb if dist > 0 else fa))
+                  "solder splice", "[L] splice centre %.1f mm along the route %s from %s (netlist cut minus %.1f mm in the "
+                  "terminal and half the lap splice)" % (abs(dist), "back" if dist > 0 else "forward", fb if dist > 0 else fa,
+                                                          TERM_IN + HALF_LAP))
         pa, la, da, ma = ref(R["a"])
         pb, lb, db, mb = ref(R["b"])
         vias = [ref(v) for v in R.get("vias", [])]

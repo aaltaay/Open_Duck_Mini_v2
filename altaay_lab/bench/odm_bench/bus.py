@@ -167,12 +167,19 @@ def read_reg(io, sid, name):
     return sts3215.le(read_block(io, sid, addr, size), 0, size)
 
 
-def sync_read_block(io, ids, addr, length, errors=None):
+def sync_read_block(io, ids, addr, length, errors=None, info=None):
     """One SYNC READ (0x82) of `length` bytes at `addr` from every ID, kept per ID.
 
     Same packet and read loop as FeetechSTS3215IO._get_control_value (sts3215_io.py lines 20
     to 41), but it keys each answer by the ID in its status packet and keeps the answers that
     arrived when one servo fails, instead of returning an empty tuple.
+    info (dict): also note info["t_req"], the clock time just after the request was handed to the
+    port. For that the send is done here with the steps of pypot's __real_send (abstract_io.py:
+    flush, write, check the byte count, read the first status packet); without info, pypot's
+    _send_packet is called as before.
+    The read always runs to its end (every reply, or pypot's own timeout): a read cut short would
+    leave its late replies on the bus, and rustypot's next send panics on them (G10; seen on the
+    simulated bus under load when the idle-time sampler cut reads at the end of the sleep).
     Returns (dict id -> bytes, list of failed ids).
     """
     from pypot.dynamixel.io.abstract_io import DxlCommunicationError
@@ -180,7 +187,16 @@ def sync_read_block(io, ids, addr, length, errors=None):
     got, packets = {}, []
     with io._serial_lock:
         try:
-            packets.append(io._send_packet(rp, _force_lock=True))
+            if info is None:
+                packets.append(io._send_packet(rp, _force_lock=True))
+            else:
+                io.flush(_force_lock=True)
+                data = rp.to_string()
+                n = io._serial.write(data)
+                info["t_req"] = time.monotonic()
+                if n != len(data):
+                    raise DxlCommunicationError(io, "instruction packet not entirely sent", rp)
+                packets.append(io._real_read(rp, _force_lock=True))
             for _ in range(len(ids) - 1):
                 packets.append(io._real_read(rp, _force_lock=True))
         except DxlCommunicationError as e:
