@@ -1,10 +1,10 @@
 """Per-subsystem wiring sheets for the altaay-lab Open Duck Mini v2, generated from wiring/netlist.yaml.
 
 Writes, next to this script:
-  1_power.svg/.png         pack, BMS, charger, XT30, fuse, Pololu 2815 and panel switch, BEC, belly splices,
-                           the 3 servo power feeds and the 5 V branch to the head regulator
+  1_power.svg/.png         pack, BMS, charger, XT30, fuse with its lead splices, Pololu 2815 and panel switch, BEC,
+                           belly splices, the first-servo power feeds and the 5 V branch to the head regulator
   2_servo_bus.svg/.png     adapter (data only, D15), the 3 chains in ID order, kit cables and made leads,
-                           power injection points
+                           power injection points, the ankle second feeds SP4 SP5 (D23)
   3_pi_sensors.svg/.png    Pi header with every wire leaving it, BNO055, foot switches with pull-ups, USB
   4_head_expression.svg/.png  eye and projector LEDs with resistors, antenna SG90s, amplifier and speaker, camera
   5_harness.svg/.png       where each cable runs through the body (regions, joints crossed)
@@ -27,6 +27,15 @@ BAND_PWR, BAND_HEAD, BAND_BUS, BAND_IO = "#fde4e1", "#efe4f7", "#e3f1e6", "#e2ec
 
 def P(net, ref):
     return net.pin(ref)
+
+
+def plab(net, cid, pin):
+    """Printable pin label from the netlist (the text the sheet shows next to the terminal)."""
+    return net.pin(f"{cid}.{pin}")["label"]
+
+
+def cref(net, cid):
+    return net.comp(cid)["ref"]
 
 
 # ================================================================== sheet 1: power
@@ -70,20 +79,28 @@ def sheet_power(book):
              pins=[("F+", "L", yA, "F+"), ("F-", "L", yB, "F-"), ("M+", "R", yA, "M+"), ("M-", "R", yB, "M-")])
     sh.w("BMS.P+", "XT30.F+", sa=0, lab=124)
     sh.w("BMS.P-", "XT30.F-", sa=1, lab=124)
-    sh.block("F1", 246, 35, 264, 58, "15 A", band=BAND_PWR, tsize=8.6, sub_y=51.5,
+    # P7: each fuse holder lead (90 mm as shipped) is lengthened with 16 AWG red at splice JFI or JFO (cables3d)
+    yF = 78.0                              # fuse lead row, below the + line so each P7 piece has room for its label
+    sh.splice("JFI", 243, yA, lab_dx=0, lab_dy=-3.4, ha="center")
+    sh.splice("JFO", 270, yA, lab_dx=0, lab_dy=-3.4, ha="center")
+    sh.block("F1", 247, 66, 265, 90, "15 A", band=BAND_PWR, tsize=8.6, sub_y=83.0,
              sub=["ATO, holder", "FHAC0001ZXJ"], subsize=6.4,
-             pins=[("IN", "L", yA, "1"), ("OUT", "R", yA, "2")])
-    sh.w("XT30.M+", "F1.IN")
-    sh.block("SW1", 302, 36, 336, 94, "Pololu 2815", band=BAND_PWR, tsize=8.6, sub_y=85.5,
+             pins=[("IN", "L", yF, "1"), ("OUT", "R", yF, "2")])
+    sh.w("XT30.M+", "JFI.S")
+    sh.w("JFI.S", "F1.IN", ("y", yF), lab=("y", 61.5))
+    sh.w("F1.OUT", "JFO.S", 270, lab=("y", 61.5))
+    sh.block("SW1", 312, 36, 346, 94, "Pololu 2815", band=BAND_PWR, tsize=8.6, sub_y=85.5,
              sub=["MOSFET switch HP", "slide switch: OFF"], subsize=6.8,
-             pins=[("VIN", "L", yA, "VIN"), ("SW", "L", 66, "SW"), ("GND_SW", "L", 73, "GND"), ("ON", "L", 80, "ON"),
-                   ("VOUT", "R", yA, "VOUT"), ("GND", "R", 64, "GND")])
-    sh.w("F1.OUT", "SW1.VIN")
-    sh.block("CTL", 222, 60, 246, 79, "panel sw.", band=BAND_PWR, tsize=8.0,
-             pins=[("1", "R", 66, "1"), ("2", "R", 73, "2")], caption=["stock switch", "in body_back"])
-    sh.w("SW1.SW", "CTL.1")
-    sh.w("SW1.GND_SW", "CTL.2")
-    xG, xV = 348.0, 392.0
+             pins=[("VIN", "L", yA, plab(sh.net, "SW1", "VIN")), ("SW", "L", 66, plab(sh.net, "SW1", "SW")),
+                   ("GND_SW", "L", 73, plab(sh.net, "SW1", "GND_SW")), ("ON", "L", 80, plab(sh.net, "SW1", "ON")),
+                   ("VOUT", "R", yA, plab(sh.net, "SW1", "VOUT")), ("GND", "R", 64, plab(sh.net, "SW1", "GND"))])
+    sh.w("JFO.S", "SW1.VIN")
+    sh.block("CTL", 212, 52, 236, 76, "panel sw.", band=BAND_PWR, tsize=8.0, sub_y=61.4,
+             sub=["stock switch", "in body_back"], subsize=6.6,
+             pins=[("2", "D", 220, "2"), ("1", "D", 228, "1")])
+    sh.w("SW1.SW", "CTL.1", 292, 94)
+    sh.w("SW1.GND_SW", "CTL.2", 298, 99)
+    xG, xV = 350.0, 392.0
     sh.splice("VSW", xV, yA, lab_dx=0, lab_dy=-3.4, ha="center")
     sh.splice("G", xG, yB, lab_dx=-2.2, lab_dy=3.4, ha="right")
     sh.w("SW1.VOUT", "VSW.S")
@@ -95,12 +112,12 @@ def sheet_power(book):
     sh.region(296, 124, 408, 180, "BELLY", "servo regulator (D3, D15)")
     sh.block("U1", 372, 130, 406, 174, "BEC Pro", band=BAND_PWR, tsize=8.6, sub_y=145,
              sub=["Castle CC", "set to 7.2 V"], subsize=6.8,
-             pins=[("IN-", "U", 386, "IN-"), ("IN+", "U", 400, "IN+"),
-                   ("OUT1+", "L", 140, "1+"), ("OUT2+", "L", 147, "2+"),
-                   ("OUT1-", "L", 156, "1-"), ("OUT2-", "L", 163, "2-"),
-                   ("OUT1S", "D", 380, ""), ("OUT2S", "D", 388, ""), ("LINK", "D", 398, "")])
+             pins=[(p_, side, pos, plab(sh.net, "U1", p_) if side != "D" else "")
+                   for p_, side, pos in (("IN-", "U", 386), ("IN+", "U", 400), ("OUT1+", "L", 140), ("OUT2+", "L", 147),
+                                         ("OUT1-", "L", 156), ("OUT2-", "L", 163), ("OUT1S", "D", 380),
+                                         ("OUT2S", "D", 388), ("LINK", "D", 398))])
     sh.nc_note(389, 181.6, "3rd wires insulated [I], Link Port unused", ha="center")
-    sh.w("G.S", "U1.IN-", ("x", 386), lab=367)
+    sh.w("G.S", "U1.IN-", ("x", 386), lab=368)
     sh.w("VSW.S", "U1.IN+", ("x", 400), lab=("y", 84.0))
     sh.block("U3", 120, 132, 158, 170, "D30V30F5", band=BAND_HEAD, tsize=8.6, sub_y=162.5,
              sub=["Pololu 4892", "5 V step-down"], subsize=6.8,
@@ -138,13 +155,20 @@ def sheet_power(book):
     sh.w("SPG.S", "JG10.S", ("x", 252 - 40), lab=290)
     sh.w("SPG.S", "JG20.S", ("y", 240.0), ("x", 160 - 40), lab=184)
     sh.w("SPG.S", "JG30.S", ("x", 322.0), ("y", 244.0), ("x", 68 - 40), lab=96)
+    # D23: the second feeds leave SPV and SPG too; they are drawn in full on sheet 2 next to the ankle servos
+    ankle = [(w, w["to"]) for w in sh.net.active_wires if w["from"] in ("SPV.S", "SPG.S") and w["to"].startswith(("SV24", "SV14"))]
+    cabs = sorted({w["cable"] for w, _ in ankle})
+    far = {c: next(t for w, t in ankle if w["cable"] == c) for c in cabs}
+    sh.lines(330, 191.0, ["+ second feeds (D23) from SPV and SPG, V and G only:"] +
+             [f"{c} to ID {far[c][2:4]} BUS 1 ({book.term_where(far[c], sh.no)})" for c in cabs], 6.4, GREY)
     sh.legend()
     sh.notes_box(152, 249, 270, 287, [
         "All grounds are common and return to BMS P- (splice G, P14, XT30, P8). B- and P- are separate nodes on "
         "the Tenergy board: nothing but the cell goes on B-.",
-        "Power on: XT30 in, panel switch S1 closed. The 2815 slide switch stays OFF. Not an emergency cutoff "
-        "(Pololu): unplug the XT30.",
-        "P13 runs up the neck through neck_pitch, head_pitch, head_yaw and head_roll (sheet 5).",
+        f"Power on: XT30 in, panel switch {cref(sh.net, 'CTL')} closed. The 2815 slide switch stays OFF. Not an "
+        "emergency cutoff (Pololu): unplug the XT30.",
+        "P7: the fuse holder leads (90 mm as shipped) get 16 AWG red extensions at JFI and JFO. P13 runs up the "
+        "neck through 4 joints (sheet 5).",
         "Not checked on the parts [I]: U3 pin order, charger pad labels, which 2 panel switch lugs close when ON.",
     ])
     return sh
@@ -251,8 +275,9 @@ def first_servo_group(book, sh, sv, jg, bx0):
 
 
 # ================================================================== sheet 2: servo bus
-def servo(sh, sv, x0, y0, flip=False, w=26.0, h=33.0, pitch=7.5):
-    """STS3215 block: BUS 2 housing on the left edge (in), BUS 1 on the right edge (out), cavities D V G."""
+def servo(sh, sv, x0, y0, flip=False, w=22.0, h=33.0, pitch=7.5):
+    """STS3215 block: BUS 2 housing on the left edge (in), BUS 1 on the right edge (out), cavities D V G.
+    A cavity whose pin is nc gets a cross (a free port is all crosses; the ankle BUS 1 has D empty, D23)."""
     net = sh.net
     c = net.comp(sv)
     pins = c["pins"]
@@ -268,10 +293,11 @@ def servo(sh, sv, x0, y0, flip=False, w=26.0, h=33.0, pitch=7.5):
                 fc="white" if free else "#eef0f2", ec=L.LIGHT if free else INK, lw=0.7, z=11,
                 ls=(0, (2, 1.5)) if free else "-")
         for nm in order:
-            if free:
+            ref = f"{sv}.{port}.{nm}"
+            if free or net.pin(ref)["dir"] == "nc":
                 sh._cross(xo + (1.2 if side == "R" else -1.2), ys[nm], 0.8)
             else:
-                sh.term(f"{sv}.{port}.{nm}", xo, ys[nm], side)
+                sh.term(ref, xo, ys[nm], side)
         lab = "BUS 2" if port == "BUS2" else ("BUS 1 free" if free else "BUS 1")
         sh.text(xe + (-1.3 if side == "L" else 1.3), ys[order[0]] - 4.6, lab, 6.2, True,
                 L.LIGHT if free else GREY, ha="right" if side == "L" else "left", z=31)
@@ -283,9 +309,9 @@ def servo(sh, sv, x0, y0, flip=False, w=26.0, h=33.0, pitch=7.5):
 
 def sheet_servo_bus(book):
     sh = Sheet(book, 2, "2_servo_bus", "SERVO BUS",
-               "Adapter U2 gives DATA and GND only (D15). Three chains in ID order: kit cables between servos, "
-               "made leads into BUS 2 of the first servo, power injected there from the belly splices (sheet 1).")
-    X0, PITCH = 158.0, 54.0
+               "Adapter U2 gives DATA and GND only (D15). Three chains in ID order: kit cables between servos, made "
+               "leads into BUS 2 of the first servo, power from the belly splices; second feeds into the ankle BUS 1 (D23).")
+    X0, PITCH = 158.0, 50.0
     rows = [("NECK CHAIN", "trunk_top to head", ["SV30", "SV31", "SV32", "SV33"], ["S11", "S12", "S13"],
              46.0, True, (37, 84)),
             ("LEFT LEG CHAIN", "trunk_bottom and left_leg", ["SV20", "SV21", "SV22", "SV23", "SV24"],
@@ -340,12 +366,26 @@ def sheet_servo_bus(book):
     sh.stub("JG20.S", "SPG.S", J + 4.0, yB["G"] + 14.0, "R", ("y", yB["G"] + 14.0), far="from SPG, GND")
     sh.stub("JG10.S", "SPG.S", J + 4.0, yC["G"] + 10.0, "R", ("y", yC["G"] + 10.0), far="from SPG, GND")
     sh.stub("U2.USB", "PI.USB", 36.0, 243.0, "R", ("y", 243.0), far="to Pi USB port")
+    # D23: second feeds SP4 (ID 24) and SP5 (ID 14) from the belly splices into the ankle BUS 1, data cavity empty.
+    # Both ankle housings have V above G, so one hop is unavoidable where SP5 G passes SP5 V.
+    xa = X0 + 4 * PITCH + 22.0 + 2.6          # BUS 1 terminals of ID 24 and ID 14
+    xGl, xVl, ySPV, ySPG = xa + 6.4, xa + 15.4, 166.0, 173.0
+    sh.splice("SPV", xVl, ySPV, lab_dx=2.2, lab_dy=0.0)
+    sh.splice("SPG", xGl, ySPG, lab_dx=-2.2, lab_dy=0.0, ha="right")
+    sh.w("SV24.BUS1.V", "SPV.S", xVl, lab=("y", 148.0))
+    sh.w("SV24.BUS1.G", "SPG.S", xGl, lab=("y", 155.5))
+    sh.w("SV14.BUS1.V", "SPV.S", xVl, lab=("y", 186.0))
+    sh.w("SV14.BUS1.G", "SPG.S", xGl, lab=("y", 190.0))
+    sh.lines(xGl - 9.0, 163.2, [f"SPV, SPG: the belly splices ({book.term_where('SPV.S', sh.no)}): P11 in, SP1 to SP3 out.",
+                                "SP4 and SP5 carry V and G only (D23); the ankle BUS 1 data cavity stays empty."],
+             6.4, GREY, ha="right")
     sh.legend()
     sh.notes_box(152, 249, 270, 287, [
-        "Housing cavities: V is the middle one, D and G the outer ones (adapter printed D V G; Feetech lists GND, "
-        "VCC, signal). The netlist does not number the servo cavities: copy a kit cable. The neck row is drawn "
-        "with G on top only to keep the drawing clean.",
-        "kit = the 150 mm 5264-3P cable shipped with each STS3215, 1:1. In on BUS 2, out on BUS 1 (Tnkr).",
+        "Housing cavities, Feetech numbering (STS3215 sheet 6-7): 1 GND, 2 Vcc, 3 signal, V in the middle. Waveshare "
+        "counts its sockets from the other end (1 D, 2 V, 3 G). Copy a kit cable housing, then check with a meter. "
+        "The neck row is drawn with G on top only to keep the drawing clean.",
+        "kit = the 150 mm 5264-3P cable shipped with each STS3215, 1:1, gauge not published (as shipped). In on "
+        "BUS 2, out on BUS 1 (Tnkr).",
     ])
     return sh
 
@@ -377,17 +417,17 @@ def sheet_pi(book):
     sh.w("PI.9", "BNO.GND", 100, sa=0, lab=84)
     # ---------------- foot switches (D17) and pull-ups at the header
     sh.region(38, 106, 82, 180, "RIGHT FOOT")
-    sh.region(38, 182, 82, 247, "LEFT FOOT")
+    sh.region(38, 182, 82, 248.5, "LEFT FOOT")
     foot_switch(sh, "FSR1", 46, 116, 2, 2)
     foot_switch(sh, "FSR2", 46, 160)
     foot_switch(sh, "FSL1", 46, 188, 2, 2)
-    foot_switch(sh, "FSL2", 46, 228)
+    foot_switch(sh, "FSL2", 46, 230)            # 2 mm lower than FSR2's spacing so the 110 mm jumper label fits its run
     sh.w("PI.9", "FSL1.COM", 28, sa=1, sb=0, lab=("y", 150.0))
     sh.w("PI.9", "FSR1.COM", 36, sa=2, sb=0, lab=("y", 106.6))
     sh.w("PI.13", "FSR1.NO", 84, sa=0, sb=0, lab=132)
     sh.w("PI.15", "FSL1.NO", 92, sa=0, sb=0, lab=132)
     for a, b, x, lab in (("FSR1.COM", "FSR2.COM", 40, 149.0), ("FSR1.NO", "FSR2.NO", 80, 149.0),
-                         ("FSL1.COM", "FSL2.COM", 40, 219.0), ("FSL1.NO", "FSL2.NO", 80, 219.0)):
+                         ("FSL1.COM", "FSL2.COM", 40, 219.8), ("FSL1.NO", "FSL2.NO", 80, 219.8)):
         sh.w(a, b, x, sa=1, lab=("y", lab))
     # R5 (pin 13 to pin 17) and R4 (pin 15 to pin 17), 2.2 kOhm, soldered at the header
     resistor_v(sh, "RFR", 177.0, 115.0, 121.0, "R5")
@@ -474,12 +514,13 @@ def sheet_head(book):
     sh.T["PI.20"]["pitch"] = 4.0
     y = {p_: yp[(p_ + 1) // 2] for p_ in (4, 12, 14, 16, 18, 20, 22, 32, 33, 35, 40)}
     # ---------------- LED loops (D13): pin -> 100 ohm -> LED -> cathode back to pin 20
-    resistor_h(sh, "RL", 236, y[18], "R1")
-    led_h(sh, "LEDL", 256, y[18], "D1")
-    resistor_h(sh, "RR", 284, y[16], "R2")
-    led_h(sh, "LEDR", 304, y[16], "D2")
-    resistor_h(sh, "RP", 236, y[22], "R3", below=True)
-    led_h(sh, "LEDP", 256, y[22], "D3", below=True)
+    net = sh.net
+    resistor_h(sh, "RL", 236, y[18], cref(net, "RL"))
+    led_h(sh, "LEDL", 256, y[18], cref(net, "LEDL"))
+    resistor_h(sh, "RR", 284, y[16], cref(net, "RR"))
+    led_h(sh, "LEDR", 304, y[16], cref(net, "LEDR"))
+    resistor_h(sh, "RP", 236, y[22], cref(net, "RP"), below=True)
+    led_h(sh, "LEDP", 256, y[22], cref(net, "LEDP"), below=True)
     sh.w("PI.18", "RL.1", lab=218)
     sh.w("PI.16", "RR.1", lab=246)
     sh.w("PI.22", "RP.1", lab=218)
@@ -488,9 +529,10 @@ def sheet_head(book):
     sh.w("LEDL.K", "PI.20", 277.0, y[20] - 4.0, sb=0, lab=218)
     sh.w("LEDR.K", "PI.20", 325.0, y[20], sb=1, lab=301)
     sh.w("LEDP.K", "PI.20", 277.0, y[20] + 4.0, sb=2, lab=218)
-    sh.lines(240, y[22] + 10.0, ["D1 left eye, D2 right eye, D3 projector: 1 W LED beads (BOM E3).",
-                                 "R1 to R3: 100 ohm 1/4 W. Joints D5, D6, D7: resistor lead to LED +, 0 mm,",
-                                 "heat shrink [I]."], 6.4, GREY)
+    sh.lines(240, y[22] + 10.0, [f"{cref(net, 'LEDL')} left eye, {cref(net, 'LEDR')} right eye, {cref(net, 'LEDP')} "
+                                 "projector: 1 W LED beads (BOM E3).",
+                                 f"{cref(net, 'RL')} to {cref(net, 'RP')}: 100 ohm 1/4 W. Joints D5, D6, D7: resistor "
+                                 "lead to LED +, 0 mm,", "heat shrink [I]."], 6.4, GREY)
     # ---------------- loads at the bottom: SGL, SGR, AMP, speaker; JG above SGR, J5 below SGR
     yT, yB = 196.0, 222.0
     sh.block("SGL", 30, yT, 66, yB, "SG90", band=BAND_HEAD, tsize=8.4, sub=["left antenna"], subsize=6.4,
@@ -659,6 +701,9 @@ def sheet_harness(book):
     sh.lane("SP1", [(146, 156), (146, 174), (56, 174), (56, 185)], "p")
     sh.lane("SP2", [(170, 156), (170, 178), (194, 178), (194, 185)], "p")
     sh.lane("P10", [(122, 153.5), (136, 153.5)], "p")
+    # D23 second feeds: belly splices to the ankle servos, crossing hip yaw, hip roll, hip pitch and knee
+    sh.lane("SP4", [(142, 156), (142, 172), (32, 172), (32, 236.2), (50, 236.2)], "p")
+    sh.lane("SP5", [(160, 156), (160, 176), (148, 176), (148, 236.2), (176, 236.2)], "p")
     sh.lane("S2", [(58, 190), (58, 204.6)], "s")
     sh.lane("S7", [(184, 190), (184, 204.6)], "s")
     for cid, x, y0, y1 in (("S3", 58, 208.6, 214.6), ("S4", 58, 218.6, 224.6), ("S5", 58, 228.6, 234.2),
@@ -672,7 +717,7 @@ def sheet_harness(book):
                       ("SP1", 100, 174.0), ("SP2", 182, 178.0), ("P10", 129, 153.5), ("S2", 58, 199.0),
                       ("S7", 184, 199.0), ("S3", 58, 211.5), ("S4", 58, 221.5), ("S5", 58, 231.5),
                       ("S8", 184, 211.5), ("S9", 184, 221.5), ("S10", 184, 231.5), ("D3", 26, 222.0),
-                      ("D4", 230, 222.0)):
+                      ("D4", 230, 222.0), ("SP4", 122, 172.0), ("SP4", 32, 216.5), ("SP5", 148, 216.5)):
         chip(sh, x, y, cid)
     # local cables (one region, no joint crossed)
     local = collections.defaultdict(list)
@@ -680,7 +725,7 @@ def sheet_harness(book):
         c = net.cables[cid]
         if len(c["regions"]) == 1 and not c["joints"]:
             local[c["regions"][0]].append(cid)
-    spots = {"head": (66, 46.5, 96), "battery_bay": (38, 156.5, 92), "belly": (136, 164.5, 180)}
+    spots = {"head": (66, 46.5, 96), "battery_bay": (38, 156.5, 92), "belly": (148, 164.5, 182)}
     for reg, cids in local.items():
         x, y, xmax = spots[reg]
         sh.text(x, y - 4.4, "local:", 6.0, True, GREY, z=31)
@@ -701,7 +746,7 @@ def sheet_harness(book):
     sh.line([(X0 - 1, y0 + 2.0), (W_ - 11, y0 + 2.0)], "#90a4ae", 0.5, z=30)
     order = sorted(net.active, key=lambda c: (["P", "SP", "SD", "D", "S"].index(
         "SP" if c.startswith("SP") else "SD" if c.startswith("SD") else c[0]), int("".join(ch for ch in c if ch.isdigit()))))
-    pitch = 4.42
+    pitch = 4.2
     for i, cid in enumerate(order):
         yy = y0 + 5.2 + i * pitch
         if i % 2 == 0:
@@ -779,17 +824,22 @@ def check_coverage(book, sheets):
 def write_md(book, sheets, full, sizes, n_warn):
     net = book.net
     n_all = len(net.active_wires)
-    titles = {1: ("Power", "pack BT1, BMS U5, charger U6, XT30 J1, fuse F1, Pololu 2815 SW1 and panel switch S1, "
-                  "splices VSW and G, BEC U1 with JB+ JB-, belly splices SPV SPG, the 3 servo power feeds SP1 to SP3 "
-                  "with JG20 JG30 JG10, and the 5 V branch P13 up the neck to U3 and P12 to Pi pins 2 and 6"),
+    r = lambda cid: cref(net, cid)
+    titles = {1: ("Power", f"pack {r('PACK')}, BMS {r('BMS')}, charger {r('CHG')}, XT30 {r('XT30')}, fuse {r('F1')} with "
+                  f"the lead splices {r('JFI')} {r('JFO')}, Pololu 2815 {r('SW1')} and panel switch {r('CTL')}, splices "
+                  f"VSW and G, BEC {r('U1')} with JB+ JB-, belly splices SPV SPG, the first-servo power feeds SP1 to "
+                  "SP3 with JG20 JG30 JG10 (SP4 SP5 cross-referenced to sheet 2), and the 5 V branch P13 up the neck to "
+                  "U3 and P12 to Pi pins 2 and 6"),
               2: ("Servo bus", "adapter U2 (DATA and GND only, D15), Y splices YD3 YG3, made leads SD1 SD2 and the SP "
                   "tails, the 3 chains in ID order (neck 30 to 33, left leg 20 to 24, right leg 10 to 14) with every "
-                  "kit cable conductor, power injection at BUS 2 of IDs 30, 20, 10"),
+                  "kit cable conductor, power injection at BUS 2 of IDs 30, 20, 10, and the second feeds SP4 SP5 from "
+                  "SPV SPG into BUS 1 of IDs 24 and 14 (D23)"),
               3: ("Pi and sensors", "the 40-pin header with every wire that leaves it (sensor wires in full, the rest "
                   "as flagged stubs), BNO055 U7, foot switches SR1 SR2 SL1 SL2 with jumpers and pull-ups R4 R5, "
                   "USB cable D1 to the adapter"),
-              4: ("Head expression", "eye and projector LEDs (refs D1 to D3) with R1 to R3, antenna SG90s M1 M2, MAX98357A U8 "
-                  "and speaker LS1, camera U9, splices J5 and JG fed by P17"),
+              4: ("Head expression", f"eye and projector LEDs {r('LEDL')} to {r('LEDP')} with {r('RL')} to {r('RP')}, "
+                  f"antenna SG90s {r('SGL')} {r('SGR')}, MAX98357A {r('AMP')} and speaker {r('SPK')}, camera {r('CAM')}, "
+                  "splices J5 and JG fed by P17"),
               5: ("Harness overview", "body regions and joints, a lane per cable that leaves its region, local cables "
                   "per region, and a table of all active cables (run, wire, cut length, joints crossed)")}
     out = []
@@ -887,37 +937,36 @@ def write_md(book, sheets, full, sizes, n_warn):
     out.append("- Resistor leads that are soldered straight to a pin carry one tag per resistor instead of a label "
                "on each 0 mm lead.")
     out.append("- The servo housings are drawn D V G with V in the middle. The neck row on sheet 2 is drawn G V D "
-               "only to keep the Y splices from crossing; the cavity order itself is not in the netlist (see the "
-               "questions below).")
+               "only to keep the Y splices from crossing. The netlist numbers the servo pins as the Feetech sheet "
+               "does (1 GND, 2 Vcc, 3 signal); the Waveshare adapter counts from the other end (1 D, 2 V, 3 G).")
     out.append("")
-    out.append("## Netlist questions found while drawing")
+    out.append("## Netlist questions")
     out.append("")
     q = []
     clash = sorted(c["ref"] for c in net.comps.values() if c["ref"] in net.cables)
     if clash:
-        q.append(f"Component refs {', '.join(clash)} are also cable ids ({', '.join(clash)} in `cables`), for "
-                 "example LED D1 and USB cable D1. Proposed: rename the LED refs to LED1 to LED3 and the panel switch "
-                 "to SW2 so a label is never ambiguous.")
-    q.append("The STS3215 BUS 1 and BUS 2 groups name the pins D, V, G but give no cavity numbers, and the made "
-             "leads SP1 to SP3, SD1 and SD2 need them at the servo end. TEST_PLAN.md says GND, VCC, DATA per the "
-             "Feetech sheet. Proposed: add pin numbers to the servo groups (and confirm against a kit cable).")
+        q.append(f"Component refs {', '.join(clash)} are also cable ids ({', '.join(clash)} in `cables`): rename them "
+                 "so a label is never ambiguous.")
     q.append("Terminal order on the board is marked [I] (not checked) for BNO055, MAX98357A, D30V30F5 and the "
              "charger pads, and the panel switch lugs are [I]. The sheets draw these blocks in the order that keeps "
              "the wires straight and say so on the sheet; check the order on the parts.")
-    q.append("SW1 pins SW and GND_SW have label \"switch symbol\", and U1 pins have lead colours as labels. The "
-             "sheets show SW, GND, IN+, IN-, 1+, 1-, 2+, 2-. Proposed: give these pins printable names in the netlist.")
-    q.append("P11 lead wires have gauge \"BEC lead\" and no cut length, and kit cables have no colour; the sheets "
-             "show \"as shipped\" and grey. If the BEC output lead gauge is published, adding it would let the "
-             "rule check test ampacity there.")
+    out.append("Open:")
+    out.append("")
     for i, x in enumerate(q):
         out.append(f"{i + 1}. {x}")
+    out.append("")
+    out.append("Answered in the netlist pass of 2026-11-02: the LED refs are LED1 to LED3 and the panel switch is SW2; "
+               "the servo BUS pins carry the Feetech pin numbers (STS3215 sheet item 6-7), and the build sheets say "
+               "to copy a kit cable housing and check with a meter; SW1 and U1 pins have printable labels (SW, GND, "
+               "IN+, IN-, 1+, 1-, 2+, 2-); the BEC output lead and kit cable gauges are not published, so they stay "
+               "as shipped (no AWG in the netlist).")
     out.append("")
     out.append("## Relation to the older drawings")
     out.append("")
     out.append("These sheets cover what `wiring/odm_v2_wiring_pictorial` (A2), `wiring/odm_v2_schematic` (A3) and "
                "`wiring/odm_v2_harness` (A3) show, from the same netlist, and add per-wire labels, pin order, "
-               "cross-sheet references and a hard coverage check per wire. The lead decides whether to mark those "
-               "three (and their generators) superseded; nothing outside this folder was changed.")
+               "cross-sheet references and a hard coverage check per wire. WIRING.md marks those three and their "
+               "generators superseded; they are not regenerated and do not show the changes from 2026-11-02 on.")
     out.append("")
     text = "\n".join(out) + "\n"
     if "\u2014" in text or "\u2013" in text:

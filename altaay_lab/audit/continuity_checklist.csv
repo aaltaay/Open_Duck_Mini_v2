@@ -1,13 +1,15 @@
 cable,from,to,net,gauge,cut_mm,expect,check_no_short_to
 P1,PACK.B+,BMS.B+,PACK_P,16 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.B-
 P2,PACK.B-,BMS.B-,CELL_N,16 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.B+
-P3,PACK.MID,BMS.B1,CELL_MID,26 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P3,PACK.MID,BMS.B1,CELL_MID,26 AWG,140,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 P4,BMS.P+,CHG.B+,PACK_P,20 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BMS.B- BMS.B1 BMS.B+ BMS.P- BMS.T
 P5,BMS.P-,CHG.B-,GND,20 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BMS.B- BMS.B1 BMS.B+ BMS.P+ BMS.T
-P6,BMS.P+,XT30.F+,PACK_P,16 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BMS.B- BMS.B1 BMS.B+ BMS.P- BMS.T
-P8,BMS.P-,XT30.F-,GND,16 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BMS.B- BMS.B1 BMS.B+ BMS.P+ BMS.T
-P7,XT30.M+,F1.IN,PACK_P,16 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",XT30.M-
-P7,F1.OUT,SW1.VIN,PACK_F,16 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F1.IN
+P6,BMS.P+,XT30.F+,PACK_P,16 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BMS.B- BMS.B1 BMS.B+ BMS.P- BMS.T
+P8,BMS.P-,XT30.F-,GND,16 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BMS.B- BMS.B1 BMS.B+ BMS.P+ BMS.T
+P7,XT30.M+,JFI.S,PACK_P,16 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",XT30.M-
+P7,JFI.S,F1.IN,PACK_P,16 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P7,F1.OUT,JFO.S,PACK_F,16 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F1.IN
+P7,JFO.S,SW1.VIN,PACK_F,16 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 P14,XT30.M-,G.S,GND,16 AWG,140,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",XT30.M+
 P9,SW1.VOUT,VSW.S,VSW,16 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SW1.VIN SW1.GND
 P16,G.S,SW1.GND,GND,20 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
@@ -19,8 +21,8 @@ P11,U1.OUT1+,JBP.S,SERVO_7V2,BEC lead,,"under 1 ohm, read in ohms (TEST_PLAN.md 
 P11,U1.OUT2+,JBP.S,SERVO_7V2,BEC lead,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U1.OUT2- U1.OUT2S
 P11,U1.OUT1-,JBN.S,GND,BEC lead,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U1.OUT1+ U1.OUT1S
 P11,U1.OUT2-,JBN.S,GND,BEC lead,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U1.OUT2+ U1.OUT2S
-P11,JBP.S,SPV.S,SERVO_7V2,16 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-P11,JBN.S,SPG.S,GND,16 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P11,JBP.S,SPV.S,SERVO_7V2,16 AWG,100,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P11,JBN.S,SPG.S,GND,16 AWG,100,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 P13,VSW.S,U3.VIN,VSW,20 AWG,550,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 P13,G.S,U3.GND.1,GND,20 AWG,550,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 P12,U3.VOUT,PI.2,5V,20 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U3.VIN U3.GND.1 U3.GND.2 U3.EN U3.PG
@@ -36,14 +38,14 @@ D3,PI.17,RFL.1,3V3,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md sect
 D3,RFL.2,PI.15,FOOT_L,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RFL.1
 D3,PI.15,FSL1.NO,FOOT_L,26 AWG,900,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D3,PI.9,FSL1.COM,GND,26 AWG,900,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D3,FSL1.NO,FSL2.NO,FOOT_L,26 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSL1.COM FSL1.NC
-D3,FSL1.COM,FSL2.COM,GND,26 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSL1.NO FSL1.NC
+D3,FSL1.NO,FSL2.NO,FOOT_L,26 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSL1.COM FSL1.NC
+D3,FSL1.COM,FSL2.COM,GND,26 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSL1.NO FSL1.NC
 D4,PI.17,RFR.1,3V3,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D4,RFR.2,PI.13,FOOT_R,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RFR.1
 D4,PI.13,FSR1.NO,FOOT_R,26 AWG,950,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D4,PI.9,FSR1.COM,GND,26 AWG,950,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D4,FSR1.NO,FSR2.NO,FOOT_R,26 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSR1.COM FSR1.NC
-D4,FSR1.COM,FSR2.COM,GND,26 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSR1.NO FSR1.NC
+D4,FSR1.NO,FSR2.NO,FOOT_R,26 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSR1.COM FSR1.NC
+D4,FSR1.COM,FSR2.COM,GND,26 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSR1.NO FSR1.NC
 D5,PI.18,RL.1,EYE_L,26 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D5,RL.2,LEDL.A,EYE_L_A,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RL.1
 D5,LEDL.K,PI.20,GND,26 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",LEDL.A
@@ -56,16 +58,16 @@ D7,LEDP.K,PI.20,GND,26 AWG,160,"under 1 ohm, read in ohms (TEST_PLAN.md section 
 D8,SGL.SIG,PI.33,ANT_L,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGL.VCC SGL.GND
 D8,SGL.VCC,J5.S,5V,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGL.SIG SGL.GND
 D8,SGL.GND,JG.S,GND,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGL.SIG SGL.VCC
-D9,SGR.SIG,PI.32,ANT_R,SG90 lead + 26 AWG,270,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.VCC SGR.GND
-D9,SGR.VCC,J5.S,5V,SG90 lead + 26 AWG,270,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.SIG SGR.GND
-D9,SGR.GND,JG.S,GND,SG90 lead + 26 AWG,270,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.SIG SGR.VCC
-D10,PI.35,AMP.LRC,I2S_LRC,26 AWG,200,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D10,PI.12,AMP.BCLK,I2S_BCLK,26 AWG,200,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D10,PI.40,AMP.DIN,I2S_DIN,26 AWG,200,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D9,SGR.SIG,PI.32,ANT_R,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.VCC SGR.GND
+D9,SGR.VCC,J5.S,5V,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.SIG SGR.GND
+D9,SGR.GND,JG.S,GND,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.SIG SGR.VCC
+D10,PI.35,AMP.LRC,I2S_LRC,26 AWG,210,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D10,PI.12,AMP.BCLK,I2S_BCLK,26 AWG,210,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D10,PI.40,AMP.DIN,I2S_DIN,26 AWG,220,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D10,J5.S,AMP.VIN,5V,26 AWG,200,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 D10,JG.S,AMP.GND,GND,26 AWG,200,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-D11,AMP.SPK+,SPK.+,SPK_P,26 AWG,100,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",AMP.SPK-
-D11,AMP.SPK-,SPK.-,SPK_N,26 AWG,100,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",AMP.SPK+
+D11,AMP.SPK+,SPK.+,SPK_P,26 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",AMP.SPK-
+D11,AMP.SPK-,SPK.-,SPK_N,26 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",AMP.SPK+
 D12,PI.CSI,CAM.CSI,CSI_LINK,FPC ribbon,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 SP1,SPV.S,SV20.BUS2.V,SERVO_7V2,22 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 SP1,SPG.S,JG20.S,GND,22 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
@@ -76,11 +78,15 @@ SP2,JG10.S,SV10.BUS2.G,GND,22 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md se
 SP3,SPV.S,SV30.BUS2.V,SERVO_7V2,22 AWG,180,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 SP3,SPG.S,JG30.S,GND,22 AWG,160,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 SP3,JG30.S,SV30.BUS2.G,GND,22 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP4,SPV.S,SV24.BUS1.V,SERVO_7V2,22 AWG,390,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP4,SPG.S,SV24.BUS1.G,GND,22 AWG,390,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP5,SPV.S,SV14.BUS1.V,SERVO_7V2,22 AWG,420,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP5,SPG.S,SV14.BUS1.G,GND,22 AWG,420,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 SD1,U2.H3.D,YD3.S,BUS_DATA,22 AWG,30,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U2.H3.V U2.H3.G
 SD1,U2.H3.G,YG3.S,GND,22 AWG,30,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U2.H3.D U2.H3.V
 SD1,YD3.S,SV20.BUS2.D,BUS_DATA,22 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 SD1,YG3.S,JG20.S,GND,22 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-SD1,YD3.S,SV30.BUS2.D,BUS_DATA,22 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SD1,YD3.S,SV30.BUS2.D,BUS_DATA,22 AWG,160,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 SD1,YG3.S,JG30.S,GND,22 AWG,140,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 SD2,U2.H5.D,SV10.BUS2.D,BUS_DATA,22 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U2.H5.V U2.H5.G
 SD2,U2.H5.G,JG10.S,GND,22 AWG,140,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U2.H5.D U2.H5.V

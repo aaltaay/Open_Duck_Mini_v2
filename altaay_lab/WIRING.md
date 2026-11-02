@@ -1,13 +1,12 @@
 # WIRING: Open Duck Mini v2, altaay-lab build
 
-Last updated: 2026-11-01 (America/New_York). Follows the wiring decisions D8 to D13, D15 and D17 in DECISIONS.md (D15, 6:48 PM ET, replaced D14; D17, 7:24 PM ET).
+Last updated: 2026-11-02 (America/New_York). Follows the wiring decisions D8 to D13, D15, D17 and D23 in DECISIONS.md (D15 replaced D14; D23, the ankle second feeds, 2026-11-02).
 
-Source of truth: wiring/netlist.yaml (every part, pin, wire, colour, cut length and expected current; schema at the top of the file). The drawings are generated from it and stop with an error if a netlist cable is missing:
-- wiring/odm_v2_wiring_pictorial.svg and .png (make_pictorial.py, A2): every wire drawn terminal to terminal in its colour, parts drawn with their real connectors and printed labels, placed by body region.
-- wiring/odm_v2_schematic.svg and .png (make_schematic.py, A3): electrical schematic with the Pi header table.
-- wiring/odm_v2_harness.svg and .png (make_harness.py, A3): routing by body region, joints crossed, cut list.
+Source of truth: wiring/netlist.yaml (every part, pin, wire, colour, cut length and expected current; schema at the top of the file). Generated from it:
+- Drawings: wiring/sheets/WIRING_SHEETS.md, five A3 sheets (power, servo bus, Pi and sensors, head expression, harness overview) made by wiring/sheets/make_sheets.py; the run stops if any netlist wire is not drawn in full.
+- Build order, cut list and end treatment per wire: HARNESS_BUILD.md (wiring/make_harness_build.py). Continuity list: audit/continuity_checklist.csv (audit/erc.py). Cable routes in 3D: cables3d/CABLES_3D.md.
 
-Superseded: wiring/make_wiring.py and wiring/odm_v2_wiring.png and .svg (old block diagram with the AITRIP BMS, an unrated switch, the head chain on adapter port 1 and the upstream GPIO table). Kept for history. Do not wire from them.
+Superseded, kept for history, not regenerated, do not wire from them: wiring/odm_v2_wiring_pictorial, wiring/odm_v2_schematic and wiring/odm_v2_harness (.svg and .png) and their generators make_pictorial.py, make_schematic.py and make_harness.py, replaced by wiring/sheets/WIRING_SHEETS.md (they do not show the 2026-11-02 netlist: D23 feeds, new cut lengths, P7 splices); and the older wiring/make_wiring.py with wiring/odm_v2_wiring.png and .svg (block diagram with the AITRIP BMS, an unrated switch, the head chain on adapter port 1 and the upstream GPIO table).
 
 Tags used below:
 - [U] upstream (Open_Duck_Mini docs/assembly_guide.md, Runtime code at 376de65, Tnkr guide).
@@ -25,14 +24,14 @@ All drawings show the robot seen from behind: robot left is on the left.
 | 3 | BMS: Tenergy P/N 32175 (board RYD-02S-032). 10 A working, over-current detect 22 +/- 5 A, loop 25 mOhm max, 34 x 16 x 4.5 mm, no balancing | | | pads from the Tenergy product image: B-, B1 (mid tap), B+, P-, P+, T (NTC output) | [L] D10 |
 | 4 | BMS P+ / P- | USB-C charger B+ / B- | P4 / P5 20 AWG | Adeept B0BJTW4QBR, solder | [U] |
 | 5 | BMS P+ / P- | XT30U female + / - | P6 / P8 16 AWG | Amass XT30U, solder cups | [U] |
-| 6 | XT30U male + | fuse holder lead 1, lead 2 to 2815 VIN | P7 (the 2 holder leads, 16 AWG, 90 mm each) | Littelfuse 0287015.PXCN 15 A ATO in FHAC0001ZXJ (50 x 17.2 x 17.2 mm) | [L] D3 |
+| 6 | XT30U male + | fuse holder lead 1, lead 2 to 2815 VIN | P7: the 2 holder leads (16 AWG, 90 mm each), lengthened with 16 AWG red at splices JFI (20 mm) and JFO (40 mm) | Littelfuse 0287015.PXCN 15 A ATO in FHAC0001ZXJ (50 x 17.2 x 17.2 mm) | [L] D3 |
 | 7 | XT30U male - | splice G | P14 16 AWG | solder splice, heat shrink | [L] |
 | 8 | Pololu 2815 VOUT | splice VSW (switched pack, 6.0 to 8.4 V) | P9 16 AWG | solder in the large hole | [L] D8 |
-| 9 | 2815 SW pad + its GND pad (pair marked with a switch symbol) | stock panel switch in the body_back cutout | P15 26 AWG x2 | solder lugs; use the 2 lugs that close when ON [I] | [L] D8 |
+| 9 | 2815 SW pad + its GND pad (pair marked with a switch symbol) | stock panel switch SW2 in the body_back cutout | P15 26 AWG x2 | solder lugs; use the 2 lugs that close when ON [I] | [L] D8 |
 | 10 | splice G | 2815 GND (large hole) | P16 20 AWG | control ground only [I] | [L] |
 | 11 | VSW / G | Castle CC BEC Pro input red / black | P10 16 AWG x2 | solder to the BEC leads | [L] D3 |
-| 12 | BEC output: both 3-pin leads cut, reds joined (JB+), blacks joined (JB-) | belly power splices SPV / SPG | P11 16 AWG x2, 60 mm | solder, adhesive heat shrink; third wires insulated [I] | [L] D15 |
-| 13 | SPV / SPG | first servo of each chain, BUS 2 V and G | SP1 (ID 20), SP2 (ID 10), SP3 (ID 30), 22 AWG pairs | Molex 50-37-5033 + 08-70-1040 (22 to 28 AWG) | [L] D15 |
+| 12 | BEC output: both 3-pin leads cut, reds joined (JB+), blacks joined (JB-) | belly power splices SPV / SPG | P11 16 AWG x2, 100 mm | solder, adhesive heat shrink; third wires insulated [I] | [L] D15 |
+| 13 | SPV / SPG | first servo of each chain, BUS 2 V and G; the ankle servos, BUS 1 V and G (data cavity empty) | SP1 (ID 20), SP2 (ID 10), SP3 (ID 30); SP4 (ID 24), SP5 (ID 14); 22 AWG pairs | Molex 50-37-5033 + 08-70-1040 (22 to 28 AWG) | [L] D15, D23 |
 | 14 | VSW / G | Pololu D30V30F5 VIN / GND on the head floor | P13 20 AWG x2, up the neck | solder | [L] D4, D8 |
 | 15 | D30V30F5 VOUT / GND | Pi pin 2 (5 V) / pin 6 (GND) | P12 20 AWG x2 | solder to the header | [L] D8 |
 | 16 | Pi pin 4 (5 V) / pin 14 (GND) | head splices J5 / JG, then both SG90 and the MAX98357A | P17 20 AWG x2 | solder splices | [L] D8, [I] pin 14 |
@@ -65,14 +64,15 @@ Why: the adapter schematic marks "MAX:6A" at the servo header (all servo current
 
 | Chain | Power (V, G) | Data (D) and its GND | Then kit cables | Tag |
 |---|---|---|---|---|
-| Left leg: 20 L hip_yaw, 21, 22, 23, 24 L ankle | SP1 from SPV/SPG to ID 20 BUS 2 | adapter H3 D through the data Y splice YD3 (SD1 branch a); H3 G through YG3, joined to the SP1 ground at JG20 | S2, S3, S4, S5 | [L] D15, [U] IDs |
+| Left leg: 20 L hip_yaw, 21, 22, 23, 24 L ankle | SP1 from SPV/SPG to ID 20 BUS 2; second feed SP4 to ID 24 BUS 1, data cavity empty (D23) | adapter H3 D through the data Y splice YD3 (SD1 branch a); H3 G through YG3, joined to the SP1 ground at JG20 | S2, S3, S4, S5 | [L] D15, D23, [U] IDs |
 | Neck: 30 neck_pitch, 31 head_pitch, 32 head_yaw, 33 head_roll | SP3 to ID 30 BUS 2 | H3 D through YD3 (SD1 branch b); H3 G through YG3, joined at JG30 | S11, S12, S13 | [L] D15, [U] IDs |
-| Right leg: 10 R hip_yaw, 11, 12, 13, 14 R ankle | SP2 to ID 10 BUS 2 | adapter H5 D (SD2); H5 G joined at JG10 | S7, S8, S9, S10 | [L] D15, [U] IDs |
+| Right leg: 10 R hip_yaw, 11, 12, 13, 14 R ankle | SP2 to ID 10 BUS 2; second feed SP5 to ID 14 BUS 1, data cavity empty (D23) | adapter H5 D (SD2); H5 G joined at JG10 | S7, S8, S9, S10 | [L] D15, D23, [U] IDs |
 
 - Adapter: H3 and H5 get a Molex 50-37-5033 housing with only D and G (V position empty). H1 screw terminal NOT connected. Jumper on B (USB). Its 3.3 V logic runs from USB VBUS through diodes (Waveshare schematic). Bench check: the adapter must enumerate and drive the bus with H1 unpowered.
 - H3 and H5 are in parallel and the board does not print which socket is which [I], so either socket can take either lead.
 - Each first-servo housing has one wire per terminal; the two grounds are spliced before the housing (JG20, JG30, JG10).
-- Ports: in on BUS 2, out on BUS 1 (Tnkr). The last servo of each chain (24, 33, 14) has BUS 1 free. Kit cable: 5264-3P, 150 mm, 1:1. S1, S6 and S14 are gone.
+- Ports: in on BUS 2, out on BUS 1 (Tnkr). ID 33 has BUS 1 free; 24 and 14 take SP4 and SP5 on BUS 1. Kit cable: 5264-3P, 150 mm, 1:1, gauge not published (as shipped). S1, S6 and S14 are gone.
+- Port pins (Feetech STS3215 sheet item 6-7): 1 GND, 2 Vcc, 3 signal, V in the middle. The Waveshare adapter numbers its sockets from the other end (1 D, 2 V, 3 G). Copy a kit cable housing for every made lead and check it with a meter.
 - Bus data and bus power share the servo ground; the data line is 3.3 V logic from the adapter buffers.
 
 ## 3. Raspberry Pi Zero 2 W header (D9: wired to the Runtime code at 376de65)
@@ -118,6 +118,7 @@ Eyes and antennas are swapped compared with the upstream assembly_guide pin tabl
 | BEC input P10 | 3.75 A | 5.62 A | 14.6 A | 16 AWG |
 | BEC output P11 (bus current) | 3.19 A | 4.78 A | 12.5 A | 16 AWG; ngspice: 8.3 to 9.1 A peaks |
 | SP1, SP2, SP3 | not simulated per branch | | | 22 AWG (terminal limit) |
+| SP4, SP5 (D23) | about 1.0 A | about 1.5 A | about 2.9 A | 22 AWG; sim/POWER_FIX.md ngspice, our build, nominal pack |
 | 5 V feed P13 (neck) | 0.48 A | 1.91 A | | 20 AWG |
 | 5 V out P12 | 0.6 A | 2.4 A | | 20 AWG |
 | P17 to the SG90s and amp | | 1.9 A [I] | | 20 AWG |
@@ -131,12 +132,12 @@ Real servos may draw up to 2 x the sim numbers until a bench log exists (CURRENT
 
 - Tenergy P/N 32175 2S protection board (D10).
 - Pololu 2815 Big MOSFET Slide Switch HP (D8); the stock panel switch only controls it.
-- Pololu D30V30F5 5 V step-down, #4892 (D4, D8). BOM line 9 still shows the HENGE UBEC: update it.
+- Pololu D30V30F5 5 V step-down, #4892 (D4, D8), BOM line 9.
 - Castle Creations CC BEC Pro 010-0004-01 at 7.2 V, Castle Link V4 011-0173-00 (D3).
 - Littelfuse FHAC0001ZXJ holder and 0287015.PXCN 15 A ATO fuse (D3).
 - Adafruit 3878 USB cable, 0.9 m (D1); Same Sky CMS0361KLX speaker (D11).
 - Omron SS-01 foot switches, SS-10 as the fallback (D17); 2 x 2.2 kOhm 1/4 W, Adafruit 2782 (BOM 13b).
-- 22 AWG wire for SP1 to SP3 and SD1, SD2; Molex 50-37-5033 housings and 08-70-1040 terminals (5 housings, 13 terminals used).
+- 22 AWG wire for SP1 to SP5 and SD1, SD2; Molex 50-37-5033 housings and 08-70-1040 terminals (7 housings, 17 terminals used).
 
 ## 6. Checks before power on
 
@@ -148,3 +149,4 @@ Real servos may draw up to 2 x the sim numbers until a bench log exists (CURRENT
 6. Nothing on BMS B- except the cell; T pad insulated.
 7. Feet (D17): fit SS-01 if it was in stock, else SS-10; with R4 and R5 a closed foot carries about 1.5 mA. Check both feet read reliably (feet_contacts.py prints them) over a long stand and walk.
 8. If you run code other than Runtime 376de65, check the eye, antenna and foot pins against it.
+9. Second feeds (D23): at ID 24 and ID 14 BUS 1 the V and G cavities beep to SPV and SPG and the data cavity is empty.

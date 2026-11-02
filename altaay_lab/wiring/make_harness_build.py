@@ -8,6 +8,7 @@ seats on the printed brackets and which ties hold it). Re-run after any netlist 
 import csv
 import json
 import os
+import re
 import time
 from collections import OrderedDict, defaultdict
 
@@ -22,7 +23,7 @@ OUT = os.path.join(LAB, "HARNESS_BUILD.md")
 
 GROUPS = [
     ("1. Battery bay power", ["P1", "P2", "P3", "P4", "P5", "P6", "P8", "P7", "P14", "P9", "P16", "P15", "P10"]),
-    ("2. Belly servo power (D15)", ["P11", "SP1", "SP2", "SP3"]),
+    ("2. Belly servo power (D15, D23)", ["P11", "SP1", "SP2", "SP3", "SP4", "SP5"]),
     ("3. Servo data leads and kit cables", ["SD1", "SD2", "S2", "S3", "S4", "S5", "S7", "S8", "S9", "S10", "S11", "S12", "S13"]),
     ("4. Power up the neck to the head", ["P13", "P12", "P17"]),
     ("5. Pi, IMU and feet", ["D1", "D2", "D3", "D4"]),
@@ -33,9 +34,11 @@ GROUPS = [
 def end_step(e, pin, splices):
     k = (e or "").lower()
     if "50-37-5033" in k:
-        empty = " (V position left empty)" if "empty" in k else ""
+        m = re.search(r"\((\w+) position empty\)", e or "", re.I)      # V empty at the adapter (D15), DATA at the ankles (D23)
+        empty = " (%s position left empty)" % m.group(1).upper() if m else ""
         return ("crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing "
-                "until it clicks%s. Copy the position order of a servo kit cable housing exactly, then tug-test" % empty)
+                "until it clicks%s. Copy the position order of a servo kit cable housing exactly, check it with a meter, "
+                "then tug-test" % empty)
     if "5264 plug" in k:
         return "kit cable plug (ships with the servo), no work"
     if "splice" in k:
