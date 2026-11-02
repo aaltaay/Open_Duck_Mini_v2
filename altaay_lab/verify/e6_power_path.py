@@ -53,6 +53,13 @@ def gates_from_test_plan():
     return (float(a.group(1)), float(b.group(2)), float(b.group(3)), timed, b.group(1)) if a and b else None
 
 
+def knees_timed():
+    """TEST_PLAN.md section 9 also times the knees and the head roll (the bullet proposed with the as-built check)"""
+    tp = open(V.lab("TEST_PLAN.md"), encoding="utf-8").read()
+    sec = re.search(r"^## 9\..*?(?=^## )", tp, re.M | re.S)
+    return bool(sec and re.search(r"time the knees and the head roll", sec.group(0)))
+
+
 def run_sim(od, traces, env_extra):
     js = os.path.join(od, "power_path_sim.json")
     if not (os.environ.get("VERIFY_REUSE") == "1" and os.path.exists(js)):
@@ -216,12 +223,14 @@ def main():
         worst_typ = max(typ, key=lambda x: x[6]) if typ else max(lows, key=lambda x: x[6])
         neck = max(((tn, c) for tn, dd in runs for c in dd["cases"] if "pack nominal" in c["label"] and c["label"].endswith("typical R")),
                    key=lambda x: x[1]["servo_pct_below_6V"]["head_roll"])
-        R.find("WARN", "with SP4/SP5 the ankle is no longer the lowest leg servo: at a nominal pack the %s is (typical corner, %s: "
+        R.find("INFO" if knees_timed() else "WARN",
+               "with SP4/SP5 the ankle is no longer the lowest leg servo: at a nominal pack the %s is (typical corner, %s: "
                "%s %.2f V minimum, %s %.1f %% of the time under 6.0 V, ankle %.1f %%); the neck chain has no second feed (head roll "
-               "%.2f V, %.1f %% under 6.0 V, typical, %s). TEST_PLAN.md section 9 times only the ankles" % (
+               "%.2f V, %.1f %% under 6.0 V, typical, %s). TEST_PLAN.md section 9 %s" % (
                    worst_typ[3].split("_", 1)[1], worst_typ[0], worst_typ[3].replace("_", " "), worst_typ[4],
                    worst_typ[5].replace("_", " "), worst_typ[6], worst_typ[7], neck[1]["servo_V_min"]["head_roll"],
-                   neck[1]["servo_pct_below_6V"]["head_roll"], neck[0]),
+                   neck[1]["servo_pct_below_6V"]["head_roll"], neck[0],
+                   "times the knees and the head roll too" if knees_timed() else "times only the ankles"),
                fix="TEST_PLAN.md section 9: time every servo under 6.0 V (the log has all 14), and pass on the knees and the head roll "
                    "as on the ankles; sim/POWER_PATH_SIM.md 'As built' has the numbers", where="altaay_lab/TEST_PLAN.md section 9")
     # ---------------------------------------------------------------- documented as-built table reproduced

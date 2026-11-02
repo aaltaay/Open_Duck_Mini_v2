@@ -145,9 +145,11 @@ if at_gate["ank"] > ank_pct:
            where="altaay_lab/TEST_PLAN.md sections 5 and 9")
 if scope == "ankle" and at_gate["any"] > ank_pct:
     R.find("WARN", "at the section 5 gate (%.0f mOhm) the ankles pass, but the %s is under 6.0 V for %.1f %% of the walk (%s, as built, "
-           "nominal, typical pack side): with SP4/SP5 the knee and the head roll, not the ankle, are the low points, and section 9 "
-           "times only the ankles%s" % (gate * 1000, at_gate["any_who"].replace("_", " "), at_gate["any"], at_gate["any_tn"],
-                                        "; every servo under 10 %% needs about %.0f mOhm per conductor" % (estA * 1000) if estA else ""),
+           "nominal, typical pack side): with SP4/SP5 the knee and the head roll, not the ankle, are the low points, %s%s" % (
+               gate * 1000, at_gate["any_who"].replace("_", " "), at_gate["any"], at_gate["any_tn"],
+               "and section 9 times them too, so a hop that passes section 5 can fail the walking log"
+               if re.search(r"time the knees and the head roll", s9) else "and section 9 times only the ankles",
+               "; every servo under 10 %% needs about %.0f mOhm per conductor" % (estA * 1000) if estA else ""),
            fix="TEST_PLAN.md section 9: time every servo, not only the ankles (E6); if the knees join the gate, section 5 needs "
                "at most %d mOhm per conductor on 2S (the typical corner is %.1f), else the 3S plan" % (
                    int(estA * 1000) if estA else int(gate * 1000), (fixed + 0.010) * 1000),
