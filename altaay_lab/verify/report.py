@@ -16,44 +16,51 @@ import vlib as V  # noqa: E402
 
 ORDER = ["E1", "E2", "E3", "E4", "E5", "E6", "E6b", "E7", "E8", "E9", "C1", "C2", "C3", "C4a", "C4b", "C5", "C6", "C7", "C8", "C9", "C10", "C11"]
 
-RUN_NOTES = [  # dated observations that a single run cannot show (agent NL2, final docs pass, 2026-11-02)
-    "Re-run 2026-11-02 by agent NL2 (final docs pass) for the lead. A first full run, 12:46 to 12:54 AM ET, after the netlist final "
-    "pass (agent NL1) and the D22 print profile (agent PP), gave 19 PASS, 2 FAIL (C3, C4a), 1 NOT RUN (C8). After the fixes in the "
-    "next note and a viewer rebuild (make_viewer_data.py --write-bom, 1:05 AM ET), this page comes from a second full run, 1:05 to "
-    "1:16 AM ET. The input table at the end gives the time of every file read.",
-    "Fixed between the two runs, on the lead's ask: sim/mass_budget.py had no position for the new splices JFI and JFO (C8 stopped "
-    "on KeyError 'JFI'); they now sit at the fuse holder seat and sim/MASS_BUDGET.md is re-run (2651.9 g). cables3d/cables3d.json "
-    "took its cut lengths from the netlist without re-routing (the P7 holder leads and their extensions summed), then check_cables.py "
-    "and make_report.py. fasteners/fasteners.json has two 0.3 mm eye washers per screw (DECISIONS.md D21 note) and its BOM summary "
-    "names lines 17j to 17l (C4a).",
-    "Checks changed in this pass (verify/): c9 reads BOM line 27's PLA need from print/PRINT_PLAN.md (it was hard-coded to the "
-    "1474.5 + 27.8 g of the plan before D22) and the build mass from sim/MASS_BUDGET.md, compares only whole-set STL counts, and "
-    "checks the robot mass only in START_HERE.md and README.md, as its docstring says. c8 reads the build mass and compares tracking "
-    "with the walk run within 1 % of it (print/MASS_STUDY.md variant c, 13 g lighter). e6b models the wiring the netlist builds "
-    "(sim/power_fix.py option 3b with SP4 and SP5) on the trained-mass and our-build traces and reads the gate from TEST_PLAN.md "
-    "section 5; it now runs after c8. c3 sums the netlist pieces joined at a splice that the 3D record does not route (P7 at JFI and "
-    "JFO). e1 takes its counts from the netlist.",
-    "Still modelled without the D23 feeds: E6 and C7 run the star wiring of sim/power_path_sim.py (they reproduce the star rows of "
-    "POWER_PATH_SIM.md); sim/POWER_FIX.md has the D23 numbers (Pololu 2815 at 99 to 101 % of 6 A, first-servo contacts halved). E8 "
-    "passed in this run (56 tests); the old flaky panic test now reads Torque Enable back (bench/odm_bench/walkhooks.py), and one "
-    "pass does not prove the flake is gone. The one FAIL left, C3, is two 20 mm ground tails (JG10 and JG30 to the first servo) "
-    "that route 21 mm; cables3d's own chain check passes them because those splices float along the lead.",
+RUN_NOTES = [  # dated observations that a single run cannot show (agent INT, integration pass, 2026-11-02)
+    "Run 2026-11-02 by agent INT (integration pass) for the lead, after the PRT, PWR, SW and CAB jobs and their texts in the docs "
+    "(DECISIONS.md D25 and the D21 and D23 notes, TEST_PLAN.md 1.3, 1.4, 4.2, 5, 8.2b and 9, HARDWARE_AUDIT.md B14 and B35, BOM.md "
+    "test order line TO17), with blueprint/make_scene_extras.py and make_viewer_data.py --write-bom run again first. This page "
+    "comes from one full run, 5:22 to 5:35 AM ET; C4, C6, C7, C8, C9, E6 and E6b ran again 5:37 to 5:41 AM ET after the last doc edits (C9 once more at 5:44 AM ET after the STATE.md date line) "
+    "(TEST_PLAN.md 5 and 8.2a numbers from this run, STATE.md), with the same results. The input table at the end gives the time "
+    "of every file read.",
+    "Changed for this run (verify/): run_all.sh runs c8 right after e5, so E6 and C7 also get our build's traces; c7 cites the "
+    "Molex catalog page MX01 B-101 for the 3.0 A contact rating at 22 AWG. viewer/make_viewer_data.py reads the D22 print grams "
+    "from print/SLICE_SUMMARY.md (1280.3 g for the robot set; PRINT_CHECK.md's 1409.0 g is from before D22) and counts the "
+    "stick-on mounts by type (BOM 34 and 34b); blueprint/make_scene_extras.py writes two 0.3 mm washers per eye screw and the "
+    "SP4 and SP5 housings.",
+    "The two FAILs are known and are not doc errors. E6b: TEST_PLAN 9 now times every servo (lead decision L1, DECISIONS.md D23 "
+    "note) and the section 5 hop gate stays 40 mOhm per conductor, the fix-before-assembly gate, so a hop between about 28 and "
+    "40 mOhm passes section 5 and fails section 9 in sim; closing it is a decision (a 28 mOhm gate on 2S, or the 3S plan of "
+    "sim/POWER_FIX.md option 6). C8: sim/mass_budget.py on today's netlist gives 2652.8 g (MASS_BUDGET.md says 2651.9 g; +0.9 g "
+    "of wire from the D25 cut changes), and the single 15 N pushes run of that model tracks 0.618 of the command against 0.63 in "
+    "print/MASS_STUDY.md variant (c), 0.0118 apart against the check's 0.011 (0.628 on the 2.6519 kg model in the runs of 1:08 "
+    "and 2:01 AM ET); 0 falls in 36 runs, and the 6 seeded pushes runs give 0.621 mean as before. A mass budget re-run and the "
+    "walk doc belong to the sim owner.",
+    "E6 and C7 now check the robot as wired: D15 plus the D23 feeds SP4 and SP5, every length and gauge read from "
+    "wiring/netlist.yaml at run time (sim/power_path_sim.py topology as_built, which runs sim/power_fix.py option ab, the 3b "
+    "network with the netlist values and the data-lead grounds), on the trained-mass (E5) and our-build (C8) traces; E6b sweeps "
+    "the hop on the same network. The star rows of POWER_PATH_SIM.md are history. E8 passed in this run (63 tests; the race "
+    "test failed 0 of 4 runs); agent SW ran the whole suite 10 times, every second run under load, 10 of 10 passed. C3 judges "
+    "lengths by chain through floating splices (as check_cables.py), with the twist take-up of the twisted cables, recomputes "
+    "the joint loops between the real ties from robot.urdf and reports what holds every tie point (D25; agent CAB, 2026-11-02).",
 ]
 
 HARDWARE = [
-    ("Every made cable: crimp pull, connector fit, heat shrink, length at both limits of every joint it crosses",
-     "TEST_PLAN.md section 1", "C2 (end treatments), C3 (lengths, loops, the 2 foot jumpers)"),
+    ("Every made cable: crimp pull, connector fit, heat shrink (34 sleeves, 2 x OD on the splices) and twist lay, length, joint "
+     "loops and the 75 tie points at both limits of every joint it crosses (the test fit)",
+     "TEST_PLAN.md section 1 (1.3, 1.4)", "C1 (sleeve count), C2 (end treatments), C3 (lengths with the twist take-up, 43 loops "
+     "at 3 x OD, what holds each tie point, the 2 foot jumpers)"),
     ("Continuity and polarity of every wire, no short between nets", "TEST_PLAN.md section 2 (audit/continuity_checklist.csv)", "E1"),
     ("Cells, holder drop at 10 A, BMS trip, first charge", "TEST_PLAN.md section 3", "C7 (BMS margin on falls)"),
     ("BEC set point, input sweep and the 0.30 V dropout pass, Pololu 2815 at 5 A and 10 minutes at 6 A, 5 V regulator, fuse holder",
-     "TEST_PLAN.md section 4", "E6 (BEC dropout 0.3 V assumed), C7 (2815 near its 6 A rating; 99 to 101 % with D23, sim/POWER_FIX.md)"),
-    ("Kelvin resistance of one servo hop", "TEST_PLAN.md section 5", "E6b (the 40 mOhm gate with the D23 second feeds)"),
+     "TEST_PLAN.md section 4", "E6 (BEC dropout 0.3 V assumed), C7 (Pololu 2815 at 99 % of its 6 A point as built, sim RMS 5.92 A)"),
+    ("Kelvin resistance of one servo hop", "TEST_PLAN.md section 5", "E6b (as built: the ankles hold to about 60 mOhm, every servo to about 28 mOhm)"),
     ("Adapter enumerates with H1 unpowered and drives one servo", "TEST_PLAN.md section 6", "C7 (ground return through the adapter)"),
     ("First servo: registers 41 to 86, register 85 = 0, firmware, speed, thermal hold", "TEST_PLAN.md section 7", "E8 (bench scripts on a fake bus)"),
     ("Weigh the robot and find its centre of mass; staged power-up; all 14 IDs answer", "TEST_PLAN.md section 8 (8.0 is the mass step)",
      "C8 (backward margin 4 to 6 mm), C5 (IDs)"),
-    ("Walking log: every servo voltage and current, ankle time under 6 V counted in time, checksum errors, forward speed",
-     "TEST_PLAN.md section 9", "E6, E6b (bench/power_log.py reads in phase with the control loop: it needs its own timer first)"),
+    ("Walking log: every servo voltage and current, time under 6 V of every servo counted in time (ankles, knees, head roll at 10 %), checksum errors, forward speed",
+     "TEST_PLAN.md section 9", "E6, E6b (sim), E8 (bench/power_log.py on the fake bus: own timer in the loop's idle time, time count matches an exact share)"),
     ("IMU: 1000 still reads, tilt signs", "TEST_PLAN.md section 10", "none (no sim check of B20)"),
     ("Battery cut-off at servo Present Voltage 6.0 V; exit code 10 when torque off is not confirmed", "TEST_PLAN.md section 11",
      "E8 (battery guard and torque read-back on the fake bus)"),
@@ -62,7 +69,9 @@ HARDWARE = [
     ("Screw head fits the CAD cannot settle: servo bag split, horn gap, M2x5 heads, hip roll inner screw rub",
      "HARDWARE_AUDIT.md B2, B6, B21; D18 first-leg check", "E7, C4a, C4b"),
     ("Hip yaw kept under 21.7 deg outside the walk (manual moves, find_soft_offsets.py, falls): F198/F211 heads",
-     "TEST_PLAN.md 8.2a (+/-20 deg, robot hanging, hip yaw held by hand)", "C11 (walk and turn reach 10.4 deg; nothing in the Runtime limits it)"),
+     "TEST_PLAN.md 8.2a (+/-20 deg, robot hanging, hip yaw held by hand)", "C11 (walk and turn reach 10.5 deg; nothing in the Runtime limits it)"),
+    ("Head yaw kept within +/-45 deg for manual moves; the neck bundle loop turned once to the full +/-160 deg at the test fit",
+     "TEST_PLAN.md 8.2b and 1.4 (D25)", "C3 (neck loops meet 3 x OD over +/-160 deg in CAD), E9 (head yaw the policy uses in the sim walk)"),
     ("Ankle plugs and the SP4/SP5 feeds at the foot_side apex", "TEST_PLAN.md 1.5 (HARDWARE_AUDIT B33)", "C3 (the SP4/SP5 routes touch foot_side in CAD)"),
 ]
 

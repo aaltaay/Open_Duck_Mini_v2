@@ -3,7 +3,8 @@
 
 Items: a connector body at every cable end (Mini-SPOX housings with their crimp terminals, kit cable 5264 plugs,
 XT30 halves, USB plugs, camera FPC ends, the Pi 2x20 header, the amp speaker terminal block), a solder joint
-marker at every soldered pad, header pin, hole, lug, tab and terminal, the 13 splices, the 5 resistors, heat
+marker at every soldered pad, header pin, hole, lug, tab and terminal, 13 of the 15 splices (JFI and JFO at the fuse
+holder are placed by viewer/make_viewer_data.py step 10f), the 5 resistors, heat
 shrink sleeves at the XT30 cups and the inline lead joints, foam tape pads under the taped parts, the eye glass
 discs, the projector reflector, the microSD card, the ATO fuse, the eye screw washers, the SG90 horns and the
 kapton wrap of the BMS.
@@ -84,9 +85,8 @@ SRC = dict(
             "raspberrypizerow.stl (raised body 1.5 mm, card inserted from the board end)",
     ato="UNVERIFIED 19.1 x 18.8 x 5.1 mm (ATO size from distributor listings seen in search, Littelfuse 287 datasheet not "
         "reached); orientation inside the holder [I]",
-    washer="fasteners.json: M2.5 flat washer 0.5 mm thick under each eye screw head (fasteners.json bom: 'new' line, none in "
-           "BOM.md yet); OD 5.0 mm "
-           "UNVERIFIED (DIN 433 M2.5 is 5.0, DIN 125 M2.5 is 6.0)",
+    washer="fasteners.json: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BOM 17l, BelMetric WFHV2.5X5SSA4) "
+           "under each eye screw head (D21 note)",
     sg90horn="UNVERIFIED stand-in 7 x 7 x 2 mm on the SG90 output shaft (antenna joint axis), under the antenna holder "
              "recess; the SG90 bag horn has no published size and is not in the CAD",
     tblock="UNVERIFIED stand-in 7.0 x 7.0 x 8.5 mm: 2-position 3.5 mm terminal block that ships with the Adafruit 3006 "
@@ -132,7 +132,7 @@ class Rows:
             "pi": r"^Raspberry Pi Zero 2 W", "pullup": r"^Foot switch pull-up", "ledres": r"^LED resistor",
             "glass": r"^Eye glass disc", "reflector": r"^Projector reflector", "microsd": r"^microSD card",
             "fuse": r"^Fuse, Littelfuse", "amp": r"^I2S amplifier", "sg90": r"^SG90-class antenna servo",
-            "kitcable": r"^Servo kit cable", "kapton": r"Kapton|[Pp]olyimide", "washer": r"^M2\.5x8 .*washer"}
+            "kitcable": r"^Servo kit cable", "kapton": r"Kapton|[Pp]olyimide", "washer": r"^M2\.5 flat washer"}
 
     def __init__(self, path):
         self.rows = list(csv.DictReader(open(path, encoding="utf-8"))) if os.path.exists(path) else []
@@ -620,33 +620,34 @@ def main():
         o.add("hs-U1-OUT%dS" % k, "heat_shrink", "Insulation cap on the cut third wire of BEC output lead %d" % k, "shrink", "26",
               LK("JB"), pj + np.array([12.0, dy, 0]), (1, 0, 0), (0, 1, 0), (6.0, 3.0, 3.0), COLOR["shrink"],
               "netlist U1 OUT%dS 'third wire insulated [I]' (P11); placed next to the JB splices [I]" % k, cable="P11")
-    # D9: 20 mm of 26 AWG added to each SG90 lead wire near the Pi end
-    grp = np.mean([P("PI.32"), P("J5"), P("JG")], 0)
-    r9 = routes.get("D9")
-    if r9:
-        pts = [np.array(q["p"], float) for q in (r9.get("runs") or [r9])[0]["points"]]
-        pts_w = []
-        for q in (r9.get("runs") or [r9])[0]["points"]:
-            T = s.T0[q["link"]]
-            pts_w.append(T[:3, :3] @ np.array(q["p"], float) + T[:3, 3])
-        pts_w = np.array(pts_w)
-        if np.linalg.norm(pts_w[0] - grp) < np.linalg.norm(pts_w[-1] - grp):
-            pts_w = pts_w[::-1]
-        acc = np.r_[0, np.cumsum(np.linalg.norm(np.diff(pts_w, axis=0), axis=1))]
-        tgt = acc[-1] - 20.0
-        k = max(1, int(np.searchsorted(acc, tgt)))
-        q0 = pts_w[k - 1] + (pts_w[k] - pts_w[k - 1]) * (tgt - acc[k - 1]) / max(acc[k] - acc[k - 1], 1e-6)
-        dq = unit(pts_w[k] - pts_w[k - 1])
-        how9 = "20 mm from the Pi end along the routed D9 run (cables3d.json)"
-    else:
-        dq = unit(grp - P("SGR"))
-        q0 = grp - dq * 20.0
-        how9 = "D9 not routed in cables3d.json yet: 20 mm from the Pi end on the straight line toward the right SG90 lead exit"
-    sd9 = unit(np.cross(dq, (0, 0, 1))) if abs(dq[2]) < 0.9 else np.array([1.0, 0, 0])
-    for k, wn in enumerate(("SIG", "VCC", "GND")):
-        o.add("hs-D9-%s" % wn, "heat_shrink", "Heat shrink over the D9 lead extension joint, right SG90 %s" % wn, "shrink", "26",
-              "head_assembly", q0 + sd9 * (k - 1) * 2.2, dq, sd9, (8.0, 2.0, 2.0), COLOR["shrink"],
-              "netlist D9 'lead 250 mm is 18 mm short: add 20 mm of 26 AWG x3'; %s; sleeve 8 x 2 mm UNVERIFIED" % how9, cable="D9")
+    if any(w["gauge"] == "SG90 lead + 26 AWG" for w in wires if w["cable"] == "D9"):   # D9 sleeves only while the netlist extends the lead
+        # D9: 20 mm of 26 AWG added to each SG90 lead wire near the Pi end
+        grp = np.mean([P("PI.32"), P("J5"), P("JG")], 0)
+        r9 = routes.get("D9")
+        if r9:
+            pts = [np.array(q["p"], float) for q in (r9.get("runs") or [r9])[0]["points"]]
+            pts_w = []
+            for q in (r9.get("runs") or [r9])[0]["points"]:
+                T = s.T0[q["link"]]
+                pts_w.append(T[:3, :3] @ np.array(q["p"], float) + T[:3, 3])
+            pts_w = np.array(pts_w)
+            if np.linalg.norm(pts_w[0] - grp) < np.linalg.norm(pts_w[-1] - grp):
+                pts_w = pts_w[::-1]
+            acc = np.r_[0, np.cumsum(np.linalg.norm(np.diff(pts_w, axis=0), axis=1))]
+            tgt = acc[-1] - 20.0
+            k = max(1, int(np.searchsorted(acc, tgt)))
+            q0 = pts_w[k - 1] + (pts_w[k] - pts_w[k - 1]) * (tgt - acc[k - 1]) / max(acc[k] - acc[k - 1], 1e-6)
+            dq = unit(pts_w[k] - pts_w[k - 1])
+            how9 = "20 mm from the Pi end along the routed D9 run (cables3d.json)"
+        else:
+            dq = unit(grp - P("SGR"))
+            q0 = grp - dq * 20.0
+            how9 = "D9 not routed in cables3d.json yet: 20 mm from the Pi end on the straight line toward the right SG90 lead exit"
+        sd9 = unit(np.cross(dq, (0, 0, 1))) if abs(dq[2]) < 0.9 else np.array([1.0, 0, 0])
+        for k, wn in enumerate(("SIG", "VCC", "GND")):
+            o.add("hs-D9-%s" % wn, "heat_shrink", "Heat shrink over the D9 lead extension joint, right SG90 %s" % wn, "shrink", "26",
+                  "head_assembly", q0 + sd9 * (k - 1) * 2.2, dq, sd9, (8.0, 2.0, 2.0), COLOR["shrink"],
+                  "netlist D9 'lead 250 mm is 18 mm short: add 20 mm of 26 AWG x3'; %s; sleeve 8 x 2 mm UNVERIFIED" % how9, cable="D9")
 
     # ---------------------------------------------------------------- 7. foam tape pads
     pl = {r["id"]: r for r in json.load(open(PLACEMENTS))}
@@ -717,13 +718,14 @@ def main():
             continue
         ax = unit(r["axis_world"])
         seat = np.array(r["seat_world"], float)
-        t = float(r["washer"].get("t", 0.5))
-        nw += 1
-        o.add("washer-%s" % r["id"], "other", "M2.5 washer 0.5 mm under %s (%s into %s)" % (r["id"], r["spec"].split(" +")[0],
-              r.get("into")), "washer", L_WASHER, r["link"], seat - ax * t / 2.0, ax, (0, 1, 0) if abs(ax[1]) < 0.9
-              else (1, 0, 0), (t, 5.0, 5.0), COLOR["washer"],
-              "fasteners.json %s seat_world and axis_world (washer between the head and %s); %s" % (r["id"], r.get("part"), SRC["washer"]),
-              shape="cylinder", fastener=r["id"])
+        n, te = int(r["washer"].get("n", 1)), float(r["washer"].get("t_each", r["washer"].get("t", 0.5)))
+        for k in range(n):
+            nw += 1
+            o.add("washer-%s-%d" % (r["id"], k + 1), "other", "M2.5 washer %.1f mm, %d of %d under %s (%s into %s)" % (
+                      te, k + 1, n, r["id"], r["spec"].split(" +")[0], r.get("into")), "washer", L_WASHER, r["link"],
+                  seat - ax * te * (k + 0.5), ax, (0, 1, 0) if abs(ax[1]) < 0.9 else (1, 0, 0), (te, 5.0, 5.0), COLOR["washer"],
+                  "fasteners.json %s seat_world and axis_world, washer %d of %d from %.1f to %.1f mm out of the seat; %s" % (
+                      r["id"], k + 1, n, te * k, te * (k + 1), SRC["washer"]), shape="cylinder", fastener=r["id"])
     for side in ("left", "right"):
         j = s.joints[side + "_antenna"]
         Tc = s.T0[j["child"]]
@@ -787,7 +789,7 @@ def main():
                      fasteners=fz.get("meta", {}).get("generated_by", ""), bom_full=os.path.relpath(BOMFULL, LAB),
                      placements="audit/placements.json"),
         bom_full_rows="ids from bom_full.csv at generation time; ids shift when BOM_FULL is regenerated, so bom_full_item "
-                      "gives the row name to match on; empty = no BOM_FULL row (washer, kapton: no purchase line)",
+                      "gives the row name to match on; empty = no BOM_FULL row",
         summary=summary, notes=notes)
     tmp = OUT + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:

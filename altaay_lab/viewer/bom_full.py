@@ -512,16 +512,16 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
             tie_row.update(qty=len(tied), unit="pcs", nodes=[t["node"] for t in tied],
                            note=tie_row["note"] + "; %d placed along the cables in the 3D view, one per retention item "
                                                   "(%s)%s" % (len(tied), kinds, ", %d at gaps" % gaps if gaps else ""))
-        for kind, n in sorted(Counter(t["kind"] for t in ties).items()):
-            if "cable tie" in kind or "feature" in kind:
-                continue            # on the cable tie row only: no other part
-            sel = [t for t in ties if t["kind"] == kind]
+        for (kind, line), n in sorted(Counter((t["kind"], t["line"]) for t in ties).items()):
+            if "cable tie" in kind or "feature" in kind or not line:
+                continue            # on the cable tie row only: no other part (a drilled tie-hole pair is not a part)
+            sel = [t for t in ties if t["kind"] == kind and t["line"] == line]
             gaps = sum(1 for t in sel if t["gap"])
-            line = sel[0]["line"]
             n_k += 1
-            rows.append(_row(id="K%02d" % n_k, section="Consumables and other", item=kind[0].upper() + kind[1:],
+            item = {"34": "Adhesive tie mount MB3A", "34b": "Adhesive tie mount ABM1M-AT-C"}.get(line, kind[0].upper() + kind[1:])
+            rows.append(_row(id="K%02d" % n_k, section="Consumables and other", item=item,
                              spec="placed along the cables (altaay_lab/cables3d)", qty=len(sel), nodes=[t["node"] for t in sel],
-                             line=line, status=("printed" if line == "27" else "bought") if line else "MISSING",
+                             line=line, status="printed" if line == "27" else "bought",
                              note="%d at places where the CAD has no feature" % gaps if gaps else "",
                              source="[L] altaay_lab/cables3d/cables3d.json retention"))
 

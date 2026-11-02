@@ -1,7 +1,7 @@
 # START HERE: Open Duck Mini v2 (Altaay lab fork)
 
 Read this file first. It is written so a new agent on a different account can pick up the duck build with no other context.
-Last written: 2026-11-01 2:18 PM ET by Legged Robots, Grok Bot agent of Ahmed Altaay. Updated 2026-11-01 about 7:00 PM ET by the Claude Code agent (print-readiness pass under Ahmed's delegation; branch claude/print-ready, pull request into altaay-lab). Updated 2026-11-02 about 12:10 AM ET by agent NL2 (final docs pass of the night session: status, decisions D1 to D24, repo map, next steps).
+Last written: 2026-11-01 2:18 PM ET by Legged Robots, Grok Bot agent of Ahmed Altaay. Updated 2026-11-01 about 7:00 PM ET by the Claude Code agent (print-readiness pass under Ahmed's delegation; branch claude/print-ready, pull request into altaay-lab). Updated 2026-11-02 about 12:10 AM ET by agent NL2 (final docs pass of the night session: status, the decisions up to D24, repo map, next steps). Updated 2026-11-02 about 5:20 AM ET by agent INT (integration pass after the PRT, PWR, SW and CAB jobs: status, decisions D1 to D25, the test order, verification).
 
 ## What this is
 This repo is a public fork of [apirrone/Open_Duck_Mini](https://github.com/apirrone/Open_Duck_Mini). Upstream branch `v2` is left untouched at b23317a. All Altaay lab work lives ONLY on branch `altaay-lab`, ONLY in this `altaay_lab/` folder.
@@ -13,16 +13,17 @@ Owner bot: **Legged Robots, Grok Bot agent of Ahmed Altaay**. The duck is one of
 Naming: "Mento" and "Minto" in older files and commits refer to the same owner bot, now named Legged Robots (Grok Bot agent of Ahmed Altaay).
 
 ## Current status (plain words)
-- Nothing bought, nothing printed. Phase: ready for the coupon print, a short session cut from the real parts (print/PRINT_PLAN.md) that waits for Ahmed's OK (lab rule 4).
-- Decisions D1 to D24 are made (DECISIONS.md), most under Ahmed's delegation: C001 servos with a 1-servo bench test first; Tenergy 32175 BMS; 15 A fuse kept; Pololu 2815 MOSFET main switch with the stock panel switch as its control; Castle CC BEC Pro at 7.2 V; servo power bypasses the Waveshare adapter (D15, belly splices, one power lead per chain); Pololu 5 V regulator on the head floor; GPIO wired to the Runtime code; LED resistors; software battery cut-off (D16); SS-01 gold-contact foot switches with pull-ups (D17); screw fixes D18 to D21; light print profile (D22); second power feeds into both ankles, 3S pack held until the walking log (D23); a drilled hole for the projector leads (D24).
-- Every part not in the upstream CAD has a measured seat (audit/placements.json, MOUNTING.md); every screw, insert and washer is in the fastener schedule (fasteners/); every cable is routed in 3D with its ties (cables3d/). No STL edit: D20 and D24 are drill steps after printing.
-- Blockers: 21 of 35 cleared or decided; none blocks the coupon print (HARDWARE_AUDIT.md section 6).
-- Electrical verification (sim pass only): current budget (sim/CURRENT_BUDGET.md), ngspice power path to every servo (sim/POWER_PATH_SIM.md) and the ankle fix (sim/POWER_FIX.md), electrical rule check with 0 errors (audit/ERC_REPORT.md), wiring sheets from the netlist, and a hardware test plan with pass/fail numbers (TEST_PLAN.md). VERIFICATION.md runs every check that needs no robot.
+- Nothing bought, nothing printed. Phase: at the edge of printing. The coupon print is next, a short session cut from the real parts (print/PRINT_PLAN.md: S1 11 coupons, 41.2 g PLA, 4.14 h; S2 one TPU sole) that waits for Ahmed's OK (lab rule 4).
+- Decisions D1 to D25 are made (DECISIONS.md), most under Ahmed's delegation: C001 servos with a 1-servo bench test first; Tenergy 32175 BMS; 15 A fuse kept; Pololu 2815 MOSFET main switch with the stock panel switch as its control; Castle CC BEC Pro at 7.2 V; servo power bypasses the Waveshare adapter (D15, belly splices, one power lead per chain); Pololu 5 V regulator on the head floor; GPIO wired to the Runtime code; LED resistors; software battery cut-off (D16); SS-01 gold-contact foot switches with pull-ups (D17); screw fixes D18 to D21; light print profile (D22); second power feeds into both ankles, 3S pack held until the walking log (D23); a drilled hole for the projector leads (D24); cable retention on 75 tie points with stick-on mounts, three drilled tie-hole pairs and bundle ties checked at the test fit, joint loops at 3 x OD and twisted made cables (D25).
+- Every part not in the upstream CAD has a measured seat (audit/placements.json, MOUNTING.md); every screw, insert and washer is in the fastener schedule (fasteners/); every cable is routed in 3D with its ties (cables3d/, 75 tie points). No STL edit: D20, D24 and D25 are drill steps after printing.
+- Blockers: 22 of 35 cleared or decided; none blocks the coupon print (HARDWARE_AUDIT.md section 6).
+- Electrical verification (sim pass only): current budget (sim/CURRENT_BUDGET.md), ngspice power path to every servo as wired, D15 plus the D23 ankle feeds with the netlist lengths (sim/POWER_PATH_SIM.md 'As built') and the ankle fix study (sim/POWER_FIX.md), electrical rule check with 0 errors (audit/ERC_REPORT.md), wiring sheets from the netlist, and a hardware test plan with pass/fail numbers (TEST_PLAN.md). VERIFICATION.md runs every check that needs no robot.
+- Bench software: the walking voltage log (TEST_PLAN 9, bench/power_log.py --walk) reads every servo on its own timer inside the walk loop's sleep and counts time under 6 V for every servo; 63 bench tests pass on a simulated servo bus (software/SOFTWARE.md section 6, VERIFICATION.md E8).
 - Wiring: wiring/netlist.yaml is the single source for the sheets, the harness build sheet and the rule check.
 - Every upstream issue and PR (137) is triaged in UPSTREAM_ISSUES.md; the gaps that affect this build are listed first.
 - Exploded 3D parts check (private artifact): https://claude.ai/artifact/PHSJH2PwQZLhZnTf9WgaMo (data script viewer/make_viewer_data.py). 52/52 printed parts, 14/14 servos, 58/58 inserts, 3/3 bearings found in the CAD.
 - Sim: the stock BEST_WALK_ONNX_2 walks in MuJoCo with no falls on flat ground at the trained mass and at our heavier build, slower: the build is 2.65 kg, 26 % over the trained 2.107 kg; the walks ran at 2.77 kg and at 2.64 kg (sim pass only; sim/MASS_BUDGET.md, print/MASS_STUDY.md). The upstream sim loop adds a +1.3 accelerometer bias that training and the robot do not; lab runs remove it (sim/SIM_WALK.md note).
-- Known risks to measure on the bench: knee servo heat (TO1 thermal hold; SERVO_UPGRADE_OPTIONS.md if it fails), ankle voltage sag on 2S (TEST_PLAN 9), CC BEC Pro dropout, the Pololu 2815 at its 6 A rating, servo register 85 and firmware (upstream issue 48), BNO055 I2C glitches, hip yaw past 21.7 deg outside the walk (TEST_PLAN 8.2a).
+- Known risks to measure on the bench: knee servo heat (TO1 thermal hold; SERVO_UPGRADE_OPTIONS.md if it fails), knee, ankle and head roll voltage sag on 2S (TEST_PLAN 9; with SP4/SP5 the knees and the head roll dip most), CC BEC Pro dropout, the Pololu 2815 at 99 % of its 6 A (55 C) rating in sim (TEST_PLAN 4.2), servo register 85 and firmware (upstream issue 48), BNO055 I2C glitches, hip yaw past 21.7 deg outside the walk (TEST_PLAN 8.2a).
 - Issue #48 question: posted upstream by aaltaay on 2026-11-01 1:08 PM ET (DECISIONS.md D1). No reply read.
 
 ## Hard requirements (lab-wide, set by Ahmed)
@@ -53,7 +54,7 @@ Duck note on "bus servos only": the 14 joint servos are serial bus. The optional
 | START_HERE.md | This file. |
 | README.md | Intro, official links, licenses, upstream commit pins. |
 | STATE.md | Current state and next steps. |
-| DECISIONS.md | Decisions D1 to D24 with reasons (D1 through D7 began as open questions). |
+| DECISIONS.md | Decisions D1 to D25 with reasons (D1 through D7 began as open questions). |
 | BOM.md, bom.json | US BOM with item prices (no shipping), longevity and lab change lines. |
 | GAPS.md | Gap list vs lab rules (B7 is the stair exemption reason). |
 | REFERENCES.md | Sources. |
@@ -69,7 +70,7 @@ Duck note on "bus servos only": the 14 joint servos are serial bus. The optional
 | TEST_PLAN.md | Hardware tests with pass/fail numbers, from cable continuity to the walking voltage log. |
 | UPSTREAM_ISSUES.md | Every upstream issue and PR triaged, gaps first. |
 | sim/CURRENT_BUDGET.md, sim/current_budget.py | Servo current from the stock walk (sim pass only). |
-| sim/POWER_PATH_SIM.md, sim/power_path_sim.py | ngspice model of the power path to every servo (sim pass only). |
+| sim/POWER_PATH_SIM.md, sim/power_path_sim.py | ngspice model of the power path to every servo; topology as_built (the default) reads wiring/netlist.yaml (sim pass only). |
 | wiring/netlist.yaml | Single source of truth for every pin and wire; drawings are generated from it. |
 | audit/erc.py, audit/ERC_REPORT.md, audit/continuity_checklist.csv | Electrical rule check of the netlist and the beep list for the cable test. |
 | audit/free_space.py, audit/place_parts.py, audit/placements.json | Free space in the swept trunk volume and the seats of parts not in the CAD. |
@@ -115,17 +116,19 @@ CAD, STL and sim assets are not copied here. Use the upstream commits. Onshape C
 | Google Drive | Ahmed's lab Drive folder "Altaay Robotics Lab" (private). It has no Duck folder yet. |
 
 ## Open decisions
-Full text: [DECISIONS.md](DECISIONS.md). D1 to D24 are decided (D14 superseded by D15). Still Ahmed's call:
-- OK to buy the test order (BOM.md "Needs test order") and OK for the coupon print session (print/PRINT_PLAN.md). Both need his yes (lab rules 4 and 7).
-- Printer model (not in any lab file): the print package is printer-agnostic, bed at least 220 x 220 mm.
+Full text: [DECISIONS.md](DECISIONS.md). D1 to D25 are decided (D14 superseded by D15). Still Ahmed's call, most important first:
+1. OK to start the coupon print session (print/PRINT_PLAN.md: S1 11 coupons, 41.2 g PLA, 4.14 h; S2 one TPU sole, 17.6 g, 2.19 h)? Lab rule 4.
+2. OK to buy the test order (BOM.md "Needs test order", 17 lines, $231.50)? Lab rule 7.
+3. Printer model (not in any lab file): the print package is printer-agnostic, bed at least 220 x 220 mm.
 
 ## Next steps
 1. Ahmed says yes or no to (a) the coupon print session and (b) the test order.
-2. Coupon session: print the coupons and test parts (with the D22 light insert coupons), check them against print/PRINT_PLAN.md, write the results in history/.
+2. Coupon session: print the coupons and test parts (with the D22 light insert coupons and the T1 eye screw stack), check them against print/PRINT_PLAN.md, write the results in history/.
 3. Test order arrives: TEST_PLAN.md sections 1 to 7 (cables, battery and BMS, BEC sweep and dropout, Pololu 2815 heat, regulator, one servo with register 85, firmware and the thermal hold, Kelvin hop resistance).
-4. First leg print and its checks (D18, D19, the B33 foot_side fit), then the other plates; freeze tag (STL pin, BOM, netlist, print settings) and the assembly map.
-5. Staged power-up with the hip yaw limit, then the walking voltage log (TEST_PLAN.md sections 8 to 12). The log decides the 3S pack (D23).
-6. Later lab step: self-docking and get-up after falls, in sim first (needs a pack voltage and current monitor).
+4. First leg print and its checks (D18, D19, the B33 foot_side fit), then the other plates; the drill steps after printing (D20, D24, D25); freeze tag (STL pin, BOM, netlist, print settings) and the assembly map.
+5. Harness build and the test fit (TEST_PLAN.md 1.3 to 1.5: sleeves, twist, loops, the 75 tie points, ankle plugs).
+6. Staged power-up with the hip yaw and head yaw limits, then the walking voltage log (TEST_PLAN.md sections 8 to 12). The log decides the 3S pack (D23).
+7. Later lab step: self-docking and get-up after falls, in sim first (needs a pack voltage and current monitor).
 
 ## How to contribute without conflicts
 - One owner per file. The owner bot of this repo is Legged Robots, Grok Bot agent of Ahmed Altaay. Do not edit another agent's files; copy them and ask the owner (through Ahmed) for changes.

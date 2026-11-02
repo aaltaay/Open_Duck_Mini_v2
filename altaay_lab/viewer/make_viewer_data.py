@@ -19,7 +19,8 @@ What it does (re-run it any time the docs, the STLs or placements.json change):
      <out>/duck.glb.txt   the same GLB as base64 text (the artifact host does not serve .glb files)
      <out>/manifest.json  node id -> label, file, subassembly, category, qty, material, print g/h,
                           BOM line, mount note, status; the checklist; the explode vectors.
-Docs parsed on every run: PRINT_CHECK.md, BOM.md, HARDWARE_AUDIT.md (section 6 blockers).
+Docs parsed on every run: PRINT_CHECK.md, print/SLICE_SUMMARY.md (print grams and hours of the D22 profile), BOM.md,
+HARDWARE_AUDIT.md (section 6 blockers).
 
 The output folder must be outside the repo (no models in git).
 Usage: python3 make_viewer_data.py --out /path/outside/the/repo
@@ -336,6 +337,35 @@ def load_docs():
                              g_total=num(r.get("g total")), h_total=num(r.get("h total")),
                              flags=r.get("Flags", ""), inserts=r.get("Inserts", ""), orient=r.get("Orientation", ""),
                              footprint=r.get("Footprint mm", ""), height=r.get("Height mm", ""), bed=r.get("Bed fit", ""))
+    # print grams and hours of the D22 light profile (DECISIONS.md D22) from print/SLICE_SUMMARY.md, used when that table is
+    # clean: the same STLs and quantities as PRINT_CHECK.md and its parts add up to its Total row. PRINT_CHECK.md (7:24 PM ET
+    # run, before D22) stays the source of the geometry columns (orientation, bed fit, flags) and the fallback for the grams.
+    global PRINT_SOURCE
+    ss = [t for t in md_tables(SLICE_SUMMARY) if t["header"][:2] == ["STL", "Qty"] and "g each" in t["header"]] \
+        if os.path.exists(SLICE_SUMMARY) else []
+    tot = [r for t in (md_tables(SLICE_SUMMARY) if ss else []) if t["header"][:4] == ["Material", "Parts", "Grams", "Hours"]
+           for r in t["rows"] if r["Material"].strip().lower() == "total"]
+    why = "print/SLICE_SUMMARY.md has no per-part table" if not ss else ""
+    if ss:
+        d22 = {r["STL"].replace(".stl", ""): r for r in ss[0]["rows"]}
+        if {k: int(num(v["Qty"])) for k, v in d22.items()} != {k: v["qty"] for k, v in printed.items()}:
+            why = "print/SLICE_SUMMARY.md per-part STLs or quantities differ from PRINT_CHECK.md"
+        elif not tot:
+            why = "print/SLICE_SUMMARY.md has no Total row"
+        else:
+            g_sum = sum(num(v["g each"]) * int(num(v["Qty"])) for v in d22.values())
+            if abs(g_sum - num(tot[0]["Grams"])) > 0.5:
+                why = "print/SLICE_SUMMARY.md parts add up to %.1f g, its Total row says %s g" % (g_sum, tot[0]["Grams"])
+    if why:
+        PRINT_SOURCE = dict(doc="PRINT_CHECK.md", note=why + ": print grams from PRINT_CHECK.md (before D22)")
+        print("print grams: " + PRINT_SOURCE["note"])
+    else:
+        for stem, v in d22.items():
+            printed[stem].update(material="%s, %s" % (v["Material"], v["Profile"]), g_each=num(v["g each"]),
+                                 h_each=num(v["h each"]), g_total=num(v["g total"]), h_total=num(v["h total"]))
+        PRINT_SOURCE = dict(doc="print/SLICE_SUMMARY.md", total=dict(parts=num(tot[0]["Parts"]), grams=num(tot[0]["Grams"]),
+                                                                    hours=num(tot[0]["Hours"])),
+                            note="D22 light profile, PrusaSlicer 2.7.2 estimates (print/SLICE_SUMMARY.md per part table)")
     bom = []
     for t in md_tables(os.path.join(LAB, "BOM.md")):
         if t["header"][:2] != ["#", "Item"] or "Need" not in t["header"]:
@@ -371,6 +401,8 @@ def load_docs():
 
 FASTENERS_JSON = os.path.join(LAB, "fasteners", "fasteners.json")
 CABLES3D_JSON = os.path.join(LAB, "cables3d", "cables3d.json")
+SLICE_SUMMARY = os.path.join(LAB, "print", "SLICE_SUMMARY.md")      # D22 print grams (load_docs)
+PRINT_SOURCE = {}
 SCREW_PULL = 9.0                       # stage-3 pull of a screw out of its hole, mm
 SCREW_COLOR = {"M3": "#8f9aa5", "M2.5": "#b4bcc4", "M2": "#d2d7db"}
 HEAD_DEFAULT = {  # DIN 912 socket head (dk, k) and pan head sizes, mm (ISO 4762 / ISO 7045 nominal)
@@ -1571,7 +1603,6 @@ def main():
     # 10d. cable ties, adhesive mounts and guides (cables3d.json "retention"): the page draws them, BOM_FULL counts them
     retention_out, tie_rows = [], []
     tie_line = next((lid for lid, b in bom_full.bom_lines().items() if re.search(r"cable tie|zip tie", b["Item"], re.I)), "")
-    mount_line = next((lid for lid, b in bom_full.bom_lines().items() if re.search(r"tie mount|adhesive (tie|cable) mount", b["Item"], re.I)), "")
     for n_, r in enumerate(retention_in, 1):
         c = r.get("center_mm") or r.get("center")
         if c is None:
@@ -1587,7 +1618,13 @@ def main():
             note = "; ".join(x for x in (kind.split(":", 1)[1].strip() if ":" in kind else "", note) if x)
             kind = next((str(v) for k, v in r.items() if k != "kind" and "kind" in k and v), "cable tie")
         nid = "tie-%03d" % n_
-        line = tie_line if "tie" in kind and "mount" not in kind else (mount_line if "mount" in kind else ("27" if "printed" in kind else ""))
+        mtype = (r.get("mount_fit") or {}).get("type")
+        if "mount" in kind:
+            line = {"MB3A": "34", "ABM1M": "34b"}.get(mtype, "")    # D25: one BOM row per mount type; no fit, no part
+        elif "printed" in kind:
+            line = ""                                                # stock hole or drilled tie-hole pair: the tie only
+        else:
+            line = tie_line
         cabs = r.get("cables") or []
         man_nodes[nid] = dict(label="%s%s holding %s" % (kind[0].upper() + kind[1:], " (gap: no CAD feature)" if gap else "", ", ".join(cabs) or "cables"),
                               part="tie", file="(drawn)", link=hi["link"], sub=hi["sub"], category="tie", qty=1, material=None,
@@ -1596,7 +1633,7 @@ def main():
         retention_out.append(dict(id=str(r.get("id", nid)), node=nid, kind=kind, cables=cabs, center=np.round(w, 2).tolist(),
                                   axis=[float(x) for x in (r.get("axis") or [1, 0, 0])], follow=hi["id"], gap=gap,
                                   part=r.get("part"), note=note))
-        tie_rows.append(dict(kind=kind, line=line, node=nid, gap=gap))
+        tie_rows.append(dict(kind=kind, line=line, node=nid, gap=gap, mount=mtype))
     if retention_out:
         print("%d retention items (ties, mounts, guides) from cables3d.json" % len(retention_out))
 
@@ -1868,12 +1905,13 @@ def main():
             notes.append(dict(kind="info", text="Camera: the lens opening in head.stl (D %.2f mm) is %.2f mm off the centre of the 4 pilots, on the upper pilot row. "
                               "This matches the Camera Module 3 drawing (RP-008153-DS-1: lens on the upper hole row, 14.5 mm from the bottom edge). Checked 2026-11-01, no change needed." % (lh["d_mm"], off),
                               nodes=[k for k, r in man_nodes.items() if r["part"] in ("camera", "head")]))
-    doc_total = None
-    for t in md_tables(os.path.join(LAB, "PRINT_CHECK.md")):
-        if t["header"][:4] == ["Material", "Parts", "Grams", "Hours"]:
-            for r in t["rows"]:
-                if r["Material"].strip().lower() == "total":
-                    doc_total = dict(parts=num(r["Parts"]), grams=num(r["Grams"]), hours=num(r["Hours"]))
+    doc_total = PRINT_SOURCE.get("total")      # D22 grams from print/SLICE_SUMMARY.md when load_docs() found it clean
+    if doc_total is None:
+        for t in md_tables(os.path.join(LAB, "PRINT_CHECK.md")):
+            if t["header"][:4] == ["Material", "Parts", "Grams", "Hours"]:
+                for r in t["rows"]:
+                    if r["Material"].strip().lower() == "total":
+                        doc_total = dict(parts=num(r["Parts"]), grams=num(r["Grams"]), hours=num(r["Hours"]))
     n_printed_found = sum(found.values())
     n_printed_exp = sum(d["qty"] for d in pd_.values())
     bom_kinds = Counter(r["kind"] for r in bom_rows)
@@ -1882,6 +1920,7 @@ def main():
                      grams=doc_total["grams"] if doc_total else round(sum(d["g_total"] or 0 for d in pd_.values()), 1),
                      hours=doc_total["hours"] if doc_total else round(sum(d["h_total"] or 0 for d in pd_.values()), 1),
                      doc_total_parts=doc_total["parts"] if doc_total else None,
+                     grams_source=PRINT_SOURCE.get("doc", "PRINT_CHECK.md"), grams_note=PRINT_SOURCE.get("note", ""),
                      pla=sum(d["qty"] for d in pd_.values() if d["cat"] == "pla"), tpu=sum(d["qty"] for d in pd_.values() if d["cat"] == "tpu")),
         servos=dict(found=servo_n, expected=int(num([b["need"] for b in bom if b["line"] == "1"][0]))),
         inserts=dict(found=len(inserts), expected=int(num([b["need"] for b in bom if b["line"] == "16"][0])), by_part=dict(n_ins)),
@@ -1964,7 +2003,7 @@ def main():
                   units="mm", frame="URDF zero pose: x forward, y left, z up (glTF root turns it y-up, scale 0.001)",
                   sources=dict(urdf="mini_bdx/robots/open_duck_mini_v2/robot.urdf (Open_Duck_Mini b23317a)",
                                stl="print/ (STL commit 730c14b per PRINT_CHECK.md)", inserts="altaay_lab/audit/sites.json",
-                               docs="altaay_lab/PRINT_CHECK.md, BOM.md, HARDWARE_AUDIT.md section 6, MOUNTING.md"),
+                               docs="altaay_lab/PRINT_CHECK.md, print/SLICE_SUMMARY.md (D22 print grams), BOM.md, HARDWARE_AUDIT.md section 6, MOUNTING.md"),
                   placements=pl_note, assembly_json_match=asm_ok, frame_check_mm=frame_check,
                   unmapped=sorted(set(unmapped)), warnings=warnings,
                   glb=dict(bytes=os.path.getsize(glb_path), geometries=len(geoms), nodes=len(nodes),

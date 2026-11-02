@@ -10,8 +10,8 @@ A. Every conductor on the servo side that the netlist gives no current (P11 from
    every time point because the network has no reactive part), in both resistance corners; the worse corner counts.
    Compared with the chassis ampacity of the gauge (the AMP table in audit/erc.py) with erc.py's rules: mean over the
    limit FAIL, worst 100 ms over the limit WARN, worst 20 ms over 2 x the limit WARN.
-B. The 5264 / Mini-SPOX contact at the servo end of SP1 to SP5 and each kit cable plug against 3 A per contact ([I]
-   Molex 08-70-1040 distributor listings, read via search index 2026-11-02; Molex sheet not read).
+B. The 5264 / Mini-SPOX contact at the servo end of SP1 to SP5 and each kit cable plug against 3.0 A per contact at
+   22 AWG ([I] Molex catalog page MX01 B-101, CABLE_MAP.md 'Connector parts'; short-time rating not published there).
 C. Ground network as wired: the - side of the same network with the SP1 to SP5 grounds, the D15 data-lead grounds (SD1
    stem and branches, SD2), the adapter ground copper and the USB cable ground to the Pi; the share of servo return
    current through the adapter, compared with E6's ngspice probes.
@@ -177,10 +177,10 @@ def main():
     if over20:
         R.find("WARN", "worst 20 ms over 2 x the 26 AWG limit (erc.py rule), as built: %s" % ", ".join(over20))
     if overc:
-        R.find("WARN", "current through one 5264 / Mini-SPOX contact over its 3 A rating ([I] distributor listings) in the worst "
+        R.find("WARN", "current through one 5264 / Mini-SPOX contact over its 3.0 A rating at 22 AWG (Molex catalog page MX01 B-101, CABLE_MAP.md 'Connector parts') in the worst "
                "100 ms, as built (means %.1f to %.1f A): %s" % (min(overc_mean), max(overc_mean), ", ".join(overc)),
-               fix="read the Molex 08-70-1040 / 50-37-5033 sheet for the 3-circuit and short-time rating; log Present Current of "
-                   "the servos in TEST_PLAN.md section 9")
+               fix="short-time rating not published in the Molex pages read (CABLE_MAP.md 'Connector parts'); log Present "
+                   "Current of the servos in TEST_PLAN.md section 9")
     # ---------------------------------------------------------------- C: ground network as wired
     tot = minus_bk["_total"]["mean"]
     for e in ("lead", "sp_L", "sp_L_tail", "inj_L", "sp_R", "sp_R_tail", "inj_R", "sp_N", "sp_N_tail", "sd1a", "sd1b", "h3", "h5",

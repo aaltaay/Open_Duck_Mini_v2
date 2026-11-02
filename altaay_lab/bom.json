@@ -604,7 +604,7 @@
 {
 "i": "26",
 "item": "Heat shrink",
-"spec": "Wirefy 3:1 adhesive lined, 180 pcs",
+"spec": "Wirefy 3:1 adhesive lined, 180 pcs, 3.5 in each: 70 x 3/32 in, 50 x 1/8 in, 25 x 3/16 in, 16 x 1/4 in, 9 x 3/8 in, 5 x 1/2 in, 5 x 3/4 in (the 3/4 in count is 180 less the other six). The robot uses 34 sleeves (BOM_FULL rule): 2 x 3/32, 10 x 1/8, 7 x 3/16, 9 x 1/4, 3 x 3/8 in, and 3 small lead joints whose size waits for the lead diameters",
 "need": "1",
 "buy": "1",
 "pack": "180",
@@ -612,14 +612,14 @@
 "sup": "Amazon",
 "link": "https://www.amazon.com/Wirefy-180-Heat-Shrink-Tubing/dp/B084GDLSCK",
 "ships": "Yes",
-"ver": "Yes",
+"ver": "Yes; count per size from the amazon.fr listing of the same ASIN B084GDLSCK read through the search index 2026-11-02 about 1:30 AM ET (amazon.com is outside this session's network); 3.5 in pieces from the everymarket.com and thecncsource.com listings and wirefyshop.com, search index, same time",
 "sec": "Cables, connectors, wire"
 },
 {
 "i": "30",
 "item": "Solder wire",
 "spec": "Adafruit 1886: tin-lead, 63/37 since 2019-09-20 (page), no-clean rosin core, 0.5 mm (page also says about 0.6 mm), 50 g. Leaded: easier on 16 AWG with the Pinecil; wash hands after use",
-"need": "145 soldered wire ends in wiring/netlist.yaml, 24 of them 16 AWG, 13 splices (count in SOURCING_2026-11-02.md)",
+"need": "145 soldered wire ends in wiring/netlist.yaml, 24 of them 16 AWG, 15 splices with 52 wire ends in them (recounted 2026-11-02 about 5:15 AM ET by agent INT with the viewer/bom_full.py rule behind BOM_FULL.md K01: solder, header pin, resistor and LED lead, splice and XT30 cup ends of active wires; ends marked 'holder lead' or 'BEC lead', the part's own lead, are not counted)",
 "buy": "1",
 "pack": "50 g",
 "line": "9.25",
@@ -716,8 +716,8 @@
 {
 "i": "27",
 "item": "PLA",
-"spec": "Overture Easy PLA 1.75 mm 1 kg, black (need 1384 g sliced with the light profile of DECISIONS.md D22: robot set 1245 g plus the coupon session and 10 spares, print/PRINT_PLAN.md; about 616 g left for failed prints; 1445 g if the D22 coupon gate fails)",
-"need": "1384 g",
+"spec": "Overture Easy PLA 1.75 mm 1 kg, black (need 1389 g sliced with the light profile of DECISIONS.md D22: robot set 1245 g plus the coupon session and 10 spares, print/PRINT_PLAN.md; about 611 g left for failed prints; 1450 g if the D22 coupon gate fails)",
+"need": "1389 g",
 "buy": "2",
 "pack": "1 kg",
 "line": "29.98",
@@ -1080,7 +1080,7 @@
 {
 "i": "T14",
 "item": "Drill bit 4.0 mm",
-"spec": "HSS jobber, black oxide, 118 deg point, round shank, 75 mm long, 54 mm flutes, Qualtech DWDMM4.00; drills the 4.0 mm lead hole for the projector LED (D7) through the printed head wall (D24, print/PRINT_PLAN.md \"After printing\"); turned in the T13 holder",
+"spec": "HSS jobber, black oxide, 118 deg point, round shank, 75 mm long, 54 mm flutes, Qualtech DWDMM4.00; drills the 4.0 mm lead hole for the projector LED (D7) through the printed head wall (D24) and the three D25 cable tie-hole pairs (two in neck_right_sheet, one in the left leg's knee_to_ankle_right_sheet) (print/PRINT_PLAN.md \"After printing\" steps 4 and 5); turned in the T13 holder",
 "need": "1",
 "buy": "1",
 "pack": "1",

@@ -1,22 +1,22 @@
 {
  "summary": {
-  "items": 166,
+  "items": 177,
   "by_kind": {
-   "connector": 48,
-   "heat_shrink": 14,
-   "other": 77,
+   "connector": 54,
+   "heat_shrink": 11,
+   "other": 85,
    "splice": 13,
    "resistor": 5,
    "foam_pad": 6,
    "disc": 3
   },
   "solder_joints": 64,
-  "washers": 8,
-  "cables": 45,
-  "cables_all_ends_drawn": 45,
-  "cable_ends": 236,
+  "washers": 16,
+  "cables": 47,
+  "cables_all_ends_drawn": 46,
+  "cable_ends": 248,
   "lead_ends": 24,
-  "ends_with_body": 212,
+  "ends_with_body": 220,
   "no_bom_row": []
  },
  "per_cable": [
@@ -71,10 +71,13 @@
   },
   {
    "cable": "P7",
-   "ends": 4,
+   "ends": 8,
    "lead_ends": 2,
    "drawn_ends": 2,
-   "missing": []
+   "missing": [
+    "JFI.S",
+    "JFO.S"
+   ]
   },
   {
    "cable": "P14",
@@ -137,6 +140,20 @@
    "ends": 6,
    "lead_ends": 0,
    "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "SP4",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 4,
+   "missing": []
+  },
+  {
+   "cable": "SP5",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 4,
    "missing": []
   },
   {

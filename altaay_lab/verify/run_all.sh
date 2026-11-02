@@ -45,9 +45,10 @@ run c1_bom_coverage.py
 run c9_docs.py
 # 4. sims (sim pass only)
 run e5_current_budget.py
+# C8 writes our build's traces, which E6, C7 and E6b read
+run c8_policy_mass.py
 run e6_power_path.py
 run c7_current_ratings.py
-run c8_policy_mass.py
 # E6b uses the trained-mass trace (E5) and our build's trace (C8)
 [ "$QUICK" = 1 ] && [ -f "$VERIFY_OUT/E6b.json" ] && log "e6b_hop_sweep.py skipped (--quick)" || run e6b_hop_sweep.py
 # 5. CAD sweep of the hip roll screw, fasteners, cables, sheets, bench tests
