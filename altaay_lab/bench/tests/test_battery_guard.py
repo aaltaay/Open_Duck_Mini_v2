@@ -1,13 +1,15 @@
 """D16 battery guard: rules on synthetic and sim-derived sag profiles, then the real walk loop."""
 import json
 import math
+import os
 import random
+import subprocess
 
 import pytest
 
 import battery_guard as bg
-from conftest import DATA, IDS, ONNX, item, last_report, needs_walk
-from fake_sts3215 import VoltageProfile
+from conftest import BENCH, DATA, IDS, ONNX, PY, item, last_report, needs_libs, needs_walk
+from fake_sts3215 import SYNC_WRITE, VoltageProfile
 
 
 def feed(guard, seconds, fn, period=0.5, standing_after_stop=True, offset=0.0):
@@ -154,7 +156,10 @@ def test_walk_with_guard_full_sequence_on_sim_discharge(make_bus, run, duck_conf
 def test_rustypot_panic_after_checksum_error_is_caught(make_bus, run, duck_config):
     """UPSTREAM_ISSUES.md G10: a corrupted status packet makes rustypot return early, the rest of
     the sync read is still arriving, and the next send's flush-then-assert panics. With wire
-    timing on, the fake reproduces it; walk_with_guard turns torque off through pypot (exit 3)."""
+    timing on, the fake reproduces it; walk_with_guard turns torque off through pypot (exit 3).
+    The pass condition is the read-back: a sync write sent while the bus still babbles can sit
+    unprocessed or be lost (VERIFICATION.md E8), so the guard must read register 40 back and
+    write again until all 14 read 0, and only then report the stop as done."""
     bus = make_bus(reg85=0, volts=7.2, wire_time=True)
     bus.log_on = False
     import threading
@@ -171,7 +176,137 @@ def test_rustypot_panic_after_checksum_error_is_caught(make_bus, run, duck_confi
     if not crash:
         pytest.skip(f"no panic this run (timing race); errors {item(rep, '11.errors')['measured']}")
     assert "PanicException" in crash[0]["desc"], crash
+    assert "pypot low kp + torque off sent" in crash[0]["measured"], crash[0]["measured"]
+    tq = item(rep, "11.torque_off")
+    assert tq["status"] == "PASS", (tq, crash[0]["measured"], r.stdout[-2000:])
+    assert tq["measured"] == {str(i): 0 for i in IDS}, tq
     assert r.returncode == 3
-    assert "pypot low kp + torque off" in crash[0]["measured"], crash[0]["measured"]
     on = {i: (s.mem[40], s.mem[21]) for i, s in bus.servos.items() if s.mem[40] != 0}
     assert not on, (on, crash[0]["measured"], bus.counts)
+
+
+def keeps_torque(servo):
+    """This fake servo ignores torque off: register 40 stays 1 after any write to it."""
+    write = servo.write
+
+    def stuck(addr, data, now):
+        write(addr, data, now)
+        if addr <= 40 < addr + len(data):
+            servo.mem[40] = 1
+    servo.write = stuck
+
+
+def lose_next_torque_write(bus):
+    """The fake drops the next sync write to register 40, as a write lost on a noisy bus."""
+    lost, handle = [], bus._handle
+
+    def dropping(pkt, t_rx):
+        if not lost and pkt[4] == SYNC_WRITE and pkt[5] == 40:
+            lost.append(bytes(pkt))
+            return
+        handle(pkt, t_rx)
+    bus._handle = dropping
+    return lost
+
+
+HARD_STOP = r'''
+import json, sys
+sys.path.insert(0, sys.argv[2])
+from odm_bench import bus, joints, walkhooks
+
+
+class PanicException(BaseException):
+    """Stand-in for the pyo3 PanicException: after a G10 panic every rustypot call panics."""
+
+
+class DeadRustypot:
+    def set_kps(self, ids, kps):
+        raise PanicException("rustypot mutex poisoned")
+
+
+class HWI:
+    joints = dict(joints.JOINTS)
+    low_torque_kps = [2.0] * 14
+    io = DeadRustypot()
+
+    def turn_off(self):
+        raise PanicException("rustypot mutex poisoned")
+
+
+class NoExpression:
+    antennas = eyes = projector = False
+
+
+class Feet:
+    def stop(self):
+        pass
+
+
+cls = walkhooks.build_walk_class(object)
+walk = cls.__new__(cls)               # no RLWalk start-up: only what hard_stop uses
+walk.hwi, walk.duck_config, walk.feet_contacts = HWI(), NoExpression(), Feet()
+io = bus.open_pypot(sys.argv[1], sync_read=True)
+done = walk.hard_stop(io, low_gain_s=0.1, confirm_tries=4, retry_wait_s=0.1)
+print(json.dumps(dict(done=done, check=walk.torque_check)))
+'''
+
+
+def _hard_stop(bus):
+    """walkhooks.hard_stop with a dead rustypot and the real pypot on the fake bus, in a subprocess."""
+    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", ODM_PYPOT_TIMEOUT="0.2")
+    r = subprocess.run([PY, "-c", HARD_STOP, bus.path, str(BENCH)], capture_output=True, text=True, env=env,
+                       timeout=120)
+    assert r.returncode == 0, r.stderr[-2000:]
+    return json.loads(r.stdout.strip().splitlines()[-1]), r
+
+
+@needs_libs
+def test_hard_stop_writes_torque_off_again_until_it_reads_back(make_bus):
+    """E8 failure mode without the timing race: the first torque off sync write is lost. The
+    read-back sees register 40 = 1, writes again, and confirms 0 on all 14."""
+    bus = make_bus(reg85=0, volts=7.2)
+    for s in bus.servos.values():
+        s.mem[40] = 1
+    lost = lose_next_torque_write(bus)
+    res, r = _hard_stop(bus)
+    chk = res["check"]
+    assert lost, "the fake did not drop a torque off write"
+    assert chk["ok"] and chk["reads"] >= 2, res
+    assert chk["readback"] == {str(i): 0 for i in IDS}, chk
+    assert all(s.mem[40] == 0 for s in bus.servos.values())
+    assert all(s.mem[21] == 2 for s in bus.servos.values())          # low gains went out first
+    assert "TORQUE OFF NOT CONFIRMED" not in r.stdout + r.stderr
+
+
+@needs_libs
+def test_hard_stop_never_claims_torque_off_it_cannot_read_back(make_bus):
+    """ID 23 keeps torque and ID 31 never answers: both are named, loudly, and ok is False."""
+    bus = make_bus(reg85=0, volts=7.2)
+    for s in bus.servos.values():
+        s.mem[40] = 1
+    keeps_torque(bus.servos[23])
+    bus.fault(31).drop = True
+    res, r = _hard_stop(bus)
+    chk = res["check"]
+    assert not chk["ok"], res
+    assert chk["still_on"] == [23] and chk["no_answer"] == [31] and chk["reads"] == 4, chk
+    assert "TORQUE OFF NOT CONFIRMED" in r.stderr and "still on [23], no answer [31]" in r.stderr, r.stderr
+    assert {i for i, s in bus.servos.items() if s.mem[40]} == {23}
+
+
+@needs_walk
+def test_walk_battery_hard_stop_with_a_servo_that_keeps_torque_exits_10(make_bus, run, duck_config):
+    """The real walk loop: the pack falls under the walking floor, the guard hard stops, but ID 31
+    keeps torque. walk_with_guard must not report a safe stop: 11.torque_off FAIL, exit 10."""
+    bus = make_bus(reg85=0, volts=7.2)
+    bus.set_profile(VoltageProfile(rows=[(0.0, {i: 7.2 for i in IDS}), (0.5, {i: 5.0 for i in IDS})]), delay_s=7.0)
+    keeps_torque(bus.servos[31])
+    r, out = run("walk_with_guard.py", *_walk_args(bus, duck_config, "--max-seconds", "40", "--period", "0.1",
+                                                    "--poweroff-cmd", "true"), timeout=240)
+    rep = last_report(out, "walk_guard")
+    assert [e["event"] for e in rep["data"]["events"]] == ["hard_stop"], (rep["data"]["events"], r.stdout[-3000:])
+    assert r.returncode == 10, r.stdout[-3000:]
+    tq = item(rep, "11.torque_off")
+    assert tq["status"] == "FAIL" and tq["measured"] == {**{str(i): 0 for i in IDS}, "31": 1}, tq
+    assert "TORQUE OFF NOT CONFIRMED" in r.stdout and "still on [31]" in r.stdout
+    assert {i for i, s in bus.servos.items() if s.mem[40]} == {31}

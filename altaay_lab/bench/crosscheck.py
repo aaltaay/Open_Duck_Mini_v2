@@ -130,12 +130,14 @@ def rows(rt, lab):
     is_ai = "from openai import OpenAI" in fct and "RLWalk(" in fct
     add("TEST_PLAN 12 foot test script", "scripts/fc_test.py = OpenAI function-calling demo: starts RLWalk "
         "(walks) and calls the OpenAI API", "TEST_PLAN 12 says it shows the foot states",
-        False if ("fc_test.py" in tp and is_ai) else True, "fc_test.py lines 1, 19-20, 233",
+        True if "bench/feet_check.py" in tp else (False if ("fc_test.py" in tp and is_ai) else True),
+        "fc_test.py lines 1, 19-20, 233",
         "use mini_bdx_runtime/feet_contacts.py or bench/feet_check.py")
     cal = read(rt / "scripts" / "calibrate_imu.py")
     add("TEST_PLAN 10.2 tilt script", "scripts/calibrate_imu.py only runs the BNO055 calibration and saves "
         "imu_calib_data.pkl", "TEST_PLAN 10.2 and B20 use it for the tilt sign test",
-        False if ("calibrate_imu.py" in tp and "calibrate=True" in cal) else True, "calibrate_imu.py line 5; raw_imu.py lines 50-74",
+        True if "bench/imu_check.py" in tp else (False if ("calibrate_imu.py" in tp and "calibrate=True" in cal) else True),
+        "calibrate_imu.py line 5; raw_imu.py lines 50-74",
         "use bench/imu_check.py --tilt")
     cm = read(rt / "scripts" / "check_motors.py")
     add("TEST_PLAN 6 single servo", "check_motors.py only talks to the 14 joint IDs (HWI map); a new servo has ID 1",

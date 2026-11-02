@@ -4,7 +4,7 @@ Checks (each finding is ERROR, WARN or INFO):
  1. references: unique component ids and pins; every wire end names an existing COMP.PIN
  2. pin use: "nc" pins have no wire; every other pin has a wire or an internal short/mated link
  3. shorts: union-find over wires plus internal short/mated links; each connected group must carry one net only
- 4. domains: wire net domain vs the domains of both end pins; inputs must not see more than their domain maximum
+ 4. domains: wire net domain vs the domains of both end pins; inputs (dir in, bidir, pwr_in) must not see more than their domain maximum
  5. ampacity: wire current (walking mean, worst 100 ms, fall 20 ms) vs the chassis-wiring limit of its gauge
  6. crimps: Molex 08-70-1040 terminals take 22 to 28 AWG only
  7. connector match: a pin in a 5264-type socket group needs a 5264 plug or a 50-37-5033 housing on the wire end
@@ -101,7 +101,8 @@ for w in wires:
         if pd != nd:
             vmax_p, vmax_n = dom(pd).get("v_max"), dom(nd).get("v_max")
             sev = "INFO"
-            if p.get("dir") in ("in", "bidir") and vmax_p is not None and vmax_n is not None and vmax_n > vmax_p + 0.1:
+            # power inputs too (VERIFICATION.md E1 mutation M6: pack voltage on the 3.3 V BNO055 VIN was only INFO)
+            if p.get("dir") in ("in", "bidir", "pwr_in") and vmax_p is not None and vmax_n is not None and vmax_n > vmax_p + 0.1:
                 sev = "ERROR"
             add(sev, "domains", f"cable {w.get('cable')}: {w[end]} pin domain {pd} on net {w.get('net')} (domain {nd})")
 

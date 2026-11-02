@@ -22,12 +22,15 @@ What it adds around the Runtime loop (details in odm_bench/walkhooks.py):
   6. Thermal stop (any servo at its limit - 8 C on 2 reads): low gains for 0.5 s, torque off,
      no power off. Exit 8.
   7. A rustypot panic (UPSTREAM_ISSUES.md G10) -> torque off through the pypot handle, exit 3.
+  8. After every stop in 4 to 7, Torque Enable (register 40) is read back from all 14 servos and
+     torque off is written again until all read 0 (walkhooks.hard_stop). If a servo still reads 1
+     or never answers: a loud message, report item 11.torque_off FAIL, exit 10.
   Ctrl-C behaves like upstream (servos keep their last targets) unless --torque-off-on-exit.
 Logs: <out>/walk_guard/guard_<time>.csv (every guard tick), thermal_<time>.csv (hottest servo
 every second) and a JSON report with the TEST_PLAN 11 items.
 Exit codes: 0 normal end, 1 failed check, 3 bus failure, 4 battery too low to start, 5 no servo
 answered, 6 battery hard stop (power off requested), 7 thermal warn stop, 8 thermal stop,
-9 too hot to start.
+9 too hot to start, 10 torque off not confirmed after a stop (takes the place of 3, 6, 7 or 8).
 """
 import argparse
 import os
@@ -227,6 +230,8 @@ def main(argv=None):
         for f in (log, tlog):
             if not f.closed:
                 f.close()
+    if walk.torque_check is not None and not walkhooks.report_torque_check(rep, "11.torque_off", walk.torque_check):
+        code = walkhooks.EXIT_TORQUE_ON
     for ev in guard.events + (tg.events if tg else []):
         rep.add(f"11.{ev['event']}" if not ev["event"].startswith("thermal") else f"T.{ev['event']}",
                 ev["reason"], "INFO", ev.get("value", ev.get("temp_c")), None, f"t {ev['t']} s")
@@ -245,7 +250,8 @@ def main(argv=None):
                 "lab advisory limit")
     rep.add("11.errors", "bus errors (pypot and rustypot)", "INFO", errors.snapshot())
     rep.data.update(events=guard.events, thermal_events=tg.events if tg else [], config=cfg.as_dict(),
-                    thermal_config=tcfg.as_dict(), log=str(log_path), stop_log=walk.stop_log, loop=st)
+                    thermal_config=tcfg.as_dict(), log=str(log_path), stop_log=walk.stop_log, loop=st,
+                    torque_check=walk.torque_check)
     rc = rep.finish(out)
     return code or rc
 
