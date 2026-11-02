@@ -58,12 +58,12 @@ Subtotal: $68.90
 | # | Item | Spec | Need | Buy | Pack | Line $ | Supplier | Link | Ships to USA | Verified |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 20 | USB data cable | Adafruit 3878 USB C to Micro B, 0.9 m, 3.5 mm diameter; the route needs 502.6 mm by the lab rule, coil the rest in the belly (placement usb_slack) | 1 | 1 | 1 | 3.50 | Adafruit | https://www.adafruit.com/product/3878 | Yes | Yes: $3.50, in stock 2026-11-01 (B18 cleared) |
-| 21 | Mini-SPOX housing | Molex 50-37-5033, 3 pos 2.5 mm (mates STS3215 5264 sockets) | 2 | 10 | 1 | 1.43 | Newark 57H1785 | https://www.newark.com/search?st=50-37-5033 | Yes | Yes: $0.143 each at 1+ (one made lead, S14) |
-| 22 | Mini-SPOX crimp terminal | Molex 08-70-1040 (5263, 22 to 28 AWG) | 6 | 30 | 1 | 5.40 | Newark 54H5573 | https://www.newark.com/search?st=08-70-1040 | Yes | Yes: $0.180 each at 25+ (Mouser $0.23, 160,210 in stock, read via search index) |
-| L5 | Power wire 16 AWG | BNTECHGO silicone red and black 25 ft each | 1.7 m | 1 | 50 ft | 19.98 | Amazon | https://www.amazon.com/dp/B01MCRY7OT | Yes | Yes |
-| 23 | Wire 20 AWG | BNTECHGO silicone red 25 ft and black 25 ft | 1.6 m | 1 | 50 ft | 12.48 | Amazon | https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE | Yes | Yes |
-| 24 | Wire 22 AWG | BNTECHGO silicone 6 colors 25 ft each | 1.0 m | 1 | 150 ft | 16.98 | Amazon | https://www.amazon.com/BNTECHGO-Silicone-Spool-Color-100ft/dp/B09X4KY56S | Yes | Yes |
-| 25 | Wire 26 AWG | BNTECHGO silicone 7 colors 25 ft each | 9 m | 1 | 175 ft | 15.98 | Amazon | https://www.amazon.com/dp/B08F9CF85N | Yes | Yes |
+| 21 | Mini-SPOX housing | Molex 50-37-5033, 3 pos 2.5 mm (mates STS3215 5264 sockets); 5 made-lead housings after D15: ID 20, ID 10 and ID 30 BUS 2 (power plus data) and adapter H3 and H5 (data only), netlist count | 5 | 10 | 1 | 1.43 | Newark 57H1785 | https://www.newark.com/search?st=50-37-5033 | Yes | Yes: $0.143 each at 1+ (one made lead, S14) |
+| 22 | Mini-SPOX crimp terminal | Molex 08-70-1040 (5263, 22 to 28 AWG); 13 crimped ends in the netlist (D15) | 13 | 30 | 1 | 5.40 | Newark 54H5573 | https://www.newark.com/search?st=08-70-1040 | Yes | Yes: $0.180 each at 25+ (Mouser $0.23, 160,210 in stock, read via search index) |
+| L5 | Power wire 16 AWG | BNTECHGO silicone red and black 25 ft each (netlist cut lengths: red 0.53 m, black 0.58 m) | 1.1 m | 1 | 50 ft | 19.98 | Amazon | https://www.amazon.com/dp/B01MCRY7OT | Yes | Yes |
+| 23 | Wire 20 AWG | BNTECHGO silicone red 25 ft and black 25 ft (netlist cut lengths: red 0.90 m, black 0.99 m) | 1.9 m | 1 | 50 ft | 12.48 | Amazon | https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE | Yes | Yes |
+| 24 | Wire 22 AWG | BNTECHGO silicone 6 colors 25 ft each (netlist cut lengths: black 0.91 m, red 0.48 m, yellow 0.46 m) | 1.9 m | 1 | 150 ft | 16.98 | Amazon | https://www.amazon.com/BNTECHGO-Silicone-Spool-Color-100ft/dp/B09X4KY56S | Yes | Yes |
+| 25 | Wire 26 AWG | BNTECHGO silicone 7 colors 25 ft each (netlist cut lengths 8.8 m in all, black 3.5 m the most of one colour) | 8.8 m | 1 | 175 ft | 15.98 | Amazon | https://www.amazon.com/dp/B08F9CF85N | Yes | Yes |
 | 26 | Heat shrink | Wirefy 3:1 adhesive lined, 180 pcs | 1 | 1 | 180 | 14.99 | Amazon | https://www.amazon.com/Wirefy-180-Heat-Shrink-Tubing/dp/B084GDLSCK | Yes | Yes |
 
 Subtotal: $90.74

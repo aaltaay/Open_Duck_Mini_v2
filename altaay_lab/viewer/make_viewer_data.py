@@ -31,7 +31,7 @@ import re
 import struct
 import sys
 import time
-from collections import Counter, defaultdict
+from collections import Counter, OrderedDict, defaultdict
 
 import numpy as np
 import trimesh
@@ -156,34 +156,35 @@ V2_SERVO = {
 HORN_PULL, INSERT_PULL = 14.0, 11.0     # extra pull along the horn axis / insert bore, mm
 SHORT = {"bec_pro": "BEC Pro", "fuse_holder": "Fuse holder", "mosfet_switch": "Pololu 2815", "bms_tenergy": "Tenergy BMS",
          "reg_5v": "5 V reg", "xt30": "XT30U", "amp": "Amp", "speaker": "Speaker", "camera": "Camera", "led": "LED",
-         "foot_switch": "SS-10"}
+         "foot_switch": "SS-01"}
 
 # Placeholders for bought parts that are not in the CAD. ids match audit/place_parts.py.
 PLACEHOLDERS = [
     dict(id="bec_pro", label="Castle CC BEC Pro (servo 7.2 V regulator)", dims=[47, 33, 24], bom="L1",
-         blockers=["B11", "B28"], dims_note="47 x 33 x 24 mm envelope (Castle page lists 33 x 47 x 22).",
-         mount="No seat in the CAD (B11). Needs a lab placement and a clearance check."),
+         blockers=["B11", "B28"], dims_note="47 x 33 x 26 mm envelope covering the 3 published sizes (MOUNTING.md).",
+         mount="Belly floor inside body_middle_bottom, foam tape (BOM 29), leads toward the battery bay (MOUNTING.md, D11). "
+               "Minimum input voltage is measured on the bench first (TEST_PLAN.md section 4, D16)."),
     dict(id="fuse_holder", label="Littelfuse FHAC0001ZXJ inline ATO fuse holder", dims=[45, 20, 15], bom="L3",
-         blockers=["B11", "B28"], dims_note="Dims NOT verified: 45 x 20 x 15 mm stand-in.",
-         mount="Inline on lead P7 after the XT30, 16 AWG leads 89.5 mm (Littelfuse page). No position yet (B11)."),
+         blockers=["B11", "B28"], dims_note="Envelope 52 x 22 x 18 mm with the cover (Littelfuse drawing, D11).",
+         mount="Battery bay front wall, BMS side, foam tape. Inline on lead P7 between the XT30 and the Pololu 2815 (MOUNTING.md)."),
     dict(id="mosfet_switch", label="Pololu 2815 Big MOSFET Slide Switch HP", dims=[20.3, 25.4, 4.1], bom="10",
          blockers=["B22"], dims_note="20.3 x 25.4 x 4.1 mm.",
-         mount="Candidate for the power switch line. B22: 6 A continuous at 55 C, the body_back cutout fits the stock rocker."),
+         mount="Main power switch (D8): battery bay front wall, foam tape, on-board slide OFF, control pin to the body_back panel switch."),
     dict(id="bms_tenergy", label="Tenergy 32175 2S protection board", dims=[34, 16, 4.5], bom="8",
          blockers=["B12"], dims_note="34 x 16 x 4.5 mm.",
          mount="Replaces the modelled bms.stl (shown solid at the upstream position). Sandwiched between body_back and battery_pack_lid."),
-    dict(id="reg_5v", label="5 V regulator (Pololu step-down)", dims=[18, 18, 8], bom="9",
-         blockers=["B11", "B28"], dims_note="About 18 x 18 x 8 mm (approximate).",
-         mount="Not in CAD. BOM.md line 9 still names the HENGE UBEC (Tnkr puts it on the head floor, right half)."),
+    dict(id="reg_5v", label="5 V regulator, Pololu D30V30F5", dims=[17.8, 20.3, 8], bom="9",
+         blockers=["B11", "B28"], dims_note="0.7 x 0.8 in board (17.8 x 20.3 mm, Pololu page); 8 mm height allows the parts.",
+         mount="Head floor below the Pi, foam tape (MOUNTING.md, D4). Fed from the switched pack bus up the neck (P13), 5 V to Pi pins 2 and 6."),
     dict(id="xt30", label="XT30U connector pair, mated", dims=[32, 10, 5.2], bom="12",
          blockers=[], dims_note="About 32 x 10 x 5.2 mm mated (approximate).",
          mount="Inline on the pack lead, no screws. Tnkr: left of the cell holder, standing."),
     dict(id="amp", label="Adafruit MAX98357A I2S amp (3006)", dims=[19, 18, 3], bom="E2",
          blockers=[], dims_note="About 19 x 18 x 3 mm (approximate).",
          mount="Not in CAD, no mount (BOM E2). Tnkr: head floor, right of the speaker stand, foam tape."),
-    dict(id="speaker", label="Speaker 40 mm, 4 ohm, 3 W", dims=[40, 40, 20], bom="E1",
-         blockers=["B8"], dims_note="40 x 40 x 20 mm (uxcell listing). CAD envelope is 38.5 x 38.7 x 15.",
-         mount="Sits in speaker_interface on speaker_stand. No clip or screw in CAD (B8)."),
+    dict(id="speaker", label="Speaker, Same Sky CMS0361KLX 8 ohm 2 W", dims=[36.1, 36.1, 14.5], bom="E1",
+         blockers=["B8"], dims_note="36.1 x 36.1 x 14.5 mm (Same Sky drawing). CAD envelope is 38.5 x 38.7 x 15.",
+         mount="Sits in speaker_interface on speaker_stand, held with foam tape (BOM 29). No clip or screw in CAD (B8)."),
     dict(id="camera", label="Raspberry Pi Camera Module 3", dims=[25, 24, 11.5], bom="E6",
          blockers=["B9"], dims_note="25 x 24 x 11.5 mm.",
          mount="4 x M2x4 self-tapping into head.stl pilots 1.65 mm on 20.9 x 12.5 (B9 cleared; screw length on the test order)."),
@@ -194,10 +195,10 @@ PLACEHOLDERS = [
     dict(id="led_3", label="1 W LED bead (projector)", dims=[8, 8, 5], bom="E3", blockers=[],
          dims_note="Size not given: 8 x 8 x 5 mm stand-in.", mount="In the flash reflector interface; retention needs the real reflector (B8)."),
 ]
-FOOT_SWITCH = dict(label="Omron SS-10 foot switch", dims=[6.4, 19.8, 10.2], bom="13", blockers=[],
-                   dims_note="19.8 x 6.4 x 10.2 mm body (Omron SS datasheet).",
+FOOT_SWITCH = dict(label="Omron SS-01 foot switch (SS-10 fallback)", dims=[6.4, 19.8, 10.2], bom="13", blockers=[],
+                   dims_note="19.8 x 6.4 x 10.2 mm body (Omron SS datasheet), same for SS-01 and SS-10.",
                    mount="Press fit in a foot_top slot 6.4 x 19.8 mm, lever down toward foot_bottom (B11 seat cleared). "
-                         "Height inside the 7.8 mm slot not verified.")
+                         "Gold contacts and a 2.2 kOhm pull-up per foot (D17). Height inside the 7.8 mm slot not verified.")
 
 # Blockers per part key (HARDWARE_AUDIT.md section 6). Status is read from the doc on every run.
 BLOCKERS = {
@@ -226,7 +227,7 @@ MOUNT = {
     "head_board": "Same 4 holes as the Pi footprint. Not a second board: upstream lists one adapter (B7 cleared).",
     "imu": "trunk_top: 4 x M2.5x6 (M2.5x8 would bottom out with a 1.6 mm PCB). x forward, chip up. Hole spacing B13, axis signs B20.",
     "sg90": "2 tab screws per servo into head pilots 27.5 mm apart (SG90 bag), output shaft up (B5 cleared).",
-    "antenna": "Rod on the antenna holder. No BOM line and no print STL for it.",
+    "antenna": "Optional PLA rod on the antenna holder: in the CAD but not in print/, export it from the URDF mesh (print/PRINT_PLAN.md).",
     "battery_pack_lid": "4 x M2.5x10 DIN 912 into body_back pilots, head sits proud on the lid face (B3 cleared).",
     "left_eye": "4 x M2.5x8 through the bulb and the head wall into the eye (left pilot 2.2 mm, B14).",
     "right_eye": "4 x M2.5x8 through the bulb and the head wall into the eye (pilot 2.05 mm).",
@@ -271,6 +272,7 @@ BOM_VIEW = {
     "10b": ("cad", ["power_switch"], [], "The CAD power_switch body in the body_back cutout"),
     "11": ("cad", ["charger"], [], ""), "12": ("placeholder", ["xt30"], [], "1 mated pair used of the 10 bought"),
     "13": ("placeholder", ["foot_switch"], [], "In the foot_top slots"), "14": ("cad", ["sg90"], [], ""),
+    "13b": ("none", [], [], "Resistor, leads soldered at the Pi header (D17)"),
     "L1": ("placeholder", ["bec_pro"], [], ""), "L3": ("placeholder", ["fuse_holder"], [], "Dims not verified"),
     "L4": ("none", [], [], "Sits in the L3 holder"), "16": ("cad", ["insert"], [], "Drawn from the measured bores"),
     "18": ("cad", ["bearing"], [], ""), "19": ("none", [], [], "Consumable"),
@@ -366,6 +368,129 @@ def load_docs():
     return printed, bom, blockers, mounting
 
 
+FASTENERS_JSON = os.path.join(LAB, "fasteners", "fasteners.json")
+CABLES3D_JSON = os.path.join(LAB, "cables3d", "cables3d.json")
+SCREW_PULL = 9.0                       # stage-3 pull of a screw out of its hole, mm
+SCREW_COLOR = {"M3": "#8f9aa5", "M2.5": "#b4bcc4", "M2": "#d2d7db"}
+HEAD_DEFAULT = {  # DIN 912 socket head (dk, k) and pan head sizes, mm (ISO 4762 / ISO 7045 nominal)
+    ("SHCS", 3.0): (5.5, 3.0), ("SHCS", 2.5): (4.5, 2.5), ("SHCS", 2.0): (3.8, 2.0),
+    ("pan", 2.0): (4.0, 1.6), ("pan", 2.6): (5.0, 2.1), ("pan", 3.0): (5.6, 2.4),
+}
+
+
+def _first(rec, *keys, default=None):
+    for k in keys:
+        if isinstance(rec, dict) and rec.get(k) is not None:
+            return rec[k]
+    return default
+
+
+def load_fasteners(path=FASTENERS_JSON):
+    """altaay_lab/fasteners/fasteners.json -> normalized screws in URDF world mm (zero pose). [] if absent."""
+    if not os.path.exists(path):
+        return [], "fasteners.json not found: no screws drawn"
+    raw = json.load(open(path))
+    recs = raw.get("fasteners", raw.get("instances", raw)) if isinstance(raw, dict) else raw
+    out, skipped = [], Counter()
+    for r in recs:
+        kind = str(_first(r, "kind", "type", default="screw")).lower()
+        if "insert" in kind or "bearing" in kind:
+            skipped[kind] += 1          # inserts and bearings are drawn from the CAD already
+            continue
+        pose = r.get("pose") if isinstance(r.get("pose"), dict) else {}
+        world = pose.get("world") if isinstance(pose.get("world"), dict) else pose
+        p = _first(world, "head", "p", "head_mm", "pos") if world else None
+        p = p if p is not None else _first(r, "seat_world", "head_world_mm", "head_world", "p_world", "head_point", "pos", "p")
+        ax = _first(world, "axis", "ax") if world else None
+        ax = ax if ax is not None else _first(r, "axis_world", "ax_world", "axis", "ax")
+        size = str(_first(r, "size", default="M3"))
+        L = _first(r, "length_mm", "length", "len", "L")
+        if p is None or ax is None or L is None:
+            skipped["no pose or length"] += 1
+            continue
+        d = float(_first(r, "d", default=None) or re.sub(r"[^0-9.]", "", size) or 3.0)
+        hrec = r.get("head") if isinstance(r.get("head"), dict) else {}
+        head = str(hrec.get("type") if hrec else _first(r, "head", "head_type", default="SHCS"))
+        head_key = "pan" if re.search(r"pan|self|7045|7981|tapping", head, re.I) else "SHCS"
+        hd, hh = HEAD_DEFAULT.get((head_key, d), (d * 1.85, d))
+        if hrec.get("dk"):
+            hd, hh = float(hrec["dk"]), float(hrec.get("k") or hh)
+        sweep = r.get("sweep") if isinstance(r.get("sweep"), dict) else {}
+        flags = [x for x in (r.get("len_status"), sweep.get("status")) if x and str(x).upper() not in ("OK", "PASS")]
+        ax = np.array(ax, float)
+        ax /= np.linalg.norm(ax)
+        joins = r.get("joins") if isinstance(r.get("joins"), list) else None
+        out.append(dict(
+            fid=str(_first(r, "id", "fid", default="F%03d" % (len(out) + 1))), size=size, d=d, L=float(L), head=head,
+            head_d=float(_first(r, "head_d", default=hd)), head_h=float(_first(r, "head_h", default=hh)),
+            p=np.array(p, float), ax=ax, part=_first(r, "part", "head_part", default=(joins or [None])[0]),
+            into=_first(r, "into", "anchor_part", default=(joins or [None, None])[1]),
+            anchor=_first(r, "anchor", "anchor_type", default=""), link=_first(r, "link"),
+            line=str(_first(r, "line", "bom", "bom_line", default="") or ""),
+            supplied=_first(r, "supplied", "supply", default="bought"),
+            engagement=_first(r, "engagement_mm", "e", "engagement"),
+            status=("; ".join(str(f) for f in flags) if flags else _first(r, "status", default="OK")),
+            note="; ".join([str(x) for x in (r.get("notes") or [])] + ([sweep["worst_text"]] if sweep.get("worst_text") else [])) or str(_first(r, "note", default="")),
+            spec_label=_first(r, "spec", "label", default=None), color=r.get("color"),
+            flags=flags))
+    return out, "%d screws from altaay_lab/fasteners/fasteners.json%s" % (
+        len(out), (" (skipped: " + ", ".join("%s %d" % kv for kv in skipped.items()) + ")") if skipped else "")
+
+
+def load_cables3d(path=CABLES3D_JSON):
+    """altaay_lab/cables3d/cables3d.json -> list of cables with points as (link, xyz in that link's frame, mm). [] if absent."""
+    if not os.path.exists(path):
+        return [], "cables3d.json not found: no cables drawn"
+    raw = json.load(open(path))
+    recs = raw.get("cables", raw) if isinstance(raw, dict) else raw
+    out = []
+    expanded = []
+    for c in recs:   # a cable with branches has several runs: draw each run as its own tube
+        runs = c.get("runs") or []
+        if len(runs) > 1:
+            for k, rn in enumerate(runs):
+                e = dict(c)
+                e["points"] = rn.get("points") or []
+                e["run"] = rn.get("name") or "run %d" % (k + 1)
+                e["run_k"] = k
+                e["d_mm"] = rn.get("d_mm", c.get("d_mm"))
+                if rn.get("length_max_mm") is not None:
+                    e["length_max_mm"] = rn["length_max_mm"]
+                    e["length_zero_mm"] = rn.get("length_zero_mm")
+                expanded.append(e)
+        else:
+            expanded.append(c)
+    for c in expanded:
+        pts = []
+        for q in c.get("points", []):
+            if isinstance(q, dict):
+                pts.append((q.get("link"), _first(q, "p", "xyz", "local", "p_link"), _first(q, "world", "p_world")))
+            elif isinstance(q, (list, tuple)) and len(q) >= 4:
+                pts.append((q[3], q[:3], None))
+        if c.get("points_world") is not None:
+            links = c.get("links") or [None] * len(c["points_world"])
+            pts = [(l, None, w) for l, w in zip(links, c["points_world"])]
+        out.append(dict(id=c["id"], run=c.get("run"), run_k=c.get("run_k", 0), seats=c.get("seats") or [],
+                        desc=c.get("desc", ""), pts=pts, color=_first(c, "color", "colour", default="#e07a1f"),
+                        d=float(_first(c, "d_mm", "outer_d_mm", "diameter_mm", "od_mm", default=3.0)),
+                        frm=_first(c, "from", default=""), to=_first(c, "to", default=""), gauge=_first(c, "gauge", default=""),
+                        wires=_first(c, "wires", "n_wires", default=None), cut_mm=_first(c, "cut_mm", default=None),
+                        routed_mm=_first(c, "length_zero_mm", "routed_mm", "length_mm", default=None),
+                        worst_mm=_first(c, "length_max_mm", "worst_mm", "max_mm", default=None),
+                        check=str(_first(c, "check", "result", "status", default="")), note=_first(c, "note", "findings", default="")))
+    return out, "%d cables from altaay_lab/cables3d/cables3d.json" % len(out)
+
+
+def load_cables3d_extras(path=CABLES3D_JSON):
+    """terminals (seats for the parts the CAD lacks) and retention items (ties, mounts, guides) from cables3d.json."""
+    if not os.path.exists(path):
+        return [], []
+    raw = json.load(open(path))
+    if not isinstance(raw, dict):
+        return [], []
+    return raw.get("terminals") or [], raw.get("retention") or []
+
+
 # ---------------------------------------------------------------------------------------------- geometry
 def load_mesh(path, to_mm):
     m = trimesh.load(path, force="mesh")
@@ -426,6 +551,15 @@ def unit_box():
             V += quad
             F += [[base, base + 1, base + 2], [base, base + 2, base + 3]] if s > 0 else [[base, base + 2, base + 1], [base, base + 3, base + 2]]
     return np.array(V, np.float32), np.array(F, np.uint32)
+
+
+def screw_mesh(d, length, head_d, head_h, seg=14):
+    """Screw in its own frame: head on +z from 0 to head_h, shank on -z from 0 to -length (mm)."""
+    sv, sf = cylinder(d, length, seg)
+    sv = sv + np.array([0, 0, -length / 2.0], np.float32)
+    hv, hf = cylinder(head_d, head_h, seg)
+    hv = hv + np.array([0, 0, head_h / 2.0], np.float32)
+    return np.vstack([sv, hv]).astype(np.float32), np.vstack([sf, hf + len(sv)]).astype(np.uint32)
 
 
 def rot_z_to(ax):
@@ -628,6 +762,8 @@ def label_of(stem):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--out", required=True, help="output folder, must be outside the repo")
+    ap.add_argument("--write-bom", action="store_true",
+                    help="also write altaay_lab/BOM_FULL.md and altaay_lab/bom_full.csv (text, every part)")
     args = ap.parse_args()
     out = os.path.abspath(args.out)
     if os.path.commonpath([out, REPO]) == REPO:
@@ -884,6 +1020,15 @@ def main():
     else:
         warnings.append("no free flat spot for the 5 V regulator under the Pi: it goes in the tray")
 
+    terminals, retention_in = load_cables3d_extras()
+    for tm in terminals:
+        tid = str(tm.get("id", ""))
+        if tid in {p["id"] for p in PLACEHOLDERS} and tm.get("center_mm") is not None and tid not in cad_place:
+            cad_place[tid] = dict(center=[float(x) for x in tm["center_mm"]],
+                                  dims=[float(x) for x in (tm.get("dims_xyz_mm") or [p for p in PLACEHOLDERS if p["id"] == tid][0]["dims"])],
+                                  where="Cable terminal seat from altaay_lab/cables3d (%s)" % str(tm.get("how", ""))[:160],
+                                  link=tm.get("link"))
+
     # 8. placeholders: placements.json (lead) > measured slots > tray
     placements, pl_note = {}, "audit/placements.json not found: unplaced parts are in the tray"
     if os.path.exists(PLACEMENTS):
@@ -1113,6 +1258,181 @@ def main():
                               follow_dist_mm=p.get("follow_dist"))
         nodes.append(dict(name=nid, mesh=gidx["_box"], matrix=M))
 
+    import bom_full
+    # 10b. every screw (altaay_lab/fasteners/fasteners.json): one GLB node each, riding with the part under its head
+    def host_of(part, p, link=None):
+        stem = (print_stem(part + ".stl") if part else None) or part
+        cand = [i for i in inst if i["key"] == stem] or [i for i in inst if part and i.get("urdf") and os.path.splitext(i["urdf"])[0] == part]
+        if link:
+            cand = [i for i in cand if i["link"] == link] or cand
+        if not cand:
+            cand = [i for i in inst if (link is None or i["link"] == link)] or inst
+        def dist(i):
+            q = np.clip(p, i["bmin"], i["bmax"])
+            return float(np.linalg.norm(q - p))
+        return min(cand, key=dist)
+
+    def part_word(name):
+        n = str(name or "?")
+        if n.startswith("wj-wk00") or n.startswith("servo_"):
+            return "servo case"
+        if "palonier" in n or n.startswith("horn_"):
+            return "servo horn (%s)" % ("drive" if "drive" in n else "idle")
+        stem = print_stem(n + ".stl") or n
+        return label_of(stem).lower()
+
+    screws, screw_note = load_fasteners()
+    screw_geo, screw_rows = {}, []
+    spec_count = Counter("%s x %g" % (s["size"], s["L"]) for s in screws)
+    for n_, s in enumerate(screws, 1):
+        gk = (s["d"], s["L"], s["head_d"], s["head_h"])
+        if gk not in screw_geo:
+            sv, sf = screw_mesh(*gk)
+            screw_geo[gk] = len(geoms)
+            geoms.append(dict(name="screw_%gx%g" % (s["d"], s["L"]), pos=sv, idx=sf, src_faces=int(len(sf))))
+        host = host_of(s["part"], s["p"], s["link"])
+        nid = "screw-%03d" % n_
+        M = np.eye(4)
+        M[:3, :3], M[:3, 3] = rot_z_to(-s["ax"]), s["p"]
+        spec = s["spec_label"] or "%sx%g %s" % (s["size"], s["L"], s["head"])
+        into_lab = part_word(s["into"])
+        bl = re.findall(r"\bB\d+\b", " ".join(str(x) for x in (s["status"], s["note"])))
+        st, rows_ = status_of([]) if not bl else (", ".join(bl), [dict(id=b, status=blk.get(b, {}).get("status", "?"),
+                                                                        title=blk.get(b, {}).get("title", ""), open=bool(blk.get(b, {}).get("open", True))) for b in bl])
+        hv3 = np.array(host["v3"], float) if host.get("v3") is not None else np.zeros(3)
+        man_nodes[nid] = dict(
+            label="%s: %s into %s" % (spec, part_word(host["key"]), into_lab), part="screw", fid=s["fid"],
+            file="(drawn) %s x %g mm, %s head %.1f x %.1f" % (s["size"], s["L"], s["head"], s["head_d"], s["head_h"]),
+            link=host["link"], sub=host["sub"], category="screw", qty=spec_count["%s x %g" % (s["size"], s["L"])],
+            material="Steel (A2 stainless or as supplied)", bom=s["line"] or None, status=st if s["status"] in (None, "", "OK", "ok") else str(s["status"]),
+            fid_flags=s.get("flags") or [],
+            blockers=rows_, mount="%s into %s (%s). %s" % (spec, into_lab, s["anchor"] or "anchor not given",
+                                                          ("Engagement %.1f mm." % float(s["engagement"])) if isinstance(s["engagement"], (int, float)) else ""),
+            spec=dict(size=s["size"], length=s["L"], head=s["head"], head_d=s["head_d"], head_h=s["head_h"]),
+            joins=[host["key"], s["into"]], anchor=s["anchor"], engagement_mm=s["engagement"], note=s["note"] or "",
+            supplied=s["supplied"], color=s.get("color") or SCREW_COLOR.get(s["size"], "#9aa4ae"),
+            v2=np.round(host["v2"], 2).tolist(), v3=np.round(hv3 - s["ax"] * SCREW_PULL, 2).tolist(), host=host["id"])
+        nodes.append(dict(name=nid, mesh=screw_geo[gk], matrix=M))
+        screw_rows.append(dict(spec=spec, line=s["line"], link=host["link"], sub=host["sub"], node=nid,
+                               supplied=("in kit" if re.search(r"servo|kit|bag|comes", str(s["supplied"]), re.I) else "bought"),
+                               desc="%s, %s head" % (s["anchor"] or "", s["head"]), note=s["note"] or ""))
+    print(screw_note)
+
+    # 10c. every cable (altaay_lab/cables3d/cables3d.json): points bound to links; the page builds the tubes
+    cables_in, cable_note = load_cables3d()
+    link_T = {ln: u.get_transform(ln) for ln in u.link_map}
+    cables_out, cable_rows = [], []
+    for c in cables_in:
+        P, subs, follow = [], [], []
+        for link, loc, world in c["pts"]:
+            if world is not None:
+                w = np.array(world, float)
+            elif link in link_T and loc is not None:
+                T = link_T[link]
+                w = T[:3, :3] @ np.array(loc, float) + T[:3, 3] * 1000.0
+            else:
+                continue
+            P.append(w)
+            sub = LINK_SUB.get(link, "trunk")
+            subs.append(sub)
+            cand = [i for i in inst if i["link"] == link] or inst
+            hi = min(cand, key=lambda i: float(np.linalg.norm(np.clip(w, i["bmin"], i["bmax"]) - w)))
+            follow.append(hi["id"])
+        if len(P) < 2:
+            warnings.append("cable %s has fewer than 2 usable points" % c["id"])
+            continue
+        nid = "cable-%s" % c["id"] + ("-%d" % c["run_k"] if c.get("run") and c.get("run_k") else "")
+        usubs = list(OrderedDict.fromkeys(subs))
+        seats = []
+        for st_ in c.get("seats") or []:     # seat centres in URDF world mm (or link frame + link)
+            ctr = st_.get("center_mm") or st_.get("center")
+            if ctr is not None and st_.get("frame") == "link" and st_.get("link") in link_T:
+                T = link_T[st_["link"]]
+                ctr = (T[:3, :3] @ np.array(ctr, float) + T[:3, 3] * 1000.0).tolist()
+            seats.append(dict(kind=st_.get("kind"), part=st_.get("part"), center=[round(float(x), 2) for x in ctr] if ctr is not None else None,
+                              size_mm=st_.get("size_mm"), note=st_.get("note") or st_.get("how") or ""))
+        chk = c["check"].lower()
+        man_nodes[nid] = dict(label="Cable %s%s: %s" % (c["id"], (" (" + c["run"] + ")") if c.get("run") else "", c.get("desc") or "%s to %s" % (c["frm"], c["to"])),
+                              part="cable", file="(drawn) tube", cable=c["id"],
+                              link=None, sub=usubs[0], subs=usubs, category="cable", qty=1, material=c["gauge"], bom=None,
+                              status="OK" if chk in ("pass", "ok", "") else c["check"], blockers=[], mount=str(c["note"] or ""),
+                              v2=[0, 0, 0], color=c["color"])
+        cables_out.append(dict(id=c["id"] + ((":" + c["run"]) if c.get("run") and c.get("run_k") else ""), cable=c["id"], run=c.get("run"),
+                               seats=seats, desc=c.get("desc", ""), node=nid, color=c["color"], d_mm=c["d"], points=np.round(P, 2).tolist(),
+                               point_sub=subs, point_follow=follow, **{"from": c["frm"]}, to=c["to"], gauge=c["gauge"],
+                               wires=c["wires"], cut_mm=c["cut_mm"], routed_mm=c["routed_mm"], worst_mm=c["worst_mm"],
+                               check=c["check"], note=c["note"]))
+        cable_rows.append(dict(id=c["id"], node=nid, check=("%s: worst %s mm vs cut %s mm" % (c["check"], c["worst_mm"], c["cut_mm"]))
+                               if c["check"] else ""))
+    # a cable with several runs: one BOM_FULL row lists every run node
+    _runs = defaultdict(list)
+    for r_ in cable_rows:
+        _runs[r_["id"]].append(r_["node"])
+    cable_rows = [dict(id=k, node=v[0], nodes=v, check=next((r_["check"] for r_ in cable_rows if r_["id"] == k and r_["check"]), "")) for k, v in _runs.items()]
+    print(cable_note)
+
+    # 10d. cable ties, adhesive mounts and guides (cables3d.json "retention"): the page draws them, BOM_FULL counts them
+    retention_out, tie_rows = [], []
+    tie_line = next((lid for lid, b in bom_full.bom_lines().items() if re.search(r"cable tie|zip tie", b["Item"], re.I)), "")
+    mount_line = next((lid for lid, b in bom_full.bom_lines().items() if re.search(r"tie mount|adhesive (tie|cable) mount", b["Item"], re.I)), "")
+    for n_, r in enumerate(retention_in, 1):
+        c = r.get("center_mm") or r.get("center")
+        if c is None:
+            continue
+        w = np.array(c, float)
+        link = r.get("link")
+        cand = [i for i in inst if i["link"] == link] or inst
+        hi = min(cand, key=lambda i: float(np.linalg.norm(np.clip(w, i["bmin"], i["bmax"]) - w)))
+        kind = str(r.get("kind", "cable tie"))
+        nid = "tie-%03d" % n_
+        line = tie_line if "tie" in kind and "mount" not in kind else (mount_line if "mount" in kind else ("27" if "printed" in kind else ""))
+        cabs = r.get("cables") or []
+        gap = bool(r.get("gap"))
+        man_nodes[nid] = dict(label="%s%s holding %s" % (kind[0].upper() + kind[1:], " (gap: no CAD feature)" if gap else "", ", ".join(cabs) or "cables"),
+                              part="tie", file="(drawn)", link=hi["link"], sub=hi["sub"], category="tie", qty=1, material=None,
+                              bom=line or None, status="GAP" if gap else "OK", blockers=[], mount=str(r.get("note", "")),
+                              v2=np.round(hi["v2"], 2).tolist(), host=hi["id"], gap=gap, kind=kind, cables=cabs)
+        retention_out.append(dict(id=str(r.get("id", nid)), node=nid, kind=kind, cables=cabs, center=np.round(w, 2).tolist(),
+                                  axis=[float(x) for x in (r.get("axis") or [1, 0, 0])], follow=hi["id"], gap=gap,
+                                  part=r.get("part"), note=r.get("note", "")))
+        tie_rows.append(dict(kind=kind, line=line, node=nid, gap=gap))
+    if retention_out:
+        print("%d retention items (ties, mounts, guides) from cables3d.json" % len(retention_out))
+
+    # 10e. connectors, splices, resistors, foam pads, discs (altaay_lab/viewer/scene_extras.json): solid small parts
+    extras_path = os.path.join(HERE, "scene_extras.json")
+    n_extra = 0
+    if os.path.exists(extras_path):
+        raw = json.load(open(extras_path))
+        items = raw.get("items", raw) if isinstance(raw, dict) else raw
+        bpos, bidx = unit_box()
+        gidx["_solidbox"] = len(geoms)
+        geoms.append(dict(name="small_part_box", pos=bpos, idx=bidx, src_faces=12))
+        for it in items:
+            c = it.get("center_mm")
+            d = it.get("dims_mm")
+            if c is None or d is None:
+                continue
+            w = np.array(c, float)
+            link = it.get("link")
+            cand = [i for i in inst if i["link"] == link] or inst
+            hi = min(cand, key=lambda i: float(np.linalg.norm(np.clip(w, i["bmin"], i["bmax"]) - w)))
+            ax = np.array(it.get("axis") or [1, 0, 0], float)
+            ax = ax / (np.linalg.norm(ax) or 1.0)
+            R = rot_z_to(ax)                     # box z along the item's long axis
+            M = np.eye(4)
+            M[:3, :3] = R @ np.diag([float(d[1]), float(d[2]), float(d[0])])
+            M[:3, 3] = w
+            n_extra += 1
+            nid = "x-%s" % re.sub(r"[^A-Za-z0-9_-]", "_", str(it.get("id", n_extra)))
+            man_nodes[nid] = dict(label=str(it.get("label", it.get("id", ""))), part=str(it.get("kind", "other")), file="(drawn) small part",
+                                  link=hi["link"], sub=hi["sub"], category="connector", qty=1, material=None,
+                                  bom=it.get("bom_line"), bom_full_row=it.get("bom_full_row"), status="OK", blockers=[],
+                                  mount=str(it.get("source", "")), kind=it.get("kind"), color=it.get("color"),
+                                  dims=[float(x) for x in d], v2=np.round(hi["v2"], 2).tolist(), host=hi["id"])
+            nodes.append(dict(name=nid, mesh=gidx["_solidbox"], matrix=M))
+        print("%d small parts from viewer/scene_extras.json" % n_extra)
+
     glb_path = os.path.join(out, "duck.glb")
     write_glb(glb_path, geoms, nodes)
     # base64 text copy for the artifact page: the artifact host serves text and images, not .glb
@@ -1167,7 +1487,7 @@ def main():
                              count=cnt if kind != "none" else None, expected=exp, ok=ok, note=note,
                              blockers=sorted(set(bl), key=lambda s: int(s[1:])), nodes=ids + rel))
     extra_rows = []
-    for key, why in (("antenna", "Antenna rod: modelled (antenna.stl) but has no BOM line and no print STL"),
+    for key, why in (("antenna", "Antenna rod: optional PLA part, in the CAD but not in print/ (print/PRINT_PLAN.md); filament line 27"),
                      ("head_board", "board.stl copy in the head: B7 says it marks the Pi footprint, not a second adapter"),
                      ("horn_drive", "Servo horns: ship with the servo (BOM line 1), 2 per servo")):
         ids = [k for k, r in man_nodes.items() if r["part"] == key or (key == "horn_drive" and r["part"] == "horn_idle")]
@@ -1224,7 +1544,39 @@ def main():
                  mismatches=[r["line"] for r in bom_rows if r["ok"] is False]),
         printed_mismatches=[r["stl"] for r in printed_rows if not r["ok"]],
         blockers_open=sorted([b for b, v in blk.items() if v["open"]], key=lambda s: int(s[1:])),
-        blockers_total=len(blk))
+        blockers_total=len(blk),
+        screws=dict(found=len(screws), by_spec=dict(sorted(spec_count.items()))),
+        cables=dict(found=len(cables_out), passed=sum(1 for c in cables_out if str(c["check"]).lower() in ("pass", "ok")),
+                    failed=sum(1 for c in cables_out if str(c["check"]).lower() in ("fail", "failed"))))
+    summary["cables"]["pass"], summary["cables"]["fail"] = summary["cables"]["passed"], summary["cables"]["failed"]
+
+    # 11b. every-part BOM (viewer/bom_full.py): one row per distinct item, linked to the nodes that show it
+    import bom_full
+    import yaml
+    netlist = yaml.safe_load(open(os.path.join(LAB, "wiring", "netlist.yaml"), encoding="utf-8"))
+    bom_lines = bom_full.bom_lines()
+    import csv as _csv
+    parts_csv = list(_csv.DictReader(open(os.path.join(LAB, "print", "parts.csv"), encoding="utf-8")))
+    sub_labels = {sid: l for sid, l, g, v in SUBS}
+    bom_full_rows = bom_full.build(man_nodes, sub_labels, netlist, bom_lines, parts_csv,
+                                   fasteners=screw_rows or None, cables3d=cable_rows or None, link_sub=LINK_SUB,
+                                   ties=tie_rows or None)
+    row_by_id = {r["id"]: r for r in bom_full_rows}
+    for nid, rec in man_nodes.items():  # small parts name their BOM_FULL row: link them so the row highlights them
+        rid = rec.get("bom_full_row")
+        if rid in row_by_id and nid not in row_by_id[rid]["nodes"]:
+            row_by_id[rid]["nodes"].append(nid)
+    for r in bom_full_rows:            # cables carry the first purchase line of their row (wire, kit cable, USB, FPC)
+        for nid in r["nodes"]:
+            if nid in man_nodes and man_nodes[nid].get("category") == "cable" and r["line"]:
+                man_nodes[nid]["bom"] = re.split(r",\s*", r["line"])[0]
+                man_nodes[nid]["bom_lines"] = r["line"]
+    purchase = {lid: dict(item=b.get("Item", ""), spec=b.get("Spec", ""), supplier=b.get("Supplier", ""), link=b.get("Link", ""),
+                          buy=b.get("Buy", ""), pack=b.get("Pack", ""), line_cost=b.get("Line $", ""), need=b.get("Need", ""),
+                          verified=b.get("Verified", ""), ships=b.get("Ships to USA", ""), section=b.get("section", ""))
+                for lid, b in bom_lines.items()}
+    summary["bom_full"] = dict(rows=len(bom_full_rows), status=dict(Counter(r["status"] for r in bom_full_rows)),
+                               needs_action=[r["id"] for r in bom_full_rows if r["status"] in ("MISSING", "SHORT", "CHECK")])
 
     cats = {
         "pla": dict(label="Printed PLA", color="#c5b9a3"), "tpu": dict(label="Printed TPU", color="#2a9d8f"),
@@ -1232,6 +1584,9 @@ def main():
         "electronics": dict(label="Electronics / PCB", color="#4f9f3a"), "battery": dict(label="Battery", color="#d1495b"),
         "bearing": dict(label="Bearing", color="#93a1b0"), "insert": dict(label="M3 insert", color="#d3a62c"),
         "placeholder": dict(label="Placeholder (not in CAD)", color="#a855c8"), "other": dict(label="Other modelled part", color="#7c6a58"),
+        "screw": dict(label="Screw", color="#8f9aa5"), "cable": dict(label="Cable", color="#e07a1f"),
+        "tie": dict(label="Cable tie, mount or guide", color="#5b6b7a"),
+        "connector": dict(label="Connectors and small parts", color="#f2f2ee"),
     }
     cat_count = Counter(r["category"] for r in man_nodes.values())
     for k in cats:
@@ -1257,9 +1612,17 @@ def main():
         servos=[dict(joint=g["joint"], id=SERVO_ID.get(g["joint"]), link=g["link"], axis_err_mm=g["axis_err"]) for g in servo_groups],
         blockers=blk,
         checklist=dict(summary=summary, printed=printed_rows, bom=bom_rows, extra=extra_rows, notes=notes),
+        cables=cables_out,
+        bom_full=bom_full_rows,
+        purchase=purchase,
+        retention=retention_out,
     )
+    manifest["meta"]["sources"].update(fasteners=screw_note, cables=cable_note, bom_full="altaay_lab/viewer/bom_full.py")
     with open(os.path.join(out, "manifest.json"), "w") as fh:
         json.dump(manifest, fh, separators=(",", ":"))
+    if args.write_bom:
+        res = bom_full.write_docs(bom_full_rows, bom_lines, time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()))
+        print("BOM_FULL.md and bom_full.csv:", res)
 
     # 12. report
     print("URDF instances %d, head internals %d, inserts %d, placeholders %d (tray %d)" % (

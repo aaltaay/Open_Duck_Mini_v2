@@ -139,6 +139,10 @@ def run_case(label, npz, t0, t1, vcell, pq=None, over=None):
     sv = {nm: res[f"v({a},{b})"] for nm, (a, b) in nodes.items()}
     pack_I = res["v(pm)"] / (P_used["R_holder"] / 2 + wire(16, L["P2"]) + P_used["R_bms"])   # current in the return path
     worst = min(sv, key=lambda k: sv[k].min())
+    if os.environ.get("ODM_SAVE_V"):      # optional: keep the time series for plots (sim/plot_power_path.py)
+        tag = "".join(ch if ch.isalnum() else "_" for ch in label)[:80]
+        np.savez_compressed(os.path.join(OUT, "v_%s.npz" % tag), t=tt, pack_I=pack_I, names=np.array(list(sv)),
+                            V=np.array([sv[k] for k in sv]), label=label)
     out = dict(label=label, cell_ocv=vcell, pack_ocv=2 * vcell, servo_quiescent_A=pq, overrides=over or {},
                pack_terminal_V_min=round(float(res["v(bplus)"].min()), 3),
                bus_V_min=round(float(res["v(bus,busn)"].min()), 3), bus_V_mean=round(tmean(res["v(bus,busn)"]), 3),
