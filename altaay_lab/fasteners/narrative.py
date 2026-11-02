@@ -89,7 +89,7 @@ def narrative(D, screws, inserts, fitted, hits, d18, bom_rows, SRC):
     if eye:
         F.append(("build-blocking (NEW)", "Eye screws: the eye pilots are blind (3.0 mm deep with a 1.5 mm front skin, ray cast), not "
                   "open as MOUNTING.md says. M2.5x8 reaches the pilot floor exactly; M2.5x6 leaves 1.0 mm of thread. Fit M2.5x8 with "
-                  "one 0.5 mm M2.5 washer under each head (8 washers, new BOM line): 2.5 mm of thread, 0.5 mm short of the floor. "
+                  "two 0.3 mm M2.5 washers under each head (16 washers, BOM 17l, D21 note): 2.4 mm of thread, 0.6 mm short of the floor. "
                   "Still below the 2 x d rule (pilot depth), light parts."))
     # --- speaker interface
     spk = [r for r in fitted if r.get("part") == "speaker_interface"]
@@ -176,8 +176,8 @@ def narrative(D, screws, inserts, fitted, hits, d18, bom_rows, SRC):
                     b["line"], b["item"], b["bom_need"], b["count"], b["specs"]))
     edits += [
         "MOUNTING.md row 'Eyes': replace 'pilot 3.0 mm long, open at the far end' and 'tip ends flush with the eye front face' with "
-        "'blind pilot 3.0 mm with a 1.5 mm front skin (ray cast, print/left_eye.stl, right_eye.stl); M2.5x8 plus one 0.5 mm washer: "
-        "2.5 mm engaged, 0.5 mm to the floor (fasteners/FASTENERS.md)'.",
+        "'blind pilot 3.0 mm with a 1.5 mm front skin (ray cast, print/left_eye.stl, right_eye.stl); M2.5x8 plus two 0.3 mm washers: "
+        "2.4 mm engaged, 0.6 mm to the floor (fasteners/FASTENERS.md)'.",
         "MOUNTING.md row 'Second board.stl copy': replace 'same 4 holes as the Pi Zero 2 W (58 x 23 mm)' with '4 holes on 28 x 37 mm, "
         "right side of the head; print/head.stl has no pilots under them (the URDF head mesh did), so nothing is fitted there'.",
         "MOUNTING.md row 'Speaker': add 'speaker_interface screws to the 4 side pilots of speaker_stand: 4 x M2.5x5 (fasteners/)'.",

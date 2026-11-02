@@ -3,7 +3,7 @@
 Written 2026-11-01 9:40 PM ET by agent M (simulation). Script: sim/runtime_thermal.py, run after sim/added_mass_sim.py (it reads that script's per-servo traces for the trained model, "stock", and our build, "ours", 2.77 kg, sim/MASS_BUDGET.md). Regenerate with
 `ODM_SCRATCH=<scratch folder> python3 altaay_lab/sim/runtime_thermal.py` (tables in ODM_SCRATCH/runtime_thermal/tables.md; figure sim/runtime_thermal.png).
 
-Mass note (2026-11-02, agent NL2): the results below are for the 2.77 kg build of that run. With the D22 print profile the build is 2.64 kg (2638.6 g, +25 % over the trained 2107.1 g; sim/MASS_BUDGET.md); this study has not been re-run on it.
+Mass note (2026-11-02, agent NL2): the results below are for the 2.77 kg build of that run. Since D22 and the netlist final pass the build is 2.65 kg (2651.9 g, +26 % over the trained 2107.1 g; sim/MASS_BUDGET.md); this study has not been re-run on it.
 
 ## Answer
 - **Walk time from a full charge to the D16 stop** (3.5 V per cell under load, 7.0 V at the cells [L] DECISIONS.md D16, TEST_PLAN.md section 11), our build, typical corner [L]:

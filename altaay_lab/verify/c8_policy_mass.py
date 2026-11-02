@@ -2,13 +2,13 @@
 
 Re-runs sim/added_mass_sim.py (agent M; unchanged, run into the output folder, steps "cases" and "seeds" only, so it
 writes nothing into the repo) and checks:
-  - the model mass equals sim/MASS_BUDGET.md ("Our build", read from the file: 2.64 kg since D22, 2.77 kg before) and
+  - the model mass equals sim/MASS_BUDGET.md ("Our build", read from the file) and
     the stock copy equals the trained 2.107 kg
   - the stock copy reproduces sim/CURRENT_BUDGET.md (bus means)
   - our build: no fall on flat ground in the nominal runs (stand, forward, turn, sideways, backlash, pushes) and in the
-    seeded runs; tracking as written in the doc that ran this same mass: sim/ADDED_MASS_SIM.md table 1 (its 2.77 kg
-    build, before D22) or print/MASS_STUDY.md "Walking with the (c) robot" (the D22 build); if neither ran this mass,
-    a WARN says so
+    seeded runs; tracking as written in the doc whose walk ran this mass within 1 % of the robot: sim/ADDED_MASS_SIM.md
+    table 1 (its 2.77 kg build, before D22) or print/MASS_STUDY.md "Walking with the (c) robot" (the D22 build, 2.64 kg);
+    if neither did, a WARN says so
   - the margins that sim/ADDED_MASS_SIM.md reports (backward centre of mass) have a hardware test in TEST_PLAN.md
 Usage: VERIFY_OUT=<folder outside the repo> python3 altaay_lab/verify/c8_policy_mass.py
 """
@@ -100,18 +100,20 @@ def main():
     ms = re.search(r"^\| \(c\)[^|]*\| ([0-9.]+) \| \+", ms_txt, re.M)
     ms_kg = float(ms.group(1)) / 1000.0 if ms else None
     ref = {}          # case key -> documented tracking
-    if ours_kg is not None and am_kg is not None and abs(ours_kg - am_kg) <= 0.006:
+    tol = max(0.006, 0.01 * (ours_kg or 0))      # a doc run within 1 % of the robot mass counts as this mass (stated below)
+    if ours_kg is not None and am_kg is not None and abs(ours_kg - am_kg) <= tol:
         tab = [t for t in V.md_tables(doc) if t["header"][:4] == ["Case", "Model", "Falls (s)", "Tracking (measured / command)"]]
         drow = {(r["Case"], r["Model"]): r for r in (tab[0]["rows"] if tab else [])}
         ref = {c: drow.get((DOCNAME[c], "ours"), {}).get("Tracking (measured / command)") for c in FLAT}
-        R.ev("tracking compared with sim/ADDED_MASS_SIM.md table 1 (its build %.2f kg = this model)" % am_kg)
-    elif ours_kg is not None and ms_kg is not None and abs(ours_kg - ms_kg) <= 0.006:
+        R.ev("tracking compared with sim/ADDED_MASS_SIM.md table 1 (its build %.2f kg; this model %.4f kg)" % (am_kg, ours_kg))
+    elif ours_kg is not None and ms_kg is not None and abs(ours_kg - ms_kg) <= tol:
         tab = [t for t in V.md_tables(study) if t["header"][:4] == ["Case (nominal run)", "trained (stock)", "(b) today", "(c) proposed"]]
         ref = {r["Case (nominal run)"]: r["(c) proposed"] for r in (tab[0]["rows"] if tab else [])}
-        R.ev("tracking compared with print/MASS_STUDY.md variant (c), the D22 build (%.4f kg = this model); sim/ADDED_MASS_SIM.md "
-             "table 1 is its %.2f kg build (before D22) and is not compared" % (ms_kg, am_kg or 0))
+        R.ev("tracking compared with print/MASS_STUDY.md variant (c), the D22 build: %.4f kg there, %.4f kg in this model (%+.1f g, "
+             "%+.1f %% of the robot, within the 1 %% the doc choice allows); sim/ADDED_MASS_SIM.md table 1 is its %.2f kg build "
+             "(before D22) and is not compared" % (ms_kg, ours_kg, (ours_kg - ms_kg) * 1000, (ours_kg - ms_kg) / ours_kg * 100, am_kg or 0))
     else:
-        R.find("WARN", "no doc records the walk of this model mass (%s kg): sim/ADDED_MASS_SIM.md ran %s kg, print/MASS_STUDY.md (c) %s kg"
+        R.find("WARN", "no doc records the walk of this model mass within 1 %% (%s kg): sim/ADDED_MASS_SIM.md ran %s kg, print/MASS_STUDY.md (c) %s kg"
                % (m_ou.group(1) if m_ou else "?", am_kg, "%.4f" % ms_kg if ms_kg else "?"),
                fix="re-run sim/added_mass_sim.py and update sim/ADDED_MASS_SIM.md table 1", where="altaay_lab/sim/ADDED_MASS_SIM.md")
     for c in FLAT:

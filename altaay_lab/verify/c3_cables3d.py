@@ -2,7 +2,8 @@
 the stated slack fits its cut length, and every joint crossing has a service loop.
 
   coverage   every active netlist cable is in cables3d.json, every run routed, every netlist wire present with the
-             same cut length
+             same cut length; netlist pieces joined in series at a splice that the 3D record does not route (a lead and
+             its extension, e.g. P7 at JFI and JFO) count as one conductor with the summed cut length
   length     per wire: worst routed length over the joint ranges + 40 mm (CABLE_MAP.md length rule: 2 x 20 mm
              service slack) <= cut length (kit cables: the 150 mm kit length)
   crossings  every joint the netlist lists for a cable is crossed by its 3D route, and every crossing (free span) has a
@@ -21,6 +22,30 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vlib as V  # noqa: E402
 
 SLACK = 40.0
+
+
+def series_merged(wires3d, netwires, kinds):
+    """netlist wires of one cable, with the two pieces joined at a splice that the 3D record does not route summed into
+    one conductor (a holder lead and its extension: the physical path is the same). Returns {(from, to): (cut, pieces,
+    splice)} for both directions of every merged conductor and for every other wire."""
+    ends3d = {x.split(".")[0] for w in wires3d for x in (w["from"], w["to"])}
+    by_node = {}
+    for w in netwires:
+        for e in (w["from"], w["to"]):
+            by_node.setdefault(e.split(".")[0], []).append(w)
+    out, used = {}, set()
+    for j, ws in by_node.items():
+        if kinds.get(j) == "splice" and len(ws) == 2 and j not in ends3d:
+            a, b = ws
+            ea = a["from"] if a["to"].split(".")[0] == j else a["to"]
+            eb = b["to"] if b["from"].split(".")[0] == j else b["from"]
+            cut = a["cut_mm"] + b["cut_mm"] if a.get("cut_mm") is not None and b.get("cut_mm") is not None else None
+            out[(ea, eb)] = out[(eb, ea)] = (cut, [a, b], j)
+            used |= {id(a), id(b)}
+    for w in netwires:
+        if id(w) not in used:
+            out[(w["from"], w["to"])] = (w.get("cut_mm"), [w], None)
+    return out, len(netwires) - len(used) // 2
 BEND_MIN = 3.0
 CJ = V.lab("cables3d", "cables3d.json")
 
@@ -63,6 +88,8 @@ def main():
     C = {c["id"]: c for c in D["cables"]}
     active = [cb for cb in net["cables"] if cb.get("status", "active") == "active"]
     nwires = Counter(w["cable"] for w in net["wires"])
+    kinds = {cp["id"]: cp.get("kind") for cp in net.get("components", [])}
+    merges = []
     R.ev("cables3d.json %s: %d cables, %d cable ends, %d retention items; netlist %d active cables" % (
         D["meta"].get("generated_utc", "?"), len(C), len(D.get("cable_ends", [])), len(D.get("retention", [])), len(active)))
     missing = [cb["id"] for cb in active if cb["id"] not in C]
@@ -79,13 +106,18 @@ def main():
         for r in c["runs"]:
             if not r.get("routed", True):
                 unrouted.append("%s %s" % (cb["id"], r["name"]))
-        if len(c["wires"]) != nwires[cb["id"]]:
-            R.find("FAIL", "%s: %d wires in 3D, %d in the netlist" % (cb["id"], len(c["wires"]), nwires[cb["id"]]))
-        netcut = {(w["from"], w["to"]): w.get("cut_mm") for w in net["wires"] if w["cable"] == cb["id"]}
+        mine = [w for w in net["wires"] if w["cable"] == cb["id"]]
+        M, n_cond = series_merged(c["wires"], mine, kinds)
+        for (a, b), (cut, pcs, j) in M.items():
+            if j and (a, b) in {(w["from"], w["to"]) for w in c["wires"]}:
+                merges.append("%s %s -> %s = %s = %s mm (inline splice %s, not routed in 3D)" % (
+                    cb["id"], a, b, " + ".join("%s %s" % (x["from"].split(".")[0] + "-" + x["to"].split(".")[0], x["cut_mm"]) for x in pcs), cut, j))
+        if len(c["wires"]) != n_cond:
+            R.find("FAIL", "%s: %d wires in 3D, %d conductors in the netlist (%d wires)" % (cb["id"], len(c["wires"]), n_cond, nwires[cb["id"]]))
         for w in c["wires"]:
-            if netcut.get((w["from"], w["to"])) != w.get("cut_mm"):
-                R.find("FAIL", "%s %s -> %s: cut %s mm in 3D, %s mm in the netlist" % (cb["id"], w["from"], w["to"], w.get("cut_mm"),
-                                                                                       netcut.get((w["from"], w["to"]))))
+            netc = M.get((w["from"], w["to"]), (None,))[0]
+            if netc != w.get("cut_mm"):
+                R.find("FAIL", "%s %s -> %s: cut %s mm in 3D, %s mm in the netlist" % (cb["id"], w["from"], w["to"], w.get("cut_mm"), netc))
             cut = w.get("cut_mm")
             if not cut or w.get("length_max_mm") is None:
                 continue
@@ -113,6 +145,8 @@ def main():
                    where="altaay_lab/wiring/netlist.yaml")
     for u in unrouted:
         R.find("FAIL", "run %s: no clear 3D path (straight placeholder)" % u, where="altaay_lab/cables3d")
+    if merges:
+        R.ev("series pieces summed: " + "; ".join(merges))
     worst_margin.sort()
     cannot = [x for x in worst_margin if x[4] > x[5]]                 # routed worst longer than the cut: cannot reach
     no_slack = [x for x in worst_margin if x[4] <= x[5] < x[4] + SLACK]

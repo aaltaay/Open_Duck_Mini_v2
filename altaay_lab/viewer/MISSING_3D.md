@@ -1,6 +1,6 @@
 # MISSING_3D: what the exploded 3D view draws
 
-2026-11-01 10:15 PM ET. Viewer runs of make_viewer_data.py at 9:42 PM ET (before) and 10:15 PM ET (now: fasteners.json, cables3d.json of 03:10 UTC, scene_extras.json). Rows: BOM_FULL.md of 03:07 UTC. Data: viewer/scene_extras.json (166 items) from blueprint/make_scene_extras.py; check: blueprint/check_scene_extras.py, blueprint/coverage.json.
+2026-11-01 10:15 PM ET. Viewer runs of make_viewer_data.py at 9:42 PM ET (before) and 10:15 PM ET (now: fasteners.json, cables3d.json of 03:10 UTC, scene_extras.json). Rows Screws, washers, Cables and ties refreshed 2026-11-02 about 1:08 AM ET from the viewer run of 06:05 UTC (agent NL2). Rows: BOM_FULL.md of 03:07 UTC. Data: viewer/scene_extras.json (166 items) from blueprint/make_scene_extras.py; check: blueprint/check_scene_extras.py, blueprint/coverage.json.
 
 | Item | BOM_FULL row | In robot | Before | Now | 3D data from | Gap left |
 |---|---|---|---|---|---|---|
@@ -10,10 +10,10 @@
 | Boards and parts with a CAD body | E01 to E04, E07, E09, E11, E12 | 9 | yes | yes | URDF | none |
 | BEC, fuse holder, 2815, Tenergy BMS, 5 V reg, camera, 4 foot switches, power splice box, USB coil | E03, E06, E08, E10, E13, E16, E22 | 13 boxes | yes | yes | placements.json, viewer seats | none |
 | XT30, amp, speaker, 3 LED beads | E05, E18, E20, E21 | 6 boxes | tray | seated | cables3d.json terminals | none |
-| Screws | F01 to F16 | 355 | 0 | 293 | fasteners.json | 62 skipped: 56 Feetech case screws PA2.0 and 6 SG90 bag screws have length_mm null (draw_length_mm is set); they also have no BOM_FULL row |
-| Eye screw washers M2.5 x 0.5 | F04 | 8 | 0 | 8 | scene_extras (fasteners.json seats) | no BOM.md line; OD UNVERIFIED |
-| Cables | C01 to C45 | 45 | 0 | 45 (57 runs) | cables3d.json | none |
-| Cable ties, tie mounts, guides | K02 | not counted | 0 | 0 | cables3d.json retention | retention list empty in cables3d v1 |
+| Screws | F01 to F19 | 355 | 0 | 355 | fasteners.json | 62 (56 Feetech case screws PA2.0, 6 SG90 bag screws) drawn at the drawing length: their length is not chosen |
+| Eye screw washers, two 0.3 mm per screw | K10 (BOM 17l) | 16 | 0 | 8 discs | scene_extras (fasteners.json seats) | scene_extras.json (04:08 UTC) still draws one 0.5 mm disc per screw: rerun blueprint/make_scene_extras.py for the D21 note |
+| Cables | C01 to C47 | 47 | 0 | 47 (62 runs) | cables3d.json | none |
+| Cable ties, tie mounts, guides | K02, K09 | 93 ties, 76 mounts | 0 | 93 | cables3d.json retention | 12 free-air points need a guide or a bundle tie (HARDWARE_AUDIT B35); no printed guide drawn |
 | Mini-SPOX housings and crimp terminals | C47, C48 | 5, 13 | 0 | 5, 13 | scene_extras | size UNVERIFIED (Molex drawing not reachable) |
 | Kit cable 5264 plugs | C35 to C45 (C46) | 22 | 0 | 22 | scene_extras | size UNVERIFIED |
 | XT30 halves, cup heat shrink | E05, C49 | 2, 4 | 1 mated box | 2, 4 | scene_extras | mated placeholder still drawn too |

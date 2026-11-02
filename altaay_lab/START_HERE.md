@@ -6,7 +6,7 @@ Last written: 2026-11-01 2:18 PM ET by Legged Robots, Grok Bot agent of Ahmed Al
 ## What this is
 This repo is a public fork of [apirrone/Open_Duck_Mini](https://github.com/apirrone/Open_Duck_Mini). Upstream branch `v2` is left untouched at b23317a. All Altaay lab work lives ONLY on branch `altaay-lab`, ONLY in this `altaay_lab/` folder.
 
-The robot: Open Duck Mini v2, an open source bipedal robot by Antoine Pirrone, inspired by Disney's BDX droid. About 42 cm tall, about 2.11 kg (sim mass) (the lab build is about 2.64 kg by the mass budget, sim/MASS_BUDGET.md, not weighed), 14 Feetech STS3215 serial bus servos (5 per leg, 4 in the neck and head), Raspberry Pi Zero 2 W, BNO055 IMU, 2S 18650 pack. It walks with an RL policy trained in MuJoCo Playground and exported to ONNX.
+The robot: Open Duck Mini v2, an open source bipedal robot by Antoine Pirrone, inspired by Disney's BDX droid. About 42 cm tall, about 2.11 kg (sim mass) (the lab build is about 2.65 kg by the mass budget, sim/MASS_BUDGET.md, not weighed), 14 Feetech STS3215 serial bus servos (5 per leg, 4 in the neck and head), Raspberry Pi Zero 2 W, BNO055 IMU, 2S 18650 pack. It walks with an RL policy trained in MuJoCo Playground and exported to ONNX.
 
 Owner bot: **Legged Robots, Grok Bot agent of Ahmed Altaay**. The duck is one of four Altaay legged robots (with Minto, Tom and a humanoid, all in private lab repos).
 
@@ -21,7 +21,7 @@ Naming: "Mento" and "Minto" in older files and commits refer to the same owner b
 - Wiring: wiring/netlist.yaml is the single source for the sheets, the harness build sheet and the rule check.
 - Every upstream issue and PR (137) is triaged in UPSTREAM_ISSUES.md; the gaps that affect this build are listed first.
 - Exploded 3D parts check (private artifact): https://claude.ai/artifact/PHSJH2PwQZLhZnTf9WgaMo (data script viewer/make_viewer_data.py). 52/52 printed parts, 14/14 servos, 58/58 inserts, 3/3 bearings found in the CAD.
-- Sim: the stock BEST_WALK_ONNX_2 walks in MuJoCo with no falls on flat ground at the trained mass and at our heavier build, slower: 2.64 kg with D22, 25 % over the trained 2.107 kg (sim pass only; sim/MASS_BUDGET.md, print/MASS_STUDY.md). The upstream sim loop adds a +1.3 accelerometer bias that training and the robot do not; lab runs remove it (sim/SIM_WALK.md note).
+- Sim: the stock BEST_WALK_ONNX_2 walks in MuJoCo with no falls on flat ground at the trained mass and at our heavier build, slower: the build is 2.65 kg, 26 % over the trained 2.107 kg; the walks ran at 2.77 kg and at 2.64 kg (sim pass only; sim/MASS_BUDGET.md, print/MASS_STUDY.md). The upstream sim loop adds a +1.3 accelerometer bias that training and the robot do not; lab runs remove it (sim/SIM_WALK.md note).
 - Known risks to measure on the bench: knee servo heat (TO1 thermal hold; SERVO_UPGRADE_OPTIONS.md if it fails), ankle voltage sag on 2S (TEST_PLAN 9), CC BEC Pro dropout, the Pololu 2815 at its 6 A rating, servo register 85 and firmware (upstream issue 48), BNO055 I2C glitches, hip yaw past 21.7 deg outside the walk (TEST_PLAN 8.2a).
 - Issue #48 question: posted upstream by aaltaay on 2026-11-01 1:08 PM ET (DECISIONS.md D1). No reply read.
 
@@ -86,7 +86,7 @@ Duck note on "bus servos only": the 14 joint servos are serial bus. The optional
 | wiring/sheets/ | Clean wiring drawings, one subsystem per sheet, generated from the netlist (WIRING_SHEETS.md, make_sheets.py). |
 | HARNESS_BUILD.md | Cable-by-cable harness build sheet: cut lengths, colours, end treatments, continuity tests (wiring/make_harness_build.py). |
 | SERVO_UPGRADE_OPTIONS.md | Stronger servos in the same body, if the TO1 heat test fails (contingency only). |
-| sim/MASS_BUDGET.md, sim/ADDED_MASS_SIM.md, sim/RUNTIME_THERMAL.md | Mass budget (2.64 kg build with D22), the walk with the real mass and runtime and servo heat (both run on the 2.77 kg build before D22; sim pass only). |
+| sim/MASS_BUDGET.md, sim/ADDED_MASS_SIM.md, sim/RUNTIME_THERMAL.md | Mass budget (2.65 kg build), the walk with the real mass and runtime and servo heat (both run on the 2.77 kg build before D22; sim pass only). |
 | sim/POWER_FIX.md, sim/power_fix.py | Ankle voltage fix options and the 3S plan behind D23 (sim pass only). |
 | print/MASS_STUDY.md, print/mass_study.py, print/config_light/ | Lightest print settings that keep the strength and fit rules (D22). |
 | viewer/scene_extras.json | Connectors, splices, solder joints and small parts the exploded view draws (from blueprint/). |

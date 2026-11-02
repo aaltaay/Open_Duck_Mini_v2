@@ -183,7 +183,7 @@ def main():
     ha = re.search(r"\((\d+) screws by size, (\d+) inserts\)", open(V.lab("HARDWARE_AUDIT.md")).read())
     R.ev("screws: HARDWARE_AUDIT B1 %s; BOM.md screw lines %s Need %g; fasteners.json %s; MASS_BUDGET.md model %s" % (
         ha.group(1) if ha else "?", "17" + "/".join(k[2:] for k in sl), need,
-        "%d bought (17x lines and no line) of %d fitted" % sched if sched else "not landed",
+        "%d to buy (17x lines and no line) of %d fitted" % sched if sched else "not landed",
         mb_n if mb_n is not None else "?"))
     if ha and int(ha.group(1)) != need:
         R.find("FAIL", "HARDWARE_AUDIT.md B1 says %s screws by size, the BOM.md screw lines (17a to 17%s) need %g" % (ha.group(1), sl[-1][-1], need),

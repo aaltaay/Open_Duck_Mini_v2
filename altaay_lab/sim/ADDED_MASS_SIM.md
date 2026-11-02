@@ -4,7 +4,7 @@ Written 2026-11-01 9:58 PM ET by agent M (simulation). Script: sim/added_mass_si
 `ODM_PLAYGROUND=<Open_Duck_Playground at b9be205> ODM_SCRATCH=<scratch folder> nice -n 10 python3 altaay_lab/sim/added_mass_sim.py all`
 (about 15 minutes on one idle CPU, 40 on the shared box; results in ODM_SCRATCH/added_mass/results_*.json, the model copies in ODM_SCRATCH/added_mass/models/, traces for sim/runtime_thermal.py; figures sim/added_mass_*.png).
 
-Mass note (2026-11-02, agent NL2): the results below are for the 2.77 kg build of that run. With the D22 print profile the build is 2.64 kg (2638.6 g, +25 % over the trained 2107.1 g; sim/MASS_BUDGET.md); print/MASS_STUDY.md ran the same walking cases on it (variant c).
+Mass note (2026-11-02, agent NL2): the results below are for the 2.77 kg build of that run. Since D22 and the netlist final pass the build is 2.65 kg (2651.9 g, +26 % over the trained 2107.1 g; sim/MASS_BUDGET.md); print/MASS_STUDY.md ran the same walking cases on it (variant c).
 
 ## Answer
 - **On flat ground the stock BEST_WALK_ONNX_2 still walks the robot we will build** (2.77 kg, +31 % over the trained 2.11 kg, sim/MASS_BUDGET.md): no fall in standing, walking forward, turning, sideways and the backlash-model walk, in the nominal run and in 6 seeded runs per case (sim pass only) [L].

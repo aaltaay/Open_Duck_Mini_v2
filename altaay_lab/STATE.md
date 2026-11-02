@@ -6,10 +6,10 @@ Phase: ready for the coupon print. Nothing bought, nothing printed.
 
 ## Done tonight (2026-11-01 evening into 2026-11-02)
 - Every-part BOM (BOM_FULL.md) and the cable-by-cable harness build sheet (HARNESS_BUILD.md).
-- Mass budget: the build is 2.64 kg with D22 (2.77 kg before), 25 % over the trained 2.107 kg; the stock policy still walks it on flat ground, slower (sim pass only).
+- Mass budget: the build is 2.65 kg (2.77 kg before D22), 26 % over the trained 2.107 kg; the stock policy still walks it on flat ground, slower (sim pass only; the walks ran at 2.77 and 2.64 kg).
 - Sourcing pass: missing purchase lines and test equipment TE1 to TE4 (SOURCING_2026-11-02.md, BOM.md).
 - Connectors, splices, solder joints and small parts in the 3D view (viewer/scene_extras.json, blueprint/).
-- Fastener schedule: 342 screws to fit, 221 to buy, 58 inserts, 8 washers (fasteners/; D19 to D21).
+- Fastener schedule: 342 screws to fit, 221 to buy, 58 inserts, 16 washers, two 0.3 mm under each eye screw (fasteners/; D19 to D21 and the D21 note).
 - Pi setup from a blank SD card, and bench scripts tested on a simulated servo bus (software/, bench/).
 - Servo upgrade options in case the TO1 heat test fails (SERVO_UPGRADE_OPTIONS.md).
 - Clean wiring sheets, one subsystem per sheet (wiring/sheets/).
