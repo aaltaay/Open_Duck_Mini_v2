@@ -36,7 +36,9 @@ For altaay_lab/viewer/make_viewer_data.py and the exploded parts-check page. Dat
   (no fit: the point is `open`); `mount_fit.on_servo_case` marks a mount on an STS3215 case. Count the two types on
   separate rows. One item = one tie = at most one mount: a point that shares a nearby anchor is merged into that item
   (`also_holds` lists the merged points), so ids have gaps.
-- `open`: true when nothing holds the point yet; `plan` names what to do (a route change or a printed tie anchor).
+- `hold` = "bundle tie, test fit" (with `test_fit`: true and kind "cable tie"): no anchor fits, a tie round the bundle
+  only, checked at the TEST_PLAN 1.4 test fit (D25); `plan` says so. `open`: true would mean nothing holds the point and
+  no plan is set (none now).
 - `cables[].seats[]` and `runs[].seats[]`: where the cable meets a printed part (hole, channel, edge, none) with
   `center_mm`, `axis`, `part`, `point_index` into that run's points.
 - `terminals[]`: the six parts seated by this work (xt30, amp, speaker, led_1, led_2, led_3): `center_mm`,

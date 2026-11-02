@@ -83,6 +83,8 @@ def tie_text(t):
             t.get("part"), h.get("hole_d_mm"), h.get("spacing_mm"), h.get("from_cable_mm") or 0)
     elif k == "cable tie to a neighbour cable":
         what = "tied to cable %s, which %s holds" % (t.get("tied_to"), t.get("anchor_tie"))
+    elif t.get("hold") == "bundle tie, test fit":
+        what = "around the bundle only (bundle tie, test fit: check it at both joint limits, TEST_PLAN 1.4)"
     else:
         what = "around the bundle only"
     return "%s %s%s" % (t.get("id", "?"), what, (" (OPEN, plan: %s)" % t.get("plan", "none yet")) if t.get("open") else "")
@@ -246,6 +248,16 @@ def main():
               "STS3215 case of that link, clear of the servo plugs and of moving parts: %s. Wipe with alcohol (BOM 35) and press "
               "it on, then pull on it by hand at the dry fit (TEST_PLAN.md 1.4). If it lifts, report it; the tie then goes round "
               "the bundle only." % "; ".join("%s (%s, %s)" % (t["id"], ", ".join(t["cables"]), t["part"]) for t in case), ""]
+    tf = [t for t in retention if t.get("hold") == "bundle tie, test fit"]
+    if tf:
+        L += ["## Bundle ties checked at the test fit (D25)", "",
+              "No printed feature, stick-on mount, tie-hole pair or anchored neighbour cable fits at these points, and D25 "
+              "adds no printed parts and no STL change. Put a line 32 tie round the bundle only, then at the TEST_PLAN.md 1.4 "
+              "test fit turn every joint the cable crosses to both limits and check the bundle stays clear of moving parts. "
+              "Only if it reaches a moving part: a drilled tie-hole pair or a printed anchor there (report it first).", ""] + [
+            "- %s (%s on %s)%s" % (t["id"], ", ".join(t["cables"]), t["link"],
+                                   (": route change tried" + t["plan"].split("; route change tried", 1)[1]) if "; route change tried" in (t.get("plan") or "") else "")
+            for t in tf] + [""]
     op = [t for t in retention if t.get("open")]
     if op:
         L += ["## Open tie points", "", "Nothing in the CAD holds these yet; each has a named plan:", ""] + [

@@ -47,9 +47,11 @@ Retention rule (sources in CABLES_3D.md):
        on a printed part of its link up to 25 mm away (the bundle dressed over to it);
   iv.  at a loop end, a stick-on mount on the STS3215 case of the same link (mount_fit.on_servo_case), 8 mm off the plug
        axis and 1 mm from moving parts over the joint sweep;
-  else open ("open": true) with a named plan ("plan": a route change to a mount or hole pair up to 40 mm away, or a
-  printed tie anchor, a design change).
-  Usage: --json <file> to work on a copy; --plans-only to rewrite only the plans of the open points.
+  else (D25 as decided: no new printed parts, no STL change) a tie round the bundle only, checked at both joint limits
+  at the TEST_PLAN 1.4 test fit: kind "cable tie", "hold": "bundle tie, test fit", "test_fit": true, "plan" (a drilled
+  tie-hole pair or a printed anchor only if the test fit shows the bundle reaching a moving part). ROUTE_TRIED records
+  the two route changes that were tried and not kept.
+  Usage: --json <file> to work on a copy; --plans-only to rewrite only the plans of those points.
 """
 import json
 import os
@@ -1200,49 +1202,36 @@ def place_retention(s, data, anchors):
             t["anchor_tie"] = remap[t["anchor_tie"]]
     return out
 
-PLAN_REACH = 40.0          # mm: how far from an open point a route change may bring the bundle to an anchor [L]
+TEST_FIT = "bundle tie, test fit"
+TEST_FIT_PLAN = ("a tie round the bundle only, checked at both joint limits at the TEST_PLAN 1.4 test fit; a drilled tie-hole "
+                 "pair or a printed anchor only if the test fit shows the bundle reaching a moving part (D25: no new printed "
+                 "parts, no STL change)")
+# D25 iii route changes tried for two open loop ends (route_cables.py --only D2,D3,D4,SP5 with a via over the MB3A patch,
+# agent CAB 2026-11-02 about 5 AM ET) and not kept: the cuts would no longer fit with the 40 mm slack
+ROUTE_TRIED = {
+    ("head_assembly", ("D2", "D3", "D4")):
+        "route change tried and not kept: the MB3A patch is on the underside of head_bot_sheet, 28.6 mm below the bundle, "
+        "so the bundle drops under the head floor and back; the worst routes of D2, D3 and D4 grow by 83 to 84 mm and D2 "
+        "(cut 550 mm) and D3 (cut 900 mm) would reach with 18 to 25 mm less than the 40 mm slack",
+    ("trunk_assembly", ("SP5",)):
+        "route change tried and not kept: the MB3A patch is on the outer -y face of body_middle_bottom, 33.9 mm away; the "
+        "SP5 worst route grows from 377 to 440 mm, 448 mm with the twist take-up, past the 430 mm cut",
+}
 
 
 def open_plans(s, data):
-    """a named plan for every open tie point (D25: nothing open without one). The same anchors are searched again with
-    the bundle moved up to PLAN_REACH from the present route (a route change, D25 iii): a mount on a printed face, then a
-    tie-hole pair. If none fits, the plan is a printed tie anchor (a design change for the print side)"""
+    """D25 as decided: every tie point that no anchor holds is a bundle tie, checked at the test fit (no new printed parts,
+    no STL change). It keeps kind "cable tie" (no mount part), gets hold = TEST_FIT and the plan; the route changes that
+    were tried are recorded. Works on open points and on points already converted (idempotent)"""
     out = []
     for t in data.get("retention", []):
-        if not t.get("open"):
+        if not (t.get("open") or t.get("hold") == TEST_FIT):
             continue
-        c, ax = np.array(t["center_mm"]), np.array(t["axis"])
-        plan = None
-        for typ, base, h in (("MB3A", MOUNT_BASE, MOUNT_H), (SMALL_TYPE, SMALL_BASE, SMALL_H)):
-            f = mount_patch(s, t["link"], c, ax, PLAN_REACH, base=base, height=h, max_dist=PLAN_REACH)
-            if f:
-                plan = ("route change (D25 iii): bring %s %.0f mm over to the flat patch of %s at %s (world, zero pose) and "
-                        "stick a %s there; then re-run route_cables.py and seats_ties.py so the loop is checked again" % (
-                            ", ".join(t["cables"]), f["dist"], f["part"], [round(float(x), 1) for x in f["center"]],
-                            "MB3A (BOM 34)" if typ == "MB3A" else "ABM1M-AT-C (BOM 34b)"))
-                break
-        if not plan:
-            hp = tie_hole_pair(s, t["link"], c, ax, t["bundle_d_mm"], PLAN_REACH, PLAN_REACH)
-            if hp:
-                plan = ("route change (D25 iii): bring %s %.0f mm over to a 4.0 mm tie-hole pair %.1f mm apart in %s (walls "
-                        "%s mm, centres %s in the part STL frame); then re-run route_cables.py and seats_ties.py" % (
-                            ", ".join(t["cables"]), hp["dist"], hp["spacing"], hp["part"],
-                            " and ".join("%.1f" % w_ for w_ in hp["walls"]),
-                            "; ".join(str([round(float(x), 1) for x in q]) for q in hp["holes_stl"])))
-        if not plan:
-            near = None
-            for inst in s.inst:
-                if inst["link"] != t["link"] or not inst["printed"]:
-                    continue
-                d = float(abs(trimesh.proximity.signed_distance(_wmesh(s, inst), [c])[0]))
-                if near is None or d < near[0]:
-                    near = (d, inst["key"])
-            plan = ("printed tie anchor (design change for the print side): no mount or hole pair within %.0f mm of the "
-                    "route and no servo-case spot within 20 mm; the nearest printed part of %s is %s, %.0f mm away. Until "
-                    "it exists: a tie round the bundle only, and turn the joints by hand at the TEST_PLAN 1.4 dry fit" % (
-                        PLAN_REACH, t["link"], near[1] if near else "-", near[0] if near else 0.0))
-        t["plan"] = plan
-        out.append((t["id"], plan))
+        tried = ROUTE_TRIED.get((t["link"], tuple(sorted(t["cables"]))))
+        t.update(kind="cable tie", mount_fit=None, open=False, hold=TEST_FIT, test_fit=True,
+                 plan=TEST_FIT_PLAN + ("; " + tried if tried else ""))
+        t["note"] = t["note"].replace(": OPEN (", ": %s (" % TEST_FIT)
+        out.append((t["id"], t["plan"]))
     return out
 
 
@@ -1267,6 +1256,11 @@ def main():
     if a.plans_only:
         for k, v in open_plans(s, data):
             print(k, v, flush=True)
+        kinds = {}
+        for t in data["retention"]:
+            kinds[t["kind"]] = kinds.get(t["kind"], 0) + 1
+        data["meta"]["retention"].update(count=len(data["retention"]), by_kind=kinds,
+                                         test_fit=sum(1 for t in data["retention"] if t.get("test_fit")))
         RC.write_json_atomic(data, a.json)
         print("plans written in %.1f s" % (time.time() - t0))
         return
@@ -1285,7 +1279,7 @@ def main():
         print("%-4s seats %d (%s)" % (c["id"], len(allseats), ", ".join(sorted({x["kind"] for x in allseats}))), flush=True)
     data["retention"] = place_retention(s, data, anchors)
     for k, v in open_plans(s, data):
-        print("open %s: %s" % (k, v), flush=True)
+        print("%s %s: %s" % (TEST_FIT, k, v), flush=True)
     for c in data["cables"]:
         for r in c.get("runs", []):
             for lp_ in r.get("service_loops", []):
@@ -1303,6 +1297,7 @@ def main():
                                           "mm, BOM 34, else ABM1M-AT-C 12.7 x 12.7 mm, BOM 34b), one per spot; the rest in the "
                                           "D25 order: neighbour tie, drilled tie-hole pair, tie moved along the route, servo-case "
                                           "mount; open points carry a named plan",
+                                     test_fit=sum(1 for t in data["retention"] if t.get("test_fit")),
                                      generated_utc=time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()))
     RC.write_json_atomic(data, a.json)
     print("retention items %d %s in %.1f s" % (len(data["retention"]), kinds, time.time() - t0))

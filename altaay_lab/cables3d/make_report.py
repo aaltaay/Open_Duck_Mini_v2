@@ -186,21 +186,26 @@ def curated(data):
     R = data.get("retention", [])
     mt = Counter((t.get("mount_fit") or {}).get("type") or "none" for t in R if t["kind"] == "adhesive tie mount")
     op = [t for t in R if t.get("open")]
+    tf = [t for t in R if t.get("hold") == "bundle tie, test fit"]
     case = [t for t in R if (t.get("mount_fit") or {}).get("on_servo_case")]
     holes = [t for t in R if t["kind"] == "drilled printed feature"]
-    out.append(("build-blocking" if op else "note (build)", "Retention (D25): %d tie points. %d through existing printed "
+    out.append(("build-blocking" if op else "test fit", "Retention (D25): %d tie points. %d through existing printed "
                 "features; %d stick-on mounts, each on a flat patch checked with exact rays with the mount height free above "
                 "it: MB3A 19 x 19 x 4.8 mm (BOM 34) at %d, Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) at %d (%d of the "
                 "mounts sit on an STS3215 case: pull check at the dry fit); %d through a pair of 4.0 mm tie holes drilled "
                 "in a printed part after printing (D25 ii, print/PRINT_PLAN.md After printing: %s); %d tied to a neighbour "
                 "cable that its own anchor holds (D25 i); %d loop ties moved further out along the route to an anchor (D25 "
-                "iii). Open: %d%s." % (
+                "iii). Bundle tie, test fit (no anchor fits; D25 adds no printed parts and no STL change): %d (%s): a tie "
+                "round the bundle only, checked at both joint limits at the TEST_PLAN 1.4 test fit; a drilled tie-hole pair or "
+                "a printed anchor only if the bundle reaches a moving part.%s Open: %d%s." % (
                     len(R), sum(1 for t in R if t["kind"] == "existing printed feature"),
                     sum(1 for t in R if t["kind"] == "adhesive tie mount" and (t.get("mount_fit") or {}).get("type")),
                     mt.get("MB3A", 0), mt.get("ABM1M", 0), len(case), len(holes),
                     ", ".join("%s on %s" % (t["id"], t["part"]) for t in holes) or "none",
                     sum(1 for t in R if t["kind"] == "cable tie to a neighbour cable"),
-                    sum(1 for t in R if "tie moved" in t.get("note", "")), len(op),
+                    sum(1 for t in R if "tie moved" in t.get("note", "")), len(tf), ", ".join(t["id"] for t in tf) or "none",
+                    "".join(" %s: route change tried%s." % (t["id"], t["plan"].split("; route change tried", 1)[1]) for t in tf
+                            if "; route change tried" in (t.get("plan") or "")), len(op),
                     (", each with a named plan: " + "; ".join("%s (%s on %s): %s" % (
                         t["id"], ", ".join(t["cables"]), t["link"], t.get("plan", "NO PLAN")) for t in op)) if op else "")))
     sp = {e["id"]: e for e in data.get("cable_ends", [])}
@@ -319,10 +324,11 @@ def main():
           len(C), npass, sum(1 for c in C if c["check"] == "pass with notes"), nfail, nfit))
     mt = Counter((t.get("mount_fit") or {}).get("type") or "none" for t in R if t["kind"] == "adhesive tie mount")
     w("- Retention: %d tie points (%s); stick-on mounts: MB3A %d (BOM 34), ABM1M-AT-C %d (BOM 34b), %d of them on a servo "
-      "case; drilled tie-hole pairs %d; open %d (each with a named plan)." % (
+      "case; drilled tie-hole pairs %d; bundle tie, test fit %d; open %d." % (
         len(R), ", ".join("%d %s" % (v, k) for k, v in Counter(t["kind"] for t in R).most_common()), mt.get("MB3A", 0),
         mt.get("ABM1M", 0), sum(1 for t in R if (t.get("mount_fit") or {}).get("on_servo_case")),
-        sum(1 for t in R if t["kind"] == "drilled printed feature"), sum(1 for t in R if t.get("open"))))
+        sum(1 for t in R if t["kind"] == "drilled printed feature"),
+        sum(1 for t in R if t.get("hold") == "bundle tie, test fit"), sum(1 for t in R if t.get("open"))))
     lp_all = [x for c in C for x in c.get("service_loops", [])]
     two = Counter("+".join(x["joints"]) for x in lp_all if len(x.get("spans") or []) > 1)
     w("- Service loops: %d of %d meet 3 x OD in both models over the full URDF range (%d of them span two crossings with "
@@ -472,7 +478,8 @@ def main():
     w("%d of %d tie points have no hole, slot or bar to loop a tie through within 15 mm on the same link. Each is held by a "
       "stick-on tie mount where a flat patch fits (MB3A, BOM 34; or ABM1M-AT-C 12.7 x 12.7 mm, BOM 34b), by a tie to a "
       "neighbour cable that its own anchor holds, by a pair of tie holes drilled after printing (print/PRINT_PLAN.md After "
-      "printing), or it is open with a named plan (HARDWARE_AUDIT B35, D25). The community parts in print/mods/v2_Jaimes_Mods (Hip Cable Holder 14 x 8 x "
+      "printing), or by a tie round the bundle only, checked at the TEST_PLAN 1.4 test fit (HARDWARE_AUDIT B35, D25). The "
+      "community parts in print/mods/v2_Jaimes_Mods (Hip Cable Holder 14 x 8 x "
       "22 mm, Upper and Lower Cable Guides about 25 x 11 x 27 mm, measured from the 3MF files) have no screw holes and their "
       "mounting interface cannot be checked here: fit on stock parts UNVERIFIED, test print before relying on them." % (
           len(gaps), len(R)))
@@ -482,7 +489,8 @@ def main():
     for t in gaps:
         mf = t.get("mount_fit") or {}
         w("| %s | %s | %s | %s | %s | %s | %s |" % (
-            t["id"], ", ".join(t["cables"]), t["link"], t["kind"] + (" (OPEN)" if t.get("open") else ""),
+            t["id"], ", ".join(t["cables"]), t["link"], t["kind"] + (" (OPEN)" if t.get("open") else "") +
+            (" (bundle tie, test fit)" if t.get("hold") == "bundle tie, test fit" else ""),
             ("%s%s, %.0f mm from the cable" % (mf["type"], " on the servo case" if mf.get("on_servo_case") else "",
                                                mf["from_cable_mm"])) if mf.get("type") else
             ("holes %s mm, %s mm apart" % (t["tie_holes"]["hole_d_mm"], t["tie_holes"]["spacing_mm"]) if t.get("tie_holes") else
@@ -496,11 +504,11 @@ def main():
     w("- stick-on mounts: MB3A %d (BOM 34), ABM1M-AT-C %d (BOM 34b); mount spots with no fit (open) %d" % (
         mt.get("MB3A", 0), mt.get("ABM1M", 0), mt.get("none", 0)))
     w("- ties through existing printed features: %d; through drilled tie-hole pairs: %d; to an anchored neighbour cable: %d; "
-      "free-air points with nothing to tie to: %d; open in all: %d" % (
+      "round the bundle only (bundle tie, test fit): %d; open in all: %d" % (
           sum(1 for t in R if t["kind"] == "existing printed feature"),
           sum(1 for t in R if t["kind"] == "drilled printed feature"),
-          sum(1 for t in R if t["kind"] == "cable tie to a neighbour cable"), sum(1 for t in R if t["kind"] == "cable tie"),
-          sum(1 for t in R if t.get("open"))))
+          sum(1 for t in R if t["kind"] == "cable tie to a neighbour cable"),
+          sum(1 for t in R if t.get("hold") == "bundle tie, test fit"), sum(1 for t in R if t.get("open"))))
     w("")
     w("## Regenerate")
     w("```")

@@ -27,7 +27,8 @@ something to hold it.
   retention  every tie point and what holds it (D25): an existing printed feature, a stick-on tie mount (BOM line 34
              MB3A 19 x 19 mm or line 34b Panduit ABM1M-AT-C 12.7 x 12.7 mm, with the flat-patch check cables3d
              records; some on the STS3215 case), a tie to an anchored neighbour cable (D25 i), a drilled tie-hole pair
-             through a printed part after printing (D25 ii, print/PRINT_PLAN.md After printing), or open. An open point
+             through a printed part after printing (D25 ii, print/PRINT_PLAN.md After printing), or a tie round the
+             bundle only, checked at the TEST_PLAN 1.4 test fit ("bundle tie, test fit", D25 as decided). An open point
              must carry a named plan (FAIL without one). BOM lines 32, 34 and 34b Need vs these counts
 Usage: VERIFY_OUT=<folder outside the repo> python3 altaay_lab/verify/c3_cables3d.py
 """
@@ -486,7 +487,7 @@ def main():
     # ---------------------------------------------------------------- retention (D25)
     grp = Counter()
     mount_types = Counter()
-    open_pts, on_case, holes, neigh = [], [], [], []
+    open_pts, on_case, holes, neigh, test_fit = [], [], [], [], []
     ids = {t["id"]: t for t in ret}
     for t in ret:
         k = str(t.get("kind"))
@@ -499,6 +500,9 @@ def main():
             holes.append(t)
         elif k == "cable tie to a neighbour cable":
             neigh.append(t)
+        if t.get("hold") == "bundle tie, test fit":
+            k = "bundle tie, test fit"
+            test_fit.append(t)
         grp[k] += 1
         if t.get("open"):
             open_pts.append(t)
@@ -506,10 +510,11 @@ def main():
     n_join = sum(len(t.get("also_holds", [])) for t in ret)
     R.ev("retention: %d tie points: %s; stick-on mounts by fit (exact-ray flat patch, cables3d): MB3A 19 x 19 mm (BOM 34) %d, "
          "ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) %d, of them on an STS3215 case %d; no fit %d; drilled tie-hole pairs %d; tied to a "
-         "neighbour %d; open %d; %d tie points share the anchor of a nearby one (one anchor per spot, one tie round both)" % (
+         "neighbour %d; bundle tie, test fit %d; open %d; %d tie points share the anchor of a nearby one (one anchor per "
+         "spot, one tie round both)" % (
              len(ret), ", ".join("%d %s" % (v, k) for k, v in grp.most_common()), mount_types.get("MB3A", 0),
-             mount_types.get("ABM1M", 0), len(on_case), mount_types.get("none", 0), len(holes), len(neigh), len(open_pts),
-             n_join))
+             mount_types.get("ABM1M", 0), len(on_case), mount_types.get("none", 0), len(holes), len(neigh), len(test_fit),
+             len(open_pts), n_join))
     # drilled pairs: the numbers seats_ties checked with exact rays, re-read here against the D25 rule
     hole_bad, hole_rows = [], []
     for t in holes:
@@ -561,6 +566,16 @@ def main():
         R.find("WARN", "BOM line 34b counts %s ABM1M-AT-C mounts, cables3d.json has %d spots that take one" % (
             m34b.group(1) if m34b else "?", mount_types.get("ABM1M", 0)), fix="BOM.md line 34b Need from cables3d.json retention",
             where="altaay_lab/BOM.md")
+    if test_fit:
+        R.find("WARN", "%d tie points are a tie round the bundle only (no printed feature, mount, hole pair or anchored "
+               "neighbour fits; D25: no new printed parts, no STL change): %s" % (len(test_fit), "; ".join("%s %s on %s" % (
+                   t["id"], ",".join(t["cables"]), t["link"]) for t in test_fit)),
+               fix="check each at both joint limits at the TEST_PLAN.md 1.4 test fit; a drilled tie-hole pair or a printed "
+                   "anchor only if the bundle reaches a moving part", where="altaay_lab/TEST_PLAN.md")
+        tried = [t["id"] for t in test_fit if "route change tried" in (t.get("plan") or "")]
+        if tried:
+            R.ev("route changes tried and not kept (cuts would not fit with the slack): " + "; ".join(
+                "%s: route change tried%s" % (t["id"], t["plan"].split("; route change tried", 1)[1]) for t in test_fit if t["id"] in tried))
     no_plan = [t for t in open_pts if not t.get("plan")]
     if open_pts:
         R.find("WARN", "%d tie points are open (no printed feature, mount, hole pair or anchored neighbour fits), each with a "
@@ -579,11 +594,11 @@ def main():
               open(os.path.join(V.out_dir(), "c3_details.json"), "w"), indent=0, default=str)
     R.key("%d of %d active cables routed in 3D (%d runs still straight placeholders); by chain (twist take-up in): %d wires "
           "cannot reach, %d with less than 40 mm slack; %d of %d joint loops (%d crossings) meet 3 x OD (%d within the Runtime "
-          "head ranges); %d tie points: %s (MB3A %d, ABM1M %d); %d open, each with a named plan" % (
+          "head ranges); %d tie points: %s (MB3A %d, ABM1M %d); %d open" % (
               len(active) - len(missing), len(active), len(unrouted), sum(len(v) for v in cannot.values()),
               sum(len(v) for v in no_slack.values()), n_ok, n_loop, n_cross, n_ok_rt, len(ret),
               ", ".join("%d %s" % (v, k) for k, v in grp.most_common()), mount_types.get("MB3A", 0),
-              mount_types.get("ABM1M", 0), len(open_pts) - len(no_plan)))
+              mount_types.get("ABM1M", 0), len(open_pts)))
     R.write()
 
 
