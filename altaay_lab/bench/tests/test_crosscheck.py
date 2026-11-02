@@ -4,7 +4,7 @@ import crosscheck
 from conftest import LAB, RUNTIME, needs_runtime
 from odm_bench import joints
 
-KNOWN_MISMATCH = {"TEST_PLAN 12 foot test script", "TEST_PLAN 10.2 tilt script", "TEST_PLAN 6 single servo"}
+KNOWN_MISMATCH = set()   # TEST_PLAN 6, 10.2 and 12 now point to the bench scripts (2026-11-01 fastener and software doc pass)
 
 
 @needs_runtime

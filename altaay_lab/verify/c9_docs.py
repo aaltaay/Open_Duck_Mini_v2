@@ -15,7 +15,8 @@ Facts:
   upstream     "137" vs the UPSTREAM_ISSUES.md total line
   currents     WIRING.md section 4 table vs the netlist i_mean, i_peak, i_fall per cable
   print        STATE.md coupon and full print numbers vs print/PRINT_PLAN.md and PRINT_CHECK.md
-  mass         2.11 kg (START_HERE, README) vs the trained 2.107 kg and the build 2.77 kg (MASS_BUDGET.md)
+  mass         2.11 kg (START_HERE, README) vs the trained 2.107 kg and the build mass in MASS_BUDGET.md ("Our build")
+  BOM 27       PLA need vs the coupon session plus the full print on a 220 bed (print/PRINT_PLAN.md "What Ahmed approves")
 Usage: VERIFY_OUT=<folder outside the repo> python3 altaay_lab/verify/c9_docs.py
 """
 import glob
@@ -157,7 +158,10 @@ def main():
         R.ev("part counts (viewer run E4): %s" % ", ".join("%s %d/%d" % (k, *v) for k, v in fresh.items()))
     nstl = len(glob.glob(os.path.join(V.REPO, "print", "*.stl")))
     for f, i, m, ln in mentions(r"\b(\d+) STLs\b"):
-        if re.search(r"\(%s STLs\)" % m.group(1), ln):      # '(21 STLs)' after a subset of parts
+        # compare only claims about the whole set ('all 36 STLs', '36 STLs, 52 parts'); a subset count such as
+        # 'Lighter: 19 STLs', '17 STLs (head, ...)' or '(21 STLs)' after a list of parts is not the set size
+        pre, post = ln[max(0, m.start() - 12):m.start()].lower(), ln[m.end():m.end() + 12]
+        if not (re.search(r"(all|every|set:?|set,)\s*$", pre) or re.match(r",? \(?\d+ parts", post)):
             continue
         if int(m.group(1)) != nstl:
             R.find("FAIL", "%s line %d says %s, print/ has %d STL files" % (f, i, m.group(0), nstl))
@@ -179,7 +183,7 @@ def main():
     ha = re.search(r"\((\d+) screws by size, (\d+) inserts\)", open(V.lab("HARDWARE_AUDIT.md")).read())
     R.ev("screws: HARDWARE_AUDIT B1 %s; BOM.md screw lines %s Need %g; fasteners.json %s; MASS_BUDGET.md model %s" % (
         ha.group(1) if ha else "?", "17" + "/".join(k[2:] for k in sl), need,
-        "%d bought (17x lines and no line) of %d fitted" % sched if sched else "not landed",
+        "%d to buy (17x lines and no line) of %d fitted" % sched if sched else "not landed",
         mb_n if mb_n is not None else "?"))
     if ha and int(ha.group(1)) != need:
         R.find("FAIL", "HARDWARE_AUDIT.md B1 says %s screws by size, the BOM.md screw lines (17a to 17%s) need %g" % (ha.group(1), sl[-1][-1], need),
@@ -241,17 +245,38 @@ def main():
     for x in miss:
         R.find("FAIL", "STATE.md print number %s is not in print/PRINT_PLAN.md, print/SLICE_SUMMARY.md or PRINT_CHECK.md" % x)
     m27 = re.search(r"need (\d+) g sliced", bom["27"]["Spec"])
-    if m27 and abs(int(m27.group(1)) - (1474.5 + 27.8)) > 1:
-        R.find("FAIL", "BOM 27 PLA need %s g vs full print 1474.5 g + coupons 27.8 g" % m27.group(1))
+    plan = {}       # PRINT_PLAN.md "What Ahmed approves": PLA g per step (read, not hard-coded, since D22 changed them)
+    for t in V.md_tables(V.lab("print", "PRINT_PLAN.md")):
+        if t["header"][:3] == ["Step", "What", "PLA g"]:
+            for r in t["rows"]:
+                if re.search(r"\d", r.get("PLA g", "")):
+                    plan[r["Step"]] = V.num(r["PLA g"])
+    coup = next((v for k, v in plan.items() if k.startswith("1. Coupon session")), None)
+    full = next((v for k, v in plan.items() if k.startswith("2 and 3. Full print, 220 bed")), None)
+    tot220 = next((v for k, v in plan.items() if k.startswith("Total (220 bed)")), None)
+    if coup is None or full is None:
+        R.find("WARN", "print/PRINT_PLAN.md 'What Ahmed approves' table not found (coupon session and full print on a 220 bed), "
+               "so BOM line 27 was not checked")
+    else:
+        R.ev("print/PRINT_PLAN.md PLA: coupon session %.1f g + full print (220 bed) %.1f g = %.1f g (table total %s g); BOM 27 need %s g" % (
+            coup, full, coup + full, "%.1f" % tot220 if tot220 is not None else "?", m27.group(1) if m27 else "?"))
+        if tot220 is not None and abs(tot220 - (coup + full)) > 0.15:
+            R.find("FAIL", "print/PRINT_PLAN.md total (220 bed) %.1f g PLA is not the coupon session plus the full print (%.1f g)" % (
+                tot220, coup + full), where="altaay_lab/print/PRINT_PLAN.md")
+        if m27 and abs(int(m27.group(1)) - (coup + full)) > 1:
+            R.find("FAIL", "BOM 27 PLA need %s g vs full print %.1f g + coupons %.1f g (print/PRINT_PLAN.md)" % (m27.group(1), full, coup),
+                   where="altaay_lab/BOM.md line 27")
     # ------------------------------------------------------------------ mass
     if mb:
         ours = re.search(r"Our build: \*\*([0-9.]+) kg\*\*", mb)
         trained = re.search(r"trained on: \*\*([0-9.]+) kg\*\*", mb)
         for f, i, m, ln in mentions(r"about ([0-9.]+) kg \(sim mass\)|([0-9.]+) kg \(sim mass\)"):
+            if f not in ("START_HERE.md", "README.md"):     # the robot descriptions (docstring); sim docs keep their run's mass
+                continue
             v = float(m.group(1) or m.group(2))
             if trained and abs(v - float(trained.group(1))) > 0.01:
                 R.find("FAIL", "%s line %d sim mass %s kg vs trained %s kg" % (f, i, v, trained.group(1)))
-            elif ours and "2.77" not in ln:
+            elif ours and ours.group(1) not in ln:
                 R.find("WARN", "%s line %d gives the robot mass as %s kg (sim mass, trained model); the build is %s kg by sim/MASS_BUDGET.md" % (
                     f, i, v, ours.group(1)),
                     fix="%s line %d: after '%s' add ' (the lab build is about %s kg by the mass budget, sim/MASS_BUDGET.md, not weighed)'"

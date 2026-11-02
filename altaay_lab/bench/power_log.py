@@ -291,6 +291,8 @@ def run_walk(a):
         rep.add("9.crash", f"walk loop crashed: {type(e).__name__}: {e}", "FAIL", walk.hard_stop(io, 0.5),
                 None, "UPSTREAM_ISSUES.md G10")
         code = 3
+    if walk.torque_check is not None and not walkhooks.report_torque_check(rep, "9.torque_off", walk.torque_check):
+        code = walkhooks.EXIT_TORQUE_ON          # 10: a hard stop could not confirm torque off
     lg.close()
     rows = load_csv(path)
     analyze(rows, a.pack, rep, rate_hz=a.control_freq / a.decimate)

@@ -1,9 +1,9 @@
 # netlist.yaml: single source of truth for the altaay-lab Open Duck Mini v2 wiring.
-# Rev 2026-11-01 (America/New_York). Read by wiring/make_schematic.py, make_harness.py, make_pictorial.py
-# and by the lead's electrical rule check and ngspice power model. WIRING.md and CABLE_MAP.md follow this file.
+# Rev 2026-11-02 (America/New_York). Read by wiring/sheets/make_sheets.py, wiring/make_harness_build.py,
+# audit/erc.py, viewer/make_viewer_data.py and cables3d/. WIRING.md and CABLE_MAP.md follow this file.
 #
 # Tags in every "source" field: [U] upstream (Open_Duck_Mini docs, Runtime code at 376de65, Tnkr guide),
-# [L] lab decision (D3, D8 to D13, D15, D17 in DECISIONS.md; D15 replaced D14), [I] inferred, check on the build.
+# [L] lab decision (D3, D8 to D13, D15, D17, D23 in DECISIONS.md; D15 replaced D14), [I] inferred, check on the build.
 # BLOCKER = open item.
 #
 # Schema (keep it simple, all keys lower case):
@@ -38,11 +38,13 @@
 
 meta:
   title: Open Duck Mini v2, altaay-lab build, wiring netlist
-  rev: "2026-11-01"
+  rev: "2026-11-02"
   units: {length: mm, current: A, voltage: V}
   orientation: "drawings show the robot seen from behind: robot left is on the left of the page"
   current_source: "sim/CURRENT_BUDGET.md (sim pass only): walking mean, worst 100 ms, worst 20 ms fall"
-  decisions: "D17 (7:24 PM ET) foot switches Omron SS-01 (SS-10 fallback) with a 2.2 kOhm pull-up per foot to Pi pin 17; D13 projector resistor added; D15 servo power bypasses the adapter (BEC -> belly splices -> SP1 SP2 SP3), adapter H1 not connected, adapter gives DATA and GND only"
+  decisions: "D17 (7:24 PM ET) foot switches Omron SS-01 (SS-10 fallback) with a 2.2 kOhm pull-up per foot to Pi pin 17; D13 projector resistor added; D15 servo power bypasses the adapter (BEC -> belly splices -> SP1 SP2 SP3), adapter H1 not connected, adapter gives DATA and GND only; D23 second feeds SP4 SP5 from the belly splices into BUS 1 of ID 24 and ID 14 (V and G, data cavity empty)"
+  lengths: "cut_mm from cables3d/CABLES_3D.md (worst routed length over the joint ranges + 20 mm slack per fixed end, chained through inline splices)"
+  as_shipped: "BEC lead and kit cable conductors: gauge not published (Castle CC BEC Pro guide and retailers; Feetech STS3215 sheet 6-7 gives 5264-3P, 15 cm, no gauge; searched 2026-11-02), so they stay as shipped and no AWG is set here"
   battery_note: "Tenergy over-discharge cut is 2.40 V per cell, below the P30B 2.5 V minimum: stop in software when the servo Present Voltage reads about 6.0 V (about 3.3 V per cell loaded)"
   bench_check: "verify on the bench that the adapter enumerates and drives the bus with H1 unpowered (D15)"
 
@@ -68,12 +70,12 @@ domains:
 nets:
   CELL_N: {domain: GND_CELL, note: "holder - to BMS B-"}
   CELL_MID: {domain: CELL_MID_3V0_4V2, note: "series strap to BMS B1"}
-  PACK_P: {domain: PACK_6V0_8V4, note: "holder +, BMS B+ and P+ (one copper node on the board), charger, XT30, fuse line side"}
-  PACK_F: {domain: PACK_6V0_8V4, note: "fused pack +, fuse load side to Pololu 2815 VIN"}
+  PACK_P: {domain: PACK_6V0_8V4, note: "holder +, BMS B+ and P+ (one copper node on the board), charger, XT30, splice JFI, fuse line side"}
+  PACK_F: {domain: PACK_6V0_8V4, note: "fused pack +, fuse load side through splice JFO to Pololu 2815 VIN"}
   VSW: {domain: PACK_6V0_8V4, note: "switched pack bus after the 2815"}
   GND: {domain: GND, note: "every ground; one node at BMS P-"}
   CTRL_SW: {domain: CTRL, note: "2815 SW pad to the panel switch"}
-  SERVO_7V2: {domain: SERVO_7V2, note: "BEC output, belly splice SPV, SP1 SP2 SP3, every servo V (not the adapter, D15)"}
+  SERVO_7V2: {domain: SERVO_7V2, note: "BEC output, belly splice SPV, SP1 to SP5, every servo V (not the adapter, D15)"}
   BUS_DATA: {domain: BUS_DATA, note: "servo bus data line"}
   5V: {domain: 5V, note: "U3 output, Pi 5 V pins, SG90 and amp supply"}
   3V3: {domain: 3V3, note: "Pi pin 1 to BNO055 VIN; Pi pin 17 to the foot pull-ups R4, R5 (D17)"}
@@ -178,13 +180,35 @@ components:
     region: battery_bay
     ratings: {fuse_a: 15, holder_a: 20, v_max: 32, leads: "16 AWG, 90 mm each", body_mm: "50 x 17.2 x 17.2"}
     groups:
-      leads: {connector: "ATO holder leads", pitch_mm: null, note: "the two holder leads are wires P7"}
+      leads: {connector: "ATO holder leads", pitch_mm: null, note: "the two holder leads are P7; each is lengthened with 16 AWG red at splice JFI (line) or JFO (load)"}
     pins:
       - {pin: "IN", label: "lead 1", name: line side (from XT30), domain: PACK_6V0_8V4, group: leads, dir: pwr_in, source: "[L] D3"}
       - {pin: "OUT", label: "lead 2", name: load side (to 2815 VIN), domain: PACK_6V0_8V4, group: leads, dir: pwr_out, source: "[L] D3"}
     internal:
       - {a: "IN", b: "OUT", kind: fuse, note: "15 A ATO"}
     source: "[L] D3; MOUNTING.md: battery bay front wall, BMS side, centre (-104.5, -21.5, 26.0)"
+
+  - id: JFI
+    ref: JFI
+    part: solder splice with heat shrink (fuse holder line lead to its 16 AWG extension)
+    kind: splice
+    region: battery_bay
+    groups:
+      s: {connector: "solder splice, heat shrink", pitch_mm: null}
+    pins:
+      - {pin: "S", label: "JFI", name: splice, domain: PACK_6V0_8V4, group: s, dir: pwr, source: "[L] cables3d: P7 line chain"}
+    source: "[L] cables3d/CABLES_3D.md: the 90 mm holder lead is short of the P7 line chain"
+
+  - id: JFO
+    ref: JFO
+    part: solder splice with heat shrink (fuse holder load lead to its 16 AWG extension)
+    kind: splice
+    region: battery_bay
+    groups:
+      s: {connector: "solder splice, heat shrink", pitch_mm: null}
+    pins:
+      - {pin: "S", label: "JFO", name: splice, domain: PACK_6V0_8V4, group: s, dir: pwr, source: "[L] cables3d: P7 load chain"}
+    source: "[L] cables3d/CABLES_3D.md: the 90 mm holder lead is short of the P7 load chain"
 
   - id: SW1
     ref: SW1
@@ -199,8 +223,8 @@ components:
       - {pin: "VIN", label: "VIN", name: fused pack in, domain: PACK_6V0_8V4, group: power, dir: pwr_in, source: "[L] Pololu 2815 page"}
       - {pin: "GND", label: "GND", name: ground (large hole), domain: GND, group: power, dir: gnd, source: "[L] Pololu 2815 page"}
       - {pin: "VOUT", label: "VOUT", name: switched pack out, domain: PACK_6V0_8V4, group: power, dir: pwr_out, source: "[L] Pololu 2815 page"}
-      - {pin: "SW", label: "switch symbol", name: switch control terminal, domain: CTRL, group: control, dir: in, source: "[L] Pololu schematic net SW"}
-      - {pin: "GND_SW", label: "switch symbol", name: GND pad next to SW, domain: GND, group: control, dir: gnd, source: "[L] Pololu schematic"}
+      - {pin: "SW", label: "SW", name: switch control terminal (pad pair marked with a switch symbol), domain: CTRL, group: control, dir: in, source: "[L] Pololu schematic net SW"}
+      - {pin: "GND_SW", label: "GND", name: GND pad next to SW (pad pair marked with a switch symbol), domain: GND, group: control, dir: gnd, source: "[L] Pololu schematic"}
       - {pin: "ON", label: "ON", name: logic ON input, domain: CTRL, group: control, dir: nc, source: "[L] Pololu page: disconnected = off"}
     internal:
       - {a: "VIN", b: "VOUT", kind: switch, note: "2 P-MOSFETs, on while SW is pulled to GND; on-board slide switch set OFF"}
@@ -209,7 +233,7 @@ components:
     source: "[L] D8; https://www.pololu.com/product/2815; MOUNTING.md: battery bay front wall, centre (-108.5, 19.0, 36.5)"
 
   - id: CTL
-    ref: S1
+    ref: SW2
     part: stock panel switch in the body_back cutout (CAD power_switch.stl, upstream Amazon B0CH3JCQM5; BOM 10b)
     kind: switch
     region: battery_bay
@@ -252,19 +276,19 @@ components:
     ratings: {v_in: "2S to 12S", i_cont_a: "15 at 2S to 4S with 5 mph air", i_peak_a: 20, v_out: 7.2, size_mm: "43 x 33 x 24", output_lead_a: "5 per 3-pin lead (Castle guide)"}
     groups:
       in: {connector: "input leads red and black (gauge and length not published)", pitch_mm: null}
-      out1: {connector: "3-pin servo lead 1 (cut)", pitch_mm: null}
-      out2: {connector: "3-pin servo lead 2 (cut)", pitch_mm: null}
+      out1: {connector: "3-pin servo lead 1, plug cut off (gauge and length not published: as shipped)", pitch_mm: null}
+      out2: {connector: "3-pin servo lead 2, plug cut off (gauge and length not published: as shipped)", pitch_mm: null}
       link: {connector: "Link Port, 2-wire jumper to Castle Link V4", pitch_mm: null, note: "programming only"}
     pins:
-      - {pin: "IN+", label: "red", name: input +, domain: PACK_6V0_8V4, group: in, dir: pwr_in, source: "[L] Castle guide 095-0047-00"}
-      - {pin: "IN-", label: "black", name: input -, domain: GND, group: in, dir: gnd, source: "[L] Castle guide"}
-      - {pin: "OUT1+", label: "red", name: output lead 1 +, domain: SERVO_7V2, group: out1, dir: pwr_out, source: "[L] Castle guide"}
-      - {pin: "OUT1-", label: "black", name: output lead 1 -, domain: GND, group: out1, dir: gnd, source: "[L] Castle guide"}
-      - {pin: "OUT1S", label: "3rd wire", name: output lead 1 third wire, domain: GND, group: out1, dir: nc, source: "[I] insulate"}
-      - {pin: "OUT2+", label: "red", name: output lead 2 +, domain: SERVO_7V2, group: out2, dir: pwr_out, source: "[L] Castle guide"}
-      - {pin: "OUT2-", label: "black", name: output lead 2 -, domain: GND, group: out2, dir: gnd, source: "[L] Castle guide"}
-      - {pin: "OUT2S", label: "3rd wire", name: output lead 2 third wire, domain: GND, group: out2, dir: nc, source: "[I] insulate"}
-      - {pin: "LINK", label: "Link Port", name: programming port, domain: GND, group: link, dir: nc, source: "[L] Castle guide"}
+      - {pin: "IN+", label: "IN+", name: input + (red lead), domain: PACK_6V0_8V4, group: in, dir: pwr_in, source: "[L] Castle guide 095-0047-00"}
+      - {pin: "IN-", label: "IN-", name: input - (black lead), domain: GND, group: in, dir: gnd, source: "[L] Castle guide"}
+      - {pin: "OUT1+", label: "1+", name: output lead 1 + (red), domain: SERVO_7V2, group: out1, dir: pwr_out, source: "[L] Castle guide"}
+      - {pin: "OUT1-", label: "1-", name: output lead 1 - (black), domain: GND, group: out1, dir: gnd, source: "[L] Castle guide"}
+      - {pin: "OUT1S", label: "1S", name: output lead 1 third wire, domain: GND, group: out1, dir: nc, source: "[I] insulate"}
+      - {pin: "OUT2+", label: "2+", name: output lead 2 + (red), domain: SERVO_7V2, group: out2, dir: pwr_out, source: "[L] Castle guide"}
+      - {pin: "OUT2-", label: "2-", name: output lead 2 - (black), domain: GND, group: out2, dir: gnd, source: "[L] Castle guide"}
+      - {pin: "OUT2S", label: "2S", name: output lead 2 third wire, domain: GND, group: out2, dir: nc, source: "[I] insulate"}
+      - {pin: "LINK", label: "LINK", name: Link Port (programming), domain: GND, group: link, dir: nc, source: "[L] Castle guide"}
     internal:
       - {a: "IN+", b: "OUT1+", kind: regulator, note: "buck set to 7.2 V; dropout not published"}
       - {a: "IN-", b: "OUT1-", kind: short}
@@ -330,7 +354,7 @@ components:
 
   - id: SPV
     ref: SPV
-    part: power splice V+ in the belly next to the BEC (P11 in, SP1 SP2 SP3 out)
+    part: power splice V+ in the belly next to the BEC (P11 in, SP1 to SP5 out)
     kind: splice
     region: belly
     groups:
@@ -341,7 +365,7 @@ components:
 
   - id: SPG
     ref: SPG
-    part: power splice GND in the belly next to the BEC (P11 in, SP1 SP2 SP3 out)
+    part: power splice GND in the belly next to the BEC (P11 in, SP1 to SP5 out)
     kind: splice
     region: belly
     groups:
@@ -642,7 +666,7 @@ components:
     source: "[L] D17 (2026-11-01 7:24 PM ET)"
 
   - id: LEDL
-    ref: D1
+    ref: LED1
     part: 1 W LED bead (BOM E3), left eye
     kind: led
     region: head
@@ -656,7 +680,7 @@ components:
     source: "[U] BOM E3"
 
   - id: LEDR
-    ref: D2
+    ref: LED2
     part: 1 W LED bead (BOM E3), right eye
     kind: led
     region: head
@@ -670,7 +694,7 @@ components:
     source: "[U] BOM E3"
 
   - id: LEDP
-    ref: D3
+    ref: LED3
     part: 1 W LED bead (BOM E3), projector (flash_light_module)
     kind: led
     region: head
@@ -702,7 +726,7 @@ components:
     kind: servo
     region: head
     groups:
-      lead: {connector: "3-wire lead, 250 +/- 5 mm, extended 20 mm with 26 AWG", pitch_mm: 2.54, note: "lead colours not checked [I]"}
+      lead: {connector: "3-wire lead, 250 +/- 5 mm, ends in a 3-pin female housing that is cut off", pitch_mm: 2.54, note: "lead colours not checked [I]; the lead reaches without an extension (cables3d: 170 mm worst)"}
     pins:
       - {pin: "SIG", label: "signal", name: PWM in, domain: PWM_3V3, group: lead, dir: in, source: "[U] BOM 14"}
       - {pin: "VCC", label: "+", name: supply, domain: 5V, group: lead, dir: pwr_in, source: "[U] table"}
@@ -756,23 +780,25 @@ components:
     source: "[U] BOM E6"
 
 # STS3215 C001 servos: two 3-pin bus ports in parallel (BUS1, BUS2), side by side in a slot in the bottom
-# case (Tnkr). Pins named by function; kit cables are 1:1 molded leads (Feetech lists GND, VCC, signal).
-# Chain: first servo of each chain gets a made lead on BUS 2 (D15), kit cables go BUS 1 -> next BUS 2.
+# case (Tnkr). Pins named by function with the Feetech pin number (STS3215 sheet item 6-7: 1 GND, 2 Vcc,
+# 3 signal); kit cables are 1:1 molded leads, gauge not published (as shipped).
+# Chain: first servo of each chain gets a made lead on BUS 2 (D15), kit cables go BUS 1 -> next BUS 2;
+# the ankle servos ID 24 and ID 14 take the second feeds SP4 and SP5 on BUS 1 (D23).
   - id: SV20
     ref: ID20
     part: Feetech STS3215 C001 7.4 V 1:345
     kind: servo
     region: trunk_bottom
     groups: &sts_groups
-      bus1: {connector: "Molex 5264-type 2.5 mm 3-pin socket", pitch_mm: 2.5}
-      bus2: {connector: "Molex 5264-type 2.5 mm 3-pin socket", pitch_mm: 2.5}
+      bus1: {connector: "Molex 5264-type 2.5 mm 3-pin socket", pitch_mm: 2.5, note: "pins 1 GND, 2 Vcc, 3 signal (Feetech STS3215 sheet 6-7); Waveshare counts its sockets from the other end (1 D); copy the kit cable housing order, verify with a meter"}
+      bus2: {connector: "Molex 5264-type 2.5 mm 3-pin socket", pitch_mm: 2.5, note: "as bus1"}
     pins: &sts_pins
-      - {pin: BUS1.D, label: "BUS 1", name: data, domain: BUS_DATA, group: bus1, dir: bidir, source: "[U]"}
-      - {pin: BUS1.V, label: "BUS 1", name: supply, domain: SERVO_7V2, group: bus1, dir: pwr, source: "[U]"}
-      - {pin: BUS1.G, label: "BUS 1", name: ground, domain: GND, group: bus1, dir: gnd, source: "[U]"}
-      - {pin: BUS2.D, label: "BUS 2", name: data, domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
-      - {pin: BUS2.V, label: "BUS 2", name: supply, domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
-      - {pin: BUS2.G, label: "BUS 2", name: ground, domain: GND, group: bus2, dir: gnd, source: "[U]"}
+      - {pin: BUS1.D, label: "BUS 1", name: "data, pin 3", domain: BUS_DATA, group: bus1, dir: bidir, source: "[U]"}
+      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_7V2, group: bus1, dir: pwr, source: "[U]"}
+      - {pin: BUS1.G, label: "BUS 1", name: "ground, pin 1", domain: GND, group: bus1, dir: gnd, source: "[U]"}
+      - {pin: BUS2.D, label: "BUS 2", name: "data, pin 3", domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
+      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
+      - {pin: BUS2.G, label: "BUS 2", name: "ground, pin 1", domain: GND, group: bus2, dir: gnd, source: "[U]"}
     internal: &sts_internal
       - {a: BUS1.D, b: BUS2.D, kind: short}
       - {a: BUS1.V, b: BUS2.V, kind: short}
@@ -813,14 +839,14 @@ components:
     region: left_leg
     groups: *sts_groups
     pins: &sts_pins_end_SV24
-      - {pin: BUS1.D, label: "BUS 1", name: data, domain: BUS_DATA, group: bus1, dir: nc, source: "[L] D15 free"}
-      - {pin: BUS1.V, label: "BUS 1", name: supply, domain: SERVO_7V2, group: bus1, dir: nc, source: "[L] D15 free"}
-      - {pin: BUS1.G, label: "BUS 1", name: ground, domain: GND, group: bus1, dir: nc, source: "[L] D15 free"}
-      - {pin: BUS2.D, label: "BUS 2", name: data, domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
-      - {pin: BUS2.V, label: "BUS 2", name: supply, domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
-      - {pin: BUS2.G, label: "BUS 2", name: ground, domain: GND, group: bus2, dir: gnd, source: "[U]"}
+      - {pin: BUS1.D, label: "BUS 1", name: "data, pin 3", domain: BUS_DATA, group: bus1, dir: nc, source: "[L] D23: data position empty"}
+      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_7V2, group: bus1, dir: pwr, source: "[L] D23: second feed SP4"}
+      - {pin: BUS1.G, label: "BUS 1", name: "ground, pin 1", domain: GND, group: bus1, dir: gnd, source: "[L] D23: second feed SP4"}
+      - {pin: BUS2.D, label: "BUS 2", name: "data, pin 3", domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
+      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
+      - {pin: BUS2.G, label: "BUS 2", name: "ground, pin 1", domain: GND, group: bus2, dir: gnd, source: "[U]"}
     internal: *sts_internal
-    source: "[U] left_ankle, ID 24; second port unused (D15)"
+    source: "[U] left_ankle, ID 24; BUS 1 takes the second power feed SP4, data position empty (D23, sim/POWER_FIX.md option 3b)"
   - id: SV10
     ref: ID10
     part: Feetech STS3215 C001 7.4 V 1:345
@@ -864,14 +890,14 @@ components:
     region: right_leg
     groups: *sts_groups
     pins: &sts_pins_end_SV14
-      - {pin: BUS1.D, label: "BUS 1", name: data, domain: BUS_DATA, group: bus1, dir: nc, source: "[L] D15 free"}
-      - {pin: BUS1.V, label: "BUS 1", name: supply, domain: SERVO_7V2, group: bus1, dir: nc, source: "[L] D15 free"}
-      - {pin: BUS1.G, label: "BUS 1", name: ground, domain: GND, group: bus1, dir: nc, source: "[L] D15 free"}
-      - {pin: BUS2.D, label: "BUS 2", name: data, domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
-      - {pin: BUS2.V, label: "BUS 2", name: supply, domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
-      - {pin: BUS2.G, label: "BUS 2", name: ground, domain: GND, group: bus2, dir: gnd, source: "[U]"}
+      - {pin: BUS1.D, label: "BUS 1", name: "data, pin 3", domain: BUS_DATA, group: bus1, dir: nc, source: "[L] D23: data position empty"}
+      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_7V2, group: bus1, dir: pwr, source: "[L] D23: second feed SP5"}
+      - {pin: BUS1.G, label: "BUS 1", name: "ground, pin 1", domain: GND, group: bus1, dir: gnd, source: "[L] D23: second feed SP5"}
+      - {pin: BUS2.D, label: "BUS 2", name: "data, pin 3", domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
+      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
+      - {pin: BUS2.G, label: "BUS 2", name: "ground, pin 1", domain: GND, group: bus2, dir: gnd, source: "[U]"}
     internal: *sts_internal
-    source: "[U] right_ankle, ID 14; second port unused"
+    source: "[U] right_ankle, ID 14; BUS 1 takes the second power feed SP5, data position empty (D23, sim/POWER_FIX.md option 3b)"
   - id: SV30
     ref: ID30
     part: Feetech STS3215 C001 7.4 V 1:345
@@ -906,12 +932,12 @@ components:
     region: head
     groups: *sts_groups
     pins: &sts_pins_end_SV33
-      - {pin: BUS1.D, label: "BUS 1", name: data, domain: BUS_DATA, group: bus1, dir: nc, source: "[L] D15 free"}
-      - {pin: BUS1.V, label: "BUS 1", name: supply, domain: SERVO_7V2, group: bus1, dir: nc, source: "[L] D15 free"}
-      - {pin: BUS1.G, label: "BUS 1", name: ground, domain: GND, group: bus1, dir: nc, source: "[L] D15 free"}
-      - {pin: BUS2.D, label: "BUS 2", name: data, domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
-      - {pin: BUS2.V, label: "BUS 2", name: supply, domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
-      - {pin: BUS2.G, label: "BUS 2", name: ground, domain: GND, group: bus2, dir: gnd, source: "[U]"}
+      - {pin: BUS1.D, label: "BUS 1", name: "data, pin 3", domain: BUS_DATA, group: bus1, dir: nc, source: "[L] D15 free"}
+      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_7V2, group: bus1, dir: nc, source: "[L] D15 free"}
+      - {pin: BUS1.G, label: "BUS 1", name: "ground, pin 1", domain: GND, group: bus1, dir: nc, source: "[L] D15 free"}
+      - {pin: BUS2.D, label: "BUS 2", name: "data, pin 3", domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
+      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
+      - {pin: BUS2.G, label: "BUS 2", name: "ground, pin 1", domain: GND, group: bus2, dir: gnd, source: "[U]"}
     internal: *sts_internal
     source: "[U] head_roll, ID 33 (case on the head side of the head_roll joint, cables.json); second port unused"
 
@@ -923,16 +949,18 @@ cables:
   - {id: P5, status: active, desc: BMS P- to charger B-, regions: [battery_bay], joints: [], polyline_mm: 39.4, rule_mm: 124.6, source: "[U]"}
   - {id: P6, status: active, desc: BMS P+ to XT30U female +, regions: [battery_bay], joints: [], polyline_mm: 23.5, rule_mm: 108.7, source: "[L] reference BMS to fuse holder (XT30 sits between)", note: "BLOCKER-lite: XT30 spot from Tnkr only"}
   - {id: P8, status: active, desc: BMS P- to XT30U female -, regions: [battery_bay], joints: [], polyline_mm: 23.5, rule_mm: 108.7, source: "[L] as P6"}
-  - {id: P7, status: active, desc: XT30U male + to fuse holder to Pololu 2815 VIN (the holder leads), regions: [battery_bay], joints: [], polyline_mm: 42.0, rule_mm: 127.2, source: "[L] placements: fuse to 2815", note: "holder leads ship at 90 mm: test fit, extend with 16 AWG if short"}
+  - {id: P7, status: active, desc: XT30U male + to fuse holder to Pololu 2815 VIN (the holder leads), regions: [battery_bay], joints: [], polyline_mm: 42.0, rule_mm: 127.2, source: "[L] placements: fuse to 2815; lengths cables3d", note: "holder leads ship at 90 mm, short of both chains (cables3d: line 92, load 124 mm): each gets a 16 AWG red extension at splice JFI or JFO"}
   - {id: P14, status: active, desc: XT30U male - to splice G, regions: [battery_bay], joints: [], polyline_mm: 52.1, rule_mm: 137.3, source: "[L] reference BMS to 2815"}
   - {id: P9, status: active, desc: 2815 VOUT to splice VSW, regions: [battery_bay], joints: [], polyline_mm: 0.0, rule_mm: 85.2, source: "[L] splice next to the 2815"}
   - {id: P16, status: active, desc: splice G to 2815 GND (control ground), regions: [battery_bay], joints: [], polyline_mm: 0.0, rule_mm: 85.2, source: "[I]"}
   - {id: P15, status: active, desc: 2815 SW pad pair to the panel switch, regions: [battery_bay], joints: [], polyline_mm: 62.1, rule_mm: 147.3, source: "[L] placements: 2815 to power_switch.stl"}
   - {id: P10, status: active, desc: splices VSW and G to the BEC input leads, regions: [battery_bay, belly], joints: [], polyline_mm: 61.1, rule_mm: 146.3, source: "[L] placements: 2815 to BEC", note: "the BEC input leads ship (length not published): cut P10 shorter by their length"}
-  - {id: P11, status: active, desc: both BEC output leads joined (JB+ JB-) to the belly power splices SPV and SPG, regions: [belly], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D15, about 60 mm", note: "BEC output leads ship (length not published); ngspice power-path sim (lead, sim pass only): BEC output peaks 8.3 to 9.1 A while walking"}
+  - {id: P11, status: active, desc: both BEC output leads joined (JB+ JB-) to the belly power splices SPV and SPG, regions: [belly], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D15; length cables3d", note: "BEC output leads ship (gauge and length not published: as shipped); ngspice power-path sim (lead, sim pass only): BEC output peaks 8.3 to 9.1 A while walking"}
   - {id: SP1, status: active, desc: power pair SPV and SPG to ID 20 BUS 2 (V and G), regions: [belly, trunk_bottom], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D15, about 150 mm", note: "22 AWG because the 08-70-1040 terminal takes 22 to 28 AWG; GND joins SD1 at JG20 before the housing"}
   - {id: SP2, status: active, desc: power pair SPV and SPG to ID 10 BUS 2 (V and G), regions: [belly, trunk_bottom], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D15, about 150 mm", note: "GND joins SD2 at JG10"}
   - {id: SP3, status: active, desc: power pair SPV and SPG to ID 30 BUS 2 (V and G), regions: [belly, trunk_top], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D15, about 180 mm", note: "GND joins SD1 at JG30"}
+  - {id: SP4, status: active, desc: "power pair SPV and SPG to ID 24 BUS 1 (V and G), left leg", regions: [belly, trunk_bottom, left_leg], joints: [left_hip_pitch, left_hip_roll, left_hip_yaw, left_knee], polyline_mm: 286.5, rule_mm: null, source: "[L] D23 (sim/POWER_FIX.md), route altaay_lab/cables3d", note: "service loop at every leg joint; ties in cables3d.json retention"}
+  - {id: SP5, status: active, desc: "power pair SPV and SPG to ID 14 BUS 1 (V and G), right leg", regions: [belly, trunk_bottom, right_leg], joints: [right_hip_pitch, right_hip_roll, right_hip_yaw, right_knee], polyline_mm: 319.3, rule_mm: null, source: "[L] D23 (sim/POWER_FIX.md), route altaay_lab/cables3d", note: "service loop at every leg joint; ties in cables3d.json retention"}
   - {id: P13, status: active, desc: splices VSW and G up the neck to U3 VIN and GND on the head floor, regions: [battery_bay, trunk_top, neck, head], joints: [neck_pitch, head_pitch, head_yaw, head_roll], polyline_mm: 349.7, rule_mm: 531.7, source: "[L] D8; route 2815 to Pi through the 4 neck joints (9.69 rad)", note: "drop about 0.09 V at 2.5 A over 2 x 0.55 m of 20 AWG [I]"}
   - {id: P12, status: active, desc: U3 VOUT and GND to Pi pin 2 and pin 6, regions: [head], joints: [], polyline_mm: 44.3, rule_mm: 129.5, source: "[L] D8; U3 on the head floor under the Pi (44.3 mm free below the Pi)", note: "exact spot of U3 on the floor not fixed"}
   - {id: P17, status: active, desc: Pi pin 4 and pin 14 to splices J5 and JG, regions: [head], joints: [], polyline_mm: 0.0, rule_mm: 85.2, source: "[I] splices next to the header"}
@@ -942,9 +970,9 @@ cables:
   - {id: D4, status: active, desc: "Pi to right foot switches, with pull-up R5 at the header", regions: [head, neck, trunk_top, trunk_bottom, right_leg], joints: [neck_pitch, head_pitch, head_yaw, head_roll, right_hip_yaw, right_hip_roll, right_hip_pitch, right_knee, right_ankle], polyline_mm: 632.4, rule_mm: 914.0, source: "[U] pins, [L] D9"}
   - {id: D5, status: active, desc: Pi to left eye LED and resistor, regions: [head], joints: [], polyline_mm: 94.8, rule_mm: 134.8, source: "[U]"}
   - {id: D6, status: active, desc: Pi to right eye LED and resistor, regions: [head], joints: [], polyline_mm: 176.8, rule_mm: 216.8, source: "[U]"}
-  - {id: D7, status: active, desc: Pi to projector LED and resistor, regions: [head], joints: [], polyline_mm: 112.4, rule_mm: 152.4, source: "[U], [L] D13 resistor"}
+  - {id: D7, status: active, desc: Pi to projector LED and resistor, regions: [head], joints: [], polyline_mm: 112.4, rule_mm: 152.4, source: "[U], [L] D13 resistor", note: "runs inside the head and through the 4 mm hole drilled in the head wall (D24): cables3d 78 mm worst, the 160 mm cut passes"}
   - {id: D8, status: active, desc: left antenna SG90 lead to Pi pin 33 and splices J5 and JG, regions: [head], joints: [], polyline_mm: 133.2, rule_mm: 173.2, source: "[U]", note: "lead 250 mm fits"}
-  - {id: D9, status: active, desc: right antenna SG90 lead to Pi pin 32 and splices J5 and JG, regions: [head], joints: [], polyline_mm: 228.0, rule_mm: 268.0, source: "[U]", note: "lead 250 mm is 18 mm short: add 20 mm of 26 AWG x3"}
+  - {id: D9, status: active, desc: right antenna SG90 lead to Pi pin 32 and splices J5 and JG, regions: [head], joints: [], polyline_mm: 228.0, rule_mm: 268.0, source: "[U]", note: "lead 250 mm reaches without an extension: cables3d 170 mm worst, 210 mm with the slack (the 228 mm polyline runs through part centres)"}
   - {id: D10, status: active, desc: Pi and splices to MAX98357A, regions: [head], joints: [], polyline_mm: 149.5, rule_mm: 189.5, source: "[U]"}
   - {id: D11, status: active, desc: MAX98357A to speaker, regions: [head], joints: [], polyline_mm: 40.0, rule_mm: 80.0, source: "[U]"}
   - {id: D12, status: active, desc: Pi CSI to Camera Module 3, regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[U] BOM E7, 150 mm cable"}
@@ -970,13 +998,15 @@ wires:
   # battery bay
   - {cable: P1, from: PACK.B+, to: BMS.B+, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 120, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [holder lead, solder pad], source: "[L]", note: "6.4 V pack: 4.9 A mean, 8.7 A worst 100 ms"}
   - {cable: P2, from: PACK.B-, to: BMS.B-, net: CELL_N, gauge: 16 AWG, color: black, cut_mm: 120, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [holder lead, solder pad], source: "[L]"}
-  - {cable: P3, from: PACK.MID, to: BMS.B1, net: CELL_MID, gauge: 26 AWG, color: yellow, cut_mm: 120, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder to strap, solder pad], source: "[L] B27; colour [I]", note: "sense only"}
+  - {cable: P3, from: PACK.MID, to: BMS.B1, net: CELL_MID, gauge: 26 AWG, color: yellow, cut_mm: 140, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder to strap, solder pad], source: "[L] B27; colour [I]", note: "sense only"}
   - {cable: P4, from: BMS.P+, to: CHG.B+, net: PACK_P, gauge: 20 AWG, color: red, cut_mm: 130, i_mean_a: 0.0, i_peak_a: 2.0, ends: [solder pad, solder pad], source: "[U]", note: "2 A only while charging (seller)"}
   - {cable: P5, from: BMS.P-, to: CHG.B-, net: GND, gauge: 20 AWG, color: black, cut_mm: 130, i_mean_a: 0.0, i_peak_a: 2.0, ends: [solder pad, solder pad], source: "[U]"}
-  - {cable: P6, from: BMS.P+, to: XT30.F+, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 110, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [solder pad, XT30 solder cup], source: "[L]"}
-  - {cable: P8, from: BMS.P-, to: XT30.F-, net: GND, gauge: 16 AWG, color: black, cut_mm: 110, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [solder pad, XT30 solder cup], source: "[L]"}
-  - {cable: P7, branch: line, from: XT30.M+, to: F1.IN, net: PACK_P, gauge: 16 AWG, color: holder lead, cut_mm: 90, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [XT30 solder cup, holder lead], source: "[L] D3", note: "holder lead as shipped"}
-  - {cable: P7, branch: load, from: F1.OUT, to: SW1.VIN, net: PACK_F, gauge: 16 AWG, color: holder lead, cut_mm: 90, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [holder lead, solder in large hole], source: "[L] D3", note: "rule 127.2: test fit, extend with 16 AWG red if short"}
+  - {cable: P6, from: BMS.P+, to: XT30.F+, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 150, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [solder pad, XT30 solder cup], source: "[L]"}
+  - {cable: P8, from: BMS.P-, to: XT30.F-, net: GND, gauge: 16 AWG, color: black, cut_mm: 150, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [solder pad, XT30 solder cup], source: "[L]"}
+  - {cable: P7, branch: line, from: XT30.M+, to: JFI.S, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 20, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [XT30 solder cup, splice], source: "[L] D3; cables3d: chain 20 + 90 = 110 mm (needs 92); 20 mm is the shortest practical piece, as the SP tails"}
+  - {cable: P7, branch: line, from: JFI.S, to: F1.IN, net: PACK_P, gauge: 16 AWG, color: holder lead, cut_mm: 90, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [splice, holder lead], source: "[L] D3", note: "holder lead as shipped"}
+  - {cable: P7, branch: load, from: F1.OUT, to: JFO.S, net: PACK_F, gauge: 16 AWG, color: holder lead, cut_mm: 90, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [holder lead, splice], source: "[L] D3", note: "holder lead as shipped; its -y end leaves about 4 mm from the body wall, turn it at once (cables3d)"}
+  - {cable: P7, branch: load, from: JFO.S, to: SW1.VIN, net: PACK_F, gauge: 16 AWG, color: red, cut_mm: 40, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [splice, solder in large hole], source: "[L] D3; cables3d: chain 90 + 40 = 130 mm (needs 124)"}
   - {cable: P14, from: XT30.M-, to: G.S, net: GND, gauge: 16 AWG, color: black, cut_mm: 140, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [XT30 solder cup, splice], source: "[L]"}
   - {cable: P9, from: SW1.VOUT, to: VSW.S, net: VSW, gauge: 16 AWG, color: red, cut_mm: 90, i_mean_a: 4.2, i_peak_a: 7.5, i_fall_a: 17, ends: [solder in large hole, splice], source: "[L]"}
   - {cable: P16, from: G.S, to: SW1.GND, net: GND, gauge: 20 AWG, color: black, cut_mm: 90, i_mean_a: 0.0006, i_peak_a: 0.0006, ends: [splice, solder in large hole], source: "[I]", note: "2815 control and LED current only (about 65 uA per volt)"}
@@ -985,12 +1015,12 @@ wires:
   # belly: servo regulator
   - {cable: P10, from: VSW.S, to: U1.IN+, net: VSW, gauge: 16 AWG, color: red, cut_mm: 150, i_mean_a: 3.75, i_peak_a: 5.62, i_fall_a: 14.6, ends: [splice, solder to BEC lead], source: "[L]"}
   - {cable: P10, from: G.S, to: U1.IN-, net: GND, gauge: 16 AWG, color: black, cut_mm: 150, i_mean_a: 3.75, i_peak_a: 5.62, i_fall_a: 14.6, ends: [splice, solder to BEC lead], source: "[L]"}
-  - {cable: P11, branch: lead1, from: U1.OUT1+, to: JBP.S, net: SERVO_7V2, gauge: BEC lead, color: red, cut_mm: null, i_mean_a: 1.6, i_peak_a: 2.4, i_fall_a: 6.3, ends: [BEC lead, splice], source: "[L] POWER.md", note: "cut the 3-pin plug off; equal split assumed [I]"}
+  - {cable: P11, branch: lead1, from: U1.OUT1+, to: JBP.S, net: SERVO_7V2, gauge: BEC lead, color: red, cut_mm: null, i_mean_a: 1.6, i_peak_a: 2.4, i_fall_a: 6.3, ends: [BEC lead, splice], source: "[L] POWER.md", note: "cut the 3-pin plug off; lead gauge and length not published, as shipped; equal split assumed [I]"}
   - {cable: P11, branch: lead2, from: U1.OUT2+, to: JBP.S, net: SERVO_7V2, gauge: BEC lead, color: red, cut_mm: null, i_mean_a: 1.6, i_peak_a: 2.4, i_fall_a: 6.3, ends: [BEC lead, splice], source: "[L] POWER.md"}
   - {cable: P11, branch: lead1, from: U1.OUT1-, to: JBN.S, net: GND, gauge: BEC lead, color: black, cut_mm: null, i_mean_a: 1.6, i_peak_a: 2.4, i_fall_a: 6.3, ends: [BEC lead, splice], source: "[L] POWER.md"}
   - {cable: P11, branch: lead2, from: U1.OUT2-, to: JBN.S, net: GND, gauge: BEC lead, color: black, cut_mm: null, i_mean_a: 1.6, i_peak_a: 2.4, i_fall_a: 6.3, ends: [BEC lead, splice], source: "[L] POWER.md"}
-  - {cable: P11, from: JBP.S, to: SPV.S, net: SERVO_7V2, gauge: 16 AWG, color: red, cut_mm: 60, i_mean_a: 3.19, i_peak_a: 4.78, i_fall_a: 12.5, ends: [splice, splice], source: "[L] D15", note: "ngspice (lead): 8.3 to 9.1 A output peaks while walking"}
-  - {cable: P11, from: JBN.S, to: SPG.S, net: GND, gauge: 16 AWG, color: black, cut_mm: 60, i_mean_a: 3.19, i_peak_a: 4.78, i_fall_a: 12.5, ends: [splice, splice], source: "[L] D15"}
+  - {cable: P11, from: JBP.S, to: SPV.S, net: SERVO_7V2, gauge: 16 AWG, color: red, cut_mm: 100, i_mean_a: 3.19, i_peak_a: 4.78, i_fall_a: 12.5, ends: [splice, splice], source: "[L] D15", note: "ngspice (lead): 8.3 to 9.1 A output peaks while walking"}
+  - {cable: P11, from: JBN.S, to: SPG.S, net: GND, gauge: 16 AWG, color: black, cut_mm: 100, i_mean_a: 3.19, i_peak_a: 4.78, i_fall_a: 12.5, ends: [splice, splice], source: "[L] D15"}
   # neck and head: 5 V branch
   - {cable: P13, from: VSW.S, to: U3.VIN, net: VSW, gauge: 20 AWG, color: red, cut_mm: 550, i_mean_a: 0.48, i_peak_a: 1.91, ends: [splice, solder in 0.1 in hole], source: "[L] D8", note: "6.4 V pack: 0.55 A mean, 2.21 A peak"}
   - {cable: P13, from: G.S, to: U3.GND.1, net: GND, gauge: 20 AWG, color: black, cut_mm: 550, i_mean_a: 0.48, i_peak_a: 1.91, ends: [splice, solder in 0.1 in hole], source: "[L] D8"}
@@ -1008,14 +1038,14 @@ wires:
   - {cable: D3, branch: pullup, from: RFL.2, to: PI.15, net: FOOT_L, gauge: resistor lead, color: none, cut_mm: 0, i_mean_a: null, i_peak_a: 0.0015, ends: [resistor lead, header pin], source: "[L] D17"}
   - {cable: D3, from: PI.15, to: FSL1.NO, net: FOOT_L, gauge: 26 AWG, color: green, cut_mm: 900, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder terminal], source: "[U] feet_contacts.py D22; colour [I]"}
   - {cable: D3, from: PI.9, to: FSL1.COM, net: GND, gauge: 26 AWG, color: black, cut_mm: 900, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder terminal], source: "[U]"}
-  - {cable: D3, branch: jumper, from: FSL1.NO, to: FSL2.NO, net: FOOT_L, gauge: 26 AWG, color: green, cut_mm: 40, i_mean_a: null, i_peak_a: null, ends: [solder terminal, solder terminal], source: "[U] Tnkr m11; length [I], trim at fit"}
-  - {cable: D3, branch: jumper, from: FSL1.COM, to: FSL2.COM, net: GND, gauge: 26 AWG, color: black, cut_mm: 40, i_mean_a: null, i_peak_a: null, ends: [solder terminal, solder terminal], source: "[U] Tnkr m11; length [I]"}
+  - {cable: D3, branch: jumper, from: FSL1.NO, to: FSL2.NO, net: FOOT_L, gauge: 26 AWG, color: green, cut_mm: 110, i_mean_a: null, i_peak_a: null, ends: [solder terminal, solder terminal], source: "[U] Tnkr m11; length [I], trim at fit"}
+  - {cable: D3, branch: jumper, from: FSL1.COM, to: FSL2.COM, net: GND, gauge: 26 AWG, color: black, cut_mm: 110, i_mean_a: null, i_peak_a: null, ends: [solder terminal, solder terminal], source: "[U] Tnkr m11; length [I]"}
   - {cable: D4, branch: pullup, from: PI.17, to: RFR.1, net: 3V3, gauge: resistor lead, color: none, cut_mm: 0, i_mean_a: null, i_peak_a: 0.0015, ends: [header pin, resistor lead], source: "[L] D17", note: "R5 soldered at the Pi header"}
   - {cable: D4, branch: pullup, from: RFR.2, to: PI.13, net: FOOT_R, gauge: resistor lead, color: none, cut_mm: 0, i_mean_a: null, i_peak_a: 0.0015, ends: [resistor lead, header pin], source: "[L] D17"}
   - {cable: D4, from: PI.13, to: FSR1.NO, net: FOOT_R, gauge: 26 AWG, color: white, cut_mm: 950, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder terminal], source: "[U] feet_contacts.py D27; colour [I]"}
   - {cable: D4, from: PI.9, to: FSR1.COM, net: GND, gauge: 26 AWG, color: black, cut_mm: 950, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder terminal], source: "[U]"}
-  - {cable: D4, branch: jumper, from: FSR1.NO, to: FSR2.NO, net: FOOT_R, gauge: 26 AWG, color: white, cut_mm: 40, i_mean_a: null, i_peak_a: null, ends: [solder terminal, solder terminal], source: "[U] Tnkr m11; length [I]"}
-  - {cable: D4, branch: jumper, from: FSR1.COM, to: FSR2.COM, net: GND, gauge: 26 AWG, color: black, cut_mm: 40, i_mean_a: null, i_peak_a: null, ends: [solder terminal, solder terminal], source: "[U] Tnkr m11; length [I]"}
+  - {cable: D4, branch: jumper, from: FSR1.NO, to: FSR2.NO, net: FOOT_R, gauge: 26 AWG, color: white, cut_mm: 110, i_mean_a: null, i_peak_a: null, ends: [solder terminal, solder terminal], source: "[U] Tnkr m11; length [I]"}
+  - {cable: D4, branch: jumper, from: FSR1.COM, to: FSR2.COM, net: GND, gauge: 26 AWG, color: black, cut_mm: 110, i_mean_a: null, i_peak_a: null, ends: [solder terminal, solder terminal], source: "[U] Tnkr m11; length [I]"}
   - {cable: D5, from: PI.18, to: RL.1, net: EYE_L, gauge: 26 AWG, color: yellow, cut_mm: 150, i_mean_a: 0.003, i_peak_a: 0.003, ends: [solder to header pin, solder], source: "[U] eyes.py D24; colour [I]"}
   - {cable: D5, branch: joint, from: RL.2, to: LEDL.A, net: EYE_L_A, gauge: resistor lead, color: none, cut_mm: 0, i_mean_a: 0.003, i_peak_a: 0.003, ends: [resistor lead, LED lead], source: "[I] resistor inline at the LED, heat shrink"}
   - {cable: D5, from: LEDL.K, to: PI.20, net: GND, gauge: 26 AWG, color: black, cut_mm: 150, i_mean_a: 0.003, i_peak_a: 0.003, ends: [solder, solder to header pin], source: "[I] pin 20"}
@@ -1028,19 +1058,20 @@ wires:
   - {cable: D8, from: SGL.SIG, to: PI.33, net: ANT_L, gauge: SG90 lead, color: orange, cut_mm: 250, i_mean_a: null, i_peak_a: null, ends: [servo, solder to header pin], source: "[U] antennas.py D13; lead colour [I]"}
   - {cable: D8, from: SGL.VCC, to: J5.S, net: 5V, gauge: SG90 lead, color: red, cut_mm: 250, i_mean_a: null, i_peak_a: null, ends: [servo, splice], source: "[L] D8"}
   - {cable: D8, from: SGL.GND, to: JG.S, net: GND, gauge: SG90 lead, color: brown, cut_mm: 250, i_mean_a: null, i_peak_a: null, ends: [servo, splice], source: "[I] lead colour"}
-  - {cable: D9, from: SGR.SIG, to: PI.32, net: ANT_R, gauge: SG90 lead + 26 AWG, color: orange, cut_mm: 270, i_mean_a: null, i_peak_a: null, ends: [servo, solder to header pin], source: "[U] antennas.py D12; lead colour [I]", note: "lead 250 plus 20 mm extension"}
-  - {cable: D9, from: SGR.VCC, to: J5.S, net: 5V, gauge: SG90 lead + 26 AWG, color: red, cut_mm: 270, i_mean_a: null, i_peak_a: null, ends: [servo, splice], source: "[L] D8"}
-  - {cable: D9, from: SGR.GND, to: JG.S, net: GND, gauge: SG90 lead + 26 AWG, color: brown, cut_mm: 270, i_mean_a: null, i_peak_a: null, ends: [servo, splice], source: "[I] lead colour"}
-  - {cable: D10, from: PI.35, to: AMP.LRC, net: I2S_LRC, gauge: 26 AWG, color: white, cut_mm: 200, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[U] table; colours [I]"}
-  - {cable: D10, from: PI.12, to: AMP.BCLK, net: I2S_BCLK, gauge: 26 AWG, color: yellow, cut_mm: 200, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[U] table"}
-  - {cable: D10, from: PI.40, to: AMP.DIN, net: I2S_DIN, gauge: 26 AWG, color: green, cut_mm: 200, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[U] table"}
+  - {cable: D9, from: SGR.SIG, to: PI.32, net: ANT_R, gauge: SG90 lead, color: orange, cut_mm: 250, i_mean_a: null, i_peak_a: null, ends: [servo, solder to header pin], source: "[U] antennas.py D12; lead colour [I]"}
+  - {cable: D9, from: SGR.VCC, to: J5.S, net: 5V, gauge: SG90 lead, color: red, cut_mm: 250, i_mean_a: null, i_peak_a: null, ends: [servo, splice], source: "[L] D8"}
+  - {cable: D9, from: SGR.GND, to: JG.S, net: GND, gauge: SG90 lead, color: brown, cut_mm: 250, i_mean_a: null, i_peak_a: null, ends: [servo, splice], source: "[I] lead colour"}
+  - {cable: D10, from: PI.35, to: AMP.LRC, net: I2S_LRC, gauge: 26 AWG, color: white, cut_mm: 210, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[U] table; colours [I]"}
+  - {cable: D10, from: PI.12, to: AMP.BCLK, net: I2S_BCLK, gauge: 26 AWG, color: yellow, cut_mm: 210, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[U] table"}
+  - {cable: D10, from: PI.40, to: AMP.DIN, net: I2S_DIN, gauge: 26 AWG, color: green, cut_mm: 220, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[U] table"}
   - {cable: D10, from: J5.S, to: AMP.VIN, net: 5V, gauge: 26 AWG, color: red, cut_mm: 200, i_mean_a: null, i_peak_a: null, ends: [splice, solder], source: "[L] D8"}
   - {cable: D10, from: JG.S, to: AMP.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 200, i_mean_a: null, i_peak_a: null, ends: [splice, solder], source: "[I]"}
-  - {cable: D11, from: AMP.SPK+, to: SPK.+, net: SPK_P, gauge: 26 AWG, color: red, cut_mm: 100, i_mean_a: null, i_peak_a: null, ends: [screw terminal, solder tab], source: "[U]"}
-  - {cable: D11, from: AMP.SPK-, to: SPK.-, net: SPK_N, gauge: 26 AWG, color: black, cut_mm: 100, i_mean_a: null, i_peak_a: null, ends: [screw terminal, solder tab], source: "[U]"}
+  - {cable: D11, from: AMP.SPK+, to: SPK.+, net: SPK_P, gauge: 26 AWG, color: red, cut_mm: 120, i_mean_a: null, i_peak_a: null, ends: [screw terminal, solder tab], source: "[U]"}
+  - {cable: D11, from: AMP.SPK-, to: SPK.-, net: SPK_N, gauge: 26 AWG, color: black, cut_mm: 120, i_mean_a: null, i_peak_a: null, ends: [screw terminal, solder tab], source: "[U]"}
   - {cable: D12, from: PI.CSI, to: CAM.CSI, net: CSI_LINK, gauge: FPC ribbon, color: white ribbon, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [22-pin FPC, 15-pin FPC], source: "[U] BOM E7, Adafruit 3157"}
   # servo bus (D15). Power: BEC -> SPV/SPG -> SP1 SP2 SP3 (22 AWG) -> first servo BUS 2. Data: adapter H3/H5,
   # DATA and GND only. Ground of each data lead joins the power-pair ground just before the servo housing.
+  # D23: SP4 SP5 (22 AWG) from SPV/SPG into BUS 1 of the ankle servos ID 24 and ID 14, data position empty.
   - {cable: SP1, from: SPV.S, to: SV20.BUS2.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15", note: "feeds the left leg (IDs 20 to 24); per-branch current not simulated"}
   - {cable: SP1, from: SPG.S, to: JG20.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 130, i_mean_a: null, i_peak_a: null, ends: [splice, splice], source: "[L] D15; split point [I]"}
   - {cable: SP1, branch: tail, from: JG20.S, to: SV20.BUS2.G, net: GND, gauge: 22 AWG, color: black, cut_mm: 20, i_mean_a: null, i_peak_a: null, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15 one wire per terminal; length [I]"}
@@ -1050,11 +1081,15 @@ wires:
   - {cable: SP3, from: SPV.S, to: SV30.BUS2.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 180, i_mean_a: null, i_peak_a: null, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15", note: "feeds the neck chain (IDs 30 to 33)"}
   - {cable: SP3, from: SPG.S, to: JG30.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 160, i_mean_a: null, i_peak_a: null, ends: [splice, splice], source: "[L] D15; split point [I]"}
   - {cable: SP3, branch: tail, from: JG30.S, to: SV30.BUS2.G, net: GND, gauge: 22 AWG, color: black, cut_mm: 20, i_mean_a: null, i_peak_a: null, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15; length [I]"}
+  - {cable: SP4, from: SPV.S, to: SV24.BUS1.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 390, i_mean_a: null, i_peak_a: null, ends: [splice, Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp], source: "[L] D23; cut = route worst 348 + 40 slack (cables3d)"}
+  - {cable: SP4, from: SPG.S, to: SV24.BUS1.G, net: GND, gauge: 22 AWG, color: black, cut_mm: 390, i_mean_a: null, i_peak_a: null, ends: [splice, Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp], source: "[L] D23; cut = route worst 348 + 40 slack (cables3d)"}
+  - {cable: SP5, from: SPV.S, to: SV14.BUS1.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 420, i_mean_a: null, i_peak_a: null, ends: [splice, Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp], source: "[L] D23; cut = route worst 377 + 40 slack (cables3d)"}
+  - {cable: SP5, from: SPG.S, to: SV14.BUS1.G, net: GND, gauge: 22 AWG, color: black, cut_mm: 420, i_mean_a: null, i_peak_a: null, ends: [splice, Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp], source: "[L] D23; cut = route worst 377 + 40 slack (cables3d)"}
   - {cable: SD1, branch: stem, from: U2.H3.D, to: YD3.S, net: BUS_DATA, gauge: 22 AWG, color: yellow, cut_mm: 30, i_mean_a: null, i_peak_a: null, ends: [Molex 50-37-5033 housing (V position empty) + 08-70-1040 crimp, splice], source: "[L] D15; stem length and colours [I]"}
   - {cable: SD1, branch: stem, from: U2.H3.G, to: YG3.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 30, i_mean_a: null, i_peak_a: null, ends: [Molex 50-37-5033 housing (V position empty) + 08-70-1040 crimp, splice], source: "[L] D15"}
   - {cable: SD1, branch: a, from: YD3.S, to: SV20.BUS2.D, net: BUS_DATA, gauge: 22 AWG, color: yellow, cut_mm: 130, i_mean_a: null, i_peak_a: null, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15; length [I] (stem + branch 160 vs rule 149.0)"}
   - {cable: SD1, branch: a, from: YG3.S, to: JG20.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 120, i_mean_a: null, i_peak_a: null, ends: [splice, splice], source: "[L] D15; length [I]"}
-  - {cable: SD1, branch: b, from: YD3.S, to: SV30.BUS2.D, net: BUS_DATA, gauge: 22 AWG, color: yellow, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15; length [I] (stem + branch 180 vs rule 172.5)"}
+  - {cable: SD1, branch: b, from: YD3.S, to: SV30.BUS2.D, net: BUS_DATA, gauge: 22 AWG, color: yellow, cut_mm: 160, i_mean_a: null, i_peak_a: null, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15; length [I] (stem + branch 180 vs rule 172.5)"}
   - {cable: SD1, branch: b, from: YG3.S, to: JG30.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 140, i_mean_a: null, i_peak_a: null, ends: [splice, splice], source: "[L] D15; length [I]"}
   - {cable: SD2, from: U2.H5.D, to: SV10.BUS2.D, net: BUS_DATA, gauge: 22 AWG, color: yellow, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [Molex 50-37-5033 housing (V position empty) + 08-70-1040 crimp, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15"}
   - {cable: SD2, from: U2.H5.G, to: JG10.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 140, i_mean_a: null, i_peak_a: null, ends: [Molex 50-37-5033 housing (V position empty) + 08-70-1040 crimp, splice], source: "[L] D15"}

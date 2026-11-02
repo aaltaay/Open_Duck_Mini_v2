@@ -90,7 +90,7 @@ def main():
         elif (r.get("line") or "") == "14":
             supply["SG90 bag (BOM 14)"] += 1
         else:
-            supply["bought (BOM 17a to 17i, new lines)"] += 1
+            supply["to buy (BOM 17a to 17l)"] += 1
     bl = bom_lines()
     need = defaultdict(Counter)
     for r in fitted:
@@ -99,7 +99,7 @@ def main():
             continue
         need[ln or "new"][r["spec"].split(" + ")[0]] += 1
         if r.get("washer"):
-            need["new"]["M2.5 flat washer, 0.5 mm"] += 1
+            need["17l"]["M2.5 flat washer, 0.3 mm"] += r["washer"].get("n", 1)
     need["16"]["M3 heat-set insert"] = len(inserts)
     bom_rows = []
     for ln in sorted(set(list(need)) | {k for k in bl if k == "16" or k.startswith("17")}, key=lambda s: (s == "new", s)):
@@ -145,10 +145,10 @@ def main():
     w("| Screws left out on purpose | %d | D18 hip roll screws %d; idle horn screws not fitted %d |" % (
         len(screws) - tot_scr, len(d18), sum(1 for r in screws if r.get("status") == "NOT FITTED")))
     w("| M3 heat-set inserts | %d | [L] bores 3.8 to 4.3 mm, 5 to 8 mm deep, in printed parts |" % len(inserts))
-    w("| Washers | %d | eye screws only (section 3) |" % sum(1 for r in fitted if r.get("washer")))
+    w("| Washers | %d | eye screws only, two 0.3 mm under each head (section 3) |" % sum(r["washer"].get("n", 1) for r in fitted if r.get("washer")))
     w("| Nuts | 0 | [L] no hex pocket in any STL (feat3d finds %d hex features) |" % D["meta"]["scene"]["hex_features"])
     w("| Pins, dowels | 0 | [L] no pin hole; the antenna rods sit in 1.8 mm holes of the antenna holders (no BOM line) |")
-    w("| Standoffs | 0 bought | the servo adapter sits on 4 bosses printed into trunk_top (MOUNTING.md) |")
+    w("| Standoffs | 0 to buy | the servo adapter sits on 4 bosses printed into trunk_top (MOUNTING.md) |")
     w("| Bearings (not fasteners) | 3 | BOM 18, seats listed in section 7 |")
     w("")
     w("## 2. Counts per spec against BOM.md")

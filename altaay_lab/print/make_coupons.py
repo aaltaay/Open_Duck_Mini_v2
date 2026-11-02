@@ -7,8 +7,10 @@ OUT_DIR must be outside the repo (lab rule: no CAD exports in git). For each cou
 cuts the upstream STL with a box (manifold3d boolean), turns it to the same print orientation as
 the full part, re-measures the feature it is meant to test, and writes:
   OUT_DIR/<coupon>.stl      ready to slice, resting on Z=0
-  OUT_DIR/manifest.json     source STL + sha256, cut box, orientation, profile, measured checks,
+  OUT_DIR/manifest.json     source STL + sha256, cut box, orientation, profile, rings, measured checks,
                             and the physical pass/fail test
+The insert coupons C2a, C2b and C3 also get a light copy (C2aL, C2bL, C3L: same cut, the light profile of their part
+with a solid ring round the bore, DECISIONS.md D22). The copies print next to them in session S1: that is the D22 gate.
 Then slice them with:  python3 slice.py coupons --out SLICE_DIR --coupons OUT_DIR
 
 Coordinates below are the upstream print STL frame (mm). Feature positions come from
@@ -41,7 +43,8 @@ COUPONS = [
     dict(id="C2a", file="C2a_foot_top_insert_boss_and_switch_slot.stl", source="foot_top.stl", up="-y",
          box=[[12.0, 78.0, -260], [50, 100.6, -200]], material="PLA", overrides="insert",
          what="foot_top insert boss with the 1.5 mm wall (M3 bore 4.0 x 5.8 plus its 2.0 pilot) and one "
-              "Omron SS-10 slot (6.4 x 19.8). Top 21.45 mm of the part in its print orientation.",
+              "Omron SS-10 slot (6.4 x 19.8). Top 21.45 mm of the part in its print orientation. Printed with 4 walls "
+              "(insert), the D22 fallback for foot_top, next to its light copy C2aL.",
          blockers="B16, B11 (switch seat), test order TO12 and TO14",
          test=["Install one CNC Kitchen M3x5.7 insert with the Pinecil insert tip: it goes in straight and ends flush (straight edge, no lip over 0.1 mm).",
                "The 1.5 mm side wall shows no crack, split or bulge over 0.2 mm (straight edge along the outside).",
@@ -51,13 +54,15 @@ COUPONS = [
     dict(id="C2b", file="C2b_foot_top_insert_boss.stl", source="foot_top.stl", up="-y",
          box=[[-60, 78.0, -260], [-36.2, 90.0, -200]], material="PLA", overrides="insert",
          what="The second foot_top insert boss (also 1.5 mm wall), for a second insert sample. Cut 10.85 mm "
-              "deep: the bore (5.8 mm) plus 5 mm of its 2.0 mm pilot, which here opens at the bed face.",
+              "deep: the bore (5.8 mm) plus 5 mm of its 2.0 mm pilot, which here opens at the bed face. Printed with "
+              "4 walls (insert), next to its light copy C2bL.",
          blockers="B16",
          test=["Same insert checks as C2a on the second boss. Both must pass."]),
     dict(id="C3", file="C3_foot_bottom_pla_blind_insert_bore.stl", source="foot_bottom_pla.stl", up="-z",
          box=[[4.2, 70, -260], [22.2, 110, -240]], material="PLA", overrides="insert",
          what="The shallowest insert bore: foot_bottom_pla, blind, 4.0 mm x 5.8 mm cylinder plus a drill "
-              "point cone, for a 5.7 mm insert. No pilot below it, so molten plastic has little room.",
+              "point cone, for a 5.7 mm insert. No pilot below it, so molten plastic has little room. Printed with "
+              "4 walls (insert), the D22 fallback for foot_bottom_pla, next to its light copy C3L.",
          blockers="B15, PRINT_CHECK flag 5, test order TO12",
          test=["Install one M3x5.7 insert to flush. It reaches flush without pushing harder than on C2a.",
                "Depth gauge or calipers: insert top is flush to 0.1 mm proud at most.",
@@ -80,9 +85,10 @@ COUPONS = [
                "Recess fit (D20): put a DIN 912 M3x5 head (BOM 17e) into each of the 4 recesses of 5.5 mm. Expected as printed: it does not drop in (heads are 5.50 to 5.68 mm). Open one recess to 6.0 mm with the 6.0 mm bit (BOM T11) turned by hand, and stop as soon as the bit starts to cut the recess floor: the head must then drop in and sit flat. FAIL: tell Ahmed before the neck parts are drilled.",
                "Recess fit: a servo-bag M2 screw head (TO1) and a kit M2x5 head (BOM 17h, 3.7 mm per its listing) go into each of the 4 recesses of 4.0 mm and sit flat. If one does not, open that recess to 4.5 mm and note it (fasteners/FASTENERS.md finding 12)."]),
     dict(id="T1", file="T1_left_eye_whole.stl", source="left_eye.stl", up="+x", box=None,
-         material="PLA", overrides="",
+         material="PLA", overrides="wall3",
          what="Whole left_eye (B14: its 4 screw pilots are 2.2 mm, the right eye has 2.05 mm). The pilots are "
-              "blind, 3.0 mm deep behind a 1.3 mm front skin (D21).",
+              "blind, 3.0 mm deep behind a 1.3 mm front skin (D21). Printed in the eye profile (3 walls, wall3: D22 "
+              "keeps the eyes heavy); it is the robot's left eye.",
          blockers="B14, D21, BOM E4 (eye glass disc), test order TO11",
          test=["Depth rod of the calipers in each pilot: about 3.0 mm, blind (CAD 3.0 mm, 1.3 mm front skin on this eye).",
                "In the robot the screw passes a 0.5 mm washer, the bulb (2.0 mm) and the head wall (3.0 mm) before the eye (D21). So clamp 5.5 mm under each M2.5x8 head (11 of the 0.5 mm washers from BOM 17l, or the bulb plus 3.5 mm of scrap with a 2.7 mm hole): it then engages 2.5 mm, as in the robot. Never drive a bare M2.5x8 to the pilot floor: it would push through the skin.",
@@ -101,6 +107,28 @@ COUPONS = [
                "Screw it to foot_bottom_pla (or C3 for one hole): it pulls flat, no gap over 0.3 mm at the edges.",
                "Grip (record only, upstream gives no number): on the lab floor, with 1 kg on it, tilt until it slides and note the angle next to a PLA part on the same surface."]),
 ]
+
+
+# D22 gate (DECISIONS.md, print/MASS_STUDY.md): a light copy of each insert coupon. Same cut and orientation, printed in
+# the light profile of its part: 2 walls, 15 %, and a 2.0 mm solid ring round the insert bore (slice.py finds the bore in
+# the coupon and adds the ring as a modifier, as it does in the part). It prints next to the 4-wall coupon in session S1.
+LIGHT_OF = ("C2a", "C2b", "C3")
+
+
+def light_copy(c):
+    d = dict(c)
+    d.update(id=c["id"] + "L", file=c["file"].replace(c["id"] + "_", c["id"] + "L_", 1), overrides="", rings="insert",
+             light_of=c["id"], blockers="D22 gate; " + c["blockers"],
+             what="Light copy of %s (D22 gate): the same cut, printed in the light profile of %s (2 walls, 15 %%, a 2.0 mm "
+                  "solid ring round the insert bore, config/mod_ring.ini), next to %s with its 4 walls." % (c["id"], c["source"][:-4], c["id"]),
+             test=["Every %s test below, on this coupon, side by side with %s:" % (c["id"], c["id"])] + c["test"] +
+                  ["D22 gate: if %sL fails a test that %s passes, the 10 insert ring parts (body_middle_bottom, body_middle_top, "
+                   "foot_top x2, foot_bottom_pla x2, leg_spacer x4) print with 4 walls (insert) and no rings (parts.csv heavy "
+                   "column; PRINT_PLAN.md step 1)." % (c["id"], c["id"])])
+    return d
+
+
+COUPONS = [x for c in COUPONS for x in ([c, light_copy(c)] if c["id"] in LIGHT_OF else [c])]
 
 
 def rot_up(up):
@@ -263,13 +291,14 @@ def main():
             cut = trimesh.boolean.intersection([part, box], engine="manifold")
         else:
             cut = part.copy()
-        meas = check(c["id"], cut)
+        meas = check(c.get("light_of") or c["id"], cut)
         all_ok &= meas["ok"]
         m = cut.copy()
         m.apply_transform(rot_up(c["up"]))
         m.apply_translation(-m.bounds[0])
         m.export(os.path.join(out, c["file"]))
         rec = {k: c[k] for k in ("id", "file", "source", "up", "box", "material", "overrides", "what", "blockers", "test")}
+        rec.update(rings=c.get("rings", ""), light_of=c.get("light_of", ""))
         rec.update(source_sha256=hashlib.sha256(open(src, "rb").read()).hexdigest(),
                    watertight=bool(m.is_watertight), bodies=len(m.split(only_watertight=False)),
                    volume_cm3=round(m.volume / 1000, 2), footprint_mm=[round(float(x), 1) for x in m.extents[:2]],

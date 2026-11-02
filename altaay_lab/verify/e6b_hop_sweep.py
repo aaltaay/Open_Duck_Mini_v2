@@ -1,84 +1,98 @@
-"""E6b: what hop resistance would pass the TEST_PLAN.md section 9 walking gate (no ankle under 6.0 V for more than 10%
-of the walk at a nominal pack)? Runs the star model of sim/power_path_sim.py (unchanged, imported from a copy of its
-source with the D15 power leads at 22 AWG as built) at a nominal pack, typical source resistances, for a few servo hop
-resistances, including an ideal hop (no cable, no contact, no board resistance). Sim pass only.
+"""E6b: is the TEST_PLAN.md section 5 hop gate enough for the section 9 walking gate (no ankle under 6.0 V for more than
+10 % of the walk at a nominal pack)? Sim pass only.
 
-Usage: VERIFY_OUT=<folder outside the repo> python3 altaay_lab/verify/e6b_hop_sweep.py   (after e5_current_budget.py)
+Uses sim/power_fix.py (agent PW; imported unchanged, its output folder pointed at VERIFY_OUT), which rebuilds the D15
+star wiring as the netlist builds it and adds the D23 second feeds (its option 3b). The wiring modelled follows
+wiring/netlist.yaml: option 3b when the cables SP4 and SP5 are active there, else option 1 (the star as built without
+them). Nominal pack, typical source resistances (the pack side that TEST_PLAN 3.2 and 4.1 now gate), backlash-model
+walk 10 to 16 s, servo hop = kit cable conductor + 2 contacts + servo board, swept by the contact resistance and run
+once at exactly the section 5 gate value. Traces: the trained mass (E5) and our build (C8, sim/added_mass_sim.py at
+the sim/MASS_BUDGET.md mass) when that run is there; the worse of the two counts.
+
+Usage: VERIFY_OUT=<folder outside the repo> python3 altaay_lab/verify/e6b_hop_sweep.py   (after e5_current_budget.py and
+c8_policy_mass.py; run_all.sh keeps that order)
 """
 import os
+import re
 import sys
-import types
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vlib as V  # noqa: E402
 
-R = V.Result("E6b", "TEST_PLAN.md section 5 hop gate (40 mOhm) is enough for the section 9 ankle gate (power path sim sweep, sim pass only)",
+R = V.Result("E6b", "TEST_PLAN.md section 5 hop gate is enough for the section 9 ankle gate, wiring as in the netlist "
+             "(power path sim sweep, sim pass only)",
              "VERIFY_OUT=<out> python3 altaay_lab/verify/e6b_hop_sweep.py",
-             "Star wiring with 22 AWG leads, nominal pack, typical source resistances; hop = kit or made lead conductor + "
-             "2 contacts + servo board; ankle time under 6 V and minimum voltage per hop value",
-             "Real BEC dropout (TEST_PLAN.md section 4), real hop resistance (section 5), regenerative braking, bus capacitance")
-tr = os.path.join(V.out_dir(), "e5_current")
-wb = os.path.join(tr, "trace_walk_backlash.npz")
-if not os.path.exists(wb):
+             "Star wiring as built (22 AWG SP leads, P11 60 mm) plus the D23 second feeds when the netlist has SP4 and SP5; "
+             "nominal pack, typical source resistances; hop = kit cable conductor + 2 contacts + servo board; ankle time "
+             "under 6 V (time weighted) per hop value and at the section 5 gate; trained mass and our build traces",
+             "Real BEC dropout (TEST_PLAN.md section 4), real hop resistance (section 5), the high-side pack side (sections "
+             "3.2 and 4.1 gate it), regenerative braking, bus capacitance")
+tp = open(V.lab("TEST_PLAN.md")).read()
+sec5 = re.search(r"^## 5\..*?(?=^## )", tp, re.M | re.S)
+g = re.search(r"Gate: (\d+) mOhm per conductor", sec5.group(0) if sec5 else "")
+if not g:
+    R.not_run("TEST_PLAN.md section 5 states no 'Gate: N mOhm per conductor'")
+    R.write()
+    sys.exit(0)
+gate = int(g.group(1)) / 1000.0
+traces = [("trained mass (E5)", os.path.join(V.out_dir(), "e5_current", "trace_walk_backlash.npz")),
+          ("our build (C8)", os.path.join(V.out_dir(), "c8_added_mass", "added_mass", "traces", "ours", "trace_walk_backlash.npz"))]
+traces = [(n, f) for n, f in traces if os.path.exists(f)]
+if not traces or not traces[0][0].startswith("trained"):
     R.not_run("trace_walk_backlash.npz from E5 not found")
     R.write()
     sys.exit(0)
-src = open(V.lab("sim", "power_path_sim.py")).read()
-old = 'bL = wire(20, 150) + p["R_contact"]; bN = wire(20, 180) + p["R_contact"]'
-src = src.replace(old, old.replace("wire(20,", "wire(22,"))
-mod = types.ModuleType("pps_sweep")
-os.environ.update(ODM_TRACES=tr, ODM_OUT=os.path.join(V.out_dir(), "e6b_sweep"))
-exec(compile(src, "power_path_sim_sweep", "exec"), mod.__dict__)
-TYP = dict(R_cell=0.015, R_holder=0.010, R_adapter=0.005, topology="star")
-CASES = [  # label, overrides (hop = CU[kit_awg] x 0.15 m + 2 R_contact + R_servo_pcb)
-    ("typical corner (24 AWG kit cable, 5 mOhm contacts)", dict(TYP, R_contact=0.005, kit_awg=24)),
-    ("22 AWG made leads (contingency X1/X2), 5 mOhm contacts", dict(TYP, R_contact=0.005, kit_awg=22)),
-    ("20 AWG leads, 2 mOhm contacts, 2 mOhm board", dict(TYP, R_contact=0.002, kit_awg=20, R_servo_pcb=0.002)),
-    ("ideal hop (0 ohm)", dict(TYP, R_contact=0.0, kit_awg=0, R_servo_pcb=0.0)),
-]
-ANK = ("left_ankle", "right_ankle")
-mod.CU[0] = 0.0          # pseudo gauge 0: a hop conductor with no resistance (ideal case only; other wires keep their gauge)
-res = []
-for lab_, over in CASES:
-    p = dict(mod.P, **over)
-    hop = mod.wire(p["kit_awg"], 150) + 2 * p["R_contact"] + p["R_servo_pcb"]
-    c = mod.run_case("sweep: " + lab_, wb, 10.0, 16.0, 3.7, over=over)
-    a6 = max(c["servo_ms_below_6V"][a] for a in ANK) / c["window_ms"] * 100.0
-    res.append((lab_, hop, a6, c))
-    R.ev("%s: hop %.1f mOhm per conductor; worst %s %.2f V; ankles under 6 V %.1f%% of the walk; BEC out mean %.2f V" % (
-        lab_, hop * 1000, c["worst_servo"], c["worst_servo_V_min"], a6, c["bec_out_V_mean"]))
-ideal = res[-1]
-R.key("ankle under 6 V at a nominal pack: %s; section 5 passes hops up to 40 mOhm" % ", ".join(
-    "%.0f mOhm %.0f%%" % (r[1] * 1000, r[2]) for r in res))
-gate5 = 0.040
+if len(traces) == 1:
+    R.find("WARN", "our build's trace from C8 not found: only the trained-mass trace was run (our build draws more current)",
+           fix="run c8_policy_mass.py before this check (run_all.sh order)")
+net = V.load_netlist()
+active = {c["id"] for c in net["cables"] if c.get("status") == "active"}
+feeds = {"SP4", "SP5"} <= active
+on = "3b" if feeds else "1"
+R.inp(V.lab("sim", "power_fix.py"), V.lab("sim", "power_path_sim.py"), V.lab("wiring", "netlist.yaml"), V.lab("TEST_PLAN.md"))
+os.environ["ODM_OUT"] = os.path.join(V.out_dir(), "e6b_sweep")
+sys.path.insert(0, V.lab("sim"))
+import power_fix as PF  # noqa: E402
+
+R.ev("TEST_PLAN.md section 5 gate: %.0f mOhm per conductor; netlist SP4 and SP5 active: %s, so the model is power_fix.py option %s (%s)"
+     % (gate * 1000, feeds, on, PF.OPTIONS[on]["desc"]))
+p0 = PF.params("typical", PF.OPTIONS[on])
+fixed = PF.wire(p0["kit_awg"], PF.L["kit"]) + p0["R_servo_pcb"]           # hop without its 2 contacts
+points = [(0.0, "no contact resistance"), (0.005, "typical corner contacts"), (round((gate - fixed) / 2, 6), "the section 5 gate"),
+          (0.020, ""), (0.030, "")]
+res = {}
+for rc, why in points:
+    hop = fixed + 2 * rc
+    worst = None
+    for tn, npz in traces:
+        r = PF.run("E6b %s hop %.1f mOhm %s" % (on, hop * 1000, tn), npz, *PF.WINDOW, PF.PACKS["nominal"], PF.OPTIONS[on], "typical",
+                   extra=dict(R_contact=rc))
+        R.ev("option %s, %s, hop %.1f mOhm per conductor%s: ankle min %.2f V, under 6 V %.1f %% of the walk (worst 50 Hz phase %s %%)" % (
+            on, tn, hop * 1000, " (%s)" % why if why else "", r["ankle_V_min"], r["ankle_pct_below_6V"],
+            r.get("ankle_pct_below_6V_50Hz_worst_phase", "-")))
+        if worst is None or r["ankle_pct_below_6V"] > worst[0]:
+            worst = (r["ankle_pct_below_6V"], tn, r["ankle_V_min"])
+    res[hop] = worst
+hops = sorted(res)
+ok = [h for h in hops if res[h][0] <= 10.0]
+bad = [h for h in hops if res[h][0] > 10.0]
 est = None
-if ideal[2] > 10.0:
-    R.find("WARN", "even an ideal hop leaves an ankle under 6.0 V for %.0f%% of the walk at a nominal pack (BEC in dropout, "
-           "bus mean %.2f V): the TEST_PLAN.md section 9 gate (10%%) cannot pass at nominal with this power source in the sim"
-           % (ideal[2], ideal[3]["bec_out_V_mean"]),
-           fix="TEST_PLAN.md section 9: state the ankle gate at full charge (8.3 V or more) and keep the nominal log as a "
-               "measurement only, or plan a source that does not drop out (buck-boost) before the walking log; section 5: "
-               "the 40 mOhm hop gate does not protect the section 9 gate (typical corner already over 10%)",
+if ok and bad and max(ok) < min(bad):
+    a, b = max(ok), min(bad)
+    est = a + (10.0 - res[a][0]) * (b - a) / (res[b][0] - res[a][0])
+    R.ev("hop resistance at which the worse trace reaches the 10 %% gate: about %.0f mOhm per conductor (linear between %.1f and %.1f)"
+         % (est * 1000, a * 1000, b * 1000))
+at_gate = res[min(hops, key=lambda h: abs(h - gate))]
+R.key("option %s (%s): ankle under 6 V at a nominal pack, worse trace: %s; at the %.0f mOhm gate %.1f %% (%s)" % (
+    on, "SP4 and SP5 in the netlist" if feeds else "no second feeds in the netlist",
+    ", ".join("%.0f mOhm %.1f%%" % (h * 1000, res[h][0]) for h in hops), gate * 1000, at_gate[0], at_gate[1]))
+if at_gate[0] > 10.0:
+    R.find("FAIL", "TEST_PLAN.md section 5 passes hops up to %.0f mOhm per conductor, but at that value the ankle is under 6.0 V "
+           "for %.1f %% of the walk at a nominal pack (%s, option %s), over the section 9 gate of 10 %%%s" % (
+               gate * 1000, at_gate[0], at_gate[1], on, "; about %.0f mOhm passes" % (est * 1000) if est else ""),
+           fix="TEST_PLAN.md section 5: lower the gate to what section 9 needs, or change the wiring (sim/POWER_FIX.md)",
            where="altaay_lab/TEST_PLAN.md sections 5 and 9")
-else:
-    ok = [r for r in res if r[2] <= 10.0]
-    bad = [r for r in res if r[2] > 10.0]
-    if ok and bad:   # linear estimate between the largest passing and the smallest failing hop
-        a, b = max(ok, key=lambda r: r[1]), min(bad, key=lambda r: r[1])
-        est = a[1] + (10.0 - a[2]) * (b[1] - a[1]) / (b[2] - a[2])
-        R.ev("hop resistance at which the sim reaches the 10%% gate: about %.0f mOhm per conductor (linear between %.1f and %.1f mOhm)"
-             % (est * 1000, a[1] * 1000, b[1] * 1000))
-    R.ev("largest hop in the sweep that passes the 10%% gate: %.1f mOhm" % (max(r[1] for r in ok) * 1000))
-    worst_ok = max(r[1] for r in ok)
-    typ = res[0]
-    if worst_ok < gate5:
-        R.find("FAIL", "TEST_PLAN.md section 5 lets a hop of up to 40 mOhm per conductor pass, but in the sim even the typical "
-               "corner (%.1f mOhm) leaves an ankle under 6.0 V for %.0f%% of the walk at a nominal pack, over the section 9 "
-               "gate of 10%%; the 22 AWG made leads of contingency X1/X2 only reach %.0f%%; only about %.0f mOhm per conductor or "
-               "less passes" % (typ[1] * 1000, typ[2], res[1][2], (est if est is not None else 0.011) * 1000),
-               fix="TEST_PLAN.md: make the section 5 gate the hop value the section 9 gate needs (about 10 mOhm per conductor "
-                   "in the sim), or say in section 9 that the nominal-pack ankle gate is expected to fail with the stock kit "
-                   "cables and what is done then (options to try in the sim first: a second power feed into the free BUS 1 port of "
-                   "ID 24 and ID 14 at the chain ends, or a source that does not drop out); the stop rule in section 9 (worse than the high-side corner) does not match its 10% pass line",
-               where="altaay_lab/TEST_PLAN.md sections 5 and 9")
+if not feeds:
+    R.find("WARN", "wiring/netlist.yaml has no active SP4 and SP5, but DECISIONS.md D23 builds them; this run models the star "
+           "wiring without the second feeds", fix="add SP4 and SP5 to the netlist (D23)", where="altaay_lab/wiring/netlist.yaml")
 R.write()

@@ -56,6 +56,8 @@ MARGIN = 0.3            # mm the tip stays short of the first solid surface (lab
 INSERT_L = 5.7          # [L] BOM line 16
 
 # DIN 912 A2 lengths on BOM.md (length -> BOM line) and other standard lengths that would need a new BOM line
+WASHER_SPEC = ("two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): "
+               "a 0.6 mm stack under each eye screw head (D21 note)")
 STOCK = {"M3": {5: "17e", 6: "17d", 8: "17a", 10: "17b", 12: "17c"},
          "M2.5": {6: "17f", 8: "17g", 10: "17i"}}
 STD_EXTRA = {"M3": [4, 14, 16, 20], "M2.5": [4, 5, 12, 16]}
@@ -228,7 +230,7 @@ def bom_lines():
         if not ln.startswith("|"):
             continue
         c = [x.strip() for x in ln.strip().strip("|").split("|")]
-        if len(c) > 5 and re.match(r"^(1[67][a-i]?|18|19|1|14)$", c[0]):
+        if len(c) > 5 and re.match(r"^(1[67][a-z]?|18|19|1|14)$", c[0]):
             out[c[0]] = dict(item=c[1], spec=c[2], need=c[3], buy=c[4])
     return out
 
@@ -596,13 +598,13 @@ def build(scratch):
                      lmin=ch["lmin"], lmax=ch["lmax"])
             if kind == "eye":
                 # blind 3.0 mm pilot with a 1.5 mm front skin: the longest stock that does not bottom is M2.5x6 (1.0 mm of
-                # thread). M2.5x8 reaches the pilot floor exactly; one 0.5 mm washer under the head leaves 0.5 mm and 2.5 mm
-                # of thread.
-                w = 0.5
-                f.update(L=8, washer=dict(t=w, spec="M2.5 flat washer 0.5 mm thick (one per eye screw)"),
+                # thread). M2.5x8 reaches the pilot floor exactly; two 0.3 mm washers under the head (0.6 mm, the stocked
+                # BOM 17l part, DECISIONS.md D21 note) leave 0.6 mm and 2.4 mm of thread.
+                w = 0.6
+                f.update(L=8, washer=dict(t=w, n=2, t_each=0.3, spec="%s" % WASHER_SPEC),
                          e=round(min(8 - w, far) - near, 2), tip_gap=round(stop - (8 - w), 2), len_status="BELOW RULE",
                          notes=f["notes"] + ["eye pilot is blind (3.0 mm deep, 1.5 mm front skin, ray cast): M2.5x8 alone "
-                                             "reaches the floor (0.0 mm); with a 0.5 mm washer: 2.5 mm of thread, 0.5 mm to the floor"])
+                                             "reaches the floor (0.0 mm); with two 0.3 mm washers (0.6 mm): 2.4 mm of thread, 0.6 mm to the floor"])
                 ch["L"], ch["line"] = 8, STOCK["M2.5"][8]
             if kind == "servo":
                 f["spec"] = "M2x%d self-tapping pan head" % ch["L"]
@@ -612,7 +614,7 @@ def build(scratch):
                 else:
                     f.update(supply="METALLIXITY M2 kit (BOM 17h)", line="17h", color_key="M2 kit")
             else:
-                f["spec"] = "%sx%d DIN 912 A2" % (size, ch["L"]) + (" + 0.5 mm washer" if f.get("washer") else "")
+                f["spec"] = "%sx%d DIN 912 A2" % (size, ch["L"]) + (" + 2 x 0.3 mm washers" if f.get("washer") else "")
                 f["line"] = ch["line"]
                 f["supply"] = ("BOM %s" % ch["line"]) if ch["line"] else "NEW LENGTH (no BOM line)"
                 f["color_key"] = "%sx%d" % (size, ch["L"])
@@ -814,7 +816,7 @@ def bom_compare(F, ins):
         if ln and ln not in ("1", "14"):
             need[(ln, f["spec"].split(" + ")[0])] += 1
         if f.get("washer"):
-            need[("new", "M2.5 washer 0.5 mm")] += 1
+            need[("17l", "M2.5 washer 0.3 mm")] += f["washer"].get("n", 1)
     need[("16", "M3 heat-set insert")] = len(ins)
     rows = []
     by_line = defaultdict(int)

@@ -12,6 +12,9 @@ How it plugs in, without editing a Runtime file:
     head command path stay the Runtime's own.
   - pypot is opened BEFORE RLWalk.__init__ opens rustypot (TIOCEXCL rule, odm_bench/bus.py).
   - hwi.io is wrapped by bus.CountingIO after start-up to count rustypot errors.
+  - hard_stop() does not trust its own writes: torque off is a sync write with no reply, so it
+    reads Torque Enable (register 40) back from every servo with pypot and writes torque off again
+    until all read 0. If they do not, it says so loudly and the caller exits EXIT_TORQUE_ON.
 The walk runs from the Runtime scripts/ folder, as the image launcher does, because RLWalk and
 raw_imu.py open ./polynomial_coefficients.pkl and ./imu_calib_data.pkl relative to the CWD.
 """
@@ -21,7 +24,35 @@ import time
 
 import numpy as np
 
-from . import bus, joints, paths
+from . import bus, joints, paths, sts3215
+
+EXIT_TORQUE_ON = 10     # walk_with_guard.py and power_log.py: a hard stop could not confirm torque off
+
+
+def read_torque_enable(io, ids, errors=None, singles=False):
+    """Torque Enable (register 40) of `ids` with pypot: one SYNC READ (bus.sync_read_block keys each
+    answer by the ID in its status packet, so a late reply from another servo cannot stand in for the
+    one asked), then, if `singles`, one READ for each servo the sync read missed.
+    Returns {id: value} for the servos that answered."""
+    addr, size = sts3215.REG["torque_enable"]
+    got, failed = bus.sync_read_block(io, ids, addr, size, errors)
+    state = {i: d[0] for i, d in got.items() if i in ids}
+    for i in failed if singles else ():
+        try:
+            sp = io._send_packet(io._protocol.DxlReadDataPacket(i, addr, size))
+        except Exception:                  # noqa: BLE001 - timeout or garbage: no answer from this servo
+            continue
+        if sp is not None and sp.id == i and len(sp.parameters) == size:
+            state[i] = sp.parameters[0]
+    return state
+
+
+def report_torque_check(rep, item, check):
+    """Add the hard stop read-back to a report as a PASS/FAIL gate; True if torque off is confirmed."""
+    rep.gate(item, "torque off confirmed: every servo reads Torque Enable (register 40) = 0 after the stop",
+             check["ok"], {str(i): v for i, v in check["readback"].items()}, "0 on every servo",
+             "walkhooks.hard_stop read-back")
+    return check["ok"]
 
 
 class WalkStop(Exception):
@@ -76,6 +107,7 @@ def build_walk_class(RLWalk):
             self.stop_cfg.update(stop_cfg or {})
             self._stop = None            # dict with the stop sequence state
             self.stop_log = []
+            self.torque_check = None     # read-back result of the last hard_stop()
             kw["commands"] = not no_commands
             super().__init__(onnx_model_path, **kw)
             if no_commands:
@@ -177,9 +209,14 @@ def build_walk_class(RLWalk):
             return None if self._stop is None else self._stop["phase"]
 
         # ---------------------------------------------------------------- hard stop
-        def hard_stop(self, pypot_io=None, low_gain_s=1.0):
+        def hard_stop(self, pypot_io=None, low_gain_s=1.0, confirm_tries=30, retry_wait_s=0.3):
             """Low gains (the Runtime's low_torque_kps), wait, torque off. rustypot first (the
-            Runtime's calls); pypot as the fallback if rustypot is dead (G10 panic)."""
+            Runtime's calls); pypot as the fallback if rustypot is dead (G10 panic). Then torque
+            off is confirmed by reading register 40 back (_confirm_torque_off): up to
+            confirm_tries reads, retry_wait_s apart (about 9 s with the defaults; on the simulated
+            bus under load the stale traffic of a panic took up to 5 s to clear). Returns the steps
+            taken; self.torque_check holds the read-back (ok False: the caller must not claim a
+            safe state and exits EXIT_TORQUE_ON)."""
             done = []
             ids = list(self.hwi.joints.values())
             try:
@@ -187,7 +224,7 @@ def build_walk_class(RLWalk):
                 done.append("rustypot low kp")
                 time.sleep(low_gain_s)
                 self.hwi.turn_off()
-                done.append("rustypot torque off")
+                done.append("rustypot torque off sent")
             except BaseException as e:          # noqa: BLE001 - pyo3 PanicException included
                 if isinstance(e, KeyboardInterrupt):
                     raise
@@ -200,13 +237,61 @@ def build_walk_class(RLWalk):
                             pypot_io.set_P_coefficient({i: 2 for i in ids}, convert=False)
                             time.sleep(low_gain_s)
                             pypot_io._set_torque_enable({i: 0 for i in ids}, convert=False)
-                            done.append(f"pypot low kp + torque off (attempt {attempt + 1})")
+                            done.append(f"pypot low kp + torque off sent (attempt {attempt + 1})")
                             break
                         except Exception as e2:     # noqa: BLE001
                             done.append(f"pypot attempt {attempt + 1} failed: {type(e2).__name__}")
                             time.sleep(0.3)
+            self._confirm_torque_off(pypot_io, ids, done, confirm_tries, retry_wait_s)
             self.stop_expression()
             return done
+
+        def _confirm_torque_off(self, io, ids, done, tries, wait_s):
+            """A sync write has no reply and can be lost: right after a G10 failure the bus may
+            still carry garbage, and on the simulated bus a sync write once never landed
+            (VERIFICATION.md E8). So: read register 40 of every servo; for the servos that do not
+            read 0, wait wait_s, write torque off again and read again, up to `tries` reads. Each
+            read starts with the drained flush of bus.make_flush_safe (tcdrain, then input flush),
+            so the write is on its way before the read asks. A servo that never answers counts as
+            not confirmed. Without a pypot handle nothing can be confirmed."""
+            state = {i: None for i in ids}
+            reads = 0
+            if io is None:
+                done.append("torque off NOT verified: no pypot handle to read register 40 back")
+            else:
+                errors = getattr(self, "_errors", None)
+                pending = list(ids)
+                while pending and reads < tries:
+                    if reads:
+                        time.sleep(wait_s)
+                        try:
+                            io._set_torque_enable({i: 0 for i in pending}, convert=False)
+                        except Exception as e:     # noqa: BLE001
+                            done.append(f"pypot torque off rewrite {reads} failed: {type(e).__name__}")
+                    reads += 1
+                    try:
+                        # single READs for the servos the sync read missed on the last try only, so a
+                        # bus that answers nothing costs one timeout per try, not one per servo
+                        state.update(read_torque_enable(io, pending, errors, singles=reads == tries))
+                    except Exception as e:         # noqa: BLE001 - closed port, OS error: no answer
+                        done.append(f"read-back {reads} failed: {type(e).__name__}")
+                    pending = [i for i in ids if state[i] != 0]
+            still_on = [i for i in ids if state[i] not in (0, None)]
+            no_answer = [i for i in ids if state[i] is None]
+            ok = not still_on and not no_answer
+            self.torque_check = dict(ok=ok, readback=state, still_on=still_on, no_answer=no_answer, reads=reads)
+            if ok:
+                done.append(f"read-back: register 40 = 0 on all {len(ids)} servos "
+                            f"(read {reads}, {reads - 1} rewrite{'' if reads == 2 else 's'})")
+                return True
+            msg = (f"TORQUE OFF NOT CONFIRMED after {reads} read(s) of register 40: "
+                   f"still on {still_on}, no answer {no_answer}")
+            done.append(msg)
+            bar = "!" * 78
+            for stream in (sys.stdout, sys.stderr):
+                print(f"{bar}\nHARD STOP: {msg}.\nThe robot may still hold torque. Switch it off at the main "
+                      f"power switch before you touch it.\n{bar}", file=stream, flush=True)
+            return False
 
         def stop_expression(self):
             """What RLWalk.run's KeyboardInterrupt handler stops (lines 331 to 337)."""

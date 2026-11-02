@@ -439,7 +439,9 @@ def load_fasteners(path=FASTENERS_JSON):
             status=("; ".join(str(f) for f in flags) if flags else _first(r, "status", default="OK")),
             note=note,
             spec_label=_first(r, "spec", "label", default=None), color=r.get("color"),
-            flags=flags, from_drawing=from_drawing))
+            flags=flags, from_drawing=from_drawing, fit=not (r.get("leave_out") or r.get("install") is False),
+            fit_note=("left out (%s)" % (r.get("status") or "D18")) if r.get("leave_out") else
+                     ("stays in the bag, not fitted" if r.get("install") is False else "")))
     n_draw = sum(1 for s in out if s["from_drawing"])
     return out, "%d screws from altaay_lab/fasteners/fasteners.json%s%s" % (
         len(out), (", %d with the length from the drawing, not yet chosen" % n_draw) if n_draw else "",
@@ -1340,6 +1342,10 @@ def main():
             supplied=s["supplied"], color=s.get("color") or SCREW_COLOR.get(s["size"], "#9aa4ae"),
             v2=np.round(host["v2"], 2).tolist(), v3=np.round(hv3 - s["ax"] * SCREW_PULL, 2).tolist(), host=host["id"])
         nodes.append(dict(name=nid, mesh=screw_geo[gk], matrix=M))
+        if not s.get("fit", True):          # drawn so the hole is visible, but not counted as a part to fit
+            man_nodes[nid]["label"] += " (%s)" % s["fit_note"]
+            man_nodes[nid]["fitted"] = False
+            continue
         screw_rows.append(dict(spec=spec, line=s["line"], link=host["link"], sub=host["sub"], node=nid,
                                supplied=("in kit" if re.search(r"servo|kit|bag|comes", str(s["supplied"]), re.I) else "bought"),
                                desc="%s, %s head" % (s["anchor"] or "", s["head"]), note=s["note"] or ""))

@@ -1,0 +1,37 @@
+stl,overrides,rings,why
+battery_pack_lid.stl,,,no stated reason for more: upstream default (lid; its screws thread into body_back)
+body_back.stl,,pilot,5 screw pilots (lid and electronics screws) keep a 1.5 mm solid ring; shell at upstream default
+body_front.stl,,,no stated reason for more: upstream default
+body_middle_bottom.stl,,insert,8 insert bores (horizontal in this orientation) keep a 2.0 mm solid ring; shell at upstream default
+body_middle_top.stl,,insert,8 insert bores keep a 2.0 mm solid ring; shell at upstream default
+bulb.stl,,,no stated reason for more: upstream default
+flash_light_module.stl,,,no stated reason for more (its 4.0 mm hole is a 14.6 mm light channel; no insert)
+flash_reflector_interface.stl,,,no stated reason for more: upstream default
+foot_bottom_pla.stl,,insert,2 blind insert bores keep a 2.0 mm solid ring and solid floor; coupon C3 must pass in this profile
+foot_bottom_tpu.stl,,,TPU 40% per upstream; 2 walls (upstream default); coupon T2 checks fit only
+foot_side.stl,,,no stated reason for more: upstream default
+foot_top.stl,,insert,2 insert bores keep a 2.0 mm solid ring; the 1.5 mm wall (B16) is solid at 2 walls too; coupons C2a and C2b must pass in this profile
+head.stl,insert,,kept as today (4 walls): in the sim its mass is the forward counterweight; the light head (2 walls with 21 rings; 48.7 g less; MASS_STUDY.md option d) costs one step of backward margin and falls sooner on rough terrain (sim pass only)
+head_bot_sheet.stl,,,no stated reason for more: upstream default (3 mm floor sheet)
+head_pitch_to_yaw.stl,neck,,neck chain (G5; Mini issue 33): unchanged
+head_roll_mount.stl,neck+fit,,neck chain (G5): unchanged; servo pocket fit
+head_yaw_to_roll.stl,neck+fit,,neck chain (G5): unchanged; servo pocket fit (C4)
+knee_to_ankle_left_sheet.stl,wall3+fit,,G6 thinnest leg plate: 3 walls as today; servo tab fit
+knee_to_ankle_right_sheet.stl,wall3+fit,,G6 thinnest leg plate: 3 walls as today; servo tab fit
+left_antenna_holder.stl,wall3,,G6 thinnest part (2.0 mm): 3 walls as today
+left_cache.stl,,,a cover (PRINT_PLAN.md G6: not spared because it is a cover): upstream default
+left_eye.stl,wall3,,4 screw pilots; coupon T1 tests this profile: 3 walls as today
+left_roll_to_pitch.stl,fit,,servo pocket fit kept; no stated reason for more walls
+leg_spacer.stl,,insert,4 insert bores keep a 2.0 mm solid ring
+neck_left_sheet.stl,neck,,neck chain (G5): unchanged
+neck_right_sheet.stl,neck,,neck chain (G5): unchanged
+right_antenna_holder.stl,wall3,,G6 thinnest part (2.0 mm): 3 walls as today
+right_cache.stl,,,a cover (PRINT_PLAN.md G6): upstream default
+right_eye.stl,wall3,,4 screw pilots: 3 walls as today
+right_roll_to_pitch.stl,fit,,servo pocket fit kept; no stated reason for more walls
+roll_motor_bottom.stl,wall3,,G6 thinnest hip part (2.97 mm) and G12 screw: 3 walls as today
+roll_motor_top.stl,fit,,servo pocket fit kept; no stated reason for more walls
+speaker_interface.stl,,,no stated reason for more: upstream default
+speaker_stand.stl,wall3,,2 screw pilots; small part: 3 walls as today
+trunk_bottom.stl,insert+fit,,kept as today: frame part; both legs hang from its 2 hip yaw 6804 seats; 6 insert bores; coupon C1 tests this profile (light version with rings: 6.6 g less; MASS_STUDY.md)
+trunk_top.stl,wall3+fit,,kept as today: frame part; holds the 2 hip yaw servos and the neck pitch servo; servo pocket fit (light version with rings: 6.5 g less; MASS_STUDY.md)

@@ -136,6 +136,13 @@ REQUIRED = [
      "TEST_PLAN.md section 4 and 5 input sweeps", "TEST_PLAN.md sections 4 and 5", "tool"),
 ]
 
+def uses_tie(t):
+    """True for a retention item that is closed with a nylon cable tie (the BOM cable tie line): a free-air tie
+    around the bundle, a tie through an adhesive tie mount or through a hole of a printed part, and any gap."""
+    k = str(t.get("kind") or "").lower()
+    return bool(t.get("gap")) or any(w in k for w in ("cable tie", "tie mount", "printed feature"))
+
+
 # wire gauge -> BOM wire line
 WIRE_LINE = {"16 AWG": "L5", "20 AWG": "23", "22 AWG": "24", "26 AWG": "25"}
 PER_COLOUR_M = 25 * 0.3048          # every wire line is 25 ft per colour (BOM.md lines L5, 23, 24, 25)
@@ -393,28 +400,30 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
                          qty=1, unit="", line=hit[0] if hit else "", status=("tool" if kind == "tool" else "bought") if hit else "MISSING",
                          note=why, source="[L] %s" % why))
 
-    # 6b. ties, adhesive mounts and printed guides placed along the cables (cables3d.json retention)
+    # 6b. ties, adhesive mounts and printed guides placed along the cables (cables3d.json retention). Every retention
+    # item that uses a tie counts on the cable tie row; mounts and guides are parts, so they also get a row of their
+    # own. A tie through an existing printed feature needs no other part.
     if ties:
-        for kind, ts in sorted(Counter(t["kind"] for t in ties).items()):
+        tied = [t for t in ties if uses_tie(t)]
+        tie_row = next((r for r in rows if r["item"].startswith("Cable ties")), None)
+        if tie_row is not None and tied:
+            gaps = sum(1 for t in tied if t["gap"])
+            kinds = ", ".join("%d %s" % (v, k) for k, v in sorted(Counter(t["kind"] for t in tied).items()))
+            tie_row.update(qty=len(tied), unit="pcs", nodes=[t["node"] for t in tied],
+                           note=tie_row["note"] + "; %d placed along the cables in the 3D view, one per retention item "
+                                                  "(%s)%s" % (len(tied), kinds, ", %d at gaps" % gaps if gaps else ""))
+        for kind, n in sorted(Counter(t["kind"] for t in ties).items()):
+            if "cable tie" in kind or "feature" in kind:
+                continue            # on the cable tie row only: no other part
             sel = [t for t in ties if t["kind"] == kind]
             gaps = sum(1 for t in sel if t["gap"])
             line = sel[0]["line"]
-            existing = [r for r in rows if r["section"] == "Consumables and other" and line and r["line"] == line]
-            if existing and "tie" in kind:
-                existing[0].update(qty=len(sel), unit="pcs", nodes=[t["node"] for t in sel],
-                                   note=existing[0]["note"] + "; %d placed along the cables in the 3D view%s" % (len(sel), ", %d at gaps" % gaps if gaps else ""))
-                continue
             n_k += 1
             rows.append(_row(id="K%02d" % n_k, section="Consumables and other", item=kind[0].upper() + kind[1:],
                              spec="placed along the cables (altaay_lab/cables3d)", qty=len(sel), nodes=[t["node"] for t in sel],
                              line=line, status=("printed" if line == "27" else "bought") if line else "MISSING",
                              note="%d at places where the CAD has no feature" % gaps if gaps else "",
                              source="[L] altaay_lab/cables3d/cables3d.json retention"))
-        for r in rows:
-            if r["item"].startswith("Cable ties") and not r["nodes"]:
-                ids = [t["node"] for t in ties if "tie" in t["kind"] and "mount" not in t["kind"]]
-                if ids:
-                    r.update(qty=len(ids), unit="pcs", nodes=ids)
 
     # 7. consumables and tools from BOM.md that no row used yet ---------------------------------
     used = Counter()
