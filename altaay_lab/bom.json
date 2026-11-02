@@ -577,7 +577,7 @@
 "i": "30",
 "item": "Solder wire",
 "spec": "Adafruit 1886: tin-lead, 63/37 since 2019-09-20 (page), no-clean rosin core, 0.5 mm (page also says about 0.6 mm), 50 g. Leaded: easier on 16 AWG with the Pinecil; wash hands after use",
-"need": "145 soldered wire ends in wiring/netlist.yaml, 24 of them 16 AWG, 13 splices (count by agent P)",
+"need": "145 soldered wire ends in wiring/netlist.yaml, 24 of them 16 AWG, 13 splices (count in SOURCING_2026-11-02.md)",
 "buy": "1",
 "pack": "50 g",
 "line": "9.25",
@@ -996,7 +996,7 @@
 {
 "i": "TE4",
 "item": "DC electronic load",
-"spec": "Siglent SDL1020X-E: 150 V, 30 A, 200 W, CC / CV / CR / CP, resolution 1 mV / 1 mA, 4-wire sense, battery test mode, over-current, over-power, over-voltage and over-temperature protection (page). Covers every load step in TEST_PLAN sections 3 and 4 (table below)",
+"spec": "Siglent SDL1020X-E: 150 V, 30 A, 200 W, CC / CV / CR / CP, resolution 1 mV / 1 mA, 4-wire sense, battery test mode, over-current, over-power, over-voltage and over-temperature protection (page). Covers every load step in TEST_PLAN sections 3 and 4 (table in SOURCING_2026-11-02.md section 4)",
 "need": "1",
 "buy": "1",
 "pack": "1",
