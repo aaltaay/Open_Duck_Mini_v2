@@ -5,10 +5,10 @@ of a walk under 6.0 V at a nominal pack (7.4 V open circuit), against the 10 % g
 Below about 7.5 V of pack the Castle CC BEC Pro is in dropout and passes its input through, so the servo bus follows
 the pack minus every series resistance.
 
-This script imports sim/power_path_sim.py (not edited): its parameters P, both resistance corners, the wire table, the
+This script imports sim/power_path_sim.py: its parameters P, both resistance corners, the wire table, the
 pack side lengths L, the BEC behaviour and the servo load model (voltage-limited H-bridge on the BAM motor model).
-It rebuilds the servo side as wired in wiring/netlist.yaml (D15: BEC -> P11 16 AWG 60 mm -> splices SPV/SPG ->
-SP1, SP2, SP3 22 AWG -> chains of kit cable hops) and adds each candidate fix:
+It rebuilds the servo side as wired in wiring/netlist.yaml at the time of the study (D15: BEC -> P11 16 AWG 60 mm ->
+splices SPV/SPG -> SP1, SP2, SP3 22 AWG -> chains of kit cable hops) and adds each candidate fix:
   1m  power_path_sim.py star model as it is (SP leads 20 AWG, P11 200 mm), for reference
   1   baseline, as built (netlist): SP leads 22 AWG 150/150/180 mm, P11 60 mm
   2   22 AWG made leads on every leg hop (S2-S5, S7-S10; BOM contingency X1/X2), cut to the CABLE_MAP rule length
@@ -19,6 +19,12 @@ SP1, SP2, SP3 22 AWG -> chains of kit cable hops) and adds each candidate fix:
   5   buck-boost holding 7.4 V from the whole 2S range (ideal part, efficiency 0.90 ASSUMPTION: no fitting part found)
   6   3S pack, CC BEC Pro regulating 7.2 V over the whole pack range (3S BMS 30 mOhm, Tenergy 3S table)
   and the combinations 5 + 3b, 6 + 3b.
+  ab  as built (added 2026-11-02 by agent PWR): option 3b (D23, decided) with every length and gauge read from
+      wiring/netlist.yaml by power_path_sim.netlist_lengths(): SP4/SP5 at their cut lengths (not the 545 mm rule
+      estimate of 3b), P11 as cut, the pack side as cut (P6, P7, P8, plus P9 and P14, which the earlier lengths left
+      out), and the D15 data-lead grounds (SD1, SD2, adapter, USB ground) as wired. Same servo_net() chain and feed
+      structure, same cell, BMS, switch, BEC, regulator and servo load models. power_path_sim.py topology "as_built"
+      runs this option; verify/e6_power_path.py, e6b_hop_sweep.py and c7_current_ratings.py check it.
 Metrics (both ankles, the worse is reported): minimum voltage and % of the walk under 6.0 V, time weighted as in
 power_path_sim.py. A 50 Hz log samples the bus at one fixed phase of the 20 ms control period; because the servo
 current peaks just after each 50 Hz command, the sampled % depends on that phase, so its worst and best phase are
@@ -99,7 +105,17 @@ OPTIONS = {
     "5+3b": dict(desc="5 + 3b", source="buckboost", V_set=7.4, eff=0.90, inject="ankle"),
     "6": dict(desc="3S pack, CC BEC Pro at 7.2 V", cells=3, R_bms=0.030),
     "6+3b": dict(desc="6 + 3b", cells=3, R_bms=0.030, inject="ankle"),
+    # as built: 3b with the netlist's lengths and gauges and the data-lead grounds (feeds where the netlist has them)
+    "ab": dict(desc="as built: D15 star plus the D23 feeds SP4 and SP5, lengths and gauges from wiring/netlist.yaml", lengths="netlist",
+               data_gnd=True),
 }
+
+_NET = {}
+def net_len(reload=False):
+    """wiring/netlist.yaml lengths for option "ab" (read once per process; reload=True reads the file again)"""
+    if reload or "v" not in _NET:
+        _NET["v"] = PPS.netlist_lengths()
+    return _NET["v"]
 
 def params(corner, opt, extra=None):
     p = dict(P); p.update(CORNERS[corner]); p.update({k: v for k, v in opt.items() if k in P}); p.update(extra or {})
@@ -111,6 +127,28 @@ def servo_net(opt, p):
     legacy = opt.get("legacy", False)
     hop_kit = wire(p["kit_awg"], L["kit"]) + 2 * p["R_contact"] + p["R_servo_pcb"]
     edges, loads, probes = [], {}, []
+    if opt.get("lengths") == "netlist":
+        # as built (option "ab"): the 3b structure below with every length and gauge from wiring/netlist.yaml.
+        # Hop = kit conductor + 2 contacts + the board pass-through; first lead and feed = 22 AWG lead + 1 contact (its
+        # housing on the servo header; the splice end is solder); the feed also crosses the ankle board to the load node.
+        N = net_len()
+        edges.append(("lead", "src", "spl", p["R_bec_lead"] + wire(*N["P11p"])))
+        for side, names in CHAINS.items():
+            prev = "spl"
+            for k, nm in enumerate(names):
+                node = f"s_{nm}"; loads[nm] = node
+                if k == 0:
+                    r = wire(*N["sp_v"][side]) + p["R_contact"]; ename = f"sp_{side}"; probes.append(ename)
+                else:
+                    r = wire(p["kit_awg"], N["hop_mm"][side][k - 1]) + 2 * p["R_contact"] + p["R_servo_pcb"]; ename = f"hop_{nm}"
+                    probes.append(ename)
+                edges.append((ename, prev, node, r)); prev = node
+            fd = N["feeds"].get(side)
+            if fd:
+                edges.append((f"inj_{side}", "spl", loads[fd["servo"]], wire(*fd["v"]) + p["R_contact"] + p["R_servo_pcb"]))
+                probes.append(f"inj_{side}")
+        probes.insert(0, "lead")
+        return edges, loads, probes
     if legacy:   # exactly the power_path_sim.py star topology
         edges.append(("lead", "src", "h1", p["R_bec_lead"] + wire(16, L["P11"])))
         edges.append(("p11", "h1", "spl", wire(16, 60)))
@@ -147,7 +185,121 @@ def source_R(p, cells):
     rn = p["R_holder"] / 2 + wire(16, L["P2"]) + p["R_bms"] + wire(16, L["P8"]) + p["R_xt30"]
     return rp, rn
 
+def minus_edges(opt, p):
+    """- side of option "ab" (as built): the mirror of servo_net() with the netlist's ground lengths. The SP grounds run
+    SPG -> JG20/JG10/JG30 -> 20 mm tail -> first servo; with data_gnd the D15 data-lead grounds join there (SD1 stem from
+    the adapter H3 G to YG3, branches to JG20 and JG30; SD2 from H5 G to JG10), the adapter copper joins H3 G and H5 G,
+    and the USB cable ground runs from the adapter to the Pi and P12 into the regulator ground node "reg".
+    Edges run from the BEC side outward: [(name, a, b, ohm)]."""
+    N = net_len()
+    plus, loads, _ = servo_net(opt, p)
+    pe = {e[0]: e for e in plus}
+    dg = opt.get("data_gnd")
+    edges = [("lead", "src", "spl", p["R_bec_lead"] + wire(*N["P11n"]))]
+    for side, names in CHAINS.items():
+        s0 = loads[names[0]]
+        tail = wire(*N["sp_tail"][side]) + p["R_contact"]
+        if dg:
+            edges += [(f"sp_{side}", "spl", f"jg_{side}", wire(*N["sp_g"][side])), (f"sp_{side}_tail", f"jg_{side}", s0, tail)]
+        else:
+            edges.append((f"sp_{side}", "spl", s0, wire(*N["sp_g"][side]) + tail))
+        edges += [pe[f"hop_{nm}"] for nm in names[1:]]          # kit cable G conductor: as its V conductor
+        fd = N["feeds"].get(side)
+        if fd:
+            edges.append((f"inj_{side}", "spl", loads[fd["servo"]], wire(*fd["g"]) + p["R_contact"] + p["R_servo_pcb"]))
+    if dg:
+        rdg, sd = opt.get("R_data_gnd", 0.0), N["sd"]
+        edges += [("sd1a", "jg_L", "yg3", wire(*sd["a"]) + rdg), ("sd1b", "jg_N", "yg3", wire(*sd["b"]) + rdg),
+                  ("h3", "yg3", "h3g", wire(*sd["stem"]) + p["R_contact"]), ("ad3", "h3g", "adg", p["R_adapter"] / 2),
+                  ("h5", "jg_R", "h5g", wire(*sd["sd2"]) + p["R_contact"] + rdg), ("ad5", "h5g", "adg", p["R_adapter"] / 2)]
+        if opt.get("usb_gnd", True):
+            edges += [("usb", "adg", "pig", opt.get("R_usb", R_USB_GND)), ("p12", "pig", "reg", wire(*N["P12n"]))]
+    return edges
+
+def netlist_as_built(pw, dt, vcell, opt, p):
+    """ngspice circuit of option "ab": the netlist() circuit with the netlist's pack side lengths (P9 and P14 in),
+    the + side from servo_net() and the - side from minus_edges(); current probes on every lead, hop and feed, on the
+    ground pieces and data grounds, and on P10 (BEC input) and P13 (5 V branch)"""
+    N = net_len()
+    n = len(next(iter(pw.values()))[0]); t = np.arange(n) * dt
+    cells = opt.get("cells", 2)
+    lines = [f"* Open Duck Mini v2 power path as built (sim/power_fix.py option ab, {N['source']['path']} {N['source']['sha256_10']})"]
+    prev = "0"
+    for c in range(1, cells + 1):
+        top = "bplus" if c == cells else f"c{c}r"
+        lines += [f"Vc{c} c{c} {prev} {vcell}", f"Rc{c} c{c} {top} {p['R_cell']}"]; prev = top
+    p7 = sum(wire(*x) for x in N["P7"])
+    lines += [f"Rhp bplus hp {p['R_holder']/2}", f"Rhn 0 hn {p['R_holder']/2}",
+              f"Rp1 hp pp {wire(*N['P1']):.9g}", f"Rp2 hn bm {wire(*N['P2']):.9g}", f"Rbms bm pm {p['R_bms']}",
+              f"Rp6 pp x1 {wire(*N['P6']) + p['R_xt30']:.9g}", f"Rp7 x1 swin {p7 + p['R_fuse']:.9g}",
+              f"Rsw swin swo {p['R_sw']}", f"Rp9 swo bus {wire(*N['P9']):.9g}",
+              f"Rp8 pm busn {wire(*N['P8']) + p['R_xt30'] + wire(*N['P14']):.9g}",
+              "Vi_p10 bus bus_p10 0", f"Rp10p bus_p10 becip {wire(*N['P10p']):.9g}", f"Rp10n busn becin {wire(*N['P10n']):.9g}",
+              f"Ebec beco becon value={{min({p['BEC_V']}, max(V(becip,becin) - {p['BEC_DROP']}, 0))}}",
+              "Rbecon becon becin 1e-6", "Vbecs beco beco2 0",
+              f"Bbecin becip becin I={{ V(beco,becon) * I(Vbecs) / ({p['BEC_EFF']} * max(V(becip,becin), 1)) }}",
+              "Vi_p13 bus bus_p13 0", f"Rp13p bus_p13 regp {wire(*N['P13p']):.9g}", f"Rp13n busn regn {wire(*N['P13n']):.9g}",
+              f"Breg regp regn I={{ {p['P_5V']} / ({p['REG_EFF']} * max(V(regp,regn), 1)) }}"]
+    plus, loads, _ = servo_net(opt, p)
+    def nd(x, s): return ("beco2" if s == "p" else "becon") if x == "src" else f"{x}{s}"
+    probes = ["p10", "p13"]
+    for name, a, b, r in plus:
+        lines += [f"Vi_{name} {nd(a, 'p')} {nd(a, 'p')}_{name} 0", f"R{name}p {nd(a, 'p')}_{name} {nd(b, 'p')} {r:.9g}"]; probes.append(name)
+    for name, a, b, r in minus_edges(opt, p):
+        if name.startswith("hop_"):
+            lines.append(f"R{name}n {nd(a, 'n')} {nd(b, 'n')} {r:.9g}")
+        else:
+            lines += [f"Vi_n_{name} {nd(a, 'n')} {nd(a, 'n')}_{name} 0", f"R{name}n {nd(a, 'n')}_{name} {nd(b, 'n')} {r:.9g}"]
+            probes.append("n_" + name)
+    nodes = {}
+    for nm, node in loads.items():
+        sp, sn = f"{node}p", f"{node}n"; nodes[nm] = (sp, sn); uc, ww = pw[nm]
+        lines.append(f"Vu_{nm} u_{nm} 0 PWL(" + " ".join(f"{tt:.4f} {vv:.4f}" for tt, vv in zip(t, uc)) + ")")
+        lines.append(f"Vw_{nm} w_{nm} 0 PWL(" + " ".join(f"{tt:.4f} {vv:.4f}" for tt, vv in zip(t, ww)) + ")")
+        vl = f"max(V({sp},{sn}),0.5)"; ue = f"min(max(V(u_{nm}),-{vl}),{vl})"
+        lines.append(f"B_{nm} {sp} {sn} I={{ max({ue}*({ue}-{KT}*V(w_{nm}))/{RM:.5f},0)/{vl} + {p['I_q']} }}")
+    pr = ["v(bplus)", "v(pm)", "v(bus,busn)", "v(becip,becin)", "v(beco,becon)", "v(regp,regn)", "i(Vbecs)"]
+    pr += [f"i(Vi_{x})" for x in probes] + [f"v({a},{b})" for a, b in nodes.values()]
+    lines += [".options method=gear reltol=1e-3", f".tran {dt} {t[-1]:.4f}", ".control", "run",
+              "wrdata {OUTFILE} " + " ".join(pr), "quit", ".endc", ".end"]
+    return "\n".join(lines), pr, nodes, probes
+
+def split_matrix(edges, loads, names, sink=True):
+    """DC current split of a resistive network fed at "src" (no reactive parts, so it holds at every time point):
+    A (edges x names) with edge currents = A @ I, where I is each servo's current, drawn out of its node (sink=True,
+    + side) or returned into it (sink=False, - side). Positive = from the edge's first node to its second."""
+    nodes = sorted({x for e in edges for x in e[1:3]} - {"src"}); ix = {nn: i for i, nn in enumerate(nodes)}
+    G = np.zeros((len(nodes), len(nodes)))
+    for _, a, b, r in edges:
+        g = 1.0 / r
+        for x, y in ((a, b), (b, a)):
+            if x != "src":
+                G[ix[x], ix[x]] += g
+                if y != "src":
+                    G[ix[x], ix[y]] -= g
+    Z = np.linalg.inv(G)
+    A = np.zeros((len(edges), len(names)))
+    for j, nm in enumerate(names):
+        v = Z[:, ix[loads[nm]]] * (-1.0 if sink else 1.0)
+        for e, (_, a, b, r) in enumerate(edges):
+            A[e, j] = ((0.0 if a == "src" else v[ix[a]]) - (0.0 if b == "src" else v[ix[b]])) / r
+    return A
+
+def current_split(corner, opt=None, extra=None):
+    """+ and - side current split of option "ab" for verify/c7_current_ratings.py: dict(names, plus=(edge names, A),
+    minus=(edge names, A), cable_of). The USB ground path returns through P12, P13 and P10 grounds to the BEC (edge ret5)."""
+    opt = opt or OPTIONS["ab"]; p = params(corner, opt, extra)
+    plus, loads, _ = servo_net(opt, p)
+    minus = minus_edges(opt, p)
+    if any(e[2] == "reg" for e in minus):
+        N = net_len(); minus = minus + [("ret5", "reg", "src", wire(*N["P13n"]) + wire(*N["P10n"]))]
+    names = list(PPS.CHAIN_L + PPS.CHAIN_N + PPS.CHAIN_R)
+    return dict(names=names, plus=([e[0] for e in plus], split_matrix(plus, loads, names, True)),
+                minus=([e[0] for e in minus], split_matrix(minus, loads, names, False)), cable_of=net_len()["cable_of"], p=p)
+
 def netlist(pw, dt, vcell, opt, p):
+    if opt.get("lengths") == "netlist":
+        return netlist_as_built(pw, dt, vcell, opt, p)
     n = len(next(iter(pw.values()))[0]); t = np.arange(n) * dt
     cells = opt.get("cells", 2)
     lines = ["* Open Duck Mini v2 power path, fix study (generated by sim/power_fix.py)"]
@@ -217,7 +369,7 @@ def sampled_frac(tt, v, period=0.02, step=0.002, thr=6.0):
 def vtag(on, mass, pk, cn):
     return f"v_{on.replace('+', 'p')}_{'ours' if mass.startswith('our') else 'stock'}_{pk}_{cn}"
 
-def run(label, npz, t0, t1, vcell, opt, corner, extra=None, save=None):
+def run(label, npz, t0, t1, vcell, opt, corner, extra=None, save=None, save_dir=None):
     p = params(corner, opt, extra)
     p["I_q"] = p.get("I_q", P["I_q"])
     if opt.get("legacy") and not opt.get("own"):   # the power_path_sim.py function itself (option 1m)
@@ -246,7 +398,18 @@ def run(label, npz, t0, t1, vcell, opt, corner, extra=None, save=None):
     res = {x: cols[:, i] for i, x in enumerate(pr)}
     sv = {nm: res[f"v({a},{b})"] for nm, (a, b) in nodes.items()}
     win = float(tt[-1] - tt[0]) * 1000.0
-    pack_I = res["v(pm)"] / (p["R_holder"] / 2 + wire(16, L["P2"]) + p["R_bms"])
+    asb = opt.get("lengths") == "netlist"
+    rP2 = wire(*net_len()["P2"]) if asb else wire(16, L["P2"])
+    pack_I = res["v(pm)"] / (p["R_holder"] / 2 + rP2 + p["R_bms"])
+    def bstats(x):
+        # as built: each leg chain is a loop (SP1/SP2 at the top, SP4/SP5 at the ankle), so a hop's current can flow
+        # either way: windows and maxima of |I| (the heating current); "mean" stays signed
+        y = np.abs(x) if asb else x
+        d = dict(mean=round(tmean(x), 3), rms=round(float(np.sqrt(tmean(x ** 2))), 3), max_100ms=round(max_win(y, 0.1), 3),
+                 max_20ms=round(max_win(y, 0.02), 3), max=round(float(y.max()), 3))
+        if asb:
+            d["mean_abs"] = round(tmean(np.abs(x)), 3)
+        return d
     ms6 = {k: tms(v < 6.0) for k, v in sv.items()}
     samp = {a: sampled_frac(tt, sv[a]) for a in ANKLES}
     worst = min(sv, key=lambda k: sv[k].min())
@@ -264,16 +427,16 @@ def run(label, npz, t0, t1, vcell, opt, corner, extra=None, save=None):
                bec_out_A_mean=round(tmean(res["i(Vbecs)"]), 3), bec_out_A_max=round(float(res["i(Vbecs)"].max()), 3),
                pack_A_mean=round(tmean(pack_I), 3), pack_A_max=round(float(pack_I.max()), 3),
                pack_A_rms=round(float(np.sqrt(tmean(pack_I ** 2))), 3), reg5_in_V_min=round(float(res["v(regp,regn)"].min()), 3),
-               branch_A={x: dict(mean=round(tmean(res[f"i(Vi_{x})"]), 3), rms=round(float(np.sqrt(tmean(res[f"i(Vi_{x})"] ** 2))), 3),
-                                 max_100ms=round(max_win(res[f"i(Vi_{x})"], 0.1), 3), max_20ms=round(max_win(res[f"i(Vi_{x})"], 0.02), 3),
-                                 max=round(float(res[f"i(Vi_{x})"].max()), 3)) for x in probes},
-               bec_out_A_max_100ms=round(max_win(res["i(Vbecs)"], 0.1), 3),
+               pack_A_max_100ms=round(max_win(pack_I, 0.1), 3), pack_A_max_20ms=round(max_win(pack_I, 0.02), 3),
+               bus_V_min=round(float(res["v(bus,busn)"].min()), 3), switch_W_mean=round(tmean(pack_I ** 2) * p["R_sw"], 3),
+               branch_A={x: bstats(res[f"i(Vi_{x})"]) for x in probes},
+               bec_out_A_max_100ms=round(max_win(res["i(Vbecs)"], 0.1), 3), bec_out_A_rms=round(float(np.sqrt(tmean(res["i(Vbecs)"] ** 2))), 3),
                servo_V_min={k: round(float(v.min()), 3) for k, v in sv.items()},
                servo_V_mean={k: round(tmean(v), 3) for k, v in sv.items()}, servo_pct_below_6V={k: round(v / win * 100, 1) for k, v in ms6.items()},
                servo_ms_below_6V=ms6, servo_ms_below_4V5={k: tms(v < 4.5) for k, v in sv.items()})
     if save:   # save = file name (no extension) for the voltage time series
-        np.savez_compressed(os.path.join(OUT, f"{save}.npz"), t=tt, names=np.array(list(sv)), V=np.array([sv[k] for k in sv]),
-                            bec=res["v(beco,becon)"], label=label, branches=np.array(probes),
+        np.savez_compressed(os.path.join(save_dir or OUT, f"{save}.npz"), t=tt, names=np.array(list(sv)), V=np.array([sv[k] for k in sv]),
+                            bec=res["v(beco,becon)"], pack_I=pack_I, label=label, branches=np.array(probes),
                             I=np.array([res[f"i(Vi_{x})"] for x in probes]) if probes else np.zeros((0, len(tt))))
     return out
 

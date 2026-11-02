@@ -15,6 +15,13 @@ How it plugs in, without editing a Runtime file:
   - hard_stop() does not trust its own writes: torque off is a sync write with no reply, so it
     reads Torque Enable (register 40) back from every servo with pypot and writes torque off again
     until all read 0. If they do not, it says so loudly and the caller exits EXIT_TORQUE_ON.
+  - Idle-time reads (idle_tasks, odm_bench/vsampler.py): RLWalk.run() ends every cycle with
+    time.sleep(max(0, 1 / control_freq - took)) (v2_rl_walk_mujoco.py line 328). With idle tasks,
+    the module's `time` name is replaced by _LoopClock, whose sleep() runs the tasks inside that
+    sleep and returns when the sleep would have ended; every other time function is the real
+    one. A task read starts only if it ends before the next cycle, so it never delays a control
+    read or write. hwi.set_position_all is wrapped to note when each goal write returned
+    (last_write_t), the reference for the read phase.
 The walk runs from the Runtime scripts/ folder, as the image launcher does, because RLWalk and
 raw_imu.py open ./polynomial_coefficients.pkl and ./imu_calib_data.pkl relative to the CWD.
 """
@@ -24,7 +31,7 @@ import time
 
 import numpy as np
 
-from . import bus, joints, paths, sts3215
+from . import bus, joints, paths, sts3215, vsampler
 
 EXIT_TORQUE_ON = 10     # walk_with_guard.py and power_log.py: a hard stop could not confirm torque off
 
@@ -83,6 +90,20 @@ class _PolicyProxy:
         return a if ov is None else np.asarray(ov(a), dtype=np.float32)
 
 
+class _LoopClock:
+    """Stands in for the `time` module inside v2_rl_walk_mujoco only: sleep() runs the idle
+    tasks (IdleScheduler.idle) and returns when the plain sleep would have; the rest is `time`."""
+
+    def __init__(self, scheduler):
+        self._scheduler = scheduler
+
+    def sleep(self, seconds):
+        self._scheduler.idle(seconds)
+
+    def __getattr__(self, name):
+        return getattr(time, name)
+
+
 def import_rlwalk(runtime_dir):
     paths.use_runtime(runtime_dir)
     import v2_rl_walk_mujoco  # noqa: E402  (Runtime scripts/, unmodified)
@@ -93,16 +114,20 @@ def build_walk_class(RLWalk):
     class HookedRLWalk(RLWalk):
         """RLWalk + hooks. hooks: objects with on_cycle(walk, t, paused)."""
 
-        def __init__(self, onnx_model_path, hooks=(), no_commands=False, errors=None, stop_cfg=None, **kw):
+        def __init__(self, onnx_model_path, hooks=(), no_commands=False, errors=None, stop_cfg=None,
+                     idle_tasks=(), **kw):
             self._hooks = list(hooks)
             self._errors = errors
             self._action_override = None
             self._zero_cmd = False
             self._t0 = time.monotonic()
+            self.t0_monotonic = None     # monotonic time of the first control cycle
             self._last_cycle_t = None
             self.cycle_dt = []
             self.cycles = 0
             self.paused_ticks = 0
+            self.last_write_t = None     # monotonic time when the last goal write returned
+            self.prev_write_t = None     # and the one before it
             self.stop_cfg = dict(settle_s=1.0, double_support_cycles=3, double_support_timeout_s=4.0, blend_s=2.0)
             self.stop_cfg.update(stop_cfg or {})
             self._stop = None            # dict with the stop sequence state
@@ -116,6 +141,18 @@ def build_walk_class(RLWalk):
                 self.hwi.io = bus.CountingIO(self.hwi.io, errors)
             self._real_policy = self.policy
             self.policy = _PolicyProxy(self)
+            write = self.hwi.set_position_all
+
+            def set_position_all(joints_positions):
+                try:
+                    return write(joints_positions)
+                finally:
+                    self.prev_write_t, self.last_write_t = self.last_write_t, time.monotonic()
+            self.hwi.set_position_all = set_position_all
+            self.idle = None
+            if idle_tasks:
+                self.idle = vsampler.IdleScheduler(idle_tasks, ctx=self.walk_state)
+                sys.modules[RLWalk.__module__].time = _LoopClock(self.idle)
             if self.commands:
                 orig = self.xbox_controller.get_last_command
 
@@ -137,12 +174,20 @@ def build_walk_class(RLWalk):
             for h in self._hooks:
                 h.on_cycle(self, self.t(), paused)
 
+        def walk_state(self):
+            """For idle-task records: 'walk', 'paused' or the stop phase; the last two goal writes; the cycle."""
+            state = "paused" if self.paused else ("walk" if self._stop is None else self._stop["phase"])
+            return dict(state=state, last_write=self.last_write_t, prev_write=self.prev_write_t, cycle=self.cycles)
+
         def get_obs(self):
             now = time.monotonic()
             if self._last_cycle_t is not None:
                 self.cycle_dt.append(now - self._last_cycle_t)
             else:
                 self._t0 = now          # walk time starts at the first control cycle
+                self.t0_monotonic = now
+                if self.idle is not None:
+                    self.idle.start(now)    # idle-task slots start with the walk
             self._last_cycle_t = now
             self.cycles += 1
             self._run_hooks(paused=False)
@@ -348,8 +393,9 @@ def common_walk_args(ap, onnx_required=True):
     return g
 
 
-def make_walk(a, hooks, errors, extra_stop_cfg=None):
-    """Build HookedRLWalk from parsed args, from the Runtime scripts/ folder."""
+def make_walk(a, hooks, errors, extra_stop_cfg=None, idle_tasks=()):
+    """Build HookedRLWalk from parsed args, from the Runtime scripts/ folder. idle_tasks:
+    vsampler.TimedRead objects run inside the loop's own sleep (never delaying a control cycle)."""
     rt = paths.find_runtime(a.runtime)
     mod = import_rlwalk(rt)
     cls = build_walk_class(mod.RLWalk)
@@ -358,9 +404,9 @@ def make_walk(a, hooks, errors, extra_stop_cfg=None):
     check_duck_config(cfg)
     os.chdir(rt / "scripts")
     walk = cls(onnx, hooks=hooks, no_commands=a.no_commands, errors=errors, stop_cfg=extra_stop_cfg,
-               duck_config_path=cfg, serial_port=a.serial_port, control_freq=a.control_freq,
-               pid=[a.p, a.i, a.d], action_scale=a.action_scale, pitch_bias=a.pitch_bias,
-               cutoff_frequency=a.cutoff_frequency)
+               idle_tasks=idle_tasks, duck_config_path=cfg, serial_port=a.serial_port,
+               control_freq=a.control_freq, pid=[a.p, a.i, a.d], action_scale=a.action_scale,
+               pitch_bias=a.pitch_bias, cutoff_frequency=a.cutoff_frequency)
     return walk, rt
 
 

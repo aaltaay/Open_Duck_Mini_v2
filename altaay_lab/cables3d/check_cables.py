@@ -13,7 +13,8 @@ Checks (rules and sources in CABLES_3D.md):
    cable's own link. Connector zones (8 mm from a run end) are left out.
 3. Bend radius: at every corner of a fixed run, the largest fillet that fits the two adjacent straight pieces,
    against NASA-STD-8739.4A Table 7-1 (harness of AWG 10 or smaller: minimum 3 x OD, optimum 10 x OD). Service loops:
-   radius of the arc that stores the free-span length change.
+   the loop between the two ties of each crossing (seats_ties.py service_loops): bend R = free length / largest joint
+   angle, and length storage R = the cable the loop needs at the farthest pose bowed over the closest tie-to-tie chord.
 4. Connector room: free straight length along each terminal's exit direction, against 3 x OD + OD/2.
 """
 import argparse
@@ -233,13 +234,14 @@ def loop_radius(c, a):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--scratch", required=True)
+    ap.add_argument("--json", default=RC.OUT_JSON, help="cables3d.json to read and rewrite (default: the lab file)")
     a = ap.parse_args()
     t0 = time.time()
     s = RC.make_scene()
     for jn, j in s.joints.items():
         RC.REV[jn] = (j["lo"], j["hi"])
     g0 = RC.load_grid(s, os.path.abspath(a.scratch))
-    data = json.load(open(RC.OUT_JSON))
+    data = json.load(open(a.json))
     seats = {t["id"]: dict(link=t["link"], center=t["center_mm"], dims=t["dims_xyz_mm"]) for t in data["terminals"]}
     g = g0.overlay([(v["link"], tuple(v["center"]), tuple(v["dims"]), None, k) for k, v in seats.items() if v["center"]])
     trees = link_trees(g)
@@ -427,13 +429,13 @@ def main():
             findings.append("bend: taut route radius %.1f mm < 3 x OD %.1f mm (dress the slack into a wider bend there)" % (
                 bend_min[0], BEND_MIN * od))
         if bad_lp:
+            wl = min(bad_lp, key=lambda x: x["radius_mm"] or 0)
             findings.append("service loop: %d of %d loops cannot reach R >= 3 x OD over the full range (worst %s: free %.0f mm "
-                            "over %.2f rad gives R %.1f mm, needs %.1f mm; route room limits it)%s" % (
-                                len(bad_lp), len(lp), "+".join(min(bad_lp, key=lambda x: x["radius_mm"] or 0)["joints"]),
-                                min(bad_lp, key=lambda x: x["radius_mm"] or 0)["free_mm"],
-                                min(bad_lp, key=lambda x: x["radius_mm"] or 0)["angle_rad"],
-                                min(bad_lp, key=lambda x: x["radius_mm"] or 0)["radius_mm"] or 0,
-                                min(bad_lp, key=lambda x: x["radius_mm"] or 0)["rule_mm"],
+                            "between the ties, bend R %.1f mm over %.2f rad, length storage R %.1f mm (loop %.0f mm over a "
+                            "%.1f mm closest tie-to-tie chord), needs %.1f mm; route room limits it)%s" % (
+                                len(bad_lp), len(lp), "+".join(wl["joints"]), wl["free_mm"], wl.get("radius_bend_mm") or 0,
+                                wl["angle_rad"], wl.get("radius_storage_mm") or 0, wl.get("loop_length_mm") or 0,
+                                wl.get("chord_min_mm") or 0, wl["rule_mm"],
                                 "; within the Runtime head ranges %d fail" % len(bad_rt)))
         cls = [(r_["clearance_min_mm"], r_["clearance_part"], r_["name"], r_.get("clearance_at")) for r_ in c["runs"]
                if r_.get("clearance_min_mm") is not None]
@@ -465,7 +467,7 @@ def main():
     data["meta"]["check"] = dict(script="altaay_lab/cables3d/check_cables.py", slack_mm=SLACK_MM,
                                  bend_rule="NASA-STD-8739.4A Table 7-1: minimum 3 x OD, optimum 10 x OD",
                                  rub_warn_mm=RUB_WARN, generated_utc=time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()))
-    RC.write_json_atomic(data, RC.OUT_JSON)
+    RC.write_json_atomic(data, a.json)
     print("checked %d cables in %.1f s" % (len(summary), time.time() - t0))
 
 

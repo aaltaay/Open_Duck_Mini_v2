@@ -29,7 +29,7 @@ Re-run 2026-11-01 6:41 PM ET with the upstream +1.3 accelerometer bias removed (
 Highest single servo current while walking: 3.35 A peak (knee, backlash model), 1.45 A RMS. The knees sit at the torque limit 15 to 21% of the time in the backlash model, under 4% in the plain model.
 
 ## Pack side
-The hand calculation below uses the first run (within 5% of the re-run). The ngspice model in sim/POWER_PATH_SIM.md is the better pack number because it includes every series resistance, BEC dropout and the 5 V branch: about 5.1 to 5.7 A mean, 10 to 11 A peak, 5.4 to 5.8 A RMS while walking.
+The hand calculation below uses the first run (within 5% of the re-run). The ngspice model in sim/POWER_PATH_SIM.md is the better pack number because it includes every series resistance, BEC dropout and the 5 V branch. As built (D15 plus the D23 feeds SP4 and SP5, netlist lengths; updated 2026-11-02 about 2:10 AM ET by agent PWR), walking at full and nominal pack: 5.1 to 5.5 A mean (trained mass) and 5.3 to 5.7 A (our 2.65 kg build), 10.5 to 11.3 A peak, 5.43 to 5.76 A RMS (trained mass) and 5.60 to 5.92 A RMS (our build); 6.02 A RMS at the low pack, past the battery guard. Sim pass only.
 Pack current = bus power / (0.85 x pack voltage) + 5 V branch + servo electronics allowance. 0.85 is an assumed regulator efficiency (Castle does not publish one).
 
 | Item | At 7.4 V pack | At 6.4 V pack |
@@ -47,7 +47,7 @@ Pack current = bus power / (0.85 x pack voltage) + 5 V branch + servo electronic
 ## What this means for the parts (decisions in DECISIONS.md, D8)
 - BMS: Tenergy 32175 (10 A working, over-current detect 22 +/- 5 A after 8 +/- 4 ms) covers the sim walking numbers; a fall at a low pack with every allowance stacked can reach the bottom of its trip band (17 A). Builders upstream report BMS cut-outs with 10 A class boards (issue 33 TODO, third-party log, UPSTREAM_ISSUES.md G4), so this is checked on the bench with current pulses and in the walking log (TEST_PLAN.md sections 3 and 9).
 - Fuse: 15 A ATO stays (D3). It carries 16.5 A indefinitely and needs seconds at 20 A to open, so 20 ms fall peaks do not blow it.
-- Switch: Pololu 2815 runs about 6 A with the MOSFETs at 55 C (Pololu table, 12 V, 22 C still air); the walking mean sits below that.
+- Switch: Pololu 2815 runs 6.0 A continuous with the MOSFETs at 55 C and 16 A at 150 C (Pololu table, 12 V, 22 C ambient, still air; https://www.pololu.com/product/2815, read 2026-11-02 1:32 AM ET). The as-built walking RMS (sim/POWER_PATH_SIM.md) is 5.60 to 5.92 A for our build, up to 99 % of the 55 C point: TEST_PLAN.md 4.2 has a 10 minute 6.0 A heat check for it (VERIFICATION.md C7).
 - Servo regulator: the Castle CC BEC Pro (15 A continuous with airflow, 20 A peak) runs at about 3.2 A mean and 4.8 A peaks while walking, so airflow is not needed.
 - Battery: 2 x P30B, 3.0 Ah at 7.2 V nominal, about 21.6 Wh. Walking draws about 22 W (plain model) to 31 W (backlash model) from the pack, so about 40 to 60 minutes of continuous walking. Sim pass only, not measured.
 

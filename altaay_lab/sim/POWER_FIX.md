@@ -1,6 +1,8 @@
 # POWER_FIX: getting the ankle servos through the TEST_PLAN section 9 gate (sim pass only)
 
-Written 2026-11-02 by agent PW (power path). Script: sim/power_fix.py (imports sim/power_path_sim.py, which is not edited). Figures: sim/power_fix_options.png, sim/power_fix_ankle_trace.png, sim/power_fix_voltage_walk.png. All simulation results are sim pass only. Tags: [L] lab script (sim/power_fix.py and the step named), [I] page read with plain curl on 2026-11-02, [U] upstream.
+Written 2026-11-02 by agent PW (power path). Script: sim/power_fix.py (imports sim/power_path_sim.py). Figures: sim/power_fix_options.png, sim/power_fix_ankle_trace.png, sim/power_fix_voltage_walk.png. All simulation results are sim pass only. Tags: [L] lab script (sim/power_fix.py and the step named), [I] page read with plain curl on 2026-11-02, [U] upstream.
+
+Update 2026-11-02 about 2:10 AM ET (agent PWR): D23 built option 3b, and the netlist now has its cut lengths. sim/power_fix.py option `ab` is option 3b with every length and gauge read from wiring/netlist.yaml (SP4 390 mm and SP5 420 mm instead of the 545 mm rule estimate, P11 100 mm, the pack side as cut with P9 and P14, which this study left out, and the D15 data-lead grounds). sim/power_path_sim.py topology `as_built` runs it, and VERIFICATION.md E6, E6b and C7 check it. Its numbers are in sim/POWER_PATH_SIM.md "As built": nominal pack, our 2.65 kg build, ankle time under 6.0 V 6.2 % (typical) and 21.4 % (high-side); the knee is now the lowest leg servo and the head roll the lowest servo in the high-side corner; pack RMS 5.90 to 5.92 A (99 % of the Pololu 2815's 6.0 A point at 55 C). With the study's values option ab gives the 3b numbers to the third decimal; the step-by-step difference is in that section. The tables below stay as the study.
 
 ## Recommendation
 

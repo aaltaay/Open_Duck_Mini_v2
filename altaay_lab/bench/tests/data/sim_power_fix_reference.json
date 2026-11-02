@@ -1,0 +1,20 @@
+{
+ "source": "sim/POWER_FIX.md table 'The options' rows 1 and 3b (agent PW, 2026-11-02) and sim/POWER_PATH_SIM.md results table, star rows at full pack; read 2026-11-02 1:55 AM ET by the bench agent (SW)",
+ "sim_pass_only": true,
+ "metric": "worst ankle (ID 24 or 14), worse of the trained-mass and 2.77 kg traces where POWER_FIX gives both: minimum servo voltage (V) and share of the walk under 6.0 V counted in time (%), ngspice, walk with the backlash model, 10 to 16 s",
+ "feeds": {
+  "d23": "second feeds SP4 and SP5 into the free BUS 1 port of IDs 24 and 14 (DECISIONS.md D23, POWER_FIX option 3b)",
+  "none": "D15 star wiring as built, no second feeds (POWER_FIX option 1)"
+ },
+ "cases": {
+  "nominal": {
+   "d23": {"typical": {"ankle_min": 5.72, "pct_below_6": 5.8}, "high_side": {"ankle_min": 5.35, "pct_below_6": 20.5}},
+   "none": {"typical": {"ankle_min": 5.03, "pct_below_6": 23.9}, "high_side": {"ankle_min": 3.44, "pct_below_6": 67.0}}
+  },
+  "full": {
+   "d23": null,
+   "none": {"typical": {"ankle_min": 5.99, "pct_below_6": 0.0}, "high_side": {"ankle_min": 4.40, "pct_below_6": 14.0}}
+  }
+ },
+ "notes": "full/none comes from POWER_PATH_SIM.md star rows (trained-mass trace only): time below 6 V 0.00 s and 0.84 s of 6 s. No full-pack row exists for option 3b."
+}
