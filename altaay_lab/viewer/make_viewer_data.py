@@ -1359,6 +1359,40 @@ def main():
     if retention_out:
         print("%d retention items (ties, mounts, guides) from cables3d.json" % len(retention_out))
 
+    # 10e. connectors, splices, resistors, foam pads, discs (altaay_lab/viewer/scene_extras.json): solid small parts
+    extras_path = os.path.join(HERE, "scene_extras.json")
+    n_extra = 0
+    if os.path.exists(extras_path):
+        raw = json.load(open(extras_path))
+        items = raw.get("items", raw) if isinstance(raw, dict) else raw
+        bpos, bidx = unit_box()
+        gidx["_solidbox"] = len(geoms)
+        geoms.append(dict(name="small_part_box", pos=bpos, idx=bidx, src_faces=12))
+        for it in items:
+            c = it.get("center_mm")
+            d = it.get("dims_mm")
+            if c is None or d is None:
+                continue
+            w = np.array(c, float)
+            link = it.get("link")
+            cand = [i for i in inst if i["link"] == link] or inst
+            hi = min(cand, key=lambda i: float(np.linalg.norm(np.clip(w, i["bmin"], i["bmax"]) - w)))
+            ax = np.array(it.get("axis") or [1, 0, 0], float)
+            ax = ax / (np.linalg.norm(ax) or 1.0)
+            R = rot_z_to(ax)                     # box z along the item's long axis
+            M = np.eye(4)
+            M[:3, :3] = R @ np.diag([float(d[1]), float(d[2]), float(d[0])])
+            M[:3, 3] = w
+            n_extra += 1
+            nid = "x-%s" % re.sub(r"[^A-Za-z0-9_-]", "_", str(it.get("id", n_extra)))
+            man_nodes[nid] = dict(label=str(it.get("label", it.get("id", ""))), part=str(it.get("kind", "other")), file="(drawn) small part",
+                                  link=hi["link"], sub=hi["sub"], category="connector", qty=1, material=None,
+                                  bom=it.get("bom_line"), bom_full_row=it.get("bom_full_row"), status="OK", blockers=[],
+                                  mount=str(it.get("source", "")), kind=it.get("kind"), color=it.get("color"),
+                                  dims=[float(x) for x in d], v2=np.round(hi["v2"], 2).tolist(), host=hi["id"])
+            nodes.append(dict(name=nid, mesh=gidx["_solidbox"], matrix=M))
+        print("%d small parts from viewer/scene_extras.json" % n_extra)
+
     glb_path = os.path.join(out, "duck.glb")
     write_glb(glb_path, geoms, nodes)
     # base64 text copy for the artifact page: the artifact host serves text and images, not .glb
@@ -1487,6 +1521,11 @@ def main():
     bom_full_rows = bom_full.build(man_nodes, sub_labels, netlist, bom_lines, parts_csv,
                                    fasteners=screw_rows or None, cables3d=cable_rows or None, link_sub=LINK_SUB,
                                    ties=tie_rows or None)
+    row_by_id = {r["id"]: r for r in bom_full_rows}
+    for nid, rec in man_nodes.items():  # small parts name their BOM_FULL row: link them so the row highlights them
+        rid = rec.get("bom_full_row")
+        if rid in row_by_id and nid not in row_by_id[rid]["nodes"]:
+            row_by_id[rid]["nodes"].append(nid)
     for r in bom_full_rows:            # cables carry the first purchase line of their row (wire, kit cable, USB, FPC)
         for nid in r["nodes"]:
             if nid in man_nodes and man_nodes[nid].get("category") == "cable" and r["line"]:
@@ -1507,6 +1546,7 @@ def main():
         "placeholder": dict(label="Placeholder (not in CAD)", color="#a855c8"), "other": dict(label="Other modelled part", color="#7c6a58"),
         "screw": dict(label="Screw", color="#8f9aa5"), "cable": dict(label="Cable", color="#e07a1f"),
         "tie": dict(label="Cable tie, mount or guide", color="#5b6b7a"),
+        "connector": dict(label="Connectors and small parts", color="#f2f2ee"),
     }
     cat_count = Counter(r["category"] for r in man_nodes.values())
     for k in cats:
