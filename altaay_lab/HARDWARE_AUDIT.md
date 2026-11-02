@@ -41,7 +41,7 @@ Spares: 10 to 20%, or the pack minimum. "Included" = ships with a component.
 | Ball bearing | 6804ZZ 20x32x7 | trunk_bottom 2 seats, head 1 seat, all 32.19 mm | 3 | 0 | 10 (pack) | CAD bearing model 19.99/32.19/7.0 | Motoforti 10-pack, $7.74 | Yes | Yes (Amazon showed 1 left, 2026-11-01) |
 | Threadlocker | Loctite 243 | metal to metal horn screws only (not into PLA) | 1 | 0 | 1 | Loctite TDS | Amazon, $9.90 | Yes | Yes |
 
-Screw total (fasteners/fasteners.json, FASTENERS.md sections 1 and 2): bought machine screws 28 + 12 + 2 + 78 + 10 + 28 + 17 + 8 + 4 + 4 = 191 (BOM 17a to 17g, 17i, 17j, 17k), plus 30 kit self-tapping screws (22 M2x5, 6 M2x4, 2 M2x8, BOM 17h) = 221 bought; 42 + 14 + 3 = 59 from the STS3215 bags; 56 factory case screws stay in the servos; 6 from the SG90 bags; 342 to fit. Left out on purpose: 2 hip roll screws (D18) and 11 idle horn screws. Washers 16 (D21 note). 0 holes without an anchor. The earlier per-hole count (189 + 4 bought, from audit/screws2.json on the URDF meshes) is superseded: the print/ STLs differ from the URDF meshes (FASTENERS.md finding 20) and 4 leg screws were counted twice (finding 23).
+Screw total (fasteners/fasteners.json, FASTENERS.md sections 1 and 2): machine screws to buy 28 + 12 + 2 + 78 + 10 + 28 + 17 + 8 + 4 + 4 = 191 (BOM 17a to 17g, 17i, 17j, 17k), plus 30 kit self-tapping screws (22 M2x5, 6 M2x4, 2 M2x8, BOM 17h) = 221 to buy; 42 + 14 + 3 = 59 from the STS3215 bags; 56 factory case screws stay in the servos; 6 from the SG90 bags; 342 to fit. Left out on purpose: 2 hip roll screws (D18) and 11 idle horn screws. Washers 16 (D21 note). 0 holes without an anchor. The earlier per-hole count (189 + 4 bought, from audit/screws2.json on the URDF meshes) is superseded: the print/ STLs differ from the URDF meshes (FASTENERS.md finding 20) and 4 leg screws were counted twice (finding 23).
 
 ## 2. Printed parts
 Full per-STL measurements are in PRINT_CHECK.md. Totals: PLA 15% 50 parts, 1304.0 g, 127.7 h; TPU 40% 2 parts, 35.0 g, 3.9 h. Filament bought: 2 kg PLA, 1 kg TPU.
@@ -69,7 +69,7 @@ Full per-STL measurements are in PRINT_CHECK.md. Totals: PLA 15% 50 parts, 1304.
 Every module, its mount and screw: MOUNTING.md. Every buy line with link and price: BOM.md.
 
 ## 4. Cables, connectors, crimps
-Every cable as a row (ends, part numbers, route, length, source, tool): CABLE_MAP.md. Connectors bought: Molex 50-37-5033 housings and 08-70-1040 terminals, BOM.md lines 21 and 22 (counts from wiring/netlist.yaml: the D15 star leads and the D23 ankle feeds), and XT30U pairs (1 used).
+Every cable as a row (ends, part numbers, route, length, source, tool): CABLE_MAP.md. Connectors to buy: Molex 50-37-5033 housings and 08-70-1040 terminals, BOM.md lines 21 and 22 (counts from wiring/netlist.yaml: the D15 star leads and the D23 ankle feeds), and XT30U pairs (1 used).
 
 ## 5. Tools
 BOM.md, section "Tools (one-time)": Pinecil V2, insert tips, Engineer PA-09, Bondhus 12192 hex keys (2.0 mm for M2.5 and for the M3 ISO 7380 button heads, 2.5 mm for M3 DIN 912), Klein 11057 stripper, Castle Link V4, and for the drill steps after printing a 6.0 mm and a 2.7 mm HSS bit (D20) and a 4.0 mm bit (D24) with a T-handle holder (T11 to T14; T15 4.5 mm only if coupon C4 needs it).
