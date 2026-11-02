@@ -1571,8 +1571,15 @@ def main():
             if nid in man_nodes and man_nodes[nid].get("category") == "cable" and r["line"]:
                 man_nodes[nid]["bom"] = re.split(r",\s*", r["line"])[0]
                 man_nodes[nid]["bom_lines"] = r["line"]
+    def money(x):
+        try:
+            return round(float(str(x).replace("$", "").replace(",", "")), 2)
+        except ValueError:
+            return 0.0
+    for r in bom_full_rows:
+        r["line_cost"] = money(r.get("line_cost", ""))
     purchase = {lid: dict(item=b.get("Item", ""), spec=b.get("Spec", ""), supplier=b.get("Supplier", ""), link=b.get("Link", ""),
-                          buy=b.get("Buy", ""), pack=b.get("Pack", ""), line_cost=b.get("Line $", ""), need=b.get("Need", ""),
+                          buy=b.get("Buy", ""), pack=b.get("Pack", ""), line_cost=money(b.get("Line $", "")), need=b.get("Need", ""),
                           verified=b.get("Verified", ""), ships=b.get("Ships to USA", ""), section=b.get("section", ""))
                 for lid, b in bom_lines.items()}
     summary["bom_full"] = dict(rows=len(bom_full_rows), status=dict(Counter(r["status"] for r in bom_full_rows)),
