@@ -659,8 +659,9 @@ def main():
             ("usb_slack", pl["usb_slack"]["center_mm"], pl["usb_slack"]["dims_xyz_mm"], 1, 1, "trunk_assembly",
              "MOUNTING.md: belly side wall, left side; cable tie to the coil, foam tape")]
     reg = next((t for t in c3.get("cable_ends", []) if t["id"] == "U3.IN"), None)
-    pads.append(("reg_5v", [40.6, 54.4, 182.0], [17.8, 20.3, 8.0], 2, -1, "head_assembly",
-                 "MOUNTING.md: head floor below the Pi, foam tape; seat of make_viewer_data.py (head_floor_spot, 0.5 mm gap)"))
+    pads.append(("reg_5v", [40.6, 54.4, 182.6], [17.8, 20.3, 8.0], 2, -1, "head_assembly",
+                 "MOUNTING.md: head floor below the Pi, foam tape; seat of make_viewer_data.py (head_floor_spot, on the 1.1 mm "
+                 "tape since the 2026-11-01 seat fix)"))
     if am and am.get("center_mm"):
         pads.append(("amp", am["center_mm"], am["dims_xyz_mm"], 2, -1, "head_assembly",
                      "MOUNTING.md: head floor, double-sided foam; seat from cables3d terminals amp"))

@@ -338,34 +338,34 @@
  ],
  "foam_fit": {
   "bec_pro": {
-   "gap_box_to_surface_mm": 3.89,
+   "gap_box_to_surface_mm": 1.09,
    "surface": "body_middle_bottom",
-   "after_tape_mm": 2.79
+   "after_tape_mm": -0.01
   },
   "fuse_holder": {
-   "gap_box_to_surface_mm": 2.01,
+   "gap_box_to_surface_mm": 1.11,
    "surface": "battery_pack_lid",
-   "after_tape_mm": 0.91
+   "after_tape_mm": 0.01
   },
   "mosfet_switch": {
-   "gap_box_to_surface_mm": 3.46,
+   "gap_box_to_surface_mm": 1.06,
    "surface": "battery_pack_lid",
-   "after_tape_mm": 2.36
+   "after_tape_mm": -0.04
   },
   "usb_slack": {
-   "gap_box_to_surface_mm": 3.01,
+   "gap_box_to_surface_mm": 1.11,
    "surface": "body_middle_bottom",
-   "after_tape_mm": 1.91
+   "after_tape_mm": 0.01
   },
   "reg_5v": {
-   "gap_box_to_surface_mm": 0.51,
+   "gap_box_to_surface_mm": 1.11,
    "surface": "head_bot_sheet",
-   "after_tape_mm": -0.59
+   "after_tape_mm": 0.01
   },
   "amp": {
-   "gap_box_to_surface_mm": 0.51,
+   "gap_box_to_surface_mm": 1.11,
    "surface": "head_bot_sheet",
-   "after_tape_mm": -0.59
+   "after_tape_mm": 0.01
   }
  }
 }

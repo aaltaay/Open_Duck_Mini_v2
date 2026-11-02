@@ -279,6 +279,7 @@ BOM_VIEW = {
     "17a": ("none", [], [], "Screw"), "17b": ("none", [], [], "Screw"), "17c": ("none", [], [], "Screw"),
     "17d": ("none", [], [], "Screw"), "17e": ("none", [], [], "Screw"), "17f": ("none", [], [], "Screw"),
     "17g": ("none", [], [], "Screw"), "17i": ("none", [], [], "Screw"), "17h": ("none", [], [], "Screw kit"),
+    "17j": ("none", [], [], "Screw"), "17k": ("none", [], [], "Screw"), "17l": ("none", [], [], "Washer"),
     "20": ("none", [], [], "Cable"), "21": ("none", [], [], "Connector"), "22": ("none", [], [], "Crimp terminal"),
     "L5": ("none", [], [], "Wire"), "23": ("none", [], [], "Wire"), "24": ("none", [], [], "Wire"), "25": ("none", [], [], "Wire"),
     "26": ("none", [], [], "Heat shrink"), "29": ("none", [], [], "Foam tape"),
@@ -445,6 +446,13 @@ def load_fasteners(path=FASTENERS_JSON):
         (" (skipped: " + ", ".join("%s %d" % kv for kv in skipped.items()) + ")") if skipped else "")
 
 
+def _wire_line(w):
+    """one cables3d wire record as a short line: '16 AWG red 120 mm PACK.B+ to BMS.B+'"""
+    cut = w.get("cut_mm")
+    cut = ("%g mm" % cut) if isinstance(cut, (int, float)) else (("%s mm" % cut) if cut else "")
+    return " ".join(str(x) for x in (w.get("gauge"), w.get("color"), cut, "%s to %s" % (w.get("from", "?"), w.get("to", "?"))) if x)
+
+
 def load_cables3d(path=CABLES3D_JSON):
     """altaay_lab/cables3d/cables3d.json -> list of cables with points as (link, xyz in that link's frame, mm). [] if absent."""
     if not os.path.exists(path):
@@ -478,14 +486,23 @@ def load_cables3d(path=CABLES3D_JSON):
         if c.get("points_world") is not None:
             links = c.get("links") or [None] * len(c["points_world"])
             pts = [(l, None, w) for l, w in zip(links, c["points_world"])]
+        # check is "pass", "fail" or "": cables3d also writes "pass with notes"; the full text and the notes go in the note
+        chk_raw = str(_first(c, "check", "result", "status", default="")).strip()
+        chk = "pass" if chk_raw.lower().startswith("pass") else ("fail" if chk_raw.lower().startswith("fail") else "")
+        fnd = c.get("findings")
+        notes = (["check: " + chk_raw] if chk_raw.lower() != chk else []) + [c.get("note")] + (fnd if isinstance(fnd, list) else [fnd])
+        # wires may be a list of wire records: the page gets a count and one short line per wire
+        wl = c.get("wires")
+        detail = [_wire_line(x) for x in wl if isinstance(x, dict)] if isinstance(wl, list) else []
         out.append(dict(id=c["id"], run=c.get("run"), run_k=c.get("run_k", 0), seats=c.get("seats") or [],
                         desc=c.get("desc", ""), pts=pts, color=_first(c, "color", "colour", default="#e07a1f"),
                         d=float(_first(c, "d_mm", "outer_d_mm", "diameter_mm", "od_mm", default=3.0)),
                         frm=_first(c, "from", default=""), to=_first(c, "to", default=""), gauge=_first(c, "gauge", default=""),
-                        wires=_first(c, "wires", "n_wires", default=None), cut_mm=_first(c, "cut_mm", default=None),
+                        wires=len(wl) if isinstance(wl, list) else _first(c, "wires", "n_wires", "wires_n", default=None),
+                        wires_detail=detail, cut_mm=_first(c, "cut_mm", default=None),
                         routed_mm=_first(c, "length_zero_mm", "routed_mm", "length_mm", default=None),
                         worst_mm=_first(c, "length_max_mm", "worst_mm", "max_mm", default=None),
-                        check=str(_first(c, "check", "result", "status", default="")), note=_first(c, "note", "findings", default="")))
+                        check=chk, note="; ".join(OrderedDict.fromkeys(str(x) for x in notes if x))))
     return out, "%d cables from altaay_lab/cables3d/cables3d.json" % len(out)
 
 
@@ -1370,8 +1387,8 @@ def main():
         cables_out.append(dict(id=c["id"] + ((":" + c["run"]) if c.get("run") and c.get("run_k") else ""), cable=c["id"], run=c.get("run"),
                                seats=seats, desc=c.get("desc", ""), node=nid, color=c["color"], d_mm=c["d"], points=np.round(P, 2).tolist(),
                                point_sub=subs, point_follow=follow, **{"from": c["frm"]}, to=c["to"], gauge=c["gauge"],
-                               wires=c["wires"], cut_mm=c["cut_mm"], routed_mm=c["routed_mm"], worst_mm=c["worst_mm"],
-                               check=c["check"], note=c["note"]))
+                               wires=c["wires"], wires_detail=c["wires_detail"], cut_mm=c["cut_mm"], routed_mm=c["routed_mm"],
+                               worst_mm=c["worst_mm"], check=c["check"], note=c["note"]))
         cable_rows.append(dict(id=c["id"], node=nid, check=("%s: worst %s mm vs cut %s mm" % (c["check"], c["worst_mm"], c["cut_mm"]))
                                if c["check"] else ""))
     # a cable with several runs: one BOM_FULL row lists every run node
@@ -1394,17 +1411,21 @@ def main():
         cand = [i for i in inst if i["link"] == link] or inst
         hi = min(cand, key=lambda i: float(np.linalg.norm(np.clip(w, i["bmin"], i["bmax"]) - w)))
         kind = str(r.get("kind", "cable tie"))
+        gap, note = bool(r.get("gap")), str(r.get("note") or "")
+        if kind.lower().startswith("gap"):   # "gap: no printed surface within 15 mm" names a gap, not a kind of retention
+            gap = True
+            note = "; ".join(x for x in (kind.split(":", 1)[1].strip() if ":" in kind else "", note) if x)
+            kind = next((str(v) for k, v in r.items() if k != "kind" and "kind" in k and v), "cable tie")
         nid = "tie-%03d" % n_
         line = tie_line if "tie" in kind and "mount" not in kind else (mount_line if "mount" in kind else ("27" if "printed" in kind else ""))
         cabs = r.get("cables") or []
-        gap = bool(r.get("gap"))
         man_nodes[nid] = dict(label="%s%s holding %s" % (kind[0].upper() + kind[1:], " (gap: no CAD feature)" if gap else "", ", ".join(cabs) or "cables"),
                               part="tie", file="(drawn)", link=hi["link"], sub=hi["sub"], category="tie", qty=1, material=None,
-                              bom=line or None, status="GAP" if gap else "OK", blockers=[], mount=str(r.get("note", "")),
+                              bom=line or None, status="GAP" if gap else "OK", blockers=[], mount=note,
                               v2=np.round(hi["v2"], 2).tolist(), host=hi["id"], gap=gap, kind=kind, cables=cabs)
         retention_out.append(dict(id=str(r.get("id", nid)), node=nid, kind=kind, cables=cabs, center=np.round(w, 2).tolist(),
                                   axis=[float(x) for x in (r.get("axis") or [1, 0, 0])], follow=hi["id"], gap=gap,
-                                  part=r.get("part"), note=r.get("note", "")))
+                                  part=r.get("part"), note=note))
         tie_rows.append(dict(kind=kind, line=line, node=nid, gap=gap))
     if retention_out:
         print("%d retention items (ties, mounts, guides) from cables3d.json" % len(retention_out))

@@ -23,7 +23,7 @@
   "dist_to_imu_mm": 52.7,
   "flat_face_support": 1.0,
   "score": 67.9,
-  "seat_fix": "2026-11-01 ET: 2.8 mm lower, onto the 1.1 mm VHB 4950 tape on the belly floor (viewer/MISSING_3D.md seat-fit table), and 7 mm toward +x: behind x -81 the floor rises at a 0.3 slope, so at x -71.5 the lowered box went 1.0 mm into it. Checked clear of the CAD parts, the hip yaw, hip roll and neck pitch sweeps (1 mm) and the cables3d routes. Was (-71.5, -0.5, -7.0)"
+  "seat_fix": "2026-11-01 ET: 2.8 mm lower, onto the 1.1 mm VHB 4950 tape on the belly floor (viewer/MISSING_3D.md seat-fit table), and 7 mm toward +x because the belly floor slopes up behind x -81 (0.3 slope): at x -71.5 the lowered box went 1.0 mm into it. The new seat is clear of the parts, the hip yaw, hip roll and neck pitch sweeps (1 mm) and the cables3d routes, and 57.7 mm from the IMU (was 52.7). Move accepted by the lead. Was (-71.5, -0.5, -7.0)"
  },
  {
   "id": "fuse_holder",
