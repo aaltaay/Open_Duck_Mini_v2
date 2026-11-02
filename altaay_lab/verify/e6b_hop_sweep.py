@@ -3,8 +3,11 @@
 
 Section 9 gates (read from TEST_PLAN.md): no servo under 4.5 V at any time, and no ankle under 6.0 V for more than 10 %
 of the walking time at nominal, counted in time (ngspice time steps weighted by their length; the 50 Hz phase range of
-a log locked to the control loop is shown next to it). Section 5 gate: the largest hop resistance per conductor it
-passes ("Gate: N mOhm per conductor").
+a log locked to the control loop is shown next to it). Section 5 bands (lead decision L3, DECISIONS.md D23 note): the
+pass gate, the largest hop resistance per conductor it passes ("Gate: N mOhm per conductor"), and the warn limit, the
+value over which a hop fails ("Fail: over M mOhm per conductor"); between them the build goes on and the walking log
+decides. At the pass gate every section 9 gate must hold (else FAIL). At the warn limit a servo under 4.5 V is a FAIL
+(the hard limit); time under 6 V over the section 9 gate is a WARN that gives the knee, head roll and ankle numbers.
 
 Model: sim/power_fix.py option "ab" (the as-built network that E6 checks through sim/power_path_sim.py topology
 "as_built": the option 3b network with every length and gauge from wiring/netlist.yaml, D15 star plus the D23 feeds
@@ -29,8 +32,8 @@ R = V.Result("E6b", "TEST_PLAN.md section 5 hop gate is enough for the section 9
              "VERIFY_OUT=<out> python3 altaay_lab/verify/e6b_hop_sweep.py",
              "As-built network (sim/power_fix.py option ab = 3b with the netlist lengths and gauges and the data-lead grounds); "
              "nominal pack, typical source resistances; hop = kit cable conductor + 2 contacts + servo board; both section 9 gates "
-             "(4.5 V at any time, ankle time under 6 V counted in time) per hop value and at the section 5 gate; trained mass "
-             "and our build traces; the section 5 'holds to about N mOhm' figure",
+             "(4.5 V at any time, time under 6 V counted in time) per hop value, at the section 5 pass gate and at its warn limit; "
+             "trained mass and our build traces; the section 5 'holds to about N mOhm' figure",
              "Real BEC dropout (TEST_PLAN.md section 4), real hop resistance (section 5), the high-side pack side (sections "
              "3.2 and 4.1 gate it), regenerative braking, bus capacitance")
 tp = open(V.lab("TEST_PLAN.md")).read()
@@ -44,6 +47,12 @@ if not g:
     R.write()
     sys.exit(0)
 gate = int(g.group(1)) / 1000.0
+wm = re.search(r"Fail: over (\d+) mOhm per conductor", s5)      # the warn band ends here (TEST_PLAN 5 bands, lead decision L3)
+warn = int(wm.group(1)) / 1000.0 if wm else None
+if warn is not None and warn <= gate:
+    R.find("FAIL", "TEST_PLAN.md section 5: the warn limit (%.0f mOhm) is not above the pass gate (%.0f mOhm)" % (warn * 1000, gate * 1000),
+           where="altaay_lab/TEST_PLAN.md section 5")
+    warn = None
 claim = re.search(r"holds to about (\d+) mOhm", s5)
 ga = re.search(r"no servo under ([0-9.]+) V at any time", s9)
 gb = re.search(r"no (ankle|servo) under ([0-9.]+) V for more than ([0-9.]+) %", s9)
@@ -70,17 +79,24 @@ import power_fix as PF  # noqa: E402
 on = "ab"
 nl = PF.net_len()
 feeds = sorted(fd["cable"] for fd in nl["feeds"].values())
-R.ev("TEST_PLAN.md section 5 gate: %.0f mOhm per conductor; section 9 gates: no servo under %.1f V, %s under 6.0 V at most %.0f %% "
-     "of the time; model: sim/power_fix.py option ab (as built), netlist %s sha256 %s, second feeds in the netlist: %s" % (
-         gate * 1000, vmin_gate, "every servo" if scope == "servo" else "ankle", ank_pct, nl["source"]["path"], nl["source"]["sha256_10"],
+R.ev("TEST_PLAN.md section 5 pass gate: %.0f mOhm per conductor%s; section 9 gates: no servo under %.1f V, %s under 6.0 V at most "
+     "%.0f %% of the time; model: sim/power_fix.py option ab (as built), netlist %s sha256 %s, second feeds in the netlist: %s" % (
+         gate * 1000, ", warn band to %.0f mOhm (fail over it)" % (warn * 1000) if warn else ", no warn band stated",
+         vmin_gate, "every servo" if scope == "servo" else "ankle", ank_pct, nl["source"]["path"], nl["source"]["sha256_10"],
          ", ".join(feeds) or "none"))
+if warn is None and not wm:
+    R.find("WARN", "TEST_PLAN.md section 5 states no warn limit ('Fail: over M mOhm per conductor'): only the pass gate is checked",
+           fix="write the three bands of lead decision L3 (DECISIONS.md D23 note)", where="altaay_lab/TEST_PLAN.md section 5")
 p0 = PF.params("typical", PF.OPTIONS[on])
 kit = sorted({mm for v in nl["hop_mm"].values() for mm in v})
 if len(kit) != 1:
     R.find("WARN", "kit hops of different cut lengths in the netlist (%s mm): the hop value below uses the first" % kit)
 fixed = PF.wire(p0["kit_awg"], kit[0]) + p0["R_servo_pcb"]           # hop without its 2 contacts
-points = [(0.0, "no contact resistance"), (0.005, "typical corner contacts"), (round((gate - fixed) / 2, 6), "the section 5 gate"),
+points = [(0.0, "no contact resistance"), (0.005, "typical corner contacts"), (round((gate - fixed) / 2, 6), "the section 5 pass gate"),
           (0.020, ""), (0.030, "")]
+if warn is not None:
+    points.append((round((warn - fixed) / 2, 6), "the section 5 warn limit"))
+points.sort()
 res = {}
 for rc, why in points:
     hop = fixed + 2 * rc
@@ -102,7 +118,8 @@ for rc, why in points:
         if "vmin" not in worst or r["worst_servo_V_min"] < worst["vmin"]:
             worst.update(vmin=r["worst_servo_V_min"], who=r["worst_servo"], who_tn=tn)
         if "any" not in worst or s6[anyk] > worst["any"]:
-            worst.update(any=s6[anyk], any_who=anyk, any_tn=tn)
+            worst.update(any=s6[anyk], any_who=anyk, any_tn=tn, any_knees=(s6["left_knee"], s6["right_knee"]),
+                         any_head=s6["head_roll"], any_ank=r["ankle_pct_below_6V"])
     res[hop] = worst
 hops = sorted(res)
 ok = [h for h in hops if res[h]["ank"] <= ank_pct]
@@ -116,11 +133,15 @@ if ok and bad and max(ok) < min(bad):
 elif not bad:
     R.ev("the ankle gate holds over the whole sweep (to %.1f mOhm per conductor)" % (max(hops) * 1000))
 at_gate = res[min(hops, key=lambda h: abs(h - gate))]
-R.key("as built (%s): ankle under 6 V at a nominal pack, worse trace: %s; at the %.0f mOhm gate %.1f %% (%s), worst servo of any kind "
-      "%s %.1f %%, lowest servo %.2f V" % (
+at_warn = res[min(hops, key=lambda h: abs(h - warn))] if warn is not None else None
+R.key("as built (%s): ankle under 6 V at a nominal pack, worse trace: %s; at the %.0f mOhm pass gate the ankle %.1f %% (%s), worst servo "
+      "of any kind %s %.1f %%, lowest servo %.2f V%s" % (
           "SP4 and SP5 in the netlist" if feeds else "no second feeds in the netlist",
-          ", ".join("%.0f mOhm %.1f%%" % (h * 1000, res[h]["ank"]) for h in hops), gate * 1000, at_gate["ank"], at_gate["tn"],
-          at_gate["any_who"].replace("_", " "), at_gate["any"], at_gate["vmin"]))
+          ", ".join("%.1f mOhm %.1f%%" % (h * 1000, res[h]["ank"]) for h in hops), gate * 1000, at_gate["ank"], at_gate["tn"],
+          at_gate["any_who"].replace("_", " "), at_gate["any"], at_gate["vmin"],
+          "; at the %.0f mOhm warn limit knees %.1f / %.1f %%, ankle %.1f %% (%s), lowest servo %.2f V" % (
+              warn * 1000, at_warn["any_knees"][0], at_warn["any_knees"][1], at_warn["any_ank"], at_warn["any_tn"], at_warn["vmin"])
+          if at_warn else ""))
 okA = [h for h in hops if res[h]["any"] <= ank_pct]
 badA = [h for h in hops if res[h]["any"] > ank_pct]
 estA = None
@@ -158,6 +179,30 @@ if at_gate["vmin"] < vmin_gate:
     R.find("FAIL", "at the section 5 gate (%.0f mOhm) a servo goes under %.1f V at a nominal pack (%s %.2f V, %s, as built)" % (
         gate * 1000, vmin_gate, at_gate["who"].replace("_", " "), at_gate["vmin"], at_gate["who_tn"]),
         fix="TEST_PLAN.md section 5: lower the gate", where="altaay_lab/TEST_PLAN.md sections 5 and 9")
+if at_gate["any"] <= ank_pct and at_gate["ank"] <= ank_pct and at_gate["vmin"] >= vmin_gate:
+    R.ev("at the section 5 pass gate (%.0f mOhm per conductor) every section 9 gate holds in sim: worst servo %s %.1f %% under 6 V "
+         "(%s), ankle %.1f %%, lowest servo %.2f V" % (gate * 1000, at_gate["any_who"].replace("_", " "), at_gate["any"], at_gate["any_tn"],
+                                                     at_gate["ank"], at_gate["vmin"]))
+if at_warn is not None:
+    # the warn band (lead decision L3): the build goes on and the walking log decides, so time under 6 V over the gate is a
+    # WARN with the numbers; the 4.5 V hard limit must still hold at the warn limit
+    if at_warn["vmin"] < vmin_gate:
+        R.find("FAIL", "at the section 5 warn limit (%.0f mOhm) a servo goes under %.1f V at a nominal pack (%s %.2f V, %s, as built): "
+               "the warn band must stay above the section 9 hard limit" % (
+                   warn * 1000, vmin_gate, at_warn["who"].replace("_", " "), at_warn["vmin"], at_warn["who_tn"]),
+               fix="TEST_PLAN.md section 5: lower the warn limit", where="altaay_lab/TEST_PLAN.md section 5")
+    if at_warn["any"] > ank_pct or at_warn["ank"] > ank_pct:
+        R.find("WARN", "TEST_PLAN.md section 5 warn band (over %.0f up to %.0f mOhm per conductor): at %.0f mOhm the knees are under "
+               "6.0 V for %.1f / %.1f %% of the walk (left / right), the head roll %.1f %% and the ankles %.1f %% (%s, as built, nominal "
+               "pack, typical pack side), over the section 9 gate of %.0f %%; lowest servo %.2f V, above %.1f V. A hop in this band "
+               "goes on to the walking log, which decides (lead decision L3)" % (
+                   gate * 1000, warn * 1000, warn * 1000, at_warn["any_knees"][0], at_warn["any_knees"][1], at_warn["any_head"],
+                   at_warn["any_ank"], at_warn["any_tn"], ank_pct, at_warn["vmin"], vmin_gate),
+               fix="if section 5 reads in the warn band: make the 3S plan (sim/POWER_FIX.md option 6) ready for Ahmed before the "
+                   "walking log (TEST_PLAN.md sections 5 and 9, DECISIONS.md D23 note L3)",
+               where="altaay_lab/TEST_PLAN.md sections 5 and 9")
+    else:
+        R.ev("at the section 5 warn limit (%.0f mOhm per conductor) every section 9 gate still holds in sim" % (warn * 1000))
 if claim and est is not None and abs(int(claim.group(1)) - est * 1000) > 10:
     R.find("WARN", "TEST_PLAN.md section 5 says the ankle gate holds to about %s mOhm per conductor; with the as-built wiring this sweep "
            "gives about %.0f mOhm (worse trace, typical pack side)" % (claim.group(1), est * 1000),

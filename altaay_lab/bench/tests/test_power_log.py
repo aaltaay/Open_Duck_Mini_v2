@@ -287,7 +287,7 @@ def test_analyze_gates():
     worse = _rows(lambda i, k: 5.8 if (i == 14 and k % 4 == 0) else 6.6)
     assert _status(worse, feeds="d23")[0]["9.wiring"] == "FAIL"
     assert _status(worse, feeds="none")[0]["9.wiring"] == "PASS"
-    # as built, the head roll (high-side corner 33.4 %) and the knees (30.9 %) are compared too
+    # as built, the head roll (high-side corner 33.5 %) and the knees (31.1 %) are compared too
     head = _rows(lambda i, k: 5.8 if (i == 33 and k % 2 == 0) else 6.6)
     st, rep = _status(head, feeds="d23")
     w = [x for x in rep.items if x["item"] == "9.wiring"][0]

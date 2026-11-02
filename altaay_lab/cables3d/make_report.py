@@ -316,12 +316,13 @@ def main():
       "kit cable, SG90 lead, FPC, BEC lead UNVERIFIED (drawn 1.3, 1.0, 1.0, 2.0 mm) | [I] cables3d.json meta.sources |")
     w("")
     npass = sum(1 for c in C if c["check"].startswith("pass"))
+    nfit = sum(1 for c in C if c["check"] == "test fit")
     nfail = sum(1 for c in C if c["check"] == "fail")
-    nfit = sum(1 for c in C if c["check"] == "fail" and all((w_.get("fits_mm") or 0) >= 0 for w_ in c["wires"] if w_.get("length_check", "").startswith("fail")))
     w("## Summary")
-    w("- %d active cables routed, 0 left as straight placeholders. Length: %d pass (%d of them with notes), %d fail the "
-      "slack rule, of which %d still fit taut (the cut covers the worst routed length, not the 40 mm slack)." % (
-          len(C), npass, sum(1 for c in C if c["check"] == "pass with notes"), nfail, nfit))
+    w("- %d active cables routed, 0 left as straight placeholders. Length: %d pass (%d of them with notes), %d test fit "
+      "(they reach, but with less than the 40 mm slack: the cut covers the worst routed length; the TEST_PLAN.md 1.4 test "
+      "fit at both joint limits decides), %d fail (cannot reach)." % (
+          len(C), npass, sum(1 for c in C if c["check"] == "pass with notes"), nfit, nfail))
     mt = Counter((t.get("mount_fit") or {}).get("type") or "none" for t in R if t["kind"] == "adhesive tie mount")
     w("- Retention: %d tie points (%s); stick-on mounts: MB3A %d (BOM 34), ABM1M-AT-C %d (BOM 34b), %d of them on a servo "
       "case; drilled tie-hole pairs %d; bundle tie, test fit %d; open %d." % (

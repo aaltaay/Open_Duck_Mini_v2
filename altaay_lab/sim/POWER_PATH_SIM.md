@@ -1,6 +1,6 @@
 # Power path circuit simulation (ngspice, sim pass only)
 
-Run 2026-11-01 (America/New_York) in this session's container with ngspice 42. Star rows and D23 rows added 2026-11-02 from sim/POWER_FIX.md (agent PW). As-built section added 2026-11-02 about 2:05 AM ET by agent PWR (power path); the checks E6, E6b and C7 now run that case. Script: sim/power_path_sim.py. Inputs: per-servo traces from sim/current_budget.py (backlash model walk and the push run, accelerometer bias removed, see SIM_WALK.md note) and, for our build, from sim/added_mass_sim.py at the sim/MASS_BUDGET.md mass (the verify/c8_policy_mass.py run). Outputs (JSON) stayed in the session scratch folder, not in git and not yet on F:.
+Run 2026-11-01 (America/New_York) in this session's container with ngspice 42. Star rows and D23 rows added 2026-11-02 from sim/POWER_FIX.md (agent PW). As-built section added 2026-11-02 about 2:05 AM ET by agent PWR (power path); the checks E6, E6b and C7 now run that case. As-built numbers run again 2026-11-02 6:01 to 6:02 AM ET by agent SFX on the netlist after agent CAB's later cut changes (sha256 0f4af5bff3; SP4 and SP5 10 mm longer for the D25 twist take-up): the as-built tables, gates, currents and the figure below come from that run (traces of the E5 and C8 runs of the same morning). Script: sim/power_path_sim.py. Inputs: per-servo traces from sim/current_budget.py (backlash model walk and the push run, accelerometer bias removed, see SIM_WALK.md note) and, for our build, from sim/added_mass_sim.py at the sim/MASS_BUDGET.md mass (the verify/c8_policy_mass.py run). Outputs (JSON) stayed in the session scratch folder, not in git and not yet on F:.
 
 Why: the lab rule is that electricity is checked before parts are bought or printed. A block diagram cannot show how far the voltage falls at the last servo of a daisy chain during a knee current peak. This model can.
 
@@ -10,7 +10,7 @@ This is the robot as it will be wired now, and the case VERIFICATION.md E6, E6b 
 
 How it is modelled:
 - sim/power_path_sim.py topology `as_built` (its default) reads every length and gauge of the power path from wiring/netlist.yaml when it runs, and runs sim/power_fix.py option `ab`: the option 3b network of POWER_FIX.md (D23) with those values. One model of the D23 wiring, not two: given the study's lengths, option ab gives the 3b numbers to the third decimal.
-- Netlist read for the numbers below: sha256 44c0e8ea30, saved 2026-11-02 2:05 AM ET (agent CAB cut the P7 line piece to 30 mm, the SP ground tails to 30 mm and the SD1 ground stem to 45 mm at 1:59 AM ET during this run; the 2:05 AM change, SD1 branch b data 170 mm, carries no servo current). Values used: P1 and P2 16 AWG 120 mm; P6 150 mm; P7 250 mm (30 + 90 + 90 + 40, the fuse holder leads included); P8 150 mm; P14 140 mm and P9 90 mm (the earlier models left both out); P10 150 mm; P13 20 AWG 550 mm; P11 16 AWG 100 mm plus the two BEC leads (as shipped; gauge and length not published, so 2 x 22 AWG x 100 mm in parallel, ASSUMPTION as before); SP1 and SP2 22 AWG 150 mm, SP3 180 mm (grounds 130, 130 and 160 mm to JG20, JG10 and JG30, then a 30 mm tail to the housing); SP4 22 AWG 390 mm to BUS 1 of ID 24 and SP5 420 mm to BUS 1 of ID 14 (V and G); kit hops 150 mm each.
+- Netlist read for the numbers below: sha256 0f4af5bff3, file time 2026-11-02 3:38 AM ET (agent CAB's D25 pass: SP4 and SP5 V and G 10 mm longer for the twist take-up, D10 to 220 mm; the first as-built run read sha256 44c0e8ea30 of 2:05 AM ET, with the P7 line piece at 30 mm, the SP ground tails at 30 mm and the SD1 ground stem at 45 mm already in). Values used: P1 and P2 16 AWG 120 mm; P6 150 mm; P7 250 mm (30 + 90 + 90 + 40, the fuse holder leads included); P8 150 mm; P14 140 mm and P9 90 mm (the earlier models left both out); P10 150 mm; P13 20 AWG 550 mm; P11 16 AWG 100 mm plus the two BEC leads (as shipped; gauge and length not published, so 2 x 22 AWG x 100 mm in parallel, ASSUMPTION as before); SP1 and SP2 22 AWG 150 mm, SP3 180 mm (grounds 130, 130 and 160 mm to JG20, JG10 and JG30, then a 30 mm tail to the housing); SP4 22 AWG 400 mm to BUS 1 of ID 24 and SP5 430 mm to BUS 1 of ID 14 (V and G); kit hops 150 mm each.
 - Each leg chain is a loop: SP1 (SP2) feeds BUS 2 of the hip yaw servo, SP4 (SP5) feeds BUS 1 of the ankle. The neck chain has only SP3.
 - Ground side as wired: the SP grounds through JG20, JG10 and JG30; the D15 data-lead grounds SD1 (stem 45 mm, branches 120 and 140 mm) and SD2 (140 mm), the adapter copper, and the USB cable ground to the Pi (0.25 ohm, ASSUMPTION from POWER_FIX.md) with P12 to the regulator ground. Solder splices count as 0 ohm.
 - Everything else as in "What is modelled" further down: cells, holder, BMS, fuse, switch, BEC (7.2 V, 0.3 V dropout, 0.85 efficiency), contacts, kit cable gauge, servo boards, the servo load model and the two resistance corners.
@@ -24,21 +24,22 @@ Time under a voltage is counted in time (ngspice time steps weighted by their le
 |---|---|---|---|---|---|---|---|---|
 | full (8.4 V), high-side | trained mass (E5) | 7.72 V | 7.17 V | 5.2 / 11.2 / 5.53 A | left knee 5.91 V (6.95 V) | 0.0 % (50 Hz: 0.0 to 0.0 %) | 0.2 / 0.0 %, 0.0 % | 0 ms |
 | full (8.4 V), typical | trained mass (E5) | 7.89 V | 7.20 V | 5.1 / 11.3 / 5.43 A | left knee 6.52 V (7.07 V) | 0.0 % (50 Hz: 0.0 to 0.0 %) | 0.0 / 0.0 %, 0.0 % | 0 ms |
-| nominal (7.4 V), high-side | trained mass (E5) | 6.69 V | 6.37 V | 5.5 / 10.7 / 5.76 A | head roll 4.88 V (6.11 V) | 19.3 % (50 Hz: 10.4 to 33.7 %) | 27.7 / 27.8 %, 32.6 % | 0 ms |
-| nominal (7.4 V), typical | trained mass (E5) | 6.86 V | 6.54 V | 5.5 / 11.1 / 5.74 A | left knee 5.58 V (6.42 V) | 4.7 % (50 Hz: 0.0 to 14.7 %) | 5.6 / 7.8 %, 5.1 % | 0 ms |
+| nominal (7.4 V), high-side | trained mass (E5) | 6.69 V | 6.37 V | 5.5 / 10.7 / 5.76 A | head roll 4.88 V (6.11 V) | 19.3 % (50 Hz: 10.7 to 33.7 %) | 27.8 / 27.9 %, 32.6 % | 0 ms |
+| nominal (7.4 V), typical | trained mass (E5) | 6.86 V | 6.54 V | 5.5 / 11.1 / 5.74 A | left knee 5.58 V (6.42 V) | 4.8 % (50 Hz: 0.0 to 14.7 %) | 5.6 / 7.9 %, 5.1 % | 0 ms |
 | low (6.6 V), high-side | trained mass (E5) | 5.87 V | 5.55 V | 5.7 / 10.5 / 5.91 A | head roll 4.19 V (5.26 V) | 100.0 % (50 Hz: 100.0 to 100.0 %) | 100.0 / 100.0 %, 100.0 % | 125 ms |
 | low (6.6 V), typical | trained mass (E5) | 6.04 V | 5.72 V | 5.6 / 10.7 / 5.89 A | right knee 4.82 V (5.59 V) | 100.0 % (50 Hz: 98.7 to 100.0 %) | 100.0 / 99.9 %, 100.0 % | 0 ms |
 | fall after a push, low (6.6 V), high-side (3 s) | trained mass (E5) | 6.05 V | 5.74 V | 4.2 / 11.6 / 4.50 A | head roll 3.99 V (5.57 V) | 97.3 % (50 Hz: 96.7 to 98.7 %) | 98.4 / 97.8 %, 100.0 % | 37 ms |
-| full (8.4 V), high-side | our build (C8) | 7.70 V | 7.16 V | 5.4 / 10.9 / 5.70 A | left knee 5.96 V (6.94 V) | 0.0 % (50 Hz: 0.0 to 0.0 %) | 0.2 / 0.0 %, 0.0 % | 0 ms |
-| full (8.4 V), typical | our build (C8) | 7.87 V | 7.20 V | 5.3 / 11.0 / 5.60 A | left knee 6.57 V (7.07 V) | 0.0 % (50 Hz: 0.0 to 0.0 %) | 0.0 / 0.0 %, 0.0 % | 0 ms |
-| nominal (7.4 V), high-side | our build (C8) | 6.67 V | 6.35 V | 5.7 / 10.5 / 5.92 A | head roll 4.88 V (6.09 V) | 21.4 % (50 Hz: 11.4 to 37.3 %) | 30.9 / 30.4 %, 33.4 % | 0 ms |
-| nominal (7.4 V), typical | our build (C8) | 6.84 V | 6.52 V | 5.6 / 10.9 / 5.90 A | left knee 5.61 V (6.39 V) | 6.2 % (50 Hz: 0.0 to 18.0 %) | 6.2 / 9.6 %, 6.9 % | 0 ms |
-| low (6.6 V), high-side | our build (C8) | 5.85 V | 5.53 V | 5.8 / 10.1 / 6.02 A | head roll 4.09 V (5.25 V) | 100.0 % (50 Hz: 100.0 to 100.0 %) | 100.0 / 100.0 %, 100.0 % | 211 ms |
-| low (6.6 V), typical | our build (C8) | 6.02 V | 5.71 V | 5.8 / 10.4 / 6.02 A | head roll 4.86 V (5.57 V) | 100.0 % (50 Hz: 100.0 to 100.0 %) | 100.0 / 100.0 %, 100.0 % | 0 ms |
+| full (8.4 V), high-side | our build (C8) | 7.70 V | 7.16 V | 5.4 / 11.0 / 5.71 A | left knee 5.95 V (6.94 V) | 0.0 % (50 Hz: 0.0 to 0.0 %) | 0.2 / 0.0 %, 0.1 % | 0 ms |
+| full (8.4 V), typical | our build (C8) | 7.87 V | 7.20 V | 5.3 / 11.1 / 5.61 A | left knee 6.55 V (7.07 V) | 0.0 % (50 Hz: 0.0 to 0.0 %) | 0.0 / 0.0 %, 0.0 % | 0 ms |
+| nominal (7.4 V), high-side | our build (C8) | 6.67 V | 6.35 V | 5.7 / 10.5 / 5.93 A | head roll 4.91 V (6.08 V) | 21.4 % (50 Hz: 11.4 to 37.0 %) | 31.1 / 30.6 %, 33.5 % | 0 ms |
+| nominal (7.4 V), typical | our build (C8) | 6.84 V | 6.52 V | 5.7 / 10.9 / 5.91 A | left knee 5.61 V (6.39 V) | 6.4 % (50 Hz: 0.0 to 18.3 %) | 6.4 / 9.8 %, 6.8 % | 0 ms |
+| low (6.6 V), high-side | our build (C8) | 5.85 V | 5.53 V | 5.8 / 10.2 / 6.04 A | head roll 4.07 V (5.25 V) | 100.0 % (50 Hz: 100.0 to 100.0 %) | 100.0 / 100.0 %, 100.0 % | 210 ms |
+| low (6.6 V), typical | our build (C8) | 6.02 V | 5.70 V | 5.8 / 10.5 / 6.04 A | head roll 4.87 V (5.56 V) | 100.0 % (50 Hz: 100.0 to 100.0 %) | 100.0 / 100.0 %, 100.0 % | 0 ms |
 
 TEST_PLAN.md section 9 gates on the sim, worse of the two traces:
 - No servo under 4.5 V at full or nominal pack: met in both corners (lowest 4.88 V, head roll, nominal, high-side).
-- No ankle under 6.0 V for more than 10 % at nominal, counted in time: met in the typical corner (4.7 % trained mass, 6.2 % our build), missed in the high-side corner (19.3 %, 21.4 %). A 50 Hz log locked to the control loop would read 0 to 18 % (typical) and 10 to 37 % (high-side) for the same walks.
+- No ankle under 6.0 V for more than 10 % at nominal, counted in time: met in the typical corner (4.8 % trained mass, 6.4 % our build), missed in the high-side corner (19.3 %, 21.4 %). A 50 Hz log locked to the control loop would read 0 to 18 % (typical) and 11 to 37 % (high-side) for the same walks.
+- No servo under 6.0 V for more than 10 % at nominal (TEST_PLAN 9 times every servo since lead decision L1): met in the typical corner only just (right knee 9.8 %, our build; 7.9 % trained mass), missed in the high-side corner (head roll 33.5 %).
 - At the low pack (6.6 V open circuit) every servo is under 6 V nearly all the time because the BEC passes its input through; the battery guard (D16, bench/battery_guard.py) stops walking before that.
 
 ### Lowest servo per chain, before and after (nominal pack)
@@ -48,23 +49,23 @@ Before: the D15 star as E6 checked it until now (sim/power_path_sim.py topology 
 | Case | Left leg: lowest servo; most time under 6.0 V | Right leg | Neck and head | Pack RMS |
 |---|---|---|---|---|
 | Before, typical | ankle 5.09 V; ankle 21.3 % | ankle 5.04 V; ankle 20.5 % | head roll 5.72 V; head roll 3.8 % | 5.71 A |
-| As built, typical, trained mass | knee 5.58 V; knee 5.6 % | knee 5.70 V; knee 7.8 % | head roll 5.64 V; head roll 5.1 % | 5.74 A |
-| As built, typical, our build | knee 5.61 V; knee 6.2 % | knee 5.73 V; knee 9.6 % | head roll 5.72 V; head roll 6.9 % | 5.90 A |
+| As built, typical, trained mass | knee 5.58 V; knee 5.6 % | knee 5.70 V; knee 7.9 % | head roll 5.64 V; head roll 5.1 % | 5.74 A |
+| As built, typical, our build | knee 5.61 V; knee 6.4 % | knee 5.72 V; knee 9.8 % | head roll 5.70 V; head roll 6.8 % | 5.91 A |
 | Before, high-side | ankle 3.85 V; ankle 62.6 % | ankle 3.44 V; ankle 62.1 % | head roll 5.00 V; head roll 29.0 % | 5.66 A |
-| As built, high-side, trained mass | knee 5.04 V; knee 27.7 % | knee 5.03 V; knee 27.8 % | head roll 4.88 V; head roll 32.6 % | 5.76 A |
-| As built, high-side, our build | knee 5.09 V; knee 30.9 % | knee 5.15 V; knee 30.4 % | head roll 4.88 V; head roll 33.4 % | 5.92 A |
+| As built, high-side, trained mass | knee 5.04 V; knee 27.8 % | knee 5.02 V; knee 27.9 % | head roll 4.88 V; head roll 32.6 % | 5.76 A |
+| As built, high-side, our build | knee 5.08 V; knee 31.1 % | knee 5.14 V; knee 30.6 % | head roll 4.91 V; head roll 33.5 % | 5.93 A |
 
 What this means:
-1. SP4 and SP5 do what D23 wanted for the ankles: in the typical corner the ankle time under 6 V falls from about 21 % to 5 to 6 %, and in the high-side corner the lowest leg servo rises from 3.44 V to 5.03 V.
-2. The ankle is no longer the low point of a leg. The knee, farthest from both feeds, is now the lowest leg servo (5.58 V typical), and in the typical corner the right knee is under 6 V for 7.8 to 9.6 % of the walk, close to the 10 % the gate allows the ankles. TEST_PLAN 9 times only the ankles, while its log has all 14 servos: the gate should time the knees and the head roll too. With a 40 mOhm hop (the section 5 gate) the right knee reaches 13.1 %; every servo stays under 10 % only up to about 29 mOhm per conductor, against 27.6 mOhm in the typical corner (E6b).
+1. SP4 and SP5 do what D23 wanted for the ankles: in the typical corner the ankle time under 6 V falls from about 21 % to 5 to 6 %, and in the high-side corner the lowest leg servo rises from 3.44 V to 5.02 V.
+2. The ankle is no longer the low point of a leg. The knee, farthest from both feeds, is now the lowest leg servo (5.58 V typical), and in the typical corner the right knee is under 6 V for 7.9 to 9.8 % of the walk, just under the 10 % gate. TEST_PLAN 9 times every servo (lead decision L1). With a 40 mOhm hop the right knee reaches 13.4 %; every servo stays under 10 % up to 28 mOhm per conductor (right knee 9.9 %) and not at 29 mOhm (10.2 %) in E6b's model, against 27.6 mOhm in the typical corner. So TEST_PLAN 5 passes a hop up to 28 mOhm and warns from 28 to 40 mOhm (lead decision L3, DECISIONS.md D23 note).
 3. The neck chain has no second feed and gets a little worse than before (head roll 5.64 V typical, 4.88 V high-side, the lowest servo of the robot in that corner): the legs draw more power from a stiffer supply, and the pack side as cut (P9, P14 and the longer P6 and P7) adds about 4.5 mOhm. It stays above 4.5 V in both corners.
 4. The high-side corner still misses the ankle gate (19 to 21 %), as POWER_FIX.md found for 3b: at nominal charge the BEC is in dropout. The bench gates (TEST_PLAN 3.2, 4.1 and 5) keep the robot out of that corner; the 3S plan (POWER_FIX.md option 6+3b, held by D23) passes it.
 
 ### Currents in the parts (as built)
 
-- Pack (cells, BMS, XT30, fuse and the Pololu 2815): RMS while walking 5.43 to 5.76 A (trained mass) and 5.60 to 5.92 A (our build) at full and nominal; 5.89 to 6.02 A at the low pack, past the battery guard; mean up to 5.66 A, worst 100 ms 7.04 A, 2 ms maximum 11.6 A (fall after a push). The Pololu 2815 is rated 6.0 A continuous with its MOSFETs at 55 C and 16 A at 150 C, at 12 V, 22 C ambient, still air (https://www.pololu.com/product/2815, read 2026-11-02 1:32 AM ET): our build at nominal is at 99 % of the 55 C point. C7 warns and points to the TEST_PLAN 4.2 heat check (10 minutes at 6.0 A on its seat, board under 50 C; over 50 C a second 2815 in parallel).
-- BEC: output RMS up to 4.51 A walking (15 A continuous rating with air), peak 9.4 A in the fall (20 A peak rating); 2.26 A RMS per output lead against 5 A.
-- First leads and feeds (ngspice, our build, nominal, mean / worst 100 ms / peak, worse corner): SP1 0.75 / 1.17 / 2.37 A, SP4 1.00 / 1.47 / 2.97 A, SP2 0.77 / 1.10 / 2.10 A, SP5 1.05 / 1.54 / 3.07 A, SP3 0.83 / 1.40 / 3.79 A. In the star wiring SP1 and SP2 carried a whole leg (worst 100 ms up to 4.03 A in C7).
+- Pack (cells, BMS, XT30, fuse and the Pololu 2815): RMS while walking 5.43 to 5.76 A (trained mass) and 5.61 to 5.93 A (our build) at full and nominal; 5.89 to 6.04 A at the low pack, past the battery guard; mean up to 5.68 A, worst 100 ms 7.03 A, 2 ms maximum 11.6 A (fall after a push). The Pololu 2815 is rated 6.0 A continuous with its MOSFETs at 55 C and 16 A at 150 C, at 12 V, 22 C ambient, still air (https://www.pololu.com/product/2815, read 2026-11-02 1:32 AM ET): our build at nominal is at 99 % of the 55 C point. C7 warns and points to the TEST_PLAN 4.2 heat check (10 minutes at 6.0 A on its seat, board under 50 C; over 50 C a second 2815 in parallel).
+- BEC: output RMS up to 4.53 A walking (15 A continuous rating with air), peak 9.4 A in the fall (20 A peak rating); 2.26 A RMS per output lead against 5 A.
+- First leads and feeds (ngspice, our build, nominal, mean / worst 100 ms / peak, worse corner): SP1 0.76 / 1.18 / 2.39 A, SP4 1.00 / 1.47 / 2.98 A, SP2 0.77 / 1.08 / 2.12 A, SP5 1.05 / 1.54 / 3.08 A, SP3 0.83 / 1.42 / 3.68 A. In the star wiring SP1 and SP2 carried a whole leg (worst 100 ms up to 4.03 A in C7).
 - Kit hops (C7: five walks at 6.0 V currents, both corners): worst 100 ms 2.10 A (S7) against 2.2 A for 26 AWG, the smallest plausible kit gauge; in the star wiring six hops were over it (S7 3.91 A). No 5264 contact goes over 3 A in the worst 100 ms (four did in the star wiring).
 - Return current through the adapter (D15 data-lead grounds): 0.15 A worst 100 ms in ngspice, 0.35 A in C7's split at 6.0 V currents over five walks; harmless against the adapter's MAX:6A header and the 3 A contacts.
 
@@ -82,7 +83,9 @@ Same network, different inputs. Trained mass, nominal pack, one input changed at
 | + SP ground tails 30 mm | 5.70 V, 4.8 % | 5.33 V, 19.3 % | left knee 5.58 V / head roll 4.87 V |
 | + data-lead grounds = as built | 5.70 V, 4.7 % | 5.33 V, 19.3 % | left knee 5.58 V / head roll 4.88 V |
 
-POWER_FIX.md's 3b row (5.72 / 5.35 V; 5.8 / 20.5 %) is the worse of the trained mass and its 2.77 kg build (before D22); for our 2.65 kg build the as-built table above gives 6.2 / 21.4 %.
+These steps ran on the netlist of 2:05 AM ET. On today's netlist (SP4 400 mm, SP5 430 mm) the last row reads 5.70 V, 4.8 % | 5.33 V, 19.3 % | left knee 5.58 V / head roll 4.88 V (the as-built table above).
+
+POWER_FIX.md's 3b row (5.72 / 5.35 V; 5.8 / 20.5 %) is the worse of the trained mass and its 2.77 kg build (before D22); for our 2.65 kg build the as-built table above gives 6.4 / 21.4 %.
 
 ![as built](odm_v2_power_path_voltages.png)
 

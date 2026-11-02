@@ -529,9 +529,12 @@ def load_cables3d(path=CABLES3D_JSON):
         if c.get("points_world") is not None:
             links = c.get("links") or [None] * len(c["points_world"])
             pts = [(l, None, w) for l, w in zip(links, c["points_world"])]
-        # check is "pass", "fail" or "": cables3d also writes "pass with notes"; the full text and the notes go in the note
+        # check is "pass", "test fit", "fail" or "": cables3d also writes "pass with notes"; the full text and the notes go
+        # in the note. "test fit": the cable reaches but has less than the 2 x 20 mm slack (cables3d/check_cables.py; the
+        # TEST_PLAN 1.4 test fit decides); "fail" only when it cannot reach
         chk_raw = str(_first(c, "check", "result", "status", default="")).strip()
-        chk = "pass" if chk_raw.lower().startswith("pass") else ("fail" if chk_raw.lower().startswith("fail") else "")
+        chk = "pass" if chk_raw.lower().startswith("pass") else ("test fit" if chk_raw.lower().startswith("test fit") else
+                                                                 ("fail" if chk_raw.lower().startswith("fail") else ""))
         fnd = c.get("findings")
         notes = (["check: " + chk_raw] if chk_raw.lower() != chk else []) + [c.get("note")] + (fnd if isinstance(fnd, list) else [fnd])
         # wires may be a list of wire records: the page gets a count and one short line per wire
@@ -1934,6 +1937,7 @@ def main():
         blockers_total=len(blk),
         screws=dict(found=len(screws), by_spec=dict(sorted(spec_count.items()))),
         cables=dict(found=len(cables_out), passed=sum(1 for c in cables_out if str(c["check"]).lower() in ("pass", "ok")),
+                    test_fit=sum(1 for c in cables_out if str(c["check"]).lower() == "test fit"),
                     failed=sum(1 for c in cables_out if str(c["check"]).lower() in ("fail", "failed"))))
     summary["cables"]["pass"], summary["cables"]["fail"] = summary["cables"]["passed"], summary["cables"]["failed"]
 

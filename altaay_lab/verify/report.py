@@ -16,33 +16,36 @@ import vlib as V  # noqa: E402
 
 ORDER = ["E1", "E2", "E3", "E4", "E5", "E6", "E6b", "E7", "E8", "E9", "C1", "C2", "C3", "C4a", "C4b", "C5", "C6", "C7", "C8", "C9", "C10", "C11"]
 
-RUN_NOTES = [  # dated observations that a single run cannot show (agent INT, integration pass, 2026-11-02)
-    "Run 2026-11-02 by agent INT (integration pass) for the lead, after the PRT, PWR, SW and CAB jobs and their texts in the docs "
-    "(DECISIONS.md D25 and the D21 and D23 notes, TEST_PLAN.md 1.3, 1.4, 4.2, 5, 8.2b and 9, HARDWARE_AUDIT.md B14 and B35, BOM.md "
-    "test order line TO17), with blueprint/make_scene_extras.py and make_viewer_data.py --write-bom run again first. This page "
-    "comes from one full run, 5:22 to 5:35 AM ET; C4, C6, C7, C8, C9, E6 and E6b ran again 5:37 to 5:41 AM ET after the last doc edits (C9 once more at 5:44 AM ET after the STATE.md date line) "
-    "(TEST_PLAN.md 5 and 8.2a numbers from this run, STATE.md), with the same results. The input table at the end gives the time "
-    "of every file read.",
-    "Changed for this run (verify/): run_all.sh runs c8 right after e5, so E6 and C7 also get our build's traces; c7 cites the "
-    "Molex catalog page MX01 B-101 for the 3.0 A contact rating at 22 AWG. viewer/make_viewer_data.py reads the D22 print grams "
-    "from print/SLICE_SUMMARY.md (1280.3 g for the robot set; PRINT_CHECK.md's 1409.0 g is from before D22) and counts the "
-    "stick-on mounts by type (BOM 34 and 34b); blueprint/make_scene_extras.py writes two 0.3 mm washers per eye screw and the "
-    "SP4 and SP5 housings.",
-    "The two FAILs are known and are not doc errors. E6b: TEST_PLAN 9 now times every servo (lead decision L1, DECISIONS.md D23 "
-    "note) and the section 5 hop gate stays 40 mOhm per conductor, the fix-before-assembly gate, so a hop between about 28 and "
-    "40 mOhm passes section 5 and fails section 9 in sim; closing it is a decision (a 28 mOhm gate on 2S, or the 3S plan of "
-    "sim/POWER_FIX.md option 6). C8: sim/mass_budget.py on today's netlist gives 2652.8 g (MASS_BUDGET.md says 2651.9 g; +0.9 g "
-    "of wire from the D25 cut changes), and the single 15 N pushes run of that model tracks 0.618 of the command against 0.63 in "
-    "print/MASS_STUDY.md variant (c), 0.0118 apart against the check's 0.011 (0.628 on the 2.6519 kg model in the runs of 1:08 "
-    "and 2:01 AM ET); 0 falls in 36 runs, and the 6 seeded pushes runs give 0.621 mean as before. A mass budget re-run and the "
-    "walk doc belong to the sim owner.",
-    "E6 and C7 now check the robot as wired: D15 plus the D23 feeds SP4 and SP5, every length and gauge read from "
-    "wiring/netlist.yaml at run time (sim/power_path_sim.py topology as_built, which runs sim/power_fix.py option ab, the 3b "
-    "network with the netlist values and the data-lead grounds), on the trained-mass (E5) and our-build (C8) traces; E6b sweeps "
-    "the hop on the same network. The star rows of POWER_PATH_SIM.md are history. E8 passed in this run (63 tests; the race "
-    "test failed 0 of 4 runs); agent SW ran the whole suite 10 times, every second run under load, 10 of 10 passed. C3 judges "
-    "lengths by chain through floating splices (as check_cables.py), with the twist take-up of the twisted cables, recomputes "
-    "the joint loops between the real ties from robot.urdf and reports what holds every tie point (D25; agent CAB, 2026-11-02).",
+RUN_NOTES = [  # dated observations that a single run cannot show (agent SFX, last fixes for PR 6, 2026-11-02)
+    "Run 2026-11-02 by agent SFX for the lead, the last full run for PR 6, after the C8 and E6b fixes (sim/MASS_BUDGET.md and "
+    "the print/MASS_STUDY.md (c) walk re-run on today's model; TEST_PLAN.md section 5 in three bands, lead decision L3), the "
+    "as-built power path re-run (sim/POWER_PATH_SIM.md) and the cable 'test fit' label (cables3d/check_cables.py; viewer data "
+    "and BOM_FULL rebuilt). This page comes from one full run, 6:19 to 6:32 AM ET (VERIFY_OUT in the agent's scratch folder, "
+    "ODM_TEST_PYTHON as in the integration run); C9 ran again at 6:33 AM ET after the STATE.md and START_HERE.md lines with "
+    "these counts, and C4 and C6 at 6:35 AM ET and C8, E6, C7 and E6b in full at 6:36 to 6:40 AM ET after the time stamps in "
+    "the agent's dated doc lines were set to the real edit times, with the same results. The input table at the end gives "
+    "the time of every file read.",
+    "Changed for this run (verify/): e6b_hop_sweep.py reads the TEST_PLAN.md section 5 bands of lead decision L3 (DECISIONS.md "
+    "D23 note): at the pass gate ('Gate: 28 mOhm per conductor') every section 9 gate must hold, else FAIL; at the warn limit "
+    "('Fail: over 40 mOhm per conductor') time under 6 V over the gate is a WARN with the knee, head roll and ankle numbers, "
+    "and a servo under 4.5 V a FAIL. report.py: these notes and the section 4 and 5 hardware rows. No check was loosened: C8 "
+    "still compares with 0.011, and E6b's gates are those of TEST_PLAN.md section 9.",
+    "Why the 2 FAILs of the integration run are gone. C8: its doc is current again. sim/mass_budget.py gives 2652.8 g "
+    "(MASS_BUDGET.md updated; +0.9 g of wire from agent CAB's later cut changes) and the (c) walk of print/MASS_STUDY.md was "
+    "re-run with mass_study.py walk on that model (the slice table of print/SLICE_SUMMARY.md, the D22 print as adopted). "
+    "Against the study's run the nominal runs moved by 0.004 or less, pushes by 0.013 (0.631 to 0.618); with the study's own "
+    "slice table (0.01 g more on one part) the same script gives 0.626, and the 6 seeded pushes runs span 0.614 to 0.629: "
+    "run-to-run noise, 0 falls on flat ground. E6b: TEST_PLAN 5 now passes a hop only up to 28 mOhm per conductor, the largest "
+    "whole value at which every servo meets section 9 in sim (our build: right knee 9.9 % under 6 V at 28 mOhm, 10.2 % at 29); "
+    "at the 40 mOhm warn limit the right knee is under 6 V for 13.4 % of the walk (WARN: the walking log decides and the 3S "
+    "plan is made ready).",
+    "E6 and C7 check the robot as wired: D15 plus the D23 feeds SP4 and SP5, every length and gauge read from "
+    "wiring/netlist.yaml at run time (sim/power_path_sim.py topology as_built, which runs sim/power_fix.py option ab), on the "
+    "trained-mass (E5) and our-build (C8) traces; E6b sweeps the hop on the same network. sim/POWER_PATH_SIM.md 'As built' is "
+    "the run on today's netlist (SP4 400 mm, SP5 430 mm): our build, nominal pack, typical corner, ankles 6.4 % and right "
+    "knee 9.8 % under 6 V; Pololu 2815 RMS 5.93 A. C3 judges the cable lengths itself, by chain through floating splices with "
+    "the twist take-up; cables3d.json now marks D12, S2 and S7 'test fit' (they reach, with less than the 40 mm slack), which "
+    "C3 reports as WARN as before. E8 passed in this run (63 tests in 221.6 s; the race test failed 0 of 4 runs).",
 ]
 
 HARDWARE = [
@@ -53,8 +56,9 @@ HARDWARE = [
     ("Continuity and polarity of every wire, no short between nets", "TEST_PLAN.md section 2 (audit/continuity_checklist.csv)", "E1"),
     ("Cells, holder drop at 10 A, BMS trip, first charge", "TEST_PLAN.md section 3", "C7 (BMS margin on falls)"),
     ("BEC set point, input sweep and the 0.30 V dropout pass, Pololu 2815 at 5 A and 10 minutes at 6 A, 5 V regulator, fuse holder",
-     "TEST_PLAN.md section 4", "E6 (BEC dropout 0.3 V assumed), C7 (Pololu 2815 at 99 % of its 6 A point as built, sim RMS 5.92 A)"),
-    ("Kelvin resistance of one servo hop", "TEST_PLAN.md section 5", "E6b (as built: the ankles hold to about 60 mOhm, every servo to about 28 mOhm)"),
+     "TEST_PLAN.md section 4", "E6 (BEC dropout 0.3 V assumed), C7 (Pololu 2815 at 99 % of its 6 A point as built, sim RMS 5.93 A)"),
+    ("Kelvin resistance of one servo hop: pass to 28 mOhm per conductor, warn over 28 up to 40, fail over 40 (lead decision L3)", "TEST_PLAN.md section 5",
+     "E6b (as built: at the 28 mOhm pass gate every servo meets section 9 in sim, right knee 9.9 %; at the 40 mOhm warn limit the right knee is under 6 V for 13.4 % of the walk; the ankles alone hold to about 60 mOhm)"),
     ("Adapter enumerates with H1 unpowered and drives one servo", "TEST_PLAN.md section 6", "C7 (ground return through the adapter)"),
     ("First servo: registers 41 to 86, register 85 = 0, firmware, speed, thermal hold", "TEST_PLAN.md section 7", "E8 (bench scripts on a fake bus)"),
     ("Weigh the robot and find its centre of mass; staged power-up; all 14 IDs answer", "TEST_PLAN.md section 8 (8.0 is the mass step)",

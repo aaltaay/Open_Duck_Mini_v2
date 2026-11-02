@@ -22,8 +22,10 @@ For altaay_lab/viewer/make_viewer_data.py and the exploded parts-check page. Dat
 - Colours: `cables[].colors` is one hex colour per conductor in netlist order (red, black, yellow, ...); `color` is the
   first. Kit servo cables are `#b8c4cc` (their real colours are not published). A multi-conductor run can be drawn as
   one thin tube per conductor around the centreline (render_cables.py, `c3d_lib.bundle_tubes`).
-- Status: `check` is one of "pass", "pass with notes", "fail"; reasons in `findings`; numbers in `length_*_mm`,
-  `cut_mm`, `worst_mm`, `required_mm`, `margin_mm`.
+- Status: `check` is one of "pass", "pass with notes", "test fit", "fail"; reasons in `findings`; numbers in
+  `length_*_mm`, `cut_mm`, `worst_mm`, `required_mm`, `margin_mm`. "test fit": the cable reaches (cut over the worst
+  routed length) but has less than the 2 x 20 mm slack, so the TEST_PLAN.md 1.4 test fit decides (VERIFICATION.md C3
+  WARN; now D12, S2 and S7, fixed-length parts); "fail": it cannot reach. Show "test fit" as a warning, not a failure.
 
 ## Ties, seats and seated parts
 - `retention[]`: one visible part each. `center_mm` is world at the zero pose; `p` is the same point in `link`'s frame

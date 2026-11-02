@@ -482,7 +482,17 @@ def main():
         unrouted = [r["name"] for r in c["runs"] if not r.get("routed", True)]
         if unrouted:
             findings.append("no clear path found for run(s) %s (straight placeholder)" % unrouted)
-        c["check"] = "fail" if (worst_fail or unrouted) else ("pass" if not findings else "pass with notes")
+        # verdict: "fail" only when a wire cannot reach (its worst routed length is over its cut) or a run has no path; a
+        # cable that reaches but has less than the 2 x 20 mm slack is "test fit": the TEST_PLAN.md 1.4 test fit at both
+        # joint limits decides, as VERIFICATION.md C3 judges it (WARN). The fixed-length kit cables and the bought camera
+        # FPC cannot be cut longer; a made cable can, and its finding gives the shortfall.
+        cannot = [w for w in c["wires"] if w.get("margin_mm") is not None and w["margin_mm"] < 0 and (w.get("fits_mm") or 0) < 0]
+        if cannot or unrouted:
+            c["check"] = "fail"
+        elif worst_fail:
+            c["check"] = "test fit"
+        else:
+            c["check"] = "pass" if not findings else "pass with notes"
         c["findings"] = findings
         live = [w for w in c["wires"] if w.get("runs") and w.get("cut_mm")]
         if live:

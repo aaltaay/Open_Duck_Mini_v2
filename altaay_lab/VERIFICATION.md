@@ -1,29 +1,28 @@
 # VERIFICATION: every check that runs without the robot
 
-Generated 2026-11-02 5:44 AM ET by altaay_lab/verify/report.py from one run of `bash altaay_lab/verify/run_all.sh` (results kept outside the repo). Written by agent Q (verification) for Ahmed's Open Duck Mini v2 build. Every simulation result here is sim pass only. Nothing was bought, built or printed; no lab file was edited by these checks (each script that writes files was run on a copy or into the results folder).
+Generated 2026-11-02 6:40 AM ET by altaay_lab/verify/report.py from one run of `bash altaay_lab/verify/run_all.sh` (results kept outside the repo). Written by agent Q (verification) for Ahmed's Open Duck Mini v2 build. Every simulation result here is sim pass only. Nothing was bought, built or printed; no lab file was edited by these checks (each script that writes files was run on a copy or into the results folder).
 
 ## Summary
-22 checks: **20 PASS, 2 FAIL, 0 NOT RUN**. 2 FAIL findings and 20 WARN findings in all (below). PASS means no FAIL finding; a PASS row can still carry WARN findings (risks, test fits, notes).
+22 checks: **22 PASS, 0 FAIL, 0 NOT RUN**. 0 FAIL findings and 21 WARN findings in all (below). PASS means no FAIL finding; a PASS row can still carry WARN findings (risks, test fits, notes).
 
-How to run (from the repo root): `bash altaay_lab/verify/run_all.sh` runs everything (this run: 13 minutes of check time on the shared 4-CPU box, sims under nice -n 10); `--quick` skips the MuJoCo, ngspice and CAD sweep runs and reuses earlier results in the same folder. Settings: VERIFY_OUT (results folder outside the repo), ODM_RUNTIME (Open_Duck_Mini_Runtime at 376de65), ODM_PLAYGROUND (Open_Duck_Playground at b9be205), ODM_TEST_PYTHON (a Python with rustypot and pypot for the bench tests). Each check also runs alone: the command is in the matrix.
+How to run (from the repo root): `bash altaay_lab/verify/run_all.sh` runs everything (this run: 12 minutes of check time on the shared 4-CPU box, sims under nice -n 10); `--quick` skips the MuJoCo, ngspice and CAD sweep runs and reuses earlier results in the same folder. Settings: VERIFY_OUT (results folder outside the repo), ODM_RUNTIME (Open_Duck_Mini_Runtime at 376de65), ODM_PLAYGROUND (Open_Duck_Playground at b9be205), ODM_TEST_PYTHON (a Python with rustypot and pypot for the bench tests). Each check also runs alone: the command is in the matrix.
 
 Run notes:
 
-- Run 2026-11-02 by agent INT (integration pass) for the lead, after the PRT, PWR, SW and CAB jobs and their texts in the docs (DECISIONS.md D25 and the D21 and D23 notes, TEST_PLAN.md 1.3, 1.4, 4.2, 5, 8.2b and 9, HARDWARE_AUDIT.md B14 and B35, BOM.md test order line TO17), with blueprint/make_scene_extras.py and make_viewer_data.py --write-bom run again first. This page comes from one full run, 5:22 to 5:35 AM ET; C4, C6, C7, C8, C9, E6 and E6b ran again 5:37 to 5:41 AM ET after the last doc edits (C9 once more at 5:44 AM ET after the STATE.md date line) (TEST_PLAN.md 5 and 8.2a numbers from this run, STATE.md), with the same results. The input table at the end gives the time of every file read.
-- Changed for this run (verify/): run_all.sh runs c8 right after e5, so E6 and C7 also get our build's traces; c7 cites the Molex catalog page MX01 B-101 for the 3.0 A contact rating at 22 AWG. viewer/make_viewer_data.py reads the D22 print grams from print/SLICE_SUMMARY.md (1280.3 g for the robot set; PRINT_CHECK.md's 1409.0 g is from before D22) and counts the stick-on mounts by type (BOM 34 and 34b); blueprint/make_scene_extras.py writes two 0.3 mm washers per eye screw and the SP4 and SP5 housings.
-- The two FAILs are known and are not doc errors. E6b: TEST_PLAN 9 now times every servo (lead decision L1, DECISIONS.md D23 note) and the section 5 hop gate stays 40 mOhm per conductor, the fix-before-assembly gate, so a hop between about 28 and 40 mOhm passes section 5 and fails section 9 in sim; closing it is a decision (a 28 mOhm gate on 2S, or the 3S plan of sim/POWER_FIX.md option 6). C8: sim/mass_budget.py on today's netlist gives 2652.8 g (MASS_BUDGET.md says 2651.9 g; +0.9 g of wire from the D25 cut changes), and the single 15 N pushes run of that model tracks 0.618 of the command against 0.63 in print/MASS_STUDY.md variant (c), 0.0118 apart against the check's 0.011 (0.628 on the 2.6519 kg model in the runs of 1:08 and 2:01 AM ET); 0 falls in 36 runs, and the 6 seeded pushes runs give 0.621 mean as before. A mass budget re-run and the walk doc belong to the sim owner.
-- E6 and C7 now check the robot as wired: D15 plus the D23 feeds SP4 and SP5, every length and gauge read from wiring/netlist.yaml at run time (sim/power_path_sim.py topology as_built, which runs sim/power_fix.py option ab, the 3b network with the netlist values and the data-lead grounds), on the trained-mass (E5) and our-build (C8) traces; E6b sweeps the hop on the same network. The star rows of POWER_PATH_SIM.md are history. E8 passed in this run (63 tests; the race test failed 0 of 4 runs); agent SW ran the whole suite 10 times, every second run under load, 10 of 10 passed. C3 judges lengths by chain through floating splices (as check_cables.py), with the twist take-up of the twisted cables, recomputes the joint loops between the real ties from robot.urdf and reports what holds every tie point (D25; agent CAB, 2026-11-02).
+- Run 2026-11-02 by agent SFX for the lead, the last full run for PR 6, after the C8 and E6b fixes (sim/MASS_BUDGET.md and the print/MASS_STUDY.md (c) walk re-run on today's model; TEST_PLAN.md section 5 in three bands, lead decision L3), the as-built power path re-run (sim/POWER_PATH_SIM.md) and the cable 'test fit' label (cables3d/check_cables.py; viewer data and BOM_FULL rebuilt). This page comes from one full run, 6:19 to 6:32 AM ET (VERIFY_OUT in the agent's scratch folder, ODM_TEST_PYTHON as in the integration run); C9 ran again at 6:33 AM ET after the STATE.md and START_HERE.md lines with these counts, and C4 and C6 at 6:35 AM ET and C8, E6, C7 and E6b in full at 6:36 to 6:40 AM ET after the time stamps in the agent's dated doc lines were set to the real edit times, with the same results. The input table at the end gives the time of every file read.
+- Changed for this run (verify/): e6b_hop_sweep.py reads the TEST_PLAN.md section 5 bands of lead decision L3 (DECISIONS.md D23 note): at the pass gate ('Gate: 28 mOhm per conductor') every section 9 gate must hold, else FAIL; at the warn limit ('Fail: over 40 mOhm per conductor') time under 6 V over the gate is a WARN with the knee, head roll and ankle numbers, and a servo under 4.5 V a FAIL. report.py: these notes and the section 4 and 5 hardware rows. No check was loosened: C8 still compares with 0.011, and E6b's gates are those of TEST_PLAN.md section 9.
+- Why the 2 FAILs of the integration run are gone. C8: its doc is current again. sim/mass_budget.py gives 2652.8 g (MASS_BUDGET.md updated; +0.9 g of wire from agent CAB's later cut changes) and the (c) walk of print/MASS_STUDY.md was re-run with mass_study.py walk on that model (the slice table of print/SLICE_SUMMARY.md, the D22 print as adopted). Against the study's run the nominal runs moved by 0.004 or less, pushes by 0.013 (0.631 to 0.618); with the study's own slice table (0.01 g more on one part) the same script gives 0.626, and the 6 seeded pushes runs span 0.614 to 0.629: run-to-run noise, 0 falls on flat ground. E6b: TEST_PLAN 5 now passes a hop only up to 28 mOhm per conductor, the largest whole value at which every servo meets section 9 in sim (our build: right knee 9.9 % under 6 V at 28 mOhm, 10.2 % at 29); at the 40 mOhm warn limit the right knee is under 6 V for 13.4 % of the walk (WARN: the walking log decides and the 3S plan is made ready).
+- E6 and C7 check the robot as wired: D15 plus the D23 feeds SP4 and SP5, every length and gauge read from wiring/netlist.yaml at run time (sim/power_path_sim.py topology as_built, which runs sim/power_fix.py option ab), on the trained-mass (E5) and our-build (C8) traces; E6b sweeps the hop on the same network. sim/POWER_PATH_SIM.md 'As built' is the run on today's netlist (SP4 400 mm, SP5 430 mm): our build, nominal pack, typical corner, ankles 6.4 % and right knee 9.8 % under 6 V; Pololu 2815 RMS 5.93 A. C3 judges the cable lengths itself, by chain through floating splices with the twist take-up; cables3d.json now marks D12, S2 and S7 'test fit' (they reach, with less than the 40 mm slack), which C3 reports as WARN as before. E8 passed in this run (63 tests in 221.6 s; the race test failed 0 of 4 runs).
 
 ## Main findings
 
 Checks that fail, with their numbers (fixes are in the FAIL section below):
 
-- **E6b** TEST_PLAN.md section 5 hop gate is enough for the section 9 gates, wiring as built (D15 plus the D23 feeds, netlist lengths; power path sim sweep, sim pass only): as built (SP4 and SP5 in the netlist): ankle under 6 V at a nominal pack, worse trace: 18 mOhm 4.7%, 28 mOhm 6.4%, 40 mOhm 8.0%, 58 mOhm 10.0%, 78 mOhm 12.0%; at the 40 mOhm gate 8.0 % (our build (C8)), worst servo of any kind right knee 13.4 %, lowest servo 5.46 V
-- **C8** The stock policy walks the robot we will build (2.65 kg, sim/MASS_BUDGET.md) on flat ground (sim/added_mass_sim.py, sim pass only): our build 2.6528 kg: 0 falls in 36 flat-ground runs; forward speed 0.70 of the command (trained mass 0.73)
 
 Passing checks that still carry risks to measure on the bench (WARN):
 
 - **E6**: sim, high-side corner, nominal pack: a servo is under 6.0 V for 33.5 % of the walk counted in time (our build (C8); for the ankles, 50 Hz samples locked to the control loop read 11.4 to 37.0 % by phase); TEST_PLAN.md section 9 passes only under 10 %
+- **E6b**: TEST_PLAN.md section 5 warn band (over 28 up to 40 mOhm per conductor): at 40 mOhm the knees are under 6.0 V for 9.5 / 13.4 % of the walk (left / right), the head roll 9.8 % and the ankles 8.0 % (our build (C8), as built, nominal pack, typical pack side), over
 - **E7**: left: the inner screw D18 keeps clears roll_to_pitch by only 0.24 mm (worst at -25.0 deg), inside normal print tolerance (and 1 more)
 - **C3**: D12: 1 wire(s) reach with only 23 mm to spare (worst chain D12 PI.CSI>CAM.CSI 150, 127 mm routed, cut 150 mm), under the 2 x 20 mm service slack: a test fit decides (CABLE_MAP length rule) (and 3 more)
 - **C4b**: 2 screws still hit with the button head, known and left as a joint range point in D19 (not fixed): F211 M3x6 ISO 7380 A2 button head vs body_middle_bottom at right_hip_yaw -28.3, -1.49 mm, -0.82 mm with the button head; F198 M3x6 ISO 7380 A2 button head vs bod (and 4 more)
@@ -41,9 +40,9 @@ Passing checks that still carry risks to measure on the bench (WARN):
 | E4 | Exploded-view data build and its CAD count checks (viewer/make_viewer_data.py) | `VERIFY_OUT=<out> python3 altaay_lab/verify/e4_viewer.py` | **PASS** | found in the CAD: printed parts 52/52, servos 14/14, inserts 58/58, bearings 3/3; drawn and counted: eye washers 16/16, heat shrink sleeves 34/34 (details below) | URDF zero pose with print/ STLs swapped in; printed parts, servos, inserts, bearings found vs expected; STL vs URDF frame check; BOM lines with a view mapping; eye washers drawn vs fasteners.json; heat shrink sleeves drawn vs the BOM_FULL count | Fit of parts not in the CAD beyond their boxes; anything the page shows but does not count |
 | E5 | Servo current budget from the stock walk (sim/current_budget.py, sim pass only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/e5_current_budget.py` | **PASS** | 7 of 7 cases reproduce CURRENT_BUDGET.md; backlash walk 3.24 A mean, 4.72 A worst 100 ms; worst servo 3.33 A (details below) | 7 MuJoCo cases (stand, walk, turn, side, backlash, rough, pushes) with BEST_WALK_ONNX_2; every number of the CURRENT_BUDGET.md table (falls, mean, 1 s, 100 ms, 20 ms, 2 ms, whole-run max) and the worst single servo | Real servos (issue 48: real tracking differs); the 5 V branch and pack side (hand calculation in the doc) |
 | E6 | Power path to every servo as wired now: D15 star plus the D23 ankle feeds SP4 and SP5, lengths and gauges from wiring/netlist.yaml (sim/power_path_sim.py as_built, ngspice, sim pass only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/e6_power_path.py` | **PASS (0 FAIL, 1 WARN)** | as built, nominal pack, worse of trained mass (E5) and our build (C8): lowest servo 5.58 V typical (left knee), 4.88 V high-side (head roll); servo under 6 V 9.8 % typical, 33.5 % high-side, counted in time (gate 10 %); no servo under 4.5 V at full or nominal in either corner: True (details below) | As-built network (P1 to P14 pack side, BEC, P11, SP1 to SP5, 11 kit hops, data-lead grounds) read from the netlist; full, nominal and low pack x typical and high-side resistances, fall after a push; trained mass (E5) and our build (C8); TEST_PLAN.md section 9 gates counted in time; lowest servo per chain; the as-built table of POWER_PATH_SIM.md reproduced | Real hop and contact resistance (TEST_PLAN.md section 5), BEC dropout (section 4.1), bus capacitance, regenerative braking, the servo electronics' brown-out point; the 5 V branch in detail |
-| E6b | TEST_PLAN.md section 5 hop gate is enough for the section 9 gates, wiring as built (D15 plus the D23 feeds, netlist lengths; power path sim sweep, sim pass only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/e6b_hop_sweep.py` | **FAIL (1 FAIL, 0 WARN)** | as built (SP4 and SP5 in the netlist): ankle under 6 V at a nominal pack, worse trace: 18 mOhm 4.7%, 28 mOhm 6.4%, 40 mOhm 8.0%, 58 mOhm 10.0%, 78 mOhm 12.0%; at the 40 mOhm gate 8.0 % (our build (C8)), worst servo of any kind right knee 13.4 %, lowest servo 5.46 V (details below) | As-built network (sim/power_fix.py option ab = 3b with the netlist lengths and gauges and the data-lead grounds); nominal pack, typical source resistances; hop = kit cable conductor + 2 contacts + servo board; both section 9 gates (4.5 V at any time, ankle time under 6 V counted in time) per hop value and at the section 5 gate; trained mass and our build traces; the section 5 'holds to about N mOhm' figure | Real BEC dropout (TEST_PLAN.md section 4), real hop resistance (section 5), the high-side pack side (sections 3.2 and 4.1 gate it), regenerative braking, bus capacitance |
+| E6b | TEST_PLAN.md section 5 hop gate is enough for the section 9 gates, wiring as built (D15 plus the D23 feeds, netlist lengths; power path sim sweep, sim pass only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/e6b_hop_sweep.py` | **PASS (0 FAIL, 1 WARN)** | as built (SP4 and SP5 in the netlist): ankle under 6 V at a nominal pack, worse trace: 17.6 mOhm 4.7%, 27.6 mOhm 6.4%, 28.0 mOhm 6.4%, 40.0 mOhm 8.0%, 57.6 mOhm 10.0%, 77.6 mOhm 12.0%; at the 28 mOhm pass gate the ankle 6.4 % (our build (C8)), worst servo of any kind right knee 9.9 %, lowest servo 5.58 V; at the 40 mOhm warn limit knees 9.5 / 13.4 %, ankle 8.0 % (our build (C8)), lowest servo 5.46 V (details below) | As-built network (sim/power_fix.py option ab = 3b with the netlist lengths and gauges and the data-lead grounds); nominal pack, typical source resistances; hop = kit cable conductor + 2 contacts + servo board; both section 9 gates (4.5 V at any time, time under 6 V counted in time) per hop value, at the section 5 pass gate and at its warn limit; trained mass and our build traces; the section 5 'holds to about N mOhm' figure | Real BEC dropout (TEST_PLAN.md section 4), real hop resistance (section 5), the high-side pack side (sections 3.2 and 4.1 gate it), regenerative braking, bus capacitance |
 | E7 | Hip roll servo screw head vs roll_to_pitch over the hip roll range (print/check_hip_roll_screw.py) | `VERIFY_OUT=<out> python3 altaay_lab/verify/e7_hip_roll.py` | **PASS (0 FAIL, 2 WARN)** | outer screw overlaps the arm by 1.3 and 1.3 mm at every hip roll angle on both legs (as D18); the inner screw that stays clears it by 0.16 and 0.24 mm (details below) | Both legs, 2 screws each, 41 angles over the URDF hip roll range, M2 pan head 4.0 x 1.6 mm modelled | Real head size of the Feetech bag screw (B2), print tolerance, the other screws (C4) |
-| E8 | Bench scripts on a simulated servo bus (pytest altaay_lab/bench/tests) | `VERIFY_OUT=<out> ODM_TEST_PYTHON=<python with rustypot, pypot> python3 altaay_lab/verify/e8_bench_pytest.py` | **PASS** | pytest: 63 passed in 220.83s (0:03:40) (details below) | The bench agent's tests: STS3215 protocol, first-servo check, battery guard, power log, feet, IMU, thermal guard and the Runtime cross-check, against a fake STS3215 bus on a pty and fake Blinka pins | Real servos, real USB adapter timing, real GPIO (TEST_PLAN.md sections 6 to 12) |
+| E8 | Bench scripts on a simulated servo bus (pytest altaay_lab/bench/tests) | `VERIFY_OUT=<out> ODM_TEST_PYTHON=<python with rustypot, pypot> python3 altaay_lab/verify/e8_bench_pytest.py` | **PASS** | pytest: 63 passed in 221.56s (0:03:41) (details below) | The bench agent's tests: STS3215 protocol, first-servo check, battery guard, power log, feet, IMU, thermal guard and the Runtime cross-check, against a fake STS3215 bus on a pty and fake Blinka pins | Real servos, real USB adapter timing, real GPIO (TEST_PLAN.md sections 6 to 12) |
 | E9 | Joint angles the stock policy uses in the sim walk, trained mass and our build (sim pass only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/e9_joint_envelope.py` | **PASS** | in the walk (trained mass): hip yaw -5.8 to +10.3 deg (range +/-30), hip pitch -49.3 to +49.6, knee up to +90.8 (limit +90); largest policy action 0.97 (details below) | 7 current_budget.py cases on the trained model and on our build's model (C8): min and max of every joint angle, the largest policy action and motor target, after the 2 s settle and before a fall; MJCF ranges | Falls, get-up, manual moves and find_soft_offsets.py (they can reach the full joint range); real servo tracking |
 | C1 | Every netlist part maps to a BOM line, and every BOM_FULL quantity matches its source (CAD, netlist, fasteners) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c1_bom_coverage.py` | **PASS** | 43 netlist parts map to BOM lines with matching part numbers (15 splices are made); BOM_FULL 196 rows vs sources: 0 FAIL (see list); heat shrink 34 pieces by the rule (34 joints in the netlist), 34 drawn (details below) | Netlist components to BOM lines (part numbers checked in the line text), netlist BOM references, counts per line vs Need; BOM_FULL rows vs CAD nodes, print/parts.csv, netlist, fasteners.json (screws, washers), wire cut sums, heat shrink by the BOM_FULL rule (this check's own count, the 3D sleeves, BOM 26); the committed BOM_FULL.md vs a fresh build from today's sources; rows with no purchase line | Whether a bought part is the right one (datasheets), prices, the spares rule, the heat shrink size at each joint |
 | C2 | Connectors: every wired pin has a mating part or end treatment; crimps fit the Molex 08-70-1040 | `VERIFY_OUT=<out> python3 altaay_lab/verify/c2_connectors.py` | **PASS** | 248 wire ends match their connector class; housings 7 and terminals 17 agree with BOM 21/22, CABLE_MAP, WIRING.md; 22 AWG OD 1.7 +/- 0.1 mm vs Molex 08-70-1040 insulation max 1.9 mm, gauges 22, 24, 26, 28 AWG, 3.0 A at 22 AWG (Molex catalog) (details below) | Every end of the wires on active cables vs its pin group's connector class; housing positions (one wire each, adapter V empty); housing and terminal counts vs BOM 21/22, CABLE_MAP, WIRING.md; kit cables used vs shipped; crimp insulation diameter; connector pins left open | Pin order inside each housing vs the servo port (TEST_PLAN.md section 2 polarity), crimp quality (section 1), the real part labels marked [I] in the netlist |
@@ -53,7 +52,7 @@ Passing checks that still carry risks to measure on the bench (WARN):
 | C5 | Servo IDs agree everywhere (netlist, WIRING.md, CABLE_MAP, viewer, BOM_FULL, Runtime code and config, bench, sim, policy order) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c5_servo_ids.py` | **PASS** | 14 joint IDs agree in 8 ID maps (netlist, WIRING.md, CABLE_MAP, viewer, BOM_FULL, Runtime HWI, configure_all_motors, bench): True; chains agree in netlist, WIRING.md, bench, power sim; MJCF actuator order = Runtime action order: True (details below) | 14 joint to ID pairs in 10 sources, the 3 bus chains (netlist wires, WIRING.md, bench, power sim), MJCF actuator order vs Runtime action order, Runtime checkout commit | IDs written into real servos (TEST_PLAN.md section 7.1, section 8.1 check_motors.py) |
 | C6 | GPIO pins agree (netlist, WIRING.md section 3, CABLE_MAP, HARNESS_BUILD, D9, Runtime code at 376de65) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c6_gpio.py` | **PASS** | 12 Pi signals on the same GPIO and header pin in the netlist, WIRING.md, HARNESS_BUILD.md, CABLE_MAP.md, D9 and the Runtime code: True (details below) | 12 Pi signals (2 feet, 2 eyes, projector, 2 antennas, I2C SDA/SCL, 3 I2S) in 6 sources; BCM to header pin map (pinout.xyz); the far end of every netlist GPIO wire (left foot goes to the left foot switches); no GPIO used twice | Pi device tree settings (I2S overlay, PWM for the antennas), real wiring (TEST_PLAN.md sections 2 and 12) |
 | C7 | Current ratings: every wire, contact and part on the servo power path as wired now (D15 plus the D23 feeds SP4 and SP5) vs the simulated currents (sim pass only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c7_current_ratings.py` | **PASS (0 FAIL, 3 WARN)** | as built (SP4/SP5 in): every mean under its limit; worst 100 ms over the 26 AWG kit limit on 0 hops and over 3 A on 0 contacts; Pololu 2815 at 99 % of its 6.0 A (55 C) rating, sim RMS 5.93 A walking (6.04 A at the low pack): TEST_PLAN 4.2 heat check; adapter ground 0.35 A worst 100 ms (details below) | P11, SP1 to SP5 and the 11 kit cable hops vs gauge ampacity (erc.py table), with the as-built current split (each leg a loop through SP4/SP5) in both corners; their 5264 / Mini-SPOX contacts (3 A); return current in the SP grounds, the D15 data-lead grounds, the adapter and the USB ground; fuse, holder, BMS, Pololu 2815 (TEST_PLAN 4.2 heat check), XT30, cells, BEC, BEC leads and the P cables vs the E6 as-built ngspice currents; the netlist's written currents vs the sim | Real servo currents (CURRENT_BUDGET.md: up to 2 x sim until a bench log), temperature rise inside the body, connector wear, real contact and hop resistance (TEST_PLAN.md sections 3 to 5 and 9) |
-| C8 | The stock policy walks the robot we will build (2.65 kg, sim/MASS_BUDGET.md) on flat ground (sim/added_mass_sim.py, sim pass only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c8_policy_mass.py` | **FAIL (1 FAIL, 0 WARN)** | our build 2.6528 kg: 0 falls in 36 flat-ground runs; forward speed 0.70 of the command (trained mass 0.73) (details below) | Model mass vs MASS_BUDGET.md; stock copy vs CURRENT_BUDGET.md; our build in 6 flat cases nominal + 6 seeds each; tracking vs the doc that ran the same mass (ADDED_MASS_SIM.md table 1 or print/MASS_STUDY.md); a hardware test for the centre of mass margin | Rough terrain (falls for stock and ours), get-up, real servo tracking (issue 48), the real mass and centre of mass (not weighed) |
+| C8 | The stock policy walks the robot we will build (2.65 kg, sim/MASS_BUDGET.md) on flat ground (sim/added_mass_sim.py, sim pass only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c8_policy_mass.py` | **PASS** | our build 2.6528 kg: 0 falls in 36 flat-ground runs; forward speed 0.70 of the command (trained mass 0.73) (details below) | Model mass vs MASS_BUDGET.md; stock copy vs CURRENT_BUDGET.md; our build in 6 flat cases nominal + 6 seeds each; tracking vs the doc that ran the same mass (ADDED_MASS_SIM.md table 1 or print/MASS_STUDY.md); a hardware test for the centre of mass margin | Rough terrain (falls for stock and ours), get-up, real servo tracking (issue 48), the real mass and centre of mass (not weighed) |
 | C9 | Docs agree: numbers that appear in several docs are the same everywhere | `VERIFY_OUT=<out> python3 altaay_lab/verify/c9_docs.py` | **PASS (0 FAIL, 4 WARN)** | 0 disagreements (none); blocker table: 35 rows, 22 cleared or decided (details below) | Blocker counts and blocker status words, BOM totals and test order total, part counts, STL count, screw counts, decision range, upstream issue count, wire currents (WIRING.md vs netlist), print numbers, robot mass; 39 docs (history/ left out) | Numbers written in words or in a form the patterns do not catch; history entries; prose claims without numbers |
 | C10 | Wiring sheets cover every wire of the netlist (wiring/sheets, run on a copy) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c10_sheets.py` | **PASS** | 124 of 124 active wires drawn in full on sheets 1, 2, 3, 4, 5; harness sheet 5: True (details below) | Every active netlist wire drawn in full on a sheet (sheets 1 to 4), every active cable on the harness sheet (sheet 5), the generator's own stop rules, committed sheets newer than netlist.yaml | Whether a drawing is easy to read; label placement (the generator prints layout warnings) |
 | C11 | Hip yaw the stock policy uses (walk and turn) stays under the F198/F211 collision onset (21.7 deg) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py` | **PASS (0 FAIL, 1 WARN)** | largest hip yaw angle 10.5 deg (ours, turn_1.0), turn 10.3 and 10.5 deg; onset 21.7 deg; margin 11.2 deg (rule 5); policy bound 16.1 deg with the sim overshoot (details below) | Collision onset from the fastener sweep; largest /hip yaw/ in 7 sim cases (turn 1.0 rad/s included) on the trained model and our build; the policy's bound (default + 0.25 x tanh action) checked on 6000 random inputs; clamps in the Runtime code | Real servo overshoot, falls, manual moves, find_soft_offsets.py, other policies or a wider command range |
@@ -62,16 +61,13 @@ Passing checks that still carry risks to measure on the bench (WARN):
 
 Each line: what is wrong, with the numbers, then the proposed fix and the file it belongs to. The files belong to other agents or to the lead; nothing here was changed by agent Q.
 
-### E6b TEST_PLAN.md section 5 hop gate is enough for the section 9 gates, wiring as built (D15 plus the D23 feeds, netlist lengths; power path sim sweep, sim pass only)
-- TEST_PLAN.md section 5 passes hops up to 40 mOhm per conductor, but at that value the right knee is under 6.0 V for 13.4 % of the walk at a nominal pack (our build (C8), as built), over the section 9 gate of 10 %; about 28 mOhm passes **Fix:** TEST_PLAN.md section 5: gate at most 28 mOhm per conductor on 2S (the typical corner is 27.6), or the 3S plan (sim/POWER_FIX.md 6+3b) (altaay_lab/TEST_PLAN.md sections 5 and 9)
-
-### C8 The stock policy walks the robot we will build (2.65 kg, sim/MASS_BUDGET.md) on flat ground (sim/added_mass_sim.py, sim pass only)
-- Walk forward, 15 N pushes every 3 s tracking 0.62 differs from the doc that ran this mass (0.63) **Fix:** re-run the walk and update the doc's table (altaay_lab/sim/ADDED_MASS_SIM.md or print/MASS_STUDY.md)
-
 ## WARN findings (risks, test fits, notes)
 
 ### E6
 - sim, high-side corner, nominal pack: a servo is under 6.0 V for 33.5 % of the walk counted in time (our build (C8); for the ankles, 50 Hz samples locked to the control loop read 11.4 to 37.0 % by phase); TEST_PLAN.md section 9 passes only under 10 % Proposed: known: the high-side corner; the bench gates TEST_PLAN.md 3.2 (pack side), 4.1 (BEC dropout) and 5 (hop resistance) keep the robot out of it; the 3S plan (sim/POWER_FIX.md option 6+3b, held by D23) passes it
+
+### E6b
+- TEST_PLAN.md section 5 warn band (over 28 up to 40 mOhm per conductor): at 40 mOhm the knees are under 6.0 V for 9.5 / 13.4 % of the walk (left / right), the head roll 9.8 % and the ankles 8.0 % (our build (C8), as built, nominal pack, typical pack side), over the section 9 gate of 10 %; lowest servo 5.46 V, above 4.5 V. A hop in this band goes on to the walking log, which decides (lead decision L3) Proposed: if section 5 reads in the warn band: make the 3S plan (sim/POWER_FIX.md option 6) ready for Ahmed before the walking log (TEST_PLAN.md sections 5 and 9, DECISIONS.md D23 note L3)
 
 ### E7
 - left: the inner screw D18 keeps clears roll_to_pitch by only 0.24 mm (worst at -25.0 deg), inside normal print tolerance Proposed: add to the first-leg check (print/PRINT_PLAN.md left-leg check, D18): sweep hip roll by hand with the inner screw fitted and look for rubbing on roll_to_pitch
@@ -113,8 +109,8 @@ No check above replaces these; each needs the parts or the robot. Order and pass
 | Every made cable: crimp pull, connector fit, heat shrink (34 sleeves, 2 x OD on the splices) and twist lay, length, joint loops and the 75 tie points at both limits of every joint it crosses (the test fit) | TEST_PLAN.md section 1 (1.3, 1.4) | C1 (sleeve count), C2 (end treatments), C3 (lengths with the twist take-up, 43 loops at 3 x OD, what holds each tie point, the 2 foot jumpers) |
 | Continuity and polarity of every wire, no short between nets | TEST_PLAN.md section 2 (audit/continuity_checklist.csv) | E1 |
 | Cells, holder drop at 10 A, BMS trip, first charge | TEST_PLAN.md section 3 | C7 (BMS margin on falls) |
-| BEC set point, input sweep and the 0.30 V dropout pass, Pololu 2815 at 5 A and 10 minutes at 6 A, 5 V regulator, fuse holder | TEST_PLAN.md section 4 | E6 (BEC dropout 0.3 V assumed), C7 (Pololu 2815 at 99 % of its 6 A point as built, sim RMS 5.92 A) |
-| Kelvin resistance of one servo hop | TEST_PLAN.md section 5 | E6b (as built: the ankles hold to about 60 mOhm, every servo to about 28 mOhm) |
+| BEC set point, input sweep and the 0.30 V dropout pass, Pololu 2815 at 5 A and 10 minutes at 6 A, 5 V regulator, fuse holder | TEST_PLAN.md section 4 | E6 (BEC dropout 0.3 V assumed), C7 (Pololu 2815 at 99 % of its 6 A point as built, sim RMS 5.93 A) |
+| Kelvin resistance of one servo hop: pass to 28 mOhm per conductor, warn over 28 up to 40, fail over 40 (lead decision L3) | TEST_PLAN.md section 5 | E6b (as built: at the 28 mOhm pass gate every servo meets section 9 in sim, right knee 9.9 %; at the 40 mOhm warn limit the right knee is under 6 V for 13.4 % of the walk; the ankles alone hold to about 60 mOhm) |
 | Adapter enumerates with H1 unpowered and drives one servo | TEST_PLAN.md section 6 | C7 (ground return through the adapter) |
 | First servo: registers 41 to 86, register 85 = 0, firmware, speed, thermal hold | TEST_PLAN.md section 7 | E8 (bench scripts on a fake bus) |
 | Weigh the robot and find its centre of mass; staged power-up; all 14 IDs answer | TEST_PLAN.md section 8 (8.0 is the mass step) | C8 (backward margin 4 to 6 mm), C5 (IDs) |
@@ -131,7 +127,7 @@ No check above replaces these; each needs the parts or the robot. Order and pass
 ## Details per check
 
 ### E1 Electrical rule check of the netlist (audit/erc.py) plus mutation test: PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e1_erc.py`. Finished 2026-11-02 10:22 UTC, 7 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e1_erc.py`. Finished 2026-11-02 11:19 UTC, 7 s.
 - erc.py on wiring/netlist.yaml: 0 ERROR, 0 WARN, 8 INFO (exit 0)
 - Components 58, pins 226, cables 51 (4 removed), wires 124.
 - committed audit/ERC_REPORT.md current: True; audit/continuity_checklist.csv current: True
@@ -149,18 +145,18 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e1_erc.py`. Finished 2026-1
 - INFO: M10 caught: wire left on removed cable S14 (expected ERROR in 'references'; got {'ERROR': 1, 'WARN': 0, 'INFO': 0})
 
 ### E2 BOM.md subtotals, totals and test order total (audit/bom_totals.py on a copy): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e2_bom_scripts.py`. Finished 2026-11-02 10:22 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e2_bom_scripts.py`. Finished 2026-11-02 11:19 UTC, 0 s.
 - bom_totals.py: {Robot: 623.53, Fasteners and mechanical: 73.75, Cables, connectors, wire: 267.04, Print material: 53.97, Expression (optional upstream): 82.4, Tools (one-time): 250.06} build 1018.29 with expression 1100.69 with tools 1350.75 test order 231.5
 - BOM.md copy unchanged after the recompute: every subtotal and total in BOM.md matches its lines
 - Buy >= Need checked on 69 countable lines (Need and Buy in the same unit)
 
 ### E3 bom.json rebuilt from BOM.md (audit/bom_md_to_json.py on a copy): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e2_bom_scripts.py`. Finished 2026-11-02 10:22 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e2_bom_scripts.py`. Finished 2026-11-02 11:19 UTC, 0 s.
 - bom_md_to_json.py: 83 rows written to bom.json; committed bom.json 83 rows, rebuilt 83 rows
 - rebuilt bom.json is identical to the committed one
 
 ### E4 Exploded-view data build and its CAD count checks (viewer/make_viewer_data.py): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e4_viewer.py`. Finished 2026-11-02 10:22 UTC, 44 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e4_viewer.py`. Finished 2026-11-02 11:20 UTC, 39 s.
 - printed parts 52 / 52 over 36 STLs; servos 14 / 14; inserts 58 / 58; bearings 3 / 3
 - BOM lines 83 (cad 11, placeholder 11, filament 2, not modelled 59); count mismatches none
 - STL vs URDF frame check: 29 parts, worst 0.028 mm; assembly.json match True; unmapped meshes none
@@ -169,7 +165,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e4_viewer.py`. Finished 202
 - GLB 3.80 MB, 755 nodes (output kept in the scratch folder, not in git)
 
 ### E5 Servo current budget from the stock walk (sim/current_budget.py, sim pass only): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e5_current_budget.py`. Finished 2026-11-02 10:23 UTC, 13 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e5_current_budget.py`. Finished 2026-11-02 11:20 UTC, 12 s.
 - Stand, zero command: falls none; mean 0.19, 100 ms 0.23, 20 ms 0.24, 2 ms 0.24 A
 - Walk forward 0.15 m/s: falls none; mean 2.22, 100 ms 3.08, 20 ms 4.02, 2 ms 4.97 A
 - Turn 1.0 rad/s: falls none; mean 2.38, 100 ms 3.21, 20 ms 5.39, 2 ms 6.40 A
@@ -180,7 +176,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e5_current_budget.py`. Fini
 - worst single servo, backlash walk: left_knee 3.33 A peak; highest RMS right_knee 1.46 A (doc: 3.35 A peak knee, 1.45 A RMS)
 
 ### E6 Power path to every servo as wired now: D15 star plus the D23 ankle feeds SP4 and SP5, lengths and gauges from wiring/netlist.yaml (sim/power_path_sim.py as_built, ngspice, sim pass only): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e6_power_path.py`. Finished 2026-11-02 10:40 UTC, 67 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e6_power_path.py`. Finished 2026-11-02 11:39 UTC, 66 s.
 - netlist read by the model: altaay_lab/wiring/netlist.yaml sha256 0f4af5bff3, modified 2026-11-02 08:38 UTC
 - netlist values used: P1 16 AWG 120 mm; P2 16 AWG 120 mm; P6 16 AWG 150 mm; P7 16 AWG 250 mm (30 + 90 + 90 + 40); P8 16 AWG 150 mm; P14 16 AWG 140 mm; P9 16 AWG 90 mm; P10 16 AWG 150 mm; P11 16 AWG 100 mm plus the BEC leads (as shipped); P13 20 AWG 550 mm; SP1 V 22 AWG 150 mm, G 22 AWG 130 mm + tail 22 AWG 30 mm; SP2 V 22 AWG 150 mm, G 22 AWG 130 mm + tail 22 AWG 30 mm; SP3 V 22 AWG 180 mm, G 22 AWG 160 mm + tail 22 AWG 30 mm; SP4 to left ankle BUS1: V 22 AWG 400 mm, G 22 AWG 400 mm; SP5 to right ankle BUS1: V 22 AWG 430 mm, G 22 AWG 430 mm; kit hops S2 150, S3 150, S4 150, S5 150, S7 150, S8 150, S9 150, S10 150, S11 150, S12 150, S13 150 mm; SD1 G stem 22 AWG 45 mm, a 22 AWG 120 mm, b 22 AWG 140 mm; SD2 G 22 AWG 140 mm
 - active netlist cables on SERVO_7V2/VSW/PACK_P/PACK_F/CELL_N: P1, P10, P11, P13, P2, P4, P6, P7, P9, S10, S11, S12, S13, S2, S3, S4, S5, S7, S8, S9, SP1, SP2, SP3, SP4, SP5; in the model: 24; outside the servo path: P4 (charger, carries current only while charging)
@@ -200,41 +196,44 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e6_power_path.py`. Finished
 - TEST_PLAN.md section 9 gates: no servo under 4.5 V at any time (full and nominal pack); no servo under 6.0 V for more than 10 % of the walking time at nominal, counted in time: as the plan says
 - gate check, typical corner: lowest servo at full or nominal left knee 5.58 V (trained mass (E5), nominal); servo time under 6 V at nominal 9.8 % (our build (C8); ankle minimum 5.72 V)
 - gate check, high-side corner: lowest servo at full or nominal head roll 4.88 V (trained mass (E5), nominal); servo time under 6 V at nominal 33.5 % (our build (C8); ankle minimum 5.36 V)
-- documented as-built row, nominal, typical, trained mass: lowest servo 5.58 V, ankle 4.7 % (doc) vs 5.58 V, 4.8 % (run)
+- documented as-built row, nominal, typical, trained mass: lowest servo 5.58 V, ankle 4.8 % (doc) vs 5.58 V, 4.8 % (run)
 - documented as-built row, nominal, high-side, trained mass: lowest servo 4.88 V, ankle 19.3 % (doc) vs 4.88 V, 19.3 % (run)
 
-### E6b TEST_PLAN.md section 5 hop gate is enough for the section 9 gates, wiring as built (D15 plus the D23 feeds, netlist lengths; power path sim sweep, sim pass only): FAIL
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e6b_hop_sweep.py`. Finished 2026-11-02 10:41 UTC, 51 s.
-- TEST_PLAN.md section 5 gate: 40 mOhm per conductor; section 9 gates: no servo under 4.5 V, every servo under 6.0 V at most 10 % of the time; model: sim/power_fix.py option ab (as built), netlist altaay_lab/wiring/netlist.yaml sha256 0f4af5bff3, second feeds in the netlist: SP4, SP5
+### E6b TEST_PLAN.md section 5 hop gate is enough for the section 9 gates, wiring as built (D15 plus the D23 feeds, netlist lengths; power path sim sweep, sim pass only): PASS
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e6b_hop_sweep.py`. Finished 2026-11-02 11:40 UTC, 63 s.
+- TEST_PLAN.md section 5 pass gate: 28 mOhm per conductor, warn band to 40 mOhm (fail over it); section 9 gates: no servo under 4.5 V, every servo under 6.0 V at most 10 % of the time; model: sim/power_fix.py option ab (as built), netlist altaay_lab/wiring/netlist.yaml sha256 0f4af5bff3, second feeds in the netlist: SP4, SP5
 - as built, trained mass (E5), hop 17.6 mOhm per conductor (no contact resistance): ankle min 5.73 V, under 6 V 3.6 % of the time (50 Hz by phase 0.0 to 12.7 %); lowest servo left knee 5.66 V; knees 3.8 / 5.2 %, head roll 3.1 % under 6 V
 - as built, our build (C8), hop 17.6 mOhm per conductor (no contact resistance): ankle min 5.75 V, under 6 V 4.7 % of the time (50 Hz by phase 0.0 to 17.0 %); lowest servo left knee 5.68 V; knees 4.0 / 6.9 %, head roll 4.1 % under 6 V
 - as built, trained mass (E5), hop 27.6 mOhm per conductor (typical corner contacts): ankle min 5.70 V, under 6 V 4.8 % of the time (50 Hz by phase 0.0 to 14.7 %); lowest servo left knee 5.58 V; knees 5.6 / 7.9 %, head roll 5.1 % under 6 V
 - as built, our build (C8), hop 27.6 mOhm per conductor (typical corner contacts): ankle min 5.72 V, under 6 V 6.4 % of the time (50 Hz by phase 0.0 to 18.3 %); lowest servo left knee 5.61 V; knees 6.4 / 9.8 %, head roll 6.8 % under 6 V
-- as built, trained mass (E5), hop 40.0 mOhm per conductor (the section 5 gate): ankle min 5.67 V, under 6 V 6.3 % of the time (50 Hz by phase 0.0 to 16.7 %); lowest servo head roll 5.46 V; knees 8.3 / 11.0 %, head roll 8.1 % under 6 V
-- as built, our build (C8), hop 40.0 mOhm per conductor (the section 5 gate): ankle min 5.69 V, under 6 V 8.0 % of the time (50 Hz by phase 0.0 to 18.7 %); lowest servo left knee 5.51 V; knees 9.5 / 13.4 %, head roll 9.8 % under 6 V
+- as built, trained mass (E5), hop 28.0 mOhm per conductor (the section 5 pass gate): ankle min 5.70 V, under 6 V 4.8 % of the time (50 Hz by phase 0.0 to 14.7 %); lowest servo left knee 5.58 V; knees 5.7 / 8.0 %, head roll 5.2 % under 6 V
+- as built, our build (C8), hop 28.0 mOhm per conductor (the section 5 pass gate): ankle min 5.72 V, under 6 V 6.4 % of the time (50 Hz by phase 0.0 to 18.3 %); lowest servo left knee 5.60 V; knees 6.4 / 9.9 %, head roll 6.8 % under 6 V
+- as built, trained mass (E5), hop 40.0 mOhm per conductor (the section 5 warn limit): ankle min 5.67 V, under 6 V 6.3 % of the time (50 Hz by phase 0.0 to 16.7 %); lowest servo head roll 5.46 V; knees 8.3 / 11.0 %, head roll 8.1 % under 6 V
+- as built, our build (C8), hop 40.0 mOhm per conductor (the section 5 warn limit): ankle min 5.69 V, under 6 V 8.0 % of the time (50 Hz by phase 0.0 to 18.7 %); lowest servo left knee 5.51 V; knees 9.5 / 13.4 %, head roll 9.8 % under 6 V
 - as built, trained mass (E5), hop 57.6 mOhm per conductor: ankle min 5.62 V, under 6 V 8.2 % of the time (50 Hz by phase 0.0 to 18.0 %); lowest servo head roll 5.21 V; knees 12.7 / 14.6 %, head roll 12.6 % under 6 V
 - as built, our build (C8), hop 57.6 mOhm per conductor: ankle min 5.64 V, under 6 V 10.0 % of the time (50 Hz by phase 0.0 to 18.7 %); lowest servo head roll 5.29 V; knees 13.3 / 17.2 %, head roll 14.4 % under 6 V
 - as built, trained mass (E5), hop 77.6 mOhm per conductor: ankle min 5.58 V, under 6 V 10.0 % of the time (50 Hz by phase 1.0 to 22.0 %); lowest servo head roll 4.98 V; knees 17.5 / 18.0 %, head roll 18.9 % under 6 V
 - as built, our build (C8), hop 77.6 mOhm per conductor: ankle min 5.60 V, under 6 V 12.0 % of the time (50 Hz by phase 2.0 to 20.3 %); lowest servo head roll 4.98 V; knees 17.4 / 21.1 %, head roll 19.9 % under 6 V
 - hop resistance at which the worse trace reaches the 10 % ankle gate: about 58 mOhm per conductor (linear between 57.6 and 77.6)
-- hop resistance at which the worst servo of any kind (knee or head roll, worse trace) reaches 10 % under 6 V: about 28 mOhm per conductor (linear between 27.6 and 40.0)
+- hop resistance at which the worst servo of any kind (knee or head roll, worse trace) reaches 10 % under 6 V: about 28 mOhm per conductor (linear between 28.0 and 40.0)
+- at the section 5 pass gate (28 mOhm per conductor) every section 9 gate holds in sim: worst servo right knee 9.9 % under 6 V (our build (C8)), ankle 6.4 %, lowest servo 5.58 V
 - TEST_PLAN.md section 5 'holds to about 60 mOhm' agrees with this sweep (about 58 mOhm)
 
 ### E7 Hip roll servo screw head vs roll_to_pitch over the hip roll range (print/check_hip_roll_screw.py): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e7_hip_roll.py`. Finished 2026-11-02 10:30 UTC, 175 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e7_hip_roll.py`. Finished 2026-11-02 11:27 UTC, 132 s.
 - left: range -25.0..25.0 deg; screw at y +45.2: worst -1.30 mm at -25.0 deg, overlap over 41 of 41 angles; screw at y +24.7: worst 0.24 mm at -25.0 deg, overlap over 0 of 41 angles
 - left: the colliding screw is the outer one, as D18 says (overlap 1.30 mm)
 - right: range -25.0..25.0 deg; screw at y -24.8: worst 0.16 mm at -10.0 deg, overlap over 0 of 41 angles; screw at y -45.3: worst -1.30 mm at -25.0 deg, overlap over 41 of 41 angles
 - right: the colliding screw is the outer one, as D18 says (overlap 1.30 mm)
 
 ### E8 Bench scripts on a simulated servo bus (pytest altaay_lab/bench/tests): PASS
-Command: `VERIFY_OUT=<out> ODM_TEST_PYTHON=<python with rustypot, pypot> python3 altaay_lab/verify/e8_bench_pytest.py`. Finished 2026-11-02 10:35 UTC, 258 s.
+Command: `VERIFY_OUT=<out> ODM_TEST_PYTHON=<python with rustypot, pypot> python3 altaay_lab/verify/e8_bench_pytest.py`. Finished 2026-11-02 11:32 UTC, 259 s.
 - test python /tmp/claude-0/-home-user/44fe65d1-0499-57ea-a6b6-5fd56643a22c/scratchpad/agentS/venv311/bin/python: rustypot, pypot, onnxruntime, pytest importable: True
-- pytest: 63 passed in 220.83s (0:03:40) (exit 0)
+- pytest: 63 passed in 221.56s (0:03:41) (exit 0)
 - race test test_rustypot_panic_after_checksum_error_is_caught: 0 failed of 4 runs (the suite run plus 3 alone)
 
 ### E9 Joint angles the stock policy uses in the sim walk, trained mass and our build (sim pass only): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e9_joint_envelope.py`. Finished 2026-11-02 10:30 UTC, 17 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e9_joint_envelope.py`. Finished 2026-11-02 11:27 UTC, 14 s.
 - stock model, cases walk_forward_0.15, turn_1.0, walk_side_0.2, walk_backlash, walk_pushes
 - stock left_hip_yaw: -5.3 to +10.3 deg (MJCF range -30.0 to +30.0)
 - stock left_hip_roll: -6.0 to +11.2 deg (MJCF range -25.0 to +25.0)
@@ -267,24 +266,24 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e9_joint_envelope.py`. Fini
 - ours right_ankle: -46.3 to -26.6 deg (MJCF range -90.0 to +90.0)
 
 ### C1 Every netlist part maps to a BOM line, and every BOM_FULL quantity matches its source (CAD, netlist, fasteners): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c1_bom_coverage.py`. Finished 2026-11-02 10:22 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c1_bom_coverage.py`. Finished 2026-11-02 11:20 UTC, 0 s.
 - netlist: 58 components, 15 splices (made from wire and heat shrink, BOM 26), 43 mapped to BOM lines, unmapped none
 - 'BOM xx' references in the netlist text: 22, to missing lines: none
 - components per BOM line vs Need: 24 lines, mismatches none
-- BOM_FULL.md: 196 rows, generated 2026-11-02 10:20 UTC
+- BOM_FULL.md: 196 rows, generated 2026-11-02 11:08 UTC
 - printed rows: 37 rows, 54 pieces; CAD printed nodes 52 (+ 2 antenna rods)
 - horns in CAD {'horn_drive': 14, 'horn_idle': 14}, inserts 58, bearings 3
 - cables: BOM_FULL 47 rows, netlist 47 active cables
 - wire per gauge and colour: 15 BOM_FULL rows checked against the netlist cut sums, 0 differ
 - washers in fasteners.json: 16 under 8 fitted screws; fresh BOM_FULL line 17l row: F20 16 pcs
 - fitted screws in fasteners.json: 342; BOM_FULL screw rows 11 (section Fasteners)
-- committed BOM_FULL.md vs a fresh build from today's sources (E4, 2026-11-02 10:22 UTC): 0 quantities differ, 0 rows gone, 0 new
+- committed BOM_FULL.md vs a fresh build from today's sources (E4, 2026-11-02 11:20 UTC): 0 quantities differ, 0 rows gone, 0 new
 - heat shrink: the rule gives 34 sleeves (4 XT30 cups, 2 caps, 13 lead joints, 15 splices; the 52 splice ends sit in those splices); fresh BOM_FULL 34 pieces; the 3D view draws 34 sleeve nodes for 34 joints; BOM 26 buys 1 x 180 = 180 pieces
 - purchase status from the fresh build (E4): {'printed': 37, 'bought': 80, 'in kit': 23, 'made': 34, 'tool': 22}
 - BOM.md lines used by a BOM_FULL row: 83 of 83 (unused: none)
 
 ### C2 Connectors: every wired pin has a mating part or end treatment; crimps fit the Molex 08-70-1040: PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c2_connectors.py`. Finished 2026-11-02 10:22 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c2_connectors.py`. Finished 2026-11-02 11:19 UTC, 0 s.
 - 124 wires on active cables, 248 wire ends, every end treatment checked against its pin group (21 classes)
 - made-lead housings (Molex 50-37-5033): 7, SV10 bus2 3 pos, SV14 bus1 2 pos, SV20 bus2 3 pos, SV24 bus1 2 pos, SV30 bus2 3 pos, U2 h3 2 pos, U2 h5 2 pos; crimp terminals (08-70-1040): 17
 - housings: netlist 7, BOM 21 Need 7 (Buy 10), CABLE_MAP 7, WIRING.md 7
@@ -298,8 +297,8 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c2_connectors.py`. Finished
 - connector pins not wired and not marked nc: none
 
 ### C3 Every active cable has a 3D route whose worst length plus slack fits its cut, a service loop at every joint, and a hold at every tie point: PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c3_cables3d.py`. Finished 2026-11-02 10:30 UTC, 11 s.
-- cables3d.json 2026-11-02 04:50 UTC (checked 2026-11-02 09:33 UTC): 47 cables, 102 cable ends, 75 retention items; netlist 47 active cables
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c3_cables3d.py`. Finished 2026-11-02 11:27 UTC, 11 s.
+- cables3d.json 2026-11-02 04:50 UTC (checked 2026-11-02 11:02 UTC): 47 cables, 102 cable ends, 75 retention items; netlist 47 active cables
 - series pieces summed: P7 XT30.M+ -> F1.IN = XT30-JFI 30 + JFI-F1 90 = 120 mm (inline splice JFI, not routed in 3D); P7 F1.OUT -> SW1.VIN = F1-JFO 90 + JFO-SW1 40 = 130 mm (inline splice JFO, not routed in 3D)
 - floating splices (judged by chain): G, J5, JFI, JFO, JG, JG10, JG20, JG30, VSW, YD3, YG3; fixed: JBN the BEC output leads end there (lead length not published); JBP the BEC output leads end there (lead length not published); SPG seated on the belly (MOUNTING.md, servo power splices: cable tie or foam tape); SPV seated on the belly (MOUNTING.md, servo power splices: cable tie or foam tape)
 - twist (D25, NASA-STD-8739.4A 7.2.16 to 7.2.18): 10 made multi-wire cables twisted (D10 x1.028, D2 x1.024, D3 x1.024, D4 x1.024, D6 x1.019, P13 x1.019, SD1 x1.019 branch b, SP3 x1.019, SP4 x1.019, SP5 x1.019); 12 not, with the reason in the netlist; chain lengths below carry the take-up at the shortest lay
@@ -313,10 +312,10 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c3_cables3d.py`. Finished 2
 - tied to a neighbour cable (D25 i): T079 S9 to SP5 (held by T047); T082 S11 to D3 (held by T014)
 - BOM line 32 Need: 75 along the cables (cables3d.json retention, file of 2026-11-02 4:31 AM ET: 32 through line 34 MB3A mounts, 23 through line 34b ABM1M-AT-C mounts; 3 through dr; line 34 Need: 32 (cables3d.json retention, file of 2026-11-02 4:31 AM ET: the spots where a flat 19 x 19 mm patch with 4.8 mm free hei; line 34b Need: 23 (cables3d.json retention, file of 2026-11-02 4:31 AM ET); 28 with 20 % spares
 - route changes tried and not kept (cuts would not fit with the slack): T026: route change tried and not kept: the MB3A patch is on the underside of head_bot_sheet, 28.6 mm below the bundle, so the bundle drops under the head floor and back; the worst routes of D2, D3 and D4 grow by 83 to 84 mm and D2 (cut 550 mm) and D3 (cut 900 mm) would reach with 18 to 25 mm less than the 40 mm slack; T089: route change tried and not kept: the MB3A patch is on the outer -y face of body_middle_bottom, 33.9 mm away; the SP5 worst route grows from 377 to 440 mm, 448 mm with the twist take-up, past the 430 mm cut
-- cables3d's own check field: {'pass with notes': 34, 'pass': 10, 'fail': 3}
+- cables3d's own check field: {'pass with notes': 34, 'pass': 10, 'test fit': 3}
 
 ### C4a Every fitted screw has a BOM line, a length that line buys, and a count it covers (fasteners.json vs BOM.md): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 2026-11-02 10:41 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 2026-11-02 11:35 UTC, 0 s.
 - fasteners.json: 413 records, 355 screws, 342 fitted (left out: {'LEAVE OUT (D18)': 2, 'NOT FITTED': 11}), 58 inserts
 - line 1 (STS3215 servo bag (18 screws per servo, B2)): 115 screws, {'M2x6 self-tapping pan head': 42, 'PA2.0 self-tapping (factory)': 56, 'M3x6 machine screw (Feetech rocker screw)': 14, 'PA3.0x5 self-tapping, washer head (Feetech idle screw)': 3}
 - line 14 (SG90 bag): 6 screws, {'SG90 bag horn screw': 2, 'SG90 bag mounting screw': 4}
@@ -335,7 +334,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 
 - inserts: 58 in fasteners.json, BOM 16 Need 58
 
 ### C4b No screw head or tip collision over the joint ranges, except known, decided ones (fasteners sweep vs D18 and D19): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 2026-11-02 10:41 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 2026-11-02 11:35 UTC, 0 s.
 - sweep: 37 steps per joint, 13 joint pairs, 345 hit rows; fitted screws by status {'NEAR': 105, 'HIT': 37, 'PARTS COLLIDE FIRST': 52, 'CONTACT': 138, 'CLEAR': 10}
 - screws named in a DECIDED entry of DECISIONS.md: F002 (D19), F010 (D19), F196 (D19), F198 (D19), F200 (D19), F209 (D19), F211 (D19), F213 (D19), F247 (D19), F254 (D19)
 - hit rows on fitted screws by class: {'screw': 12, 'parts collide first': 134, 'static contact': 160, 'static overlap': 35}
@@ -345,7 +344,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 
 - D18 screws marked in fasteners.json: 2 (F124, F136)
 
 ### C5 Servo IDs agree everywhere (netlist, WIRING.md, CABLE_MAP, viewer, BOM_FULL, Runtime code and config, bench, sim, policy order): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c5_servo_ids.py`. Finished 2026-11-02 10:22 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c5_servo_ids.py`. Finished 2026-11-02 11:19 UTC, 0 s.
 - Runtime at 376de65 (pin 376de65): left_hip_yaw 20, left_hip_roll 21, left_hip_pitch 22, left_knee 23, left_ankle 24, neck_pitch 30, head_pitch 31, head_yaw 32, head_roll 33, right_hip_yaw 10, right_hip_roll 11, right_hip_pitch 12, right_knee 13, right_ankle 14
 - netlist: 14 of 14 joints match
 - WIRING.md: 8 of 14 joints named, all match (the others appear only as IDs in the chain list)
@@ -362,7 +361,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c5_servo_ids.py`. Finished 
 - software/duck_config.altaay.json: 14 joint offsets, names match the Runtime
 
 ### C6 GPIO pins agree (netlist, WIRING.md section 3, CABLE_MAP, HARNESS_BUILD, D9, Runtime code at 376de65): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c6_gpio.py`. Finished 2026-11-02 10:41 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c6_gpio.py`. Finished 2026-11-02 11:35 UTC, 0 s.
 - Runtime 376de65 / Pi hardware: left foot GPIO22, right foot GPIO27, left eye GPIO24, right eye GPIO23, projector GPIO25, left antenna GPIO13, right antenna GPIO12, I2C SDA GPIO2, I2C SCL GPIO3, I2S BCLK GPIO18, I2S LRC GPIO19, I2S DIN GPIO21
 - netlist: 12 of 12 functions on the Runtime GPIO and the right header pin
 - WIRING.md: 12 of 12 functions on the Runtime GPIO and the right header pin
@@ -372,7 +371,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c6_gpio.py`. Finished 2026-
 - netlist header pins used for signals: 3 I2C SDA, 5 I2C SCL, 12 I2S BCLK, 13 right foot, 15 left foot, 16 right eye, 18 left eye, 22 projector, 32 right antenna, 33 left antenna, 35 I2S LRC, 40 I2S DIN
 
 ### C7 Current ratings: every wire, contact and part on the servo power path as wired now (D15 plus the D23 feeds SP4 and SP5) vs the simulated currents (sim pass only): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c7_current_ratings.py`. Finished 2026-11-02 10:40 UTC, 1 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c7_current_ratings.py`. Finished 2026-11-02 11:39 UTC, 1 s.
 - traces: walk_backlash, walk_rough_backlash, walk_pushes, walk_side_0.2, turn_1.0 (E5 run); servo supply current = positive electrical power / 6.0 V + 0.05 A quiescent (an upper estimate; on the 7.4 V basis of CURRENT_BUDGET.md the currents are 0.81 x these); split over the as-built network (sim/power_fix.py option ab, netlist altaay_lab/wiring/netlist.yaml sha256 0f4af5bff3), both corners, the worse counts
 - P11 (BEC splice JB+ to SPV, 16 AWG; the BEC leads are in part D) (16 AWG): mean 4.70 A, worst 100 ms 6.52 A, 20 ms 9.05 A, 2 ms 10.93 A; limit 22.0 A (16 AWG); worst 100 ms in walk_backlash, typical corner
 - SP1 (22 AWG): mean 0.85 A, worst 100 ms 1.64 A, 20 ms 2.60 A, 2 ms 3.35 A; limit 7.0 A (22 AWG); worst 100 ms in walk_pushes, typical corner
@@ -436,21 +435,21 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c7_current_ratings.py`. Fin
 - adapter U2: 5 wires, 0 on a power net (D15: none)
 - cross-check, E6 ngspice worst 100 ms (actual bus voltage) vs this split (6.0 V currents): SP1 1.54 vs 1.64 A, SP4 1.57 vs 1.97 A, SP2 1.11 vs 2.22 A, SP5 1.58 vs 2.11 A, SP3 1.56 vs 1.52 A
 
-### C8 The stock policy walks the robot we will build (2.65 kg, sim/MASS_BUDGET.md) on flat ground (sim/added_mass_sim.py, sim pass only): FAIL
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c8_policy_mass.py`. Finished 2026-11-02 10:39 UTC, 118 s.
+### C8 The stock policy walks the robot we will build (2.65 kg, sim/MASS_BUDGET.md) on flat ground (sim/added_mass_sim.py, sim pass only): PASS
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c8_policy_mass.py`. Finished 2026-11-02 11:37 UTC, 118 s.
 - model mass: stock 2.1071 kg (trained 2.107 kg), ours 2.6528 kg (MASS_BUDGET.md 2.65 kg)
 - stock copy reproduces the CURRENT_BUDGET.md bus means in 7 of 7 cases
 - tracking compared with print/MASS_STUDY.md variant (c), the D22 build: 2.6387 kg there, 2.6528 kg in this model (+14.1 g, +0.5 % of the robot, within the 1 % the doc choice allows); sim/ADDED_MASS_SIM.md table 1 is its 2.77 kg build (before D22) and is not compared
 - ours, Stand, zero command: falls none; tracking - (doc -); seeds fell not run (stand)
 - ours, Walk forward 0.15 m/s: falls none; tracking 0.70 (doc 0.70, pitch +2.6 deg); seeds fell 0 of 6
-- ours, Turn 1.0 rad/s: falls none; tracking 0.81 (doc 0.81, pitch +2.1 deg); seeds fell 0 of 6
-- ours, Walk sideways 0.2 m/s: falls none; tracking 0.24 (doc 0.25, pitch +0.9 deg); seeds fell 0 of 6
-- ours, Walk forward, backlash model: falls none; tracking 0.90 (doc 0.90, pitch +3.6 deg); seeds fell 0 of 6
-- ours, Walk forward, 15 N pushes every 3 s: falls none; tracking 0.62 (doc 0.63, pitch +3.0 deg); seeds fell 0 of 6
+- ours, Turn 1.0 rad/s: falls none; tracking 0.81 (doc 0.81, pitch +2.0 deg); seeds fell 0 of 6
+- ours, Walk sideways 0.2 m/s: falls none; tracking 0.24 (doc 0.24, pitch +0.9 deg); seeds fell 0 of 6
+- ours, Walk forward, backlash model: falls none; tracking 0.90 (doc 0.90, pitch +3.7 deg); seeds fell 0 of 6
+- ours, Walk forward, 15 N pushes every 3 s: falls none; tracking 0.62 (doc 0.62, pitch +2.9 deg); seeds fell 0 of 6
 - rough terrain, start raised 23 mm: stock falls [9.14], ours falls [6.86] (not a flat-ground case; ADDED_MASS_SIM.md finding 4)
 
 ### C9 Docs agree: numbers that appear in several docs are the same everywhere: PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c9_docs.py`. Finished 2026-11-02 10:44 UTC, 1 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c9_docs.py`. Finished 2026-11-02 11:33 UTC, 1 s.
 - HARDWARE_AUDIT.md section 6: 35 blockers; cleared or decided 22; test print 5; open 8 (6 assembly or bench, 2 waiting on parts: B8, B33)
 - blocker count mentions checked: 11
 - 'Bnn cleared' mentions outside HARDWARE_AUDIT.md: 9
@@ -466,13 +465,13 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c9_docs.py`. Finished 2026-
 - print/PRINT_PLAN.md PLA: coupon session 41.2 g + full print (220 bed) 1347.8 g = 1389.0 g (table total 1389.0 g); BOM 27 need 1389 g
 
 ### C10 Wiring sheets cover every wire of the netlist (wiring/sheets, run on a copy): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c10_sheets.py`. Finished 2026-11-02 10:31 UTC, 20 s.
-- make_sheets.py on a copy: exit 0; sheet 1: 1_power.png 844949 bytes, svg 521398 bytes, full 37, stubs 0, crossings 1; sheet 2: 2_servo_bus.png 840039 bytes, svg 526111 bytes, full 48, stubs 7, crossings 2; sheet 3: 3_pi_sensors.png 799824 bytes, svg 467729 bytes, full 17, stubs 16, crossings 1; sheet 4: 4_head_expression.png 614881 bytes, svg 390063 bytes, full 25, stubs 0, crossings 6; sheet 5: 5_harness.png 882535 bytes, svg 548158 bytes, full 0, stubs 0, crossings 7
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c10_sheets.py`. Finished 2026-11-02 11:27 UTC, 19 s.
+- make_sheets.py on a copy: exit 0; sheet 1: 1_power.png 844836 bytes, svg 521398 bytes, full 37, stubs 0, crossings 1; sheet 2: 2_servo_bus.png 839943 bytes, svg 526111 bytes, full 48, stubs 7, crossings 2; sheet 3: 3_pi_sensors.png 799705 bytes, svg 467729 bytes, full 17, stubs 16, crossings 1; sheet 4: 4_head_expression.png 614760 bytes, svg 390063 bytes, full 25, stubs 0, crossings 6; sheet 5: 5_harness.png 882475 bytes, svg 548158 bytes, full 0, stubs 0, crossings 7
 - sheets built: 1 1_power (full 37, stubs 0), 2 2_servo_bus (full 48, stubs 7), 3 3_pi_sensors (full 17, stubs 16), 4 4_head_expression (full 25, stubs 0), 5 5_harness (full 0, stubs 0); active wires drawn in full: 124 of 124
 - committed sheet SVGs: 5, older than netlist.yaml: none
 
 ### C11 Hip yaw the stock policy uses (walk and turn) stays under the F198/F211 collision onset (21.7 deg): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py`. Finished 2026-11-02 10:30 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py`. Finished 2026-11-02 11:27 UTC, 0 s.
 - collision onset: FASTENERS.md 21.7, 21.7 deg; fasteners.json sweep F198 left_hip_yaw from 21.7 deg, F211 right_hip_yaw from 21.7 deg; used 21.7 deg
 - ours, turn_1.0: largest |hip yaw| 10.5 deg (largest |target| 8.9 deg; largest |action| 0.61 left, 0.50 right)
 - ours, walk_backlash: largest |hip yaw| 5.6 deg (largest |target| 4.5 deg; largest |action| 0.29 left, 0.33 right)
@@ -496,12 +495,12 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py`. F
 |---|---|---|
 | BEST_WALK_ONNX_2.onnx | 3c606f9381 | 2026-11-01 22:31 UTC |
 | altaay_lab/BOM.md | c48b416778 | 2026-11-02 10:17 UTC |
-| altaay_lab/BOM_FULL.md | 21473f809a | 2026-11-02 10:20 UTC |
+| altaay_lab/BOM_FULL.md | cdf2f80a63 | 2026-11-02 11:08 UTC |
 | altaay_lab/CABLE_MAP.md | f6886a381a | 2026-11-02 09:37 UTC |
-| altaay_lab/DECISIONS.md | 69008d1f31 | 2026-11-02 10:30 UTC |
+| altaay_lab/DECISIONS.md | 6d704a912f | 2026-11-02 11:33 UTC |
 | altaay_lab/GAPS.md | da0dbbc6f1 | 2026-11-02 00:32 UTC |
 | altaay_lab/HARDWARE_AUDIT.md | a940cb0cf2 | 2026-11-02 10:05 UTC |
-| altaay_lab/HARNESS_BUILD.md | 7a8a0a7fab | 2026-11-02 09:52 UTC |
+| altaay_lab/HARNESS_BUILD.md | 4d605899f7 | 2026-11-02 11:07 UTC |
 | altaay_lab/MOUNTING.md | 8ebee5f784 | 2026-11-02 05:47 UTC |
 | altaay_lab/POWER.md | 7fb8347366 | 2026-11-01 23:58 UTC |
 | altaay_lab/PRINT_CHECK.md | fa081ab8c4 | 2026-11-02 00:28 UTC |
@@ -510,9 +509,9 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py`. F
 | altaay_lab/SERVO_DEEP_DIVE.md | a691edab2c | 2026-11-01 23:58 UTC |
 | altaay_lab/SERVO_UPGRADE_OPTIONS.md | 9e2c4241d7 | 2026-11-02 03:53 UTC |
 | altaay_lab/SOURCING_2026-11-02.md | 49aca9c97a | 2026-11-02 02:44 UTC |
-| altaay_lab/START_HERE.md | bd1c819064 | 2026-11-02 10:21 UTC |
-| altaay_lab/STATE.md | bf3d8822ad | 2026-11-02 10:44 UTC |
-| altaay_lab/TEST_PLAN.md | 60e1a3d157 | 2026-11-02 10:36 UTC |
+| altaay_lab/START_HERE.md | ab1052dc7c | 2026-11-02 11:33 UTC |
+| altaay_lab/STATE.md | e4ffc0f4bb | 2026-11-02 11:33 UTC |
+| altaay_lab/TEST_PLAN.md | c2f16909ed | 2026-11-02 11:33 UTC |
 | altaay_lab/UPSTREAM_ISSUES.md | 684a28bb66 | 2026-11-01 23:38 UTC |
 | altaay_lab/WIRING.md | 4deb63a450 | 2026-11-02 08:40 UTC |
 | altaay_lab/audit/ERC_REPORT.md | b054a14324 | 2026-11-02 08:39 UTC |
@@ -531,26 +530,26 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py`. F
 | altaay_lab/bench/tests/test_feet_check.py | 2263e58494 | 2026-11-02 03:29 UTC |
 | altaay_lab/bench/tests/test_first_servo_check.py | b157bb2cd3 | 2026-11-02 02:55 UTC |
 | altaay_lab/bench/tests/test_imu_check.py | 28193f99da | 2026-11-02 03:02 UTC |
-| altaay_lab/bench/tests/test_power_log.py | 9866bebb04 | 2026-11-02 09:00 UTC |
+| altaay_lab/bench/tests/test_power_log.py | b2bc48289d | 2026-11-02 11:16 UTC |
 | altaay_lab/bench/tests/test_protocol.py | 3e5298a2b2 | 2026-11-02 02:47 UTC |
 | altaay_lab/bench/tests/test_thermal_guard.py | fb682126c4 | 2026-11-02 03:12 UTC |
 | altaay_lab/bom.json | 585dca255e | 2026-11-02 10:17 UTC |
-| altaay_lab/cables3d/CABLES_3D.md | 8bf630c954 | 2026-11-02 09:52 UTC |
-| altaay_lab/cables3d/VIEWER_NOTE.md | bdf3d70da7 | 2026-11-02 09:53 UTC |
-| altaay_lab/cables3d/cables3d.json | 47cb6e8a9f | 2026-11-02 09:50 UTC |
+| altaay_lab/cables3d/CABLES_3D.md | c927297ad7 | 2026-11-02 11:02 UTC |
+| altaay_lab/cables3d/VIEWER_NOTE.md | 60d8b20adb | 2026-11-02 11:07 UTC |
+| altaay_lab/cables3d/cables3d.json | e2eb226bba | 2026-11-02 11:02 UTC |
 | altaay_lab/fasteners/FASTENERS.md | 92c63f4698 | 2026-11-02 05:59 UTC |
 | altaay_lab/fasteners/VIEWER_NOTE.md | af30b4f52d | 2026-11-02 03:05 UTC |
 | altaay_lab/fasteners/fasteners.json | 8a046d8825 | 2026-11-02 05:59 UTC |
-| altaay_lab/print/MASS_STUDY.md | 875c893534 | 2026-11-02 05:05 UTC |
+| altaay_lab/print/MASS_STUDY.md | f9e75edaab | 2026-11-02 11:33 UTC |
 | altaay_lab/print/PRINT_PLAN.md | b40bca8c97 | 2026-11-02 10:07 UTC |
 | altaay_lab/print/SLICE_SUMMARY.md | 8ec58461a2 | 2026-11-02 06:43 UTC |
 | altaay_lab/print/check_hip_roll_screw.py | c299d6623a | 2026-11-01 23:47 UTC |
 | altaay_lab/print/parts.csv | 54f7203efa | 2026-11-02 04:51 UTC |
 | altaay_lab/sim/ADDED_MASS_SIM.md | 5953ec21ca | 2026-11-02 05:57 UTC |
-| altaay_lab/sim/CURRENT_BUDGET.md | e3ccc44533 | 2026-11-02 07:08 UTC |
-| altaay_lab/sim/MASS_BUDGET.md | 5da8e75976 | 2026-11-02 05:57 UTC |
-| altaay_lab/sim/POWER_FIX.md | 1f7958b263 | 2026-11-02 07:08 UTC |
-| altaay_lab/sim/POWER_PATH_SIM.md | 6062ccaca8 | 2026-11-02 07:12 UTC |
+| altaay_lab/sim/CURRENT_BUDGET.md | ebe9bdcd0f | 2026-11-02 11:16 UTC |
+| altaay_lab/sim/MASS_BUDGET.md | 2427942d41 | 2026-11-02 11:33 UTC |
+| altaay_lab/sim/POWER_FIX.md | 4c97d67170 | 2026-11-02 11:33 UTC |
+| altaay_lab/sim/POWER_PATH_SIM.md | b11142b4c0 | 2026-11-02 11:33 UTC |
 | altaay_lab/sim/RUNTIME_THERMAL.md | e247e0e023 | 2026-11-02 05:57 UTC |
 | altaay_lab/sim/SIM_WALK.md | b83d1a4a3c | 2026-11-01 23:58 UTC |
 | altaay_lab/sim/added_mass_sim.py | a5667b4b87 | 2026-11-02 02:38 UTC |
@@ -559,11 +558,11 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py`. F
 | altaay_lab/sim/power_fix.py | ca57f9eea1 | 2026-11-02 06:40 UTC |
 | altaay_lab/sim/power_path_sim.py | e41fa6ed2f | 2026-11-02 06:48 UTC |
 | altaay_lab/software/PI_SETUP.md | fc39f59805 | 2026-11-02 08:07 UTC |
-| altaay_lab/software/SOFTWARE.md | 7279762a1c | 2026-11-02 09:46 UTC |
+| altaay_lab/software/SOFTWARE.md | d92bbb5f81 | 2026-11-02 11:16 UTC |
 | altaay_lab/software/duck_config.altaay.json | 249171e913 | 2026-11-02 02:38 UTC |
-| altaay_lab/viewer/MISSING_3D.md | 10796a95f4 | 2026-11-02 10:18 UTC |
+| altaay_lab/viewer/MISSING_3D.md | 6b3241dde5 | 2026-11-02 11:33 UTC |
 | altaay_lab/viewer/README.md | 193884c458 | 2026-11-01 23:47 UTC |
-| altaay_lab/viewer/make_viewer_data.py | 6719577a18 | 2026-11-02 10:11 UTC |
+| altaay_lab/viewer/make_viewer_data.py | d35f16043e | 2026-11-02 11:02 UTC |
 | altaay_lab/wiring/netlist.yaml | 0f4af5bff3 | 2026-11-02 08:38 UTC |
 | altaay_lab/wiring/sheets/make_sheets.py | 30e7f6a42d | 2026-11-02 05:31 UTC |
 | altaay_lab/wiring/sheets/sheetlib.py | 603ae4ea42 | 2026-11-02 03:57 UTC |

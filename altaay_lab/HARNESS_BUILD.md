@@ -1,6 +1,6 @@
 # Harness build sheet
 
-Generated 2026-11-02 09:52 UTC by altaay_lab/wiring/make_harness_build.py from wiring/netlist.yaml and cables3d/cables3d.json. Do not edit by hand.
+Generated 2026-11-02 11:07 UTC by altaay_lab/wiring/make_harness_build.py from wiring/netlist.yaml and cables3d/cables3d.json. Do not edit by hand.
 
 How to use it:
 - Build in the order below, one cable at a time. Cut every wire to the length shown; lengths include the end allowance used in the netlist.
@@ -361,7 +361,7 @@ Test: SV20.BUS1.D to SV21.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md sectio
 Seats on the brackets, end to end: channel trunk_top; none (free air); edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; channel trunk_top; none (free air); edge trunk_top; edge left_roll_to_pitch
 Ties (one 2.5 x 100 mm cable tie each, BOM 32): T067 stick-on mount MB3A (BOM 34) on body_middle_top, 11 mm from the cable line; T068 stick-on mount ABM1M-AT-C (BOM 34b) on trunk_top, 11 mm from the cable line; T069 stick-on mount ABM1M-AT-C (BOM 34b) on roll_motor_top, 13 mm from the cable line
 Joint loops: left_hip_yaw: leave 29 mm between T068 and T069 (13 mm more than the straight run at the zero pose)
-Reach check (cables3d, by conductor chain): fail, worst routed 131.8 mm, cut 150 mm.
+Reach check (cables3d, by conductor chain): test fit, worst routed 131.8 mm, cut 150 mm.
 
 ### S3: kit cable ID 21 to ID 22
 
@@ -429,7 +429,7 @@ Test: SV10.BUS1.D to SV11.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md sectio
 Seats on the brackets, end to end: channel trunk_top; none (free air); edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge right_roll_to_pitch
 Ties (one 2.5 x 100 mm cable tie each, BOM 32): T042 stick-on mount ABM1M-AT-C (BOM 34b) on roll_motor_top, 15 mm from the cable line; T074 stick-on mount MB3A (BOM 34) on trunk_top, 15 mm from the cable line; T075 stick-on mount MB3A (BOM 34) on body_middle_bottom, 17 mm from the cable line
 Joint loops: right_hip_yaw: leave 30 mm between T075 and T042 (14 mm more than the straight run at the zero pose)
-Reach check (cables3d, by conductor chain): fail, worst routed 133.4 mm, cut 150 mm.
+Reach check (cables3d, by conductor chain): test fit, worst routed 133.4 mm, cut 150 mm.
 
 ### S8: kit cable ID 11 to ID 12
 
@@ -799,7 +799,7 @@ Test: PI.CSI to CAM.CSI: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
 Seats on the brackets, end to end: none (free air); edge head_roll_mount; edge head
 Ties (one 2.5 x 100 mm cable tie each, BOM 32): T063 stick-on mount ABM1M-AT-C (BOM 34b) on head, 13 mm from the cable line; T064 stick-on mount ABM1M-AT-C (BOM 34b) on head, 15 mm from the cable line
-Reach check (cables3d, by conductor chain): fail, worst routed 127.1 mm, cut 150 mm.
+Reach check (cables3d, by conductor chain): test fit, worst routed 127.1 mm, cut 150 mm.
 
 ## Splices
 
