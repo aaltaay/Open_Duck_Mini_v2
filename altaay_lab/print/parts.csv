@@ -1,0 +1,37 @@
+stl,qty,material,overrides,up,leg1,spare,why
+battery_pack_lid.stl,1,PLA,,-x,0,0,
+body_back.stl,1,PLA,,-x,0,0,
+body_front.stl,1,PLA,,+x,0,0,
+body_middle_bottom.stl,1,PLA,insert,+z,0,0,8 insert bores (horizontal in this orientation)
+body_middle_top.stl,1,PLA,insert,+x,0,0,8 insert bores
+bulb.stl,2,PLA,,-x,0,0,guide says x1; CAD has 2 (issue #26)
+flash_light_module.stl,1,PLA,,+x,0,0,
+flash_reflector_interface.stl,1,PLA,,+x,0,0,
+foot_bottom_pla.stl,2,PLA,insert,-z,1,0,2 blind insert bores 5.8 mm (C3)
+foot_bottom_tpu.stl,2,TPU,,-z,1,0,TPU 40% per upstream (B26)
+foot_side.stl,2,PLA,,+y,1,0,
+foot_top.stl,2,PLA,insert,-y,1,0,2 insert bores with a 1.5 mm wall (B16; C2)
+head.stl,1,PLA,insert,-z,0,0,12 insert bores; bearing seat is horizontal in this orientation
+head_bot_sheet.stl,1,PLA,,+z,0,0,
+head_pitch_to_yaw.stl,1,PLA,neck,+x,0,1,neck chain (G5); thinnest part at head_pitch and head_yaw (G6)
+head_roll_mount.stl,1,PLA,neck+fit,+z,0,1,neck chain (G5); servo pocket line to line (0.00 mm net)
+head_yaw_to_roll.stl,1,PLA,neck+fit,+z,0,1,neck chain (G5); servo pocket 0.10 mm undersize (C4)
+knee_to_ankle_left_sheet.stl,4,PLA,fit,-y,2,1,servo tabs line to line (0.01 mm); thinnest leg plate (G6)
+knee_to_ankle_right_sheet.stl,4,PLA,fit,+y,2,1,servo tabs line to line (0.01 mm); thinnest leg plate (G6)
+left_antenna_holder.stl,1,PLA,,vec:0.2631 -0.9354 -0.2362,0,1,thinnest part (2.0 mm); first hit if the head swings (G6)
+left_cache.stl,1,PLA,,-z,1,0,
+left_eye.stl,1,PLA,,+x,0,0,whole-part test print (B14)
+left_roll_to_pitch.stl,1,PLA,fit,-z,1,0,servo pocket line to line (0.10 mm face overlap); G12 check
+leg_spacer.stl,4,PLA,insert,-y,2,0,4 insert bores (2 per end)
+neck_left_sheet.stl,1,PLA,neck,-y,0,1,neck chain (G5); thin sheet at neck_pitch and head_pitch (G6)
+neck_right_sheet.stl,1,PLA,neck,+y,0,1,neck chain (G5); thin sheet at neck_pitch and head_pitch (G6)
+right_antenna_holder.stl,1,PLA,,vec:0.2631 0.9354 -0.2362,0,1,thinnest part (2.0 mm); first hit if the head swings (G6)
+right_cache.stl,1,PLA,,-z,0,0,
+right_eye.stl,1,PLA,,+x,0,0,
+right_roll_to_pitch.stl,1,PLA,fit,-z,0,0,servo pocket line to line (0.10 mm face overlap); G12 check
+roll_motor_bottom.stl,2,PLA,,+x,1,1,thinnest hip part (2.97 mm median) at hip yaw and hip roll; G12 screw (G6)
+roll_motor_top.stl,2,PLA,fit,-z,1,0,servo pocket line to line (0.01 mm)
+speaker_interface.stl,1,PLA,,vec:-0.2631 -0.9354 0.2362,0,0,laid flat (PRINT_CHECK had it on a 48 mm2 edge)
+speaker_stand.stl,1,PLA,,-z,0,0,
+trunk_bottom.stl,1,PLA,insert+fit,+z,0,0,6 insert bores and 2 bearing seats 32.19 mm (C1)
+trunk_top.stl,1,PLA,fit,+z,0,0,3 servo pockets line to line (0.10 mm face overlap)

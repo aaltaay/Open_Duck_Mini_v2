@@ -1,7 +1,7 @@
 # START HERE: Open Duck Mini v2 (Altaay lab fork)
 
 Read this file first. It is written so a new agent on a different account can pick up the duck build with no other context.
-Last written: 2026-11-01 2:18 PM ET by Legged Robots, Grok Bot agent of Ahmed Altaay. Updated 2026-11-01 about 7:00 PM ET by the Claude Code agent (print-readiness pass under Ahmed's delegation, DECISIONS.md D1 to D16; branch claude/print-ready, pull request into altaay-lab).
+Last written: 2026-11-01 2:18 PM ET by Legged Robots, Grok Bot agent of Ahmed Altaay. Updated 2026-11-01 about 7:00 PM ET by the Claude Code agent (print-readiness pass under Ahmed's delegation, DECISIONS.md D1 to D18; branch claude/print-ready, pull request into altaay-lab).
 
 ## What this is
 This repo is a public fork of [apirrone/Open_Duck_Mini](https://github.com/apirrone/Open_Duck_Mini). Upstream branch `v2` is left untouched at b23317a. All Altaay lab work lives ONLY on branch `altaay-lab`, ONLY in this `altaay_lab/` folder.
@@ -14,7 +14,7 @@ Naming: "Mento" and "Minto" in older files and commits refer to the same owner b
 
 ## Current status (plain words)
 - Nothing bought, nothing printed. Print-readiness pass done 2026-11-01 evening: no print-blocking blockers left. The first print is a short coupon session cut from the real parts (print/PRINT_PLAN.md) and it waits for Ahmed's OK (lab rule 4).
-- Decisions made under Ahmed's delegation (DECISIONS.md D1 to D16): C001 servos with a 1-servo bench test first; Tenergy 32175 BMS; 15 A fuse kept; Pololu 2815 MOSFET main switch with the stock panel switch as its control; Castle CC BEC Pro at 7.2 V; servo power bypasses the Waveshare adapter (D15, belly splices, one power lead per chain); Pololu 5 V regulator on the head floor; GPIO wired to the Runtime code; projector LED resistor; software battery cut-off.
+- Decisions made under Ahmed's delegation (DECISIONS.md D1 to D18): C001 servos with a 1-servo bench test first; Tenergy 32175 BMS; 15 A fuse kept; Pololu 2815 MOSFET main switch with the stock panel switch as its control; Castle CC BEC Pro at 7.2 V; servo power bypasses the Waveshare adapter (D15, belly splices, one power lead per chain); Pololu 5 V regulator on the head floor; GPIO wired to the Runtime code; projector LED resistor; software battery cut-off; SS-01 gold-contact foot switches with pull-ups (D17); one hip roll screw left out per leg (D18, upstream issue 17).
 - Every part that is not in the upstream CAD has a measured seat inside the body (audit/free_space.py, audit/placements.json, MOUNTING.md). No STL edit is needed.
 - Electrical verification (sim pass only): servo current budget from the stock walk (sim/CURRENT_BUDGET.md), ngspice model of the whole power path down to every servo (sim/POWER_PATH_SIM.md), electrical rule check of the netlist with 0 errors (audit/ERC_REPORT.md), and a hardware test plan with pass/fail numbers (TEST_PLAN.md).
 - Wiring: machine-readable netlist (wiring/netlist.yaml) is the single source for the schematic, harness and pictorial drawings and for the rule check.
@@ -98,7 +98,7 @@ CAD, STL and sim assets are not copied here. Use the upstream commits. Onshape C
 | Google Drive | Ahmed's lab Drive folder "Altaay Robotics Lab" (private). It has no Duck folder yet. |
 
 ## Open decisions
-Full text: [DECISIONS.md](DECISIONS.md). D1 to D16 are decided (D14 superseded by D15). Still Ahmed's call:
+Full text: [DECISIONS.md](DECISIONS.md). D1 to D18 are decided (D14 superseded by D15). Still Ahmed's call:
 - OK to buy the test order (BOM.md "Needs test order") and OK for the coupon print session (print/PRINT_PLAN.md). Both need his yes (lab rules 4 and 7).
 - Printer model (not in any lab file): the print package is printer-agnostic, bed at least 220 x 220 mm.
 

@@ -72,8 +72,8 @@ Subtotal: $90.74
 
 | # | Item | Spec | Need | Buy | Pack | Line $ | Supplier | Link | Ships to USA | Verified |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 27 | PLA | Overture Easy PLA 1.75 mm 1 kg, black (need 1304 g sliced, 1.5 kg with 15% spare) | 1.5 kg | 2 | 1 kg | 29.98 | Amazon | https://www.amazon.com/dp/B09LCK7QJ2 | Yes | Yes; note 2026-11-01: Easy Black was out of stock at overture3d.com (other colors in stock, nozzle 190 to 220 C, bed 25 to 60 C); any in-stock color works |
-| 28 | TPU | Overture TPU 95A 1.75 mm 1 kg, black (need 35 g; hardness not stated upstream) | 35 g | 1 | 1 kg | 23.99 | Amazon | https://www.amazon.com/dp/B0BGMP1MZ7 | Yes | Yes: maker states "95A Shore hardness", nozzle 210 to 240 C, bed 35 to 50 C, print at 20 to 40 mm/s; Matte Black $22.99 in stock at overture3d.com 2026-11-01; grip on the coupon session (B26) |
+| 27 | PLA | Overture Easy PLA 1.75 mm 1 kg, black (need 1502 g sliced: robot set 1373 g plus the coupon session and 10 spares, print/PRINT_PLAN.md; about 500 g left for failed prints) | 1.5 kg | 2 | 1 kg | 29.98 | Amazon | https://www.amazon.com/dp/B09LCK7QJ2 | Yes | Yes; note 2026-11-01: Easy Black was out of stock at overture3d.com (other colors in stock, nozzle 190 to 220 C, bed 25 to 60 C); any in-stock color works |
+| 28 | TPU | Overture TPU 95A 1.75 mm 1 kg, black (need 36 g sliced including the coupon sole; hardness not stated upstream) | 36 g | 1 | 1 kg | 23.99 | Amazon | https://www.amazon.com/dp/B0BGMP1MZ7 | Yes | Yes: maker states "95A Shore hardness", nozzle 210 to 240 C, bed 35 to 50 C, print at 20 to 40 mm/s; Matte Black $22.99 in stock at overture3d.com 2026-11-01; grip on the coupon session (B26) |
 
 Subtotal: $53.97
 
