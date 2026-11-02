@@ -249,7 +249,8 @@ def write_weights(rows, states=("walk", ""), bin_ms=1.0, n_bins=20, max_gap_s=0.
     return out if sum(out) > 0 else None
 
 
-def time_count(rows, ids, threshold=6.0, states=("walk", ""), bin_ms=1.0, n_bins=20, fill_min=50, fill_bins=None):
+def time_count(rows, ids, threshold=6.0, states=("walk", ""), bin_ms=1.0, n_bins=20, fill_min=50, fill_bins=None,
+               latch_ms=None, after_ms=0.0):
     """Count time under `threshold` per servo from slot rows (power_log.py CSV rows as dicts).
 
     Only rows whose state is in `states` count (paused and stop phases do not). The time in each
@@ -260,7 +261,11 @@ def time_count(rows, ids, threshold=6.0, states=("walk", ""), bin_ms=1.0, n_bins
       sampled_frac readings under / readings      (U: share of the sampled time)
       walk_frac    readings under / walk slots    (L: unsampled time counted as above; L <= true)
     Rows without any phase (a fixed-rate log, no control loop) give time_frac = sampled_frac.
-    Bin n_bins holds every phase of n_bins x bin_ms or more (late cycles)."""
+    Bin n_bins holds every phase of n_bins x bin_ms or more (late cycles).
+    latch_ms {id: ms}, after_ms: a reading that started at phase p is binned at
+    max(p, after_ms) + latch_ms[id], the moment the servo is taken to read its register (power_log
+    gives the bus model: the goal write's bytes first, then the request, then the replies ahead of
+    that servo). If the servo reads earlier than that, the count can only come out higher."""
     walk = [r for r in rows if r.get("state", "") in states and r.get("status") != "write"]
     n_slots = len(walk)
     weights = write_weights(rows, states, bin_ms, n_bins)
@@ -284,7 +289,7 @@ def time_count(rows, ids, threshold=6.0, states=("walk", ""), bin_ms=1.0, n_bins
             vals.append(v)
             ph, room = _f(r.get("phase_ms")), _f(r.get("room_ms"))
             if ph is not None and ph >= 0:
-                b = _bin(ph, bin_ms, n_bins)
+                b = _bin(max(ph, after_ms) + (latch_ms or {}).get(i, 0.0), bin_ms, n_bins)
                 reads_b[b] += 1
                 under_b[b] += v < threshold
             if ph is not None and room and room > 0 and ph >= room * 2.0 / 3.0:

@@ -105,8 +105,8 @@ def virtual_walk(seconds=120.0, period_s=0.020, busy_s=0.006, dip_s=0.004, dip_c
     def row(status, state, phase, room, v=None):
         r = dict(status=status, state=state, phase_ms="" if phase is None else f"{phase * 1e3:.4f}",
                  room_ms="" if room is None else f"{room * 1e3:.4f}", failed="")
-        for i in IDS:
-            r[f"v_{i}"] = "" if v is None or i not in (24, 14) else f"{v:.1f}"
+        for i in IDS:                     # the ankles dip; the other 12 servos hold 6.6 V
+            r[f"v_{i}"] = "" if v is None else f"{v if i in (24, 14) else 6.6:.1f}"
         return r
 
     rows, per_cycle = [], []
@@ -181,7 +181,7 @@ def test_the_phase_locked_old_count_is_fooled_and_the_timer_is_not():
     assert abs(d["time_frac"] - exact) <= 0.01
     rep = report.Report("t", "9", "t")
     pl.analyze(early, "nominal", rep, min_samples=50)
-    assert item({"items": rep.items}, "9.ankle")["status"] == "INCOMPLETE"   # a phase sample cannot score
+    assert item({"items": rep.items}, "9.time6")["status"] == "INCOMPLETE"   # a phase sample cannot score
     assert item({"items": rep.items}, "9.coverage")["status"] == "WARN"
 
 
@@ -261,27 +261,37 @@ def _status(rows, pack="nominal", **kw):
 def test_analyze_gates():
     # right ankle under 6.0 V in 20 % of the readings, never under 4.5 V: FAIL at nominal
     st, _ = _status(_rows(lambda i, k: 5.8 if (i == 14 and k % 5 == 0) else 6.6))
-    assert st["9.v4.5"] == "PASS" and st["9.ankle"] == "FAIL"
+    assert st["9.v4.5"] == "PASS" and st["9.time6"] == "FAIL"
     st, _ = _status(_rows(lambda i, k: 4.4 if (i == 24 and k == 7) else 7.0), "full")
-    assert st["9.v4.5"] == "FAIL" and st["9.ankle"] == "INFO"
+    assert st["9.v4.5"] == "FAIL" and st["9.time6"] == "INFO"
     st, _ = _status(_rows(lambda i, k: 7.0))
-    assert st["9.ankle"] == "PASS" and st["9.wiring"] == "PASS"
+    assert st["9.time6"] == "PASS" and st["9.wiring"] == "PASS"
     st, _ = _status(_rows(lambda i, k: 7.0, n=100))                   # too few readings to score
-    assert st["9.ankle"] == "INCOMPLETE"
+    assert st["9.time6"] == "INCOMPLETE"
+    # TEST_PLAN 9 times every servo: a knee, the head roll or a hip over 10 % fails it, by ID
+    for sid in (13, 33, 21):
+        st, rep = _status(_rows(lambda i, k, sid=sid: 5.8 if (i == sid and k % 8 == 0) else 6.6))
+        t6 = [x for x in rep.items if x["item"] == "9.time6"][0]
+        assert st["9.time6"] == "FAIL" and str(sid) in t6["measured"]["over_10"], t6
     # 5 % under 6 V, but all of it in the last third of the sampled window: not recovering
     late = _rows(lambda i, k: 5.8 if (i == 24 and k % 20 == 0) else 6.6, phase=lambda k: 11.0 if k % 20 == 0 else 2.0,
                  busy_every=3)
     st, rep = _status(late)
-    assert st["9.recovery"] == "WARN" and st["9.ankle"] == "INCOMPLETE", rep.items
+    assert st["9.recovery"] == "WARN" and st["9.time6"] == "INCOMPLETE", rep.items
     # the same readings spread over the cycle (the dips early): recovering, and it passes
     early = _rows(lambda i, k: 5.8 if (i == 24 and k % 20 == 0) else 6.6,
                   phase=lambda k: 1.0 if k % 20 == 0 else 2.0 + (k % 10), busy_every=3)
     st, rep = _status(early)
-    assert st["9.recovery"] == "PASS" and st["9.ankle"] == "PASS", rep.items
+    assert st["9.recovery"] == "PASS" and st["9.time6"] == "PASS", rep.items
     # the wiring check uses the sim corner of the wiring built (--feeds): 25 % passes the star corner only
     worse = _rows(lambda i, k: 5.8 if (i == 14 and k % 4 == 0) else 6.6)
     assert _status(worse, feeds="d23")[0]["9.wiring"] == "FAIL"
     assert _status(worse, feeds="none")[0]["9.wiring"] == "PASS"
+    # as built, the head roll (high-side corner 33.4 %) and the knees (30.9 %) are compared too
+    head = _rows(lambda i, k: 5.8 if (i == 33 and k % 2 == 0) else 6.6)
+    st, rep = _status(head, feeds="d23")
+    w = [x for x in rep.items if x["item"] == "9.wiring"][0]
+    assert st["9.wiring"] == "FAIL" and "head_roll_pct" in w["desc"], w
 
 
 def test_analyze_cli_on_a_saved_csv(tmp_path):
@@ -295,9 +305,10 @@ def test_analyze_cli_on_a_saved_csv(tmp_path):
             fh.write(",".join(r.get(c, "") for c in cols) + "\n")
     rc = pl.main(["--analyze", str(p), "--pack", "nominal", "--out", str(tmp_path)])
     rep = last_report(tmp_path, "power_log")
-    a = item(rep, "9.ankle")
-    assert rc == 1 and a["status"] == "FAIL"
+    a = item(rep, "9.time6")
+    assert rc == 1 and a["status"] == "FAIL" and set(a["measured"]["over_10"]) == {"24", "14"}, a
     assert abs(a["measured"]["left_ankle"]["time_pct"] - 100 * exact) <= 1.5, (a, exact)
+    assert a["measured"]["left_knee"]["time_pct"] == 0.0
 
 
 # ---------------------------------------------------------------- the real walk loop
@@ -330,7 +341,7 @@ def test_walking_log_counts_a_write_locked_dip_in_time(make_bus, run, duck_confi
                                         "--min-samples", "100"), timeout=240)
     rep = last_report(out, "power_log")
     exact = _exact_share(bus, 24, rep, 0.004)
-    a = item(rep, "9.ankle")
+    a = item(rep, "9.time6")
     assert 0.15 < exact < 0.25, exact
     assert a["status"] == "FAIL", (a, r.stdout[-3000:])
     for side in ("left_ankle", "right_ankle"):
@@ -349,7 +360,7 @@ def test_walking_log_counts_a_write_locked_dip_in_time(make_bus, run, duck_confi
     r2, out2 = run("power_log.py", *_walk(bus2, duck_config, "--seconds", "8", "--pack", "nominal", "--no-guard",
                                           "--sampler", "cycle"), timeout=240)
     rep2 = last_report(out2, "power_log")
-    a2 = item(rep2, "9.ankle")
+    a2 = item(rep2, "9.time6")
     assert a2["status"] == "INCOMPLETE", a2
     assert a2["measured"]["left_ankle"]["sampled_pct"] < 2.0, a2     # fooled: about 20 % in time
 
@@ -366,7 +377,7 @@ def test_walking_log_on_sim_nominal_profile(make_bus, run, duck_config):
                                         "--feeds", "none", "--min-samples", "50"), timeout=180)
     rep = last_report(out, "power_log")
     assert item(rep, "9.v4.5")["status"] == "PASS", r.stdout[-3000:]
-    assert item(rep, "9.ankle")["status"] == "FAIL"
+    assert item(rep, "9.time6")["status"] == "FAIL"
     assert item(rep, "9.wiring")["status"] == "PASS"
     assert item(rep, "9.checksum")["status"] == "PASS"
     assert int(item(rep, "9.samples")["measured"].split(" / ")[0]) >= 60

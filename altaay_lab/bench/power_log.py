@@ -6,33 +6,35 @@
            Temperature 63, Status 65, Present Current 69-70) on its own timer: one read at a
            random time inside each --sample-period-ms slot (default 27 ms, odm_bench/vsampler.py),
            run only inside the walk loop's own end-of-cycle sleep and only if it ends before the
-           next cycle, so a read never delays a control read or write. The ankles (IDs 24, 14)
-           are asked first. The D16 battery guard and the temperature guard run on the same
-           readings (no extra bus traffic) unless --no-guard.
+           next cycle, so a read never delays a control read or write. The ankles (IDs 24, 14),
+           knees (23, 13) and head roll (33) are asked first. The D16 battery guard and the
+           temperature guard run on the same readings (no extra bus traffic) unless --no-guard.
            --sampler cycle is the old log, kept for comparison only: one read per control cycle
            before the Runtime's reads. It delays every control write by one read and always reads
-           at the same point of the 20 ms cycle, so it cannot score the 9.ankle gate.
+           at the same point of the 20 ms cycle, so it cannot score the 9.time6 gate.
 --idle     no walking: the same read at --rate for --seconds, plus the inventory: all 14 IDs
            answer, firmware major.minor equal on all (UPSTREAM_ISSUES.md G3), register 85 = 0
            (G1), P/I/D as configure_all_motors.py writes them (32/0/0).
 --analyze  re-run the gates on a saved CSV.
 
-Counting in time (TEST_PLAN 9 "counted in time", odm_bench/vsampler.py time_count): the timer
-slots are uniform in time, so the share of slots (read or not) in each 1 ms bin of the time
-since the last goal write is that bin's share of the walking time; the readings in the bin give
-its share under 6.0 V; the time under 6.0 V is the sum over the bins. The bins the timer cannot
-read (the Runtime's two reads, policy step and goal write at the end of each cycle) take the
-share of the last bins read: the servo current peaks just after the goal write, so the voltage
-is recovering there and the fill is high, not low; 9.recovery checks that on the last third of
-each cycle's sampled window. Also given: U = readings under / readings and L = readings under /
-slots (unsampled time counted as above 6.0 V, never above the true share).
-Gates (TEST_PLAN 9): no servo under 4.5 V in any reading; at a nominal pack no ankle (IDs 24, 14)
-under 6.0 V for more than 10 % of the walking time counted that way, with 9.recovery holding and
-at least --min-samples readings per ankle; no checksum errors (pypot or rustypot); no sampler read
-still running when the next control cycle was due (9.delay). Then the comparison with the lab
-power sim for the wiring built (--feeds d23: second feeds SP4 and SP5, sim/POWER_FIX.md option
-3b; --feeds none: D15 star, option 1; sim pass only): FAIL "stop and fix the wiring" if the
-worst ankle is lower, or longer under 6.0 V, than the high-side corner at a nominal pack.
+Counting in time (TEST_PLAN 9 "counted in time", odm_bench/vsampler.py time_count): the goal
+write times (logged in memory, written to the CSV at the end) give each 1 ms bin of the time since
+the last goal write its exact share of the walking time; the readings in the bin give its share
+under 6.0 V; the time under 6.0 V is the sum over the bins. The bins the timer cannot read (the
+Runtime's two reads, policy step and goal write at the end of each cycle) take the share of the
+last bins read: the servo current peaks just after the goal write, so the voltage is recovering
+there and the fill is high, not low; 9.recovery checks that on the last third of each cycle's
+sampled window, for every servo. Also given: U = readings under / readings and L = readings under
+/ slots (unsampled time counted as above 6.0 V, never above the true share).
+Gates (TEST_PLAN 9): no servo under 4.5 V in any reading; at a nominal pack no servo under 6.0 V
+for more than 10 % of the walking time counted that way (9.time6; the lowest as built are the
+ankles 24 and 14, the knees 23 and 13 and the head roll 33, shown by name), with 9.recovery
+holding and at least --min-samples readings of every servo; no checksum errors (pypot or
+rustypot); no sampler read still running when the next control cycle was due (9.delay). Then the
+comparison with the lab power sim for the wiring built (--feeds d23: D15 plus the second feeds
+SP4 and SP5, sim/POWER_PATH_SIM.md "As built"; --feeds none: D15 star, sim/POWER_FIX.md option 1;
+sim pass only): FAIL "stop and fix the wiring" if the worst ankle, knee or head roll is longer
+under 6.0 V, or the worst ankle or any servo lower, than the high-side corner at a nominal pack.
 Also reported: the share of the walk the timer could read (9.coverage), the time under 6.0 V
 of every servo (9.under6), the median servo voltage and its lowest 5 s mean (9.median_v),
 the control loop timing (9.loop) and the sampler's read times (9.sampler).
@@ -52,13 +54,22 @@ from odm_bench import bus, joints, paths, report, sts3215, thermal, vsampler, wa
 import battery_guard as bg  # noqa: E402
 
 BLOCK_ADDR, BLOCK_LEN = 62, 9          # 62..70 in one read; the Feetech SCServo SDK FeedBack reads 56..70 at once
-ORDER = [joints.ANKLES["left_ankle"], joints.ANKLES["right_ankle"]] + \
-    [i for i in joints.IDS if i not in joints.ANKLES.values()]     # ankles answer first
+FIRST = [joints.ANKLES["left_ankle"], joints.ANKLES["right_ankle"], joints.JOINTS["left_knee"],
+         joints.JOINTS["right_knee"], joints.JOINTS["head_roll"]]   # the lowest servos as built answer first
+ORDER = FIRST + [i for i in joints.IDS if i not in FIRST]
 SIM_REF = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tests", "data", "sim_power_fix_reference.json")
 HEADER = (["t_s", "slot", "status", "state", "cycle", "phase_ms", "room_ms", "read_ms", "left_ms", "failed"] +
           [f"v_{i}" for i in joints.IDS] + [f"i_{i}" for i in joints.IDS] + [f"temp_{i}" for i in joints.IDS] +
           ["status_or"])
 WALK_STATES = ("walk", "idle", "")     # rows that count as walking time (paused and stop phases do not)
+NAMED = {"left_ankle": FIRST[0], "right_ankle": FIRST[1], "left_knee": FIRST[2], "right_knee": FIRST[3],
+         "head_roll": FIRST[4]}                    # the lowest servos as built (sim/POWER_PATH_SIM.md)
+# When each servo reads its register, in ms after the read starts (bus model at 1 Mbaud, 10 us per
+# byte, packet sizes as in timing_budget.py; servo latch instant UNVERIFIED): a read started right
+# after the goal write waits for the write's 50 bytes (sync write 8 + 14 x 3), then the request
+# (8 + 14 bytes) goes out and the servos answer in ORDER, 6 + BLOCK_LEN bytes each.
+WRITE_MS = (8 + 14 * 3) * 0.01
+LATCH_MS = {sid: (8 + len(ORDER) + k * (6 + BLOCK_LEN)) * 0.01 for k, sid in enumerate(ORDER)}
 GATE_FRAC = 0.10                       # TEST_PLAN 9: 10 % of the walking time
 USB_GUESS_S = 0.002                    # first read-time guess per read before any read is timed (USB UNVERIFIED)
 
@@ -247,7 +258,7 @@ def analyze(rows, pack, rep, feeds="d23", min_samples=300, sim_ref_path=SIM_REF,
             f"{len(reads)} / {len(sel)}")
     if not reads:
         return
-    cnt = vsampler.time_count(rows, joints.IDS, 6.0, states=WALK_STATES)
+    cnt = vsampler.time_count(rows, joints.IDS, 6.0, states=WALK_STATES, latch_ms=LATCH_MS, after_ms=WRITE_MS)
     allv = [(v, i) for r in reads for i in joints.IDS for v in [_f(r.get(f"v_{i}"))] if v is not None]
     vmin, vmin_id = min(allv) if allv else (None, None)
     rep.gate("9.v4.5", "no servo under 4.5 V in any reading", vmin is not None and vmin >= 4.5,
@@ -266,43 +277,50 @@ def analyze(rows, pack, rep, feeds="d23", min_samples=300, sim_ref_path=SIM_REF,
             "counted as above 6.0 V; U: % of the readings)", "INFO",
             {str(i): f"{_pct(d['time_frac'])} (L {_pct(d['walk_frac'])}, U {_pct(d['sampled_frac'])})"
              for i, d in cnt.items()}, None, "vsampler.time_count")
-    ank = {name: cnt[i] for name, i in joints.ANKLES.items()}
     full_cover = cov is not None and cov >= 0.999
-    rec = {name: (True if full_cover else vsampler.recovery_ok(d)) for name, d in ank.items()}
-    meas = {name: dict(time_pct=_pct(d["time_frac"]), walk_pct=_pct(d["walk_frac"]), sampled_pct=_pct(d["sampled_frac"]),
-                       readings=d["sampled"], min_v=d["v_min"],
-                       unread_ms_bins=len(d["filled_bins"]), fill_pct=_pct(d["fill_frac"]))
-            for name, d in ank.items()}
-    worst_t = max((d["time_frac"] for d in ank.values() if d["time_frac"] is not None), default=None)
+    rec = {i: (True if full_cover else vsampler.recovery_ok(d)) for i, d in cnt.items() if d["sampled"]}
+    meas = {name: dict(id=i, time_pct=_pct(cnt[i]["time_frac"]), walk_pct=_pct(cnt[i]["walk_frac"]),
+                       sampled_pct=_pct(cnt[i]["sampled_frac"]), readings=cnt[i]["sampled"], min_v=cnt[i]["v_min"],
+                       unread_ms_bins=len(cnt[i]["filled_bins"]), fill_pct=_pct(cnt[i]["fill_frac"]))
+            for name, i in NAMED.items()}
+    over = {str(i): _pct(d["time_frac"]) for i, d in cnt.items() if d["time_frac"] is not None and d["time_frac"] > GATE_FRAC}
+    over_sure = {k: v for k, v in over.items() if cnt[int(k)]["sampled"] >= min_samples}
     if not phase_locked and not full_cover:
-        rep.add("9.recovery", "ankle readings in the last third of each cycle's sampled window are not more often "
-                "under 6.0 V than all readings (else the unread end of the cycle may dip and its fill is not high)",
-                "PASS" if all(v for v in rec.values()) else ("WARN" if any(v is False for v in rec.values())
-                                                             else "INCOMPLETE"),
-                {name: dict(late_pct=_pct(d["late_frac"]), late_readings=d["late"], all_pct=_pct(d["sampled_frac"]))
-                 for name, d in ank.items()}, "late <= all + 2 standard errors", "vsampler.recovery_ok")
+        bad = [i for i, v in rec.items() if v is False]
+        unknown = [i for i, v in rec.items() if v is None]
+        shown = list(NAMED.values()) + [i for i in bad if i not in NAMED.values()]
+        rep.add("9.recovery", "readings in the last third of each cycle's sampled window are not more often under "
+                "6.0 V than all readings, for every servo (else the unread end of the cycle may dip and its fill is "
+                "not high)", "WARN" if bad else ("INCOMPLETE" if unknown else "PASS"),
+                {str(i): dict(late_pct=_pct(cnt[i]["late_frac"]), late_readings=cnt[i]["late"],
+                              all_pct=_pct(cnt[i]["sampled_frac"])) for i in shown if i in cnt},
+                "late <= all + 2 standard errors", "vsampler.recovery_ok")
     if not phase_locked:
         rep.add("9.profile", "per 1 ms after the goal write (last bin: 20 ms or more): [% of the walking time, "
-                "ankle readings, % of them under 6.0 V]", "INFO",
-                {name: {f"{b:g}": [_pct(w), nr, _pct(u, 0)] for b, w, nr, u in d["bins"] if w or nr}
-                 for name, d in ank.items()})
+                "readings, % of them under 6.0 V], ankles, knees and head roll", "INFO",
+                {name: {f"{b:g}": [_pct(w), nr, _pct(u, 0)] for b, w, nr, u in cnt[i]["bins"] if w or nr}
+                 for name, i in NAMED.items()})
+    worst_t = max((d["time_frac"] for d in cnt.values() if d["time_frac"] is not None), default=None)
     if pack == "nominal":
         why = ""
+        few = [i for i in joints.IDS if cnt[i]["sampled"] < min_samples]
         if phase_locked:
             status, why = "INCOMPLETE", ": read once per control cycle at one point of the cycle, not in time " \
                                         "(use --sampler timer)"
-        elif any(d["sampled"] < min_samples for d in ank.values()):
-            status, why = "INCOMPLETE", f": fewer than {min_samples} readings of an ankle"
-        elif worst_t is not None and worst_t > GATE_FRAC:
-            status = "FAIL"
-        elif not all(rec.values()):
+        elif over_sure:
+            status, why = "FAIL", f": over 10 % {over_sure}"
+        elif few:
+            status, why = "INCOMPLETE", f": fewer than {min_samples} readings of servo(s) {few}"
+        elif not all(rec.get(i) for i in joints.IDS):
             status, why = "INCOMPLETE", ": the voltage is not recovering at the end of the sampled window (9.recovery)"
         else:
             status = "PASS"
-        rep.add("9.ankle", "no ankle under 6.0 V for more than 10% of the walking time, counted in time "
-                "(nominal pack)" + why, status, meas, "time_pct <= 10 %", "TEST_PLAN 9")
+        rep.add("9.time6", "no servo under 6.0 V for more than 10% of the walking time, counted in time (nominal "
+                "pack; ankles, knees and head roll shown)" + why, status, dict(meas, over_10=over or "none"),
+                "time_pct <= 10 % on every servo", "TEST_PLAN 9")
     else:
-        rep.add("9.ankle", f"ankle time under 6.0 V ({pack} pack, the gate applies at nominal)", "INFO", meas)
+        rep.add("9.time6", f"time under 6.0 V ({pack} pack, the gate applies at nominal)", "INFO",
+                dict(meas, over_10=over or "none"))
     failed_rows = sum(1 for r in reads if r.get("failed"))
     rep.add("9.missing", "readings where at least one servo did not answer", "PASS" if not failed_rows else "WARN",
             failed_rows, "0")
@@ -324,12 +342,10 @@ def analyze(rows, pack, rep, feeds="d23", min_samples=300, sim_ref_path=SIM_REF,
     sim = load_sim_ref(sim_ref_path)
     if sim and pack in ("nominal", "full"):
         ref = (sim.get(pack) or {}).get(feeds)
-        ank_min = min((d["v_min"] for d in ank.values() if d["v_min"] is not None), default=None)
+        got = _group_values(cnt, vmin)
         if ref:
-            typ = ref["typical"]
-            rep.add("9.sim", f"worst ankle vs the sim typical corner ({pack} pack, feeds {feeds}, sim pass only)",
-                    "INFO", f"min {ank_min} V, under 6 V {_pct(worst_t)} % of the time vs "
-                            f"{typ['ankle_min']} V, {typ['pct_below_6']} % of the time", None,
+            rep.add("9.sim", f"vs the sim typical corner ({pack} pack, feeds {feeds}, sim pass only): measured / sim",
+                    "INFO", {k: f"{got.get(k)} / {v}" for k, v in ref["typical"].items() if v is not None}, None,
                     "tests/data/sim_power_fix_reference.json")
         else:
             rep.add("9.sim", f"no sim number for the {pack} pack with feeds {feeds}", "INFO")
@@ -338,12 +354,39 @@ def analyze(rows, pack, rep, feeds="d23", min_samples=300, sim_ref_path=SIM_REF,
             if phase_locked:
                 rep.add("9.wiring", "not worse than the high-side sim corner: needs a time count (--sampler timer)",
                         "INCOMPLETE")
-            elif ank_min is not None and worst_t is not None:
-                ok = ank_min >= high["ankle_min"] and 100.0 * worst_t <= high["pct_below_6"]
-                rep.gate("9.wiring", "not worse than the high-side sim corner (else stop and fix the wiring)", ok,
-                         f"min {ank_min} V, under 6 V {_pct(worst_t)} % of the time",
-                         f"min >= {high['ankle_min']} V, under 6 V <= {high['pct_below_6']} %",
-                         f"TEST_PLAN 9, sim/POWER_FIX.md feeds {feeds}, sim pass only")
+            else:
+                worse = _worse_than(got, high)
+                rep.gate("9.wiring", "not worse than the high-side sim corner (else stop and fix the wiring)"
+                         + (f": worse in {sorted(worse)}" if worse else ""), not worse,
+                         {k: got.get(k) for k in high}, {k: v for k, v in high.items() if v is not None},
+                         f"TEST_PLAN 9, sim/POWER_PATH_SIM.md feeds {feeds}, sim pass only")
+
+
+def _group_values(cnt, vmin):
+    """Worst of each group, in the reference file's terms (V and % of the walking time)."""
+    def worst(ids, key, fn):
+        vals = [cnt[i][key] for i in ids if cnt[i][key] is not None]
+        return fn(vals) if vals else None
+    ank, knees = list(joints.ANKLES.values()), [NAMED["left_knee"], NAMED["right_knee"]]
+    out = dict(ankle_min=worst(ank, "v_min", min), lowest_v=vmin)
+    for k, ids in (("ankle_pct", ank), ("knee_pct", knees), ("head_roll_pct", [NAMED["head_roll"]])):
+        w = worst(ids, "time_frac", max)
+        out[k] = _pct(w)
+    return out
+
+
+def _worse_than(got, ref):
+    """Names of the quantities where the measured value is worse than the reference."""
+    bad = []
+    for k, v in ref.items():
+        g = got.get(k)
+        if v is None or g is None:
+            continue
+        if (k.endswith("_min") or k == "lowest_v") and g < v:
+            bad.append(k)
+        elif k.endswith("_pct") and g > v:
+            bad.append(k)
+    return bad
 
 
 def checksum_gate(rep, errors_snapshot):
@@ -536,7 +579,7 @@ def main(argv=None):
     ap.add_argument("--sample-seed", type=int, default=27, help="random seed of the read times (written in the report)")
     ap.add_argument("--sample-margin-ms", type=float, default=1.0,
                     help="a read starts only if its longest recent time plus this ends before the next cycle")
-    ap.add_argument("--min-samples", type=int, default=300, help="readings per ankle needed to score 9.ankle")
+    ap.add_argument("--min-samples", type=int, default=300, help="readings of every servo needed to score 9.time6")
     ap.add_argument("--decimate", type=int, default=1, help="--sampler cycle only: log every Nth cycle")
     ap.add_argument("--no-guard", action="store_true", help="do not run the D16 guard on the readings")
     ap.add_argument("--out", help="log folder (default ODM_BENCH_OUT or ~/odm_bench_logs)")
