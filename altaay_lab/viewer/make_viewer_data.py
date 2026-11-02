@@ -1461,8 +1461,10 @@ def main():
         ph_by_part[r["part"]].append(k)
     servo_nodes = [k for k, r in man_nodes.items() if r.get("group")]
     for b in bom:
-        kind, parts, related, note = BOM_VIEW.get(b["line"], ("none", [], [], "Not mapped in make_viewer_data.py"))
-        if b["line"] not in BOM_VIEW:
+        default = ("none", [], [], "Tool" if b["section"].startswith("Tools") else "Test equipment"
+                   if b["section"].startswith("Test equipment") else "Consumable or wire, counted in BOM_FULL.md")
+        kind, parts, related, note = BOM_VIEW.get(b["line"], default)
+        if b["line"] not in BOM_VIEW and not (b["section"].startswith(("Tools", "Test equipment", "Cables"))):
             warnings.append("BOM line %s (%s) has no view mapping" % (b["line"], b["item"]))
         exp = num(b["need"]) if re.match(r"^\s*\d+\s*$", b["need"] or "") else None
         if kind == "filament":

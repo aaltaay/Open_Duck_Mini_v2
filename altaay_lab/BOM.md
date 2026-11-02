@@ -100,7 +100,7 @@ Subtotal: $82.40
 
 | # | Item | Spec | Need | Buy | Pack | Line $ | Supplier | Link | Ships to USA | Verified |
 |---|---|---|---|---|---|---|---|---|---|---|
-| T1 | Soldering iron | Pine64 Pinecil V2 (needs a USB-C PD supply, not costed) | 1 | 1 | 1 | 25.99 | Pine64 | https://pine64.com/product/pinecil-smart-mini-portable-soldering-iron/ | Yes (ships from Pine64; US warehouse not verified) | Yes |
+| T1 | Soldering iron | Pine64 Pinecil V2 (needs a USB-C PD 20 V 3.25 A supply: lines T6 and T6b) | 1 | 1 | 1 | 25.99 | Pine64 | https://pine64.com/product/pinecil-smart-mini-portable-soldering-iron/ | Yes (ships from Pine64; US warehouse not verified) | Yes |
 | T2 | Insert tips | Pinecil threaded insert tips set and adapter | 1 | 1 | 1 | 14.99 | Pine64 | https://pine64.com/product/pinecil-threaded-insert-tips-set-and-adapter/ | Yes | Yes |
 | T3 | Crimper | Engineer PA-09 (Mini-SPOX 5263 and JST XH per DigiKey chart) | 1 | 1 | 1 | 37.93 | Amazon | https://www.amazon.com/Engineer-PA-09-Micro-Connector-Crimpers/dp/B002AVVO7K | Yes | Yes |
 | T4 | Hex keys | Bondhus 12192 hex L-keys 1.5 to 6 mm, 7 pc (2.0 mm for M2.5, 2.5 mm for M3 SHCS) | 1 | 1 | 7 pc | 7.84 | Crawford Tool | https://crawfordtool.com/products/bondhus-12192-metric-hex-key-set-l-wrenches-7-pieces-1-5mm-to-6mm | Yes | Yes |

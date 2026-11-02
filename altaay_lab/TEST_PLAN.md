@@ -2,7 +2,7 @@
 
 Written 2026-11-01 6:55 PM ET by the Claude Code agent (DECISIONS.md D8 to D15). Nothing has been built or bought; this is the plan for when parts arrive. Every step has a pass/fail value. Where a number comes from a simulation, the test is there to replace the simulated value with a measured one (sim/CURRENT_BUDGET.md, sim/POWER_PATH_SIM.md, both sim pass only).
 
-Updated 2026-11-01 about 10:20 PM ET by the Claude Code agent (sourcing pass, SOURCING_2026-11-02.md, plus the sim agent's proposed text): section 0 lists the BOM test equipment lines TE1 to TE4 and says which tests use the supply and which the load; 3.2 and 3.3 run on the electronic load; every "under 1 ohm" pass is read in ohms; 7.3 holds by current (sim/RUNTIME_THERMAL.md); new step 8.0 checks mass and centre of mass (sim/ADDED_MASS_SIM.md).
+Updated 2026-11-01 about 10:10 PM ET by the Claude Code agent (sourcing pass, SOURCING_2026-11-02.md, plus the sim agent's proposed text): section 0 lists the BOM test equipment lines TE1 to TE4 and says which tests use the supply and which the load; 3.2 and 3.3 run on the electronic load; every "under 1 ohm" pass is read in ohms; 7.3 holds by current (sim/RUNTIME_THERMAL.md); new step 8.0 checks mass and centre of mass (sim/ADDED_MASS_SIM.md).
 
 Rules: never connect or disconnect a cable with power on (upstream issue 49: bus errors; Bulk Man style warning applies to every robot). First power always from a current-limited bench supply, never the pack. Log every measured value in a new history/ file.
 

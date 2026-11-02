@@ -168,7 +168,7 @@ with open(CHECK, "w", newline="") as fh:
         if w["from"] not in pins or w["to"] not in pins: continue
         c, p = pins[w["from"]]
         sibl = [f"{c['id']}.{q['pin']}" for q in (c.get("pins") or []) if q.get("group") == p.get("group") and q["pin"] != p["pin"]]
-        cw.writerow([w.get("cable"), w["from"], w["to"], w.get("net"), w.get("gauge"), w.get("cut_mm"), "beep, under 1 ohm", " ".join(sibl[:6])])
+        cw.writerow([w.get("cable"), w["from"], w["to"], w.get("net"), w.get("gauge"), w.get("cut_mm"), "under 1 ohm, read in ohms (TEST_PLAN.md section 2)", " ".join(sibl[:6])])
 
 sev_n = collections.Counter(s for s, _, _ in F)
 by_chk = collections.defaultdict(list)
