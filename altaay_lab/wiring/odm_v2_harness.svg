@@ -1,0 +1,2181 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1190.551181pt" height="841.889764pt" viewBox="0 0 1190.551181 841.889764" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-02T00:28:53.492872</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 841.889764 
+L 1190.551181 841.889764 
+L 1190.551181 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 14.173228 827.716535 
+L 1176.377953 827.716535 
+L 1176.377953 14.173228 
+L 14.173228 14.173228 
+L 14.173228 827.716535 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #455a64; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 739.84252 103.889764 
+L 1167.874016 103.889764 
+L 1167.874016 90.992126 
+L 739.84252 90.992126 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 739.84252 129.685039 
+L 1167.874016 129.685039 
+L 1167.874016 116.787402 
+L 739.84252 116.787402 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 739.84252 155.480315 
+L 1167.874016 155.480315 
+L 1167.874016 142.582677 
+L 739.84252 142.582677 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 739.84252 181.275591 
+L 1167.874016 181.275591 
+L 1167.874016 168.377953 
+L 739.84252 168.377953 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 739.84252 207.070866 
+L 1167.874016 207.070866 
+L 1167.874016 194.173228 
+L 739.84252 194.173228 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 739.84252 232.866142 
+L 1167.874016 232.866142 
+L 1167.874016 219.968504 
+L 739.84252 219.968504 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 739.84252 258.661417 
+L 1167.874016 258.661417 
+L 1167.874016 245.76378 
+L 739.84252 245.76378 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 739.84252 284.456693 
+L 1167.874016 284.456693 
+L 1167.874016 271.559055 
+L 739.84252 271.559055 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 739.84252 310.251969 
+L 1167.874016 310.251969 
+L 1167.874016 297.354331 
+L 739.84252 297.354331 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 739.84252 336.047244 
+L 1167.874016 336.047244 
+L 1167.874016 323.149606 
+L 739.84252 323.149606 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 739.84252 361.84252 
+L 1167.874016 361.84252 
+L 1167.874016 348.944882 
+L 739.84252 348.944882 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 739.84252 387.637795 
+L 1167.874016 387.637795 
+L 1167.874016 374.740157 
+L 739.84252 374.740157 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 739.84252 413.433071 
+L 1167.874016 413.433071 
+L 1167.874016 400.535433 
+L 739.84252 400.535433 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 739.84252 439.228346 
+L 1167.874016 439.228346 
+L 1167.874016 426.330709 
+L 739.84252 426.330709 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 739.84252 465.023622 
+L 1167.874016 465.023622 
+L 1167.874016 452.125984 
+L 739.84252 452.125984 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_18">
+    <path d="M 739.84252 490.818898 
+L 1167.874016 490.818898 
+L 1167.874016 477.92126 
+L 739.84252 477.92126 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_19">
+    <path d="M 739.84252 516.614173 
+L 1167.874016 516.614173 
+L 1167.874016 503.716535 
+L 739.84252 503.716535 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_20">
+    <path d="M 739.84252 542.409449 
+L 1167.874016 542.409449 
+L 1167.874016 529.511811 
+L 739.84252 529.511811 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_21">
+    <path d="M 739.84252 568.204724 
+L 1167.874016 568.204724 
+L 1167.874016 555.307087 
+L 739.84252 555.307087 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_22">
+    <path d="M 739.84252 594 
+L 1167.874016 594 
+L 1167.874016 581.102362 
+L 739.84252 581.102362 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_23">
+    <path d="M 739.84252 619.795276 
+L 1167.874016 619.795276 
+L 1167.874016 606.897638 
+L 739.84252 606.897638 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_24">
+    <path d="M 739.84252 645.590551 
+L 1167.874016 645.590551 
+L 1167.874016 632.692913 
+L 739.84252 632.692913 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_25">
+    <path d="M 739.84252 671.385827 
+L 1167.874016 671.385827 
+L 1167.874016 658.488189 
+L 739.84252 658.488189 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f5f5f5"/>
+   </g>
+   <g id="patch_26">
+    <path d="M 171.496063 172.913386 
+L 622.204724 172.913386 
+Q 629.291339 172.913386 629.291339 165.826772 
+L 629.291339 66.614173 
+Q 629.291339 59.527559 622.204724 59.527559 
+L 171.496063 59.527559 
+Q 164.409449 59.527559 164.409449 66.614173 
+L 164.409449 165.826772 
+Q 164.409449 172.913386 171.496063 172.913386 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #e3f2fd; stroke: #78909c; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_27">
+    <path d="M 324.566929 274.96063 
+L 469.133858 274.96063 
+Q 476.220472 274.96063 476.220472 267.874016 
+L 476.220472 185.669291 
+Q 476.220472 178.582677 469.133858 178.582677 
+L 324.566929 178.582677 
+Q 317.480315 178.582677 317.480315 185.669291 
+L 317.480315 267.874016 
+Q 317.480315 274.96063 324.566929 274.96063 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #f3e5f5; stroke: #78909c; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_28">
+    <path d="M 86.456693 382.677165 
+L 707.244094 382.677165 
+Q 714.330709 382.677165 714.330709 375.590551 
+L 714.330709 287.716535 
+Q 714.330709 280.629921 707.244094 280.629921 
+L 86.456693 280.629921 
+Q 79.370079 280.629921 79.370079 287.716535 
+L 79.370079 375.590551 
+Q 79.370079 382.677165 86.456693 382.677165 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #e8f5e9; stroke: #78909c; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_29">
+    <path d="M 29.76378 507.401575 
+L 350.07874 507.401575 
+Q 357.165354 507.401575 357.165354 500.314961 
+L 357.165354 395.433071 
+Q 357.165354 388.346457 350.07874 388.346457 
+L 29.76378 388.346457 
+Q 22.677165 388.346457 22.677165 395.433071 
+L 22.677165 500.314961 
+Q 22.677165 507.401575 29.76378 507.401575 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #fff8e1; stroke: #78909c; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_30">
+    <path d="M 375.590551 507.401575 
+L 707.244094 507.401575 
+Q 714.330709 507.401575 714.330709 500.314961 
+L 714.330709 395.433071 
+Q 714.330709 388.346457 707.244094 388.346457 
+L 375.590551 388.346457 
+Q 368.503937 388.346457 368.503937 395.433071 
+L 368.503937 500.314961 
+Q 368.503937 507.401575 375.590551 507.401575 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #fbe9e7; stroke: #78909c; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_31">
+    <path d="M 86.456693 569.76378 
+L 707.244094 569.76378 
+Q 714.330709 569.76378 714.330709 562.677165 
+L 714.330709 520.15748 
+Q 714.330709 513.070866 707.244094 513.070866 
+L 86.456693 513.070866 
+Q 79.370079 513.070866 79.370079 520.15748 
+L 79.370079 562.677165 
+Q 79.370079 569.76378 86.456693 569.76378 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #ede7f6; stroke: #78909c; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_32">
+    <path d="M 86.456693 813.543307 
+L 350.07874 813.543307 
+Q 357.165354 813.543307 357.165354 806.456693 
+L 357.165354 582.519685 
+Q 357.165354 575.433071 350.07874 575.433071 
+L 86.456693 575.433071 
+Q 79.370079 575.433071 79.370079 582.519685 
+L 79.370079 806.456693 
+Q 79.370079 813.543307 86.456693 813.543307 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #78909c; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_33">
+    <path d="M 443.622047 813.543307 
+L 707.244094 813.543307 
+Q 714.330709 813.543307 714.330709 806.456693 
+L 714.330709 582.519685 
+Q 714.330709 575.433071 707.244094 575.433071 
+L 443.622047 575.433071 
+Q 436.535433 575.433071 436.535433 582.519685 
+L 436.535433 806.456693 
+Q 436.535433 813.543307 443.622047 813.543307 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #78909c; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 317.480315 273.259843 
+L 476.220472 273.259843 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 317.480315 229.606299 
+L 476.220472 229.606299 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 317.480315 212.598425 
+L 476.220472 212.598425 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 317.480315 180.283465 
+L 476.220472 180.283465 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 79.370079 577.133858 
+L 357.165354 577.133858 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 79.370079 615.11811 
+L 357.165354 615.11811 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 79.370079 660.472441 
+L 357.165354 660.472441 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 79.370079 711.496063 
+L 357.165354 711.496063 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 79.370079 762.519685 
+L 357.165354 762.519685 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 436.535433 577.133858 
+L 714.330709 577.133858 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_11">
+    <path d="M 436.535433 615.11811 
+L 714.330709 615.11811 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 436.535433 660.472441 
+L 714.330709 660.472441 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 436.535433 711.496063 
+L 714.330709 711.496063 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 436.535433 762.519685 
+L 714.330709 762.519685 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 4,2; stroke-dashoffset: 0; stroke: #6a1b9a"/>
+   </g>
+   <g id="line2d_15">
+    <path d="M 374.173228 110.551181 
+L 374.173228 286.299213 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #c62828; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_16">
+    <path d="M 385.511811 110.551181 
+L 385.511811 286.299213 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #1565c0; stroke-width: 2.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_17">
+    <path d="M 396.850394 110.551181 
+L 396.850394 286.299213 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #1565c0; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_18">
+    <path d="M 408.188976 110.551181 
+L 408.188976 286.299213 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #1565c0; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_19">
+    <path d="M 419.527559 110.551181 
+L 419.527559 286.299213 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #1565c0; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_20">
+    <path d="M 198.425197 314.645669 
+L 198.425197 260.787402 
+L 345.826772 252.283465 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_21">
+    <path d="M 357.165354 245.19685 
+L 357.165354 203.527559 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_22">
+    <path d="M 368.503937 197.007874 
+L 453.543307 167.244094 
+L 564.094488 153.070866 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_23">
+    <path d="M 85.03937 453.543307 
+L 68.031496 388.346457 
+L 68.031496 303.307087 
+L 374.173228 286.299213 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #c62828; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_24">
+    <path d="M 374.173228 286.299213 
+L 374.173228 286.299213 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #c62828; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_25">
+    <path d="M 385.511811 286.299213 
+L 668.976378 388.346457 
+L 657.637795 476.220472 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #1565c0; stroke-width: 2.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_26">
+    <path d="M 657.637795 476.220472 
+L 425.19685 337.322835 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke-dasharray: 7.2,3.6; stroke-dashoffset: 0; stroke: #1565c0; stroke-width: 2.4"/>
+   </g>
+   <g id="line2d_27">
+    <path d="M 396.850394 286.299213 
+L 581.102362 317.480315 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #1565c0; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_28">
+    <path d="M 408.188976 286.299213 
+L 102.047244 360 
+L 96.377953 530.07874 
+L 102.047244 575.433071 
+L 102.047244 782.362205 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #1565c0; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_29">
+    <path d="M 419.527559 286.299213 
+L 697.322835 360 
+L 697.322835 530.07874 
+L 697.322835 575.433071 
+L 697.322835 782.362205 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #1565c0; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_30">
+    <path d="M 102.047244 453.543307 
+L 170.07874 490.393701 
+L 453.543307 445.03937 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #c62828; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_31">
+    <path d="M 555.590551 433.700787 
+L 311.811024 479.055118 
+L 192.755906 535.748031 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_32">
+    <path d="M 578.267717 433.700787 
+L 606.614173 532.913386 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_33">
+    <path d="M 561.259843 419.527559 
+L 425.19685 394.015748 
+L 255.11811 342.992126 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_34">
+    <path d="M 306.141732 351.496063 
+L 221.102362 416.692913 
+L 187.086614 532.913386 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_35">
+    <path d="M 413.858268 334.488189 
+L 555.590551 360 
+L 606.614173 532.913386 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.5; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_36">
+    <path d="M 218.267717 547.086614 
+L 218.267717 590.456693 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_37">
+    <path d="M 218.267717 602.929134 
+L 218.267717 631.559055 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_38">
+    <path d="M 218.267717 644.031496 
+L 218.267717 679.748031 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_39">
+    <path d="M 218.267717 692.220472 
+L 218.267717 730.771654 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_40">
+    <path d="M 575.433071 547.086614 
+L 575.433071 590.456693 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_41">
+    <path d="M 575.433071 602.929134 
+L 575.433071 631.559055 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_42">
+    <path d="M 575.433071 644.031496 
+L 575.433071 679.748031 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_43">
+    <path d="M 575.433071 692.220472 
+L 575.433071 730.771654 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #2e7d32; stroke-width: 1.4; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_44">
+    <path d="M 742.677165 92.976378 
+L 1167.874016 92.976378 
+" clip-path="url(#pf4b0cc0273)" style="fill: none; stroke: #90a4ae; stroke-width: 0.5; stroke-linecap: round"/>
+   </g>
+   <g id="patch_34">
+    <path d="M 348.094488 258.519685 
+L 366.23622 258.519685 
+Q 369.070866 258.519685 369.070866 255.685039 
+L 369.070866 248.88189 
+Q 369.070866 246.047244 366.23622 246.047244 
+L 348.094488 246.047244 
+Q 345.259843 246.047244 345.259843 248.88189 
+L 345.259843 255.685039 
+Q 345.259843 258.519685 348.094488 258.519685 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_35">
+    <path d="M 348.094488 203.244094 
+L 366.23622 203.244094 
+Q 369.070866 203.244094 369.070866 200.409449 
+L 369.070866 193.606299 
+Q 369.070866 190.771654 366.23622 190.771654 
+L 348.094488 190.771654 
+Q 345.259843 190.771654 345.259843 193.606299 
+L 345.259843 200.409449 
+Q 345.259843 203.244094 348.094488 203.244094 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_36">
+    <path d="M 158.173228 602.929134 
+L 176.314961 602.929134 
+Q 179.149606 602.929134 179.149606 600.094488 
+L 179.149606 593.291339 
+Q 179.149606 590.456693 176.314961 590.456693 
+L 158.173228 590.456693 
+Q 155.338583 590.456693 155.338583 593.291339 
+L 155.338583 600.094488 
+Q 155.338583 602.929134 158.173228 602.929134 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_37">
+    <path d="M 158.173228 644.031496 
+L 176.314961 644.031496 
+Q 179.149606 644.031496 179.149606 641.19685 
+L 179.149606 634.393701 
+Q 179.149606 631.559055 176.314961 631.559055 
+L 158.173228 631.559055 
+Q 155.338583 631.559055 155.338583 634.393701 
+L 155.338583 641.19685 
+Q 155.338583 644.031496 158.173228 644.031496 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_38">
+    <path d="M 158.173228 692.220472 
+L 176.314961 692.220472 
+Q 179.149606 692.220472 179.149606 689.385827 
+L 179.149606 682.582677 
+Q 179.149606 679.748031 176.314961 679.748031 
+L 158.173228 679.748031 
+Q 155.338583 679.748031 155.338583 682.582677 
+L 155.338583 689.385827 
+Q 155.338583 692.220472 158.173228 692.220472 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_39">
+    <path d="M 158.173228 743.244094 
+L 176.314961 743.244094 
+Q 179.149606 743.244094 179.149606 740.409449 
+L 179.149606 733.606299 
+Q 179.149606 730.771654 176.314961 730.771654 
+L 158.173228 730.771654 
+Q 155.338583 730.771654 155.338583 733.606299 
+L 155.338583 740.409449 
+Q 155.338583 743.244094 158.173228 743.244094 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_40">
+    <path d="M 141.335433 795.685039 
+L 193.152756 795.685039 
+Q 195.987402 795.685039 195.987402 792.850394 
+L 195.987402 786.047244 
+Q 195.987402 783.212598 193.152756 783.212598 
+L 141.335433 783.212598 
+Q 138.500787 783.212598 138.500787 786.047244 
+L 138.500787 792.850394 
+Q 138.500787 795.685039 141.335433 795.685039 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_41">
+    <path d="M 515.338583 602.929134 
+L 533.480315 602.929134 
+Q 536.314961 602.929134 536.314961 600.094488 
+L 536.314961 593.291339 
+Q 536.314961 590.456693 533.480315 590.456693 
+L 515.338583 590.456693 
+Q 512.503937 590.456693 512.503937 593.291339 
+L 512.503937 600.094488 
+Q 512.503937 602.929134 515.338583 602.929134 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_42">
+    <path d="M 515.338583 644.031496 
+L 533.480315 644.031496 
+Q 536.314961 644.031496 536.314961 641.19685 
+L 536.314961 634.393701 
+Q 536.314961 631.559055 533.480315 631.559055 
+L 515.338583 631.559055 
+Q 512.503937 631.559055 512.503937 634.393701 
+L 512.503937 641.19685 
+Q 512.503937 644.031496 515.338583 644.031496 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_43">
+    <path d="M 515.338583 692.220472 
+L 533.480315 692.220472 
+Q 536.314961 692.220472 536.314961 689.385827 
+L 536.314961 682.582677 
+Q 536.314961 679.748031 533.480315 679.748031 
+L 515.338583 679.748031 
+Q 512.503937 679.748031 512.503937 682.582677 
+L 512.503937 689.385827 
+Q 512.503937 692.220472 515.338583 692.220472 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_44">
+    <path d="M 515.338583 743.244094 
+L 533.480315 743.244094 
+Q 536.314961 743.244094 536.314961 740.409449 
+L 536.314961 733.606299 
+Q 536.314961 730.771654 533.480315 730.771654 
+L 515.338583 730.771654 
+Q 512.503937 730.771654 512.503937 733.606299 
+L 512.503937 740.409449 
+Q 512.503937 743.244094 515.338583 743.244094 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_45">
+    <path d="M 498.500787 795.685039 
+L 550.31811 795.685039 
+Q 553.152756 795.685039 553.152756 792.850394 
+L 553.152756 786.047244 
+Q 553.152756 783.212598 550.31811 783.212598 
+L 498.500787 783.212598 
+Q 495.666142 783.212598 495.666142 786.047244 
+L 495.666142 792.850394 
+Q 495.666142 795.685039 498.500787 795.685039 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_46">
+    <path d="M 380.125984 332.220472 
+L 413.574803 332.220472 
+Q 416.409449 332.220472 416.409449 329.385827 
+L 416.409449 322.582677 
+Q 416.409449 319.748031 413.574803 319.748031 
+L 380.125984 319.748031 
+Q 377.291339 319.748031 377.291339 322.582677 
+L 377.291339 329.385827 
+Q 377.291339 332.220472 380.125984 332.220472 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_47">
+    <path d="M 570.500787 332.220472 
+L 591.703937 332.220472 
+Q 594.538583 332.220472 594.538583 329.385827 
+L 594.538583 322.582677 
+Q 594.538583 319.748031 591.703937 319.748031 
+L 570.500787 319.748031 
+Q 567.666142 319.748031 567.666142 322.582677 
+L 567.666142 329.385827 
+Q 567.666142 332.220472 570.500787 332.220472 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_48">
+    <path d="M 189.354331 332.220472 
+L 207.496063 332.220472 
+Q 210.330709 332.220472 210.330709 329.385827 
+L 210.330709 322.582677 
+Q 210.330709 319.748031 207.496063 319.748031 
+L 189.354331 319.748031 
+Q 186.519685 319.748031 186.519685 322.582677 
+L 186.519685 329.385827 
+Q 186.519685 332.220472 189.354331 332.220472 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_49">
+    <path d="M 294.009449 352.062992 
+L 318.274016 352.062992 
+Q 321.108661 352.062992 321.108661 349.228346 
+L 321.108661 342.425197 
+Q 321.108661 339.590551 318.274016 339.590551 
+L 294.009449 339.590551 
+Q 291.174803 339.590551 291.174803 342.425197 
+L 291.174803 349.228346 
+Q 291.174803 352.062992 294.009449 352.062992 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_50">
+    <path d="M 241.908661 352.062992 
+L 256.988976 352.062992 
+Q 259.823622 352.062992 259.823622 349.228346 
+L 259.823622 342.425197 
+Q 259.823622 339.590551 256.988976 339.590551 
+L 241.908661 339.590551 
+Q 239.074016 339.590551 239.074016 342.425197 
+L 239.074016 349.228346 
+Q 239.074016 352.062992 241.908661 352.062992 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_51">
+    <path d="M 457.114961 434.267717 
+L 478.31811 434.267717 
+Q 481.152756 434.267717 481.152756 431.433071 
+L 481.152756 424.629921 
+Q 481.152756 421.795276 478.31811 421.795276 
+L 457.114961 421.795276 
+Q 454.280315 421.795276 454.280315 424.629921 
+L 454.280315 431.433071 
+Q 454.280315 434.267717 457.114961 434.267717 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_52">
+    <path d="M 550.204724 434.267717 
+L 583.653543 434.267717 
+Q 586.488189 434.267717 586.488189 431.433071 
+L 586.488189 424.629921 
+Q 586.488189 421.795276 583.653543 421.795276 
+L 550.204724 421.795276 
+Q 547.370079 421.795276 547.370079 424.629921 
+L 547.370079 431.433071 
+Q 547.370079 434.267717 550.204724 434.267717 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_53">
+    <path d="M 645.505512 490.96063 
+L 669.770079 490.96063 
+Q 672.604724 490.96063 672.604724 488.125984 
+L 672.604724 481.322835 
+Q 672.604724 478.488189 669.770079 478.488189 
+L 645.505512 478.488189 
+Q 642.670866 478.488189 642.670866 481.322835 
+L 642.670866 488.125984 
+Q 642.670866 490.96063 645.505512 490.96063 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_54">
+    <path d="M 167.300787 547.653543 
+L 206.872441 547.653543 
+Q 209.707087 547.653543 209.707087 544.818898 
+L 209.707087 538.015748 
+Q 209.707087 535.181102 206.872441 535.181102 
+L 167.300787 535.181102 
+Q 164.466142 535.181102 164.466142 538.015748 
+L 164.466142 544.818898 
+Q 164.466142 547.653543 167.300787 547.653543 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_55">
+    <path d="M 586.828346 547.653543 
+L 626.4 547.653543 
+Q 629.234646 547.653543 629.234646 544.818898 
+L 629.234646 538.015748 
+Q 629.234646 535.181102 626.4 535.181102 
+L 586.828346 535.181102 
+Q 583.993701 535.181102 583.993701 538.015748 
+L 583.993701 544.818898 
+Q 583.993701 547.653543 586.828346 547.653543 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_56">
+    <path d="M 387.779528 105.448819 
+L 405.92126 105.448819 
+Q 408.755906 105.448819 408.755906 102.614173 
+L 408.755906 95.811024 
+Q 408.755906 92.976378 405.92126 92.976378 
+L 387.779528 92.976378 
+Q 384.944882 92.976378 384.944882 95.811024 
+L 384.944882 102.614173 
+Q 384.944882 105.448819 387.779528 105.448819 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_57">
+    <path d="M 267.647244 105.448819 
+L 276.604724 105.448819 
+Q 279.43937 105.448819 279.43937 102.614173 
+L 279.43937 95.811024 
+Q 279.43937 92.976378 276.604724 92.976378 
+L 267.647244 92.976378 
+Q 264.812598 92.976378 264.812598 95.811024 
+L 264.812598 102.614173 
+Q 264.812598 105.448819 267.647244 105.448819 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_58">
+    <path d="M 488.919685 105.448819 
+L 531.552756 105.448819 
+Q 534.387402 105.448819 534.387402 102.614173 
+L 534.387402 95.811024 
+Q 534.387402 92.976378 531.552756 92.976378 
+L 488.919685 92.976378 
+Q 486.085039 92.976378 486.085039 95.811024 
+L 486.085039 102.614173 
+Q 486.085039 105.448819 488.919685 105.448819 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_59">
+    <path d="M 39.685039 485.291339 
+L 96.377953 485.291339 
+Q 99.212598 485.291339 99.212598 482.456693 
+L 99.212598 475.653543 
+Q 99.212598 472.818898 96.377953 472.818898 
+L 39.685039 472.818898 
+Q 36.850394 472.818898 36.850394 475.653543 
+L 36.850394 482.456693 
+Q 36.850394 485.291339 39.685039 485.291339 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_60">
+    <path d="M 147.401575 451.275591 
+L 204.094488 451.275591 
+Q 206.929134 451.275591 206.929134 448.440945 
+L 206.929134 441.637795 
+Q 206.929134 438.80315 204.094488 438.80315 
+L 147.401575 438.80315 
+Q 144.566929 438.80315 144.566929 441.637795 
+L 144.566929 448.440945 
+Q 144.566929 451.275591 147.401575 451.275591 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_61">
+    <path d="M 269.291339 485.291339 
+L 308.976378 485.291339 
+Q 311.811024 485.291339 311.811024 482.456693 
+L 311.811024 475.653543 
+Q 311.811024 472.818898 308.976378 472.818898 
+L 269.291339 472.818898 
+Q 266.456693 472.818898 266.456693 475.653543 
+L 266.456693 482.456693 
+Q 266.456693 485.291339 269.291339 485.291339 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_62">
+    <path d="M 572.031496 156.472441 
+L 590.173228 156.472441 
+Q 593.007874 156.472441 593.007874 153.637795 
+L 593.007874 146.834646 
+Q 593.007874 144 590.173228 144 
+L 572.031496 144 
+Q 569.19685 144 569.19685 146.834646 
+L 569.19685 153.637795 
+Q 569.19685 156.472441 572.031496 156.472441 
+z
+" clip-path="url(#pf4b0cc0273)" style="fill: #eceff1; stroke: #546e7a; stroke-width: 0.5; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start" x="25.511811" y="31.723918" transform="rotate(-0 25.511811 31.723918)">Open Duck Mini v2, altaay-lab build: harness and routing by body region</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #455a64" x="25.511811" y="45.883222" transform="rotate(-0 25.511811 45.883222)">Rev 2026-11-01, generated from wiring/netlist.yaml. Seen from behind (robot left on the left), not to scale. Label: cable id (CABLE_MAP.md), gauge x conductors, cut length, [joints crossed].</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #263238" x="170.07874" y="69.2832" transform="rotate(-0 170.07874 69.2832)">HEAD (Pi, U3, amp, LEDs, SG90s, camera, ID 33)</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #263238" x="323.149606" y="188.338044" transform="rotate(-0 323.149606 188.338044)">NECK</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #263238" x="85.03937" y="290.385562" transform="rotate(-0 85.03937 290.385562)">TRUNK_TOP (adapter U2, BNO055, ID 30)</text>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #263238" x="28.346457" y="398.102097" transform="rotate(-0 28.346457 398.102097)">BATTERY BAY (body_back)</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #263238" x="374.173228" y="398.102097" transform="rotate(-0 374.173228 398.102097)">BELLY (BEC U1, splices SPV SPG)</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #263238" x="85.03937" y="522.826233" transform="rotate(-0 85.03937 522.826233)">TRUNK_BOTTOM (ID 20, ID 10)</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #263238" x="85.03937" y="585.188438" transform="rotate(-0 85.03937 585.188438)">LEFT LEG</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #263238" x="442.204724" y="585.188438" transform="rotate(-0 442.204724 585.188438)">RIGHT LEG</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="479.622047" y="274.662788" transform="rotate(-0 479.622047 274.662788)">neck_pitch (NP)</text>
+   </g>
+   <g id="text_12">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="479.622047" y="231.009245" transform="rotate(-0 479.622047 231.009245)">head_pitch (HP)</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="479.622047" y="214.001371" transform="rotate(-0 479.622047 214.001371)">head_yaw (HY)</text>
+   </g>
+   <g id="text_14">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="479.622047" y="181.68641" transform="rotate(-0 479.622047 181.68641)">head_roll (HR)</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="357.165354" y="253.686199" transform="rotate(-0 357.165354 253.686199)">ID 31</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="357.165354" y="198.410608" transform="rotate(-0 357.165354 198.410608)">ID 32</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="83.622047" y="573.330324" transform="rotate(-0 83.622047 573.330324)">LHY</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="83.622047" y="611.314576" transform="rotate(-0 83.622047 611.314576)">LHR</text>
+   </g>
+   <g id="text_19">
+    <text style="font-weight: 700; font-size: 5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="83.622047" y="656.668907" transform="rotate(-0 83.622047 656.668907)">LHP</text>
+   </g>
+   <g id="text_20">
+    <text style="font-weight: 700; font-size: 5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="83.622047" y="707.692529" transform="rotate(-0 83.622047 707.692529)">LK</text>
+   </g>
+   <g id="text_21">
+    <text style="font-weight: 700; font-size: 5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="83.622047" y="758.716151" transform="rotate(-0 83.622047 758.716151)">LA</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="167.244094" y="598.095648" transform="rotate(-0 167.244094 598.095648)">ID 21</text>
+   </g>
+   <g id="text_23">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="167.244094" y="639.19801" transform="rotate(-0 167.244094 639.19801)">ID 22</text>
+   </g>
+   <g id="text_24">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="167.244094" y="687.386986" transform="rotate(-0 167.244094 687.386986)">ID 23</text>
+   </g>
+   <g id="text_25">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="167.244094" y="738.410608" transform="rotate(-0 167.244094 738.410608)">ID 24</text>
+   </g>
+   <g id="text_26">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="167.244094" y="790.851553" transform="rotate(-0 167.244094 790.851553)">2x SS-01 (SS-10)</text>
+   </g>
+   <g id="text_27">
+    <text style="font-weight: 700; font-size: 5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="440.787402" y="573.330324" transform="rotate(-0 440.787402 573.330324)">RHY</text>
+   </g>
+   <g id="text_28">
+    <text style="font-weight: 700; font-size: 5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="440.787402" y="611.314576" transform="rotate(-0 440.787402 611.314576)">RHR</text>
+   </g>
+   <g id="text_29">
+    <text style="font-weight: 700; font-size: 5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="440.787402" y="656.668907" transform="rotate(-0 440.787402 656.668907)">RHP</text>
+   </g>
+   <g id="text_30">
+    <text style="font-weight: 700; font-size: 5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="440.787402" y="707.692529" transform="rotate(-0 440.787402 707.692529)">RK</text>
+   </g>
+   <g id="text_31">
+    <text style="font-weight: 700; font-size: 5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="440.787402" y="758.716151" transform="rotate(-0 440.787402 758.716151)">RA</text>
+   </g>
+   <g id="text_32">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="524.409449" y="598.095648" transform="rotate(-0 524.409449 598.095648)">ID 11</text>
+   </g>
+   <g id="text_33">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="524.409449" y="639.19801" transform="rotate(-0 524.409449 639.19801)">ID 12</text>
+   </g>
+   <g id="text_34">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="524.409449" y="687.386986" transform="rotate(-0 524.409449 687.386986)">ID 13</text>
+   </g>
+   <g id="text_35">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="524.409449" y="738.410608" transform="rotate(-0 524.409449 738.410608)">ID 14</text>
+   </g>
+   <g id="text_36">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="524.409449" y="790.851553" transform="rotate(-0 524.409449 790.851553)">2x SS-01 (SS-10)</text>
+   </g>
+   <g id="text_37">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="396.850394" y="327.387197" transform="rotate(-0 396.850394 327.387197)">U2 adapter</text>
+   </g>
+   <g id="text_38">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="581.102362" y="327.386986" transform="rotate(-0 581.102362 327.386986)">BNO055</text>
+   </g>
+   <g id="text_39">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="198.425197" y="327.386986" transform="rotate(-0 198.425197 327.386986)">ID 30</text>
+   </g>
+   <g id="text_40">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="306.141732" y="347.229506" transform="rotate(-0 306.141732 347.229506)">YD3 YG3</text>
+   </g>
+   <g id="text_41">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="249.448819" y="347.229506" transform="rotate(-0 249.448819 347.229506)">JG30</text>
+   </g>
+   <g id="text_42">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="467.716535" y="429.43423" transform="rotate(-0 467.716535 429.43423)">U1 BEC</text>
+   </g>
+   <g id="text_43">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="566.929134" y="429.43423" transform="rotate(-0 566.929134 429.43423)">JB SPV SPG</text>
+   </g>
+   <g id="text_44">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="657.637795" y="486.127355" transform="rotate(-0 657.637795 486.127355)">D1 coil</text>
+   </g>
+   <g id="text_45">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="187.086614" y="542.820057" transform="rotate(-0 187.086614 542.820057)">ID 20 + JG20</text>
+   </g>
+   <g id="text_46">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="606.614173" y="542.820057" transform="rotate(-0 606.614173 542.820057)">ID 10 + JG10</text>
+   </g>
+   <g id="text_47">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="396.850394" y="100.615544" transform="rotate(-0 396.850394 100.615544)">Pi U4</text>
+   </g>
+   <g id="text_48">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="272.125984" y="100.615333" transform="rotate(-0 272.125984 100.615333)">U3</text>
+   </g>
+   <g id="text_49">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="510.23622" y="100.615544" transform="rotate(-0 510.23622 100.615544)">amp + speaker</text>
+   </g>
+   <g id="text_50">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="68.031496" y="480.457852" transform="rotate(-0 68.031496 480.457852)">SW1 VSW G</text>
+   </g>
+   <g id="text_51">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="175.748031" y="446.442315" transform="rotate(-0 175.748031 446.442315)">holder BMS</text>
+   </g>
+   <g id="text_52">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="289.133858" y="480.457852" transform="rotate(-0 289.133858 480.457852)">XT30 F1</text>
+   </g>
+   <g id="text_53">
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="555.590551" y="188.463579" transform="rotate(-0 555.590551 188.463579)">Through the neck, crossing NP HP HY HR (4 joints, 9.69 rad):</text>
+   </g>
+   <g id="text_54">
+    <text style="font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="555.590551" y="197.817703" transform="rotate(-0 555.590551 197.817703)">P13 20 AWG x2, 550 mm</text>
+   </g>
+   <g id="text_55">
+    <text style="font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="555.590551" y="207.17224" transform="rotate(-0 555.590551 207.17224)">D1 USB 2.0 cable x1, 900 mm</text>
+   </g>
+   <g id="text_56">
+    <text style="font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="555.590551" y="216.526364" transform="rotate(-0 555.590551 216.526364)">D2 26 AWG x4, 550 mm</text>
+   </g>
+   <g id="text_57">
+    <text style="font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="555.590551" y="225.880902" transform="rotate(-0 555.590551 225.880902)">D3 26 AWG x2, 900 mm + jumper 40 mm</text>
+   </g>
+   <g id="text_58">
+    <text style="font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="555.590551" y="235.235233" transform="rotate(-0 555.590551 235.235233)">D4 26 AWG x2, 950 mm + jumper 40 mm</text>
+   </g>
+   <g id="text_59">
+    <text style="font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #455a64" x="555.590551" y="244.563583" transform="rotate(-0 555.590551 244.563583)">D1 is Adafruit 3878 (0.9 m): coil the slack in the belly</text>
+   </g>
+   <g id="text_60">
+    <g id="patch_63">
+     <path d="M 205.949488 267.067254 
+L 285.586957 267.067254 
+Q 288.236957 267.067254 288.236957 264.417254 
+L 288.236957 262.82684 
+Q 288.236957 260.17684 285.586957 260.17684 
+L 205.949488 260.17684 
+Q 203.299488 260.17684 203.299488 262.82684 
+L 203.299488 264.417254 
+Q 203.299488 267.067254 205.949488 267.067254 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="204.094488" y="264.999012" transform="rotate(-0 204.094488 264.999012)">S11 kit cable, 150 mm  [NP]</text>
+   </g>
+   <g id="text_61">
+    <g id="patch_64">
+     <path d="M 205.949488 225.681428 
+L 295.704988 225.681428 
+Q 298.354988 225.681428 298.354988 223.031428 
+L 298.354988 221.441013 
+Q 298.354988 218.791013 295.704988 218.791013 
+L 205.949488 218.791013 
+Q 203.299488 218.791013 203.299488 221.441013 
+L 203.299488 223.031428 
+Q 203.299488 225.681428 205.949488 225.681428 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="204.094488" y="223.613185" transform="rotate(-0 204.094488 223.613185)">S12 kit cable, 150 mm  [HP HY]</text>
+   </g>
+   <g id="text_62">
+    <g id="patch_65">
+     <path d="M 205.949488 197.9019 
+L 285.783223 197.9019 
+Q 288.433223 197.9019 288.433223 195.2519 
+L 288.433223 193.661486 
+Q 288.433223 191.011486 285.783223 191.011486 
+L 205.949488 191.011486 
+Q 203.299488 191.011486 203.299488 193.661486 
+L 203.299488 195.2519 
+Q 203.299488 197.9019 205.949488 197.9019 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="204.094488" y="195.833658" transform="rotate(-0 204.094488 195.833658)">S13 kit cable, 150 mm  [HR]</text>
+   </g>
+   <g id="text_63">
+    <g id="patch_66">
+     <path d="M 67.208346 379.890834 
+L 67.208346 311.762709 
+Q 67.208346 309.162709 64.608346 309.162709 
+L 63.048346 309.162709 
+Q 60.448346 309.162709 60.448346 311.762709 
+L 60.448346 379.890834 
+Q 60.448346 382.490834 63.048346 382.490834 
+L 64.608346 382.490834 
+Q 67.208346 382.490834 67.208346 379.890834 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; fill: #212121" transform="translate(65.179128 381.710834) rotate(-90)">P13 20 AWG x2, 550 mm</text>
+   </g>
+   <g id="text_64">
+    <g id="patch_67">
+     <path d="M 112.279619 757.859199 
+L 112.279619 642.455762 
+Q 112.279619 639.855762 109.679619 639.855762 
+L 108.119213 639.855762 
+Q 105.519213 639.855762 105.519213 642.455762 
+L 105.519213 757.859199 
+Q 105.519213 760.459199 108.119213 760.459199 
+L 109.679619 760.459199 
+Q 112.279619 760.459199 112.279619 757.859199 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'" transform="translate(110.2504 759.679199) rotate(-90)">D3 26 AWG x2, 900 mm + jumper 40 mm</text>
+   </g>
+   <g id="text_65">
+    <g id="patch_68">
+     <path d="M 699.051272 757.859199 
+L 699.051272 642.455762 
+Q 699.051272 639.855762 696.451272 639.855762 
+L 694.890866 639.855762 
+Q 692.290866 639.855762 692.290866 642.455762 
+L 692.290866 757.859199 
+Q 692.290866 760.459199 694.890866 760.459199 
+L 696.451272 760.459199 
+Q 699.051272 760.459199 699.051272 757.859199 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'" transform="translate(697.022054 759.679199) rotate(-90)">D4 26 AWG x2, 950 mm + jumper 40 mm</text>
+   </g>
+   <g id="text_66">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; fill: #6a1b9a" transform="translate(118.733864 741.322355) rotate(-90)">[NP HP HY HR LHY LHR LHP LK LA]</text>
+   </g>
+   <g id="text_67">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; fill: #6a1b9a" transform="translate(687.930715 742.82198) rotate(-90)">[NP HP HY HR RHY RHR RHP RK RA]</text>
+   </g>
+   <g id="text_68">
+    <g id="patch_69">
+     <path d="M 149.256575 481.082795 
+L 218.694856 481.082795 
+Q 221.344856 481.082795 221.344856 478.432795 
+L 221.344856 476.842795 
+Q 221.344856 474.192795 218.694856 474.192795 
+L 149.256575 474.192795 
+Q 146.606575 474.192795 146.606575 476.842795 
+L 146.606575 478.432795 
+Q 146.606575 481.082795 149.256575 481.082795 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="147.401575" y="479.014553" transform="rotate(-0 147.401575 479.014553)">P10 16 AWG x2, 150 mm</text>
+   </g>
+   <g id="text_69">
+    <g id="patch_70">
+     <path d="M 376.028228 493.838908 
+L 498.580791 493.838908 
+Q 501.230791 493.838908 501.230791 491.188908 
+L 501.230791 489.598494 
+Q 501.230791 486.948494 498.580791 486.948494 
+L 376.028228 486.948494 
+Q 373.378228 486.948494 373.378228 489.598494 
+L 373.378228 491.188908 
+Q 373.378228 493.838908 376.028228 493.838908 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="374.173228" y="491.770666" transform="rotate(-0 374.173228 491.770666)">SP1 22 AWG x2, 130/150 mm + tail 20 mm</text>
+   </g>
+   <g id="text_70">
+    <g id="patch_71">
+     <path d="M 462.364091 469.74442 
+L 584.916654 469.74442 
+Q 587.566654 469.74442 587.566654 467.09442 
+L 587.566654 465.504006 
+Q 587.566654 462.854006 584.916654 462.854006 
+L 462.364091 462.854006 
+Q 459.714091 462.854006 459.714091 465.504006 
+L 459.714091 467.09442 
+Q 459.714091 469.74442 462.364091 469.74442 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #212121" x="586.771654" y="467.676177" transform="rotate(-0 586.771654 467.676177)">SP2 22 AWG x2, 130/150 mm + tail 20 mm</text>
+   </g>
+   <g id="text_71">
+    <g id="patch_72">
+     <path d="M 329.135745 367.98064 
+L 451.688307 367.98064 
+Q 454.338307 367.98064 454.338307 365.33064 
+L 454.338307 363.740226 
+Q 454.338307 361.090226 451.688307 361.090226 
+L 329.135745 361.090226 
+Q 326.485745 361.090226 326.485745 363.740226 
+L 326.485745 365.33064 
+Q 326.485745 367.98064 329.135745 367.98064 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #212121" x="453.543307" y="365.912398" transform="rotate(-0 453.543307 365.912398)">SP3 22 AWG x2, 160/180 mm + tail 20 mm</text>
+   </g>
+   <g id="text_72">
+    <g id="patch_73">
+     <path d="M 227.209331 444.232609 
+L 403.042628 444.232609 
+Q 405.692628 444.232609 405.692628 441.582609 
+L 405.692628 439.992195 
+Q 405.692628 437.342195 403.042628 437.342195 
+L 227.209331 437.342195 
+Q 224.559331 437.342195 224.559331 439.992195 
+L 224.559331 441.582609 
+Q 224.559331 444.232609 227.209331 444.232609 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="225.354331" y="442.164366" transform="rotate(-0 225.354331 442.164366)">SD1 22 AWG x2: stem 30 mm, a 120/130 mm, b 140/150 mm</text>
+   </g>
+   <g id="text_73">
+    <g id="patch_74">
+     <path d="M 615.22084 363.445 
+L 698.30248 363.445 
+Q 700.95248 363.445 700.95248 360.795 
+L 700.95248 359.205 
+Q 700.95248 356.555 698.30248 356.555 
+L 615.22084 356.555 
+Q 612.57084 356.555 612.57084 359.205 
+L 612.57084 360.795 
+Q 612.57084 363.445 615.22084 363.445 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #212121" x="700.15748" y="361.376758" transform="rotate(-0 700.15748 361.376758)">SD2 22 AWG x2, 140/150 mm</text>
+   </g>
+   <g id="text_74">
+    <g id="patch_75">
+     <path d="M 228.626654 572.216861 
+L 307.906372 572.216861 
+Q 310.556372 572.216861 310.556372 569.566861 
+L 310.556372 567.976447 
+Q 310.556372 565.326447 307.906372 565.326447 
+L 228.626654 565.326447 
+Q 225.976654 565.326447 225.976654 567.976447 
+L 225.976654 569.566861 
+Q 225.976654 572.216861 228.626654 572.216861 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="226.771654" y="570.148618" transform="rotate(-0 226.771654 570.148618)">S2 kit cable, 150 mm  [LHY]</text>
+   </g>
+   <g id="text_75">
+    <g id="patch_76">
+     <path d="M 228.626654 620.689302 
+L 308.149841 620.689302 
+Q 310.799841 620.689302 310.799841 618.039302 
+L 310.799841 616.448887 
+Q 310.799841 613.798887 308.149841 613.798887 
+L 228.626654 613.798887 
+Q 225.976654 613.798887 225.976654 616.448887 
+L 225.976654 618.039302 
+Q 225.976654 620.689302 228.626654 620.689302 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="226.771654" y="618.621059" transform="rotate(-0 226.771654 618.621059)">S3 kit cable, 150 mm  [LHR]</text>
+   </g>
+   <g id="text_76">
+    <g id="patch_77">
+     <path d="M 228.626654 665.334971 
+L 307.953575 665.334971 
+Q 310.603575 665.334971 310.603575 662.684971 
+L 310.603575 661.094557 
+Q 310.603575 658.444557 307.953575 658.444557 
+L 228.626654 658.444557 
+Q 225.976654 658.444557 225.976654 661.094557 
+L 225.976654 662.684971 
+Q 225.976654 665.334971 228.626654 665.334971 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="226.771654" y="663.266729" transform="rotate(-0 226.771654 663.266729)">S4 kit cable, 150 mm  [LHP]</text>
+   </g>
+   <g id="text_77">
+    <g id="patch_78">
+     <path d="M 228.626654 714.94127 
+L 303.740075 714.94127 
+Q 306.390075 714.94127 306.390075 712.29127 
+L 306.390075 710.700856 
+Q 306.390075 708.050856 303.740075 708.050856 
+L 228.626654 708.050856 
+Q 225.976654 708.050856 225.976654 710.700856 
+L 225.976654 712.29127 
+Q 225.976654 714.94127 228.626654 714.94127 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="226.771654" y="712.873028" transform="rotate(-0 226.771654 712.873028)">S5 kit cable, 150 mm  [LK]</text>
+   </g>
+   <g id="text_78">
+    <g id="patch_79">
+     <path d="M 585.792008 572.216861 
+L 665.775633 572.216861 
+Q 668.425633 572.216861 668.425633 569.566861 
+L 668.425633 567.976447 
+Q 668.425633 565.326447 665.775633 565.326447 
+L 585.792008 565.326447 
+Q 583.142008 565.326447 583.142008 567.976447 
+L 583.142008 569.566861 
+Q 583.142008 572.216861 585.792008 572.216861 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="583.937008" y="570.148618" transform="rotate(-0 583.937008 570.148618)">S7 kit cable, 150 mm  [RHY]</text>
+   </g>
+   <g id="text_79">
+    <g id="patch_80">
+     <path d="M 585.792008 620.689302 
+L 666.019102 620.689302 
+Q 668.669102 620.689302 668.669102 618.039302 
+L 668.669102 616.448887 
+Q 668.669102 613.798887 666.019102 613.798887 
+L 585.792008 613.798887 
+Q 583.142008 613.798887 583.142008 616.448887 
+L 583.142008 618.039302 
+Q 583.142008 620.689302 585.792008 620.689302 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="583.937008" y="618.621059" transform="rotate(-0 583.937008 618.621059)">S8 kit cable, 150 mm  [RHR]</text>
+   </g>
+   <g id="text_80">
+    <g id="patch_81">
+     <path d="M 585.792008 665.334971 
+L 665.822836 665.334971 
+Q 668.472836 665.334971 668.472836 662.684971 
+L 668.472836 661.094557 
+Q 668.472836 658.444557 665.822836 658.444557 
+L 585.792008 658.444557 
+Q 583.142008 658.444557 583.142008 661.094557 
+L 583.142008 662.684971 
+Q 583.142008 665.334971 585.792008 665.334971 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="583.937008" y="663.266729" transform="rotate(-0 583.937008 663.266729)">S9 kit cable, 150 mm  [RHP]</text>
+   </g>
+   <g id="text_81">
+    <g id="patch_82">
+     <path d="M 585.792008 714.94127 
+L 665.296977 714.94127 
+Q 667.946977 714.94127 667.946977 712.29127 
+L 667.946977 710.700856 
+Q 667.946977 708.050856 665.296977 708.050856 
+L 585.792008 708.050856 
+Q 583.142008 708.050856 583.142008 710.700856 
+L 583.142008 712.29127 
+Q 583.142008 714.94127 585.792008 714.94127 
+z
+" style="fill: #ffffff; stroke: #bdbdbd; stroke-width: 0.3; stroke-linejoin: miter"/>
+    </g>
+    <text style="font-weight: 700; font-size: 5.3px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #212121" x="583.937008" y="712.873028" transform="rotate(-0 583.937008 712.873028)">S10 kit cable, 150 mm  [RK]</text>
+   </g>
+   <g id="text_82">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #37474f" x="31.181102" y="410.673819" transform="rotate(-0 31.181102 410.673819)">Inside (no joints, details in the cut list):</text>
+   </g>
+   <g id="text_83">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="31.181102" y="420.311411" transform="rotate(-0 31.181102 420.311411)">P1 P2 P3 P4 P5 P6 P7 P8 P9 P14 P15 P16</text>
+   </g>
+   <g id="text_84">
+    <text style="font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start" x="379.84252" y="412.374606" transform="rotate(-0 379.84252 412.374606)">Inside the belly: P11 16 AWG x2, 60 mm + BEC leads + BEC leads</text>
+   </g>
+   <g id="text_85">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #37474f" x="175.748031" y="123.240748" transform="rotate(-0 175.748031 123.240748)">Inside (no joints, details in the cut list):</text>
+   </g>
+   <g id="text_86">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="175.748031" y="132.87834" transform="rotate(-0 175.748031 132.87834)">P12 P17 D5 D6 D7 D8 D9 D10 D11 D12</text>
+   </g>
+   <g id="text_87">
+    <text style="font-size: 5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #00838f" x="175.748031" y="142.464378" transform="rotate(-0 175.748031 142.464378)">R4, R5 2.2 kOhm foot pull-ups soldered at the Pi header (pins 17-15, 17-13; D17)</text>
+   </g>
+   <g id="text_88">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: middle" x="581.102362" y="151.638955" transform="rotate(-0 581.102362 151.638955)">ID 33</text>
+   </g>
+   <g id="text_89">
+    <text style="font-weight: 700; font-size: 7px; font-family: 'DejaVu Sans'; text-anchor: start" x="742.677165" y="75.51942" transform="rotate(-0 742.677165 75.51942)">Cut list (from netlist.yaml; cut = per conductor)</text>
+   </g>
+   <g id="text_90">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #37474f" x="742.677165" y="89.27675" transform="rotate(-0 742.677165 89.27675)">ID</text>
+   </g>
+   <g id="text_91">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #37474f" x="773.858268" y="89.276961" transform="rotate(-0 773.858268 89.276961)">from -&gt; to</text>
+   </g>
+   <g id="text_92">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #37474f" x="966.614173" y="89.276961" transform="rotate(-0 966.614173 89.276961)">wire</text>
+   </g>
+   <g id="text_93">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #37474f" x="1037.480315" y="89.27675" transform="rotate(-0 1037.480315 89.27675)">cut mm</text>
+   </g>
+   <g id="text_94">
+    <text style="font-weight: 700; font-size: 5.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #37474f" x="1082.834646" y="89.276961" transform="rotate(-0 1082.834646 89.276961)">joints</text>
+   </g>
+   <g id="text_95">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="98.862592" transform="rotate(-0 742.677165 98.862592)">P1</text>
+   </g>
+   <g id="text_96">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="98.732893" transform="rotate(-0 773.858268 98.732893)">holder + to BMS B+</text>
+   </g>
+   <g id="text_97">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="98.758686" transform="rotate(-0 966.614173 98.758686)">16 AWG x1</text>
+   </g>
+   <g id="text_98">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="98.758686" transform="rotate(-0 1037.480315 98.758686)">120</text>
+   </g>
+   <g id="text_99">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="98.706733" transform="rotate(-0 1082.834646 98.706733)">none</text>
+   </g>
+   <g id="text_100">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="111.76023" transform="rotate(-0 742.677165 111.76023)">P2</text>
+   </g>
+   <g id="text_101">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="111.630531" transform="rotate(-0 773.858268 111.630531)">holder - to BMS B-</text>
+   </g>
+   <g id="text_102">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="111.656324" transform="rotate(-0 966.614173 111.656324)">16 AWG x1</text>
+   </g>
+   <g id="text_103">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="111.656324" transform="rotate(-0 1037.480315 111.656324)">120</text>
+   </g>
+   <g id="text_104">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="111.604371" transform="rotate(-0 1082.834646 111.604371)">none</text>
+   </g>
+   <g id="text_105">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="124.657868" transform="rotate(-0 742.677165 124.657868)">P3</text>
+   </g>
+   <g id="text_106">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="124.528169" transform="rotate(-0 773.858268 124.528169)">holder series strap to BMS B1</text>
+   </g>
+   <g id="text_107">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="124.553962" transform="rotate(-0 966.614173 124.553962)">26 AWG x1</text>
+   </g>
+   <g id="text_108">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="124.553962" transform="rotate(-0 1037.480315 124.553962)">120</text>
+   </g>
+   <g id="text_109">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="124.502008" transform="rotate(-0 1082.834646 124.502008)">none</text>
+   </g>
+   <g id="text_110">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="137.555506" transform="rotate(-0 742.677165 137.555506)">P4</text>
+   </g>
+   <g id="text_111">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="137.425806" transform="rotate(-0 773.858268 137.425806)">BMS P+ to charger B+</text>
+   </g>
+   <g id="text_112">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="137.451599" transform="rotate(-0 966.614173 137.451599)">20 AWG x1</text>
+   </g>
+   <g id="text_113">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="137.451599" transform="rotate(-0 1037.480315 137.451599)">130</text>
+   </g>
+   <g id="text_114">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="137.399646" transform="rotate(-0 1082.834646 137.399646)">none</text>
+   </g>
+   <g id="text_115">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="150.453143" transform="rotate(-0 742.677165 150.453143)">P5</text>
+   </g>
+   <g id="text_116">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="150.323444" transform="rotate(-0 773.858268 150.323444)">BMS P- to charger B-</text>
+   </g>
+   <g id="text_117">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="150.349237" transform="rotate(-0 966.614173 150.349237)">20 AWG x1</text>
+   </g>
+   <g id="text_118">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="150.349237" transform="rotate(-0 1037.480315 150.349237)">130</text>
+   </g>
+   <g id="text_119">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="150.297284" transform="rotate(-0 1082.834646 150.297284)">none</text>
+   </g>
+   <g id="text_120">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="163.350781" transform="rotate(-0 742.677165 163.350781)">P6</text>
+   </g>
+   <g id="text_121">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="163.221082" transform="rotate(-0 773.858268 163.221082)">BMS P+ to XT30U female +</text>
+   </g>
+   <g id="text_122">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="163.246875" transform="rotate(-0 966.614173 163.246875)">16 AWG x1</text>
+   </g>
+   <g id="text_123">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="163.246875" transform="rotate(-0 1037.480315 163.246875)">110</text>
+   </g>
+   <g id="text_124">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="163.194922" transform="rotate(-0 1082.834646 163.194922)">none</text>
+   </g>
+   <g id="text_125">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="176.248419" transform="rotate(-0 742.677165 176.248419)">P7</text>
+   </g>
+   <g id="text_126">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="176.11872" transform="rotate(-0 773.858268 176.11872)">XT30U male + to fuse holder to Pololu 2815 VIN..</text>
+   </g>
+   <g id="text_127">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="176.144513" transform="rotate(-0 966.614173 176.144513)">16 AWG x2</text>
+   </g>
+   <g id="text_128">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="176.144513" transform="rotate(-0 1037.480315 176.144513)">90</text>
+   </g>
+   <g id="text_129">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="176.09256" transform="rotate(-0 1082.834646 176.09256)">none</text>
+   </g>
+   <g id="text_130">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="189.146057" transform="rotate(-0 742.677165 189.146057)">P8</text>
+   </g>
+   <g id="text_131">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="189.016358" transform="rotate(-0 773.858268 189.016358)">BMS P- to XT30U female -</text>
+   </g>
+   <g id="text_132">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="189.042151" transform="rotate(-0 966.614173 189.042151)">16 AWG x1</text>
+   </g>
+   <g id="text_133">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="189.042151" transform="rotate(-0 1037.480315 189.042151)">110</text>
+   </g>
+   <g id="text_134">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="188.990197" transform="rotate(-0 1082.834646 188.990197)">none</text>
+   </g>
+   <g id="text_135">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="202.043695" transform="rotate(-0 742.677165 202.043695)">P9</text>
+   </g>
+   <g id="text_136">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="201.913995" transform="rotate(-0 773.858268 201.913995)">2815 VOUT to splice VSW</text>
+   </g>
+   <g id="text_137">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="201.939788" transform="rotate(-0 966.614173 201.939788)">16 AWG x1</text>
+   </g>
+   <g id="text_138">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="201.939788" transform="rotate(-0 1037.480315 201.939788)">90</text>
+   </g>
+   <g id="text_139">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="201.887835" transform="rotate(-0 1082.834646 201.887835)">none</text>
+   </g>
+   <g id="text_140">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="214.941332" transform="rotate(-0 742.677165 214.941332)">P10</text>
+   </g>
+   <g id="text_141">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="214.811633" transform="rotate(-0 773.858268 214.811633)">splices VSW and G to the BEC input leads</text>
+   </g>
+   <g id="text_142">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="214.837426" transform="rotate(-0 966.614173 214.837426)">16 AWG x2</text>
+   </g>
+   <g id="text_143">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="214.837426" transform="rotate(-0 1037.480315 214.837426)">150</text>
+   </g>
+   <g id="text_144">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="214.785473" transform="rotate(-0 1082.834646 214.785473)">none</text>
+   </g>
+   <g id="text_145">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="227.83897" transform="rotate(-0 742.677165 227.83897)">P11</text>
+   </g>
+   <g id="text_146">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="227.709271" transform="rotate(-0 773.858268 227.709271)">both BEC output leads joined (JB+ JB-) to the ..</text>
+   </g>
+   <g id="text_147">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="227.735064" transform="rotate(-0 966.614173 227.735064)">16 AWG x2</text>
+   </g>
+   <g id="text_148">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="227.735064" transform="rotate(-0 1037.480315 227.735064)">60</text>
+   </g>
+   <g id="text_149">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="227.683111" transform="rotate(-0 1082.834646 227.683111)">none</text>
+   </g>
+   <g id="text_150">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="240.736608" transform="rotate(-0 742.677165 240.736608)">P12</text>
+   </g>
+   <g id="text_151">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="240.606909" transform="rotate(-0 773.858268 240.606909)">U3 VOUT and GND to Pi pin 2 and pin 6</text>
+   </g>
+   <g id="text_152">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="240.632702" transform="rotate(-0 966.614173 240.632702)">20 AWG x2</text>
+   </g>
+   <g id="text_153">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="240.632702" transform="rotate(-0 1037.480315 240.632702)">130</text>
+   </g>
+   <g id="text_154">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="240.580749" transform="rotate(-0 1082.834646 240.580749)">none</text>
+   </g>
+   <g id="text_155">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="253.634246" transform="rotate(-0 742.677165 253.634246)">P13</text>
+   </g>
+   <g id="text_156">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="253.504547" transform="rotate(-0 773.858268 253.504547)">splices VSW and G up the neck to U3 VIN and GN..</text>
+   </g>
+   <g id="text_157">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="253.53034" transform="rotate(-0 966.614173 253.53034)">20 AWG x2</text>
+   </g>
+   <g id="text_158">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="253.53034" transform="rotate(-0 1037.480315 253.53034)">550</text>
+   </g>
+   <g id="text_159">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="253.478386" transform="rotate(-0 1082.834646 253.478386)">NP HP HY HR</text>
+   </g>
+   <g id="text_160">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="266.531884" transform="rotate(-0 742.677165 266.531884)">P14</text>
+   </g>
+   <g id="text_161">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="266.402184" transform="rotate(-0 773.858268 266.402184)">XT30U male - to splice G</text>
+   </g>
+   <g id="text_162">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="266.427977" transform="rotate(-0 966.614173 266.427977)">16 AWG x1</text>
+   </g>
+   <g id="text_163">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="266.427977" transform="rotate(-0 1037.480315 266.427977)">140</text>
+   </g>
+   <g id="text_164">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="266.376024" transform="rotate(-0 1082.834646 266.376024)">none</text>
+   </g>
+   <g id="text_165">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="279.429521" transform="rotate(-0 742.677165 279.429521)">P15</text>
+   </g>
+   <g id="text_166">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="279.299822" transform="rotate(-0 773.858268 279.299822)">2815 SW pad pair to the panel switch</text>
+   </g>
+   <g id="text_167">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="279.325615" transform="rotate(-0 966.614173 279.325615)">26 AWG x2</text>
+   </g>
+   <g id="text_168">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="279.325615" transform="rotate(-0 1037.480315 279.325615)">150</text>
+   </g>
+   <g id="text_169">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="279.273662" transform="rotate(-0 1082.834646 279.273662)">none</text>
+   </g>
+   <g id="text_170">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="292.327159" transform="rotate(-0 742.677165 292.327159)">P16</text>
+   </g>
+   <g id="text_171">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="292.19746" transform="rotate(-0 773.858268 292.19746)">splice G to 2815 GND (control ground)</text>
+   </g>
+   <g id="text_172">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="292.223253" transform="rotate(-0 966.614173 292.223253)">20 AWG x1</text>
+   </g>
+   <g id="text_173">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="292.223253" transform="rotate(-0 1037.480315 292.223253)">90</text>
+   </g>
+   <g id="text_174">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="292.1713" transform="rotate(-0 1082.834646 292.1713)">none</text>
+   </g>
+   <g id="text_175">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #c62828" x="742.677165" y="305.224797" transform="rotate(-0 742.677165 305.224797)">P17</text>
+   </g>
+   <g id="text_176">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="305.095098" transform="rotate(-0 773.858268 305.095098)">Pi pin 4 and pin 14 to splices J5 and JG</text>
+   </g>
+   <g id="text_177">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="305.120891" transform="rotate(-0 966.614173 305.120891)">20 AWG x2</text>
+   </g>
+   <g id="text_178">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="305.120891" transform="rotate(-0 1037.480315 305.120891)">90</text>
+   </g>
+   <g id="text_179">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="305.068938" transform="rotate(-0 1082.834646 305.068938)">none</text>
+   </g>
+   <g id="text_180">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="318.122435" transform="rotate(-0 742.677165 318.122435)">D1</text>
+   </g>
+   <g id="text_181">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="317.992736" transform="rotate(-0 773.858268 317.992736)">Pi micro-USB data port to adapter USB-C</text>
+   </g>
+   <g id="text_182">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="318.018716" transform="rotate(-0 966.614173 318.018716)">USB 2.0 cable x1</text>
+   </g>
+   <g id="text_183">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="318.018529" transform="rotate(-0 1037.480315 318.018529)">900</text>
+   </g>
+   <g id="text_184">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="317.966575" transform="rotate(-0 1082.834646 317.966575)">NP HP HY HR</text>
+   </g>
+   <g id="text_185">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="331.020073" transform="rotate(-0 742.677165 331.020073)">D2</text>
+   </g>
+   <g id="text_186">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="330.890373" transform="rotate(-0 773.858268 330.890373)">Pi to BNO055 (3V3, GND, SDA, SCL)</text>
+   </g>
+   <g id="text_187">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="330.916166" transform="rotate(-0 966.614173 330.916166)">26 AWG x4</text>
+   </g>
+   <g id="text_188">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="330.916166" transform="rotate(-0 1037.480315 330.916166)">550</text>
+   </g>
+   <g id="text_189">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="330.864213" transform="rotate(-0 1082.834646 330.864213)">NP HP HY HR</text>
+   </g>
+   <g id="text_190">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="343.91771" transform="rotate(-0 742.677165 343.91771)">D3</text>
+   </g>
+   <g id="text_191">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="343.788011" transform="rotate(-0 773.858268 343.788011)">Pi to left foot switches, with pull-up R4 at t..</text>
+   </g>
+   <g id="text_192">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="343.813804" transform="rotate(-0 966.614173 343.813804)">26 AWG x2</text>
+   </g>
+   <g id="text_193">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="343.813804" transform="rotate(-0 1037.480315 343.813804)">40/900</text>
+   </g>
+   <g id="text_194">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="343.761851" transform="rotate(-0 1082.834646 343.761851)">NP HP HY HR LHY LHR LHP LK LA</text>
+   </g>
+   <g id="text_195">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="356.815348" transform="rotate(-0 742.677165 356.815348)">D4</text>
+   </g>
+   <g id="text_196">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="356.685649" transform="rotate(-0 773.858268 356.685649)">Pi to right foot switches, with pull-up R5 at ..</text>
+   </g>
+   <g id="text_197">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="356.711442" transform="rotate(-0 966.614173 356.711442)">26 AWG x2</text>
+   </g>
+   <g id="text_198">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="356.711442" transform="rotate(-0 1037.480315 356.711442)">40/950</text>
+   </g>
+   <g id="text_199">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="356.659489" transform="rotate(-0 1082.834646 356.659489)">NP HP HY HR RHY RHR RHP RK RA</text>
+   </g>
+   <g id="text_200">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="369.712986" transform="rotate(-0 742.677165 369.712986)">D5</text>
+   </g>
+   <g id="text_201">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="369.583287" transform="rotate(-0 773.858268 369.583287)">Pi to left eye LED and resistor</text>
+   </g>
+   <g id="text_202">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="369.60908" transform="rotate(-0 966.614173 369.60908)">26 AWG x2</text>
+   </g>
+   <g id="text_203">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="369.60908" transform="rotate(-0 1037.480315 369.60908)">150</text>
+   </g>
+   <g id="text_204">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="369.557127" transform="rotate(-0 1082.834646 369.557127)">none</text>
+   </g>
+   <g id="text_205">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="382.610624" transform="rotate(-0 742.677165 382.610624)">D6</text>
+   </g>
+   <g id="text_206">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="382.480925" transform="rotate(-0 773.858268 382.480925)">Pi to right eye LED and resistor</text>
+   </g>
+   <g id="text_207">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="382.506718" transform="rotate(-0 966.614173 382.506718)">26 AWG x2</text>
+   </g>
+   <g id="text_208">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="382.506718" transform="rotate(-0 1037.480315 382.506718)">230</text>
+   </g>
+   <g id="text_209">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="382.454764" transform="rotate(-0 1082.834646 382.454764)">none</text>
+   </g>
+   <g id="text_210">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="395.508262" transform="rotate(-0 742.677165 395.508262)">D7</text>
+   </g>
+   <g id="text_211">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="395.378562" transform="rotate(-0 773.858268 395.378562)">Pi to projector LED and resistor</text>
+   </g>
+   <g id="text_212">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="395.404355" transform="rotate(-0 966.614173 395.404355)">26 AWG x2</text>
+   </g>
+   <g id="text_213">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="395.404355" transform="rotate(-0 1037.480315 395.404355)">160</text>
+   </g>
+   <g id="text_214">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="395.352402" transform="rotate(-0 1082.834646 395.352402)">none</text>
+   </g>
+   <g id="text_215">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="408.405899" transform="rotate(-0 742.677165 408.405899)">D8</text>
+   </g>
+   <g id="text_216">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="408.2762" transform="rotate(-0 773.858268 408.2762)">left antenna SG90 lead to Pi pin 33 and splice..</text>
+   </g>
+   <g id="text_217">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="408.302181" transform="rotate(-0 966.614173 408.302181)">SG90 lead x3</text>
+   </g>
+   <g id="text_218">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="408.301993" transform="rotate(-0 1037.480315 408.301993)">250</text>
+   </g>
+   <g id="text_219">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="408.25004" transform="rotate(-0 1082.834646 408.25004)">none</text>
+   </g>
+   <g id="text_220">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="421.303537" transform="rotate(-0 742.677165 421.303537)">D9</text>
+   </g>
+   <g id="text_221">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="421.173838" transform="rotate(-0 773.858268 421.173838)">right antenna SG90 lead to Pi pin 32 and splic..</text>
+   </g>
+   <g id="text_222">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="421.199818" transform="rotate(-0 966.614173 421.199818)">SG90 lead + 26 AWG x3</text>
+   </g>
+   <g id="text_223">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="421.199631" transform="rotate(-0 1037.480315 421.199631)">270</text>
+   </g>
+   <g id="text_224">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="421.147678" transform="rotate(-0 1082.834646 421.147678)">none</text>
+   </g>
+   <g id="text_225">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="434.201175" transform="rotate(-0 742.677165 434.201175)">D10</text>
+   </g>
+   <g id="text_226">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="434.071476" transform="rotate(-0 773.858268 434.071476)">Pi and splices to MAX98357A</text>
+   </g>
+   <g id="text_227">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="434.097269" transform="rotate(-0 966.614173 434.097269)">26 AWG x5</text>
+   </g>
+   <g id="text_228">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="434.097269" transform="rotate(-0 1037.480315 434.097269)">200</text>
+   </g>
+   <g id="text_229">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="434.045316" transform="rotate(-0 1082.834646 434.045316)">none</text>
+   </g>
+   <g id="text_230">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="447.098813" transform="rotate(-0 742.677165 447.098813)">D11</text>
+   </g>
+   <g id="text_231">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="446.969114" transform="rotate(-0 773.858268 446.969114)">MAX98357A to speaker</text>
+   </g>
+   <g id="text_232">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="446.994906" transform="rotate(-0 966.614173 446.994906)">26 AWG x2</text>
+   </g>
+   <g id="text_233">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="446.994906" transform="rotate(-0 1037.480315 446.994906)">100</text>
+   </g>
+   <g id="text_234">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="446.942953" transform="rotate(-0 1082.834646 446.942953)">none</text>
+   </g>
+   <g id="text_235">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #1565c0" x="742.677165" y="459.996451" transform="rotate(-0 742.677165 459.996451)">D12</text>
+   </g>
+   <g id="text_236">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="459.866751" transform="rotate(-0 773.858268 459.866751)">Pi CSI to Camera Module 3</text>
+   </g>
+   <g id="text_237">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="459.892732" transform="rotate(-0 966.614173 459.892732)">FPC ribbon x1</text>
+   </g>
+   <g id="text_238">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="459.892544" transform="rotate(-0 1037.480315 459.892544)">150</text>
+   </g>
+   <g id="text_239">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="459.840591" transform="rotate(-0 1082.834646 459.840591)">none</text>
+   </g>
+   <g id="text_240">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="472.894088" transform="rotate(-0 742.677165 472.894088)">SP1</text>
+   </g>
+   <g id="text_241">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="472.764389" transform="rotate(-0 773.858268 472.764389)">power pair SPV and SPG to ID 20 BUS 2 (V and G)</text>
+   </g>
+   <g id="text_242">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="472.790182" transform="rotate(-0 966.614173 472.790182)">22 AWG x2</text>
+   </g>
+   <g id="text_243">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="472.790182" transform="rotate(-0 1037.480315 472.790182)">20 to 150</text>
+   </g>
+   <g id="text_244">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="472.738229" transform="rotate(-0 1082.834646 472.738229)">none</text>
+   </g>
+   <g id="text_245">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="485.791726" transform="rotate(-0 742.677165 485.791726)">SD1</text>
+   </g>
+   <g id="text_246">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="485.662027" transform="rotate(-0 773.858268 485.662027)">adapter H3 data lead: DATA and GND only (V pos..</text>
+   </g>
+   <g id="text_247">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="485.68782" transform="rotate(-0 966.614173 485.68782)">22 AWG x2</text>
+   </g>
+   <g id="text_248">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="485.68782" transform="rotate(-0 1037.480315 485.68782)">30 to 150</text>
+   </g>
+   <g id="text_249">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="485.635867" transform="rotate(-0 1082.834646 485.635867)">none</text>
+   </g>
+   <g id="text_250">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="498.689364" transform="rotate(-0 742.677165 498.689364)">SP2</text>
+   </g>
+   <g id="text_251">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="498.559665" transform="rotate(-0 773.858268 498.559665)">power pair SPV and SPG to ID 10 BUS 2 (V and G)</text>
+   </g>
+   <g id="text_252">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="498.585458" transform="rotate(-0 966.614173 498.585458)">22 AWG x2</text>
+   </g>
+   <g id="text_253">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="498.585458" transform="rotate(-0 1037.480315 498.585458)">20 to 150</text>
+   </g>
+   <g id="text_254">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="498.533505" transform="rotate(-0 1082.834646 498.533505)">none</text>
+   </g>
+   <g id="text_255">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="511.587002" transform="rotate(-0 742.677165 511.587002)">SD2</text>
+   </g>
+   <g id="text_256">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="511.457303" transform="rotate(-0 773.858268 511.457303)">adapter H5 data lead: DATA and GND only, to ID..</text>
+   </g>
+   <g id="text_257">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="511.483095" transform="rotate(-0 966.614173 511.483095)">22 AWG x2</text>
+   </g>
+   <g id="text_258">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="511.483095" transform="rotate(-0 1037.480315 511.483095)">140/150</text>
+   </g>
+   <g id="text_259">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="511.431142" transform="rotate(-0 1082.834646 511.431142)">none</text>
+   </g>
+   <g id="text_260">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="524.48464" transform="rotate(-0 742.677165 524.48464)">S2</text>
+   </g>
+   <g id="text_261">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="524.35494" transform="rotate(-0 773.858268 524.35494)">kit cable ID 20 BUS 1 to ID 21 BUS 2</text>
+   </g>
+   <g id="text_262">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="524.380921" transform="rotate(-0 966.614173 524.380921)">kit cable</text>
+   </g>
+   <g id="text_263">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="524.380733" transform="rotate(-0 1037.480315 524.380733)">150</text>
+   </g>
+   <g id="text_264">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="524.32878" transform="rotate(-0 1082.834646 524.32878)">LHY</text>
+   </g>
+   <g id="text_265">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="537.382277" transform="rotate(-0 742.677165 537.382277)">SP3</text>
+   </g>
+   <g id="text_266">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="537.252578" transform="rotate(-0 773.858268 537.252578)">power pair SPV and SPG to ID 30 BUS 2 (V and G)</text>
+   </g>
+   <g id="text_267">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="537.278371" transform="rotate(-0 966.614173 537.278371)">22 AWG x2</text>
+   </g>
+   <g id="text_268">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="537.278371" transform="rotate(-0 1037.480315 537.278371)">20 to 180</text>
+   </g>
+   <g id="text_269">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="537.226418" transform="rotate(-0 1082.834646 537.226418)">none</text>
+   </g>
+   <g id="text_270">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="550.279915" transform="rotate(-0 742.677165 550.279915)">S3</text>
+   </g>
+   <g id="text_271">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="550.150216" transform="rotate(-0 773.858268 550.150216)">kit cable ID 21 to ID 22</text>
+   </g>
+   <g id="text_272">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="550.176196" transform="rotate(-0 966.614173 550.176196)">kit cable</text>
+   </g>
+   <g id="text_273">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="550.176009" transform="rotate(-0 1037.480315 550.176009)">150</text>
+   </g>
+   <g id="text_274">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="550.124056" transform="rotate(-0 1082.834646 550.124056)">LHR</text>
+   </g>
+   <g id="text_275">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="563.177553" transform="rotate(-0 742.677165 563.177553)">S4</text>
+   </g>
+   <g id="text_276">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="563.047854" transform="rotate(-0 773.858268 563.047854)">kit cable ID 22 to ID 23</text>
+   </g>
+   <g id="text_277">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="563.073834" transform="rotate(-0 966.614173 563.073834)">kit cable</text>
+   </g>
+   <g id="text_278">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="563.073647" transform="rotate(-0 1037.480315 563.073647)">150</text>
+   </g>
+   <g id="text_279">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="563.021694" transform="rotate(-0 1082.834646 563.021694)">LHP</text>
+   </g>
+   <g id="text_280">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="576.075191" transform="rotate(-0 742.677165 576.075191)">S5</text>
+   </g>
+   <g id="text_281">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="575.945491" transform="rotate(-0 773.858268 575.945491)">kit cable ID 23 BUS 1 to ID 24 BUS 2</text>
+   </g>
+   <g id="text_282">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="575.971472" transform="rotate(-0 966.614173 575.971472)">kit cable</text>
+   </g>
+   <g id="text_283">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="575.971284" transform="rotate(-0 1037.480315 575.971284)">150</text>
+   </g>
+   <g id="text_284">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="575.919331" transform="rotate(-0 1082.834646 575.919331)">LK</text>
+   </g>
+   <g id="text_285">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="588.972828" transform="rotate(-0 742.677165 588.972828)">S7</text>
+   </g>
+   <g id="text_286">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="588.843129" transform="rotate(-0 773.858268 588.843129)">kit cable ID 10 to ID 11</text>
+   </g>
+   <g id="text_287">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="588.86911" transform="rotate(-0 966.614173 588.86911)">kit cable</text>
+   </g>
+   <g id="text_288">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="588.868922" transform="rotate(-0 1037.480315 588.868922)">150</text>
+   </g>
+   <g id="text_289">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="588.816969" transform="rotate(-0 1082.834646 588.816969)">RHY</text>
+   </g>
+   <g id="text_290">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="601.870466" transform="rotate(-0 742.677165 601.870466)">S8</text>
+   </g>
+   <g id="text_291">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="601.740767" transform="rotate(-0 773.858268 601.740767)">kit cable ID 11 to ID 12</text>
+   </g>
+   <g id="text_292">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="601.766748" transform="rotate(-0 966.614173 601.766748)">kit cable</text>
+   </g>
+   <g id="text_293">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="601.76656" transform="rotate(-0 1037.480315 601.76656)">150</text>
+   </g>
+   <g id="text_294">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="601.714607" transform="rotate(-0 1082.834646 601.714607)">RHR</text>
+   </g>
+   <g id="text_295">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="614.768104" transform="rotate(-0 742.677165 614.768104)">S9</text>
+   </g>
+   <g id="text_296">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="614.638405" transform="rotate(-0 773.858268 614.638405)">kit cable ID 12 to ID 13</text>
+   </g>
+   <g id="text_297">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="614.664385" transform="rotate(-0 966.614173 614.664385)">kit cable</text>
+   </g>
+   <g id="text_298">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="614.664198" transform="rotate(-0 1037.480315 614.664198)">150</text>
+   </g>
+   <g id="text_299">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="614.612245" transform="rotate(-0 1082.834646 614.612245)">RHP</text>
+   </g>
+   <g id="text_300">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="627.665742" transform="rotate(-0 742.677165 627.665742)">S10</text>
+   </g>
+   <g id="text_301">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="627.536043" transform="rotate(-0 773.858268 627.536043)">kit cable ID 13 to ID 14</text>
+   </g>
+   <g id="text_302">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="627.562023" transform="rotate(-0 966.614173 627.562023)">kit cable</text>
+   </g>
+   <g id="text_303">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="627.561836" transform="rotate(-0 1037.480315 627.561836)">150</text>
+   </g>
+   <g id="text_304">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="627.509883" transform="rotate(-0 1082.834646 627.509883)">RK</text>
+   </g>
+   <g id="text_305">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="640.56338" transform="rotate(-0 742.677165 640.56338)">S11</text>
+   </g>
+   <g id="text_306">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="640.43368" transform="rotate(-0 773.858268 640.43368)">kit cable ID 30 BUS 1 to ID 31 BUS 2</text>
+   </g>
+   <g id="text_307">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="640.459661" transform="rotate(-0 966.614173 640.459661)">kit cable</text>
+   </g>
+   <g id="text_308">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="640.459473" transform="rotate(-0 1037.480315 640.459473)">150</text>
+   </g>
+   <g id="text_309">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="640.40752" transform="rotate(-0 1082.834646 640.40752)">NP</text>
+   </g>
+   <g id="text_310">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="653.461017" transform="rotate(-0 742.677165 653.461017)">S12</text>
+   </g>
+   <g id="text_311">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="653.331318" transform="rotate(-0 773.858268 653.331318)">kit cable ID 31 to ID 32</text>
+   </g>
+   <g id="text_312">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="653.357299" transform="rotate(-0 966.614173 653.357299)">kit cable</text>
+   </g>
+   <g id="text_313">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="653.357111" transform="rotate(-0 1037.480315 653.357111)">150</text>
+   </g>
+   <g id="text_314">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="653.305158" transform="rotate(-0 1082.834646 653.305158)">HP HY</text>
+   </g>
+   <g id="text_315">
+    <text style="font-weight: 700; font-size: 5.2px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #2e7d32" x="742.677165" y="666.358655" transform="rotate(-0 742.677165 666.358655)">S13</text>
+   </g>
+   <g id="text_316">
+    <text style="font-size: 4.7px; font-family: 'DejaVu Sans'; text-anchor: start" x="773.858268" y="666.228956" transform="rotate(-0 773.858268 666.228956)">kit cable ID 32 to ID 33</text>
+   </g>
+   <g id="text_317">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="966.614173" y="666.254937" transform="rotate(-0 966.614173 666.254937)">kit cable</text>
+   </g>
+   <g id="text_318">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start" x="1037.480315" y="666.254749" transform="rotate(-0 1037.480315 666.254749)">150</text>
+   </g>
+   <g id="text_319">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="1082.834646" y="666.202796" transform="rotate(-0 1082.834646 666.202796)">HR</text>
+   </g>
+   <g id="text_320">
+    <text style="font-size: 4.8px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b71c1c" x="742.677165" y="683.262811" transform="rotate(-0 742.677165 683.262811)">Removed: S1, S6, S14, S14Y (kit S1 and S6 replaced by SP/SD made leads, S14 and the D14 Y-lead dropped, D15)</text>
+   </g>
+   <g id="text_321">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="742.677165" y="693.415574" transform="rotate(-0 742.677165 693.415574)">Joints: NP neck_pitch, HP head_pitch, HY head_yaw, HR head_roll; L/R HY HR HP K A = hip yaw, hip roll,</text>
+   </g>
+   <g id="text_322">
+    <text style="font-size: 4.6px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #6a1b9a" x="742.677165" y="702.48644" transform="rotate(-0 742.677165 702.48644)">hip pitch, knee, ankle. Kit cables: test-fit the BLOCKER hops at both joint limits (B17).</text>
+   </g>
+   <g id="text_323">
+    <text style="font-size: 4.9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #455a64" x="742.677165" y="792.139185" transform="rotate(-0 742.677165 792.139185)">Wire totals and the length rule: CABLE_MAP.md. Rule = polyline + 2 x 22.6 + 2 x 20 + 10 mm per radian crossed.</text>
+   </g>
+   <g id="text_324">
+    <text style="font-size: 4.9px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #455a64" x="742.677165" y="802.343909" transform="rotate(-0 742.677165 802.343909)">Positions of parts not in the CAD come from audit/placements.json (MOUNTING.md, D11). Every wire, terminal to terminal: odm_v2_wiring_pictorial.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pf4b0cc0273">
+   <rect x="0" y="0" width="1190.551181" height="841.889764"/>
+  </clipPath>
+ </defs>
+</svg>

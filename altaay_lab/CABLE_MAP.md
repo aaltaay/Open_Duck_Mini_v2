@@ -1,88 +1,101 @@
 # CABLE_MAP
 
-Last updated: 2026-11-01 2:52 PM ET (blocker pass). One row per cable. Routes measured on the upstream URDF/STL assembly (STL commit 730c14b) on the box: the route is a polyline through the centres of the parts the cable passes and the joint axes it crosses (script: audit/cables.py, data: audit/cables.json). Nothing has been built.
+Last updated: 2026-11-01 (America/New_York), wiring decisions D8 to D13, D15 and D17 (D15 replaced D14). One row per cable. The conductor-level data (from pin, to pin, net, gauge, colour, cut length, expected current) is in wiring/netlist.yaml, which is the source of truth; this file and the drawings follow it. Nothing has been built.
+
+Routes were measured on the upstream URDF/STL assembly (STL commit 730c14b): the route is a polyline through the centres of the parts the cable passes and the joint axes it crosses (audit/cables.py, audit/cables.json). Parts not in the CAD use the centres in audit/placements.json (BEC, fuse holder, Pololu 2815, BMS; MOUNTING.md, D11).
 
 ## Length rule (lab design rule, not a measurement)
-Cut length = route polyline + 2 x 22.6 mm (connector position tolerance at each end, half of the STS3215 45.2 mm case length, because connector positions on the servo are not modelled in the CAD) + 2 x 20 mm service slack + 10 mm per radian of joint range crossed (joint ranges from the URDF limits).
-Lower bound = straight distance minus 45.2 mm (connectors at the nearest corners). A cable shorter than the lower bound cannot fit; one longer than the rule length always fits; in between needs a test fit.
-
-For parts not in the CAD (UBEC, BEC Pro, fuse holder, XT30, amplifier, LEDs' exact seats), the nearest modelled part is used as the reference point and the row is marked BLOCKER.
+Cut length = route polyline + 2 x 22.6 mm (connector position tolerance at each end, half of the STS3215 45.2 mm case length) + 2 x 20 mm service slack + 10 mm per radian of joint range crossed (URDF limits).
+Lower bound = straight distance minus 45.2 mm. A cable shorter than the lower bound cannot fit; one longer than the rule length always fits; in between needs a test fit.
 
 ## Connector parts
 | Use | Housing | Terminal | Wire | Tool |
 |---|---|---|---|---|
-| STS3215 bus (servo and adapter H3/H5 sockets are 5264-type 2.5 mm 3-pin) | Molex 50-37-5033 (Mini-SPOX 3 pos) | Molex 08-70-1040 (5263, 22 to 28 AWG) | 22 AWG | Engineer PA-09 (listed for Molex 5263 in the PA-09/PA-20 chart, https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/2194/PA-09_PA-20_Compatibility_Chart_5-4-17.pdf) |
+| STS3215 bus made leads: SP1 to SP3 at the servo, SD1 and SD2 at both ends (5264-type 2.5 mm 3-pin sockets on servos and adapter) | Molex 50-37-5033 (Mini-SPOX 3 pos), 5 used | Molex 08-70-1040 (22 to 28 AWG), 13 used, one wire per terminal | 22 AWG | Engineer PA-09 (Molex 5263 in the PA-09/PA-20 chart) |
 | Battery disconnect | Amass XT30U male and female | solder cups | 16 AWG | soldering iron |
-| Everything else | none, solder to through-holes or tabs, heat shrink over each joint | | | Pinecil V2 |
+| Pi header | 2x20 2.54 mm header (pre-soldered or fitted) | solder to the pins; R4, R5 resistor leads go straight onto pins 17-15 and 17-13 (D17) | 20 and 26 AWG | Pinecil V2 |
+| Pololu 2815 | large holes (power) and 0.1 in holes (SW pad pair) | solder | 16 AWG, 26 AWG | Pinecil V2 |
+| Splices G, VSW, JB+, JB-, SPV, SPG, J5, JG, YD3, YG3, JG20, JG30, JG10 | none: solder splice in adhesive heat shrink (YD3, YG3 may be 3-way crimp splices) | | | Pinecil V2 |
+| Everything else | none, solder to pads, tabs or holes, heat shrink over each joint | | | Pinecil V2 |
 
-## A. Servo bus (14 servos, 3 chains, 2 adapter sockets)
-Waveshare Bus Servo Adapter (A) schematic (https://files.waveshare.com/wiki/Bus-Servo-Adapter-(A)/Bus%20Servo%20Adapter%20(A)-Sch.pdf): only H3 and H5 are servo sockets, in parallel. No Y-lead (B19 cleared): per the Tnkr wiring of the upstream assembly ("as in the creator's wiring diagram", no splitter), socket H3 runs the left leg, and the neck chain hangs off the left ankle's free BUS 2 through one made lead (S14); H5 runs the right leg. Every STS3215 has 2 bus ports in parallel. Tnkr: the incoming cable goes into BUS 2, the next leaves from BUS 1; at the left ankle the knee cable takes BUS 1 so the neck lead gets the roomier socket.
+## A. Servo bus (D15: power from the BEC splices, data from the adapter)
+Waveshare Bus Servo Adapter (A) schematic (https://files.waveshare.com/wiki/Bus-Servo-Adapter-(A)/Bus%20Servo%20Adapter%20(A)-Sch.pdf): H3 and H5 are the servo sockets, in parallel, pin 1 DATA, pin 2 V, pin 3 GND (printed D V G on the board). D15: no servo current through the adapter. H3 and H5 carry only DATA and GND (V position empty), H1 is not connected, the jumper is on B (USB).
 
-Kit cable = the 15 cm 3-pin cable shipped with each STS3215 (14 shipped, 13 used, 1 spare). Cable spec from the Feetech STS3215 spec sheet (https://www.mantech.co.za/Datasheets/Products/STS3215-200620A.pdf): 5264-3P, 15 cm, pinout GND, VCC, signal. The same sheet says "No Accessories", so whether every seller ships the cable is a BLOCKER-lite: confirm on the Seeed order (the Seeed page does not state it).
+Every STS3215 has 2 bus ports in parallel. Tnkr: the incoming cable goes into BUS 2, the next leaves from BUS 1. The last servo of each chain (24, 33, 14) has BUS 1 free.
 
-| ID | From | To | Signal / power | Gauge | Ends | Route (parts passed, joints crossed) | Polyline | Straight | Joint range rad | Lower bound | Rule length | Source | Fit vs 150 mm kit cable |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| S1 | Adapter H3 | ID 20 L hip yaw | bus V+ 7.2 V, GND, data | kit | 5264 | trunk_top to trunk_bottom, no joints | 63.8 | 63.8 | 0 | 18.6 | 149.0 | kit | fits (1.0 mm margin) |
-| S2 | ID 20 L hip yaw | ID 21 L hip roll | bus | kit | 5264 both ends | through hip yaw horn and roll_motor_top/bottom, crosses left_hip_yaw | 56.6 | 54.3 | 1.05 | 9.1 | 152.3 | kit | BLOCKER test fit (rule 2.3 mm over) |
-| S3 | ID 21 | ID 22 L hip pitch | bus | kit | 5264 | roll_motor_bottom to left_roll_to_pitch, crosses left_hip_roll | 82.3 | 56.2 | 0.87 | 11.0 | 176.2 | kit | BLOCKER test fit |
-| S4 | ID 22 | ID 23 L knee | bus | kit | 5264 | left_roll_to_pitch, leg_spacer, knee sheets, crosses left_hip_pitch | 92.1 | 67.3 | 1.75 | 22.1 | 194.8 | kit | BLOCKER test fit |
-| S5 | ID 23 | ID 24 L ankle | bus | kit | 5264 | knee_to_ankle sheets, crosses left_knee | 92.1 | 78.7 | 3.14 | 33.5 | 208.7 | kit | BLOCKER test fit |
-| S6 | Adapter H5 | ID 10 R hip yaw | bus | kit | 5264 | trunk_top to trunk_bottom, no joints | 63.8 | 63.8 | 0 | 18.6 | 149.0 | kit | fits (1.0 mm margin) |
-| S7 | ID 10 | ID 11 R hip roll | bus | kit | 5264 | as S2 mirrored | 56.6 | 54.3 | 1.05 | 9.1 | 152.3 | kit | BLOCKER test fit |
-| S8 | ID 11 | ID 12 R hip pitch | bus | kit | 5264 | as S3 mirrored | 82.3 | 56.2 | 0.87 | 11.0 | 176.2 | kit | BLOCKER test fit |
-| S9 | ID 12 | ID 13 R knee | bus | kit | 5264 | as S4 mirrored | 91.6 | 67.3 | 1.75 | 22.1 | 194.3 | kit | BLOCKER test fit |
-| S10 | ID 13 | ID 14 R ankle | bus | kit | 5264 | as S5 mirrored | 92.1 | 78.7 | 3.14 | 33.5 | 208.7 | kit | BLOCKER test fit |
-| S11 | ID 30 neck pitch | ID 31 head pitch | bus | kit | 5264 | neck sheets, head_pitch_to_yaw, crosses neck_pitch | 80.0 | 66.0 | 1.48 | 20.8 | 180.0 | kit | BLOCKER test fit |
-| S12 | ID 31 | ID 32 head yaw | bus | kit | 5264 | head_pitch_to_yaw to head_yaw_to_roll, crosses head_pitch and head_yaw | 106.3 | 51.6 | 7.16 | 6.4 | 263.1 | kit | BLOCKER test fit (113 mm over rule) |
-| S13 | ID 32 | ID 33 head roll | bus | kit | 5264 | head_yaw_to_roll to head_roll_mount, crosses head yaw | 51.6 | 49.6 | 1.05 | 4.4 | 147.3 | kit | fits (2.7 mm margin) |
-| S14 | ID 24 L ankle BUS 2 | ID 30 neck pitch BUS 2 | bus | 22 AWG x3 | 2x 50-37-5033 + 6x 08-70-1040 | up the left leg (ankle, knee, hip pitch, hip roll, hip yaw) and the body to the neck servo on trunk_top | 336.4 | not computed | 6.81 | not computed | 489.7 | MAKE (Tnkr m14) | n/a (made: cut 490 mm, 1.47 m of 22 AWG) |
+Kit cable = the 15 cm 3-pin cable shipped with each STS3215 (14 shipped, 11 used, 3 spare). Cable spec from the Feetech STS3215 sheet (https://www.mantech.co.za/Datasheets/Products/STS3215-200620A.pdf): 5264-3P, 15 cm, GND, VCC, signal. The same sheet says "No Accessories", so confirm on the Seeed order that each servo ships with one (BLOCKER-lite).
 
-Result: 3 kit hops fit by rule (S1, S6, S13), 10 need a test fit (test order 1, B17), 1 is made (S14) (every lower bound is 42 mm or less, so none is ruled out). The upstream BOM lists no extension cables. Contingency X1/X2 in BOM.md (made Mini-SPOX leads, 200 mm for legs and 270 mm for S12). Clear the BLOCKER by test-fitting the kit cables on the first printed leg and neck with each joint at both limits.
+| ID | From | To | Conductors | Gauge | Ends | Route (joints crossed) | Polyline | Rule length | Cut | Source | Notes |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| SP1 | splices SPV, SPG (belly) | ID 20 L hip yaw BUS 2 V and G | V, G (G spliced with SD1 at JG20, 20 mm tail) | 22 AWG x2 | solder splice; 50-37-5033 + 08-70-1040 | belly to trunk_bottom, no joints | not measured | not measured | 150 (G 130 + 20) | [L] D15 | feeds the left leg |
+| SP2 | SPV, SPG | ID 10 R hip yaw BUS 2 V and G | V, G (G joins SD2 at JG10) | 22 AWG x2 | as SP1 | belly to trunk_bottom | not measured | not measured | 150 (G 130 + 20) | [L] D15 | feeds the right leg |
+| SP3 | SPV, SPG | ID 30 neck pitch BUS 2 V and G | V, G (G joins SD1 at JG30) | 22 AWG x2 | as SP1 | belly to trunk_top | not measured | not measured | 180 (G 160 + 20) | [L] D15 | feeds the neck chain |
+| SD1 | adapter H3 (D, G) | ID 20 D and JG20 (branch a); ID 30 D and JG30 (branch b) | D, G; data Y at YD3, ground Y at YG3 next to the adapter | 22 AWG x2 | 50-37-5033 with 2 terminals at H3; splices; 50-37-5033 at the servos | trunk_top to trunk_bottom, no joints | adapter to ID 20 63.8, to ID 30 87.3 | a 149.0, b 172.5 | stem 30, a 130 (G 120), b 150 (G 140) | [L] D15 | stem and branch lengths [I] |
+| SD2 | adapter H5 (D, G) | ID 10 D and JG10 | D, G | 22 AWG x2 | 50-37-5033 at H5 and at ID 10 | trunk_top to trunk_bottom | 63.8 | 149.0 | 150 (G 140) | [L] D15 | |
+| S2 | ID 20 BUS 1 | ID 21 L hip roll BUS 2 | kit | kit | 5264 | crosses left_hip_yaw | 56.6 | 152.3 | kit 150 | [U] | BLOCKER test fit (rule 2.3 mm over) |
+| S3 | ID 21 | ID 22 L hip pitch | kit | kit | 5264 | crosses left_hip_roll | 82.3 | 176.2 | kit 150 | [U] | BLOCKER test fit |
+| S4 | ID 22 | ID 23 L knee | kit | kit | 5264 | crosses left_hip_pitch | 92.1 | 194.8 | kit 150 | [U] | BLOCKER test fit |
+| S5 | ID 23 BUS 1 | ID 24 L ankle BUS 2 | kit | kit | 5264 | crosses left_knee | 92.1 | 208.7 | kit 150 | [U] | BLOCKER test fit |
+| S7 | ID 10 | ID 11 R hip roll | kit | kit | 5264 | crosses right_hip_yaw | 56.6 | 152.3 | kit 150 | [U] | BLOCKER test fit |
+| S8 | ID 11 | ID 12 R hip pitch | kit | kit | 5264 | crosses right_hip_roll | 82.3 | 176.2 | kit 150 | [U] | BLOCKER test fit |
+| S9 | ID 12 | ID 13 R knee | kit | kit | 5264 | crosses right_hip_pitch | 91.6 | 194.3 | kit 150 | [U] | BLOCKER test fit |
+| S10 | ID 13 | ID 14 R ankle | kit | kit | 5264 | crosses right_knee | 92.1 | 208.7 | kit 150 | [U] | BLOCKER test fit |
+| S11 | ID 30 BUS 1 | ID 31 head pitch BUS 2 | kit | kit | 5264 | crosses neck_pitch | 80.0 | 180.0 | kit 150 | [U] | BLOCKER test fit |
+| S12 | ID 31 | ID 32 head yaw | kit | kit | 5264 | crosses head_pitch and head_yaw | 106.3 | 263.1 | kit 150 | [U] | BLOCKER test fit (113 mm over rule); contingency X1/X2 made lead 270 mm |
+| S13 | ID 32 | ID 33 head roll | kit | kit | 5264 | crosses head_roll (cables.json) | 51.6 | 147.3 | kit 150 | [U] | fits (2.7 mm margin) |
+
+Removed: S1 (kit, H3 to ID 20) and S6 (kit, H5 to ID 10) are replaced by the made first leads SP1 + SD1 and SP2 + SD2; S14 (left ankle to neck) and the D14 Y-lead S14Y were dropped by D15. The left ankle's second port is unused.
+
+Result: 1 kit hop fits by rule (S13), 10 need a test fit (test order 1, B17). Every lower bound is 42 mm or less, so none is ruled out. Contingency X1/X2 in BOM.md (made Mini-SPOX leads, 200 mm for legs and 270 mm for S12).
 
 ## B. Power
-| ID | From | To | Power | Gauge | Ends | Route | Polyline | Rule length / cut | Source | Notes |
-|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | 2S holder + lead | BMS B+ pad | pack 6.0 to 8.4 V, up to 20 A burst | 16 AWG | solder both | inside body_back battery bay | 30.2 | 115.4 / 120 | holder lead if 120 mm or more, else make | holder lead length not verified |
-| P2 | 2S holder - lead | BMS B- pad | pack return | 16 AWG | solder | same | 30.2 | 115.4 / 120 | as P1 | |
-| P3 | holder series strap (cell 1 - / cell 2 +) | BMS BM pad | balance sense, under 0.1 A | 26 AWG (Tnkr: 24 to 26 AWG) | solder | same | 30.2 | 115.4 / 120 | make | CLEARED (B27): Tnkr m1 and m2 take the MID lead from the holder's series strap to BMS BM |
-| P4 | BMS P+ | USB-C charger board B+ | charge, up to 2 A (seller) | 20 AWG | solder | body_back | 39.4 | 124.6 / 130 | make | |
-| P5 | BMS P- | charger B- | charge return | 20 AWG | solder | body_back | 39.4 | 124.6 / 130 | make | |
-| P6 | BMS P+ | XT30U female (pack side) | pack + | 16 AWG | solder, XT30 cup | body_back toward switch | part of 79.4 BMS to switch | 164.6 total BMS to switch | make | XT30 not in CAD: split 165 mm between P6 and P7, BLOCKER on exact split |
-| P7 | XT30U male | fuse holder FHAC0001ZXJ in, fuse out to switch terminal 1 | pack + fused 15 A | 16 AWG (holder leads 16 AWG) | XT30 cup, solder to switch | body_back | rest of 79.4 | rest of 164.6 | fuse holder leads ship with it, 89.5 mm (Littelfuse page) | Holder position still open (B11); extend with 16 AWG if needed |
-| P8 | BMS P- | XT30U female, then common ground node | pack - | 16 AWG | solder, XT30 | body_back | 79.4 | 164.6 / 170 | make | |
-| P9 | switch terminal 2 | pack bus node (splice) | switched + | 16 AWG | solder, heat shrink | body_back to trunk | 51.9 (switch to adapter) | 137.1 / 140 | make | |
-| P10 | pack bus node | Castle CC BEC Pro input | switched + and GND | 16 AWG | solder to BEC input leads | trunk | not in CAD | BLOCKER | BEC input leads ship with BEC | BEC Pro not in CAD; input lead gauge and length not published |
-| P11 | CC BEC Pro output (both 3-pin leads joined) | Adapter H1 screw terminal + / - | servo 7.2 V, up to 15 A | 16 AWG | bare wire in screw terminal, ferrule optional | trunk_top | reference switch to adapter 51.9 | 137.1 / 140 if extended | BEC leads ship (cut and join) | BLOCKER: BEC position |
-| P12 | pack bus node | HENGE UBEC input | 2 A max | 20 AWG | solder | trunk | not in CAD | BLOCKER | UBEC leads ship, length not verified | |
-| P13 | UBEC 5 V out | Pi Zero 2 W pin 2 (5 V) and pin 6 (GND), 2 wires | 5 V, about 2.4 A peak (Pi 0.5 A + 2 SG90 + amp) | 20 AWG red and black | solder to Pi header through-holes | trunk, through neck to head (Pi is in head), crosses 4 neck joints | 354.0 (Pi to switch, UBEC reference) | 536.1 / 550 each | make | BLOCKER: UBEC position. Drop over 1.1 m of 20 AWG at 2.4 A about 0.08 V |
+| ID | From | To | Conductors | Gauge | Ends | Route | Polyline | Rule / cut | Current (mean, worst 100 ms) | Source | Notes |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| P1 | holder + lead | BMS B+ | 1 | 16 AWG red | holder lead, solder pad | battery bay | 30.1 | 115.3 / 120 | 4.2 A, 7.5 A (falls up to 17 A) | [L] placements | use the holder lead if 120 mm or longer |
+| P2 | holder - lead | BMS B- | 1 | 16 AWG black | as P1 | battery bay | 30.1 | 115.3 / 120 | as P1 | [L] | |
+| P3 | holder series strap | BMS B1 | 1 | 26 AWG yellow [I] | solder | battery bay | 30.1 | 115.3 / 120 | sense only | [L] B27 | |
+| P4 | BMS P+ | charger B+ | 1 | 20 AWG red | solder pads | battery bay | 39.4 | 124.6 / 130 | 2 A while charging (seller) | [U] | |
+| P5 | BMS P- | charger B- | 1 | 20 AWG black | solder pads | battery bay | 39.4 | 124.6 / 130 | as P4 | [U] | |
+| P6 | BMS P+ | XT30U female + | 1 | 16 AWG red | solder pad, XT30 cup | battery bay | 23.5 (BMS to fuse) | 108.7 / 110 | 4.2 A, 7.5 A | [L] | BLOCKER-lite: XT30 spot from Tnkr only |
+| P8 | BMS P- | XT30U female - | 1 | 16 AWG black | as P6 | battery bay | 23.5 | 108.7 / 110 | as P6 | [L] | |
+| P7 | XT30U male + | fuse holder lead 1; lead 2 to 2815 VIN | 2 (the holder leads) | 16 AWG (holder leads, 90 mm each) | XT30 cup, solder in the 2815 large hole | battery bay | 42.0 (fuse to 2815) | 127.2 / leads 90 | as P6 | [L] D3 | test fit; extend with 16 AWG red if short |
+| P14 | XT30U male - | splice G | 1 | 16 AWG black | XT30 cup, splice | battery bay | 52.1 (BMS to 2815) | 137.3 / 140 | as P6 | [L] | |
+| P9 | 2815 VOUT | splice VSW | 1 | 16 AWG red | large hole, splice | battery bay | 0 (splice at the 2815) | 85.2 / 90 | as P6 | [L] D8 | |
+| P16 | splice G | 2815 GND (large hole) | 1 | 20 AWG black | splice, large hole | battery bay | 0 | 85.2 / 90 | under 1 mA | [I] | control ground only |
+| P15 | 2815 SW pad and its GND pad | stock panel switch, 2 lugs | 2 | 26 AWG white, black [I] | 0.1 in holes, solder lugs | battery bay | 62.1 (2815 to power_switch.stl) | 147.3 / 150 | about 84 uA | [L] D8 | |
+| P10 | splices VSW, G | BEC input red, black | 2 | 16 AWG red, black | splice, BEC leads | battery bay to belly | 61.1 (2815 to BEC) | 146.3 / 150 | 3.75 A, 5.62 A (falls 14.6 A) | [L] D3 | BEC input leads ship (length not published): shorten P10 by their length |
+| P11 | BEC outputs, both 3-pin leads joined (JB+, JB-) | belly splices SPV, SPG | 2 | 16 AWG red, black | splices | belly | not measured | about 60 | 3.19 A, 4.78 A (falls 12.5 A; ngspice 8.3 to 9.1 A peaks) | [L] D15 | third wires insulated [I] |
+| P13 | splices VSW, G | U3 D30V30F5 VIN, GND (head floor) | 2 | 20 AWG red, black | splice, U3 holes | battery bay, trunk_top, neck, head; crosses neck_pitch, head_pitch, head_yaw, head_roll (9.69 rad) | 349.7 (2815 to Pi) | 531.7 / 550 each | 0.48 A, 1.91 A (0.55 A, 2.21 A at 6.4 V pack) | [L] D8 | drop about 0.09 V at 2.5 A over 2 x 0.55 m [I] |
+| P12 | U3 VOUT, GND | Pi pin 2 (5 V), pin 6 (GND) | 2 | 20 AWG red, black | U3 holes, Pi header | head | 44.3 (U3 under the Pi) | 129.5 / 130 each | 0.6 A, 2.4 A | [L] D8 | U3 exact spot on the floor not fixed |
+| P17 | Pi pin 4 (5 V), pin 14 (GND) | head splices J5, JG | 2 | 20 AWG red, black | Pi header, splice | head | 0 | 85.2 / 90 each | peak 1.9 A [I] | [L] D8, [I] pin 14 | feeds both SG90 and the amp |
 
 ## C. Data and signal
-Pi Zero 2 W mounts in head.stl (MOUNTING.md). Pin numbers from upstream docs/assembly_guide.md; Runtime code differs for eyes and antennas (WIRING.md section 3).
+Pi Zero 2 W hangs from the upper inner wall of head.stl, components down (MOUNTING.md). Pins follow the Runtime code at 376de65 (D9), not the assembly_guide table (eyes and antennas swapped there).
 
 | ID | From | To | Signal | Gauge | Ends | Route | Polyline | Rule length / cut | Source | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|
-| D1 | Pi micro-USB OTG port | Adapter USB-C | USB 2.0, /dev/ttyACM0 | cable | Micro-B to USB-C | head through neck to trunk_top, 4 neck joints 9.69 rad | 320.5 | 502.6 vs 500 cable | BUY (QJJ 50 cm) | BLOCKER test fit: rule is 2.6 mm over 50 cm, lower bound 163.7. Contingency X3: 1 m |
-| D2 | Pi pins 1 (3V3), 9 (GND), 3 (SDA), 5 (SCL), 4 wires | BNO055 2472 VIN, GND, SDA, SCL | I2C 3.3 V | 26 AWG, 4 colours | solder both ends | head, neck, trunk_top | 329.3 | 511.4 / 550 each | make | |
-| D3 | Pi pin 15 (GPIO22) and pin 9 (GND) | left foot, 2 x Omron SS-10 in parallel (COM to COM, NO to NO, Tnkr m11) | contact, 3.3 V pull-up | 26 AWG x2 | solder both | head, neck, trunk, left leg, crosses 4 neck + 5 leg joints 19.64 rad | 602.4 | 884.0 / 900 each | make | Seat found: 2 slots 6.4 x 19.8 mm in foot_top (B11). Pin note: upstream assembly_guide uses pins 15/13 for the feet; Tnkr uses 7/11 for the feet and 13/15 for the eye LEDs. Not resolved here; follow the runtime config in use |
-| D4 | Pi pin 13 (GPIO27) and pin 9 | right foot, 2 x SS-10 in parallel | contact | 26 AWG x2 | solder | as D3 mirrored | 632.4 | 914.0 / 950 each | make | as D3 |
-| D5 | Pi pin 16 (GPIO23) / GND | left eye LED + resistor | LED | 26 AWG x2 | solder | inside head | 94.8 (Manhattan, no joint) | 134.8 / 150 | make | 1 W LED bead with a 100 ohm series resistor (B23 cleared, Tnkr m7) |
-| D6 | Pi pin 18 (GPIO24) / GND | right eye LED | LED | 26 AWG x2 | solder | inside head | 176.8 | 216.8 / 230 | make | as D5 |
-| D7 | Pi pin 22 (GPIO25) / GND | projector LED in flash_light_module | LED | 26 AWG x2 | solder | inside head | 112.4 | 152.4 / 160 | make | as D5 |
-| D8 | Pi pins 32 (GPIO12), 2 (5 V), 6 (GND) | left antenna SG90 | PWM 5 V | SG90 lead + 26 AWG if needed | SG90 3-pin female, solder at Pi | inside head | 133.2 | 173.2 / 180 | SG90 lead ships | Fits: lead 250 +/- 5 mm (Miuzei listing) vs rule 173.2 |
-| D9 | Pi pins 33 (GPIO13), 2, 6 | right antenna SG90 | PWM 5 V | as D8 | as D8 | inside head | 228.0 | 268.0 / 270 | as D8 | Lead 250 mm is 18 mm short of the rule: extend with 26 AWG (about 20 mm, 3 wires) or test fit |
-| D10 | Pi pins 35 (LRC), 12 (BCLK), 40 (DIN), 2 (5 V), 6 (GND) | MAX98357A 3006 | I2S + power | 26 AWG x5 | solder | inside head | 149.5 (Pi to speaker_interface) | 189.5 / 200 | make | Amp placement from Tnkr: head floor right of the speaker stand |
-| D11 | MAX98357A + / - | speaker | audio | 26 AWG x2 | solder (amp screw terminal or pads) | inside head | about 40 (amp next to speaker stand) | 80 / 100 | make | speaker uxcell 40 mm 4 ohm (BOM E1); fit on test order (B8) |
-| D12 | Pi CSI | Camera Module 3 | MIPI CSI | Adafruit 3157 Pi Zero camera cable, 150 mm | ZIF | inside head (camera on the head pilots 20.9 x 12.5) | not measured | 150 mm cable | BUY (BOM E7) | Length checked with test order 9 |
+| D1 | Pi micro-USB data port (USB) | adapter USB-C | USB 2.0, /dev/ttyACM0 | Adafruit 3878, 0.9 m | micro-B to USB-C | head, neck, trunk_top; 4 neck joints | 320.5 | 502.6 / 900 cable | [L] parts check | coil the slack in the belly (B18 cleared by the longer cable) |
+| D2 | Pi pins 1, 9, 3, 5 | BNO055 VIN, GND, SDA, SCL | I2C 3.3 V | 26 AWG x4 (red, black, blue, yellow [I]) | solder | head, neck, trunk_top; 4 neck joints | 329.3 | 511.4 / 550 each | [U] | |
+| D3 | Pi pin 15 (GPIO22), pin 9 (GND); R4 2.2 kOhm from pin 17 to pin 15 at the header (D17) | left foot, 2 x Omron SS-01 (SS-10 fallback) in parallel (COM to COM, NO to NO, Tnkr m11) | contact, about 1.5 mA closed | 26 AWG x2 (green, black [I]) + 40 mm jumpers | solder | head to left foot: 4 neck + 5 leg joints, 19.64 rad | 602.4 | 884.0 / 900 each | [U] code (D9) | Seat: 2 slots 6.4 x 19.8 mm in foot_top. Jumper length [I] |
+| D4 | Pi pin 13 (GPIO27), pin 9; R5 2.2 kOhm from pin 17 to pin 13 at the header (D17) | right foot, 2 x Omron SS-01 (SS-10 fallback) in parallel | contact, about 1.5 mA closed | 26 AWG x2 (white, black [I]) + 40 mm jumpers | solder | as D3 mirrored | 632.4 | 914.0 / 950 each | [U] code (D9) | |
+| D5 | Pi pin 18 (GPIO24), pin 20 (GND) | left eye: 100 ohm in series, then LED + | LED, about 3 mA | 26 AWG x2 | solder, resistor inline at the LED [I] | inside head | 94.8 | 134.8 / 150 | [U] code, [L] D13 | |
+| D6 | Pi pin 16 (GPIO23), pin 20 | right eye: 100 ohm, LED | LED | 26 AWG x2 | as D5 | inside head | 176.8 | 216.8 / 230 | [U] code, [L] D13 | |
+| D7 | Pi pin 22 (GPIO25), pin 20 | projector: 100 ohm (added by D13), LED | LED | 26 AWG x2 | as D5 | inside head | 112.4 | 152.4 / 160 | [U], [L] D13 | upstream issue 34: no 1 W LED straight on GPIO |
+| D8 | left antenna SG90 lead | Pi pin 33 (GPIO13), splices J5 and JG | PWM 5 V | SG90 lead | servo lead, solder at the Pi end | inside head | 133.2 | 173.2 / lead 250 | [U] code (D9) | fits |
+| D9 | right antenna SG90 lead | Pi pin 32 (GPIO12), splices J5 and JG | PWM 5 V | SG90 lead + 26 AWG x3 | as D8 | inside head | 228.0 | 268.0 / lead 250 + 20 | [U] code (D9) | extend each lead wire by 20 mm |
+| D10 | Pi pins 35 (LRC), 12 (BCLK), 40 (DIN); splices J5 (Vin), JG (GND) | MAX98357A | I2S, 5 V | 26 AWG x5 | solder | inside head | 149.5 | 189.5 / 200 | [U] | GAIN and SD not connected |
+| D11 | MAX98357A + and - | speaker Same Sky CMS0361KLX (8 ohm, 2 W) | audio | 26 AWG x2 | amp terminal block, solder tabs | inside head | about 40 | 80 / 100 | [L] parts check | |
+| D12 | Pi CSI | Camera Module 3 | MIPI CSI | Adafruit 3157 cable 150 mm | FPC | inside head | not measured | 150 cable | [U] BOM E7 | |
 
-## Wire totals (cut lengths summed, with 10% spare)
+## Wire totals (cut lengths from netlist.yaml, with 10% spare)
 | Gauge | Rows | Sum | With spare | Bought |
 |---|---|---|---|---|
-| 16 AWG | P1, P2, P6 to P9, P11 | about 1.1 m | 1.2 m | 50 ft (BOM L5) |
-| 20 AWG | P4, P5, P13 (P12 if extended) | 1.36 m | 1.5 m | 50 ft (BOM 23) |
-| 22 AWG | S14 (3 x 490 mm) | 1.47 m | 1.62 m | 150 ft (BOM 24) |
-| 26 AWG | P3, D2 to D7, D10 | 8.2 m | 9.0 m | 175 ft (BOM 25) |
+| 16 AWG | P1, P2, P6, P8, P9, P10, P11, P14 (P7 holder leads ship) | 1.11 m | 1.22 m | 50 ft (BOM L5) |
+| 20 AWG | P4, P5, P12, P13, P16, P17 | 1.89 m | 2.08 m | 50 ft (BOM 23) |
+| 22 AWG | SP1, SP2, SP3, SD1, SD2 | 1.85 m | 2.04 m | 150 ft (BOM 24) |
+| 26 AWG | P3, P15, D2 to D7, D10, D11, D9 extension | 8.82 m | 9.70 m | 175 ft (BOM 25) |
 
 ## Ships with a component vs made vs bought
-- Ships: 14 kit servo cables (13 used), SG90 leads, BEC Pro input and output leads, UBEC leads, fuse holder leads, holder leads.
-- Bought: D1 USB cable, D12 camera cable.
-- Made: S14, P1 to P9, P13, D2 to D7, D10, D11 (plus X1/X2 leads if a test fit fails).
+- Ships: 11 of the 14 kit servo cables (3 spare), SG90 leads, BEC input and output leads, fuse holder leads (P7), holder leads (P1, P2 if long enough).
+- Bought: D1 (Adafruit 3878, 0.9 m), D12 (Adafruit 3157).
+- Made: SP1 to SP3, SD1, SD2, P1 to P17 except P7, D2 to D11.

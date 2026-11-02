@@ -77,6 +77,8 @@ Not likely: the commented-out velocity clip in v2_rl_walk_mujoco.py. The servo f
 3. Pass if no-load speed is about 5 rad/s or more at 7.4 V. If it is about 2.7 to 3 rad/s, check the unit is not a 12 V version and update firmware so all units match.
 4. Repeat the #48 suspended tracking test on the assembled legs and compare with sim.
 
+Added 2026-11-01 6:44 PM ET (UPSTREAM_ISSUES.md G1 and G3): before the step test, run configure_motor.py on the servo even if its ID was set with the Feetech tool, then read back registers 41, 44, 46 (goal time, goal speed), 84, 85, 86 and the firmware version. Register 85 (max acceleration) must read 0: a third-party build log (github.com/jyxddd/open-duck-mini-notes, not verified by us) found it at its factory value 50, which made its servos about 3 x slower than the sim. All 14 servos must report the same firmware version. If the legs buzz on the ground at P 30, try P 20.
+
 ## 7. Draft question for issue #48 (TEXT ONLY, NOT POSTED, needs Ahmed's approval)
 
 Update 2026-11-01: this question was posted on issue #48 by aaltaay at 1:08 PM ET: https://github.com/apirrone/Open_Duck_Mini/issues/48#issuecomment-6561836208 . The heading above is kept as written.
@@ -92,7 +94,7 @@ In #48 the hip roll tracks 1.0 but the hip pitch, knee and ankle track only 0.31
 
 ## Sources
 
-- BOM CSV: https://github.com/apirrone/Open_Duck_Mini/blob/v2/bom.csv
+- BOM CSV: a local export of the upstream Google Sheet BOM (there is no bom.csv in the upstream repo at b23317a; noted 2026-11-01)
 - sim2real doc: https://github.com/apirrone/Open_Duck_Mini/blob/v2/docs/sim2real.md
 - Issue #48: https://github.com/apirrone/Open_Duck_Mini/issues/48
 - Issue #5 (HS comment): https://github.com/apirrone/Open_Duck_Mini/issues/5

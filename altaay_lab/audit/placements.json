@@ -1,0 +1,143 @@
+[
+ {
+  "id": "bec_pro",
+  "label": "Castle CC BEC Pro (servo 7.2 V regulator); envelope covers 43x33x24 (Castle guide), 47x33x22 (Horizon), 1.7x1.3x1 in (Motion RC)",
+  "dims_xyz_mm": [
+   33.0,
+   47.0,
+   26.0
+  ],
+  "box_with_margin_mm": [
+   33.0,
+   55.0,
+   26.0
+  ],
+  "center_mm": [
+   -71.5,
+   -0.5,
+   -7.0
+  ],
+  "frame": "urdf_world_mm",
+  "n_positions": 23851,
+  "dist_to_anchor_mm": 67.9,
+  "dist_to_imu_mm": 52.7,
+  "flat_face_support": 1.0,
+  "score": 67.9
+ },
+ {
+  "id": "fuse_holder",
+  "label": "Littelfuse FHAC0001ZXJ inline ATO fuse holder: body 50 x 17.2 x 17.2 mm plus cover on a strap (Littelfuse drawing via parts check)",
+  "dims_xyz_mm": [
+   18.0,
+   52.0,
+   22.0
+  ],
+  "box_with_margin_mm": [
+   18.0,
+   52.0,
+   22.0
+  ],
+  "center_mm": [
+   -103.0,
+   -20.0,
+   25.0
+  ],
+  "frame": "urdf_world_mm",
+  "n_positions": 15504,
+  "dist_to_anchor_mm": 26.0,
+  "dist_to_imu_mm": 31.4,
+  "flat_face_support": 0.62,
+  "score": 26.0
+ },
+ {
+  "id": "mosfet_switch",
+  "label": "Pololu 2815 Big MOSFET Slide Switch HP (20.3 x 22.9 mm board, 25.4 with the slide switch overhang)",
+  "dims_xyz_mm": [
+   4.1,
+   25.4,
+   20.3
+  ],
+  "box_with_margin_mm": [
+   4.1,
+   29.4,
+   20.3
+  ],
+  "center_mm": [
+   -108.5,
+   24.0,
+   36.5
+  ],
+  "frame": "urdf_world_mm",
+  "n_positions": 56073,
+  "dist_to_anchor_mm": 54.2,
+  "dist_to_imu_mm": 32.9,
+  "flat_face_support": 0.6,
+  "score": 54.2
+ },
+ {
+  "id": "power_splice",
+  "label": "Servo power splices (V+ and GND, soldered in heat shrink) feeding the 3 chain branches (D15)",
+  "dims_xyz_mm": [
+   16.0,
+   30.0,
+   10.0
+  ],
+  "box_with_margin_mm": [
+   16.0,
+   30.0,
+   10.0
+  ],
+  "center_mm": [
+   -62.0,
+   0.0,
+   39.0
+  ],
+  "frame": "urdf_world_mm",
+  "n_positions": 40361,
+  "dist_to_anchor_mm": 39.1,
+  "dist_to_imu_mm": 25.5,
+  "flat_face_support": 0.62,
+  "score": 39.1
+ },
+ {
+  "id": "usb_slack",
+  "label": "Adafruit 3878 USB cable slack, about 0.4 m coiled and tied",
+  "dims_xyz_mm": [
+   45.0,
+   10.0,
+   35.0
+  ],
+  "box_with_margin_mm": [
+   45.0,
+   10.0,
+   35.0
+  ],
+  "center_mm": [
+   -76.5,
+   44.0,
+   22.5
+  ],
+  "frame": "urdf_world_mm",
+  "n_positions": 828,
+  "dist_to_anchor_mm": 48.6,
+  "dist_to_imu_mm": 49.8,
+  "flat_face_support": 1.0,
+  "score": 48.6
+ },
+ {
+  "id": "bms_tenergy",
+  "label": "Tenergy 32175 2S protection board (replaces bms.stl, same slot)",
+  "dims_xyz_mm": [
+   16,
+   4.5,
+   34
+  ],
+  "center_mm": [
+   -126.3,
+   -26.7,
+   18.9
+  ],
+  "frame": "urdf_world_mm",
+  "source": "bms.stl slot, measured envelope 17.75 x 47.2 x 5.33"
+ }
+]
