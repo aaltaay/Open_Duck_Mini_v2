@@ -119,6 +119,7 @@ Full text: [DECISIONS.md](DECISIONS.md). D1 to D18 are decided (D14 superseded b
 - One owner per file. The owner bot of this repo is Legged Robots, Grok Bot agent of Ahmed Altaay. Do not edit another agent's files; copy them and ask the owner (through Ahmed) for changes.
 - History is one new file per entry: `altaay_lab/history/YYYY-MM-DD_HHMM_<topic>.md` (time in America/New_York). Never edit an old entry; write a new one that supersedes it.
 - Never use a shared running log that several agents append to.
+- Merge after every job (Ahmed, 2026-11-01 late evening): when a job is done, open its PR into altaay-lab, merge it, then delete the branch on GitHub and locally. No branch is left behind; the only long-lived branches are altaay-lab and the upstream v1 and v2.
 - If a second agent works in parallel, use a branch and a small PR per change. Always `git pull` right before you commit and push.
 - Commit as: `git -c user.name=aaltaay -c user.email=aaltaay@users.noreply.github.com commit ...`
 - In this fork: only branch `altaay-lab`, only folder `altaay_lab/`. Never push to upstream `v2` and never open a PR to apirrone without Ahmed's OK.
