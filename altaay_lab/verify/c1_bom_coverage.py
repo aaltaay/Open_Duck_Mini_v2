@@ -35,6 +35,44 @@ MAP = [  # component id pattern, BOM lines, a part number or name that must appe
 ]
 
 
+def sleeve_count(net):
+    """This check's own count of the heat shrink rule that viewer/bom_full.py states (SLEEVE_RULE), written apart from
+    bom_full.sleeve_joints so a slip in one shows: one sleeve per splice; one per joint where a wire end lands on a part's
+    flying lead (pin group connector says 'lead') unless the wire is that part's own lead, header pins excepted; one per
+    XT30 solder cup; one cap per pin the netlist says to insulate. Returns ({joint pin: kind}, summary)."""
+    comps = {c["id"]: c for c in net["components"]}
+    act = {cb["id"] for cb in net["cables"] if cb.get("status", "active") == "active"}
+    out = {}
+    for c in net["components"]:
+        if c.get("kind") == "splice" and any(c["id"] in (w["from"].split(".")[0], w["to"].split(".")[0])
+                                             for w in net["wires"] if w["cable"] in act):
+            out[c["id"] + ".S"] = "splice"
+        for p in c.get("pins") or []:
+            if p.get("dir") == "nc" and "insulate" in str(p.get("source", "")).lower():
+                out["%s.%s" % (c["id"], p["pin"])] = "cap"
+    for w in net["wires"]:
+        if w["cable"] not in act:
+            continue
+        g, col = str(w.get("gauge") or ""), str(w.get("color") or "")
+        word = g[:-5] if g.endswith(" lead") else (col[:-5] if col.endswith(" lead") else None)   # 'resistor', 'BEC', 'holder'
+        for pin, e in zip((w["from"], w["to"]), (w.get("ends") or []) + ["", ""]):
+            el = e.lower()
+            if "splice" in el or "header" in el:
+                continue
+            if "xt30" in el:
+                out[pin] = "XT30 cup"
+                continue
+            c = comps.get(pin.split(".")[0]) or {}
+            grp = next((x.get("group") for x in c.get("pins") or [] if x.get("pin") == pin.split(".", 1)[-1]), None)
+            if "lead" not in str(((c.get("groups") or {}).get(grp) or {}).get("connector", "")).lower():
+                continue
+            if word and word.lower() in str(c.get("part", "")).lower():
+                continue                                  # the wire is this part's own lead: no joint at this end
+            out[pin] = "lead joint"
+    k = Counter(out.values())
+    return out, ", ".join("%d %s%s" % (n, x, "s" if n != 1 else "") for x, n in sorted(k.items()))
+
+
 def bom_full_rows(path):
     rows = []
     for t in V.md_tables(path):
@@ -49,10 +87,11 @@ def bom_full_rows(path):
 def main():
     R = V.Result("C1", "Every netlist part maps to a BOM line, and every BOM_FULL quantity matches its source (CAD, netlist, fasteners)",
                  "VERIFY_OUT=<out> python3 altaay_lab/verify/c1_bom_coverage.py",
-                 "56 netlist components to BOM lines (part numbers checked in the line text), netlist BOM references, counts per "
-                 "line vs Need; 168 BOM_FULL rows vs CAD nodes, print/parts.csv, netlist, fasteners.json, wire cut sums; the "
-                 "committed BOM_FULL.md vs a fresh build from today's sources; rows with no purchase line",
-                 "Whether a bought part is the right one (datasheets), prices, the spares rule")
+                 "Netlist components to BOM lines (part numbers checked in the line text), netlist BOM references, counts per "
+                 "line vs Need; BOM_FULL rows vs CAD nodes, print/parts.csv, netlist, fasteners.json (screws, washers), wire cut "
+                 "sums, heat shrink by the BOM_FULL rule (this check's own count, the 3D sleeves, BOM 26); the committed "
+                 "BOM_FULL.md vs a fresh build from today's sources; rows with no purchase line",
+                 "Whether a bought part is the right one (datasheets), prices, the spares rule, the heat shrink size at each joint")
     net = V.load_netlist()
     bom = V.bom_lines()
     bf_path = V.lab("BOM_FULL.md")
@@ -206,6 +245,13 @@ def main():
             elif re.fullmatch(r"17[a-i]", ln) and r["Item"] != "Threadlocker":   # older BOM_FULL: one row per BOM line
                 if q(r) != per.get(ln, 0):
                     bad.append("%s %s (line %s): BOM_FULL %s, fasteners.json %d" % (r["ID"], r["Item"], ln, r["Qty"], per.get(ln, 0)))
+        nw = sum(int(f["washer"].get("n", 1)) for f in fit if f.get("washer"))
+        roww = [r for r in (M["bom_full"] if M else []) if r.get("line") == "17l"]
+        if nw or roww:
+            R.ev("washers in fasteners.json: %d under %d fitted screws; fresh BOM_FULL line 17l row: %s" % (
+                nw, sum(1 for f in fit if f.get("washer")), ", ".join("%s %s pcs" % (r["id"], r["qty"]) for r in roww) or "none"))
+            if M and (len(roww) != 1 or V.num(roww[0]["qty"]) != nw):
+                bad.append("washers (line 17l): BOM_FULL %s, fasteners.json %d" % ([r["qty"] for r in roww] or "no row", nw))
         R.ev("fitted screws in fasteners.json: %d; BOM_FULL screw rows %d (section %s)" % (
             len(fit), sum(1 for r in rows if re.fullmatch(r"17[a-i]", r.get("Line", ""))),
             ", ".join(sorted({r["section"] for r in rows if re.fullmatch(r"17[a-i]", r.get("Line", ""))}))))
@@ -237,21 +283,37 @@ def main():
                        "p = p if p is not None else _first(r, \"head_world_mm\", \"head_world\", \"seat_world\", \"p_world\", "
                        "\"head_point\", \"pos\", \"p\"), and read 'length_mm' (already) and head 'dk'/'k' from r['head']",
                    where="altaay_lab/viewer/make_viewer_data.py")
-    # heat shrink: the BOM_FULL count against the netlist's splice and solder ends (TEST_PLAN.md 1.3: every joint covered)
+    # heat shrink (TEST_PLAN.md 1.3: every splice and solder joint covered): the BOM_FULL row against this check's own count
+    # of the rule BOM_FULL states (viewer/bom_full.py SLEEVE_RULE), against the sleeves the 3D view draws and against BOM 26
     if M:
-        act = {cb["id"] for cb in net["cables"] if cb.get("status", "active") == "active"}
-        ends = [e.lower() for w in net["wires"] if w["cable"] in act for e in (w.get("ends") or [])]
-        n_spl = sum(1 for e in ends if "splice" in e)
-        n_sol = sum(1 for e in ends if "splice" not in e and "08-70-1040" not in e and ("solder" in e or "header pin" in e or "lead" in e))
+        exp, how = sleeve_count(net)
         hs = next((r for r in M["bom_full"] if r["item"].startswith("Heat shrink")), None)
-        if hs:
-            R.ev("heat shrink: fresh BOM_FULL %s pieces; netlist %d splice ends and %d soldered ends (BOM 26 buys %s)" % (
-                hs["qty"], n_spl, n_sol, bom.get("26", {}).get("Buy", "?") + " x " + bom.get("26", {}).get("Pack", "?")))
-            if V.num(hs["qty"]) < n_spl:
-                R.find("WARN", "BOM_FULL counts %s heat shrink pieces (the sleeves the 3D view draws), fewer than the %d splice ends in "
-                       "the netlist; TEST_PLAN.md 1.3 wants heat shrink over every solder joint and splice" % (hs["qty"], n_spl),
-                       fix="count one sleeve per splice end and per wire-to-wire or lead joint in viewer/bom_full.py (the old netlist "
-                           "estimate), or say in TEST_PLAN.md 1.3 which joints get none", where="altaay_lab/viewer/bom_full.py")
+        # each drawn sleeve node carries the netlist pin(s) of its joint (make_viewer_data.py); one with no pins has no joint
+        drawn = Counter("|".join(n["sleeve_pins"]) for n in M["nodes"].values() if n.get("sleeve") and n.get("sleeve_pins"))
+        orphan = sorted(n["sleeve"] for n in M["nodes"].values() if n.get("sleeve") and not n.get("sleeve_pins"))
+        b26 = bom.get("26", {})
+        cap = (V.num(b26.get("Buy")) or 0) * (V.num(b26.get("Pack")) or 0)
+        n_spl_ends = sum(1 for w in net["wires"] if w["cable"] in {cb["id"] for cb in net["cables"] if cb.get("status", "active") == "active"}
+                         for e in (w.get("ends") or []) if "splice" in e.lower())
+        R.ev("heat shrink: the rule gives %d sleeves (%s; the %d splice ends sit in those splices); fresh BOM_FULL %s pieces; "
+             "the 3D view draws %d sleeve nodes for %d joints; BOM 26 buys %s x %s = %g pieces" % (
+                 len(exp), how, n_spl_ends, hs["qty"] if hs else "no row", sum(drawn.values()) + len(orphan), len(drawn),
+                 b26.get("Buy", "?"), b26.get("Pack", "?"), cap))
+        if hs is None:
+            R.find("FAIL", "BOM_FULL has no heat shrink row", where="altaay_lab/viewer/bom_full.py")
+        elif V.num(hs["qty"]) != len(exp):
+            R.find("FAIL", "BOM_FULL counts %s heat shrink pieces, the rule gives %d from the netlist (%s)" % (hs["qty"], len(exp), how),
+                   fix="viewer/bom_full.py sleeve_joints and this check's sleeve_count must agree: find the joint one of them misses",
+                   where="altaay_lab/viewer/bom_full.py")
+        miss = sorted(set(exp) - set(drawn))
+        extra = sorted(set(drawn) - set(exp)) + sorted(k for k, v in drawn.items() if v > 1) + orphan
+        if miss or extra:
+            R.find("FAIL", "the 3D view does not draw one sleeve per joint: %s%s" % (
+                ("not drawn " + ", ".join(miss)) if miss else "", ("; drawn with no joint or twice " + ", ".join(extra)) if extra else ""),
+                fix="viewer/scene_extras.json (blueprint/make_scene_extras.py) or make_viewer_data.py step 10f",
+                where="altaay_lab/viewer")
+        if cap and cap < len(exp):
+            R.find("FAIL", "BOM 26 buys %g heat shrink pieces, the rule needs %d" % (cap, len(exp)), where="altaay_lab/BOM.md line 26")
     # ---------------------------------------------------------------- d. rows with no purchase line
     bm = open(V.lab("BOM.md")).read()
     nc = re.search(r"^Not costed: (.*)$", bm, re.M)
@@ -287,8 +349,13 @@ def main():
         R.find("WARN", "BOM.md lines not used by any BOM_FULL row: %s" % ", ".join("%s (%s)" % (u, bom[u]["Item"]) for u in unused),
                fix="map them in viewer/bom_full.py (tools, washers) or link them from fasteners.json", where="altaay_lab/viewer/bom_full.py")
     nf = len([f for f in R.d["findings"] if f["sev"] == "FAIL"])
-    R.key("43 netlist parts map to BOM lines with matching part numbers (13 splices are made); BOM_FULL %d rows vs sources: "
-          "%d FAIL (see list)" % (len(rows), nf))
+    hs_txt = ""
+    if M:
+        hs = next((r for r in M["bom_full"] if r["item"].startswith("Heat shrink")), None)
+        hs_txt = "; heat shrink %s pieces by the rule (%d joints in the netlist), %d drawn" % (
+            hs["qty"] if hs else "no row", len(sleeve_count(net)[0]), sum(1 for n in M["nodes"].values() if n.get("sleeve")))
+    R.key("%d netlist parts map to BOM lines with matching part numbers (%d splices are made); BOM_FULL %d rows vs sources: "
+          "%d FAIL (see list)%s" % (len(net["components"]) - nspl - len(unmapped), nspl, len(rows), nf, hs_txt))
     R.write()
 
 

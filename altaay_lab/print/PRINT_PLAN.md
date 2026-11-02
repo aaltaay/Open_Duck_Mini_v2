@@ -1,6 +1,6 @@
 # PRINT_PLAN: Open Duck Mini v2 stock build
 
-Last updated: 2026-11-02 about 12:20 AM ET (DECISIONS.md D22: the light print profile is the default, light coupons C2aL, C2bL and C3L join session S1 as the gate, every plate packed and sliced again; D24: drill step 4 for the projector leads). Earlier: 2026-11-01 10:55 PM ET (D19 to D21). Nothing has been printed. Nothing is printed until Ahmed approves (lab rule 4: slice summary first, then Ahmed's OK).
+Last updated: 2026-11-02 about 1:50 AM ET (agent PRT, DECISIONS.md D21 note: T1 now tests the real eye screw stack, two 0.3 mm washers on the printed bulb T1b and head wall T1w, 5.6 mm; S1 sliced again with 11 pieces). Earlier: 2026-11-02 about 12:20 AM ET (DECISIONS.md D22: the light print profile is the default, light coupons C2aL, C2bL and C3L join session S1 as the gate, every plate packed and sliced again; D24: drill step 4 for the projector leads). Earlier: 2026-11-01 10:55 PM ET (D19 to D21). Nothing has been printed. Nothing is printed until Ahmed approves (lab rule 4: slice summary first, then Ahmed's OK).
 
 All grams and hours are PrusaSlicer 2.7.2 estimates made on the box for a generic 0.4 mm printer at moderate speeds (config/printer_generic.ini). They are not printed results. The real printer is not known yet; a faster printer takes fewer hours, grams change little. Material settings are maker-typical values from the Overture pages, not lab tested.
 
@@ -8,19 +8,19 @@ All grams and hours are PrusaSlicer 2.7.2 estimates made on the box for a generi
 
 | Step | What | PLA g | TPU g | Hours |
 |---|---|---|---|---|
-| 1. Coupon session | S1: one PLA plate with 9 test pieces, C1, C2a, C2b, C3, C4 and T1 plus the light copies C2aL, C2bL and C3L, the D22 gate (3.60 h). S2: one TPU foot sole (2.19 h) | 36.2 | 17.6 | 5.8 |
+| 1. Coupon session | S1: one PLA plate with 11 test pieces, C1, C2a, C2b, C3, C4 and T1 with its stack pieces T1b and T1w, plus the light copies C2aL, C2bL and C3L, the D22 gate (4.14 h). S2: one TPU foot sole (2.19 h) | 41.2 | 17.6 | 6.3 |
 | 2 and 3. Full print, 220 bed | 18 jobs: left leg first (5 plates), then 13 plates. All remaining robot parts plus 10 spares | 1347.8 | 17.6 | 118.6 |
 | 2 and 3. Full print, 256 bed | Same parts in 17 jobs | 1348.2 | 17.6 | 118.7 |
-| Total (220 bed) | | 1384.0 | 35.1 | 124.4 |
+| Total (220 bed) | | 1389.0 | 35.1 | 125.0 |
 | If the D22 gate fails (220 bed) | The 3 "base + rings" plates print with 4 walls and no rings instead (step 3) | +61.5 | | +4.1 |
 
 - Ask 1: approve step 1 (coupon session) now. Ask 2: approve steps 2 and 3 after the coupon tests pass (or with the fixes they call for), including the D22 gate: C2aL, C2bL and C3L must pass the same tests as C2a, C2b and C3.
 - Profile: the light profile of DECISIONS.md D22 (print/MASS_STUDY.md variant c): 2 walls unless a rule needs more, solid rings round the insert bores and the body_back pilots, the head, neck chain, G6 thin parts, frame parts, eyes, speaker stand and all spares at their settings before D22.
 - Before D22 (the package as published on 2026-11-01; `slice.py --set heavy` reproduces its 15 plates within 0.1 g and 0.04 h each): coupon session 27.8 g PLA, 18.2 g TPU, 5.0 h; full print on a 220 bed 15 jobs, 1474.5 g PLA, 18.1 g TPU, 126.4 h; total 1502.3 g PLA, 36.3 g TPU, 131.4 h. D22 saves 118.3 g of PLA and 7.0 h in all and adds 3 jobs (more profiles, one plate each).
 - The robot set alone (36 STLs, 52 parts, no coupons, no spares) is PLA 1245.1 g and 106.7 h, TPU 35.1 g and 4.4 h (before D22: PLA 1372.7 g and 114.4 h, TPU 36.3 g and 4.5 h; old PRINT_CHECK: PLA 1304.0 g and 127.7 h, TPU 35.0 g and 3.9 h). Details: SLICE_SUMMARY.md.
-- Filament: 1384 g PLA of the 2 kg bought (about 616 g left for failed prints; 1445 g if the gate fails), 35 g TPU of the 1 kg bought.
+- Filament: 1389 g PLA of the 2 kg bought (about 611 g left for failed prints; 1450 g if the gate fails), 35 g TPU of the 1 kg bought.
 - Optional, not in the totals: 2 antenna rods (in the CAD, not in print/), PLA, 1.8 g, 0.2 h.
-- Session S1 is 3.60 h, 0.6 h over the 3 hour target, because of the 3 light coupons (+8.4 g, +0.86 h). S2 adds 2.19 h because TPU must print slowly; run it right after S1 or overnight.
+- Session S1 is 4.14 h, 1.14 h over the 3 hour target, because of the 3 light coupons (+8.4 g, +0.86 h) and the T1 stack pieces T1b and T1w (+5.0 g, +0.54 h; T1w alone slices to 31 min: it stands 35 mm tall on its edge, as the wall prints in the head). S2 adds 2.19 h because TPU must print slowly; run it right after S1 or overnight.
 
 ## Files in this folder
 
@@ -34,7 +34,7 @@ All grams and hours are PrusaSlicer 2.7.2 estimates made on the box for a generi
 | config/mod_ring.ini | Settings of the solid rings (100 % infill modifiers round insert bores and screw pilots, see below). |
 | config/pla_print_heavy.ini, config/tpu_print_heavy.ini | The base files before D22 (3 walls), kept for the package before D22 (`slice.py --set heavy`). |
 | parts.csv | Every STL: quantity, material, profile (light, rings or heavy, with the reason), overrides, rings, the overrides before D22 ("heavy"), print up direction, left leg count, spares. |
-| make_coupons.py | Cuts the test coupons from the real upstream STLs into a folder you name (never into the repo) and re-measures the feature in each; adds the light copies C2aL, C2bL and C3L (D22 gate). |
+| make_coupons.py | Cuts the test coupons from the real upstream STLs into a folder you name (never into the repo) and re-measures the feature in each; adds the light copies C2aL, C2bL and C3L (D22 gate) and the T1 stack pieces T1b and T1w, and checks the stack against fasteners/fasteners.json (D21 note). |
 | slice.py | Slices parts (with their rings), coupons, plates and the optional antenna; writes G-code, 3MF and JSON to a folder you name; builds SLICE_SUMMARY.md. `--set heavy` slices the package as it was before D22. |
 | MASS_STUDY.md, mass_study.py, config_light/ | The mass study behind D22 and its input configs (config_light/ is the study's copy of the light files, unchanged). |
 | check_hip_roll_screw.py | Upstream issue 17 (G12) check: sweeps hip roll and measures the screw head clearance. |
@@ -94,9 +94,9 @@ trunk_bottom uses insert+fit; head_yaw_to_roll and head_roll_mount use neck+fit;
 
 ## Print order
 
-### Step 1: coupon session (about 5.8 h, 36.2 g PLA plus 17.6 g TPU)
+### Step 1: coupon session (about 6.3 h, 41.2 g PLA plus 17.6 g TPU)
 
-S1, one PLA plate, 3.60 h, 36.2 g. Every coupon keeps the profile of the part it comes from (per-object settings and ring modifiers in the 3MF; in another slicer set them by hand). The light copies C2aL, C2bL and C3L are the D22 gate: they print next to C2a, C2b and C3, which keep 4 walls (the fallback profile):
+S1, one PLA plate, 4.14 h, 41.2 g. Every coupon keeps the profile of the part it comes from (per-object settings and ring modifiers in the 3MF; in another slicer set them by hand). The light copies C2aL, C2bL and C3L are the D22 gate: they print next to C2a, C2b and C3, which keep 4 walls (the fallback profile). T1b and T1w are the two printed layers the eye screws pass in the robot (bulb 2.0 mm, head wall 3.0 mm); with two 0.3 mm washers from BOM 17l under each head they make the real 5.6 mm stack for T1 (DECISIONS.md D21 note):
 
 | ID | Cut from (upstream STL) | What it tests | Profile | g | min |
 |---|---|---|---|---|---|
@@ -108,15 +108,17 @@ S1, one PLA plate, 3.60 h, 36.2 g. Every coupon keeps the profile of the part it
 | C3 | foot_bottom_pla, 18 mm slice round one bore | The shallowest insert bore: blind 4.0 x 5.8 mm cylinder plus a drill point cone (tip at 6.93 mm, 1.06 mm floor), no pilot below (B15, flag 5), with 4 walls | insert | 2.7 | 13 |
 | C3L | the same cut as C3 | D22 gate: the blind bore in the light profile of foot_bottom_pla | base + 1 insert ring | 2.3 | 12 |
 | C4 | head_yaw_to_roll, right arm, full height | The only servo pocket undersize across the servo: ledge to arm 34.90 mm for a 35.00 mm STS3215 body (flag 6). Also tests the neck profile | neck+fit | 9.4 | 61 |
-| T1 | left_eye, whole part | Left eye pilots 2.2 mm (right eye 2.05) for M2.5x8 (B14); eye glass disc seat; the eye profile (3 walls) | wall3 | 1.8 | 11 |
+| T1 | left_eye, whole part | Left eye pilots 2.2 mm (right eye 2.05) for M2.5x8 (B14), driven through the real 5.6 mm stack (T1b, T1w and two 0.3 mm washers): 2.4 mm engaged, 0.6 mm to the blind pilot floor (D21 note); eye glass disc seat; the eye profile (3 walls) | wall3 | 1.8 | 11 |
+| T1b | bulb, whole part | The first layer under the eye screw heads: 2.0 mm, 4 clearance holes of 2.7 mm. A spare bulb if it passes (the plates still print the robot's 2) | base | 2.0 | 10 |
+| T1w | head, the front wall behind the left eye cut to the eye's 35 x 35 mm outline | The second layer: 3.0 mm wall with the 25 mm eye opening and the 4 clearance holes of 2.7 mm, on its edge so the holes print horizontal as in the head | insert | 3.0 | 31 |
 
 S2, TPU, 2.19 h, 17.6 g: T2 foot_bottom_tpu whole, Overture TPU 95A at 40% and 2 walls (B26, D22). If it passes it is the left leg sole.
 
-Recess fit tests (D20), no new coupon: C4 already holds 4 of the 24 neck chain 5.5 mm recesses (M3 heads to the drive horn) and 4 of the 4.0 mm recesses (M2 pan heads to the servo case). Try a DIN 912 M3 head in a 5.5 mm recess (expected not to drop in), open one to 6.0 mm and try again, and try a servo-bag M2 head and a kit M2x5 head in a 4.0 mm recess. T1 also checks that the eye pilots are blind, 3.0 mm deep (D21).
+Recess fit tests (D20), no new coupon: C4 already holds 4 of the 24 neck chain 5.5 mm recesses (M3 heads to the drive horn) and 4 of the 4.0 mm recesses (M2 pan heads to the servo case). Try a DIN 912 M3 head in a 5.5 mm recess (expected not to drop in), open one to 6.0 mm and try again, and try a servo-bag M2 head and a kit M2x5 head in a 4.0 mm recess. T1 also checks that the eye pilots are blind, 3.0 mm deep (D21), and T1w that the head's horizontal 2.7 mm eye screw holes print at size.
 
-Each coupon is cut from the upstream STL with a box (make_coupons.py), keeps the part's print orientation, and is re-measured after the cut: C1 seat 32.18 mm and lip 26.18 mm; C2a and C2b bore 4.0 mm, pilot 2.0 mm, thinnest wall 1.50 mm, C2a slot 6.40 x 19.80 mm; C3 bore 4.0 mm, cylinder 5.77 mm deep; C2aL, C2bL and C3L are the same cuts and measure the same; C4 ledge to arm 34.90 mm, 4 recesses of 5.50 mm and 4 of 4.00 mm; T1 four pilots 2.19 mm, blind, 3.0 mm deep with a 1.3 mm front skin.
+Each coupon is cut from the upstream STL with a box (make_coupons.py), keeps the part's print orientation, and is re-measured after the cut: C1 seat 32.18 mm and lip 26.18 mm; C2a and C2b bore 4.0 mm, pilot 2.0 mm, thinnest wall 1.50 mm, C2a slot 6.40 x 19.80 mm; C3 bore 4.0 mm, cylinder 5.77 mm deep; C2aL, C2bL and C3L are the same cuts and measure the same; C4 ledge to arm 34.90 mm, 4 recesses of 5.50 mm and 4 of 4.00 mm; T1 four pilots 2.19 mm, blind, 3.0 mm deep with a 1.3 mm front skin; T1b four holes of 2.70 mm, 2.00 mm thick; T1w four holes of 2.70 mm, the 24.98 mm eye opening, 3.00 mm thick. With the 0.6 mm of washers in fasteners/fasteners.json the T1 stack is 5.60 mm, the robot's: the M2.5x8 engages 2.40 mm and stops 0.60 mm short of the pilot floor (make_coupons.py manifest t1_stack).
 
-Pass or fail, physical tests (tools: Pinecil with insert tip, calipers, 2.0 and 2.5 mm hex keys, a 5 kg weight or luggage scale, one STS3215 from test order TO1, one 6804ZZ, CNC Kitchen M3x5.7 inserts, M3x8 and M3x10, M2.5x8, Omron SS-10; for the recess and eye tests also an M3x5 DIN 912, the 6.0 mm HSS bit and T-handle (test order TO16), a kit M2x5 (TO4) and 5.5 mm of washers or scrap with a 2.7 mm hole):
+Pass or fail, physical tests (tools: Pinecil with insert tip, calipers, 2.0 and 2.5 mm hex keys, a 5 kg weight or luggage scale, one STS3215 from test order TO1, one 6804ZZ, CNC Kitchen M3x5.7 inserts, M3x8 and M3x10, M2.5x8, Omron SS-10; for the recess and eye tests also an M3x5 DIN 912, the 6.0 mm HSS bit and T-handle (test order TO16), a kit M2x5 (TO4) and 8 of the 0.3 mm washers from BOM 17l, two per eye screw; the test order has no BOM 17l line yet):
 
 | ID | PASS when all are true | If it fails |
 |---|---|---|
@@ -125,7 +127,7 @@ Pass or fail, physical tests (tools: Pinecil with insert tip, calipers, 2.0 and 
 | C2aL, C2bL, C3L (D22 gate) | Every test of the 4-wall twin (C2a, C2b, C3), side by side with it: insert flush, side wall and bed face with no crack or bulge over 0.2 mm, the M3 screw threads in by hand, no spin with the short arm of a 2.5 mm key, 5 kg for 10 s; on C2aL also the SS-10 slot. | If a light coupon fails a test that its twin passes, the 10 insert ring parts (body_middle_bottom, body_middle_top, foot_top x2, foot_bottom_pla x2, leg_spacer x4) keep 4 walls: set their parts.csv overrides to insert and clear their rings (the heavy column), and print the 3 "base + rings" plates with the fallback profile (step 3): +61.5 g, +4.1 h on a 220 bed, about +61.7 g on the robot (MASS_STUDY.md). Everything else in D22 stands. If the twin fails too, its own row applies. |
 | C3 | Insert reaches flush without pushing harder than on C2a, sits flush to 0.1 mm proud at most, no bulge or crack on the bed face over the bore, an M3x8 threads the full insert length by hand, 5 kg for 10 s: no movement. | B15 stays open (plastic blocks the bore); tell Ahmed before printing foot_bottom_pla. |
 | C4 | Calipers: ledge to arm gap at the ledge (CAD 34.90; the G-code makes 35.00, see "Servo pockets"). The STS3215 case slides in end first between ledge and arm with firm thumb pressure, no tools, no rattle. Up to 0.2 mm tight: light sanding of the arm underside is expected (flag 6); note it. Recess fit (D20): after one 5.5 mm recess is opened to 6.0 mm (see "After printing"), a DIN 912 M3x5 head drops in and sits flat; a servo-bag M2 head and a kit M2x5 head drop into the 4.0 mm recesses and sit flat. | More than 0.2 mm tight, or the support scar needs more than light sanding: hold the head parts; try a 0.15 mm support gap or 0.1 mm layers on head_yaw_to_roll and reprint C4. The M3 head will not seat even at 6.0 mm: tell Ahmed before the neck parts are drilled (B32). An M2 head will not seat: open that recess to 4.5 mm and note it (B21). |
-| T1 | Depth rod: each pilot is blind, about 3.0 mm deep (D21). With 5.5 mm clamped under the head (11 of the 0.5 mm washers from BOM 17l, or the bulb plus 3.5 mm of scrap with a 2.7 mm hole), as in the robot, an M2.5x8 driven into each of the 4 pilots cuts its own thread and needs clear torque, snugs firmly with the short arm of a 2.0 mm key without stripping, and the eye does not move when pulled with 4 screws in. Never drive a bare M2.5x8 to the floor: it would push through the 1.3 mm skin. The eye glass disc (29.6 x 1.85 mm seat) drops in and stays when tipped. | A pilot strips: B14 stays open; options for Ahmed are an M2.5 thread-forming screw or a 2.05 mm pilot (CAD change). |
+| T1, T1b, T1w | Depth rod: each eye pilot is blind, about 3.0 mm deep (D21). Calipers: T1b 2.0 mm and T1w 3.0 mm thick next to a hole. An M2.5 screw passes every hole of T1b and T1w by hand without threading. Stack as in the robot at each pilot: two 0.3 mm washers (BOM 17l) under the M2.5x8 head, then T1b, T1w and the eye, 5.6 mm in all (edges and holes lined up). The M2.5x8 then cuts its own thread in the eye and needs clear torque, snugs firmly with the short arm of a 2.0 mm key without stripping, engages 2.4 mm and stops 0.6 mm short of the floor; the eye does not move when pulled with 4 screws in, and the front skin shows no bulge or crack over a pilot. Never drive a bare M2.5x8 to the floor: it would push through the 1.3 mm skin. The eye glass disc (29.6 x 1.85 mm seat) drops in and stays when tipped. | A pilot strips: B14 stays open; options for Ahmed are an M2.5 thread-forming screw or a 2.05 mm pilot (CAD change). A T1w hole binds: open it with the 2.7 mm bit (BOM T12) by hand and note it; the same 8 holes in the head then need the bit (an after-printing step). The stack measures over 5.7 mm: less than 2.3 mm of thread, note it for Ahmed. |
 | T2 | No missing layers, no blobs over 0.5 mm, lies flat on a table (no corner up over 0.5 mm). Length 101.9 and width 40.7 mm within 0.3 mm. An M3 passes both 3.4 mm holes and its head sinks fully into the 6.5 mm counterbores. Screwed to foot_bottom_pla (or to C3 for one hole) it pulls flat, gap under 0.3 mm at the edges. Grip, record only (no upstream number): on the lab floor with 1 kg on it, tilt until it slides, note the angle next to a PLA part. | Print fails: check that the TPU was dried and the printer can feed TPU at 25 mm/s (Bowden extruders may need retraction off). Fit fails: B26 stays open. |
 
 ### Step 2: left leg, for the servo fit tests (5 plates, 16.7 h, 182.8 g; the TPU sole comes from S2)
@@ -283,7 +285,7 @@ Up direction is the upstream STL axis that points up (same as PRINT_CHECK). Supp
 6. TPU. Dry it (70 C, 7 h). 25 mm/s, retraction 0.8 mm or off on a Bowden printer, no supports, glue stick as a release layer on PEI (the TDS lists PVA glue), avoid crossing perimeters on to cut stringing. Not AMS or multi-material compatible (maker page).
 7. The head (21.9 h, one job). The top face is on the bed. The sloped back (12.5 degrees) and the horizontal 6804 seat rest on support (29.6 g): expect support scars on the back slope (cosmetic) and check the 6804 in the head seat after support removal; scrape the top of the seat if tight (C1 only covers the vertical seats in trunk_bottom). The head with supports and skirt needs 202.3 x 196.8 mm of bed; it fits a 220 bed, centred, with 7.6 mm or more to spare at each edge.
 8. Large flat parts. head_bot_sheet (193.8 x 191.6 x 3.0 mm) and the head can lift at the corners on an open printer. Clean bed, first layer bed 60 C. If a corner lifts, add a 4 mm brim (still fits 220); brims are not in the estimates.
-9. 180 mm beds (for example Prusa Mini, Bambu A1 mini) fail: the head (199.8 x 197.3, 202.3 x 196.8 with supports and skirt) and head_bot_sheet (193.8 x 191.6). Everything else fits; the largest other print is body_middle_bottom at 159.6 x 109.6 mm with supports and skirt. The S1 coupon plate as generated is a 68 x 210 mm block; on a 180 bed lay the 9 coupons out again (they fit easily).
+9. 180 mm beds (for example Prusa Mini, Bambu A1 mini) fail: the head (199.8 x 197.3, 202.3 x 196.8 with supports and skirt) and head_bot_sheet (193.8 x 191.6). Everything else fits; the largest other print is body_middle_bottom at 159.6 x 109.6 mm with supports and skirt. The S1 coupon plate as generated is a 114 x 209 mm block; on a 180 bed lay the 11 coupons out again (they fit easily).
 10. Supports came out of the slicer as planned: snug supports reach at most 3 mm past any part outline, the plates were packed with that margin, and no plate shows a path conflict.
 
 ## Upstream issues in the print phase (UPSTREAM_ISSUES.md G5, G6, G12)
@@ -331,16 +333,16 @@ G12, roll_motor_bottom screw head against roll_to_pitch (Mini issue 17): the CAD
 
 | | Needed (estimate) | BOM | Left |
 |---|---|---|---|
-| PLA (Overture Easy PLA) | 1384 g: coupon session 36.2 g (includes the left eye) plus plates 1347.8 g (the rest of the robot set and 104.6 g of spares) | 2 x 1 kg (BOM line 27) | about 616 g (31%) for failed prints; a second head (262 g) still fits. 1445 g if the D22 gate fails |
+| PLA (Overture Easy PLA) | 1389 g: coupon session 41.2 g (includes the left eye and a spare bulb) plus plates 1347.8 g (the rest of the robot set and 104.6 g of spares) | 2 x 1 kg (BOM line 27) | about 611 g (31%) for failed prints; a second head (262 g) still fits. 1450 g if the D22 gate fails |
 | TPU (Overture TPU 95A) | 35.1 g: two soles (one in S2) | 1 x 1 kg (BOM line 28) | about 965 g |
 
-BOM line 27 now says need 1384 g sliced (1502 g before D22): still 2 spools. BOM line 28 says 36 g; the light soles need 35.1 g.
+BOM line 27: need 1389 g sliced (1384 g before the T1 stack pieces, 1502 g before D22): still 2 spools. BOM line 28 says 36 g; the light soles need 35.1 g.
 
 ## Not verified
 
 - Every gram and hour is a slicer estimate on a generic printer; nothing has been printed or weighed.
 - Temperatures, speeds and densities are maker-typical (Overture pages and TDS, read 2026-11-01), not lab tested.
-- All coupon results (seat fit, insert seating, switch fit, servo fit, eye pilots, TPU grip and fit) are open until the coupons are printed.
+- All coupon results (seat fit, insert seating, switch fit, servo fit, eye pilots and the eye screw stack, TPU grip and fit) are open until the coupons are printed.
 - G12 assumes an ISO M2 pan head 4.0 x 1.6 mm; the Feetech bag screw head size is not published (B2). Any head over 0.31 mm tall hits at the outer screw.
 - The 6.7 mm bore depth in PRINT_CHECK flag 5 and HARDWARE_AUDIT B15 was not found in any STL: every M3 insert bore is 5.8 mm deep (6.0 mm for 4 head bores); what differs is what lies beyond (see PRINT_CHECK flag 5).
 - The SG90 torque is the Tower Pro figure; the TPU small-strain modulus is not published.

@@ -11,20 +11,20 @@
    "bom_full": "bom_full.csv",
    "placements": "audit/placements.json"
   },
-  "bom_full_rows": "ids from bom_full.csv at generation time; ids shift when BOM_FULL is regenerated, so bom_full_item gives the row name to match on; empty = no BOM_FULL row (washer, kapton: no purchase line)",
+  "bom_full_rows": "ids from bom_full.csv at generation time; ids shift when BOM_FULL is regenerated, so bom_full_item gives the row name to match on; empty = matched by bom_full_item alone (the eye washers, BOM_FULL row 'M2.5 flat washer, small series') or no BOM_FULL row",
   "summary": {
-   "items": 166,
+   "items": 171,
    "by_kind": {
     "connector": 48,
-    "heat_shrink": 14,
-    "other": 77,
+    "heat_shrink": 11,
+    "other": 85,
     "splice": 13,
     "resistor": 5,
     "foam_pad": 6,
     "disc": 3
    },
    "solder_joints": 64,
-   "washers": 8,
+   "washers": 16,
    "cables": 45,
    "cables_all_ends_drawn": 45,
    "cable_ends": 236,
@@ -32,7 +32,9 @@
    "ends_with_body": 212,
    "no_bom_row": []
   },
-  "notes": []
+  "notes": [
+   "2026-11-02 about 1:55 AM ET, agent PRT, hand edit of this generated file: the eye screw washers are two 0.3 mm discs per screw (16, DECISIONS.md D21 note, BOM 17l) stacked on the fasteners.json screw axis, in place of one 0.5 mm disc; the 3 sleeves of the D9 lead extension are removed (hs-D9-SIG, hs-D9-VCC, hs-D9-GND: netlist D9 now reaches without an extension). blueprint/make_scene_extras.py still writes the old washer and the D9 sleeves: change it before its next run. Sleeves the netlist needs that this file lacks are placed by viewer/make_viewer_data.py step 10f from cables3d.json."
+  ]
  },
  "items": [
   {
@@ -7316,153 +7318,6 @@
    "cable": "P11"
   },
   {
-   "id": "hs-D9-SIG",
-   "kind": "heat_shrink",
-   "label": "Heat shrink over the D9 lead extension joint, right SG90 SIG",
-   "bom_full_row": "C49",
-   "bom_full_item": "Heat shrink pieces (splices and solder joints)",
-   "bom_line": "26",
-   "link": "head_assembly",
-   "center_mm": [
-    27.54,
-    49.65,
-    216.23
-   ],
-   "axis": [
-    0.706,
-    0.706,
-    -0.0554
-   ],
-   "dims_mm": [
-    8.0,
-    2.11,
-    2.11
-   ],
-   "color": "#2b2b2b",
-   "source": "netlist D9 'lead 250 mm is 18 mm short: add 20 mm of 26 AWG x3'; 20 mm from the Pi end along the routed D9 run (cables3d.json); sleeve 8 x 2 mm UNVERIFIED",
-   "dims_local_mm": [
-    8.0,
-    2.0,
-    2.0
-   ],
-   "rotation_3x3": [
-    [
-     0.7071,
-     -0.0392,
-     0.706
-    ],
-    [
-     -0.7071,
-     -0.0392,
-     0.706
-    ],
-    [
-     0.0,
-     -0.9985,
-     -0.0554
-    ]
-   ],
-   "cable": "D9"
-  },
-  {
-   "id": "hs-D9-VCC",
-   "kind": "heat_shrink",
-   "label": "Heat shrink over the D9 lead extension joint, right SG90 VCC",
-   "bom_full_row": "C49",
-   "bom_full_item": "Heat shrink pieces (splices and solder joints)",
-   "bom_line": "26",
-   "link": "head_assembly",
-   "center_mm": [
-    29.1,
-    48.1,
-    216.23
-   ],
-   "axis": [
-    0.706,
-    0.706,
-    -0.0554
-   ],
-   "dims_mm": [
-    8.0,
-    2.11,
-    2.11
-   ],
-   "color": "#2b2b2b",
-   "source": "netlist D9 'lead 250 mm is 18 mm short: add 20 mm of 26 AWG x3'; 20 mm from the Pi end along the routed D9 run (cables3d.json); sleeve 8 x 2 mm UNVERIFIED",
-   "dims_local_mm": [
-    8.0,
-    2.0,
-    2.0
-   ],
-   "rotation_3x3": [
-    [
-     0.7071,
-     -0.0392,
-     0.706
-    ],
-    [
-     -0.7071,
-     -0.0392,
-     0.706
-    ],
-    [
-     0.0,
-     -0.9985,
-     -0.0554
-    ]
-   ],
-   "cable": "D9"
-  },
-  {
-   "id": "hs-D9-GND",
-   "kind": "heat_shrink",
-   "label": "Heat shrink over the D9 lead extension joint, right SG90 GND",
-   "bom_full_row": "C49",
-   "bom_full_item": "Heat shrink pieces (splices and solder joints)",
-   "bom_line": "26",
-   "link": "head_assembly",
-   "center_mm": [
-    30.65,
-    46.54,
-    216.23
-   ],
-   "axis": [
-    0.706,
-    0.706,
-    -0.0554
-   ],
-   "dims_mm": [
-    8.0,
-    2.11,
-    2.11
-   ],
-   "color": "#2b2b2b",
-   "source": "netlist D9 'lead 250 mm is 18 mm short: add 20 mm of 26 AWG x3'; 20 mm from the Pi end along the routed D9 run (cables3d.json); sleeve 8 x 2 mm UNVERIFIED",
-   "dims_local_mm": [
-    8.0,
-    2.0,
-    2.0
-   ],
-   "rotation_3x3": [
-    [
-     0.7071,
-     -0.0392,
-     0.706
-    ],
-    [
-     -0.7071,
-     -0.0392,
-     0.706
-    ],
-    [
-     0.0,
-     -0.9985,
-     -0.0554
-    ]
-   ],
-   "cable": "D9"
-  },
-  {
    "id": "foam-bec_pro",
    "kind": "foam_pad",
    "label": "Foam tape pad under bec pro",
@@ -8024,17 +7879,17 @@
    ]
   },
   {
-   "id": "washer-F176",
+   "id": "washer-F176-1",
    "kind": "other",
-   "label": "M2.5 washer 0.5 mm under F176 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F04",
-   "bom_full_item": "M2.5x8 DIN 912 A2 + 0.5 mm washer",
+   "label": "M2.5 washer 0.3 mm, 1 of 2 (on the bulb face) under F176 (M2.5x8 DIN 912 A2 into right_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
    "center_mm": [
-    95.75,
+    95.854,
     -52.4,
-    216.7
+    216.701
    ],
    "axis": [
     1.0,
@@ -8042,14 +7897,14 @@
     0.0
    ],
    "dims_mm": [
-    0.5,
+    0.3,
     5.0,
     5.0
    ],
    "color": "#c0c6cc",
-   "source": "fasteners.json F176 seat_world and axis_world (washer between the head and bulb); fasteners.json: M2.5 flat washer 0.5 mm thick under each eye screw head (fasteners.json bom: 'new' line, none in BOM.md yet); OD 5.0 mm UNVERIFIED (DIN 433 M2.5 is 5.0, DIN 125 M2.5 is 6.0)",
+   "source": "fasteners.json F176 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 1 from 0.0 to 0.3 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
    "dims_local_mm": [
-    0.5,
+    0.3,
     5.0,
     5.0
    ],
@@ -8074,17 +7929,17 @@
    "fastener": "F176"
   },
   {
-   "id": "washer-F177",
+   "id": "washer-F176-2",
    "kind": "other",
-   "label": "M2.5 washer 0.5 mm under F177 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F04",
-   "bom_full_item": "M2.5x8 DIN 912 A2 + 0.5 mm washer",
+   "label": "M2.5 washer 0.3 mm, 2 of 2 (under the head) under F176 (M2.5x8 DIN 912 A2 into right_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
    "center_mm": [
-    95.75,
-    -27.4,
-    216.7
+    95.554,
+    -52.4,
+    216.701
    ],
    "axis": [
     1.0,
@@ -8092,14 +7947,64 @@
     0.0
    ],
    "dims_mm": [
-    0.5,
+    0.3,
     5.0,
     5.0
    ],
    "color": "#c0c6cc",
-   "source": "fasteners.json F177 seat_world and axis_world (washer between the head and bulb); fasteners.json: M2.5 flat washer 0.5 mm thick under each eye screw head (fasteners.json bom: 'new' line, none in BOM.md yet); OD 5.0 mm UNVERIFIED (DIN 433 M2.5 is 5.0, DIN 125 M2.5 is 6.0)",
+   "source": "fasteners.json F176 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 2 from 0.3 to 0.6 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
    "dims_local_mm": [
-    0.5,
+    0.3,
+    5.0,
+    5.0
+   ],
+   "rotation_3x3": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "shape": "cylinder",
+   "fastener": "F176"
+  },
+  {
+   "id": "washer-F177-1",
+   "kind": "other",
+   "label": "M2.5 washer 0.3 mm, 1 of 2 (on the bulb face) under F177 (M2.5x8 DIN 912 A2 into right_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
+   "bom_line": "17l",
+   "link": "head_assembly",
+   "center_mm": [
+    95.854,
+    -27.4,
+    216.701
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "dims_mm": [
+    0.3,
+    5.0,
+    5.0
+   ],
+   "color": "#c0c6cc",
+   "source": "fasteners.json F177 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 1 from 0.0 to 0.3 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
+   "dims_local_mm": [
+    0.3,
     5.0,
     5.0
    ],
@@ -8124,17 +8029,17 @@
    "fastener": "F177"
   },
   {
-   "id": "washer-F178",
+   "id": "washer-F177-2",
    "kind": "other",
-   "label": "M2.5 washer 0.5 mm under F178 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F04",
-   "bom_full_item": "M2.5x8 DIN 912 A2 + 0.5 mm washer",
+   "label": "M2.5 washer 0.3 mm, 2 of 2 (under the head) under F177 (M2.5x8 DIN 912 A2 into right_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
    "center_mm": [
-    95.75,
-    27.6,
-    216.7
+    95.554,
+    -27.4,
+    216.701
    ],
    "axis": [
     1.0,
@@ -8142,14 +8047,64 @@
     0.0
    ],
    "dims_mm": [
-    0.5,
+    0.3,
     5.0,
     5.0
    ],
    "color": "#c0c6cc",
-   "source": "fasteners.json F178 seat_world and axis_world (washer between the head and bulb); fasteners.json: M2.5 flat washer 0.5 mm thick under each eye screw head (fasteners.json bom: 'new' line, none in BOM.md yet); OD 5.0 mm UNVERIFIED (DIN 433 M2.5 is 5.0, DIN 125 M2.5 is 6.0)",
+   "source": "fasteners.json F177 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 2 from 0.3 to 0.6 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
    "dims_local_mm": [
-    0.5,
+    0.3,
+    5.0,
+    5.0
+   ],
+   "rotation_3x3": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "shape": "cylinder",
+   "fastener": "F177"
+  },
+  {
+   "id": "washer-F178-1",
+   "kind": "other",
+   "label": "M2.5 washer 0.3 mm, 1 of 2 (on the bulb face) under F178 (M2.5x8 DIN 912 A2 into left_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
+   "bom_line": "17l",
+   "link": "head_assembly",
+   "center_mm": [
+    95.854,
+    27.6,
+    216.701
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "dims_mm": [
+    0.3,
+    5.0,
+    5.0
+   ],
+   "color": "#c0c6cc",
+   "source": "fasteners.json F178 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 1 from 0.0 to 0.3 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
+   "dims_local_mm": [
+    0.3,
     5.0,
     5.0
    ],
@@ -8174,17 +8129,17 @@
    "fastener": "F178"
   },
   {
-   "id": "washer-F179",
+   "id": "washer-F178-2",
    "kind": "other",
-   "label": "M2.5 washer 0.5 mm under F179 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F04",
-   "bom_full_item": "M2.5x8 DIN 912 A2 + 0.5 mm washer",
+   "label": "M2.5 washer 0.3 mm, 2 of 2 (under the head) under F178 (M2.5x8 DIN 912 A2 into left_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
    "center_mm": [
-    95.75,
-    52.6,
-    216.7
+    95.554,
+    27.6,
+    216.701
    ],
    "axis": [
     1.0,
@@ -8192,14 +8147,64 @@
     0.0
    ],
    "dims_mm": [
-    0.5,
+    0.3,
     5.0,
     5.0
    ],
    "color": "#c0c6cc",
-   "source": "fasteners.json F179 seat_world and axis_world (washer between the head and bulb); fasteners.json: M2.5 flat washer 0.5 mm thick under each eye screw head (fasteners.json bom: 'new' line, none in BOM.md yet); OD 5.0 mm UNVERIFIED (DIN 433 M2.5 is 5.0, DIN 125 M2.5 is 6.0)",
+   "source": "fasteners.json F178 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 2 from 0.3 to 0.6 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
    "dims_local_mm": [
-    0.5,
+    0.3,
+    5.0,
+    5.0
+   ],
+   "rotation_3x3": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "shape": "cylinder",
+   "fastener": "F178"
+  },
+  {
+   "id": "washer-F179-1",
+   "kind": "other",
+   "label": "M2.5 washer 0.3 mm, 1 of 2 (on the bulb face) under F179 (M2.5x8 DIN 912 A2 into left_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
+   "bom_line": "17l",
+   "link": "head_assembly",
+   "center_mm": [
+    95.854,
+    52.6,
+    216.701
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "dims_mm": [
+    0.3,
+    5.0,
+    5.0
+   ],
+   "color": "#c0c6cc",
+   "source": "fasteners.json F179 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 1 from 0.0 to 0.3 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
+   "dims_local_mm": [
+    0.3,
     5.0,
     5.0
    ],
@@ -8224,17 +8229,17 @@
    "fastener": "F179"
   },
   {
-   "id": "washer-F180",
+   "id": "washer-F179-2",
    "kind": "other",
-   "label": "M2.5 washer 0.5 mm under F180 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F04",
-   "bom_full_item": "M2.5x8 DIN 912 A2 + 0.5 mm washer",
+   "label": "M2.5 washer 0.3 mm, 2 of 2 (under the head) under F179 (M2.5x8 DIN 912 A2 into left_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
    "center_mm": [
-    95.75,
-    -52.4,
-    191.7
+    95.554,
+    52.6,
+    216.701
    ],
    "axis": [
     1.0,
@@ -8242,14 +8247,64 @@
     0.0
    ],
    "dims_mm": [
-    0.5,
+    0.3,
     5.0,
     5.0
    ],
    "color": "#c0c6cc",
-   "source": "fasteners.json F180 seat_world and axis_world (washer between the head and bulb); fasteners.json: M2.5 flat washer 0.5 mm thick under each eye screw head (fasteners.json bom: 'new' line, none in BOM.md yet); OD 5.0 mm UNVERIFIED (DIN 433 M2.5 is 5.0, DIN 125 M2.5 is 6.0)",
+   "source": "fasteners.json F179 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 2 from 0.3 to 0.6 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
    "dims_local_mm": [
-    0.5,
+    0.3,
+    5.0,
+    5.0
+   ],
+   "rotation_3x3": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "shape": "cylinder",
+   "fastener": "F179"
+  },
+  {
+   "id": "washer-F180-1",
+   "kind": "other",
+   "label": "M2.5 washer 0.3 mm, 1 of 2 (on the bulb face) under F180 (M2.5x8 DIN 912 A2 into right_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
+   "bom_line": "17l",
+   "link": "head_assembly",
+   "center_mm": [
+    95.854,
+    -52.4,
+    191.701
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "dims_mm": [
+    0.3,
+    5.0,
+    5.0
+   ],
+   "color": "#c0c6cc",
+   "source": "fasteners.json F180 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 1 from 0.0 to 0.3 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
+   "dims_local_mm": [
+    0.3,
     5.0,
     5.0
    ],
@@ -8274,17 +8329,17 @@
    "fastener": "F180"
   },
   {
-   "id": "washer-F181",
+   "id": "washer-F180-2",
    "kind": "other",
-   "label": "M2.5 washer 0.5 mm under F181 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F04",
-   "bom_full_item": "M2.5x8 DIN 912 A2 + 0.5 mm washer",
+   "label": "M2.5 washer 0.3 mm, 2 of 2 (under the head) under F180 (M2.5x8 DIN 912 A2 into right_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
    "center_mm": [
-    95.75,
-    -27.4,
-    191.7
+    95.554,
+    -52.4,
+    191.701
    ],
    "axis": [
     1.0,
@@ -8292,14 +8347,64 @@
     0.0
    ],
    "dims_mm": [
-    0.5,
+    0.3,
     5.0,
     5.0
    ],
    "color": "#c0c6cc",
-   "source": "fasteners.json F181 seat_world and axis_world (washer between the head and bulb); fasteners.json: M2.5 flat washer 0.5 mm thick under each eye screw head (fasteners.json bom: 'new' line, none in BOM.md yet); OD 5.0 mm UNVERIFIED (DIN 433 M2.5 is 5.0, DIN 125 M2.5 is 6.0)",
+   "source": "fasteners.json F180 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 2 from 0.3 to 0.6 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
    "dims_local_mm": [
-    0.5,
+    0.3,
+    5.0,
+    5.0
+   ],
+   "rotation_3x3": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "shape": "cylinder",
+   "fastener": "F180"
+  },
+  {
+   "id": "washer-F181-1",
+   "kind": "other",
+   "label": "M2.5 washer 0.3 mm, 1 of 2 (on the bulb face) under F181 (M2.5x8 DIN 912 A2 into right_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
+   "bom_line": "17l",
+   "link": "head_assembly",
+   "center_mm": [
+    95.854,
+    -27.4,
+    191.701
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "dims_mm": [
+    0.3,
+    5.0,
+    5.0
+   ],
+   "color": "#c0c6cc",
+   "source": "fasteners.json F181 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 1 from 0.0 to 0.3 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
+   "dims_local_mm": [
+    0.3,
     5.0,
     5.0
    ],
@@ -8324,17 +8429,17 @@
    "fastener": "F181"
   },
   {
-   "id": "washer-F182",
+   "id": "washer-F181-2",
    "kind": "other",
-   "label": "M2.5 washer 0.5 mm under F182 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F04",
-   "bom_full_item": "M2.5x8 DIN 912 A2 + 0.5 mm washer",
+   "label": "M2.5 washer 0.3 mm, 2 of 2 (under the head) under F181 (M2.5x8 DIN 912 A2 into right_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
    "center_mm": [
-    95.75,
-    27.6,
-    191.7
+    95.554,
+    -27.4,
+    191.701
    ],
    "axis": [
     1.0,
@@ -8342,14 +8447,64 @@
     0.0
    ],
    "dims_mm": [
-    0.5,
+    0.3,
     5.0,
     5.0
    ],
    "color": "#c0c6cc",
-   "source": "fasteners.json F182 seat_world and axis_world (washer between the head and bulb); fasteners.json: M2.5 flat washer 0.5 mm thick under each eye screw head (fasteners.json bom: 'new' line, none in BOM.md yet); OD 5.0 mm UNVERIFIED (DIN 433 M2.5 is 5.0, DIN 125 M2.5 is 6.0)",
+   "source": "fasteners.json F181 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 2 from 0.3 to 0.6 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
    "dims_local_mm": [
-    0.5,
+    0.3,
+    5.0,
+    5.0
+   ],
+   "rotation_3x3": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "shape": "cylinder",
+   "fastener": "F181"
+  },
+  {
+   "id": "washer-F182-1",
+   "kind": "other",
+   "label": "M2.5 washer 0.3 mm, 1 of 2 (on the bulb face) under F182 (M2.5x8 DIN 912 A2 into left_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
+   "bom_line": "17l",
+   "link": "head_assembly",
+   "center_mm": [
+    95.854,
+    27.6,
+    191.701
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "dims_mm": [
+    0.3,
+    5.0,
+    5.0
+   ],
+   "color": "#c0c6cc",
+   "source": "fasteners.json F182 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 1 from 0.0 to 0.3 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
+   "dims_local_mm": [
+    0.3,
     5.0,
     5.0
    ],
@@ -8374,17 +8529,17 @@
    "fastener": "F182"
   },
   {
-   "id": "washer-F183",
+   "id": "washer-F182-2",
    "kind": "other",
-   "label": "M2.5 washer 0.5 mm under F183 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F04",
-   "bom_full_item": "M2.5x8 DIN 912 A2 + 0.5 mm washer",
+   "label": "M2.5 washer 0.3 mm, 2 of 2 (under the head) under F182 (M2.5x8 DIN 912 A2 into left_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
    "center_mm": [
-    95.75,
-    52.6,
-    191.7
+    95.554,
+    27.6,
+    191.701
    ],
    "axis": [
     1.0,
@@ -8392,14 +8547,114 @@
     0.0
    ],
    "dims_mm": [
-    0.5,
+    0.3,
     5.0,
     5.0
    ],
    "color": "#c0c6cc",
-   "source": "fasteners.json F183 seat_world and axis_world (washer between the head and bulb); fasteners.json: M2.5 flat washer 0.5 mm thick under each eye screw head (fasteners.json bom: 'new' line, none in BOM.md yet); OD 5.0 mm UNVERIFIED (DIN 433 M2.5 is 5.0, DIN 125 M2.5 is 6.0)",
+   "source": "fasteners.json F182 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 2 from 0.3 to 0.6 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
    "dims_local_mm": [
-    0.5,
+    0.3,
+    5.0,
+    5.0
+   ],
+   "rotation_3x3": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "shape": "cylinder",
+   "fastener": "F182"
+  },
+  {
+   "id": "washer-F183-1",
+   "kind": "other",
+   "label": "M2.5 washer 0.3 mm, 1 of 2 (on the bulb face) under F183 (M2.5x8 DIN 912 A2 into left_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
+   "bom_line": "17l",
+   "link": "head_assembly",
+   "center_mm": [
+    95.854,
+    52.6,
+    191.701
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "dims_mm": [
+    0.3,
+    5.0,
+    5.0
+   ],
+   "color": "#c0c6cc",
+   "source": "fasteners.json F183 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 1 from 0.0 to 0.3 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
+   "dims_local_mm": [
+    0.3,
+    5.0,
+    5.0
+   ],
+   "rotation_3x3": [
+    [
+     0.0,
+     0.0,
+     1.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0
+    ]
+   ],
+   "shape": "cylinder",
+   "fastener": "F183"
+  },
+  {
+   "id": "washer-F183-2",
+   "kind": "other",
+   "label": "M2.5 washer 0.3 mm, 2 of 2 (under the head) under F183 (M2.5x8 DIN 912 A2 into left_eye)",
+   "bom_full_row": "",
+   "bom_full_item": "M2.5 flat washer, small series",
+   "bom_line": "17l",
+   "link": "head_assembly",
+   "center_mm": [
+    95.554,
+    52.6,
+    191.701
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "dims_mm": [
+    0.3,
+    5.0,
+    5.0
+   ],
+   "color": "#c0c6cc",
+   "source": "fasteners.json F183 seat_world and axis_world: 2 washers of 0.3 mm stacked on the screw axis, washer 2 from 0.3 to 0.6 mm out of the seat (the bulb face); the screw head sits on the stack, 0.6 mm out (make_viewer_data.py draws the screw washer.t out, fasteners/VIEWER_NOTE.md). Part: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BelMetric WFHV2.5X5SSA4, BOM 17l): a 0.6 mm stack under each eye screw head (D21 note). Size 2.7 x 5.0 x 0.3 mm from BOM.md line 17l (BelMetric variant data, read 2026-11-02 12:20 AM ET)",
+   "dims_local_mm": [
+    0.3,
     5.0,
     5.0
    ],

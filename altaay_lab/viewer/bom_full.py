@@ -148,6 +148,83 @@ WIRE_LINE = {"16 AWG": "L5", "20 AWG": "23", "22 AWG": "24", "26 AWG": "25"}
 PER_COLOUR_M = 25 * 0.3048          # every wire line is 25 ft per colour (BOM.md lines L5, 23, 24, 25)
 
 
+# ------------------------------------------------------------------------------------------ heat shrink rule
+SLEEVE_RULE = ("one sleeve per splice; one per solder joint outside a splice where a wire meets a part's flying lead or two "
+               "flying leads meet (holder, BEC, resistor and LED leads); one over each XT30 solder cup (HARNESS_BUILD 'heat "
+               "shrink over the cup'); one cap on each cut lead wire the netlist says to insulate. None on board pads, "
+               "holes, header pins, plugs, sockets and screw terminals; switch terminals, lugs and tabs get one only if "
+               "copper shows (HARNESS_BUILD 'heat shrink if bare'), not counted")
+OWN_LEAD = {"resistor lead": "resistor", "BEC lead": "regulator", "SG90 lead": "servo"}   # wire gauge -> kind of its part
+LED_RES = {"LEDL": "R1", "LEDR": "R2", "LEDP": "R3"}       # blueprint/make_scene_extras.py names the LED joints by R1 to R3
+
+
+def sleeve_joints(netlist):
+    """Every heat shrink sleeve the netlist calls for, by SLEEVE_RULE. One dict per sleeve: id (the scene_extras.json
+    item id that draws it: splice-<name>, hs-XT30-Fp, hs-P10-BEC-INp, hs-U1-OUT1S, hs-R1-LED; new ones hs-<cable>-<pin>),
+    kind (splice, wire to lead, lead to lead, XT30 cup, cap), name, cables, pins (COMP.PIN at the joint), gauges (of
+    the wires at it), part (the component whose lead or cup it is), note."""
+    comps = {c["id"]: c for c in netlist["components"]}
+    act = {c["id"] for c in netlist["cables"] if c.get("status", "active") == "active"}
+    wires = [w for w in netlist["wires"] if w["cable"] in act]
+    out = OrderedDict()
+
+    def group_of(pin):
+        comp, p = (pin.split(".", 1) + [""])[:2]
+        c = comps.get(comp) or {}
+        g = next((x.get("group") for x in c.get("pins") or [] if x.get("pin") == p), None)
+        gr = (c.get("groups") or {}).get(g) or {}
+        return c, gr.get("connector") or "", gr.get("note") or ""
+
+    for c in netlist["components"]:                       # 1. splices: one sleeve over each
+        if c.get("kind") != "splice":
+            continue
+        at = [(w, s) for w in wires for s in ("from", "to") if w[s].split(".")[0] == c["id"]]
+        if at:
+            out["splice-" + c["id"]] = dict(kind="splice", name=c["id"], cables=sorted({w["cable"] for w, _ in at}),
+                                            pins=[c["id"] + ".S"], gauges=[w["gauge"] for w, _ in at], part=c["id"],
+                                            note="%d wire ends" % len(at))
+    for w in wires:                                       # 2. cups and joints on flying leads, outside splices
+        ends = (w.get("ends") or []) + ["", ""]
+        own = None                                        # the part whose own lead this wire is (no joint at that end)
+        if w.get("gauge") in OWN_LEAD:
+            own = next((w[s].split(".")[0] for s in ("from", "to")
+                        if (comps.get(w[s].split(".")[0]) or {}).get("kind") == OWN_LEAD[w["gauge"]]), None)
+        elif w.get("color") == "holder lead":
+            own = next((w[s].split(".")[0] for s, e in zip(("from", "to"), ends) if "holder lead" in e.lower()), None)
+        for s, e in zip(("from", "to"), ends):
+            pin, el = w[s], e.lower()
+            comp = pin.split(".")[0]
+            if "splice" in el:
+                continue
+            if "xt30" in el:
+                jid = "hs-%s%s" % (pin.replace(".", "-")[:-1], "p" if pin.endswith("+") else "n")
+                out[jid] = dict(kind="XT30 cup", name=pin, cables=[w["cable"]], pins=[pin], gauges=[w["gauge"]], part=comp,
+                                note="netlist end '%s'" % e)
+                continue
+            c, conn, gnote = group_of(pin)
+            if "lead" not in conn.lower() or "header" in el or comp == own:
+                continue
+            kind = "lead to lead" if (w.get("gauge") in OWN_LEAD or w.get("color") == "holder lead") else "wire to lead"
+            if kind == "lead to lead" and c.get("kind") == "led" and comp in LED_RES:
+                jid = "hs-%s-LED" % LED_RES[comp]
+            elif w["cable"] == "P10" and comp == "U1":
+                jid = "hs-P10-BEC-IN%s" % ("p" if pin.endswith("+") else "n")
+            else:
+                tag = pin.replace(".", "-")
+                tag = tag[:-1] + "p" if tag.endswith("+") else (tag[:-1] + "n" if tag.endswith("-") else tag)
+                jid = "hs-%s-%s" % (w["cable"], tag)
+            other = w["to" if s == "from" else "from"]
+            out[jid] = dict(kind=kind, name=pin, cables=[w["cable"]], pins=[pin], gauges=[w["gauge"]], part=comp,
+                            other=other, note="netlist end '%s' on %s (%s)%s" % (e, pin, conn, ("; " + gnote) if gnote else ""))
+    for c in netlist["components"]:                       # 3. caps on cut lead wires the netlist insulates
+        for p in c.get("pins") or []:
+            if p.get("dir") == "nc" and "insulate" in str(p.get("source", "")).lower():
+                jid = "hs-%s-%s" % (c["id"], p["pin"])
+                out[jid] = dict(kind="cap", name="%s.%s" % (c["id"], p["pin"]), cables=[], pins=["%s.%s" % (c["id"], p["pin"])],
+                                gauges=[], part=c["id"], note="netlist %s.%s %s, source '%s'" % (c["id"], p["pin"], p.get("name", ""), p.get("source", "")))
+    return [dict(id=k, **v) for k, v in out.items()]
+
+
 def end_kind(e):
     e = (e or "").lower()
     if "50-37-5033" in e:
@@ -289,6 +366,21 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
             rows.append(_row(id="F%02d" % n_f, section="Fasteners", item=spec, spec=fs[0].get("desc", ""), qty=len(fs),
                              where=", ".join("%s %d" % kv for kv in sorted(where.items())), nodes=ids, line=line,
                              status=supplied, note=fs[0].get("note", ""), source="[L] altaay_lab/fasteners/fasteners.json"))
+        # washers under the screw heads (fasteners.json 'washer': the eye screws, D21 note); the 3D washer discs of
+        # viewer/scene_extras.json link to this row by its item name, the BOM.md line's Item
+        wsh = [f for f in fasteners if f.get("washer")]
+        if wsh:
+            w0 = wsh[0]["washer"]
+            lw = w0.get("line") or ""
+            n_f += 1
+            where = Counter(sub_labels.get(link_sub.get(f.get("link"), f.get("sub")), f.get("sub") or f.get("link") or "?")
+                            for f in wsh for _ in range(int(f["washer"].get("n", 1))))
+            rows.append(_row(id="F%02d" % n_f, section="Fasteners", item=(bom.get(lw) or {}).get("Item") or "Flat washer",
+                             spec=w0.get("spec", ""), qty=sum(int(f["washer"].get("n", 1)) for f in wsh),
+                             where=", ".join("%s %d" % kv for kv in sorted(where.items())), nodes=[], line=lw, status="bought",
+                             note="%d under each of the %d screw heads that have one (%s)" % (
+                                 int(w0.get("n", 1)), len(wsh), ", ".join(sorted({f["spec"] for f in wsh}))),
+                             source="[L] altaay_lab/fasteners/fasteners.json"))
     ins = by_part.get("insert", [])
     n_f += 1
     rows.append(_row(id="F%02d" % n_f, section="Fasteners", item="M3 heat-set insert, CNC Kitchen M3 x 5.7",
@@ -364,17 +456,24 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
     rows.append(_row(id="C%02d" % n_c, section="Connectors and wire", item="Servo kit cable, 15 cm 5264-3P",
                      spec="one ships with each STS3215 (14 in all)", qty=kit_used, line="1", status="in kit",
                      note="%d used, %d spare" % (kit_used, 14 - kit_used), source="[L] netlist kit cables"))
-    # heat shrink: the pieces the 3D view draws (viewer/scene_extras.json: one per splice, per XT30 cup and per inline
-    # joint) when it has them, else the netlist estimate of one per splice end or bare solder joint
-    sp_ids, hs_ids = by_part.get("splice", []), by_part.get("heat_shrink", [])
-    hs_est = splice_ends + solder_ends
-    if hs_ids:
-        hs = (len(sp_ids) + len(hs_ids), "one piece per splice and per covered joint (3D view count)",
-              "%d splices and %d other sleeves (XT30 cups, inline joints, cut wire ends) from altaay_lab/viewer/scene_extras.json "
-              "(blueprint/make_scene_extras.py); the netlist estimate was %d (1 per splice end and bare solder joint)"
-              % (len(sp_ids), len(hs_ids), hs_est), "[L] altaay_lab/viewer/scene_extras.json", sp_ids + hs_ids)
-    else:
-        hs = (hs_est, "one piece per splice end or bare solder joint (estimate)", "", "[L] netlist wire ends", [])
+    # heat shrink: one sleeve per joint of SLEEVE_RULE, counted from the netlist; the 3D view draws each one (scene_extras
+    # items, plus the sleeves make_viewer_data.py places from cables3d.json), and every drawn node names its joint
+    joints = sleeve_joints(netlist)
+    jk = Counter(j["kind"] for j in joints)
+    sl_nodes = [n for n in by_part.get("splice", []) + by_part.get("heat_shrink", []) if nodes[n].get("sleeve")]
+    drawn = Counter(nodes[n]["sleeve"] for n in sl_nodes)
+    want = {j["id"] for j in joints}
+    miss = sorted(want - set(drawn))
+    extra = sorted(k for k in drawn if k not in want) + sorted(k for k, v in drawn.items() if v > 1 and k in want)
+    cond = [j["id"] for j in joints if "120 mm or longer" in j.get("note", "")]
+    hs_note = ("%s (wiring/netlist.yaml). The 3D view draws %d of the %d%s%s.%s" % (
+        SLEEVE_RULE, len(sl_nodes), len(joints), (", not drawn: " + ", ".join(miss)) if miss else "",
+        ("; drawn with no joint or twice: " + ", ".join(extra)) if extra else "",
+        (" The %d holder lead joints (%s) go away if the holder leads reach the BMS (120 mm or longer, netlist PACK note)."
+         % (len(cond), ", ".join(cond))) if cond else ""))
+    hs = (len(joints), "one sleeve per joint: %d splices, %d wire to lead, %d lead to lead, %d XT30 solder cups, %d caps on "
+                       "cut lead wires" % (jk["splice"], jk["wire to lead"], jk["lead to lead"], jk["XT30 cup"], jk["cap"]),
+          hs_note, "[L] wiring/netlist.yaml (viewer/bom_full.py sleeve_joints)", sl_nodes)
     for item, line, q, unit, spec, note, src, ids in (
             ("Mini-SPOX housing, Molex 50-37-5033", "21", len(molex_housings), "pcs", "3 pos 2.5 mm, mates the servo sockets",
              "", "[L] netlist wire ends", []),
@@ -382,7 +481,8 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
             ("Heat shrink pieces (splices and solder joints)", "26", hs[0], "pcs", hs[1], hs[2], hs[3], hs[4])):
         n_c += 1
         rows.append(_row(id="C%02d" % n_c, section="Connectors and wire", item=item, spec=spec, qty=q, unit=unit, line=line,
-                         nodes=list(ids), status="bought", note=note, source=src))
+                         nodes=list(ids), status="CHECK" if line == "26" and (miss or extra) else "bought", note=note,
+                         source=src))
     for (g, col), m in sorted(wire_m.items()):
         n_c += 1
         rows.append(_row(id="C%02d" % n_c, section="Connectors and wire", item="Wire %s %s" % (g, col),

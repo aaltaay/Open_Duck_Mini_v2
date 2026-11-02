@@ -423,6 +423,15 @@ def load_fasteners(path=FASTENERS_JSON):
         flags = [x for x in (r.get("len_status"), sweep.get("status")) if x and str(x).upper() not in ("OK", "PASS")]
         ax = np.array(ax, float)
         ax /= np.linalg.norm(ax)
+        # a screw with washers under its head (the eye screws, DECISIONS.md D21 note): the seat is the part face, so the
+        # screw is drawn washer.t further out, its head on the washer stack (fasteners/VIEWER_NOTE.md "What to draw")
+        wrec = r.get("washer") if isinstance(r.get("washer"), dict) else None
+        washer = None
+        if wrec:
+            wl = re.search(r"\bBOM (?:line )?(\d+[a-z]?)\b", str(wrec.get("spec", "")))
+            washer = dict(t=float(wrec.get("t", 0.0)), n=int(wrec.get("n", 1)), t_each=float(wrec.get("t_each", wrec.get("t", 0.0))),
+                          spec=str(wrec.get("spec", "")), line=wl.group(1) if wl else "")
+            p = np.array(p, float) - ax * washer["t"]
         joins = r.get("joins") if isinstance(r.get("joins"), list) else None
         note = "; ".join([str(x) for x in (r.get("notes") or [])] + ([sweep["worst_text"]] if sweep.get("worst_text") else [])) or str(_first(r, "note", default=""))
         if from_drawing:
@@ -439,7 +448,7 @@ def load_fasteners(path=FASTENERS_JSON):
             status=("; ".join(str(f) for f in flags) if flags else _first(r, "status", default="OK")),
             note=note,
             spec_label=_first(r, "spec", "label", default=None), color=r.get("color"),
-            flags=flags, from_drawing=from_drawing, fit=not (r.get("leave_out") or r.get("install") is False),
+            flags=flags, from_drawing=from_drawing, washer=washer, fit=not (r.get("leave_out") or r.get("install") is False),
             fit_note=("left out (%s)" % (r.get("status") or "D18")) if r.get("leave_out") else
                      ("stays in the bag, not fitted" if r.get("install") is False else "")))
     n_draw = sum(1 for s in out if s["from_drawing"])
@@ -516,6 +525,161 @@ def load_cables3d_extras(path=CABLES3D_JSON):
     if not isinstance(raw, dict):
         return [], []
     return raw.get("terminals") or [], raw.get("retention") or []
+
+
+# heat shrink sleeves of scene_extras.json that blueprint/make_scene_extras.py set at a fixed distance from a cables3d.json
+# seat (cable_ends id, distance in mm, from its code): step 10e warns when the seat has moved away from them
+SLEEVE_OFFSET = {"splice-JBP": ("JB", 4.5), "splice-JBN": ("JB", 4.5), "splice-YD3": ("Y.SD1", 2.5), "splice-YG3": ("Y.SD1", 2.5),
+                 "hs-R1-LED": ("LEDL", 1.0), "hs-R2-LED": ("LEDR", 1.0), "hs-R3-LED": ("LEDP", 1.0),
+                 "hs-P10-BEC-INp": ("U1.IN", 6.5), "hs-P10-BEC-INn": ("U1.IN", 6.5),
+                 "hs-U1-OUT1S": ("JB", 14.15), "hs-U1-OUT2S": ("JB", 14.15),
+                 "hs-XT30-Fp": ("XT30.F", 2.69), "hs-XT30-Fn": ("XT30.F", 2.69), "hs-XT30-Mp": ("XT30.M", 2.69),
+                 "hs-XT30-Mn": ("XT30.M", 2.69)}
+LEAD_GAUGES = ("resistor lead", "BEC lead", "SG90 lead")
+
+
+def _unit(v):
+    v = np.asarray(v, float)
+    n = float(np.linalg.norm(v))
+    return v / n if n else v
+
+
+def _side(t):
+    """a unit vector square to t (horizontal when t is not vertical)"""
+    t = _unit(t)
+    return _unit(np.cross(t, [0, 0, 1.0])) if abs(t[2]) < 0.9 else _unit(np.cross(t, [1.0, 0, 0]))
+
+
+def bundle_od(ods):
+    """outside diameter of a bundle of wires (blueprint/make_scene_extras.py: 1.155 d sqrt(n) packing)"""
+    n, d = len(ods), max(ods)
+    return d if n == 1 else (2.0 * d if n == 2 else 1.155 * d * np.sqrt(n))
+
+
+def _walk(points, start, dist):
+    """point and direction dist mm along a polyline from its end nearest start; also the gap from start to that end"""
+    P = np.array(points, float)
+    if np.linalg.norm(P[-1] - start) < np.linalg.norm(P[0] - start):
+        P = P[::-1]
+    gap = float(np.linalg.norm(P[0] - start))
+    seg = np.diff(P, axis=0)
+    sl = np.linalg.norm(seg, axis=1)
+    acc = 0.0
+    for k in range(len(seg)):
+        if sl[k] < 1e-9:
+            continue
+        if acc + sl[k] >= dist:
+            return P[k] + seg[k] * (dist - acc) / sl[k], seg[k] / sl[k], gap, float(sl.sum())
+        acc += sl[k]
+    k = int(np.nonzero(sl > 1e-9)[0][-1])
+    return P[-1], seg[k] / sl[k], gap, float(sl.sum())
+
+
+def _anchor_id(pin, comps, E3):
+    """the cables3d.json cable_ends id for a netlist pin: the pin, the pin without its sign, COMP.GROUP, or COMP"""
+    comp, p = (pin.split(".", 1) + [""])[:2]
+    grp = next((x.get("group") for x in (comps.get(comp) or {}).get("pins") or [] if x.get("pin") == p), "")
+    for k in (pin, pin.rstrip("+-"), "%s.%s" % (comp, str(grp or "").upper()), comp):
+        if k in E3:
+            return k
+    return None
+
+
+def place_sleeve(j, netlist, E3, runs_of, od_of):
+    """Where to draw one heat shrink sleeve of bom_full.sleeve_joints, from cables3d.json cable_ends (E3) and the routed
+    runs of this build (runs_of: cable id -> cables_out entries, world mm). Returns (candidates, (length, diameter), info):
+    candidates in order of preference, each (centre, axis, text); step 10f draws the first that lies in no CAD part.
+    None when no seat or route places it."""
+    comps = {c["id"]: c for c in netlist["components"]}
+    act = {c["id"] for c in netlist["cables"] if c.get("status", "active") == "active"}
+    ods = [od_of[g] for g in j["gauges"] if od_of.get(g)]
+    P = lambda k: np.array(E3[k]["p_world0"], float)        # noqa: E731
+    Dn = lambda k: _unit(E3[k].get("dir_world0") or [1, 0, 0])   # noqa: E731
+
+    def near_run(cables, a):
+        runs = [r for c_ in cables for r in runs_of.get(c_, []) if len(r["points"]) >= 2]
+        if not runs:
+            return None
+        return min(runs, key=lambda r: min(np.linalg.norm(np.array(r["points"][0]) - a), np.linalg.norm(np.array(r["points"][-1]) - a)))
+
+    if j["kind"] == "splice":
+        L, D = 20.0, (bundle_od(ods) if ods else 3.0) + 1.0
+        info = dict(size="sleeve %g x %.1f mm, the blueprint splice stand-in (bundle of the wire outside diameters + 1.0 mm "
+                         "shrink wall), UNVERIFIED" % (L, D))
+        if j["name"] in E3:
+            info["anchor"] = j["name"]
+            return [(P(j["name"]), Dn(j["name"]), "its cables3d.json seat %s" % j["name"])], (L, D), info
+        # an inline splice on a routed run (P7 JFI and JFO): the made piece (not a part's own lead) sets how far along the
+        # run it sits from that piece's fixed end, the rule cables3d uses for its splices ('N mm along the route', netlist
+        # length); if that spot is inside a part, 2 mm steps either way along the run
+        at = [w for w in netlist["wires"] if w["cable"] in act and j["name"] in (w["from"].split(".")[0], w["to"].split(".")[0])]
+        made = [w for w in at if w.get("color") != "holder lead" and w.get("gauge") not in LEAD_GAUGES
+                and isinstance(w.get("cut_mm"), (int, float))]
+        for w in sorted(made, key=lambda w: w["cut_mm"]):
+            far = w["to"] if w["from"].split(".")[0] == j["name"] else w["from"]
+            aid = _anchor_id(far, comps, E3)
+            best = near_run([w["cable"]], P(aid)) if aid else None
+            if best is None:
+                continue
+            info["anchor"] = aid
+            cands = []
+            for dd in [0.0] + [s * k for k in (2.0, 4.0, 6.0, 8.0, 10.0) for s in (1, -1)]:
+                q, tq, gap, total = _walk(best["points"], P(aid), max(0.0, float(w["cut_mm"]) + dd))
+                cands.append((q, tq, "%g mm along the routed %s %s run (%.1f mm) from %s: the netlist cut of %s to %s, as "
+                                     "cables3d places its splices on a run%s" % (
+                                         w["cut_mm"] + dd, w["cable"], best.get("run") or "main", total, aid, w["from"], w["to"],
+                                         (" (moved %+g mm along the run to clear the CAD parts)" % dd) if dd else "")))
+            return cands, (L, D), info
+        return None
+    if j["kind"] not in ("wire to lead", "lead to lead"):
+        return None                                       # XT30 cups and lead caps: scene_extras.json draws them
+    comp = j["part"]
+    ck = (comps.get(comp) or {}).get("kind")
+    L, D = (12.0, 4.5) if ods and max(ods) >= 2.5 else (6.0, 3.0)
+    info = dict(size="sleeve %g x %.1f mm, UNVERIFIED stand-in as the blueprint sleeves on the BEC input (12 x 4.5) and LED "
+                     "(6 x 3) lead joints" % (L, D))
+    if ck == "resistor":
+        # inline at its LED (netlist: its other lead is soldered to the LED lead): this joint is past the resistor body,
+        # which blueprint draws 2.0 to 8.3 mm out of the LED lead exit
+        led = next((w[s] for w in netlist["wires"] if w["cable"] in act and w.get("gauge") == "resistor lead"
+                    for s, o in (("to", "from"), ("from", "to")) if w[o].split(".")[0] == comp), None)
+        aid = _anchor_id(led, comps, E3) if led else None
+        if not aid:
+            return None
+        info["anchor"] = aid
+        return [(P(aid) + Dn(aid) * x, Dn(aid), "%.1f mm out of the %s lead exit along its cables3d.json direction: past the "
+                 "inline resistor body, which blueprint draws 2.0 to 8.3 mm out" % (x, aid)) for x in (11.3, 13.3, 15.3)], (L, D), info
+    aid = _anchor_id(j["name"], comps, E3)
+    if not aid:
+        return None
+    a, d = P(aid), Dn(aid)
+    info["anchor"] = aid
+    if ck == "led":
+        # beside the anode joint sleeve (blueprint hs-R*-LED, 1.0 mm out), on any side; where no side is free (the projector
+        # LED's 4 mm lead channel) staggered along the leads behind the resistor-side joint
+        s1, s2 = _side(d), _unit(np.cross(d, _side(d)))
+        cands = [(a + d * 1.0 + v * 3.0, d, "1.0 mm out of the %s lead exit, 3.0 mm beside the anode joint sleeve (blueprint "
+                  "hs-R*-LED)" % aid) for v in (s1, -s1, s2, -s2)]
+        cands += [(a + d * x, d, "%.1f mm out of the %s lead exit on the lead axis: no room beside the anode joint, so the "
+                   "cathode joint is staggered behind the resistor and its far joint" % (x, aid)) for x in (17.3, 19.3, 21.3)]
+        return cands, (L, D), info
+    # a part's own lead of unpublished length (holder, BEC): 6 mm along the route from the lead exit, as blueprint draws the
+    # BEC input joints, + and - joints 2.5 mm to either side; further along in 2 mm steps if that spot is inside a part
+    sign = 1.0 if j["name"].endswith("+") else (-1.0 if j["name"].endswith("-") else 0.0)
+    best = near_run(j["cables"], a)
+    cands = []
+    if best is not None:
+        for x in np.arange(6.0, 31.0, 2.0):
+            q, tq, gap, total = _walk(best["points"], a, float(x))
+            if gap >= 5.0:
+                continue
+            for off in OrderedDict.fromkeys((2.5 * sign, 0.0, -2.5 * sign)):
+                cands.append((q + _side(tq) * off, tq, "%g mm along the routed %s run from the %s lead exit, %+.1f mm to the "
+                              "side: the lead length is not published, so the real joint sits further along, as blueprint draws "
+                              "the BEC input joints" % (x, best["cable"], aid, off)))
+    cands.append((a + d * 6.0 + _side(d) * 2.5 * sign, d, "6 mm out of the %s lead exit along its cables3d.json direction, "
+                  "%+.1f mm to the side" % (aid, 2.5 * sign)))
+    return cands, (L, D), info
 
 
 # ---------------------------------------------------------------------------------------------- geometry
@@ -1348,7 +1512,7 @@ def main():
             continue
         screw_rows.append(dict(spec=spec, line=s["line"], link=host["link"], sub=host["sub"], node=nid,
                                supplied=("in kit" if re.search(r"servo|kit|bag|comes", str(s["supplied"]), re.I) else "bought"),
-                               desc="%s, %s head" % (s["anchor"] or "", s["head"]), note=s["note"] or ""))
+                               desc="%s, %s head" % (s["anchor"] or "", s["head"]), note=s["note"] or "", washer=s.get("washer")))
     print(screw_note)
 
     # 10c. every cable (altaay_lab/cables3d/cables3d.json): points bound to links; the page builds the tubes
@@ -1440,18 +1604,32 @@ def main():
     extras_path = os.path.join(HERE, "scene_extras.json")
     n_extra = 0
     replaced = OrderedDict()            # placeholder node id -> the small parts that replace its dashed box
+    c3_raw = json.load(open(CABLES3D_JSON)) if os.path.exists(CABLES3D_JSON) else {}
+    E3 = {e["id"]: e for e in (c3_raw.get("cable_ends") or []) if isinstance(e, dict) and e.get("p_world0") is not None}
+    followed = []                       # scene_extras splices moved to their cables3d.json seat of this run
+    bpos, bidx = unit_box()
+    gidx["_solidbox"] = len(geoms)
+    geoms.append(dict(name="small_part_box", pos=bpos, idx=bidx, src_faces=12))
     if os.path.exists(extras_path):
         raw = json.load(open(extras_path))
         items = raw.get("items", raw) if isinstance(raw, dict) else raw
-        bpos, bidx = unit_box()
-        gidx["_solidbox"] = len(geoms)
-        geoms.append(dict(name="small_part_box", pos=bpos, idx=bidx, src_faces=12))
         for it in items:
             c = it.get("center_mm")
             d = it.get("dims_mm")
             if c is None or d is None:
                 continue
             w = np.array(c, float)
+            sid = str(it.get("id", ""))
+            moved = None
+            # a splice that sits on its own cables3d.json seat (blueprint: centre = cable_ends[name]) follows that seat when
+            # the routes move it (cables agent), so the sleeve stays on the cable without a blueprint re-run
+            anc = E3.get(sid[len("splice-"):]) if it.get("kind") == "splice" and sid.startswith("splice-") else None
+            if anc and "splice" in str(anc.get("kind", "")):
+                a = np.array(anc["p_world0"], float)
+                if float(np.linalg.norm(a - w)) > 0.05:
+                    moved = round(float(np.linalg.norm(a - w)), 2)
+                    followed.append("%s %.2f mm" % (sid, moved))
+                    w = a
             link = it.get("link")
             cand = [i for i in inst if i["link"] == link] or inst
             hi = min(cand, key=lambda i: float(np.linalg.norm(np.clip(w, i["bmin"], i["bmax"]) - w)))
@@ -1483,6 +1661,10 @@ def main():
                 man_nodes[nid]["bom_full_rows_also"] = list(it["bom_full_rows_also"])
             if it.get("render"):                     # "translucent": a wrap or skin (kapton on the BMS)
                 man_nodes[nid]["render"] = str(it["render"])
+            if it.get("kind") in ("splice", "heat_shrink"):   # a heat shrink sleeve: BOM_FULL counts it against its joint
+                man_nodes[nid]["sleeve"] = sid
+                if moved:
+                    man_nodes[nid]["mount"] += "; centre moved %.2f mm to its cables3d.json seat of this run" % moved
             ph = "ph-%s" % it["replaces_placeholder"] if it.get("replaces_placeholder") else None
             if ph in man_nodes:
                 replaced.setdefault(ph, []).append(nid)
@@ -1490,6 +1672,112 @@ def main():
         nodes[:] = [n for n in nodes if n["name"] not in replaced]   # the real items replace the dashed placeholder boxes
         print("%d small parts from viewer/scene_extras.json%s" % (n_extra, ("; placeholder boxes replaced: " + ", ".join(
             "%s by %s" % (ph, ", ".join(v)) for ph, v in replaced.items())) if replaced else ""))
+        if followed:
+            print("splices moved to their cables3d.json seats: " + ", ".join(followed))
+        # sleeves blueprint/make_scene_extras.py placed at a fixed offset from a cables3d seat it does not follow here:
+        # warn when the seat moved away (re-run the blueprint script, or let step 10f place them)
+        for it in items:
+            exp = SLEEVE_OFFSET.get(str(it.get("id", "")))
+            anc = E3.get(exp[0]) if exp else None
+            if anc and it.get("center_mm") is not None:
+                dist = float(np.linalg.norm(np.array(anc["p_world0"], float) - np.array(it["center_mm"], float)))
+                if abs(dist - exp[1]) > 1.0:
+                    warnings.append("scene_extras.json %s is %.1f mm from its cables3d.json seat %s (placed %.1f mm off it): "
+                                    "re-run blueprint/make_scene_extras.py" % (it["id"], dist, exp[0], exp[1]))
+
+    # 10f. heat shrink sleeves the netlist calls for (viewer/bom_full.py sleeve_joints, the rule BOM_FULL counts) that
+    # scene_extras.json does not draw: placed now from cables3d.json (cable ends and routed runs), so they follow the routes
+    import bom_full
+    import yaml
+    netlist = yaml.safe_load(open(os.path.join(LAB, "wiring", "netlist.yaml"), encoding="utf-8"))
+    od_of = {}
+    for c3c in c3_raw.get("cables") or []:
+        for wr in c3c.get("wires") or []:
+            if isinstance(wr, dict) and wr.get("od_mm"):
+                od_of.setdefault(wr.get("gauge"), float(wr["od_mm"]))
+    have = {r.get("sleeve") for r in man_nodes.values() if r.get("sleeve")}
+    runs_of = defaultdict(list)
+    for co in cables_out:
+        runs_of[co["cable"]].append(co)
+    sl_new, sl_skip, placed = [], [], []
+    if "_solidcyl" not in gidx:
+        ypos, yidx = cylinder(1.0, 1.0, 24)
+        gidx["_solidcyl"] = len(geoms)
+        geoms.append(dict(name="small_part_cylinder", pos=ypos, idx=yidx, src_faces=int(len(yidx))))
+    joints = bom_full.sleeve_joints(netlist)
+    jmap = {j["id"]: j for j in joints}
+    for rec in man_nodes.values():           # every drawn sleeve names the netlist pin(s) of its joint (verify C1 checks them)
+        if rec.get("sleeve") in jmap:
+            rec["sleeve_pins"] = list(jmap[rec["sleeve"]]["pins"])
+    g27 = np.array(np.meshgrid([-0.45, 0, 0.45], [-0.45, 0, 0.45], [-0.45, 0, 0.45])).reshape(3, -1).T
+
+    def inside_parts(w, ax, L, D):
+        """CAD parts that hold any of 27 sample points of a sleeve (blueprint/check_scene_extras.py method)"""
+        pts = w + (g27 * np.array([D, D, L])) @ rot_z_to(ax).T
+        lo_, hi_ = pts.min(0), pts.max(0)
+        hit = {}
+        for i in inst:
+            if np.any(i["bmax"] < lo_) or np.any(i["bmin"] > hi_):
+                continue
+            if i["id"] not in world_mesh:
+                world_mesh[i["id"]] = src[i["key"]].copy().apply_transform(i["T"])
+            m_ = world_mesh[i["id"]]
+            if m_.is_watertight:
+                n_in = int(m_.contains(pts).sum())
+                if n_in:
+                    hit[i["key"]] = n_in
+        return hit
+
+    for j in joints:
+        if j["id"] in have:
+            continue
+        pl = place_sleeve(j, netlist, E3, runs_of, od_of)
+        if pl is None:
+            sl_skip.append(j["id"])
+            warnings.append("heat shrink sleeve %s (%s %s) has no cables3d.json seat or route to place it on: not drawn" % (
+                j["id"], j["kind"], j["name"]))
+            continue
+        cands, (L, D), how = pl
+
+        def clash(c_):
+            """CAD parts holding the sleeve, plus 'sleeve' when it overlaps a sleeve placed before it in this step"""
+            h_ = inside_parts(c_[0], c_[1], L, D)
+            a_ = c_[0] + np.outer(np.linspace(-0.5, 0.5, 5) * L, _unit(c_[1]))
+            for w2, ax2, L2, D2 in placed:
+                b_ = w2 + np.outer(np.linspace(-0.5, 0.5, 5) * L2, _unit(ax2))
+                if float(np.min(np.linalg.norm(a_[:, None, :] - b_[None, :, :], axis=2))) < (D + D2) / 2.0:
+                    h_["sleeve"] = h_.get("sleeve", 0) + 27
+            return h_
+        tried = [(cands[0], clash(cands[0]))]
+        k_ = 1
+        while tried[-1][1] and k_ < len(cands):       # the first candidate that lies in no CAD part and no other sleeve
+            tried.append((cands[k_], clash(cands[k_])))
+            k_ += 1
+        (w, ax, txt), hit = min(tried, key=lambda x: sum(x[1].values())) if all(h for _, h in tried) else tried[-1]
+        how = dict(how, text=txt + ("; still dips into %s (%s of 27 sample points)" % (", ".join(hit), sum(hit.values())) if hit else ""))
+        if hit:
+            warnings.append("heat shrink sleeve %s lies partly inside %s at every spot tried" % (j["id"], ", ".join(hit)))
+        placed.append((w, ax, L, D))
+        cand = [i for i in inst if i["link"] == E3.get(how["anchor"], {}).get("link")] or inst
+        hi = min(cand, key=lambda i: float(np.linalg.norm(np.clip(w, i["bmin"], i["bmax"]) - w)))
+        M = np.eye(4)
+        M[:3, :3] = rot_z_to(ax) @ np.diag([D, D, L])
+        M[:3, 3] = w
+        nid = "x-%s" % re.sub(r"[^A-Za-z0-9_-]", "_", j["id"])
+        kind = "splice" if j["kind"] == "splice" else "heat_shrink"
+        label = ("Splice %s (%s), solder in adhesive heat shrink" % (j["name"], ", ".join(j["cables"])) if kind == "splice" else
+                 "Heat shrink over the %s joint at %s (%s, %s)" % (j["kind"], j["name"], ", ".join(j["cables"]), j.get("other", "")))
+        man_nodes[nid] = dict(label=label, part=kind, file="(drawn) small part", link=hi["link"], sub=hi["sub"],
+                              category="connector", qty=1, material=None, bom="26",
+                              bom_full_item="Heat shrink pieces (splices and solder joints)", status="OK", blockers=[],
+                              mount="Placed by make_viewer_data.py step 10f from cables3d.json: %s. %s; %s" % (
+                                  how["text"], j["note"], how["size"]), kind=kind, color="#202020" if kind == "splice" else "#2b2b2b",
+                              dims=[L, D, D], v2=np.round(hi["v2"], 2).tolist(), host=hi["id"], sleeve=j["id"],
+                              sleeve_pins=list(j["pins"]))
+        nodes.append(dict(name=nid, mesh=gidx["_solidcyl"], matrix=M))
+        sl_new.append(j["id"])
+    print("heat shrink sleeves placed from cables3d.json (not in scene_extras.json): %d%s%s" % (
+        len(sl_new), (" (" + ", ".join(sl_new) + ")") if sl_new else "", ("; not placed: " + ", ".join(sl_skip)) if sl_skip else ""))
 
     glb_path = os.path.join(out, "duck.glb")
     write_glb(glb_path, geoms, nodes)
