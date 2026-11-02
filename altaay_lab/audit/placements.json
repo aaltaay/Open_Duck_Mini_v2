@@ -13,16 +13,17 @@
    26.0
   ],
   "center_mm": [
-   -71.5,
+   -64.5,
    -0.5,
-   -7.0
+   -9.8
   ],
   "frame": "urdf_world_mm",
   "n_positions": 23851,
   "dist_to_anchor_mm": 67.9,
   "dist_to_imu_mm": 52.7,
   "flat_face_support": 1.0,
-  "score": 67.9
+  "score": 67.9,
+  "seat_fix": "2026-11-01 ET: 2.8 mm lower, onto the 1.1 mm VHB 4950 tape on the belly floor (viewer/MISSING_3D.md seat-fit table), and 7 mm toward +x: behind x -81 the floor rises at a 0.3 slope, so at x -71.5 the lowered box went 1.0 mm into it. Checked clear of the CAD parts, the hip yaw, hip roll and neck pitch sweeps (1 mm) and the cables3d routes. Was (-71.5, -0.5, -7.0)"
  },
  {
   "id": "fuse_holder",
@@ -38,7 +39,7 @@
    22.0
   ],
   "center_mm": [
-   -103.0,
+   -103.9,
    -20.0,
    25.0
   ],
@@ -47,7 +48,8 @@
   "dist_to_anchor_mm": 26.0,
   "dist_to_imu_mm": 31.4,
   "flat_face_support": 0.62,
-  "score": 26.0
+  "score": 26.0,
+  "seat_fix": "2026-11-01 ET: 0.9 mm toward -x, onto the 1.1 mm VHB 4950 tape on battery_pack_lid (viewer/MISSING_3D.md seat-fit table). Was (-103.0, -20.0, 25.0)"
  },
  {
   "id": "mosfet_switch",
@@ -63,7 +65,7 @@
    20.3
   ],
   "center_mm": [
-   -108.5,
+   -110.9,
    24.0,
    36.5
   ],
@@ -72,7 +74,8 @@
   "dist_to_anchor_mm": 54.2,
   "dist_to_imu_mm": 32.9,
   "flat_face_support": 0.6,
-  "score": 54.2
+  "score": 54.2,
+  "seat_fix": "2026-11-01 ET: 2.4 mm toward -x, onto the 1.1 mm VHB 4950 tape on battery_pack_lid (viewer/MISSING_3D.md seat-fit table). Was (-108.5, 24.0, 36.5)"
  },
  {
   "id": "power_splice",
@@ -114,7 +117,7 @@
   ],
   "center_mm": [
    -76.5,
-   44.0,
+   45.9,
    22.5
   ],
   "frame": "urdf_world_mm",
@@ -122,7 +125,8 @@
   "dist_to_anchor_mm": 48.6,
   "dist_to_imu_mm": 49.8,
   "flat_face_support": 1.0,
-  "score": 48.6
+  "score": 48.6,
+  "seat_fix": "2026-11-01 ET: 1.9 mm toward +y, onto the 1.1 mm VHB 4950 tape on the body_middle_bottom side wall (viewer/MISSING_3D.md seat-fit table). Was (-76.5, 44.0, 22.5)"
  },
  {
   "id": "bms_tenergy",

@@ -357,14 +357,25 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
     rows.append(_row(id="C%02d" % n_c, section="Connectors and wire", item="Servo kit cable, 15 cm 5264-3P",
                      spec="one ships with each STS3215 (14 in all)", qty=kit_used, line="1", status="in kit",
                      note="%d used, %d spare" % (kit_used, 14 - kit_used), source="[L] netlist kit cables"))
-    for item, line, q, unit, spec in (
-            ("Mini-SPOX housing, Molex 50-37-5033", "21", len(molex_housings), "pcs", "3 pos 2.5 mm, mates the servo sockets"),
-            ("Mini-SPOX crimp terminal, Molex 08-70-1040", "22", crimps, "pcs", "22 to 28 AWG"),
-            ("Heat shrink pieces (splices and solder joints)", "26", splice_ends + solder_ends, "pcs",
-             "one piece per splice end or bare solder joint (estimate)")):
+    # heat shrink: the pieces the 3D view draws (viewer/scene_extras.json: one per splice, per XT30 cup and per inline
+    # joint) when it has them, else the netlist estimate of one per splice end or bare solder joint
+    sp_ids, hs_ids = by_part.get("splice", []), by_part.get("heat_shrink", [])
+    hs_est = splice_ends + solder_ends
+    if hs_ids:
+        hs = (len(sp_ids) + len(hs_ids), "one piece per splice and per covered joint (3D view count)",
+              "%d splices and %d other sleeves (XT30 cups, inline joints, cut wire ends) from altaay_lab/viewer/scene_extras.json "
+              "(blueprint/make_scene_extras.py); the netlist estimate was %d (1 per splice end and bare solder joint)"
+              % (len(sp_ids), len(hs_ids), hs_est), "[L] altaay_lab/viewer/scene_extras.json", sp_ids + hs_ids)
+    else:
+        hs = (hs_est, "one piece per splice end or bare solder joint (estimate)", "", "[L] netlist wire ends", [])
+    for item, line, q, unit, spec, note, src, ids in (
+            ("Mini-SPOX housing, Molex 50-37-5033", "21", len(molex_housings), "pcs", "3 pos 2.5 mm, mates the servo sockets",
+             "", "[L] netlist wire ends", []),
+            ("Mini-SPOX crimp terminal, Molex 08-70-1040", "22", crimps, "pcs", "22 to 28 AWG", "", "[L] netlist wire ends", []),
+            ("Heat shrink pieces (splices and solder joints)", "26", hs[0], "pcs", hs[1], hs[2], hs[3], hs[4])):
         n_c += 1
         rows.append(_row(id="C%02d" % n_c, section="Connectors and wire", item=item, spec=spec, qty=q, unit=unit, line=line,
-                         status="bought", source="[L] netlist wire ends"))
+                         nodes=list(ids), status="bought", note=note, source=src))
     for (g, col), m in sorted(wire_m.items()):
         n_c += 1
         rows.append(_row(id="C%02d" % n_c, section="Connectors and wire", item="Wire %s %s" % (g, col),

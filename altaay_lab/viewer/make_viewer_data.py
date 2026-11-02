@@ -405,6 +405,9 @@ def load_fasteners(path=FASTENERS_JSON):
         ax = ax if ax is not None else _first(r, "axis_world", "ax_world", "axis", "ax")
         size = str(_first(r, "size", default="M3"))
         L = _first(r, "length_mm", "length", "len", "L")
+        from_drawing = L is None and r.get("draw_length_mm") is not None
+        if from_drawing:                # no stock length chosen (factory case screws, SG90 bag): draw the drawing's length
+            L = r["draw_length_mm"]
         if p is None or ax is None or L is None:
             skipped["no pose or length"] += 1
             continue
@@ -420,6 +423,9 @@ def load_fasteners(path=FASTENERS_JSON):
         ax = np.array(ax, float)
         ax /= np.linalg.norm(ax)
         joins = r.get("joins") if isinstance(r.get("joins"), list) else None
+        note = "; ".join([str(x) for x in (r.get("notes") or [])] + ([sweep["worst_text"]] if sweep.get("worst_text") else [])) or str(_first(r, "note", default=""))
+        if from_drawing:
+            note = "; ".join(x for x in (note, "length from the drawing, not yet chosen") if x)
         out.append(dict(
             fid=str(_first(r, "id", "fid", default="F%03d" % (len(out) + 1))), size=size, d=d, L=float(L), head=head,
             head_d=float(_first(r, "head_d", default=hd)), head_h=float(_first(r, "head_h", default=hh)),
@@ -430,11 +436,13 @@ def load_fasteners(path=FASTENERS_JSON):
             supplied=_first(r, "supplied", "supply", default="bought"),
             engagement=_first(r, "engagement_mm", "e", "engagement"),
             status=("; ".join(str(f) for f in flags) if flags else _first(r, "status", default="OK")),
-            note="; ".join([str(x) for x in (r.get("notes") or [])] + ([sweep["worst_text"]] if sweep.get("worst_text") else [])) or str(_first(r, "note", default="")),
+            note=note,
             spec_label=_first(r, "spec", "label", default=None), color=r.get("color"),
-            flags=flags))
-    return out, "%d screws from altaay_lab/fasteners/fasteners.json%s" % (
-        len(out), (" (skipped: " + ", ".join("%s %d" % kv for kv in skipped.items()) + ")") if skipped else "")
+            flags=flags, from_drawing=from_drawing))
+    n_draw = sum(1 for s in out if s["from_drawing"])
+    return out, "%d screws from altaay_lab/fasteners/fasteners.json%s%s" % (
+        len(out), (", %d with the length from the drawing, not yet chosen" % n_draw) if n_draw else "",
+        (" (skipped: " + ", ".join("%s %d" % kv for kv in skipped.items()) + ")") if skipped else "")
 
 
 def load_cables3d(path=CABLES3D_JSON):
@@ -653,10 +661,12 @@ def camera_from_pilots(Th):
     return None
 
 
-def head_floor_spot(u, inst, src, Th, dims, clearance=1.5, gap=0.5, step=1.0):
+def head_floor_spot(u, inst, src, Th, dims, clearance=1.5, gap=1.1, step=1.0):
     """Free flat spot on the head floor (head_bot_sheet top) under the Pi for a box of dims (x, y, height).
     Obstacles: every head part at zero pose, plus the neck links that move inside the head, swept over the
-    head roll, yaw and pitch ranges (relative to the head). Returns the spot closest to the Pi centre."""
+    head roll, yaw and pitch ranges (relative to the head). Returns the spot closest to the Pi centre.
+    gap: the box sits on the 1.1 mm VHB 4950 foam tape (BOM 29). It was 0.5 mm until the 2026-11-01 seat-fit
+    check (viewer/MISSING_3D.md) found the box 0.59 mm into the tape, so the box is now 0.6 mm higher."""
     pi = [i for i in inst if i["key"] == "pi"]
     fl = [i for i in inst if i["key"] == "head_bot_sheet"]
     if not pi or not fl:
@@ -742,8 +752,8 @@ def head_floor_spot(u, inst, src, Th, dims, clearance=1.5, gap=0.5, step=1.0):
     if best is None:
         return None
     return dict(dims=[float(d) for d in dims], center=[round(best[1], 1), round(best[2], 1), round(z_top + gap + dims[2] / 2.0, 2)],
-                where="Head floor under the Pi: free flat spot found by make_viewer_data.py (clear of head parts and of the "
-                      "neck parts over the head roll, yaw and pitch ranges, %.1f mm clearance)" % clearance,
+                where="Head floor under the Pi, on %.1f mm foam tape: free flat spot found by make_viewer_data.py (clear of head "
+                      "parts and of the neck parts over the head roll, yaw and pitch ranges, %.1f mm clearance)" % (gap, clearance),
                 floor_top_z=round(z_top, 2), dist_to_pi_centre_mm=round(float(best[0]), 1),
                 free_below_pi_mm=round(float(pi["bmin"][2] - z_top), 1))
 
@@ -1402,6 +1412,7 @@ def main():
     # 10e. connectors, splices, resistors, foam pads, discs (altaay_lab/viewer/scene_extras.json): solid small parts
     extras_path = os.path.join(HERE, "scene_extras.json")
     n_extra = 0
+    replaced = OrderedDict()            # placeholder node id -> the small parts that replace its dashed box
     if os.path.exists(extras_path):
         raw = json.load(open(extras_path))
         items = raw.get("items", raw) if isinstance(raw, dict) else raw
@@ -1417,21 +1428,41 @@ def main():
             link = it.get("link")
             cand = [i for i in inst if i["link"] == link] or inst
             hi = min(cand, key=lambda i: float(np.linalg.norm(np.clip(w, i["bmin"], i["bmax"]) - w)))
-            ax = np.array(it.get("axis") or [1, 0, 0], float)
-            ax = ax / (np.linalg.norm(ax) or 1.0)
-            R = rot_z_to(ax)                     # box z along the item's long axis
             M = np.eye(4)
-            M[:3, :3] = R @ np.diag([float(d[1]), float(d[2]), float(d[0])])
+            R3, dl = it.get("rotation_3x3"), it.get("dims_local_mm")
+            if R3 is not None and dl is not None:   # exact box: columns are the world directions of width, height, length
+                M[:3, :3] = np.array(R3, float) @ np.diag([float(dl[1]), float(dl[2]), float(dl[0])])
+                d = dl
+            else:
+                ax = np.array(it.get("axis") or [1, 0, 0], float)
+                ax = ax / (np.linalg.norm(ax) or 1.0)
+                R = rot_z_to(ax)                     # box z along the item's long axis
+                M[:3, :3] = R @ np.diag([float(d[1]), float(d[2]), float(d[0])])
             M[:3, 3] = w
+            round_ = str(it.get("shape") or "").lower() in ("cylinder", "cone")   # a cone is drawn as its cylinder envelope
+            if round_ and "_solidcyl" not in gidx:
+                ypos, yidx = cylinder(1.0, 1.0, 24)
+                gidx["_solidcyl"] = len(geoms)
+                geoms.append(dict(name="small_part_cylinder", pos=ypos, idx=yidx, src_faces=int(len(yidx))))
             n_extra += 1
             nid = "x-%s" % re.sub(r"[^A-Za-z0-9_-]", "_", str(it.get("id", n_extra)))
             man_nodes[nid] = dict(label=str(it.get("label", it.get("id", ""))), part=str(it.get("kind", "other")), file="(drawn) small part",
                                   link=hi["link"], sub=hi["sub"], category="connector", qty=1, material=None,
-                                  bom=it.get("bom_line"), bom_full_row=it.get("bom_full_row"), status="OK", blockers=[],
+                                  bom=it.get("bom_line"), bom_full_row=it.get("bom_full_row"), bom_full_item=it.get("bom_full_item"),
+                                  status="OK", blockers=[],
                                   mount=str(it.get("source", "")), kind=it.get("kind"), color=it.get("color"),
                                   dims=[float(x) for x in d], v2=np.round(hi["v2"], 2).tolist(), host=hi["id"])
-            nodes.append(dict(name=nid, mesh=gidx["_solidbox"], matrix=M))
-        print("%d small parts from viewer/scene_extras.json" % n_extra)
+            if it.get("bom_full_rows_also"):
+                man_nodes[nid]["bom_full_rows_also"] = list(it["bom_full_rows_also"])
+            if it.get("render"):                     # "translucent": a wrap or skin (kapton on the BMS)
+                man_nodes[nid]["render"] = str(it["render"])
+            ph = "ph-%s" % it["replaces_placeholder"] if it.get("replaces_placeholder") else None
+            if ph in man_nodes:
+                replaced.setdefault(ph, []).append(nid)
+            nodes.append(dict(name=nid, mesh=gidx["_solidcyl" if round_ else "_solidbox"], matrix=M))
+        nodes[:] = [n for n in nodes if n["name"] not in replaced]   # the real items replace the dashed placeholder boxes
+        print("%d small parts from viewer/scene_extras.json%s" % (n_extra, ("; placeholder boxes replaced: " + ", ".join(
+            "%s by %s" % (ph, ", ".join(v)) for ph, v in replaced.items())) if replaced else ""))
 
     glb_path = os.path.join(out, "duck.glb")
     write_glb(glb_path, geoms, nodes)
@@ -1564,10 +1595,23 @@ def main():
                                    fasteners=screw_rows or None, cables3d=cable_rows or None, link_sub=LINK_SUB,
                                    ties=tie_rows or None)
     row_by_id = {r["id"]: r for r in bom_full_rows}
+    row_by_item = {}
+    for r in bom_full_rows:
+        row_by_item.setdefault(r["item"], r)
     for nid, rec in man_nodes.items():  # small parts name their BOM_FULL row: link them so the row highlights them
-        rid = rec.get("bom_full_row")
-        if rid in row_by_id and nid not in row_by_id[rid]["nodes"]:
-            row_by_id[rid]["nodes"].append(nid)
+        # by item name first (row ids shift when BOM_FULL is rebuilt), else by the row id they were written with
+        row = row_by_item.get(rec.get("bom_full_item")) or row_by_id.get(rec.get("bom_full_row"))
+        if row is not None:
+            rec["bom_full_row"] = row["id"]           # the page opens the row by this id
+        for r in [row] + [row_by_id.get(x) for x in rec.get("bom_full_rows_also") or []]:
+            if r is not None and nid not in r["nodes"]:
+                r["nodes"].append(nid)
+    for ph, new in replaced.items():   # a replaced placeholder box: rows and notes point at the small parts instead
+        for r in bom_full_rows + bom_rows + extra_rows + notes:
+            if ph in (r.get("nodes") or []):
+                r["nodes"] = list(OrderedDict.fromkeys(x for n in r["nodes"] for x in (new if n == ph else [n])))
+        del man_nodes[ph]
+    summary["placeholders"]["replaced"] = {ph: new for ph, new in replaced.items()}
     for r in bom_full_rows:            # cables carry the first purchase line of their row (wire, kit cable, USB, FPC)
         for nid in r["nodes"]:
             if nid in man_nodes and man_nodes[nid].get("category") == "cable" and r["line"]:
