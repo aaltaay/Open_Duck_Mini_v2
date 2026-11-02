@@ -115,7 +115,7 @@ def evaluate(net, R, quiet=False):
 def main():
     R = V.Result("C2", "Connectors: every wired pin has a mating part or end treatment; crimps fit the Molex 08-70-1040",
                  "VERIFY_OUT=<out> python3 altaay_lab/verify/c2_connectors.py",
-                 "Every end of the 118 wires on active cables vs its pin group's connector (21 classes); housing positions "
+                 "Every end of the wires on active cables vs its pin group's connector class; housing positions "
                  "(one wire each, adapter V empty); housing and terminal counts vs BOM 21/22, CABLE_MAP, WIRING.md; kit cables "
                  "used vs shipped; crimp insulation diameter; connector pins left open",
                  "Pin order inside each housing vs the servo port (TEST_PLAN.md section 2 polarity), crimp quality (section 1), "

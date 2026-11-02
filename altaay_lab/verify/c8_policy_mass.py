@@ -2,10 +2,13 @@
 
 Re-runs sim/added_mass_sim.py (agent M; unchanged, run into the output folder, steps "cases" and "seeds" only, so it
 writes nothing into the repo) and checks:
-  - the model mass equals sim/MASS_BUDGET.md (2.77 kg) and the stock copy equals the trained 2.107 kg
+  - the model mass equals sim/MASS_BUDGET.md ("Our build", read from the file: 2.64 kg since D22, 2.77 kg before) and
+    the stock copy equals the trained 2.107 kg
   - the stock copy reproduces sim/CURRENT_BUDGET.md (bus means)
   - our build: no fall on flat ground in the nominal runs (stand, forward, turn, sideways, backlash, pushes) and in the
-    seeded runs; tracking as written in sim/ADDED_MASS_SIM.md table 1
+    seeded runs; tracking as written in the doc that ran this same mass: sim/ADDED_MASS_SIM.md table 1 (its 2.77 kg
+    build, before D22) or print/MASS_STUDY.md "Walking with the (c) robot" (the D22 build); if neither ran this mass,
+    a WARN says so
   - the margins that sim/ADDED_MASS_SIM.md reports (backward centre of mass) have a hardware test in TEST_PLAN.md
 Usage: VERIFY_OUT=<folder outside the repo> python3 altaay_lab/verify/c8_policy_mass.py
 """
@@ -26,11 +29,21 @@ CB_MEAN = {"stand_in_place": 0.19, "walk_forward_0.15": 2.22, "turn_1.0": 2.38, 
            "walk_rough_backlash": 2.65, "walk_pushes": 1.89}
 
 
+def doc_mass_kg():
+    """build mass in sim/MASS_BUDGET.md ('Our build: **x kg**'), as text, or None"""
+    p = V.lab("sim", "MASS_BUDGET.md")
+    m = re.search(r"Our build: \*\*([0-9.]+) kg\*\*", open(p).read()) if os.path.exists(p) else None
+    return m.group(1) if m else None
+
+
 def main():
-    R = V.Result("C8", "The stock policy walks the robot we will build (2.77 kg) on flat ground (sim/added_mass_sim.py, sim pass only)",
+    mb_kg = doc_mass_kg()
+    R = V.Result("C8", "The stock policy walks the robot we will build (%s kg, sim/MASS_BUDGET.md) on flat ground (sim/added_mass_sim.py, "
+                 "sim pass only)" % (mb_kg or "?"),
                  "VERIFY_OUT=<out> python3 altaay_lab/verify/c8_policy_mass.py",
                  "Model mass vs MASS_BUDGET.md; stock copy vs CURRENT_BUDGET.md; our build in 6 flat cases nominal + 6 seeds "
-                 "each; tracking vs ADDED_MASS_SIM.md table 1; a hardware test for the centre of mass margin",
+                 "each; tracking vs the doc that ran the same mass (ADDED_MASS_SIM.md table 1 or print/MASS_STUDY.md); a hardware "
+                 "test for the centre of mass margin",
                  "Rough terrain (falls for stock and ours), get-up, real servo tracking (issue 48), the real mass and centre "
                  "of mass (not weighed)")
     script = V.lab("sim", "added_mass_sim.py")
@@ -39,7 +52,9 @@ def main():
         R.not_run("sim/added_mass_sim.py or sim/ADDED_MASS_SIM.md not found (sim agent output not landed)")
         R.write()
         return
-    R.inp(script, doc, V.lab("sim", "MASS_BUDGET.md"), V.lab("sim", "mass_budget.py"), V.lab("TEST_PLAN.md"))
+    study = V.lab("print", "MASS_STUDY.md")
+    R.inp(script, doc, V.lab("sim", "MASS_BUDGET.md"), V.lab("sim", "mass_budget.py"), V.lab("TEST_PLAN.md"),
+          *([study] if os.path.exists(study) else []))
     scr = os.path.join(V.out_dir(), "c8_added_mass")
     os.makedirs(scr, exist_ok=True)
     env = {k: v for k, v in os.environ.items() if k != "ODM_OUT"}
@@ -77,8 +92,28 @@ def main():
     R.ev("stock copy reproduces the CURRENT_BUDGET.md bus means in %d of %d cases" % (len(CB_MEAN) - len(bad), len(CB_MEAN)))
     if bad:
         R.find("FAIL", "stock copy differs from CURRENT_BUDGET.md in %s" % bad)
-    tab = [t for t in V.md_tables(doc) if t["header"][:4] == ["Case", "Model", "Falls (s)", "Tracking (measured / command)"]]
-    drow = {(r["Case"], r["Model"]): r for r in (tab[0]["rows"] if tab else [])}
+    # the doc whose walk ran this model mass: ADDED_MASS_SIM.md (its own build mass) or MASS_STUDY.md variant (c)
+    ours_kg = float(m_ou.group(1)) if m_ou else None
+    am = re.search(r"robot we will build\*\* \(([0-9.]+) kg", open(doc).read())
+    am_kg = float(am.group(1)) if am else None
+    ms_txt = open(study).read() if os.path.exists(study) else ""
+    ms = re.search(r"^\| \(c\)[^|]*\| ([0-9.]+) \| \+", ms_txt, re.M)
+    ms_kg = float(ms.group(1)) / 1000.0 if ms else None
+    ref = {}          # case key -> documented tracking
+    if ours_kg is not None and am_kg is not None and abs(ours_kg - am_kg) <= 0.006:
+        tab = [t for t in V.md_tables(doc) if t["header"][:4] == ["Case", "Model", "Falls (s)", "Tracking (measured / command)"]]
+        drow = {(r["Case"], r["Model"]): r for r in (tab[0]["rows"] if tab else [])}
+        ref = {c: drow.get((DOCNAME[c], "ours"), {}).get("Tracking (measured / command)") for c in FLAT}
+        R.ev("tracking compared with sim/ADDED_MASS_SIM.md table 1 (its build %.2f kg = this model)" % am_kg)
+    elif ours_kg is not None and ms_kg is not None and abs(ours_kg - ms_kg) <= 0.006:
+        tab = [t for t in V.md_tables(study) if t["header"][:4] == ["Case (nominal run)", "trained (stock)", "(b) today", "(c) proposed"]]
+        ref = {r["Case (nominal run)"]: r["(c) proposed"] for r in (tab[0]["rows"] if tab else [])}
+        R.ev("tracking compared with print/MASS_STUDY.md variant (c), the D22 build (%.4f kg = this model); sim/ADDED_MASS_SIM.md "
+             "table 1 is its %.2f kg build (before D22) and is not compared" % (ms_kg, am_kg or 0))
+    else:
+        R.find("WARN", "no doc records the walk of this model mass (%s kg): sim/ADDED_MASS_SIM.md ran %s kg, print/MASS_STUDY.md (c) %s kg"
+               % (m_ou.group(1) if m_ou else "?", am_kg, "%.4f" % ms_kg if ms_kg else "?"),
+               fix="re-run sim/added_mass_sim.py and update sim/ADDED_MASS_SIM.md table 1", where="altaay_lab/sim/ADDED_MASS_SIM.md")
     for c in FLAT:
         o = cases["ours"][c]
         fl = o["falls"]
@@ -86,10 +121,10 @@ def main():
         tr = g.get("track_lin") if c not in ("turn_1.0",) else g.get("track_yaw", None)
         tr = tr if tr is not None else g.get("track_lin")
         sd = seeds["ours"].get(c)
-        d = drow.get((DOCNAME[c], "ours"), {})
-        dtr = V.num(d.get("Tracking (measured / command)"))
+        dcell = ref.get(c) or ""
+        dtr = V.num(dcell) if not re.search(r"fell", dcell) else None
         R.ev("ours, %s: falls %s; tracking %s (doc %s); seeds fell %s" % (
-            DOCNAME[c], fl or "none", "%.2f" % tr if tr is not None else "-", d.get("Tracking (measured / command)", "-") or "-",
+            DOCNAME[c], fl or "none", "%.2f" % tr if tr is not None else "-", dcell or "-",
             "%d of %d" % (sd["n_fell"], sd["n"]) if sd else "not run (stand)"))
         if fl:
             R.find("FAIL", "our build falls on flat ground: %s at %s s" % (DOCNAME[c], fl),
@@ -97,8 +132,8 @@ def main():
         if sd and sd["n_fell"]:
             R.find("FAIL", "our build falls in %d of %d seeded runs: %s" % (sd["n_fell"], sd["n"], DOCNAME[c]))
         if dtr is not None and tr is not None and abs(dtr - tr) > 0.011:
-            R.find("FAIL", "%s tracking %.2f differs from ADDED_MASS_SIM.md %.2f" % (DOCNAME[c], tr, dtr),
-                   fix="re-run sim/added_mass_sim.py and update table 1", where="altaay_lab/sim/ADDED_MASS_SIM.md")
+            R.find("FAIL", "%s tracking %.2f differs from the doc that ran this mass (%.2f)" % (DOCNAME[c], tr, dtr),
+                   fix="re-run the walk and update the doc's table", where="altaay_lab/sim/ADDED_MASS_SIM.md or print/MASS_STUDY.md")
     nfall = sum(1 for c in FLAT if cases["ours"][c]["falls"]) + sum(seeds["ours"][c]["n_fell"] for c in FLAT if c in seeds["ours"])
     nrun = len(FLAT) + sum(seeds["ours"][c]["n"] for c in FLAT if c in seeds["ours"])
     R.key("our build %s kg: %d falls in %d flat-ground runs; forward speed %.2f of the command (trained mass %.2f)" % (
@@ -112,7 +147,8 @@ def main():
         R.find("WARN", "the walk margin to a backward centre of mass is only about 4 to 6 mm (ADDED_MASS_SIM.md table 7, finding 2) "
                "and TEST_PLAN.md has no step that weighs the robot or finds its centre of mass",
                fix="add the step proposed in sim/ADDED_MASS_SIM.md ('Proposed text', TEST_PLAN.md section 8 step 0: weigh the robot "
-                   "and find its centre of mass at the home pose; expected 2.77 +/- 0.05 kg, 0 to 1 mm ahead of the ankle axes)",
+                   "and find its centre of mass at the home pose; expected %s +/- 0.05 kg by sim/MASS_BUDGET.md, about 1 mm ahead "
+                   "of the ankle axes)" % (mb_kg or "?"),
                where="altaay_lab/TEST_PLAN.md section 8")
     R.write()
 

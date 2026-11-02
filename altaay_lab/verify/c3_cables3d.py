@@ -49,7 +49,7 @@ def arc_radius(c, a):
 def main():
     R = V.Result("C3", "Every active cable has a 3D route whose worst length plus slack fits its cut, and a service loop at every joint",
                  "VERIFY_OUT=<out> python3 altaay_lab/verify/c3_cables3d.py",
-                 "45 active cables: route present and routed, wires and cut lengths as in the netlist, worst length over the "
+                 "Every active cable: route present and routed, wires and cut lengths as in the netlist, worst length over the "
                  "joint ranges + 40 mm vs cut, netlist joints vs 3D crossings, loop radius at every crossing vs 3 x OD, ties",
                  "Real cable stiffness and where the slack sits, connector back-shell sizes (Molex drawing not reached), "
                  "rubbing against moving parts beyond the cables3d sweep (TEST_PLAN.md section 1.4 test fit)")

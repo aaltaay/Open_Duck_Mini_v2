@@ -24,7 +24,7 @@
 | Splices | C49 | 13 | 1 box | 13 | scene_extras | power_splice box still drawn too |
 | Resistors 100 ohm, 2.2 kOhm | E19, E17 | 3, 2 | 0 | 3, 2 | scene_extras | body size UNVERIFIED |
 | Heat shrink on splices, cups, inline joints | C49 | 27 | 0 | 27 | scene_extras | BOM_FULL counts 137 (1 per splice end and per bare pad) |
-| Foam tape pads | K10 | 6 | 0 | 6 | scene_extras (MOUNTING.md faces) | seats off the surface: table below |
+| Foam tape pads | K10 | 6 | 0 | 6 | scene_extras (MOUNTING.md faces) | none: all 6 seats on their tape within 0.04 mm (table below) |
 | Eye glass discs, projector reflector | E23, E24 | 2, 1 | 0 | 2, 1 | scene_extras (measured seats) | reflector height (test order 10) |
 | microSD card, ATO 15 A fuse | E15, E14 | 1, 1 | 0 | 1, 1 | scene_extras | fuse size UNVERIFIED |
 | SG90 horns (SG90 bag) | S17 | 2 | 0 | 2 | scene_extras | not in CAD; size UNVERIFIED |
@@ -32,13 +32,15 @@
 | Retention not decided | none | 3 | 0 | 0 | MOUNTING.md | power splices (tie or tape), speaker (B8), LED beads (no doc) |
 | No body in the robot | E25, K09, K11, C46, C50 to C62, tools | | | | | controller off robot; threadlocker and flux; kit cable and wire stock drawn as plugs and tubes |
 
-| Seat vs mounting surface (1.1 mm VHB 4950) | Surface | Box to surface | After tape | Fix |
+Seat-fit table refreshed 2026-11-02 about 12:05 AM ET from audit/placements.json (seat fixes applied 2026-11-01) and blueprint/coverage.json foam_fit (scene_extras run 04:08 UTC): every taped part now sits on its 1.1 mm VHB 4950 tape within 0.04 mm. blueprint/check_scene_extras.py, run 2026-11-01 about 11:58 PM ET: 1 of 166 items embedded (the P3 joint).
+
+| Seat vs mounting surface (1.1 mm VHB 4950) | Surface | Box to surface | After tape | Seat now (zero pose, mm) |
 |---|---|---|---|---|
-| bec_pro | body_middle_bottom floor | 3.89 mm (2.78 min) | 2.79 gap | lower 2.8 mm |
-| fuse_holder | battery_pack_lid | 2.01 mm | 0.91 gap | move 0.9 mm to -x |
-| mosfet_switch | battery_pack_lid | 3.46 mm | 2.36 gap | move 2.4 mm to -x |
-| usb_slack | body_middle_bottom side wall | 3.01 mm | 1.91 gap | move 1.9 mm to +y |
-| reg_5v | head_bot_sheet | 0.51 mm | 0.59 overlap | raise 0.6 mm |
-| amp | head_bot_sheet | 0.51 mm | 0.59 overlap | raise 0.6 mm |
-| P3 joint on the holder strap (PACK.MID) | holder face pressed on body_back | 0 | no room | choose another strap access point |
-| Projector reflector (15 mm tall) | 10.2 mm seat | | 4.8 mm proud | check on test order 10 |
+| bec_pro | body_middle_bottom floor | 1.09 mm | 0.01 overlap | (-64.5, -0.5, -9.8): 2.8 mm lower and 7 mm to +x, where the floor slopes up behind x -81 |
+| fuse_holder | battery_pack_lid | 1.11 mm | 0.01 gap | (-103.9, -20.0, 25.0): 0.9 mm to -x |
+| mosfet_switch | battery_pack_lid | 1.06 mm | 0.04 overlap | (-110.9, 24.0, 36.5): 2.4 mm to -x |
+| usb_slack | body_middle_bottom side wall | 1.11 mm | 0.01 gap | (-76.5, 45.9, 22.5): 1.9 mm to +y |
+| reg_5v | head_bot_sheet | 1.11 mm | 0.01 gap | (40.6, 54.4, 182.6): 0.6 mm up |
+| amp | head_bot_sheet | 1.11 mm | 0.01 gap | (62.0, -68.0, 180.1): 0.6 mm up (cables3d terminals) |
+| P3 joint on the holder strap (PACK.MID) | holder face pressed on body_back | 0 | no room: still inside the holder | open: choose another strap access point |
+| Projector reflector (15 mm tall) | 10.2 mm seat | | 4.8 mm proud | open: check on test order 10 |

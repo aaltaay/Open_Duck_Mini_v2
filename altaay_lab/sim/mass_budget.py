@@ -460,6 +460,9 @@ def wires(u, inst, servo_pos, pl, head_pt, pi_c, reg_c, amp_c, spk_c, cam_c):
     pos = {"PACK": (holder, "trunk_assembly"), "BMS": (P("bms_tenergy"), "trunk_assembly"), "CHG": (charger, "trunk_assembly"),
            "XT30": (holder + np.array([0, 0.03, 0]), "trunk_assembly"),          # 'body_back, left of the holder' (MOUNTING.md, Tnkr), about 30 mm to +y
            "F1": (P("fuse_holder"), "trunk_assembly"), "SW1": (P("mosfet_switch"), "trunk_assembly"), "CTL": (ctl, "trunk_assembly"),
+           # JFI, JFO: the inline splices that extend the two fuse holder leads with 16 AWG (netlist P7, 2026-11-02), placed at the
+           # fuse holder seat (audit/placements.json fuse_holder), as VSW and G sit at the mosfet_switch seat
+           "JFI": (P("fuse_holder"), "trunk_assembly"), "JFO": (P("fuse_holder"), "trunk_assembly"),
            "VSW": (P("mosfet_switch"), "trunk_assembly"), "G": (P("mosfet_switch"), "trunk_assembly"),
            "U1": (P("bec_pro"), "trunk_assembly"), "JBP": (P("bec_pro"), "trunk_assembly"), "JBN": (P("bec_pro"), "trunk_assembly"),
            "U2": (ADAPTER, "trunk_assembly"), "SPV": (P("power_splice"), "trunk_assembly"), "SPG": (P("power_splice"), "trunk_assembly"),

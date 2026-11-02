@@ -17,11 +17,10 @@ import vlib as V  # noqa: E402
 
 R = V.Result("E1", "Electrical rule check of the netlist (audit/erc.py) plus mutation test",
              "VERIFY_OUT=<out> python3 altaay_lab/verify/e1_erc.py",
-             "References, pin use, shorts between nets, voltage domains of 'in' and 'bidir' pins, ampacity of wires that "
+             "References, pin use, shorts between nets, voltage domains of 'in', 'bidir' and 'pwr_in' pins, ampacity of wires that "
              "carry a current in the netlist, Molex 08-70-1040 crimp gauge, 5264 connector match; committed report is current; "
              "10 injected faults",
-             "Wires with no current in the netlist (SP1 to SP3, kit cables: see C7); pwr_in pins in the domain rule (see "
-             "mutation M6); anything not written in netlist.yaml")
+             "Wires with no current in the netlist (see C7); anything not written in netlist.yaml")
 OUT = os.path.join(V.out_dir(), "e1_erc")
 os.makedirs(OUT, exist_ok=True)
 NET = V.lab("wiring", "netlist.yaml")
@@ -136,6 +135,7 @@ MUT = [  # id, what, function, (check section, severity expected)
     ("M10", "wire left on removed cable S14", m_removed, ("references", "ERROR")),
 ]
 caught = 0
+missed = []
 for mid, what, fn, (sec, want) in MUT:
     d = copy.deepcopy(base)
     fn(d)
@@ -146,6 +146,8 @@ for mid, what, fn, (sec, want) in MUT:
     base_n = (sev.get(sec) or {}).get(want, 0)
     ok = t2 is not None and got > base_n
     caught += ok
+    if not ok:
+        missed.append(what)
     R.find("INFO" if ok else "WARN", "%s %s: %s (expected %s in '%s'; got %s)" % (
         mid, "caught" if ok else "NOT caught", what, want, sec, s2.get(sec)),
         fix=None if ok else ("audit/erc.py check 4: treat pwr_in like in and bidir, i.e. "
@@ -153,10 +155,11 @@ for mid, what, fn, (sec, want) in MUT:
                              "extend audit/erc.py so it reports this fault"),
         where="altaay_lab/audit/erc.py" if not ok else None)
 R.ev("mutation test: %d of %d injected faults caught" % (caught, len(MUT)))
-R.key("%d ERROR, %d WARN on 56 components and 118 wires; committed report and beep list current: %s; injected faults caught: "
-      "%d of %d (missed: pack voltage on a pwr_in pin)" % (tot[0], tot[1], same_rep and same_chk, caught, len(MUT)))
+R.key("%d ERROR, %d WARN on %d components and %d wires; committed report and beep list current: %s; injected faults caught: "
+      "%d of %d%s" % (tot[0], tot[1], len(base.get("components") or []), len(base.get("wires") or []), same_rep and same_chk, caught,
+                      len(MUT), " (missed: %s)" % "; ".join(missed) if missed else ""))
 
-# extended domain rule on the real netlist (what M6 shows the ERC does not do): every pwr_in pin vs the net it is on
+# extended domain rule on the real netlist (erc.py checks pwr_in pins since 2026-11-02; kept as an independent check)
 nets, domains = base["nets"], base["domains"]
 pins = {"%s.%s" % (c["id"], p["pin"]): p for c in base["components"] for p in (c.get("pins") or [])}
 bad = []
@@ -170,7 +173,7 @@ for w in base["wires"]:
         if vp is not None and vn is not None and vn > vp + 0.1:
             bad.append("%s (%s, max %s V) on net %s (max %s V)" % (w[end], p.get("domain"), vp, w.get("net"), vn))
 n_pwr_in = sum(1 for w in base["wires"] for e in ("from", "to") if (pins.get(w[e]) or {}).get("dir") == "pwr_in")
-R.ev("extended domain rule (pwr_in pins, not in erc.py): %d wire ends on pwr_in pins, %d over their domain" % (n_pwr_in, len(bad)))
+R.ev("extended domain rule (pwr_in pins, independent of erc.py): %d wire ends on pwr_in pins, %d over their domain" % (n_pwr_in, len(bad)))
 for b in bad:
     R.find("FAIL", "power input above its domain: " + b, fix="check the part rating; fix the net or the pin domain")
 R.write()
