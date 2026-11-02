@@ -1,0 +1,1288 @@
+#!/usr/bin/env python3
+"""Build the data for the Open Duck Mini v2 exploded parts-check page.
+
+What it does (re-run it any time the docs, the STLs or placements.json change):
+1. Poses the robot from robot.urdf at zero joint angles with yourdfpy (translations x1000 to mm,
+   same as audit/assemble.py). Every printed URDF mesh is swapped for its print/ STL (same part
+   frame; the script checks the bounds agree within 0.05 mm).
+2. Adds the head parts that exist only in print/ (audit/headgroup.py): they are modelled in the
+   head.stl frame, so they get the head.stl instance transform; the second bulb is mirrored in y.
+3. Draws the M3 heat-set inserts from audit/sites.json (a bore in a printed part, diameter 3.8 to
+   4.3 mm, length >= 5.0 mm) as brass cylinders, D 4.6 x 5.7 mm.
+4. Adds placeholder boxes for bought parts that are not in the CAD. Positions come from
+   audit/placements.json when it exists (re-read on every run, frame urdf_world_mm); the Omron
+   foot switches go in the measured foot_top slots; everything else goes in a "Not yet placed" tray.
+5. Decimates the meshes for the web (one geometry per unique STL, reused by every instance),
+   splits vertices at sharp edges (the page computes normals) and writes:
+     <out>/duck.glb       nodes in mm, URDF frame (x forward, y left, z up) under a root node that
+                          turns it to glTF y-up and scales to metres
+     <out>/duck.glb.txt   the same GLB as base64 text (the artifact host does not serve .glb files)
+     <out>/manifest.json  node id -> label, file, subassembly, category, qty, material, print g/h,
+                          BOM line, mount note, status; the checklist; the explode vectors.
+Docs parsed on every run: PRINT_CHECK.md, BOM.md, HARDWARE_AUDIT.md (section 6 blockers).
+
+The output folder must be outside the repo (no models in git).
+Usage: python3 make_viewer_data.py --out /path/outside/the/repo
+"""
+import argparse
+import json
+import os
+import re
+import struct
+import sys
+import time
+from collections import Counter, defaultdict
+
+import numpy as np
+import trimesh
+import yourdfpy
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+LAB = os.path.dirname(HERE)
+REPO = os.path.dirname(LAB)
+URDF_DIR = os.path.join(REPO, "mini_bdx", "robots", "open_duck_mini_v2")
+PRINT_DIR = os.path.join(REPO, "print")
+AUDIT = os.path.join(LAB, "audit")
+PLACEMENTS = os.environ.get("ODM_PLACEMENTS", os.path.join(AUDIT, "placements.json"))
+
+INSERT_D, INSERT_L = 4.6, 5.7          # CNC Kitchen M3 x 5.7, D1 4.6 (BOM line 16)
+INSERT_BORE = (3.8, 4.3, 5.0)          # bore diameter range and minimum length, mm
+
+# ----------------------------------------------------------------------------------------------
+# Catalog of modelled parts that are not printed (URDF mesh file -> part key, label, category, BOM)
+BOUGHT = {
+    "wj-wk00-0122topcabinetcase_95.stl": ("servo_top", "STS3215 servo case, top", "servo", "1"),
+    "wj-wk00-0123middlecase_56.stl": ("servo_mid", "STS3215 servo case, middle", "servo", "1"),
+    "wj-wk00-0124bottomcase_45.stl": ("servo_bottom", "STS3215 servo case, bottom", "servo", "1"),
+    "drive_palonier.stl": ("horn_drive", "Servo horn, drive side", "horn", "1"),
+    "passive_palonier.stl": ("horn_idle", "Servo horn, idle side", "horn", "1"),
+    "roll_bearing.stl": ("bearing", "6804ZZ ball bearing 20 x 32 x 7", "bearing", "18"),
+    "cell.stl": ("cell", "Molicel INR18650-P30B cell", "battery", "6"),
+    "holder.stl": ("holder", "2 x 18650 cell holder", "battery", "7"),
+    "bms.stl": ("bms_cad", "2S BMS, upstream CAD body", "electronics", "8"),
+    "usb_c_charger.stl": ("charger", "USB-C 2S charge board", "electronics", "11"),
+    "power_switch.stl": ("power_switch", "Control switch, stock panel slide switch (CAD body)", "electronics", "10b"),
+    "raspberrypizerow.stl": ("pi", "Raspberry Pi Zero 2 W", "electronics", "3"),
+    "bno055.stl": ("imu", "Adafruit BNO055 IMU (2472)", "electronics", "5"),
+    "sg90.stl": ("sg90", "SG90 antenna servo", "servo", "14"),
+    "antenna.stl": ("antenna", "Antenna rod", "other", None),
+    # board.stl is split by link below: trunk = servo adapter, head = Pi footprint copy (B7)
+}
+BOARD = {"trunk_assembly": ("adapter", "Waveshare Bus Servo Adapter (A)", "electronics", "2"),
+         "head_assembly": ("head_board", "board.stl copy in the head (Pi footprint, B7)", "electronics", None)}
+
+HEAD_INTERNALS = ["left_eye", "right_eye", "bulb", "bulb", "flash_light_module",
+                  "flash_reflector_interface", "speaker_stand", "speaker_interface"]
+
+# Servo IDs per joint (WIRING.md section 2, from the Runtime and the assembly guide)
+SERVO_ID = {"left_hip_yaw": 20, "left_hip_roll": 21, "left_hip_pitch": 22, "left_knee": 23, "left_ankle": 24,
+            "right_hip_yaw": 10, "right_hip_roll": 11, "right_hip_pitch": 12, "right_knee": 13, "right_ankle": 14,
+            "neck_pitch": 30, "head_pitch": 31, "head_yaw": 32, "head_roll": 33}
+
+# Subassemblies: link -> subassembly; groups are for the isolate menu
+LINK_SUB = {
+    "trunk_assembly": "trunk",
+    "neck_pitch_assembly": "neck", "head_pitch_to_yaw": "neck", "neck_yaw_assembly": "neck",
+    "head_assembly": "head", "left_antenna_holder": "head", "right_antenna_holder": "head",
+    "hip_roll_assembly": "left_hip", "left_roll_to_pitch_assembly": "left_bracket",
+    "knee_and_ankle_assembly": "left_thigh", "knee_and_ankle_assembly_2": "left_shin", "foot_assembly": "left_foot",
+    "hip_roll_assembly_2": "right_hip", "right_roll_to_pitch_assembly": "right_bracket",
+    "knee_and_ankle_assembly_3": "right_thigh", "knee_and_ankle_assembly_4": "right_shin", "foot_assembly_2": "right_foot",
+}
+SUBS = [  # id, label, group, level-1 explode vector (mm at full explode)
+    ("head", "Head", "head_neck", (0, 0, 300)),
+    ("neck", "Neck", "head_neck", (0, 0, 165)),
+    ("trunk", "Trunk", "trunk", (0, 0, 0)),
+    ("left_hip", "Left hip", "left_leg", (0, 75, -35)),
+    ("left_bracket", "Left hip bracket", "left_leg", (0, 120, -60)),
+    ("left_thigh", "Left thigh", "left_leg", (0, 165, -105)),
+    ("left_shin", "Left shin", "left_leg", (0, 165, -175)),
+    ("left_foot", "Left foot", "left_leg", (0, 165, -245)),
+    ("right_hip", "Right hip", "right_leg", (0, -75, -35)),
+    ("right_bracket", "Right hip bracket", "right_leg", (0, -120, -60)),
+    ("right_thigh", "Right thigh", "right_leg", (0, -165, -105)),
+    ("right_shin", "Right shin", "right_leg", (0, -165, -175)),
+    ("right_foot", "Right foot", "right_leg", (0, -165, -245)),
+    ("tray", "Not yet placed", "tray", (0, -190, -245)),
+]
+GROUPS = [("head_neck", "Head and neck"), ("trunk", "Trunk"), ("left_leg", "Left leg"),
+          ("right_leg", "Right leg"), ("tray", "Not yet placed tray")]
+
+# Level-2 explode overrides (mm at full explode): (subassembly, part key) -> vector.
+# Everything else moves radially away from its subassembly centre.
+V2 = {
+    # trunk: front forward, back and battery bay backward in a stack, belly shells up and down
+    ("trunk", "body_front"): (80, 0, 0),
+    ("trunk", "body_back"): (-125, 0, 0),
+    ("trunk", "battery_pack_lid"): (-30, 0, 0),
+    ("trunk", "holder"): (-60, 0, 0),
+    ("trunk", "cell"): (-88, 0, 0),
+    ("trunk", "bms_cad"): (-60, -26, 0),
+    ("trunk", "bms_tenergy"): (-60, -26, 0),
+    ("trunk", "charger"): (-100, -26, 0),
+    ("trunk", "power_switch"): (-100, 0, 30),
+    ("trunk", "body_middle_top"): (0, 0, 115),
+    ("trunk", "body_middle_bottom"): (0, 0, -85),
+    ("trunk", "trunk_top"): (0, 0, 42),
+    ("trunk", "trunk_bottom"): (0, 0, -22),
+    ("trunk", "adapter"): (0, 0, 78),
+    ("trunk", "imu"): (0, 0, -18),
+    ("trunk", "bearing"): (0, 0, -48),
+    # head: shell lifts off, floor drops, face parts forward, side lamp out to the left
+    ("head", "head"): (0, 0, 150),
+    ("head", "head_bot_sheet"): (0, 0, -40),
+    ("head", "left_eye"): (70, 0, 0),
+    ("head", "right_eye"): (70, 0, 0),
+    ("head", "bulb"): (42, 0, 0),
+    ("head", "flash_light_module"): (10, 60, 0),
+    ("head", "flash_reflector_interface"): (22, 100, 0),
+    ("head", "speaker_stand"): (0, -30, 0),
+    ("head", "speaker_interface"): (0, -62, 0),
+    ("head", "pi"): (0, 0, 72),
+    ("head", "head_board"): (0, 0, 72),
+    ("head", "head_roll_mount"): (0, 0, 92),
+    ("head", "bearing"): (-40, 0, 0),
+    ("head", "camera"): (60, 0, 20),
+    ("neck", "neck_left_sheet"): (0, 30, 0),
+    ("neck", "neck_right_sheet"): (0, -30, 0),
+    ("neck", "head_pitch_to_yaw"): (0, 0, 22),
+    ("neck", "head_yaw_to_roll"): (0, 0, 52),
+}
+# Servo groups: explode vector of the whole servo inside its subassembly (by joint)
+V2_SERVO = {
+    "left_hip_yaw": (0, 52, 10), "right_hip_yaw": (0, -52, 10), "neck_pitch": (40, 0, 30),
+    "head_pitch": (40, 0, 0), "head_yaw": (55, 0, 52), "head_roll": (30, 0, 25),
+}
+HORN_PULL, INSERT_PULL = 14.0, 11.0     # extra pull along the horn axis / insert bore, mm
+SHORT = {"bec_pro": "BEC Pro", "fuse_holder": "Fuse holder", "mosfet_switch": "Pololu 2815", "bms_tenergy": "Tenergy BMS",
+         "reg_5v": "5 V reg", "xt30": "XT30U", "amp": "Amp", "speaker": "Speaker", "camera": "Camera", "led": "LED",
+         "foot_switch": "SS-10"}
+
+# Placeholders for bought parts that are not in the CAD. ids match audit/place_parts.py.
+PLACEHOLDERS = [
+    dict(id="bec_pro", label="Castle CC BEC Pro (servo 7.2 V regulator)", dims=[47, 33, 24], bom="L1",
+         blockers=["B11", "B28"], dims_note="47 x 33 x 24 mm envelope (Castle page lists 33 x 47 x 22).",
+         mount="No seat in the CAD (B11). Needs a lab placement and a clearance check."),
+    dict(id="fuse_holder", label="Littelfuse FHAC0001ZXJ inline ATO fuse holder", dims=[45, 20, 15], bom="L3",
+         blockers=["B11", "B28"], dims_note="Dims NOT verified: 45 x 20 x 15 mm stand-in.",
+         mount="Inline on lead P7 after the XT30, 16 AWG leads 89.5 mm (Littelfuse page). No position yet (B11)."),
+    dict(id="mosfet_switch", label="Pololu 2815 Big MOSFET Slide Switch HP", dims=[20.3, 25.4, 4.1], bom="10",
+         blockers=["B22"], dims_note="20.3 x 25.4 x 4.1 mm.",
+         mount="Candidate for the power switch line. B22: 6 A continuous at 55 C, the body_back cutout fits the stock rocker."),
+    dict(id="bms_tenergy", label="Tenergy 32175 2S protection board", dims=[34, 16, 4.5], bom="8",
+         blockers=["B12"], dims_note="34 x 16 x 4.5 mm.",
+         mount="Replaces the modelled bms.stl (shown solid at the upstream position). Sandwiched between body_back and battery_pack_lid."),
+    dict(id="reg_5v", label="5 V regulator (Pololu step-down)", dims=[18, 18, 8], bom="9",
+         blockers=["B11", "B28"], dims_note="About 18 x 18 x 8 mm (approximate).",
+         mount="Not in CAD. BOM.md line 9 still names the HENGE UBEC (Tnkr puts it on the head floor, right half)."),
+    dict(id="xt30", label="XT30U connector pair, mated", dims=[32, 10, 5.2], bom="12",
+         blockers=[], dims_note="About 32 x 10 x 5.2 mm mated (approximate).",
+         mount="Inline on the pack lead, no screws. Tnkr: left of the cell holder, standing."),
+    dict(id="amp", label="Adafruit MAX98357A I2S amp (3006)", dims=[19, 18, 3], bom="E2",
+         blockers=[], dims_note="About 19 x 18 x 3 mm (approximate).",
+         mount="Not in CAD, no mount (BOM E2). Tnkr: head floor, right of the speaker stand, foam tape."),
+    dict(id="speaker", label="Speaker 40 mm, 4 ohm, 3 W", dims=[40, 40, 20], bom="E1",
+         blockers=["B8"], dims_note="40 x 40 x 20 mm (uxcell listing). CAD envelope is 38.5 x 38.7 x 15.",
+         mount="Sits in speaker_interface on speaker_stand. No clip or screw in CAD (B8)."),
+    dict(id="camera", label="Raspberry Pi Camera Module 3", dims=[25, 24, 11.5], bom="E6",
+         blockers=["B9"], dims_note="25 x 24 x 11.5 mm.",
+         mount="4 x M2x4 self-tapping into head.stl pilots 1.65 mm on 20.9 x 12.5 (B9 cleared; screw length on the test order)."),
+    dict(id="led_1", label="1 W LED bead (left eye)", dims=[8, 8, 5], bom="E3", blockers=[],
+         dims_note="Size not given: 8 x 8 x 5 mm stand-in.", mount="Behind the left bulb, 100 ohm resistor (B23 cleared)."),
+    dict(id="led_2", label="1 W LED bead (right eye)", dims=[8, 8, 5], bom="E3", blockers=[],
+         dims_note="Size not given: 8 x 8 x 5 mm stand-in.", mount="Behind the right bulb, 100 ohm resistor (B23 cleared)."),
+    dict(id="led_3", label="1 W LED bead (projector)", dims=[8, 8, 5], bom="E3", blockers=[],
+         dims_note="Size not given: 8 x 8 x 5 mm stand-in.", mount="In the flash reflector interface; retention needs the real reflector (B8)."),
+]
+FOOT_SWITCH = dict(label="Omron SS-10 foot switch", dims=[6.4, 19.8, 10.2], bom="13", blockers=[],
+                   dims_note="19.8 x 6.4 x 10.2 mm body (Omron SS datasheet).",
+                   mount="Press fit in a foot_top slot 6.4 x 19.8 mm, lever down toward foot_bottom (B11 seat cleared). "
+                         "Height inside the 7.8 mm slot not verified.")
+
+# Blockers per part key (HARDWARE_AUDIT.md section 6). Status is read from the doc on every run.
+BLOCKERS = {
+    "servo": ["B2", "B6", "B10", "B17", "B21"], "horn_drive": ["B6"], "horn_idle": ["B6"],
+    "battery_pack_lid": ["B3"], "left_roll_to_pitch": ["B4"], "right_roll_to_pitch": ["B4"],
+    "left_antenna_holder": ["B5"], "right_antenna_holder": ["B5"], "sg90": ["B5", "B28"],
+    "head_board": ["B7"], "adapter": ["B7"], "speaker_interface": ["B8"], "speaker_stand": ["B8"],
+    "flash_light_module": ["B8"], "flash_reflector_interface": ["B8"], "head": ["B9"],
+    "bms_cad": ["B12"], "imu": ["B13", "B20"], "left_eye": ["B14"], "right_eye": ["B14"],
+    "foot_top": ["B16"], "power_switch": ["B22"], "pi": ["B24"], "foot_bottom_tpu": ["B26"],
+    "holder": ["B27", "B28"], "insert": ["B15"],
+}
+MOUNT = {
+    "servo": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). "
+             "Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+    "horn_drive": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+    "horn_idle": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+    "bearing": "Press into a 32.19 mm seat (2 in trunk_bottom, 1 in head): 0.19 mm slip fit on a 32.00 bearing (PRINT_CHECK flag 7).",
+    "cell": "In the 2 x 18650 holder. Charge both cells to the same voltage first.",
+    "holder": "Captive in the body_back battery bay, closed by battery_pack_lid (0.14 mm press, 0.62 mm gap to lid).",
+    "bms_cad": "Sandwiched between body_back and battery_pack_lid, no screws. Free envelope here 17.75 x 47.2 x 5.33 mm (B12).",
+    "charger": "body_back: 1 x M2.5x6 into a 2.0 pilot (the 2nd hole has no pilot), USB-C out of the body_back opening.",
+    "power_switch": "Held by the body_back cutout (23.4 x 7.4 x 16.8 mm CAD body).",
+    "pi": "head.stl: 4 x M2.5x6 DIN 912 into 2.0 pilots, components side up.",
+    "adapter": "trunk_top: 4 x M2.5x6 on 4 printed bosses 5 mm high, USB-C toward the neck opening.",
+    "head_board": "Same 4 holes as the Pi footprint. Not a second board: upstream lists one adapter (B7 cleared).",
+    "imu": "trunk_top: 4 x M2.5x6 (M2.5x8 would bottom out with a 1.6 mm PCB). x forward, chip up. Hole spacing B13, axis signs B20.",
+    "sg90": "2 tab screws per servo into head pilots 27.5 mm apart (SG90 bag), output shaft up (B5 cleared).",
+    "antenna": "Rod on the antenna holder. No BOM line and no print STL for it.",
+    "battery_pack_lid": "4 x M2.5x10 DIN 912 into body_back pilots, head sits proud on the lid face (B3 cleared).",
+    "left_eye": "4 x M2.5x8 through the bulb and the head wall into the eye (left pilot 2.2 mm, B14).",
+    "right_eye": "4 x M2.5x8 through the bulb and the head wall into the eye (pilot 2.05 mm).",
+    "bulb": "Clamped between the eye and the head wall by the 4 eye screws. 2 needed (print guide says 1).",
+    "speaker_stand": "4 x M2.5x6 into head.stl 2.0 pilots.",
+    "speaker_interface": "Holds the speaker on the stand. No clip or screw in CAD (B8).",
+    "flash_light_module": "No screw found in CAD. Holds the reflector interface (B8).",
+    "flash_reflector_interface": "Reflector seat tapers to 20.0 mm, about 10 mm deep, narrow end 8.07 mm (B8).",
+    "left_roll_to_pitch": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
+    "right_roll_to_pitch": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
+    "left_antenna_holder": "SG90 bag screw onto the SG90 horn (clearance 2.7 in a 5.05 recess, B5 cleared).",
+    "right_antenna_holder": "SG90 bag screw onto the SG90 horn (clearance 2.7 in a 5.05 recess, B5 cleared).",
+    "foot_top": "2 M3 inserts with a 1.5 mm wall (B16: print 4 perimeters). 2 slots for the Omron SS-10 switches.",
+    "insert": "Heat-set with a Pinecil insert tip into a 4.0 mm bore. Depth 5.8 vs 6.7 mm check (B15).",
+}
+MOUNTING_MATCH = [
+    (r"^Raspberry Pi Zero", ["pi"]), (r"^Waveshare", ["adapter"]), (r"board\.stl copy", ["head_board"]),
+    (r"^BNO055", ["imu"]), (r"^USB-C 2S charger", ["charger"]), (r"^(Control|Power) switch", ["power_switch"]),
+    (r"^2S BMS", ["bms_tenergy", "bms_cad"]), (r"^2x18650 holder", ["holder"]), (r"^battery_pack_lid", ["battery_pack_lid"]),
+    (r"^Speaker", ["speaker", "speaker_stand", "speaker_interface"]), (r"^Eyes", ["left_eye", "right_eye", "bulb", "led"]),
+    (r"^Projector LED", ["flash_light_module", "flash_reflector_interface"]),
+    (r"^Antenna servos", ["sg90", "left_antenna_holder", "right_antenna_holder"]), (r"^Castle CC BEC Pro", ["bec_pro"]),
+    (r"^(5 V regulator|HENGE)", ["reg_5v"]), (r"^Fuse holder", ["fuse_holder"]), (r"^Pololu 2815", ["mosfet_switch"]),
+    (r"^XT30", ["xt30"]), (r"MAX98357A", ["amp"]), (r"^Foot switch", ["foot_switch"]), (r"^Camera Module", ["camera"]),
+]
+# placed boxes follow this part in the explode when it is within 6 mm (the lab's stated mounting surface)
+FOLLOW_HINT = {"mosfet_switch": "battery_pack_lid", "fuse_holder": "battery_pack_lid", "bec_pro": "body_middle_bottom",
+               "reg_5v": "head_bot_sheet", "camera": "head", "bms_tenergy": "bms_cad"}
+LABEL = {"head": "Head shell", "foot_bottom_tpu": "Foot sole (TPU)", "foot_bottom_pla": "Foot bottom plate",
+         "left_cache": "Left leg cover", "right_cache": "Right leg cover", "bulb": "Eye bulb",
+         "trunk_top": "Trunk top frame", "trunk_bottom": "Trunk bottom frame"}
+
+# How each BOM line shows in the model (line id -> kind, part keys, note)
+BOM_VIEW = {
+    "1": ("cad", ["servo"], ["horn_drive", "horn_idle"], "14 servos, each 3 case parts plus 2 horns"),
+    "2": ("cad", ["adapter"], [], "board.stl on trunk_top. A copy of board.stl also sits in the head as the Pi footprint (B7)"),
+    "3": ("cad", ["pi"], [], ""), "4": ("none", [], [], "Inside the Pi, not modelled"),
+    "5": ("cad", ["imu"], [], ""), "6": ("cad", ["cell"], [], ""), "7": ("cad", ["holder"], [], ""),
+    "8": ("placeholder", ["bms_tenergy"], ["bms_cad"], "Placeholder in the upstream bms.stl slot; the CAD body is kept and marked replaced"),
+    "9": ("placeholder", ["reg_5v"], [], "Pololu step-down size, about 18 x 18 x 8"),
+    "10": ("placeholder", ["mosfet_switch"], [], ""),
+    "10b": ("cad", ["power_switch"], [], "The CAD power_switch body in the body_back cutout"),
+    "11": ("cad", ["charger"], [], ""), "12": ("placeholder", ["xt30"], [], "1 mated pair used of the 10 bought"),
+    "13": ("placeholder", ["foot_switch"], [], "In the foot_top slots"), "14": ("cad", ["sg90"], [], ""),
+    "L1": ("placeholder", ["bec_pro"], [], ""), "L3": ("placeholder", ["fuse_holder"], [], "Dims not verified"),
+    "L4": ("none", [], [], "Sits in the L3 holder"), "16": ("cad", ["insert"], [], "Drawn from the measured bores"),
+    "18": ("cad", ["bearing"], [], ""), "19": ("none", [], [], "Consumable"),
+    "17a": ("none", [], [], "Screw"), "17b": ("none", [], [], "Screw"), "17c": ("none", [], [], "Screw"),
+    "17d": ("none", [], [], "Screw"), "17e": ("none", [], [], "Screw"), "17f": ("none", [], [], "Screw"),
+    "17g": ("none", [], [], "Screw"), "17i": ("none", [], [], "Screw"), "17h": ("none", [], [], "Screw kit"),
+    "20": ("none", [], [], "Cable"), "21": ("none", [], [], "Connector"), "22": ("none", [], [], "Crimp terminal"),
+    "L5": ("none", [], [], "Wire"), "23": ("none", [], [], "Wire"), "24": ("none", [], [], "Wire"), "25": ("none", [], [], "Wire"),
+    "26": ("none", [], [], "Heat shrink"), "29": ("none", [], [], "Foam tape"),
+    "15": ("none", [], [], "Off-robot accessory, not modelled"),
+    "27": ("filament", ["pla"], [], "Printed parts"), "28": ("filament", ["tpu"], [], "Printed parts"),
+    "E1": ("placeholder", ["speaker"], [], ""), "E2": ("placeholder", ["amp"], [], ""),
+    "E3": ("placeholder", ["led"], [], "3 beads: 2 eyes, 1 projector"), "E3b": ("none", [], [], "Resistor"),
+    "E4": ("none", [], [], "Glass disc, not modelled"), "E5": ("none", [], [], "Reflector, not modelled"),
+    "E6": ("placeholder", ["camera"], [], ""), "E7": ("none", [], [], "Cable"),
+    "T1": ("none", [], [], "Tool"), "T2": ("none", [], [], "Tool"), "T3": ("none", [], [], "Tool"),
+    "T4": ("none", [], [], "Tool"), "T5": ("none", [], [], "Tool"), "L2": ("none", [], [], "Tool"),
+}
+
+
+# ---------------------------------------------------------------------------------------------- docs
+def md_tables(path):
+    """Every pipe table in a markdown file: list of dict(section, header, rows)."""
+    out, section = [], ""
+    lines = open(path, encoding="utf-8").read().splitlines()
+    i = 0
+    while i < len(lines):
+        ln = lines[i]
+        if ln.startswith("#"):
+            section = ln.lstrip("#").strip()
+        if ln.startswith("|") and i + 1 < len(lines) and re.match(r"^\|\s*:?-{2,}", lines[i + 1]):
+            header = [c.strip() for c in ln.strip().strip("|").split("|")]
+            rows = []
+            i += 2
+            while i < len(lines) and lines[i].startswith("|"):
+                cells = [c.strip() for c in lines[i].strip().strip("|").split("|")]
+                rows.append(dict(zip(header, cells)))
+                i += 1
+            out.append(dict(section=section, header=header, rows=rows))
+            continue
+        i += 1
+    return out
+
+
+def num(s):
+    m = re.match(r"\s*([0-9]+(?:\.[0-9]+)?)", s or "")
+    return float(m.group(1)) if m else None
+
+
+def load_docs():
+    pc = [t for t in md_tables(os.path.join(LAB, "PRINT_CHECK.md")) if t["header"][:2] == ["STL", "Qty"] and "g each" in t["header"]]
+    if not pc:
+        sys.exit("PRINT_CHECK.md: per-STL table not found")
+    printed = {}
+    for r in pc[0]["rows"]:
+        stem = r["STL"].replace(".stl", "")
+        mat = r.get("Material/infill", "")
+        printed[stem] = dict(qty=int(num(r["Qty"])), material=mat, cat="tpu" if "TPU" in mat else "pla",
+                             g_each=num(r.get("g each")), h_each=num(r.get("h each")),
+                             g_total=num(r.get("g total")), h_total=num(r.get("h total")),
+                             flags=r.get("Flags", ""), inserts=r.get("Inserts", ""), orient=r.get("Orientation", ""),
+                             footprint=r.get("Footprint mm", ""), height=r.get("Height mm", ""), bed=r.get("Bed fit", ""))
+    bom = []
+    for t in md_tables(os.path.join(LAB, "BOM.md")):
+        if t["header"][:2] != ["#", "Item"] or "Need" not in t["header"]:
+            continue
+        for r in t["rows"]:
+            bom.append(dict(line=r["#"], section=t["section"], item=r["Item"], spec=r.get("Spec", ""),
+                            need=r.get("Need", ""), buy=r.get("Buy", ""), supplier=r.get("Supplier", ""),
+                            verified=r.get("Verified", "")))
+    blockers = {}
+    for t in md_tables(os.path.join(LAB, "HARDWARE_AUDIT.md")):
+        if t["header"][:3] == ["#", "Blocker", "Status"]:
+            for r in t["rows"]:
+                if re.match(r"^B\d+$", r["#"]):
+                    st = r["Status"]
+                    closed = st.upper().startswith(("CLEARED", "DECIDED"))
+                    blockers[r["#"]] = dict(title=r["Blocker"], status=st, open=not closed,
+                                            how=r.get("How verified, or what is still needed", ""))
+    if not blockers:
+        sys.exit("HARDWARE_AUDIT.md: section 6 blocker table not found")
+    mounting = {}
+    for t in md_tables(os.path.join(LAB, "MOUNTING.md")):
+        if t["header"][:1] == ["Component"]:
+            for r in t["rows"]:
+                for pat, keys in MOUNTING_MATCH:
+                    if re.search(pat, r["Component"], re.I):
+                        for k in keys:
+                            mounting.setdefault(k, dict(component=r["Component"], mounts_to=r.get("Printed part it mounts to", ""),
+                                                        screw=r.get("Screw", ""), orientation=r.get("Orientation", ""),
+                                                        status=r.get("Status", "")))
+                        break
+    return printed, bom, blockers, mounting
+
+
+# ---------------------------------------------------------------------------------------------- geometry
+def load_mesh(path, to_mm):
+    m = trimesh.load(path, force="mesh")
+    if to_mm:
+        m.apply_scale(1000.0)
+    return m
+
+
+def web_geometry(m, target, angle_deg=32.0):
+    """Decimate to about `target` faces and split vertices at sharp edges (the page computes normals)."""
+    v, f = np.asarray(m.vertices, np.float64), np.asarray(m.faces, np.int64)
+    if len(f) > target * 1.05:
+        import fast_simplification
+        v, f = fast_simplification.simplify(v, f, target_reduction=1.0 - target / len(f))
+    mm = trimesh.Trimesh(v, f, process=True)
+    sm = trimesh.graph.smooth_shade(mm, angle=np.radians(angle_deg), facet_minarea=None)
+    return np.asarray(sm.vertices, np.float32), np.asarray(sm.faces, np.uint32)
+
+
+def face_target(n, key):
+    caps = {"servo_bottom": 5000, "servo_top": 3600, "servo_mid": 1000, "horn_drive": 900, "horn_idle": 900,
+            "pi": 7000, "adapter": 3000, "head_board": 3000, "cell": 1200}
+    if key in caps:
+        return min(n, caps[key])
+    return n if n <= 5000 else int(min(16000, 5000 + 0.4 * (n - 5000)))
+
+
+def cylinder(d, length, seg=20):
+    r, h = d / 2.0, length / 2.0
+    a = np.linspace(0, 2 * np.pi, seg, endpoint=False)
+    ring = np.c_[r * np.cos(a), r * np.sin(a)]
+    side = np.vstack([np.c_[ring, np.full(seg, -h)], np.c_[ring, np.full(seg, h)]])
+    top = np.vstack([[0, 0, h], np.c_[ring, np.full(seg, h)]])
+    bot = np.vstack([[0, 0, -h], np.c_[ring, np.full(seg, -h)]])
+    V = np.vstack([side, top, bot]).astype(np.float32)
+    F = []
+    for i in range(seg):
+        j = (i + 1) % seg
+        F += [[i, j, seg + j], [i, seg + j, seg + i]]
+    o = 2 * seg
+    F += [[o, o + 1 + i, o + 1 + (i + 1) % seg] for i in range(seg)]
+    o2 = o + seg + 1
+    F += [[o2, o2 + 1 + (i + 1) % seg, o2 + 1 + i] for i in range(seg)]
+    return V, np.array(F, np.uint32)
+
+
+def unit_box():
+    V, F = [], []
+    for axis in range(3):
+        for s in (-0.5, 0.5):
+            u, w = [(axis + 1) % 3, (axis + 2) % 3]
+            quad = []
+            for a, b in ((-0.5, -0.5), (0.5, -0.5), (0.5, 0.5), (-0.5, 0.5)):
+                p = [0, 0, 0]
+                p[axis], p[u], p[w] = s, a, b
+                quad.append(p)
+            base = len(V)
+            V += quad
+            F += [[base, base + 1, base + 2], [base, base + 2, base + 3]] if s > 0 else [[base, base + 2, base + 1], [base, base + 3, base + 2]]
+    return np.array(V, np.float32), np.array(F, np.uint32)
+
+
+def rot_z_to(ax):
+    z = np.array(ax, float) / np.linalg.norm(ax)
+    t = np.array([1.0, 0, 0]) if abs(z[0]) < 0.9 else np.array([0, 1.0, 0])
+    x = np.cross(t, z); x /= np.linalg.norm(x)
+    y = np.cross(z, x)
+    return np.c_[x, y, z]
+
+
+def write_glb(path, geoms, nodes):
+    blob, views, accs, meshes = bytearray(), [], [], []
+
+    def view(data, target):
+        while len(blob) % 4:
+            blob.append(0)
+        views.append(dict(buffer=0, byteOffset=len(blob), byteLength=len(data), target=target))
+        blob.extend(data)
+        return len(views) - 1
+
+    for g in geoms:
+        p = np.ascontiguousarray(g["pos"], np.float32)
+        ap = len(accs)
+        accs.append(dict(bufferView=view(p.tobytes(), 34962), componentType=5126, count=int(len(p)), type="VEC3",
+                         min=[round(float(x), 4) for x in p.min(0)], max=[round(float(x), 4) for x in p.max(0)]))
+        idx = np.ascontiguousarray(g["idx"]).ravel()
+        small = len(p) < 65536
+        ai = len(accs)
+        accs.append(dict(bufferView=view(idx.astype(np.uint16 if small else np.uint32).tobytes(), 34963),
+                         componentType=5123 if small else 5125, count=int(idx.size), type="SCALAR"))
+        meshes.append(dict(name=g["name"], primitives=[dict(attributes=dict(POSITION=ap), indices=ai, mode=4)]))
+    gn = [dict(name="duck", rotation=[-0.70710678, 0, 0, 0.70710678], scale=[0.001, 0.001, 0.001],
+               children=list(range(1, len(nodes) + 1)),
+               extras=dict(units="mm", frame="URDF zero pose: x forward, y left, z up"))]
+    for n in nodes:
+        M = np.asarray(n["matrix"], float)
+        gn.append(dict(name=n["name"], mesh=n["mesh"], matrix=[round(float(x), 6) for x in M.T.ravel()],
+                       extras=dict(id=n["name"])))
+    gltf = dict(asset=dict(version="2.0", generator="altaay_lab/viewer/make_viewer_data.py"), scene=0,
+                scenes=[dict(nodes=[0])], nodes=gn, meshes=meshes, accessors=accs, bufferViews=views,
+                buffers=[dict(byteLength=len(blob))])
+    js = json.dumps(gltf, separators=(",", ":")).encode()
+    js += b" " * ((4 - len(js) % 4) % 4)
+    while len(blob) % 4:
+        blob.append(0)
+    with open(path, "wb") as fh:
+        fh.write(struct.pack("<III", 0x46546C67, 2, 12 + 8 + len(js) + 8 + len(blob)))
+        fh.write(struct.pack("<II", len(js), 0x4E4F534A) + js)
+        fh.write(struct.pack("<II", len(blob), 0x004E4942) + bytes(blob))
+
+
+def camera_from_pilots(Th):
+    """Camera Module 3 box on the 4 blind pilots in head.stl (HARDWARE_AUDIT B9), from audit/sites_head.json
+    (head frame). Board 25 x 24, holes 21 x 12.5; the PCB sits on the boss faces, lens toward the front wall."""
+    path = os.path.join(AUDIT, "sites_head.json")
+    if not os.path.exists(path):
+        return None
+    pil, lens = [], []
+    for s in json.load(open(path)):
+        o, ax = np.array(s["o"], float), np.array(s["ax"], float)
+        if abs(ax[0]) < 0.9:
+            continue
+        for t0, t1, part, kind, d, _ in s["segs"]:
+            if part != "head":
+                continue
+            ends = sorted([o + ax * t0, o + ax * t1], key=lambda p: p[0])
+            if 1.55 <= d <= 1.75 and 2.5 <= t1 - t0 <= 4.0:
+                pil.append(ends[0])            # boss face = the end toward the inside (smaller x)
+            elif 7.0 <= d <= 9.5:
+                lens.append((ends[0], d))
+    import itertools
+    for quad in itertools.combinations(range(len(pil)), 4):
+        P = np.array([pil[k] for k in quad])
+        dd = sorted(np.linalg.norm(P[a] - P[b]) for a, b in itertools.combinations(range(4), 2))
+        if np.allclose(dd, [12.5, 12.5, 21.0, 21.0, 24.43, 24.43], atol=0.5):
+            c = P.mean(0)
+            span = P.max(0) - P.min(0)
+            long_ax = int(np.argmax(span[1:])) + 1          # the 21 mm direction carries the 25 mm board side
+            dims = [11.5, 0.0, 0.0]
+            dims[long_ax], dims[3 - long_ax] = 25.0, 24.0
+            cen = c.copy()
+            cen[0] = P[:, 0].min() - 1.0 + 11.5 / 2.0        # PCB (about 1 mm) behind the boss face, lens forward
+            out = dict(dims=dims, center=(Th @ np.r_[cen, 1])[:3].round(2).tolist(),
+                       where="On the 4 measured head.stl pilots (sites_head.json), lens forward. Depth and board offset approximate.")
+            if lens:
+                lc, ld = min(lens, key=lambda x: np.linalg.norm(x[0][1:] - c[1:]))
+                off = lc - c
+                out["lens_hole"] = dict(center_world=(Th @ np.r_[lc, 1])[:3].round(2).tolist(), d_mm=ld,
+                                        offset_from_pilot_centre_mm=off[1:].round(2).tolist())
+            return out
+    return None
+
+
+def head_floor_spot(u, inst, src, Th, dims, clearance=1.5, gap=0.5, step=1.0):
+    """Free flat spot on the head floor (head_bot_sheet top) under the Pi for a box of dims (x, y, height).
+    Obstacles: every head part at zero pose, plus the neck links that move inside the head, swept over the
+    head roll, yaw and pitch ranges (relative to the head). Returns the spot closest to the Pi centre."""
+    pi = [i for i in inst if i["key"] == "pi"]
+    fl = [i for i in inst if i["key"] == "head_bot_sheet"]
+    if not pi or not fl:
+        return None
+    pi, fl = pi[0], fl[0]
+    floor = src["head_bot_sheet"].copy().apply_transform(fl["T"])
+    z_top = float(floor.bounds[1][2])
+    lo = pi["bmin"][:2] - 25.0
+    hi = pi["bmax"][:2] + 25.0
+    nx, ny = int(np.ceil((hi[0] - lo[0]) / step)), int(np.ceil((hi[1] - lo[1]) / step))
+    gx, gy = lo[0] + (np.arange(nx) + 0.5) * step, lo[1] + (np.arange(ny) + 0.5) * step
+    X, Y = np.meshgrid(gx, gy, indexing="ij")
+    org = np.c_[X.ravel(), Y.ravel(), np.full(X.size, z_top + 5.0)]
+    locs, ri, _ = floor.ray.intersects_location(org, np.tile([0, 0, -1.0], (len(org), 1)), multiple_hits=False)
+    support = np.zeros(X.size, bool)
+    support[ri[np.abs(locs[:, 2] - z_top) < 0.3]] = True
+    support = support.reshape(nx, ny)
+    z0, z1 = z_top + 0.05, z_top + gap + dims[2] + clearance
+    blocked = np.zeros((nx, ny), bool)
+
+    def mark(P):
+        m = (P[:, 2] > z0) & (P[:, 2] < z1) & (P[:, 0] >= lo[0]) & (P[:, 0] < lo[0] + nx * step) \
+            & (P[:, 1] >= lo[1]) & (P[:, 1] < lo[1] + ny * step)
+        P = P[m]
+        blocked[((P[:, 0] - lo[0]) / step).astype(int), ((P[:, 1] - lo[1]) / step).astype(int)] = True
+
+    def dense(mesh, per_mm2=4.0):
+        return trimesh.sample.sample_surface(mesh, max(1000, int(mesh.area * per_mm2)), seed=1)[0]
+    moving = ("neck_yaw_assembly", "head_pitch_to_yaw", "neck_pitch_assembly")
+    for i in inst:
+        if i["link"] in moving or i["key"] == "head_bot_sheet":
+            continue
+        if np.any(i["bmax"][:2] < lo) or np.any(i["bmin"][:2] > hi) or i["bmax"][2] < z0 or i["bmin"][2] > z1:
+            continue
+        mark(dense(src[i["key"]].copy().apply_transform(i["T"])))
+
+    def mm(T):
+        T = np.array(T, float)
+        T[:3, 3] *= 1000.0
+        return T
+    lim = {j.name: (j.limit.lower, j.limit.upper) for j in u.robot.joints if j.type == "revolute"}
+    zero = {n: 0.0 for n in u.actuated_joint_names}
+    u.update_cfg(zero)
+    H0 = mm(u.get_transform("head_assembly"))
+    L0 = {ln: np.linalg.inv(mm(u.get_transform(ln))) for ln in moving}
+    local = [(i["link"], np.linalg.inv(i["T"]), i["T"], dense(src[i["key"]], 3.0)) for i in inst if i["link"] in moving]
+    local = [(ln, Ti, T, (T[:3, :3] @ P.T).T + T[:3, 3]) for ln, Ti, T, P in local]   # zero-pose world points
+    for r in np.linspace(*lim["head_roll"], 7):
+        for yv in np.linspace(*lim["head_yaw"], 13):
+            for pv in np.linspace(*lim["head_pitch"], 5):
+                cfg = dict(zero, head_roll=r, head_yaw=yv, head_pitch=pv)
+                u.update_cfg(cfg)
+                Hq = H0 @ np.linalg.inv(mm(u.get_transform("head_assembly")))
+                for ln in moving:
+                    M = Hq @ mm(u.get_transform(ln)) @ L0[ln]
+                    for ln2, Ti, T, Pw in local:
+                        if ln2 == ln:
+                            mark((M[:3, :3] @ Pw.T).T + M[:3, 3])
+    u.update_cfg(zero)
+    # box footprint must be fully supported, the footprint grown by the clearance fully free
+    fx, fy = int(np.ceil(dims[0] / step)), int(np.ceil(dims[1] / step))
+    cl = int(np.ceil(clearance / step))
+
+    def psum(a):
+        s = np.zeros((a.shape[0] + 1, a.shape[1] + 1), np.int32)
+        s[1:, 1:] = np.cumsum(np.cumsum(a.astype(np.int32), 0), 1)
+        return s
+    S, B = psum(support), psum(blocked)
+    best = None
+    for ix in range(cl, nx - fx - cl + 1):
+        for iy in range(cl, ny - fy - cl + 1):
+            if S[ix + fx, iy + fy] - S[ix, iy + fy] - S[ix + fx, iy] + S[ix, iy] != fx * fy:
+                continue
+            a, b, c2, d2 = ix - cl, iy - cl, ix + fx + cl, iy + fy + cl
+            if B[c2, d2] - B[a, d2] - B[c2, b] + B[a, b]:
+                continue
+            cx, cy = lo[0] + (ix + fx / 2.0) * step, lo[1] + (iy + fy / 2.0) * step
+            if not (pi["bmin"][0] <= cx <= pi["bmax"][0] and pi["bmin"][1] <= cy <= pi["bmax"][1]):
+                continue
+            dist = np.hypot(cx - pi["c"][0], cy - pi["c"][1])
+            if best is None or dist < best[0]:
+                best = (dist, cx, cy)
+    if best is None:
+        return None
+    return dict(dims=[float(d) for d in dims], center=[round(best[1], 1), round(best[2], 1), round(z_top + gap + dims[2] / 2.0, 2)],
+                where="Head floor under the Pi: free flat spot found by make_viewer_data.py (clear of head parts and of the "
+                      "neck parts over the head roll, yaw and pitch ranges, %.1f mm clearance)" % clearance,
+                floor_top_z=round(z_top, 2), dist_to_pi_centre_mm=round(float(best[0]), 1),
+                free_below_pi_mm=round(float(pi["bmin"][2] - z_top), 1))
+
+
+def radial(c, centre, base=12.0, k=0.45):
+    d = np.asarray(c, float) - np.asarray(centre, float)
+    n = np.linalg.norm(d)
+    return np.zeros(3) if n < 1e-6 else d / n * (base + k * n)
+
+
+def label_of(stem):
+    return LABEL.get(stem, stem.replace("_", " ").capitalize())
+
+
+# ---------------------------------------------------------------------------------------------- build
+def main():
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--out", required=True, help="output folder, must be outside the repo")
+    args = ap.parse_args()
+    out = os.path.abspath(args.out)
+    if os.path.commonpath([out, REPO]) == REPO:
+        sys.exit("refusing to write inside the repo: " + out)
+    os.makedirs(out, exist_ok=True)
+    t_start = time.time()
+    warnings = []
+
+    printed_doc, bom, blk, mounting = load_docs()
+    print_files = {os.path.splitext(f)[0] for f in os.listdir(PRINT_DIR) if f.lower().endswith(".stl")}
+
+    def print_stem(urdf_fn):
+        s = os.path.splitext(urdf_fn)[0]
+        if s in print_files:
+            return s
+        for pre in ("left_", "right_"):
+            if s.startswith(pre) and s[len(pre):] in print_files:
+                return s[len(pre):]
+        return None
+
+    # 1. URDF at zero joint angles
+    u = yourdfpy.URDF.load(os.path.join(URDF_DIR, "robot.urdf"), load_meshes=False, build_scene_graph=True)
+    u.update_cfg(np.zeros(len(u.actuated_joint_names)))
+    inst = []
+    for ln, link in u.link_map.items():
+        Tl = u.get_transform(ln)
+        for v in link.visuals:
+            fn = os.path.basename(v.geometry.mesh.filename)
+            T = Tl @ (v.origin if v.origin is not None else np.eye(4))
+            T = T.copy()
+            T[:3, 3] *= 1000.0
+            inst.append(dict(link=ln, urdf=fn, T=T, src="urdf"))
+    n_urdf = len(inst)
+    # cross-check with the audit's assembly (sites.json instance indices refer to it)
+    asm_path = os.path.join(AUDIT, "assembly.json")
+    asm_ok = False
+    if os.path.exists(asm_path):
+        A = json.load(open(asm_path))["inst"]
+        asm_ok = len(A) == n_urdf and all(a["mesh"] == i["urdf"] and np.allclose(np.array(a["T"]), i["T"], atol=1e-6) for a, i in zip(A, inst))
+    if not asm_ok:
+        warnings.append("URDF instances do not match audit/assembly.json; insert hosts are matched by nearest part")
+
+    # 2. map to parts
+    unmapped = []
+    mesh_src = {}   # part key -> (path, to_mm)
+    for i in inst:
+        stem = print_stem(i["urdf"])
+        if stem:
+            i.update(key=stem, label=label_of(stem), cat=printed_doc.get(stem, {}).get("cat", "pla"), bom=None,
+                     file="print/" + stem + ".stl", printed=True)
+            mesh_src[stem] = (os.path.join(PRINT_DIR, stem + ".stl"), False)
+            i["urdf_check"] = i["urdf"]
+        elif i["urdf"] == "board.stl":
+            key, lab, cat, bl = BOARD.get(i["link"], ("board", "board.stl", "electronics", None))
+            i.update(key=key, label=lab, cat=cat, bom=bl, file="urdf/board.stl", printed=False)
+            mesh_src[key] = (os.path.join(URDF_DIR, "board.stl"), True)
+        elif i["urdf"] in BOUGHT:
+            key, lab, cat, bl = BOUGHT[i["urdf"]]
+            i.update(key=key, label=lab, cat=cat, bom=bl, file="urdf/" + i["urdf"], printed=False)
+            mesh_src[key] = (os.path.join(URDF_DIR, i["urdf"]), True)
+        else:
+            unmapped.append(i["urdf"])
+            i.update(key=os.path.splitext(i["urdf"])[0], label=i["urdf"], cat="other", bom=None,
+                     file="urdf/" + i["urdf"], printed=False)
+            mesh_src[i["key"]] = (os.path.join(URDF_DIR, i["urdf"]), True)
+
+    # frame check: print STL vs URDF mesh (x1000), same part frame
+    frame_check = {}
+    for i in inst:
+        if i.get("printed") and i["key"] not in frame_check:
+            a = load_mesh(os.path.join(URDF_DIR, i["urdf"]), True).bounds
+            b = load_mesh(os.path.join(PRINT_DIR, i["key"] + ".stl"), False).bounds
+            frame_check[i["key"]] = round(float(np.abs(a - b).max()), 3)
+    bad = {k: v for k, v in frame_check.items() if v > 0.05}
+    if bad:
+        warnings.append("print STL and URDF mesh bounds differ by more than 0.05 mm: %s" % bad)
+
+    # 3. head internals in the head.stl frame
+    Th = [i["T"] for i in inst if i["key"] == "head"][0]
+    seen = Counter()
+    for stem in HEAD_INTERNALS:
+        seen[stem] += 1
+        M = np.diag([1.0, -1.0, 1.0, 1.0]) if seen[stem] == 2 else np.eye(4)
+        inst.append(dict(link="head_assembly", urdf=None, T=Th @ M, src="print", key=stem, label=label_of(stem),
+                         cat=printed_doc.get(stem, {}).get("cat", "pla"), bom=None, file="print/" + stem + ".stl",
+                         printed=True, mirrored=bool(seen[stem] == 2)))
+        mesh_src[stem] = (os.path.join(PRINT_DIR, stem + ".stl"), False)
+
+    # load source meshes once
+    src = {k: load_mesh(p, mm) for k, (p, mm) in mesh_src.items()}
+    for i in inst:
+        m = src[i["key"]]
+        corners = trimesh.bounds.corners(m.bounds)
+        w = (i["T"][:3, :3] @ corners.T).T + i["T"][:3, 3]
+        i["bmin"], i["bmax"] = w.min(0), w.max(0)
+        i["c"] = (i["bmin"] + i["bmax"]) / 2.0
+        i["sub"] = LINK_SUB.get(i["link"], "trunk")
+
+    # 4. servos: group 3 case parts + 2 horns, name by the joint the drive horn sits on
+    joints = []
+    for j in u.robot.joints:
+        if j.type != "revolute":
+            continue
+        Tc = u.get_transform(j.child)
+        joints.append((j.name, Tc[:3, 3] * 1000.0, Tc[:3, :3] @ np.asarray(j.axis, float), j.child, j.parent))
+    servo_groups = []
+    by_link = defaultdict(list)
+    for k, i in enumerate(inst):
+        if i["key"] in ("servo_top", "servo_mid", "servo_bottom", "horn_drive", "horn_idle"):
+            by_link[i["link"]].append(k)
+    for ln, ks in by_link.items():
+        mids = [k for k in ks if inst[k]["key"] == "servo_mid"]
+        free = set(ks) - set(mids)
+        for km in mids:
+            g = dict(mid=km)
+            for part in ("servo_top", "servo_bottom", "horn_drive", "horn_idle"):
+                cand = [k for k in free if inst[k]["key"] == part]
+                kb = min(cand, key=lambda k: np.linalg.norm(inst[k]["c"] - inst[km]["c"]))
+                free.discard(kb)
+                g[part] = kb
+            hc = inst[g["horn_drive"]]["c"]
+
+            def axis_dist(jt):
+                d = hc - jt[1]
+                a = jt[2] / np.linalg.norm(jt[2])
+                return np.linalg.norm(d - np.dot(d, a) * a)
+            # the servo body sits in the parent or the child link of the joint it drives; collinear
+            # axes (left and right hip pitch) are told apart by that and by the distance to the joint origin
+            cand = [jt for jt in joints if not jt[0].endswith("antenna") and ln in (jt[3], jt[4])]
+            jt = min(cand, key=lambda jt: (round(axis_dist(jt), 1), np.linalg.norm(hc - jt[1])))
+            g.update(joint=jt[0], axis_err=round(float(axis_dist(jt)), 2), link=ln)
+            servo_groups.append(g)
+    jn = Counter(g["joint"] for g in servo_groups)
+    if len(servo_groups) != 14 or max(jn.values()) > 1:
+        warnings.append("servo grouping is not one servo per joint: %s" % dict(jn))
+    for g in servo_groups:
+        members = [g[p] for p in ("servo_top", "mid", "servo_bottom")]
+        cen = np.mean([inst[k]["c"] for k in members], axis=0)
+        for p in ("servo_top", "mid", "servo_bottom", "horn_drive", "horn_idle"):
+            i = inst[g[p]]
+            i["servo"] = g["joint"]
+            i["servo_centre"] = cen
+            if p.startswith("horn"):
+                ext = i["bmax"] - i["bmin"]
+                ax = int(np.argmin(ext))
+                d = np.zeros(3)
+                d[ax] = np.sign((i["c"] - cen)[ax]) or 1.0
+                i["v3"] = d * HORN_PULL
+
+    # 5. node ids
+    used = Counter()
+    for i in inst:
+        if "servo" in i:
+            part = {"servo_top": "top", "servo_mid": "mid", "servo_bottom": "bottom", "horn_drive": "horn_drive",
+                    "horn_idle": "horn_idle"}[i["key"]]
+            i["id"] = "servo-%s-%s" % (i["servo"], part)
+        else:
+            used[(i["link"], i["key"])] += 1
+            i["id"] = "%s-%s-%d" % (i["link"], i["key"], used[(i["link"], i["key"])])
+    dup = [k for k, n in Counter(i["id"] for i in inst).items() if n > 1]
+    if dup:
+        sys.exit("duplicate node ids: %s; servo joints %s" % (dup, [(g["joint"], g["axis_err"], g["link"]) for g in servo_groups]))
+
+    # 6. inserts
+    sites = json.load(open(os.path.join(AUDIT, "sites.json")))
+    inserts = []
+    printed_keys = set(printed_doc)
+    for si, s in enumerate(sites):
+        o, ax = np.array(s["o"], float), np.array(s["ax"], float)
+        ax /= np.linalg.norm(ax)
+        segs = s["segs"]
+        for seg in segs:
+            t0, t1, part, kind, dia, hi = seg
+            stem = print_stem(part + ".stl") or part
+            if stem not in printed_keys or not (INSERT_BORE[0] <= dia <= INSERT_BORE[1]) or (t1 - t0) < INSERT_BORE[2]:
+                continue
+            c = o + ax * (t0 + t1) / 2.0
+            if asm_ok:
+                host = inst[hi]
+            else:
+                host = min((i for i in inst if i["key"] == stem), key=lambda i: np.linalg.norm(i["c"] - c))
+
+            def touches(at_end, same):
+                for q in segs:
+                    if q is seg:
+                        continue
+                    if (q[5] == hi) != same:
+                        continue
+                    if (at_end and abs(q[0] - t1) < 0.5) or (not at_end and abs(q[1] - t0) < 0.5):
+                        return True
+                return False
+            o0, o1 = touches(False, False), touches(True, False)
+            if o1 and not o0:
+                sgn = 1.0
+            elif o0 and not o1:
+                sgn = -1.0
+            else:
+                s0, s1 = touches(False, True), touches(True, True)
+                sgn = 1.0 if (s0 and not s1) else (-1.0 if (s1 and not s0) else 0.0)
+            inserts.append(dict(site=si, host=host["id"], host_key=host["key"], c=c, ax=ax, bore_d=dia,
+                                bore_len=round(t1 - t0, 2), open_dir=sgn))
+    n_ins = Counter(x["host_key"] for x in inserts)
+
+    # 7. foot switch slots: 6.4 x 19.8 pockets in foot_top (PRINT_CHECK, HARDWARE_AUDIT B11)
+    from shapely.geometry import Polygon
+    ft = src["foot_top"]
+    slot_local = []
+    for z in np.arange(ft.bounds[0][2] + 0.5, ft.bounds[1][2], 0.5):
+        sec = ft.section(plane_origin=[0, 0, z], plane_normal=[0, 0, 1])
+        if sec is None:
+            continue
+        p2, T2 = sec.to_2D()
+        for poly in p2.polygons_full:
+            for r in poly.interiors:
+                q = Polygon(r.coords)
+                rr = q.minimum_rotated_rectangle
+                xs, ys = rr.exterior.coords.xy
+                e = sorted([np.hypot(xs[1] - xs[0], ys[1] - ys[0]), np.hypot(xs[2] - xs[1], ys[2] - ys[1])])
+                if abs(e[0] - 6.4) < 0.3 and abs(e[1] - 19.8) < 0.4:
+                    cc = (T2 @ np.r_[np.array(q.centroid.coords[0]), 0, 1])[:3]
+                    slot_local.append(np.r_[cc[:2], z])
+    slots = []
+    for p in slot_local:
+        for s_ in slots:
+            if np.linalg.norm(s_["xy"] - p[:2]) < 1.0:
+                s_["z0"], s_["z1"] = min(s_["z0"], p[2]), max(s_["z1"], p[2])
+                break
+        else:
+            slots.append(dict(xy=p[:2], z0=p[2], z1=p[2]))
+    feet = [i for i in inst if i["key"] == "foot_top"]
+    switches = []
+    for f in sorted(feet, key=lambda i: -i["c"][1]):
+        side = "l" if f["c"][1] > 0 else "r"
+        for n_, s_ in enumerate(sorted(slots, key=lambda s: s["xy"][0])):
+            # slot from z0-0.25 to z1+0.25 (0.5 mm section step); open end faces foot_bottom (lowest world z)
+            ends = [(f["T"] @ np.r_[s_["xy"], z, 1])[:3] for z in (s_["z0"] - 0.25, s_["z1"] + 0.25)]
+            lo = min(ends, key=lambda p: p[2])
+            cen = lo + np.array([0, 0, FOOT_SWITCH["dims"][2] / 2.0])
+            switches.append(dict(FOOT_SWITCH, id="foot_switch_%s%d" % (side, n_ + 1),
+                                 label="%s (%s foot, slot %d)" % (FOOT_SWITCH["label"], "left" if side == "l" else "right", n_ + 1),
+                                 center=cen.tolist(), frame="urdf_world_mm", where="foot_top slot (measured)",
+                                 slot_depth=round(float(s_["z1"] - s_["z0"] + 0.5), 1), sub=f["sub"], follow=f["id"]))
+
+    # 7b. parts placed from the CAD: camera on its 4 head pilots, 5 V regulator on the head floor under the Pi
+    cad_place = {}
+    cam = camera_from_pilots(Th)
+    if cam:
+        cad_place["camera"] = cam
+    else:
+        warnings.append("camera pilots not found in audit/sites_head.json: camera goes in the tray")
+    reg = head_floor_spot(u, inst, src, Th, [p for p in PLACEHOLDERS if p["id"] == "reg_5v"][0]["dims"])
+    if reg:
+        cad_place["reg_5v"] = reg
+    else:
+        warnings.append("no free flat spot for the 5 V regulator under the Pi: it goes in the tray")
+
+    # 8. placeholders: placements.json (lead) > measured slots > tray
+    placements, pl_note = {}, "audit/placements.json not found: unplaced parts are in the tray"
+    if os.path.exists(PLACEMENTS):
+        try:
+            raw = json.load(open(PLACEMENTS))
+            raw = raw if isinstance(raw, list) else raw.get("placements", [])
+            for r in raw:
+                if r.get("center_mm") is None:
+                    continue
+                if r.get("frame", "urdf_world_mm") != "urdf_world_mm":
+                    warnings.append("placements.json %s: frame %s not supported, ignored" % (r.get("id"), r.get("frame")))
+                    continue
+                placements[r["id"]] = r
+            pl_note = "audit/placements.json read %s: %d placed (%s)" % (
+                time.strftime("%Y-%m-%d %H:%M", time.localtime(os.path.getmtime(PLACEMENTS))), len(placements),
+                ", ".join(sorted(placements)))
+        except Exception as e:  # keep building with the tray
+            warnings.append("placements.json unreadable: %s" % e)
+    ph_all = [dict(p) for p in PLACEHOLDERS] + switches
+    known = {p["id"] for p in ph_all}
+    for pid, r in placements.items():
+        if pid not in known:   # a part the lead placed that this script does not know: still draw it
+            ph_all.append(dict(id=pid, label=r.get("label", pid), dims=r["dims_xyz_mm"], bom=None, blockers=[],
+                               dims_note="From placements.json.", mount=r.get("source", "")))
+    for p in ph_all:
+        r = placements.get(p["id"])
+        if r:
+            p["dims"] = [float(x) for x in r["dims_xyz_mm"]]
+            p["center"] = [float(x) for x in r["center_mm"]]
+            p["where"] = "Lab placement, audit/placements.json" + (" (%s)" % r["source"] if r.get("source") else "")
+            p["placement"] = {k: v for k, v in r.items() if k not in ("id", "label")}
+        elif p["id"] in cad_place:
+            c = cad_place[p["id"]]
+            p["dims"], p["center"], p["where"] = c["dims"], c["center"], c["where"]
+            p["placement"] = {k: v for k, v in c.items() if k not in ("dims", "center", "where")}
+    # placed boxes move with the modelled part they touch (smallest surface distance from the box)
+    world_mesh = {}
+
+    def touching_part(center, dims):
+        c, h = np.array(center, float), np.array(dims, float) / 2.0
+        g = np.array(np.meshgrid(*[[-1, 0, 1]] * 3)).reshape(3, -1).T
+        pts = c + g * h
+        best, bd = None, 1e9
+        for i in inst:
+            if np.any(i["bmin"] - 30 > c + h) or np.any(i["bmax"] + 30 < c - h):
+                continue
+            if i["id"] not in world_mesh:
+                world_mesh[i["id"]] = src[i["key"]].copy().apply_transform(i["T"])
+            _, d, _ = trimesh.proximity.closest_point(world_mesh[i["id"]], pts)
+            if d.min() < bd:
+                best, bd = i, float(d.min())
+        return best, bd
+    tray_items = [p for p in ph_all if "center" not in p]
+    by_id = {i["id"]: i for i in inst}
+    for p in ph_all:
+        if "center" not in p:
+            continue
+        if p.get("follow"):
+            near, dist = by_id[p["follow"]], 0.0
+        else:
+            near, dist = touching_part(p["center"], p["dims"])
+            hint = FOLLOW_HINT.get(p["id"])
+            if hint and near is not None and near["key"] != hint:
+                cands = [i for i in inst if i["key"] == hint]
+                if cands:
+                    h = min(cands, key=lambda i: np.linalg.norm(i["c"] - np.array(p["center"])))
+                    if h["id"] not in world_mesh:
+                        world_mesh[h["id"]] = src[h["key"]].copy().apply_transform(h["T"])
+                    c, hh = np.array(p["center"], float), np.array(p["dims"], float) / 2.0
+                    g = np.array(np.meshgrid(*[[-1, 0, 1]] * 3)).reshape(3, -1).T
+                    dh = float(trimesh.proximity.closest_point(world_mesh[h["id"]], c + g * hh)[1].min())
+                    if dh <= 6.0:
+                        near, dist = h, dh
+        if near is None:
+            tray_items.append(p)
+            del p["center"]
+            continue
+        p["sub"], p["follow"], p["follow_dist"] = near["sub"], near["id"], round(dist, 1)
+    # tray layout: rows along x on a plate right of the robot (-y), at floor level
+    ys = [i["bmin"][1] for i in inst]
+    floor = min(i["bmin"][2] for i in inst)
+    gap, width = 14.0, 230.0
+    x, yrow, rowdepth = 0.0, 0.0, 0.0
+    tray_items.sort(key=lambda p: -p["dims"][0] * p["dims"][1])
+    for p in tray_items:
+        dx, dy, dz = p["dims"]
+        if x > 0 and x + dx > width:
+            x, yrow, rowdepth = 0.0, yrow + rowdepth + gap, 0.0
+        p["tray_xy"] = (x + dx / 2.0, yrow + dy / 2.0)
+        x += dx + gap
+        rowdepth = max(rowdepth, dy)
+    tray_d = yrow + rowdepth
+    tray_used_w = max([p["tray_xy"][0] + p["dims"][0] / 2.0 for p in tray_items], default=0.0)
+    tray = None
+    if tray_items:
+        tx0 = -40.0 - tray_used_w / 2.0
+        ty1 = min(ys) - 60.0
+        tz = floor
+        for p in tray_items:
+            p["center"] = [tx0 + p["tray_xy"][0], ty1 - p["tray_xy"][1], tz + 3.0 + p["dims"][2] / 2.0]
+            p["sub"] = "tray"
+            p["where"] = "Not yet placed tray"
+        tray = dict(min=[tx0 - 12, ty1 - tray_d - 12, tz], max=[tx0 + tray_used_w + 12, ty1 + 12, tz + 3.0],
+                    label="Not yet placed")
+
+    # 9. subassembly centres and explode vectors
+    sub_c = {}
+    for sid, *_ in SUBS:
+        bs = [(i["bmin"], i["bmax"]) for i in inst if i["sub"] == sid]
+        if bs:
+            sub_c[sid] = (np.min([b[0] for b in bs], 0) + np.max([b[1] for b in bs], 0)) / 2.0
+    if tray:
+        sub_c["tray"] = (np.array(tray["min"]) + np.array(tray["max"])) / 2.0
+    for i in inst:
+        if "servo" in i:
+            v = V2_SERVO.get(i["servo"])
+            i["v2"] = np.array(v, float) if v is not None else radial(i["servo_centre"], sub_c[i["sub"]])
+        else:
+            v = V2.get((i["sub"], i["key"]))
+            i["v2"] = np.array(v, float) if v is not None else radial(i["c"], sub_c[i["sub"]])
+    for p in ph_all:
+        if p["sub"] == "tray":
+            p["v2"] = np.zeros(3)
+            continue
+        v = V2.get((p["sub"], p["id"]))
+        p["v2"] = np.array(v, float) if v is not None else by_id[p["follow"]]["v2"].copy()
+
+    placed_ids = {p["id"] for p in ph_all if p["sub"] != "tray"}
+
+    # 10. geometry for the GLB (one per unique source mesh)
+    geoms, gidx = [], {}
+    for key in sorted(src):
+        m = src[key]
+        pos, idx = web_geometry(m, face_target(len(m.faces), key))
+        gidx[key] = len(geoms)
+        geoms.append(dict(name=key, pos=pos, idx=idx, src_faces=int(len(m.faces))))
+    cpos, cidx = cylinder(INSERT_D, INSERT_L)
+    gidx["_insert"] = len(geoms)
+    geoms.append(dict(name="insert_m3", pos=cpos, idx=cidx, src_faces=int(len(cidx))))
+    bpos, bidx = unit_box()
+    gidx["_box"] = len(geoms)
+    geoms.append(dict(name="placeholder_box", pos=bpos, idx=bidx, src_faces=12))
+
+    nodes, man_nodes = [], {}
+    servo_label = lambda j: "STS3215 servo ID %d, %s" % (SERVO_ID.get(j, 0), j.replace("_", " "))
+
+    def status_of(keys, cleared_ok=()):
+        ids = []
+        for k in keys:
+            for b in BLOCKERS.get(k, []):
+                if b not in ids:
+                    ids.append(b)
+        rows = [dict(id=b, status=blk[b]["status"] if b in blk else "not in HARDWARE_AUDIT", title=blk.get(b, {}).get("title", ""),
+                     open=bool(blk.get(b, {}).get("open", True)) and b not in cleared_ok) for b in ids]
+        op = [r["id"] for r in rows if r["open"]]
+        return ("OK" if not op else ", ".join(op)), rows
+
+    pd_ = printed_doc
+    for i in inst:
+        key = i["key"]
+        bkey = "servo" if key.startswith("servo_") else key
+        st, rows = status_of([bkey])
+        rec = dict(label=servo_label(i["servo"]) + " (" + i["label"].split(", ")[-1] + ")" if "servo" in i and key.startswith("servo_")
+                   else (i["label"] + (" of servo ID %d" % SERVO_ID.get(i["servo"], 0) if "servo" in i else "")),
+                   part=key, file=i["file"], link=i["link"], sub=i["sub"], category=i["cat"],
+                   status=st, blockers=rows, mount=MOUNT.get(bkey, ""), v2=np.round(i["v2"], 2).tolist())
+        if i.get("printed"):
+            d = pd_.get(key, {})
+            rec.update(qty=d.get("qty"), material=d.get("material"), grams=d.get("g_each"), hours=d.get("h_each"),
+                       print_flags=d.get("flags"), orientation=d.get("orient"), bed=d.get("bed"),
+                       inserts=int(n_ins.get(key, 0)), bom="27" if d.get("cat") != "tpu" else "28")
+            if n_ins.get(key) and not rec["mount"]:
+                rec["mount"] = "%d M3 heat-set inserts in this part (each instance)." % (n_ins[key] // max(1, d.get("qty", 1)))
+            elif n_ins.get(key):
+                rec["mount"] += " %d M3 inserts per part." % (n_ins[key] // max(1, d.get("qty", 1)))
+        else:
+            rec.update(bom=i["bom"], qty=None)
+        if "servo" in i:
+            rec.update(servo=i["servo"], servo_id=SERVO_ID.get(i["servo"]), group="servo-" + i["servo"])
+        if "v3" in i:
+            rec["v3"] = np.round(i["v3"], 2).tolist()
+        if i.get("mirrored"):
+            rec["mirrored"] = True
+        if mounting.get(bkey):
+            rec["mounting"] = mounting[bkey]
+        if key == "bms_cad" and "bms_tenergy" in placed_ids:
+            rec.update(replaced="Replaced by the Tenergy 32175 (ph-bms_tenergy). Kept to show the upstream position.",
+                       label=rec["label"] + " (replaced)")
+        man_nodes[i["id"]] = rec
+        nodes.append(dict(name=i["id"], mesh=gidx[key], matrix=i["T"]))
+    # qty for bought parts = how many of that part key are in the model
+    kc = Counter(i["key"] for i in inst)
+    for nid, rec in man_nodes.items():
+        if rec["qty"] is None:
+            rec["qty"] = 14 if rec["part"].startswith("servo_") or rec["part"].startswith("horn_") else kc[rec["part"]]
+    for n_, x in enumerate(inserts):
+        nid = "insert-%02d" % (n_ + 1)
+        R = rot_z_to(x["ax"])
+        M = np.eye(4)
+        M[:3, :3], M[:3, 3] = R, x["c"]
+        host = by_id[x["host"]]
+        st, rows = status_of(["insert"] + (["foot_top"] if x["host_key"] == "foot_top" else []))
+        man_nodes[nid] = dict(label="M3 heat-set insert in %s" % label_of(x["host_key"]).lower(), part="insert",
+                              file="(drawn) D %.1f x %.1f mm" % (INSERT_D, INSERT_L), link=host["link"], sub=host["sub"],
+                              category="insert", qty=len(inserts), material="Brass", bom="16", status=st, blockers=rows,
+                              mount=MOUNT["insert"] + " Bore %.1f mm x %.1f mm deep (sites.json site %d)." % (x["bore_d"], x["bore_len"], x["site"]),
+                              host=x["host"], v2=np.round(host["v2"], 2).tolist(),
+                              v3=np.round(x["ax"] * x["open_dir"] * INSERT_PULL + (host.get("v3") if isinstance(host.get("v3"), np.ndarray) else 0), 2).tolist())
+        nodes.append(dict(name=nid, mesh=gidx["_insert"], matrix=M))
+    for p in ph_all:
+        nid = "ph-" + p["id"]
+        M = np.diag([p["dims"][0], p["dims"][1], p["dims"][2], 1.0])
+        M[:3, 3] = p["center"]
+        pkey = "foot_switch" if p["id"].startswith("foot_switch") else ("led" if p["id"].startswith("led_") else p["id"])
+        st, rows = status_of([pkey])
+        for b in p.get("blockers", []):
+            if b not in [r["id"] for r in rows]:
+                rows.append(dict(id=b, status=blk.get(b, {}).get("status", "?"), title=blk.get(b, {}).get("title", ""), open=bool(blk.get(b, {}).get("open", True))))
+        op = [r["id"] for r in rows if r["open"]]
+        mrow = mounting.get(pkey)
+        man_nodes[nid] = dict(label=p["label"], part=pkey, file="(placeholder, not in CAD)", link=None, sub=p["sub"], mounting=mrow,
+                              category="placeholder", qty=sum(1 for q in ph_all if q["id"].split("_")[0] == p["id"].split("_")[0]) if pkey in ("led", "foot_switch") else 1,
+                              material=None, bom=p.get("bom"), status="OK" if not op else ", ".join(op), blockers=rows,
+                              mount=p.get("mount", ""), dims=[round(float(d), 2) for d in p["dims"]], dims_note=p.get("dims_note", ""),
+                              where=p.get("where", ""), placement=p.get("placement"), v2=np.round(p["v2"], 2).tolist(),
+                              short=SHORT.get(pkey, p["label"].split(" (")[0]), follow=p.get("follow"),
+                              follow_dist_mm=p.get("follow_dist"))
+        nodes.append(dict(name=nid, mesh=gidx["_box"], matrix=M))
+
+    glb_path = os.path.join(out, "duck.glb")
+    write_glb(glb_path, geoms, nodes)
+    # base64 text copy for the artifact page: the artifact host serves text and images, not .glb
+    import base64
+    with open(glb_path, "rb") as fh, open(os.path.join(out, "duck.glb.txt"), "w") as fo:
+        fo.write(base64.b64encode(fh.read()).decode("ascii"))
+
+    # 11. checklist
+    found = Counter(r["part"] for r in man_nodes.values() if r["category"] in ("pla", "tpu"))
+    printed_rows = []
+    for stem in sorted(set(pd_) | {k for k in found}):
+        d = pd_.get(stem, {})
+        exp, got = d.get("qty"), found.get(stem, 0)
+        note = ""
+        if "guide x1" in d.get("flags", ""):
+            note = "Print guide lists 1, the CAD and PRINT_CHECK use 2 (issue #26)"
+        printed_rows.append(dict(stl=stem + ".stl", label=label_of(stem), expected=exp, found=got,
+                                 material=d.get("material"), g_each=d.get("g_each"), h_each=d.get("h_each"),
+                                 g_total=d.get("g_total"), h_total=d.get("h_total"), flags=d.get("flags"),
+                                 file_in_print=stem in print_files, ok=(exp == got and stem in print_files), note=note,
+                                 nodes=[k for k, r in man_nodes.items() if r["part"] == stem and r["category"] in ("pla", "tpu")]))
+    servo_n = len({r["group"] for r in man_nodes.values() if r.get("group")})
+    bom_rows = []
+    ph_by_part = defaultdict(list)
+    for k, r in man_nodes.items():
+        ph_by_part[r["part"]].append(k)
+    servo_nodes = [k for k, r in man_nodes.items() if r.get("group")]
+    for b in bom:
+        kind, parts, related, note = BOM_VIEW.get(b["line"], ("none", [], [], "Not mapped in make_viewer_data.py"))
+        if b["line"] not in BOM_VIEW:
+            warnings.append("BOM line %s (%s) has no view mapping" % (b["line"], b["item"]))
+        exp = num(b["need"]) if re.match(r"^\s*\d+\s*$", b["need"] or "") else None
+        if kind == "filament":
+            ids = [k for k, r in man_nodes.items() if r["category"] == parts[0]]
+            cnt = len(ids)
+            exp = sum(d["qty"] for d in pd_.values() if d["cat"] == parts[0])
+        else:
+            ids = []
+            for pk in parts:
+                ids += [k for k in servo_nodes if not man_nodes[k]["part"].startswith("horn")] if pk == "servo" else ph_by_part.get(pk, [])
+            cnt = servo_n if parts == ["servo"] else len(ids)
+        rel = [k for pk in related for k in ph_by_part.get(pk, [])]
+        show = {"cad": "In CAD", "placeholder": "Placeholder", "filament": "As %d printed parts" % cnt}.get(kind, "Not modelled")
+        if kind == "placeholder" and any(not k.startswith("ph-") for k in rel):
+            show += " + CAD body (replaced)" if any(man_nodes[k].get("replaced") for k in rel) else " + CAD body"
+        if kind == "cad" and parts == ["servo"]:
+            show += " (%d servos)" % servo_n
+        ok = None if kind == "none" else (exp is None or cnt == exp)
+        bl = re.findall(r"\bB\d+\b", b["verified"])
+        bom_rows.append(dict(line=b["line"], section=b["section"], item=b["item"], spec=b["spec"], need=b["need"],
+                             buy=b["buy"], supplier=b["supplier"], verified=b["verified"], kind=kind, show=show,
+                             count=cnt if kind != "none" else None, expected=exp, ok=ok, note=note,
+                             blockers=sorted(set(bl), key=lambda s: int(s[1:])), nodes=ids + rel))
+    extra_rows = []
+    for key, why in (("antenna", "Antenna rod: modelled (antenna.stl) but has no BOM line and no print STL"),
+                     ("head_board", "board.stl copy in the head: B7 says it marks the Pi footprint, not a second adapter"),
+                     ("horn_drive", "Servo horns: ship with the servo (BOM line 1), 2 per servo")):
+        ids = [k for k, r in man_nodes.items() if r["part"] == key or (key == "horn_drive" and r["part"] == "horn_idle")]
+        if ids:
+            extra_rows.append(dict(item=why, count=len(ids), nodes=ids))
+
+    notes = []
+    pc_txt = open(os.path.join(LAB, "PRINT_CHECK.md"), encoding="utf-8").read()
+    for n_stl in sorted(set(re.findall(r"(\d+) STLs", pc_txt))):
+        if int(n_stl) != len(pd_):
+            notes.append(dict(kind="doc", text="PRINT_CHECK.md says %s STLs in one place; its per-STL table has %d rows and print/ has %d STL files." % (n_stl, len(pd_), len(print_files))))
+    if any("guide x1" in (d.get("flags") or "") for d in pd_.values()):
+        notes.append(dict(kind="doc", text="Bulb: the upstream print guide lists 1, the CAD and PRINT_CHECK use 2 (issue #26).",
+                          nodes=[k for k, r in man_nodes.items() if r["part"] == "bulb"]))
+    b9 = [b for b in bom if b["line"] == "9"]
+    if b9 and "HENGE" in b9[0]["spec"]:
+        notes.append(dict(kind="bom", text="BOM.md line 9 still names the HENGE 4 A UBEC; the 5 V placeholder uses the Pololu step-down size (about 18 x 18 x 8).",
+                          nodes=[k for k, r in man_nodes.items() if r["part"] == "reg_5v"]))
+    b8 = [b for b in bom if b["line"] == "8"]
+    if b8 and "Tenergy" not in b8[0]["spec"] and "bms_tenergy" in placed_ids:
+        notes.append(dict(kind="bom", text="BOM.md line 8 still names the JZK 2S BMS; the lab placement uses the Tenergy 32175 in the bms.stl slot.",
+                          nodes=[k for k, r in man_nodes.items() if r["part"] in ("bms_cad", "bms_tenergy")]))
+    lh = (cad_place.get("camera") or {}).get("lens_hole")
+    if lh:
+        off = max(abs(v) for v in lh["offset_from_pilot_centre_mm"])
+        if off > 5.5:
+            # Checked 2026-11-01 against the Raspberry Pi Camera Module 3 mechanical drawing (RP-008153-DS-1):
+            # the lens (dia 5.75) sits on the upper hole row, 14.5 mm from the bottom edge, so it is 6.25 mm off the
+            # 4-hole centre. The head.stl opening matches the real camera.
+            notes.append(dict(kind="info", text="Camera: the lens opening in head.stl (D %.2f mm) is %.2f mm off the centre of the 4 pilots, on the upper pilot row. "
+                              "This matches the Camera Module 3 drawing (RP-008153-DS-1: lens on the upper hole row, 14.5 mm from the bottom edge). Checked 2026-11-01, no change needed." % (lh["d_mm"], off),
+                              nodes=[k for k, r in man_nodes.items() if r["part"] in ("camera", "head")]))
+    doc_total = None
+    for t in md_tables(os.path.join(LAB, "PRINT_CHECK.md")):
+        if t["header"][:4] == ["Material", "Parts", "Grams", "Hours"]:
+            for r in t["rows"]:
+                if r["Material"].strip().lower() == "total":
+                    doc_total = dict(parts=num(r["Parts"]), grams=num(r["Grams"]), hours=num(r["Hours"]))
+    n_printed_found = sum(found.values())
+    n_printed_exp = sum(d["qty"] for d in pd_.values())
+    bom_kinds = Counter(r["kind"] for r in bom_rows)
+    summary = dict(
+        printed=dict(found=n_printed_found, expected=n_printed_exp, stl_files=len(pd_), stl_found=len([s for s in found if found[s]]),
+                     grams=doc_total["grams"] if doc_total else round(sum(d["g_total"] or 0 for d in pd_.values()), 1),
+                     hours=doc_total["hours"] if doc_total else round(sum(d["h_total"] or 0 for d in pd_.values()), 1),
+                     doc_total_parts=doc_total["parts"] if doc_total else None,
+                     pla=sum(d["qty"] for d in pd_.values() if d["cat"] == "pla"), tpu=sum(d["qty"] for d in pd_.values() if d["cat"] == "tpu")),
+        servos=dict(found=servo_n, expected=int(num([b["need"] for b in bom if b["line"] == "1"][0]))),
+        inserts=dict(found=len(inserts), expected=int(num([b["need"] for b in bom if b["line"] == "16"][0])), by_part=dict(n_ins)),
+        bearings=dict(found=kc["bearing"], expected=int(num([b["need"] for b in bom if b["line"] == "18"][0]))),
+        placeholders=dict(total=len(ph_all), placed=sum(1 for p in ph_all if p["sub"] != "tray"), tray=len(tray_items)),
+        bom=dict(lines=len(bom_rows), cad=bom_kinds["cad"], both=bom_kinds["both"], placeholder=bom_kinds["placeholder"],
+                 filament=bom_kinds["filament"], not_modelled=bom_kinds["none"],
+                 mismatches=[r["line"] for r in bom_rows if r["ok"] is False]),
+        printed_mismatches=[r["stl"] for r in printed_rows if not r["ok"]],
+        blockers_open=sorted([b for b, v in blk.items() if v["open"]], key=lambda s: int(s[1:])),
+        blockers_total=len(blk))
+
+    cats = {
+        "pla": dict(label="Printed PLA", color="#c5b9a3"), "tpu": dict(label="Printed TPU", color="#2a9d8f"),
+        "servo": dict(label="Servo", color="#3d4656"), "horn": dict(label="Servo horn", color="#ee8434"),
+        "electronics": dict(label="Electronics / PCB", color="#4f9f3a"), "battery": dict(label="Battery", color="#d1495b"),
+        "bearing": dict(label="Bearing", color="#93a1b0"), "insert": dict(label="M3 insert", color="#d3a62c"),
+        "placeholder": dict(label="Placeholder (not in CAD)", color="#a855c8"), "other": dict(label="Other modelled part", color="#7c6a58"),
+    }
+    cat_count = Counter(r["category"] for r in man_nodes.values())
+    for k in cats:
+        cats[k]["count"] = cat_count.get(k, 0)
+    manifest = dict(
+        meta=dict(generated=time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()), script="altaay_lab/viewer/make_viewer_data.py",
+                  units="mm", frame="URDF zero pose: x forward, y left, z up (glTF root turns it y-up, scale 0.001)",
+                  sources=dict(urdf="mini_bdx/robots/open_duck_mini_v2/robot.urdf (Open_Duck_Mini b23317a)",
+                               stl="print/ (STL commit 730c14b per PRINT_CHECK.md)", inserts="altaay_lab/audit/sites.json",
+                               docs="altaay_lab/PRINT_CHECK.md, BOM.md, HARDWARE_AUDIT.md section 6, MOUNTING.md"),
+                  placements=pl_note, assembly_json_match=asm_ok, frame_check_mm=frame_check,
+                  unmapped=sorted(set(unmapped)), warnings=warnings,
+                  glb=dict(bytes=os.path.getsize(glb_path), geometries=len(geoms), nodes=len(nodes),
+                           triangles_unique=int(sum(len(g["idx"]) for g in geoms)),
+                           triangles_drawn=int(sum(len(geoms[n["mesh"]]["idx"]) for n in nodes)),
+                           source_triangles={g["name"]: g["src_faces"] for g in geoms}),
+                  explode=dict(stage1=[0.0, 0.6], stage2=[0.2, 0.9], stage3=[0.5, 1.0], horn_pull=HORN_PULL, insert_pull=INSERT_PULL)),
+        categories=cats,
+        groups=[dict(id=g, label=l, subs=[s[0] for s in SUBS if s[2] == g and (s[0] in sub_c)]) for g, l in GROUPS],
+        subassemblies={sid: dict(label=l, group=g, v1=list(v), centre=np.round(sub_c[sid], 1).tolist())
+                       for sid, l, g, v in SUBS if sid in sub_c},
+        tray=tray, nodes=man_nodes,
+        servos=[dict(joint=g["joint"], id=SERVO_ID.get(g["joint"]), link=g["link"], axis_err_mm=g["axis_err"]) for g in servo_groups],
+        blockers=blk,
+        checklist=dict(summary=summary, printed=printed_rows, bom=bom_rows, extra=extra_rows, notes=notes),
+    )
+    with open(os.path.join(out, "manifest.json"), "w") as fh:
+        json.dump(manifest, fh, separators=(",", ":"))
+
+    # 12. report
+    print("URDF instances %d, head internals %d, inserts %d, placeholders %d (tray %d)" % (
+        n_urdf, len(inst) - n_urdf, len(inserts), len(ph_all), len(tray_items)))
+    print("printed parts found %d / expected %d over %d STLs; servos %d / %d; inserts %d / %d %s" % (
+        n_printed_found, n_printed_exp, len(pd_), servo_n, summary["servos"]["expected"], len(inserts),
+        summary["inserts"]["expected"], dict(n_ins)))
+    print("printed mismatches:", summary["printed_mismatches"] or "none")
+    print("BOM lines %d: %s; mismatches %s" % (len(bom_rows), dict(bom_kinds), summary["bom"]["mismatches"] or "none"))
+    print("unmapped meshes:", sorted(set(unmapped)) or "none")
+    print("insert open ends unknown:", sum(1 for x in inserts if x["open_dir"] == 0))
+    print(pl_note)
+    for p in ph_all:
+        print("  placeholder %-16s sub %-10s follow %-40s dist %s  %s" % (p["id"], p["sub"], p.get("follow"), p.get("follow_dist"), p.get("where", "")[:70]))
+    for n in notes:
+        print("NOTE:", n["text"])
+    print("GLB %s: %.2f MB, %d geometries, %d nodes, %d unique / %d drawn triangles" % (
+        glb_path, os.path.getsize(glb_path) / 1e6, len(geoms), len(nodes), manifest["meta"]["glb"]["triangles_unique"],
+        manifest["meta"]["glb"]["triangles_drawn"]))
+    for w in warnings:
+        print("WARNING:", w)
+    print("done in %.1f s" % (time.time() - t_start))
+
+
+if __name__ == "__main__":
+    main()

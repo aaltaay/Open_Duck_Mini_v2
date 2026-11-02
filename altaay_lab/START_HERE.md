@@ -1,7 +1,7 @@
 # START HERE: Open Duck Mini v2 (Altaay lab fork)
 
 Read this file first. It is written so a new agent on a different account can pick up the duck build with no other context.
-Last written: 2026-11-01 2:18 PM ET by Legged Robots, Grok Bot agent of Ahmed Altaay.
+Last written: 2026-11-01 2:18 PM ET by Legged Robots, Grok Bot agent of Ahmed Altaay. Updated 2026-11-01 about 7:00 PM ET by the Claude Code agent (print-readiness pass under Ahmed's delegation, DECISIONS.md D1 to D16; branch claude/print-ready, pull request into altaay-lab).
 
 ## What this is
 This repo is a public fork of [apirrone/Open_Duck_Mini](https://github.com/apirrone/Open_Duck_Mini). Upstream branch `v2` is left untouched at b23317a. All Altaay lab work lives ONLY on branch `altaay-lab`, ONLY in this `altaay_lab/` folder.
@@ -13,14 +13,16 @@ Owner bot: **Legged Robots, Grok Bot agent of Ahmed Altaay**. The duck is one of
 Naming: "Mento" and "Minto" in older files and commits refer to the same owner bot, now named Legged Robots (Grok Bot agent of Ahmed Altaay).
 
 ## Current status (plain words)
-- Research and hardware audit done. Nothing bought, nothing printed.
-- Plan: build stock first, exactly as designed upstream. Next lab step: freeze the design, then make an assembly map.
-- Sim: the stock BEST_WALK_ONNX_2 policy walks in MuJoCo with no falls, about 0.097 m/s for a 0.15 m/s command (sim/SIM_WALK.md). Sim pass only.
-- Hardware audit (from upstream STL commit 730c14b): 58 heat-set inserts, 193 screws, 3 x 6804 bearings, every hole and cable measured. 29 BLOCKERS listed (HARDWARE_AUDIT.md).
-- BOM before shipping and tax: build $715.27, with expression pack $761.22, with tools $899.89 (BOM.md, bom.json).
-- Servo: evidence points to STS3215 7.4 V 1:345 "19 kg.cm" (C001), about 85 % confidence (SERVO_DEEP_DIVE.md).
-- Power: Castle Creations CC BEC Pro set to 7.2 V plus a 15 A ATO fuse (decided by Ahmed 2026-11-01 1:09 PM ET; POWER.md, WIRING.md).
-- Issue #48 question: posted upstream by aaltaay on 2026-11-01 1:08 PM ET: https://github.com/apirrone/Open_Duck_Mini/issues/48#issuecomment-6561836208 . DECISIONS.md D1 records this too.
+- Nothing bought, nothing printed. Print-readiness pass done 2026-11-01 evening: no print-blocking blockers left. The first print is a short coupon session cut from the real parts (print/PRINT_PLAN.md) and it waits for Ahmed's OK (lab rule 4).
+- Decisions made under Ahmed's delegation (DECISIONS.md D1 to D16): C001 servos with a 1-servo bench test first; Tenergy 32175 BMS; 15 A fuse kept; Pololu 2815 MOSFET main switch with the stock panel switch as its control; Castle CC BEC Pro at 7.2 V; servo power bypasses the Waveshare adapter (D15, belly splices, one power lead per chain); Pololu 5 V regulator on the head floor; GPIO wired to the Runtime code; projector LED resistor; software battery cut-off.
+- Every part that is not in the upstream CAD has a measured seat inside the body (audit/free_space.py, audit/placements.json, MOUNTING.md). No STL edit is needed.
+- Electrical verification (sim pass only): servo current budget from the stock walk (sim/CURRENT_BUDGET.md), ngspice model of the whole power path down to every servo (sim/POWER_PATH_SIM.md), electrical rule check of the netlist with 0 errors (audit/ERC_REPORT.md), and a hardware test plan with pass/fail numbers (TEST_PLAN.md).
+- Wiring: machine-readable netlist (wiring/netlist.yaml) is the single source for the schematic, harness and pictorial drawings and for the rule check.
+- Every upstream issue and PR (137) is triaged in UPSTREAM_ISSUES.md; the gaps that affect this build are listed first.
+- Exploded 3D parts check (private artifact): https://claude.ai/artifact/PHSJH2PwQZLhZnTf9WgaMo (data script viewer/make_viewer_data.py). 52/52 printed parts, 14/14 servos, 58/58 inserts, 3/3 bearings found in the CAD.
+- Sim: the stock BEST_WALK_ONNX_2 walks in MuJoCo with no falls (sim pass only). The upstream sim loop adds a +1.3 accelerometer bias that training and the robot do not; runs since 6:41 PM ET remove it (sim/SIM_WALK.md note).
+- Known risks to measure on the bench: real servo hop resistance and voltage sag at the ankles (power sim gate), CC BEC Pro behavior below 7.2 V input (minimum not published), servo register 85 and firmware (upstream issue 48), BNO055 I2C glitches.
+- Issue #48 question: posted upstream by aaltaay on 2026-11-01 1:08 PM ET (DECISIONS.md D1). No reply read in this pass.
 
 ## Hard requirements (lab-wide, set by Ahmed)
 1. Self-charging dock: the robot finds a dock by itself (AprilTag), charges through pogo pins, and goes back to the dock at about 20 % battery.
@@ -63,6 +65,16 @@ Duck note on "bus servos only": the 14 joint servos are serial bus. The optional
 | MOUNTING.md | Inserts, screws, bearings per part. |
 | audit/ | Measurement scripts (measure.py, screws.py, pocket.py, sites.py, cables.py, mkbom.py and others) and their json data. |
 | history/ | One dated file per milestone. |
+| TEST_PLAN.md | Hardware tests with pass/fail numbers, from cable continuity to the walking voltage log. |
+| UPSTREAM_ISSUES.md | Every upstream issue and PR triaged, gaps first. |
+| sim/CURRENT_BUDGET.md, sim/current_budget.py | Servo current from the stock walk (sim pass only). |
+| sim/POWER_PATH_SIM.md, sim/power_path_sim.py | ngspice model of the power path to every servo (sim pass only). |
+| wiring/netlist.yaml | Single source of truth for every pin and wire; drawings are generated from it. |
+| audit/erc.py, audit/ERC_REPORT.md, audit/continuity_checklist.csv | Electrical rule check of the netlist and the beep list for the cable test. |
+| audit/free_space.py, audit/place_parts.py, audit/placements.json | Free space in the swept trunk volume and the seats of parts not in the CAD. |
+| audit/bom_md_to_json.py | Rebuilds bom.json from BOM.md. |
+| print/ | Slicer configs, coupon generator, slice script and PRINT_PLAN.md. |
+| viewer/ | Data script for the exploded 3D parts check. |
 
 ## Upstream pins
 | Repo | Commit |
@@ -86,22 +98,17 @@ CAD, STL and sim assets are not copied here. Use the upstream commits. Onshape C
 | Google Drive | Ahmed's lab Drive folder "Altaay Robotics Lab" (private). It has no Duck folder yet. |
 
 ## Open decisions
-Full text: [DECISIONS.md](DECISIONS.md).
-- D1 Servo variant: buy C001 as written and bench test 1 or 2 first (recommended). The upstream question is now posted (see status).
-- D2 Accept Feetech under the lab rule (no thermal duty curve), or require a duty test first?
-- D4 Swap the generic UBEC for a Pololu D36V28F5 (US, spec'd)? That changes the as-is build.
-- D6 Runtime and Playground have no license. Ask upstream to add one? (needs Ahmed's OK)
-- D7 Pi Zero 2 W out of stock at US resellers: wait, pay eBay prices, or test another board?
-- Decided 2026-11-01: stair exempt (12:51 PM ET), build stock first, dock and get-up later (12:53 PM ET), BEC Pro 7.2 V plus 15 A fuse (1:09 PM ET).
+Full text: [DECISIONS.md](DECISIONS.md). D1 to D16 are decided (D14 superseded by D15). Still Ahmed's call:
+- OK to buy the test order (BOM.md "Needs test order") and OK for the coupon print session (print/PRINT_PLAN.md). Both need his yes (lab rules 4 and 7).
+- Printer model (not in any lab file): the print package is printer-agnostic, bed at least 220 x 220 mm.
 
 ## Next steps
-1. Ahmed answers D1, D2, D4, D6, D7. Watch issue #48 for a reply.
-2. Freeze the design (BOM, print list, wiring), then make an assembly map.
-3. With Ahmed's OK only: order one STS3215 of the chosen variant and bench test at 7.2 V and at low pack voltage.
-4. Print one leg in PLA, check the 6804ZZ bearing seat (measured 32.19 mm) and insert size.
-5. Bench test the CC BEC Pro (setpoint, dropout at 7.0 and 6.5 V input, temperature at 8 A).
-6. Copy /workspace/odm_share to F:.
-7. Later lab step: self-docking and get-up after falls, in sim first.
+1. Ahmed reviews the pull request and the exploded view, then says yes or no to (a) the coupon print session and (b) the test order.
+2. Coupon session: print the coupons and test parts, check them against the pass/fail list in print/PRINT_PLAN.md, write the results in history/.
+3. Test order arrives: run TEST_PLAN.md sections 1 to 7 (cables, battery and BMS, BEC sweep, regulator, one servo with register 85 and firmware, Kelvin hop resistance).
+4. Freeze: tag the design (STL pin, BOM, netlist, print settings) once the coupons and the bench gates pass, then the full print and the assembly map.
+5. Staged power-up and the walking voltage log (TEST_PLAN.md sections 8 to 11).
+6. Later lab step: self-docking and get-up after falls, in sim first (needs a pack voltage and current monitor).
 
 ## How to contribute without conflicts
 - One owner per file. The owner bot of this repo is Legged Robots, Grok Bot agent of Ahmed Altaay. Do not edit another agent's files; copy them and ask the owner (through Ahmed) for changes.

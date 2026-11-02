@@ -4,10 +4,10 @@
 
 A1. Servo variant: resolved to STS3215 7.4 V 1:345 (C001), about 85% confidence (SERVO_DEEP_DIVE.md). Not confirmed by apirrone in writing, and his servo firmware version is unknown. Issue #48 (open) still reports poor tracking and feet that barely lift. The likely causes are servo register or firmware state, supply sag or mislabeled 12 V units, not the BOM variant. The C001 reaches about 5.45 rad/s at 7.4 V, matching the 5.24 rad/s in sim. Bench test before the full build.
 
-A2. Over-voltage. A 2S pack charges to 8.4 V, the STS3215 C001 is rated 6 to 7.4 V, and Feetech excludes over-voltage damage from warranty (issue #51). The Waveshare adapter (A) is specced for 9 to 12.6 V input and passes voltage straight to the bus.
+A2. Over-voltage. A 2S pack charges to 8.4 V, the STS3215 C001 is rated 6 to 7.4 V, and Feetech excludes over-voltage damage from warranty (Feetech after-sales page, REFERENCES.md). Upstream issue 51 asks about 8.4 V on 7.4 V servos; it was closed on 2026-07-19 with no reply. The Waveshare adapter (A) is specced for 9 to 12.6 V input and passes voltage straight to the bus.
 Lab change (D3 decided 2026-11-01): Castle CC BEC Pro set to 7.2 V feeds the bus (POWER.md). Open: BEC dropout behavior and setpoint accuracy not published, measure on the bench.
 
-A3. Battery holder current. Spring holder contacts limit current for 14 servos (issue #51). No fuse anywhere in the power path.
+A3. Battery holder current. Upstream issue 51 asks whether the spring holder contacts and thin wires limit current for 14 servos (a question, not a finding). No fuse anywhere in the power path.
 Lab change: 15 A ATO fuse (Littelfuse 0287015.PXCN in FHAC0001ZXJ) right after BMS P+, 16 AWG harness. Holder still open: measure drop at 10 A, replace with a spot-welded pack if over about 0.3 V (POWER.md section 5).
 
 A4. No real schematic. Wiring is a block diagram (docs/open_duck_mini_v2_wiring_diagram.png), a pictorial of the head (wiring.png) and a Pi pin table. No wire gauges, connector part numbers or fuse. The UBEC is "stuffed in the back" (issue #1).
@@ -62,3 +62,17 @@ B12. Licensing. Runtime, Playground and reference motion generator have no licen
 
 
 A12. Adapter (Waveshare bus servo adapter, board.stl on trunk_top) has only 2 servo sockets (H3, H5, wired in parallel), but 3 chains leave it (left leg, right leg, neck). No Y-lead is needed: the neck chain hangs off the left ankle's free bus port through one made lead S14 (Tnkr wiring of the upstream assembly, no splitter; CABLE_MAP.md). B19 cleared 2026-11-01.
+## C. Update 2026-11-01 about 6:25 PM ET (print-readiness pass, DECISIONS.md D1 to D12)
+- A1 servo variant: decided C001, bench test 1 servo first (D1, D2). Issue #48 stays on watch.
+- A2 over-voltage: unchanged, Castle CC BEC Pro at 7.2 V (D3).
+- A3 battery holder current: sim walking mean at the pack is about 4.2 A (sim/CURRENT_BUDGET.md, sim pass only), so the 10 A holder drop test keeps 2 x margin. Fuse 15 A stays; BMS now Tenergy 32175 with a published 22 +/- 5 A over-current trip (D10).
+- A4 schematic: being redrawn as a real schematic plus a harness drawing (wiring/, WIRING.md, CABLE_MAP.md).
+- A10 Pi Zero 2 W stock: decided (D7). In-stock fallback CanaKit kit with pre-soldered header; the header fits in the head (44.3 mm free below the Pi).
+- B3 battery and BMS: BMS has a spec table now (Tenergy). Still no fuel gauge or comms; battery level for docking comes later (lab step with docking).
+- B10 Chinese parts rule: generic UBEC replaced by a Pololu regulator (US), generic BMS replaced by the Tenergy board (US seller, full spec table), main switch is a Pololu 2815 (US). Still flagged: Feetech STS3215 (accepted for the stock build with a bench thermal test, D2), Waveshare adapter, USB-C charger, cell holder, SG90 antenna servos (B10a).
+- B12 licensing: no message sent (D6). Runtime and Playground used unmodified at pinned commits and not republished.
+- New, from the free-space search (D11): every part not in the CAD has a measured seat. No STL edit is needed for the stock build plus the lab power changes.
+- Upstream issues: every issue and PR in the 4 upstream repos is triaged in UPSTREAM_ISSUES.md, with the gaps that affect this build listed first.
+- New 2026-11-01 6:56 PM ET (exploded-view check): the 2 antenna paddles (antenna.stl, 3.8 x 39.4 x 146.1 mm) are in the URDF but not in print/, the print guide or the BOM. Plan: print them from the URDF mesh as an optional expression part (print/PRINT_PLAN.md).
+- New 2026-11-01 6:56 PM ET (parts check): the Waveshare adapter marks "MAX:6A" at its servo header and is specced for 9 to 12.6 V input. Answer D15: servo power bypasses the adapter (BEC -> belly splices -> one power lead per chain), the adapter carries USB data only.
+- New 2026-11-01 6:56 PM ET (parts check): the Tenergy BMS over-discharge cut (2.40 V per cell) is below the Molicel P30B minimum (2.5 V), and Castle does not publish the CC BEC Pro minimum input voltage. Answer: software cut-off at servo Present Voltage 6.0 V (TEST_PLAN.md section 11) and a BEC input sweep on the bench before assembly (TEST_PLAN.md section 4).

@@ -1,0 +1,3 @@
+make_viewer_data.py builds the exploded parts-check view data: it poses robot.urdf at zero joint angles, swaps in the print/ STLs, adds the head parts, the 58 M3 inserts (audit/sites.json) and boxes for parts not in the CAD (audit/placements.json, re-read every run).
+Run: `python3 altaay_lab/viewer/make_viewer_data.py --out <folder outside the repo>`. It writes duck.glb, duck.glb.txt (base64 copy) and manifest.json there and refuses to write inside the repo (no models in git).
+Publish duck.glb.txt and manifest.json next to the viewer page (the artifact host does not serve .glb); the page loads them by relative URL and reads every count from manifest.json.

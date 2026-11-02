@@ -2,24 +2,29 @@
 
 Decision (Ahmed, 2026-11-01 1:09 PM ET, answers D3): add a regulator so the servos never see more than 7.4 V.
 Prices and stock checked 2026-11-01 (America/New_York). Nothing bought.
+Update 2026-11-01 about 6:25 PM ET (DECISIONS.md D8, D10): current sizing now comes from the sim current budget (sim/CURRENT_BUDGET.md, sim pass only) instead of estimates; BMS is now the Tenergy 32175; a Pololu 2815 MOSFET switch carries the main current and the stock panel switch only controls it. Sections 2, 5, 6 and 7 below.
 
 ## 1. Requirement
 - Input: 2S Li-ion, 6.0 V (empty) to 8.4 V (full).
 - Output: 7.2 to 7.4 V, never above 7.4 V (STS3215 C001 rating 6 to 7.4 V; Feetech excludes over-voltage from warranty).
-- Load: 14x STS3215 C001 on one bus through the Waveshare adapter.
+- Load: 14x STS3215 C001 on one bus. Since D15 the servo power goes from the BEC to belly splices and one lead per chain; the Waveshare adapter only carries data.
 - Below about 7.3 to 7.5 V of pack voltage the output may simply follow the input. That is acceptable (servos still in their 6 V minimum range).
 
-## 2. Current sizing (estimate, not measured)
-| Case | Estimate | Basis |
-|---|---|---|
-| Idle, torque on, standing | about 1 to 2 A | 14 servos holding a 2.1 kg robot |
-| Walking, continuous average | about 4 to 8 A | 10 leg servos at roughly 0.4 to 0.8 A average each, head servos light |
-| Walking, short peaks | about 15 to 20 A | several leg servos accelerating together at foot strike |
-| All 14 stalled at once | about 38 A (14 x 2.7 A) | stall about 2.5 to 2.7 A each (Feetech C001); only in a jam or fall, not a design case. The fuse should open. |
+## 2. Current sizing (sim pass only, sim/CURRENT_BUDGET.md)
+Servo bus current at 7.4 V from the stock walk policy in the upstream MuJoCo model, converted with the BAM motor model the actuators were fitted from (worst of three kt values, statistics after the first 2 s):
 
-Battery side current is higher than servo side current at high pack voltage only by the efficiency: I_pack = I_out x 7.2 / (0.9 x V_pack). At 10 A out and 7.4 V pack this is about 10.8 A. At 15 A out it is about 16 A.
+| Case | Mean | Worst 1 s | Worst 100 ms | Worst 2 ms |
+|---|---|---|---|---|
+| Stand still | 0.19 A | 0.22 A | 0.24 A | 0.24 A |
+| Walk forward 0.15 m/s | 2.15 A | 2.25 A | 3.15 A | 5.06 A |
+| Turn 1.0 rad/s | 2.35 A | 2.54 A | 3.56 A | 7.63 A |
+| Walk, backlash model | 3.19 A | 3.41 A | 4.78 A | 8.61 A |
+| Fall (push run) | | | 6.55 A | 10.61 A |
 
-So the regulator needs about 10 A continuous inside a closed body and 20 A peaks.
+Re-run without the upstream accelerometer bias (sim/SIM_WALK.md note): within 5% of the table above. ngspice power-path model (sim/POWER_PATH_SIM.md): pack 5.1 to 5.7 A mean, 10 to 11 A peak while walking.
+Pack side at 7.4 V (regulator efficiency 0.85 assumed): walking about 4.2 A mean (at most 6.6 A with a 150 mA per servo electronics allowance), worst 100 ms about 7.5 A (at most 9.9 A), falls up to about 17 A for 20 ms with every allowance stacked at a low pack. The old estimate (4 to 8 A out walking, 15 to 20 A peaks) was high by about 2 x for walking.
+Real servos may draw more than the model (gear friction, issue #48). Until a bench log of Present Current exists, parts keep at least 2 x margin on the sim walking numbers.
+Stall case unchanged: 14 x 2.67 A = 37 A if every servo jams; the BMS over-current trip (17 to 27 A) and the fuse cover it.
 
 ## 3. Candidates checked
 | Part | Output | Current | Price, seller | Verdict |
@@ -52,10 +57,34 @@ Limits and how we handle them:
 - Place it right after BMS P+, before the switch, so it protects the BMS, the switch and the whole harness.
 - Why 15 A: walking continuous pack current is about 5 to 9 A; ATO fuses carry 110% indefinitely and open at 135% only after 0.75 to 600 s, so 20 A bursts lasting a fraction of a second pass. A sustained jam (above about 20 A) or a short opens it. 15 A also matches the XT30 rating (15 A) and stays under the BMS 20 A claim.
 
+- With the Tenergy BMS (D10, over-current detect 22 +/- 5 A) the BMS opens first on a hard over-current; the 15 A fuse is the backup for a BMS MOSFET that fails short and protects the 16 AWG harness. 20 ms fall peaks (sim, at most about 17 A) are far below the fuse's opening time at that current.
+
 ## 5. BMS and holder (issue #51)
-Issue #51 (https://github.com/apirrone/Open_Duck_Mini/issues/51, no replies as of 2026-11-01) asks whether the spring 2x18650 holder and thin wires bottleneck 14 servos, and about 8.4 V on 7.4 V servos.
+Issue #51 (https://github.com/apirrone/Open_Duck_Mini/issues/51) asks whether the spring 2x18650 holder and thin wires bottleneck 14 servos, and about 8.4 V on 7.4 V servos.
 - Cells: Molicel P30B is rated 30 A continuous. Not a bottleneck.
-- BMS: AITRIP B08NSTF8CT claims 20 A. Seller claim only, no datasheet. Our continuous load (5 to 9 A) is fine; 16 A bursts are near its claimed limit. Its over-current trip point is unknown, so it might cut out on peaks. Test on the bench.
-- Holder: spring contacts have no published current rating (Keystone 1049 dual 18650 holder also has none). This is the likely bottleneck. Measure the drop across the holder at 10 A. If it is over about 0.3 V, or the springs get warm, replace it with a spot-welded 2S pack with nickel strip and 16 AWG leads.
-- Wires: use 16 AWG silicone on every power run (WIRING.md section 4).
+- BMS (D10, 2026-11-01 about 6:20 PM ET): Tenergy P/N 32175 2S protection board, https://power.tenergy.com/protection-circuit-module-pcb-for-7-2v-7-4v-2s-li-ion-battery-pack-working-10a-cutoff-22a-ntc , $22.99, "in stock" 2026-11-01. Spec table on that page: over-charge detect 4.280 +/- 0.025 V, over-discharge about 2.40 +/- 0.05 V (exact rows in the sourcing check, BOM.md line 8), rated operational current 10 A or less, over-current detection 22 +/- 5 A, main loop resistance 25 mOhm max, 10 uA max own consumption, 10k 3380 NTC, size 34 x 16 x 4.5 mm. The page shows no cell balancing ("/" in the balance rows), so keep the two cells matched (same batch) and check the cell voltages at each charge for the first 10 charges. Fits the measured upstream BMS envelope 17.75 x 47.2 x 5.33 mm (MOUNTING.md). Replaces the JZK 8 A board (no datasheet) and the AITRIP 20 A board (does not fit).
+- Holder: spring contacts have no published current rating. Measure the drop across the holder at 10 A on the bench. If it is over about 0.3 V, or the springs get warm, replace it with a spot-welded 2S pack with nickel strip and 16 AWG leads. The sim walking mean (about 4 A) is well under that test current.
+- Wires: 16 AWG silicone on every power run (WIRING.md).
 - Over-voltage: solved by the regulator above.
+
+## 6. Main switch (D8, clears B22)
+- The body_back cutout only fits the small stock panel slide switch, and no switch that small has a published 15 A DC rating. So the switch no longer carries the current.
+- Pololu 2815 Big MOSFET Slide Switch with Reverse Voltage Protection, HP (https://www.pololu.com/product/2815, $8.49, status "Rationed (Active and Preferred)", backorders allowed, US made in Las Vegas): 4.5 to 32 V operating, 13 mOhm at 4.5 V and 8.6 mOhm at 10 V (combined MOSFET resistance), 6.0 A heats the MOSFETs to 55 C and 16 A to 150 C (at 12 V, 22 C ambient, still air), 90 A maximum, 0.8 x 1.0 x 0.16 in, 2.7 g.
+- Control: Pololu: "To use an alternate SPST switch to control the MOSFETs, set the on-board slide switch to the off position and connect the alternate switch between ground and the switch control terminal". The stock panel switch does that, so it carries microamps.
+- Order: after the fuse, before the bus node, so the fuse also protects the switch. Charging is wired on BMS P+/P- before the XT30 and works with the robot off.
+- Heat at the sim walking mean (about 4.2 A at the pack): about 0.2 W in the MOSFETs, well under the 55 C point. Mount it on the battery bay front wall with foam tape (MOUNTING.md), not touching the BEC.
+
+## 7. 5 V branch (D4, D8)
+- The HENGE UBEC (no datasheet) is replaced by an in-stock Pololu 5 V step-down (BOM line 9), mounted on the head floor below the Pi.
+- It is fed from the switched pack bus through the neck with a 20 AWG pair (P13). At 12 W peak this is about 1.9 A at 7.4 V in the neck, instead of 2.4 A at 5 V, and voltage drop in the neck wires no longer reaches the Pi directly.
+- Loads on the Pi 5 V rail: Pi Zero 2 W, 2 x SG90 antenna servos, MAX98357A amp, camera. Peak about 2.4 A (CABLE_MAP.md P13), typical about 0.6 A.
+
+## 8. Servo power distribution (D15, 2026-11-01 6:48 PM ET)
+- Parts check: the Waveshare Bus Servo Adapter (A) schematic marks "MAX:6A" next to servo header H3, all servo current would pass its screw terminal and an AO4407 MOSFET, and Waveshare specifies 9 to 12.6 V input (we supply 7.2 V). The ngspice model shows BEC output peaks of 8.3 to 9.1 A while walking.
+- So the servo power bypasses the adapter: BEC output (both leads joined) -> 16 AWG -> V+ and GND splices in the belly -> SP1 (left leg, ID 20), SP2 (right leg, ID 10), SP3 (neck, ID 30), 22 AWG because the Molex 08-70-1040 terminal takes 22 to 28 AWG. The adapter feeds only DATA and GND; H1 is not connected; its logic runs from USB VBUS (schematic). Bench check in TEST_PLAN.md section 6.
+- Effect in the power sim at a nominal pack: worst ankle 5.04 V minimum (typical corner) instead of 4.78 V, head servos at 5.0 V or more in both resistance corners.
+
+## 9. BEC at low input (D16)
+- Castle does not publish the CC BEC Pro minimum input voltage, and Motion RC lists "16V to 40V" while Castle's table rates it at 2S to 4S. Its behavior below the 7.2 V setpoint (pass-through, or shut-off) is not verified.
+- TEST_PLAN.md section 4 sweeps the input from 8.4 V down to 6.5 V on the bench before assembly. If it shuts off, use the Pololu D42V110F6 (6 V fixed, about 11 A, section 3) and accept slower servos.
+- Battery: the Tenergy board cuts only at 2.40 V per cell (P30B minimum 2.5 V), so the software stops walking at about 3.5 V per cell under load and shuts down at servo Present Voltage 6.0 V (TEST_PLAN.md section 11).
