@@ -1,0 +1,51 @@
+{
+ "source": "altaay_lab/bench/sim_profiles.py on sim/power_path_sim.py build()",
+ "sim_pass_only": true,
+ "window_s": [
+  10.0,
+  16.0
+ ],
+ "rate_hz": 50.0,
+ "cases": {
+  "full_typical": {
+   "cell_ocv": 4.2,
+   "worst_min": 5.99,
+   "ankle_min": 5.99,
+   "left_ankle_frac_below_6": 0.007,
+   "right_ankle_frac_below_6": 0.0,
+   "median_of_servos_mean": 7.003,
+   "bus_mean": 7.818,
+   "seconds": 5.2
+  },
+  "nominal_typical": {
+   "cell_ocv": 3.7,
+   "worst_min": 5.04,
+   "ankle_min": 5.04,
+   "left_ankle_frac_below_6": 0.303,
+   "right_ankle_frac_below_6": 0.337,
+   "median_of_servos_mean": 6.275,
+   "bus_mean": 6.79,
+   "seconds": 3.7
+  },
+  "nominal_highside": {
+   "cell_ocv": 3.7,
+   "worst_min": 3.44,
+   "ankle_min": 3.44,
+   "left_ankle_frac_below_6": 0.823,
+   "right_ankle_frac_below_6": 0.857,
+   "median_of_servos_mean": 5.888,
+   "bus_mean": 6.599,
+   "seconds": 4.0
+  },
+  "low_typical": {
+   "cell_ocv": 3.3,
+   "worst_min": 4.229,
+   "ankle_min": 4.229,
+   "left_ankle_frac_below_6": 1.0,
+   "right_ankle_frac_below_6": 1.0,
+   "median_of_servos_mean": 5.45,
+   "bus_mean": 5.972,
+   "seconds": 3.6
+  }
+ }
+}

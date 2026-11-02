@@ -1,0 +1,4 @@
+# Lets the walk user power the Pi off after a battery hard stop (D16), and nothing else.
+# Install with visudo so a typo cannot lock sudo: sudo visudo -f /etc/sudoers.d/odm-poweroff
+# then paste the line below (replace duck with your user name).
+duck ALL=(root) NOPASSWD: /usr/bin/systemctl poweroff
