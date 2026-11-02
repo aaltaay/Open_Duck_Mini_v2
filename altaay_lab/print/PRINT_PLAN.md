@@ -1,6 +1,6 @@
 # PRINT_PLAN: Open Duck Mini v2 stock build
 
-Last updated: 2026-11-01 about 10:55 PM ET (fastener schedule pass, DECISIONS.md D19 to D21: recess fit tests on C4, blind eye pilots on T1, first-leg check 5, "After printing" drill steps; make_coupons.py measures the new features, cut boxes unchanged, so the slice numbers stand). Earlier: 7:29 PM ET. Nothing has been printed. Nothing is printed until Ahmed approves (lab rule 4: slice summary first, then Ahmed's OK).
+Last updated: 2026-11-02 about 12:20 AM ET (DECISIONS.md D22: the light print profile is the default, light coupons C2aL, C2bL and C3L join session S1 as the gate, every plate packed and sliced again; D24: drill step 4 for the projector leads). Earlier: 2026-11-01 10:55 PM ET (D19 to D21). Nothing has been printed. Nothing is printed until Ahmed approves (lab rule 4: slice summary first, then Ahmed's OK).
 
 All grams and hours are PrusaSlicer 2.7.2 estimates made on the box for a generic 0.4 mm printer at moderate speeds (config/printer_generic.ini). They are not printed results. The real printer is not known yet; a faster printer takes fewer hours, grams change little. Material settings are maker-typical values from the Overture pages, not lab tested.
 
@@ -8,16 +8,19 @@ All grams and hours are PrusaSlicer 2.7.2 estimates made on the box for a generi
 
 | Step | What | PLA g | TPU g | Hours |
 |---|---|---|---|---|
-| 1. Coupon session | S1: one PLA plate with 6 test pieces (2.76 h). S2: one TPU foot sole (2.25 h) | 27.8 | 18.2 | 5.0 |
-| 2 and 3. Full print, 220 bed | 15 jobs: left leg first (3 plates), then 12 plates. All remaining robot parts plus 10 spares | 1474.5 | 18.1 | 126.4 |
-| 2 and 3. Full print, 256 bed | Same parts in 14 jobs | 1474.6 | 18.1 | 126.6 |
-| Total (220 bed) | | 1502.3 | 36.3 | 131.4 |
+| 1. Coupon session | S1: one PLA plate with 9 test pieces, C1, C2a, C2b, C3, C4 and T1 plus the light copies C2aL, C2bL and C3L, the D22 gate (3.60 h). S2: one TPU foot sole (2.19 h) | 36.2 | 17.6 | 5.8 |
+| 2 and 3. Full print, 220 bed | 18 jobs: left leg first (5 plates), then 13 plates. All remaining robot parts plus 10 spares | 1347.8 | 17.6 | 118.6 |
+| 2 and 3. Full print, 256 bed | Same parts in 17 jobs | 1348.2 | 17.6 | 118.7 |
+| Total (220 bed) | | 1384.0 | 35.1 | 124.4 |
+| If the D22 gate fails (220 bed) | The 3 "base + rings" plates print with 4 walls and no rings instead (step 3) | +61.5 | | +4.1 |
 
-- Ask 1: approve step 1 (coupon session) now. Ask 2: approve steps 2 and 3 after the coupon tests pass (or with the fixes they call for).
-- The robot set alone (36 STLs, 52 parts, no coupons, no spares) is PLA 1372.7 g and 114.4 h, TPU 36.3 g and 4.5 h (old PRINT_CHECK: PLA 1304.0 g and 127.7 h, TPU 35.0 g and 3.9 h). Details: SLICE_SUMMARY.md.
-- Filament: 1502 g PLA of the 2 kg bought (about 500 g left for failed prints), 36 g TPU of the 1 kg bought.
+- Ask 1: approve step 1 (coupon session) now. Ask 2: approve steps 2 and 3 after the coupon tests pass (or with the fixes they call for), including the D22 gate: C2aL, C2bL and C3L must pass the same tests as C2a, C2b and C3.
+- Profile: the light profile of DECISIONS.md D22 (print/MASS_STUDY.md variant c): 2 walls unless a rule needs more, solid rings round the insert bores and the body_back pilots, the head, neck chain, G6 thin parts, frame parts, eyes, speaker stand and all spares at their settings before D22.
+- Before D22 (the package as published on 2026-11-01; `slice.py --set heavy` reproduces its 15 plates within 0.1 g and 0.04 h each): coupon session 27.8 g PLA, 18.2 g TPU, 5.0 h; full print on a 220 bed 15 jobs, 1474.5 g PLA, 18.1 g TPU, 126.4 h; total 1502.3 g PLA, 36.3 g TPU, 131.4 h. D22 saves 118.3 g of PLA and 7.0 h in all and adds 3 jobs (more profiles, one plate each).
+- The robot set alone (36 STLs, 52 parts, no coupons, no spares) is PLA 1245.1 g and 106.7 h, TPU 35.1 g and 4.4 h (before D22: PLA 1372.7 g and 114.4 h, TPU 36.3 g and 4.5 h; old PRINT_CHECK: PLA 1304.0 g and 127.7 h, TPU 35.0 g and 3.9 h). Details: SLICE_SUMMARY.md.
+- Filament: 1384 g PLA of the 2 kg bought (about 616 g left for failed prints; 1445 g if the gate fails), 35 g TPU of the 1 kg bought.
 - Optional, not in the totals: 2 antenna rods (in the CAD, not in print/), PLA, 1.8 g, 0.2 h.
-- Session S1 is under the 3 hour target. S2 adds 2.25 h because TPU must print slowly; run it right after S1 or overnight.
+- Session S1 is 3.60 h, 0.6 h over the 3 hour target, because of the 3 light coupons (+8.4 g, +0.86 h). S2 adds 2.19 h because TPU must print slowly; run it right after S1 or overnight.
 
 ## Files in this folder
 
@@ -25,36 +28,42 @@ All grams and hours are PrusaSlicer 2.7.2 estimates made on the box for a generi
 |---|---|
 | config/printer_generic.ini | Generic printer for estimates only: 0.4 mm nozzle, 1.75 mm, 220 x 220 bed, Marlin 2. Use your own printer profile when printing. |
 | config/bed_256.ini | Bed override for 256 x 256 printers. |
-| config/pla_print.ini, config/filament_easy_pla.ini | PLA print and filament settings (base for every PLA part). |
-| config/tpu_print.ini, config/filament_tpu95a.ini | TPU print and filament settings (foot_bottom_tpu only). |
-| config/ovr_insert.ini, ovr_fit.ini, ovr_neck.ini | Per-part overrides, loaded after the base files (see below). |
-| parts.csv | Every STL: quantity, material, overrides, print up direction, left leg count, spares, reason. |
-| make_coupons.py | Cuts the test coupons from the real upstream STLs into a folder you name (never into the repo) and re-measures the feature in each. |
-| slice.py | Slices parts, coupons, plates and the optional antenna; writes G-code, 3MF and JSON to a folder you name; builds SLICE_SUMMARY.md. |
+| config/pla_print.ini, config/filament_easy_pla.ini | PLA print and filament settings (base for every PLA part): the light profile of D22, 2 walls. |
+| config/tpu_print.ini, config/filament_tpu95a.ini | TPU print and filament settings (foot_bottom_tpu only), 2 walls. |
+| config/ovr_insert.ini, ovr_neck.ini, ovr_wall3.ini, ovr_fit.ini | Per-part overrides, loaded after the base files (see below). |
+| config/mod_ring.ini | Settings of the solid rings (100 % infill modifiers round insert bores and screw pilots, see below). |
+| config/pla_print_heavy.ini, config/tpu_print_heavy.ini | The base files before D22 (3 walls), kept for the package before D22 (`slice.py --set heavy`). |
+| parts.csv | Every STL: quantity, material, profile (light, rings or heavy, with the reason), overrides, rings, the overrides before D22 ("heavy"), print up direction, left leg count, spares. |
+| make_coupons.py | Cuts the test coupons from the real upstream STLs into a folder you name (never into the repo) and re-measures the feature in each; adds the light copies C2aL, C2bL and C3L (D22 gate). |
+| slice.py | Slices parts (with their rings), coupons, plates and the optional antenna; writes G-code, 3MF and JSON to a folder you name; builds SLICE_SUMMARY.md. `--set heavy` slices the package as it was before D22. |
+| MASS_STUDY.md, mass_study.py, config_light/ | The mass study behind D22 and its input configs (config_light/ is the study's copy of the light files, unchanged). |
 | check_hip_roll_screw.py | Upstream issue 17 (G12) check: sweeps hip roll and measures the screw head clearance. |
 | joint_risk.py | Upstream Runtime issue 32 (G6) table: joint range, mass that swings, thinnest part at each joint. |
-| SLICE_SUMMARY.md | All slice numbers, old against new. |
+| SLICE_SUMMARY.md | All slice numbers: the light profile against the settings before D22, per part, plate, coupon and fallback. |
 
 How to run (outputs stay outside the repo, for example in the box scratch folder):
 
 ```bash
 cd altaay_lab/print
 python3 make_coupons.py /tmp/odm_coupons
-python3 slice.py parts    --out /tmp/odm_slice
-python3 slice.py coupons  --out /tmp/odm_slice --coupons /tmp/odm_coupons
-python3 slice.py plates   --out /tmp/odm_slice --bed 220     # and again with --bed 256
-python3 slice.py optional --out /tmp/odm_slice
-python3 slice.py summary  --out /tmp/odm_slice --md SLICE_SUMMARY.md
+nice -n 10 python3 slice.py parts    --out /tmp/odm_slice
+nice -n 10 python3 slice.py coupons  --out /tmp/odm_slice --coupons /tmp/odm_coupons
+nice -n 10 python3 slice.py plates   --out /tmp/odm_slice --bed 220     # and again with --bed 256
+nice -n 10 python3 slice.py optional --out /tmp/odm_slice
+nice -n 10 python3 slice.py parts    --out /tmp/odm_heavy --set heavy   # before D22, for the "before" columns
+nice -n 10 python3 slice.py plates   --out /tmp/odm_heavy --set heavy --bed 220   # optional, before D22
+python3 slice.py summary  --out /tmp/odm_slice --before /tmp/odm_heavy --md SLICE_SUMMARY.md
 ```
 
-Needs PrusaSlicer 2.7.2 (CLI) and Python with trimesh, numpy, shapely, manifold3d, yourdfpy. The coupon session plate is written as a PrusaSlicer 3MF (session/S1_PLA_coupons.3mf) with each coupon's own settings, so it opens in the PrusaSlicer GUI ready to slice for your printer. The .ini files were tested with the CLI only, not imported in the GUI.
+Needs PrusaSlicer 2.7.2 (CLI) and Python with trimesh, numpy, shapely, manifold3d, yourdfpy. Every plate is written as a PrusaSlicer 3MF (plates_220/<plate>.3mf, and session/S1_PLA_coupons.3mf for the coupons) with each part's own settings and its rings as modifiers, so it opens in the PrusaSlicer GUI ready to slice for your printer. In another slicer, add the rings by hand: a cylinder modifier with 100 % infill at each hole; slice.py writes every ring's axis, centre, diameter and length to holes.json in its output folder. The .ini files were tested with the CLI only, not imported in the GUI.
 
 ## Settings (any slicer)
 
 | Setting | PLA (Overture Easy PLA) | TPU (Overture TPU 95A) | Why |
 |---|---|---|---|
 | Layer height, first layer | 0.20, 0.20 mm | 0.20, 0.20 mm | Standard for a 0.4 mm nozzle |
-| Walls (perimeters) | 3 (about 1.27 mm) | 3 | Solid ring round every 2.0 mm screw pilot; old run used 2 |
+| Walls (perimeters) | 2 (about 0.86 mm), more on the parts listed below | 2 | Upstream default (D22, MASS_STUDY.md); the parts that need more get an override or solid rings |
+| Solid rings | 100 % infill cylinder round each insert bore (2.0 mm solid) and listed screw pilot (1.5 mm), 0.6 mm past each end | None | The insert and pilot rules at each hole instead of extra walls on the whole part (D22) |
 | Top / bottom layers | 5 / 4 | 5 / 4 | Same as the old run |
 | Infill | 15% gyroid | 40% gyroid | Upstream docs/print_guide.md |
 | Supports | Auto, snug style, below 40 degrees from the bed, none under bridges, 0.2 mm gap, 2 interface layers | None | 45 degree chamfers print fine; snug stays inside the part outline (organic pushed the head print past a 220 bed) |
@@ -71,34 +80,41 @@ Maker sources (read 2026-11-01): https://overture3d.com/products/overture-easy-p
 
 ## Per-part overrides
 
+Since D22 (DECISIONS.md, MASS_STUDY.md variant c) every part prints at the base (2 walls, PLA 15 %, TPU 40 %) unless a rule needs more. parts.csv names each part's profile and the reason: light (base, fit kept where listed), rings (base plus solid rings) or heavy (the settings it had before D22). All spares are heavy.
+
 | Override | Settings | Parts | Why (one line) |
 |---|---|---|---|
-| insert | 4 walls | body_middle_bottom, body_middle_top, foot_bottom_pla, foot_top, head, leg_spacer, trunk_bottom | 4 walls put about 1.67 mm of solid plastic round each 4.0 mm insert bore (CNC Kitchen minimum 1.6 mm), and fill the 1.5 mm foot_top wall completely (B16). |
-| fit | Outer wall printed first, outer wall at 25 mm/s | trunk_bottom (bearing seats), head_yaw_to_roll, head_roll_mount, left and right roll_to_pitch, roll_motor_top, trunk_top, knee_to_ankle sheets | The wall that touches the 6804 bearing (0.19 mm clearance) or the STS3215 (0.00 to 0.10 mm CAD interference) is laid at its CAD position, not pushed into the hole by the inner walls. |
+| insert | 4 walls | head, trunk_bottom; the S1 gate fallback of the 10 insert ring parts | 4 walls put about 1.67 mm of solid plastic round each 4.0 mm insert bore (CNC Kitchen minimum 1.6 mm). The head keeps them because in the sim its mass is the forward counterweight; trunk_bottom because both legs hang from it. |
 | neck | 5 walls, 40% infill | neck_left_sheet, neck_right_sheet, head_pitch_to_yaw, head_yaw_to_roll, head_roll_mount | Upstream issue 33 says a neck part breaks often (part not named); walls carry most of the bending load, so 5 walls (most of these parts become solid) and 40% infill. |
+| wall3 | 3 walls | knee_to_ankle_left_sheet, knee_to_ankle_right_sheet, roll_motor_bottom, left and right antenna_holder, left_eye, right_eye, speaker_stand, trunk_top | The walls these parts had before D22: the thinnest parts at their joints (G6), the eyes and speaker_stand with their screw pilots (T1 tests the eye profile), and trunk_top, which holds the 2 hip yaw servos and the neck pitch servo. |
+| fit | Outer wall printed first, outer wall at 25 mm/s | trunk_bottom (bearing seats), head_yaw_to_roll, head_roll_mount, left and right roll_to_pitch, roll_motor_top, trunk_top, knee_to_ankle sheets | The wall that touches the 6804 bearing (0.19 mm clearance) or the STS3215 (0.00 to 0.10 mm CAD interference) is laid at its CAD position, not pushed into the hole by the inner walls. |
+| rings (modifiers, config/mod_ring.ini) | 100 % infill cylinder round each hole: 2.0 mm solid round an insert bore, 1.5 mm round a screw pilot | Insert bores: body_middle_bottom 8, body_middle_top 8, foot_top 2 each, foot_bottom_pla 2 each, leg_spacer 4 each. Pilots: body_back 5 | The insert and pilot rules at each hole without walls on the whole part: at least as much plastic within the rule distance of every ringed hole as before (MASS_STUDY.md Table 1). The insert ring parts wait for the S1 gate. |
 
-trunk_bottom uses insert+fit; head_yaw_to_roll and head_roll_mount use neck+fit. Each plate below uses one profile only, so any slicer can print it with one setting.
+trunk_bottom uses insert+fit; head_yaw_to_roll and head_roll_mount use neck+fit; trunk_top and the knee sheets use wall3+fit. Each plate below uses one profile only, so any slicer can print it with one setting; rings ride with their part as modifiers in the plate's 3MF. The 10 parts with insert rings print on plates of their own ("base + rings"), so the S1 gate changes whole plates, never parts inside a plate.
 
 ## Print order
 
-### Step 1: coupon session (about 5.0 h, 27.8 g PLA plus 18.2 g TPU)
+### Step 1: coupon session (about 5.8 h, 36.2 g PLA plus 17.6 g TPU)
 
-S1, one PLA plate, 2.76 h, 27.8 g. Every coupon keeps the profile of the part it comes from (per-object settings in the 3MF; in another slicer set them by hand):
+S1, one PLA plate, 3.60 h, 36.2 g. Every coupon keeps the profile of the part it comes from (per-object settings and ring modifiers in the 3MF; in another slicer set them by hand). The light copies C2aL, C2bL and C3L are the D22 gate: they print next to C2a, C2b and C3, which keep 4 walls (the fallback profile):
 
 | ID | Cut from (upstream STL) | What it tests | Profile | g | min |
 |---|---|---|---|---|---|
 | C1 | trunk_bottom, the end lobe with one seat (y above 14 mm) | One 6804 seat, 32.19 mm, 5.8 mm deep, on its 26.19 mm lip, with the real ring wall (PRINT_CHECK flag 7) | insert+fit | 5.5 | 28 |
-| C2a | foot_top, top 21.45 mm of the part, x 12 to 48 | Insert boss with the 1.5 mm wall (B16) and one Omron SS-10 slot 6.4 x 19.8 mm (B11) | insert | 6.3 | 38 |
-| C2b | foot_top, top 10.85 mm, x below -36.2 | The second 1.5 mm insert boss (second sample) | insert | 2.1 | 14 |
-| C3 | foot_bottom_pla, 18 mm slice round one bore | The shallowest insert bore: blind 4.0 x 5.8 mm cylinder plus a drill point cone (tip at 6.93 mm, 1.06 mm floor), no pilot below (B15, flag 5) | insert | 2.7 | 13 |
-| C4 | head_yaw_to_roll, right arm, full height | The only servo pocket undersize across the servo: ledge to arm 34.90 mm for a 35.00 mm STS3215 body (flag 6). Also tests the neck profile | neck+fit | 9.5 | 61 |
-| T1 | left_eye, whole part | Left eye pilots 2.2 mm (right eye 2.05) for M2.5x8 (B14); eye glass disc seat | base | 1.8 | 11 |
+| C2a | foot_top, top 21.45 mm of the part, x 12 to 48 | Insert boss with the 1.5 mm wall (B16) and one Omron SS-10 slot 6.4 x 19.8 mm (B11), with 4 walls (the D22 fallback) | insert | 6.3 | 38 |
+| C2aL | the same cut as C2a | D22 gate: the C2a tests in the light profile of foot_top (2 walls, 15 %, a 2.0 mm solid ring round the bore) | base + 1 insert ring | 4.2 | 27 |
+| C2b | foot_top, top 10.85 mm, x below -36.2 | The second 1.5 mm insert boss (second sample), with 4 walls | insert | 2.1 | 14 |
+| C2bL | the same cut as C2b | D22 gate: the second boss in the light profile | base + 1 insert ring | 1.8 | 12 |
+| C3 | foot_bottom_pla, 18 mm slice round one bore | The shallowest insert bore: blind 4.0 x 5.8 mm cylinder plus a drill point cone (tip at 6.93 mm, 1.06 mm floor), no pilot below (B15, flag 5), with 4 walls | insert | 2.7 | 13 |
+| C3L | the same cut as C3 | D22 gate: the blind bore in the light profile of foot_bottom_pla | base + 1 insert ring | 2.3 | 12 |
+| C4 | head_yaw_to_roll, right arm, full height | The only servo pocket undersize across the servo: ledge to arm 34.90 mm for a 35.00 mm STS3215 body (flag 6). Also tests the neck profile | neck+fit | 9.4 | 61 |
+| T1 | left_eye, whole part | Left eye pilots 2.2 mm (right eye 2.05) for M2.5x8 (B14); eye glass disc seat; the eye profile (3 walls) | wall3 | 1.8 | 11 |
 
-S2, TPU, 2.25 h, 18.2 g: T2 foot_bottom_tpu whole, Overture TPU 95A at 40% (B26). If it passes it is the left leg sole.
+S2, TPU, 2.19 h, 17.6 g: T2 foot_bottom_tpu whole, Overture TPU 95A at 40% and 2 walls (B26, D22). If it passes it is the left leg sole.
 
 Recess fit tests (D20), no new coupon: C4 already holds 4 of the 24 neck chain 5.5 mm recesses (M3 heads to the drive horn) and 4 of the 4.0 mm recesses (M2 pan heads to the servo case). Try a DIN 912 M3 head in a 5.5 mm recess (expected not to drop in), open one to 6.0 mm and try again, and try a servo-bag M2 head and a kit M2x5 head in a 4.0 mm recess. T1 also checks that the eye pilots are blind, 3.0 mm deep (D21).
 
-Each coupon is cut from the upstream STL with a box (make_coupons.py), keeps the part's print orientation, and is re-measured after the cut: C1 seat 32.18 mm and lip 26.18 mm; C2a and C2b bore 4.0 mm, pilot 2.0 mm, thinnest wall 1.50 mm, C2a slot 6.40 x 19.80 mm; C3 bore 4.0 mm, cylinder 5.77 mm deep; C4 ledge to arm 34.90 mm, 4 recesses of 5.50 mm and 4 of 4.00 mm; T1 four pilots 2.19 mm, blind, 3.0 mm deep with a 1.3 mm front skin.
+Each coupon is cut from the upstream STL with a box (make_coupons.py), keeps the part's print orientation, and is re-measured after the cut: C1 seat 32.18 mm and lip 26.18 mm; C2a and C2b bore 4.0 mm, pilot 2.0 mm, thinnest wall 1.50 mm, C2a slot 6.40 x 19.80 mm; C3 bore 4.0 mm, cylinder 5.77 mm deep; C2aL, C2bL and C3L are the same cuts and measure the same; C4 ledge to arm 34.90 mm, 4 recesses of 5.50 mm and 4 of 4.00 mm; T1 four pilots 2.19 mm, blind, 3.0 mm deep with a 1.3 mm front skin.
 
 Pass or fail, physical tests (tools: Pinecil with insert tip, calipers, 2.0 and 2.5 mm hex keys, a 5 kg weight or luggage scale, one STS3215 from test order TO1, one 6804ZZ, CNC Kitchen M3x5.7 inserts, M3x8 and M3x10, M2.5x8, Omron SS-10; for the recess and eye tests also an M3x5 DIN 912, the 6.0 mm HSS bit and T-handle (test order TO16), a kit M2x5 (TO4) and 5.5 mm of washers or scrap with a 2.7 mm hole):
 
@@ -106,20 +122,23 @@ Pass or fail, physical tests (tools: Pinecil with insert tip, calipers, 2.0 and 
 |---|---|---|
 | C1 | Seat measures 32.10 to 32.25 mm at 2 angles 90 degrees apart. The 6804ZZ goes in by thumb (no hammer, no heat), sits flat on the lip, does not rock when pushed sideways at its top edge, and comes out with finger pressure (slip fit by design, 0.19 mm). | Tight: see "Hole size" below, reprint C1 before trunk_bottom and head. Loose (rocks): Ahmed decides (retaining compound or a smaller hole). |
 | C2a, C2b | Insert goes in straight and ends flush (straight edge, no lip over 0.1 mm). The 1.5 mm side wall has no crack or bulge over 0.2 mm. An M3x10 threads in by hand; tightened with the short arm of a 2.5 mm key, the insert does not spin. 5 kg hung from the screw for 10 s: no movement. C2a: the SS-10 presses in by thumb, stays in when shaken upside down, and its lever still clicks. | B16 stays open; tell Ahmed before printing foot_top. Switch loose or too tight: note it, B11 stays open. |
+| C2aL, C2bL, C3L (D22 gate) | Every test of the 4-wall twin (C2a, C2b, C3), side by side with it: insert flush, side wall and bed face with no crack or bulge over 0.2 mm, the M3 screw threads in by hand, no spin with the short arm of a 2.5 mm key, 5 kg for 10 s; on C2aL also the SS-10 slot. | If a light coupon fails a test that its twin passes, the 10 insert ring parts (body_middle_bottom, body_middle_top, foot_top x2, foot_bottom_pla x2, leg_spacer x4) keep 4 walls: set their parts.csv overrides to insert and clear their rings (the heavy column), and print the 3 "base + rings" plates with the fallback profile (step 3): +61.5 g, +4.1 h on a 220 bed, about +61.7 g on the robot (MASS_STUDY.md). Everything else in D22 stands. If the twin fails too, its own row applies. |
 | C3 | Insert reaches flush without pushing harder than on C2a, sits flush to 0.1 mm proud at most, no bulge or crack on the bed face over the bore, an M3x8 threads the full insert length by hand, 5 kg for 10 s: no movement. | B15 stays open (plastic blocks the bore); tell Ahmed before printing foot_bottom_pla. |
 | C4 | Calipers: ledge to arm gap at the ledge (CAD 34.90; the G-code makes 35.00, see "Servo pockets"). The STS3215 case slides in end first between ledge and arm with firm thumb pressure, no tools, no rattle. Up to 0.2 mm tight: light sanding of the arm underside is expected (flag 6); note it. Recess fit (D20): after one 5.5 mm recess is opened to 6.0 mm (see "After printing"), a DIN 912 M3x5 head drops in and sits flat; a servo-bag M2 head and a kit M2x5 head drop into the 4.0 mm recesses and sit flat. | More than 0.2 mm tight, or the support scar needs more than light sanding: hold the head parts; try a 0.15 mm support gap or 0.1 mm layers on head_yaw_to_roll and reprint C4. The M3 head will not seat even at 6.0 mm: tell Ahmed before the neck parts are drilled (B32). An M2 head will not seat: open that recess to 4.5 mm and note it (B21). |
 | T1 | Depth rod: each pilot is blind, about 3.0 mm deep (D21). With 5.5 mm clamped under the head (11 of the 0.5 mm washers from BOM 17l, or the bulb plus 3.5 mm of scrap with a 2.7 mm hole), as in the robot, an M2.5x8 driven into each of the 4 pilots cuts its own thread and needs clear torque, snugs firmly with the short arm of a 2.0 mm key without stripping, and the eye does not move when pulled with 4 screws in. Never drive a bare M2.5x8 to the floor: it would push through the 1.3 mm skin. The eye glass disc (29.6 x 1.85 mm seat) drops in and stays when tipped. | A pilot strips: B14 stays open; options for Ahmed are an M2.5 thread-forming screw or a 2.05 mm pilot (CAD change). |
 | T2 | No missing layers, no blobs over 0.5 mm, lies flat on a table (no corner up over 0.5 mm). Length 101.9 and width 40.7 mm within 0.3 mm. An M3 passes both 3.4 mm holes and its head sinks fully into the 6.5 mm counterbores. Screwed to foot_bottom_pla (or to C3 for one hole) it pulls flat, gap under 0.3 mm at the edges. Grip, record only (no upstream number): on the lab floor with 1 kg on it, tilt until it slides, note the angle next to a PLA part. | Print fails: check that the TPU was dried and the printer can feed TPU at 25 mm/s (Bowden extruders may need retraction off). Fit fails: B26 stays open. |
 
-### Step 2: left leg, for the servo fit tests (3 plates, 19.2 h, 220.1 g; the TPU sole comes from S2)
+### Step 2: left leg, for the servo fit tests (5 plates, 16.7 h, 182.8 g; the TPU sole comes from S2)
 
-Numbers below are for a 220 bed; on a 256 bed the same plates slice within 0.1 g and 0.03 h.
+Numbers below are for a 220 bed; on a 256 bed the same plates slice within 0.1 g and 0.01 h. L1-2 is a "base + rings" plate: print it after the S1 gate passes; if the gate fails, print it with the insert profile and no rings (60.0 g, 5.60 h).
 
 | Plate | Profile | Parts | g | h |
 |---|---|---|---|---|
-| L1-1 | base | foot_side, left_cache, roll_motor_bottom | 100.8 | 7.92 |
-| L1-2 | fit | left_roll_to_pitch, knee_to_ankle_left_sheet x2, knee_to_ankle_right_sheet x2, roll_motor_top | 59.3 | 5.62 |
-| L1-3 | insert | foot_top, foot_bottom_pla, leg_spacer x2 | 60.0 | 5.61 |
+| L1-1 | base | foot_side, left_cache | 71.0 | 6.10 |
+| L1-2 | base + rings | foot_top, foot_bottom_pla, leg_spacer x2 | 48.2 | 4.58 |
+| L1-3 | fit | left_roll_to_pitch, roll_motor_top | 28.4 | 2.83 |
+| L1-4 | wall3 | roll_motor_bottom | 8.7 | 0.72 |
+| L1-5 | wall3+fit | knee_to_ankle_left_sheet x2, knee_to_ankle_right_sheet x2 | 26.5 | 2.50 |
 
 Checks on the left leg (one STS3215 from TO1 is enough, moved from pocket to pocket):
 1. Every servo pocket (hip roll in roll_motor_bottom and roll_motor_top, hip pitch in left_roll_to_pitch, knee and ankle between the knee sheets): the servo goes in by hand, no tools, no rattle. Note any face that needed sanding and how much. In CAD (net across the servo): roll_to_pitch and roll_motor_top 0.00 mm (line to line), knee sheet tabs 0.01 mm tight, roll_motor_bottom 0.22 mm clear.
@@ -133,71 +152,101 @@ Checks on the left leg (one STS3215 from TO1 is enough, moved from pocket to poc
    - Test: fit the 5 button heads, then turn the thigh against left_roll_to_pitch by hand through the full hip pitch range (URDF -70 to +30 deg) and back.
    - PASS: no rubbing, no clicks and no new marks on roll_to_pitch.
    - FAIL: stop, note which screw and at what angle; relieve roll_to_pitch locally (CAD change) before the right leg is printed (D19).
+6. The light leg parts (D22, MASS_STUDY.md recommendation 5): foot_top, foot_side, foot_bottom_pla, leg_spacer, left_roll_to_pitch, roll_motor_top and left_cache print with 2 walls. In the checks above and the first bench tests, look for cracks, a split along a layer or a part that flexes visibly; if one does, reprint that STL in its heavy profile (parts.csv heavy column) before the right leg.
 
-### Step 3: the rest, plates for a 220 bed (12 plates)
+### Step 3: the rest, plates for a 220 bed (13 plates)
 
-"+ 1 spare" marks the spare set (G5, G6 below). Plates are packed by the part outline plus its supports, each under 14 h except the head.
-
-| Plate | Profile | Parts | g | h |
-|---|---|---|---|---|
-| P220-01 | base | head_bot_sheet | 57.5 | 3.88 |
-| P220-02 | base | body_front, battery_pack_lid, foot_side, right_cache, speaker_stand, speaker_interface | 179.2 | 13.83 |
-| P220-03 | base | body_back, right_eye, flash_light_module, flash_reflector_interface, bulb x2, roll_motor_bottom + 1 spare, left_antenna_holder + 1 spare, right_antenna_holder + 1 spare | 139.8 | 11.31 |
-| P220-04 | fit | trunk_top, right_roll_to_pitch, knee_to_ankle_left_sheet x2 + 1 spare, knee_to_ankle_right_sheet x2 + 1 spare | 139.6 | 12.23 |
-| P220-05 | fit | roll_motor_top | 8.0 | 0.80 |
-| P220-06 | insert | head | 262.0 | 21.88 |
-| P220-07 | insert | body_middle_bottom, foot_top, foot_bottom_pla | 159.0 | 13.08 |
-| P220-08 | insert | body_middle_top, leg_spacer x2 | 116.6 | 9.84 |
-| P220-09 | insert+fit | trunk_bottom | 42.0 | 3.53 |
-| P220-10 | neck | head_pitch_to_yaw, neck_left_sheet, neck_right_sheet, each + 1 spare | 61.1 | 6.11 |
-| P220-11 | neck+fit | head_yaw_to_roll, head_roll_mount, each + 1 spare | 89.6 | 8.55 |
-| P220-12 | TPU | foot_bottom_tpu (second sole) | 18.1 | 2.25 |
-
-Plates for a 256 bed (11 plates after the same 3 left leg plates):
+"+ 1 spare" marks the spare set (G5, G6 below). Plates are packed by the part outline plus its supports, each under 14 h except the head. "base + rings" plates hold the 10 parts with insert rings and wait for the S1 gate; body_back carries its 5 pilot rings on a base plate.
 
 | Plate | Profile | Parts | g | h |
 |---|---|---|---|---|
-| P256-01 | base | head_bot_sheet, right_cache, right_eye, speaker_interface, flash_light_module, bulb x2, roll_motor_bottom + 1 spare, left_antenna_holder | 175.7 | 13.47 |
-| P256-02 | base | body_front, body_back, foot_side, battery_pack_lid, right_antenna_holder, left_antenna_holder spare | 184.3 | 13.96 |
-| P256-03 | base | speaker_stand, flash_reflector_interface, right_antenna_holder spare | 16.2 | 1.66 |
-| P256-04 | fit | trunk_top, right_roll_to_pitch, roll_motor_top, knee_to_ankle_left_sheet x2 + 1 spare, knee_to_ankle_right_sheet x2 + 1 spare | 148.3 | 13.16 |
-| P256-05 | insert | head | 262.0 | 21.88 |
-| P256-06 | insert | body_middle_bottom, foot_top, foot_bottom_pla | 158.6 | 13.02 |
-| P256-07 | insert | body_middle_top, leg_spacer x2 | 116.6 | 9.84 |
-| P256-08 | insert+fit | trunk_bottom | 42.0 | 3.53 |
-| P256-09 | neck | head_pitch_to_yaw, neck_left_sheet, neck_right_sheet, each + 1 spare | 61.2 | 6.09 |
-| P256-10 | neck+fit | head_yaw_to_roll, head_roll_mount, each + 1 spare | 89.5 | 8.53 |
-| P256-11 | TPU | foot_bottom_tpu (second sole) | 18.1 | 2.25 |
+| P220-01 | base | head_bot_sheet | 56.9 | 3.83 |
+| P220-02 | base | body_front, foot_side, battery_pack_lid, right_cache, speaker_interface, flash_light_module, bulb x2 | 157.5 | 12.48 |
+| P220-03 | base | body_back (5 pilot rings), flash_reflector_interface | 80.7 | 6.67 |
+| P220-04 | base + rings | body_middle_bottom, foot_top, foot_bottom_pla, leg_spacer x2 | 151.5 | 13.26 |
+| P220-05 | base + rings | body_middle_top | 74.4 | 6.61 |
+| P220-06 | fit | right_roll_to_pitch, roll_motor_top | 28.3 | 2.86 |
+| P220-07 | insert | head | 262.0 | 21.92 |
+| P220-08 | insert+fit | trunk_bottom | 42.0 | 3.53 |
+| P220-09 | neck | head_pitch_to_yaw + 1 spare, neck_right_sheet + 1 spare, neck_left_sheet + 1 spare | 61.1 | 6.11 |
+| P220-10 | neck+fit | head_yaw_to_roll + 1 spare, head_roll_mount + 1 spare | 89.6 | 8.56 |
+| P220-11 | wall3 | speaker_stand, right_eye, roll_motor_bottom + 1 spare, left_antenna_holder + 1 spare, right_antenna_holder + 1 spare | 46.1 | 4.03 |
+| P220-12 | wall3+fit | trunk_top, knee_to_ankle_left_sheet x2 + 1 spare, knee_to_ankle_right_sheet x2 + 1 spare | 114.8 | 9.87 |
+| P220-13 | TPU | foot_bottom_tpu (second sole) | 17.6 | 2.19 |
 
-Suggested order inside step 3: trunk_bottom first (C1 rule applies), then the neck plates (C4 rule applies), then the rest, the head last (longest job, 21.9 h). Every plate was sliced as one job and checked: inside the bed, no path conflicts.
+Plates for a 256 bed (12 plates after the same 5 left leg plates):
 
-### After printing: drill steps (D20, B32)
+| Plate | Profile | Parts | g | h |
+|---|---|---|---|---|
+| P256-01 | base | head_bot_sheet, right_cache, speaker_interface, flash_light_module, bulb x2, flash_reflector_interface | 131.2 | 10.44 |
+| P256-02 | base | body_front, body_back (5 pilot rings), foot_side, battery_pack_lid | 164.0 | 12.70 |
+| P256-03 | base + rings | body_middle_bottom, foot_top, foot_bottom_pla, leg_spacer x2 | 151.7 | 13.18 |
+| P256-04 | base + rings | body_middle_top | 74.4 | 6.61 |
+| P256-05 | fit | right_roll_to_pitch, roll_motor_top | 28.3 | 2.86 |
+| P256-06 | insert | head | 262.0 | 21.92 |
+| P256-07 | insert+fit | trunk_bottom | 42.0 | 3.53 |
+| P256-08 | neck | head_pitch_to_yaw + 1 spare, neck_right_sheet + 1 spare, neck_left_sheet + 1 spare | 61.2 | 6.09 |
+| P256-09 | neck+fit | head_yaw_to_roll + 1 spare, head_roll_mount + 1 spare | 89.6 | 8.53 |
+| P256-10 | wall3 | speaker_stand, right_eye, roll_motor_bottom + 1 spare, left_antenna_holder + 1 spare, right_antenna_holder + 1 spare | 46.1 | 4.04 |
+| P256-11 | wall3+fit | trunk_top, knee_to_ankle_left_sheet x2 + 1 spare, knee_to_ankle_right_sheet x2 + 1 spare | 114.7 | 9.87 |
+| P256-12 | TPU | foot_bottom_tpu (second sole) | 17.6 | 2.19 |
+
+S1 gate fallback: if a light coupon fails, print the "base + rings" plates (same parts, same places) with the insert profile (4 walls) and no rings. The plates still fit and show no path conflicts; one goes over the 14 h plate target.
+
+220 bed (with L1 above):
+
+| Plate | Fallback profile | g | h | Change g | Change h |
+|---|---|---|---|---|---|
+| L1-2 | insert, no rings | 60.0 | 5.60 | +11.7 | +1.02 |
+| P220-04 | insert, no rings | 176.7 | 15.19 | +25.2 | +1.93 |
+| P220-05 | insert, no rings | 99.0 | 7.76 | +24.5 | +1.15 |
+
+256 bed (with its L1 plate):
+
+| Plate | Fallback profile | g | h | Change g | Change h |
+|---|---|---|---|---|---|
+| L1-2 | insert, no rings | 60.2 | 5.61 | +11.8 | +1.04 |
+| P256-03 | insert, no rings | 176.3 | 15.06 | +24.5 | +1.88 |
+| P256-04 | insert, no rings | 99.0 | 7.76 | +24.5 | +1.15 |
+
+With the fallback the full print is 18 jobs, 1409.3 g PLA and 122.7 h on a 220 bed (17 jobs, 1409.1 g, 122.8 h on a 256 bed).
+
+Suggested order inside step 3: trunk_bottom first (C1 rule applies), then the neck plates (C4 rule applies), then the rest, the head last (longest job, 21.9 h); the "base + rings" plates only after the S1 gate. Every plate was sliced as one job and checked: inside the bed, no path conflicts.
+
+### After printing: drill steps (D20, B32, D24)
 
 Hand tools only (BOM T11 to T13): turn the bit slowly in the T-handle, or by hand, and blow the chips out.
 1. Neck chain recesses, 24 in all, 5.5 to 6.0 mm (6.0 mm HSS bit, T11): head_pitch_to_yaw 16 (recesses 2.0 mm deep), head_yaw_to_roll 4 (4.0 mm deep), head_roll_mount 4 (5.0 mm deep); the spare set too. Stop as soon as the bit starts to cut the recess floor: the point would cut a cone into the floor under the head. Check each with a DIN 912 M3 head: it drops in and sits flat. Try it on coupon C4 first.
 2. battery_pack_lid: the 4 clearance holes, 2.5 to 2.7 mm (2.7 mm HSS bit, T12), straight through, so the M2.5x10 screws pass freely and the lid clamps instead of threading.
 3. 4.0 mm M2 head recesses (trunk_top, head_yaw_to_roll, roll_to_pitch): only if the C4 test showed a head that does not drop in; then open them to 4.5 mm (fasteners/FASTENERS.md finding 12; no 4.5 mm bit in the BOM yet).
+4. Projector lead hole (D24, cable D7): drill a 4.0 mm hole through the printed head at the marked point for the D7 projector leads. The stock head.stl has no passage for them (cables3d/CABLES_3D.md); the STL stays stock. Do it before the projector parts are fitted. Where, measured on head.stl [L]:
+   - Left side wall of the head (the robot's left, the side that carries flash_light_module). The hole is horizontal, square to the head's centre plane; the outer face leans 20 degrees inward toward the top, so the bit meets it at an angle.
+   - Centre 34.8 mm above the bottom face of the head (head upright on a flat table; the face that takes head_bot_sheet) and 36.5 mm behind the front face (where the eyes sit). That is 24.6 mm below the top face.
+   - Check with the parts: flash_light_module lies on this sloped face with its back face 2.5 mm in front of the hole centre (0.5 mm from the hole edge), and the hole centre is level with the module's 4 mm lead channel. Inside, the hole clips the round column over the front-left head insert (insert axis 3.5 mm behind the hole centre); the insert bore ends 18.8 mm below the hole and is not touched.
+   - Plastic to cut: 3.2 to 6.0 mm (4.3 mm at the centre). Start it with the 2.7 mm bit (T12) so the larger bit does not walk on the slope, open it to 4.0 mm by hand, and deburr both ends so the leads are not cut.
+   - CAD point: head.stl frame (83.5, 84.7, 144.5) mm; URDF world (64.5, 84.8, 209.3) mm at the zero pose; axis along y.
+   - The 4.0 mm bit is not in the BOM yet (T11 is 6.0 mm, T12 is 2.7 mm); a 4.0 mm HSS jobber fits the T13 T-handle (1/16 to 1/4 in).
 
 ## Orientation and supports per part
 
-Up direction is the upstream STL axis that points up (same as PRINT_CHECK). Support grams are per part.
+Up direction is the upstream STL axis that points up (same as PRINT_CHECK). Support grams are per part, light profile (D22).
 
 | STL | Up | Footprint mm | Height mm | Support g | Note |
 |---|---|---|---|---|---|
 | battery_pack_lid | -x | 86.4 x 51.4 | 7.5 | 0.06 | |
-| body_back | -x | 125.0 x 110.0 | 40.0 | 8.13 | Support under the inner ceiling; 42 degree inner walls print without support |
-| body_front | +x | 143.0 x 110.0 | 10.0 | 0 | |
-| body_middle_bottom | +z | 150.0 x 110.0 | 86.2 | 14.74 | 8 insert bores are horizontal in this orientation (they print fine, small holes bridge) |
-| body_middle_top | +x | 110.0 x 56.8 | 150.0 | 8.48 | Tall: 4 of its insert bores open on the bed face |
-| bulb | -x | 35.0 x 35.0 | 2.0 | 0 | |
+| body_back | -x | 125.0 x 110.0 | 40.0 | 8.08 | Support under the inner ceiling; 42 degree inner walls print without support |
+| body_front | +x | 143.0 x 110.0 | 10.0 | 0.00 | |
+| body_middle_bottom | +z | 150.0 x 110.0 | 86.2 | 14.13 | 8 insert bores are horizontal in this orientation (they print fine, small holes bridge) |
+| body_middle_top | +x | 110.0 x 56.8 | 150.0 | 8.22 | Tall: 4 of its insert bores open on the bed face |
+| bulb | -x | 35.0 x 35.0 | 2.0 | 0.00 | |
 | flash_light_module | +x | 41.0 x 31.5 | 28.0 | 0.32 | |
-| flash_reflector_interface | +x | 23.0 x 23.0 | 12.7 | 0.06 | |
+| flash_reflector_interface | +x | 23.0 x 23.0 | 12.7 | 0.05 | |
 | foot_bottom_pla | -z | 93.0 x 27.7 | 8.0 | 0.37 | Blind bores open upward |
-| foot_bottom_tpu | -z | 101.9 x 40.7 | 8.0 | 0 | No supports in TPU |
-| foot_side | +y | 103.5 x 46.0 | 12.0 | 0.73 | |
-| foot_top | -y | 103.5 x 46.0 | 34.9 | 0.63 | Insert bores open upward; SS-10 slots are vertical windows, 6.4 mm bridge on top |
+| foot_bottom_tpu | -z | 101.9 x 40.7 | 8.0 | 0.00 | No supports in TPU |
+| foot_side | +y | 103.5 x 46.0 | 12.0 | 0.70 | |
+| foot_top | -y | 103.5 x 46.0 | 34.9 | 0.92 | Insert bores open upward; SS-10 slots are vertical windows, 6.4 mm bridge on top |
 | head | -z | 199.8 x 197.3 | 59.4 | 29.55 | Top face on the bed. Sloped back (12.5 degrees) and the horizontal bearing seat sit on support |
-| head_bot_sheet | +z | 193.8 x 191.6 | 3.0 | 0.12 | Large thin plate |
+| head_bot_sheet | +z | 193.8 x 191.6 | 3.0 | 0.10 | Large thin plate |
 | head_pitch_to_yaw | +x | 72.0 x 44.9 | 32.0 | 1.43 | |
 | head_roll_mount | +z | 64.7 x 40.0 | 15.1 | 0.40 | |
 | head_yaw_to_roll | +z | 87.9 x 80.0 | 42.2 | 1.83 | Support under the top arm (servo pocket ceiling) |
@@ -205,18 +254,18 @@ Up direction is the upstream STL axis that points up (same as PRINT_CHECK). Supp
 | knee_to_ankle_right_sheet | +y | 70.6 x 30.7 | 7.2 | 0.17 | |
 | left_antenna_holder | vector (0.263, -0.935, -0.236) | 41.2 x 25.8 | 10.1 | 0.05 | See note 1 |
 | left_cache | -z | 90.0 x 40.0 | 152.6 | 1.99 | Tallest part |
-| left_eye | +x | 35.0 x 35.0 | 4.3 | 0 | Pilots open on the bed face |
-| left_roll_to_pitch | -z | 86.1 x 46.9 | 30.7 | 1.29 | |
+| left_eye | +x | 35.0 x 35.0 | 4.3 | 0.00 | Pilots open on the bed face |
+| left_roll_to_pitch | -z | 86.1 x 46.9 | 30.7 | 1.30 | |
 | leg_spacer | -y | 28.1 x 10.0 | 36.9 | 0.16 | 2 insert bores open on the bed face |
 | neck_left_sheet | -y | 58.0 x 30.7 | 7.1 | 0.17 | |
 | neck_right_sheet | +y | 58.0 x 30.7 | 5.8 | 0.18 | |
 | right_antenna_holder | vector (0.263, 0.935, -0.236) | 41.2 x 25.8 | 10.1 | 0.05 | See note 1 |
 | right_cache | -z | 90.0 x 40.0 | 152.6 | 1.99 | |
 | right_eye | +x | 40.0 x 40.0 | 8.4 | 0.01 | Pilots open on the bed face |
-| right_roll_to_pitch | -z | 86.1 x 46.9 | 30.7 | 1.30 | |
+| right_roll_to_pitch | -z | 86.1 x 46.9 | 30.7 | 1.31 | |
 | roll_motor_bottom | +x | 31.4 x 30.7 | 32.0 | 0.60 | |
-| roll_motor_top | -z | 38.0 x 28.7 | 20.0 | 0.48 | |
-| speaker_interface | vector (-0.263, -0.935, 0.236) | 37.8 x 37.8 | 6.2 | 0 | Laid flat, see note 2 |
+| roll_motor_top | -z | 38.0 x 28.7 | 20.0 | 0.41 | |
+| speaker_interface | vector (-0.263, -0.935, 0.236) | 37.8 x 37.8 | 6.2 | 0.00 | Laid flat, see note 2 |
 | speaker_stand | -z | 51.4 x 46.0 | 47.4 | 2.47 | |
 | trunk_bottom | +z | 108.0 x 54.4 | 73.7 | 0.28 | Bearing seats vertical, lip on the bed; 4 insert bores open on the bed face |
 | trunk_top | +z | 125.5 x 100.7 | 41.0 | 7.79 | |
@@ -234,12 +283,12 @@ Up direction is the upstream STL axis that points up (same as PRINT_CHECK). Supp
 6. TPU. Dry it (70 C, 7 h). 25 mm/s, retraction 0.8 mm or off on a Bowden printer, no supports, glue stick as a release layer on PEI (the TDS lists PVA glue), avoid crossing perimeters on to cut stringing. Not AMS or multi-material compatible (maker page).
 7. The head (21.9 h, one job). The top face is on the bed. The sloped back (12.5 degrees) and the horizontal 6804 seat rest on support (29.6 g): expect support scars on the back slope (cosmetic) and check the 6804 in the head seat after support removal; scrape the top of the seat if tight (C1 only covers the vertical seats in trunk_bottom). The head with supports and skirt needs 202.3 x 196.8 mm of bed; it fits a 220 bed, centred, with 7.6 mm or more to spare at each edge.
 8. Large flat parts. head_bot_sheet (193.8 x 191.6 x 3.0 mm) and the head can lift at the corners on an open printer. Clean bed, first layer bed 60 C. If a corner lifts, add a 4 mm brim (still fits 220); brims are not in the estimates.
-9. 180 mm beds (for example Prusa Mini, Bambu A1 mini) fail: the head (199.8 x 197.3, 202.3 x 196.8 with supports and skirt) and head_bot_sheet (193.8 x 191.6). Everything else fits; the largest other print is body_middle_bottom at 159.6 x 111.2 mm with supports and skirt. The S1 coupon plate as generated is a 45 x 197 mm column; on a 180 bed lay the 6 coupons out again (they fit easily).
+9. 180 mm beds (for example Prusa Mini, Bambu A1 mini) fail: the head (199.8 x 197.3, 202.3 x 196.8 with supports and skirt) and head_bot_sheet (193.8 x 191.6). Everything else fits; the largest other print is body_middle_bottom at 159.6 x 109.6 mm with supports and skirt. The S1 coupon plate as generated is a 68 x 210 mm block; on a 180 bed lay the 9 coupons out again (they fit easily).
 10. Supports came out of the slicer as planned: snug supports reach at most 3 mm past any part outline, the plates were packed with that margin, and no plate shows a path conflict.
 
 ## Upstream issues in the print phase (UPSTREAM_ISSUES.md G5, G6, G12)
 
-G5, a neck part breaks often (Mini issue 33, part not named). The 5 neck and head chain parts print with the neck override (5 walls, 40% infill) and one spare set is in the plates. C4 tests the setting on head_yaw_to_roll first. Mass: the neck chain goes from 58.2 g (base profile) to 71.3 g (+13.0 g, model only); every neck part still weighs less than the same part solid. head_pitch_to_yaw is the one neck part with its own URDF link: the URDF mass (16.9 g) equals the solid part, the print is 15.1 g.
+G5, a neck part breaks often (Mini issue 33, part not named). The 5 neck and head chain parts print with the neck override (5 walls, 40% infill) and one spare set is in the plates. C4 tests the setting on head_yaw_to_roll first. Mass: the neck chain goes from 58.2 g (the 3-wall base used before D22) to 71.3 g (+13.0 g, model only), and D22 keeps it there; every neck part still weighs less than the same part solid. head_pitch_to_yaw is the one neck part with its own URDF link: the URDF mass (16.9 g) equals the solid part, the print is 15.1 g.
 
 G6, find_soft_offsets.py drives all 14 joints to zero at once and broke a head part (Runtime issue 32). Judged from the joint ranges (URDF), the mass that swings beyond each joint (URDF link masses) and the thinnest printed part at the joint (median wall from the audit), see joint_risk.py:
 
@@ -256,12 +305,12 @@ G6, find_soft_offsets.py drives all 14 joints to zero at once and broke a head p
 | ankle | -90 to 90 | 75 | knee sheets 3.85 and 3.90 |
 | antenna | -90 to 90 | 4 | antenna holder 2.00 |
 
-Spares in the plates (one each, 10 parts, 104.6 g, 9.8 h):
+Spares in the plates (one each, 10 parts, 104.6 g, 9.8 h; all heavy, D22):
 - neck_left_sheet, neck_right_sheet, head_pitch_to_yaw, head_yaw_to_roll, head_roll_mount: the three joints with the most travel times swinging mass (head_yaw, neck_pitch, head_pitch) all load these parts, the head is the heaviest swinging mass (about 0.45 kg), and head_pitch_to_yaw is the thinnest of them (4.0 mm). Same set as G5.
 - knee_to_ankle_left_sheet and knee_to_ankle_right_sheet: the thinnest leg plates (3.85 and 3.90 mm), on hip pitch, knee and ankle; knee and ankle can travel 90 degrees.
 - roll_motor_bottom: the thinnest hip part (2.97 mm), on hip yaw (414 g swings) and hip roll, where the G12 screw head pushes.
 - left_antenna_holder and right_antenna_holder: the thinnest parts on the robot (2.0 mm) and they stick out of the head top, so they are hit first if the head swings into the body.
-- Not spared: left_cache and right_cache (3.5 mm, but covers, 77 g and 6 h each; reprint only if one breaks).
+- Not spared: left_cache and right_cache (3.5 mm, but covers, 57 g and 5.0 h each at 2 walls; reprint only if one breaks).
 
 Offset step procedure (for the build notes, from G6 and the upstream scripts):
 - Fit every horn while the servo sits at the zero the configure step drives it to (Runtime scripts/configure_motor.py ends with goal position 0; docs/configure_motors.md: "the motor will move to its zero position. You can then install the horn").
@@ -282,10 +331,10 @@ G12, roll_motor_bottom screw head against roll_to_pitch (Mini issue 17): the CAD
 
 | | Needed (estimate) | BOM | Left |
 |---|---|---|---|
-| PLA (Overture Easy PLA) | 1502 g: coupon session 27.8 g (includes the left eye) plus plates 1474.5 g (the rest of the robot set and 104.6 g of spares) | 2 x 1 kg (BOM line 27) | about 500 g (25%) for failed prints; a second head (262 g) still fits |
-| TPU (Overture TPU 95A) | 36.3 g: two soles (one in S2) | 1 x 1 kg (BOM line 28) | about 964 g |
+| PLA (Overture Easy PLA) | 1384 g: coupon session 36.2 g (includes the left eye) plus plates 1347.8 g (the rest of the robot set and 104.6 g of spares) | 2 x 1 kg (BOM line 27) | about 616 g (31%) for failed prints; a second head (262 g) still fits. 1445 g if the D22 gate fails |
+| TPU (Overture TPU 95A) | 35.1 g: two soles (one in S2) | 1 x 1 kg (BOM line 28) | about 965 g |
 
-The BOM line 27 note "need 1304 g sliced, 1.5 kg with 15% spare" is now 1502 g, 1.73 kg with 15% spare: still 2 spools. BOM.md is not edited here (not owned).
+BOM line 27 now says need 1384 g sliced (1502 g before D22): still 2 spools. BOM line 28 says 36 g; the light soles need 35.1 g.
 
 ## Not verified
 
@@ -297,3 +346,6 @@ The BOM line 27 note "need 1304 g sliced, 1.5 kg with 15% spare" is now 1502 g, 
 - The SG90 torque is the Tower Pro figure; the TPU small-strain modulus is not published.
 - The .ini files were used with the PrusaSlicer CLI; importing them into the GUI or another slicer was not tried. The coupon 3MF was sliced with the CLI only.
 - Support removal on the head back slope and inside the head bearing seat is untested.
+- The solid rings (D22) are untested in print: the S1 gate tests the insert rings on C2aL, C2bL and C3L; the 5 body_back pilot rings have no coupon (MASS_STUDY.md Table 1: 1.11 against 1.00 before D22). The rings exist only as PrusaSlicer modifiers in the 3MF.
+- The 2-wall body shells, caches and leg parts are weaker in a fall than the parts before D22 (MASS_STUDY.md risks): keep the first walks tethered (sim/ADDED_MASS_SIM.md finding 3).
+- The D24 projector lead hole position is measured on head.stl only; mark it against the real flash_light_module before drilling.

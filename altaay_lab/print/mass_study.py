@@ -4,10 +4,12 @@
 Three variants of every printed part, sliced with the PrusaSlicer 2.7.2 CLI one part at a time (nothing is printed):
   a  upstream defaults: docs/print_guide.md (PLA 15 %, TPU 40 %) and the slicer's default of 2 walls (every Prusa
      0.20 mm print profile bundled with PrusaSlicer 2.7.2 has perimeters = 2). config_light/ base files, no overrides.
-  b  our current settings: config/ plus the parts.csv overrides, exactly as slice.py builds them.
+  b  the settings before DECISIONS.md D22 (the current settings when this study ran): config/*_heavy.ini plus the
+     parts.csv "heavy" overrides, exactly as slice.py --set heavy builds them.
   c  lightest safe: config_light/ base files plus the overrides in config_light/parts_light.csv, plus solid rings
      (PrusaSlicer infill modifiers, config_light/mod_ring.ini) round the insert bores, screw pilots and bearing seats
-     that parts_light.csv names.
+     that parts_light.csv names. D22 adopted c: config/ and parts.csv now hold the same settings as config_light/
+     and parts_light.csv, which stay unchanged as this study's inputs.
 Everything else (printer, filament, layers, supports, speeds, orientation) is the same in all three, so the grams
 differ only by walls, infill and rings.
 
@@ -36,19 +38,17 @@ REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 SIM = os.path.join(REPO, "altaay_lab", "sim")
 CFG_L = os.path.join(HERE, "config_light")
 sys.path.insert(0, HERE)
-import slice as S                       # orientation, config stack of variant b, G-code parsing (unchanged lab file)
+import slice as S                       # orientation, config stack of variant b, G-code parsing, hole search, rings
 
 THREADS = "2"                           # shared box: at most 2 slicer threads
-RING = {"insert": dict(dmin=3.80, dmax=4.25, min_depth=4.0, wall=2.0),     # mod_ring.ini explains the sizes
-        "pilot": dict(dmin=1.85, dmax=2.35, min_depth=3.0, wall=1.5),
-        "seat": dict(dmin=31.5, dmax=33.0, min_depth=3.0, wall=2.0)}
+RING = S.RING                           # ring sizes per hole kind (config/mod_ring.ini explains them)
 # what the rule asks for next to the hole (checked in the G-code by `rings`): insert 1.6 mm solid (CNC Kitchen minimum
 # wall, PRINT_CHECK.md flag 1); pilot 1.27 mm (the 3-wall ring of config/pla_print.ini); seat 1.67 mm (the 4-wall ring)
 NEED = {"insert": 1.6, "pilot": 1.27, "seat": 1.67}
 # variant d: variant c with these parts light (overrides, rings), for the option MASS_STUDY.md reports and does not adopt
 D_PARTS = {"head.stl": ("", "insert+pilot+seat")}
-RING_END = 0.6                          # mm past each end of the hole
-STEP = 0.2                              # mm between section planes in the hole search
+RING_END = S.RING_END                   # mm past each end of the hole
+STEP = S.STEP                           # mm between section planes in the hole search
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -70,7 +70,7 @@ def read_ini(path):
 def stack(variant, p):
     """config files, in load order, for one part (variant d: c, with the D_PARTS overrides)"""
     if variant == "b":
-        return S.config_stack(p["material"], p["overrides"])
+        return S.config_stack(p["material"], p["heavy"], set_="heavy")
     base = [os.path.join(CFG_L, "printer_generic.ini")]
     base += ([os.path.join(CFG_L, "tpu_print.ini"), os.path.join(CFG_L, "filament_tpu95a.ini")] if p["material"] == "TPU"
              else [os.path.join(CFG_L, "pla_print.ini"), os.path.join(CFG_L, "filament_easy_pla.ini")])
@@ -95,52 +95,8 @@ def ring_kinds(variant, p):
 # ---------------------------------------------------------------------------------------------------------------
 # holes in the print-oriented STL
 # ---------------------------------------------------------------------------------------------------------------
-def find_holes(m, step=STEP):
-    """Round holes along the 3 axes of the print frame, from closed inner rings of sections every `step` mm.
-    Returns [dict(axis, c (a point on the hole axis, mm; the axis coordinate is 0), d (mean diameter), z0, z1)]."""
-    from shapely.geometry import Polygon
-    out = []
-    for ax in range(3):
-        n = np.zeros(3); n[ax] = 1.0
-        lo, hi = m.bounds[0][ax], m.bounds[1][ax]
-        hs = np.arange(lo + step / 2, hi, step)
-        secs = m.section_multiplane(plane_origin=m.bounds[0], plane_normal=n, heights=hs - lo)
-        rings = []
-        for h, s in zip(hs, secs):
-            if s is None:
-                continue
-            T = s.metadata["to_3D"]
-            try:
-                polys = s.polygons_full
-            except Exception:
-                continue
-            for poly in polys:
-                for r in poly.interiors:
-                    q = Polygon(r)
-                    if q.area <= 0 or 4 * math.pi * q.area / q.length ** 2 < 0.93:     # round only
-                        continue
-                    c = np.array(q.centroid.coords[0]); pts = np.array(r.coords)[:-1]
-                    rings.append((h, (T @ np.r_[c, 0.0, 1.0])[:3], 2 * float(np.linalg.norm(pts - c, axis=1).mean())))
-        rings.sort(key=lambda t: t[0])
-        groups = []
-        for h, c3, d in rings:
-            for g in groups:
-                if abs(g["d"] - d) < 0.3 and np.linalg.norm(np.delete(g["c"] - c3, ax)) < 0.3 and h - g["h1"] < step * 1.6:
-                    g["h1"] = h; g["ds"].append(d); break
-            else:
-                groups.append(dict(c=c3, d=d, h0=h, h1=h, ds=[d]))
-        for g in groups:
-            c = g["c"].copy(); c[ax] = 0.0
-            out.append(dict(axis=ax, c=[round(float(x), 3) for x in c], d=round(float(np.median(g["ds"])), 3),
-                            z0=round(g["h0"] - step / 2, 2), z1=round(g["h1"] + step / 2, 2)))
-    return out
-
-
-def classify(holes):
-    out = {}
-    for k, sp in RING.items():
-        out[k] = [h for h in holes if sp["dmin"] <= h["d"] <= sp["dmax"] and h["z1"] - h["z0"] >= sp["min_depth"] - 1e-6]
-    return out
+find_holes = S.find_holes                # sections every STEP mm, round inner rings grouped into holes
+classify = S.classify                    # insert bores, screw pilots and bearing seats by size and depth
 
 
 def cmd_holes(a):
@@ -154,21 +110,7 @@ def cmd_holes(a):
     json.dump(res, open(os.path.join(a.out, "holes.json"), "w"), indent=1)
 
 
-def ring_meshes(holes, kinds):
-    """modifier cylinders (trimesh, print frame) for the hole kinds asked for"""
-    out = []
-    for k in kinds:
-        sp = RING[k]
-        for h in holes[k]:
-            cyl = trimesh.creation.cylinder(radius=h["d"] / 2 + sp["wall"], height=h["z1"] - h["z0"] + 2 * RING_END, sections=64)
-            if h["axis"] == 0:
-                cyl.apply_transform(trimesh.transformations.rotation_matrix(np.pi / 2, [0, 1, 0]))
-            elif h["axis"] == 1:
-                cyl.apply_transform(trimesh.transformations.rotation_matrix(np.pi / 2, [1, 0, 0]))
-            c = np.array(h["c"], float); c[h["axis"]] = (h["z0"] + h["z1"]) / 2
-            cyl.apply_translation(c)
-            out.append((k, cyl))
-    return out
+ring_meshes = S.ring_meshes              # modifier cylinders round the holes of the kinds asked for
 
 
 def write_3mf(path, name, part, mods, settings):
@@ -255,7 +197,7 @@ def cmd_slice(a):
         r = S.parse_gcode(g, S.DENSITY[p["material"]])
         r.update(qty=p["qty"], material=p["material"], variant=v, settings=[os.path.relpath(c, REPO) for c in cfgs],
                  rings={k: sum(1 for kk, _ in mods if kk == k) for k in kinds}, slicer_messages=warn,
-                 overrides=(p["overrides"] if v == "b" else ("" if v == "a" else stack_overrides(v, p))))
+                 overrides=(p["heavy"] if v == "b" else ("" if v == "a" else stack_overrides(v, p))))
         for k in ("xy_all", "xy_model", "xy_nos"):
             r.pop(k, None)
         res[p["stl"]] = r

@@ -1,5 +1,7 @@
 # MASS_STUDY: the lightest print settings that keep every strength and fit rule
 
+Status: adopted as DECISIONS.md D22 (variant c, gated by the light coupons C2aL, C2bL and C3L in session S1). print/config/ and print/parts.csv now hold variant (c); the settings of variant (b) stay reachable as config/*_heavy.ini and the parts.csv "heavy" column (`slice.py --set heavy`). config_light/ is kept unchanged as this study's input, and mass_study.py still reproduces every table below. The new plates and totals are in PRINT_PLAN.md and SLICE_SUMMARY.md.
+
 Written 2026-11-02 by agent PM (print mass) for the lead, who decides whether to adopt it. Nothing has been printed or weighed. Grams and hours are PrusaSlicer 2.7.2 estimates made on the box for the generic printer of config/printer_generic.ini [L]; robot mass, centre of mass and walking come from the sim agent's code and are **sim pass only**. Script: print/mass_study.py. Proposed configs: print/config_light/ (copies; print/config/ and parts.csv are unchanged). G-code, 3MF and oriented STLs stay in the scratch folder, never in the repo.
 
 Tags: [L] lab file, script or slicer output on this box; [U] upstream file; [I] internet source with its URL.
