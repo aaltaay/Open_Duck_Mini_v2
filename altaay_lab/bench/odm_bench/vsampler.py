@@ -15,9 +15,11 @@ of the gait, so a fixed 27 ms timer repeats the same 20 points of the step cycle
 Rule: a read never delays a control write. The servo bus is one wire, so a read can only use
 time the walk loop does not: the Runtime loop ends each cycle with time.sleep(1/50 - took)
 (scripts/v2_rl_walk_mujoco.py RLWalk.run). walkhooks puts IdleScheduler.idle() in place of that
-sleep. A read starts only if its expected time (the longest of the last 10 reads, each shrunk by
-10 % per slot since but not below their median) plus a margin ends before the sleep would have
-ended; otherwise the slot is skipped and counted.
+sleep. A read starts only if its expected time (the longest read of the last 0.5 s; see
+TimedRead.cost_s) plus a 2 ms margin ends before the sleep would have ended; otherwise the slot
+is skipped and counted. A read that has started runs to its end: cut short, its late replies
+would reach rustypot's next send and panic it (G10; seen on the simulated bus under load). So a
+read slower than expected can run into the next cycle; that is counted (overruns), never hidden.
 
 Each slot ends as one record (on_slot callback), with its phase: the time from the last goal
 write before the slot to the slot (or to the read start):
@@ -76,20 +78,22 @@ def phase_of(t, st):
 
 
 class TimedRead:
-    """A bus read on its own SlotTimer. read(end_by) must return by `end_by` (monotonic s) as far
-    as it can (it gets the time left as its read timeout) and returns anything; it may raise."""
+    """A bus read on its own SlotTimer. read(end_by) gets the time one margin before the next cycle
+    (a read that must not touch the bus after it may use it; a bus read should run to its end) and
+    returns anything; it may raise. A read that ends more than late_tol_s after the next cycle was
+    due is counted as an overrun."""
 
-    def __init__(self, name, read, period_s=0.027, seed=27, margin_s=0.001, first_cost_s=0.0045,
-                 cost_window=10, cost_decay=0.9, on_slot=None, clock=time.monotonic):
+    def __init__(self, name, read, period_s=0.027, seed=27, margin_s=0.002, first_cost_s=0.0045,
+                 cost_hold_s=0.5, late_tol_s=0.0005, on_slot=None, clock=time.monotonic):
         self.name, self.read = name, read
         self.timer = SlotTimer(period_s, seed)
         self.margin_s = float(margin_s)
         self.first_cost_s = float(first_cost_s)
-        self.cost_window = int(cost_window)
-        self.cost_decay = float(cost_decay)
+        self.cost_hold_s = float(cost_hold_s)
+        self.late_tol_s = float(late_tol_s)
         self.on_slot = on_slot
         self.clock = clock
-        self.recent = []                 # (slot, duration s) of the last reads
+        self.recent = []                 # (end time, duration s) of the last reads
         self.counts = {s: 0 for s in STATUSES}
         self.read_s = []                 # every read duration (s)
         self.overruns = []               # (slot, s past the end of the sleep)
@@ -111,16 +115,19 @@ class TimedRead:
         self.timer.start(t0)
 
     def cost_s(self):
-        """Expected time of the next read: the longest of the last `cost_window` reads, each one
-        shrunk by cost_decay per slot since it was made, but never below their median (the
-        typical read). So a slow read keeps the next reads away for a while, and one read longer
-        than the whole sleep cannot stop every later read. Before any read: the first guess."""
+        """Expected time of the next read: the longest read that ended in the last cost_hold_s.
+        If none did, the last read's time halved for every cost_hold_s since it ended, but not
+        below the first guess. So a slow read keeps the next reads away for a while, and no read,
+        however slow, can stop all later reads (it would if the estimate never came down: a read
+        longer than the whole sleep would never let another start). Before any read: the first guess."""
         if not self.recent:
             return self.first_cost_s
-        k = self.timer.k
-        ds = sorted(d for _, d in self.recent)
-        typical = ds[len(ds) // 2]
-        return max(typical, max(d * self.cost_decay ** max(0, k - j) for j, d in self.recent))
+        now = self.clock()
+        held = [d for t, d in self.recent if now - t <= self.cost_hold_s]
+        if held:
+            return max(held)
+        t_last, d_last = self.recent[-1]
+        return max(self.first_cost_s, d_last * 0.5 ** int((now - t_last) // self.cost_hold_s))
 
     # ------------------------------------------------------------------ records
     def _record(self, status, st, **kw):
@@ -152,17 +159,17 @@ class TimedRead:
         t_start = self.clock()
         err = None
         try:
-            result = self.read(deadline - self.margin_s / 2)
+            result = self.read(deadline - self.margin_s)
         except Exception as e:           # noqa: BLE001 - a failed read is a record, not a crash
             result, err = None, f"{type(e).__name__}: {e}"
             self.errors += 1
         t_end = self.clock()
         dur = t_end - t_start
         self.read_s.append(dur)
-        self.recent.append((self.timer.k, dur))
-        if len(self.recent) > self.cost_window:
+        self.recent.append((t_end, dur))
+        if len(self.recent) > 64:
             self.recent.pop(0)
-        if t_end > deadline:
+        if t_end > deadline + self.late_tol_s:
             self.overruns.append((self.timer.k, t_end - deadline))
         self._record("read", st, t_read=t_start, read_s=dur, left_s=deadline - t_end, room=room,
                      phase=phase_of(t_start, st), result=result, error=err)

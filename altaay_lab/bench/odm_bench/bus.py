@@ -167,54 +167,46 @@ def read_reg(io, sid, name):
     return sts3215.le(read_block(io, sid, addr, size), 0, size)
 
 
-def sync_read_block(io, ids, addr, length, errors=None, end_by=None, clock=time.monotonic):
+def sync_read_block(io, ids, addr, length, errors=None, info=None):
     """One SYNC READ (0x82) of `length` bytes at `addr` from every ID, kept per ID.
 
     Same packet and read loop as FeetechSTS3215IO._get_control_value (sts3215_io.py lines 20
     to 41), but it keys each answer by the ID in its status packet and keeps the answers that
     arrived when one servo fails, instead of returning an empty tuple.
-    end_by (monotonic s): stop waiting for replies at that time (the idle-time sampler must be
-    off the bus before the walk loop's next cycle). Each reply wait then gets the time left as its
-    timeout: pyserial 3.5 Serial.read() takes its timeout from self._timeout at each call
-    (serialposix.py read), so it is set on the instance and restored; the public `timeout`
-    setters would reconfigure the port (pyserial) or reopen it (pypot).
+    info (dict): also note info["t_req"], the clock time just after the request was handed to the
+    port. For that the send is done here with the steps of pypot's __real_send (abstract_io.py:
+    flush, write, check the byte count, read the first status packet); without info, pypot's
+    _send_packet is called as before.
+    The read always runs to its end (every reply, or pypot's own timeout): a read cut short would
+    leave its late replies on the bus, and rustypot's next send panics on them (G10; seen on the
+    simulated bus under load when the idle-time sampler cut reads at the end of the sleep).
     Returns (dict id -> bytes, list of failed ids).
     """
     from pypot.dynamixel.io.abstract_io import DxlCommunicationError
     rp = io._protocol.DxlSyncReadPacket(list(ids), addr, length)
     got, packets = {}, []
-    ser = io._serial if end_by is not None else None
-    saved = ser._timeout if ser is not None else None
-
-    def bound():
-        if ser is not None:
-            left = end_by - clock()
-            if left <= 0:
-                raise _OutOfTime()
-            ser._timeout = min(saved, left) if saved is not None else left
-    sent = False
     with io._serial_lock:
         try:
-            bound()
-            sent = True
-            packets.append(io._send_packet(rp, _force_lock=True))
+            if info is None:
+                packets.append(io._send_packet(rp, _force_lock=True))
+            else:
+                io.flush(_force_lock=True)
+                data = rp.to_string()
+                n = io._serial.write(data)
+                info["t_req"] = time.monotonic()
+                if n != len(data):
+                    raise DxlCommunicationError(io, "instruction packet not entirely sent", rp)
+                packets.append(io._real_read(rp, _force_lock=True))
             for _ in range(len(ids) - 1):
-                bound()
                 packets.append(io._real_read(rp, _force_lock=True))
         except DxlCommunicationError as e:
             if errors is not None:
                 errors.add("pypot", "sync_read_incomplete", None, str(e))
-        except _OutOfTime:
-            if errors is not None:
-                errors.add("pypot", "sampler_out_of_time", None, f"{len(packets)} of {len(ids)} replies")
-        finally:
-            if ser is not None:
-                ser._timeout = saved
     for sp in packets:
         if len(sp.parameters) == length:
             got[sp.id] = bytes(sp.parameters)
     failed = [i for i in ids if i not in got]
-    if failed and sent:
+    if failed:
         # flush whatever may still be in flight so the next transaction (maybe rustypot's) starts clean
         time.sleep(0.002)
         try:
@@ -222,10 +214,6 @@ def sync_read_block(io, ids, addr, length, errors=None, end_by=None, clock=time.
         except Exception:
             pass
     return got, failed
-
-
-class _OutOfTime(Exception):
-    """sync_read_block ran out of its end_by time before every reply arrived."""
 
 
 def ping(io, sid):

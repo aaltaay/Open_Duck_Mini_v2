@@ -124,6 +124,7 @@ def build_walk_class(RLWalk):
             self.t0_monotonic = None     # monotonic time of the first control cycle
             self._last_cycle_t = None
             self.cycle_dt = []
+            self.write_dt = []           # per cycle: cycle start (get_obs entry) to the goal write's return
             self.cycles = 0
             self.paused_ticks = 0
             self.last_write_t = None     # monotonic time when the last goal write returned
@@ -149,7 +150,9 @@ def build_walk_class(RLWalk):
                     return write(joints_positions)
                 finally:
                     self.prev_write_t, self.last_write_t = self.last_write_t, time.monotonic()
-                    if self.write_log is not None:          # a list append: nothing slow on the control path
+                    if self._last_cycle_t is not None:      # list appends only: nothing slow on the control path
+                        self.write_dt.append(self.last_write_t - self._last_cycle_t)
+                    if self.write_log is not None:
                         self.write_log.append((self.last_write_t, self._state_now()))
             self.hwi.set_position_all = set_position_all
             self.idle = None
@@ -363,11 +366,16 @@ def build_walk_class(RLWalk):
             dts = np.array(self.cycle_dt[1:]) if len(self.cycle_dt) > 1 else np.array([])
             if not len(dts):
                 return dict(cycles=self.cycles)
-            return dict(cycles=self.cycles, mean_hz=round(float(1 / dts.mean()), 2),
-                        p50_ms=round(float(np.percentile(dts, 50) * 1e3), 2),
-                        p99_ms=round(float(np.percentile(dts, 99) * 1e3), 2),
-                        max_ms=round(float(dts.max() * 1e3), 2),
-                        over_budget_frac=round(float((dts > budget_s * 1.05).mean()), 4))
+            out = dict(cycles=self.cycles, mean_hz=round(float(1 / dts.mean()), 2),
+                       p50_ms=round(float(np.percentile(dts, 50) * 1e3), 2),
+                       p99_ms=round(float(np.percentile(dts, 99) * 1e3), 2),
+                       max_ms=round(float(dts.max() * 1e3), 2),
+                       over_budget_frac=round(float((dts > budget_s * 1.05).mean()), 4))
+            wd = np.array(self.write_dt[1:]) if len(self.write_dt) > 1 else np.array([])
+            if len(wd):        # when the goal write ends, from the cycle start: what an in-cycle read delays
+                out.update(write_p50_ms=round(float(np.percentile(wd, 50) * 1e3), 2),
+                           write_p99_ms=round(float(np.percentile(wd, 99) * 1e3), 2))
+            return out
 
     return HookedRLWalk
 

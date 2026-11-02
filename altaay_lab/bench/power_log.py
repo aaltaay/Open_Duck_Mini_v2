@@ -139,14 +139,22 @@ class TimerLog:
         self.walk = None
 
     def read(self, end_by):
-        return bus.sync_read_block(self.io, ORDER, BLOCK_ADDR, BLOCK_LEN, self.errors, end_by=end_by)
+        """end_by is not used: a started read runs to its end (bus.sync_read_block: late replies
+        left on the bus would reach rustypot's next send, G10)."""
+        info = {}
+        got, failed = bus.sync_read_block(self.io, ORDER, BLOCK_ADDR, BLOCK_LEN, self.errors, info=info)
+        return got, failed, info.get("t_req")
 
     def on_slot(self, rec):
         t0 = getattr(self.walk, "t0_monotonic", None) or 0.0
         if rec["status"] == "read":
             res = rec.get("result")
-            got, failed = res if res else ({}, list(ORDER))
-            self.lg.write(rec["t_read"] - t0, rec["slot"], "read", rec["state"], rec["cycle"], _ms(rec.get("phase")),
+            got, failed, t_req = res if res else ({}, list(ORDER), None)
+            # phase from when the request went to the port, as the goal write's time is taken after its
+            # write call: both then cross the same USB path (the Python before the send does not count)
+            lw = rec.get("last_write")
+            phase = (t_req - lw) if (t_req is not None and lw is not None) else rec.get("phase")
+            self.lg.write(rec["t_read"] - t0, rec["slot"], "read", rec["state"], rec["cycle"], _ms(phase),
                           _ms(rec.get("room")), _ms(rec["read_s"]), _ms(rec["left_s"]), got, failed)
         else:
             self.lg.write(rec["due"] - t0, rec["slot"], rec["status"], rec["state"], rec["cycle"],
@@ -300,7 +308,6 @@ def analyze(rows, pack, rep, feeds="d23", min_samples=300, sim_ref_path=SIM_REF,
                 "readings, % of them under 6.0 V], ankles, knees and head roll", "INFO",
                 {name: {f"{b:g}": [_pct(w), nr, _pct(u, 0)] for b, w, nr, u in cnt[i]["bins"] if w or nr}
                  for name, i in NAMED.items()})
-    worst_t = max((d["time_frac"] for d in cnt.values() if d["time_frac"] is not None), default=None)
     if pack == "nominal":
         why = ""
         few = [i for i in joints.IDS if cnt[i]["sampled"] < min_samples]
@@ -401,8 +408,8 @@ def sampler_items(rep, task):
     rep.add("9.sampler", "timer reads: slots, read / skipped (busy: the Runtime's own time; own: during the "
             "previous read; room: too close to the next cycle), read times", "INFO", st, None,
             "odm_bench/vsampler.py")
-    rep.add("9.delay", "no timer read still running when the next control cycle was due (a read never delays a "
-            "control write; WARN, not FAIL: timing evidence, not a robot fault)",
+    rep.add("9.delay", "no timer read ending more than 0.5 ms after the next control cycle was due (a read never "
+            "delays a control write; WARN, not FAIL: timing evidence, not a robot fault)",
             "PASS" if st["overruns"] == 0 else "WARN", f"{st['overruns']} reads, max {st['overrun_max_ms']} ms late",
             "0", "software/SOFTWARE.md section 6")
     return st
@@ -577,8 +584,8 @@ def main(argv=None):
                     help="timer (default): own timer, idle time only; cycle: the old per-cycle read (comparison)")
     ap.add_argument("--sample-period-ms", type=float, default=27.0, help="timer slot (one read at a random time in each)")
     ap.add_argument("--sample-seed", type=int, default=27, help="random seed of the read times (written in the report)")
-    ap.add_argument("--sample-margin-ms", type=float, default=1.0,
-                    help="a read starts only if its longest recent time plus this ends before the next cycle")
+    ap.add_argument("--sample-margin-ms", type=float, default=2.0,
+                    help="a read starts only if its expected time plus this ends before the next cycle")
     ap.add_argument("--min-samples", type=int, default=300, help="readings of every servo needed to score 9.time6")
     ap.add_argument("--decimate", type=int, default=1, help="--sampler cycle only: log every Nth cycle")
     ap.add_argument("--no-guard", action="store_true", help="do not run the D16 guard on the readings")

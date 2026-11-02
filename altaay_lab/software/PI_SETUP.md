@@ -149,7 +149,7 @@ Every bench script: `--help`, PASS/FAIL summary with TEST_PLAN item numbers, JSO
 5. **Feet** (TEST_PLAN 12): `python feet_check.py --open` (hanging), `python feet_check.py --presses 200`, then on the floor `python feet_check.py --stand`. (TEST_PLAN 12 names scripts/fc_test.py: do not run it, it starts the walk and the OpenAI client, SOFTWARE.md section 2.)
 6. **Hanging walk** (TEST_PLAN 8.4, bench supply 8 A limit): `python walk_with_guard.py --onnx_model_path ~/BEST_WALK_ONNX_2.onnx --no-commands --max-seconds 20 --dry-run`.
 7. **Battery guard on the bench** (TEST_PLAN 11): bench supply at the XT30, robot hanging, torque off; `python battery_guard.py --monitor --state standing`, lower the supply in 0.1 V steps from 7.4 V and note the servo median at which walk_stop and hard_stop print; repeat with `--state walking`. This replaces the sim mapping in SOFTWARE.md section 5 with a measured one.
-8. **Floor walk with the voltage log** (TEST_PLAN 9): pad paired (step 12); `python power_log.py --walk --pack full --pack-ocv <meter V> --onnx_model_path ~/BEST_WALK_ONNX_2.onnx` and again with `--pack nominal`. If its report shows the loop running late (9.loop WARN), repeat with `--decimate 2`.
+8. **Floor walk with the voltage log** (TEST_PLAN 9): pad paired (step 12); `python power_log.py --walk --pack full --pack-ocv <meter V> --onnx_model_path ~/BEST_WALK_ONNX_2.onnx` and again with `--pack nominal`. The log reads on its own timer, only in the walk loop's idle time (SOFTWARE.md section 6): its report gives the share of the walk it read (9.coverage) and any read that ran into the next control cycle (9.delay). If 9.time6 says INCOMPLETE for too few readings, log longer (`--seconds 120`).
 
 ## 11. Autostart
 

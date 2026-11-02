@@ -11,6 +11,10 @@ Each read also waits for the USB round trip (CH343 full-speed through cdc-acm); 
 published: the table shows 0, 1 and 2 ms per read transaction (UNVERIFIED, measure on the Pi with
 walk_with_guard.py / power_log.py, which report loop and read times). CPU time of the policy and
 of Python on a Pi Zero 2 W is UNVERIFIED too.
+The walking log (power_log.py --walk) reads on its own timer only in the idle part of each cycle
+(odm_bench/vsampler.py): its read adds nothing to the control part; it needs an idle window of
+its own read time plus a 2 ms margin, and the share of the walk it can sample is what is left.
+The old log (--sampler cycle) read inside every cycle, before the Runtime's reads.
 
   python3 altaay_lab/bench/timing_budget.py              # analytic table (markdown)
   python3 altaay_lab/bench/timing_budget.py --measure --python <venv python> --scratch <dir>
@@ -24,6 +28,8 @@ import time
 
 BYTE_US = 10.0
 N = 14
+SLOT_MS = 27.0       # power_log.py --sample-period-ms default
+MARGIN_MS = 2.0      # power_log.py --sample-margin-ms default
 
 
 def sync_read(n, length):
@@ -51,7 +57,10 @@ def table(turnarounds=(0.0, 1.0, 2.0)):
          "odm_bench/sampler.py"),
         ("guard, all 14 at once: sync read 62..63", g14, 1, "start check"),
         ("voltage only, 14 servos: sync read 62 (check_voltage.py)", v14, 1, "check_voltage.py line 29"),
-        ("power log every cycle: sync read 62..70 (V, T, status, I) of 14", blk, 1, "power_log.py"),
+        ("old power log, inside every cycle: sync read 62..70 (V, T, status, I) of 14", blk, 1,
+         "power_log.py --sampler cycle"),
+        ("timer power log, idle part only: the same read, one per 27 ms slot when it fits", blk, 1,
+         "power_log.py --walk (default)"),
         ("power log as two reads: 62 (V) and 69..70 (I)", vi, 2, "alternative"),
     ]
     out = ["| Transaction | Bytes | Wire ms | Reads | + USB 0 ms | + USB 1 ms | + USB 2 ms | Source |",
@@ -68,9 +77,13 @@ def table(turnarounds=(0.0, 1.0, 2.0)):
         gw = rt + g7 * BYTE_US / 1000 + u
         ga = rt + (g7 * BYTE_US / 1000 + u) / 12.5
         pw = rt + blk * BYTE_US / 1000 + u
+        tr = blk * BYTE_US / 1000 + u
         out.append(f"- USB {u:g} ms per read: Runtime {rt:.2f} ms; + guard tick in its cycle {gw:.2f} ms "
-                   f"(average {ga:.2f} ms); + power log every cycle {pw:.2f} ms; left for CPU: "
-                   f"{20 - rt:.1f} / {20 - gw:.1f} / {20 - pw:.1f} ms")
+                   f"(average {ga:.2f} ms); + old power log every cycle {pw:.2f} ms; left for CPU: "
+                   f"{20 - rt:.1f} / {20 - gw:.1f} / {20 - pw:.1f} ms. Timer log: control part stays "
+                   f"{rt:.2f} ms; each timer read {tr:.2f} ms in the idle part, needs {tr + MARGIN_MS:.2f} ms "
+                   f"free (read + {MARGIN_MS:g} ms margin), so it fits while Runtime CPU <= {20 - rt - tr - MARGIN_MS:.1f} ms; "
+                   f"bus busy {100 * (rt + tr * 20 / SLOT_MS) / 20:.0f} % of the time at most (every slot read)")
     return "\n".join(out), dict(runtime=runtime_bytes, guard7=g7, guard14=g14, volt14=v14, block=blk, vi=vi)
 
 
@@ -92,13 +105,15 @@ def measure(py, scratch, seconds=12):
     ids = [20, 21, 22, 23, 24, 30, 31, 32, 33, 10, 11, 12, 13, 14]
     runs = {"baseline (guard reads once)": ("walk_with_guard.py", ["--period", "1000000"]),
             "with the staggered guard": ("walk_with_guard.py", []),
-            "with the power log every cycle": ("power_log.py", ["--walk", "--no-guard", "--pack", "full",
-                                                                "--seconds", str(seconds)])}
+            "with the old power log every cycle": ("power_log.py", ["--walk", "--no-guard", "--pack", "full",
+                                                                    "--sampler", "cycle", "--seconds", str(seconds)]),
+            "with the timer power log": ("power_log.py", ["--walk", "--no-guard", "--pack", "full",
+                                                          "--seconds", str(seconds)])}
     res = {}
     for name, (script, extra) in runs.items():
         bus = FakeBus([FakeServo(i, reg85=0, volts=7.2) for i in ids], wire_time=True)
         bus.log_on = False
-        out = os.path.join(scratch, "timing", name.split()[0] + name.split()[-1])
+        out = os.path.join(scratch, "timing", "_".join(name.split()[:4]).replace("(", ""))
         env = dict(os.environ, LD_PRELOAD=shim, PYTHONPATH=os.path.join(here, "tests", "fake_hw"),
                    PYTHONDONTWRITEBYTECODE="1", PYGAME_HIDE_SUPPORT_PROMPT="1", ODM_FAKE_FEET="11",
                    ODM_FAKE_IMU="{}", ODM_BENCH_OUT=out)
@@ -114,6 +129,10 @@ def measure(py, scratch, seconds=12):
         loop = rep["data"].get("loop", {})
         rms = [i["measured"] for i in rep["items"] if i["item"] in ("11.read_ms", "9.read_ms")]
         res[name] = dict(loop=loop, read_ms=rms[0] if rms else None)
+        smp = rep["data"].get("sampler")
+        if smp:
+            res[name]["sampler"] = {k: smp.get(k) for k in ("coverage", "read", "busy", "own", "room", "overruns",
+                                                             "overrun_max_ms", "read_ms_mean", "read_ms_p99")}
         time.sleep(0.5)
     return res
 
