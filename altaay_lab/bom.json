@@ -184,7 +184,7 @@
 {
 "i": "13",
 "item": "Foot contact switch",
-"spec": "Omron SS-10 (solder terminals), body 19.8x6.4x10.2 mm per datasheet; 2 per foot (Tnkr m11)",
+"spec": "Omron SS-01 (gold alloy contacts, 0.1 A, minimum load 5 VDC 1 mA) preferred, Omron SS-10 (silver, minimum load 5 VDC 160 mA) as the fallback; same body 19.8 x 6.4 x 10.2 mm (Omron SS datasheet), 2 per foot (Tnkr m11) (D17)",
 "need": "4",
 "buy": "5",
 "pack": "1",
@@ -192,7 +192,21 @@
 "sup": "DigiKey",
 "link": "https://www.digikey.com/en/products/detail/aratas-formerly-omron-components/SS-10/369860",
 "ships": "Yes",
-"ver": "Yes: $2.94 each, min qty 1 (read via search index, direct fetch 403). Seat: foot_top has 2 slots 6.4 x 19.8 mm per foot (measured), press fit per upstream",
+"ver": "SS-10: $2.94 each, min qty 1 (read via search index, direct fetch 403). SS-01: US stock thin (Avnet 0, Farnell IL 18 at $1.93, read via search index); buy SS-01 if in stock at order time. Seat: foot_top has 2 slots 6.4 x 19.8 mm per foot (measured), press fit per upstream",
+"sec": "Robot"
+},
+{
+"i": "13b",
+"item": "Foot switch pull-up",
+"spec": "2.2 kOhm 5% 1/4 W through-hole, pack of 25; one per foot from Pi pin 17 (3V3) to GPIO22 / GPIO27 (D17)",
+"need": "2",
+"buy": "25",
+"pack": "25",
+"line": "0.75",
+"sup": "Adafruit 2782",
+"link": "https://www.adafruit.com/product/2782",
+"ships": "Yes",
+"ver": "Yes: $0.75, in stock 2026-11-01",
 "sec": "Robot"
 },
 {

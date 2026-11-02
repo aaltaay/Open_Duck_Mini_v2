@@ -73,3 +73,8 @@ Pack at full charge (8.3 V or more) and again at nominal (about 7.4 V open circu
 - Stop walking and go to the dock (later lab step) at about 3.5 V per cell under load, about 7.0 V at the pack. In this range the BEC is in dropout, so servo Present Voltage reads about the pack voltage minus the path drop.
 - Hard stop (torque off, shut down the Pi) at servo Present Voltage 6.0 V, about 3.3 V per cell. The Molicel P30B minimum is 2.5 V; the Tenergy board would only cut at 2.40 V.
 - For the docking step, add a pack voltage and current monitor on the pack line (later, not in the stock build).
+
+## 12. Foot switches (D17)
+- Before power: each foot circuit (2 switches in parallel) reads under 1 ohm closed and open over 1 Mohm, at the Pi header.
+- Powered, robot hanging: scripts/fc_test.py (Runtime) shows each foot change state on every press; 200 presses per foot with no missed or stuck reading.
+- On the floor, standing still: both feet read "contact" for 60 s without a flicker. A flicker here goes straight into the policy observation.

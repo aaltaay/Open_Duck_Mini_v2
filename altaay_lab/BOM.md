@@ -23,14 +23,15 @@ Columns: Need = measured requirement; Buy = what to order; Line = price for the 
 | 10b | Control switch | Stock panel slide switch in the body_back cutout (CAD power_switch.stl: flange 23.4 x 7.4, body 15.7 x 7.4, actuator 5.4 x 3.8 mm), switches only the Pololu 2815 control pin (microamps) | 1 | 1 | 1 | 6.00 | see Verified | (part with datasheet: see Verified) | Yes | PENDING parts check: a datasheet part matching the CAD shape is being sourced; $6.00 is a placeholder; the upstream part (Amazon B0CH3JCQM5) also works electrically now |
 | 11 | USB-C 2S charger | USB-C to 8.4 V 2S charge board (CAD body 38.2x18.1x5.2 mm, holes 2.5 mm at 14.4 mm pitch) | 1 | 1 | 1 | 7.99 | Amazon (Adeept) | https://www.amazon.com/Adeept-18650-Charge-Charging-Board/dp/B0BJTW4QBR | Yes | Price yes; hole pattern vs CAD on test order (no drawing published) |
 | 12 | XT30 pair | Amass XT30U, 10 pairs | 1 | 1 | 10 pairs | 8.58 | Amazon | https://www.amazon.com/dp/B08P5HVMYT | Yes | Yes |
-| 13 | Foot contact switch | Omron SS-10 (solder terminals), body 19.8x6.4x10.2 mm per datasheet; 2 per foot (Tnkr m11) | 4 | 5 | 1 | 14.70 | DigiKey | https://www.digikey.com/en/products/detail/aratas-formerly-omron-components/SS-10/369860 | Yes | Yes: $2.94 each, min qty 1 (read via search index, direct fetch 403). Seat: foot_top has 2 slots 6.4 x 19.8 mm per foot (measured), press fit per upstream |
+| 13 | Foot contact switch | Omron SS-01 (gold alloy contacts, 0.1 A, minimum load 5 VDC 1 mA) preferred, Omron SS-10 (silver, minimum load 5 VDC 160 mA) as the fallback; same body 19.8 x 6.4 x 10.2 mm (Omron SS datasheet), 2 per foot (Tnkr m11) (D17) | 4 | 5 | 1 | 14.70 | DigiKey | https://www.digikey.com/en/products/detail/aratas-formerly-omron-components/SS-10/369860 | Yes | SS-10: $2.94 each, min qty 1 (read via search index, direct fetch 403). SS-01: US stock thin (Avnet 0, Farnell IL 18 at $1.93, read via search index); buy SS-01 if in stock at order time. Seat: foot_top has 2 slots 6.4 x 19.8 mm per foot (measured), press fit per upstream |
+| 13b | Foot switch pull-up | 2.2 kOhm 5% 1/4 W through-hole, pack of 25; one per foot from Pi pin 17 (3V3) to GPIO22 / GPIO27 (D17) | 2 | 25 | 25 | 0.75 | Adafruit 2782 | https://www.adafruit.com/product/2782 | Yes | Yes: $0.75, in stock 2026-11-01 |
 | 14 | Antenna servo | SG90-class 9 g, 10-pack | 2 | 10 | 10 | 19.99 | Amazon (Miuzei) | https://www.amazon.com/dp/B072V529YD | Yes | Yes: lead 250 +/- 5 mm per listing (B28); tab holes 27.6 mm match head pilots 27.5 mm (B5) |
 | 15 | Game controller | Microsoft Xbox Wireless Controller with Bluetooth (the Runtime drives the walk from an Xbox controller over Bluetooth, README "Setup xbox one controller over bluetooth") | 1 | 1 | 1 | 64.99 | Microsoft Store (also Walmart, Best Buy) | https://www.microsoft.com/en-us/d/xbox-wireless-controller/8mzbmmcjzpb2 | Yes | Read via search index: list price $64.99 after the May 2025 increase; retailers lower; stock not verified. Upstream BOM has none (UPSTREAM_ISSUES.md G9) |
 | L1 | Servo buck regulator | Castle CC BEC Pro 010-0004-01 set to 7.2 V; minimum input voltage NOT published (one retailer says 16 V), so the TEST_PLAN.md section 4 input sweep down to 6.5 V decides it; fallback Pololu D42V110F6 (6 V, about 11 A, POWER.md section 3) | 1 | 1 | 1 | 54.95 | Castle Creations; also Horizon Hobby CSE010000401 and Motion RC | https://www.horizonhobby.com/product/castle-creations-cc-bec-pro-20a-max-output-12s-max-switching-regulator/CSE010000401.html | Yes | Yes: $54.95 and in stock at Horizon Hobby and Motion RC 2026-11-01 (castlecreations.com refuses curl) |
 | L3 | Inline fuse holder | Littelfuse FHAC0001ZXJ ATO 20 A, body 50 x 17.2 x 17.2 mm plus cover on a strap, 16 AWG leads 90 mm (Littelfuse drawing, parts check 2026-11-01); seat measured on the battery bay front wall (MOUNTING.md) | 1 | 1 | 1 | 7.74 | Newark 56P4171 | https://www.newark.com/littelfuse/fhac0001zxj/fuse-holder-in-line/dp/56P4171 | Yes | Yes: 3,553 in stock 2026-11-01 |
 | L4 | Fuse | Littelfuse 0287015.PXCN ATO 15 A | 1 | 5 | 1 | 2.20 | DigiKey | https://www.digikey.com/en/products/detail/littelfuse-inc/0287015-PXCN/2519816 | Yes | Yes: $0.44 each, min qty 1 (read via search index, direct fetch 403). Rating vs BMS: B12 |
 
-Subtotal: $622.78
+Subtotal: $623.53
 
 ## Fasteners and mechanical
 
@@ -108,15 +109,15 @@ Subtotal: $138.67
 
 | Scope | $ |
 |---|---|
-| Robot | 622.78 |
+| Robot | 623.53 |
 | Fasteners and mechanical | 68.90 |
 | Cables, connectors, wire | 90.74 |
 | Print material | 53.97 |
 | Expression (optional upstream) | 82.40 |
 | Tools (one-time) | 138.67 |
-| Build total (robot + fasteners + cables + filament) | 836.39 |
-| Build + expression pack | 918.79 |
-| Build + expression + tools | 1057.46 |
+| Build total (robot + fasteners + cables + filament) | 837.14 |
+| Build + expression pack | 919.54 |
+| Build + expression + tools | 1058.21 |
 
 Change 2026-11-01 evening (print-readiness pass, D4, D7, D8, D10, D13, D15): Tenergy BMS (+$16.10 vs JZK), Pololu 2815 main switch ($8.49, the old $6.00 placeholder becomes the line 10b control switch), Pololu D30V30F5 (+$12.66 vs HENGE), game controller (+$64.99, line 15), foam tape (+$19.00, line 29), Adafruit USB cable (-$1.50), Same Sky speaker (+$2.43). Before this pass the build total was $716.65.
 
