@@ -1,6 +1,6 @@
 # BOM_FULL: every part in the robot
 
-Generated 2026-11-02 04:12 UTC by altaay_lab/viewer/make_viewer_data.py --write-bom (module viewer/bom_full.py). Do not edit by hand: change the sources (CAD, print/parts.csv, wiring/netlist.yaml, fasteners/fasteners.json, BOM.md) and re-run.
+Generated 2026-11-02 05:47 UTC by altaay_lab/viewer/make_viewer_data.py --write-bom (module viewer/bom_full.py). Do not edit by hand: change the sources (CAD, print/parts.csv, wiring/netlist.yaml, fasteners/fasteners.json, BOM.md) and re-run.
 
 One row per distinct item that goes into the robot or is used to build it. Qty is what the robot uses (measured in the CAD, the netlist or the fastener schedule). The Line column is the BOM.md purchase line that supplies it, so prices and links live in one place (BOM.md). The exploded 3D view shows every row that is modelled (tab "Every part").
 
@@ -12,61 +12,57 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | Servos | 17 | 44 | bought 15, in kit 2 |
 | Electronics and power | 18 | 23 | bought 18 |
 | Expression (head) | 7 | 12 | bought 7 |
-| Fasteners | 21 | 416 | MISSING 2, bought 10, in kit 9 |
-| Cables | 45 | 45 | bought 2, in kit 11, made 32 |
-| Connectors and wire | 17 | 56 | bought 16, in kit 1 |
-| Consumables and other | 11 | 111 | MISSING 1, bought 9, printed 1 |
-| Tools | 20 |  | tool 20 |
-| **All** | 193 | 761 | MISSING 3, bought 77, in kit 23, printed 38, made 32, tool 20 |
+| Fasteners | 21 | 403 | bought 12, in kit 9 |
+| Cables | 47 | 47 | bought 2, in kit 11, made 34 |
+| Connectors and wire | 17 | 62 | bought 16, in kit 1 |
+| Consumables and other | 9 | 169 | bought 9 |
+| Tools | 22 |  | tool 22 |
+| **All** | 195 | 814 | bought 79, in kit 23, printed 37, made 34, tool 22 |
 
-## Needs action (3)
+## Needs action (0)
 
-| ID | Item | Qty | Status | Note |
-|---|---|---|---|---|
-| F02 | M2.5x5 DIN 912 A2 | 4  | MISSING | found here, not in audit/screws2.py or MOUNTING.md (B8 says no screw): pilot axis 20.7 deg off the clearance hole axis, pilot centre 0.00 mm off it; 0.10 mm vs speaker_interface (zero pose (static) 0.0) |
-| F13 | M3x6 ISO 7380 A2 button head | 10  | MISSING | DIN 912 head is hit by roll_to_pitch (-0.19 mm); ISO 7380 head (k 1.65) clears it in the sweep, see FASTENERS.md section 3; -0.19 mm vs left_roll_to_pitch (left_hip_pitch 18.9) |
-| K09 | Adhesive tie mount | 98  | MISSING | 98 at places where the CAD has no feature |
+None: every row is covered by a purchase line, a kit, the filament or the tool list.
 
 ## Printed parts
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
-| P01 | Battery pack lid | print/battery_pack_lid.stl, PLA 15%, 14.1 g, 1.04 h each | 1 | Trunk | 27 | Amazon | printed |  |
-| P02 | Body back | print/body_back.stl, PLA 15%, 88.1 g, 6.94 h each | 1 | Trunk | 27 | Amazon | printed |  |
-| P03 | Body front | print/body_front.stl, PLA 15%, 60.3 g, 4.22 h each | 1 | Trunk | 27 | Amazon | printed |  |
-| P04 | Body middle bottom | print/body_middle_bottom.stl, PLA 15%, 4 walls, 116.5 g, 9.53 h each | 1 | Trunk | 27 | Amazon | printed | 8 insert bores (horizontal in this orientation) |
-| P05 | Body middle top | print/body_middle_top.stl, PLA 15%, 4 walls, 99.0 g, 7.76 h each | 1 | Trunk | 27 | Amazon | printed | 8 insert bores |
-| P06 | Eye bulb | print/bulb.stl, PLA 15%, 2.0 g, 0.17 h each | 2 | Head 2 | 27 | Amazon | printed | guide says x1; CAD has 2 (issue #26) |
-| P07 | Flash light module | print/flash_light_module.stl, PLA 15%, 9.1 g, 0.87 h each | 1 | Head | 27 | Amazon | printed |  |
-| P08 | Flash reflector interface | print/flash_reflector_interface.stl, PLA 15%, 2.6 g, 0.25 h each | 1 | Head | 27 | Amazon | printed |  |
-| P09 | Foot bottom plate | print/foot_bottom_pla.stl, PLA 15%, 4 walls, 10.9 g, 0.85 h each | 2 | Left foot, Right foot | 27 | Amazon | printed | 2 blind insert bores 5.8 mm (C3) |
-| P10 | Foot sole (TPU) | print/foot_bottom_tpu.stl, TPU 40%, 18.1 g, 2.25 h each | 2 | Left foot, Right foot | 28 | Amazon | printed | TPU 40% per upstream (B26) |
-| P11 | Foot side | print/foot_side.stl, PLA 15%, 14.9 g, 1.23 h each | 2 | Left foot, Right foot | 27 | Amazon | printed |  |
-| P12 | Foot top | print/foot_top.stl, PLA 15%, 4 walls, 31.6 g, 2.69 h each | 2 | Left foot, Right foot | 27 | Amazon | printed | 2 insert bores with a 1.5 mm wall (B16; C2) |
-| P13 | Head shell | print/head.stl, PLA 15%, 4 walls, 262.0 g, 21.96 h each | 1 | Head | 27 | Amazon | printed | 12 insert bores; bearing seat is horizontal in this orientation |
-| P14 | Head bot sheet | print/head_bot_sheet.stl, PLA 15%, 57.5 g, 3.88 h each | 1 | Head | 27 | Amazon | printed |  |
-| P15 | Head pitch to yaw | print/head_pitch_to_yaw.stl, PLA 40%, 5 walls, 16.6 g, 1.73 h each | 1 (+1 spare) | Neck | 27 | Amazon | printed | neck chain (G5); thinnest part at head_pitch and head_yaw (G6) |
-| P16 | Head roll mount | print/head_roll_mount.stl, PLA 40%, 5 walls, 15.7 g, 1.42 h each | 1 (+1 spare) | Head | 27 | Amazon | printed | neck chain (G5); servo pocket line to line (0.00 mm net) |
-| P17 | Head yaw to roll | print/head_yaw_to_roll.stl, PLA 40%, 5 walls, 29.0 g, 2.81 h each | 1 (+1 spare) | Neck | 27 | Amazon | printed | neck chain (G5); servo pocket 0.10 mm undersize (C4) |
-| P18 | Knee to ankle left sheet | print/knee_to_ankle_left_sheet.stl, PLA 15%, 7.0 g, 0.64 h each | 4 (+1 spare) | Left shin, Left thigh, Right shin, Right thigh | 27 | Amazon | printed | servo tabs line to line (0.01 mm); thinnest leg plate (G6) |
-| P19 | Knee to ankle right sheet | print/knee_to_ankle_right_sheet.stl, PLA 15%, 6.3 g, 0.60 h each | 4 (+1 spare) | Left shin, Left thigh, Right shin, Right thigh | 27 | Amazon | printed | servo tabs line to line (0.01 mm); thinnest leg plate (G6) |
-| P20 | Left antenna holder | print/left_antenna_holder.stl, PLA 15%, 3.6 g, 0.28 h each | 1 (+1 spare) | Head | 27 | Amazon | printed | thinnest part (2.0 mm); first hit if the head swings (G6) |
-| P21 | Left leg cover | print/left_cache.stl, PLA 15%, 77.3 g, 5.97 h each | 1 | Left thigh | 27 | Amazon | printed |  |
-| P22 | Left eye | print/left_eye.stl, PLA 15%, 1.8 g, 0.18 h each | 1 | Head | 27 | Amazon | printed | whole-part test print (B14) |
-| P23 | Left roll to pitch | print/left_roll_to_pitch.stl, PLA 15%, 24.8 g, 2.31 h each | 1 | Left hip bracket | 27 | Amazon | printed | servo pocket line to line (0.10 mm face overlap); G12 check |
-| P24 | Leg spacer | print/leg_spacer.stl, PLA 15%, 4 walls, 8.8 g, 1.00 h each | 4 | Left shin, Left thigh, Right shin, Right thigh | 27 | Amazon | printed | 4 insert bores (2 per end) |
-| P25 | Neck left sheet | print/neck_left_sheet.stl, PLA 40%, 5 walls, 7.5 g, 0.70 h each | 1 (+1 spare) | Neck | 27 | Amazon | printed | neck chain (G5); thin sheet at neck_pitch and head_pitch (G6) |
-| P26 | Neck right sheet | print/neck_right_sheet.stl, PLA 40%, 5 walls, 6.5 g, 0.61 h each | 1 (+1 spare) | Neck | 27 | Amazon | printed | neck chain (G5); thin sheet at neck_pitch and head_pitch (G6) |
-| P27 | Right antenna holder | print/right_antenna_holder.stl, PLA 15%, 3.6 g, 0.28 h each | 1 (+1 spare) | Head | 27 | Amazon | printed | thinnest part (2.0 mm); first hit if the head swings (G6) |
-| P28 | Right leg cover | print/right_cache.stl, PLA 15%, 77.3 g, 6.03 h each | 1 | Right thigh | 27 | Amazon | printed |  |
-| P29 | Right eye | print/right_eye.stl, PLA 15%, 4.6 g, 0.38 h each | 1 | Head | 27 | Amazon | printed |  |
-| P30 | Right roll to pitch | print/right_roll_to_pitch.stl, PLA 15%, 24.8 g, 2.33 h each | 1 | Right hip bracket | 27 | Amazon | printed | servo pocket line to line (0.10 mm face overlap); G12 check |
-| P31 | Roll motor bottom | print/roll_motor_bottom.stl, PLA 15%, 8.8 g, 0.72 h each | 2 (+1 spare) | Left hip, Right hip | 27 | Amazon | printed | thinnest hip part (2.97 mm median) at hip yaw and hip roll; G12 screw (G6) |
-| P32 | Roll motor top | print/roll_motor_top.stl, PLA 15%, 8.0 g, 0.80 h each | 2 | Left hip, Right hip | 27 | Amazon | printed | servo pocket line to line (0.01 mm) |
-| P33 | Speaker interface | print/speaker_interface.stl, PLA 15%, 2.3 g, 0.22 h each | 1 | Head | 27 | Amazon | printed | laid flat (PRINT_CHECK had it on a 48 mm2 edge) |
-| P34 | Speaker stand | print/speaker_stand.stl, PLA 15%, 10.1 g, 1.16 h each | 1 | Head | 27 | Amazon | printed |  |
-| P35 | Trunk bottom frame | print/trunk_bottom.stl, PLA 15%, 4 walls, 42.0 g, 3.54 h each | 1 | Trunk | 27 | Amazon | printed | 6 insert bores and 2 bearing seats 32.19 mm (C1) |
-| P36 | Trunk top frame | print/trunk_top.stl, PLA 15%, 75.1 g, 6.14 h each | 1 | Trunk | 27 | Amazon | printed | 3 servo pockets line to line (0.10 mm face overlap) |
+| P01 | Battery pack lid | print/battery_pack_lid.stl, PLA 15%, 14.1 g, 1.04 h each | 1 | Trunk | 27 | Amazon | printed | 2 walls 15 % (upstream default): a lid whose screws thread into body_back; no rule asks for more |
+| P02 | Body back | print/body_back.stl, PLA 15%, 88.1 g, 6.94 h each | 1 | Trunk | 27 | Amazon | printed | 2 walls 15 % plus a 1.5 mm solid ring round each of its 5 screw pilots (lid and electronics screws): the pilot rule at each hole instead of 3 walls on the whole shell; no coupon |
+| P03 | Body front | print/body_front.stl, PLA 15%, 60.3 g, 4.22 h each | 1 | Trunk | 27 | Amazon | printed | 2 walls 15 % (upstream default): no rule asks for more |
+| P04 | Body middle bottom | print/body_middle_bottom.stl, PLA 15%, 4 walls, 116.5 g, 9.53 h each | 1 | Trunk | 27 | Amazon | printed | 2 walls 15 % plus a 2.0 mm solid ring round each of its 8 insert bores (horizontal in this orientation): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings |
+| P05 | Body middle top | print/body_middle_top.stl, PLA 15%, 4 walls, 99.0 g, 7.76 h each | 1 | Trunk | 27 | Amazon | printed | 2 walls 15 % plus a 2.0 mm solid ring round each of its 8 insert bores: the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings |
+| P06 | Eye bulb | print/bulb.stl, PLA 15%, 2.0 g, 0.17 h each | 2 | Head 2 | 27 | Amazon | printed | 2 walls 15 % (upstream default); guide says x1 but the CAD has 2 (issue #26) |
+| P07 | Flash light module | print/flash_light_module.stl, PLA 15%, 9.1 g, 0.87 h each | 1 | Head | 27 | Amazon | printed | 2 walls 15 % (upstream default); its 4.0 mm hole is a 14.6 mm light channel and not an insert bore |
+| P08 | Flash reflector interface | print/flash_reflector_interface.stl, PLA 15%, 2.6 g, 0.25 h each | 1 | Head | 27 | Amazon | printed | 2 walls 15 % (upstream default): no rule asks for more |
+| P09 | Foot bottom plate | print/foot_bottom_pla.stl, PLA 15%, 4 walls, 10.9 g, 0.85 h each | 2 | Left foot, Right foot | 27 | Amazon | printed | 2 walls 15 % plus a 2.0 mm solid ring round each of its 2 blind insert bores 5.8 mm (C3): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings |
+| P10 | Foot sole (TPU) | print/foot_bottom_tpu.stl, TPU 40%, 18.1 g, 2.25 h each | 2 | Left foot, Right foot | 28 | Amazon | printed | TPU 2 walls 40 % (upstream infill; B26): no strength rule for the sole; coupon T2 is the left leg sole and checks fit |
+| P11 | Foot side | print/foot_side.stl, PLA 15%, 14.9 g, 1.23 h each | 2 | Left foot, Right foot | 27 | Amazon | printed | 2 walls 15 % (upstream default): no rule asks for more |
+| P12 | Foot top | print/foot_top.stl, PLA 15%, 4 walls, 31.6 g, 2.69 h each | 2 | Left foot, Right foot | 27 | Amazon | printed | 2 walls 15 % plus a 2.0 mm solid ring round each of its 2 insert bores (the 1.5 mm bore wall of B16 prints solid either way): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings |
+| P13 | Head shell | print/head.stl, PLA 15%, 4 walls, 262.0 g, 21.96 h each | 1 | Head | 27 | Amazon | printed | 4 walls (insert) as before D22: 12 insert bores and a bearing seat (horizontal in this orientation); in the sim its mass is the forward counterweight (a light head costs one step of backward margin; MASS_STUDY.md option d) |
+| P14 | Head bot sheet | print/head_bot_sheet.stl, PLA 15%, 57.5 g, 3.88 h each | 1 | Head | 27 | Amazon | printed | 2 walls 15 % (upstream default): a 3 mm floor sheet |
+| P15 | Head pitch to yaw | print/head_pitch_to_yaw.stl, PLA 40%, 5 walls, 16.6 g, 1.73 h each | 1 (+1 spare) | Neck | 27 | Amazon | printed | 5 walls 40 % (neck) as before D22: neck chain (G5); thinnest part at head_pitch and head_yaw (G6) |
+| P16 | Head roll mount | print/head_roll_mount.stl, PLA 40%, 5 walls, 15.7 g, 1.42 h each | 1 (+1 spare) | Head | 27 | Amazon | printed | 5 walls 40 % and fit (neck+fit) as before D22: neck chain (G5); servo pocket line to line (0.00 mm net) |
+| P17 | Head yaw to roll | print/head_yaw_to_roll.stl, PLA 40%, 5 walls, 29.0 g, 2.81 h each | 1 (+1 spare) | Neck | 27 | Amazon | printed | 5 walls 40 % and fit (neck+fit) as before D22: neck chain (G5); servo pocket 0.10 mm undersize (C4) |
+| P18 | Knee to ankle left sheet | print/knee_to_ankle_left_sheet.stl, PLA 15%, 7.0 g, 0.64 h each | 4 (+1 spare) | Left shin, Left thigh, Right shin, Right thigh | 27 | Amazon | printed | 3 walls and fit (wall3+fit) as before D22: thinnest leg plate (G6); servo tabs line to line (0.01 mm) |
+| P19 | Knee to ankle right sheet | print/knee_to_ankle_right_sheet.stl, PLA 15%, 6.3 g, 0.60 h each | 4 (+1 spare) | Left shin, Left thigh, Right shin, Right thigh | 27 | Amazon | printed | 3 walls and fit (wall3+fit) as before D22: thinnest leg plate (G6); servo tabs line to line (0.01 mm) |
+| P20 | Left antenna holder | print/left_antenna_holder.stl, PLA 15%, 3.6 g, 0.28 h each | 1 (+1 spare) | Head | 27 | Amazon | printed | 3 walls (wall3) as before D22: thinnest part (2.0 mm); first hit if the head swings (G6) |
+| P21 | Left leg cover | print/left_cache.stl, PLA 15%, 77.3 g, 5.97 h each | 1 | Left thigh | 27 | Amazon | printed | 2 walls 15 % (upstream default): a cover (PRINT_PLAN.md G6: not spared) |
+| P22 | Left eye | print/left_eye.stl, PLA 15%, 1.8 g, 0.18 h each | 1 | Head | 27 | Amazon | printed | 3 walls (wall3) as before D22: 4 screw pilots; whole-part test print T1 (B14) in this profile |
+| P23 | Left roll to pitch | print/left_roll_to_pitch.stl, PLA 15%, 24.8 g, 2.31 h each | 1 | Left hip bracket | 27 | Amazon | printed | 2 walls 15 % with fit: servo pocket line to line (0.10 mm face overlap); G12 check; no rule asks for more walls |
+| P24 | Leg spacer | print/leg_spacer.stl, PLA 15%, 4 walls, 8.8 g, 1.00 h each | 4 | Left shin, Left thigh, Right shin, Right thigh | 27 | Amazon | printed | 2 walls 15 % plus a 2.0 mm solid ring round each of its 4 insert bores (2 per end): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings |
+| P25 | Neck left sheet | print/neck_left_sheet.stl, PLA 40%, 5 walls, 7.5 g, 0.70 h each | 1 (+1 spare) | Neck | 27 | Amazon | printed | 5 walls 40 % (neck) as before D22: neck chain (G5); thin sheet at neck_pitch and head_pitch (G6) |
+| P26 | Neck right sheet | print/neck_right_sheet.stl, PLA 40%, 5 walls, 6.5 g, 0.61 h each | 1 (+1 spare) | Neck | 27 | Amazon | printed | 5 walls 40 % (neck) as before D22: neck chain (G5); thin sheet at neck_pitch and head_pitch (G6) |
+| P27 | Right antenna holder | print/right_antenna_holder.stl, PLA 15%, 3.6 g, 0.28 h each | 1 (+1 spare) | Head | 27 | Amazon | printed | 3 walls (wall3) as before D22: thinnest part (2.0 mm); first hit if the head swings (G6) |
+| P28 | Right leg cover | print/right_cache.stl, PLA 15%, 77.3 g, 6.03 h each | 1 | Right thigh | 27 | Amazon | printed | 2 walls 15 % (upstream default): a cover (PRINT_PLAN.md G6: not spared) |
+| P29 | Right eye | print/right_eye.stl, PLA 15%, 4.6 g, 0.38 h each | 1 | Head | 27 | Amazon | printed | 3 walls (wall3) as before D22: 4 screw pilots |
+| P30 | Right roll to pitch | print/right_roll_to_pitch.stl, PLA 15%, 24.8 g, 2.33 h each | 1 | Right hip bracket | 27 | Amazon | printed | 2 walls 15 % with fit: servo pocket line to line (0.10 mm face overlap); G12 check; no rule asks for more walls |
+| P31 | Roll motor bottom | print/roll_motor_bottom.stl, PLA 15%, 8.8 g, 0.72 h each | 2 (+1 spare) | Left hip, Right hip | 27 | Amazon | printed | 3 walls (wall3) as before D22: thinnest hip part (2.97 mm median) at hip yaw and hip roll; G12 screw (G6) |
+| P32 | Roll motor top | print/roll_motor_top.stl, PLA 15%, 8.0 g, 0.80 h each | 2 | Left hip, Right hip | 27 | Amazon | printed | 2 walls 15 % with fit: servo pocket line to line (0.01 mm); no rule asks for more walls |
+| P33 | Speaker interface | print/speaker_interface.stl, PLA 15%, 2.3 g, 0.22 h each | 1 | Head | 27 | Amazon | printed | 2 walls 15 % (upstream default); laid flat (PRINT_CHECK had it on a 48 mm2 edge) |
+| P34 | Speaker stand | print/speaker_stand.stl, PLA 15%, 10.1 g, 1.16 h each | 1 | Head | 27 | Amazon | printed | 3 walls (wall3) as before D22: 2 screw pilots |
+| P35 | Trunk bottom frame | print/trunk_bottom.stl, PLA 15%, 4 walls, 42.0 g, 3.54 h each | 1 | Trunk | 27 | Amazon | printed | 4 walls and fit (insert+fit) as before D22: frame part; both legs hang from its 2 hip yaw 6804 seats 32.19 mm (C1); 6 insert bores |
+| P36 | Trunk top frame | print/trunk_top.stl, PLA 15%, 75.1 g, 6.14 h each | 1 | Trunk | 27 | Amazon | printed | 3 walls and fit (wall3+fit) as before D22: frame part that holds the 2 hip yaw servos and the neck pitch servo; 3 servo pockets line to line (0.10 mm face overlap) |
 | P37 | Antenna rod (optional) | URDF antenna.stl, PLA, 1.8 g for 2 (print/PRINT_PLAN.md optional part) | 2 | Head 2 | 27 | Amazon | printed | In the CAD but not in print/: export from the URDF mesh (PRINT_PLAN.md) |
 
 ## Servos
@@ -131,22 +127,22 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
 | F01 | M2.5x10 DIN 912 A2 | plastic pilot 2.0, M2.5_din912 head | 4 | Trunk 4 | 17i | Bolt Depot | bought | head d 4.5 does not fit the 4.00 recess: it sits on the part face, 3.0 mm higher; -1.24 mm vs head_bot_sheet (neck_pitch+head_pitch (57.9, 0.0)) |
-| F02 | M2.5x5 DIN 912 A2 | plastic pilot 2.12 (speaker stand), M2.5_din912 head | 4 | Head 4 |  |  | MISSING | found here, not in audit/screws2.py or MOUNTING.md (B8 says no screw): pilot axis 20.7 deg off the clearance hole axis, pilot centre 0.00 mm off it; 0.10 mm vs speaker_interface (zero pose (static) 0.0) |
+| F02 | M2.5x5 DIN 912 A2 | plastic pilot 2.12 (speaker stand), M2.5_din912 head | 4 | Head 4 | 17k | BelMetric (US) | bought | found here, not in audit/screws2.py or MOUNTING.md (B8 says no screw): pilot axis 20.7 deg off the clearance hole axis, pilot centre 0.00 mm off it; 0.10 mm vs speaker_interface (zero pose (static) 0.0) |
 | F03 | M2.5x6 DIN 912 A2 | plastic pilot 2.0, M2.5_din912 head | 17 | Head 8, Trunk 9 | 17f | Bolt Depot | bought | -0.00 mm vs speaker_stand (zero pose (static) 0.0) |
 | F04 | M2.5x8 DIN 912 A2 + 0.5 mm washer | plastic pilot (eye), M2.5_din912 head | 8 | Head 8 | 17g | Bolt Depot | bought | eye pilot is blind (3.0 mm deep, 1.5 mm front skin, ray cast): M2.5x8 alone reaches the floor (0.0 mm); with a 0.5 mm washer: 2.5 mm of thread, 0.5 mm to the floor; 0.52 mm vs bulb (zero pose (static) 0.0) |
 | F05 | M2x4 self-tapping pan head | servo pilot, M2_pan_selftap head | 6 | Head 6 | 17h | Amazon (ships from Amazon) | in kit | 0.02 mm vs head_roll_mount (zero pose (static) 0.0) |
 | F06 | M2x5 self-tapping pan head | servo pilot, M2_pan_selftap head | 22 | Head 2, Left hip bracket 3, Left shin 2, Left thigh 2, Neck 2, Right hip bracket 3, Right shin 2, Right thigh 2, Trunk 4 | 17h | Amazon (ships from Amazon) | in kit | 0.02 mm vs head_roll_mount (zero pose (static) 0.0) |
-| F07 | M2x6 self-tapping pan head | servo pilot, M2_pan_selftap head | 44 | Left hip 6, Left hip bracket 2, Left shin 2, Left thigh 2, Neck 6, Right hip 6, Right hip bracket 2, Right shin 2, Right thigh 2, Trunk 14 | 1 | Seeed Studio | in kit | -0.08 mm vs right_roll_to_pitch (zero pose (static) 0.0) |
+| F07 | M2x6 self-tapping pan head | servo pilot, M2_pan_selftap head | 42 | Left hip 5, Left hip bracket 2, Left shin 2, Left thigh 2, Neck 6, Right hip 5, Right hip bracket 2, Right shin 2, Right thigh 2, Trunk 14 | 1 | Seeed Studio | in kit | -0.08 mm vs right_roll_to_pitch (zero pose (static) 0.0) |
 | F08 | M2x8 self-tapping pan head | servo pilot, M2_pan_selftap head | 2 | Trunk 2 | 17h | Amazon (ships from Amazon) | in kit | -0.05 mm vs trunk_top (zero pose (static) 0.0) |
 | F09 | M3x10 DIN 912 A2 | M3 insert, M3_din912 head | 12 | Left foot 2, Left thigh 2, Right foot 2, Right thigh 2, Trunk 4 | 17b | Bolt Depot | bought | 0.02 mm vs left_cache (zero pose (static) 0.0) |
 | F10 | M3x12 DIN 912 A2 | M3 insert, M3_din912 head | 2 | Trunk 2 | 17c | Bolt Depot | bought | -0.08 mm vs trunk_top (zero pose (static) 0.0) |
 | F11 | M3x5 DIN 912 A2 | horn(drive), M3_din912 head | 28 | Neck 28 | 17e | Bolt Depot | bought | -0.07 mm vs head_yaw_to_roll (zero pose (static) 0.0) |
 | F12 | M3x6 DIN 912 A2 | M3 insert, M3_din912 head | 78 | Head 4, Left foot 8, Left hip 4, Left hip bracket 8, Left shin 12, Left thigh 5, Right foot 8, Right hip 4, Right hip bracket 8, Right shin 12, Right thigh 5 | 17d | Bolt Depot | bought | -0.22 mm vs body_middle_bottom (left_hip_yaw+left_hip_roll (30.0, 25.0)) |
-| F13 | M3x6 ISO 7380 A2 button head | M3 insert, M3_iso7380 head | 10 | Left thigh 5, Right thigh 5 |  |  | MISSING | DIN 912 head is hit by roll_to_pitch (-0.19 mm); ISO 7380 head (k 1.65) clears it in the sweep, see FASTENERS.md section 3; -0.19 mm vs left_roll_to_pitch (left_hip_pitch 18.9) |
+| F13 | M3x6 ISO 7380 A2 button head | M3 insert, M3_iso7380 head | 10 | Left thigh 5, Right thigh 5 | 17j | BelMetric (US: "Stocked in the USA", since 1976, +1-978-649-6201) | bought | DIN 912 head is hit by roll_to_pitch (-0.19 mm); ISO 7380 head (k 1.65) clears it in the sweep, see FASTENERS.md section 3; -0.19 mm vs left_roll_to_pitch (left_hip_pitch 18.9) |
 | F14 | M3x6 machine screw (Feetech rocker screw) | servo output shaft, M3_horn_centre head | 14 | Left foot 1, Left hip 1, Left hip bracket 1, Left shin 1, Left thigh 1, Neck 4, Right foot 1, Right hip 1, Right hip bracket 1, Right shin 1, Right thigh 1 | 1 | Seeed Studio | in kit | comes with servo: M3x6 rocker screw per the Feetech datasheet; output shaft thread not modelled; Loctite 243: metal to metal [U] docs/assembly_guide.md (b23317a): trunk_bottom to trunk_top 2 x M3x10; foot_bottom_tpu to foot_bottom_pla 2 x M3x6; servo case screws are the plastic screws that come with the motors; Loctite 243 on metal to metal motor screws; -0.03 mm vs drive_palonier (zero pose (static) 0.0) |
 | F15 | M3x8 DIN 912 A2 | M3 insert, M3_din912 head | 28 | Head 8, Left foot 2, Right foot 2, Trunk 16 | 17a | Bolt Depot | bought | 0.02 mm vs body_front (zero pose (static) 0.0) |
 | F16 | PA2.0 self-tapping (factory) | servo case (factory), M2_case_factory head | 56 | Head 4, Left hip 4, Left hip bracket 4, Left shin 4, Left thigh 4, Neck 8, Right hip 4, Right hip bracket 4, Right shin 4, Right thigh 4, Trunk 12 | 1 | Seeed Studio | in kit | comes with servo, fitted at the factory: do not remove; length and head not published; -0.00 mm vs wj-wk00-0122topcabinetcase_95 (zero pose (static) 0.0); length from the drawing, not yet chosen |
-| F17 | PA3.0x5 self-tapping, washer head (Feetech idle screw) | servo idle boss pilot 2.67, PA3_idle head | 14 | Head 1, Left hip 1, Left hip bracket 1, Left shin 1, Left thigh 1, Neck 2, Right hip 1, Right hip bracket 1, Right shin 1, Right thigh 1, Trunk 3 | 1 | Seeed Studio | in kit | NOT FITTED: the idle horn is held by 4 M3 screws to its bracket (LeRobot SO-101 practice: no screw on the idle horn); the PA3.0x5 screw stays in the bag; 0.02 mm vs wj-wk00-0124bottomcase_45 (zero pose (static) 0.0) |
+| F17 | PA3.0x5 self-tapping, washer head (Feetech idle screw) | servo idle boss pilot 2.67, PA3_idle head | 3 | Head 1, Trunk 2 | 1 | Seeed Studio | in kit | FIT: nothing is screwed to this idle horn and 17.9 mm is free beyond it, so the PA3.0x5 screw from the bag keeps it on the boss (Feetech drawing); 0.02 mm vs wj-wk00-0124bottomcase_45 (zero pose (static) 0.0) |
 | F18 | SG90 bag horn screw | SG90 output shaft (not modelled), SG90_screw head | 2 | Head 2 | 14 | Amazon (Miuzei) | in kit | NONE anchor resolved: the hole is on the antenna joint axis (0.04 mm); the screw goes from the outer face through the holder into the SG90 output shaft, which sg90.stl does not model; first solid surface 2.0 mm below the seat; size not published [I] https://www.rapidonline.com/rapid-pro-sg90-mini-servo-37-1330 ("Supplied complete with control horns and mounting screws"; sizes not published); -0.78 mm vs antenna (zero pose (static) 0.0); length from the drawing, not yet chosen |
 | F19 | SG90 bag mounting screw | plastic pilot 1.55 (SG90 tab), SG90_screw head | 4 | Head 4 | 14 | Amazon (Miuzei) | in kit | SG90 bag screw (BOM 14), size not published; head pilot axis is 20.7 deg off the SG90 tab axis in the CAD; -0.80 mm vs body_middle_top (neck_pitch+head_pitch (43.8, 45.0)); length from the drawing, not yet chosen |
 | F20 | M3 heat-set insert, CNC Kitchen M3 x 5.7 | D1 4.6 mm into a 4.0 mm bore | 58 | Head 12, Left foot 4, Left shin 4, Left thigh 4, Right foot 4, Right shin 4, Right thigh 4, Trunk 22 | 16 | CNC Kitchen USA | bought |  |
@@ -156,89 +152,89 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
-| C01 | P1: holder + to BMS B+ | 1 wire, 16 AWG x1, cut 120 mm | 1 cable | battery_bay | L5, 26 | Amazon | made | pass: worst 14.3 mm vs cut 120 mm |
-| C02 | P2: holder - to BMS B- | 1 wire, 16 AWG x1, cut 120 mm | 1 cable | battery_bay | L5, 26 | Amazon | made | pass: worst 14.3 mm vs cut 120 mm |
-| C03 | P3: holder series strap to BMS B1 | 1 wire, 26 AWG x1, cut 120 mm | 1 cable | battery_bay | 25, 26 | Amazon | made | fail: worst 96.8 mm vs cut 120 mm |
-| C04 | P4: BMS P+ to charger B+ | 1 wire, 20 AWG x1, cut 130 mm | 1 cable | battery_bay | 23, 26 | Amazon | made | pass: worst 10.4 mm vs cut 130 mm |
-| C05 | P5: BMS P- to charger B- | 1 wire, 20 AWG x1, cut 130 mm | 1 cable | battery_bay | 23, 26 | Amazon | made | pass: worst 10.4 mm vs cut 130 mm |
-| C06 | P6: BMS P+ to XT30U female + | 1 wire, 16 AWG x1, cut 110 mm | 1 cable | battery_bay | L5, 12, 26 | Amazon | made | fail: worst 96.2 mm vs cut 110 mm |
-| C07 | P8: BMS P- to XT30U female - | 1 wire, 16 AWG x1, cut 110 mm | 1 cable | battery_bay | L5, 12, 26 | Amazon | made | fail: worst 96.2 mm vs cut 110 mm |
-| C08 | P7: XT30U male + to fuse holder to Pololu 2815 VIN (the holder leads) | 2 wires, 16 AWG x2, cut 90 mm | 1 cable | battery_bay | L5, 12, 26 | Amazon | made | fail: worst 50.1 mm vs cut 90 mm |
-| C09 | P14: XT30U male - to splice G | 1 wire, 16 AWG x1, cut 140 mm | 1 cable | battery_bay | L5, 12, 26 | Amazon | made | pass: worst 41.5 mm vs cut 140 mm |
-| C10 | P9: 2815 VOUT to splice VSW | 1 wire, 16 AWG x1, cut 90 mm | 1 cable | battery_bay | L5, 26 | Amazon | made | pass: worst 9.9 mm vs cut 90 mm |
+| C01 | P1: holder + to BMS B+ | 1 wire, 16 AWG x1, cut 120 mm | 1 cable | battery_bay | L5, 26 | Amazon | made | pass: worst 56.3 mm vs cut 120 mm |
+| C02 | P2: holder - to BMS B- | 1 wire, 16 AWG x1, cut 120 mm | 1 cable | battery_bay | L5, 26 | Amazon | made | pass: worst 56.3 mm vs cut 120 mm |
+| C03 | P3: holder series strap to BMS B1 | 1 wire, 26 AWG x1, cut 140 mm | 1 cable | battery_bay | 25, 26 | Amazon | made | fail: worst 98.7 mm vs cut 120 mm |
+| C04 | P4: BMS P+ to charger B+ | 1 wire, 20 AWG x1, cut 130 mm | 1 cable | battery_bay | 23, 26 | Amazon | made | pass: worst 10.7 mm vs cut 130 mm |
+| C05 | P5: BMS P- to charger B- | 1 wire, 20 AWG x1, cut 130 mm | 1 cable | battery_bay | 23, 26 | Amazon | made | pass: worst 10.7 mm vs cut 130 mm |
+| C06 | P6: BMS P+ to XT30U female + | 1 wire, 16 AWG x1, cut 150 mm | 1 cable | battery_bay | L5, 12, 26 | Amazon | made | fail: worst 100.2 mm vs cut 110 mm |
+| C07 | P8: BMS P- to XT30U female - | 1 wire, 16 AWG x1, cut 150 mm | 1 cable | battery_bay | L5, 12, 26 | Amazon | made | fail: worst 100.2 mm vs cut 110 mm |
+| C08 | P7: XT30U male + to fuse holder to Pololu 2815 VIN (the holder leads) | 4 wires, 16 AWG x4, cut 20/40/90 mm | 1 cable | battery_bay | L5, 12, 26 | Amazon | made | fail: worst 51.7 mm vs cut 90 mm |
+| C09 | P14: XT30U male - to splice G | 1 wire, 16 AWG x1, cut 140 mm | 1 cable | battery_bay | L5, 12, 26 | Amazon | made | pass: worst 44.7 mm vs cut 140 mm |
+| C10 | P9: 2815 VOUT to splice VSW | 1 wire, 16 AWG x1, cut 90 mm | 1 cable | battery_bay | L5, 26 | Amazon | made | pass: worst 10.1 mm vs cut 90 mm |
 | C11 | P16: splice G to 2815 GND (control ground) | 1 wire, 20 AWG x1, cut 90 mm | 1 cable | battery_bay | 23, 26 | Amazon | made | pass: worst 10.6 mm vs cut 90 mm |
-| C12 | P15: 2815 SW pad pair to the panel switch | 2 wires, 26 AWG x2, cut 150 mm | 1 cable | battery_bay | 25, 26 | Amazon | made | pass: worst 53.5 mm vs cut 150 mm |
-| C13 | P10: splices VSW and G to the BEC input leads | 2 wires, 16 AWG x2, cut 150 mm | 1 cable | battery_bay, belly | L5, 26 | Amazon | made | pass: worst 57.7 mm vs cut 150 mm |
-| C14 | P11: both BEC output leads joined (JB+ JB-) to the belly power splices SPV and SPG | 6 wires, BEC lead x4, 16 AWG x2, cut 60 mm | 1 cable | belly | L1, L5, 26 | Castle Creations; also Horizon Hobby CSE010000401 and Motion RC | made | fail: worst 8.2 mm vs cut 60 mm |
-| C15 | SP1: power pair SPV and SPG to ID 20 BUS 2 (V and G) | 3 wires, 22 AWG x3, cut 20/130/150 mm | 1 cable | belly, trunk_bottom | 24, 21, 22, 26 | Amazon | made | pass: worst 75.9 mm vs cut 150 mm |
-| C16 | SP2: power pair SPV and SPG to ID 10 BUS 2 (V and G) | 3 wires, 22 AWG x3, cut 20/130/150 mm | 1 cable | belly, trunk_bottom | 24, 21, 22, 26 | Amazon | made | pass: worst 70.9 mm vs cut 150 mm |
-| C17 | SP3: power pair SPV and SPG to ID 30 BUS 2 (V and G) | 3 wires, 22 AWG x3, cut 20/160/180 mm | 1 cable | belly, trunk_top | 24, 21, 22, 26 | Amazon | made | pass: worst 91.9 mm vs cut 180 mm |
-| C18 | P13: splices VSW and G up the neck to U3 VIN and GND on the head floor | 2 wires, 20 AWG x2, cut 550 mm | 1 cable | battery_bay, trunk_top, neck, head (crosses neck_pitch, head_pitch, head_yaw, head_roll) | 23, 26 | Amazon | made | pass: worst 435.6 mm vs cut 550 mm |
-| C19 | P12: U3 VOUT and GND to Pi pin 2 and pin 6 | 2 wires, 20 AWG x2, cut 130 mm | 1 cable | head | 23, 26 | Amazon | made | pass: worst 33.6 mm vs cut 130 mm |
-| C20 | P17: Pi pin 4 and pin 14 to splices J5 and JG | 2 wires, 20 AWG x2, cut 90 mm | 1 cable | head | 23, 26 | Amazon | made | pass: worst 28.8 mm vs cut 90 mm |
-| C21 | D1: Pi micro-USB data port to adapter USB-C | 1 wire, USB 2.0 cable x1, cut 900 mm | 1 cable | head, neck, trunk_top, belly (crosses neck_pitch, head_pitch, head_yaw, head_roll) | 20 | Adafruit | bought | pass: worst 519.7 mm vs cut 900 mm |
-| C22 | D2: Pi to BNO055 (3V3, GND, SDA, SCL) | 4 wires, 26 AWG x4, cut 550 mm | 1 cable | head, neck, trunk_top (crosses neck_pitch, head_pitch, head_yaw, head_roll) | 25, 26 | Amazon | made | pass: worst 426.7 mm vs cut 550 mm |
-| C23 | D3: Pi to left foot switches, with pull-up R4 at the header | 6 wires, resistor lead x2, 26 AWG x4, cut 40/900 mm | 1 cable | head, neck, trunk_top, trunk_bottom, left_leg (crosses neck_pitch, head_pitch, head_yaw, head_roll, left_hip_yaw, left_hip_roll, left_hip_pitch, left_knee, left_ankle) | 25, 26 | Amazon | made | fail: worst 843.0 mm vs cut 900 mm |
-| C24 | D4: Pi to right foot switches, with pull-up R5 at the header | 6 wires, resistor lead x2, 26 AWG x4, cut 40/950 mm | 1 cable | head, neck, trunk_top, trunk_bottom, right_leg (crosses neck_pitch, head_pitch, head_yaw, head_roll, right_hip_yaw, right_hip_roll, right_hip_pitch, right_knee, right_ankle) | 25, 26 | Amazon | made | fail: worst 827.7 mm vs cut 950 mm |
-| C25 | D5: Pi to left eye LED and resistor | 3 wires, 26 AWG x2, resistor lead x1, cut 150 mm | 1 cable | head | 25, 26 | Amazon | made | pass: worst 59.2 mm vs cut 150 mm |
-| C26 | D6: Pi to right eye LED and resistor | 3 wires, 26 AWG x2, resistor lead x1, cut 230 mm | 1 cable | head | 25, 26 | Amazon | made | pass: worst 122.2 mm vs cut 230 mm |
-| C27 | D7: Pi to projector LED and resistor | 3 wires, 26 AWG x2, resistor lead x1, cut 160 mm | 1 cable | head | 25, 26 | Amazon | made | fail: worst 156.6 mm vs cut 160 mm |
-| C28 | D8: left antenna SG90 lead to Pi pin 33 and splices J5 and JG | 3 wires, SG90 lead x3, cut 250 mm | 1 cable | head | 14, 26 | Amazon (Miuzei) | made | pass: worst 117.5 mm vs cut 250 mm |
-| C29 | D9: right antenna SG90 lead to Pi pin 32 and splices J5 and JG | 3 wires, SG90 lead + 26 AWG x3, cut 270 mm | 1 cable | head | 14, 26 | Amazon (Miuzei) | made | pass: worst 169.9 mm vs cut 270 mm |
-| C30 | D10: Pi and splices to MAX98357A | 5 wires, 26 AWG x5, cut 200 mm | 1 cable | head | 25, 26 | Amazon | made | fail: worst 170.6 mm vs cut 200 mm |
-| C31 | D11: MAX98357A to speaker | 2 wires, 26 AWG x2, cut 100 mm | 1 cable | head | 25, 26 | Amazon | made | fail: worst 68.1 mm vs cut 100 mm |
-| C32 | D12: Pi CSI to Camera Module 3 | 1 wire, FPC ribbon x1, cut 150 mm | 1 cable | head | E7 | Adafruit 3157 | bought | fail: worst 126.3 mm vs cut 150 mm |
-| C33 | SD1: adapter H3 data lead: DATA and GND only (V position empty), data Y at YD3 to ID 20 and ID 30, GND Y at YG3 into the SP1 and SP3 grounds | 6 wires, 22 AWG x6, cut 30/120/130/140/150 mm | 1 cable | trunk_top, trunk_bottom | 24, 21, 22, 26 | Amazon | made | fail: worst 27.6 mm vs cut 150 mm |
-| C34 | SD2: adapter H5 data lead: DATA and GND only, to ID 10 (DATA) and JG10 (GND) | 2 wires, 22 AWG x2, cut 140/150 mm | 1 cable | trunk_top, trunk_bottom | 24, 21, 22, 26 | Amazon | made | pass: worst 68.8 mm vs cut 150 mm |
-| C35 | S2: kit cable ID 20 BUS 1 to ID 21 BUS 2 | 3 wires, kit cable x3, cut 150 mm | 1 cable | trunk_bottom, left_leg (crosses left_hip_yaw) | 1 | Seeed Studio | in kit | fail: worst 127.5 mm vs cut 150 mm |
-| C36 | S3: kit cable ID 21 to ID 22 | 3 wires, kit cable x3, cut 150 mm | 1 cable | left_leg (crosses left_hip_roll) | 1 | Seeed Studio | in kit | pass: worst 70.7 mm vs cut 150 mm |
-| C37 | S4: kit cable ID 22 to ID 23 | 3 wires, kit cable x3, cut 150 mm | 1 cable | left_leg (crosses left_hip_pitch) | 1 | Seeed Studio | in kit | pass: worst 94.0 mm vs cut 150 mm |
-| C38 | S5: kit cable ID 23 BUS 1 to ID 24 BUS 2 | 3 wires, kit cable x3, cut 150 mm | 1 cable | left_leg (crosses left_knee) | 1 | Seeed Studio | in kit | pass: worst 107.0 mm vs cut 150 mm |
-| C39 | S7: kit cable ID 10 to ID 11 | 3 wires, kit cable x3, cut 150 mm | 1 cable | trunk_bottom, right_leg (crosses right_hip_yaw) | 1 | Seeed Studio | in kit | fail: worst 116.6 mm vs cut 150 mm |
-| C40 | S8: kit cable ID 11 to ID 12 | 3 wires, kit cable x3, cut 150 mm | 1 cable | right_leg (crosses right_hip_roll) | 1 | Seeed Studio | in kit | pass: worst 64.1 mm vs cut 150 mm |
-| C41 | S9: kit cable ID 12 to ID 13 | 3 wires, kit cable x3, cut 150 mm | 1 cable | right_leg (crosses right_hip_pitch) | 1 | Seeed Studio | in kit | pass: worst 99.8 mm vs cut 150 mm |
-| C42 | S10: kit cable ID 13 to ID 14 | 3 wires, kit cable x3, cut 150 mm | 1 cable | right_leg (crosses right_knee) | 1 | Seeed Studio | in kit | pass: worst 106.0 mm vs cut 150 mm |
-| C43 | S11: kit cable ID 30 BUS 1 to ID 31 BUS 2 | 3 wires, kit cable x3, cut 150 mm | 1 cable | trunk_top, neck (crosses neck_pitch) | 1 | Seeed Studio | in kit | pass: worst 95.2 mm vs cut 150 mm |
-| C44 | S12: kit cable ID 31 to ID 32 | 3 wires, kit cable x3, cut 150 mm | 1 cable | neck (crosses head_pitch, head_yaw) | 1 | Seeed Studio | in kit | pass: worst 87.4 mm vs cut 150 mm |
-| C45 | S13: kit cable ID 32 to ID 33 | 3 wires, kit cable x3, cut 150 mm | 1 cable | neck, head (crosses head_roll) | 1 | Seeed Studio | in kit | pass: worst 102.9 mm vs cut 150 mm |
+| C12 | P15: 2815 SW pad pair to the panel switch | 2 wires, 26 AWG x2, cut 150 mm | 1 cable | battery_bay | 25, 26 | Amazon | made | pass: worst 58.1 mm vs cut 150 mm |
+| C13 | P10: splices VSW and G to the BEC input leads | 2 wires, 16 AWG x2, cut 150 mm | 1 cable | battery_bay, belly | L5, 26 | Amazon | made | pass: worst 58.0 mm vs cut 150 mm |
+| C14 | P11: both BEC output leads joined (JB+ JB-) to the belly power splices SPV and SPG | 6 wires, BEC lead x4, 16 AWG x2, cut 100 mm | 1 cable | belly | L1, L5, 26 | Castle Creations; also Horizon Hobby CSE010000401 and Motion RC | made | fail: worst 8.3 mm vs cut 60 mm |
+| C15 | SP1: power pair SPV and SPG to ID 20 BUS 2 (V and G) | 3 wires, 22 AWG x3, cut 20/130/150 mm | 1 cable | belly, trunk_bottom | 24, 21, 22, 26 | Amazon | made | pass: worst 74.6 mm vs cut 150 mm |
+| C16 | SP2: power pair SPV and SPG to ID 10 BUS 2 (V and G) | 3 wires, 22 AWG x3, cut 20/130/150 mm | 1 cable | belly, trunk_bottom | 24, 21, 22, 26 | Amazon | made | pass: worst 72.6 mm vs cut 150 mm |
+| C17 | SP3: power pair SPV and SPG to ID 30 BUS 2 (V and G) | 3 wires, 22 AWG x3, cut 20/160/180 mm | 1 cable | belly, trunk_top | 24, 21, 22, 26 | Amazon | made | pass: worst 94.7 mm vs cut 180 mm |
+| C18 | SP4: power pair SPV and SPG to ID 24 BUS 1 (V and G), left leg | 2 wires, 22 AWG x2, cut 390 mm | 1 cable | belly, trunk_bottom, left_leg (crosses left_hip_pitch, left_hip_roll, left_hip_yaw, left_knee) | 24, 21, 22, 26 | Amazon | made | pass: worst 347.5 mm vs cut 545 mm |
+| C19 | SP5: power pair SPV and SPG to ID 14 BUS 1 (V and G), right leg | 2 wires, 22 AWG x2, cut 420 mm | 1 cable | belly, trunk_bottom, right_leg (crosses right_hip_pitch, right_hip_roll, right_hip_yaw, right_knee) | 24, 21, 22, 26 | Amazon | made | pass: worst 376.8 mm vs cut 545 mm |
+| C20 | P13: splices VSW and G up the neck to U3 VIN and GND on the head floor | 2 wires, 20 AWG x2, cut 550 mm | 1 cable | battery_bay, trunk_top, neck, head (crosses neck_pitch, head_pitch, head_yaw, head_roll) | 23, 26 | Amazon | made | pass: worst 441.1 mm vs cut 550 mm |
+| C21 | P12: U3 VOUT and GND to Pi pin 2 and pin 6 | 2 wires, 20 AWG x2, cut 130 mm | 1 cable | head | 23, 26 | Amazon | made | pass: worst 33.7 mm vs cut 130 mm |
+| C22 | P17: Pi pin 4 and pin 14 to splices J5 and JG | 2 wires, 20 AWG x2, cut 90 mm | 1 cable | head | 23, 26 | Amazon | made | pass: worst 28.9 mm vs cut 90 mm |
+| C23 | D1: Pi micro-USB data port to adapter USB-C | 1 wire, USB 2.0 cable x1, cut 900 mm | 1 cable | head, neck, trunk_top, belly (crosses neck_pitch, head_pitch, head_yaw, head_roll) | 20 | Adafruit | bought | pass: worst 523.0 mm vs cut 900 mm |
+| C24 | D2: Pi to BNO055 (3V3, GND, SDA, SCL) | 4 wires, 26 AWG x4, cut 550 mm | 1 cable | head, neck, trunk_top (crosses neck_pitch, head_pitch, head_yaw, head_roll) | 25, 26 | Amazon | made | pass: worst 439.3 mm vs cut 550 mm |
+| C25 | D3: Pi to left foot switches, with pull-up R4 at the header | 6 wires, resistor lead x2, 26 AWG x4, cut 110/900 mm | 1 cable | head, neck, trunk_top, trunk_bottom, left_leg (crosses neck_pitch, head_pitch, head_yaw, head_roll, left_hip_yaw, left_hip_roll, left_hip_pitch, left_knee, left_ankle) | 25, 26 | Amazon | made | fail: worst 770.4 mm vs cut 900 mm |
+| C26 | D4: Pi to right foot switches, with pull-up R5 at the header | 6 wires, resistor lead x2, 26 AWG x4, cut 110/950 mm | 1 cable | head, neck, trunk_top, trunk_bottom, right_leg (crosses neck_pitch, head_pitch, head_yaw, head_roll, right_hip_yaw, right_hip_roll, right_hip_pitch, right_knee, right_ankle) | 25, 26 | Amazon | made | fail: worst 767.1 mm vs cut 950 mm |
+| C27 | D5: Pi to left eye LED and resistor | 3 wires, 26 AWG x2, resistor lead x1, cut 150 mm | 1 cable | head | 25, 26 | Amazon | made | pass: worst 59.6 mm vs cut 150 mm |
+| C28 | D6: Pi to right eye LED and resistor | 3 wires, 26 AWG x2, resistor lead x1, cut 230 mm | 1 cable | head | 25, 26 | Amazon | made | pass: worst 123.4 mm vs cut 230 mm |
+| C29 | D7: Pi to projector LED and resistor | 3 wires, 26 AWG x2, resistor lead x1, cut 160 mm | 1 cable | head | 25, 26 | Amazon | made | pass: worst 38.5 mm vs cut 160 mm |
+| C30 | D8: left antenna SG90 lead to Pi pin 33 and splices J5 and JG | 3 wires, SG90 lead x3, cut 250 mm | 1 cable | head | 14, 26 | Amazon (Miuzei) | made | pass: worst 117.5 mm vs cut 250 mm |
+| C31 | D9: right antenna SG90 lead to Pi pin 32 and splices J5 and JG | 3 wires, SG90 lead x3, cut 250 mm | 1 cable | head | 14, 26 | Amazon (Miuzei) | made | pass: worst 169.9 mm vs cut 270 mm |
+| C32 | D10: Pi and splices to MAX98357A | 5 wires, 26 AWG x5, cut 200/210/220 mm | 1 cable | head | 25, 26 | Amazon | made | fail: worst 173.7 mm vs cut 200 mm |
+| C33 | D11: MAX98357A to speaker | 2 wires, 26 AWG x2, cut 120 mm | 1 cable | head | 25, 26 | Amazon | made | fail: worst 73.0 mm vs cut 100 mm |
+| C34 | D12: Pi CSI to Camera Module 3 | 1 wire, FPC ribbon x1, cut 150 mm | 1 cable | head | E7 | Adafruit 3157 | bought | fail: worst 127.1 mm vs cut 150 mm |
+| C35 | SD1: adapter H3 data lead: DATA and GND only (V position empty), data Y at YD3 to ID 20 and ID 30, GND Y at YG3 into the SP1 and SP3 grounds | 6 wires, 22 AWG x6, cut 30/120/130/140/160 mm | 1 cable | trunk_top, trunk_bottom | 24, 21, 22, 26 | Amazon | made | fail: worst 27.5 mm vs cut 150 mm |
+| C36 | SD2: adapter H5 data lead: DATA and GND only, to ID 10 (DATA) and JG10 (GND) | 2 wires, 22 AWG x2, cut 140/150 mm | 1 cable | trunk_top, trunk_bottom | 24, 21, 22, 26 | Amazon | made | pass: worst 69.2 mm vs cut 150 mm |
+| C37 | S2: kit cable ID 20 BUS 1 to ID 21 BUS 2 | 3 wires, kit cable x3, cut 150 mm | 1 cable | trunk_bottom, left_leg (crosses left_hip_yaw) | 1 | Seeed Studio | in kit | fail: worst 131.8 mm vs cut 150 mm |
+| C38 | S3: kit cable ID 21 to ID 22 | 3 wires, kit cable x3, cut 150 mm | 1 cable | left_leg (crosses left_hip_roll) | 1 | Seeed Studio | in kit | pass: worst 88.0 mm vs cut 150 mm |
+| C39 | S4: kit cable ID 22 to ID 23 | 3 wires, kit cable x3, cut 150 mm | 1 cable | left_leg (crosses left_hip_pitch) | 1 | Seeed Studio | in kit | pass: worst 95.8 mm vs cut 150 mm |
+| C40 | S5: kit cable ID 23 BUS 1 to ID 24 BUS 2 | 3 wires, kit cable x3, cut 150 mm | 1 cable | left_leg (crosses left_knee) | 1 | Seeed Studio | in kit | pass: worst 109.8 mm vs cut 150 mm |
+| C41 | S7: kit cable ID 10 to ID 11 | 3 wires, kit cable x3, cut 150 mm | 1 cable | trunk_bottom, right_leg (crosses right_hip_yaw) | 1 | Seeed Studio | in kit | fail: worst 133.4 mm vs cut 150 mm |
+| C42 | S8: kit cable ID 11 to ID 12 | 3 wires, kit cable x3, cut 150 mm | 1 cable | right_leg (crosses right_hip_roll) | 1 | Seeed Studio | in kit | pass: worst 103.9 mm vs cut 150 mm |
+| C43 | S9: kit cable ID 12 to ID 13 | 3 wires, kit cable x3, cut 150 mm | 1 cable | right_leg (crosses right_hip_pitch) | 1 | Seeed Studio | in kit | pass: worst 102.6 mm vs cut 150 mm |
+| C44 | S10: kit cable ID 13 to ID 14 | 3 wires, kit cable x3, cut 150 mm | 1 cable | right_leg (crosses right_knee) | 1 | Seeed Studio | in kit | pass: worst 108.9 mm vs cut 150 mm |
+| C45 | S11: kit cable ID 30 BUS 1 to ID 31 BUS 2 | 3 wires, kit cable x3, cut 150 mm | 1 cable | trunk_top, neck (crosses neck_pitch) | 1 | Seeed Studio | in kit | pass: worst 98.4 mm vs cut 150 mm |
+| C46 | S12: kit cable ID 31 to ID 32 | 3 wires, kit cable x3, cut 150 mm | 1 cable | neck (crosses head_pitch, head_yaw) | 1 | Seeed Studio | in kit | pass: worst 89.7 mm vs cut 150 mm |
+| C47 | S13: kit cable ID 32 to ID 33 | 3 wires, kit cable x3, cut 150 mm | 1 cable | neck, head (crosses head_roll) | 1 | Seeed Studio | in kit | pass: worst 106.9 mm vs cut 150 mm |
 
 ## Connectors and wire
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
-| C46 | Servo kit cable, 15 cm 5264-3P | one ships with each STS3215 (14 in all) | 11 |  | 1 | Seeed Studio | in kit | 11 used, 3 spare |
-| C47 | Mini-SPOX housing, Molex 50-37-5033 | 3 pos 2.5 mm, mates the servo sockets | 5 |  | 21 | Newark 57H1785 | bought |  |
-| C48 | Mini-SPOX crimp terminal, Molex 08-70-1040 | 22 to 28 AWG | 13 |  | 22 | Newark 54H5573 | bought |  |
-| C49 | Heat shrink pieces (splices and solder joints) | one piece per splice and per covered joint (3D view count) | 27 |  | 26 | Amazon | bought | 13 splices and 14 other sleeves (XT30 cups, inline joints, cut wire ends) from altaay_lab/viewer/scene_extras.json (blueprint/make_scene_extras.py); the netlist estimate was 137 (1 per splice end and bare solder joint) |
-| C50 | Wire 16 AWG black | silicone stranded; sum of netlist cut lengths | 0.58 m |  | L5 | Amazon | bought |  |
-| C51 | Wire 16 AWG red | silicone stranded; sum of netlist cut lengths | 0.53 m |  | L5 | Amazon | bought |  |
-| C52 | Wire 20 AWG black | silicone stranded; sum of netlist cut lengths | 0.99 m |  | 23 | Amazon | bought |  |
-| C53 | Wire 20 AWG red | silicone stranded; sum of netlist cut lengths | 0.9 m |  | 23 | Amazon | bought |  |
-| C54 | Wire 22 AWG black | silicone stranded; sum of netlist cut lengths | 0.91 m |  | 24 | Amazon | bought |  |
-| C55 | Wire 22 AWG red | silicone stranded; sum of netlist cut lengths | 0.48 m |  | 24 | Amazon | bought |  |
-| C56 | Wire 22 AWG yellow | silicone stranded; sum of netlist cut lengths | 0.46 m |  | 24 | Amazon | bought |  |
-| C57 | Wire 26 AWG black | silicone stranded; sum of netlist cut lengths | 3.47 m |  | 25 | Amazon | bought |  |
-| C58 | Wire 26 AWG blue | silicone stranded; sum of netlist cut lengths | 0.55 m |  | 25 | Amazon | bought |  |
-| C59 | Wire 26 AWG green | silicone stranded; sum of netlist cut lengths | 1.3 m |  | 25 | Amazon | bought |  |
-| C60 | Wire 26 AWG red | silicone stranded; sum of netlist cut lengths | 0.85 m |  | 25 | Amazon | bought |  |
-| C61 | Wire 26 AWG white | silicone stranded; sum of netlist cut lengths | 1.57 m |  | 25 | Amazon | bought |  |
-| C62 | Wire 26 AWG yellow | silicone stranded; sum of netlist cut lengths | 1.02 m |  | 25 | Amazon | bought |  |
+| C48 | Servo kit cable, 15 cm 5264-3P | one ships with each STS3215 (14 in all) | 11 |  | 1 | Seeed Studio | in kit | 11 used, 3 spare |
+| C49 | Mini-SPOX housing, Molex 50-37-5033 | 3 pos 2.5 mm, mates the servo sockets | 7 |  | 21 | Newark 57H1785 | bought |  |
+| C50 | Mini-SPOX crimp terminal, Molex 08-70-1040 | 22 to 28 AWG | 17 |  | 22 | Newark 54H5573 | bought |  |
+| C51 | Heat shrink pieces (splices and solder joints) | one piece per splice and per covered joint (3D view count) | 27 |  | 26 | Amazon | bought | 13 splices and 14 other sleeves (XT30 cups, inline joints, cut wire ends) from altaay_lab/viewer/scene_extras.json (blueprint/make_scene_extras.py); the netlist estimate was 145 (1 per splice end and bare solder joint) |
+| C52 | Wire 16 AWG black | silicone stranded; sum of netlist cut lengths | 0.66 m |  | L5 | Amazon | bought |  |
+| C53 | Wire 16 AWG red | silicone stranded; sum of netlist cut lengths | 0.67 m |  | L5 | Amazon | bought |  |
+| C54 | Wire 20 AWG black | silicone stranded; sum of netlist cut lengths | 0.99 m |  | 23 | Amazon | bought |  |
+| C55 | Wire 20 AWG red | silicone stranded; sum of netlist cut lengths | 0.9 m |  | 23 | Amazon | bought |  |
+| C56 | Wire 22 AWG black | silicone stranded; sum of netlist cut lengths | 1.72 m |  | 24 | Amazon | bought |  |
+| C57 | Wire 22 AWG red | silicone stranded; sum of netlist cut lengths | 1.29 m |  | 24 | Amazon | bought |  |
+| C58 | Wire 22 AWG yellow | silicone stranded; sum of netlist cut lengths | 0.47 m |  | 24 | Amazon | bought |  |
+| C59 | Wire 26 AWG black | silicone stranded; sum of netlist cut lengths | 3.63 m |  | 25 | Amazon | bought |  |
+| C60 | Wire 26 AWG blue | silicone stranded; sum of netlist cut lengths | 0.55 m |  | 25 | Amazon | bought |  |
+| C61 | Wire 26 AWG green | silicone stranded; sum of netlist cut lengths | 1.39 m |  | 25 | Amazon | bought |  |
+| C62 | Wire 26 AWG red | silicone stranded; sum of netlist cut lengths | 0.87 m |  | 25 | Amazon | bought |  |
+| C63 | Wire 26 AWG white | silicone stranded; sum of netlist cut lengths | 1.65 m |  | 25 | Amazon | bought |  |
+| C64 | Wire 26 AWG yellow | silicone stranded; sum of netlist cut lengths | 1.05 m |  | 25 | Amazon | bought |  |
 
 ## Consumables and other
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
-| K01 | Solder wire, rosin core | about 137 solder joints and splice ends in the netlist | 1 |  | 30 | Adafruit 1886 | bought | wiring/netlist.yaml wire ends: splices, pads, cups, header holes |
-| K02 | Cable ties, small nylon | about 100 mm | 8 |  | 32 | Home Depot | bought | MOUNTING.md: cable tie at the servo power splices and the USB slack coil; 8 placed along the cables in the 3D view, 8 at gaps |
-| K09 | Adhesive tie mount | placed along the cables (altaay_lab/cables3d) | 98 |  |  |  | MISSING | 98 at places where the CAD has no feature |
-| K10 | Existing printed feature | placed along the cables (altaay_lab/cables3d) | 5 |  | 27 | Amazon | printed |  |
-| K11 | M3x6 button head | ISO 7380-1 A2 stainless hex socket button head (head 5.7 x 1.65 mm max, ISO 7380-1), BelMetric SB3X6SS; the 10 hip pitch sites: idle horn F196, F198, F200, F247 (left), F209, F211, F213, F254 (right) and leg_spacer F002, F010 (D19) | 10 |  | 17j | BelMetric (US: "Stocked in the USA", since 1976, +1-978-649-6201) | bought |  |
-| K12 | M2.5x5 SHCS | DIN 912 A2, BelMetric BSH2.5X5SS; speaker_interface to the 4 side pilots of speaker_stand, F352 to F355 (HARDWARE_AUDIT B8) | 4 |  | 17k | BelMetric (US) | bought |  |
-| K13 | M2.5 flat washer, small series | ISO 7092 A2 HV200, 2.7 x 5.0 x 0.5 mm, BelMetric Y7092-A2-2.5-2000; one under each eye screw head (D21) | 8 |  | 17l | BelMetric (US) | bought |  |
-| K14 | Threadlocker | Loctite 243, 6 mL, P/N 1330799 | 1 |  | 19 | Amazon | bought |  |
-| K15 | Foam mounting tape | 3M VHB 4950, 3/4 in x 5 yd, 1.1 mm (45 mil) acrylic foam, for the BEC Pro, fuse holder, Pololu 2815 and 5 V regulator (MOUNTING.md) | 0.3 m |  | 29 | Zoro (3M) | bought |  |
-| K16 | Flux pen (optional, recommended for 16 AWG) | Chip Quik CQ4LF no-clean liquid flux pen, 10 mL, for leaded and lead-free solder, classification printed as "INM0", shelf life over 24 months (page) | 1 |  | 31 | Adafruit 3468 | bought |  |
-| K17 | Polyimide (Kapton) tape | Adafruit 3057 polyimide tape, 10 mm wide, 33 m roll, stable from about -269 C to +400 C (page); thickness and dielectric strength not stated (UNVERIFIED). Wraps the Tenergy BMS, 34 x 16 x 4.5 mm (MOUNTING.md: "wrap in kapton tape before it goes in") | about 0.2 m (2 turns of 77 mm around the 34 x 4.5 mm section to cover the 16 mm width, calculated) |  | 33 | Adafruit 3057 | bought |  |
+| K01 | Solder wire, rosin core | about 145 solder joints and splice ends in the netlist | 1 |  | 30 | Adafruit 1886 | bought | wiring/netlist.yaml wire ends: splices, pads, cups, header holes |
+| K02 | Cable ties, small nylon | about 100 mm | 93 |  | 32 | Home Depot | bought | MOUNTING.md: cable tie at the servo power splices and the USB slack coil; 93 placed along the cables in the 3D view, one per retention item (76 adhesive tie mount, 12 cable tie, 5 existing printed feature), 88 at gaps |
+| K09 | Adhesive tie mount | placed along the cables (altaay_lab/cables3d) | 76 |  | 34 | Standard Electric Supply (US) | bought | 76 at places where the CAD has no feature |
+| K10 | M2.5 flat washer, small series | ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm, BelMetric WFHV2.5X5SSA4; two under each eye screw head (0.6 mm stack: 2.4 mm engaged, 0.6 mm to the blind pilot floor, D21) | 16 |  | 17l | BelMetric (US) | bought |  |
+| K11 | Threadlocker | Loctite 243, 6 mL, P/N 1330799 | 1 |  | 19 | Amazon | bought |  |
+| K12 | Foam mounting tape | 3M VHB 4950, 3/4 in x 5 yd, 1.1 mm (45 mil) acrylic foam, for the BEC Pro, fuse holder, Pololu 2815 and 5 V regulator (MOUNTING.md) | 0.3 m |  | 29 | Zoro (3M) | bought |  |
+| K13 | Flux pen (optional, recommended for 16 AWG) | Chip Quik CQ4LF no-clean liquid flux pen, 10 mL, for leaded and lead-free solder, classification printed as "INM0", shelf life over 24 months (page) | 1 |  | 31 | Adafruit 3468 | bought |  |
+| K14 | Isopropyl alcohol | Techspray 1610-P, 99.8 % anhydrous isopropyl alcohol, no denaturant, ACS reagent grade, 1 pint bottle, flammable (flash point 53 C), shelf life 1825 days (page). Wipe each line 34 mount spot and each line 29 VHB tape spot with a clean cloth or paper towel wetted with it, then let it dry before the adhesive goes on; 3M's VHB surface preparation bulletin calls for a 50:50 isopropyl alcohol and water wipe on most surfaces and 3M also lists 70:30 (read via search index; 3m.com refuses curl), so a 70 % pharmacy rubbing alcohol also works | 1 bottle (77 mount spots plus the line 29 tape spots) |  | 35 | TestEquity (Moorpark, CA) | bought |  |
+| K15 | Polyimide (Kapton) tape | Adafruit 3057 polyimide tape, 10 mm wide, 33 m roll, stable from about -269 C to +400 C (page); thickness and dielectric strength not stated (UNVERIFIED). Wraps the Tenergy BMS, 34 x 16 x 4.5 mm (MOUNTING.md: "wrap in kapton tape before it goes in") | about 0.2 m (2 turns of 77 mm around the 34 x 4.5 mm section to cover the 16 mm width, calculated) |  | 33 | Adafruit 3057 | bought |  |
 
 ## Tools
 
@@ -250,20 +246,22 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | K06 | Bench DC supply with current limit | TEST_PLAN.md section 0: first power always current limited | 1 |  | TE2 | Siglent Technologies America (North Plains, OR) | tool | TEST_PLAN.md sections 4, 5, 7, 8 |
 | K07 | Digital calipers | TEST_PLAN.md section 0 | 1 |  | TE3 | Penn Tool Co. (Maplewood, NJ) | tool | TEST_PLAN.md section 0 and the coupon checks |
 | K08 | Load for the regulator tests | TEST_PLAN.md section 4 and 5 input sweeps | 1 |  | TE4 | Siglent Technologies America (North Plains, OR) | tool | TEST_PLAN.md sections 4 and 5 |
-| K18 | Soldering iron | Pine64 Pinecil V2 (needs a USB-C PD 20 V 3.25 A supply: lines T6 and T6b) | 1 |  | T1 | Pine64 | tool |  |
-| K19 | Insert tips | Pinecil threaded insert tips set and adapter | 1 |  | T2 | Pine64 | tool |  |
-| K20 | Crimper | Engineer PA-09 (Mini-SPOX 5263 and JST XH per DigiKey chart) | 1 |  | T3 | Amazon | tool |  |
-| K21 | Hex keys | Bondhus 12192 hex L-keys 1.5 to 6 mm, 7 pc (2.0 mm for M2.5, 2.5 mm for M3 SHCS) | 1 |  | T4 | Crawford Tool | tool |  |
-| K22 | Wire stripper | Klein 11057, 22 to 32 AWG stranded | 1 |  | T5 | Home Depot | tool |  |
-| K23 | BEC programmer | Castle Link V4 011-0173-00 (needs Windows 10 PC) | 1 |  | L2 | Castle Creations | tool |  |
-| K24 | USB-C to USB-C cable, 5 A | Adafruit 4199, USB 3.1 Gen 4 with E-Mark, 1 m; Adafruit: it "includes an EMARK chip ... you can use this for high current (5A) charging". The 3.2 A short tip draw at 20 V is above 3 A, so the cable needs the 5 A e-marker | 1 |  | T6b | Adafruit 4199 | tool |  |
-| K25 | USB-A to USB-C cable | Amazon Basics USB-A to USB-C, USB 2.0, USB-IF certified, 3 ft, maximum current 3 A, 15 W at 5 V (page). An A to C cable carries the resistor that tells the board it may draw 5 V (Adafruit on its A to C cable: "The cable has built in resistors to force it to 5V power", https://www.adafruit.com/product/4474), so it works whether or not the Adeept board has USB-C CC pull-down resistors (its listing does not say) | 1 |  | T7b | Amazon (ships from and sold by Amazon.com) | tool |  |
-| K26 | microSD card reader (optional, often on hand) | Adafruit 5212 USB Type C microSD card reader/writer, mass storage, no driver (page); USB-C plug, so the PC needs a USB-C port | 1 |  | T8 | Adafruit 5212 | tool |  |
-| K27 | Wire stripper 12 to 20 AWG | Klein 11055, "Strips, cuts, loops 10-18 AWG solid and 12-20 AWG stranded wire" (page); covers the 16 AWG and 20 AWG runs that T5 (22 to 32 AWG) cannot | 1 |  | T9 | Home Depot | tool |  |
-| K28 | Heat gun | Wagner Furno 300, dual temperature, corded, 10 A, 20 cu ft/min, minimum temperature 750 F, 2 year limited warranty (page specs); for the adhesive lined 3:1 heat shrink (line 26); shrink each joint before it goes near printed PLA | 1 |  | T10 | Home Depot | tool |  |
-| K29 | Drill bit 6.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 70 mm flutes, Qualtech DWDMM6.00; opens the 24 neck chain screw recesses from 5.5 to 6.0 mm after printing and on coupon C4 (D20, print/PRINT_PLAN.md "After printing") | 1 |  | T11 | Drills and Cutters (Doral, FL) | tool |  |
-| K30 | Drill bit 2.7 mm | HSS jobber, black oxide, 118 deg point, round shank, Qualtech DWDMM2.70; opens the 4 battery_pack_lid clearance holes from 2.5 to 2.7 mm (D20) | 1 |  | T12 | Drills and Cutters (Doral, FL) | tool |  |
-| K31 | Hand holder for T11 and T12 | Qualtech DWTD328 T-handle tap wrench for 1/16 to 1/4 in taps, carbon steel; turns the bits by hand, slowly, so the cut in PLA stays controlled (no power tool) | 1 |  | T13 | Drills and Cutters (Doral, FL) | tool |  |
+| K16 | Soldering iron | Pine64 Pinecil V2 (needs a USB-C PD 20 V 3.25 A supply: lines T6 and T6b) | 1 |  | T1 | Pine64 | tool |  |
+| K17 | Insert tips | Pinecil threaded insert tips set and adapter | 1 |  | T2 | Pine64 | tool |  |
+| K18 | Crimper | Engineer PA-09 (Mini-SPOX 5263 and JST XH per DigiKey chart) | 1 |  | T3 | Amazon | tool |  |
+| K19 | Hex keys | Bondhus 12192 hex L-keys 1.5 to 6 mm, 7 pc (2.0 mm for M2.5, 2.5 mm for M3 SHCS) | 1 |  | T4 | Crawford Tool | tool |  |
+| K20 | Wire stripper | Klein 11057, 22 to 32 AWG stranded | 1 |  | T5 | Home Depot | tool |  |
+| K21 | BEC programmer | Castle Link V4 011-0173-00 (needs Windows 10 PC) | 1 |  | L2 | Castle Creations | tool |  |
+| K22 | USB-C to USB-C cable, 5 A | Adafruit 4199, USB 3.1 Gen 4 with E-Mark, 1 m; Adafruit: it "includes an EMARK chip ... you can use this for high current (5A) charging". The 3.2 A short tip draw at 20 V is above 3 A, so the cable needs the 5 A e-marker | 1 |  | T6b | Adafruit 4199 | tool |  |
+| K23 | USB-A to USB-C cable | Amazon Basics USB-A to USB-C, USB 2.0, USB-IF certified, 3 ft, maximum current 3 A, 15 W at 5 V (page). An A to C cable carries the resistor that tells the board it may draw 5 V (Adafruit on its A to C cable: "The cable has built in resistors to force it to 5V power", https://www.adafruit.com/product/4474), so it works whether or not the Adeept board has USB-C CC pull-down resistors (its listing does not say) | 1 |  | T7b | Amazon (ships from and sold by Amazon.com) | tool |  |
+| K24 | microSD card reader (optional, often on hand) | Adafruit 5212 USB Type C microSD card reader/writer, mass storage, no driver (page); USB-C plug, so the PC needs a USB-C port | 1 |  | T8 | Adafruit 5212 | tool |  |
+| K25 | Wire stripper 12 to 20 AWG | Klein 11055, "Strips, cuts, loops 10-18 AWG solid and 12-20 AWG stranded wire" (page); covers the 16 AWG and 20 AWG runs that T5 (22 to 32 AWG) cannot | 1 |  | T9 | Home Depot | tool |  |
+| K26 | Heat gun | Wagner Furno 300, dual temperature, corded, 10 A, 20 cu ft/min, minimum temperature 750 F, 2 year limited warranty (page specs); for the adhesive lined 3:1 heat shrink (line 26); shrink each joint before it goes near printed PLA | 1 |  | T10 | Home Depot | tool |  |
+| K27 | Drill bit 6.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 70 mm flutes, Qualtech DWDMM6.00; opens the 24 neck chain screw recesses from 5.5 to 6.0 mm after printing and on coupon C4 (D20, print/PRINT_PLAN.md "After printing") | 1 |  | T11 | Drills and Cutters (Doral, FL) | tool |  |
+| K28 | Drill bit 2.7 mm | HSS jobber, black oxide, 118 deg point, round shank, Qualtech DWDMM2.70; opens the 4 battery_pack_lid clearance holes from 2.5 to 2.7 mm (D20) | 1 |  | T12 | Drills and Cutters (Doral, FL) | tool |  |
+| K29 | Hand holder for T11, T12, T14 and T15 | Qualtech DWTD328 T-handle tap wrench for 1/16 to 1/4 in taps, carbon steel; turns the bits by hand, slowly, so the cut in PLA stays controlled (no power tool) | 1 |  | T13 | Drills and Cutters (Doral, FL) | tool |  |
+| K30 | Drill bit 4.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 75 mm long, 54 mm flutes, Qualtech DWDMM4.00; drills the 4.0 mm lead hole for the projector LED (D7) through the printed head wall (D24, print/PRINT_PLAN.md "After printing"); turned in the T13 holder | 1 |  | T14 | Drills and Cutters (Doral, FL) | tool |  |
+| K31 | Drill bit 4.5 mm (contingency) | HSS jobber, black oxide, 118 deg point, round shank, 80 mm long, 56 mm flutes, Qualtech DWDMM4.50; opens the M2 screw recesses only if coupon C4 shows a servo-bag screw head that does not fit (D20 coupon gate) | 1 |  | T15 | Drills and Cutters (Doral, FL) | tool |  |
 
 ## BOM.md lines and the rows that use them
 
