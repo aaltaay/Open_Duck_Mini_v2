@@ -16,15 +16,28 @@ import vlib as V  # noqa: E402
 
 ORDER = ["E1", "E2", "E3", "E4", "E5", "E6", "E6b", "E7", "E8", "E9", "C1", "C2", "C3", "C4a", "C4b", "C5", "C6", "C7", "C8", "C9", "C10", "C11"]
 
-RUN_NOTES = [  # dated observations by agent Q that a single run cannot show
-    "Bench test test_rustypot_panic_after_checksum_error_is_caught, 2026-11-01: inside the full suite it passed at about 10:20 PM "
-    "ET and failed at 10:29 PM and 10:44 PM ET (machine load 7 to 9 on 4 CPUs); run alone it passed 6 of 6 (10:33 PM and in "
-    "E8). Both failures are the same: after the rustypot panic the pypot fallback reported 'low kp + torque off (attempt 1)' but "
-    "all 14 fake servos kept torque on and their P gain at 30, so neither sync write landed and nothing read them back.",
-    "Other agents were still writing while these checks ran (BOM.md, HARDWARE_AUDIT.md, DECISIONS.md, cables3d): the full run "
-    "went from 10:35 to 10:47 PM ET, and the quick checks (E1 to E4, C1 to C6, C9, C10) and E9, C11 were run again from 11:04 "
-    "to 11:12 PM ET on the files committed by then. The cable routes were still being reworked (the seats moved after the tape "
-    "fix). The input table at the end gives the time of every file read.",
+RUN_NOTES = [  # dated observations that a single run cannot show (agent NL2, final docs pass, 2026-11-02)
+    "Re-run 2026-11-02 by agent NL2 (final docs pass) for the lead. A first full run, 12:46 to 12:54 AM ET, after the netlist final "
+    "pass (agent NL1) and the D22 print profile (agent PP), gave 19 PASS, 2 FAIL (C3, C4a), 1 NOT RUN (C8). After the fixes in the "
+    "next note and a viewer rebuild (make_viewer_data.py --write-bom, 1:05 AM ET), this page comes from a second full run, 1:05 to "
+    "1:16 AM ET. The input table at the end gives the time of every file read.",
+    "Fixed between the two runs, on the lead's ask: sim/mass_budget.py had no position for the new splices JFI and JFO (C8 stopped "
+    "on KeyError 'JFI'); they now sit at the fuse holder seat and sim/MASS_BUDGET.md is re-run (2651.9 g). cables3d/cables3d.json "
+    "took its cut lengths from the netlist without re-routing (the P7 holder leads and their extensions summed), then check_cables.py "
+    "and make_report.py. fasteners/fasteners.json has two 0.3 mm eye washers per screw (DECISIONS.md D21 note) and its BOM summary "
+    "names lines 17j to 17l (C4a).",
+    "Checks changed in this pass (verify/): c9 reads BOM line 27's PLA need from print/PRINT_PLAN.md (it was hard-coded to the "
+    "1474.5 + 27.8 g of the plan before D22) and the build mass from sim/MASS_BUDGET.md, compares only whole-set STL counts, and "
+    "checks the robot mass only in START_HERE.md and README.md, as its docstring says. c8 reads the build mass and compares tracking "
+    "with the walk run within 1 % of it (print/MASS_STUDY.md variant c, 13 g lighter). e6b models the wiring the netlist builds "
+    "(sim/power_fix.py option 3b with SP4 and SP5) on the trained-mass and our-build traces and reads the gate from TEST_PLAN.md "
+    "section 5; it now runs after c8. c3 sums the netlist pieces joined at a splice that the 3D record does not route (P7 at JFI and "
+    "JFO). e1 takes its counts from the netlist.",
+    "Still modelled without the D23 feeds: E6 and C7 run the star wiring of sim/power_path_sim.py (they reproduce the star rows of "
+    "POWER_PATH_SIM.md); sim/POWER_FIX.md has the D23 numbers (Pololu 2815 at 99 to 101 % of 6 A, first-servo contacts halved). E8 "
+    "passed in this run (56 tests); the old flaky panic test now reads Torque Enable back (bench/odm_bench/walkhooks.py), and one "
+    "pass does not prove the flake is gone. The one FAIL left, C3, is two 20 mm ground tails (JG10 and JG30 to the first servo) "
+    "that route 21 mm; cables3d's own chain check passes them because those splices float along the lead.",
 ]
 
 HARDWARE = [

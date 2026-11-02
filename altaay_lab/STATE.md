@@ -1,6 +1,6 @@
 # STATE
 
-Last updated: 2026-11-02 about 12:35 AM ET (America/New_York) by agent NL2, final docs pass of the 2026-11-01 night session. Each job has its own entry in history/.
+Last updated: 2026-11-02 about 1:20 AM ET (America/New_York) by agent NL2, final docs pass of the 2026-11-01 night session. Each job has its own entry in history/.
 
 Phase: ready for the coupon print. Nothing bought, nothing printed.
 
@@ -25,7 +25,7 @@ D1 to D24 are in DECISIONS.md, all decided (D14 superseded by D15). Tonight: D19
 
 ## Blockers and checks
 - Blockers: 21 of 35 cleared or decided, 2 waiting on the parts check, 5 settled by the coupon test prints, 7 assembly or bench checks. None blocks the coupon print (HARDWARE_AUDIT.md section 6).
-- Verification: VERIFICATION.md is being re-run.
+- Verification (VERIFICATION.md, full run 1:05 to 1:16 AM ET): 22 checks, 21 PASS, 1 FAIL, 0 NOT RUN. The FAIL is C3: two 20 mm ground tails (JG10 and JG30 to the first servo) route 21 mm. Sim and test pass only; nothing has run on real parts.
 
 ## Open questions for Ahmed (one at a time, most important first)
 1. OK to start the coupon print session? S1: 9 coupons, 36.2 g PLA, 3.60 h. S2: one TPU sole, 17.6 g, 2.19 h (print/PRINT_PLAN.md; lab rule 4).
