@@ -69,17 +69,24 @@ COUPONS = [
          what="The one servo pocket that is undersize across the servo in CAD: head_yaw_to_roll, floor "
               "ledge to top arm 34.90 mm for a 35.00 mm STS3215 body (0.10 mm interference). Full "
               "height arm, same orientation, supports and profile (neck+fit) as the full part, so it also "
-              "tests the stronger neck setting (UPSTREAM_ISSUES G5).",
-         blockers="PRINT_CHECK flag 6",
+              "tests the stronger neck setting (UPSTREAM_ISSUES G5). It also holds 4 of the 24 neck chain "
+              "5.5 mm M3 head recesses (drive horn screws) and 4 of the 4.0 mm M2 pan head recesses (servo "
+              "case screws), so it carries the recess fit test (DECISIONS.md D20).",
+         blockers="PRINT_CHECK flag 6, D20 (recess fit), B21 and B2 (M2 heads)",
          test=["Calipers: gap between the floor ledge and the underside of the top arm, at the ledge (CAD 34.90 mm).",
                "Slide a real STS3215 (test order TO1) case end-first between ledge and arm: it goes in with firm thumb pressure, no tools, and does not rattle. PASS.",
                "If it will not go in by hand: up to 0.2 mm short, sand the underside of the arm lightly (expected, flag 6) and note it.",
-               "FAIL if more than 0.2 mm short, or the support scar on the arm underside is rougher than light sanding fixes: see PRINT_PLAN.md before the head parts."]),
+               "FAIL if more than 0.2 mm short, or the support scar on the arm underside is rougher than light sanding fixes: see PRINT_PLAN.md before the head parts.",
+               "Recess fit (D20): put a DIN 912 M3x5 head (BOM 17e) into each of the 4 recesses of 5.5 mm. Expected as printed: it does not drop in (heads are 5.50 to 5.68 mm). Open one recess to 6.0 mm with the 6.0 mm bit (BOM T11) turned by hand, and stop as soon as the bit starts to cut the recess floor: the head must then drop in and sit flat. FAIL: tell Ahmed before the neck parts are drilled.",
+               "Recess fit: a servo-bag M2 screw head (TO1) and a kit M2x5 head (BOM 17h, 3.7 mm per its listing) go into each of the 4 recesses of 4.0 mm and sit flat. If one does not, open that recess to 4.5 mm and note it (fasteners/FASTENERS.md finding 12)."]),
     dict(id="T1", file="T1_left_eye_whole.stl", source="left_eye.stl", up="+x", box=None,
          material="PLA", overrides="",
-         what="Whole left_eye (B14: its 4 screw pilots are 2.2 mm, the right eye has 2.05 mm).",
-         blockers="B14, BOM E4 (eye glass disc), test order TO11",
-         test=["Drive an M2.5x8 DIN 912 into each of the 4 pilots with a 2.0 mm hex key: it cuts its own thread and needs clear torque to turn.",
+         what="Whole left_eye (B14: its 4 screw pilots are 2.2 mm, the right eye has 2.05 mm). The pilots are "
+              "blind, 3.0 mm deep behind a 1.3 mm front skin (D21).",
+         blockers="B14, D21, BOM E4 (eye glass disc), test order TO11",
+         test=["Depth rod of the calipers in each pilot: about 3.0 mm, blind (CAD 3.0 mm, 1.3 mm front skin on this eye).",
+               "In the robot the screw passes a 0.5 mm washer, the bulb (2.0 mm) and the head wall (3.0 mm) before the eye (D21). So clamp 5.5 mm under each M2.5x8 head (11 of the 0.5 mm washers from BOM 17l, or the bulb plus 3.5 mm of scrap with a 2.7 mm hole): it then engages 2.5 mm, as in the robot. Never drive a bare M2.5x8 to the pilot floor: it would push through the skin.",
+               "Drive the M2.5x8 DIN 912 into each of the 4 pilots with a 2.0 mm hex key: it cuts its own thread and needs clear torque to turn.",
                "Snug each screw firmly with the short arm of the key: no stripping, the screw does not spin free.",
                "Pull the eye by hand with 4 screws in: nothing moves.",
                "The eye glass disc (29.6 x 1.85 mm seat) drops into its seat and stays in when tipped.",
@@ -208,10 +215,29 @@ def check(cid, m):
         dn = hits(m, np.array([49.4, 5.0, 128.4]), np.array([0, 0, -1.0]))
         r = dict(ceiling_z=round(128.4 + up[0], 2) if up else None, ledge_z=round(128.4 - dn[0], 2) if dn else None)
         r["gap"] = round(up[0] + dn[0], 2) if up and dn else None
-        r["ok"] = bool(r["gap"] and abs(r["gap"] - 34.90) < 0.05)
+        # D20 recess fit: the 4 drive horn screw recesses (5.5 mm, axis x, seat at x 59.2) and the 4 servo case screw
+        # recesses (4.0 mm, axis z: 2 open on the bed face, seat at z 109.96; 2 open on the top face, seat at z 147.16)
+        rec55 = [d for c, d in section_circles(m, [58.2, 0, 129.06], [1, 0, 0]) if 5.3 < d < 5.7]
+        rec40 = ([d for c, d in section_circles(m, [52.75, 0, 108.96], [0, 0, 1]) if 3.8 < d < 4.2]
+                 + [d for c, d in section_circles(m, [49.0, 0, 148.16], [0, 0, 1]) if 3.8 < d < 4.2])
+        r["recess_5_5"] = sorted(round(d, 2) for d in rec55)
+        r["recess_4_0"] = sorted(round(d, 2) for d in rec40)
+        r["ok"] = bool(r["gap"] and abs(r["gap"] - 34.90) < 0.05 and len(rec55) == 4 and len(rec40) == 4)
     elif cid == "T1":
-        p = [round(d, 2) for c, d in section_circles(m, [121.5, 40, 139.4], [1, 0, 0]) if 2.0 < d < 2.4]
-        r = dict(pilots=p, ok=len(p) == 4 and all(abs(d - 2.2) < 0.05 for d in p))
+        cs = [(c, d) for c, d in section_circles(m, [121.5, 40, 139.4], [1, 0, 0]) if 2.0 < d < 2.4]
+        p = [round(d, 2) for c, d in cs]
+        # D21: the pilots are blind. Ray from 1 mm outside the bed face up each pilot axis: the first hit is the
+        # pilot floor, the second the front face.
+        x0 = m.bounds[0][0] - 1.0
+        depth, skin = [], []
+        for c, d in cs:
+            h = hits(m, np.array([x0, c[1], c[2]]), np.array([1.0, 0, 0]))
+            if len(h) >= 2:
+                depth.append(round(h[0] - 1.0, 2))
+                skin.append(round(h[1] - h[0], 2))
+        r = dict(pilots=p, pilot_depth=depth, front_skin=skin,
+                 ok=len(p) == 4 and all(abs(d - 2.2) < 0.05 for d in p)
+                 and len(depth) == 4 and all(abs(x - 3.0) < 0.1 for x in depth))
     elif cid == "T2":
         e = sorted(np.round(m.extents, 1).tolist())
         r = dict(extents=e, ok=abs(e[2] - 101.9) < 0.2 and abs(e[1] - 40.7) < 0.2 and abs(e[0] - 8.0) < 0.1)

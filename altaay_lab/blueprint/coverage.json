@@ -1,0 +1,371 @@
+{
+ "summary": {
+  "items": 166,
+  "by_kind": {
+   "connector": 48,
+   "heat_shrink": 14,
+   "other": 77,
+   "splice": 13,
+   "resistor": 5,
+   "foam_pad": 6,
+   "disc": 3
+  },
+  "solder_joints": 64,
+  "washers": 8,
+  "cables": 45,
+  "cables_all_ends_drawn": 45,
+  "cable_ends": 236,
+  "lead_ends": 24,
+  "ends_with_body": 212,
+  "no_bom_row": []
+ },
+ "per_cable": [
+  {
+   "cable": "P1",
+   "ends": 2,
+   "lead_ends": 1,
+   "drawn_ends": 1,
+   "missing": []
+  },
+  {
+   "cable": "P2",
+   "ends": 2,
+   "lead_ends": 1,
+   "drawn_ends": 1,
+   "missing": []
+  },
+  {
+   "cable": "P3",
+   "ends": 2,
+   "lead_ends": 0,
+   "drawn_ends": 2,
+   "missing": []
+  },
+  {
+   "cable": "P4",
+   "ends": 2,
+   "lead_ends": 0,
+   "drawn_ends": 2,
+   "missing": []
+  },
+  {
+   "cable": "P5",
+   "ends": 2,
+   "lead_ends": 0,
+   "drawn_ends": 2,
+   "missing": []
+  },
+  {
+   "cable": "P6",
+   "ends": 2,
+   "lead_ends": 0,
+   "drawn_ends": 2,
+   "missing": []
+  },
+  {
+   "cable": "P8",
+   "ends": 2,
+   "lead_ends": 0,
+   "drawn_ends": 2,
+   "missing": []
+  },
+  {
+   "cable": "P7",
+   "ends": 4,
+   "lead_ends": 2,
+   "drawn_ends": 2,
+   "missing": []
+  },
+  {
+   "cable": "P14",
+   "ends": 2,
+   "lead_ends": 0,
+   "drawn_ends": 2,
+   "missing": []
+  },
+  {
+   "cable": "P9",
+   "ends": 2,
+   "lead_ends": 0,
+   "drawn_ends": 2,
+   "missing": []
+  },
+  {
+   "cable": "P16",
+   "ends": 2,
+   "lead_ends": 0,
+   "drawn_ends": 2,
+   "missing": []
+  },
+  {
+   "cable": "P15",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 4,
+   "missing": []
+  },
+  {
+   "cable": "P10",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 4,
+   "missing": []
+  },
+  {
+   "cable": "P11",
+   "ends": 12,
+   "lead_ends": 4,
+   "drawn_ends": 8,
+   "missing": []
+  },
+  {
+   "cable": "SP1",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "SP2",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "SP3",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "P13",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 4,
+   "missing": []
+  },
+  {
+   "cable": "P12",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 4,
+   "missing": []
+  },
+  {
+   "cable": "P17",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 4,
+   "missing": []
+  },
+  {
+   "cable": "D1",
+   "ends": 2,
+   "lead_ends": 0,
+   "drawn_ends": 2,
+   "missing": []
+  },
+  {
+   "cable": "D2",
+   "ends": 8,
+   "lead_ends": 0,
+   "drawn_ends": 8,
+   "missing": []
+  },
+  {
+   "cable": "D3",
+   "ends": 12,
+   "lead_ends": 2,
+   "drawn_ends": 10,
+   "missing": []
+  },
+  {
+   "cable": "D4",
+   "ends": 12,
+   "lead_ends": 2,
+   "drawn_ends": 10,
+   "missing": []
+  },
+  {
+   "cable": "D5",
+   "ends": 6,
+   "lead_ends": 2,
+   "drawn_ends": 4,
+   "missing": []
+  },
+  {
+   "cable": "D6",
+   "ends": 6,
+   "lead_ends": 2,
+   "drawn_ends": 4,
+   "missing": []
+  },
+  {
+   "cable": "D7",
+   "ends": 6,
+   "lead_ends": 2,
+   "drawn_ends": 4,
+   "missing": []
+  },
+  {
+   "cable": "D8",
+   "ends": 6,
+   "lead_ends": 3,
+   "drawn_ends": 3,
+   "missing": []
+  },
+  {
+   "cable": "D9",
+   "ends": 6,
+   "lead_ends": 3,
+   "drawn_ends": 3,
+   "missing": []
+  },
+  {
+   "cable": "D10",
+   "ends": 10,
+   "lead_ends": 0,
+   "drawn_ends": 10,
+   "missing": []
+  },
+  {
+   "cable": "D11",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 4,
+   "missing": []
+  },
+  {
+   "cable": "D12",
+   "ends": 2,
+   "lead_ends": 0,
+   "drawn_ends": 2,
+   "missing": []
+  },
+  {
+   "cable": "SD1",
+   "ends": 12,
+   "lead_ends": 0,
+   "drawn_ends": 12,
+   "missing": []
+  },
+  {
+   "cable": "SD2",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 4,
+   "missing": []
+  },
+  {
+   "cable": "S2",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "S3",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "S4",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "S5",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "S7",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "S8",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "S9",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "S10",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "S11",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "S12",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  },
+  {
+   "cable": "S13",
+   "ends": 6,
+   "lead_ends": 0,
+   "drawn_ends": 6,
+   "missing": []
+  }
+ ],
+ "foam_fit": {
+  "bec_pro": {
+   "gap_box_to_surface_mm": 1.09,
+   "surface": "body_middle_bottom",
+   "after_tape_mm": -0.01
+  },
+  "fuse_holder": {
+   "gap_box_to_surface_mm": 1.11,
+   "surface": "battery_pack_lid",
+   "after_tape_mm": 0.01
+  },
+  "mosfet_switch": {
+   "gap_box_to_surface_mm": 1.06,
+   "surface": "battery_pack_lid",
+   "after_tape_mm": -0.04
+  },
+  "usb_slack": {
+   "gap_box_to_surface_mm": 1.11,
+   "surface": "body_middle_bottom",
+   "after_tape_mm": 0.01
+  },
+  "reg_5v": {
+   "gap_box_to_surface_mm": 1.11,
+   "surface": "head_bot_sheet",
+   "after_tape_mm": 0.01
+  },
+  "amp": {
+   "gap_box_to_surface_mm": 1.11,
+   "surface": "head_bot_sheet",
+   "after_tape_mm": 0.01
+  }
+ }
+}

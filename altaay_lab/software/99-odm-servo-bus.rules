@@ -1,0 +1,6 @@
+# Waveshare Bus Servo Adapter (A): CH343 USB-UART, VID 1a86 PID 55d3 (WCH ch343ser_linux driver id
+# table; CH343P on the Waveshare schematic). With the stock cdc_acm driver it is /dev/ttyACM*.
+# This rule only adds a fixed name and keeps the dialout group; the Runtime still opens
+# /dev/ttyACM0 by default, so nothing breaks if the rule is missing.
+# Install: sudo cp 99-odm-servo-bus.rules /etc/udev/rules.d/ && sudo udevadm control --reload && sudo udevadm trigger
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d3", SYMLINK+="odm_servo_bus", GROUP="dialout", MODE="0660"

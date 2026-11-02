@@ -48,14 +48,15 @@ def end_step(e, pin, splices):
         return "solder at the Pi header (pin %s)" % pin.split(".")[-1]
     if "0.1 in hole" in k or "large hole" in k:
         return "solder into the board hole %s" % pin.split(".")[-1]
-    if "pad" in k or "terminal" in k or "lug" in k or "tab" in k or "cup" in k:
-        return "tin and solder to %s, heat shrink if bare" % pin
+    # before the generic rule below: "screw terminal" contains "terminal", and "plug" contains "lug"
     if "screw terminal" in k:
         return "screw terminal %s" % pin
-    if "holder lead" in k or "bec lead" in k or "sg90 lead" in k or "led lead" in k or "resistor lead" in k:
-        return "use the part's own lead (%s), solder joint covered with heat shrink" % e
     if "usb" in k or "fpc" in k:
         return "bought cable end (%s), plug in" % e
+    if "pad" in k or "terminal" in k or "lug" in k or "tab" in k or "cup" in k:
+        return "tin and solder to %s, heat shrink if bare" % pin
+    if "holder lead" in k or "bec lead" in k or "sg90 lead" in k or "led lead" in k or "resistor lead" in k:
+        return "use the part's own lead (%s), solder joint covered with heat shrink" % e
     if "servo" in k:
         return "servo socket"
     return e or "?"

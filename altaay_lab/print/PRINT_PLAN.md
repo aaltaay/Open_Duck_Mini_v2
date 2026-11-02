@@ -1,6 +1,6 @@
 # PRINT_PLAN: Open Duck Mini v2 stock build
 
-Last updated: 2026-11-01 7:29 PM ET. Nothing has been printed. Nothing is printed until Ahmed approves (lab rule 4: slice summary first, then Ahmed's OK).
+Last updated: 2026-11-01 about 10:55 PM ET (fastener schedule pass, DECISIONS.md D19 to D21: recess fit tests on C4, blind eye pilots on T1, first-leg check 5, "After printing" drill steps; make_coupons.py measures the new features, cut boxes unchanged, so the slice numbers stand). Earlier: 7:29 PM ET. Nothing has been printed. Nothing is printed until Ahmed approves (lab rule 4: slice summary first, then Ahmed's OK).
 
 All grams and hours are PrusaSlicer 2.7.2 estimates made on the box for a generic 0.4 mm printer at moderate speeds (config/printer_generic.ini). They are not printed results. The real printer is not known yet; a faster printer takes fewer hours, grams change little. Material settings are maker-typical values from the Overture pages, not lab tested.
 
@@ -96,17 +96,19 @@ S1, one PLA plate, 2.76 h, 27.8 g. Every coupon keeps the profile of the part it
 
 S2, TPU, 2.25 h, 18.2 g: T2 foot_bottom_tpu whole, Overture TPU 95A at 40% (B26). If it passes it is the left leg sole.
 
-Each coupon is cut from the upstream STL with a box (make_coupons.py), keeps the part's print orientation, and is re-measured after the cut: C1 seat 32.18 mm and lip 26.18 mm; C2a and C2b bore 4.0 mm, pilot 2.0 mm, thinnest wall 1.50 mm, C2a slot 6.40 x 19.80 mm; C3 bore 4.0 mm, cylinder 5.77 mm deep; C4 ledge to arm 34.90 mm; T1 four pilots 2.19 mm.
+Recess fit tests (D20), no new coupon: C4 already holds 4 of the 24 neck chain 5.5 mm recesses (M3 heads to the drive horn) and 4 of the 4.0 mm recesses (M2 pan heads to the servo case). Try a DIN 912 M3 head in a 5.5 mm recess (expected not to drop in), open one to 6.0 mm and try again, and try a servo-bag M2 head and a kit M2x5 head in a 4.0 mm recess. T1 also checks that the eye pilots are blind, 3.0 mm deep (D21).
 
-Pass or fail, physical tests (tools: Pinecil with insert tip, calipers, 2.0 and 2.5 mm hex keys, a 5 kg weight or luggage scale, one STS3215 from test order TO1, one 6804ZZ, CNC Kitchen M3x5.7 inserts, M3x8 and M3x10, M2.5x8, Omron SS-10):
+Each coupon is cut from the upstream STL with a box (make_coupons.py), keeps the part's print orientation, and is re-measured after the cut: C1 seat 32.18 mm and lip 26.18 mm; C2a and C2b bore 4.0 mm, pilot 2.0 mm, thinnest wall 1.50 mm, C2a slot 6.40 x 19.80 mm; C3 bore 4.0 mm, cylinder 5.77 mm deep; C4 ledge to arm 34.90 mm, 4 recesses of 5.50 mm and 4 of 4.00 mm; T1 four pilots 2.19 mm, blind, 3.0 mm deep with a 1.3 mm front skin.
+
+Pass or fail, physical tests (tools: Pinecil with insert tip, calipers, 2.0 and 2.5 mm hex keys, a 5 kg weight or luggage scale, one STS3215 from test order TO1, one 6804ZZ, CNC Kitchen M3x5.7 inserts, M3x8 and M3x10, M2.5x8, Omron SS-10; for the recess and eye tests also an M3x5 DIN 912, the 6.0 mm HSS bit and T-handle (test order TO16), a kit M2x5 (TO4) and 5.5 mm of washers or scrap with a 2.7 mm hole):
 
 | ID | PASS when all are true | If it fails |
 |---|---|---|
 | C1 | Seat measures 32.10 to 32.25 mm at 2 angles 90 degrees apart. The 6804ZZ goes in by thumb (no hammer, no heat), sits flat on the lip, does not rock when pushed sideways at its top edge, and comes out with finger pressure (slip fit by design, 0.19 mm). | Tight: see "Hole size" below, reprint C1 before trunk_bottom and head. Loose (rocks): Ahmed decides (retaining compound or a smaller hole). |
 | C2a, C2b | Insert goes in straight and ends flush (straight edge, no lip over 0.1 mm). The 1.5 mm side wall has no crack or bulge over 0.2 mm. An M3x10 threads in by hand; tightened with the short arm of a 2.5 mm key, the insert does not spin. 5 kg hung from the screw for 10 s: no movement. C2a: the SS-10 presses in by thumb, stays in when shaken upside down, and its lever still clicks. | B16 stays open; tell Ahmed before printing foot_top. Switch loose or too tight: note it, B11 stays open. |
 | C3 | Insert reaches flush without pushing harder than on C2a, sits flush to 0.1 mm proud at most, no bulge or crack on the bed face over the bore, an M3x8 threads the full insert length by hand, 5 kg for 10 s: no movement. | B15 stays open (plastic blocks the bore); tell Ahmed before printing foot_bottom_pla. |
-| C4 | Calipers: ledge to arm gap at the ledge (CAD 34.90; the G-code makes 35.00, see "Servo pockets"). The STS3215 case slides in end first between ledge and arm with firm thumb pressure, no tools, no rattle. Up to 0.2 mm tight: light sanding of the arm underside is expected (flag 6); note it. | More than 0.2 mm tight, or the support scar needs more than light sanding: hold the head parts; try a 0.15 mm support gap or 0.1 mm layers on head_yaw_to_roll and reprint C4. |
-| T1 | An M2.5x8 driven into each of the 4 pilots cuts its own thread and needs clear torque, snugs firmly with the short arm of a 2.0 mm key without stripping, and the eye does not move when pulled with 4 screws in. The eye glass disc (29.6 x 1.85 mm seat) drops in and stays when tipped. | A pilot strips: B14 stays open; options for Ahmed are an M2.5 thread-forming screw or a 2.05 mm pilot (CAD change). |
+| C4 | Calipers: ledge to arm gap at the ledge (CAD 34.90; the G-code makes 35.00, see "Servo pockets"). The STS3215 case slides in end first between ledge and arm with firm thumb pressure, no tools, no rattle. Up to 0.2 mm tight: light sanding of the arm underside is expected (flag 6); note it. Recess fit (D20): after one 5.5 mm recess is opened to 6.0 mm (see "After printing"), a DIN 912 M3x5 head drops in and sits flat; a servo-bag M2 head and a kit M2x5 head drop into the 4.0 mm recesses and sit flat. | More than 0.2 mm tight, or the support scar needs more than light sanding: hold the head parts; try a 0.15 mm support gap or 0.1 mm layers on head_yaw_to_roll and reprint C4. The M3 head will not seat even at 6.0 mm: tell Ahmed before the neck parts are drilled (B32). An M2 head will not seat: open that recess to 4.5 mm and note it (B21). |
+| T1 | Depth rod: each pilot is blind, about 3.0 mm deep (D21). With 5.5 mm clamped under the head (11 of the 0.5 mm washers from BOM 17l, or the bulb plus 3.5 mm of scrap with a 2.7 mm hole), as in the robot, an M2.5x8 driven into each of the 4 pilots cuts its own thread and needs clear torque, snugs firmly with the short arm of a 2.0 mm key without stripping, and the eye does not move when pulled with 4 screws in. Never drive a bare M2.5x8 to the floor: it would push through the 1.3 mm skin. The eye glass disc (29.6 x 1.85 mm seat) drops in and stays when tipped. | A pilot strips: B14 stays open; options for Ahmed are an M2.5 thread-forming screw or a 2.05 mm pilot (CAD change). |
 | T2 | No missing layers, no blobs over 0.5 mm, lies flat on a table (no corner up over 0.5 mm). Length 101.9 and width 40.7 mm within 0.3 mm. An M3 passes both 3.4 mm holes and its head sinks fully into the 6.5 mm counterbores. Screwed to foot_bottom_pla (or to C3 for one hole) it pulls flat, gap under 0.3 mm at the edges. Grip, record only (no upstream number): on the lab floor with 1 kg on it, tilt until it slides, note the angle next to a PLA part. | Print fails: check that the TPU was dried and the printer can feed TPU at 25 mm/s (Bowden extruders may need retraction off). Fit fails: B26 stays open. |
 
 ### Step 2: left leg, for the servo fit tests (3 plates, 19.2 h, 220.1 g; the TPU sole comes from S2)
@@ -127,6 +129,10 @@ Checks on the left leg (one STS3215 from TO1 is enough, moved from pocket to poc
    - FAIL (expected for the outer screw from the CAD): stop, do not force it. Note which screw and at what angle. Options for Ahmed before the right leg is assembled: leave the outer screw out (the CAD has no room for any head there), or a CAD change (a relief in roll_to_pitch or a countersink in roll_motor_bottom). No STL is changed in this package.
 3. Inserts in leg_spacer and foot_top go in as on C2 and C3; the SS-10 switches press into foot_top.
 4. T2 sole screws onto foot_bottom_pla and the foot assembles (B26 fit).
+5. Hip pitch screw heads against left_roll_to_pitch (D19, B31). CAD result first (fasteners/FASTENERS.md findings 2 and 5): a DIN 912 head at the 4 knee_to_ankle_right_sheet to idle horn screws (F196, F198, F200, F247) overlaps left_roll_to_pitch by 1.19 mm at every hip pitch angle, and the one at F002 (thigh plate to leg_spacer) is hit from +18.9 deg; M3x6 ISO 7380 button heads (BOM 17j) clear by +0.16 mm and +1.16 mm in CAD.
+   - Test: fit the 5 button heads, then turn the thigh against left_roll_to_pitch by hand through the full hip pitch range (URDF -70 to +30 deg) and back.
+   - PASS: no rubbing, no clicks and no new marks on roll_to_pitch.
+   - FAIL: stop, note which screw and at what angle; relieve roll_to_pitch locally (CAD change) before the right leg is printed (D19).
 
 ### Step 3: the rest, plates for a 220 bed (12 plates)
 
@@ -164,6 +170,13 @@ Plates for a 256 bed (11 plates after the same 3 left leg plates):
 | P256-11 | TPU | foot_bottom_tpu (second sole) | 18.1 | 2.25 |
 
 Suggested order inside step 3: trunk_bottom first (C1 rule applies), then the neck plates (C4 rule applies), then the rest, the head last (longest job, 21.9 h). Every plate was sliced as one job and checked: inside the bed, no path conflicts.
+
+### After printing: drill steps (D20, B32)
+
+Hand tools only (BOM T11 to T13): turn the bit slowly in the T-handle, or by hand, and blow the chips out.
+1. Neck chain recesses, 24 in all, 5.5 to 6.0 mm (6.0 mm HSS bit, T11): head_pitch_to_yaw 16 (recesses 2.0 mm deep), head_yaw_to_roll 4 (4.0 mm deep), head_roll_mount 4 (5.0 mm deep); the spare set too. Stop as soon as the bit starts to cut the recess floor: the point would cut a cone into the floor under the head. Check each with a DIN 912 M3 head: it drops in and sits flat. Try it on coupon C4 first.
+2. battery_pack_lid: the 4 clearance holes, 2.5 to 2.7 mm (2.7 mm HSS bit, T12), straight through, so the M2.5x10 screws pass freely and the lid clamps instead of threading.
+3. 4.0 mm M2 head recesses (trunk_top, head_yaw_to_roll, roll_to_pitch): only if the C4 test showed a head that does not drop in; then open them to 4.5 mm (fasteners/FASTENERS.md finding 12; no 4.5 mm bit in the BOM yet).
 
 ## Orientation and supports per part
 

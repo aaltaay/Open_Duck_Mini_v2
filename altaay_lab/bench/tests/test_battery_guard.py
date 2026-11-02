@@ -1,0 +1,177 @@
+"""D16 battery guard: rules on synthetic and sim-derived sag profiles, then the real walk loop."""
+import json
+import math
+import random
+
+import pytest
+
+import battery_guard as bg
+from conftest import DATA, IDS, ONNX, item, last_report, needs_walk
+from fake_sts3215 import VoltageProfile
+
+
+def feed(guard, seconds, fn, period=0.5, standing_after_stop=True, offset=0.0):
+    t = 0.0
+    while t <= seconds and guard.state != bg.HARD_STOPPED:
+        v = fn(t)
+        volts = None if v is None else {i: bg.quantize(x + (offset if guard.state != bg.WALKING else 0.0))
+                                        for i, x in v.items()}
+        for e in guard.update(t, volts):
+            if e["event"] == "walk_stop" and standing_after_stop:
+                guard.set_state(bg.STANDING)
+        t += period
+    return guard.events
+
+
+def gait(level, t, rng):
+    """14 servos: level minus chain drop, a 1.85 Hz gait ripple and knee-peak dips at the ankles."""
+    out = {}
+    for i in IDS:
+        drop = 0.05 * (i % 10)                      # further down the chain, lower
+        ripple = 0.25 * math.sin(2 * math.pi * 1.85 * t + i)
+        dip = -1.2 if (i in (14, 24) and rng.random() < 0.15) else 0.0
+        out[i] = level - drop + ripple + dip
+    return out
+
+
+def test_healthy_pack_never_trips():
+    rng = random.Random(3)
+    g = bg.BatteryGuard()
+    assert feed(g, 600, lambda t: gait(7.0, t, rng)) == []
+
+
+def test_short_deep_dips_do_not_trip():
+    """Ankle dips to 4.5 V and a median dip to 5.0 V for one sample: debounce holds."""
+    g = bg.BatteryGuard()
+    def fn(t):
+        v = {i: 6.6 for i in IDS}
+        if int(t * 2) % 7 == 0:
+            v.update({i: 4.5 for i in IDS[:8]})      # one sample with most servos low
+        return v
+    assert feed(g, 300, fn) == []
+
+
+def test_slow_discharge_walk_stop_then_hard_stop():
+    """7.1 V to 5.0 V median over 20 min while walking; standing recovers +0.5 V (estimate)."""
+    rng = random.Random(1)
+    g = bg.BatteryGuard()
+    ev = feed(g, 1200, lambda t: gait(7.1 - 2.1 * t / 1200, t, rng), offset=0.5)
+    names = [e["event"] for e in ev]
+    assert names == ["walk_stop", "hard_stop"], ev
+    ws, hs = ev
+    # median crosses 6.0 V around t = (7.1 - 6.0 - 0.2) / 2.1 * 1200 = 514 s (chain drop ~0.2 V)
+    assert 450 < ws["t"] < 600
+    assert hs["t"] > ws["t"] + 100 and hs["state"] == bg.STANDING
+
+
+def test_lost_reads_while_walking_stop_the_walk():
+    g = bg.BatteryGuard()
+    ev = feed(g, 30, lambda t: {i: 7.0 for i in IDS} if t < 10 else None)
+    assert ev and ev[0]["event"] == "walk_stop" and "no valid voltage" in ev[0]["reason"]
+    assert 14.4 <= ev[0]["t"] <= 15.1           # 5 s after the last valid read at 9.5 s
+
+
+def test_implausible_readings_are_dropped():
+    g = bg.BatteryGuard()
+    ev = feed(g, 30, lambda t: {i: (0.0 if i % 2 else 25.5) for i in IDS} if int(t) % 3 == 0 else
+              {i: 7.0 for i in IDS})
+    assert all(e["event"] != "walk_stop" or "no valid" in e["reason"] for e in ev)
+    assert g.dropped > 0
+
+
+def test_start_check():
+    g = bg.BatteryGuard()
+    assert g.check_start({i: 7.2 for i in IDS})[0]
+    assert not g.check_start({i: 6.7 for i in IDS})[0]
+    assert not g.check_start({20: 7.2})[0]                 # too few servos answered
+
+
+@pytest.mark.parametrize("case,expect", [("full_typical", "none"), ("nominal_typical", "none"),
+                                         ("nominal_highside", "walk_stop"), ("low_typical", "hard_stop"),
+                                         ("discharge", "hard_stop")])
+def test_replay_sim_profiles(case, expect, tmp_path):
+    """Sim pass only: lab ngspice model, star wiring (D15), 50 Hz servo voltage traces."""
+    rc = bg.main(["--replay", str(DATA / f"sim_star_{case}.csv"), "--expect", expect, "--out", str(tmp_path)])
+    assert rc == 0
+
+
+def test_discharge_walk_stop_lands_near_3_55_volt_per_cell():
+    """D16: stop walking at about 3.5 V per cell under load. In the sim discharge each 6 s step
+    has one cell OCV; the walk stop must fall in the 3.6 or 3.55 V step."""
+    g, trace, stopped_at = bg.replay(str(DATA / "sim_star_discharge.csv"), bg.GuardConfig())
+    cells = [4.0, 3.9, 3.8, 3.7, 3.6, 3.55, 3.5, 3.45, 3.4, 3.35, 3.3, 3.25, 3.2]
+    step = int(stopped_at // 6.0)
+    assert cells[step] in (3.6, 3.55), (stopped_at, cells[step])
+    hard = [e for e in g.events if e["event"] == "hard_stop"][0]
+    assert cells[int(hard["t"] // 6.0)] in (3.45, 3.4, 3.35, 3.3)
+
+
+def _walk_args(bus, duck_config, *extra):
+    return ["--onnx_model_path", ONNX, "--duck_config_path", duck_config, "--serial_port", bus.path,
+            "--no-commands", "--dry-run"] + list(extra)
+
+
+@needs_walk
+def test_walk_refuses_to_start_on_a_low_battery(make_bus, run, duck_config):
+    bus = make_bus(reg85=0, volts=6.5)
+    r, out = run("walk_with_guard.py", *_walk_args(bus, duck_config, "--max-seconds", "3"))
+    assert r.returncode == 4, r.stdout[-2000:]
+    assert all(s.mem[40] == 0 for s in bus.servos.values())          # torque never turned on
+    rep = last_report(out, "walk_guard")
+    assert item(rep, "11.start")["status"] == "FAIL"
+
+
+@needs_walk
+def test_walk_with_guard_full_sequence_on_sim_discharge(make_bus, run, duck_config, tmp_path):
+    """Real Runtime walk loop + real policy + real rustypot/pypot on the simulated bus. Servo
+    voltages follow the sim discharge profile 8x faster than recorded. Expected: walk stop,
+    zero command, freeze in double support, blend to the standing pose, hard stop, torque off,
+    power off command."""
+    bus = make_bus(reg85=0, volts=7.2)
+    prof = VoltageProfile(str(DATA / "sim_star_discharge.csv"), speed=8.0)
+    flag = tmp_path / "poweroff_called"
+    bus.set_profile(prof, delay_s=7.0)     # start-up (onnx load, turn_on) takes about 5 to 6 s
+    r, out = run("walk_with_guard.py", *_walk_args(bus, duck_config, "--max-seconds", "40",
+                                                    "--walk-stop-hold", "1.0", "--hard-stop-hold", "0.5",
+                                                    "--walking-floor-v", "4.0", "--period", "0.1",
+                                                    "--settle-s", "0.5", "--blend-s", "0.5",
+                                                    "--poweroff-cmd", f"touch {flag}"),
+                 env={"ODM_FAKE_FEET": "11"}, timeout=240)
+    rep = last_report(out, "walk_guard")
+    names = [e["event"] for e in rep["data"]["events"]]
+    assert names == ["walk_stop", "hard_stop"], (names, r.stdout[-3000:])
+    phases = [p[1] for p in rep["data"]["stop_log"]]
+    assert phases == ["settle", "wait_double_support", "freeze", "standing"], rep["data"]["stop_log"]
+    assert rep["data"]["stop_log"][2][2] == "both feet on the ground"
+    assert r.returncode == 6
+    assert all(s.mem[40] == 0 for s in bus.servos.values())          # torque off on all 14
+    assert all(s.mem[21] == 2 for s in bus.servos.values())          # low gains first (HWI.low_torque_kps)
+    assert not flag.exists()                                          # --dry-run: printed, not run
+    assert "would run: touch" in r.stdout
+
+
+@needs_walk
+def test_rustypot_panic_after_checksum_error_is_caught(make_bus, run, duck_config):
+    """UPSTREAM_ISSUES.md G10: a corrupted status packet makes rustypot return early, the rest of
+    the sync read is still arriving, and the next send's flush-then-assert panics. With wire
+    timing on, the fake reproduces it; walk_with_guard turns torque off through pypot (exit 3)."""
+    bus = make_bus(reg85=0, volts=7.2, wire_time=True)
+    bus.log_on = False
+    import threading
+    import time as _t
+
+    def corrupt_later():
+        _t.sleep(9.0)                     # after start-up (turn_on takes about 5 s)
+        bus.fault(20).corrupt_next = 3
+        bus.babble(1.5)
+    threading.Thread(target=corrupt_later, daemon=True).start()
+    r, out = run("walk_with_guard.py", *_walk_args(bus, duck_config, "--max-seconds", "12"), timeout=120)
+    rep = last_report(out, "walk_guard")
+    crash = [i for i in rep["items"] if i["item"] == "11.bus"]
+    if not crash:
+        pytest.skip(f"no panic this run (timing race); errors {item(rep, '11.errors')['measured']}")
+    assert "PanicException" in crash[0]["desc"], crash
+    assert r.returncode == 3
+    assert "pypot low kp + torque off" in crash[0]["measured"], crash[0]["measured"]
+    on = {i: (s.mem[40], s.mem[21]) for i, s in bus.servos.items() if s.mem[40] != 0}
+    assert not on, (on, crash[0]["measured"], bus.counts)

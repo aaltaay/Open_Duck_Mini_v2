@@ -1,119 +1,119 @@
 cable,from,to,net,gauge,cut_mm,expect,check_no_short_to
-P1,PACK.B+,BMS.B+,PACK_P,16 AWG,120,"beep, under 1 ohm",PACK.B-
-P2,PACK.B-,BMS.B-,CELL_N,16 AWG,120,"beep, under 1 ohm",PACK.B+
-P3,PACK.MID,BMS.B1,CELL_MID,26 AWG,120,"beep, under 1 ohm",
-P4,BMS.P+,CHG.B+,PACK_P,20 AWG,130,"beep, under 1 ohm",BMS.B- BMS.B1 BMS.B+ BMS.P- BMS.T
-P5,BMS.P-,CHG.B-,GND,20 AWG,130,"beep, under 1 ohm",BMS.B- BMS.B1 BMS.B+ BMS.P+ BMS.T
-P6,BMS.P+,XT30.F+,PACK_P,16 AWG,110,"beep, under 1 ohm",BMS.B- BMS.B1 BMS.B+ BMS.P- BMS.T
-P8,BMS.P-,XT30.F-,GND,16 AWG,110,"beep, under 1 ohm",BMS.B- BMS.B1 BMS.B+ BMS.P+ BMS.T
-P7,XT30.M+,F1.IN,PACK_P,16 AWG,90,"beep, under 1 ohm",XT30.M-
-P7,F1.OUT,SW1.VIN,PACK_F,16 AWG,90,"beep, under 1 ohm",F1.IN
-P14,XT30.M-,G.S,GND,16 AWG,140,"beep, under 1 ohm",XT30.M+
-P9,SW1.VOUT,VSW.S,VSW,16 AWG,90,"beep, under 1 ohm",SW1.VIN SW1.GND
-P16,G.S,SW1.GND,GND,20 AWG,90,"beep, under 1 ohm",
-P15,SW1.SW,CTL.1,CTRL_SW,26 AWG,150,"beep, under 1 ohm",SW1.GND_SW SW1.ON
-P15,SW1.GND_SW,CTL.2,GND,26 AWG,150,"beep, under 1 ohm",SW1.SW SW1.ON
-P10,VSW.S,U1.IN+,VSW,16 AWG,150,"beep, under 1 ohm",
-P10,G.S,U1.IN-,GND,16 AWG,150,"beep, under 1 ohm",
-P11,U1.OUT1+,JBP.S,SERVO_7V2,BEC lead,,"beep, under 1 ohm",U1.OUT1- U1.OUT1S
-P11,U1.OUT2+,JBP.S,SERVO_7V2,BEC lead,,"beep, under 1 ohm",U1.OUT2- U1.OUT2S
-P11,U1.OUT1-,JBN.S,GND,BEC lead,,"beep, under 1 ohm",U1.OUT1+ U1.OUT1S
-P11,U1.OUT2-,JBN.S,GND,BEC lead,,"beep, under 1 ohm",U1.OUT2+ U1.OUT2S
-P11,JBP.S,SPV.S,SERVO_7V2,16 AWG,60,"beep, under 1 ohm",
-P11,JBN.S,SPG.S,GND,16 AWG,60,"beep, under 1 ohm",
-P13,VSW.S,U3.VIN,VSW,20 AWG,550,"beep, under 1 ohm",
-P13,G.S,U3.GND.1,GND,20 AWG,550,"beep, under 1 ohm",
-P12,U3.VOUT,PI.2,5V,20 AWG,130,"beep, under 1 ohm",U3.VIN U3.GND.1 U3.GND.2 U3.EN U3.PG
-P12,U3.GND.2,PI.6,GND,20 AWG,130,"beep, under 1 ohm",U3.VIN U3.GND.1 U3.VOUT U3.EN U3.PG
-P17,PI.4,J5.S,5V,20 AWG,90,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.5 PI.6 PI.9
-P17,PI.14,JG.S,GND,20 AWG,90,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D1,PI.USB,U2.USB,USB_LINK,USB 2.0 cable,900,"beep, under 1 ohm",
-D2,PI.1,BNO.VIN,3V3,26 AWG,550,"beep, under 1 ohm",PI.2 PI.3 PI.4 PI.5 PI.6 PI.9
-D2,PI.9,BNO.GND,GND,26 AWG,550,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D2,PI.3,BNO.SDA,I2C_SDA,26 AWG,550,"beep, under 1 ohm",PI.1 PI.2 PI.4 PI.5 PI.6 PI.9
-D2,PI.5,BNO.SCL,I2C_SCL,26 AWG,550,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.6 PI.9
-D3,PI.17,RFL.1,3V3,resistor lead,0,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D3,RFL.2,PI.15,FOOT_L,resistor lead,0,"beep, under 1 ohm",RFL.1
-D3,PI.15,FSL1.NO,FOOT_L,26 AWG,900,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D3,PI.9,FSL1.COM,GND,26 AWG,900,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D3,FSL1.NO,FSL2.NO,FOOT_L,26 AWG,40,"beep, under 1 ohm",FSL1.COM FSL1.NC
-D3,FSL1.COM,FSL2.COM,GND,26 AWG,40,"beep, under 1 ohm",FSL1.NO FSL1.NC
-D4,PI.17,RFR.1,3V3,resistor lead,0,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D4,RFR.2,PI.13,FOOT_R,resistor lead,0,"beep, under 1 ohm",RFR.1
-D4,PI.13,FSR1.NO,FOOT_R,26 AWG,950,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D4,PI.9,FSR1.COM,GND,26 AWG,950,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D4,FSR1.NO,FSR2.NO,FOOT_R,26 AWG,40,"beep, under 1 ohm",FSR1.COM FSR1.NC
-D4,FSR1.COM,FSR2.COM,GND,26 AWG,40,"beep, under 1 ohm",FSR1.NO FSR1.NC
-D5,PI.18,RL.1,EYE_L,26 AWG,150,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D5,RL.2,LEDL.A,EYE_L_A,resistor lead,0,"beep, under 1 ohm",RL.1
-D5,LEDL.K,PI.20,GND,26 AWG,150,"beep, under 1 ohm",LEDL.A
-D6,PI.16,RR.1,EYE_R,26 AWG,230,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D6,RR.2,LEDR.A,EYE_R_A,resistor lead,0,"beep, under 1 ohm",RR.1
-D6,LEDR.K,PI.20,GND,26 AWG,230,"beep, under 1 ohm",LEDR.A
-D7,PI.22,RP.1,PROJ,26 AWG,160,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D7,RP.2,LEDP.A,PROJ_A,resistor lead,0,"beep, under 1 ohm",RP.1
-D7,LEDP.K,PI.20,GND,26 AWG,160,"beep, under 1 ohm",LEDP.A
-D8,SGL.SIG,PI.33,ANT_L,SG90 lead,250,"beep, under 1 ohm",SGL.VCC SGL.GND
-D8,SGL.VCC,J5.S,5V,SG90 lead,250,"beep, under 1 ohm",SGL.SIG SGL.GND
-D8,SGL.GND,JG.S,GND,SG90 lead,250,"beep, under 1 ohm",SGL.SIG SGL.VCC
-D9,SGR.SIG,PI.32,ANT_R,SG90 lead + 26 AWG,270,"beep, under 1 ohm",SGR.VCC SGR.GND
-D9,SGR.VCC,J5.S,5V,SG90 lead + 26 AWG,270,"beep, under 1 ohm",SGR.SIG SGR.GND
-D9,SGR.GND,JG.S,GND,SG90 lead + 26 AWG,270,"beep, under 1 ohm",SGR.SIG SGR.VCC
-D10,PI.35,AMP.LRC,I2S_LRC,26 AWG,200,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D10,PI.12,AMP.BCLK,I2S_BCLK,26 AWG,200,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D10,PI.40,AMP.DIN,I2S_DIN,26 AWG,200,"beep, under 1 ohm",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
-D10,J5.S,AMP.VIN,5V,26 AWG,200,"beep, under 1 ohm",
-D10,JG.S,AMP.GND,GND,26 AWG,200,"beep, under 1 ohm",
-D11,AMP.SPK+,SPK.+,SPK_P,26 AWG,100,"beep, under 1 ohm",AMP.SPK-
-D11,AMP.SPK-,SPK.-,SPK_N,26 AWG,100,"beep, under 1 ohm",AMP.SPK+
-D12,PI.CSI,CAM.CSI,CSI_LINK,FPC ribbon,150,"beep, under 1 ohm",
-SP1,SPV.S,SV20.BUS2.V,SERVO_7V2,22 AWG,150,"beep, under 1 ohm",
-SP1,SPG.S,JG20.S,GND,22 AWG,130,"beep, under 1 ohm",
-SP1,JG20.S,SV20.BUS2.G,GND,22 AWG,20,"beep, under 1 ohm",
-SP2,SPV.S,SV10.BUS2.V,SERVO_7V2,22 AWG,150,"beep, under 1 ohm",
-SP2,SPG.S,JG10.S,GND,22 AWG,130,"beep, under 1 ohm",
-SP2,JG10.S,SV10.BUS2.G,GND,22 AWG,20,"beep, under 1 ohm",
-SP3,SPV.S,SV30.BUS2.V,SERVO_7V2,22 AWG,180,"beep, under 1 ohm",
-SP3,SPG.S,JG30.S,GND,22 AWG,160,"beep, under 1 ohm",
-SP3,JG30.S,SV30.BUS2.G,GND,22 AWG,20,"beep, under 1 ohm",
-SD1,U2.H3.D,YD3.S,BUS_DATA,22 AWG,30,"beep, under 1 ohm",U2.H3.V U2.H3.G
-SD1,U2.H3.G,YG3.S,GND,22 AWG,30,"beep, under 1 ohm",U2.H3.D U2.H3.V
-SD1,YD3.S,SV20.BUS2.D,BUS_DATA,22 AWG,130,"beep, under 1 ohm",
-SD1,YG3.S,JG20.S,GND,22 AWG,120,"beep, under 1 ohm",
-SD1,YD3.S,SV30.BUS2.D,BUS_DATA,22 AWG,150,"beep, under 1 ohm",
-SD1,YG3.S,JG30.S,GND,22 AWG,140,"beep, under 1 ohm",
-SD2,U2.H5.D,SV10.BUS2.D,BUS_DATA,22 AWG,150,"beep, under 1 ohm",U2.H5.V U2.H5.G
-SD2,U2.H5.G,JG10.S,GND,22 AWG,140,"beep, under 1 ohm",U2.H5.D U2.H5.V
-S2,SV20.BUS1.D,SV21.BUS2.D,BUS_DATA,kit cable,150,"beep, under 1 ohm",SV20.BUS1.V SV20.BUS1.G
-S2,SV20.BUS1.V,SV21.BUS2.V,SERVO_7V2,kit cable,150,"beep, under 1 ohm",SV20.BUS1.D SV20.BUS1.G
-S2,SV20.BUS1.G,SV21.BUS2.G,GND,kit cable,150,"beep, under 1 ohm",SV20.BUS1.D SV20.BUS1.V
-S3,SV21.BUS1.D,SV22.BUS2.D,BUS_DATA,kit cable,150,"beep, under 1 ohm",SV21.BUS1.V SV21.BUS1.G
-S3,SV21.BUS1.V,SV22.BUS2.V,SERVO_7V2,kit cable,150,"beep, under 1 ohm",SV21.BUS1.D SV21.BUS1.G
-S3,SV21.BUS1.G,SV22.BUS2.G,GND,kit cable,150,"beep, under 1 ohm",SV21.BUS1.D SV21.BUS1.V
-S4,SV22.BUS1.D,SV23.BUS2.D,BUS_DATA,kit cable,150,"beep, under 1 ohm",SV22.BUS1.V SV22.BUS1.G
-S4,SV22.BUS1.V,SV23.BUS2.V,SERVO_7V2,kit cable,150,"beep, under 1 ohm",SV22.BUS1.D SV22.BUS1.G
-S4,SV22.BUS1.G,SV23.BUS2.G,GND,kit cable,150,"beep, under 1 ohm",SV22.BUS1.D SV22.BUS1.V
-S5,SV23.BUS1.D,SV24.BUS2.D,BUS_DATA,kit cable,150,"beep, under 1 ohm",SV23.BUS1.V SV23.BUS1.G
-S5,SV23.BUS1.V,SV24.BUS2.V,SERVO_7V2,kit cable,150,"beep, under 1 ohm",SV23.BUS1.D SV23.BUS1.G
-S5,SV23.BUS1.G,SV24.BUS2.G,GND,kit cable,150,"beep, under 1 ohm",SV23.BUS1.D SV23.BUS1.V
-S7,SV10.BUS1.D,SV11.BUS2.D,BUS_DATA,kit cable,150,"beep, under 1 ohm",SV10.BUS1.V SV10.BUS1.G
-S7,SV10.BUS1.V,SV11.BUS2.V,SERVO_7V2,kit cable,150,"beep, under 1 ohm",SV10.BUS1.D SV10.BUS1.G
-S7,SV10.BUS1.G,SV11.BUS2.G,GND,kit cable,150,"beep, under 1 ohm",SV10.BUS1.D SV10.BUS1.V
-S8,SV11.BUS1.D,SV12.BUS2.D,BUS_DATA,kit cable,150,"beep, under 1 ohm",SV11.BUS1.V SV11.BUS1.G
-S8,SV11.BUS1.V,SV12.BUS2.V,SERVO_7V2,kit cable,150,"beep, under 1 ohm",SV11.BUS1.D SV11.BUS1.G
-S8,SV11.BUS1.G,SV12.BUS2.G,GND,kit cable,150,"beep, under 1 ohm",SV11.BUS1.D SV11.BUS1.V
-S9,SV12.BUS1.D,SV13.BUS2.D,BUS_DATA,kit cable,150,"beep, under 1 ohm",SV12.BUS1.V SV12.BUS1.G
-S9,SV12.BUS1.V,SV13.BUS2.V,SERVO_7V2,kit cable,150,"beep, under 1 ohm",SV12.BUS1.D SV12.BUS1.G
-S9,SV12.BUS1.G,SV13.BUS2.G,GND,kit cable,150,"beep, under 1 ohm",SV12.BUS1.D SV12.BUS1.V
-S10,SV13.BUS1.D,SV14.BUS2.D,BUS_DATA,kit cable,150,"beep, under 1 ohm",SV13.BUS1.V SV13.BUS1.G
-S10,SV13.BUS1.V,SV14.BUS2.V,SERVO_7V2,kit cable,150,"beep, under 1 ohm",SV13.BUS1.D SV13.BUS1.G
-S10,SV13.BUS1.G,SV14.BUS2.G,GND,kit cable,150,"beep, under 1 ohm",SV13.BUS1.D SV13.BUS1.V
-S11,SV30.BUS1.D,SV31.BUS2.D,BUS_DATA,kit cable,150,"beep, under 1 ohm",SV30.BUS1.V SV30.BUS1.G
-S11,SV30.BUS1.V,SV31.BUS2.V,SERVO_7V2,kit cable,150,"beep, under 1 ohm",SV30.BUS1.D SV30.BUS1.G
-S11,SV30.BUS1.G,SV31.BUS2.G,GND,kit cable,150,"beep, under 1 ohm",SV30.BUS1.D SV30.BUS1.V
-S12,SV31.BUS1.D,SV32.BUS2.D,BUS_DATA,kit cable,150,"beep, under 1 ohm",SV31.BUS1.V SV31.BUS1.G
-S12,SV31.BUS1.V,SV32.BUS2.V,SERVO_7V2,kit cable,150,"beep, under 1 ohm",SV31.BUS1.D SV31.BUS1.G
-S12,SV31.BUS1.G,SV32.BUS2.G,GND,kit cable,150,"beep, under 1 ohm",SV31.BUS1.D SV31.BUS1.V
-S13,SV32.BUS1.D,SV33.BUS2.D,BUS_DATA,kit cable,150,"beep, under 1 ohm",SV32.BUS1.V SV32.BUS1.G
-S13,SV32.BUS1.V,SV33.BUS2.V,SERVO_7V2,kit cable,150,"beep, under 1 ohm",SV32.BUS1.D SV32.BUS1.G
-S13,SV32.BUS1.G,SV33.BUS2.G,GND,kit cable,150,"beep, under 1 ohm",SV32.BUS1.D SV32.BUS1.V
+P1,PACK.B+,BMS.B+,PACK_P,16 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.B-
+P2,PACK.B-,BMS.B-,CELL_N,16 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.B+
+P3,PACK.MID,BMS.B1,CELL_MID,26 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P4,BMS.P+,CHG.B+,PACK_P,20 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BMS.B- BMS.B1 BMS.B+ BMS.P- BMS.T
+P5,BMS.P-,CHG.B-,GND,20 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BMS.B- BMS.B1 BMS.B+ BMS.P+ BMS.T
+P6,BMS.P+,XT30.F+,PACK_P,16 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BMS.B- BMS.B1 BMS.B+ BMS.P- BMS.T
+P8,BMS.P-,XT30.F-,GND,16 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BMS.B- BMS.B1 BMS.B+ BMS.P+ BMS.T
+P7,XT30.M+,F1.IN,PACK_P,16 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",XT30.M-
+P7,F1.OUT,SW1.VIN,PACK_F,16 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F1.IN
+P14,XT30.M-,G.S,GND,16 AWG,140,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",XT30.M+
+P9,SW1.VOUT,VSW.S,VSW,16 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SW1.VIN SW1.GND
+P16,G.S,SW1.GND,GND,20 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P15,SW1.SW,CTL.1,CTRL_SW,26 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SW1.GND_SW SW1.ON
+P15,SW1.GND_SW,CTL.2,GND,26 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SW1.SW SW1.ON
+P10,VSW.S,U1.IN+,VSW,16 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P10,G.S,U1.IN-,GND,16 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P11,U1.OUT1+,JBP.S,SERVO_7V2,BEC lead,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U1.OUT1- U1.OUT1S
+P11,U1.OUT2+,JBP.S,SERVO_7V2,BEC lead,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U1.OUT2- U1.OUT2S
+P11,U1.OUT1-,JBN.S,GND,BEC lead,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U1.OUT1+ U1.OUT1S
+P11,U1.OUT2-,JBN.S,GND,BEC lead,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U1.OUT2+ U1.OUT2S
+P11,JBP.S,SPV.S,SERVO_7V2,16 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P11,JBN.S,SPG.S,GND,16 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P13,VSW.S,U3.VIN,VSW,20 AWG,550,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P13,G.S,U3.GND.1,GND,20 AWG,550,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P12,U3.VOUT,PI.2,5V,20 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U3.VIN U3.GND.1 U3.GND.2 U3.EN U3.PG
+P12,U3.GND.2,PI.6,GND,20 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U3.VIN U3.GND.1 U3.VOUT U3.EN U3.PG
+P17,PI.4,J5.S,5V,20 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.5 PI.6 PI.9
+P17,PI.14,JG.S,GND,20 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D1,PI.USB,U2.USB,USB_LINK,USB 2.0 cable,900,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+D2,PI.1,BNO.VIN,3V3,26 AWG,550,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.2 PI.3 PI.4 PI.5 PI.6 PI.9
+D2,PI.9,BNO.GND,GND,26 AWG,550,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D2,PI.3,BNO.SDA,I2C_SDA,26 AWG,550,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.4 PI.5 PI.6 PI.9
+D2,PI.5,BNO.SCL,I2C_SCL,26 AWG,550,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.6 PI.9
+D3,PI.17,RFL.1,3V3,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D3,RFL.2,PI.15,FOOT_L,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RFL.1
+D3,PI.15,FSL1.NO,FOOT_L,26 AWG,900,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D3,PI.9,FSL1.COM,GND,26 AWG,900,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D3,FSL1.NO,FSL2.NO,FOOT_L,26 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSL1.COM FSL1.NC
+D3,FSL1.COM,FSL2.COM,GND,26 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSL1.NO FSL1.NC
+D4,PI.17,RFR.1,3V3,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D4,RFR.2,PI.13,FOOT_R,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RFR.1
+D4,PI.13,FSR1.NO,FOOT_R,26 AWG,950,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D4,PI.9,FSR1.COM,GND,26 AWG,950,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D4,FSR1.NO,FSR2.NO,FOOT_R,26 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSR1.COM FSR1.NC
+D4,FSR1.COM,FSR2.COM,GND,26 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",FSR1.NO FSR1.NC
+D5,PI.18,RL.1,EYE_L,26 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D5,RL.2,LEDL.A,EYE_L_A,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RL.1
+D5,LEDL.K,PI.20,GND,26 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",LEDL.A
+D6,PI.16,RR.1,EYE_R,26 AWG,230,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D6,RR.2,LEDR.A,EYE_R_A,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RR.1
+D6,LEDR.K,PI.20,GND,26 AWG,230,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",LEDR.A
+D7,PI.22,RP.1,PROJ,26 AWG,160,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D7,RP.2,LEDP.A,PROJ_A,resistor lead,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RP.1
+D7,LEDP.K,PI.20,GND,26 AWG,160,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",LEDP.A
+D8,SGL.SIG,PI.33,ANT_L,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGL.VCC SGL.GND
+D8,SGL.VCC,J5.S,5V,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGL.SIG SGL.GND
+D8,SGL.GND,JG.S,GND,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGL.SIG SGL.VCC
+D9,SGR.SIG,PI.32,ANT_R,SG90 lead + 26 AWG,270,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.VCC SGR.GND
+D9,SGR.VCC,J5.S,5V,SG90 lead + 26 AWG,270,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.SIG SGR.GND
+D9,SGR.GND,JG.S,GND,SG90 lead + 26 AWG,270,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.SIG SGR.VCC
+D10,PI.35,AMP.LRC,I2S_LRC,26 AWG,200,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D10,PI.12,AMP.BCLK,I2S_BCLK,26 AWG,200,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D10,PI.40,AMP.DIN,I2S_DIN,26 AWG,200,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D10,J5.S,AMP.VIN,5V,26 AWG,200,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+D10,JG.S,AMP.GND,GND,26 AWG,200,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+D11,AMP.SPK+,SPK.+,SPK_P,26 AWG,100,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",AMP.SPK-
+D11,AMP.SPK-,SPK.-,SPK_N,26 AWG,100,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",AMP.SPK+
+D12,PI.CSI,CAM.CSI,CSI_LINK,FPC ribbon,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP1,SPV.S,SV20.BUS2.V,SERVO_7V2,22 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP1,SPG.S,JG20.S,GND,22 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP1,JG20.S,SV20.BUS2.G,GND,22 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP2,SPV.S,SV10.BUS2.V,SERVO_7V2,22 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP2,SPG.S,JG10.S,GND,22 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP2,JG10.S,SV10.BUS2.G,GND,22 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP3,SPV.S,SV30.BUS2.V,SERVO_7V2,22 AWG,180,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP3,SPG.S,JG30.S,GND,22 AWG,160,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP3,JG30.S,SV30.BUS2.G,GND,22 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SD1,U2.H3.D,YD3.S,BUS_DATA,22 AWG,30,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U2.H3.V U2.H3.G
+SD1,U2.H3.G,YG3.S,GND,22 AWG,30,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U2.H3.D U2.H3.V
+SD1,YD3.S,SV20.BUS2.D,BUS_DATA,22 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SD1,YG3.S,JG20.S,GND,22 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SD1,YD3.S,SV30.BUS2.D,BUS_DATA,22 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SD1,YG3.S,JG30.S,GND,22 AWG,140,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SD2,U2.H5.D,SV10.BUS2.D,BUS_DATA,22 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U2.H5.V U2.H5.G
+SD2,U2.H5.G,JG10.S,GND,22 AWG,140,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U2.H5.D U2.H5.V
+S2,SV20.BUS1.D,SV21.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV20.BUS1.V SV20.BUS1.G
+S2,SV20.BUS1.V,SV21.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV20.BUS1.D SV20.BUS1.G
+S2,SV20.BUS1.G,SV21.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV20.BUS1.D SV20.BUS1.V
+S3,SV21.BUS1.D,SV22.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV21.BUS1.V SV21.BUS1.G
+S3,SV21.BUS1.V,SV22.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV21.BUS1.D SV21.BUS1.G
+S3,SV21.BUS1.G,SV22.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV21.BUS1.D SV21.BUS1.V
+S4,SV22.BUS1.D,SV23.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV22.BUS1.V SV22.BUS1.G
+S4,SV22.BUS1.V,SV23.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV22.BUS1.D SV22.BUS1.G
+S4,SV22.BUS1.G,SV23.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV22.BUS1.D SV22.BUS1.V
+S5,SV23.BUS1.D,SV24.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV23.BUS1.V SV23.BUS1.G
+S5,SV23.BUS1.V,SV24.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV23.BUS1.D SV23.BUS1.G
+S5,SV23.BUS1.G,SV24.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV23.BUS1.D SV23.BUS1.V
+S7,SV10.BUS1.D,SV11.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV10.BUS1.V SV10.BUS1.G
+S7,SV10.BUS1.V,SV11.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV10.BUS1.D SV10.BUS1.G
+S7,SV10.BUS1.G,SV11.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV10.BUS1.D SV10.BUS1.V
+S8,SV11.BUS1.D,SV12.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV11.BUS1.V SV11.BUS1.G
+S8,SV11.BUS1.V,SV12.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV11.BUS1.D SV11.BUS1.G
+S8,SV11.BUS1.G,SV12.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV11.BUS1.D SV11.BUS1.V
+S9,SV12.BUS1.D,SV13.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV12.BUS1.V SV12.BUS1.G
+S9,SV12.BUS1.V,SV13.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV12.BUS1.D SV12.BUS1.G
+S9,SV12.BUS1.G,SV13.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV12.BUS1.D SV12.BUS1.V
+S10,SV13.BUS1.D,SV14.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV13.BUS1.V SV13.BUS1.G
+S10,SV13.BUS1.V,SV14.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV13.BUS1.D SV13.BUS1.G
+S10,SV13.BUS1.G,SV14.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV13.BUS1.D SV13.BUS1.V
+S11,SV30.BUS1.D,SV31.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV30.BUS1.V SV30.BUS1.G
+S11,SV30.BUS1.V,SV31.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV30.BUS1.D SV30.BUS1.G
+S11,SV30.BUS1.G,SV31.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV30.BUS1.D SV30.BUS1.V
+S12,SV31.BUS1.D,SV32.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV31.BUS1.V SV31.BUS1.G
+S12,SV31.BUS1.V,SV32.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV31.BUS1.D SV31.BUS1.G
+S12,SV31.BUS1.G,SV32.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV31.BUS1.D SV31.BUS1.V
+S13,SV32.BUS1.D,SV33.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV32.BUS1.V SV32.BUS1.G
+S13,SV32.BUS1.V,SV33.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV32.BUS1.D SV32.BUS1.G
+S13,SV32.BUS1.G,SV33.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV32.BUS1.D SV32.BUS1.V
