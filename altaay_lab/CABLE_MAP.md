@@ -1,6 +1,6 @@
 # CABLE_MAP
 
-Last updated: 2026-11-02 (America/New_York), wiring decisions D8 to D13, D15, D17 and D23 (D15 replaced D14). One row per cable. The conductor-level data (from pin, to pin, net, gauge, colour, cut length, expected current) is in wiring/netlist.yaml, which is the source of truth; this file and the drawings (wiring/sheets/WIRING_SHEETS.md) follow it. Nothing has been built.
+Last updated: 2026-11-02 2:33 AM (America/New_York) by agent CAB (splice tails, length rule by chain, Molex 08-70-1040 data, currents from the power sim), wiring decisions D8 to D13, D15, D17 and D23 (D15 replaced D14). One row per cable. The conductor-level data (from pin, to pin, net, gauge, colour, cut length, expected current) is in wiring/netlist.yaml, which is the source of truth; this file and the drawings (wiring/sheets/WIRING_SHEETS.md) follow it. Nothing has been built.
 
 Routes were measured on the upstream URDF/STL assembly (STL commit 730c14b): the route is a polyline through the centres of the parts the cable passes and the joint axes it crosses (audit/cables.py, audit/cables.json). Parts not in the CAD use the centres in audit/placements.json (BEC, fuse holder, Pololu 2815, BMS; MOUNTING.md, D11). The 3D routes, seats, ties and the worst length over the joint ranges of every cable are in cables3d/CABLES_3D.md; the cut lengths changed on 2026-11-02 come from there.
 
@@ -56,22 +56,22 @@ Removed: S1 (kit, H3 to ID 20) and S6 (kit, H5 to ID 10) are replaced by the mad
 Result: 1 kit hop fits by rule (S13), 10 need a test fit (test order 1, B17). Every lower bound is 42 mm or less, so none is ruled out. In 3D every kit hop reaches taut; S2 and S7 miss the 40 mm slack by 22 and 23 mm (cables3d). Contingency X1/X2 in BOM.md (made Mini-SPOX leads, 200 mm for legs and 270 mm for S12).
 
 ## B. Power
-| ID | From | To | Conductors | Gauge | Ends | Route | Polyline | Rule / cut | Current (mean, worst 100 ms) | Source | Notes |
+| ID | From | To | Conductors | Gauge | Ends | Route | Polyline | Rule / cut | Current (mean, worst 100 ms; sim pass only, netlist source fields) | Source | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| P1 | holder + lead | BMS B+ | 1 | 16 AWG red | holder lead, solder pad | battery bay | 30.1 | 115.3 / 120 | 4.2 A, 7.5 A (falls up to 17 A) | [L] placements | use the holder lead if 120 mm or longer |
+| P1 | holder + lead | BMS B+ | 1 | 16 AWG red | holder lead, solder pad | battery bay | 30.1 | 115.3 / 120 | 5.66 A, 7.04 A (falls up to 17 A) | [L] placements | use the holder lead if 120 mm or longer |
 | P2 | holder - lead | BMS B- | 1 | 16 AWG black | as P1 | battery bay | 30.1 | 115.3 / 120 | as P1 | [L] | |
 | P3 | holder series strap | BMS B1 | 1 | 26 AWG yellow [I] | solder | battery bay | 30.1 | 115.3 / 140 (3D) | sense only | [L] B27 | |
 | P4 | BMS P+ | charger B+ | 1 | 20 AWG red | solder pads | battery bay | 39.4 | 124.6 / 130 | 2 A while charging (seller) | [U] | |
 | P5 | BMS P- | charger B- | 1 | 20 AWG black | solder pads | battery bay | 39.4 | 124.6 / 130 | as P4 | [U] | |
-| P6 | BMS P+ | XT30U female + | 1 | 16 AWG red | solder pad, XT30 cup | battery bay | 23.5 (BMS to fuse) | 108.7 / 150 (3D) | 4.2 A, 7.5 A | [L] | XT30 seated left of the holder as Tnkr places it (cables3d) |
+| P6 | BMS P+ | XT30U female + | 1 | 16 AWG red | solder pad, XT30 cup | battery bay | 23.5 (BMS to fuse) | 108.7 / 150 (3D) | 5.66 A, 7.04 A | [L] | XT30 seated left of the holder as Tnkr places it (cables3d) |
 | P8 | BMS P- | XT30U female - | 1 | 16 AWG black | as P6 | battery bay | 23.5 | 108.7 / 150 (3D) | as P6 | [L] | |
 | P7 | XT30U male + | fuse holder lead 1; lead 2 to 2815 VIN | 4: the holder leads (90 mm each) and 16 AWG red extensions at splices JFI (30) and JFO (40) | 16 AWG | XT30 cup, splices, solder in the 2815 large hole | battery bay | 42.0 (fuse to 2815) | 127.2 / line 30 + 90, load 90 + 40 (3D) | as P6 | [L] D3 | the holder leads alone are short of both chains (cables3d); the JFI extension is 30 mm so both splice sleeves fit |
 | P14 | XT30U male - | splice G | 1 | 16 AWG black | XT30 cup, splice | battery bay | 52.1 (BMS to 2815) | 137.3 / 140 | as P6 | [L] | |
 | P9 | 2815 VOUT | splice VSW | 1 | 16 AWG red | large hole, splice | battery bay | 0 (splice at the 2815) | 85.2 / 90 | as P6 | [L] D8 | |
 | P16 | splice G | 2815 GND (large hole) | 1 | 20 AWG black | splice, large hole | battery bay | 0 | 85.2 / 90 | under 1 mA | [I] | control ground only |
 | P15 | 2815 SW pad and its GND pad | stock panel switch, 2 lugs | 2 | 26 AWG white, black [I] | 0.1 in holes, solder lugs | battery bay | 62.1 (2815 to power_switch.stl) | 147.3 / 150 | about 84 uA | [L] D8 | |
-| P10 | splices VSW, G | BEC input red, black | 2 | 16 AWG red, black | splice, BEC leads | battery bay to belly | 61.1 (2815 to BEC) | 146.3 / 150 | 3.75 A, 5.62 A (falls 14.6 A) | [L] D3 | BEC input leads ship (length not published): shorten P10 by their length |
-| P11 | BEC outputs, both 3-pin leads joined (JB+, JB-) | belly splices SPV, SPG | 2 | 16 AWG red, black (BEC leads as shipped) | splices | belly | not measured | 100 (3D) | 3.19 A, 4.78 A (falls 12.5 A; ngspice 8.3 to 9.1 A peaks) | [L] D15 | third wires insulated [I] |
+| P10 | splices VSW, G | BEC input red, black | 2 | 16 AWG red, black | splice, BEC leads | battery bay to belly | 61.1 (2815 to BEC) | 146.3 / 150 | 4.77 A, 6.23 A (falls 14.6 A) | [L] D3 | BEC input leads ship (length not published): shorten P10 by their length |
+| P11 | BEC outputs, both 3-pin leads joined (JB+, JB-) | belly splices SPV, SPG | 2 | 16 AWG red, black (BEC leads as shipped) | splices | belly | not measured | 100 (3D) | 4.25 A, 5.56 A, each BEC lead 2.13 A, 2.78 A (falls 12.5 A; ngspice 8.3 to 9.1 A peaks) | [L] D15 | third wires insulated [I] |
 | P13 | splices VSW, G | U3 D30V30F5 VIN, GND (head floor) | 2 | 20 AWG red, black | splice, U3 holes | battery bay, trunk_top, neck, head; crosses neck_pitch, head_pitch, head_yaw, head_roll (9.69 rad) | 349.7 (2815 to Pi) | 531.7 / 550 each | 0.48 A, 1.91 A (0.55 A, 2.21 A at 6.4 V pack) | [L] D8 | drop about 0.09 V at 2.5 A over 2 x 0.55 m [I] |
 | P12 | U3 VOUT, GND | Pi pin 2 (5 V), pin 6 (GND) | 2 | 20 AWG red, black | U3 holes, Pi header | head | 44.3 (U3 under the Pi) | 129.5 / 130 each | 0.6 A, 2.4 A | [L] D8 | U3 exact spot on the floor not fixed |
 | P17 | Pi pin 4 (5 V), pin 14 (GND) | head splices J5, JG | 2 | 20 AWG red, black | Pi header, splice | head | 0 | 85.2 / 90 each | peak 1.9 A [I] | [L] D8, [I] pin 14 | feeds both SG90 and the amp |
@@ -97,10 +97,10 @@ Pi Zero 2 W hangs from the upper inner wall of head.stl, components down (MOUNTI
 ## Wire totals (cut lengths from netlist.yaml, with 10% spare)
 | Gauge | Rows | Sum | With spare | Bought |
 |---|---|---|---|---|
-| 16 AWG | P1, P2, P6, P8, P9, P10, P11, P14, P7 extensions (P7 holder leads ship) | 1.33 m | 1.46 m | 50 ft (BOM L5) |
+| 16 AWG | P1, P2, P6, P8, P9, P10, P11, P14, P7 extensions (P7 holder leads ship) | 1.34 m | 1.47 m | 50 ft (BOM L5) |
 | 20 AWG | P4, P5, P12, P13, P16, P17 | 1.89 m | 2.08 m | 50 ft (BOM 23) |
-| 22 AWG | SP1 to SP5, SD1, SD2 | 3.48 m | 3.83 m | 150 ft (BOM 24) |
-| 26 AWG | P3, P15, D2 to D7, D10, D11 | 9.14 m | 10.05 m | 175 ft (BOM 25) |
+| 22 AWG | SP1 to SP5, SD1, SD2 | 3.54 m | 3.89 m | 150 ft (BOM 24) |
+| 26 AWG | P3, P15, D2 to D7, D10, D11 | 9.18 m | 10.10 m | 175 ft (BOM 25) |
 
 ## Ships with a component vs made vs bought
 - Ships: 11 of the 14 kit servo cables (3 spare), SG90 leads, BEC input and output leads, fuse holder leads (P7, lengthened at JFI and JFO), holder leads (P1, P2 if long enough). Their gauges are not published: as shipped.

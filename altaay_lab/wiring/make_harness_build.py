@@ -65,6 +65,33 @@ def end_step(e, pin, splices):
     return e or "?"
 
 
+def tie_text(t):
+    """one retention item as a build step"""
+    k = t.get("kind", "tie")
+    mf = t.get("mount_fit") or {}
+    if k == "existing printed feature":
+        what = "through the hole in %s" % t.get("part")
+    elif k == "adhesive tie mount" and mf.get("type") == "MB3A":
+        what = "stick-on mount MB3A (BOM 34) on %s, %.0f mm from the cable line" % (t.get("part"), mf.get("from_cable_mm", 0))
+    elif k == "adhesive tie mount" and mf.get("type"):
+        what = "stick-on mount %s 13 x 13 mm (not in the BOM) on %s" % (mf["type"], t.get("part"))
+    elif k == "cable tie to a neighbour cable":
+        what = "tied to cable %s, which %s holds" % (t.get("tied_to"), t.get("anchor_tie"))
+    else:
+        what = "around the bundle only"
+    return "%s %s%s" % (t.get("id", "?"), what, " (OPEN: nothing holds it yet, TEST_PLAN 1.4)" if t.get("open") else "")
+
+
+def loop_text(x):
+    """one service loop as a build step: the cable to leave between its two ties"""
+    ids = x.get("tie_ids") or [None, None]
+    ends = [ids[0] or "the plug", ids[1] or "the plug"]
+    return "%s: leave %s mm between %s and %s (%s mm more than the straight run at the zero pose)%s" % (
+        "+".join(x.get("joints") or []), ("%.0f" % x["loop_length_mm"]) if x.get("loop_length_mm") is not None else "?",
+        ends[0], ends[1], ("%.0f" % x["dress_extra_mm"]) if x.get("dress_extra_mm") is not None else "?",
+        "" if x.get("ok") else " (under 3 x OD over the full joint range: turn the joint by hand at the TEST_PLAN 1.4 fit)")
+
+
 def main():
     n = yaml.safe_load(open(NET, encoding="utf-8"))
     comps = {c["id"]: c for c in n["components"]}
@@ -142,18 +169,33 @@ def main():
                 seats = c3r.get("seats") or []
                 if seats:
                     L.append("Seats on the brackets, end to end: " + "; ".join(
-                        "%s %s%s" % (s.get("kind", "?"), s.get("part", ""), (" (" + str(s.get("note")) + ")") if s.get("note") else "") for s in seats))
+                        ("%s %s" % (s.get("kind", "?"), s.get("part")) if s.get("part") else "%s (free air)" % s.get("kind", "?"))
+                        + ((" (" + str(s.get("note")) + ")") if s.get("note") else "") for s in seats))
                 ts = ties_by_cable.get(cid, [])
                 if ts:
-                    L.append("Ties: " + "; ".join("%s on %s%s" % (t.get("kind", "tie"), t.get("part", "?"), " (GAP: no CAD feature)" if t.get("gap") else "") for t in ts))
+                    L.append("Ties (one 2.5 x 100 mm cable tie each, BOM 32): " + "; ".join(tie_text(t) for t in ts))
+                loops = [(r.get("name"), x) for r in c3r.get("runs", []) for x in r.get("service_loops", [])]
+                if loops:
+                    L.append("Joint loops: " + "; ".join(loop_text(x) for _, x in loops))
                 chk = c3r.get("check") or c3r.get("result")
                 if chk:
-                    L.append("Reach check: %s, worst routed %s mm, cut %s mm." % (chk, c3r.get("length_max_mm") or c3r.get("worst_mm"), c3r.get("cut_mm")))
+                    L.append("Reach check (cables3d, by conductor chain): %s, worst routed %s mm, cut %s mm." % (
+                        chk, c3r.get("length_max_mm") or c3r.get("worst_mm"), c3r.get("cut_mm")))
                 L.append("")
     sp_rows = ["| Splice | Where | Cables that meet there |", "|---|---|---|"]
     for sp, cabs in sorted(splices.items()):
         sp_rows.append("| %s | %s | %s |" % (sp, comps[sp].get("region", ""), ", ".join(sorted(set(cabs)))))
-    L += ["## Splices", "", "Every splice is soldered and covered with adhesive heat shrink. Make each one after all its cables are cut and labelled.", ""] + sp_rows + [""]
+    L += ["## Splices", "",
+          "Every splice is soldered and covered with adhesive heat shrink. Make each one after all its cables are cut and labelled.",
+          "",
+          "- Lap splice: strip and tin each end, lay the conductors side by side over 3 to 6 wire diameters (NASA-STD-8739.4A "
+          "19.4.1 c), solder, then slide on a 15 mm piece of the 3:1 adhesive heat shrink (cut from a 3.5 in BOM 26 kit piece, "
+          "the smallest size that passes over the wires) so it covers the joint and reaches at least 2 x the wire OD onto the "
+          "insulation at both ends (19.2.6), and shrink it (BOM T10).",
+          "- Keep each splice on a straight run, out of bends and away from joints (7.2.36). The JG20, JG10 and JG30 tails are 30 "
+          "mm so the sleeve sits past the bend at the servo plug. YD3 and YG3 are staggered: YG3 sits 15 mm past YD3 (7.2.35).",
+          "- A splice that no part holds floats: it sits where the wire lengths put it. Lengths are checked fixed end to fixed "
+          "end through it (CABLE_MAP.md length rule).", ""] + sp_rows + [""]
     L += ["Coverage: %d active cables, %d wires, all from the netlist." % (len(cables), n_wires), ""]
     open(OUT, "w", encoding="utf-8").write("\n".join(L))
     print("wrote", OUT, len(cables), "cables", n_wires, "wires", "(missing from groups: %s)" % missing if missing else "")

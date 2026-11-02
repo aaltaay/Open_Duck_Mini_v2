@@ -1,6 +1,6 @@
 # Harness build sheet
 
-Generated 2026-11-02 05:32 UTC by altaay_lab/wiring/make_harness_build.py from wiring/netlist.yaml and cables3d/cables3d.json. Do not edit by hand.
+Generated 2026-11-02 07:30 UTC by altaay_lab/wiring/make_harness_build.py from wiring/netlist.yaml and cables3d/cables3d.json. Do not edit by hand.
 
 How to use it:
 - Build in the order below, one cable at a time. Cut every wire to the length shown; lengths include the end allowance used in the netlist.
@@ -22,8 +22,8 @@ Regions: battery_bay. Crosses joints: none. use the holder lead if 120 mm or lon
 
 Test: PACK.B+ to BMS.B+: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PACK.B-
 
-Seats on the brackets, end to end: channel body_back; edge body_back; edge body_back; channel body_back; channel battery_pack_lid; edge body_back; none None; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge body_back; channel body_back; edge body_back
-Reach check: pass with notes, worst routed 56.3 mm, cut 120 mm.
+Seats on the brackets, end to end: channel body_back; edge body_back; edge body_back; channel body_back; channel battery_pack_lid; edge body_back; none (free air); edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge body_back; channel body_back; edge body_back
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 56.3 mm, cut 120 mm.
 
 ### P2: holder - to BMS B-
 
@@ -35,8 +35,8 @@ Regions: battery_bay. Crosses joints: none.
 
 Test: PACK.B- to BMS.B-: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PACK.B+
 
-Seats on the brackets, end to end: channel body_back; edge body_back; edge body_back; channel body_back; channel battery_pack_lid; edge body_back; none None; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge body_back; channel body_back; edge body_back
-Reach check: pass with notes, worst routed 56.3 mm, cut 120 mm.
+Seats on the brackets, end to end: channel body_back; edge body_back; edge body_back; channel body_back; channel battery_pack_lid; edge body_back; none (free air); edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge body_back; channel body_back; edge body_back
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 56.3 mm, cut 120 mm.
 
 ### P3: holder series strap to BMS B1
 
@@ -48,9 +48,9 @@ Regions: battery_bay. Crosses joints: none.
 
 Test: PACK.MID to BMS.B1: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: edge body_back; channel battery_pack_lid; none None; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; channel body_back
-Ties: adhesive tie mount on battery_pack_lid (GAP: no CAD feature); adhesive tie mount on battery_pack_lid (GAP: no CAD feature)
-Reach check: fail, worst routed 98.7 mm, cut 120 mm.
+Seats on the brackets, end to end: edge body_back; channel battery_pack_lid; none (free air); edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; channel body_back
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T001 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on battery_pack_lid; T002 stick-on mount MB3A (BOM 34) on battery_pack_lid, 16 mm from the cable line
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 98.7 mm, cut 140 mm.
 
 ### P4: BMS P+ to charger B+
 
@@ -63,7 +63,7 @@ Regions: battery_bay. Crosses joints: none.
 Test: BMS.P+ to CHG.B+: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to BMS.B- BMS.B1 BMS.B+ BMS.P- BMS.T
 
 Seats on the brackets, end to end: channel body_back; edge body_back
-Reach check: pass, worst routed 10.7 mm, cut 130 mm.
+Reach check (cables3d, by conductor chain): pass, worst routed 10.7 mm, cut 130 mm.
 
 ### P5: BMS P- to charger B-
 
@@ -76,7 +76,7 @@ Regions: battery_bay. Crosses joints: none.
 Test: BMS.P- to CHG.B-: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to BMS.B- BMS.B1 BMS.B+ BMS.P+ BMS.T
 
 Seats on the brackets, end to end: channel body_back; edge body_back
-Reach check: pass, worst routed 10.7 mm, cut 130 mm.
+Reach check (cables3d, by conductor chain): pass, worst routed 10.7 mm, cut 130 mm.
 
 ### P6: BMS P+ to XT30U female +
 
@@ -88,9 +88,9 @@ Regions: battery_bay. Crosses joints: none. BLOCKER-lite: XT30 spot from Tnkr on
 
 Test: BMS.P+ to XT30.F+: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to BMS.B- BMS.B1 BMS.B+ BMS.P- BMS.T
 
-Seats on the brackets, end to end: channel body_back; none None; edge body_back; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge body_back; channel body_back
-Ties: adhesive tie mount on battery_pack_lid (GAP: no CAD feature); adhesive tie mount on battery_pack_lid (GAP: no CAD feature)
-Reach check: fail, worst routed 100.2 mm, cut 110 mm.
+Seats on the brackets, end to end: channel body_back; none (free air); edge body_back; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge body_back; channel body_back
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T003 stick-on mount MB3A (BOM 34) on battery_pack_lid, 15 mm from the cable line; T004 stick-on mount MB3A (BOM 34) on battery_pack_lid, 3 mm from the cable line
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 100.2 mm, cut 150 mm.
 
 ### P8: BMS P- to XT30U female -
 
@@ -102,9 +102,9 @@ Regions: battery_bay. Crosses joints: none.
 
 Test: BMS.P- to XT30.F-: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to BMS.B- BMS.B1 BMS.B+ BMS.P+ BMS.T
 
-Seats on the brackets, end to end: channel body_back; none None; edge body_back; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge body_back; channel body_back
-Ties: adhesive tie mount on battery_pack_lid (GAP: no CAD feature); adhesive tie mount on battery_pack_lid (GAP: no CAD feature)
-Reach check: fail, worst routed 100.2 mm, cut 110 mm.
+Seats on the brackets, end to end: channel body_back; none (free air); edge body_back; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge battery_pack_lid; edge body_back; channel body_back
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T003 stick-on mount MB3A (BOM 34) on battery_pack_lid, 15 mm from the cable line; T004 stick-on mount MB3A (BOM 34) on battery_pack_lid, 3 mm from the cable line
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 100.2 mm, cut 150 mm.
 
 ### P7: XT30U male + to fuse holder to Pololu 2815 VIN (the holder leads)
 
@@ -112,16 +112,16 @@ Regions: battery_bay. Crosses joints: none. holder leads ship at 90 mm, short of
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | XT30.M+ (J1 robot side +) | JFI.S (JFI splice) | 16 AWG | red | 20 | solder into the XT30U cup, heat shrink over the cup | join at splice JFI with P7, solder, cover with adhesive heat shrink (BOM 26) |
+| 1 | XT30.M+ (J1 robot side +) | JFI.S (JFI splice) | 16 AWG | red | 30 | solder into the XT30U cup, heat shrink over the cup | join at splice JFI with P7, solder, cover with adhesive heat shrink (BOM 26) |
 | 2 | JFI.S (JFI splice) | F1.IN (F1 line side (from XT30)) | 16 AWG | holder lead | 90 | join at splice JFI with P7, solder, cover with adhesive heat shrink (BOM 26) | use the part's own lead (holder lead), solder joint covered with heat shrink |
 | 3 | F1.OUT (F1 load side (to 2815 VIN)) | JFO.S (JFO splice) | 16 AWG | holder lead | 90 | use the part's own lead (holder lead), solder joint covered with heat shrink | join at splice JFO with P7, solder, cover with adhesive heat shrink (BOM 26) |
 | 4 | JFO.S (JFO splice) | SW1.VIN (SW1 fused pack in) | 16 AWG | red | 40 | join at splice JFO with P7, solder, cover with adhesive heat shrink (BOM 26) | solder into the board hole VIN |
 
 Test: XT30.M+ to JFI.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to XT30.M-; JFI.S to F1.IN: under 1 ohm, read in ohms (TEST_PLAN.md section 2); F1.OUT to JFO.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to F1.IN; JFO.S to SW1.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: channel body_back; none None; edge body_back; edge trunk_top; none None; edge body_middle_bottom; edge body_middle_bottom; edge body_middle_bottom
-Ties: adhesive tie mount on body_middle_bottom (GAP: no CAD feature); adhesive tie mount on trunk_top (GAP: no CAD feature)
-Reach check: fail, worst routed 84.3 mm, cut 90 mm.
+Seats on the brackets, end to end: channel body_back; none (free air); edge body_back; edge trunk_top; none (free air); edge body_middle_bottom; edge body_middle_bottom; edge body_middle_bottom
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T005 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on battery_pack_lid; T006 stick-on mount MB3A (BOM 34) on battery_pack_lid, 11 mm from the cable line
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 84.3 mm, cut 130 mm.
 
 ### P14: XT30U male - to splice G
 
@@ -133,8 +133,8 @@ Regions: battery_bay. Crosses joints: none.
 
 Test: XT30.M- to G.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to XT30.M+
 
-Seats on the brackets, end to end: channel body_back; none None; edge body_back
-Reach check: pass with notes, worst routed 44.7 mm, cut 140 mm.
+Seats on the brackets, end to end: channel body_back; none (free air); edge body_back
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 44.7 mm, cut 140 mm.
 
 ### P9: 2815 VOUT to splice VSW
 
@@ -146,7 +146,7 @@ Regions: battery_bay. Crosses joints: none.
 
 Test: SW1.VOUT to VSW.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SW1.VIN SW1.GND
 
-Reach check: pass, worst routed 10.1 mm, cut 90 mm.
+Reach check (cables3d, by conductor chain): pass, worst routed 10.1 mm, cut 90 mm.
 
 ### P16: splice G to 2815 GND (control ground)
 
@@ -158,7 +158,7 @@ Regions: battery_bay. Crosses joints: none.
 
 Test: G.S to SW1.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Reach check: pass, worst routed 10.6 mm, cut 90 mm.
+Reach check (cables3d, by conductor chain): pass, worst routed 10.6 mm, cut 90 mm.
 
 ### P15: 2815 SW pad pair to the panel switch
 
@@ -171,8 +171,8 @@ Regions: battery_bay. Crosses joints: none.
 
 Test: SW1.SW to CTL.1: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SW1.GND_SW SW1.ON; SW1.GND_SW to CTL.2: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SW1.SW SW1.ON
 
-Seats on the brackets, end to end: none None; edge trunk_top; edge trunk_top; edge trunk_top
-Reach check: pass with notes, worst routed 58.1 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge trunk_top; edge trunk_top; edge trunk_top
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 58.1 mm, cut 150 mm.
 
 ### P10: splices VSW and G to the BEC input leads
 
@@ -185,8 +185,8 @@ Regions: battery_bay, belly. Crosses joints: none. the BEC input leads ship (len
 
 Test: VSW.S to U1.IN+: under 1 ohm, read in ohms (TEST_PLAN.md section 2); G.S to U1.IN-: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: none None
-Reach check: pass, worst routed 58.0 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air)
+Reach check (cables3d, by conductor chain): pass, worst routed 58.0 mm, cut 150 mm.
 
 ## 2. Belly servo power (D15, D23)
 
@@ -205,8 +205,8 @@ Regions: belly. Crosses joints: none. BEC output leads ship (gauge and length no
 
 Test: U1.OUT1+ to JBP.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U1.OUT1- U1.OUT1S; U1.OUT2+ to JBP.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U1.OUT2- U1.OUT2S; U1.OUT1- to JBN.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U1.OUT1+ U1.OUT1S; U1.OUT2- to JBN.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U1.OUT2+ U1.OUT2S; JBP.S to SPV.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2); JBN.S to SPG.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: none None
-Reach check: fail, worst routed 55.0 mm, cut 60 mm.
+Seats on the brackets, end to end: none (free air)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 55.0 mm, cut 100 mm.
 
 ### SP1: power pair SPV and SPG to ID 20 BUS 2 (V and G)
 
@@ -216,13 +216,13 @@ Regions: belly, trunk_bottom. Crosses joints: none. 22 AWG because the 08-70-104
 |---|---|---|---|---|---|---|---|
 | 1 | SPV.S (SPV splice) | SV20.BUS2.V (ID20 supply, pin 2) | 22 AWG | red | 150 | join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
 | 2 | SPG.S (SPG splice) | JG20.S (JG20 splice) | 22 AWG | black | 130 | join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | join at splice JG20 with SD1, SP1, solder, cover with adhesive heat shrink (BOM 26) |
-| 3 | JG20.S (JG20 splice) | SV20.BUS2.G (ID20 ground, pin 1) | 22 AWG | black | 20 | join at splice JG20 with SD1, SP1, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
+| 3 | JG20.S (JG20 splice) | SV20.BUS2.G (ID20 ground, pin 1) | 22 AWG | black | 30 | join at splice JG20 with SD1, SP1, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
 
 Test: SPV.S to SV20.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2); SPG.S to JG20.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2); JG20.S to SV20.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: edge trunk_top; channel trunk_top; none None; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; channel trunk_top; edge trunk_top
-Ties: adhesive tie mount on trunk_top (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 94.5 mm, cut 150 mm.
+Seats on the brackets, end to end: edge trunk_top; channel trunk_top; none (free air); edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T007 stick-on mount MB3A (BOM 34) on trunk_top, 13 mm from the cable line
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 95.6 mm, cut 150 mm.
 
 ### SP2: power pair SPV and SPG to ID 10 BUS 2 (V and G)
 
@@ -232,13 +232,13 @@ Regions: belly, trunk_bottom. Crosses joints: none. GND joins SD2 at JG10
 |---|---|---|---|---|---|---|---|
 | 1 | SPV.S (SPV splice) | SV10.BUS2.V (ID10 supply, pin 2) | 22 AWG | red | 150 | join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
 | 2 | SPG.S (SPG splice) | JG10.S (JG10 splice) | 22 AWG | black | 130 | join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | join at splice JG10 with SD2, SP2, solder, cover with adhesive heat shrink (BOM 26) |
-| 3 | JG10.S (JG10 splice) | SV10.BUS2.G (ID10 ground, pin 1) | 22 AWG | black | 20 | join at splice JG10 with SD2, SP2, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
+| 3 | JG10.S (JG10 splice) | SV10.BUS2.G (ID10 ground, pin 1) | 22 AWG | black | 30 | join at splice JG10 with SD2, SP2, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
 
 Test: SPV.S to SV10.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2); SPG.S to JG10.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2); JG10.S to SV10.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: edge trunk_top; channel trunk_top; edge trunk_top; none None; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; channel trunk_top
-Ties: adhesive tie mount on trunk_top (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 93.2 mm, cut 150 mm.
+Seats on the brackets, end to end: edge trunk_top; channel trunk_top; edge trunk_top; none (free air); edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; channel trunk_top
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T008 stick-on mount MB3A (BOM 34) on trunk_top, 14 mm from the cable line
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 93.2 mm, cut 150 mm.
 
 ### SP3: power pair SPV and SPG to ID 30 BUS 2 (V and G)
 
@@ -248,13 +248,13 @@ Regions: belly, trunk_top. Crosses joints: none. GND joins SD1 at JG30
 |---|---|---|---|---|---|---|---|
 | 1 | SPV.S (SPV splice) | SV30.BUS2.V (ID30 supply, pin 2) | 22 AWG | red | 180 | join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
 | 2 | SPG.S (SPG splice) | JG30.S (JG30 splice) | 22 AWG | black | 160 | join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | join at splice JG30 with SD1, SP3, solder, cover with adhesive heat shrink (BOM 26) |
-| 3 | JG30.S (JG30 splice) | SV30.BUS2.G (ID30 ground, pin 1) | 22 AWG | black | 20 | join at splice JG30 with SD1, SP3, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
+| 3 | JG30.S (JG30 splice) | SV30.BUS2.G (ID30 ground, pin 1) | 22 AWG | black | 30 | join at splice JG30 with SD1, SP3, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
 
 Test: SPV.S to SV30.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2); SPG.S to JG30.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2); JG30.S to SV30.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: none None; edge trunk_bottom; edge roll_motor_top; edge trunk_top; edge roll_motor_top; edge trunk_top; edge roll_motor_top; edge trunk_top; edge trunk_top; edge trunk_top
-Ties: adhesive tie mount on trunk_bottom (GAP: no CAD feature); adhesive tie mount on trunk_top (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 115.4 mm, cut 180 mm.
+Seats on the brackets, end to end: none (free air); edge trunk_bottom; edge roll_motor_top; edge trunk_top; edge roll_motor_top; edge trunk_top; edge roll_motor_top; edge trunk_top; edge trunk_top; edge trunk_top
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T009 stick-on mount MB3A (BOM 34) on trunk_bottom, 10 mm from the cable line; T010 stick-on mount MB3A (BOM 34) on trunk_bottom, 12 mm from the cable line
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 115.3 mm, cut 180 mm.
 
 ### SP4: power pair SPV and SPG to ID 24 BUS 1 (V and G), left leg
 
@@ -267,9 +267,10 @@ Regions: belly, trunk_bottom, left_leg. Crosses joints: left_hip_pitch, left_hip
 
 Test: SPV.S to SV24.BUS1.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2); SPG.S to SV24.BUS1.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: none None; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; channel left_roll_to_pitch; none None; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; channel knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; none None; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side
-Ties: adhesive tie mount on roll_motor_bottom (GAP: no CAD feature); adhesive tie mount on left_roll_to_pitch (GAP: no CAD feature); adhesive tie mount on left_roll_to_pitch (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); existing printed feature on knee_to_ankle_right_sheet; adhesive tie mount on roll_motor_top (GAP: no CAD feature); cable tie on None (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 347.5 mm, cut 545 mm.
+Seats on the brackets, end to end: none (free air); edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; channel left_roll_to_pitch; none (free air); edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; channel knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; none (free air); edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T031 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on roll_motor_bottom; T032 stick-on mount MB3A (BOM 34) on left_roll_to_pitch, 15 mm from the cable line; T033 stick-on mount MB3A (BOM 34) on left_roll_to_pitch, 8 mm from the cable line; T034 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on knee_to_ankle_right_sheet; T035 through the hole in knee_to_ankle_right_sheet; T036 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T071 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on roll_motor_top; T075 through the hole in knee_to_ankle_right_sheet; T089 stick-on mount MB3A (BOM 34) on trunk_top, 16 mm from the cable line
+Joint loops: left_hip_yaw: leave 35 mm between T089 and T071 (14 mm more than the straight run at the zero pose); left_hip_roll: leave 38 mm between T031 and T032 (9 mm more than the straight run at the zero pose); left_hip_pitch: leave 47 mm between T033 and T034 (17 mm more than the straight run at the zero pose); left_knee: leave 42 mm between T035 and T036 (20 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 347.5 mm, cut 390 mm.
 
 ### SP5: power pair SPV and SPG to ID 14 BUS 1 (V and G), right leg
 
@@ -282,9 +283,10 @@ Regions: belly, trunk_bottom, right_leg. Crosses joints: right_hip_pitch, right_
 
 Test: SPV.S to SV14.BUS1.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2); SPG.S to SV14.BUS1.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: none None; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge knee_to_ankle_left_sheet; channel right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; none None; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side; edge foot_side
-Ties: adhesive tie mount on right_roll_to_pitch (GAP: no CAD feature); adhesive tie mount on right_roll_to_pitch (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_left_sheet (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_left_sheet (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); existing printed feature on knee_to_ankle_right_sheet; adhesive tie mount on roll_motor_top (GAP: no CAD feature); cable tie on None (GAP: no CAD feature); adhesive tie mount on roll_motor_top (GAP: no CAD feature); adhesive tie mount on right_roll_to_pitch (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 376.8 mm, cut 545 mm.
+Seats on the brackets, end to end: none (free air); edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge knee_to_ankle_left_sheet; channel right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; none (free air); edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side; edge foot_side
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T046 stick-on mount MB3A (BOM 34) on right_roll_to_pitch, 17 mm from the cable line; T047 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T048 stick-on mount MB3A (BOM 34) on knee_to_ankle_left_sheet, 19 mm from the cable line; T049 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T050 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T078 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on roll_motor_top; T083 through the hole in knee_to_ankle_right_sheet; T090 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on trunk_top; T091 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T092 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4)
+Joint loops: right_hip_yaw: leave 38 mm between T090 and T091 (16 mm more than the straight run at the zero pose); right_hip_roll: leave 34 mm between T078 and T092 (8 mm more than the straight run at the zero pose); right_hip_pitch: leave 47 mm between T046 and T047 (15 mm more than the straight run at the zero pose); right_knee: leave 43 mm between T049 and T050 (19 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 376.8 mm, cut 420 mm.
 
 ## 3. Servo data leads and kit cables
 
@@ -295,17 +297,17 @@ Regions: trunk_top, trunk_bottom. Crosses joints: none. branch a rule 149.0 (ada
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
 | 1 | U2.H3.D (U2 bus data (H3 pin 1)) | YD3.S (YD3 splice) | 22 AWG | yellow | 30 | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks (V position left empty). Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test | join at splice YD3 with SD1, solder, cover with adhesive heat shrink (BOM 26) |
-| 2 | U2.H3.G (U2 ground (H3 pin 3)) | YG3.S (YG3 splice) | 22 AWG | black | 30 | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks (V position left empty). Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test | join at splice YG3 with SD1, solder, cover with adhesive heat shrink (BOM 26) |
+| 2 | U2.H3.G (U2 ground (H3 pin 3)) | YG3.S (YG3 splice) | 22 AWG | black | 45 | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks (V position left empty). Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test | join at splice YG3 with SD1, solder, cover with adhesive heat shrink (BOM 26) |
 | 3 | YD3.S (YD3 splice) | SV20.BUS2.D (ID20 data, pin 3) | 22 AWG | yellow | 130 | join at splice YD3 with SD1, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
 | 4 | YG3.S (YG3 splice) | JG20.S (JG20 splice) | 22 AWG | black | 120 | join at splice YG3 with SD1, solder, cover with adhesive heat shrink (BOM 26) | join at splice JG20 with SD1, SP1, solder, cover with adhesive heat shrink (BOM 26) |
-| 5 | YD3.S (YD3 splice) | SV30.BUS2.D (ID30 data, pin 3) | 22 AWG | yellow | 160 | join at splice YD3 with SD1, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
+| 5 | YD3.S (YD3 splice) | SV30.BUS2.D (ID30 data, pin 3) | 22 AWG | yellow | 170 | join at splice YD3 with SD1, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
 | 6 | YG3.S (YG3 splice) | JG30.S (JG30 splice) | 22 AWG | black | 140 | join at splice YG3 with SD1, solder, cover with adhesive heat shrink (BOM 26) | join at splice JG30 with SD1, SP3, solder, cover with adhesive heat shrink (BOM 26) |
 
 Test: U2.H3.D to YD3.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U2.H3.V U2.H3.G; U2.H3.G to YG3.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U2.H3.D U2.H3.V; YD3.S to SV20.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2); YG3.S to JG20.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2); YD3.S to SV30.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2); YG3.S to JG30.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: edge trunk_top; edge trunk_top; edge trunk_top; none None; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge neck_right_sheet; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; channel trunk_top; edge trunk_top; edge trunk_top; edge trunk_top
-Ties: adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on trunk_top (GAP: no CAD feature)
-Reach check: fail, worst routed 118.7 mm, cut 150 mm.
+Seats on the brackets, end to end: edge trunk_top; edge trunk_top; none (free air); edge trunk_top; edge trunk_top; edge trunk_top; edge neck_right_sheet; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T012 stick-on mount MB3A (BOM 34) on trunk_top, 3 mm from the cable line; T067 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on trunk_top
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 124.7 mm, cut 170 mm.
 
 ### SD2: adapter H5 data lead: DATA and GND only, to ID 10 (DATA) and JG10 (GND)
 
@@ -318,9 +320,9 @@ Regions: trunk_top, trunk_bottom. Crosses joints: none.
 
 Test: U2.H5.D to SV10.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U2.H5.V U2.H5.G; U2.H5.G to JG10.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U2.H5.D U2.H5.V
 
-Seats on the brackets, end to end: none None; edge trunk_top; edge trunk_top; edge trunk_top; channel trunk_top
-Ties: cable tie on None (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 89.8 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge trunk_top; edge trunk_top; edge trunk_top; channel trunk_top
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T068 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on trunk_top
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 90.8 mm, cut 150 mm.
 
 ### S2: kit cable ID 20 BUS 1 to ID 21 BUS 2
 
@@ -334,9 +336,10 @@ Regions: trunk_bottom, left_leg. Crosses joints: left_hip_yaw. BLOCKER test fit 
 
 Test: SV20.BUS1.D to SV21.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV20.BUS1.V SV20.BUS1.G; SV20.BUS1.V to SV21.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV20.BUS1.D SV20.BUS1.G; SV20.BUS1.G to SV21.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV20.BUS1.D SV20.BUS1.V
 
-Seats on the brackets, end to end: channel trunk_top; none None; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; channel trunk_top; none None; edge trunk_top; edge left_roll_to_pitch
-Ties: adhesive tie mount on trunk_top (GAP: no CAD feature); cable tie on None (GAP: no CAD feature); adhesive tie mount on roll_motor_top (GAP: no CAD feature)
-Reach check: fail, worst routed 131.8 mm, cut 150 mm.
+Seats on the brackets, end to end: channel trunk_top; none (free air); edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; channel trunk_top; none (free air); edge trunk_top; edge left_roll_to_pitch
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T069 stick-on mount MB3A (BOM 34) on trunk_top, 15 mm from the cable line; T070 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on trunk_top; T071 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on roll_motor_top
+Joint loops: left_hip_yaw: leave 29 mm between T070 and T071 (13 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): fail, worst routed 131.8 mm, cut 150 mm.
 
 ### S3: kit cable ID 21 to ID 22
 
@@ -350,9 +353,10 @@ Regions: left_leg. Crosses joints: left_hip_roll. BLOCKER test fit
 
 Test: SV21.BUS1.D to SV22.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV21.BUS1.V SV21.BUS1.G; SV21.BUS1.V to SV22.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV21.BUS1.D SV21.BUS1.G; SV21.BUS1.G to SV22.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV21.BUS1.D SV21.BUS1.V
 
-Seats on the brackets, end to end: none None; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; channel left_roll_to_pitch; edge left_roll_to_pitch; none None; edge left_roll_to_pitch; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet
-Ties: adhesive tie mount on left_roll_to_pitch (GAP: no CAD feature); adhesive tie mount on left_roll_to_pitch (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 88.0 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; channel left_roll_to_pitch; edge left_roll_to_pitch; none (free air); edge left_roll_to_pitch; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T072 stick-on mount MB3A (BOM 34) on left_roll_to_pitch, 17 mm from the cable line
+Joint loops: left_hip_roll: leave 38 mm between the plug and T072 (4 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 88.0 mm, cut 150 mm.
 
 ### S4: kit cable ID 22 to ID 23
 
@@ -366,9 +370,10 @@ Regions: left_leg. Crosses joints: left_hip_pitch. BLOCKER test fit
 
 Test: SV22.BUS1.D to SV23.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV22.BUS1.V SV22.BUS1.G; SV22.BUS1.V to SV23.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV22.BUS1.D SV22.BUS1.G; SV22.BUS1.G to SV23.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV22.BUS1.D SV22.BUS1.V
 
-Seats on the brackets, end to end: none None; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet
-Ties: adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); adhesive tie mount on left_roll_to_pitch (GAP: no CAD feature); existing printed feature on knee_to_ankle_right_sheet
-Reach check: pass with notes, worst routed 95.8 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T033 stick-on mount MB3A (BOM 34) on left_roll_to_pitch, 8 mm from the cable line; T035 through the hole in knee_to_ankle_right_sheet; T073 stick-on mount MB3A (BOM 34) on knee_to_ankle_right_sheet, 16 mm from the cable line
+Joint loops: left_hip_pitch: leave 35 mm between T033 and T073 (16 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 95.8 mm, cut 150 mm.
 
 ### S5: kit cable ID 23 BUS 1 to ID 24 BUS 2
 
@@ -382,9 +387,10 @@ Regions: left_leg. Crosses joints: left_knee. BLOCKER test fit
 
 Test: SV23.BUS1.D to SV24.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV23.BUS1.V SV23.BUS1.G; SV23.BUS1.V to SV24.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV23.BUS1.D SV23.BUS1.G; SV23.BUS1.G to SV24.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV23.BUS1.D SV23.BUS1.V
 
-Seats on the brackets, end to end: none None; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side; edge knee_to_ankle_right_sheet; edge foot_side
-Ties: existing printed feature on knee_to_ankle_right_sheet; adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 109.8 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side; edge knee_to_ankle_right_sheet; edge foot_side
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T074 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T075 through the hole in knee_to_ankle_right_sheet
+Joint loops: left_knee: leave 35 mm between the plug and T074 (20 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 109.8 mm, cut 150 mm.
 
 ### S7: kit cable ID 10 to ID 11
 
@@ -398,9 +404,10 @@ Regions: trunk_bottom, right_leg. Crosses joints: right_hip_yaw. BLOCKER test fi
 
 Test: SV10.BUS1.D to SV11.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV10.BUS1.V SV10.BUS1.G; SV10.BUS1.V to SV11.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV10.BUS1.D SV10.BUS1.G; SV10.BUS1.G to SV11.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV10.BUS1.D SV10.BUS1.V
 
-Seats on the brackets, end to end: channel trunk_top; none None; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge right_roll_to_pitch
-Ties: adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on body_middle_bottom (GAP: no CAD feature); adhesive tie mount on roll_motor_top (GAP: no CAD feature)
-Reach check: fail, worst routed 133.4 mm, cut 150 mm.
+Seats on the brackets, end to end: channel trunk_top; none (free air); edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge right_roll_to_pitch
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T076 stick-on mount MB3A (BOM 34) on trunk_top, 15 mm from the cable line; T077 stick-on mount MB3A (BOM 34) on trunk_top, 14 mm from the cable line; T078 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on roll_motor_top
+Joint loops: right_hip_yaw: leave 29 mm between T077 and T078 (14 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): fail, worst routed 133.4 mm, cut 150 mm.
 
 ### S8: kit cable ID 11 to ID 12
 
@@ -414,9 +421,10 @@ Regions: right_leg. Crosses joints: right_hip_roll. BLOCKER test fit
 
 Test: SV11.BUS1.D to SV12.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV11.BUS1.V SV11.BUS1.G; SV11.BUS1.V to SV12.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV11.BUS1.D SV11.BUS1.G; SV11.BUS1.G to SV12.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV11.BUS1.D SV11.BUS1.V
 
-Seats on the brackets, end to end: none None; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; channel right_roll_to_pitch; none None; edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge right_roll_to_pitch
-Ties: adhesive tie mount on roll_motor_bottom (GAP: no CAD feature); adhesive tie mount on right_roll_to_pitch (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 103.9 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; channel right_roll_to_pitch; none (free air); edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge right_roll_to_pitch
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T079 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on roll_motor_bottom; T080 stick-on mount MB3A (BOM 34) on right_roll_to_pitch, 14 mm from the cable line
+Joint loops: right_hip_roll: leave 31 mm between T079 and T080 (9 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 103.9 mm, cut 150 mm.
 
 ### S9: kit cable ID 12 to ID 13
 
@@ -430,9 +438,10 @@ Regions: right_leg. Crosses joints: right_hip_pitch. BLOCKER test fit
 
 Test: SV12.BUS1.D to SV13.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV12.BUS1.V SV12.BUS1.G; SV12.BUS1.V to SV13.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV12.BUS1.D SV12.BUS1.G; SV12.BUS1.G to SV13.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV12.BUS1.D SV12.BUS1.V
 
-Seats on the brackets, end to end: none None; edge knee_to_ankle_left_sheet; edge knee_to_ankle_left_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet
-Ties: adhesive tie mount on knee_to_ankle_left_sheet (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 102.6 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge knee_to_ankle_left_sheet; edge knee_to_ankle_left_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T048 stick-on mount MB3A (BOM 34) on knee_to_ankle_left_sheet, 19 mm from the cable line; T081 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on right_cache
+Joint loops: right_hip_pitch: leave 35 mm between the plug and T048 (16 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 102.6 mm, cut 150 mm.
 
 ### S10: kit cable ID 13 to ID 14
 
@@ -446,9 +455,10 @@ Regions: right_leg. Crosses joints: right_knee. BLOCKER test fit
 
 Test: SV13.BUS1.D to SV14.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV13.BUS1.V SV13.BUS1.G; SV13.BUS1.V to SV14.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV13.BUS1.D SV13.BUS1.G; SV13.BUS1.G to SV14.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV13.BUS1.D SV13.BUS1.V
 
-Seats on the brackets, end to end: none None; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side; edge knee_to_ankle_right_sheet; edge foot_side
-Ties: adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); existing printed feature on knee_to_ankle_right_sheet
-Reach check: pass with notes, worst routed 108.9 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side; edge knee_to_ankle_right_sheet; edge foot_side
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T082 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T083 through the hole in knee_to_ankle_right_sheet
+Joint loops: right_knee: leave 34 mm between the plug and T082 (18 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 108.9 mm, cut 150 mm.
 
 ### S11: kit cable ID 30 BUS 1 to ID 31 BUS 2
 
@@ -462,9 +472,10 @@ Regions: trunk_top, neck. Crosses joints: neck_pitch. BLOCKER test fit
 
 Test: SV30.BUS1.D to SV31.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV30.BUS1.V SV30.BUS1.G; SV30.BUS1.V to SV31.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV30.BUS1.D SV30.BUS1.G; SV30.BUS1.G to SV31.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV30.BUS1.D SV30.BUS1.V
 
-Seats on the brackets, end to end: none None; edge trunk_top; edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; edge head_pitch_to_yaw
-Ties: adhesive tie mount on neck_right_sheet (GAP: no CAD feature); existing printed feature on neck_right_sheet
-Reach check: pass with notes, worst routed 98.4 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge trunk_top; edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; edge head_pitch_to_yaw
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T040 through the hole in neck_right_sheet; T084 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4)
+Joint loops: neck_pitch: leave 34 mm between the plug and T084 (15 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 98.4 mm, cut 150 mm.
 
 ### S12: kit cable ID 31 to ID 32
 
@@ -478,9 +489,10 @@ Regions: neck. Crosses joints: head_pitch, head_yaw. BLOCKER test fit (113 mm ov
 
 Test: SV31.BUS1.D to SV32.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV31.BUS1.V SV31.BUS1.G; SV31.BUS1.V to SV32.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV31.BUS1.D SV31.BUS1.G; SV31.BUS1.G to SV32.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV31.BUS1.D SV31.BUS1.V
 
-Seats on the brackets, end to end: none None; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw
-Ties: cable tie on None (GAP: no CAD feature); adhesive tie mount on head_pitch_to_yaw (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 89.7 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T016 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T085 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4)
+Joint loops: head_pitch: leave 32 mm between T085 and T016 (14 mm more than the straight run at the zero pose); head_yaw: leave 31 mm between T016 and the plug (26 mm more than the straight run at the zero pose) (under 3 x OD over the full joint range: turn the joint by hand at the TEST_PLAN 1.4 fit)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 89.7 mm, cut 150 mm.
 
 ### S13: kit cable ID 32 to ID 33
 
@@ -494,9 +506,10 @@ Regions: neck, head. Crosses joints: head_roll. fits (2.7 mm margin)
 
 Test: SV32.BUS1.D to SV33.BUS2.D: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV32.BUS1.V SV32.BUS1.G; SV32.BUS1.V to SV33.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV32.BUS1.D SV32.BUS1.G; SV32.BUS1.G to SV33.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SV32.BUS1.D SV32.BUS1.V
 
-Seats on the brackets, end to end: none None; edge head_pitch_to_yaw; edge head_yaw_to_roll
-Ties: adhesive tie mount on head_yaw_to_roll (GAP: no CAD feature); adhesive tie mount on head_bot_sheet (GAP: no CAD feature); cable tie on None (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 106.9 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge head_pitch_to_yaw; edge head_yaw_to_roll
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T086 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T087 stick-on mount MB3A (BOM 34) on head_bot_sheet, 17 mm from the cable line; T088 stick-on mount MB3A (BOM 34) on head_bot_sheet, 17 mm from the cable line
+Joint loops: head_roll: leave 24 mm between T086 and T087 (7 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 106.9 mm, cut 150 mm.
 
 ## 4. Power up the neck to the head
 
@@ -511,9 +524,10 @@ Regions: battery_bay, trunk_top, neck, head. Crosses joints: neck_pitch, head_pi
 
 Test: VSW.S to U3.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2); G.S to U3.GND.1: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: none None; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge neck_right_sheet; edge neck_right_sheet; channel body_middle_top; none None; edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_yaw_to_roll
-Ties: adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on neck_right_sheet (GAP: no CAD feature); existing printed feature on neck_right_sheet; cable tie on None (GAP: no CAD feature); adhesive tie mount on head_pitch_to_yaw (GAP: no CAD feature); adhesive tie mount on head_yaw_to_roll (GAP: no CAD feature); adhesive tie mount on head_yaw_to_roll (GAP: no CAD feature); adhesive tie mount on head_bot_sheet (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 441.1 mm, cut 550 mm.
+Seats on the brackets, end to end: none (free air); edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge neck_right_sheet; edge neck_right_sheet; channel body_middle_top; none (free air); edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_yaw_to_roll
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T011 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on battery_pack_lid; T012 stick-on mount MB3A (BOM 34) on trunk_top, 3 mm from the cable line; T013 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on trunk_top; T014 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T015 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T016 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T017 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T018 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T019 stick-on mount MB3A (BOM 34) on head_bot_sheet, 15 mm from the cable line
+Joint loops: neck_pitch: leave 42 mm between T013 and T014 (15 mm more than the straight run at the zero pose); head_pitch: leave 41 mm between T015 and T016 (14 mm more than the straight run at the zero pose); head_yaw: leave 50 mm between T016 and T017 (28 mm more than the straight run at the zero pose) (under 3 x OD over the full joint range: turn the joint by hand at the TEST_PLAN 1.4 fit); head_roll: leave 41 mm between T018 and T019 (18 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 441.1 mm, cut 550 mm.
 
 ### P12: U3 VOUT and GND to Pi pin 2 and pin 6
 
@@ -526,7 +540,7 @@ Regions: head. Crosses joints: none. exact spot of U3 on the floor not fixed
 
 Test: U3.VOUT to PI.2: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U3.VIN U3.GND.1 U3.GND.2 U3.EN U3.PG; U3.GND.2 to PI.6: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U3.VIN U3.GND.1 U3.VOUT U3.EN U3.PG
 
-Reach check: pass, worst routed 33.7 mm, cut 130 mm.
+Reach check (cables3d, by conductor chain): pass, worst routed 33.7 mm, cut 130 mm.
 
 ### P17: Pi pin 4 and pin 14 to splices J5 and JG
 
@@ -539,7 +553,7 @@ Regions: head. Crosses joints: none.
 
 Test: PI.4 to J5.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.5 PI.6 PI.9; PI.14 to JG.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 
-Reach check: pass, worst routed 28.9 mm, cut 90 mm.
+Reach check (cables3d, by conductor chain): pass, worst routed 28.9 mm, cut 90 mm.
 
 ## 5. Pi, IMU and feet
 
@@ -553,9 +567,10 @@ Regions: head, neck, trunk_top, belly. Crosses joints: neck_pitch, head_pitch, h
 
 Test: PI.USB to U2.USB: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: none None; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge neck_right_sheet; edge neck_right_sheet; channel body_middle_top; none None; edge body_middle_top; edge neck_right_sheet; edge neck_right_sheet; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_yaw_to_roll
-Ties: adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on neck_right_sheet (GAP: no CAD feature); existing printed feature on neck_right_sheet; cable tie on None (GAP: no CAD feature); adhesive tie mount on head_pitch_to_yaw (GAP: no CAD feature); adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on body_middle_bottom (GAP: no CAD feature); adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on head_yaw_to_roll (GAP: no CAD feature); adhesive tie mount on head_yaw_to_roll (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 523.0 mm, cut 900 mm.
+Seats on the brackets, end to end: none (free air); edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge neck_right_sheet; edge neck_right_sheet; channel body_middle_top; none (free air); edge body_middle_top; edge neck_right_sheet; edge neck_right_sheet; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_yaw_to_roll
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T013 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on trunk_top; T014 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T015 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T016 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T020 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T021 stick-on mount MB3A (BOM 34) on body_middle_bottom, 15 mm from the cable line; T022 stick-on mount MB3A (BOM 34) on trunk_top, 5 mm from the cable line; T023 through the hole in neck_right_sheet; T024 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T025 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4)
+Joint loops: neck_pitch: leave 41 mm between T013 and T014 (15 mm more than the straight run at the zero pose); head_pitch: leave 41 mm between T015 and T016 (15 mm more than the straight run at the zero pose); head_yaw: leave 57 mm between T016 and T024 (27 mm more than the straight run at the zero pose); head_roll: leave 42 mm between T025 and the plug (15 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 523.0 mm, cut 900 mm.
 
 ### D2: Pi to BNO055 (3V3, GND, SDA, SCL)
 
@@ -570,9 +585,10 @@ Regions: head, neck, trunk_top. Crosses joints: neck_pitch, head_pitch, head_yaw
 
 Test: PI.1 to BNO.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.2 PI.3 PI.4 PI.5 PI.6 PI.9; PI.9 to BNO.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; PI.3 to BNO.SDA: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.4 PI.5 PI.6 PI.9; PI.5 to BNO.SCL: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.6 PI.9
 
-Seats on the brackets, end to end: none None; edge trunk_bottom; edge roll_motor_top; edge trunk_top; edge roll_motor_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; channel body_middle_top; none None; edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw
-Ties: adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on neck_right_sheet (GAP: no CAD feature); existing printed feature on neck_right_sheet; cable tie on None (GAP: no CAD feature); adhesive tie mount on head_pitch_to_yaw (GAP: no CAD feature); adhesive tie mount on head_yaw_to_roll (GAP: no CAD feature); adhesive tie mount on head_yaw_to_roll (GAP: no CAD feature); adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on trunk_top (GAP: no CAD feature); cable tie on None (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 439.3 mm, cut 550 mm.
+Seats on the brackets, end to end: none (free air); edge trunk_bottom; edge roll_motor_top; edge trunk_top; edge roll_motor_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; channel body_middle_top; none (free air); edge neck_right_sheet; edge neck_right_sheet; edge neck_right_sheet; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T010 stick-on mount MB3A (BOM 34) on trunk_bottom, 12 mm from the cable line; T013 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on trunk_top; T014 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T015 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T016 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T017 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T018 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T023 through the hole in neck_right_sheet; T026 stick-on mount MB3A (BOM 34) on trunk_top, 14 mm from the cable line; T027 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4)
+Joint loops: neck_pitch: leave 41 mm between T013 and T014 (15 mm more than the straight run at the zero pose); head_pitch: leave 40 mm between T015 and T016 (15 mm more than the straight run at the zero pose); head_yaw: leave 49 mm between T016 and T017 (27 mm more than the straight run at the zero pose) (under 3 x OD over the full joint range: turn the joint by hand at the TEST_PLAN 1.4 fit); head_roll: leave 38 mm between T018 and T027 (15 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 439.3 mm, cut 550 mm.
 
 ### D3: Pi to left foot switches, with pull-up R4 at the header
 
@@ -589,9 +605,10 @@ Regions: head, neck, trunk_top, trunk_bottom, left_leg. Crosses joints: neck_pit
 
 Test: PI.17 to RFL.1: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; RFL.2 to PI.15: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to RFL.1; PI.15 to FSL1.NO: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; PI.9 to FSL1.COM: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; FSL1.NO to FSL2.NO: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to FSL1.COM FSL1.NC; FSL1.COM to FSL2.COM: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to FSL1.NO FSL1.NC
 
-Seats on the brackets, end to end: none None; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge neck_right_sheet; edge neck_right_sheet; channel body_middle_top; none None; edge body_middle_top; edge neck_right_sheet; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_bottom; edge trunk_bottom; edge roll_motor_bottom; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; channel left_roll_to_pitch; none None; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; channel knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; none None; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side; edge foot_top; channel foot_top; channel foot_top; edge foot_top; edge foot_top
-Ties: adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on neck_right_sheet (GAP: no CAD feature); existing printed feature on neck_right_sheet; cable tie on None (GAP: no CAD feature); adhesive tie mount on head_pitch_to_yaw (GAP: no CAD feature); adhesive tie mount on head_yaw_to_roll (GAP: no CAD feature); cable tie on None (GAP: no CAD feature); adhesive tie mount on head_yaw_to_roll (GAP: no CAD feature); adhesive tie mount on trunk_bottom (GAP: no CAD feature); adhesive tie mount on trunk_bottom (GAP: no CAD feature); adhesive tie mount on roll_motor_bottom (GAP: no CAD feature); adhesive tie mount on roll_motor_bottom (GAP: no CAD feature); adhesive tie mount on left_roll_to_pitch (GAP: no CAD feature); adhesive tie mount on left_roll_to_pitch (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); existing printed feature on knee_to_ankle_right_sheet; cable tie on None (GAP: no CAD feature); adhesive tie mount on foot_top (GAP: no CAD feature)
-Reach check: fail, worst routed 774.2 mm, cut 900 mm.
+Seats on the brackets, end to end: none (free air); edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge neck_right_sheet; edge neck_right_sheet; channel body_middle_top; none (free air); edge body_middle_top; edge neck_right_sheet; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_bottom; edge trunk_bottom; edge roll_motor_bottom; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; channel left_roll_to_pitch; none (free air); edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; channel knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; none (free air); edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side; edge foot_top; channel foot_top; channel foot_top; edge foot_top; edge foot_top
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T013 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on trunk_top; T014 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T015 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T016 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T018 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T023 through the hole in neck_right_sheet; T027 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T028 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T029 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on trunk_bottom; T030 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on roll_motor_bottom; T031 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on roll_motor_bottom; T032 stick-on mount MB3A (BOM 34) on left_roll_to_pitch, 15 mm from the cable line; T033 stick-on mount MB3A (BOM 34) on left_roll_to_pitch, 8 mm from the cable line; T034 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on knee_to_ankle_right_sheet; T035 through the hole in knee_to_ankle_right_sheet; T036 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T037 stick-on mount MB3A (BOM 34) on knee_to_ankle_right_sheet, 15 mm from the cable line; T038 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T039 stick-on mount MB3A (BOM 34) on foot_bottom_pla, 14 mm from the cable line
+Joint loops: head_roll: leave 39 mm between T027 and T018 (15 mm more than the straight run at the zero pose); head_yaw: leave 56 mm between T028 and T016 (26 mm more than the straight run at the zero pose); head_pitch: leave 41 mm between T016 and T015 (14 mm more than the straight run at the zero pose); neck_pitch: leave 41 mm between T014 and T013 (15 mm more than the straight run at the zero pose); left_hip_yaw: leave 38 mm between T029 and T030 (9 mm more than the straight run at the zero pose); left_hip_roll: leave 38 mm between T031 and T032 (9 mm more than the straight run at the zero pose); left_hip_pitch: leave 47 mm between T033 and T034 (17 mm more than the straight run at the zero pose); left_knee: leave 42 mm between T035 and T036 (20 mm more than the straight run at the zero pose); left_ankle: leave 47 mm between T038 and the plug (23 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 774.2 mm, cut 900 mm.
 
 ### D4: Pi to right foot switches, with pull-up R5 at the header
 
@@ -608,9 +625,10 @@ Regions: head, neck, trunk_top, trunk_bottom, right_leg. Crosses joints: neck_pi
 
 Test: PI.17 to RFR.1: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; RFR.2 to PI.13: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to RFR.1; PI.13 to FSR1.NO: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; PI.9 to FSR1.COM: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; FSR1.NO to FSR2.NO: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to FSR1.COM FSR1.NC; FSR1.COM to FSR2.COM: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to FSR1.NO FSR1.NC
 
-Seats on the brackets, end to end: none None; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge neck_right_sheet; edge neck_right_sheet; channel body_middle_top; none None; edge body_middle_top; edge neck_right_sheet; edge trunk_top; edge trunk_top; edge roll_motor_top; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge knee_to_ankle_left_sheet; channel right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; none None; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; channel knee_to_ankle_right_sheet; none None; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side; edge foot_top; channel foot_top; channel foot_top; edge foot_top; edge foot_top
-Ties: adhesive tie mount on trunk_top (GAP: no CAD feature); adhesive tie mount on neck_right_sheet (GAP: no CAD feature); existing printed feature on neck_right_sheet; cable tie on None (GAP: no CAD feature); adhesive tie mount on head_pitch_to_yaw (GAP: no CAD feature); adhesive tie mount on head_yaw_to_roll (GAP: no CAD feature); cable tie on None (GAP: no CAD feature); adhesive tie mount on head_yaw_to_roll (GAP: no CAD feature); adhesive tie mount on body_middle_top (GAP: no CAD feature); adhesive tie mount on roll_motor_top (GAP: no CAD feature); adhesive tie mount on roll_motor_top (GAP: no CAD feature); adhesive tie mount on right_roll_to_pitch (GAP: no CAD feature); adhesive tie mount on right_roll_to_pitch (GAP: no CAD feature); adhesive tie mount on right_roll_to_pitch (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_left_sheet (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_left_sheet (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); adhesive tie mount on knee_to_ankle_right_sheet (GAP: no CAD feature); existing printed feature on knee_to_ankle_right_sheet; cable tie on None (GAP: no CAD feature); adhesive tie mount on foot_top (GAP: no CAD feature)
-Reach check: fail, worst routed 769.6 mm, cut 950 mm.
+Seats on the brackets, end to end: none (free air); edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge head_pitch_to_yaw; edge neck_right_sheet; edge neck_right_sheet; channel body_middle_top; none (free air); edge body_middle_top; edge neck_right_sheet; edge trunk_top; edge trunk_top; edge roll_motor_top; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge knee_to_ankle_left_sheet; channel right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; none (free air); edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; channel knee_to_ankle_right_sheet; none (free air); edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side; edge foot_top; channel foot_top; channel foot_top; edge foot_top; edge foot_top
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T015 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T016 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T018 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T027 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T028 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T040 through the hole in neck_right_sheet; T041 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T042 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on trunk_top; T043 stick-on mount MB3A (BOM 34) on body_middle_top, 17 mm from the cable line; T044 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on roll_motor_top; T045 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T046 stick-on mount MB3A (BOM 34) on right_roll_to_pitch, 17 mm from the cable line; T047 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T048 stick-on mount MB3A (BOM 34) on knee_to_ankle_left_sheet, 19 mm from the cable line; T049 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T050 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T051 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on knee_to_ankle_right_sheet; T052 around the bundle only (OPEN: nothing holds it yet, TEST_PLAN 1.4); T053 stick-on mount MB3A (BOM 34) on foot_bottom_pla, 14 mm from the cable line
+Joint loops: head_roll: leave 39 mm between T027 and T018 (15 mm more than the straight run at the zero pose); head_yaw: leave 56 mm between T028 and T016 (26 mm more than the straight run at the zero pose); head_pitch: leave 41 mm between T016 and T015 (14 mm more than the straight run at the zero pose); neck_pitch: leave 41 mm between T041 and T042 (15 mm more than the straight run at the zero pose); right_hip_yaw: leave 35 mm between T043 and T044 (8 mm more than the straight run at the zero pose); right_hip_roll: leave 29 mm between T044 and T045 (7 mm more than the straight run at the zero pose); right_hip_pitch: leave 48 mm between T046 and T047 (15 mm more than the straight run at the zero pose); right_knee: leave 44 mm between T049 and T050 (19 mm more than the straight run at the zero pose); right_ankle: leave 47 mm between T052 and the plug (23 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 769.6 mm, cut 950 mm.
 
 ## 6. Head expression
 
@@ -626,8 +644,8 @@ Regions: head. Crosses joints: none.
 
 Test: PI.18 to RL.1: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; RL.2 to LEDL.A: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to RL.1; LEDL.K to PI.20: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to LEDL.A
 
-Seats on the brackets, end to end: none None
-Reach check: pass, worst routed 59.6 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air)
+Reach check (cables3d, by conductor chain): pass, worst routed 59.6 mm, cut 150 mm.
 
 ### D6: Pi to right eye LED and resistor
 
@@ -641,9 +659,9 @@ Regions: head. Crosses joints: none.
 
 Test: PI.16 to RR.1: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; RR.2 to LEDR.A: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to RR.1; LEDR.K to PI.20: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to LEDR.A
 
-Seats on the brackets, end to end: none None; edge head_roll_mount
-Ties: adhesive tie mount on head_roll_mount (GAP: no CAD feature); adhesive tie mount on head_roll_mount (GAP: no CAD feature)
-Reach check: pass, worst routed 123.4 mm, cut 230 mm.
+Seats on the brackets, end to end: none (free air); edge head_roll_mount
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T054 stick-on mount MB3A (BOM 34) on head, 21 mm from the cable line; T055 stick-on mount MB3A (BOM 34) on head, 21 mm from the cable line
+Reach check (cables3d, by conductor chain): pass, worst routed 123.4 mm, cut 230 mm.
 
 ### D7: Pi to projector LED and resistor
 
@@ -657,8 +675,8 @@ Regions: head. Crosses joints: none. runs inside the head and through the 4 mm h
 
 Test: PI.22 to RP.1: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; RP.2 to LEDP.A: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to RP.1; LEDP.K to PI.20: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to LEDP.A
 
-Seats on the brackets, end to end: none None; edge head; channel head; channel head; hole flash_light_module; hole flash_reflector_interface
-Reach check: pass, worst routed 77.5 mm, cut 160 mm.
+Seats on the brackets, end to end: none (free air); edge head; channel head; channel head; hole flash_light_module; hole flash_reflector_interface
+Reach check (cables3d, by conductor chain): pass, worst routed 77.5 mm, cut 160 mm.
 
 ### D8: left antenna SG90 lead to Pi pin 33 and splices J5 and JG
 
@@ -672,9 +690,9 @@ Regions: head. Crosses joints: none. lead 250 mm fits
 
 Test: SGL.SIG to PI.33: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SGL.VCC SGL.GND; SGL.VCC to J5.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SGL.SIG SGL.GND; SGL.GND to JG.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SGL.SIG SGL.VCC
 
-Seats on the brackets, end to end: none None
-Ties: adhesive tie mount on head (GAP: no CAD feature); cable tie on None (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 117.5 mm, cut 250 mm.
+Seats on the brackets, end to end: none (free air)
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T056 stick-on mount MB3A (BOM 34) on head_bot_sheet, 23 mm from the cable line; T057 stick-on mount MB3A (BOM 34) on head, 23 mm from the cable line
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 117.5 mm, cut 250 mm.
 
 ### D9: right antenna SG90 lead to Pi pin 32 and splices J5 and JG
 
@@ -688,9 +706,9 @@ Regions: head. Crosses joints: none. lead 250 mm reaches without an extension: c
 
 Test: SGR.SIG to PI.32: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SGR.VCC SGR.GND; SGR.VCC to J5.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SGR.SIG SGR.GND; SGR.GND to JG.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to SGR.SIG SGR.VCC
 
-Seats on the brackets, end to end: none None; edge head
-Ties: adhesive tie mount on head (GAP: no CAD feature); adhesive tie mount on head (GAP: no CAD feature); cable tie on None (GAP: no CAD feature)
-Reach check: pass with notes, worst routed 169.9 mm, cut 270 mm.
+Seats on the brackets, end to end: none (free air); edge head
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T058 stick-on mount MB3A (BOM 34) on head, 24 mm from the cable line; T059 stick-on mount MB3A (BOM 34) on head, 7 mm from the cable line; T060 tied to cable D12, which T065 holds
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 169.9 mm, cut 250 mm.
 
 ### D10: Pi and splices to MAX98357A
 
@@ -701,14 +719,14 @@ Regions: head. Crosses joints: none.
 | 1 | PI.35 (U4 GPIO19 I2S LRC) | AMP.LRC (U8 I2S frame) | 26 AWG | white | 210 | solder at the Pi header (pin 35) | solder |
 | 2 | PI.12 (U4 GPIO18 I2S BCLK) | AMP.BCLK (U8 I2S bit clock) | 26 AWG | yellow | 210 | solder at the Pi header (pin 12) | solder |
 | 3 | PI.40 (U4 GPIO21 I2S DIN) | AMP.DIN (U8 I2S data) | 26 AWG | green | 220 | solder at the Pi header (pin 40) | solder |
-| 4 | J5.S (J5 splice) | AMP.VIN (U8 supply) | 26 AWG | red | 200 | join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) | solder |
-| 5 | JG.S (JG splice) | AMP.GND (U8 ground) | 26 AWG | black | 200 | join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) | solder |
+| 4 | J5.S (J5 splice) | AMP.VIN (U8 supply) | 26 AWG | red | 220 | join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) | solder |
+| 5 | JG.S (JG splice) | AMP.GND (U8 ground) | 26 AWG | black | 220 | join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) | solder |
 
 Test: PI.35 to AMP.LRC: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; PI.12 to AMP.BCLK: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; PI.40 to AMP.DIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; J5.S to AMP.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2); JG.S to AMP.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: none None; edge head_roll_mount; edge head_bot_sheet
-Ties: adhesive tie mount on head_roll_mount (GAP: no CAD feature); adhesive tie mount on head_roll_mount (GAP: no CAD feature); cable tie on None (GAP: no CAD feature)
-Reach check: fail, worst routed 173.7 mm, cut 200 mm.
+Seats on the brackets, end to end: none (free air); edge head_roll_mount; edge head_bot_sheet
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T061 tied to cable D12, which T065 holds; T062 stick-on mount MB3A (BOM 34) on head, 16 mm from the cable line; T063 stick-on mount MB3A (BOM 34) on head_bot_sheet, 18 mm from the cable line
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 173.7 mm, cut 220 mm.
 
 ### D11: MAX98357A to speaker
 
@@ -721,9 +739,9 @@ Regions: head. Crosses joints: none.
 
 Test: AMP.SPK+ to SPK.+: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to AMP.SPK-; AMP.SPK- to SPK.-: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to AMP.SPK+
 
-Seats on the brackets, end to end: none None; edge head_bot_sheet; edge head_bot_sheet
-Ties: adhesive tie mount on head_bot_sheet (GAP: no CAD feature)
-Reach check: fail, worst routed 73.0 mm, cut 100 mm.
+Seats on the brackets, end to end: none (free air); edge head_bot_sheet; edge head_bot_sheet
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T064 stick-on mount MB3A (BOM 34) on head_bot_sheet, 4 mm from the cable line
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 73.0 mm, cut 120 mm.
 
 ### D12: Pi CSI to Camera Module 3
 
@@ -735,13 +753,17 @@ Regions: head. Crosses joints: none.
 
 Test: PI.CSI to CAM.CSI: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
-Seats on the brackets, end to end: none None; edge head_roll_mount; edge head
-Ties: adhesive tie mount on head (GAP: no CAD feature); adhesive tie mount on head_roll_mount (GAP: no CAD feature)
-Reach check: fail, worst routed 127.1 mm, cut 150 mm.
+Seats on the brackets, end to end: none (free air); edge head_roll_mount; edge head
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T065 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on head; T066 stick-on mount MB2APT 13 x 13 mm (not in the BOM) on head
+Reach check (cables3d, by conductor chain): fail, worst routed 127.1 mm, cut 150 mm.
 
 ## Splices
 
 Every splice is soldered and covered with adhesive heat shrink. Make each one after all its cables are cut and labelled.
+
+- Lap splice: strip and tin each end, lay the conductors side by side over 3 to 6 wire diameters (NASA-STD-8739.4A 19.4.1 c), solder, then slide on a 15 mm piece of the 3:1 adhesive heat shrink (cut from a 3.5 in BOM 26 kit piece, the smallest size that passes over the wires) so it covers the joint and reaches at least 2 x the wire OD onto the insulation at both ends (19.2.6), and shrink it (BOM T10).
+- Keep each splice on a straight run, out of bends and away from joints (7.2.36). The JG20, JG10 and JG30 tails are 30 mm so the sleeve sits past the bend at the servo plug. YD3 and YG3 are staggered: YG3 sits 15 mm past YD3 (7.2.35).
+- A splice that no part holds floats: it sits where the wire lengths put it. Lengths are checked fixed end to fixed end through it (CABLE_MAP.md length rule).
 
 | Splice | Where | Cables that meet there |
 |---|---|---|
