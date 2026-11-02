@@ -61,7 +61,7 @@ D8,SGL.GND,JG.S,GND,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md secti
 D9,SGR.SIG,PI.32,ANT_R,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.VCC SGR.GND
 D9,SGR.VCC,J5.S,5V,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.SIG SGR.GND
 D9,SGR.GND,JG.S,GND,SG90 lead,250,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SGR.SIG SGR.VCC
-D10,PI.35,AMP.LRC,I2S_LRC,26 AWG,210,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
+D10,PI.35,AMP.LRC,I2S_LRC,26 AWG,220,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D10,PI.12,AMP.BCLK,I2S_BCLK,26 AWG,210,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D10,PI.40,AMP.DIN,I2S_DIN,26 AWG,220,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D10,J5.S,AMP.VIN,5V,26 AWG,220,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
@@ -78,10 +78,10 @@ SP2,JG10.S,SV10.BUS2.G,GND,22 AWG,30,"under 1 ohm, read in ohms (TEST_PLAN.md se
 SP3,SPV.S,SV30.BUS2.V,SERVO_7V2,22 AWG,180,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 SP3,SPG.S,JG30.S,GND,22 AWG,160,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 SP3,JG30.S,SV30.BUS2.G,GND,22 AWG,30,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-SP4,SPV.S,SV24.BUS1.V,SERVO_7V2,22 AWG,390,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-SP4,SPG.S,SV24.BUS1.G,GND,22 AWG,390,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-SP5,SPV.S,SV14.BUS1.V,SERVO_7V2,22 AWG,420,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-SP5,SPG.S,SV14.BUS1.G,GND,22 AWG,420,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP4,SPV.S,SV24.BUS1.V,SERVO_7V2,22 AWG,400,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP4,SPG.S,SV24.BUS1.G,GND,22 AWG,400,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP5,SPV.S,SV14.BUS1.V,SERVO_7V2,22 AWG,430,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+SP5,SPG.S,SV14.BUS1.G,GND,22 AWG,430,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 SD1,U2.H3.D,YD3.S,BUS_DATA,22 AWG,30,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U2.H3.V U2.H3.G
 SD1,U2.H3.G,YG3.S,GND,22 AWG,45,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",U2.H3.D U2.H3.V
 SD1,YD3.S,SV20.BUS2.D,BUS_DATA,22 AWG,130,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",

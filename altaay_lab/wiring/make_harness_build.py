@@ -69,27 +69,49 @@ def tie_text(t):
     """one retention item as a build step"""
     k = t.get("kind", "tie")
     mf = t.get("mount_fit") or {}
+    case = " on the servo case (pull check at the dry fit)" if mf.get("on_servo_case") else ""
     if k == "existing printed feature":
         what = "through the hole in %s" % t.get("part")
     elif k == "adhesive tie mount" and mf.get("type") == "MB3A":
-        what = "stick-on mount MB3A (BOM 34) on %s, %.0f mm from the cable line" % (t.get("part"), mf.get("from_cable_mm", 0))
-    elif k == "adhesive tie mount" and mf.get("type"):
-        what = "stick-on mount %s 13 x 13 mm (not in the BOM) on %s" % (mf["type"], t.get("part"))
+        what = "stick-on mount MB3A (BOM 34) on %s%s, %.0f mm from the cable line" % (t.get("part"), case, mf.get("from_cable_mm", 0))
+    elif k == "adhesive tie mount" and mf.get("type") == "ABM1M":
+        what = "stick-on mount ABM1M-AT-C (BOM 34b) on %s%s, %.0f mm from the cable line" % (
+            t.get("part"), case, mf.get("from_cable_mm", 0))
+    elif k == "drilled printed feature":
+        h = t.get("tie_holes") or {}
+        what = "through the drilled tie-hole pair in %s (%s mm holes %s mm apart, print/PRINT_PLAN.md After printing), %.0f mm from the cable line" % (
+            t.get("part"), h.get("hole_d_mm"), h.get("spacing_mm"), h.get("from_cable_mm") or 0)
     elif k == "cable tie to a neighbour cable":
         what = "tied to cable %s, which %s holds" % (t.get("tied_to"), t.get("anchor_tie"))
     else:
         what = "around the bundle only"
-    return "%s %s%s" % (t.get("id", "?"), what, " (OPEN: nothing holds it yet, TEST_PLAN 1.4)" if t.get("open") else "")
+    return "%s %s%s" % (t.get("id", "?"), what, (" (OPEN, plan: %s)" % t.get("plan", "none yet")) if t.get("open") else "")
 
 
 def loop_text(x):
     """one service loop as a build step: the cable to leave between its two ties"""
     ids = x.get("tie_ids") or [None, None]
     ends = [ids[0] or "the plug", ids[1] or "the plug"]
-    return "%s: leave %s mm between %s and %s (%s mm more than the straight run at the zero pose)%s" % (
+    return "%s: leave %s mm between %s and %s (%s mm more than the straight run at the zero pose)%s%s" % (
         "+".join(x.get("joints") or []), ("%.0f" % x["loop_length_mm"]) if x.get("loop_length_mm") is not None else "?",
         ends[0], ends[1], ("%.0f" % x["dress_extra_mm"]) if x.get("dress_extra_mm") is not None else "?",
+        ", one loop over both joints: no tie between them" if len(x.get("spans") or []) > 1 else "",
         "" if x.get("ok") else " (under 3 x OD over the full joint range: turn the joint by hand at the TEST_PLAN 1.4 fit)")
+
+
+def twist_text(cab):
+    """the twist step of a made multi-wire cable (netlist 'twist', D25)"""
+    tw = cab.get("twist")
+    if not isinstance(tw, dict):
+        return None
+    if not tw.get("lay_mm"):
+        return "Twist: none (%s)." % re.sub(r"^no twist: ", "", str(tw.get("note", "no reason given")))
+    return ("Twist: %s twisted together, one full turn every %s mm (allowed %s to %s mm, 8 to 16 x the bundle OD, "
+            "NASA-STD-8739.4A 7.2.16 to 7.2.18), the same direction along the whole run, %s mm untwisted at each end for the "
+            "joint. Twist before the ends are made; the cut lengths already carry the take-up (up to %.1f %%)." % (
+                "the wires of %s" % tw["wires"].replace(" only", "") if str(tw.get("wires", "")).startswith("branch") else "all wires",
+                tw["lay_mm"], tw["lay_range_mm"][0], tw["lay_range_mm"][1], tw.get("untwisted_ends_mm", 20),
+                (float(tw.get("takeup_max", 1.0)) - 1.0) * 100.0))
 
 
 def main():
@@ -151,6 +173,9 @@ def main():
             joints = ", ".join(cab.get("joints") or []) or "none"
             L += ["### %s: %s" % (cid, cab["desc"]), "",
                   "Regions: %s. Crosses joints: %s. %s" % (", ".join(cab.get("regions") or []) or "?", joints, cab.get("note") or ""), ""]
+            tx = twist_text(cab)
+            if tx:
+                L += [tx, ""]
             L += ["| Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |", "|---|---|---|---|---|---|---|---|"]
             for i, w in enumerate(ws, 1):
                 ends = (w.get("ends") or ["", ""]) + ["", ""]
@@ -196,6 +221,35 @@ def main():
           "mm so the sleeve sits past the bend at the servo plug. YD3 and YG3 are staggered: YG3 sits 15 mm past YD3 (7.2.35).",
           "- A splice that no part holds floats: it sits where the wire lengths put it. Lengths are checked fixed end to fixed "
           "end through it (CABLE_MAP.md length rule).", ""] + sp_rows + [""]
+    holes = [t for t in retention if t.get("kind") == "drilled printed feature"]
+    if holes:
+        L += ["## Drilled tie holes (D25 ii)", "",
+              "Drilled after printing, before the harness goes in (print/PRINT_PLAN.md After printing): two 4.0 mm holes with the "
+              "BOM T14 bit, square to the face, one each side of the bundle; deburr both sides. The tie goes in through one hole, "
+              "behind the wall and out of the other, then round the bundle. Each pair was checked in the CAD (exact rays, zero "
+              "pose): at least 1.6 mm of plastic round each hole and between them, wall 1.6 to 12 mm, every screw, insert and "
+              "empty hole at least 1.6 mm off, 1.5 mm free behind the wall, and the strap at least 1 mm from moving parts over "
+              "the joint sweep.", "",
+              "| Tie | Cables | Part | Holes apart mm | Wall mm | From the cable line mm | Hole centres in the part STL frame mm |",
+              "|---|---|---|---|---|---|---|"]
+        for t in holes:
+            h = t.get("tie_holes") or {}
+            L.append("| %s | %s | %s%s | %s | %s | %s | %s |" % (
+                t["id"], ", ".join(t.get("cables") or []), h.get("part"), " (mirrored copy)" if h.get("mirrored") else "",
+                h.get("spacing_mm"), " and ".join(str(x) for x in h.get("wall_mm") or []), h.get("from_cable_mm"),
+                "; ".join(str(x) for x in h.get("holes_stl") or [])))
+        L.append("")
+    case = [t for t in retention if (t.get("mount_fit") or {}).get("on_servo_case")]
+    if case:
+        L += ["## Stick-on mounts on a servo case (D25 iv)", "",
+              "Where no printed face, hole pair or neighbour cable can hold a loop end, the mount goes on a flat face of the "
+              "STS3215 case of that link, clear of the servo plugs and of moving parts: %s. Wipe with alcohol (BOM 35) and press "
+              "it on, then pull on it by hand at the dry fit (TEST_PLAN.md 1.4). If it lifts, report it; the tie then goes round "
+              "the bundle only." % "; ".join("%s (%s, %s)" % (t["id"], ", ".join(t["cables"]), t["part"]) for t in case), ""]
+    op = [t for t in retention if t.get("open")]
+    if op:
+        L += ["## Open tie points", "", "Nothing in the CAD holds these yet; each has a named plan:", ""] + [
+            "- %s (%s on %s): %s" % (t["id"], ", ".join(t["cables"]), t["link"], t.get("plan", "none yet")) for t in op] + [""]
     L += ["Coverage: %d active cables, %d wires, all from the netlist." % (len(cables), n_wires), ""]
     open(OUT, "w", encoding="utf-8").write("\n".join(L))
     print("wrote", OUT, len(cables), "cables", n_wires, "wires", "(missing from groups: %s)" % missing if missing else "")

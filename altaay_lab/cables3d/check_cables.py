@@ -5,7 +5,9 @@ Usage: python3 altaay_lab/cables3d/check_cables.py --scratch <folder outside the
 Needs the grid cache written by route_cables.py in the same scratch folder.
 
 Checks (rules and sources in CABLES_3D.md):
-1. Length: every wire, cut_mm >= worst routed length over the full URDF range of the joints it crosses + SLACK_MM.
+1. Length: every wire, cut_mm >= worst routed length over the full URDF range of the joints it crosses + SLACK_MM,
+   judged per conductor chain through the floating splices (INLINE); the routed length of a twisted made cable is
+   multiplied by its take-up at the shortest lay (wiring/netlist.yaml cable 'twist', D25).
    SLACK_MM = 2 x 20 mm, the service-slack term of the lab length rule (CABLE_MAP.md); the other terms of that rule
    (2 x 22.6 mm connector tolerance, 10 mm per radian) are replaced here by measured terminals and the joint sweep.
 2. Rub: smallest gap between the cable surface and any part of another link, joints swept one at a time over the
@@ -39,6 +41,32 @@ END_ZONE = 8.0          # mm from a run end treated as the connector zone
 
 
 INLINE = {"VSW", "G", "YD3", "YG3", "JG20", "JG10", "JG30", "J5", "JG"}     # floating inline splices
+
+
+def twist_factors():
+    """cable id -> (take-up factor, branch or None) for the twisted made cables (wiring/netlist.yaml cable 'twist': the
+    length a twisted pair needs over the route at the shortest lay, NASA-STD-8739.4A 7.2.16 to 7.2.18 [L]). The factor
+    is put on the whole routed length of each twisted wire (the 2 x 20 mm untwisted ends left in: conservative)"""
+    import yaml
+    net = yaml.safe_load(open(RC.NETLIST))
+    out = {}
+    for cb in net.get("cables", []):
+        tw = cb.get("twist") or {}
+        if tw.get("lay_mm") and tw.get("takeup_max"):
+            m = str(tw.get("wires", ""))
+            out[cb["id"]] = (float(tw["takeup_max"]), m.split()[1] if m.startswith("branch ") else None)
+    return out
+
+
+TWIST = {}
+
+
+def routed(cid, w):
+    """worst routed length of a wire with the twist take-up of its cable (TWIST)"""
+    f, br = TWIST.get(cid, (1.0, None))
+    if br is not None and w.get("branch") != br:
+        f = 1.0
+    return w["length_max_mm"] * f, w.get("length_max_runtime_mm", w["length_max_mm"]) * f
 
 
 def node(pin):
@@ -252,6 +280,8 @@ def main():
     ends = {e["id"]: e for e in data["cable_ends"]}
     global CHAINS
     CHAINS = chains(data["cables"])
+    TWIST.update(twist_factors())
+    print("twist take-up on the chain lengths: %s" % {k: v[0] for k, v in sorted(TWIST.items())}, flush=True)
     summary = []
     for c in data["cables"]:
         findings = []
@@ -264,8 +294,8 @@ def main():
             res = []
             for ch in mine:
                 cuts = [x["cut_mm"] for _, x in ch]
-                Lmax = sum(x["length_max_mm"] for _, x in ch)
-                Lrt = sum(x.get("length_max_runtime_mm", x["length_max_mm"]) for _, x in ch)
+                Lmax = sum(routed(ci, x)[0] for ci, x in ch)
+                Lrt = sum(routed(ci, x)[1] for ci, x in ch)
                 need = Lmax + SLACK_MM
                 if any(v is None for v in cuts):
                     res.append(dict(chain=["%s:%s>%s" % (ci, x["from"], x["to"]) for ci, x in ch], length_max_mm=round(Lmax, 1),

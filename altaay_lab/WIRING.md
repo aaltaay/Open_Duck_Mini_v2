@@ -1,6 +1,6 @@
 # WIRING: Open Duck Mini v2, altaay-lab build
 
-Last updated: 2026-11-02 (America/New_York). Follows the wiring decisions D8 to D13, D15, D17 and D23 in DECISIONS.md (D15 replaced D14; D23, the ankle second feeds, 2026-11-02).
+Last updated: 2026-11-02 (America/New_York). Follows the wiring decisions D8 to D13, D15, D17, D23 and D25 in DECISIONS.md (D15 replaced D14; D23, the ankle second feeds, 2026-11-02; D25, cable retention and twist, 2026-11-02).
 
 Source of truth: wiring/netlist.yaml (every part, pin, wire, colour, cut length and expected current; schema at the top of the file). Generated from it:
 - Drawings: wiring/sheets/WIRING_SHEETS.md, five A3 sheets (power, servo bus, Pi and sensors, head expression, harness overview) made by wiring/sheets/make_sheets.py; the run stops if any netlist wire is not drawn in full.
@@ -155,3 +155,4 @@ Real servos may draw up to 2 x the sim numbers until a bench log exists (CURRENT
 7. Feet (D17): fit SS-01 if it was in stock, else SS-10; with R4 and R5 a closed foot carries about 1.5 mA. Check both feet read reliably (feet_contacts.py prints them) over a long stand and walk.
 8. If you run code other than Runtime 376de65, check the eye, antenna and foot pins against it.
 9. Second feeds (D23): at ID 24 and ID 14 BUS 1 the V and G cavities beep to SPV and SPG and the data cavity is empty.
+10. Twisted cables (D25): SP3, SP4, SP5, P13, D2, D3, D4, D6, D10 and SD1 branch b are twisted at the lay HARNESS_BUILD.md gives for each (8 to 16 x the bundle OD, NASA-STD-8739.4A 7.2.16 to 7.2.18), 20 mm untwisted at each end; their cuts carry the take-up. The other made cables are too short for one lay or are not a pair (reason per cable in wiring/netlist.yaml 'twist'); kit cables stay as shipped.

@@ -4312,7 +4312,7 @@ z
     </g>
    </g>
    <g id="text_68">
-    <!-- Source: wiring/netlist.yaml rev 2026-11-02 (sha256 d39538c1703d) -->
+    <!-- Source: wiring/netlist.yaml rev 2026-11-02 (sha256 0f4af5bff379) -->
     <g style="fill: #1f2a33" transform="translate(776.692913 746.127953) scale(0.07 -0.07)">
      <defs>
       <path id="Carlito-Regular-146" d="M 497 -63 
@@ -4330,6 +4330,54 @@ L 1728 2041
 L 1728 1575 
 L 234 1575 
 L 234 2041 
+z
+" transform="scale(0.015625)"/>
+      <path id="Carlito-Regular-40" d="M 525 0 
+L 525 2597 
+L 222 2638 
+Q 156 2644 115 2678 
+Q 75 2713 75 2775 
+L 75 3000 
+L 525 3000 
+L 525 3244 
+Q 525 3506 595 3711 
+Q 666 3916 797 4055 
+Q 928 4194 1114 4267 
+Q 1300 4341 1531 4341 
+Q 1628 4341 1718 4325 
+Q 1809 4309 1894 4281 
+L 1878 4006 
+Q 1872 3934 1805 3926 
+Q 1738 3919 1625 3919 
+Q 1497 3919 1392 3884 
+Q 1288 3850 1213 3769 
+Q 1138 3688 1097 3555 
+Q 1056 3422 1056 3228 
+L 1056 3000 
+L 2325 3000 
+L 2325 3325 
+Q 2325 3588 2395 3791 
+Q 2466 3994 2597 4134 
+Q 2728 4275 2914 4348 
+Q 3100 4422 3331 4422 
+Q 3522 4422 3694 4359 
+L 3678 4088 
+Q 3672 4016 3603 4008 
+Q 3534 4000 3422 4000 
+Q 3294 4000 3189 3965 
+Q 3084 3931 3011 3850 
+Q 2938 3769 2897 3636 
+Q 2856 3503 2856 3306 
+L 2856 3000 
+L 3666 3000 
+L 3666 2600 
+L 2875 2600 
+L 2875 0 
+L 2325 0 
+L 2325 2600 
+L 1075 2600 
+L 1075 0 
+L 525 0 
 z
 " transform="scale(0.015625)"/>
      </defs>
@@ -4384,23 +4432,22 @@ z
      <use xlink:href="#Carlito-Regular-194" transform="translate(1971.84375 0)"/>
      <use xlink:href="#Carlito-Regular-475" transform="translate(2022.53125 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(2073.21875 0)"/>
-     <use xlink:href="#Carlito-Regular-37" transform="translate(2095.828125 0)"/>
-     <use xlink:href="#Carlito-Regular-192" transform="translate(2148.375 0)"/>
-     <use xlink:href="#Carlito-Regular-196" transform="translate(2199.0625 0)"/>
-     <use xlink:href="#Carlito-Regular-194" transform="translate(2249.75 0)"/>
-     <use xlink:href="#Carlito-Regular-192" transform="translate(2300.4375 0)"/>
-     <use xlink:href="#Carlito-Regular-476" transform="translate(2351.125 0)"/>
-     <use xlink:href="#Carlito-Regular-31" transform="translate(2401.8125 0)"/>
-     <use xlink:href="#Carlito-Regular-190" transform="translate(2444.09375 0)"/>
-     <use xlink:href="#Carlito-Regular-195" transform="translate(2494.78125 0)"/>
-     <use xlink:href="#Carlito-Regular-18f" transform="translate(2545.46875 0)"/>
-     <use xlink:href="#Carlito-Regular-192" transform="translate(2596.15625 0)"/>
-     <use xlink:href="#Carlito-Regular-37" transform="translate(2646.84375 0)"/>
-     <use xlink:href="#Carlito-Regular-151" transform="translate(2699.390625 0)"/>
+     <use xlink:href="#Carlito-Regular-18f" transform="translate(2095.828125 0)"/>
+     <use xlink:href="#Carlito-Regular-3d" transform="translate(2146.515625 0)"/>
+     <use xlink:href="#Carlito-Regular-193" transform="translate(2177.03125 0)"/>
+     <use xlink:href="#Carlito-Regular-2d" transform="translate(2227.71875 0)"/>
+     <use xlink:href="#Carlito-Regular-3d" transform="translate(2275.046875 0)"/>
+     <use xlink:href="#Carlito-Regular-194" transform="translate(2305.5625 0)"/>
+     <use xlink:href="#Carlito-Regular-30" transform="translate(2356.25 0)"/>
+     <use xlink:href="#Carlito-Regular-40" transform="translate(2407.96875 0)"/>
+     <use xlink:href="#Carlito-Regular-192" transform="translate(2466.3125 0)"/>
+     <use xlink:href="#Carlito-Regular-195" transform="translate(2517 0)"/>
+     <use xlink:href="#Carlito-Regular-196" transform="translate(2567.6875 0)"/>
+     <use xlink:href="#Carlito-Regular-151" transform="translate(2618.375 0)"/>
     </g>
    </g>
    <g id="text_69">
-    <!-- Date: 2026-11-02 02:31 EST (TZ=America/New_York date) -->
+    <!-- Date: 2026-11-02 03:39 EST (TZ=America/New_York date) -->
     <g style="fill: #1f2a33" transform="translate(776.692913 756.190945) scale(0.07 -0.07)">
      <defs>
       <path id="Carlito-Regular-2c" d="M 2844 4106 
@@ -4480,10 +4527,10 @@ z
      <use xlink:href="#Carlito-Regular-191" transform="translate(656.09375 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(706.78125 0)"/>
      <use xlink:href="#Carlito-Regular-18f" transform="translate(729.390625 0)"/>
-     <use xlink:href="#Carlito-Regular-191" transform="translate(780.078125 0)"/>
+     <use xlink:href="#Carlito-Regular-192" transform="translate(780.078125 0)"/>
      <use xlink:href="#Carlito-Regular-139" transform="translate(830.765625 0)"/>
      <use xlink:href="#Carlito-Regular-192" transform="translate(857.53125 0)"/>
-     <use xlink:href="#Carlito-Regular-190" transform="translate(908.21875 0)"/>
+     <use xlink:href="#Carlito-Regular-196" transform="translate(908.21875 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(958.90625 0)"/>
      <use xlink:href="#Carlito-Regular-b" transform="translate(981.515625 0)"/>
      <use xlink:href="#Carlito-Regular-22" transform="translate(1029.375 0)"/>
@@ -9120,10 +9167,10 @@ z
     </g>
    </g>
    <g id="text_205">
-    <!-- 390 -->
+    <!-- 400 -->
     <g style="fill: #1f2a33" transform="translate(1009.133858 350.728346) scale(0.06 -0.06)">
-     <use xlink:href="#Carlito-Regular-192"/>
-     <use xlink:href="#Carlito-Regular-196" transform="translate(50.6875 0)"/>
+     <use xlink:href="#Carlito-Regular-193"/>
+     <use xlink:href="#Carlito-Regular-18f" transform="translate(50.6875 0)"/>
      <use xlink:href="#Carlito-Regular-18f" transform="translate(101.375 0)"/>
     </g>
    </g>
@@ -9182,10 +9229,10 @@ z
     </g>
    </g>
    <g id="text_209">
-    <!-- 420 -->
+    <!-- 430 -->
     <g style="fill: #1f2a33" transform="translate(1009.133858 362.633858) scale(0.06 -0.06)">
      <use xlink:href="#Carlito-Regular-193"/>
-     <use xlink:href="#Carlito-Regular-191" transform="translate(50.6875 0)"/>
+     <use xlink:href="#Carlito-Regular-192" transform="translate(50.6875 0)"/>
      <use xlink:href="#Carlito-Regular-18f" transform="translate(101.375 0)"/>
     </g>
    </g>

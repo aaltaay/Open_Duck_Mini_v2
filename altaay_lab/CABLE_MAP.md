@@ -1,6 +1,6 @@
 # CABLE_MAP
 
-Last updated: 2026-11-02 2:33 AM (America/New_York) by agent CAB (splice tails, length rule by chain, Molex 08-70-1040 data, currents from the power sim), wiring decisions D8 to D13, D15, D17 and D23 (D15 replaced D14). One row per cable. The conductor-level data (from pin, to pin, net, gauge, colour, cut length, expected current) is in wiring/netlist.yaml, which is the source of truth; this file and the drawings (wiring/sheets/WIRING_SHEETS.md) follow it. Nothing has been built.
+Last updated: 2026-11-02 4:45 AM (America/New_York) by agent CAB (D25: twisted cables and their take-up, SP4, SP5 and D10 LRC cuts +10 mm; earlier 2:33 AM: splice tails, length rule by chain, Molex 08-70-1040 data, currents from the power sim), wiring decisions D8 to D13, D15, D17 and D23 (D15 replaced D14). One row per cable. The conductor-level data (from pin, to pin, net, gauge, colour, cut length, expected current) is in wiring/netlist.yaml, which is the source of truth; this file and the drawings (wiring/sheets/WIRING_SHEETS.md) follow it. Nothing has been built.
 
 Routes were measured on the upstream URDF/STL assembly (STL commit 730c14b): the route is a polyline through the centres of the parts the cable passes and the joint axes it crosses (audit/cables.py, audit/cables.json). Parts not in the CAD use the centres in audit/placements.json (BEC, fuse holder, Pololu 2815, BMS; MOUNTING.md, D11). The 3D routes, seats, ties and the worst length over the joint ranges of every cable are in cables3d/CABLES_3D.md; the cut lengths changed on 2026-11-02 come from there.
 
@@ -8,6 +8,7 @@ Routes were measured on the upstream URDF/STL assembly (STL commit 730c14b): the
 Cut length = route polyline + 2 x 22.6 mm (connector position tolerance at each end, half of the STS3215 45.2 mm case length) + 2 x 20 mm service slack + 10 mm per radian of joint range crossed (URDF limits).
 Lower bound = straight distance minus 45.2 mm. A cable shorter than the lower bound cannot fit; one longer than the rule length always fits; in between needs a test fit.
 cables3d check (2026-11-02): cut of a conductor chain >= worst 3D routed length over the joint ranges + 20 mm slack per fixed end, chained through inline splices. A solder splice that no part holds (VSW, G, JFI, JFO, YD3, YG3, JG20, JG10, JG30, J5, JG) floats along the bundle at build time, so the wires joined there are judged together, fixed end to fixed end; SPV and SPG are seated on the belly and JBP, JBN are where the BEC leads end, so they are fixed ends. verify/c3_cables3d.py judges lengths the same way. Cuts marked "3D" below follow it.
+Twisted cables (D25, NASA-STD-8739.4A 7.2.16 to 7.2.18: lay 8 to 16 x the harness OD): SP3, SP4, SP5, P13, D2, D3, D4, D6, D10 and SD1 branch b are twisted (lay and reason per cable in wiring/netlist.yaml 'twist' and HARNESS_BUILD.md). Their routed length is multiplied by the take-up at the shortest lay (1.019 to 1.028) before the slack is added; SP4 and SP5 (both wires) and D10 LRC got 10 mm more for it (2026-11-02, D25). Kit cables stay as shipped.
 
 ## Connector parts
 | Use | Housing | Terminal | Wire | Tool |
@@ -32,11 +33,11 @@ Kit cable = the 15 cm 3-pin cable shipped with each STS3215 (14 shipped, 11 used
 
 | ID | From | To | Conductors | Gauge | Ends | Route (joints crossed) | Polyline | Rule length | Cut | Source | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| SP1 | splices SPV, SPG (belly) | ID 20 L hip yaw BUS 2 V and G | V, G (G spliced with SD1 at JG20, 20 mm tail) | 22 AWG x2 | solder splice; 50-37-5033 + 08-70-1040 | belly to trunk_bottom, no joints | not measured | not measured | 150 (G 130 + 30) | [L] D15 | feeds the left leg; GND tail 30 mm (splice tails above) |
+| SP1 | splices SPV, SPG (belly) | ID 20 L hip yaw BUS 2 V and G | V, G (G spliced with SD1 at JG20, 30 mm tail) | 22 AWG x2 | solder splice; 50-37-5033 + 08-70-1040 | belly to trunk_bottom, no joints | not measured | not measured | 150 (G 130 + 30) | [L] D15 | feeds the left leg; GND tail 30 mm (splice tails above) |
 | SP2 | SPV, SPG | ID 10 R hip yaw BUS 2 V and G | V, G (G joins SD2 at JG10) | 22 AWG x2 | as SP1 | belly to trunk_bottom | not measured | not measured | 150 (G 130 + 30) | [L] D15 | feeds the right leg; GND tail 30 mm |
 | SP3 | SPV, SPG | ID 30 neck pitch BUS 2 V and G | V, G (G joins SD1 at JG30) | 22 AWG x2 | as SP1 | belly to trunk_top | not measured | not measured | 180 (G 160 + 30) | [L] D15 | feeds the neck chain; GND tail 30 mm |
-| SP4 | SPV, SPG | ID 24 L ankle BUS 1 V and G | V, G (data cavity empty) | 22 AWG x2 | solder splice; 50-37-5033 + 08-70-1040 | belly, trunk_bottom, left leg; crosses left hip yaw, hip roll, hip pitch, knee | 286.5 (3D, zero pose) | worst 348 (3D) | 390 (3D) | [L] D23 | second feed of the left leg |
-| SP5 | SPV, SPG | ID 14 R ankle BUS 1 V and G | V, G (data cavity empty) | 22 AWG x2 | as SP4 | as SP4, right leg | 319.3 (3D, zero pose) | worst 377 (3D) | 420 (3D) | [L] D23 | second feed of the right leg |
+| SP4 | SPV, SPG | ID 24 L ankle BUS 1 V and G | V, G (data cavity empty) | 22 AWG x2 | solder splice; 50-37-5033 + 08-70-1040 | belly, trunk_bottom, left leg; crosses left hip yaw, hip roll, hip pitch, knee | 286.5 (3D, zero pose) | worst 348 (3D) | 400 (3D + twist take-up, D25) | [L] D23 | second feed of the left leg; twisted, 40 mm lay |
+| SP5 | SPV, SPG | ID 14 R ankle BUS 1 V and G | V, G (data cavity empty) | 22 AWG x2 | as SP4 | as SP4, right leg | 319.3 (3D, zero pose) | worst 377 (3D) | 430 (3D + twist take-up, D25) | [L] D23 | second feed of the right leg; twisted, 40 mm lay |
 | SD1 | adapter H3 (D, G) | ID 20 D and JG20 (branch a); ID 30 D and JG30 (branch b) | D, G; data Y at YD3, ground Y at YG3 next to the adapter | 22 AWG x2 | 50-37-5033 with 2 terminals at H3; splices; 50-37-5033 at the servos | trunk_top to trunk_bottom, no joints | adapter to ID 20 63.8, to ID 30 87.3 | a 149.0, b 172.5 | stem D 30, stem G 45 (YG3 staggered 15 mm past YD3), a 130 (G 120), b 170 (3D; G 140) | [L] D15 | stem and branch lengths [I]; b D 170 since the SP3 tail moved JG30 3 mm back |
 | SD2 | adapter H5 (D, G) | ID 10 D and JG10 | D, G | 22 AWG x2 | 50-37-5033 at H5 and at ID 10 | trunk_top to trunk_bottom | 63.8 | 149.0 | 150 (G 140) | [L] D15 | |
 | S2 | ID 20 BUS 1 | ID 21 L hip roll BUS 2 | kit | kit | 5264 | crosses left_hip_yaw | 56.6 | 152.3 | kit 150 | [U] | BLOCKER test fit (rule 2.3 mm over) |
@@ -90,7 +91,7 @@ Pi Zero 2 W hangs from the upper inner wall of head.stl, components down (MOUNTI
 | D7 | Pi pin 22 (GPIO25), pin 20 | projector: 100 ohm (added by D13), LED | LED | 26 AWG x2 | as D5 | inside head, through the 4 mm hole drilled in the head wall (D24) | 112.4 | 152.4 / 160 | [U], [L] D13 | upstream issue 34: no 1 W LED straight on GPIO |
 | D8 | left antenna SG90 lead | Pi pin 33 (GPIO13), splices J5 and JG | PWM 5 V | SG90 lead | servo lead, solder at the Pi end | inside head | 133.2 | 173.2 / lead 250 | [U] code (D9) | fits |
 | D9 | right antenna SG90 lead | Pi pin 32 (GPIO12), splices J5 and JG | PWM 5 V | SG90 lead | as D8 | inside head | 228.0 | 268.0 / lead 250 | [U] code (D9) | fits without an extension: 170 mm worst in 3D |
-| D10 | Pi pins 35 (LRC), 12 (BCLK), 40 (DIN); splices J5 (Vin), JG (GND) | MAX98357A | I2S, 5 V | 26 AWG x5 | solder | inside head | 149.5 | 189.5 / LRC, BCLK 210, DIN 220 (3D), Vin, GND 220 (3D) | [U] | GAIN and SD not connected |
+| D10 | Pi pins 35 (LRC), 12 (BCLK), 40 (DIN); splices J5 (Vin), JG (GND) | MAX98357A | I2S, 5 V | 26 AWG x5 | solder | inside head | 149.5 | 189.5 / BCLK 210, LRC and DIN 220 (3D; LRC +10 mm for the twist take-up, D25), Vin, GND 220 (3D) | [U] | GAIN and SD not connected |
 | D11 | MAX98357A + and - | speaker Same Sky CMS0361KLX (8 ohm, 2 W) | audio | 26 AWG x2 | amp terminal block, solder tabs | inside head | about 40 | 80 / 120 (3D) | [L] parts check | |
 | D12 | Pi CSI | Camera Module 3 | MIPI CSI | Adafruit 3157 cable 150 mm | FPC | inside head | 3D worst 127 | 150 cable | [U] BOM E7 | 23 mm spare, under the 40 mm slack: test fit (TO9). Proposal, BOM E7 not changed: Adafruit 5818, the Raspberry Pi Standard-Mini camera cable, 200 mm, 22-pin 0.5 mm to 15-pin 1 mm, $2.70, in stock (https://www.adafruit.com/product/5818, read 2026-11-02 1:46 AM ET; Raspberry Pi MPN SC1892, listed for the Pi 5, Zero and CM4 by https://www.kiwi-electronics.com/en/raspberry-pi-camera-cable-standard-mini-200mm-11588, read 1:46 AM ET): 73 mm spare |
 
@@ -99,8 +100,8 @@ Pi Zero 2 W hangs from the upper inner wall of head.stl, components down (MOUNTI
 |---|---|---|---|---|
 | 16 AWG | P1, P2, P6, P8, P9, P10, P11, P14, P7 extensions (P7 holder leads ship) | 1.34 m | 1.47 m | 50 ft (BOM L5) |
 | 20 AWG | P4, P5, P12, P13, P16, P17 | 1.89 m | 2.08 m | 50 ft (BOM 23) |
-| 22 AWG | SP1 to SP5, SD1, SD2 | 3.54 m | 3.89 m | 150 ft (BOM 24) |
-| 26 AWG | P3, P15, D2 to D7, D10, D11 | 9.18 m | 10.10 m | 175 ft (BOM 25) |
+| 22 AWG | SP1 to SP5, SD1, SD2 | 3.58 m | 3.93 m | 150 ft (BOM 24) |
+| 26 AWG | P3, P15, D2 to D7, D10, D11 | 9.19 m | 10.11 m | 175 ft (BOM 25) |
 
 ## Ships with a component vs made vs bought
 - Ships: 11 of the 14 kit servo cables (3 spare), SG90 leads, BEC input and output leads, fuse holder leads (P7, lengthened at JFI and JFO), holder leads (P1, P2 if long enough). Their gauges are not published: as shipped.

@@ -28,8 +28,15 @@ For altaay_lab/viewer/make_viewer_data.py and the exploded parts-check page. Dat
 ## Ties, seats and seated parts
 - `retention[]`: one visible part each. `center_mm` is world at the zero pose; `p` is the same point in `link`'s frame
   (move it with that link). `axis` is the cable direction: draw a ring of diameter `bundle_d_mm` + 1.6 mm around it.
-  `kind` is "existing printed feature", "adhesive tie mount" or "cable tie"; `gap` is true when the stock CAD has no
-  anchor there (stick-on mount proposed, or a free-air bundle tie). `tie` names the tie size for the BOM count.
+  `kind` is "existing printed feature", "adhesive tie mount", "drilled printed feature" (two 4.0 mm tie holes
+  drilled after printing, record `tie_holes`), "cable tie to a neighbour cable" (`tied_to`, `anchor_tie`) or "cable
+  tie" (free air); `gap` is true when the stock CAD has no anchor there. `tie` names the tie size for the BOM count:
+  one tie per item.
+- Mount parts (D25): `mount_fit.type` is "MB3A" (BOM line 34) or "ABM1M" (BOM line 34b, Panduit ABM1M-AT-C), or null
+  (no fit: the point is `open`); `mount_fit.on_servo_case` marks a mount on an STS3215 case. Count the two types on
+  separate rows. One item = one tie = at most one mount: a point that shares a nearby anchor is merged into that item
+  (`also_holds` lists the merged points), so ids have gaps.
+- `open`: true when nothing holds the point yet; `plan` names what to do (a route change or a printed tie anchor).
 - `cables[].seats[]` and `runs[].seats[]`: where the cable meets a printed part (hole, channel, edge, none) with
   `center_mm`, `axis`, `part`, `point_index` into that run's points.
 - `terminals[]`: the six parts seated by this work (xt30, amp, speaker, led_1, led_2, led_3): `center_mm`,
