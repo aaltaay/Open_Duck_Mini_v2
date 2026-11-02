@@ -400,7 +400,7 @@ def load_fasteners(path=FASTENERS_JSON):
         pose = r.get("pose") if isinstance(r.get("pose"), dict) else {}
         world = pose.get("world") if isinstance(pose.get("world"), dict) else pose
         p = _first(world, "head", "p", "head_mm", "pos") if world else None
-        p = p if p is not None else _first(r, "head_world_mm", "head_world", "p_world", "head_point", "pos", "p")
+        p = p if p is not None else _first(r, "seat_world", "head_world_mm", "head_world", "p_world", "head_point", "pos", "p")
         ax = _first(world, "axis", "ax") if world else None
         ax = ax if ax is not None else _first(r, "axis_world", "ax_world", "axis", "ax")
         size = str(_first(r, "size", default="M3"))
@@ -408,10 +408,15 @@ def load_fasteners(path=FASTENERS_JSON):
         if p is None or ax is None or L is None:
             skipped["no pose or length"] += 1
             continue
-        d = float(re.sub(r"[^0-9.]", "", size) or 3.0)
-        head = str(_first(r, "head", "head_type", default="SHCS"))
-        head_key = "pan" if re.search(r"pan|self", head, re.I) else "SHCS"
+        d = float(_first(r, "d", default=None) or re.sub(r"[^0-9.]", "", size) or 3.0)
+        hrec = r.get("head") if isinstance(r.get("head"), dict) else {}
+        head = str(hrec.get("type") if hrec else _first(r, "head", "head_type", default="SHCS"))
+        head_key = "pan" if re.search(r"pan|self|7045|7981|tapping", head, re.I) else "SHCS"
         hd, hh = HEAD_DEFAULT.get((head_key, d), (d * 1.85, d))
+        if hrec.get("dk"):
+            hd, hh = float(hrec["dk"]), float(hrec.get("k") or hh)
+        sweep = r.get("sweep") if isinstance(r.get("sweep"), dict) else {}
+        flags = [x for x in (r.get("len_status"), sweep.get("status")) if x and str(x).upper() not in ("OK", "PASS")]
         ax = np.array(ax, float)
         ax /= np.linalg.norm(ax)
         joins = r.get("joins") if isinstance(r.get("joins"), list) else None
@@ -421,11 +426,13 @@ def load_fasteners(path=FASTENERS_JSON):
             p=np.array(p, float), ax=ax, part=_first(r, "part", "head_part", default=(joins or [None])[0]),
             into=_first(r, "into", "anchor_part", default=(joins or [None, None])[1]),
             anchor=_first(r, "anchor", "anchor_type", default=""), link=_first(r, "link"),
-            line=str(_first(r, "bom", "bom_line", "line", default="") or ""),
+            line=str(_first(r, "line", "bom", "bom_line", default="") or ""),
             supplied=_first(r, "supplied", "supply", default="bought"),
-            engagement=_first(r, "engagement_mm", "engagement"), status=_first(r, "status", default="OK"),
-            note=_first(r, "note", "notes", default=""), spec_label=_first(r, "spec", "label", default=None),
-            flags=_first(r, "flags", "checks", default=None)))
+            engagement=_first(r, "engagement_mm", "e", "engagement"),
+            status=("; ".join(str(f) for f in flags) if flags else _first(r, "status", default="OK")),
+            note="; ".join([str(x) for x in (r.get("notes") or [])] + ([sweep["worst_text"]] if sweep.get("worst_text") else [])) or str(_first(r, "note", default="")),
+            spec_label=_first(r, "spec", "label", default=None), color=r.get("color"),
+            flags=flags))
     return out, "%d screws from altaay_lab/fasteners/fasteners.json%s" % (
         len(out), (" (skipped: " + ", ".join("%s %d" % kv for kv in skipped.items()) + ")") if skipped else "")
 
@@ -437,7 +444,23 @@ def load_cables3d(path=CABLES3D_JSON):
     raw = json.load(open(path))
     recs = raw.get("cables", raw) if isinstance(raw, dict) else raw
     out = []
-    for c in recs:
+    expanded = []
+    for c in recs:   # a cable with branches has several runs: draw each run as its own tube
+        runs = c.get("runs") or []
+        if len(runs) > 1:
+            for k, rn in enumerate(runs):
+                e = dict(c)
+                e["points"] = rn.get("points") or []
+                e["run"] = rn.get("name") or "run %d" % (k + 1)
+                e["run_k"] = k
+                e["d_mm"] = rn.get("d_mm", c.get("d_mm"))
+                if rn.get("length_max_mm") is not None:
+                    e["length_max_mm"] = rn["length_max_mm"]
+                    e["length_zero_mm"] = rn.get("length_zero_mm")
+                expanded.append(e)
+        else:
+            expanded.append(c)
+    for c in expanded:
         pts = []
         for q in c.get("points", []):
             if isinstance(q, dict):
@@ -447,7 +470,8 @@ def load_cables3d(path=CABLES3D_JSON):
         if c.get("points_world") is not None:
             links = c.get("links") or [None] * len(c["points_world"])
             pts = [(l, None, w) for l, w in zip(links, c["points_world"])]
-        out.append(dict(id=c["id"], pts=pts, color=_first(c, "color", "colour", default="#e07a1f"),
+        out.append(dict(id=c["id"], run=c.get("run"), run_k=c.get("run_k", 0), seats=c.get("seats") or [],
+                        desc=c.get("desc", ""), pts=pts, color=_first(c, "color", "colour", default="#e07a1f"),
                         d=float(_first(c, "d_mm", "outer_d_mm", "diameter_mm", "od_mm", default=3.0)),
                         frm=_first(c, "from", default=""), to=_first(c, "to", default=""), gauge=_first(c, "gauge", default=""),
                         wires=_first(c, "wires", "n_wires", default=None), cut_mm=_first(c, "cut_mm", default=None),
@@ -1281,11 +1305,12 @@ def main():
             file="(drawn) %s x %g mm, %s head %.1f x %.1f" % (s["size"], s["L"], s["head"], s["head_d"], s["head_h"]),
             link=host["link"], sub=host["sub"], category="screw", qty=spec_count["%s x %g" % (s["size"], s["L"])],
             material="Steel (A2 stainless or as supplied)", bom=s["line"] or None, status=st if s["status"] in (None, "", "OK", "ok") else str(s["status"]),
+            fid_flags=s.get("flags") or [],
             blockers=rows_, mount="%s into %s (%s). %s" % (spec, into_lab, s["anchor"] or "anchor not given",
                                                           ("Engagement %.1f mm." % float(s["engagement"])) if isinstance(s["engagement"], (int, float)) else ""),
             spec=dict(size=s["size"], length=s["L"], head=s["head"], head_d=s["head_d"], head_h=s["head_h"]),
             joins=[host["key"], s["into"]], anchor=s["anchor"], engagement_mm=s["engagement"], note=s["note"] or "",
-            supplied=s["supplied"], color=SCREW_COLOR.get(s["size"], "#9aa4ae"),
+            supplied=s["supplied"], color=s.get("color") or SCREW_COLOR.get(s["size"], "#9aa4ae"),
             v2=np.round(host["v2"], 2).tolist(), v3=np.round(hv3 - s["ax"] * SCREW_PULL, 2).tolist(), host=host["id"])
         nodes.append(dict(name=nid, mesh=screw_geo[gk], matrix=M))
         screw_rows.append(dict(spec=spec, line=s["line"], link=host["link"], sub=host["sub"], node=nid,
@@ -1316,19 +1341,34 @@ def main():
         if len(P) < 2:
             warnings.append("cable %s has fewer than 2 usable points" % c["id"])
             continue
-        nid = "cable-%s" % c["id"]
+        nid = "cable-%s" % c["id"] + ("-%d" % c["run_k"] if c.get("run") and c.get("run_k") else "")
         usubs = list(OrderedDict.fromkeys(subs))
+        seats = []
+        for st_ in c.get("seats") or []:     # seat centres in URDF world mm (or link frame + link)
+            ctr = st_.get("center_mm") or st_.get("center")
+            if ctr is not None and st_.get("frame") == "link" and st_.get("link") in link_T:
+                T = link_T[st_["link"]]
+                ctr = (T[:3, :3] @ np.array(ctr, float) + T[:3, 3] * 1000.0).tolist()
+            seats.append(dict(kind=st_.get("kind"), part=st_.get("part"), center=[round(float(x), 2) for x in ctr] if ctr is not None else None,
+                              size_mm=st_.get("size_mm"), note=st_.get("note") or st_.get("how") or ""))
         chk = c["check"].lower()
-        man_nodes[nid] = dict(label="Cable %s: %s to %s" % (c["id"], c["frm"], c["to"]), part="cable", file="(drawn) tube",
+        man_nodes[nid] = dict(label="Cable %s%s: %s" % (c["id"], (" (" + c["run"] + ")") if c.get("run") else "", c.get("desc") or "%s to %s" % (c["frm"], c["to"])),
+                              part="cable", file="(drawn) tube", cable=c["id"],
                               link=None, sub=usubs[0], subs=usubs, category="cable", qty=1, material=c["gauge"], bom=None,
                               status="OK" if chk in ("pass", "ok", "") else c["check"], blockers=[], mount=str(c["note"] or ""),
                               v2=[0, 0, 0], color=c["color"])
-        cables_out.append(dict(id=c["id"], node=nid, color=c["color"], d_mm=c["d"], points=np.round(P, 2).tolist(),
+        cables_out.append(dict(id=c["id"] + ((":" + c["run"]) if c.get("run") and c.get("run_k") else ""), cable=c["id"], run=c.get("run"),
+                               seats=seats, desc=c.get("desc", ""), node=nid, color=c["color"], d_mm=c["d"], points=np.round(P, 2).tolist(),
                                point_sub=subs, point_follow=follow, **{"from": c["frm"]}, to=c["to"], gauge=c["gauge"],
                                wires=c["wires"], cut_mm=c["cut_mm"], routed_mm=c["routed_mm"], worst_mm=c["worst_mm"],
                                check=c["check"], note=c["note"]))
         cable_rows.append(dict(id=c["id"], node=nid, check=("%s: worst %s mm vs cut %s mm" % (c["check"], c["worst_mm"], c["cut_mm"]))
                                if c["check"] else ""))
+    # a cable with several runs: one BOM_FULL row lists every run node
+    _runs = defaultdict(list)
+    for r_ in cable_rows:
+        _runs[r_["id"]].append(r_["node"])
+    cable_rows = [dict(id=k, node=v[0], nodes=v, check=next((r_["check"] for r_ in cable_rows if r_["id"] == k and r_["check"]), "")) for k, v in _runs.items()]
     print(cable_note)
 
     # 10d. cable ties, adhesive mounts and guides (cables3d.json "retention"): the page draws them, BOM_FULL counts them

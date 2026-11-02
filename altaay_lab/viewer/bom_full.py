@@ -351,7 +351,7 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
                                                             "/".join(str(int(c)) for c in cuts) or "?"),
                          qty=1, unit="cable", where=", ".join(cab.get("regions") or []) + (
                              (" (crosses " + ", ".join(cab["joints"]) + ")") if cab.get("joints") else ""),
-                         nodes=[c3r["node"]] if c3r.get("node") else [], line=", ".join(OrderedDict.fromkeys(lines)),
+                         nodes=list(c3r.get("nodes") or ([c3r["node"]] if c3r.get("node") else [])), line=", ".join(OrderedDict.fromkeys(lines)),
                          status=status, note=c3r.get("check", ""), source="[L] wiring/netlist.yaml"))
     n_c += 1
     rows.append(_row(id="C%02d" % n_c, section="Connectors and wire", item="Servo kit cable, 15 cm 5264-3P",
