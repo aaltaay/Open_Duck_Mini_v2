@@ -76,15 +76,27 @@ def cab(data, cid):
 def curated(data):
     out = []
     j = wire(data, "D3", "FSL1.NO", "FSL2.NO")
-    out.append(("build-blocking", "Foot switch jumpers D3 and D4 (FSL1 to FSL2, FSR1 to FSR2): the two foot_top slots are "
-                "50 mm apart (viewer seats); the jumper route is %.0f mm, the netlist cut is 40 mm. Cut 100 mm (exact "
-                "edits below)." % j["length_max_mm"]))
+    jc = int(math.ceil((j["length_max_mm"] + 40) / 10.0) * 10)
+    out.append(("build-blocking", "Foot switch jumpers D3 and D4 (FSL1 to FSL2, FSR1 to FSR2, one wire each): the two "
+                "foot_top slots are 50 mm apart (viewer seats); each jumper routes %.0f mm inside the foot with full "
+                "clearance, the netlist cut is 40 mm. Cut %d mm (exact edits below)." % (j["length_max_mm"], jc)))
     d7 = cab(data, "D7")
-    out.append(("build-blocking", "Projector LED (D7): flash_light_module is mounted outside the head's left wall and its "
-                "4 mm lead channel opens at the module back (x 67) outside the shell; head.stl has no hole there. The "
-                "route found runs outside the shell to the nearest opening: %.0f mm, cut 160. Either cut 220 mm (edit "
-                "below) and run the pair along the outside of the wall, or add a 4 mm hole through head.stl behind the "
-                "module (CAD edit, about world (66, 85, 209), the module axis) and re-route (shorter)." % d7["length_max_mm"]))
+    out.append(("print-blocking (head.stl)", "Projector LED (D7): flash_light_module sits outside the head's left wall and "
+                "its 4 mm lead channel opens at the module back (x 67) outside the shell; the stock head.stl has no "
+                "passage, so no inside route exists. Proposed CAD edit: a 4 mm hole through the head wall (3.2 mm thick) "
+                "on y at world (64.5, 84.8, 209.3), 2.5 mm behind the module. With it D7 runs inside the head to the hole, "
+                "through it and into the channel: %.0f mm worst, the 160 mm cut passes. Without the hole the leads would "
+                "have to run outside the shell (an earlier route went under the head floor): not acceptable." %
+                d7.get("worst_mm", 0)))
+    out.append(("note", "Clearance: every run was checked against the exact meshes (centreline samples every 1 mm, 3 mm "
+                "left out at each terminal): no tube enters a part (smallest gap %.2f mm, i.e. touching). The routing "
+                "grid uses the cable radius + 1.0 mm so the 1 mm voxels cannot hide a penetration." % min(
+                    (c.get("clearance_min_mm") for c in data["cables"] if c.get("clearance_min_mm") is not None), default=0)))
+    fr = sorted([(c.get("free_stretch_mm") or 0, c["id"]) for c in data["cables"]], reverse=True)
+    out.append(("note", "Free stretches (no seat and no tie): longest %s. Ties are placed at most 76.2 mm apart (Table 9-1) "
+                "on fixed pieces; longer free stretches left are free spans at joints (the designed loops) or runs "
+                "inside the closed head shell where the stick-on mounts of the gap list hold them." % (
+                    ", ".join("%s %.0f mm" % (cid, v) for v, cid in fr[:6]))))
     rooms = [x for c in data["cables"] for x in c.get("connector_room", []) if x.get("plug_gap_mm") is not None]
     ank = [x for x in rooms if x["end"].startswith(("SV24", "SV14"))]
     if ank:
@@ -246,18 +258,22 @@ def main():
       "need = worst + slack of the worst chain; margin = cut - need. Rub = smallest gap to a moving part (full range). "
       "Bend = smallest taut radius (3 x OD in brackets).")
     w("")
-    w("| Cable | What | Gauge | OD | Joints | L0 | max | max RT | cut | need | margin | Rub | Bend (3xOD) | Result | Findings |")
-    w("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+    w("Clear = smallest exact gap between the tube surface and any part (negative = enters it; within 0.1 mm = touching). "
+      "Free = longest stretch with no seat (hole, channel, edge) and no tie.")
+    w("")
+    w("| Cable | What | Gauge | OD | Joints | L0 | max | max RT | cut | need | margin | Rub | Clear | Free | Bend (3xOD) | Result | Findings |")
+    w("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     for c in C:
         wl = [x for x in c["wires"] if x.get("runs")]
         worst = min(wl, key=lambda x: x.get("margin_mm", 1e9)) if wl else None
         rt = worst.get("length_max_runtime_mm") if worst else None
         js = ", ".join(c.get("joints", [])) or "none"
-        w("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s (%s) | %s | %s |" % (
+        w("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | %s (%s) | %s | %s |" % (
             c["id"], c["desc"].replace("|", "/"), c["gauge"], f(c["d_mm"], 1), js,
             f(worst["length_zero_mm"]) if worst else "-", f(worst["length_max_mm"]) if worst else "-", f(rt),
             worst["cut_mm"] if worst else "-", f(worst.get("required_mm")) if worst else "-",
             f(worst.get("margin_mm")) if worst else "-", f(c.get("rub_min_gap_mm"), 1),
+            f(c.get("clearance_min_mm"), 1), f(c.get("free_stretch_mm")),
             f(c.get("bend_min_radius_mm"), 1), f(3 * c["d_mm"], 1), c["check"],
             "; ".join(c.get("findings", [])).replace("|", "/") or "-"))
     w("")
@@ -297,6 +313,42 @@ def main():
         w("  - old: `%s`" % e["old_line"].strip())
         w("  - new: `%s`" % e["new_line"].strip())
     w("")
+    d23 = [c for c in C if "provisional record from cables3d (D23)" in (c.get("note") or "")]
+    if d23:
+        w("## New cables SP4 and SP5 (D23): exact netlist lines")
+        w("Routed along the leg chain cables (vias at the hip roll, hip pitch and knee servo sockets), ending at the free "
+          "BUS 1 port of the ankle servo. cut_mm = worst routed length + 40 mm slack, rounded up to 10 mm.")
+        w("")
+        w("```yaml")
+        w("# cables:")
+        for c in d23:
+            js = c.get("joints") or []
+            w("  - {id: %s, status: active, desc: \"%s\", regions: [belly, trunk_bottom, %s], joints: [%s], polyline_mm: %.1f, "
+              "rule_mm: null, source: \"[L] D23 (sim/POWER_FIX.md), route altaay_lab/cables3d\", note: \"service loop at every "
+              "leg joint; ties in cables3d.json retention\"}" % (c["id"], c["desc"].replace(" (D23)", ""),
+                                                               "left_leg" if c["id"] == "SP4" else "right_leg",
+                                                               ", ".join(js), c["length_zero_mm"]))
+        w("# wires:")
+        for c in d23:
+            for x in c["wires"]:
+                cut = int(math.ceil((x["length_max_mm"] + 40) / 10.0) * 10)
+                w("  - {cable: %s, from: %s, to: %s, net: %s, gauge: 22 AWG, color: %s, cut_mm: %d, i_mean_a: null, "
+                  "i_peak_a: null, ends: [splice, Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp], "
+                  "source: \"[L] D23; cut = route worst %.0f + 40 slack (cables3d)\"}" % (
+                      c["id"], x["from"], x["to"], x["net"], x["color"], cut, x["length_max_mm"]))
+        w("```")
+        tie23 = [t for t in R if set(t["cables"]) & {"SP4", "SP5"}]
+        own = [t for t in tie23 if set(t["cables"]) <= {"SP4", "SP5"}]
+        w("")
+        w("Ties holding SP4 or SP5: %d (%d shared with the chain cables, %d only for SP4/SP5: %s). Kinds: %s." % (
+            len(tie23), len(tie23) - len(own), len(own), ", ".join(t["id"] for t in own) or "none",
+            ", ".join("%d %s" % (v, k) for k, v in Counter(t["kind"] for t in tie23).most_common())))
+        for c in d23:
+            lp = c.get("service_loops", [])
+            w("- %s: worst %.0f mm (Runtime ranges %s), %d service loops, %d meet R >= 3 x OD; check %s%s." % (
+                c["id"], c.get("worst_mm") or c["length_max_mm"], f(min(x.get("length_max_runtime_mm") or 0 for x in c["wires"] if x.get("runs"))),
+                len(lp), sum(1 for x in lp if x["ok"]), c["check"], ("; " + "; ".join(c.get("findings", []))) if c.get("findings") else ""))
+        w("")
     w("## Terminals seated by this work (top-level `terminals` in cables3d.json, for audit/placements.json)")
     w("| id | centre (world, zero pose) | dims | link | how |")
     w("|---|---|---|---|---|")

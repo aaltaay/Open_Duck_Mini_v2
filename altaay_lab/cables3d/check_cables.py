@@ -148,6 +148,30 @@ def gaps(s, trees, poser, pts, r, cfgs, near_links):
     return best_other, best_own
 
 
+def tube_clearance(s, pts, r, end_mm=3.0):
+    """exact: min over centreline samples (1 mm, ends left out) of (distance to the nearest part surface - r);
+    negative = the tube enters that part. Returns (value, part key, world point)"""
+    P = np.array([(s.T0[p["link"]] @ np.r_[p["p"], 1.0])[:3] for p in pts])
+    Q = RC.resample(P, 1.0)
+    acc = np.r_[0, np.cumsum(np.linalg.norm(np.diff(Q, axis=0), axis=1))]
+    Q = Q[(acc > end_mm) & (acc < acc[-1] - end_mm)]
+    best = (1e9, None, None)
+    if not len(Q):
+        return best
+    for inst, m in zip(s.inst, WORLD):
+        if inst["key"] == "bms":
+            continue      # CAD body replaced by the Tenergy 32175 (its box is solid in the routing grid)
+        sel = np.all((Q >= m.bounds[0] - r - 3) & (Q <= m.bounds[1] + r + 3), axis=1)
+        if not sel.any():
+            continue
+        sd = L.trimesh.proximity.signed_distance(m, Q[sel])        # > 0 inside
+        cl = np.where(sd > 0, -sd, -sd) - r                         # outside: -sd = distance; inside: negative
+        k = int(np.argmin(cl))
+        if cl[k] < best[0]:
+            best = (float(cl[k]), inst["key"], Q[sel][k])
+    return best
+
+
 def smooth_bend(g, Pw, links, r, iters=120, lam=0.5, win=3):
     """Relax the fixed pieces of a run inside free space (a point moves toward the mid of its neighbours only where
     the distance field stays >= r), then the smallest radius of the circle through points win mm apart.
@@ -301,6 +325,13 @@ def main():
             if own[1] and own[0] < own_min[0]:
                 own_min = (own[0], own[1], r["name"])
             # bend radius
+            if r.get("through"):
+                r["clearance_min_mm"], r["clearance_part"] = None, "run crosses %s on purpose" % r["through"]
+            else:
+                cv, ck, cp = tube_clearance(s, pts, rr)
+                r["clearance_min_mm"] = round(cv, 2) if ck else None
+                r["clearance_part"] = ck
+                r["clearance_at"] = [round(float(x), 1) for x in cp] if ck else None
             Wz = np.array([(s.T0[p["link"]] @ np.r_[p["p"], 1.0])[:3] for p in pts])
             rmin, _ = smooth_bend(g, Wz, [p["link"] for p in pts], max(0.5, rr))
             loops = []
@@ -348,6 +379,32 @@ def main():
         c["bend_min_radius_mm"] = round(bend_min[0], 1) if np.isfinite(bend_min[0]) else None
         c["bend_min_kind"] = bend_min[1]
         c["connector_room"] = room
+        # longest stretch with nothing holding the cable: no seat (hole, channel, edge) and no tie
+        ties = [t for t in data.get("retention", []) if c["id"] in t["cables"]]
+        worst_free = (0.0, None)
+        for r in c["runs"]:
+            P = np.array([(s.T0[p["link"]] @ np.r_[p["p"], 1.0])[:3] for p in r["points"]])
+            if len(P) < 2:
+                continue
+            acc = np.r_[0, np.cumsum(np.linalg.norm(np.diff(P, axis=0), axis=1))]
+            holds = [0.0, acc[-1]]
+            for st in r.get("seats", []):
+                if st["kind"] in ("hole", "channel", "edge") and st["point_index"] < len(acc):
+                    holds.append(acc[st["point_index"]])
+            for t in ties:
+                q = np.array(t["center_mm"])
+                d_ = np.linalg.norm(P - q, axis=1)
+                k = int(np.argmin(d_))
+                if d_[k] < 12.0:
+                    holds.append(acc[k])
+            for sp in r.get("spans", []):           # free spans are the designed loops, not unsupported runs
+                holds += [acc[sp["span"][0]], acc[sp["span"][1]]]
+            holds = sorted(holds)
+            gap = max(b - a for a, b in zip(holds[:-1], holds[1:]))
+            if gap > worst_free[0]:
+                worst_free = (gap, r["name"])
+        c["free_stretch_mm"] = round(worst_free[0], 1)
+        c["free_stretch_run"] = worst_free[1]
         lp = [dict(run=r["name"], **x) for r in c["runs"] for x in r.get("service_loops", [])]
         c["service_loops"] = lp
         bad_lp = [x for x in lp if not x["ok"]]
@@ -378,6 +435,15 @@ def main():
                                 min(bad_lp, key=lambda x: x["radius_mm"] or 0)["radius_mm"] or 0,
                                 min(bad_lp, key=lambda x: x["radius_mm"] or 0)["rule_mm"],
                                 "; within the Runtime head ranges %d fail" % len(bad_rt)))
+        cls = [(r_["clearance_min_mm"], r_["clearance_part"], r_["name"], r_.get("clearance_at")) for r_ in c["runs"]
+               if r_.get("clearance_min_mm") is not None]
+        if cls:
+            cmin = min(cls)
+            c["clearance_min_mm"] = cmin[0]
+            c["clearance"] = dict(gap_mm=cmin[0], part=cmin[1], run=cmin[2], at=cmin[3])
+            if cmin[0] < -0.1:       # within 0.1 mm counts as touching (a cable may lie on a part)
+                findings.append("clearance: the tube enters %s by %.1f mm (run %s at %s, exact mesh, ends 3 mm left out)" % (
+                    cmin[1], -cmin[0], cmin[2], cmin[3]))
         bad_room = [x for x in room if not x["ok"]]
         if bad_room:
             findings.append("connector room: " + ", ".join("%s %.0f of %.0f mm" % (x["end"], x["free_mm"], x["need_mm"]) for x in bad_room))

@@ -303,7 +303,12 @@ def build_terminals(s, g, seats):
           "[L] head 5 V splice 12 mm below header pin 4")
     T.add("JG", "head_assembly", free_near(g, (44.9, 54.0, 203.0), need=1.5), (0, 0, -1), "solder splice",
           "[L] head ground splice 12 mm below header pin 14")
-    T.add("LEDP.BACK", "head_assembly", (66.0, 99.19, 209.33), (-1, 0, 0), "back end of the flash_light_module lead channel",
+    T.add("HOLE.IN", "head_assembly", (64.5, 81.0, 209.33), (0, -1, 0), "inner face of the head left wall, behind the module",
+          "[L] head.stl wall at x 66, z 209.3 spans y 83.2 to 86.4 (exact rays); PROPOSED 4 mm hole through it on y at "
+          "(64.5, 84.8, 209.3), 2.5 mm behind the module back face: not in the stock CAD (CAD edit for the lead agent)")
+    T.add("HOLE.OUT", "head_assembly", (64.5, 88.5, 209.33), (0, 1, 0), "outer face of the head left wall, behind the module",
+          "[L] free space behind flash_light_module (x 66 is behind its back face x 67)")
+    T.add("LEDP.BACK", "head_assembly", (64.5, 99.19, 209.33), (-1, 0, 0), "back end of the flash_light_module lead channel",
           "[L] the 4 mm channel on the reflector axis (sections at x 70 and y 99.19) opens at the module back, x 67, "
           "OUTSIDE the head shell (left wall at y 84 to 86 there); no hole through head.stl behind the module")
     for led, tid in (("led_1", "LEDL"), ("led_2", "LEDR"), ("led_3", "LEDP")):
@@ -384,8 +389,8 @@ def seat_amp(g):
 # each wire adds the distance from the centroid to its own terminal). vias: list of terminal ids or ("pt", link, xyz).
 # Corridor vias shared by bundles: the servo port exits (10 mm out) of the chain the bundle follows.
 NECK = ["@SV30.BUS1", "@SV31.BUS2", "@SV32.BUS2"]          # trunk -> neck -> yaw servo (cables ride the servo chain)
-LEG_L = ["@SV20.BUS1", "@SV21.BUS2", "@SV22.BUS2", "@SV23.BUS2", "@SV24.BUS2"]
-LEG_R = ["@SV10.BUS1", "@SV11.BUS2", "@SV12.BUS2", "@SV13.BUS2", "@SV14.BUS2"]
+LEG_L = ["@SV21.BUS2", "@SV22.BUS2", "@SV23.BUS2", "@SV24.BUS2"]     # D3 follows the left leg chain from the hip roll
+LEG_R = ["@SV11.BUS2", "@SV12.BUS2", "@SV13.BUS2", "@SV14.BUS2"]     # servo down (the hip yaw sockets face up)
 RUNS = [
     # battery bay and belly (trunk_assembly only)
     dict(cable="P1", run="main", a="PACK.LEADS", b="BMS.B"),
@@ -414,6 +419,9 @@ RUNS = [
     dict(cable="SD1", run="a", a="Y.SD1", b="JG20"),
     dict(cable="SD1", run="b", a="Y.SD1", b="JG30"),
     dict(cable="SD2", run="main", a="U2.H5", b="JG10"),
+    # D23 ankle power feeds along the leg chain cables
+    dict(cable="SP4", run="main", a="SP.L", b="SV24.BUS1", vias=LEG_L[:-1]),
+    dict(cable="SP5", run="main", a="SP.R", b="SV14.BUS1", vias=LEG_R[:-1]),
     # servo kit cables (one joint each, S12 two)
     dict(cable="S2", run="main", a="SV20.BUS1", b="SV21.BUS2"),
     dict(cable="S3", run="main", a="SV21.BUS1", b="SV22.BUS2"),
@@ -430,22 +438,24 @@ RUNS = [
     dict(cable="P13", run="main", a=("VSW", "G"), b="U3.IN", vias=NECK),
     dict(cable="D1", run="main", a="U2.USB", b="PI.USB", vias=["@USB_SLACK"] + NECK),
     dict(cable="D2", run="main", a="BNO.JP1", b=("PI.1", "PI.9", "PI.3", "PI.5"), vias=NECK),
-    dict(cable="D3", run="main", a=("PI.15", "PI.9"), b="FSL1", vias=NECK[::-1] + LEG_L),
+    dict(cable="D3", run="main", a=("PI.15", "PI.9"), b="FSL1", vias=NECK[::-1] + LEG_L[:-1]),
     dict(cable="D3", run="jumper", a="FSL1", b="FSL2"),
-    dict(cable="D4", run="main", a=("PI.13", "PI.9"), b="FSR1", vias=NECK[::-1] + LEG_R),
+    dict(cable="D4", run="main", a=("PI.13", "PI.9"), b="FSR1", vias=NECK[::-1] + LEG_R[:-1]),
     dict(cable="D4", run="jumper", a="FSR1", b="FSR2"),
     # head
-    dict(cable="P12", run="main", a="U3.OUT", b=("PI.2", "PI.6")),
-    dict(cable="P17", run="main", a=("PI.4", "PI.14"), b=("J5", "JG")),
-    dict(cable="D5", run="main", a=("PI.18", "PI.20"), b="LEDL"),
-    dict(cable="D6", run="main", a=("PI.16", "PI.20"), b="LEDR"),
-    dict(cable="D7", run="main", a=("PI.22", "PI.20"), b="LEDP.BACK", near_extra=["head_assembly"]),
+    dict(cable="P12", run="main", hug=True, a="U3.OUT", b=("PI.2", "PI.6")),
+    dict(cable="P17", run="main", hug=True, a=("PI.4", "PI.14"), b=("J5", "JG")),
+    dict(cable="D5", run="main", hug=True, a=("PI.18", "PI.20"), b="LEDL"),
+    dict(cable="D6", run="main", hug=True, a=("PI.16", "PI.20"), b="LEDR"),
+    dict(cable="D7", run="main", a=("PI.22", "PI.20"), b="HOLE.IN", hug=True),
+    dict(cable="D7", run="hole", a="HOLE.IN", b="HOLE.OUT", straight=True, through="head (proposed 4 mm hole)"),
+    dict(cable="D7", run="outside", a="HOLE.OUT", b="LEDP.BACK", straight=True),
     dict(cable="D7", run="channel", a="LEDP.BACK", b="LEDP", straight=True),
-    dict(cable="D8", run="main", a="SGL", b=("PI.33", "J5", "JG")),
-    dict(cable="D9", run="main", a="SGR", b=("PI.32", "J5", "JG")),
-    dict(cable="D10", run="main", a=("PI.35", "PI.12", "PI.40", "J5", "JG"), b="AMP.HDR"),
-    dict(cable="D11", run="main", a="AMP.SPK", b="SPK.TABS"),
-    dict(cable="D12", run="main", a="PI.CSI", b="CAM.CSI"),
+    dict(cable="D8", run="main", hug=True, a="SGL", b=("PI.33", "J5", "JG")),
+    dict(cable="D9", run="main", hug=True, a="SGR", b=("PI.32", "J5", "JG")),
+    dict(cable="D10", run="main", hug=True, a=("PI.35", "PI.12", "PI.40", "J5", "JG"), b="AMP.HDR"),
+    dict(cable="D11", run="main", hug=True, a="AMP.SPK", b="SPK.TABS"),
+    dict(cable="D12", run="main", hug=True, a="PI.CSI", b="CAM.CSI"),
 ]
 
 
@@ -523,8 +533,9 @@ def bind(P, links, ld, start_link, end_link):
     return [links[k] for k in out[::-1]]
 
 
-def simplify(P, B, keep_every=30.0, ang_deg=4.0):
-    """drop collinear points on the same link; keep link changes (both sides) and a point every keep_every mm"""
+def simplify(P, B, keep_every=30.0, ang_deg=4.0, g=None, need=0.0):
+    """drop collinear points on the same link; keep link changes (both sides) and a point every keep_every mm;
+    a point is only dropped when the shortcut keeps the grid clearance `need`"""
     keep = [0]
     acc = 0.0
     for i in range(1, len(P) - 1):
@@ -536,7 +547,13 @@ def simplify(P, B, keep_every=30.0, ang_deg=4.0):
         a, b = P[i] - P[keep[-1]], P[i + 1] - P[i]
         if np.linalg.norm(a) > 1e-6 and np.linalg.norm(b) > 1e-6:
             c = np.dot(a, b) / np.linalg.norm(a) / np.linalg.norm(b)
-            if np.degrees(np.arccos(np.clip(c, -1, 1))) > ang_deg or acc > keep_every:
+            short_ok = True
+            if g is not None and need > 0:
+                a_, b_ = P[keep[-1]], P[i + 1]
+                n_ = max(2, int(np.linalg.norm(b_ - a_) / 0.5))
+                Q_ = a_ + (b_ - a_) * np.linspace(0, 1, n_)[:, None]
+                short_ok = bool(g.sample(Q_[1:-1]).min() >= need) if n_ > 2 else True
+            if np.degrees(np.arccos(np.clip(c, -1, 1))) > ang_deg or acc > keep_every or not short_ok:
                 keep.append(i)
                 acc = 0.0
     keep.append(len(P) - 1)
@@ -620,7 +637,26 @@ PIN_MAP = [("PACK.MID", "PACK.MID"), ("PACK.", "PACK.LEADS"), ("BMS.B", "BMS.B")
            ("RL.", "LEDL"), ("LEDL.", "LEDL"), ("RR.", "LEDR"), ("LEDR.", "LEDR"), ("RP.", "LEDP"), ("LEDP.", "LEDP"),
            ("SGL.", "SGL"), ("SGR.", "SGR"), ("AMP.SPK", "AMP.SPK"), ("AMP.", "AMP.HDR"), ("SPK.", "SPK.TABS"),
            ("CAM.", "CAM.CSI"), ("FSL1.", "FSL1"), ("FSL2.", "FSL2"), ("FSR1.", "FSR1"), ("FSR2.", "FSR2")]
-SPLICE_ALIAS = {"P11": "SPV.IN", "SP1": "SP.L", "SP2": "SP.R", "SP3": "SP.N"}
+SPLICE_ALIAS = {"P11": "SPV.IN", "SP1": "SP.L", "SP2": "SP.R", "SP3": "SP.N", "SP4": "SP.L", "SP5": "SP.R"}
+
+# D23 (altaay_lab/sim/POWER_FIX.md): second power feed to each ankle servo. Used only until the lead adds the records
+# to wiring/netlist.yaml (then the netlist version wins). cut_mm here is the power agent's estimate; the routed value
+# is proposed in CABLES_3D.md.
+D23_CABLES = [
+    {"id": "SP4", "status": "active", "desc": "power pair SPV and SPG to ID 24 BUS 1 (V and G), left leg (D23)",
+     "regions": ["belly", "trunk_bottom", "left_leg"], "joints": ["left_hip_yaw", "left_hip_roll", "left_hip_pitch", "left_knee"],
+     "polyline_mm": None, "rule_mm": None, "source": "[L] D23", "note": "provisional record from cables3d (D23)"},
+    {"id": "SP5", "status": "active", "desc": "power pair SPV and SPG to ID 14 BUS 1 (V and G), right leg (D23)",
+     "regions": ["belly", "trunk_bottom", "right_leg"], "joints": ["right_hip_yaw", "right_hip_roll", "right_hip_pitch", "right_knee"],
+     "polyline_mm": None, "rule_mm": None, "source": "[L] D23", "note": "provisional record from cables3d (D23)"},
+]
+D23_WIRES = [
+    {"cable": cab, "from": frm, "to": to, "net": net, "gauge": "22 AWG", "color": col, "cut_mm": 545, "i_mean_a": None,
+     "i_peak_a": None, "ends": ["splice", "Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp"],
+     "source": "[L] D23; cut 545 = power agent estimate"}
+    for cab, sv in (("SP4", "SV24"), ("SP5", "SV14"))
+    for frm, to, net, col in (("SPV.S", sv + ".BUS1.V", "SERVO_7V2", "red"), ("SPG.S", sv + ".BUS1.G", "GND", "black"))
+]
 
 
 def pin_to_term(pin, cable):
@@ -676,6 +712,12 @@ def main():
     T.add("USB_SLACK", "trunk_assembly", us_c - [0, us_d[1] / 2 + 1.0, 0], (0, -1, 0), "coil of the spare USB length",
           SRC["placement"] + " usb_slack %s, %s; cable enters and leaves at the -y face" % (us_c.tolist(), us_d.tolist()))
     net = yaml.safe_load(open(NETLIST))
+    ids = {c_["id"] for c_ in net["cables"]}
+    for rec in D23_CABLES:
+        if rec["id"] not in ids:
+            net["cables"].append(dict(rec))
+            net["wires"] += [dict(w_) for w_ in D23_WIRES if w_["cable"] == rec["id"]]
+            print("D23: %s not in the netlist yet, provisional record used" % rec["id"])
     cabrec = {c["id"]: c for c in net["cables"]}
     wires = [w for w in net["wires"] if cabrec[w["cable"]]["status"] == "active"]
     par = tree(s)
@@ -709,9 +751,9 @@ def main():
             od = WIRE_OD.get(w["gauge"], (WIRE_OD_UNVERIFIED.get(w["gauge"], 1.5), None))[0]
             ods.append(od)
         # conductors in this run: the wires whose terminal path uses it (resolved later); size from all for now
-        n_c = {"stem": 2, "a": 2, "b": 2, "tail": 3, "leads": 4, "jumper": 2, "line": 1, "load": 1}.get(R["run"], len(cw))
+        n_c = {"stem": 2, "a": 2, "b": 2, "tail": 3, "leads": 4, "jumper": 1, "line": 1, "load": 1}.get(R["run"], len(cw))
         od = bundle_od((ods or [1.5])[:max(1, n_c)])
-        clr = od / 2.0 + 0.5
+        clr = od / 2.0 + 1.0          # 1 mm grid: voxel-centre distance error up to 0.87 mm, so the true gap stays >= radius
         if R.get("split"):
             # place a splice on the route between two terminals: (new id, from, to, distance); distance > 0 is
             # measured back from `to`, < 0 forward from `from`
@@ -752,9 +794,11 @@ def main():
                 cl.append(l_)
         hulls = ([g.trunk_hull] if "trunk_assembly" in cl else []) + ([g.head_hull] if "head_assembly" in cl else [])
         near = [lab[l_] for l_ in cl if l_ not in ("trunk_assembly", "head_assembly")] + [lab[l_] for l_ in R.get("near_extra", [])]
-        stub = 6.0
-        A0 = free_near(g, pa + 1.0 * da, d=da, r=12.0, need=clr) if not (isinstance(R["a"], str) and R["a"].startswith("@")) else pa
-        B0 = free_near(g, pb + 1.0 * db, d=db, r=12.0, need=clr)
+        if R.get("straight"):
+            A0, B0 = pa, pb
+        else:
+            A0 = free_near(g, pa + 1.0 * da, d=da, r=12.0, need=clr) if not (isinstance(R["a"], str) and R["a"].startswith("@")) else pa
+            B0 = free_near(g, pb + 1.0 * db, d=db, r=12.0, need=clr)
         pts_chain = [A0] + [v[0] for v in vias] + [B0]
         P_all = [pa]
         ok = True
@@ -764,9 +808,15 @@ def main():
             if R.get("straight"):
                 P_all += [u, v]
                 continue
-            seg = L.route(g, u, v, clr, hulls=hulls, near_labels=near, free_radius=8.0)
+            wall = (0.5, 6.0, 2.5) if R.get("hug") else (3.0, 12.0, 0.6)
+            seg = L.route(g, u, v, clr, hulls=hulls, near_labels=near, free_radius=3.0, wall=wall)
             if seg is None:
-                seg = L.route(g, u, v, max(0.8, clr - 0.7), hulls=hulls, near_labels=near, near_mm=24.0, free_radius=10.0)
+                seg = L.route(g, u, v, clr, hulls=hulls, near_labels=near, near_mm=24.0, free_radius=6.0, wall=wall)
+            if seg is None:
+                seg = L.route(g, u, v, max(0.8, od / 2.0 + 0.3), hulls=hulls, near_labels=near, near_mm=24.0,
+                              free_radius=6.0, wall=wall)
+                if seg is not None:
+                    tight.append("%s.%s" % (cid, R["run"]))
             if seg is None:
                 seg = L.route(g, u, v, 0.6, hulls=hulls, near_labels=near, near_mm=30.0, free_radius=12.0)
                 if seg is not None:
@@ -785,7 +835,7 @@ def main():
         # bind
         Pr = resample(P_all, 3.0)
         B = bind(Pr, cl, ld, la, lb)
-        Ps, Bs = simplify(Pr, B)
+        Ps, Bs = simplify(Pr, B, g=g, need=max(0.5, clr - 0.5)) if not R.get("straight") else simplify(Pr, B)
         z0, mn, mx, spans = sweep(s, poser, Ps, Bs, par)
         _, mn_rt, mx_rt, _ = sweep(s, poser, Ps, Bs, par, RUNTIME)
         joints = []
@@ -793,7 +843,7 @@ def main():
             joints += [j for j in sp["joints"] if j not in joints]
         runs_out.append(dict(cable=cid, run=R["run"], a=R["a"], b=R["b"], members_a=ma, members_b=mb,
                              d_mm=round(float(od), 2), clearance_mm=round(clr, 2), routed=ok,
-                             tight=("%s.%s" % (cid, R["run"])) in tight,
+                             tight=("%s.%s" % (cid, R["run"])) in tight, through=R.get("through"),
                              points=[dict(link=l_, p=[round(float(x), 2) for x in to_link(s, l_, p)],
                                           world0=[round(float(x), 2) for x in p]) for p, l_ in zip(Ps, Bs)],
                              length_zero_mm=round(z0, 1), length_min_mm=round(mn, 1), length_max_mm=round(mx, 1),
@@ -902,7 +952,7 @@ def assemble(s, T, seats, net, wires, runs_out):
                        d_mm=r["d_mm"], points=[dict(link=p["link"], p=p["p"]) for p in r["points"]],
                        length_zero_mm=r["length_zero_mm"], length_min_mm=r["length_min_mm"],
                        length_max_mm=r["length_max_mm"], length_max_runtime_mm=r.get("length_max_runtime_mm"),
-                       joints=r["joints"], spans=r["spans"], routed=r["routed"])
+                       joints=r["joints"], spans=r["spans"], routed=r["routed"], through=r.get("through"))
                   for r in runs],
             wires=wout, check="pending", seats=[], note=cab[cid].get("note", "")))
     term_out = []
