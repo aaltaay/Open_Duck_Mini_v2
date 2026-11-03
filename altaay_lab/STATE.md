@@ -2,7 +2,7 @@
 
 Last updated: 2026-11-03 about 5:00 PM ET (America/New_York) by the structure twin integration agent for the lead (twin wave 1, the structure twin; branch claude/digital-twin, the lead commits). Before that: 2026-11-03 about 4:00 PM ET by the twin integration agent (power and heat, plus the shared lab gym port); 2026-11-02 about 6:33 AM ET by agent SFX, the last fixes for PR 6. Each job has its own entry in history/.
 
-Phase: at the edge of printing. The coupon print is next and waits for Ahmed's OK. Nothing bought, nothing printed.
+Phase: digital twin first. Ahmed, 2026-11-03: nothing is printed until the full digital twin is done (physics, heat, strength, the real robot code against the twin, falls, get-up and dock in sim). Nothing bought, nothing printed.
 
 ## Done (2026-11-01 evening into 2026-11-03)
 - Every-part BOM (BOM_FULL.md: 196 rows, 798 pieces, 0 needing action) and the cable-by-cable harness build sheet (HARNESS_BUILD.md).
@@ -47,13 +47,16 @@ D1 to D25 are in DECISIONS.md, all decided (D14 superseded by D15). Tonight: D19
 - Blockers: 22 of 46 cleared or decided, 5 waiting on the parts check, 5 settled by the coupon test prints, 13 assembly or bench checks, 1 for Ahmed to decide later (B45, the floor of the first walks). None blocks the coupon print; B38 comes before the full print, B42 and B43 before the right leg prints (HARDWARE_AUDIT.md section 6). B42 to B46 come from the structure twin (FEA pass only; the structure line above).
 - Twin and gym BLOCKERs (HARDWARE_AUDIT.md B36 to B41, sim pass only): the STS3215 thermal data (B36, TEST_PLAN 7.3); the CC BEC Pro efficiency, dropout and minimum input (B37, TEST_PLAN 4.1); PLA at the hot parts (B38); whether the Feetech firmware compensates for its bus volts, not published: in sim it moves the nominal-pack walk from 0.706 to 0.859 of the command, 95 % of the trained speed (B39, proposed bench test TEST_PLAN 7.5); the Pi Zero 2 W chip rise over the head air (B40, the walking log); the real sole-to-floor friction, which the policy only saw at 0.6 and the gym runs at 1.0 (B41). The twin's own open items: the real hop and holder resistance (TEST_PLAN 5 and 3.2), and the real servos tracking worse than the sim servo in upstream issue #48 (UPSTREAM_ISSUES.md G1: hip pitch, knee and ankle track 31 to 49 % in the partly read thread; our question is posted there, no maintainer reply seen, DECISIONS.md D1).
 - Verification re-run in full 2026-11-03, 3:47 to 3:59 PM ET, after the twin integration (history/2026-11-03_1601_twin_integration.md): the same result, 22 PASS, 0 FAIL, 0 NOT RUN and the same 21 WARN findings, so VERIFICATION.md stays the 2026-11-02 page, with a dated C8 note added by hand (the gym result).
+- Verification re-run in full 2026-11-03, 5:01 to 5:14 PM ET, after the structure integration (history/2026-11-03_1716_twin_structure_integration.md): the same result, 22 PASS, 0 FAIL, 0 NOT RUN and the same 21 WARN findings; C9 reads 46 rows with 0 disagreements.
 - Verification (VERIFICATION.md, full run 2026-11-02 6:19 to 6:32 AM ET): 22 checks, 22 PASS, 0 FAIL, 0 NOT RUN (0 FAIL and 21 WARN findings: risks, test fits and notes to measure on the bench). The integration run's 2 FAILs are closed without loosening a check: C8 now compares with the (c) walk re-run on today's model, and E6b checks the TEST_PLAN 5 pass gate of 28 mOhm per conductor (every servo within the section 9 gates in sim) and warns at the 40 mOhm warn limit (right knee 13.4 %). E8: 63 bench tests pass; C3 passes (D12, S2 and S7 test fits are WARN); C9 finds 0 disagreements (4 WARN, all from before). Sim and test pass only; nothing has run on real parts.
 - 3D view data (viewer/make_viewer_data.py --write-bom, run of 11:08 UTC): 62 cable runs, 59 pass, 3 test fit (D12, S2, S7), 0 fail; printed parts 52/52, servos 14/14, inserts 58/58, bearings 3/3; 355 screws; BOM_FULL 196 rows. The page reads "test fit" with the changed page copy the lead publishes.
 
 ## Open questions for Ahmed (one at a time, most important first)
-1. OK to start the coupon print session? S1: 11 coupons, 41.2 g PLA, 4.14 h. S2: one TPU sole, 17.6 g, 2.19 h (print/PRINT_PLAN.md; lab rule 4).
-2. OK to buy the test order (BOM.md "Needs test order", 17 lines, $231.50)? (lab rule 7)
-3. Which printer will print the duck? The package needs a bed of at least 220 x 220 mm.
+1. Asked 2026-11-03: OK to use rented GPU time, capped at $20, to train a walk policy at our real mass and on small terrain, and a get-up policy? The stock policy walks on flat ground only in the shared lab gym (overlay gym/overlays/duck); this box has no GPU. (lab rule 7)
+2. On hold until the twin is done (Ahmed, 2026-11-03): OK to start the coupon print session? S1: 11 coupons, 41.2 g PLA, 4.14 h. S2: one TPU sole, 17.6 g, 2.19 h (print/PRINT_PLAN.md; lab rule 4).
+3. OK to buy the test order (BOM.md "Needs test order", 17 lines, $231.50)? (lab rule 7)
+4. Which printer will print the duck? The package needs a bed of at least 220 x 220 mm.
+5. Before the right leg prints: DECISIONS.md D26 (roll_to_pitch and the knee sheet eye, HARDWARE_AUDIT B42 and B43), and the floor for the first walks (B45).
 
 ## Next
 1. Coupon session; results into history/.
