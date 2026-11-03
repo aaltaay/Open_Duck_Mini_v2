@@ -129,8 +129,32 @@ def run_set(which, folder):
     json.dump(res, open(os.path.join(OUT, f"summary_{which}.json"), "w"), indent=1)
     return res
 
+def trained_vs_ours(folder):
+    """the walking runs (all walk cases, nominal and seeds 1 to 3, ITER iterations) with the trained inertials
+    (MB.model_inertials(), the stock build) and with ours: peak per joint and component, and the peak sole force.
+    Writes loads/trained_vs_ours.json."""
+    dS, _ = S.build_model("st_stock", links=S.MB.model_inertials())
+    res = {}
+    for nm, d in (("trained", dS), ("ours", folder)):
+        agg = {}
+        for label, scene, sch, dur, pushes, dz in WALK:
+            if label == "stand_in_place": continue
+            for sd in (None, 1, 2, 3):
+                R = S.run_logged(d, scene, sch, dur, pushes, dz, seed=sd, iterations=ITER, contacts=True)
+                s = summarize(R, label)
+                for j, v in s["joints"].items():
+                    for c in ("F_radial", "F_axial", "M_axis", "M_bend"):
+                        agg.setdefault(j, {}).setdefault(c, 0.0); agg[j][c] = max(agg[j][c], v[c]["peak"])
+                agg["grf"] = max(agg.get("grf", 0.0), s["grf"]["left_peak_z"], s["grf"]["right_peak_z"])
+                if R["falls"]: print(nm, label, sd, "FELL", R["falls"], flush=True)
+        res[nm] = agg
+    json.dump(res, open(os.path.join(OUT, "trained_vs_ours.json"), "w"), indent=1)
+    print("GRF peak trained", round(res["trained"]["grf"], 1), "ours", round(res["ours"]["grf"], 1))
+    return res
+
 if __name__ == "__main__":
     which = sys.argv[1]
     folder, B = S.build_model("st_ours")
-    run_set(which, folder)
+    if which == "trained": trained_vs_ours(folder)
+    else: run_set(which, folder)
     print("wrote", OUT)

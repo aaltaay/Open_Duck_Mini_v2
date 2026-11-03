@@ -8,7 +8,9 @@ full axis torque; idle horn or bearing: its share of the radial force). Unit loa
 component; each sim sample is a linear combination of them, so the peak failure index over a whole history and
 the stress history at the critical element (fatigue) come from the same solves.
 Run: ODM_SCRATCH=... nice -n 10 python3 altaay_lab/twin/structure/st_fea_run.py <study> <level> [level ...]
-(mesh levels of st_fea.Part.LEVELS: 1 coarse, 2 medium, 3 fine)
+(mesh levels of st_fea.Part.LEVELS: 1 coarse, 2 medium, 3 fine); checks: st_fea_run.py conv <study> 1 2 3 (mesh
+convergence, into fea_conv/), st_fea_run.py avgcheck <study> (stress averaging radius), st_fea_run.py sheetlocal
+(knee sheet eye alone under a unit knee torque, levels 1 to 3)
 """
 import os, sys, json, glob, time
 import numpy as np
@@ -75,7 +77,8 @@ STUDIES = {
     "hip_roll_stage": dict(link="hip_roll_assembly", members=["roll_motor_top", "roll_motor_bottom"],
                            loads=[("left_hip_yaw", "drive", [0, 1, 2, 5]), ("left_hip_yaw", "bearing", [0, 1])], fix_servo_of="left_hip_roll"),
     "foot": dict(link="foot_assembly", members=["foot_top"],
-                 loads=[("left_ankle", "drive", [0, 1, 2, 5])], fix_face_of=["foot_bottom_pla", "foot_side"]),
+                 loads=[("left_ankle", "drive", [0, 1, 2, 5])], fix_face_of=["foot_bottom_pla", "foot_side"],
+                 simplify={"foot_top": 0.01}),     # the STL has a 0.003 mm edge and 310 needle triangles: unsimplified, 70 % of the tets are under 1e-4 mm3 and CG stalls
     "neck_sheets": dict(link="neck_pitch_assembly", members=["neck_left_sheet", "neck_right_sheet"],
                         loads=[("neck_pitch", "drive", [0, 1, 2, 5]), ("neck_pitch", "idle", [0, 1])], fix_servo_of="head_pitch"),
     "head_roll_mount": dict(link="head_assembly", members=["head_roll_mount"],
@@ -83,6 +86,8 @@ STUDIES = {
 }
 # proposal studies: the same loads and supports with another print profile on the weak part (STRUCTURE_TWIN.md section 6)
 STUDIES["roll_to_pitch_w4i40"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(walls=4, infill=0.40)})
+STUDIES["roll_to_pitch_w3"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(walls=3)})                # its profile before D22
+STUDIES["roll_to_pitch_w6i40"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(walls=6, infill=0.40)})  # the 5 mm walls print solid
 STUDIES["roll_to_pitch_upx"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(up="+x")})   # hip roll axis vertical
 STUDIES["roll_to_pitch_upy"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(up="+y")})   # link x vertical: the wall between the ears lies flat
 STUDIES["shin_segment_w5i40"] = dict(STUDIES["shin_segment"], prof_over={"knee_to_ankle_left_sheet": dict(walls=5, infill=0.40),
@@ -98,7 +103,7 @@ def setup(name, maxvol):
                 if x["kind"] == "insert" and x["into"] == p and x["link"] == link:
                     a = np.array(x["axis_link"], float); c = np.array(x["seat_link"], float) + a * x["bore_len"] / 2
                     rings.append((c, a / np.linalg.norm(a), x["bore_d"] / 2 + 2.0, x["bore_len"] / 2 + 0.6))
-    P = FE.Part(members, level=int(maxvol), rings=rings, grow=st.get("grow"), prof_over=st.get("prof_over")); P.material(); P.assemble()
+    P = FE.Part(members, level=int(maxvol), rings=rings, grow=st.get("grow"), prof_over=st.get("prof_over"), simplify=st.get("simplify")); P.material(); P.assemble()
     groups = []
     for (j, kind, comps) in st["loads"]:
         g = G[j]; JT = joint_in_link(link, j); R = JT[:3, :3]; o = JT[:3, 3]
@@ -189,10 +194,12 @@ def history(S, which):
             rows.append(np.concatenate(block, axis=1)); names += [nm] * int(sel.sum())
     return (np.concatenate(rows) if rows else np.zeros((0, 1))), np.array(names)
 
+ALT_STRENGTHS = {"makerZ": (47.1, 39.4, 39.4), "PETG": (34.0, 23.0, 23.0)}   # MPa: X, Z, S (sources in STRUCTURE_TWIN.md 2.2 and 5)
 TIE_EXCL_MM = 2.0     # elements within 2 mm of a tie spring node are left out of the peak (the bonded joint is judged by its insert loads)
 AVG_MM = float(os.environ.get("ST_AVG_MM", "1.0"))   # stress averaging radius for the failure index (st_fea.averaging_matrix); 0 = raw element peak
 
-def evaluate(P, S, sig_u, hist, names, k_elem=1500, chunk=2000):
+def evaluate(P, S, sig_u, hist, names, k_elem=1500, chunk=2000, strengths=(47.1, 22.0, 22.0)):
+    """strengths: in-plane X, interlayer Z and interlayer shear S, MPa (default: PLA with the 22 MPa design value)"""
     c = P.X[P.T].mean(1)
     if not hasattr(P, "_ok_mask"):
         tie_nodes = np.unique(P.ties().ravel()) if len(P.members) > 1 else np.array([], int)
@@ -211,14 +218,14 @@ def evaluate(P, S, sig_u, hist, names, k_elem=1500, chunk=2000):
     best = dict(s=(-1.0, 0, 0), i=(-1.0, 0, 0))
     for a in range(0, len(hist), chunk):
         sx = np.einsum("tk,kei->tei", hist[a:a + chunk].astype(np.float32), su)
-        FI, vm, szz, tz, fv, fz = FE.failure_index(sx, solid[None, :], rho[None, :])
+        FI, vm, szz, tz, fv, fz = FE.failure_index(sx, solid[None, :], rho[None, :], *strengths)
         FIs = np.where(solid[None, :], FI, 0); FIi = np.where(~solid[None, :], FI, 0)
         for key, A in (("s", FIs), ("i", FIi)):
             t_, e_ = np.unravel_index(np.argmax(A), A.shape)
             if A[t_, e_] > best[key][0]: best[key] = (float(A[t_, e_]), a + t_, e_)
     fis, ts, es = best["s"]; el = cand[es]
     one = np.einsum("k,ki->i", hist[ts], sig_u[:, el, :])[None, :]
-    FI, vm, szz, tz, fv, fz = FE.failure_index(one, np.array([True]), np.array([rho[es]]))
+    FI, vm, szz, tz, fv, fz = FE.failure_index(one, np.array([True]), np.array([rho[es]]), *strengths)
     member = P.members[P.mem[el]]["name"]
     S3 = np.array([[one[0, 0], one[0, 5], one[0, 4]], [one[0, 5], one[0, 1], one[0, 3]], [one[0, 4], one[0, 3], one[0, 2]]])
     res = dict(FI=fis, sample=str(names[ts]), load=hist[ts].round(3).tolist(), mode="interlayer" if fz[0] > fv[0] else "in-plane",
@@ -226,8 +233,8 @@ def evaluate(P, S, sig_u, hist, names, k_elem=1500, chunk=2000):
                vm=float(vm[0]), szz=float(szz[0]), tz=float(tz[0]), zone=["wall", "top skin", "bottom skin", "infill", "ring"][int(P.zone[el])],
                member=member, where_link=c[el].round(1).tolist(), FI_infill=best["i"][0], element=int(el))
     sh = hist @ sig_u[:, el, :]
-    _, v, z, _, _, _ = FE.failure_index(sh, np.ones(len(sh), bool), np.full(len(sh), rho[es]))
-    return res, v.astype(np.float32), z.astype(np.float32)
+    _, v, z, t, _, _ = FE.failure_index(sh, np.ones(len(sh), bool), np.full(len(sh), rho[es]))
+    return res, v.astype(np.float32), z.astype(np.float32), t.astype(np.float32)   # von Mises, interlayer tension and interlayer shear histories
 
 def run(name, maxvols):
     out = dict(study=name, link=STUDIES[name]["link"], members=STUDIES[name]["members"], meshes=[])
@@ -240,9 +247,14 @@ def run(name, maxvols):
         for which in ("walk", "push", "fall"):
             hist, names = history(S, which)
             if not len(hist): continue
-            r, hv, hz = evaluate(P, S, sig_u, hist, names)
+            r, hv, hz, ht = evaluate(P, S, sig_u, hist, names)
+            if which != "fall":                     # the same field with the maker interlayer value and with PETG strengths (whole part, not only the weak spot)
+                r["alt"] = {}
+                for lab, stg in ALT_STRENGTHS.items():
+                    ra = evaluate(P, S, sig_u, hist, names, strengths=stg)[0]
+                    r["alt"][lab] = dict(FI=ra["FI"], mode=ra["mode"], zone=ra["zone"], member=ra["member"], where_link=ra["where_link"], sample=ra["sample"])
             if AVG_MM > 0 and which != "fall":
-                rr, _, _ = evaluate(P, S, S["sig_raw"], hist, names, k_elem=800)
+                rr = evaluate(P, S, S["sig_raw"], hist, names, k_elem=800)[0]
                 r["raw_element_peak"] = dict(FI=rr["FI"], mode=rr["mode"], zone=rr["zone"], member=rr["member"], where_link=rr["where_link"])
             if S.get("tie_unit"):
                 TU = np.stack(S["tie_unit"])                               # (ncomp, nins, 3)
@@ -254,11 +266,11 @@ def run(name, maxvols):
                     il[x["id"]] = dict(into=x["into"], pull_max=float(np.abs(ax).max()), shear_max=float(sh.max()))
                 r["insert_loads"] = il
             if which != "fall" and mv == maxvols[-1]:
-                np.savez_compressed(os.path.join(OUT, f"{name}_{which}_hist.npz"), vm=hv, szz=hz, names=names)
+                np.savez_compressed(os.path.join(OUT, f"{name}_{which}_hist.npz"), vm=hv, szz=hz, tz=ht, names=names)
             if which == "fall":
                 per = {}
                 for nm in sorted(set(names)):
-                    sel = names == nm; rr, _, _ = evaluate(P, S, sig_u, hist[sel], names[sel], k_elem=800)
+                    sel = names == nm; rr = evaluate(P, S, sig_u, hist[sel], names[sel], k_elem=800)[0]
                     per[nm] = dict(FI=rr["FI"], mode=rr["mode"], member=rr["member"], where_link=rr["where_link"], load=rr["load"])
                 r["per_run"] = per
             m["cases"][which] = r
@@ -269,5 +281,69 @@ def run(name, maxvols):
         json.dump(out, open(os.path.join(OUT, f"{name}.json"), "w"), indent=1, default=float)
     return out
 
+def avgcheck(name, radii=(0.5, 1.0, 1.5)):
+    """averaging radius check at mesh level 1: SF walk, push and the soft and mid falls with the failure index on the
+    element stress averaged over each radius (0 = the raw element peak). Writes ODM_SCRATCH/fea_conv/avgcheck_<study>.json.
+    Run: st_fea_run.py avgcheck <study>"""
+    global AVG_MM
+    keep = AVG_MM; AVG_MM = 0.0
+    P, S = setup(name, 1.0); sig_raw = solve_units(P, S); AVG_MM = keep
+    c = P.X[P.T].mean(1); solid = P.zone != 3; tree = cKDTree(c)
+    H = {w: history(S, w) for w in ("walk", "push", "fall")}
+    out = dict(study=name, level=1, nodes=len(P.X), tets=len(P.T), rows=[])
+    for r in (0.0,) + tuple(radii):
+        k = 32 if r <= 1.0 else 96
+        sig = sig_raw if r == 0 else np.stack([FE.averaging_matrix(P, r, k=k) @ x for x in sig_raw])
+        row = dict(radius_mm=r, k_nearest=k if r else None)
+        for which in ("walk", "push"):
+            P._mag_key = None
+            res = evaluate(P, S, sig, *H[which])[0]
+            el = res["element"]
+            nb = [j for j in tree.query_ball_point(c[el], r) if P.mem[j] == P.mem[el] and solid[j] == solid[el]] if r else [el]
+            row[which] = dict(SF=1 / res["FI"], mode=res["mode"], zone=res["zone"], member=res["member"], where_link=res["where_link"],
+                              sample=res["sample"], n_elements_in_radius=len(nb))
+        hist, names = H["fall"]
+        for lv, tag in (("soft", "_tc0.0158_dr0.2"), ("mid", "_tc0.005_dr0.2")):
+            sfs = []
+            for nm in sorted(set(n for n in names if n.endswith(tag))):
+                sel = names == nm; P._mag_key = None
+                rr = evaluate(P, S, sig, hist[sel], names[sel], k_elem=800)[0]; sfs.append(1 / rr["FI"])
+            row["fall_" + lv] = dict(worst_SF=min(sfs), n_under_1_2=int(sum(s < 1.2 for s in sfs)), n=len(sfs))
+        out["rows"].append(row)
+        print(f"{name} avg {r} mm: walk SF {row['walk']['SF']:.2f} at {row['walk']['where_link']} ({row['walk']['n_elements_in_radius']} elements), "
+              f"push SF {row['push']['SF']:.2f}, fall soft {row['fall_soft']['worst_SF']:.2f} ({row['fall_soft']['n_under_1_2']} of {row['fall_soft']['n']} under 1.2), "
+              f"fall mid {row['fall_mid']['worst_SF']:.2f} ({row['fall_mid']['n_under_1_2']} of {row['fall_mid']['n']})", flush=True)
+    os.makedirs(os.path.join(SCR, "fea_conv"), exist_ok=True)
+    json.dump(out, open(os.path.join(SCR, "fea_conv", f"avgcheck_{name}.json"), "w"), indent=1, default=float)
+    return out
+
+def sheetlocal(levels=(1, 2, 3)):
+    """local mesh check at the knee sheet eye neck: knee_to_ankle_left_sheet alone (fixed at the ankle servo contact and
+    its case screw holes), a unit knee torque (1 N m) at the knee drive horn screws; von Mises per N m outside 1 mm of
+    the boundary nodes, raw element values and 1 mm averages, at mesh levels 1 to 3. Writes fea_conv/sheet_local.json.
+    Run: st_fea_run.py sheetlocal"""
+    global AVG_MM
+    STUDIES["sheet_local"] = dict(link="knee_and_ankle_assembly_2", members=["knee_to_ankle_left_sheet"],
+                                  loads=[("left_knee", "drive", [5])], fix_servo_of="left_ankle")
+    keep = AVG_MM; AVG_MM = 0.0; out = []
+    for lv in levels:
+        P, S = setup("sheet_local", float(lv)); raw = solve_units(P, S)[0]; avg = FE.averaging_matrix(P, 1.0) @ raw
+        c = P.X[P.T].mean(1); excl = np.concatenate([S["groups"][0]["nodes"], S["fixed"]]); ok = cKDTree(P.X[excl]).query(c)[0] > 1.0
+        near = np.linalg.norm(c[:, :2] - np.array([-11.8, -9.7]), axis=1) < 3.0          # the neck between the horn eye and the plate
+        r = dict(level=lv, nodes=len(P.X), tets=len(P.T), u_max_mm_per_Nm=float(np.abs(P.u).max()), solver=S["solver"])
+        for lab, sg in (("raw", raw), ("avg1mm", avg)):
+            vm = FE.failure_index(sg, np.ones(len(sg), bool), np.ones(len(sg)))[1]
+            i = np.argmax(np.where(ok, vm, 0)); j = np.argmax(np.where(ok & near, vm, 0))
+            r[lab] = dict(vm_peak_per_Nm=float(vm[i]), at=c[i].round(2).tolist(), vm_neck_per_Nm=float(vm[j]), neck_at=c[j].round(2).tolist())
+        out.append(r); print(r, flush=True)
+    AVG_MM = keep
+    os.makedirs(os.path.join(SCR, "fea_conv"), exist_ok=True)
+    json.dump(out, open(os.path.join(SCR, "fea_conv", "sheet_local.json"), "w"), indent=1, default=float)
+    return out
+
 if __name__ == "__main__":
-    run(sys.argv[1], tuple(float(x) for x in sys.argv[2:]) or (1.0,))
+    if sys.argv[1] == "avgcheck": avgcheck(sys.argv[2])
+    elif sys.argv[1] == "sheetlocal": sheetlocal()
+    elif sys.argv[1] == "conv":                       # mesh convergence: st_fea_run.py conv <study> 1 2 3 (writes ODM_SCRATCH/fea_conv/)
+        OUT = os.path.join(SCR, "fea_conv"); os.makedirs(OUT, exist_ok=True); run(sys.argv[2], tuple(float(x) for x in sys.argv[3:]))
+    else: run(sys.argv[1], tuple(float(x) for x in sys.argv[2:]) or (1.0,))

@@ -108,31 +108,48 @@ def max_amplitude(stress):
     cyc = SL.rainflow(np.asarray(stress, float))
     return max((r / 2.0 for r, _, _ in cyc), default=0.0)
 
-def fatigue_table():
+# best-case bound: Gomez-Gras et al. 2018, 35.8 MPa "lower threshold of the endurance limit" (rotating bending, R = -1, so
+# amplitude = cycle maximum), compared with the cycle maximum as in the Ezeh and Susmel mean stress rule; across the
+# layers scaled by 22 / 47.1 (ASSUMPTION: no interlayer fatigue data)
+BEST_XY = 35.8; BEST_Z = 35.8 * 22.0 / 47.1
+BASE_STUDIES = ["roll_to_pitch", "shin_segment", "thigh_segment", "hip_roll_stage", "foot", "neck_sheets", "head_roll_mount"]
+def fatigue_table(studies=None, cases=("walk_forward_0.15", "turn_1.0", "walk_side_0.2", "walk_backlash"), tag="fatigue_table"):
+    """design-curve life at each study's walking weak spot, per walking case; three modes: von Mises against 47.1 MPa,
+    interlayer tension and interlayer shear (magnitude, when the history has it) against 22 MPa"""
     rows = []; out = {}
-    for f in sorted(glob.glob(os.path.join(SCR, "fea", "*_walk_hist.npz"))):
-        st = os.path.basename(f).replace("_walk_hist.npz", "")
-        d = np.load(f, allow_pickle=True); names = d["names"]; vm = d["vm"]; szz = d["szz"]
+    files = {os.path.basename(f).replace("_walk_hist.npz", ""): f for f in glob.glob(os.path.join(SCR, "fea", "*_walk_hist.npz"))}
+    for st in (studies or BASE_STUDIES):
+        if st not in files: continue
+        d = np.load(files[st], allow_pickle=True); names = d["names"]; vm = d["vm"]; szz = d["szz"]
+        tz = d["tz"] if "tz" in d.files else None
         res = {}
-        for case in ("walk_forward_0.15", "turn_1.0", "walk_side_0.2", "walk_backlash"):
-            Dv = Dz = 0.0; dur = 0.0; smv = smz = 0.0; amp = 0.0
+        for case in cases:
+            D = dict(vm=0.0, szz=0.0, tz=0.0); dur = 0.0; smv = smz = smt = 0.0; amp = 0.0
             for run in sorted(set(n for n in names if n.startswith(case))):
                 sel = names == run; n = int(sel.sum()); dur += n * 0.004       # 250 Hz samples (every second 2 ms step)
                 dv, sv = damage(vm[sel], 47.1); dz, sz = damage(np.clip(szz[sel], 0, None), 22.0)
-                Dv += dv; Dz += dz; smv = max(smv, sv); smz = max(smz, sz); amp = max(amp, max_amplitude(vm[sel]))
+                D["vm"] += dv; D["szz"] += dz; smv = max(smv, sv); smz = max(smz, sz); amp = max(amp, max_amplitude(vm[sel]))
+                if tz is not None:
+                    dt, st_ = damage(tz[sel], 22.0); D["tz"] += dt; smt = max(smt, st_)
             if dur == 0: continue
             hours = dur / 3600.0
-            life_v = hours / Dv if Dv > 0 else float("inf"); life_z = hours / Dz if Dz > 0 else float("inf")
-            res[case] = dict(walk_s=dur, D_per_h_vm=Dv / hours, D_per_h_szz=Dz / hours, life_h=min(life_v, life_z),
-                             smax_vm=smv, smax_szz=smz, limit_mode="interlayer" if life_z < life_v else "in-plane", amp_vm=amp,
-                             cycles_per_h=None)
+            life = {k: (hours / v if v > 0 else float("inf")) for k, v in D.items()}
+            lim = min(life, key=life.get)
+            res[case] = dict(walk_s=dur, D_per_h={k: v / hours for k, v in D.items()}, life_h=life[lim], life_h_by_mode=life,
+                             smax_vm=smv, smax_szz=smz, smax_tz=smt if tz is not None else None,
+                             limit_mode={"vm": "in-plane (von Mises)", "szz": "interlayer tension", "tz": "interlayer shear"}[lim], amp_vm=amp)
         out[st] = res
         for case, r in res.items():
-            rows.append([st, case, f"{r['smax_vm']:.2f}", f"{r['smax_szz']:.2f}", f"{r['amp_vm']:.2f}", f"{r['life_h']:.3g}", r["limit_mode"],
-                         "yes" if r["life_h"] < 100 else "no", "yes" if r["amp_vm"] < 35.8 else "NO"])
-    json.dump(out, open(os.path.join(OUT, "fatigue_table.json"), "w"), indent=1, default=float)
-    print(md(rows, ["FEA study", "walk case", "max von Mises MPa", "max interlayer tension MPa", "largest von Mises amplitude MPa",
-                    "life h, design curve (P_s 95 %)", "limit", "under 100 h (design curve)", "amplitude under 35.8 MPa (best-case data, in-plane)"]))
+            inter = max(r["smax_szz"], r["smax_tz"] or 0.0)
+            best = r["smax_vm"] < BEST_XY and inter < BEST_Z
+            r["best_case_ok"] = bool(best); r["best_case_SF"] = min(BEST_XY / max(r["smax_vm"], 1e-9), BEST_Z / max(inter, 1e-9))
+            rows.append([st, case, f"{r['smax_vm']:.2f}", f"{r['smax_szz']:.2f}", f"{r['smax_tz']:.2f}" if r["smax_tz"] is not None else "-",
+                         f"{r['amp_vm']:.2f}", f"{r['life_h']:.3g}", r["limit_mode"], "yes" if r["life_h"] < 100 else "no",
+                         f"{'yes' if best else 'NO'} ({r['best_case_SF']:.2f})"])
+    json.dump(out, open(os.path.join(OUT, tag + ".json"), "w"), indent=1, default=float)
+    print(md(rows, ["FEA study", "walk case", "max von Mises MPa", "max interlayer tension MPa", "max interlayer shear MPa", "largest von Mises amplitude MPa",
+                    "life h, design curve (P_s 95 %)", "limit", "under 100 h (design curve)",
+                    "best case: cycle maximum under 35.8 MPa in-plane and 16.7 MPa across the layers (ratio)"]))
     return out
 
 
@@ -239,7 +256,10 @@ def fea_table():
             # PETG: room-temperature strength ratio, held to about 60 C (below its 1.8 MPa HDT of 62 C; ASSUMPTION, no hot data)
             ratio = (PETG["Z"] / 22.0) if r["walk"]["mode"] == "interlayer" else (PETG["X"] / 47.1)
             hot["PETG"] = dict(SF_walk=r["walk"]["SF"] * ratio, SF_push=r["push"]["SF"] * ratio if "push" in r else None, strength_ratio=ratio,
-                               deflection_factor=E_PLA / PETG["E"])
+                               deflection_factor=E_PLA / PETG["E"], basis="strength ratio at the PLA weak spot")
+            if C["walk"].get("alt", {}).get("PETG"):         # whole-part evaluation with the PETG strengths (st_fea_run ALT_STRENGTHS)
+                hot["PETG"].update(SF_walk=1 / C["walk"]["alt"]["PETG"]["FI"], SF_push=1 / C["push"]["alt"]["PETG"]["FI"] if "push" in C else None,
+                                   basis="whole part, PETG strengths")
         r["hot"] = hot
         out[st] = r
     json.dump(out, open(os.path.join(OUT, "fea_table.json"), "w"), indent=1, default=float)
@@ -250,7 +270,8 @@ def fea_table():
                      f"{fl['MuJoCo default']['SF']:.2f}" if "MuJoCo default" in fl else "-",
                      f"{r['walk']['member']}, {r['walk']['zone']}, {r['walk']['mode']}, at {r['walk']['where']} mm ({r['walk']['sample']})" if "walk" in r else "-",
                      f"{r['hot']['50 C']['SF_walk']:.2f}" if r.get("hot", {}).get("50 C", {}).get("SF_walk") else "-",
-                     f"{r['hot']['PETG']['SF_walk']:.2f}" if r.get("hot", {}).get("PETG") else "-"])
+                     ((("at most " if (r["hot"]["PETG"]["basis"].startswith("strength ratio") and r["walk"]["mode"] == "interlayer") else "")
+                       + f"{r['hot']['PETG']['SF_walk']:.2f}") if r.get("hot", {}).get("PETG") else "-")])
     print(md(rows, ["study", "parts", "SF walk", "SF push", "SF fall soft", "SF fall mid", "SF fall MuJoCo default", "weak spot (walking peak)", "SF walk at 50 C (PLA)", "SF walk PETG"]))
     return out
 

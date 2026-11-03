@@ -36,7 +36,7 @@ PRINT = os.path.join(REPO, "print")
 E_SOLID = 2641.0
 NU_SOLID = 0.35
 GYROID_N = 2.12
-WALL_MM = {2: 0.86, 3: 1.27, 4: 1.67, 5: 2.09}
+WALL_MM = {2: 0.86, 3: 1.27, 4: 1.67, 5: 2.09, 6: 2.50}   # 0.45 + (n - 1) x 0.41 mm
 TOP_MM, BOT_MM = 1.0, 0.8
 
 def up_rotation(up):
@@ -66,14 +66,19 @@ class Part:
     LEVELS = {1: dict(minratio=2.0, mindihedral=10, maxvol=5.0), 2: dict(minratio=1.6, mindihedral=15, maxvol=1.0),
               3: dict(minratio=1.4, mindihedral=18, maxvol=0.3)}
 
-    def __init__(self, members, level=1, rings=(), grow=None, tie_mm=0.45, k_tie=2.0e4, prof_over=None):
+    def __init__(self, members, level=1, rings=(), grow=None, tie_mm=0.45, k_tie=2.0e4, prof_over=None, simplify=None):
         """members: list of (part_name, T_link 4x4 STL mm -> link mm); rings: list of (centre_link, axis_link, r, half_len).
         Each member is meshed on its own; members that touch are tied by stiff springs between surface nodes closer than
         tie_mm (bonded screwed joint, ASSUMPTION; k_tie N/mm per node pair, about 15 x the local element stiffness E h)"""
         self.members = []; L = Part.LEVELS[level]; self.level = level
         Xs, Ts, mem = [], [], []; off = 0; t = time.time()
         for k, (name, T) in enumerate(members):
-            m = trimesh.load(os.path.join(PRINT, name + ".stl"), force="mesh"); m.apply_transform(T)
+            m = trimesh.load(os.path.join(PRINT, name + ".stl"), force="mesh")
+            if simplify and name in simplify:            # collapse STL edges shorter than simplify[name] mm (manifold3d), so that
+                import manifold3d as m3                   # TetGen does not refine a cascade of tiny tets at needle triangles
+                me = m3.Manifold(m3.Mesh(vert_properties=np.asarray(m.vertices, np.float32), tri_verts=np.asarray(m.faces, np.uint32))).simplify(simplify[name]).to_mesh()
+                m = trimesh.Trimesh(np.asarray(me.vert_properties)[:, :3].astype(float), np.asarray(me.tri_verts).astype(int), process=True)
+            m.apply_transform(T)
             if np.linalg.det(T[:3, :3]) < 0: m.invert()
             prof = profile_of(name)
             if prof_over and name in prof_over: prof = dict(prof, **prof_over[name])     # proposal studies: other walls or infill

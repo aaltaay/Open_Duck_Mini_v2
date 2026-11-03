@@ -4,7 +4,8 @@ Each proposal is one STL sliced with the lab configs (print/config/, the parts.c
 proposed change, against the same STL with its D22 settings. PETG grams scale the PLA toolpath volume by the density
 ratio 1.27 / 1.20 (Generic PETG in /usr/share/PrusaSlicer/profiles/PrusaResearch.ini, line 7810; Overture Easy PLA
 TDS 1.20 g/cm3, print/config/filament_easy_pla.ini); PETG print time is not estimated (the profile would change).
-Run: ODM_SCRATCH=... python3 altaay_lab/twin/structure/st_slice_proposals.py   (G-code in ODM_SCRATCH/slice_prop/)
+Run: ODM_SCRATCH=... python3 altaay_lab/twin/structure/st_slice_proposals.py [label filter]   (G-code in ODM_SCRATCH/slice_prop/)
+Grams and hours of the roll_to_pitch rows are for one part (left_roll_to_pitch, qty 1); both legs are twice that.
 """
 import os, sys, json, csv
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -23,6 +24,7 @@ PROPOSALS = [   # (label, stl, extra settings)
     ("leg_spacer 4 walls 40 % (no rings needed)", "leg_spacer.stl", {"perimeters": "4", "fill_density": "40%"}),
     ("roll_motor_top 4 walls 40 %", "roll_motor_top.stl", {"perimeters": "4", "fill_density": "40%"}),
     ("foot_top 4 walls 40 %", "foot_top.stl", {"perimeters": "4", "fill_density": "40%"}),
+    ("roll_to_pitch 6 walls 40 % (the 5 mm walls print solid)", "left_roll_to_pitch.stl", {"perimeters": "6", "fill_density": "40%"}),
 ]
 ORIENT = [("roll_to_pitch printed with +x up (hip roll axis vertical)", "left_roll_to_pitch.stl", "+x"),
           ("roll_to_pitch printed with +y up (the wall between the horn ears flat)", "left_roll_to_pitch.stl", "+y")]
@@ -39,8 +41,10 @@ def slice_one(stl, extra, tag, up=None):
     return SLC.parse_gcode(g, 1.20)
 
 if __name__ == "__main__":
+    only = sys.argv[1] if len(sys.argv) > 1 else None          # optional label filter: update only those rows of the JSON
     res = []
     for k, (label, stl, extra) in enumerate(PROPOSALS):
+        if only and only not in label: continue
         base = slice_one(stl, {}, "base")
         new = slice_one(stl, extra, f"p{k}")
         qty = int(ROWS[stl]["qty"])
@@ -49,9 +53,14 @@ if __name__ == "__main__":
                    petg_g_model=round(new["g_model"] * 1.27 / 1.20, 2))
         res.append(row); print(row, flush=True)
     for label, stl, up in ORIENT:
+        if only and only not in label: continue
         base = slice_one(stl, {}, "base"); new = slice_one(stl, {}, "orient", up=up)
         row = dict(label=label, stl=stl, qty=int(ROWS[stl]["qty"]), base_g_model=base["g_model"], new_g_model=new["g_model"], base_h=base["s"] / 3600,
                    new_h=new["s"] / 3600, base_support_g=base["g_support"], new_support_g=new["g_support"],
                    d_g_robot=round((new["g_model"] - base["g_model"]) * 2, 2), d_h_robot=round((new["s"] - base["s"]) / 3600 * 2, 2))
         res.append(row); print(row, flush=True)
-    json.dump(res, open(os.path.join(SCR, "slice_proposals.json"), "w"), indent=1)
+    f = os.path.join(SCR, "slice_proposals.json")
+    if only and os.path.exists(f):
+        new = {r["label"]: r for r in res}; old = json.load(open(f))
+        res = [new.pop(r["label"], r) for r in old] + list(new.values())
+    json.dump(res, open(f, "w"), indent=1)
