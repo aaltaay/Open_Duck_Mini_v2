@@ -45,9 +45,11 @@ def _budget():
     return MB.build_budget()
 
 
-def build_model(name, collide=False, body_solref=(0.02, 1.0), body_friction=0.6, B=None):
-    """write the instrumented model folder; returns (folder, budget)"""
+def build_model(name, collide=False, body_solref=(0.02, 1.0), body_friction=0.6, B=None, links=None):
+    """write the instrumented model folder; returns (folder, budget). links: replace our build's inertials (for example
+    the trained ones, MB.model_inertials()) for a comparison run"""
     B = B or _budget()
+    if links is not None: B = dict(B, links=links)
     pl = json.load(open(os.path.join(LAB, "audit/placements.json")))
     boxes = [("trunk_assembly", np.array(p["center_mm"]) / 1000, np.array(p["dims_xyz_mm"]) / 1000, "0.85 0.1 0.1 1") for p in pl]
     d = AM.write_variant(name, B["links"], boxes)

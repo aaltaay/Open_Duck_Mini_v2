@@ -74,8 +74,8 @@ STUDIES = {
                           loads=[("left_hip_roll", "drive", [0, 1, 2, 5]), ("left_hip_roll", "idle", [0, 1])], fix_servo_of="left_hip_pitch"),
     "hip_roll_stage": dict(link="hip_roll_assembly", members=["roll_motor_top", "roll_motor_bottom"],
                            loads=[("left_hip_yaw", "drive", [0, 1, 2, 5]), ("left_hip_yaw", "bearing", [0, 1])], fix_servo_of="left_hip_roll"),
-    "foot": dict(link="foot_assembly", members=["foot_top", "foot_side", "foot_bottom_pla"],
-                 loads=[("left_ankle", "drive", [0, 1, 2, 5]), ("left_ankle", "idle", [0, 1])], fix_face_of="foot_bottom_tpu"),
+    "foot": dict(link="foot_assembly", members=["foot_top"],
+                 loads=[("left_ankle", "drive", [0, 1, 2, 5])], fix_face_of=["foot_bottom_pla", "foot_side"]),
     "neck_sheets": dict(link="neck_pitch_assembly", members=["neck_left_sheet", "neck_right_sheet"],
                         loads=[("neck_pitch", "drive", [0, 1, 2, 5]), ("neck_pitch", "idle", [0, 1])], fix_servo_of="head_pitch"),
     "head_roll_mount": dict(link="head_assembly", members=["head_roll_mount"],
@@ -83,6 +83,8 @@ STUDIES = {
 }
 # proposal studies: the same loads and supports with another print profile on the weak part (STRUCTURE_TWIN.md section 6)
 STUDIES["roll_to_pitch_w4i40"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(walls=4, infill=0.40)})
+STUDIES["roll_to_pitch_upx"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(up="+x")})   # hip roll axis vertical
+STUDIES["roll_to_pitch_upy"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(up="+y")})   # link x vertical: the wall between the ears lies flat
 STUDIES["shin_segment_w5i40"] = dict(STUDIES["shin_segment"], prof_over={"knee_to_ankle_left_sheet": dict(walls=5, infill=0.40),
                                                                          "knee_to_ankle_right_sheet": dict(walls=5, infill=0.40)})
 
@@ -121,8 +123,9 @@ def setup(name, maxvol):
         cs = [x for x in F if x["anchor"] == "servo pilot" and x.get("servo") == js and x["link"] == link]
         if cs: fix.append(hole_nodes(P, cs, 1.25))
     if st.get("fix_face_of"):
-        o = st["fix_face_of"]; m = trimesh.load(os.path.join(FE.PRINT, o + ".stl"), force="mesh"); m.apply_transform(visual_T(link, o))
-        sn = np.nonzero(P.surface_nodes())[0]; fix.append(sn[near_surface([m], P.X[sn]) < 0.3])
+        for o in (st["fix_face_of"] if isinstance(st["fix_face_of"], (list, tuple)) else [st["fix_face_of"]]):
+            m = trimesh.load(os.path.join(FE.PRINT, o + ".stl"), force="mesh"); m.apply_transform(visual_T(link, o))
+            sn = np.nonzero(P.surface_nodes())[0]; fix.append(sn[near_surface([m], P.X[sn]) < 0.3])
     if st.get("fix_inserts"):
         xs = [x for x in F if x["anchor"] == "M3 insert" and x["link"] == link and x["part"] in st["members"]]
         fix.append(hole_nodes(P, xs, 1.8))
@@ -155,7 +158,11 @@ def solve_units(P, S):
                 fpair = P.k_tie * (P.u[pairs[:, 0]] - P.u[pairs[:, 1]])     # force of member b on member a per pair, N
                 S["tie_unit"].append(np.array([fpair[grp == k].sum(0) for k in range(len(ins))]))
             S["solve_s"] += P.solve_s; S["solver"] = P.solver; S["u_unit_max_mm"].append(float(np.abs(P.u).max()))
-    return np.stack(sig)
+    sig = np.stack(sig)
+    S["sig_raw"] = sig
+    if AVG_MM > 0:
+        W = FE.averaging_matrix(P, AVG_MM); sig = np.stack([W @ x for x in sig])
+    return sig
 
 PATTERNS = dict(walk=["loads/walk_forward*", "loads/turn_*", "loads/walk_side*", "loads/walk_backlash*", "loads/stand_*"],
                 push=["loads/push1_*", "loads/walk_pushes_*"],
@@ -183,15 +190,21 @@ def history(S, which):
     return (np.concatenate(rows) if rows else np.zeros((0, 1))), np.array(names)
 
 TIE_EXCL_MM = 2.0     # elements within 2 mm of a tie spring node are left out of the peak (the bonded joint is judged by its insert loads)
+AVG_MM = float(os.environ.get("ST_AVG_MM", "1.0"))   # stress averaging radius for the failure index (st_fea.averaging_matrix); 0 = raw element peak
 
 def evaluate(P, S, sig_u, hist, names, k_elem=1500, chunk=2000):
     c = P.X[P.T].mean(1)
-    if not hasattr(P, "_tie_nodes"): P._tie_nodes = np.unique(P.ties().ravel()) if len(P.members) > 1 else np.array([], int)
-    tie_nodes = P._tie_nodes
-    excl = np.concatenate([np.concatenate([g["nodes"] for g in S["groups"]]), S["fixed"]])
-    dex = cKDTree(P.X[excl]).query(c)[0]; ok = dex > 1.0       # 1 mm off loaded and fixed nodes (point-like BCs)
-    if len(tie_nodes): ok &= cKDTree(P.X[tie_nodes]).query(c)[0] > TIE_EXCL_MM
-    mag = np.sqrt((sig_u[:, :, :3] ** 2).sum(-1) + 2 * (sig_u[:, :, 3:] ** 2).sum(-1))
+    if not hasattr(P, "_ok_mask"):
+        tie_nodes = np.unique(P.ties().ravel()) if len(P.members) > 1 else np.array([], int)
+        excl = np.concatenate([np.concatenate([g["nodes"] for g in S["groups"]]), S["fixed"]])
+        ok = cKDTree(P.X[excl]).query(c)[0] > 1.0                 # 1 mm off loaded and fixed nodes (point-like BCs)
+        if len(tie_nodes): ok &= cKDTree(P.X[tie_nodes]).query(c)[0] > TIE_EXCL_MM
+        P._ok_mask = ok
+    ok = P._ok_mask
+    key = id(sig_u)
+    if getattr(P, "_mag_key", None) != key:
+        P._mag = np.sqrt((sig_u[:, :, :3] ** 2).sum(-1) + 2 * (sig_u[:, :, 3:] ** 2).sum(-1)); P._mag_key = key
+    mag = P._mag
     score = (mag * np.abs(hist).max(0)[:, None]).sum(0); score[~ok] = 0
     cand = np.argsort(score)[-k_elem:]; solid = P.zone[cand] != 3; rho = P.infill[cand]
     su = sig_u[:, cand, :].astype(np.float32)
@@ -220,7 +233,7 @@ def run(name, maxvols):
     out = dict(study=name, link=STUDIES[name]["link"], members=STUDIES[name]["members"], meshes=[])
     for mv in maxvols:
         t0 = time.time(); P, S = setup(name, mv); sig_u = solve_units(P, S)
-        m = dict(maxvol=mv, nodes=len(P.X), tets=len(P.T), mesh_s=round(P.mesh_s, 1), solver=S["solver"], solve_s=round(S["solve_s"], 1),
+        m = dict(maxvol=mv, avg_mm=AVG_MM, nodes=len(P.X), tets=len(P.T), mesh_s=round(P.mesh_s, 1), solver=S["solver"], solve_s=round(S["solve_s"], 1),
                  groups=[dict(joint=g["joint"], kind=g["kind"], n_nodes=int(len(g["nodes"])), screws=g["screws"]) for g in S["groups"]],
                  n_fixed=int(len(S["fixed"])), n_tie_pairs=int(getattr(P, "n_ties", 0)), zone_vol_mm3={k: round(v, 1) for k, v in P.zone_vol.items()},
                  member_vol_mm3={k: round(v, 1) for k, v in P.member_vol.items()}, u_unit_max_mm=S["u_unit_max_mm"], cases={})
@@ -228,6 +241,9 @@ def run(name, maxvols):
             hist, names = history(S, which)
             if not len(hist): continue
             r, hv, hz = evaluate(P, S, sig_u, hist, names)
+            if AVG_MM > 0 and which != "fall":
+                rr, _, _ = evaluate(P, S, S["sig_raw"], hist, names, k_elem=800)
+                r["raw_element_peak"] = dict(FI=rr["FI"], mode=rr["mode"], zone=rr["zone"], member=rr["member"], where_link=rr["where_link"])
             if S.get("tie_unit"):
                 TU = np.stack(S["tie_unit"])                               # (ncomp, nins, 3)
                 Fi = np.einsum("tk,kij->tij", hist, TU)                    # (nt, nins, 3)

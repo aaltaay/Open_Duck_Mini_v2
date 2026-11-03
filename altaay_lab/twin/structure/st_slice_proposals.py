@@ -24,14 +24,16 @@ PROPOSALS = [   # (label, stl, extra settings)
     ("roll_motor_top 4 walls 40 %", "roll_motor_top.stl", {"perimeters": "4", "fill_density": "40%"}),
     ("foot_top 4 walls 40 %", "foot_top.stl", {"perimeters": "4", "fill_density": "40%"}),
 ]
+ORIENT = [("roll_to_pitch printed with +x up (hip roll axis vertical)", "left_roll_to_pitch.stl", "+x"),
+          ("roll_to_pitch printed with +y up (the wall between the horn ears flat)", "left_roll_to_pitch.stl", "+y")]
 
-def slice_one(stl, extra, tag):
+def slice_one(stl, extra, tag, up=None):
     r = ROWS[stl]; ov = r["overrides"]
     cfgs = SLC.config_stack(r["material"], ov)
     if extra:
         p = os.path.join(OUT, f"extra_{tag}.ini")
         open(p, "w").write("".join(f"{k} = {v}\n" for k, v in extra.items())); cfgs = cfgs + [p]
-    src = SLC.oriented(stl, r["up"], os.path.join(OUT, "oriented"))
+    src = SLC.oriented(stl, up or r["up"], os.path.join(OUT, "oriented" + ("_" + up.replace("+", "p").replace("-", "m") if up else "")))
     g = os.path.join(OUT, f"{stl[:-4]}_{tag}.gcode")
     SLC.run_slicer([src], cfgs, g)
     return SLC.parse_gcode(g, 1.20)
@@ -45,5 +47,11 @@ if __name__ == "__main__":
         row = dict(label=label, stl=stl, qty=qty, base_g_model=base["g_model"], new_g_model=new["g_model"], base_h=base["s"] / 3600, new_h=new["s"] / 3600,
                    d_g_robot=round((new["g_model"] - base["g_model"]) * qty, 2), d_h_robot=round((new["s"] - base["s"]) / 3600 * qty, 2),
                    petg_g_model=round(new["g_model"] * 1.27 / 1.20, 2))
+        res.append(row); print(row, flush=True)
+    for label, stl, up in ORIENT:
+        base = slice_one(stl, {}, "base"); new = slice_one(stl, {}, "orient", up=up)
+        row = dict(label=label, stl=stl, qty=int(ROWS[stl]["qty"]), base_g_model=base["g_model"], new_g_model=new["g_model"], base_h=base["s"] / 3600,
+                   new_h=new["s"] / 3600, base_support_g=base["g_support"], new_support_g=new["g_support"],
+                   d_g_robot=round((new["g_model"] - base["g_model"]) * 2, 2), d_h_robot=round((new["s"] - base["s"]) / 3600 * 2, 2))
         res.append(row); print(row, flush=True)
     json.dump(res, open(os.path.join(SCR, "slice_proposals.json"), "w"), indent=1)

@@ -230,6 +230,20 @@ class Part:
             out[sel] = np.stack([Sp[:, 0, 0], Sp[:, 1, 1], Sp[:, 2, 2], Sp[:, 1, 2], Sp[:, 0, 2], Sp[:, 0, 1]], axis=1)
         return out
 
+def averaging_matrix(P, radius=1.0, k=32):
+    """sparse (ne x ne) volume-weighted average of the element stress over the elements of the same member and the same
+    zone class (solid or infill) whose centroids lie within 'radius' mm (among the k nearest). Linear tetrahedra give a
+    constant stress per element; where the 0.86 to 2.1 mm wall bands and the 56 x softer infill cut through elements,
+    single elements carry stress spikes of either sign. The average over 1 mm (about two 0.45 mm beads and five 0.2 mm
+    layers, the scale of the printed structure) is used for the failure index; the raw element peak is reported too."""
+    c = P.X[P.T].mean(1); V = P.vol(); solid = P.zone != 3; ne = len(c)
+    d, j = cKDTree(c).query(c, k=k)
+    ok = (d <= radius) & (P.mem[j] == P.mem[:, None]) & (solid[j] == solid[:, None])
+    ok[:, 0] = True                                                # the element itself
+    w = np.where(ok, V[j], 0.0); w = w / w.sum(1, keepdims=True)
+    rows = np.repeat(np.arange(ne), k)
+    return sp.csr_matrix((w.ravel(), (rows, j.ravel())), shape=(ne, ne))
+
 def failure_index(sig, solid, rho, X_xy=47.1, Z=22.0, S=22.0):
     sxx, syy, szz, syz, sxz, sxy = [sig[..., i] for i in range(6)]
     vm = np.sqrt(0.5 * ((sxx - syy) ** 2 + (syy - szz) ** 2 + (szz - sxx) ** 2) + 3 * (syz ** 2 + sxz ** 2 + sxy ** 2))

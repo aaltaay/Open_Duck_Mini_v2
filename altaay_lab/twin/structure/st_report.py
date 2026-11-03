@@ -104,6 +104,10 @@ def damage(stress, uts):
         D += n / (N_A * (FRAC_A * uts / smax) ** K_SN)
     return D, smax_all
 
+def max_amplitude(stress):
+    cyc = SL.rainflow(np.asarray(stress, float))
+    return max((r / 2.0 for r, _, _ in cyc), default=0.0)
+
 def fatigue_table():
     rows = []; out = {}
     for f in sorted(glob.glob(os.path.join(SCR, "fea", "*_walk_hist.npz"))):
@@ -111,22 +115,24 @@ def fatigue_table():
         d = np.load(f, allow_pickle=True); names = d["names"]; vm = d["vm"]; szz = d["szz"]
         res = {}
         for case in ("walk_forward_0.15", "turn_1.0", "walk_side_0.2", "walk_backlash"):
-            Dv = Dz = 0.0; dur = 0.0; smv = smz = 0.0
+            Dv = Dz = 0.0; dur = 0.0; smv = smz = 0.0; amp = 0.0
             for run in sorted(set(n for n in names if n.startswith(case))):
                 sel = names == run; n = int(sel.sum()); dur += n * 0.004       # 250 Hz samples (every second 2 ms step)
                 dv, sv = damage(vm[sel], 47.1); dz, sz = damage(np.clip(szz[sel], 0, None), 22.0)
-                Dv += dv; Dz += dz; smv = max(smv, sv); smz = max(smz, sz)
+                Dv += dv; Dz += dz; smv = max(smv, sv); smz = max(smz, sz); amp = max(amp, max_amplitude(vm[sel]))
             if dur == 0: continue
             hours = dur / 3600.0
             life_v = hours / Dv if Dv > 0 else float("inf"); life_z = hours / Dz if Dz > 0 else float("inf")
             res[case] = dict(walk_s=dur, D_per_h_vm=Dv / hours, D_per_h_szz=Dz / hours, life_h=min(life_v, life_z),
-                             smax_vm=smv, smax_szz=smz, limit_mode="interlayer" if life_z < life_v else "in-plane")
+                             smax_vm=smv, smax_szz=smz, limit_mode="interlayer" if life_z < life_v else "in-plane", amp_vm=amp,
+                             cycles_per_h=None)
         out[st] = res
         for case, r in res.items():
-            rows.append([st, case, f"{r['smax_vm']:.2f}", f"{r['smax_szz']:.2f}", f"{r['life_h']:.3g}", r["limit_mode"],
-                         "yes" if r["life_h"] < 100 else "no"])
+            rows.append([st, case, f"{r['smax_vm']:.2f}", f"{r['smax_szz']:.2f}", f"{r['amp_vm']:.2f}", f"{r['life_h']:.3g}", r["limit_mode"],
+                         "yes" if r["life_h"] < 100 else "no", "yes" if r["amp_vm"] < 35.8 else "NO"])
     json.dump(out, open(os.path.join(OUT, "fatigue_table.json"), "w"), indent=1, default=float)
-    print(md(rows, ["FEA study", "walk case", "max von Mises MPa", "max interlayer tension MPa", "life h (P_s 95 %)", "limit", "under 100 h"]))
+    print(md(rows, ["FEA study", "walk case", "max von Mises MPa", "max interlayer tension MPa", "largest von Mises amplitude MPa",
+                    "life h, design curve (P_s 95 %)", "limit", "under 100 h (design curve)", "amplitude under 35.8 MPa (best-case data, in-plane)"]))
     return out
 
 
