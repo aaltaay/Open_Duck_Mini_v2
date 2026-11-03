@@ -46,6 +46,7 @@ RUN_NOTES = [  # dated observations that a single run cannot show (agent SFX, la
     "knee 9.8 % under 6 V; Pololu 2815 RMS 5.93 A. C3 judges the cable lengths itself, by chain through floating splices with "
     "the twist take-up; cables3d.json now marks D12, S2 and S7 'test fit' (they reach, with less than the 40 mm slack), which "
     "C3 reports as WARN as before. E8 passed in this run (63 tests in 221.6 s; the race test failed 0 of 4 runs).",
+    "Note 2026-11-03, for C8, from the twin integration (not from a verify run; history/2026-11-03_1524_duck_gym_overlay.md; sim pass only): the 0 falls and the side step of 0.24 above hold only in the duck's training physics (2 ms Euler, Newton with 1 iteration, pyramidal cone, floor friction 0.6). In the shared lab gym (overlay gym/overlays/duck) an independent copy of the loop gives these numbers to the digit on the Playground scene; there a 1 ms time step alone moves our build's side step from 0.24 to 0.48 of the command and makes the 15 N pushes case fall (13.8 s, after the 4th push, a push to the right), each of four other single solver or contact settings does the same (13.7 to 13.9 s), and the gym's frozen floor profile (1 ms, implicitfast, elliptic cone with impratio 5, floor friction 1.0) falls in 6 of 6 seeds. The push result is marginal, not a margin; the real floor friction is HARDWARE_AUDIT.md B41. The home keyframe starts the soles 12.4 to 16.9 mm inside the floor (sim/ADDED_MASS_SIM.md gym note).",
 ]
 
 HARDWARE = [
