@@ -1,0 +1,157 @@
+{
+ "static": {
+  "tau_s": 316.0,
+  "tau_range_s": [
+   231.0,
+   435.0
+  ],
+  "T0": 23.58,
+  "dT": 25.22,
+  "rms_K": 1.57
+ },
+ "oscillation": {
+  "tau_s": 1555.0,
+  "tau_range_s": [
+   863.0,
+   3600.0
+  ],
+  "T0": -0.2,
+  "dT": 14.83,
+  "rms_K": 0.39,
+  "note": "fitted on the rise above the 48 C start, 0 to 50 min (before the speed change)"
+ },
+ "model_vs_robo9": {
+  "low": {
+   "C_total_J_per_K": 36.5,
+   "R_ba_bench_K_per_W": 11.18,
+   "h_bench_W_m2K": 13.38,
+   "tau_physics_s": 408.0,
+   "a_datasheet_1ohm": {
+    "two_min_body_rise_K": 2.2,
+    "two_min_winding_rise_K": 5.07,
+    "w_for_10K": 2.72,
+    "static_hold_current_for_48C_A": 1.274,
+    "static_hold_current_datasheet_Kt_A": 1.364,
+    "static_pred_C": [
+     25.0,
+     29.9,
+     34.5,
+     38.0,
+     40.7,
+     42.6,
+     46.9,
+     48.0,
+     48.0
+    ],
+    "static_pred_rms_K": 2.42
+   },
+   "b_stall_line_4p44ohm": {
+    "two_min_body_rise_K": 7.27,
+    "two_min_winding_rise_K": 21.36,
+    "w_for_10K": 0.19,
+    "static_hold_current_for_48C_A": 0.604,
+    "static_hold_current_datasheet_Kt_A": 1.364,
+    "static_pred_C": [
+     25.0,
+     29.9,
+     34.5,
+     38.0,
+     40.7,
+     42.6,
+     46.9,
+     48.0,
+     48.0
+    ],
+    "static_pred_rms_K": 2.42
+   }
+  },
+  "central": {
+   "C_total_J_per_K": 33.3,
+   "R_ba_bench_K_per_W": 11.41,
+   "h_bench_W_m2K": 13.11,
+   "tau_physics_s": 380.0,
+   "a_datasheet_1ohm": {
+    "two_min_body_rise_K": 2.41,
+    "two_min_winding_rise_K": 6.86,
+    "w_for_10K": 1.7,
+    "static_hold_current_for_48C_A": 1.204,
+    "static_hold_current_datasheet_Kt_A": 1.364,
+    "static_pred_C": [
+     25.1,
+     31.1,
+     35.7,
+     39.1,
+     41.6,
+     43.4,
+     47.2,
+     48.0,
+     48.0
+    ],
+    "static_pred_rms_K": 2.0
+   },
+   "b_stall_line_4p44ohm": {
+    "two_min_body_rise_K": 8.1,
+    "two_min_winding_rise_K": 30.13,
+    "w_for_10K": 0.09,
+    "static_hold_current_for_48C_A": 0.571,
+    "static_hold_current_datasheet_Kt_A": 1.364,
+    "static_pred_C": [
+     25.1,
+     31.1,
+     35.7,
+     39.1,
+     41.6,
+     43.4,
+     47.2,
+     48.0,
+     48.0
+    ],
+    "static_pred_rms_K": 2.0
+   }
+  },
+  "high": {
+   "C_total_J_per_K": 30.9,
+   "R_ba_bench_K_per_W": 11.58,
+   "h_bench_W_m2K": 12.9,
+   "tau_physics_s": 358.0,
+   "a_datasheet_1ohm": {
+    "two_min_body_rise_K": 2.61,
+    "two_min_winding_rise_K": 9.67,
+    "w_for_10K": 1.05,
+    "static_hold_current_for_48C_A": 1.06,
+    "static_hold_current_datasheet_Kt_A": 1.364,
+    "static_pred_C": [
+     25.2,
+     33.7,
+     37.7,
+     40.7,
+     42.8,
+     44.3,
+     47.4,
+     48.0,
+     48.0
+    ],
+    "static_pred_rms_K": 2.11
+   },
+   "b_stall_line_4p44ohm": {
+    "two_min_body_rise_K": 9.05,
+    "two_min_winding_rise_K": 44.93,
+    "w_for_10K": 0.03,
+    "static_hold_current_for_48C_A": 0.503,
+    "static_hold_current_datasheet_Kt_A": 1.364,
+    "static_pred_C": [
+     25.2,
+     33.7,
+     37.7,
+     40.7,
+     42.8,
+     44.3,
+     47.4,
+     48.0,
+     48.0
+    ],
+    "static_pred_rms_K": 2.11
+   }
+  }
+ }
+}
