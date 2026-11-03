@@ -1,0 +1,1073 @@
+{
+ "tag": "backlash_high-side",
+ "walk": "backlash",
+ "corner": "high-side",
+ "extra": {},
+ "cell_mode": "steady",
+ "servo_mode": "bam",
+ "compress": 1.0,
+ "dur_s": 1595.104,
+ "wall_s": 1868.2,
+ "stopped": [
+  "charge limit",
+  1595.1
+ ],
+ "falls": [],
+ "q_end_mAh": 2357.2,
+ "full_charge_speed": 0.1219,
+ "full_charge_track": 0.812,
+ "walk_degraded": {
+  "t_s": 936.8,
+  "minute": 15.61,
+  "q_mAh": 1385.8,
+  "soc": 0.513,
+  "ocv_cell": 3.735,
+  "v_pack": 7.25,
+  "speed_20s": 0.1036,
+  "speed_rel_full": 0.85
+ },
+ "guard_walk_stop": {
+  "t_s": 1099.5,
+  "minute": 18.32,
+  "q_mAh": 1623.6,
+  "soc": 0.43,
+  "ocv_cell": 3.648,
+  "v_pack": 7.049,
+  "speed_20s": 0.0969,
+  "speed_rel_full": 0.795
+ },
+ "guard_walk_stop_value": 5.995,
+ "guard_hard_stop": {
+  "t_s": 1540.5,
+  "minute": 25.68,
+  "q_mAh": 2273.2,
+  "soc": 0.201,
+  "ocv_cell": 3.35,
+  "v_pack": 6.528,
+  "speed_20s": 0.0762,
+  "speed_rel_full": 0.625
+ },
+ "guard_hard_stop_value": 5.388,
+ "guard_events": [
+  {
+   "t": 1099.496,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.995,
+   "state": "walking"
+  },
+  {
+   "t": 1105.16,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.975,
+   "state": "walking"
+  },
+  {
+   "t": 1128.624,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.97,
+   "state": "walking"
+  },
+  {
+   "t": 1133.844,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.94,
+   "state": "walking"
+  },
+  {
+   "t": 1138.898,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.975,
+   "state": "walking"
+  },
+  {
+   "t": 1153.102,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 6.0,
+   "state": "walking"
+  },
+  {
+   "t": 1158.602,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.99,
+   "state": "walking"
+  },
+  {
+   "t": 1163.734,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.96,
+   "state": "walking"
+  },
+  {
+   "t": 1169.662,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.985,
+   "state": "walking"
+  },
+  {
+   "t": 1175.508,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.96,
+   "state": "walking"
+  },
+  {
+   "t": 1180.638,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.935,
+   "state": "walking"
+  },
+  {
+   "t": 1188.304,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.99,
+   "state": "walking"
+  },
+  {
+   "t": 1193.39,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.955,
+   "state": "walking"
+  },
+  {
+   "t": 1198.174,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 6.0,
+   "state": "walking"
+  },
+  {
+   "t": 1203.888,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.99,
+   "state": "walking"
+  },
+  {
+   "t": 1208.526,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.925,
+   "state": "walking"
+  },
+  {
+   "t": 1213.86,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.86,
+   "state": "walking"
+  },
+  {
+   "t": 1219.278,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.975,
+   "state": "walking"
+  },
+  {
+   "t": 1224.124,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.925,
+   "state": "walking"
+  },
+  {
+   "t": 1229.2,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.96,
+   "state": "walking"
+  },
+  {
+   "t": 1234.086,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.97,
+   "state": "walking"
+  },
+  {
+   "t": 1239.382,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.895,
+   "state": "walking"
+  },
+  {
+   "t": 1244.17,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.925,
+   "state": "walking"
+  },
+  {
+   "t": 1249.424,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.96,
+   "state": "walking"
+  },
+  {
+   "t": 1254.234,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.9,
+   "state": "walking"
+  },
+  {
+   "t": 1259.258,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 6.0,
+   "state": "walking"
+  },
+  {
+   "t": 1264.278,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 6.0,
+   "state": "walking"
+  },
+  {
+   "t": 1269.422,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.99,
+   "state": "walking"
+  },
+  {
+   "t": 1274.156,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.9,
+   "state": "walking"
+  },
+  {
+   "t": 1279.32,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.9,
+   "state": "walking"
+  },
+  {
+   "t": 1284.054,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.905,
+   "state": "walking"
+  },
+  {
+   "t": 1289.342,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.89,
+   "state": "walking"
+  },
+  {
+   "t": 1294.102,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.865,
+   "state": "walking"
+  },
+  {
+   "t": 1299.226,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.91,
+   "state": "walking"
+  },
+  {
+   "t": 1304.044,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.9,
+   "state": "walking"
+  },
+  {
+   "t": 1309.2,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.86,
+   "state": "walking"
+  },
+  {
+   "t": 1314.086,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.745,
+   "state": "walking"
+  },
+  {
+   "t": 1319.176,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.83,
+   "state": "walking"
+  },
+  {
+   "t": 1324.364,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.77,
+   "state": "walking"
+  },
+  {
+   "t": 1329.164,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.89,
+   "state": "walking"
+  },
+  {
+   "t": 1334.334,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.895,
+   "state": "walking"
+  },
+  {
+   "t": 1339.204,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.885,
+   "state": "walking"
+  },
+  {
+   "t": 1344.204,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.86,
+   "state": "walking"
+  },
+  {
+   "t": 1349.314,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.75,
+   "state": "walking"
+  },
+  {
+   "t": 1354.15,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.885,
+   "state": "walking"
+  },
+  {
+   "t": 1359.464,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.765,
+   "state": "walking"
+  },
+  {
+   "t": 1364.244,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.825,
+   "state": "walking"
+  },
+  {
+   "t": 1369.436,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.81,
+   "state": "walking"
+  },
+  {
+   "t": 1374.386,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.805,
+   "state": "walking"
+  },
+  {
+   "t": 1379.48,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.765,
+   "state": "walking"
+  },
+  {
+   "t": 1384.396,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.86,
+   "state": "walking"
+  },
+  {
+   "t": 1389.14,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.805,
+   "state": "walking"
+  },
+  {
+   "t": 1394.254,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.87,
+   "state": "walking"
+  },
+  {
+   "t": 1399.16,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.685,
+   "state": "walking"
+  },
+  {
+   "t": 1404.406,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.77,
+   "state": "walking"
+  },
+  {
+   "t": 1409.026,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.81,
+   "state": "walking"
+  },
+  {
+   "t": 1414.246,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.655,
+   "state": "walking"
+  },
+  {
+   "t": 1419.098,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.84,
+   "state": "walking"
+  },
+  {
+   "t": 1424.404,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.81,
+   "state": "walking"
+  },
+  {
+   "t": 1429.054,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.76,
+   "state": "walking"
+  },
+  {
+   "t": 1434.402,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.75,
+   "state": "walking"
+  },
+  {
+   "t": 1439.408,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.635,
+   "state": "walking"
+  },
+  {
+   "t": 1444.366,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.705,
+   "state": "walking"
+  },
+  {
+   "t": 1449.228,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.765,
+   "state": "walking"
+  },
+  {
+   "t": 1454.422,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.74,
+   "state": "walking"
+  },
+  {
+   "t": 1459.268,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.65,
+   "state": "walking"
+  },
+  {
+   "t": 1464.158,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.625,
+   "state": "walking"
+  },
+  {
+   "t": 1469.36,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.575,
+   "state": "walking"
+  },
+  {
+   "t": 1474.416,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.645,
+   "state": "walking"
+  },
+  {
+   "t": 1479.082,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.65,
+   "state": "walking"
+  },
+  {
+   "t": 1484.022,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.635,
+   "state": "walking"
+  },
+  {
+   "t": 1489.388,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.605,
+   "state": "walking"
+  },
+  {
+   "t": 1494.324,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.615,
+   "state": "walking"
+  },
+  {
+   "t": 1499.424,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.615,
+   "state": "walking"
+  },
+  {
+   "t": 1504.46,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.64,
+   "state": "walking"
+  },
+  {
+   "t": 1509.15,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.535,
+   "state": "walking"
+  },
+  {
+   "t": 1514.094,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.6,
+   "state": "walking"
+  },
+  {
+   "t": 1519.346,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.58,
+   "state": "walking"
+  },
+  {
+   "t": 1524.486,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.54,
+   "state": "walking"
+  },
+  {
+   "t": 1529.318,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.605,
+   "state": "walking"
+  },
+  {
+   "t": 1534.02,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.695,
+   "state": "walking"
+  },
+  {
+   "t": 1539.322,
+   "event": "walk_stop",
+   "reason": "walking: 5 s mean of the servo median <= 6.0 V",
+   "value": 5.56,
+   "state": "walking"
+  },
+  {
+   "t": 1540.422,
+   "event": "hard_stop",
+   "reason": "walking: 2 s mean of the servo median <= 5.4 V",
+   "value": 5.388,
+   "state": "walking"
+  }
+ ],
+ "solver": {
+  "mean": 3.04,
+  "max": 7,
+  "p99": 5.0
+ },
+ "minutes": [
+  {
+   "minute": 1,
+   "q_mAh": 86.7,
+   "soc": 0.97,
+   "speed": 0.1216,
+   "v_pack": 8.112,
+   "i_pack": 5.202,
+   "v_bus": 7.646,
+   "v_bec_out": 7.155,
+   "median_servo_v": 7.006,
+   "knee_min": 6.122,
+   "ankle_min": 6.402,
+   "head_roll_min": 5.859,
+   "knee_sat_pct": 21.8,
+   "fallen": false
+  },
+  {
+   "minute": 2,
+   "q_mAh": 175.7,
+   "soc": 0.938,
+   "speed": 0.1215,
+   "v_pack": 8.006,
+   "i_pack": 5.341,
+   "v_bus": 7.528,
+   "v_bec_out": 7.115,
+   "median_servo_v": 6.964,
+   "knee_min": 6.065,
+   "ankle_min": 6.346,
+   "head_roll_min": 5.839,
+   "knee_sat_pct": 23.2,
+   "fallen": false
+  },
+  {
+   "minute": 3,
+   "q_mAh": 264.9,
+   "soc": 0.907,
+   "speed": 0.1211,
+   "v_pack": 7.961,
+   "i_pack": 5.352,
+   "v_bus": 7.482,
+   "v_bec_out": 7.092,
+   "median_servo_v": 6.941,
+   "knee_min": 6.005,
+   "ankle_min": 6.305,
+   "head_roll_min": 5.765,
+   "knee_sat_pct": 23.2,
+   "fallen": false
+  },
+  {
+   "minute": 4,
+   "q_mAh": 354.3,
+   "soc": 0.876,
+   "speed": 0.1203,
+   "v_pack": 7.921,
+   "i_pack": 5.362,
+   "v_bus": 7.441,
+   "v_bec_out": 7.069,
+   "median_servo_v": 6.917,
+   "knee_min": 6.014,
+   "ankle_min": 6.284,
+   "head_roll_min": 5.746,
+   "knee_sat_pct": 23.2,
+   "fallen": false
+  },
+  {
+   "minute": 5,
+   "q_mAh": 443.7,
+   "soc": 0.844,
+   "speed": 0.1199,
+   "v_pack": 7.88,
+   "i_pack": 5.364,
+   "v_bus": 7.4,
+   "v_bec_out": 7.045,
+   "median_servo_v": 6.893,
+   "knee_min": 5.984,
+   "ankle_min": 6.233,
+   "head_roll_min": 5.735,
+   "knee_sat_pct": 23.2,
+   "fallen": false
+  },
+  {
+   "minute": 6,
+   "q_mAh": 533.0,
+   "soc": 0.813,
+   "speed": 0.1187,
+   "v_pack": 7.824,
+   "i_pack": 5.358,
+   "v_bus": 7.345,
+   "v_bec_out": 7.006,
+   "median_servo_v": 6.855,
+   "knee_min": 5.92,
+   "ankle_min": 6.167,
+   "head_roll_min": 5.68,
+   "knee_sat_pct": 23.4,
+   "fallen": false
+  },
+  {
+   "minute": 7,
+   "q_mAh": 622.2,
+   "soc": 0.781,
+   "speed": 0.1179,
+   "v_pack": 7.757,
+   "i_pack": 5.354,
+   "v_bus": 7.279,
+   "v_bec_out": 6.954,
+   "median_servo_v": 6.803,
+   "knee_min": 5.886,
+   "ankle_min": 6.128,
+   "head_roll_min": 5.635,
+   "knee_sat_pct": 23.5,
+   "fallen": false
+  },
+  {
+   "minute": 8,
+   "q_mAh": 711.5,
+   "soc": 0.75,
+   "speed": 0.1163,
+   "v_pack": 7.688,
+   "i_pack": 5.357,
+   "v_bus": 7.209,
+   "v_bec_out": 6.89,
+   "median_servo_v": 6.739,
+   "knee_min": 5.829,
+   "ankle_min": 6.088,
+   "head_roll_min": 5.592,
+   "knee_sat_pct": 24.0,
+   "fallen": false
+  },
+  {
+   "minute": 9,
+   "q_mAh": 800.5,
+   "soc": 0.719,
+   "speed": 0.115,
+   "v_pack": 7.623,
+   "i_pack": 5.343,
+   "v_bus": 7.145,
+   "v_bec_out": 6.828,
+   "median_servo_v": 6.677,
+   "knee_min": 5.758,
+   "ankle_min": 6.048,
+   "head_roll_min": 5.52,
+   "knee_sat_pct": 23.9,
+   "fallen": false
+  },
+  {
+   "minute": 10,
+   "q_mAh": 889.7,
+   "soc": 0.687,
+   "speed": 0.1135,
+   "v_pack": 7.568,
+   "i_pack": 5.348,
+   "v_bus": 7.089,
+   "v_bec_out": 6.772,
+   "median_servo_v": 6.62,
+   "knee_min": 5.751,
+   "ankle_min": 6.006,
+   "head_roll_min": 5.47,
+   "knee_sat_pct": 24.0,
+   "fallen": false
+  },
+  {
+   "minute": 11,
+   "q_mAh": 978.7,
+   "soc": 0.656,
+   "speed": 0.1125,
+   "v_pack": 7.517,
+   "i_pack": 5.344,
+   "v_bus": 7.039,
+   "v_bec_out": 6.721,
+   "median_servo_v": 6.57,
+   "knee_min": 5.724,
+   "ankle_min": 5.961,
+   "head_roll_min": 5.444,
+   "knee_sat_pct": 24.0,
+   "fallen": false
+  },
+  {
+   "minute": 12,
+   "q_mAh": 1067.6,
+   "soc": 0.625,
+   "speed": 0.111,
+   "v_pack": 7.466,
+   "i_pack": 5.333,
+   "v_bus": 6.989,
+   "v_bec_out": 6.671,
+   "median_servo_v": 6.521,
+   "knee_min": 5.697,
+   "ankle_min": 5.931,
+   "head_roll_min": 5.405,
+   "knee_sat_pct": 23.7,
+   "fallen": false
+  },
+  {
+   "minute": 13,
+   "q_mAh": 1156.2,
+   "soc": 0.594,
+   "speed": 0.1089,
+   "v_pack": 7.415,
+   "i_pack": 5.316,
+   "v_bus": 6.939,
+   "v_bec_out": 6.622,
+   "median_servo_v": 6.472,
+   "knee_min": 5.668,
+   "ankle_min": 5.899,
+   "head_roll_min": 5.391,
+   "knee_sat_pct": 23.3,
+   "fallen": false
+  },
+  {
+   "minute": 14,
+   "q_mAh": 1244.3,
+   "soc": 0.563,
+   "speed": 0.1065,
+   "v_pack": 7.356,
+   "i_pack": 5.286,
+   "v_bus": 6.883,
+   "v_bec_out": 6.566,
+   "median_servo_v": 6.418,
+   "knee_min": 5.624,
+   "ankle_min": 5.853,
+   "head_roll_min": 5.331,
+   "knee_sat_pct": 23.1,
+   "fallen": false
+  },
+  {
+   "minute": 15,
+   "q_mAh": 1332.1,
+   "soc": 0.532,
+   "speed": 0.105,
+   "v_pack": 7.294,
+   "i_pack": 5.268,
+   "v_bus": 6.823,
+   "v_bec_out": 6.506,
+   "median_servo_v": 6.36,
+   "knee_min": 5.581,
+   "ankle_min": 5.808,
+   "head_roll_min": 5.281,
+   "knee_sat_pct": 23.2,
+   "fallen": false
+  },
+  {
+   "minute": 16,
+   "q_mAh": 1419.7,
+   "soc": 0.501,
+   "speed": 0.1037,
+   "v_pack": 7.236,
+   "i_pack": 5.252,
+   "v_bus": 6.766,
+   "v_bec_out": 6.449,
+   "median_servo_v": 6.304,
+   "knee_min": 5.538,
+   "ankle_min": 5.748,
+   "head_roll_min": 5.237,
+   "knee_sat_pct": 22.7,
+   "fallen": false
+  },
+  {
+   "minute": 17,
+   "q_mAh": 1507.3,
+   "soc": 0.47,
+   "speed": 0.1024,
+   "v_pack": 7.169,
+   "i_pack": 5.254,
+   "v_bus": 6.699,
+   "v_bec_out": 6.382,
+   "median_servo_v": 6.237,
+   "knee_min": 5.46,
+   "ankle_min": 5.688,
+   "head_roll_min": 5.194,
+   "knee_sat_pct": 22.8,
+   "fallen": false
+  },
+  {
+   "minute": 18,
+   "q_mAh": 1595.1,
+   "soc": 0.44,
+   "speed": 0.101,
+   "v_pack": 7.108,
+   "i_pack": 5.268,
+   "v_bus": 6.637,
+   "v_bec_out": 6.32,
+   "median_servo_v": 6.176,
+   "knee_min": 5.463,
+   "ankle_min": 5.654,
+   "head_roll_min": 5.2,
+   "knee_sat_pct": 22.9,
+   "fallen": false
+  },
+  {
+   "minute": 19,
+   "q_mAh": 1682.7,
+   "soc": 0.409,
+   "speed": 0.0968,
+   "v_pack": 7.046,
+   "i_pack": 5.262,
+   "v_bus": 6.575,
+   "v_bec_out": 6.258,
+   "median_servo_v": 6.114,
+   "knee_min": 5.369,
+   "ankle_min": 5.593,
+   "head_roll_min": 5.1,
+   "knee_sat_pct": 22.5,
+   "fallen": false
+  },
+  {
+   "minute": 20,
+   "q_mAh": 1770.4,
+   "soc": 0.378,
+   "speed": 0.0943,
+   "v_pack": 6.986,
+   "i_pack": 5.261,
+   "v_bus": 6.515,
+   "v_bec_out": 6.198,
+   "median_servo_v": 6.055,
+   "knee_min": 5.351,
+   "ankle_min": 5.553,
+   "head_roll_min": 5.069,
+   "knee_sat_pct": 22.0,
+   "fallen": false
+  },
+  {
+   "minute": 21,
+   "q_mAh": 1858.9,
+   "soc": 0.347,
+   "speed": 0.0918,
+   "v_pack": 6.931,
+   "i_pack": 5.308,
+   "v_bus": 6.456,
+   "v_bec_out": 6.139,
+   "median_servo_v": 5.995,
+   "knee_min": 5.311,
+   "ankle_min": 5.515,
+   "head_roll_min": 5.027,
+   "knee_sat_pct": 21.7,
+   "fallen": false
+  },
+  {
+   "minute": 22,
+   "q_mAh": 1947.7,
+   "soc": 0.316,
+   "speed": 0.0903,
+   "v_pack": 6.874,
+   "i_pack": 5.326,
+   "v_bus": 6.397,
+   "v_bec_out": 6.08,
+   "median_servo_v": 5.937,
+   "knee_min": 5.298,
+   "ankle_min": 5.454,
+   "head_roll_min": 5.011,
+   "knee_sat_pct": 21.5,
+   "fallen": false
+  },
+  {
+   "minute": 23,
+   "q_mAh": 2036.1,
+   "soc": 0.285,
+   "speed": 0.0851,
+   "v_pack": 6.806,
+   "i_pack": 5.305,
+   "v_bus": 6.332,
+   "v_bec_out": 6.014,
+   "median_servo_v": 5.872,
+   "knee_min": 5.246,
+   "ankle_min": 5.402,
+   "head_roll_min": 4.979,
+   "knee_sat_pct": 21.3,
+   "fallen": false
+  },
+  {
+   "minute": 24,
+   "q_mAh": 2124.6,
+   "soc": 0.253,
+   "speed": 0.0817,
+   "v_pack": 6.728,
+   "i_pack": 5.309,
+   "v_bus": 6.253,
+   "v_bec_out": 5.936,
+   "median_servo_v": 5.794,
+   "knee_min": 5.118,
+   "ankle_min": 5.254,
+   "head_roll_min": 4.889,
+   "knee_sat_pct": 22.2,
+   "fallen": false
+  },
+  {
+   "minute": 25,
+   "q_mAh": 2213.4,
+   "soc": 0.222,
+   "speed": 0.077,
+   "v_pack": 6.637,
+   "i_pack": 5.328,
+   "v_bus": 6.161,
+   "v_bec_out": 5.844,
+   "median_servo_v": 5.702,
+   "knee_min": 4.916,
+   "ankle_min": 5.143,
+   "head_roll_min": 4.813,
+   "knee_sat_pct": 22.5,
+   "fallen": false
+  },
+  {
+   "minute": 26,
+   "q_mAh": 2302.3,
+   "soc": 0.191,
+   "speed": 0.0717,
+   "v_pack": 6.533,
+   "i_pack": 5.335,
+   "v_bus": 6.056,
+   "v_bec_out": 5.739,
+   "median_servo_v": 5.598,
+   "knee_min": 4.922,
+   "ankle_min": 5.123,
+   "head_roll_min": 4.744,
+   "knee_sat_pct": 22.6,
+   "fallen": false
+  },
+  {
+   "minute": 27,
+   "q_mAh": 2357.2,
+   "soc": 0.172,
+   "speed": 0.0478,
+   "v_pack": 6.437,
+   "i_pack": 5.631,
+   "v_bus": 5.933,
+   "v_bec_out": 5.615,
+   "median_servo_v": 5.463,
+   "knee_min": 4.748,
+   "ankle_min": 4.967,
+   "head_roll_min": 4.677,
+   "knee_sat_pct": 24.0,
+   "fallen": false
+  }
+ ]
+}

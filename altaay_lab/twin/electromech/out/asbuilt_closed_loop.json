@@ -1,0 +1,1298 @@
+[
+ {
+  "mass": "trained",
+  "pack": "full",
+  "corner": "typical",
+  "doc": {
+   "bus": 7.89,
+   "bec": 7.2,
+   "worst": [
+    "left_knee",
+    6.52
+   ],
+   "ankle": 0.0,
+   "knees": [
+    0.0,
+    0.0
+   ],
+   "head_roll": 0.0
+  },
+  "closed": {
+   "bus": 7.898,
+   "bec": 7.198,
+   "worst": [
+    "right_knee",
+    6.737
+   ],
+   "ankle": 0.0,
+   "knees": [
+    0.0,
+    0.0
+   ],
+   "head_roll": 0.0,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 5.047,
+    "i_rms": 5.341,
+    "i_max": 9.886,
+    "i_max_100ms": 6.599,
+    "v_term_mean": 8.249,
+    "v_term_min": 8.103,
+    "bus_mean": 7.898,
+    "bus_min": 7.417,
+    "bec_out_mean": 7.198,
+    "bec_out_min": 7.081,
+    "bec_in_min": 7.381,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.137,
+    "vy": 0.0116,
+    "wz": 0.0008,
+    "track_lin": 0.9167,
+    "track_yaw": null,
+    "pitch_mean_deg": 2.9034,
+    "pitch_rms_deg": 0.7446,
+    "roll_rms_deg": 3.359,
+    "z_mean": 0.1664
+   },
+   "V_min": {
+    "left_hip_yaw": 6.987,
+    "left_hip_roll": 6.879,
+    "left_hip_pitch": 6.791,
+    "left_knee": 6.766,
+    "left_ankle": 6.885,
+    "neck_pitch": 7.001,
+    "head_pitch": 6.868,
+    "head_yaw": 6.749,
+    "head_roll": 6.74,
+    "right_hip_yaw": 6.97,
+    "right_hip_roll": 6.874,
+    "right_hip_pitch": 6.793,
+    "right_knee": 6.737,
+    "right_ankle": 6.84
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 0.0,
+    "left_ankle": 0.0,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 0.0,
+    "right_ankle": 0.0
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 15.6,
+    "left_ankle": 0.5,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 21.97,
+    "right_ankle": 0.0
+   }
+  }
+ },
+ {
+  "mass": "trained",
+  "pack": "full",
+  "corner": "high-side",
+  "doc": {
+   "bus": 7.72,
+   "bec": 7.17,
+   "worst": [
+    "left_knee",
+    5.91
+   ],
+   "ankle": 0.0,
+   "knees": [
+    0.2,
+    0.0
+   ],
+   "head_roll": 0.0
+  },
+  "closed": {
+   "bus": 7.737,
+   "bec": 7.176,
+   "worst": [
+    "head_roll",
+    6.187
+   ],
+   "ankle": 0.0,
+   "knees": [
+    0.0,
+    0.0
+   ],
+   "head_roll": 0.0,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 5.12,
+    "i_rms": 5.394,
+    "i_max": 9.431,
+    "i_max_100ms": 6.659,
+    "v_term_mean": 8.195,
+    "v_term_min": 8.023,
+    "bus_mean": 7.737,
+    "bus_min": 7.179,
+    "bec_out_mean": 7.176,
+    "bec_out_min": 6.846,
+    "bec_in_min": 7.146,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.1345,
+    "vy": 0.0118,
+    "wz": 0.0066,
+    "track_lin": 0.9001,
+    "track_yaw": null,
+    "pitch_mean_deg": 3.078,
+    "pitch_rms_deg": 0.6941,
+    "roll_rms_deg": 3.3475,
+    "z_mean": 0.1661
+   },
+   "V_min": {
+    "left_hip_yaw": 6.729,
+    "left_hip_roll": 6.514,
+    "left_hip_pitch": 6.355,
+    "left_knee": 6.323,
+    "left_ankle": 6.606,
+    "neck_pitch": 6.72,
+    "head_pitch": 6.45,
+    "head_yaw": 6.209,
+    "head_roll": 6.187,
+    "right_hip_yaw": 6.699,
+    "right_hip_roll": 6.512,
+    "right_hip_pitch": 6.36,
+    "right_knee": 6.256,
+    "right_ankle": 6.517
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 0.0,
+    "left_ankle": 0.0,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 0.0,
+    "right_ankle": 0.0
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 16.17,
+    "left_ankle": 0.73,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 22.87,
+    "right_ankle": 0.0
+   }
+  }
+ },
+ {
+  "mass": "trained",
+  "pack": "nominal",
+  "corner": "typical",
+  "doc": {
+   "bus": 6.86,
+   "bec": 6.54,
+   "worst": [
+    "left_knee",
+    5.58
+   ],
+   "ankle": 4.8,
+   "knees": [
+    5.6,
+    7.9
+   ],
+   "head_roll": 5.1
+  },
+  "closed": {
+   "bus": 6.895,
+   "bec": 6.579,
+   "worst": [
+    "right_knee",
+    5.862
+   ],
+   "ankle": 0.43,
+   "knees": [
+    1.57,
+    1.63
+   ],
+   "head_roll": 0.43,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 5.076,
+    "i_rms": 5.291,
+    "i_max": 8.987,
+    "i_max_100ms": 6.407,
+    "v_term_mean": 7.248,
+    "v_term_min": 7.13,
+    "bus_mean": 6.895,
+    "bus_min": 6.506,
+    "bec_out_mean": 6.579,
+    "bec_out_min": 6.175,
+    "bec_in_min": 6.475,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.1197,
+    "vy": 0.0104,
+    "wz": 0.0057,
+    "track_lin": 0.8008,
+    "track_yaw": null,
+    "pitch_mean_deg": 3.728,
+    "pitch_rms_deg": 0.6903,
+    "roll_rms_deg": 3.1954,
+    "z_mean": 0.1646
+   },
+   "V_min": {
+    "left_hip_yaw": 6.091,
+    "left_hip_roll": 6.015,
+    "left_hip_pitch": 5.942,
+    "left_knee": 5.918,
+    "left_ankle": 6.017,
+    "neck_pitch": 6.105,
+    "head_pitch": 6.009,
+    "head_yaw": 5.906,
+    "head_roll": 5.895,
+    "right_hip_yaw": 6.075,
+    "right_hip_roll": 5.988,
+    "right_hip_pitch": 5.915,
+    "right_knee": 5.862,
+    "right_ankle": 5.959
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.53,
+    "left_knee": 1.57,
+    "left_ankle": 0.0,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.33,
+    "head_roll": 0.43,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.1,
+    "right_hip_pitch": 0.97,
+    "right_knee": 1.63,
+    "right_ankle": 0.43
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 18.33,
+    "left_ankle": 1.13,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 23.87,
+    "right_ankle": 0.0
+   }
+  }
+ },
+ {
+  "mass": "trained",
+  "pack": "nominal",
+  "corner": "high-side",
+  "doc": {
+   "bus": 6.69,
+   "bec": 6.37,
+   "worst": [
+    "head_roll",
+    4.88
+   ],
+   "ankle": 19.3,
+   "knees": [
+    27.8,
+    27.9
+   ],
+   "head_roll": 32.6
+  },
+  "closed": {
+   "bus": 6.751,
+   "bec": 6.435,
+   "worst": [
+    "head_roll",
+    5.246
+   ],
+   "ankle": 10.6,
+   "knees": [
+    21.43,
+    24.3
+   ],
+   "head_roll": 22.17,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 5.016,
+    "i_rms": 5.208,
+    "i_max": 8.655,
+    "i_max_100ms": 6.3,
+    "v_term_mean": 7.199,
+    "v_term_min": 7.054,
+    "bus_mean": 6.751,
+    "bus_min": 6.28,
+    "bec_out_mean": 6.435,
+    "bec_out_min": 5.95,
+    "bec_in_min": 6.25,
+    "bec_out_pct_below_6V": 0.57
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.1125,
+    "vy": 0.0097,
+    "wz": 0.0083,
+    "track_lin": 0.7527,
+    "track_yaw": null,
+    "pitch_mean_deg": 4.0528,
+    "pitch_rms_deg": 0.571,
+    "roll_rms_deg": 3.0902,
+    "z_mean": 0.1638
+   },
+   "V_min": {
+    "left_hip_yaw": 5.846,
+    "left_hip_roll": 5.657,
+    "left_hip_pitch": 5.51,
+    "left_knee": 5.493,
+    "left_ankle": 5.74,
+    "neck_pitch": 5.86,
+    "head_pitch": 5.566,
+    "head_yaw": 5.293,
+    "head_roll": 5.246,
+    "right_hip_yaw": 5.814,
+    "right_hip_roll": 5.64,
+    "right_hip_pitch": 5.502,
+    "right_knee": 5.412,
+    "right_ankle": 5.654
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 4.2,
+    "left_hip_roll": 11.4,
+    "left_hip_pitch": 18.1,
+    "left_knee": 21.43,
+    "left_ankle": 10.57,
+    "neck_pitch": 3.77,
+    "head_pitch": 10.67,
+    "head_yaw": 18.1,
+    "head_roll": 22.17,
+    "right_hip_yaw": 4.1,
+    "right_hip_roll": 11.1,
+    "right_hip_pitch": 18.57,
+    "right_knee": 24.3,
+    "right_ankle": 10.6
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 19.2,
+    "left_ankle": 2.03,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 23.27,
+    "right_ankle": 0.0
+   }
+  }
+ },
+ {
+  "mass": "trained",
+  "pack": "low",
+  "corner": "typical",
+  "doc": {
+   "bus": 6.04,
+   "bec": 5.72,
+   "worst": [
+    "right_knee",
+    4.82
+   ],
+   "ankle": 100.0,
+   "knees": [
+    100.0,
+    99.9
+   ],
+   "head_roll": 100.0
+  },
+  "closed": {
+   "bus": 6.116,
+   "bec": 5.801,
+   "worst": [
+    "head_roll",
+    5.116
+   ],
+   "ankle": 98.3,
+   "knees": [
+    99.1,
+    99.1
+   ],
+   "head_roll": 99.93,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 4.863,
+    "i_rms": 5.02,
+    "i_max": 8.017,
+    "i_max_100ms": 6.01,
+    "v_term_mean": 6.454,
+    "v_term_min": 6.359,
+    "bus_mean": 6.116,
+    "bus_min": 5.803,
+    "bec_out_mean": 5.801,
+    "bec_out_min": 5.475,
+    "bec_in_min": 5.775,
+    "bec_out_pct_below_6V": 91.93
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.0973,
+    "vy": -0.0015,
+    "wz": -0.0188,
+    "track_lin": 0.6484,
+    "track_yaw": null,
+    "pitch_mean_deg": 5.5893,
+    "pitch_rms_deg": 0.5981,
+    "roll_rms_deg": 2.9614,
+    "z_mean": 0.1617
+   },
+   "V_min": {
+    "left_hip_yaw": 5.411,
+    "left_hip_roll": 5.347,
+    "left_hip_pitch": 5.294,
+    "left_knee": 5.252,
+    "left_ankle": 5.326,
+    "neck_pitch": 5.365,
+    "head_pitch": 5.245,
+    "head_yaw": 5.133,
+    "head_roll": 5.116,
+    "right_hip_yaw": 5.389,
+    "right_hip_roll": 5.314,
+    "right_hip_pitch": 5.28,
+    "right_knee": 5.249,
+    "right_ankle": 5.307
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 96.27,
+    "left_hip_roll": 98.37,
+    "left_hip_pitch": 99.13,
+    "left_knee": 99.1,
+    "left_ankle": 98.23,
+    "neck_pitch": 97.3,
+    "head_pitch": 99.43,
+    "head_yaw": 99.8,
+    "head_roll": 99.93,
+    "right_hip_yaw": 96.5,
+    "right_hip_roll": 98.63,
+    "right_hip_pitch": 99.17,
+    "right_knee": 99.1,
+    "right_ankle": 98.3
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 18.43,
+    "left_ankle": 4.47,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 18.13,
+    "right_ankle": 0.0
+   }
+  }
+ },
+ {
+  "mass": "trained",
+  "pack": "low",
+  "corner": "high-side",
+  "doc": {
+   "bus": 5.87,
+   "bec": 5.55,
+   "worst": [
+    "head_roll",
+    4.19
+   ],
+   "ankle": 100.0,
+   "knees": [
+    100.0,
+    100.0
+   ],
+   "head_roll": 100.0
+  },
+  "closed": {
+   "bus": 5.975,
+   "bec": 5.66,
+   "worst": [
+    "head_roll",
+    4.627
+   ],
+   "ankle": 100.0,
+   "knees": [
+    100.0,
+    100.0
+   ],
+   "head_roll": 100.0,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 4.825,
+    "i_rms": 4.958,
+    "i_max": 7.445,
+    "i_max_100ms": 5.801,
+    "v_term_mean": 6.407,
+    "v_term_min": 6.302,
+    "bus_mean": 5.975,
+    "bus_min": 5.636,
+    "bec_out_mean": 5.66,
+    "bec_out_min": 5.311,
+    "bec_in_min": 5.611,
+    "bec_out_pct_below_6V": 100.0
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.0859,
+    "vy": -0.004,
+    "wz": -0.0093,
+    "track_lin": 0.5731,
+    "track_yaw": null,
+    "pitch_mean_deg": 5.9977,
+    "pitch_rms_deg": 0.5697,
+    "roll_rms_deg": 2.8965,
+    "z_mean": 0.1605
+   },
+   "V_min": {
+    "left_hip_yaw": 5.233,
+    "left_hip_roll": 5.101,
+    "left_hip_pitch": 5.005,
+    "left_knee": 4.938,
+    "left_ankle": 5.114,
+    "neck_pitch": 5.153,
+    "head_pitch": 4.902,
+    "head_yaw": 4.668,
+    "head_roll": 4.627,
+    "right_hip_yaw": 5.199,
+    "right_hip_roll": 5.053,
+    "right_hip_pitch": 4.997,
+    "right_knee": 4.947,
+    "right_ankle": 5.091
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 100.0,
+    "left_hip_roll": 100.0,
+    "left_hip_pitch": 100.0,
+    "left_knee": 100.0,
+    "left_ankle": 100.0,
+    "neck_pitch": 100.0,
+    "head_pitch": 100.0,
+    "head_yaw": 100.0,
+    "head_roll": 100.0,
+    "right_hip_yaw": 100.0,
+    "right_hip_roll": 100.0,
+    "right_hip_pitch": 100.0,
+    "right_knee": 100.0,
+    "right_ankle": 100.0
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 17.0,
+    "left_ankle": 5.47,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 17.87,
+    "right_ankle": 0.0
+   }
+  }
+ },
+ {
+  "mass": "ours",
+  "pack": "full",
+  "corner": "typical",
+  "doc": {
+   "bus": 7.87,
+   "bec": 7.2,
+   "worst": [
+    "left_knee",
+    6.55
+   ],
+   "ankle": 0.0,
+   "knees": [
+    0.0,
+    0.0
+   ],
+   "head_roll": 0.0
+  },
+  "closed": {
+   "bus": 7.877,
+   "bec": 7.197,
+   "worst": [
+    "left_knee",
+    6.678
+   ],
+   "ankle": 0.0,
+   "knees": [
+    0.0,
+    0.0
+   ],
+   "head_roll": 0.0,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 5.257,
+    "i_rms": 5.561,
+    "i_max": 10.159,
+    "i_max_100ms": 6.849,
+    "v_term_mean": 8.242,
+    "v_term_min": 8.095,
+    "bus_mean": 7.877,
+    "bus_min": 7.39,
+    "bec_out_mean": 7.197,
+    "bec_out_min": 7.053,
+    "bec_in_min": 7.353,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.1267,
+    "vy": 0.007,
+    "wz": 0.005,
+    "track_lin": 0.8458,
+    "track_yaw": null,
+    "pitch_mean_deg": 4.4716,
+    "pitch_rms_deg": 0.6197,
+    "roll_rms_deg": 3.1001,
+    "z_mean": 0.1639
+   },
+   "V_min": {
+    "left_hip_yaw": 6.929,
+    "left_hip_roll": 6.803,
+    "left_hip_pitch": 6.711,
+    "left_knee": 6.678,
+    "left_ankle": 6.807,
+    "neck_pitch": 6.963,
+    "head_pitch": 6.827,
+    "head_yaw": 6.704,
+    "head_roll": 6.692,
+    "right_hip_yaw": 6.957,
+    "right_hip_roll": 6.86,
+    "right_hip_pitch": 6.781,
+    "right_knee": 6.722,
+    "right_ankle": 6.821
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 0.0,
+    "left_ankle": 0.0,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 0.0,
+    "right_ankle": 0.0
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.23,
+    "left_knee": 19.6,
+    "left_ankle": 1.67,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 24.0,
+    "right_ankle": 0.0
+   }
+  }
+ },
+ {
+  "mass": "ours",
+  "pack": "full",
+  "corner": "high-side",
+  "doc": {
+   "bus": 7.7,
+   "bec": 7.16,
+   "worst": [
+    "left_knee",
+    5.95
+   ],
+   "ankle": 0.0,
+   "knees": [
+    0.2,
+    0.0
+   ],
+   "head_roll": 0.1
+  },
+  "closed": {
+   "bus": 7.714,
+   "bec": 7.171,
+   "worst": [
+    "head_roll",
+    6.081
+   ],
+   "ankle": 0.0,
+   "knees": [
+    0.0,
+    0.0
+   ],
+   "head_roll": 0.0,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 5.303,
+    "i_rms": 5.584,
+    "i_max": 9.553,
+    "i_max_100ms": 6.833,
+    "v_term_mean": 8.188,
+    "v_term_min": 8.018,
+    "bus_mean": 7.714,
+    "bus_min": 7.164,
+    "bec_out_mean": 7.171,
+    "bec_out_min": 6.829,
+    "bec_in_min": 7.129,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.123,
+    "vy": 0.0052,
+    "wz": 0.0008,
+    "track_lin": 0.8207,
+    "track_yaw": null,
+    "pitch_mean_deg": 4.8985,
+    "pitch_rms_deg": 0.6388,
+    "roll_rms_deg": 3.024,
+    "z_mean": 0.1633
+   },
+   "V_min": {
+    "left_hip_yaw": 6.712,
+    "left_hip_roll": 6.484,
+    "left_hip_pitch": 6.328,
+    "left_knee": 6.291,
+    "left_ankle": 6.576,
+    "neck_pitch": 6.676,
+    "head_pitch": 6.384,
+    "head_yaw": 6.111,
+    "head_roll": 6.081,
+    "right_hip_yaw": 6.679,
+    "right_hip_roll": 6.488,
+    "right_hip_pitch": 6.337,
+    "right_knee": 6.239,
+    "right_ankle": 6.495
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 0.0,
+    "left_ankle": 0.0,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 0.0,
+    "right_ankle": 0.0
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.1,
+    "left_knee": 21.87,
+    "left_ankle": 1.47,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 24.2,
+    "right_ankle": 0.0
+   }
+  }
+ },
+ {
+  "mass": "ours",
+  "pack": "nominal",
+  "corner": "typical",
+  "doc": {
+   "bus": 6.84,
+   "bec": 6.52,
+   "worst": [
+    "left_knee",
+    5.61
+   ],
+   "ankle": 6.4,
+   "knees": [
+    6.4,
+    9.8
+   ],
+   "head_roll": 6.8
+  },
+  "closed": {
+   "bus": 6.868,
+   "bec": 6.55,
+   "worst": [
+    "head_roll",
+    5.809
+   ],
+   "ankle": 0.3,
+   "knees": [
+    2.0,
+    1.87
+   ],
+   "head_roll": 1.33,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 5.351,
+    "i_rms": 5.545,
+    "i_max": 8.878,
+    "i_max_100ms": 6.63,
+    "v_term_mean": 7.239,
+    "v_term_min": 7.134,
+    "bus_mean": 6.868,
+    "bus_min": 6.517,
+    "bec_out_mean": 6.55,
+    "bec_out_min": 6.186,
+    "bec_in_min": 6.486,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.1088,
+    "vy": 0.0022,
+    "wz": 0.0068,
+    "track_lin": 0.7257,
+    "track_yaw": null,
+    "pitch_mean_deg": 5.703,
+    "pitch_rms_deg": 0.6327,
+    "roll_rms_deg": 2.8011,
+    "z_mean": 0.1614
+   },
+   "V_min": {
+    "left_hip_yaw": 6.092,
+    "left_hip_roll": 5.991,
+    "left_hip_pitch": 5.918,
+    "left_knee": 5.887,
+    "left_ankle": 5.992,
+    "neck_pitch": 6.085,
+    "head_pitch": 5.952,
+    "head_yaw": 5.828,
+    "head_roll": 5.809,
+    "right_hip_yaw": 6.088,
+    "right_hip_roll": 6.002,
+    "right_hip_pitch": 5.936,
+    "right_knee": 5.885,
+    "right_ankle": 5.976
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.03,
+    "left_hip_pitch": 0.8,
+    "left_knee": 2.0,
+    "left_ankle": 0.03,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.33,
+    "head_yaw": 1.13,
+    "head_roll": 1.33,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.9,
+    "right_knee": 1.87,
+    "right_ankle": 0.3
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.13,
+    "left_knee": 22.4,
+    "left_ankle": 4.23,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 25.77,
+    "right_ankle": 0.0
+   }
+  }
+ },
+ {
+  "mass": "ours",
+  "pack": "nominal",
+  "corner": "high-side",
+  "doc": {
+   "bus": 6.67,
+   "bec": 6.35,
+   "worst": [
+    "head_roll",
+    4.91
+   ],
+   "ankle": 21.4,
+   "knees": [
+    31.1,
+    30.6
+   ],
+   "head_roll": 33.5
+  },
+  "closed": {
+   "bus": 6.717,
+   "bec": 6.399,
+   "worst": [
+    "head_roll",
+    5.241
+   ],
+   "ankle": 11.87,
+   "knees": [
+    24.0,
+    28.8
+   ],
+   "head_roll": 25.3,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 5.28,
+    "i_rms": 5.443,
+    "i_max": 8.416,
+    "i_max_100ms": 6.459,
+    "v_term_mean": 7.189,
+    "v_term_min": 7.063,
+    "bus_mean": 6.717,
+    "bus_min": 6.311,
+    "bec_out_mean": 6.399,
+    "bec_out_min": 5.981,
+    "bec_in_min": 6.281,
+    "bec_out_pct_below_6V": 0.37
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.1033,
+    "vy": -0.001,
+    "wz": 0.0048,
+    "track_lin": 0.6885,
+    "track_yaw": null,
+    "pitch_mean_deg": 6.6249,
+    "pitch_rms_deg": 0.5938,
+    "roll_rms_deg": 2.7755,
+    "z_mean": 0.1602
+   },
+   "V_min": {
+    "left_hip_yaw": 5.891,
+    "left_hip_roll": 5.738,
+    "left_hip_pitch": 5.618,
+    "left_knee": 5.58,
+    "left_ankle": 5.789,
+    "neck_pitch": 5.805,
+    "head_pitch": 5.532,
+    "head_yaw": 5.28,
+    "head_roll": 5.241,
+    "right_hip_yaw": 5.852,
+    "right_hip_roll": 5.683,
+    "right_hip_pitch": 5.581,
+    "right_knee": 5.493,
+    "right_ankle": 5.71
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 4.83,
+    "left_hip_roll": 12.53,
+    "left_hip_pitch": 20.2,
+    "left_knee": 24.0,
+    "left_ankle": 11.1,
+    "neck_pitch": 4.07,
+    "head_pitch": 13.03,
+    "head_yaw": 21.3,
+    "head_roll": 25.3,
+    "right_hip_yaw": 4.83,
+    "right_hip_roll": 13.07,
+    "right_hip_pitch": 23.03,
+    "right_knee": 28.8,
+    "right_ankle": 11.87
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 23.67,
+    "left_ankle": 5.2,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 23.73,
+    "right_ankle": 0.0
+   }
+  }
+ },
+ {
+  "mass": "ours",
+  "pack": "low",
+  "corner": "typical",
+  "doc": {
+   "bus": 6.02,
+   "bec": 5.7,
+   "worst": [
+    "head_roll",
+    4.87
+   ],
+   "ankle": 100.0,
+   "knees": [
+    100.0,
+    100.0
+   ],
+   "head_roll": 100.0
+  },
+  "closed": {
+   "bus": 6.066,
+   "bec": 5.749,
+   "worst": [
+    "head_roll",
+    5.128
+   ],
+   "ankle": 100.0,
+   "knees": [
+    100.0,
+    100.0
+   ],
+   "head_roll": 100.0,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 5.369,
+    "i_rms": 5.503,
+    "i_max": 8.374,
+    "i_max_100ms": 6.62,
+    "v_term_mean": 6.439,
+    "v_term_min": 6.349,
+    "bus_mean": 6.066,
+    "bus_min": 5.767,
+    "bec_out_mean": 5.749,
+    "bec_out_min": 5.439,
+    "bec_in_min": 5.739,
+    "bec_out_pct_below_6V": 100.0
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.0731,
+    "vy": 0.0044,
+    "wz": 0.0226,
+    "track_lin": 0.488,
+    "track_yaw": null,
+    "pitch_mean_deg": 8.5764,
+    "pitch_rms_deg": 0.5687,
+    "roll_rms_deg": 2.4416,
+    "z_mean": 0.1566
+   },
+   "V_min": {
+    "left_hip_yaw": 5.357,
+    "left_hip_roll": 5.277,
+    "left_hip_pitch": 5.222,
+    "left_knee": 5.199,
+    "left_ankle": 5.248,
+    "neck_pitch": 5.365,
+    "head_pitch": 5.254,
+    "head_yaw": 5.146,
+    "head_roll": 5.128,
+    "right_hip_yaw": 5.348,
+    "right_hip_roll": 5.286,
+    "right_hip_pitch": 5.242,
+    "right_knee": 5.201,
+    "right_ankle": 5.264
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 100.0,
+    "left_hip_roll": 100.0,
+    "left_hip_pitch": 100.0,
+    "left_knee": 100.0,
+    "left_ankle": 100.0,
+    "neck_pitch": 100.0,
+    "head_pitch": 100.0,
+    "head_yaw": 100.0,
+    "head_roll": 100.0,
+    "right_hip_yaw": 100.0,
+    "right_hip_roll": 100.0,
+    "right_hip_pitch": 100.0,
+    "right_knee": 100.0,
+    "right_ankle": 100.0
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.0,
+    "left_knee": 20.87,
+    "left_ankle": 7.33,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.0,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 25.77,
+    "right_ankle": 0.53
+   }
+  }
+ },
+ {
+  "mass": "ours",
+  "pack": "low",
+  "corner": "high-side",
+  "doc": {
+   "bus": 5.85,
+   "bec": 5.53,
+   "worst": [
+    "head_roll",
+    4.07
+   ],
+   "ankle": 100.0,
+   "knees": [
+    100.0,
+    100.0
+   ],
+   "head_roll": 100.0
+  },
+  "closed": {
+   "bus": 5.861,
+   "bec": 5.543,
+   "worst": [
+    "head_roll",
+    4.632
+   ],
+   "ankle": 100.0,
+   "knees": [
+    100.0,
+    100.0
+   ],
+   "head_roll": 100.0,
+   "any_ms_below_4V5": 0.0,
+   "pack": {
+    "i_mean": 5.707,
+    "i_rms": 5.786,
+    "i_max": 8.437,
+    "i_max_100ms": 7.007,
+    "v_term_mean": 6.372,
+    "v_term_min": 6.263,
+    "bus_mean": 5.861,
+    "bus_min": 5.508,
+    "bec_out_mean": 5.543,
+    "bec_out_min": 5.179,
+    "bec_in_min": 5.479,
+    "bec_out_pct_below_6V": 100.0
+   },
+   "falls": [],
+   "gait": {
+    "vx": 0.0389,
+    "vy": 0.0058,
+    "wz": 0.0121,
+    "track_lin": 0.2624,
+    "track_yaw": null,
+    "pitch_mean_deg": 11.2908,
+    "pitch_rms_deg": 0.7273,
+    "roll_rms_deg": 1.8815,
+    "z_mean": 0.1531
+   },
+   "V_min": {
+    "left_hip_yaw": 5.05,
+    "left_hip_roll": 4.878,
+    "left_hip_pitch": 4.761,
+    "left_knee": 4.723,
+    "left_ankle": 4.944,
+    "neck_pitch": 5.069,
+    "head_pitch": 4.889,
+    "head_yaw": 4.665,
+    "head_roll": 4.632,
+    "right_hip_yaw": 5.074,
+    "right_hip_roll": 4.966,
+    "right_hip_pitch": 4.881,
+    "right_knee": 4.808,
+    "right_ankle": 4.986
+   },
+   "pct_below_6V": {
+    "left_hip_yaw": 100.0,
+    "left_hip_roll": 100.0,
+    "left_hip_pitch": 100.0,
+    "left_knee": 100.0,
+    "left_ankle": 100.0,
+    "neck_pitch": 100.0,
+    "head_pitch": 100.0,
+    "head_yaw": 100.0,
+    "head_roll": 100.0,
+    "right_hip_yaw": 100.0,
+    "right_hip_roll": 100.0,
+    "right_hip_pitch": 100.0,
+    "right_knee": 100.0,
+    "right_ankle": 100.0
+   },
+   "sat_pct": {
+    "left_hip_yaw": 0.0,
+    "left_hip_roll": 0.0,
+    "left_hip_pitch": 0.03,
+    "left_knee": 18.93,
+    "left_ankle": 7.33,
+    "neck_pitch": 0.0,
+    "head_pitch": 0.0,
+    "head_yaw": 0.1,
+    "head_roll": 0.0,
+    "right_hip_yaw": 0.0,
+    "right_hip_roll": 0.0,
+    "right_hip_pitch": 0.0,
+    "right_knee": 32.13,
+    "right_ankle": 1.5
+   }
+  }
+ }
+]

@@ -83,6 +83,7 @@ Issue #51 (https://github.com/apirrone/Open_Duck_Mini/issues/51) asks whether th
 - Parts check: the Waveshare Bus Servo Adapter (A) schematic marks "MAX:6A" next to servo header H3, all servo current would pass its screw terminal and an AO4407 MOSFET, and Waveshare specifies 9 to 12.6 V input (we supply 7.2 V). The ngspice model shows BEC output peaks of 8.3 to 9.1 A while walking.
 - So the servo power bypasses the adapter: BEC output (both leads joined) -> 16 AWG -> V+ and GND splices in the belly -> SP1 (left leg, ID 20), SP2 (right leg, ID 10), SP3 (neck, ID 30), 22 AWG because the Molex 08-70-1040 terminal takes 22 to 28 AWG. The adapter feeds only DATA and GND; H1 is not connected; its logic runs from USB VBUS (schematic). Bench check in TEST_PLAN.md section 6.
 - Effect in the power sim at a nominal pack: worst ankle 5.04 V minimum (typical corner) instead of 4.78 V, head servos at 5.0 V or more in both resistance corners.
+- Note 2026-11-03 (sim pass only): those are open-loop replay dips of the D15 star before the D23 feeds (as wired now: sim/POWER_PATH_SIM.md 'As built'); the closed-loop twin (twin/electromech/ELECTROMECH_TWIN.md) finds smaller dips and a slower walk at a nominal pack instead (TEST_PLAN 9).
 
 ## 9. BEC at low input (D16)
 - Castle does not publish the CC BEC Pro minimum input voltage, and Motion RC lists "16V to 40V" while Castle's table rates it at 2S to 4S. Its behavior below the 7.2 V setpoint (pass-through, or shut-off) is not verified.
