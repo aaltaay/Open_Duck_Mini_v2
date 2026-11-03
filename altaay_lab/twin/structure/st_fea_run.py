@@ -81,6 +81,10 @@ STUDIES = {
     "head_roll_mount": dict(link="head_assembly", members=["head_roll_mount"],
                             loads=[("head_roll", "drive_via_case", [0, 1, 2, 5])], fix_inserts=True),
 }
+# proposal studies: the same loads and supports with another print profile on the weak part (STRUCTURE_TWIN.md section 6)
+STUDIES["roll_to_pitch_w4i40"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(walls=4, infill=0.40)})
+STUDIES["shin_segment_w5i40"] = dict(STUDIES["shin_segment"], prof_over={"knee_to_ankle_left_sheet": dict(walls=5, infill=0.40),
+                                                                         "knee_to_ankle_right_sheet": dict(walls=5, infill=0.40)})
 
 def setup(name, maxvol):
     st = STUDIES[name]; link = st["link"]; G = SI.groups(); F = SI.fasteners()
@@ -92,7 +96,7 @@ def setup(name, maxvol):
                 if x["kind"] == "insert" and x["into"] == p and x["link"] == link:
                     a = np.array(x["axis_link"], float); c = np.array(x["seat_link"], float) + a * x["bore_len"] / 2
                     rings.append((c, a / np.linalg.norm(a), x["bore_d"] / 2 + 2.0, x["bore_len"] / 2 + 0.6))
-    P = FE.Part(members, level=int(maxvol), rings=rings, grow=st.get("grow")); P.material(); P.assemble()
+    P = FE.Part(members, level=int(maxvol), rings=rings, grow=st.get("grow"), prof_over=st.get("prof_over")); P.material(); P.assemble()
     groups = []
     for (j, kind, comps) in st["loads"]:
         g = G[j]; JT = joint_in_link(link, j); R = JT[:3, :3]; o = JT[:3, 3]
@@ -203,7 +207,9 @@ def evaluate(P, S, sig_u, hist, names, k_elem=1500, chunk=2000):
     one = np.einsum("k,ki->i", hist[ts], sig_u[:, el, :])[None, :]
     FI, vm, szz, tz, fv, fz = FE.failure_index(one, np.array([True]), np.array([rho[es]]))
     member = P.members[P.mem[el]]["name"]
+    S3 = np.array([[one[0, 0], one[0, 5], one[0, 4]], [one[0, 5], one[0, 1], one[0, 3]], [one[0, 4], one[0, 3], one[0, 2]]])
     res = dict(FI=fis, sample=str(names[ts]), load=hist[ts].round(3).tolist(), mode="interlayer" if fz[0] > fv[0] else "in-plane",
+               sig_print=one[0].round(2).tolist(), principal=np.linalg.eigvalsh(S3).round(2).tolist(),
                vm=float(vm[0]), szz=float(szz[0]), tz=float(tz[0]), zone=["wall", "top skin", "bottom skin", "infill", "ring"][int(P.zone[el])],
                member=member, where_link=c[el].round(1).tolist(), FI_infill=best["i"][0], element=int(el))
     sh = hist @ sig_u[:, el, :]

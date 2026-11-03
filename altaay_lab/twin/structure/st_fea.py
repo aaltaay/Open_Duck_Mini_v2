@@ -66,7 +66,7 @@ class Part:
     LEVELS = {1: dict(minratio=2.0, mindihedral=10, maxvol=5.0), 2: dict(minratio=1.6, mindihedral=15, maxvol=1.0),
               3: dict(minratio=1.4, mindihedral=18, maxvol=0.3)}
 
-    def __init__(self, members, level=1, rings=(), grow=None, tie_mm=0.45, k_tie=2.0e4):
+    def __init__(self, members, level=1, rings=(), grow=None, tie_mm=0.45, k_tie=2.0e4, prof_over=None):
         """members: list of (part_name, T_link 4x4 STL mm -> link mm); rings: list of (centre_link, axis_link, r, half_len).
         Each member is meshed on its own; members that touch are tied by stiff springs between surface nodes closer than
         tie_mm (bonded screwed joint, ASSUMPTION; k_tie N/mm per node pair, about 15 x the local element stiffness E h)"""
@@ -75,7 +75,9 @@ class Part:
         for k, (name, T) in enumerate(members):
             m = trimesh.load(os.path.join(PRINT, name + ".stl"), force="mesh"); m.apply_transform(T)
             if np.linalg.det(T[:3, :3]) < 0: m.invert()
-            prof = profile_of(name); Rp = up_rotation(prof["up"]); R_lp = Rp @ T[:3, :3].T
+            prof = profile_of(name)
+            if prof_over and name in prof_over: prof = dict(prof, **prof_over[name])     # proposal studies: other walls or infill
+            Rp = up_rotation(prof["up"]); R_lp = Rp @ T[:3, :3].T
             self.members.append(dict(name=name, T=T, prof=prof, R=R_lp, mesh=m))
             tg = tetgen.TetGen(np.asarray(m.vertices, float), np.asarray(m.faces, int))
             n_, e_ = tg.tetrahedralize(order=1, mindihedral=L["mindihedral"], minratio=L["minratio"], maxvolume=L["maxvol"], fixedvolume=True, quiet=True)[:2]

@@ -185,9 +185,75 @@ def fastener_table():
     print(md(rows, ["screw group", "n", "printed part", "PLA t mm", "PLA bearing cap. N", "walk N / SF", "push N / SF", "fall soft N / SF", "fall mid N / SF"]))
     return out
 
+
+# ---------------------------------------------------------------------------------------------------------------
+# FEA safety factors, the hot case and PETG
+HOT = {  # strength and modulus retention of printed PLA against room temperature (sources in STRUCTURE_TWIN.md)
+    "50 C": dict(strength=50.0 / 80.0, modulus=0.84, src_s="Slavkovic et al. 2024, compression stress about 80 / 60 / 50 MPa at 25 / 37 / 50 C",
+                 src_m="Grasso et al. 2018, printed PLA stiffness down about 16 % from 40 to 50 C (flat below 40 C)"),
+    "60 C": dict(strength=None, modulus=350.0 / 1400.0, src_s="BLOCKER: no strength value at 60 C found for printed PLA",
+                 src_m="Grasso et al. 2018 (as cited in a search result): about 1400 MPa at 30 C, 350 MPa at 60 C"),
+}
+PETG = dict(X=34.0, Z=23.0, E=1810.0, hdt_045=69.0, hdt_18=62.0, tg=66.0, src="Bambu PETG HF TDS V1.0 (tensile 34 +- 4 X-Y, 23 +- 4 Z, E 1810 X-Y; HDT 69 C at 0.45 MPa, 62 C at 1.8 MPa)")
+HOT_PARTS = {"knee_to_ankle_left_sheet": "54 to 66 C (continuous and 50/50 walking), 47 to 55 C (25/75)",
+             "knee_to_ankle_right_sheet": "54 to 66 C (continuous and 50/50 walking), 47 to 55 C (25/75)",
+             "leg_spacer": "between the knee sheets (not listed by the thermal twin; ASSUMPTION: as the sheets)",
+             "left_roll_to_pitch": "up to 61 C (backlash walk, warm room)", "right_roll_to_pitch": "up to 61 C (backlash walk, warm room)",
+             "trunk_top": "up to 61 C", "body_middle_bottom": "belly floor under the BEC above 50 C", "battery_pack_lid": "above 50 C at the 2815 and BMS"}
+
+def fea_table():
+    rows = []; out = {}
+    for f in sorted(glob.glob(os.path.join(SCR, "fea", "*.json"))):
+        if "_v1_" in f: continue
+        d = json.load(open(f)); st = d["study"]
+        if not d["meshes"]: continue
+        m = d["meshes"][-1]; C = m["cases"]
+        r = dict(study=st, members=d["members"], nodes=m["nodes"], tets=m["tets"])
+        for k in ("walk", "push"):
+            if k in C: r[k] = dict(SF=1 / C[k]["FI"], mode=C[k]["mode"], zone=C[k]["zone"], member=C[k]["member"], where=C[k]["where_link"], sample=C[k]["sample"],
+                                   vm=C[k]["vm"], szz=C[k]["szz"], load=C[k]["load"], insert_loads=C[k].get("insert_loads"))
+        if "fall" in C:
+            per = C["fall"]["per_run"]; lv = {}
+            for name, (tc, dr) in LEVELS.items():
+                tag = f"_tc{tc:g}_dr{dr:g}"
+                vals = {k: v for k, v in per.items() if k.endswith(tag)}
+                if vals:
+                    worst = max(vals.items(), key=lambda kv: kv[1]["FI"])
+                    lv[name] = dict(SF=1 / worst[1]["FI"], run=worst[0], member=worst[1]["member"], mode=worst[1]["mode"], where=worst[1]["where_link"],
+                                    SF_all={k.replace(tag, ""): round(1 / v["FI"], 3) for k, v in vals.items()})
+            r["fall"] = lv
+        # hot case: same stresses (uniform modulus loss leaves a force-loaded linear solution unchanged), lower strength
+        hot = {}
+        if "walk" in r:
+            hot_member = r["walk"]["member"] in HOT_PARTS
+            for T, h in HOT.items():
+                hot[T] = dict(applies=hot_member, SF_walk=(r["walk"]["SF"] * h["strength"]) if h["strength"] else None,
+                              SF_push=(r["push"]["SF"] * h["strength"]) if (h["strength"] and "push" in r) else None,
+                              deflection_factor=1 / h["modulus"])
+            # PETG: room-temperature strength ratio, held to about 60 C (below its 1.8 MPa HDT of 62 C; ASSUMPTION, no hot data)
+            ratio = (PETG["Z"] / 22.0) if r["walk"]["mode"] == "interlayer" else (PETG["X"] / 47.1)
+            hot["PETG"] = dict(SF_walk=r["walk"]["SF"] * ratio, SF_push=r["push"]["SF"] * ratio if "push" in r else None, strength_ratio=ratio,
+                               deflection_factor=E_PLA / PETG["E"])
+        r["hot"] = hot
+        out[st] = r
+    json.dump(out, open(os.path.join(OUT, "fea_table.json"), "w"), indent=1, default=float)
+    for st, r in out.items():
+        fl = r.get("fall", {})
+        rows.append([st, ", ".join(r["members"]), f"{r['walk']['SF']:.2f}" if "walk" in r else "-", f"{r['push']['SF']:.2f}" if "push" in r else "-",
+                     f"{fl['soft']['SF']:.2f}" if "soft" in fl else "-", f"{fl['mid']['SF']:.2f}" if "mid" in fl else "-",
+                     f"{fl['MuJoCo default']['SF']:.2f}" if "MuJoCo default" in fl else "-",
+                     f"{r['walk']['member']}, {r['walk']['zone']}, {r['walk']['mode']}, at {r['walk']['where']} mm ({r['walk']['sample']})" if "walk" in r else "-",
+                     f"{r['hot']['50 C']['SF_walk']:.2f}" if r.get("hot", {}).get("50 C", {}).get("SF_walk") else "-",
+                     f"{r['hot']['PETG']['SF_walk']:.2f}" if r.get("hot", {}).get("PETG") else "-"])
+    print(md(rows, ["study", "parts", "SF walk", "SF push", "SF fall soft", "SF fall mid", "SF fall MuJoCo default", "weak spot (walking peak)", "SF walk at 50 C (PLA)", "SF walk PETG"]))
+    return out
+
+E_PLA = 2641.0
+
 if __name__ == "__main__":
     what = sys.argv[1] if len(sys.argv) > 1 else "all"
     if what in ("loads", "all"): loads_table()
     if what in ("falls", "all"): falls_table()
     if what in ("fatigue", "all"): fatigue_table()
     if what in ("fasteners", "all"): fastener_table()
+    if what in ("fea", "all"): fea_table()
