@@ -195,7 +195,8 @@ Not costed: sales tax and the line 10b control switch (upstream part, $6.00 plac
 
 ## BLOCKERS that affect this BOM
 
-See HARDWARE_AUDIT.md section 6 for all 46 with the method for each.
+See HARDWARE_AUDIT.md section 6 for all 49 with the method for each.
+- 8: the Tenergy 32175 must trip at 21 A or more (TEST_PLAN 3.3, B47; twin/electrical/ELECTRICAL_TWIN.md, sim pass only); a board under that means a second board at $22.99 (buying needs Ahmed's OK) or accepting that a hard shove can switch the duck off.
 - 17j: hip pitch button heads clear roll_to_pitch by +0.16 mm in CAD; checked on the first leg (B31, D19).
 - 17e, T11, T13: the 24 neck chain recesses are drilled to 6.0 mm after printing, confirmed on coupon C4 first (B32, D20).
 - 1, 17h, 20, 28, E1, E5, E7 and row 11: fit or length settled only by the test order below.
