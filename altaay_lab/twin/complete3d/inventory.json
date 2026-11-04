@@ -1,0 +1,5508 @@
+{
+ "meta": {
+  "script": "altaay_lab/twin/complete3d/inventory.py",
+  "label": "CAD check only",
+  "viewer_run": "2026-11-04 23:10 UTC",
+  "published_run": "2026-11-02 11:08 UTC"
+ },
+ "lead_findings_check": {
+  "cables_in_cables3d": 47,
+  "runs_in_cables3d": 62,
+  "runs_drawn_base": 62,
+  "runs_drawn_published": 62,
+  "cables_with_a_scene_extras_plug": 21,
+  "plug_cables": [
+   "D1",
+   "D11",
+   "D12",
+   "S10",
+   "S11",
+   "S12",
+   "S13",
+   "S2",
+   "S3",
+   "S4",
+   "S5",
+   "S7",
+   "S8",
+   "S9",
+   "SD1",
+   "SD2",
+   "SP1",
+   "SP2",
+   "SP3",
+   "SP4",
+   "SP5"
+  ],
+  "netlist_only_ids": [
+   "S1",
+   "S14",
+   "S14Y",
+   "S6"
+  ],
+  "note": "FSL1, FSL2, FSR1, FSR2 are netlist components (foot switches); J5, JG10, JG20, JG30 are inline splices (check_cables INLINE): not cables"
+ },
+ "parts": [
+  {
+   "group": "printed",
+   "part": "foot_top",
+   "qty_upstream": 2,
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "2 M3 inserts with a 1.5 mm wall (B16: print 4 perimeters). 2 slots for the Omron SS-10 switches. 2 M3 inserts per part.",
+   "fasteners": {
+    "n": 16,
+    "by_spec": {
+     "M3x10 DIN 912 A2": 4,
+     "M3x6 DIN 912 A2": 8,
+     "M3 heat-set insert CNC Kitchen M3 x 5.7": 4
+    }
+   },
+   "cables": [
+    "D3",
+    "D4"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "foot_side",
+   "qty_upstream": 2,
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 12,
+    "by_spec": {
+     "M3x10 DIN 912 A2": 4,
+     "M3x6 DIN 912 A2": 8
+    }
+   },
+   "cables": [
+    "D3",
+    "D4",
+    "S10",
+    "S5",
+    "SP4",
+    "SP5"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "foot_bottom_pla",
+   "qty_upstream": 2,
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "2 M3 heat-set inserts in this part (each instance).",
+   "fasteners": {
+    "n": 8,
+    "by_spec": {
+     "M3x8 DIN 912 A2": 4,
+     "M3 heat-set insert CNC Kitchen M3 x 5.7": 4
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "foot_bottom_tpu",
+   "qty_upstream": 2,
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 4,
+    "by_spec": {
+     "M3x8 DIN 912 A2": 4
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "knee_to_ankle_left_sheet",
+   "qty_upstream": 4,
+   "in_viewer": 4,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 30,
+    "by_spec": {
+     "M3x6 DIN 912 A2": 17,
+     "M3x6 ISO 7380 A2 button head": 5,
+     "M2x5 self-tapping pan head": 8
+    }
+   },
+   "cables": [
+    "D4",
+    "S8",
+    "S9",
+    "SP5"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "knee_to_ankle_right_sheet",
+   "qty_upstream": 4,
+   "in_viewer": 4,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 30,
+    "by_spec": {
+     "M3x6 ISO 7380 A2 button head": 5,
+     "M3x6 DIN 912 A2": 17,
+     "M2x6 self-tapping pan head": 8
+    }
+   },
+   "cables": [
+    "D3",
+    "D4",
+    "S10",
+    "S3",
+    "S4",
+    "S5",
+    "S9",
+    "SP4",
+    "SP5"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "leg_spacer",
+   "qty_upstream": 4,
+   "in_viewer": 4,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "4 M3 heat-set inserts in this part (each instance).",
+   "fasteners": {
+    "n": 32,
+    "by_spec": {
+     "M3x10 DIN 912 A2": 4,
+     "M3x6 ISO 7380 A2 button head": 2,
+     "M3x6 DIN 912 A2": 10,
+     "M3 heat-set insert CNC Kitchen M3 x 5.7": 16
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "left_roll_to_pitch",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
+   "fasteners": {
+    "n": 13,
+    "by_spec": {
+     "M2x6 self-tapping pan head": 2,
+     "M2x5 self-tapping pan head": 3,
+     "M3x6 DIN 912 A2": 8
+    }
+   },
+   "cables": [
+    "D3",
+    "S2",
+    "S3",
+    "S4",
+    "SP4"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "right_roll_to_pitch",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
+   "fasteners": {
+    "n": 13,
+    "by_spec": {
+     "M2x6 self-tapping pan head": 2,
+     "M2x5 self-tapping pan head": 3,
+     "M3x6 DIN 912 A2": 8
+    }
+   },
+   "cables": [
+    "D4",
+    "S7",
+    "S8",
+    "SP5"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "roll_motor_bottom",
+   "qty_upstream": 2,
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 4,
+    "by_spec": {
+     "M2x6 self-tapping pan head": 4
+    }
+   },
+   "cables": [
+    "D3"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "roll_motor_top",
+   "qty_upstream": 2,
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 16,
+    "by_spec": {
+     "M3x6 DIN 912 A2": 8,
+     "M2x6 self-tapping pan head": 8
+    }
+   },
+   "cables": [
+    "D2",
+    "D4",
+    "SP3"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "trunk_bottom",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "6 M3 heat-set inserts in this part (each instance).",
+   "fasteners": {
+    "n": 12,
+    "by_spec": {
+     "M3x10 DIN 912 A2": 4,
+     "M3x12 DIN 912 A2": 2,
+     "M3 heat-set insert CNC Kitchen M3 x 5.7": 6
+    }
+   },
+   "cables": [
+    "D2",
+    "D3",
+    "SP3"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "trunk_top",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 30,
+    "by_spec": {
+     "M2x8 self-tapping pan head": 2,
+     "M2x6 self-tapping pan head": 14,
+     "M3x12 DIN 912 A2": 2,
+     "M2.5x6 DIN 912 A2": 8,
+     "M2x5 self-tapping pan head": 4
+    }
+   },
+   "cables": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "P13",
+    "P15",
+    "P7",
+    "S11",
+    "S2",
+    "S7",
+    "SD1",
+    "SD2",
+    "SP1",
+    "SP2",
+    "SP3"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "neck_left_sheet",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 6,
+    "by_spec": {
+     "M2x6 self-tapping pan head": 2,
+     "M3x5 DIN 912 A2": 4
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "neck_right_sheet",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 6,
+    "by_spec": {
+     "M2x6 self-tapping pan head": 2,
+     "M3x5 DIN 912 A2": 4
+    }
+   },
+   "cables": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "P13",
+    "S11",
+    "SD1"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "head_pitch_to_yaw",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 16,
+    "by_spec": {
+     "M3x5 DIN 912 A2": 16
+    }
+   },
+   "cables": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "P13",
+    "S11",
+    "S12",
+    "S13"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "head_yaw_to_roll",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 8,
+    "by_spec": {
+     "M2x6 self-tapping pan head": 2,
+     "M2x5 self-tapping pan head": 2,
+     "M3x5 DIN 912 A2": 4
+    }
+   },
+   "cables": [
+    "D1",
+    "P13",
+    "S13"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "head_roll_mount",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 8,
+    "by_spec": {
+     "M2x5 self-tapping pan head": 2,
+     "M3x6 DIN 912 A2": 4,
+     "M2x4 self-tapping pan head": 2
+    }
+   },
+   "cables": [
+    "D10",
+    "D12",
+    "D6"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "head",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "12 M3 heat-set inserts in this part (each instance).",
+   "fasteners": {
+    "n": 68,
+    "by_spec": {
+     "M2x5 self-tapping pan head": 4,
+     "M2x6 self-tapping pan head": 2,
+     "M3x8 DIN 912 A2": 8,
+     "M3x6 DIN 912 A2": 4,
+     "M2.5x6 DIN 912 A2": 8,
+     "M2x4 self-tapping pan head": 6,
+     "M3x5 DIN 912 A2": 20,
+     "SG90 bag mounting screw": 4,
+     "M3 heat-set insert CNC Kitchen M3 x 5.7": 12
+    }
+   },
+   "cables": [
+    "D12",
+    "D7",
+    "D9"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "head_bot_sheet",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 8,
+    "by_spec": {
+     "M3x8 DIN 912 A2": 8
+    }
+   },
+   "cables": [
+    "D10",
+    "D11"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "left_antenna_holder",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "SG90 bag screw onto the SG90 horn (clearance 2.7 in a 5.05 recess, B5 cleared).",
+   "fasteners": {
+    "n": 1,
+    "by_spec": {
+     "SG90 bag horn screw": 1
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "right_antenna_holder",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "SG90 bag screw onto the SG90 horn (clearance 2.7 in a 5.05 recess, B5 cleared).",
+   "fasteners": {
+    "n": 1,
+    "by_spec": {
+     "SG90 bag horn screw": 1
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "left_cache",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 2,
+    "by_spec": {
+     "M3x10 DIN 912 A2": 2
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "right_cache",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 2,
+    "by_spec": {
+     "M3x10 DIN 912 A2": 2
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "body_front",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 8,
+    "by_spec": {
+     "M3x8 DIN 912 A2": 8
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "body_middle_bottom",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "8 M3 heat-set inserts in this part (each instance).",
+   "fasteners": {
+    "n": 20,
+    "by_spec": {
+     "M3x10 DIN 912 A2": 4,
+     "M3x8 DIN 912 A2": 8,
+     "M3 heat-set insert CNC Kitchen M3 x 5.7": 8
+    }
+   },
+   "cables": [
+    "P7"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "body_middle_top",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "8 M3 heat-set inserts in this part (each instance).",
+   "fasteners": {
+    "n": 16,
+    "by_spec": {
+     "M3x8 DIN 912 A2": 8,
+     "M3 heat-set insert CNC Kitchen M3 x 5.7": 8
+    }
+   },
+   "cables": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "P13"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "body_back",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "",
+   "fasteners": {
+    "n": 13,
+    "by_spec": {
+     "M2.5x10 DIN 912 A2": 4,
+     "M3x8 DIN 912 A2": 8,
+     "M2.5x6 DIN 912 A2": 1
+    }
+   },
+   "cables": [
+    "P1",
+    "P14",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P7",
+    "P8"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "battery_pack_lid",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "4 x M2.5x10 DIN 912 into body_back pilots, head sits proud on the lid face (B3 cleared).",
+   "fasteners": {
+    "n": 4,
+    "by_spec": {
+     "M2.5x10 DIN 912 A2": 4
+    }
+   },
+   "cables": [
+    "P1",
+    "P2",
+    "P3",
+    "P6",
+    "P8"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "bulb",
+   "qty_upstream": 1,
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "print guide lists 1, CAD and PRINT_CHECK use 2 (upstream issue 26)",
+   "mount": "Clamped between the eye and the head wall by the 4 eye screws. 2 needed (print guide says 1).",
+   "fasteners": {
+    "n": 8,
+    "by_spec": {
+     "M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers": 8
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "flash_light_module",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "No screw found in CAD. Holds the reflector interface (B8).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "D7"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "flash_reflector_interface",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "Reflector seat tapers to 20.0 mm, about 10 mm deep, narrow end 8.07 mm (B8).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "D7"
+   ]
+  },
+  {
+   "group": "printed",
+   "part": "left_eye",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "4 x M2.5x8 through the bulb and the head wall into the eye (left pilot 2.2 mm, B14).",
+   "fasteners": {
+    "n": 4,
+    "by_spec": {
+     "M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers": 4
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "right_eye",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "4 x M2.5x8 through the bulb and the head wall into the eye (pilot 2.05 mm).",
+   "fasteners": {
+    "n": 4,
+    "by_spec": {
+     "M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers": 4
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "speaker_interface",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "Holds the speaker on the stand. No clip or screw in CAD (B8).",
+   "fasteners": {
+    "n": 4,
+    "by_spec": {
+     "M2.5x5 DIN 912 A2": 4
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "printed",
+   "part": "speaker_stand",
+   "qty_upstream": 1,
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf or head.stl frame)",
+   "note": "",
+   "mount": "4 x M2.5x6 into head.stl 2.0 pilots.",
+   "fasteners": {
+    "n": 8,
+    "by_spec": {
+     "M2.5x6 DIN 912 A2": 4,
+     "M2.5x5 DIN 912 A2": 4
+    }
+   },
+   "cables": []
+  },
+  {
+   "group": "bought",
+   "part": "charger",
+   "category": "electronics",
+   "bom": "11",
+   "label": "USB-C 2S charge board",
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "OK",
+   "mount": "body_back: 1 x M2.5x6 into a 2.0 pilot (the 2nd hole has no pilot), USB-C out of the body_back opening.",
+   "fasteners": {
+    "n": 1,
+    "by_spec": {
+     "M2.5x6 DIN 912 A2": 1
+    }
+   },
+   "cables": [
+    "P4",
+    "P5"
+   ],
+   "netlist_ids": [
+    "CHG"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "power_switch",
+   "category": "electronics",
+   "bom": "10b",
+   "label": "Control switch, stock panel slide switch (CAD body)",
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "OK",
+   "mount": "Held by the body_back cutout (23.4 x 7.4 x 16.8 mm CAD body).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "P15"
+   ],
+   "netlist_ids": [
+    "CTL"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "bms_cad",
+   "category": "electronics",
+   "bom": "8",
+   "label": "2S BMS, upstream CAD body (replaced)",
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "OK",
+   "mount": "Sandwiched between body_back and battery_pack_lid, no screws. Free envelope here 17.75 x 47.2 x 5.33 mm (B12).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P8"
+   ],
+   "netlist_ids": [
+    "BMS"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "imu",
+   "category": "electronics",
+   "bom": "5",
+   "label": "Adafruit BNO055 IMU (2472)",
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B20",
+   "mount": "trunk_top: 4 x M2.5x6 (M2.5x8 would bottom out with a 1.6 mm PCB). x forward, chip up. Hole spacing B13, axis signs B20.",
+   "fasteners": {
+    "n": 4,
+    "by_spec": {
+     "M2.5x6 DIN 912 A2": 4
+    }
+   },
+   "cables": [
+    "D2"
+   ],
+   "netlist_ids": [
+    "BNO"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "bearing",
+   "category": "bearing",
+   "bom": "18",
+   "label": "6804ZZ ball bearing 20 x 32 x 7",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "OK",
+   "mount": "Press into a 32.19 mm seat (2 in trunk_bottom, 1 in head): 0.19 mm slip fit on a 32.00 bearing (PRINT_CHECK flag 7).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": []
+  },
+  {
+   "group": "bought",
+   "part": "adapter",
+   "category": "electronics",
+   "bom": "2",
+   "label": "Waveshare Bus Servo Adapter (A)",
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "OK",
+   "mount": "trunk_top: 4 x M2.5x6 on 4 printed bosses 5 mm high, USB-C toward the neck opening.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "D1",
+    "SD1",
+    "SD2"
+   ],
+   "netlist_ids": [
+    "U2"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "cell",
+   "category": "battery",
+   "bom": "6",
+   "label": "Molicel INR18650-P30B cell",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "OK",
+   "mount": "In the 2 x 18650 holder. Charge both cells to the same voltage first.",
+   "fasteners": {
+    "n": 4,
+    "by_spec": {
+     "M2.5x10 DIN 912 A2": 4
+    }
+   },
+   "cables": [
+    "P1",
+    "P2",
+    "P3"
+   ],
+   "netlist_ids": [
+    "PACK"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "holder",
+   "category": "battery",
+   "bom": "7",
+   "label": "2 x 18650 cell holder",
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "OK",
+   "mount": "Captive in the body_back battery bay, closed by battery_pack_lid (0.14 mm press, 0.62 mm gap to lid).",
+   "fasteners": {
+    "n": 6,
+    "by_spec": {
+     "M2.5x10 DIN 912 A2": 4,
+     "SG90 bag horn screw": 2
+    }
+   },
+   "cables": [
+    "P1",
+    "P2",
+    "P3"
+   ],
+   "netlist_ids": [
+    "PACK"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-neck_pitch",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 30, neck pitch (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-neck_pitch",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 30",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S11",
+    "SD1",
+    "SP3"
+   ],
+   "netlist_ids": [
+    "SV30"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-right_hip_yaw",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 10, right hip yaw (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-right_hip_yaw",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 10",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S7",
+    "SD2",
+    "SP2"
+   ],
+   "netlist_ids": [
+    "SV10"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-left_hip_yaw",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 20, left hip yaw (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-left_hip_yaw",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 20",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S2",
+    "SD1",
+    "SP1"
+   ],
+   "netlist_ids": [
+    "SV20"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-left_hip_roll",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 21, left hip roll (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-left_hip_roll",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 21",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S2",
+    "S3"
+   ],
+   "netlist_ids": [
+    "SV21"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-left_hip_pitch",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 22, left hip pitch (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-left_hip_pitch",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 22",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S3",
+    "S4"
+   ],
+   "netlist_ids": [
+    "SV22"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-left_knee",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 23, left knee (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-left_knee",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 23",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S4",
+    "S5"
+   ],
+   "netlist_ids": [
+    "SV23"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-left_ankle",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 24, left ankle (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-left_ankle",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 24",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S5",
+    "SP4"
+   ],
+   "netlist_ids": [
+    "SV24"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-right_hip_roll",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 11, right hip roll (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-right_hip_roll",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 11",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S7",
+    "S8"
+   ],
+   "netlist_ids": [
+    "SV11"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-right_hip_pitch",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 12, right hip pitch (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-right_hip_pitch",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 12",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S8",
+    "S9"
+   ],
+   "netlist_ids": [
+    "SV12"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-right_knee",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 13, right knee (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-right_knee",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 13",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S10",
+    "S9"
+   ],
+   "netlist_ids": [
+    "SV13"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-right_ankle",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 14, right ankle (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-right_ankle",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 14",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S10",
+    "SP5"
+   ],
+   "netlist_ids": [
+    "SV14"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-head_pitch",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 31, head pitch (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-head_pitch",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 31",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S11",
+    "S12"
+   ],
+   "netlist_ids": [
+    "SV31"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-head_yaw",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 32, head yaw (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-head_yaw",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 32",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S12",
+    "S13"
+   ],
+   "netlist_ids": [
+    "SV32"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "pi",
+   "category": "electronics",
+   "bom": "3",
+   "label": "Raspberry Pi Zero 2 W",
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "OK",
+   "mount": "head.stl: 4 x M2.5x6 DIN 912 into 2.0 pilots, components side up.",
+   "fasteners": {
+    "n": 46,
+    "by_spec": {
+     "M2x6 self-tapping pan head": 4,
+     "M2.5x6 DIN 912 A2": 4,
+     "M2x5 self-tapping pan head": 6,
+     "M3x6 DIN 912 A2": 16,
+     "M3x5 DIN 912 A2": 16
+    }
+   },
+   "cables": [
+    "D1",
+    "D10",
+    "D12",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8",
+    "D9",
+    "P12",
+    "P17"
+   ],
+   "netlist_ids": [
+    "PI"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "sg90",
+   "category": "servo",
+   "bom": "14",
+   "label": "SG90 antenna servo",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "OK",
+   "mount": "2 tab screws per servo into head pilots 27.5 mm apart (SG90 bag), output shaft up (B5 cleared).",
+   "fasteners": {
+    "n": 6,
+    "by_spec": {
+     "SG90 bag horn screw": 2,
+     "SG90 bag mounting screw": 4
+    }
+   },
+   "cables": [
+    "D8",
+    "D9"
+   ],
+   "netlist_ids": [
+    "SGL",
+    "SGR"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "head_board",
+   "category": "electronics",
+   "bom": null,
+   "label": "board.stl copy in the head (Pi footprint, B7)",
+   "in_viewer": 1,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "OK",
+   "mount": "Same 4 holes as the Pi footprint. Not a second board: upstream lists one adapter (B7 cleared).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": []
+  },
+  {
+   "group": "bought",
+   "part": "servo-head_roll",
+   "category": "servo",
+   "bom": "1",
+   "label": "STS3215 servo ID 33, head roll (middle)",
+   "in_viewer": 3,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B2, B6, B10, B17, B21",
+   "mount": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS (88) or M3x5 (12 short sites) into the horns; horn centre screw from the bag.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": [
+    "SV3215"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "servo-head_roll",
+   "category": "horn",
+   "bom": "1",
+   "label": "Servo horn, drive side of servo ID 33",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "B6",
+   "mount": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "S13"
+   ],
+   "netlist_ids": [
+    "SV33"
+   ]
+  },
+  {
+   "group": "printed rod",
+   "part": "antenna",
+   "category": "other",
+   "bom": null,
+   "label": "Antenna rod",
+   "in_viewer": 2,
+   "seated": "yes (robot.urdf CAD body)",
+   "status": "OK",
+   "mount": "Optional PLA rod on the antenna holder: in the CAD but not in print/, export it from the URDF mesh (print/PRINT_PLAN.md).",
+   "fasteners": {
+    "n": 2,
+    "by_spec": {
+     "SG90 bag horn screw": 2
+    }
+   },
+   "cables": [],
+   "netlist_ids": []
+  },
+  {
+   "group": "bought",
+   "part": "ph-bec_pro",
+   "category": "placeholder",
+   "bom": "L1",
+   "label": "Castle CC BEC Pro (servo 7.2 V regulator)",
+   "in_viewer": 1,
+   "seated": "yes: Lab placement, audit/placements.json",
+   "status": "OK",
+   "mount": "Belly floor inside body_middle_bottom, foam tape (BOM 29), leads toward the battery bay (MOUNTING.md, D11). Minimum input voltage is measured on the bench first (TEST_PLAN.md section 4, D16).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "P10",
+    "P11"
+   ],
+   "netlist_ids": [
+    "U1"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-fuse_holder",
+   "category": "placeholder",
+   "bom": "L3",
+   "label": "Littelfuse FHAC0001ZXJ inline ATO fuse holder",
+   "in_viewer": 1,
+   "seated": "yes: Lab placement, audit/placements.json",
+   "status": "OK",
+   "mount": "Battery bay front wall, BMS side, foam tape. Inline on lead P7 between the XT30 and the Pololu 2815 (MOUNTING.md).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "P7"
+   ],
+   "netlist_ids": [
+    "F1"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-mosfet_switch",
+   "category": "placeholder",
+   "bom": "10",
+   "label": "Pololu 2815 Big MOSFET Slide Switch HP",
+   "in_viewer": 1,
+   "seated": "yes: Lab placement, audit/placements.json",
+   "status": "OK",
+   "mount": "Main power switch (D8): battery bay front wall, foam tape, on-board slide OFF, control pin to the body_back panel switch.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "P15",
+    "P16",
+    "P7",
+    "P9"
+   ],
+   "netlist_ids": [
+    "SW1"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-bms_tenergy",
+   "category": "placeholder",
+   "bom": "8",
+   "label": "Tenergy 32175 2S protection board",
+   "in_viewer": 1,
+   "seated": "yes: Lab placement, audit/placements.json (bms.stl slot, measured envelope",
+   "status": "OK",
+   "mount": "Replaces the modelled bms.stl (shown solid at the upstream position). Sandwiched between body_back and battery_pack_lid.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P8"
+   ],
+   "netlist_ids": [
+    "BMS"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-reg_5v",
+   "category": "placeholder",
+   "bom": "9",
+   "label": "5 V regulator, Pololu D30V30F5",
+   "in_viewer": 1,
+   "seated": "yes: Head floor under the Pi, on 1.1 mm foam tape: free flat spot found by",
+   "status": "OK",
+   "mount": "Head floor below the Pi, foam tape (MOUNTING.md, D4). Fed from the switched pack bus up the neck (P13), 5 V to Pi pins 2 and 6.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "P12",
+    "P13"
+   ],
+   "netlist_ids": [
+    "U3"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-amp",
+   "category": "placeholder",
+   "bom": "E2",
+   "label": "Adafruit MAX98357A I2S amp (3006)",
+   "in_viewer": 1,
+   "seated": "approximate: seat from the cables3d terminal, size stand-in (Cable terminal seat from altaay_lab/cables3d ([L] head floor)",
+   "status": "OK",
+   "mount": "Not in CAD, no mount (BOM E2). Tnkr: head floor, right of the speaker stand, foam tape.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "D10",
+    "D11"
+   ],
+   "netlist_ids": [
+    "AMP"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-speaker",
+   "category": "placeholder",
+   "bom": "E1",
+   "label": "Speaker, Same Sky CMS0361KLX 8 ohm 2 W",
+   "in_viewer": 1,
+   "seated": "approximate: seat from the cables3d terminal, size stand-in (Cable terminal seat from altaay_lab/cables3d ([L] nearest fu)",
+   "status": "B8",
+   "mount": "Sits in speaker_interface on speaker_stand, held with foam tape (BOM 29). No clip or screw in CAD (B8).",
+   "fasteners": {
+    "n": 8,
+    "by_spec": {
+     "M2.5x6 DIN 912 A2": 4,
+     "M2.5x5 DIN 912 A2": 4
+    }
+   },
+   "cables": [
+    "D11"
+   ],
+   "netlist_ids": [
+    "SPK"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-camera",
+   "category": "placeholder",
+   "bom": "E6",
+   "label": "Raspberry Pi Camera Module 3",
+   "in_viewer": 1,
+   "seated": "NO: box centred on the 4 pilots, 3.75 mm off the drawing's board centre, and its 11.5 mm depth drawn forward through the front wall (56 of 400 samples inside head.stl); designed seat in part_seats.json",
+   "status": "OK",
+   "mount": "4 x M2x4 self-tapping into head.stl pilots 1.65 mm on 20.9 x 12.5 (B9 cleared; screw length on the test order).",
+   "fasteners": {
+    "n": 4,
+    "by_spec": {
+     "M2x4 self-tapping pan head": 4
+    }
+   },
+   "cables": [
+    "D12"
+   ],
+   "netlist_ids": [
+    "CAM"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-led_1",
+   "category": "placeholder",
+   "bom": "E3",
+   "label": "Eye LED left",
+   "in_viewer": 1,
+   "seated": "approximate: seat from the cables3d terminal, size stand-in (Cable terminal seat from altaay_lab/cables3d ([L] left eye: )",
+   "status": "OK",
+   "mount": "Behind the left bulb, 100 ohm resistor (B23 cleared).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "D5"
+   ],
+   "netlist_ids": [
+    "LEDL"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-led_2",
+   "category": "placeholder",
+   "bom": "E3",
+   "label": "Eye LED right",
+   "in_viewer": 1,
+   "seated": "approximate: seat from the cables3d terminal, size stand-in (Cable terminal seat from altaay_lab/cables3d ([L] right eye:)",
+   "status": "OK",
+   "mount": "Behind the right bulb, 100 ohm resistor (B23 cleared).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "D6"
+   ],
+   "netlist_ids": [
+    "LEDR"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-led_3",
+   "category": "placeholder",
+   "bom": "E3",
+   "label": "Projector LED",
+   "in_viewer": 1,
+   "seated": "approximate: seat from the cables3d terminal, size stand-in (Cable terminal seat from altaay_lab/cables3d ([L] projector:)",
+   "status": "OK",
+   "mount": "In the flash reflector interface; retention needs the real reflector (B8).",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "D7"
+   ],
+   "netlist_ids": [
+    "LEDP"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-foot_switch_l1",
+   "category": "placeholder",
+   "bom": "13",
+   "label": "Omron SS-01 foot switch (SS-10 fallback) (left foot, slot 1)",
+   "in_viewer": 1,
+   "seated": "yes: foot_top slot (measured)",
+   "status": "OK",
+   "mount": "Press fit in a foot_top slot 6.4 x 19.8 mm, lever down toward foot_bottom (B11 seat cleared). Gold contacts and a 2.2 kOhm pull-up per foot (D17). Height inside the 7.8 mm slot not verified.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "D3"
+   ],
+   "netlist_ids": [
+    "FSL1"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-foot_switch_l2",
+   "category": "placeholder",
+   "bom": "13",
+   "label": "Omron SS-01 foot switch (SS-10 fallback) (left foot, slot 2)",
+   "in_viewer": 1,
+   "seated": "yes: foot_top slot (measured)",
+   "status": "OK",
+   "mount": "Press fit in a foot_top slot 6.4 x 19.8 mm, lever down toward foot_bottom (B11 seat cleared). Gold contacts and a 2.2 kOhm pull-up per foot (D17). Height inside the 7.8 mm slot not verified.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "D3"
+   ],
+   "netlist_ids": [
+    "FSL2"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-foot_switch_r1",
+   "category": "placeholder",
+   "bom": "13",
+   "label": "Omron SS-01 foot switch (SS-10 fallback) (right foot, slot 1)",
+   "in_viewer": 1,
+   "seated": "yes: foot_top slot (measured)",
+   "status": "OK",
+   "mount": "Press fit in a foot_top slot 6.4 x 19.8 mm, lever down toward foot_bottom (B11 seat cleared). Gold contacts and a 2.2 kOhm pull-up per foot (D17). Height inside the 7.8 mm slot not verified.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "D4"
+   ],
+   "netlist_ids": [
+    "FSR1"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-foot_switch_r2",
+   "category": "placeholder",
+   "bom": "13",
+   "label": "Omron SS-01 foot switch (SS-10 fallback) (right foot, slot 2)",
+   "in_viewer": 1,
+   "seated": "yes: foot_top slot (measured)",
+   "status": "OK",
+   "mount": "Press fit in a foot_top slot 6.4 x 19.8 mm, lever down toward foot_bottom (B11 seat cleared). Gold contacts and a 2.2 kOhm pull-up per foot (D17). Height inside the 7.8 mm slot not verified.",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [
+    "D4"
+   ],
+   "netlist_ids": [
+    "FSR2"
+   ]
+  },
+  {
+   "group": "bought",
+   "part": "ph-usb_slack",
+   "category": "placeholder",
+   "bom": null,
+   "label": "Adafruit 3878 USB cable slack, about 0.4 m coiled and tied",
+   "in_viewer": 1,
+   "seated": "yes: Lab placement, audit/placements.json",
+   "status": "OK",
+   "mount": "",
+   "fasteners": {
+    "n": 0,
+    "by_spec": {}
+   },
+   "cables": [],
+   "netlist_ids": []
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Game controller",
+   "bom": "15",
+   "in_viewer": 0,
+   "seated": "no body by design (Off-robot accessory, not modelled)",
+   "spec": "Microsoft Xbox Wireless Controller with Bluetooth (the Runtime drives the walk from an Xbo",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Threadlocker",
+   "bom": "19",
+   "in_viewer": 0,
+   "seated": "no body by design (Consumable)",
+   "spec": "Loctite 243, 6 mL, P/N 1330799",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Flux pen (optional, recommended for 16 AWG)",
+   "bom": "31",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Chip Quik CQ4LF no-clean liquid flux pen, 10 mL, for leaded and lead-free solder, classifi",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Isopropyl alcohol",
+   "bom": "35",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Techspray 1610-P, 99.8 % anhydrous isopropyl alcohol, no denaturant, ACS reagent grade, 1 ",
+   "qty": "1 bottle (55 mount spots of lines 34 and 34b plus the line 29 tape spots)",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Soldering iron",
+   "bom": "T1",
+   "in_viewer": 0,
+   "seated": "no body by design (Tool)",
+   "spec": "Pine64 Pinecil V2 (needs a USB-C PD 20 V 3.25 A supply: lines T6 and T6b)",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Insert tips",
+   "bom": "T2",
+   "in_viewer": 0,
+   "seated": "no body by design (Tool)",
+   "spec": "Pinecil threaded insert tips set and adapter",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Crimper",
+   "bom": "T3",
+   "in_viewer": 0,
+   "seated": "no body by design (Tool)",
+   "spec": "Engineer PA-09 (Mini-SPOX 5263 and JST XH per DigiKey chart)",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Hex keys",
+   "bom": "T4",
+   "in_viewer": 0,
+   "seated": "no body by design (Tool)",
+   "spec": "Bondhus 12192 hex L-keys 1.5 to 6 mm, 7 pc (2.0 mm for M2.5, 2.5 mm for M3 SHCS)",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Wire stripper",
+   "bom": "T5",
+   "in_viewer": 0,
+   "seated": "no body by design (Tool)",
+   "spec": "Klein 11057, 22 to 32 AWG stranded",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "BEC programmer",
+   "bom": "L2",
+   "in_viewer": 0,
+   "seated": "no body by design (Tool)",
+   "spec": "Castle Link V4 011-0173-00 (needs Windows 10 PC)",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "USB-C PD supply for T1",
+   "bom": "T6",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Amazon Basics 65W One-Port GaN, PD 3.0: 5 V 3 A, 9 V 3 A, 12 V 3 A, 15 V 3 A, 20 V 3.25 A;",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "USB-C to USB-C cable, 5 A",
+   "bom": "T6b",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Adafruit 4199, USB 3.1 Gen 4 with E-Mark, 1 m; Adafruit: it \"includes an EMARK chip ... yo",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Robot charge adapter, 5 V",
+   "bom": "T7",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Amazon Basics 12W One-Port USB-A wall charger, up to 2.4 A, no Quick Charge, cable not inc",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "USB-A to USB-C cable",
+   "bom": "T7b",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Amazon Basics USB-A to USB-C, USB 2.0, USB-IF certified, 3 ft, maximum current 3 A, 15 W a",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "microSD card reader (optional, often on hand)",
+   "bom": "T8",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Adafruit 5212 USB Type C microSD card reader/writer, mass storage, no driver (page); USB-C",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Wire stripper 12 to 20 AWG",
+   "bom": "T9",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Klein 11055, \"Strips, cuts, loops 10-18 AWG solid and 12-20 AWG stranded wire\" (page); cov",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Heat gun",
+   "bom": "T10",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Wagner Furno 300, dual temperature, corded, 10 A, 20 cu ft/min, minimum temperature 750 F,",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Drill bit 6.0 mm",
+   "bom": "T11",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "HSS jobber, black oxide, 118 deg point, round shank, 70 mm flutes, Qualtech DWDMM6.00; ope",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Drill bit 2.7 mm",
+   "bom": "T12",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "HSS jobber, black oxide, 118 deg point, round shank, Qualtech DWDMM2.70; opens the 4 batte",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Hand holder for T11, T12, T14 and T15",
+   "bom": "T13",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Qualtech DWTD328 T-handle tap wrench for 1/16 to 1/4 in taps, carbon steel; turns the bits",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Drill bit 4.0 mm",
+   "bom": "T14",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "HSS jobber, black oxide, 118 deg point, round shank, 75 mm long, 54 mm flutes, Qualtech DW",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Drill bit 4.5 mm (contingency)",
+   "bom": "T15",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "HSS jobber, black oxide, 118 deg point, round shank, 80 mm long, 56 mm flutes, Qualtech DW",
+   "qty": "1",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Extra Molex 50-37-5033 housings (Newark 57H1785, $0.143)",
+   "bom": "X1",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "20",
+   "qty": "2.86",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Extra Molex 08-70-1040 terminals (Newark 54H5573, $0.170 at 50+)",
+   "bom": "X2",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "60",
+   "qty": "10.20",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "(closed) the BOM cable is now the 0.9 m Adafruit 3878",
+   "bom": "X3",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "0",
+   "qty": "0.00",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Pi Zero 2 W in a kit if the bare board is still out of stock: PiShop.us K2B-1388 ($74.95) or CanaKit PI-Z2WH-STR32-C4-BLK ($89.95)",
+   "bom": "X4",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "1",
+   "qty": "55.90 to 70.90 more than line 3",
+   "fasteners": {
+    "n": 0
+   }
+  }
+ ],
+ "upstream_parts": [
+  {
+   "upstream_part": "18650 x2 series",
+   "lab": "cell, holder (BOM 6, 7)",
+   "gap": false
+  },
+  {
+   "upstream_part": "BMS",
+   "lab": "bms_tenergy (BOM 8)",
+   "gap": false
+  },
+  {
+   "upstream_part": "USB-C charger",
+   "lab": "charger (BOM 11)",
+   "gap": false
+  },
+  {
+   "upstream_part": "UBEC",
+   "lab": "bec_pro (BOM L1); 5 V from reg_5v (BOM 9)",
+   "gap": false
+  },
+  {
+   "upstream_part": "power switch",
+   "lab": "mosfet_switch (BOM 10) + power_switch (10b)",
+   "gap": false
+  },
+  {
+   "upstream_part": "Raspberry pi zero 2W",
+   "lab": "pi (BOM 3)",
+   "gap": false
+  },
+  {
+   "upstream_part": "Motor control board",
+   "lab": "adapter (BOM 2)",
+   "gap": false
+  },
+  {
+   "upstream_part": "IMU",
+   "lab": "imu (BOM 5)",
+   "gap": false
+  },
+  {
+   "upstream_part": "Antenna 1 (x2)",
+   "lab": "SG90 servos and antenna rods",
+   "gap": false
+  },
+  {
+   "upstream_part": "switch (x2, feet)",
+   "lab": "foot_switch x4 (BOM 13)",
+   "gap": false
+  },
+  {
+   "upstream_part": "flashlight",
+   "lab": "led_3 projector (BOM E3) in flash_light_module",
+   "gap": false
+  },
+  {
+   "upstream_part": "Speaker",
+   "lab": "speaker (BOM E1) + amp (E2)",
+   "gap": false
+  },
+  {
+   "upstream_part": "Camera",
+   "lab": "camera (BOM E6)",
+   "gap": false
+  },
+  {
+   "upstream_part": "Eye LED (x2)",
+   "lab": "led_1, led_2 (BOM E3)",
+   "gap": false
+  },
+  {
+   "upstream_part": "Mic",
+   "lab": null,
+   "gap": true
+  }
+ ],
+ "upstream_links": [
+  [
+   "18650 x2 series -> BMS (3 links: B+, B-, BM)",
+   [
+    "P1",
+    "P2",
+    "P3"
+   ]
+  ],
+  [
+   "USB-C charger -> BMS (2)",
+   [
+    "P4",
+    "P5"
+   ]
+  ],
+  [
+   "BMS -> power switch -> UBEC",
+   [
+    "P6",
+    "P8",
+    "P7",
+    "P14",
+    "P9",
+    "P16",
+    "P15",
+    "P10"
+   ]
+  ],
+  [
+   "UBEC -> 7.4V DC in (2)",
+   [
+    "P11",
+    "SP1",
+    "SP2",
+    "SP3",
+    "SP4",
+    "SP5"
+   ]
+  ],
+  [
+   "UBEC -> Raspberry pi (5V)",
+   [
+    "P13",
+    "P12",
+    "P17"
+   ]
+  ],
+  [
+   "usb-c -> micro usb (Pi to motor board)",
+   [
+    "D1"
+   ]
+  ],
+  [
+   "IMU -> Raspberry pi",
+   [
+    "D2"
+   ]
+  ],
+  [
+   "switch -> Raspberry pi (feet, 2)",
+   [
+    "D3",
+    "D4"
+   ]
+  ],
+  [
+   "Raspberry pi -> Antenna 1 (2)",
+   [
+    "D8",
+    "D9"
+   ]
+  ],
+  [
+   "Raspberry pi -> Speaker",
+   [
+    "D10",
+    "D11"
+   ]
+  ],
+  [
+   "Raspberry pi -> Eye LED (+ flashlight)",
+   [
+    "D5",
+    "D6",
+    "D7"
+   ]
+  ],
+  [
+   "Camera -> Raspberry pi",
+   [
+    "D12"
+   ]
+  ],
+  [
+   "motor board -> Left leg, Right leg, Neck",
+   [
+    "SD1",
+    "SD2",
+    "S2",
+    "S3",
+    "S4",
+    "S5",
+    "S7",
+    "S8",
+    "S9",
+    "S10",
+    "S11",
+    "S12",
+    "S13"
+   ]
+  ],
+  [
+   "Mic -> Raspberry pi (unlabelled purple link)",
+   []
+  ]
+ ],
+ "cables": [
+  {
+   "id": "D1",
+   "desc": "Pi micro-USB data port to adapter USB-C",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.50 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 50.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "D2",
+   "desc": "Pi to BNO055 (3V3, GND, SDA, SCL)",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.46 mm ([L] hexagonal packing estimate of 4 wires, cables3d.json d_mm)",
+   "hidden_pct": 50.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "D3",
+   "desc": "Pi to left foot switches, with pull-up R4 at the header",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 2,
+   "runs_drawn_base": 2,
+   "runs_drawn_published": 2,
+   "ends_ok": "4 of 4",
+   "ends_bad": [],
+   "shape": "round bundle d 3.46 mm ([L] hexagonal packing estimate of 4 wires, cables3d.json d_mm)",
+   "hidden_pct": 30.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "D4",
+   "desc": "Pi to right foot switches, with pull-up R5 at the header",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 2,
+   "runs_drawn_base": 2,
+   "runs_drawn_published": 2,
+   "ends_ok": "4 of 4",
+   "ends_bad": [],
+   "shape": "round bundle d 3.46 mm ([L] hexagonal packing estimate of 4 wires, cables3d.json d_mm)",
+   "hidden_pct": 35.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "D5",
+   "desc": "Pi to left eye LED and resistor",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass"
+  },
+  {
+   "id": "D6",
+   "desc": "Pi to right eye LED and resistor",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass"
+  },
+  {
+   "id": "D7",
+   "desc": "Pi to projector LED and resistor",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 4,
+   "runs_drawn_base": 4,
+   "runs_drawn_published": 4,
+   "ends_ok": "4 of 8",
+   "ends_bad": [
+    {
+     "run": "main",
+     "side": "end",
+     "cable_end": "HOLE.IN",
+     "end_gap_mm": 0.0,
+     "nearest_part": "head_assembly-head-1",
+     "part_gap_mm": 0.68,
+     "matched": null,
+     "expected": [
+      "LEDP",
+      "PI",
+      "RP"
+     ],
+     "ok": false
+    },
+    {
+     "run": "hole",
+     "side": "start",
+     "cable_end": "HOLE.IN",
+     "end_gap_mm": 0.0,
+     "nearest_part": "head_assembly-head-1",
+     "part_gap_mm": 0.68,
+     "matched": null,
+     "expected": [
+      "LEDP",
+      "PI",
+      "RP"
+     ],
+     "ok": false
+    },
+    {
+     "run": "hole",
+     "side": "end",
+     "cable_end": "HOLE.OUT",
+     "end_gap_mm": 0.0,
+     "nearest_part": "head_assembly-head-1",
+     "part_gap_mm": 1.95,
+     "matched": null,
+     "expected": [
+      "LEDP",
+      "PI",
+      "RP"
+     ],
+     "ok": false
+    },
+    {
+     "run": "outside",
+     "side": "start",
+     "cable_end": "HOLE.OUT",
+     "end_gap_mm": 0.0,
+     "nearest_part": "head_assembly-head-1",
+     "part_gap_mm": 1.95,
+     "matched": null,
+     "expected": [
+      "LEDP",
+      "PI",
+      "RP"
+     ],
+     "ok": false
+    }
+   ],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 70.0,
+   "check": "pass"
+  },
+  {
+   "id": "D8",
+   "desc": "left antenna SG90 lead to Pi pin 33 and splices J5 and JG",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.00 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "D9",
+   "desc": "right antenna SG90 lead to Pi pin 32 and splices J5 and JG",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "D10",
+   "desc": "Pi and splices to MAX98357A",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "1 of 2",
+   "ends_bad": [
+    {
+     "run": "main",
+     "side": "start",
+     "cable_end": "PI.22",
+     "end_gap_mm": 5.91,
+     "nearest_part": "x-res-R4",
+     "part_gap_mm": 3.33,
+     "matched": null,
+     "expected": [
+      "AMP",
+      "J5",
+      "JG",
+      "PI"
+     ],
+     "ok": false
+    }
+   ],
+   "shape": "round bundle d 3.87 mm ([L] hexagonal packing estimate of 5 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "D11",
+   "desc": "MAX98357A to speaker",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "D12",
+   "desc": "Pi CSI to Camera Module 3",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "flat strip: width and thickness BLOCKER (stand-in 16 mm at the 15-pin end, 11.5 mm at the 22-pin end, 0.3 mm)",
+   "hidden_pct": 100.0,
+   "check": "test fit"
+  },
+  {
+   "id": "D13",
+   "desc": null,
+   "netlist_status": null,
+   "in_cables3d": false,
+   "in_cable_map": false,
+   "in_wiring": true,
+   "in_upstream": false,
+   "runs": 0,
+   "runs_drawn_base": 0,
+   "runs_drawn_published": 0,
+   "ends_ok": "0 of 0",
+   "ends_bad": [],
+   "shape": "",
+   "hidden_pct": null,
+   "check": null
+  },
+  {
+   "id": "D15",
+   "desc": null,
+   "netlist_status": null,
+   "in_cables3d": false,
+   "in_cable_map": false,
+   "in_wiring": true,
+   "in_upstream": false,
+   "runs": 0,
+   "runs_drawn_base": 0,
+   "runs_drawn_published": 0,
+   "ends_ok": "0 of 0",
+   "ends_bad": [],
+   "shape": "",
+   "hidden_pct": null,
+   "check": null
+  },
+  {
+   "id": "D17",
+   "desc": null,
+   "netlist_status": null,
+   "in_cables3d": false,
+   "in_cable_map": false,
+   "in_wiring": true,
+   "in_upstream": false,
+   "runs": 0,
+   "runs_drawn_base": 0,
+   "runs_drawn_published": 0,
+   "ends_ok": "0 of 0",
+   "ends_bad": [],
+   "shape": "",
+   "hidden_pct": null,
+   "check": null
+  },
+  {
+   "id": "D23",
+   "desc": null,
+   "netlist_status": null,
+   "in_cables3d": false,
+   "in_cable_map": false,
+   "in_wiring": true,
+   "in_upstream": false,
+   "runs": 0,
+   "runs_drawn_base": 0,
+   "runs_drawn_published": 0,
+   "ends_ok": "0 of 0",
+   "ends_bad": [],
+   "shape": "",
+   "hidden_pct": null,
+   "check": null
+  },
+  {
+   "id": "P1",
+   "desc": "holder + to BMS B+",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 90.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "P2",
+   "desc": "holder - to BMS B-",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 90.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "P3",
+   "desc": "holder series strap to BMS B1",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 1.50 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "P4",
+   "desc": "BMS P+ to charger B+",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 1.80 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 50.0,
+   "check": "pass"
+  },
+  {
+   "id": "P5",
+   "desc": "BMS P- to charger B-",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 1.80 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 50.0,
+   "check": "pass"
+  },
+  {
+   "id": "P6",
+   "desc": "BMS P+ to XT30U female +",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 90.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "P7",
+   "desc": "XT30U male + to fuse holder to Pololu 2815 VIN (the holder leads)",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 2,
+   "runs_drawn_base": 2,
+   "runs_drawn_published": 2,
+   "ends_ok": "4 of 4",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "P8",
+   "desc": "BMS P- to XT30U female -",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 90.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "P9",
+   "desc": "2815 VOUT to splice VSW",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass"
+  },
+  {
+   "id": "P10",
+   "desc": "splices VSW and G to the BEC input leads",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 6.00 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass"
+  },
+  {
+   "id": "P11",
+   "desc": "both BEC output leads joined (JB+ JB-) to the belly power splices SPV and SPG",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 2,
+   "runs_drawn_base": 2,
+   "runs_drawn_published": 2,
+   "ends_ok": "4 of 4",
+   "ends_bad": [],
+   "shape": "round bundle d 8.49 mm ([L] hexagonal packing estimate of 6 wires, cables3d.json d_mm)",
+   "hidden_pct": 90.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "P12",
+   "desc": "U3 VOUT and GND to Pi pin 2 and pin 6",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.60 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass"
+  },
+  {
+   "id": "P13",
+   "desc": "splices VSW and G up the neck to U3 VIN and GND on the head floor",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.60 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 50.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "P14",
+   "desc": "XT30U male - to splice G",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "P15",
+   "desc": "2815 SW pad pair to the panel switch",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "P16",
+   "desc": "splice G to 2815 GND (control ground)",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 1.80 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass"
+  },
+  {
+   "id": "P17",
+   "desc": "Pi pin 4 and pin 14 to splices J5 and JG",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 3.60 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 100.0,
+   "check": "pass"
+  },
+  {
+   "id": "S1",
+   "desc": "kit cable adapter H3 to ID 20 (replaced by SP1 + SD1, D15)",
+   "netlist_status": "removed",
+   "in_cables3d": false,
+   "in_cable_map": false,
+   "in_wiring": false,
+   "in_upstream": false,
+   "runs": 0,
+   "runs_drawn_base": 0,
+   "runs_drawn_published": 0,
+   "ends_ok": "0 of 0",
+   "ends_bad": [],
+   "shape": "",
+   "hidden_pct": null,
+   "check": null
+  },
+  {
+   "id": "S2",
+   "desc": "kit cable ID 20 BUS 1 to ID 21 BUS 2",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.60 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 80.0,
+   "check": "test fit"
+  },
+  {
+   "id": "S3",
+   "desc": "kit cable ID 21 to ID 22",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.60 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 40.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "S4",
+   "desc": "kit cable ID 22 to ID 23",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.60 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 40.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "S5",
+   "desc": "kit cable ID 23 BUS 1 to ID 24 BUS 2",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.60 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 10.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "S6",
+   "desc": "kit cable adapter H5 to ID 10 (replaced by SP2 + SD2, D15)",
+   "netlist_status": "removed",
+   "in_cables3d": false,
+   "in_cable_map": false,
+   "in_wiring": false,
+   "in_upstream": false,
+   "runs": 0,
+   "runs_drawn_base": 0,
+   "runs_drawn_published": 0,
+   "ends_ok": "0 of 0",
+   "ends_bad": [],
+   "shape": "",
+   "hidden_pct": null,
+   "check": null
+  },
+  {
+   "id": "S7",
+   "desc": "kit cable ID 10 to ID 11",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.60 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 60.0,
+   "check": "test fit"
+  },
+  {
+   "id": "S8",
+   "desc": "kit cable ID 11 to ID 12",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.60 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 40.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "S9",
+   "desc": "kit cable ID 12 to ID 13",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.60 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 30.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "S10",
+   "desc": "kit cable ID 13 to ID 14",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.60 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 20.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "S11",
+   "desc": "kit cable ID 30 BUS 1 to ID 31 BUS 2",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.60 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 70.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "S12",
+   "desc": "kit cable ID 31 to ID 32",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.60 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 20.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "S13",
+   "desc": "kit cable ID 32 to ID 33",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
+   "shape": "round bundle d 2.60 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 70.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "S14",
+   "desc": "made lead ID 24 BUS 2 to ID 30 (removed, D15)",
+   "netlist_status": "removed",
+   "in_cables3d": false,
+   "in_cable_map": false,
+   "in_wiring": false,
+   "in_upstream": false,
+   "runs": 0,
+   "runs_drawn_base": 0,
+   "runs_drawn_published": 0,
+   "ends_ok": "0 of 0",
+   "ends_bad": [],
+   "shape": "",
+   "hidden_pct": null,
+   "check": null
+  },
+  {
+   "id": "SD1",
+   "desc": "adapter H3 data lead: DATA and GND only (V position empty), data Y at YD3 to ID 20 and ID 30, GND Y at YG3 into the SP1 and SP3 grounds",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 5,
+   "runs_drawn_base": 5,
+   "runs_drawn_published": 5,
+   "ends_ok": "10 of 10",
+   "ends_bad": [],
+   "shape": "round bundle d 3.40 mm ([L] hexagonal packing estimate of 6 wires, cables3d.json d_mm)",
+   "hidden_pct": 68.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "SD2",
+   "desc": "adapter H5 data lead: DATA and GND only, to ID 10 (DATA) and JG10 (GND)",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": false,
+   "in_upstream": true,
+   "runs": 2,
+   "runs_drawn_base": 2,
+   "runs_drawn_published": 2,
+   "ends_ok": "4 of 4",
+   "ends_bad": [],
+   "shape": "round bundle d 3.40 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 55.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "SP1",
+   "desc": "power pair SPV and SPG to ID 20 BUS 2 (V and G)",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 2,
+   "runs_drawn_base": 2,
+   "runs_drawn_published": 2,
+   "ends_ok": "3 of 4",
+   "ends_bad": [
+    {
+     "run": "main",
+     "side": "start",
+     "cable_end": "SP.L",
+     "end_gap_mm": 0.0,
+     "nearest_part": "trunk_assembly-trunk_top-1",
+     "part_gap_mm": 5.86,
+     "matched": null,
+     "expected": [
+      "JG20",
+      "SPG",
+      "SPV",
+      "SV20"
+     ],
+     "ok": false
+    }
+   ],
+   "shape": "round bundle d 3.40 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 75.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "SP2",
+   "desc": "power pair SPV and SPG to ID 10 BUS 2 (V and G)",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 2,
+   "runs_drawn_base": 2,
+   "runs_drawn_published": 2,
+   "ends_ok": "3 of 4",
+   "ends_bad": [
+    {
+     "run": "main",
+     "side": "start",
+     "cable_end": "SP.R",
+     "end_gap_mm": 0.0,
+     "nearest_part": "trunk_assembly-trunk_top-1",
+     "part_gap_mm": 5.86,
+     "matched": null,
+     "expected": [
+      "JG10",
+      "SPG",
+      "SPV",
+      "SV10"
+     ],
+     "ok": false
+    }
+   ],
+   "shape": "round bundle d 3.40 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 65.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "SP3",
+   "desc": "power pair SPV and SPG to ID 30 BUS 2 (V and G)",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 2,
+   "runs_drawn_base": 2,
+   "runs_drawn_published": 2,
+   "ends_ok": "4 of 4",
+   "ends_bad": [],
+   "shape": "round bundle d 3.40 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
+   "hidden_pct": 85.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "SP4",
+   "desc": "power pair SPV and SPG to ID 24 BUS 1 (V and G), left leg (D23)",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "1 of 2",
+   "ends_bad": [
+    {
+     "run": "main",
+     "side": "start",
+     "cable_end": "SP.L",
+     "end_gap_mm": 0.0,
+     "nearest_part": "trunk_assembly-trunk_top-1",
+     "part_gap_mm": 5.86,
+     "matched": null,
+     "expected": [
+      "SPG",
+      "SPV",
+      "SV24"
+     ],
+     "ok": false
+    }
+   ],
+   "shape": "round bundle d 3.40 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 40.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "SP5",
+   "desc": "power pair SPV and SPG to ID 14 BUS 1 (V and G), right leg (D23)",
+   "netlist_status": "active",
+   "in_cables3d": true,
+   "in_cable_map": true,
+   "in_wiring": true,
+   "in_upstream": true,
+   "runs": 1,
+   "runs_drawn_base": 1,
+   "runs_drawn_published": 1,
+   "ends_ok": "1 of 2",
+   "ends_bad": [
+    {
+     "run": "main",
+     "side": "start",
+     "cable_end": "SP.R",
+     "end_gap_mm": 0.0,
+     "nearest_part": "trunk_assembly-trunk_top-1",
+     "part_gap_mm": 5.86,
+     "matched": null,
+     "expected": [
+      "SPG",
+      "SPV",
+      "SV14"
+     ],
+     "ok": false
+    }
+   ],
+   "shape": "round bundle d 3.40 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
+   "hidden_pct": 50.0,
+   "check": "pass with notes"
+  },
+  {
+   "id": "S14Y",
+   "desc": "Y-lead at H3 from D14, superseded by D15 before build",
+   "netlist_status": "removed",
+   "in_cables3d": false,
+   "in_cable_map": false,
+   "in_wiring": false,
+   "in_upstream": false,
+   "runs": 0,
+   "runs_drawn_base": 0,
+   "runs_drawn_published": 0,
+   "ends_ok": "0 of 0",
+   "ends_bad": [],
+   "shape": "",
+   "hidden_pct": null,
+   "check": null
+  }
+ ],
+ "screws_named": [
+  {
+   "src": "MOUNTING.md:9",
+   "n": null,
+   "spec": "m2.5x6",
+   "ctx": "| Raspberry Pi Zero 2 W | head.stl | 4, clearance 2.6 in CAD; real board 2.75 on 58 x 23 mm (Raspberry Pi prod",
+   "in_fasteners_json_total": 17,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:10",
+   "n": null,
+   "spec": "m2.5x6",
+   "ctx": "| Waveshare Bus Servo Adapter (A) | trunk_top.stl, on 4 bosses 5 mm high (standoffs printed in) | 4 at 2.5, bo",
+   "in_fasteners_json_total": 17,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:12",
+   "n": null,
+   "spec": "m2.5x6",
+   "ctx": "| BNO055 (Adafruit 2472) | trunk_top.stl | 4 at 2.5; CAD board 20 x 27 x 3.0 | 2.0 plastic | 3.0 to 8.0 with t",
+   "in_fasteners_json_total": 17,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:12",
+   "n": null,
+   "spec": "m2.5x8",
+   "ctx": "| BNO055 (Adafruit 2472) | trunk_top.stl | 4 at 2.5; CAD board 20 x 27 x 3.0 | 2.0 plastic | 3.0 to 8.0 with t",
+   "in_fasteners_json_total": 8,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:13",
+   "n": null,
+   "spec": "m2.5x6",
+   "ctx": "| USB-C 2S charger | body_back.stl | 2 at 2.5 (14.4 pitch); only 1 has a pilot under it | 2.0 plastic | 2.1 to",
+   "in_fasteners_json_total": 17,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:17",
+   "n": null,
+   "spec": "m2.5x10",
+   "ctx": "| battery_pack_lid | body_back.stl | 4 clearance 2.5 in a 4.0 recess | 2.0 plastic | 2.1 to 15.3 (2 holes) and",
+   "in_fasteners_json_total": 4,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:18",
+   "n": null,
+   "spec": "m2.5x6",
+   "ctx": "| Speaker | speaker_stand.stl and speaker_interface.stl, stand screwed to head.stl | stand: 4 clearance 2.7; s",
+   "in_fasteners_json_total": 17,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:18",
+   "n": 4,
+   "spec": "m2.5x5",
+   "ctx": "| Speaker | speaker_stand.stl and speaker_interface.stl, stand screwed to head.stl | stand: 4 clearance 2.7; s",
+   "in_fasteners_json_total": 4,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:18",
+   "n": null,
+   "spec": "m2.5x5",
+   "ctx": "| Speaker | speaker_stand.stl and speaker_interface.stl, stand screwed to head.stl | stand: 4 clearance 2.7; s",
+   "in_fasteners_json_total": 4,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:19",
+   "n": null,
+   "spec": "m2.5x8",
+   "ctx": "| Eyes (left_eye, right_eye, bulb x2) | head.stl: screw passes bulb (2.0 mm, clearance 2.7) then head wall (3.",
+   "in_fasteners_json_total": 8,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:31",
+   "n": null,
+   "spec": "m2x4",
+   "ctx": "| Camera Module 3 (Adafruit 5657) | head.stl: 4 blind pilots 1.65 mm, 3.1 mm deep, on 20.9 x 12.5 mm (measured",
+   "in_fasteners_json_total": 6,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:38",
+   "n": null,
+   "spec": "m2.5x6",
+   "ctx": "M2.5x6: Pi 4 + adapter 4 + BNO055 4 + charger 1 + speaker stand 4 = 17 (BOM buys 20). Nothing is fitted at the",
+   "in_fasteners_json_total": 17,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:39",
+   "n": null,
+   "spec": "m2x4",
+   "ctx": "M2x4 self-tapping: camera 4 (METALLIXITY kit, BOM 17h).",
+   "in_fasteners_json_total": 6,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:40",
+   "n": null,
+   "spec": "m2.5x8",
+   "ctx": "M2.5x8: eyes 8, each with two 0.3 mm M2.5 washers (BOM buys 10 screws, line 17g, and 48 washers, line 17l; D21",
+   "in_fasteners_json_total": 8,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:40",
+   "n": null,
+   "spec": "m2.5x10",
+   "ctx": "M2.5x8: eyes 8, each with two 0.3 mm M2.5 washers (BOM buys 10 screws, line 17g, and 48 washers, line 17l; D21",
+   "in_fasteners_json_total": 4,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:41",
+   "n": null,
+   "spec": "m2.5x5",
+   "ctx": "M2.5x5: speaker_interface to speaker_stand 4 (BOM 17k buys 5).",
+   "in_fasteners_json_total": 4,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:40",
+   "n": null,
+   "spec": "m3x5.7",
+   "ctx": "| 16 | M3 heat-set insert | CNC Kitchen M3 x 5.7, D1 4.6 mm, hole 4.0 mm | 58 | 100 | 100 | 10.90 | CNC Kitche",
+   "in_fasteners_json_total": 0,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:41",
+   "n": null,
+   "spec": "m3x8",
+   "ctx": "| 17a | M3x8 SHCS | DIN 912 A2 stainless, Bolt Depot 6379 | 28 | 33 | each | 1.98 | Bolt Depot | https://boltd",
+   "in_fasteners_json_total": 28,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:42",
+   "n": null,
+   "spec": "m3x10",
+   "ctx": "| 17b | M3x10 SHCS | DIN 912 A2, Bolt Depot 6380 | 12 | 14 | each | 0.84 | Bolt Depot | https://boltdepot.com/",
+   "in_fasteners_json_total": 12,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:43",
+   "n": null,
+   "spec": "m3x12",
+   "ctx": "| 17c | M3x12 SHCS | DIN 912 A2, Bolt Depot 6381 | 2 | 3 | each | 0.18 | Bolt Depot | https://boltdepot.com/Pr",
+   "in_fasteners_json_total": 2,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:44",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "| 17d | M3x6 SHCS | DIN 912 A2, Bolt Depot 6378 (horn screws; the 10 hip pitch sites take line 17j, D19) | 78 ",
+   "in_fasteners_json_total": 102,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:45",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "| 17e | M3x5 SHCS | DIN 912 A2, Bolt Depot 6377 (short horn sites: every neck chain horn screw, FASTENERS.md s",
+   "in_fasteners_json_total": 28,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:46",
+   "n": null,
+   "spec": "m2.5x6",
+   "ctx": "| 17f | M2.5x6 SHCS | DIN 912 A2, Bolt Depot 6370 (electronics) | 17 | 20 | each | 1.80 | Bolt Depot | https:/",
+   "in_fasteners_json_total": 17,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:47",
+   "n": null,
+   "spec": "m2.5x8",
+   "ctx": "| 17g | M2.5x8 SHCS | DIN 912 A2, Bolt Depot 6371 (eyes, each with two 0.3 mm washers from line 17l under the ",
+   "in_fasteners_json_total": 8,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:48",
+   "n": null,
+   "spec": "m2.5x10",
+   "ctx": "| 17i | M2.5x10 SHCS | DIN 912 A2, Bolt Depot 6372 (battery lid, pilot depth 2.1 to 15.3 mm; the 2.5 mm lid ho",
+   "in_fasteners_json_total": 4,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": null,
+   "spec": "m2x4",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 6,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": null,
+   "spec": "m2x5",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 22,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": null,
+   "spec": "m2x6",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 44,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": null,
+   "spec": "m2x8",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 2,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": 22,
+   "spec": "m2x5",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 22,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": 2,
+   "spec": "m2x8",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 2,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": 2,
+   "spec": "m2x4",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 6,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": 4,
+   "spec": "m2x4",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 6,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": null,
+   "spec": "m2x6",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 44,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": null,
+   "spec": "m2x5",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 22,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": null,
+   "spec": "m2x4",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 6,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": null,
+   "spec": "m2x8",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 2,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": null,
+   "spec": "m2x5",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 22,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": null,
+   "spec": "m2x4",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 6,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:49",
+   "n": null,
+   "spec": "m2x6",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 44,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:50",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "| 17j | M3x6 button head | ISO 7380-1 A2 stainless hex socket button head (head 5.7 x 1.65 mm max, ISO 7380-1)",
+   "in_fasteners_json_total": 102,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:50",
+   "n": null,
+   "spec": "m3x0",
+   "ctx": "| 17j | M3x6 button head | ISO 7380-1 A2 stainless hex socket button head (head 5.7 x 1.65 mm max, ISO 7380-1)",
+   "in_fasteners_json_total": 0,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:51",
+   "n": null,
+   "spec": "m2.5x5",
+   "ctx": "| 17k | M2.5x5 SHCS | DIN 912 A2, BelMetric BSH2.5X5SS; speaker_interface to the 4 side pilots of speaker_stan",
+   "in_fasteners_json_total": 4,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:161",
+   "n": null,
+   "spec": "m2x5",
+   "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
+   "in_fasteners_json_total": 22,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:161",
+   "n": null,
+   "spec": "m2x4",
+   "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
+   "in_fasteners_json_total": 6,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:161",
+   "n": null,
+   "spec": "m2x8",
+   "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
+   "in_fasteners_json_total": 2,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:161",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
+   "in_fasteners_json_total": 102,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:161",
+   "n": null,
+   "spec": "m2.5x5",
+   "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
+   "in_fasteners_json_total": 4,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:194",
+   "n": null,
+   "spec": "m2x5",
+   "ctx": "- IMSCREWS M2x5 100 pcs: replaced by the METALLIXITY kit, which also has the camera M2x4.",
+   "in_fasteners_json_total": 22,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:194",
+   "n": null,
+   "spec": "m2x4",
+   "ctx": "- IMSCREWS M2x5 100 pcs: replaced by the METALLIXITY kit, which also has the camera M2x4.",
+   "in_fasteners_json_total": 6,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:210",
+   "n": null,
+   "spec": "m2x5",
+   "ctx": "| TO1 | Feetech STS3215 7.4 V, Seeed | 1 | 20.00 | 1 | Count the 18-screw bag by size (B2); horn to case gap a",
+   "in_fasteners_json_total": 22,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:210",
+   "n": null,
+   "spec": "m2x5",
+   "ctx": "| TO1 | Feetech STS3215 7.4 V, Seeed | 1 | 20.00 | 1 | Count the 18-screw bag by size (B2); horn to case gap a",
+   "in_fasteners_json_total": 22,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:213",
+   "n": null,
+   "spec": "m2x5",
+   "ctx": "| TO4 | METALLIXITY M2 self-tapping kit | 1 | 9.49 | 17h | M2x5 head fit (B21); M2x4 vs camera PCB thickness (",
+   "in_fasteners_json_total": 22,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:213",
+   "n": null,
+   "spec": "m2x4",
+   "ctx": "| TO4 | METALLIXITY M2 self-tapping kit | 1 | 9.49 | 17h | M2x5 head fit (B21); M2x4 vs camera PCB thickness (",
+   "in_fasteners_json_total": 6,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:220",
+   "n": null,
+   "spec": "m2.5x8",
+   "ctx": "| TO11 | Bolt Depot M2.5x8 SHCS, 10 pcs, plus a left_eye test print | 10 | 0.90 | 17g | Left eye pilot 2.2 mm ",
+   "in_fasteners_json_total": 8,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:225",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "| TO16 | Bolt Depot M3x5 SHCS, 5 pcs, the 6.0 mm HSS bit and the T-handle holder | 5 + 1 + 1 | 9.65 | 17e, T11",
+   "in_fasteners_json_total": 28,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:226",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "| TO17 | BelMetric, one order (the store's $5 minimum checkout): 12 M3x6 button heads, 5 M2.5x5 SHCS, 48 M2.5 ",
+   "in_fasteners_json_total": 102,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:226",
+   "n": null,
+   "spec": "m2.5x5",
+   "ctx": "| TO17 | BelMetric, one order (the store's $5 minimum checkout): 12 M3x6 button heads, 5 M2.5x5 SHCS, 48 M2.5 ",
+   "in_fasteners_json_total": 4,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:226",
+   "n": null,
+   "spec": "m2.5x8",
+   "ctx": "| TO17 | BelMetric, one order (the store's $5 minimum checkout): 12 M3x6 button heads, 5 M2.5x5 SHCS, 48 M2.5 ",
+   "in_fasteners_json_total": 8,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount trunk_assembly-charger-1",
+   "n": 1,
+   "spec": "m2.5x6",
+   "ctx": "body_back: 1 x M2.5x6 into a 2.0 pilot (the 2nd hole has no pilot), USB-C out of the body_back opening.",
+   "part": "charger",
+   "in_fasteners_json_total": 17,
+   "in_fasteners_json_for_part": 1,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount trunk_assembly-battery_pack_lid-1",
+   "n": 4,
+   "spec": "m2.5x10",
+   "ctx": "4 x M2.5x10 DIN 912 into body_back pilots, head sits proud on the lid face (B3 cleared).",
+   "part": "battery_pack_lid",
+   "in_fasteners_json_total": 4,
+   "in_fasteners_json_for_part": 4,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount trunk_assembly-imu-1",
+   "n": 4,
+   "spec": "m2.5x6",
+   "ctx": "trunk_top: 4 x M2.5x6 (M2.5x8 would bottom out with a 1.6 mm PCB). x forward, chip up. Hole spacing B13, axis ",
+   "part": "imu",
+   "in_fasteners_json_total": 17,
+   "in_fasteners_json_for_part": 0,
+   "missing": 4
+  },
+  {
+   "src": "viewer mount trunk_assembly-imu-1",
+   "n": null,
+   "spec": "m2.5x8",
+   "ctx": "trunk_top: 4 x M2.5x6 (M2.5x8 would bottom out with a 1.6 mm PCB). x forward, chip up. Hole spacing B13, axis ",
+   "part": "imu",
+   "in_fasteners_json_total": 8,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount trunk_assembly-adapter-1",
+   "n": 4,
+   "spec": "m2.5x6",
+   "ctx": "trunk_top: 4 x M2.5x6 on 4 printed bosses 5 mm high, USB-C toward the neck opening.",
+   "part": "adapter",
+   "in_fasteners_json_total": 17,
+   "in_fasteners_json_for_part": 0,
+   "missing": 4
+  },
+  {
+   "src": "viewer mount servo-neck_pitch-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-neck_pitch-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-neck_pitch-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-neck_pitch-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-neck_pitch-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-neck_pitch-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-neck_pitch-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-neck_pitch-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-neck_pitch-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_yaw-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_yaw-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_yaw-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_yaw-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_yaw-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_yaw-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_yaw-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_yaw-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_yaw-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_yaw-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_yaw-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_yaw-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_yaw-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_yaw-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_yaw-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_yaw-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_yaw-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_yaw-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_roll-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_roll-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_roll-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_roll-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_roll-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_roll-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_roll-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_roll-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_roll-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount left_roll_to_pitch_assembly-left_roll_to_pitch-1",
+   "n": 4,
+   "spec": "m2x6",
+   "ctx": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
+   "part": "left_roll_to_pitch",
+   "in_fasteners_json_total": 44,
+   "in_fasteners_json_for_part": 2,
+   "missing": 2
+  },
+  {
+   "src": "viewer mount servo-left_hip_pitch-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_pitch-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_pitch-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_pitch-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_pitch-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_pitch-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_pitch-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_pitch-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_hip_pitch-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_knee-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_knee-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_knee-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_knee-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_knee-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_knee-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_knee-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_knee-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_knee-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_ankle-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_ankle-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_ankle-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_ankle-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_ankle-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_ankle-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_ankle-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_ankle-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-left_ankle-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_roll-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_roll-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_roll-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_roll-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_roll-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_roll-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_roll-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_roll-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_roll-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount right_roll_to_pitch_assembly-right_roll_to_pitch-1",
+   "n": 4,
+   "spec": "m2x6",
+   "ctx": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
+   "part": "right_roll_to_pitch",
+   "in_fasteners_json_total": 44,
+   "in_fasteners_json_for_part": 2,
+   "missing": 2
+  },
+  {
+   "src": "viewer mount servo-right_hip_pitch-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_pitch-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_pitch-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_pitch-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_pitch-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_pitch-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_pitch-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_pitch-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_hip_pitch-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_knee-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_knee-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_knee-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_knee-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_knee-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_knee-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_knee-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_knee-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_knee-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_ankle-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_ankle-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_ankle-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_ankle-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_ankle-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_ankle-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_ankle-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_ankle-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-right_ankle-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_pitch-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_pitch-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_pitch-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_pitch-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_pitch-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_pitch-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_pitch-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_pitch-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_pitch-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_yaw-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_yaw-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_yaw-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_yaw-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_yaw-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_yaw-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_yaw-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_yaw-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_yaw-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount head_assembly-pi-1",
+   "n": 4,
+   "spec": "m2.5x6",
+   "ctx": "head.stl: 4 x M2.5x6 DIN 912 into 2.0 pilots, components side up.",
+   "part": "pi",
+   "in_fasteners_json_total": 17,
+   "in_fasteners_json_for_part": 4,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_roll-mid",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_roll-mid",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_mid",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_roll-horn_drive",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_roll-horn_drive",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
+   "part": "horn_drive",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_roll-bottom",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_roll-bottom",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_bottom",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_roll-top",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_roll-top",
+   "n": null,
+   "spec": "m3x5",
+   "ctx": "Case: M2 self-tapping screws from the servo bag into printed parts (bag split by size is B2). Horns: M3x6 SHCS",
+   "part": "servo_top",
+   "in_fasteners_json_total": 28,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount servo-head_roll-horn_idle",
+   "n": null,
+   "spec": "m3x6",
+   "ctx": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
+   "part": "horn_idle",
+   "in_fasteners_json_total": 102,
+   "in_fasteners_json_for_part": 0,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount head_assembly-left_eye-1",
+   "n": 4,
+   "spec": "m2.5x8",
+   "ctx": "4 x M2.5x8 through the bulb and the head wall into the eye (left pilot 2.2 mm, B14).",
+   "part": "left_eye",
+   "in_fasteners_json_total": 8,
+   "in_fasteners_json_for_part": 4,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount head_assembly-right_eye-1",
+   "n": 4,
+   "spec": "m2.5x8",
+   "ctx": "4 x M2.5x8 through the bulb and the head wall into the eye (pilot 2.05 mm).",
+   "part": "right_eye",
+   "in_fasteners_json_total": 8,
+   "in_fasteners_json_for_part": 4,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount head_assembly-speaker_stand-1",
+   "n": 4,
+   "spec": "m2.5x6",
+   "ctx": "4 x M2.5x6 into head.stl 2.0 pilots.",
+   "part": "speaker_stand",
+   "in_fasteners_json_total": 17,
+   "in_fasteners_json_for_part": 4,
+   "missing": 0
+  },
+  {
+   "src": "viewer mount ph-camera",
+   "n": 4,
+   "spec": "m2x4",
+   "ctx": "4 x M2x4 self-tapping into head.stl pilots 1.65 mm on 20.9 x 12.5 (B9 cleared; screw length on the test order)",
+   "part": "camera",
+   "in_fasteners_json_total": 6,
+   "in_fasteners_json_for_part": 4,
+   "missing": 0
+  }
+ ],
+ "bom_screw_lines": [
+  {
+   "line": "17a",
+   "spec": "m3x8",
+   "bom_qty": 28,
+   "in_fasteners_json": 28
+  },
+  {
+   "line": "17b",
+   "spec": "m3x10",
+   "bom_qty": 12,
+   "in_fasteners_json": 12
+  },
+  {
+   "line": "17c",
+   "spec": "m3x12",
+   "bom_qty": 2,
+   "in_fasteners_json": 2
+  },
+  {
+   "line": "17d",
+   "spec": "m3x6",
+   "bom_qty": 78,
+   "in_fasteners_json": 102
+  },
+  {
+   "line": "17e",
+   "spec": "m3x5",
+   "bom_qty": 28,
+   "in_fasteners_json": 28
+  },
+  {
+   "line": "17f",
+   "spec": "m2.5x6",
+   "bom_qty": 17,
+   "in_fasteners_json": 17
+  },
+  {
+   "line": "17g",
+   "spec": "m2.5x8",
+   "bom_qty": 8,
+   "in_fasteners_json": 8
+  },
+  {
+   "line": "17i",
+   "spec": "m2.5x10",
+   "bom_qty": 4,
+   "in_fasteners_json": 4
+  },
+  {
+   "line": "17j",
+   "spec": "m3x6",
+   "bom_qty": 10,
+   "in_fasteners_json": 102
+  },
+  {
+   "line": "17k",
+   "spec": "m2.5x5",
+   "bom_qty": 4,
+   "in_fasteners_json": 4
+  }
+ ],
+ "counts": {
+  "parts_rows": 118,
+  "parts_seated": 86,
+  "cables": 55,
+  "cables_all_runs_drawn": 47,
+  "cables_ends_ok": 41,
+  "screws_in_fasteners_json": 355,
+  "named_missing": 12
+ }
+}

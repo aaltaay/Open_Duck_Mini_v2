@@ -1,0 +1,104 @@
+{
+ "meta": {
+  "label": "CAD check only",
+  "frame": "head_assembly link frame (T_cam_link) and URDF world"
+ },
+ "camera": {
+  "replaces": "ph-camera box",
+  "T_cam_link": [
+   [
+    -1.0,
+    0.0,
+    0.0,
+    24.04
+   ],
+   [
+    0.0,
+    1.0,
+    0.0,
+    -2.5
+   ],
+   [
+    -0.0,
+    0.0,
+    -1.0,
+    -52.85
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "T_cam_world": [
+   [
+    0.0,
+    -0.0,
+    1.0,
+    94.8
+   ],
+   [
+    0.0,
+    1.0,
+    0.0,
+    -2.4
+   ],
+   [
+    -1.0,
+    0.0,
+    0.0,
+    217.89
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "pieces": [
+   {
+    "name": "PCB",
+    "center_cam": [
+     0,
+     0.0,
+     -0.5
+    ],
+    "dims": [
+     25.0,
+     24.0,
+     1.0
+    ],
+    "source": "[I] HARDWARE_AUDIT B9"
+   },
+   {
+    "name": "lens through the opening",
+    "shape": "cylinder",
+    "d_mm": 5.75,
+    "center_cam": [
+     0,
+     2.5,
+     2.85
+    ],
+    "length_mm": 5.7,
+    "source": "[I] viewer lens note (RP-008153-DS-1)"
+   },
+   {
+    "name": "15-pin connector zone (stand-in)",
+    "center_cam": [
+     0,
+     -9.5,
+     -2.0
+    ],
+    "dims": [
+     16.0,
+     5.0,
+     2.0
+    ],
+    "source": "BLOCKER: connector size and side"
+   }
+  ],
+  "note": "origin = board centre on the PCB front face; the pilot pattern centre is 3.75 mm toward -Y"
+ }
+}

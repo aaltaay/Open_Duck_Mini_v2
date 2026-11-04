@@ -1,0 +1,249 @@
+{
+ "meta": {
+  "label": "CAD check only",
+  "how": "update these records in fasteners.json by id; nothing is added",
+  "source": "camera_seat.json"
+ },
+ "update": [
+  {
+   "id": "F345",
+   "part": "Camera Module 3 PCB (BOM E6)",
+   "seat_world": [
+    93.8,
+    -12.4,
+    228.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "seat_link": [
+    34.54,
+    -12.5,
+    -51.85
+   ],
+   "axis_link": [
+    -0.0,
+    -0.0,
+    -1.0
+   ],
+   "length_mm": 4.0,
+   "len_status_by_pcb_t": [
+    {
+     "pcb_t": 0.8,
+     "engaged_mm": 3.2,
+     "to_bottom_mm": 0.0,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.0,
+     "engaged_mm": 3.0,
+     "to_bottom_mm": 0.2,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.2,
+     "engaged_mm": 2.8,
+     "to_bottom_mm": 0.4,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.6,
+     "engaged_mm": 2.4,
+     "to_bottom_mm": 0.8,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    }
+   ],
+   "viewer_label": "M2x4 pan head: camera PCB into head pilot",
+   "notes": [
+    "seat on the PCB back face at the 1.0 mm stand-in (BLOCKER: PCB thickness)",
+    "option, CAD check only: drill the 4 pilots from 3.2 to 4.5 mm (material past the bottom 3.0 mm, measured) and use M2x5 from the same kit: 4.0 mm engaged at t = 1.0 (2 x d rule met), 0.5 mm to the bottom"
+   ]
+  },
+  {
+   "id": "F347",
+   "part": "Camera Module 3 PCB (BOM E6)",
+   "seat_world": [
+    93.8,
+    0.1,
+    228.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "seat_link": [
+    34.54,
+    -0.0,
+    -51.85
+   ],
+   "axis_link": [
+    -0.0,
+    -0.0,
+    -1.0
+   ],
+   "length_mm": 4.0,
+   "len_status_by_pcb_t": [
+    {
+     "pcb_t": 0.8,
+     "engaged_mm": 3.2,
+     "to_bottom_mm": 0.0,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.0,
+     "engaged_mm": 3.0,
+     "to_bottom_mm": 0.2,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.2,
+     "engaged_mm": 2.8,
+     "to_bottom_mm": 0.4,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.6,
+     "engaged_mm": 2.4,
+     "to_bottom_mm": 0.8,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    }
+   ],
+   "viewer_label": "M2x4 pan head: camera PCB into head pilot",
+   "notes": [
+    "seat on the PCB back face at the 1.0 mm stand-in (BLOCKER: PCB thickness)",
+    "option, CAD check only: drill the 4 pilots from 3.2 to 4.5 mm (material past the bottom 3.0 mm, measured) and use M2x5 from the same kit: 4.0 mm engaged at t = 1.0 (2 x d rule met), 0.5 mm to the bottom"
+   ]
+  },
+  {
+   "id": "F344",
+   "part": "Camera Module 3 PCB (BOM E6)",
+   "seat_world": [
+    93.8,
+    -12.4,
+    207.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "seat_link": [
+    13.54,
+    -12.5,
+    -51.85
+   ],
+   "axis_link": [
+    -0.0,
+    -0.0,
+    -1.0
+   ],
+   "length_mm": 4.0,
+   "len_status_by_pcb_t": [
+    {
+     "pcb_t": 0.8,
+     "engaged_mm": 3.2,
+     "to_bottom_mm": 0.0,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.0,
+     "engaged_mm": 3.0,
+     "to_bottom_mm": 0.2,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.2,
+     "engaged_mm": 2.8,
+     "to_bottom_mm": 0.4,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.6,
+     "engaged_mm": 2.4,
+     "to_bottom_mm": 0.8,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    }
+   ],
+   "viewer_label": "M2x4 pan head: camera PCB into head pilot",
+   "notes": [
+    "seat on the PCB back face at the 1.0 mm stand-in (BLOCKER: PCB thickness)",
+    "option, CAD check only: drill the 4 pilots from 3.2 to 4.5 mm (material past the bottom 3.0 mm, measured) and use M2x5 from the same kit: 4.0 mm engaged at t = 1.0 (2 x d rule met), 0.5 mm to the bottom"
+   ]
+  },
+  {
+   "id": "F346",
+   "part": "Camera Module 3 PCB (BOM E6)",
+   "seat_world": [
+    93.8,
+    0.1,
+    207.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "seat_link": [
+    13.54,
+    -0.0,
+    -51.85
+   ],
+   "axis_link": [
+    -0.0,
+    -0.0,
+    -1.0
+   ],
+   "length_mm": 4.0,
+   "len_status_by_pcb_t": [
+    {
+     "pcb_t": 0.8,
+     "engaged_mm": 3.2,
+     "to_bottom_mm": 0.0,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.0,
+     "engaged_mm": 3.0,
+     "to_bottom_mm": 0.2,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.2,
+     "engaged_mm": 2.8,
+     "to_bottom_mm": 0.4,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.6,
+     "engaged_mm": 2.4,
+     "to_bottom_mm": 0.8,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    }
+   ],
+   "viewer_label": "M2x4 pan head: camera PCB into head pilot",
+   "notes": [
+    "seat on the PCB back face at the 1.0 mm stand-in (BLOCKER: PCB thickness)",
+    "option, CAD check only: drill the 4 pilots from 3.2 to 4.5 mm (material past the bottom 3.0 mm, measured) and use M2x5 from the same kit: 4.0 mm engaged at t = 1.0 (2 x d rule met), 0.5 mm to the bottom"
+   ]
+  }
+ ]
+}
