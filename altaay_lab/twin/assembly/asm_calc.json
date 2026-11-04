@@ -1,0 +1,331 @@
+{
+ "sources": {
+  "fall": "twin/structure/STRUCTURE_TWIN.md section 3: worst head and trunk accelerations of the 10 falls",
+  "vhb_design": "3M VHB data sheets: 12 lb/in2 (85 kPa) for most dynamic stresses (search index 2026-11-04); 82.7 kPa used",
+  "vhb_shear": "3M VHB 4950 dynamic overlap shear 80 lb/in2 = 552 kPa (FindTape listing via search index 2026-11-04)",
+  "areas": "twin/thermal/THERMAL_TWIN.md line 213 (geometry.json, VHB contact within 1.5 mm): BEC 1858, Pololu switch seat 353, fuse holder 745 mm2; D30V30F5 0.7 x 0.8 in (BOM 9)"
+ },
+ "hold": [
+  {
+   "part": "Castle CC BEC Pro",
+   "mass_g": 29.0,
+   "where": "trunk",
+   "mount": "VHB 4950 on the 47 x 33 face",
+   "area_mm2": 1858.0,
+   "F_soft_N": 12.8,
+   "area_needed_soft_mm2": 154.7,
+   "stress_soft_kPa": 6.9,
+   "SF_design_soft": 12.0,
+   "SF_shear_soft": 80.1,
+   "edge_kPa_soft": 26.4,
+   "SF_edge_design_soft": 3.14,
+   "F_mid_N": 36.4,
+   "area_needed_mid_mm2": 440.0,
+   "stress_mid_kPa": 19.6,
+   "SF_design_mid": 4.2,
+   "SF_shear_mid": 28.2,
+   "edge_kPa_mid": 75.1,
+   "SF_edge_design_mid": 1.1
+  },
+  {
+   "part": "Littelfuse fuse holder (UNVERIFIED mass)",
+   "mass_g": 8.0,
+   "where": "trunk",
+   "mount": "VHB 4950, 52 mm edge along y",
+   "area_mm2": 745.0,
+   "F_soft_N": 3.53,
+   "area_needed_soft_mm2": 42.7,
+   "stress_soft_kPa": 4.7,
+   "SF_design_soft": 17.5,
+   "SF_shear_soft": 116.4,
+   "edge_kPa_soft": 16.6,
+   "SF_edge_design_soft": 4.99,
+   "F_mid_N": 10.04,
+   "area_needed_mid_mm2": 121.4,
+   "stress_mid_kPa": 13.5,
+   "SF_design_mid": 6.1,
+   "SF_shear_mid": 40.9,
+   "edge_kPa_mid": 47.2,
+   "SF_edge_design_mid": 1.75
+  },
+  {
+   "part": "Pololu 2813 (D30, 2.7 g Pololu)",
+   "mass_g": 2.7,
+   "where": "trunk",
+   "mount": "VHB 4950 on the 2815 seat",
+   "area_mm2": 353.0,
+   "F_soft_N": 1.19,
+   "area_needed_soft_mm2": 14.4,
+   "stress_soft_kPa": 3.4,
+   "SF_design_soft": 24.5,
+   "SF_shear_soft": 163.4,
+   "edge_kPa_soft": 4.8,
+   "SF_edge_design_soft": 17.33,
+   "F_mid_N": 3.39,
+   "area_needed_mid_mm2": 41.0,
+   "stress_mid_kPa": 9.6,
+   "SF_design_mid": 8.6,
+   "SF_shear_mid": 57.4,
+   "edge_kPa_mid": 13.6,
+   "SF_edge_design_mid": 6.09
+  },
+  {
+   "part": "Pololu D30V30F5 5 V regulator",
+   "mass_g": 3.3,
+   "where": "head",
+   "mount": "VHB 4950, board face 0.7 x 0.8 in",
+   "area_mm2": 361.0,
+   "F_soft_N": 2.3,
+   "area_needed_soft_mm2": 27.8,
+   "stress_soft_kPa": 6.4,
+   "SF_design_soft": 13.0,
+   "SF_shear_soft": 86.7,
+   "F_mid_N": 6.34,
+   "area_needed_mid_mm2": 76.7,
+   "stress_mid_kPa": 17.6,
+   "SF_design_mid": 4.7,
+   "SF_shear_mid": 31.4
+  },
+  {
+   "part": "Adafruit MAX98357A amp",
+   "mass_g": 1.2,
+   "where": "head",
+   "mount": "VHB 4950 (board size not read: area needed shown)",
+   "area_mm2": null,
+   "F_soft_N": 0.84,
+   "area_needed_soft_mm2": 10.1,
+   "F_mid_N": 2.31,
+   "area_needed_mid_mm2": 27.9
+  },
+  {
+   "part": "USB cable slack coil",
+   "mass_g": 10.95,
+   "where": "trunk",
+   "mount": "line 32 tie to a line 34 mount, plus VHB",
+   "area_mm2": null,
+   "F_soft_N": 4.83,
+   "area_needed_soft_mm2": 58.4,
+   "F_mid_N": 13.75,
+   "area_needed_mid_mm2": 166.1
+  },
+  {
+   "part": "Side lamp: flash_light_module + reflector interface + E5 + LED",
+   "mass_g": 12.52,
+   "where": "head",
+   "mount": "nothing in the CAD (no screw, MOUNTING.md); fix: VHB 4950 on its contact face with the head",
+   "area_mm2": 1018.4,
+   "F_soft_N": 8.72,
+   "area_needed_soft_mm2": 105.4,
+   "stress_soft_kPa": 8.6,
+   "SF_design_soft": 9.7,
+   "SF_shear_soft": 64.4,
+   "F_mid_N": 24.06,
+   "area_needed_mid_mm2": 290.9,
+   "stress_mid_kPa": 23.6,
+   "SF_design_mid": 3.5,
+   "SF_shear_mid": 23.3
+  },
+  {
+   "part": "D30 button plate with the NKK button (plate 0.64 g; button mass not read)",
+   "mass_g": 0.64,
+   "where": "trunk",
+   "mount": "flange on the outer face: inward by the flange, outward by VHB on the flange ring",
+   "area_mm2": 148.89999999999998,
+   "F_soft_N": 0.28,
+   "area_needed_soft_mm2": 3.4,
+   "stress_soft_kPa": 1.9,
+   "SF_design_soft": 43.6,
+   "SF_shear_soft": 290.8,
+   "F_mid_N": 0.8,
+   "area_needed_mid_mm2": 9.7,
+   "stress_mid_kPa": 5.4,
+   "SF_design_mid": 15.3,
+   "SF_shear_mid": 102.2
+  }
+ ],
+ "mass": {
+  "by_spec": {
+   "M2.5x10 DIN 912 A2": [
+    4,
+    2.36
+   ],
+   "M2.5x5 DIN 912 A2": [
+    4,
+    1.75
+   ],
+   "M2.5x6 DIN 912 A2": [
+    17,
+    7.96
+   ],
+   "M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers": [
+    8,
+    4.23
+   ],
+   "M2x4 self-tapping pan head": [
+    6,
+    1.41
+   ],
+   "M2x5 self-tapping pan head": [
+    22,
+    5.6
+   ],
+   "M2x6 self-tapping pan head": [
+    42,
+    11.48
+   ],
+   "M2x8 self-tapping pan head": [
+    2,
+    0.62
+   ],
+   "M3x10 DIN 912 A2": [
+    12,
+    11.49
+   ],
+   "M3x12 DIN 912 A2": [
+    2,
+    2.09
+   ],
+   "M3x5 DIN 912 A2": [
+    28,
+    20.56
+   ],
+   "M3x6 DIN 912 A2": [
+    78,
+    60.75
+   ],
+   "M3x6 ISO 7380 A2 button head": [
+    10,
+    6.03
+   ],
+   "M3x6 machine screw (Feetech rocker screw)": [
+    14,
+    10.33
+   ],
+   "M3x8 DIN 912 A2": [
+    28,
+    24.31
+   ],
+   "PA3.0x5 self-tapping, washer head (Feetech idle screw)": [
+    3,
+    1.88
+   ],
+   "SG90 bag horn screw": [
+    2,
+    0.47
+   ],
+   "SG90 bag mounting screw": [
+    4,
+    0.94
+   ]
+  },
+  "screws_new_g": 174.3,
+  "n_driven": 286,
+  "n_fitted": 342,
+  "deltas": {
+   "screws: 286 driven screws (fasteners.json) against the 175.3 g of 274 modelled": -1.02,
+   "washers: 16 x ISO 7092 2.7 x 5.0 x 0.3 mm": 0.53,
+   "cable ties: 78 fitted at most, 0.417 g upper bound, against the 1.0 g modelled": 31.53,
+   "D30: Pololu 2813 2.7 g in place of the 2815 2.6 g (Pololu specs)": 0.1,
+   "D30: OFF wire GPIO26 to the 2813, 26 AWG on the P13 route": 1.63,
+   "D30: printed button plate (CAD volume x the sliced bulb ratio)": 0.64
+  },
+  "total_delta_g": 33.4,
+  "new_total_g": 2686.2,
+  "pct": 1.26,
+  "not_counted": [
+   "55 adhesive tie mounts (BOM 34 and 34b: no mass published by HellermannTyton or Panduit pages read)",
+   "the NKK button (mass not read; the 2.0 g UNVERIFIED panel switch stays as its stand-in)",
+   "kapton wrap on the BMS (thickness not stated, BOM 33)",
+   "VHB pieces added for the amp, speaker, side lamp, plate"
+  ],
+  "tie_upper_bound_g": 32.5,
+  "off_wire_mm": 531.7
+ },
+ "d30": {
+  "peak_window_A": 15.89,
+  "rms_A": [
+   5.9,
+   5.92
+  ],
+  "rating_55C_A": 6.0,
+  "rating_150C_A": 16.0,
+  "max_A": 90.0,
+  "off_uA": 0.2,
+  "bms_uA": 10.0,
+  "off_total_uA": 10.2,
+  "size_in": [
+   0.8,
+   1.0,
+   0.16
+  ],
+  "size_mm": [
+   20.3,
+   25.4,
+   4.1
+  ],
+  "mass_g": 2.7,
+  "rms_pct_of_55C": [
+   98.3,
+   98.7
+  ],
+  "peak_pct_of_max": 17.7,
+  "peak_pct_of_150C": 99.3,
+  "source": "https://www.pololu.com/product/2813 read 2026-11-04 with curl (/home/user/v1_out/asm/pololu2813.html): HP column"
+ },
+ "seam_cables": [
+  {
+   "id": "P15",
+   "desc": "2815 SW pad pair to the panel switch",
+   "regions": [
+    "battery_bay"
+   ],
+   "polyline_mm": 62.1,
+   "rule_mm": 147.3,
+   "slack_mm": 85.2
+  },
+  {
+   "id": "P10",
+   "desc": "splices VSW and G to the BEC input leads",
+   "regions": [
+    "battery_bay",
+    "belly"
+   ],
+   "polyline_mm": 61.1,
+   "rule_mm": 146.3,
+   "slack_mm": 85.2
+  },
+  {
+   "id": "P11",
+   "desc": "both BEC output leads joined (JB+ JB-) to the belly power splices SPV and SPG",
+   "regions": [
+    "belly"
+   ],
+   "polyline_mm": null,
+   "rule_mm": null,
+   "slack_mm": 0
+  },
+  {
+   "id": "P13",
+   "desc": "splices VSW and G up the neck to U3 VIN and GND on the head floor",
+   "regions": [
+    "battery_bay",
+    "trunk_top",
+    "neck",
+    "head"
+   ],
+   "polyline_mm": 349.7,
+   "rule_mm": 531.7,
+   "slack_mm": 182.0
+  },
+  {
+   "id": "P12",
+   "desc": "U3 VOUT and GND to Pi pin 2 and pin 6",
+   "regions": [
+    "head"
+   ],
+   "polyline_mm": 44.3,
+   "rule_mm": 129.5,
+   "slack_mm": 85.2
+  }
+ ]
+}

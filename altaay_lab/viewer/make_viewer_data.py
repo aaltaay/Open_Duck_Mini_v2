@@ -155,7 +155,7 @@ V2_SERVO = {
     "head_pitch": (40, 0, 0), "head_yaw": (55, 0, 52), "head_roll": (30, 0, 25),
 }
 HORN_PULL, INSERT_PULL = 14.0, 11.0     # extra pull along the horn axis / insert bore, mm
-SHORT = {"bec_pro": "BEC Pro", "fuse_holder": "Fuse holder", "mosfet_switch": "Pololu 2815", "bms_tenergy": "Tenergy BMS",
+SHORT = {"bec_pro": "BEC Pro", "fuse_holder": "Fuse holder", "mosfet_switch": "Pololu 2813", "led_1": "Eye LED left", "led_2": "Eye LED right", "led_3": "Projector LED", "bms_tenergy": "Tenergy BMS",
          "reg_5v": "5 V reg", "xt30": "XT30U", "amp": "Amp", "speaker": "Speaker", "camera": "Camera", "led": "LED",
          "foot_switch": "SS-01"}
 
@@ -168,7 +168,7 @@ PLACEHOLDERS = [
     dict(id="fuse_holder", label="Littelfuse FHAC0001ZXJ inline ATO fuse holder", dims=[45, 20, 15], bom="L3",
          blockers=["B11", "B28"], dims_note="Envelope 52 x 22 x 18 mm with the cover (Littelfuse drawing, D11).",
          mount="Battery bay front wall, BMS side, foam tape. Inline on lead P7 between the XT30 and the Pololu 2815 (MOUNTING.md)."),
-    dict(id="mosfet_switch", label="Pololu 2815 Big MOSFET Slide Switch HP", dims=[20.3, 25.4, 4.1], bom="10",
+    dict(id="mosfet_switch", label="Pololu 2813 Big Pushbutton Power Switch HP (D30)", dims=[20.3, 25.4, 4.1], bom="10",
          blockers=["B22"], dims_note="20.3 x 25.4 x 4.1 mm.",
          mount="Main power switch (D8): battery bay front wall, foam tape, on-board slide OFF, control pin to the body_back panel switch."),
     dict(id="bms_tenergy", label="Tenergy 32175 2S protection board", dims=[34, 16, 4.5], bom="8",
@@ -189,11 +189,11 @@ PLACEHOLDERS = [
     dict(id="camera", label="Raspberry Pi Camera Module 3", dims=[25, 24, 11.5], bom="E6",
          blockers=["B9"], dims_note="25 x 24 x 11.5 mm.",
          mount="4 x M2x4 self-tapping into head.stl pilots 1.65 mm on 20.9 x 12.5 (B9 cleared; screw length on the test order)."),
-    dict(id="led_1", label="1 W LED bead (left eye)", dims=[8, 8, 5], bom="E3", blockers=[],
+    dict(id="led_1", label="Eye LED left (1 W bead)", dims=[8, 8, 5], bom="E3", blockers=[],
          dims_note="Size not given: 8 x 8 x 5 mm stand-in.", mount="Behind the left bulb, 100 ohm resistor (B23 cleared)."),
-    dict(id="led_2", label="1 W LED bead (right eye)", dims=[8, 8, 5], bom="E3", blockers=[],
+    dict(id="led_2", label="Eye LED right (1 W bead)", dims=[8, 8, 5], bom="E3", blockers=[],
          dims_note="Size not given: 8 x 8 x 5 mm stand-in.", mount="Behind the right bulb, 100 ohm resistor (B23 cleared)."),
-    dict(id="led_3", label="1 W LED bead (projector)", dims=[8, 8, 5], bom="E3", blockers=[],
+    dict(id="led_3", label="Projector LED (1 W bead)", dims=[8, 8, 5], bom="E3", blockers=[],
          dims_note="Size not given: 8 x 8 x 5 mm stand-in.", mount="In the flash reflector interface; retention needs the real reflector (B8)."),
 ]
 FOOT_SWITCH = dict(label="Omron SS-01 foot switch (SS-10 fallback)", dims=[6.4, 19.8, 10.2], bom="13", blockers=[],
@@ -1482,7 +1482,7 @@ def main():
                               material=None, bom=p.get("bom"), status="OK" if not op else ", ".join(op), blockers=rows,
                               mount=p.get("mount", ""), dims=[round(float(d), 2) for d in p["dims"]], dims_note=p.get("dims_note", ""),
                               where=p.get("where", ""), placement=p.get("placement"), v2=np.round(p["v2"], 2).tolist(),
-                              short=SHORT.get(pkey, p["label"].split(" (")[0]), follow=p.get("follow"),
+                              short=SHORT.get(p["id"], SHORT.get(pkey, p["label"].split(" (")[0])), follow=p.get("follow"),
                               follow_dist_mm=p.get("follow_dist"))
         nodes.append(dict(name=nid, mesh=gidx["_box"], matrix=M))
 

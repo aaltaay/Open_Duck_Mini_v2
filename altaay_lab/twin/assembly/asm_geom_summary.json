@@ -1,0 +1,1058 @@
+{
+ "verify": {
+  "violations": [],
+  "n": 286
+ },
+ "driven": 286,
+ "clear_all_present": 115,
+ "self_blocks": {
+  "F158": {
+   "head_yaw_to_roll#108": 64.9
+  },
+  "F159": {
+   "head_yaw_to_roll#108": 64.9
+  },
+  "F160": {
+   "head_yaw_to_roll#108": 64.9
+  },
+  "F161": {
+   "head_yaw_to_roll#108": 64.9
+  },
+  "F348": {
+   "head#115": 35.6
+  },
+  "F350": {
+   "head#115": 35.6
+  }
+ },
+ "fixes": {
+  "F083": [
+   {
+    "joint": "neck_pitch",
+    "angle_deg": -9.4
+   }
+  ],
+  "F084": [
+   {
+    "joint": "neck_pitch",
+    "angle_deg": -9.4
+   }
+  ]
+ },
+ "fails": {
+  "F348": {
+   "head_yaw_to_roll#108": 41.4,
+   "roll_bearing#118": 40.0
+  },
+  "F350": {
+   "head_yaw_to_roll#108": 41.4,
+   "roll_bearing#118": 40.0
+  },
+  "F126": {
+   "roll_motor_top#67": 1.5,
+   "servo@hip_roll_assembly_2#68": 10.1,
+   "roll_motor_bottom#66": 55.3,
+   "roll_bearing#13": 58.5
+  },
+  "F128": {
+   "roll_motor_top#67": 1.5,
+   "servo@hip_roll_assembly_2#68": 10.1,
+   "roll_motor_bottom#66": 55.3,
+   "roll_bearing#13": 58.5
+  },
+  "F130": {
+   "roll_motor_top#33": 1.5,
+   "servo@hip_roll_assembly#34": 10.1,
+   "roll_motor_bottom#32": 55.3,
+   "roll_bearing#9": 58.5
+  },
+  "F132": {
+   "roll_motor_top#33": 1.5,
+   "servo@hip_roll_assembly#34": 10.1,
+   "roll_motor_bottom#32": 55.3,
+   "roll_bearing#9": 58.5
+  }
+ },
+ "side_lamp": {
+  "contact_area_mm2_within_0p3": 1018.4,
+  "contact_area_mm2_within_1p0": 1141.3,
+  "min_gap_mm": 0.0,
+  "module_bounds": [
+   [
+    67.0,
+    80.7,
+    185.5
+   ],
+   [
+    95.0,
+    112.2,
+    226.5
+   ]
+  ],
+  "reflector_interface_contact_mm2_within_0p3": 1079.9
+ },
+ "pre_joined": {
+  "power_switch#4": "body_back#2",
+  "box:fuse_holder": "battery_pack_lid#6",
+  "box:mosfet_switch": "battery_pack_lid#6",
+  "box:bec_pro": "body_middle_bottom#3",
+  "box:usb_slack": "body_middle_bottom#3",
+  "box:power_splice": "trunk_bottom#10",
+  "roll_bearing#118": "head#115",
+  "roll_bearing#13": "trunk_bottom#10",
+  "flash_light_module#135": "head#115",
+  "flash_reflector_interface#136": "head#115",
+  "roll_bearing#9": "trunk_bottom#10"
+ },
+ "eyes": {
+  "right": {
+   "bulb_bounds": [
+    [
+     96.0,
+     -57.4,
+     186.7
+    ],
+    [
+     98.0,
+     -22.4,
+     221.7
+    ]
+   ],
+   "centre": [
+    -39.9,
+    204.2
+   ],
+   "bulb_centre_hole_r": 4.0,
+   "bulb_k": 133,
+   "bulb_open_points": 243,
+   "bulb_open_r_max": 17.356554957709783,
+   "head_window_r": 12.5,
+   "eye_window_r": 12.5,
+   "behind_free_min_r10": 36.0,
+   "behind_free_min_r14": 36.0,
+   "sample_centre": {
+    "dy": 0.0,
+    "dz": 0.0,
+    "r": 0.0,
+    "bulb": false,
+    "head": false,
+    "eye": false,
+    "behind_free": 36.0,
+    "names": []
+   }
+  },
+  "left": {
+   "bulb_bounds": [
+    [
+     96.0,
+     22.6,
+     186.7
+    ],
+    [
+     98.0,
+     57.6,
+     221.7
+    ]
+   ],
+   "centre": [
+    40.1,
+    204.2
+   ],
+   "bulb_centre_hole_r": 4.0,
+   "bulb_k": 134,
+   "bulb_open_points": 243,
+   "bulb_open_r_max": 17.356554957709783,
+   "head_window_r": 12.5,
+   "eye_window_r": 12.5,
+   "behind_free_min_r10": 36.0,
+   "behind_free_min_r14": 36.0,
+   "sample_centre": {
+    "dy": 0.0,
+    "dz": 0.0,
+    "r": 0.0,
+    "bulb": false,
+    "head": false,
+    "eye": false,
+    "behind_free": 36.0,
+    "names": []
+   }
+  }
+ },
+ "button": {
+  "switch_spans": [
+   23.41,
+   16.87,
+   7.37
+  ],
+  "axis_in": [
+   0.785,
+   0.001,
+   -0.62
+  ],
+  "flange_point": [
+   -130.43,
+   0.0,
+   97.86
+  ],
+  "cutout_u": [
+   -10.0,
+   9.75
+  ],
+  "cutout_v": [
+   -3.75,
+   3.5
+  ],
+  "open_cells": 1939,
+  "rim_wall_mm": [
+   1.05,
+   3.0
+  ],
+  "free_depth_min": 51.6,
+  "free_depth_by": [
+   [
+    "board#12",
+    105
+   ]
+  ],
+  "free_depth_median": 60.5,
+  "open_rect_half_uv": [
+   7.75,
+   3.5
+  ],
+  "outer_face_t": 6.56,
+  "flange_23p4x11_face_spread": [
+   -0.08,
+   2.02
+  ],
+  "plug_19x6p6_cells_open": [
+   1647,
+   1647
+  ],
+  "plug_uv_mm": [
+   15.0,
+   6.5
+  ],
+  "plate_file": "/home/user/wt/duck-v1-elec/altaay_lab/twin/assembly/button_plate_d30.stl",
+  "plate_volume_mm3": 534.8,
+  "plate_watertight": true
+ },
+ "speaker_pocket": {
+  "n_points": 191,
+  "lo": [
+   -0.1,
+   -71.9,
+   183.5
+  ],
+  "hi": [
+   37.9,
+   -55.9,
+   217.5
+  ],
+  "open_sides_at_centre": null,
+  "centre": [
+   18.7,
+   -63.1,
+   199.7
+  ],
+  "wall_dist_xyz_pm": [
+   null,
+   null,
+   null,
+   null,
+   null,
+   8.6
+  ],
+  "box_centre": [
+   18.9,
+   -63.9,
+   200.5
+  ],
+  "faces": {
+   "-x": {
+    "covered_within_3mm": 0.14,
+    "median_gap": 12.26,
+    "by": [
+     [
+      "speaker_stand#137",
+      6
+     ],
+     [
+      "head#115",
+      1
+     ]
+    ]
+   },
+   "+x": {
+    "covered_within_3mm": 0.22,
+    "median_gap": 46.23,
+    "by": [
+     [
+      "speaker_interface#138",
+      8
+     ],
+     [
+      "speaker_stand#137",
+      3
+     ]
+    ]
+   },
+   "-y": {
+    "covered_within_3mm": 0.24,
+    "median_gap": 6.27,
+    "by": [
+     [
+      "head#115",
+      10
+     ],
+     [
+      "speaker_interface#138",
+      2
+     ]
+    ]
+   },
+   "+y": {
+    "covered_within_3mm": 0.22,
+    "median_gap": 44.41,
+    "by": [
+     [
+      "speaker_stand#137",
+      9
+     ],
+     [
+      "speaker_interface#138",
+      2
+     ]
+    ]
+   },
+   "-z": {
+    "covered_within_3mm": 0.24,
+    "median_gap": 5.02,
+    "by": [
+     [
+      "speaker_stand#137",
+      8
+     ],
+     [
+      "speaker_interface#138",
+      4
+     ]
+    ]
+   },
+   "+z": {
+    "covered_within_3mm": 0.06,
+    "median_gap": 8.24,
+    "by": [
+     [
+      "speaker_interface#138",
+      2
+     ],
+     [
+      "speaker_stand#137",
+      1
+     ]
+    ]
+   }
+  }
+ },
+ "service": {
+  "lid_screws_built": {
+   "F017": {
+    "trunk_top#11": 52.4,
+    "servo@trunk_assembly#22": 57.4
+   },
+   "F018": {
+    "trunk_top#11": 52.4,
+    "servo@trunk_assembly#27": 57.4
+   },
+   "F027": {
+    "box:bec_pro": 30.5,
+    "servo@hip_roll_assembly_2#68": 78.0,
+    "roll_motor_bottom#66": 78.1
+   },
+   "F028": {
+    "servo@hip_roll_assembly#34": 78.0,
+    "box:bec_pro": 30.5,
+    "roll_motor_bottom#32": 78.1
+   }
+  },
+  "body_back_screws_built": {
+   "F017": {
+    "spec": "M2.5x10 DIN 912 A2",
+    "into": "body_back",
+    "part": "battery_pack_lid",
+    "blk": {
+     "trunk_top#11": 52.4,
+     "servo@trunk_assembly#22": 57.4
+    }
+   },
+   "F018": {
+    "spec": "M2.5x10 DIN 912 A2",
+    "into": "body_back",
+    "part": "battery_pack_lid",
+    "blk": {
+     "trunk_top#11": 52.4,
+     "servo@trunk_assembly#27": 57.4
+    }
+   },
+   "F027": {
+    "spec": "M2.5x10 DIN 912 A2",
+    "into": "body_back",
+    "part": "battery_pack_lid",
+    "blk": {
+     "box:bec_pro": 30.5,
+     "servo@hip_roll_assembly_2#68": 78.0,
+     "roll_motor_bottom#66": 78.1
+    }
+   },
+   "F028": {
+    "spec": "M2.5x10 DIN 912 A2",
+    "into": "body_back",
+    "part": "battery_pack_lid",
+    "blk": {
+     "servo@hip_roll_assembly#34": 78.0,
+     "box:bec_pro": 30.5,
+     "roll_motor_bottom#32": 78.1
+    }
+   },
+   "F075": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "body_middle_bottom",
+    "part": "body_back",
+    "blk": {}
+   },
+   "F076": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "body_middle_bottom",
+    "part": "body_back",
+    "blk": {}
+   },
+   "F077": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "body_middle_bottom",
+    "part": "body_back",
+    "blk": {}
+   },
+   "F078": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "body_middle_bottom",
+    "part": "body_back",
+    "blk": {}
+   },
+   "F079": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "body_middle_top",
+    "part": "body_back",
+    "blk": {}
+   },
+   "F080": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "body_middle_top",
+    "part": "body_back",
+    "blk": {}
+   },
+   "F081": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "body_middle_top",
+    "part": "body_back",
+    "blk": {}
+   },
+   "F082": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "body_middle_top",
+    "part": "body_back",
+    "blk": {}
+   },
+   "F123": {
+    "spec": "M2.5x6 DIN 912 A2",
+    "into": "body_back",
+    "part": "usb_c_charger",
+    "blk": {
+     "bms#5": 0.7
+    }
+   }
+  },
+  "xt30": {
+   "point": [
+    -123.0,
+    31.0,
+    30.0
+   ],
+   "open_built": 0.0,
+   "greedy": [
+    {
+     "remove": "body_back#2",
+     "open_fraction": 0.425,
+     "before": 0.0
+    },
+    {
+     "remove": "body_middle_bottom#3",
+     "open_fraction": 0.488,
+     "before": 0.425
+    },
+    {
+     "remove": "holder#15",
+     "open_fraction": 0.526,
+     "before": 0.488
+    },
+    {
+     "remove": "cell#16",
+     "open_fraction": 0.592,
+     "before": 0.526
+    }
+   ],
+   "blockers": [
+    [
+     "body_back#2",
+     444
+    ],
+    [
+     "body_middle_bottom#3",
+     143
+    ],
+    [
+     "holder#15",
+     121
+    ],
+    [
+     "battery_pack_lid#6",
+     103
+    ],
+    [
+     "box:mosfet_switch",
+     91
+    ],
+    [
+     "body_middle_top#7",
+     80
+    ],
+    [
+     "cell#16",
+     79
+    ],
+    [
+     "trunk_top#11",
+     44
+    ]
+   ]
+  },
+  "xt30_module_lid_off": {
+   "open": 0.308,
+   "open_forward": 0.964
+  },
+  "lid_screws_pull_0": {
+   "F017": {
+    "first": 52.4,
+    "blk": {
+     "trunk_top#11": 52.4,
+     "servo@trunk_assembly#22": 57.4
+    },
+    "short_arm_swing_deg": 0
+   },
+   "F018": {
+    "first": 52.4,
+    "blk": {
+     "trunk_top#11": 52.4,
+     "servo@trunk_assembly#27": 57.4
+    },
+    "short_arm_swing_deg": 10
+   },
+   "F027": {
+    "first": 30.5,
+    "blk": {
+     "box:bec_pro": 30.5,
+     "servo@hip_roll_assembly_2#68": 78.0,
+     "roll_motor_bottom#66": 78.1
+    },
+    "short_arm_swing_deg": 0
+   },
+   "F028": {
+    "first": 30.5,
+    "blk": {
+     "servo@hip_roll_assembly#34": 78.0,
+     "box:bec_pro": 30.5,
+     "roll_motor_bottom#32": 78.1
+    },
+    "short_arm_swing_deg": 20
+   }
+  },
+  "lid_screws_pull_20": {
+   "F017": {
+    "first": 72.4,
+    "blk": {
+     "trunk_top#11": 72.4,
+     "servo@trunk_assembly#22": 77.4
+    },
+    "short_arm_swing_deg": 290
+   },
+   "F018": {
+    "first": 72.4,
+    "blk": {
+     "trunk_top#11": 72.4,
+     "servo@trunk_assembly#27": 77.4
+    },
+    "short_arm_swing_deg": 310
+   },
+   "F027": {
+    "first": 50.5,
+    "blk": {
+     "box:bec_pro": 50.5
+    },
+    "short_arm_swing_deg": 260
+   },
+   "F028": {
+    "first": 50.5,
+    "blk": {
+     "box:bec_pro": 50.5
+    },
+    "short_arm_swing_deg": 310
+   }
+  },
+  "xt30_module_only": {
+   "module": [
+    "battery_pack_lid#6",
+    "bms#5",
+    "body_back#2",
+    "box:bms_tenergy",
+    "box:fuse_holder",
+    "box:mosfet_switch",
+    "cell#14",
+    "cell#16",
+    "holder#15",
+    "power_switch#4",
+    "usb_c_charger#1"
+   ],
+   "open": 0.148,
+   "open_forward": 0.4,
+   "greedy": [
+    {
+     "remove": "body_back#2",
+     "open_fraction": 0.595,
+     "before": 0.148
+    },
+    {
+     "remove": "box:mosfet_switch",
+     "open_fraction": 0.687,
+     "before": 0.595
+    },
+    {
+     "remove": "battery_pack_lid#6",
+     "open_fraction": 0.782,
+     "before": 0.687
+    }
+   ]
+  },
+  "cell": {
+   "point": [
+    -129.6,
+    -10.5,
+    32.5
+   ],
+   "open_built": 0.0,
+   "greedy": [
+    {
+     "remove": "cell#14",
+     "open_fraction": 0.0,
+     "before": 0.0
+    },
+    {
+     "remove": "body_back#2",
+     "open_fraction": 0.003,
+     "before": 0.0
+    },
+    {
+     "remove": "holder#15",
+     "open_fraction": 0.408,
+     "before": 0.003
+    },
+    {
+     "remove": "cell#16",
+     "open_fraction": 0.512,
+     "before": 0.408
+    },
+    {
+     "remove": "usb_c_charger#1",
+     "open_fraction": 0.544,
+     "before": 0.512
+    }
+   ]
+  },
+  "pi_bounds": [
+   [
+    2.6,
+    31.85,
+    221.8
+   ],
+   [
+    68.5,
+    63.1,
+    225.9
+   ]
+  ],
+  "pi_axes": {
+   "long": 0,
+   "short": 1,
+   "thick": 2
+  },
+  "sd_candidates": [],
+  "usb_candidates": [],
+  "microsd": {
+   "point": [
+    2.0,
+    48.1,
+    223.8
+   ],
+   "dir": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "along_axis": {
+    "head#115": 25.9
+   },
+   "cone60_open_built": 0.0,
+   "greedy": [
+    {
+     "remove": "head#115",
+     "open_fraction": 0.758,
+     "before": 0.0
+    },
+    {
+     "remove": "head_bot_sheet#114",
+     "open_fraction": 0.845,
+     "before": 0.758
+    },
+    {
+     "remove": "sg90#119",
+     "open_fraction": 0.876,
+     "before": 0.845
+    },
+    {
+     "remove": "left_antenna_holder#128",
+     "open_fraction": 0.894,
+     "before": 0.876
+    }
+   ],
+   "open_any_dir_bot_sheet_off": 0.07,
+   "open_any_dir_built": 0.006
+  },
+  "usb": [],
+  "pi_slices": {
+   "3.5": {
+    "y": [
+     39.6,
+     56.6
+    ],
+    "z": [
+     223.2,
+     224.4
+    ]
+   },
+   "6": {
+    "y": [
+     33.3,
+     62.9
+    ],
+    "z": [
+     223.2,
+     225.9
+    ]
+   },
+   "9": {
+    "y": [
+     33.1,
+     63.1
+    ],
+    "z": [
+     222.9,
+     225.9
+    ]
+   },
+   "13": {
+    "y": [
+     31.9,
+     63.1
+    ],
+    "z": [
+     221.8,
+     225.9
+    ]
+   },
+   "20": {
+    "y": [
+     33.1,
+     63.1
+    ],
+    "z": [
+     224.4,
+     225.9
+    ]
+   },
+   "33": {
+    "y": [
+     33.1,
+     63.1
+    ],
+    "z": [
+     224.4,
+     225.9
+    ]
+   },
+   "45": {
+    "y": [
+     33.1,
+     63.1
+    ],
+    "z": [
+     223.2,
+     225.9
+    ]
+   },
+   "55": {
+    "y": [
+     33.1,
+     63.1
+    ],
+    "z": [
+     224.4,
+     225.9
+    ]
+   },
+   "60": {
+    "y": [
+     33.1,
+     63.1
+    ],
+    "z": [
+     223.0,
+     225.9
+    ]
+   },
+   "64": {
+    "y": [
+     33.1,
+     63.1
+    ],
+    "z": [
+     223.0,
+     225.9
+    ]
+   },
+   "67.5": {
+    "y": [
+     34.3,
+     61.9
+    ],
+    "z": [
+     224.4,
+     225.9
+    ]
+   },
+   "y32.5": {
+    "x": [
+     10.6,
+     30.7
+    ],
+    "z": [
+     221.8,
+     224.4
+    ]
+   },
+   "y34.0": {
+    "x": [
+     4.8,
+     67.2
+    ],
+    "z": [
+     221.8,
+     225.9
+    ]
+   },
+   "y36.0": {
+    "x": [
+     3.6,
+     68.4
+    ],
+    "z": [
+     221.8,
+     225.9
+    ]
+   },
+   "y60.0": {
+    "x": [
+     3.6,
+     68.4
+    ],
+    "z": [
+     224.4,
+     225.9
+    ]
+   },
+   "y62.5": {
+    "x": [
+     5.2,
+     66.8
+    ],
+    "z": [
+     224.4,
+     225.9
+    ]
+   }
+  },
+  "usb_edge": {
+   "point": [
+    20.6,
+    31.25,
+    223.1
+   ],
+   "dir": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "along_axis": {
+    "speaker_stand#137": 62.5,
+    "head#115": 100.9
+   },
+   "cone60_open_built": 0.0,
+   "greedy": [
+    {
+     "remove": "head#115",
+     "open_fraction": 0.484,
+     "before": 0.0
+    },
+    {
+     "remove": "head_roll_mount#116",
+     "open_fraction": 0.522,
+     "before": 0.484
+    },
+    {
+     "remove": "servo@head_assembly#122",
+     "open_fraction": 0.578,
+     "before": 0.522
+    },
+    {
+     "remove": "speaker_stand#137",
+     "open_fraction": 0.609,
+     "before": 0.578
+    }
+   ],
+   "open_any_dir_bot_sheet_off": 0.112,
+   "open_any_dir_built": 0.005
+  },
+  "head_bot_sheet_screws_built": {
+   "F083": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {
+     "body_middle_top#7": 73.8
+    }
+   },
+   "F084": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {
+     "body_middle_top#7": 74.0
+    }
+   },
+   "F085": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {}
+   },
+   "F086": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {}
+   },
+   "F087": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {}
+   },
+   "F088": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {}
+   },
+   "F089": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {}
+   },
+   "F090": {
+    "spec": "M3x8 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {}
+   }
+  },
+  "head_roll_mount_screws_built": {
+   "F091": {
+    "spec": "M3x6 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {
+     "head_bot_sheet#114": 41.5
+    }
+   },
+   "F092": {
+    "spec": "M3x6 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {
+     "head_bot_sheet#114": 41.3
+    }
+   },
+   "F093": {
+    "spec": "M3x6 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {
+     "head_bot_sheet#114": 41.5
+    }
+   },
+   "F094": {
+    "spec": "M3x6 DIN 912 A2",
+    "into": "head",
+    "tool": "hex2.5",
+    "blk": {
+     "head_bot_sheet#114": 41.3
+    }
+   }
+  },
+  "n_pi_bodies": 1
+ },
+ "tools": {
+  "hex2.5": {
+   "r": 1.4433756729740645,
+   "reach": 88.0,
+   "short": null,
+   "src": "BOM T4 Bondhus 12192 set (long arm); 2.5 mm key Bondhus 12154 length 88 mm (MRO Supply, KBC Tools, Zoro listings via search index 2026-11-04); short arm not published in what was read"
+  },
+  "hex2.0": {
+   "r": 1.1547005383792517,
+   "reach": 82.6,
+   "short": 15.9,
+   "src": "BOM T4; 2 mm long key Bondhus 13952: 3-1/4 in overall, 5/8 in short arm (partssource.com listing via search index 2026-11-04)"
+  },
+  "PH0": {
+   "r": 1.5,
+   "reach": 60.0,
+   "short": null,
+   "src": "proposed (needs Ahmed's OK): Wera 2050 PH 0 x 60 mm, blade 60 x 3.0 mm, 157 mm overall (Wera data sheet 05118022001, Rapid 51-1335, via search index)"
+  },
+  "PH1": {
+   "r": 2.0,
+   "reach": 80.0,
+   "short": null,
+   "src": "proposed (needs Ahmed's OK): Wera 2050 PH 1 x 80 mm, blade 80 x 4.0 mm (Wera data sheet 05118024001, Rapid 51-1336, via search index)"
+  }
+ }
+}

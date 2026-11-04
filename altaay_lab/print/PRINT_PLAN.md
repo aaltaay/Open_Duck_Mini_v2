@@ -356,3 +356,7 @@ BOM line 27: need 1389 g sliced (1384 g before the T1 stack pieces, 1502 g befor
 - The solid rings (D22) are untested in print: the S1 gate tests the insert rings on C2aL, C2bL and C3L; the 5 body_back pilot rings have no coupon (MASS_STUDY.md Table 1: 1.11 against 1.00 before D22). The rings exist only as PrusaSlicer modifiers in the 3MF.
 - The 2-wall body shells, caches and leg parts are weaker in a fall than the parts before D22 (MASS_STUDY.md risks): keep the first walks tethered (sim/ADDED_MASS_SIM.md finding 3).
 - The D24 projector lead hole position is measured on head.stl only; mark it against the real flash_light_module before drilling.
+
+## V1 track 2 additions (2026-11-04)
+- D30 button plate: print altaay_lab/twin/assembly/button_plate_d30.stl (535 mm3, about 0.6 g) with the base profile, flange down. Fit check: the plug goes into the body_back switch cutout with about 0.25 mm a side, the NKK MB2011SS1W01 bushing through the 6.4 mm hole, nut on the outside (TEST_PLAN 13).
+- D29 was reverted (D33): the side lamp parts (flash_light_module, flash_reflector_interface) and the D24 lead hole stay exactly as above.
