@@ -75,7 +75,8 @@ D1 to D25 are in DECISIONS.md, all decided (D14 superseded by D15). Tonight: D19
 4. Which printer will print the duck? The package needs a bed of at least 220 x 220 mm.
 5. Before the right leg prints: DECISIONS.md D26 (roll_to_pitch and the knee sheet eye, HARDWARE_AUDIT B42 and B43), and the floor for the first walks (B45).
 6. Asked 2026-11-03: keep developing the heel-wheel version in sim (the roll-to-walk switch, the wheel mounts)? (the human pace on wheels line above; sim pass only) ANSWERED 2026-11-04 about 4:08 PM ET: no wheels in V1 ("forget about the wheel"), DECISIONS.md D27.
-7. Asked 2026-11-04: OK to swap the main switch to the Pololu 2813 pushbutton power switch ($8.95, https://www.pololu.com/product/2813) with a momentary button in body_back, so the Pi can switch the duck fully off after the battery hard stop (HARDWARE_AUDIT B49; twin/electrical/ELECTRICAL_TWIN.md, Track 1b fixes)? Nothing is bought until he says yes.
+7. Asked 2026-11-04: OK to swap the main switch to the Pololu 2813 pushbutton power switch ($8.95, https://www.pololu.com/product/2813) with a momentary button in body_back, so the Pi can switch the duck fully off after the battery hard stop (HARDWARE_AUDIT B49; twin/electrical/ELECTRICAL_TWIN.md, Track 1b fixes)? Nothing is bought until he says yes. ANSWERED 2026-11-04 5:58 PM ET: yes ("yes, swap to the 2813"), DECISIONS.md D30.
+8. Asked 2026-11-04: OK to add three Wera cross-head screwdrivers to the tools (PH0 x 60 $7.91, PH1 x 80 $9.76, a PH0 x 25 bit $1.95; links in BOM.md)? The BOM had no tool for the 95 cross-head screws (twin/assembly/ASSEMBLY_TWIN.md). Nothing is bought until he says yes.
 
 ## Next
 1. Coupon session; results into history/.
