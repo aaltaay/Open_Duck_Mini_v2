@@ -71,6 +71,7 @@ D1 to D25 are in DECISIONS.md, all decided (D14 superseded by D15). Tonight: D19
 4. Which printer will print the duck? The package needs a bed of at least 220 x 220 mm.
 5. Before the right leg prints: DECISIONS.md D26 (roll_to_pitch and the knee sheet eye, HARDWARE_AUDIT B42 and B43), and the floor for the first walks (B45).
 6. Asked 2026-11-03: keep developing the heel-wheel version in sim (the roll-to-walk switch, the wheel mounts)? (the human pace on wheels line above; sim pass only) ANSWERED 2026-11-04 about 4:08 PM ET: no wheels in V1 ("forget about the wheel"), DECISIONS.md D27.
+7. Asked 2026-11-04: OK to swap the main switch to the Pololu 2813 pushbutton power switch ($8.95, https://www.pololu.com/product/2813) with a momentary button in body_back, so the Pi can switch the duck fully off after the battery hard stop (HARDWARE_AUDIT B49; twin/electrical/ELECTRICAL_TWIN.md, Track 1b fixes)? Nothing is bought until he says yes.
 
 ## Next
 1. Coupon session; results into history/.
