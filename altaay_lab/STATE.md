@@ -68,7 +68,7 @@ D1 to D25 are in DECISIONS.md, all decided (D14 superseded by D15). Tonight: D19
 3. OK to buy the test order (BOM.md "Needs test order", 17 lines, $231.50)? (lab rule 7)
 4. Which printer will print the duck? The package needs a bed of at least 220 x 220 mm.
 5. Before the right leg prints: DECISIONS.md D26 (roll_to_pitch and the knee sheet eye, HARDWARE_AUDIT B42 and B43), and the floor for the first walks (B45).
-6. Asked 2026-11-03: keep developing the heel-wheel version in sim (the roll-to-walk switch, the wheel mounts)? (the human pace on wheels line above; sim pass only)
+6. Asked 2026-11-03: keep developing the heel-wheel version in sim (the roll-to-walk switch, the wheel mounts)? (the human pace on wheels line above; sim pass only) ANSWERED 2026-11-04 about 4:08 PM ET: no wheels in V1 ("forget about the wheel"), DECISIONS.md D27.
 
 ## Next
 1. Coupon session; results into history/.
