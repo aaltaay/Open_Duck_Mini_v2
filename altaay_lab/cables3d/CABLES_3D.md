@@ -513,3 +513,8 @@ python3 altaay_lab/cables3d/check_cables.py --scratch $S    # length, rub, bend,
 python3 altaay_lab/cables3d/make_report.py "$(TZ=America/New_York date '+%Y-%m-%d %-I:%M %p ET')"
 python3 altaay_lab/cables3d/render_cables.py --scratch $S --views both
 ```
+
+## V1 track 2 note (2026-11-04)
+- D30: P15 now runs from the Pololu 2813 A and B pins to the NKK button in body_back; a new 26 AWG OFF wire runs from Pi pin 37 (GPIO26) to the 2813 OFF pin along P13 (531.7 mm rule length). Both need routing here (not yet in cables3d.json).
+- Battery service pulls body_back 20 mm back on its wires: P10 has 85.2 mm and P13 182 mm of rule slack, so the pull fits; track 4 should add this seam.
+- D29 was reverted (D33): D7 and the D24 hole stay.

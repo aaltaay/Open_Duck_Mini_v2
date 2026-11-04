@@ -127,9 +127,18 @@ Pack at full charge (8.3 V or more) and again at nominal (about 7.4 V open circu
 - Exit code 10 from bench/walk_with_guard.py (also power_log.py): after a stop, Torque Enable (register 40) did not read 0 on every servo, so torque could not be confirmed off (bench/odm_bench/walkhooks.py hard_stop). Treat the servos as live: hold the robot, switch off at the panel switch (D8: it cuts the switched pack bus) and find the cause before the next walk. The JSON report (item 11.torque_off) gives the register 40 read-back of every servo.
 - After a battery hard stop (B49; twin/electrical/ELECTRICAL_TWIN.md, calc only): the guard powers off the Pi, but the panel switch keeps the servos, the BEC and the regulator on, about 0.11 to 0.41 A, which takes the cells from the hard-stop point to the P30B 2.5 V minimum in about 1.2 to 4.4 hours (the BMS cuts only at 2.40 V). Rule: switch off at the panel switch at once after a hard stop, and never leave the duck switched on unattended. Measure once: the pack current after the guard's poweroff with the panel switch still on (TE1 10 A range in series at the XT30), written into history/; it replaces the bound.
 - Self-off switch (B49 track 1b, only if Ahmed approves the Pololu 2813 in place of the 2815): GPIO26 (pin 37) to OFF, dtoverlay=gpio-poweroff,gpiopin=26. Meter on pin 37 through 20 boots, 20 reboots and a 10 minute walk: never above 0.3 V. Then a guard hard stop on the bench supply at 6.0 V: torque off, then the switch opens by itself; the pack current afterwards reads under 15 uA (twin: under 10.2 uA, calc only).
+- D30 (approved 2026-11-04, Pololu 2813 fitted): after `sudo poweroff` the 2813 opens by itself (its LED off, VOUT 0 V within 3 s of the pulse); then the pack current reads under 10.2 uA (twin: 2813 under 0.2 uA plus the BMS 10 uA, calc only). A push of the NKK button turns it back on; a second push turns it off.
 - For the docking step, add a pack voltage and current monitor on the pack line (later, not in the stock build).
 
 ## 12. Foot switches (D17)
 - Before power: each foot circuit (2 switches in parallel) reads under 1 ohm closed and open over 1 Mohm, at the Pi header (read in ohms, as in section 2).
 - Powered, robot hanging: bench/feet_check.py --presses 200 (never fc_test.py: it starts the walk and the OpenAI client) shows each foot change state on every press; 200 presses per foot with no missed or stuck reading.
 - On the floor, standing still: both feet read "contact" for 60 s without a flicker. A flicker here goes straight into the policy observation.
+
+## 13. Assembly checks (V1 track 2, twin/assembly/ASSEMBLY_TWIN.md; the twin is CAD check only)
+- Dry fit (with 1.4) in twin/assembly/BUILD_ORDER.md order; note any part that cannot move into place (anticipated item 1).
+- PH0 x 25 mm bit by hand: drive one M2 screw into the TO1 servo case and one into coupon C4; pass if it seats.
+- D30 plate: plug into the body_back cutout, NKK bushing through, nut on with at least one full thread past it.
+- Side lamp: tape the module (VHB on its back face) and pull by hand along each axis: it stays.
+- BEC: two BOM 34 mounts beside it on the belly floor, one tie over the top.
+- Weigh 10 trimmed ties and 10 mounts of each type (B59).

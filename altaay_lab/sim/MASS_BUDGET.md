@@ -407,3 +407,18 @@ Source keys:
 - xt30_pair: [I] Amazon B08P5HVMYT Amass XT30U 10 pairs, 'Item Weight 0.317 ounces' = 9.0 g for 10 pairs (https://www.amazon.com/dp/B08P5HVMYT)
 
 Hardware counts placed at hole sites: M2 servo-case screws (servo bag) 66, M2.5x10 lid screws 4, M2.5x6 electronics screws 17, M2.5x8 eye screws (MOUNTING.md) 8, M2x4 camera screws (MOUNTING.md) 4, M2x6 roll_to_pitch screws (servo bag, HARDWARE_AUDIT.md B4) 4, M3 heat-set inserts 58, M3 horn screws (M3x6/M3x5 mix) 99, M3 insert screws (M3x8/10/12 mix) 58, M3x6 horn centre screws (servo bag) 14
+
+## V1 track 2 recount (2026-11-04, calc only; twin/assembly/asm_calc.py, asm_calc.json)
+Scope: the pieces the model did not count or counted by an older list. The model itself (sim/mass_budget.py) is not changed; the lead decides the gym model update.
+
+| Item | Change g | Source |
+|---|---|---|
+| 286 driven screws (342 fitted less the 56 factory case screws inside the servos): 174.3 g against 175.3 g for the 274 modelled | -1.0 | fasteners.json; the ISO 4762 and pan head formulas and the A2 density of sim/mass_budget.py |
+| 16 eye washers, ISO 7092 2.7 x 5.0 x 0.3 mm | +0.5 | BOM 17l, A2 density |
+| D30: Pololu 2813 2.7 g for the 2815 2.6 g | +0.1 | Pololu specs |
+| D30: OFF wire GPIO26 to the 2813, 26 AWG, 531.7 mm (the P13 route) | +1.6 | wiring/netlist.yaml P13 rule length, the 26 AWG g/m of sim/mass_budget.py |
+| D30: printed button plate, 535 mm3 | +0.6 | CAD volume times the sliced bulb ratio (print/SLICE_SUMMARY.md) |
+| Cable ties (D25): 78 fitted at most against the 1.0 g modelled | 0 to +31.5 | upper bound 0.417 g per tie, the gross weight of a 142 mm Panduit PLT1.5M-C (TME); trimmed tails weigh less |
+| 55 adhesive tie mounts (BOM 34, 34b) | not counted | BLOCKER: no published mass; weigh 10 of each on arrival |
+
+New total: 2654.7 g counted for sure (+1.9 g), up to 2686.2 g with the tie upper bound (+33.4 g, +1.26 %), plus the tie mounts. Over 1 % only at the tie bound; if the weighing confirms it, every result run at 2652.8 g moves: the stock policy at our mass (sim/ADDED_MASS_SIM.md), the structure twin loads, the track 1 and 1b shove currents (B47), the thermal twin, and the RunPod training mass (STATE.md open question 1). D29 (two LEDs per eye) was reverted (D33), so the LEDs, the side lamp prints and E5 stay as modelled.

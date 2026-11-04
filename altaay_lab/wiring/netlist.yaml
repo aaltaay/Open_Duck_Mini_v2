@@ -216,7 +216,7 @@ components:
 
   - id: SW1
     ref: SW1
-    part: Pololu 2815 Big MOSFET Slide Switch with Reverse Voltage Protection, HP
+    part: Pololu 2813 Big Pushbutton Power Switch with Reverse Voltage Protection, HP (D30, was the 2815 slide switch; same size and MOSFET ratings; button on A and B, GPIO26 on OFF)
     kind: switch
     region: battery_bay
     ratings: {v_op: "4.5 to 32", i_cont_55c_a: 6.0, i_cont_150c_a: 16, i_max_a: 90, r_on_mohm: "13 at 4.5 V, 8.6 at 10 V", size_mm: "20.3 x 22.9", mounting: "no mounting holes; the four 2.18 mm holes are power connections; foam tape"}
@@ -957,7 +957,8 @@ cables:
   - {id: P14, status: active, desc: XT30U male - to splice G, regions: [battery_bay], joints: [], polyline_mm: 52.1, rule_mm: 137.3, source: "[L] reference BMS to 2815"}
   - {id: P9, status: active, desc: 2815 VOUT to splice VSW, regions: [battery_bay], joints: [], polyline_mm: 0.0, rule_mm: 85.2, source: "[L] splice next to the 2815"}
   - {id: P16, status: active, desc: splice G to 2815 GND (control ground), regions: [battery_bay], joints: [], polyline_mm: 0.0, rule_mm: 85.2, source: "[I]"}
-  - {id: P15, status: active, desc: 2815 SW pad pair to the panel switch, regions: [battery_bay], joints: [], polyline_mm: 62.1, rule_mm: 147.3, source: "[L] placements: 2815 to power_switch.stl", twist: {lay_mm: null, note: "no twist: a 58 mm run leaves 18 mm after the 2 x 20 mm untwisted ends, under one 35 mm lay"}}
+  - {id: P15, status: active, desc: 2813 A and B to the momentary button (D30; was the 2815 SW pad pair to the panel switch), regions: [battery_bay], joints: [], polyline_mm: 62.1, rule_mm: 147.3, source: "[L] placements: 2815 to power_switch.stl", twist: {lay_mm: null, note: "no twist: a 58 mm run leaves 18 mm after the 2 x 20 mm untwisted ends, under one 35 mm lay"}}
+  # D30 (V1 track 2, 2026-11-04): new signal wire GPIO26 (Pi pin 37) to the 2813 OFF pin, 26 AWG on the P13 route (rule 531.7 mm), dtoverlay=gpio-poweroff,gpiopin=26; not yet a cable entry here (netlist owner); twin/assembly/ASSEMBLY_TWIN.md item 6
   - {id: P10, status: active, desc: splices VSW and G to the BEC input leads, regions: [battery_bay, belly], joints: [], polyline_mm: 61.1, rule_mm: 146.3, source: "[L] placements: 2815 to BEC", note: "the BEC input leads ship (length not published): cut P10 shorter by their length", twist: {lay_mm: null, note: "no twist: a 54 mm run leaves 14 mm after the 2 x 20 mm untwisted ends, under one 70 mm lay"}}
   - {id: P11, status: active, desc: both BEC output leads joined (JB+ JB-) to the belly power splices SPV and SPG, regions: [belly], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D15; length cables3d", note: "BEC output leads ship (gauge and length not published: as shipped); ngspice power-path sim (lead, sim pass only): BEC output peaks 8.3 to 9.1 A while walking", twist: {lay_mm: null, note: "no twist: a 55 mm run leaves 15 mm after the 2 x 20 mm untwisted ends, under one 100 mm lay"}}
   - {id: SP1, status: active, desc: power pair SPV and SPG to ID 20 BUS 2 (V and G), regions: [belly, trunk_bottom], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D15, about 150 mm", note: "22 AWG because the 08-70-1040 terminal takes 22 to 28 AWG; GND joins SD1 at JG20 before the housing", twist: {lay_mm: null, note: "no twist: a 71 mm run leaves 31 mm after the 2 x 20 mm untwisted ends, under one 40 mm lay"}}
