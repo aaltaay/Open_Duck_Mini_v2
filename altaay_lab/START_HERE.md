@@ -1,7 +1,7 @@
 # START HERE: Open Duck Mini v2 (Altaay lab fork)
 
 Read this file first. It is written so a new agent on a different account can pick up the duck build with no other context.
-Last written: 2026-11-01 2:18 PM ET by Legged Robots, Grok Bot agent of Ahmed Altaay. Updated 2026-11-01 about 7:00 PM ET by the Claude Code agent (print-readiness pass under Ahmed's delegation; branch claude/print-ready, pull request into altaay-lab). Updated 2026-11-02 about 12:10 AM ET by agent NL2 (final docs pass of the night session: status, the decisions up to D24, repo map, next steps). Updated 2026-11-02 about 5:20 AM ET by agent INT (integration pass after the PRT, PWR, SW and CAB jobs: status, decisions D1 to D25, the test order, verification). Updated 2026-11-02 about 6:33 AM ET by agent SFX (last fixes for PR 6: mass budget, (c) walk and power path re-runs on today's netlist, the TEST_PLAN 5 hop bands of lead decision L3, the cable test fit label, the full verification). Updated 2026-11-03 about 4:00 PM ET by the twin integration agent (blocker counts with the twin and gym BLOCKERs B36 to B41). Updated 2026-11-03 about 5:00 PM ET by the structure twin integration agent (blocker counts with the structure twin BLOCKERs B42 to B46).
+Last written: 2026-11-01 2:18 PM ET by Legged Robots, Grok Bot agent of Ahmed Altaay. Updated 2026-11-01 about 7:00 PM ET by the Claude Code agent (print-readiness pass under Ahmed's delegation; branch claude/print-ready, pull request into altaay-lab). Updated 2026-11-02 about 12:10 AM ET by agent NL2 (final docs pass of the night session: status, the decisions up to D24, repo map, next steps). Updated 2026-11-02 about 5:20 AM ET by agent INT (integration pass after the PRT, PWR, SW and CAB jobs: status, decisions D1 to D25, the test order, verification). Updated 2026-11-02 about 6:33 AM ET by agent SFX (last fixes for PR 6: mass budget, (c) walk and power path re-runs on today's netlist, the TEST_PLAN 5 hop bands of lead decision L3, the cable test fit label, the full verification). Updated 2026-11-03 about 4:00 PM ET by the twin integration agent (blocker counts with the twin and gym BLOCKERs B36 to B41). Updated 2026-11-03 about 5:00 PM ET by the structure twin integration agent (blocker counts with the structure twin BLOCKERs B42 to B46). Updated 2026-11-03 about 10:40 PM ET by the twin wave 2 integration agent (open decisions: the GPU time approved and waiting for the RunPod key, and the heel-wheel question).
 
 ## What this is
 This repo is a public fork of [apirrone/Open_Duck_Mini](https://github.com/apirrone/Open_Duck_Mini). Upstream branch `v2` is left untouched at b23317a. All Altaay lab work lives ONLY on branch `altaay-lab`, ONLY in this `altaay_lab/` folder.
@@ -117,11 +117,12 @@ CAD, STL and sim assets are not copied here. Use the upstream commits. Onshape C
 
 ## Open decisions
 Full text: [DECISIONS.md](DECISIONS.md). D1 to D25 are decided (D14 superseded by D15). Still Ahmed's call, most important first:
-1. Rented GPU time, capped at $20, to train a walk policy at our real mass and on small terrain, and a get-up policy (asked 2026-11-03; STATE.md)? Lab rule 7.
+1. Rented GPU time, capped at $20, to train a walk policy at our real mass and on small terrain, and a get-up policy: asked and approved 2026-11-03 (Ahmed: "go ahead and do a run pod"; STATE.md), waiting for the RunPod key; nothing ran or was spent. Lab rule 7.
 2. On hold until the twin is done (Ahmed, 2026-11-03): OK to start the coupon print session (print/PRINT_PLAN.md: S1 11 coupons, 41.2 g PLA, 4.14 h; S2 one TPU sole, 17.6 g, 2.19 h)? Lab rule 4.
 3. OK to buy the test order (BOM.md "Needs test order", 17 lines, $231.50)? Lab rule 7.
 4. Printer model (not in any lab file): the print package is printer-agnostic, bed at least 220 x 220 mm.
 5. Before the right leg prints: D26 (roll_to_pitch and the knee sheet eye, HARDWARE_AUDIT B42 and B43) and the floor for the first walks (B45).
+6. Keep developing the heel-wheel version in sim (the roll-to-walk switch, the wheel mounts)? (asked 2026-11-03; STATE.md)
 
 ## Next steps
 1. Ahmed says yes or no to (a) the coupon print session and (b) the test order.
@@ -130,7 +131,7 @@ Full text: [DECISIONS.md](DECISIONS.md). D1 to D25 are decided (D14 superseded b
 4. First leg print and its checks (D18, D19, the B33 foot_side fit), then the other plates; the drill steps after printing (D20, D24, D25); freeze tag (STL pin, BOM, netlist, print settings) and the assembly map.
 5. Harness build and the test fit (TEST_PLAN.md 1.3 to 1.5: sleeves, twist, loops, the 75 tie points, the fixed-length D12, S2 and S7 at both joint limits, ankle plugs).
 6. Staged power-up with the hip yaw and head yaw limits, then the walking voltage log (TEST_PLAN.md sections 8 to 12). The log decides the 3S pack (D23).
-7. Later lab step: self-docking and get-up after falls, in sim first (needs a pack voltage and current monitor).
+7. Later lab step: self-docking, in sim first (needs a pack voltage and current monitor). Get-up after falls already works in sim with scripted programs (sim pass only; STATE.md Done); the real knee and hip stops are a BLOCKER.
 
 ## How to contribute without conflicts
 - One owner per file. The owner bot of this repo is Legged Robots, Grok Bot agent of Ahmed Altaay. Do not edit another agent's files; copy them and ask the owner (through Ahmed) for changes.
