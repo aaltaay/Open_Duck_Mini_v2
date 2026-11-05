@@ -46,8 +46,10 @@
        "open": true,
        "R": 1.0,
        "flush": {
-        "ok": null,
-        "note": "ring not one smooth surface and its inner ring mostly off the part"
+        "dimple_mm": 14.172,
+        "proud_mm": 0.0,
+        "ref": "two planes (min), ring residual 0.000 mm",
+        "ok": false
        }
       },
       {
@@ -56,7 +58,7 @@
        "flush": {
         "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.00 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       }
@@ -70,7 +72,7 @@
        "open": true,
        "R": 3.0,
        "flush": {
-        "dimple_mm": 5.4,
+        "dimple_mm": 5.375,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
         "ok": false
@@ -96,7 +98,7 @@
        "open": true,
        "R": 3.0,
        "flush": {
-        "dimple_mm": 5.4,
+        "dimple_mm": 5.375,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
         "ok": false
@@ -464,7 +466,7 @@
        "flush": {
         "dimple_mm": 0.023,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.00 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       },
@@ -490,7 +492,7 @@
        "flush": {
         "dimple_mm": 0.023,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.00 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       },
@@ -521,19 +523,17 @@
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       },
       {
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 3.954,
+        "dimple_mm": 2.706,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 4.37 mm)",
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
         "ok": false
        }
       }
@@ -547,19 +547,17 @@
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       },
       {
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 3.954,
+        "dimple_mm": 2.706,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 4.37 mm)",
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
         "ok": false
        }
       }
@@ -583,10 +581,8 @@
        "open": true,
        "R": 1.35,
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       }
      ]
@@ -609,10 +605,8 @@
        "open": true,
        "R": 1.35,
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       }
      ]
@@ -635,10 +629,8 @@
        "open": true,
        "R": 1.35,
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       }
      ]
@@ -661,10 +653,8 @@
        "open": true,
        "R": 1.35,
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       }
      ]
@@ -677,19 +667,17 @@
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       },
       {
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 3.975,
+        "dimple_mm": 2.722,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 4.40 mm)",
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
         "ok": false
        }
       }
@@ -703,19 +691,17 @@
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       },
       {
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 3.975,
+        "dimple_mm": 2.722,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 4.40 mm)",
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
         "ok": false
        }
       }
@@ -971,9 +957,9 @@
        "open": true,
        "R": 0.82,
        "flush": {
-        "dimple_mm": 0.259,
+        "dimple_mm": 0.223,
         "proud_mm": 0.0,
-        "ref": "cubic, ring residual 0.018 mm",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.077 mm",
         "ok": false
        }
       },
@@ -1341,9 +1327,9 @@
        "open": true,
        "R": 3.0,
        "flush": {
-        "dimple_mm": 0.625,
+        "dimple_mm": 0.429,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.56 mm)",
+        "ref": "quadratic, ring residual 0.055 mm",
         "ok": false
        }
       },
@@ -1351,9 +1337,9 @@
        "open": true,
        "R": 3.0,
        "flush": {
-        "dimple_mm": 0.625,
+        "dimple_mm": 0.429,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.56 mm)",
+        "ref": "quadratic, ring residual 0.055 mm",
         "ok": false
        }
       }
@@ -1367,9 +1353,9 @@
        "open": true,
        "R": 3.0,
        "flush": {
-        "dimple_mm": 0.625,
+        "dimple_mm": 0.429,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.56 mm)",
+        "ref": "quadratic, ring residual 0.055 mm",
         "ok": false
        }
       },
@@ -1377,9 +1363,9 @@
        "open": true,
        "R": 3.0,
        "flush": {
-        "dimple_mm": 0.625,
+        "dimple_mm": 0.429,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.56 mm)",
+        "ref": "quadratic, ring residual 0.055 mm",
         "ok": false
        }
       }
@@ -1401,8 +1387,8 @@
        "R": 3.5,
        "flush": {
         "dimple_mm": 0.02,
-        "proud_mm": 1.98,
-        "ref": "diametral (ring not one smooth surface: spread 2.00 mm)",
+        "proud_mm": 0.268,
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 1.16 mm)",
         "ok": false
        }
       },
@@ -1412,7 +1398,7 @@
        "flush": {
         "dimple_mm": 1.47,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 1.50 mm)",
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.95 mm)",
         "ok": false
        }
       }
@@ -1595,7 +1581,7 @@
        "flush": {
         "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.00 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       },
@@ -1621,7 +1607,7 @@
        "flush": {
         "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.00 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       },
@@ -1655,9 +1641,9 @@
        "open": true,
        "R": 1.02,
        "flush": {
-        "dimple_mm": 0.16,
+        "dimple_mm": 0.157,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.00 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.003 mm",
         "ok": false
        }
       }
@@ -1681,9 +1667,9 @@
        "open": true,
        "R": 1.02,
        "flush": {
-        "dimple_mm": 0.16,
+        "dimple_mm": 0.156,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.00 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.003 mm",
         "ok": false
        }
       }
@@ -1716,7 +1702,7 @@
        "flush": {
         "dimple_mm": 0.226,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.00 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": false
        }
       }
@@ -1732,7 +1718,7 @@
        "flush": {
         "dimple_mm": 0.0,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.00 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       },
@@ -1742,7 +1728,7 @@
        "flush": {
         "dimple_mm": 0.226,
         "proud_mm": 0.0,
-        "ref": "diametral (ring not one smooth surface: spread 0.00 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": false
        }
       }

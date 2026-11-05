@@ -235,10 +235,13 @@ def fit_h(fit, UV):
     if fit["kind"].startswith("two planes"):
         h1, h2 = poly(UV, 1) @ fit["p1"], poly(UV, 1) @ fit["p2"]
         return np.minimum(h1, h2) if fit["op"] == "min" else np.maximum(h1, h2)
-    if fit["kind"] != "radial":
+    if fit["kind"] != "floor and rim":
         return poly(UV, fit["deg"]) @ fit["coef"]
-    # radial: on each ray from the hole centre, the part surface just outside the hole in that direction
-    return np.interp(np.mod(np.arctan2(UV[:, 1], UV[:, 0]), 2 * np.pi), fit["th"], fit["h_in"], period=2 * np.pi)
+    # floor and rim: the face the hole sits on (a plane), plus, in each direction, the rise or fall of the part
+    # surface just outside the hole, faded in with (r / r0)^2: flat at the centre, the true surface at the rim
+    r = np.minimum(np.hypot(UV[:, 0], UV[:, 1]) / fit["r0"], 1.0)
+    e = np.interp(np.mod(np.arctan2(UV[:, 1], UV[:, 0]), 2 * np.pi), fit["th"], fit["e_in"], period=2 * np.pi)
+    return poly(UV, 1) @ fit["p_floor"] + e * r ** 2
 
 
 def two_planes(UV, t, tol=0.03, it=300):
@@ -281,7 +284,8 @@ def surface_fit(m, ray, c, a_out, R):
     """the part surface round an open hole end, from 5 rings of rays just outside R (first entry hits): a
     polynomial height field (plane, quadratic or cubic, the lowest degree within RING_TOL), or, where the ring is
     not one smooth surface (the hole at an edge, a step or a chamfer), two faces joined as the part has them
-    (two_planes). Returns (fit, note) or (None, reason)."""
+    (two_planes), or at an inside corner or fillet, the face at the hole plus the rise of the surface just outside it in
+    each direction ("floor and rim", fit_h). Returns (fit, note) or (None, reason)."""
     u, v = frame(a_out)
     th = np.linspace(0, 2 * np.pi, 36, endpoint=False)
     UV = np.array([((R + dr) * np.cos(t), (R + dr) * np.sin(t)) for dr in RING_DR for t in th])
@@ -291,36 +295,65 @@ def surface_fit(m, ray, c, a_out, R):
         ok = np.isfinite(t); seen = max(seen, int(ok.sum()))
         if ok.sum() < 0.5 * len(t):
             continue
-        for deg in ((1, 2, 3) if ok.sum() >= 0.95 * len(t) else (1,)):
-            A = poly(UV[ok], deg); coef = np.linalg.lstsq(A, t[ok], rcond=None)[0]
-            res = float(np.abs(t[ok] - A @ coef).max())
-            cands.append(dict(u=u, v=v, coef=coef, deg=deg, res=res, n=int(ok.sum()), H=H, kind=["", "plane", "quadratic", "cubic"][deg]))
+        n_in = 2 * len(th)                       # the 2 inner rings (R + 0.35 and R + 0.6): the face right at the hole
+        ok_in = ok.copy(); ok_in[n_in:] = False
+        tries = [(1, ok, "plane")]
+        if ok_in.sum() >= 0.5 * n_in:
+            tries.append((1, ok_in, "plane (inner rings: the face at the hole on a small boss or near an edge)"))
+        if ok.sum() >= 0.95 * len(t):
+            tries += [(2, ok, "quadratic"), (3, ok, "cubic")]
+        for deg, sel, kind in tries:
+            A = poly(UV[sel], deg); coef = np.linalg.lstsq(A, t[sel], rcond=None)[0]
+            res = float(np.abs(t[sel] - A @ coef).max())
+            if deg > 1:     # no bowl or dome inside the hole: the surface over the disk stays within the ring heights
+                gi = np.array([(r * np.cos(q), r * np.sin(q)) for r in np.linspace(0, R, 5) for q in th])
+                hi_ = poly(gi, deg) @ coef
+                if hi_.max() > t[sel].max() + 0.05 or hi_.min() < t[sel].min() - 0.05:
+                    res = float("inf")
+            cands.append(dict(u=u, v=v, coef=coef, deg=deg, res=res, n=int(sel.sum()), H=H, kind=kind))
             if res <= RING_TOL:
                 break
-        if any(c_["res"] <= RING_TOL for c_ in cands):
-            break
         tp = two_planes(UV[ok], t[ok])
         if tp:
             tp.update(u=u, v=v, H=H, deg=9)
             cands.append(tp)
-            if tp["res"] <= RING_TOL:
-                break
+    # every ray start height is tried (from far out, other parts of the same STL can sit in the way, e.g. the module
+    # body under a small boss); the lowest degree within RING_TOL wins
     if not cands:
         return None, ("no surface round the end (it lies inside the part)" if seen == 0 else "ring mostly off the part (%d of %d rays)" % (seen, len(UV)))
     good = [c_ for c_ in cands if c_["res"] <= RING_TOL]
     if not good:
-        t = surface_t(ray, c, a_out, u, v, UV[:2 * len(th)], 6.0)
-        h_in = np.fmin(t[:len(th)], t[len(th):])
-        k = np.where(np.isfinite(h_in))[0]
-        if len(k) < 0.5 * len(th):
-            return None, "ring not one smooth surface nor two faces (best residual %.2f mm)" % min(c_["res"] for c_ in cands)
-        good = [dict(u=u, v=v, kind="radial", th=th, h_in=np.interp(th, th[k], h_in[k], period=2 * np.pi), res=min(c_["res"] for c_ in cands), n=len(k), H=6.0, deg=99)]
+        # the hole at an inside corner or a fillet (a wall rises from the face it sits on), or on a curved edge:
+        # floor and rim (fit_h). Ray start height with the most hits on the inner ring.
+        n = len(th)
+        best_t = max((surface_t(ray, c, a_out, u, v, UV[:2 * n], H) for H in (12.0, 6.0, 3.0, 1.5)), key=lambda t: np.isfinite(t[:n]).sum())
+        t1 = best_t[:n]; k = np.where(np.isfinite(t1))[0]
+        if len(k) < 0.5 * n:
+            return None, "ring not one smooth surface nor two faces, inner ring mostly off the part"
+        t1 = np.interp(th, th[k], t1[k], period=2 * np.pi)
+        P2 = UV[:2 * n]; t2 = best_t; okk = np.isfinite(t2)
+        A = poly(P2, 1); rng = np.random.default_rng(11); bestp, bestn = None, -1
+        idx = np.where(okk)[0]
+        for _ in range(300):
+            s3 = rng.choice(idx, 3, replace=False)
+            try:
+                p = np.linalg.solve(A[s3], t2[s3])
+            except np.linalg.LinAlgError:
+                continue
+            nin = int((np.abs(A[idx] @ p - t2[idx]) < 0.03).sum())
+            if nin > bestn:
+                bestp, bestn = p, nin
+        inl = idx[np.abs(A[idx] @ bestp - t2[idx]) < 0.03]
+        p_floor = np.linalg.lstsq(A[inl], t2[inl], rcond=None)[0]
+        e_in = t1 - poly(UV[:n], 1) @ p_floor
+        good = [dict(u=u, v=v, kind="floor and rim", th=th, e_in=e_in, p_floor=p_floor, r0=R + RING_DR[0], H=6.0, deg=99, n=len(k),
+                     res=min([c_["res"] for c_ in cands if np.isfinite(c_["res"])], default=99.0), floor_share=round(len(inl) / max(len(idx), 1), 2))]
     best = min(good, key=lambda c_: (c_["deg"], c_["res"]))
     g = np.array([(r * np.cos(t), r * np.sin(t)) for r in np.linspace(0, R + R_EXTRA + 0.5, 6) for t in th])
     h = fit_h(best, g)
     best.update(lo=float(h.min()), hi=float(h.max()))
-    return best, ("%s, ring residual %.3f mm" % (best["kind"], best["res"]) if best["kind"] != "radial" else
-                  "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual %.2f mm)" % best["res"])
+    return best, ("%s, ring residual %.3f mm" % (best["kind"], best["res"]) if best["kind"] != "floor and rim" else
+                  "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual %.2f mm)" % best["res"])
 
 
 def heightfield(c, a_out, fit, Rc, depth, n_r=8, n_th=48):
@@ -368,6 +401,20 @@ def stack_ends(m, segs):
     return out, tmax - tmin
 
 
+COVERED = dict(ok=None, note="inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible")
+
+
+def covered_ends(m, SEGS, k):
+    """for each end of stack k: True where another closed stack of the STL starts at that end (a counterbore and its
+    hole recorded as two holes): once both are plugged that end is inside the part"""
+    ends, _ = stack_ends(m, SEGS[k])
+    out = []
+    for e in ends:
+        out.append(any(min(np.linalg.norm(s["p0"] - e["c"]), np.linalg.norm(s["p1"] - e["c"])) < 0.6
+                       for k2, segs in enumerate(SEGS) if k2 != k for s in segs))
+    return out
+
+
 def flush_of(mesh_new, ray_new, e):
     """dimple (under the part surface round the hole) and proud (over it) of a capped end: the ring surface is fitted
     again on the checked mesh (rings from R + 0.35 mm, outside the plug), then rays on the hole disk"""
@@ -376,8 +423,6 @@ def flush_of(mesh_new, ray_new, e):
         return dict(ok=None, note=note)
     th = np.linspace(0, 2 * np.pi, 12, endpoint=False) + 0.137      # off the plug's mesh edges (rays on an edge can miss)
     UV = np.vstack([[0.013, 0.007]] + [np.c_[r * np.cos(th), r * np.sin(th)] for r in (0.35 * e["R"], 0.7 * e["R"], 0.9 * e["R"])])
-    if fit["kind"] == "radial":
-        UV = UV[1:]
     t = surface_t(ray_new, e["c"], e["a_out"], fit["u"], fit["v"], UV, fit["H"])
     dev = t - fit_h(fit, UV)
     dev = np.where(np.isfinite(dev), dev, -99.0)          # no surface over the disk: an open hole
@@ -462,7 +507,7 @@ def score(fl):
     return (sum(1 for f in fl if not f["ok"]), max([f["dimple_mm"] + 10 * f["proud_mm"] for f in fl], default=0.0))
 
 
-def choose_plug(m, ray, M_src, segs, overlap=None):
+def choose_plug(m, ray, M_src, segs, overlap=None, covered=None):
     """the surface-fitted plug, or the D39 plug where that one is flusher (each tried on the part, flush check);
     a plug whose new material overlaps another part at the zero pose (overlap: callback, mm3) is taken last"""
     best = None
@@ -470,7 +515,7 @@ def choose_plug(m, ray, M_src, segs, overlap=None):
         U, info = fn(m, ray, segs)
         t = from_mf(M_src + U); rt = trimesh.ray.ray_triangle.RayMeshIntersector(t)
         ends, _ = stack_ends(m, segs)
-        fl = [flush_of(t, rt, e) if e["open"] else None for e in ends]
+        fl = [flush_of(t, rt, e) if e["open"] and not (covered and covered[j]) else None for j, e in enumerate(ends)]
         ov = overlap(U - M_src) if overlap else 0.0
         sc = (ov > 1e-3,) + score(fl)
         info["tried"] = info.get("tried", []) + [dict(how=how, overlap_mm3=round(ov, 4), fails=sc[1], worst=round(sc[2], 3))]
@@ -484,10 +529,11 @@ def choose_plug(m, ray, M_src, segs, overlap=None):
     return U, info
 
 
-def measure_ends(m, segs, mesh_new, ray_new):
+def measure_ends(m, segs, mesh_new, ray_new, covered=None):
     """flush check of an existing plug (HOLES_MEASURE): hole ends from the hole STL, ring and disk on the plugged one"""
     ends, _ = stack_ends(m, segs)
-    return [dict(open=e["open"], R=round(e["R"], 2), flush=flush_of(mesh_new, ray_new, e) if e["open"] else None) for e in ends]
+    return [dict(open=e["open"], R=round(e["R"], 2), flush=(COVERED if covered and covered[j] else flush_of(mesh_new, ray_new, e)) if e["open"] else None)
+            for j, e in enumerate(ends)]
 
 
 # ---------------------------------------------------------------- ear seats (F2 down, body_back on body_middle_bottom_lip)
@@ -637,19 +683,21 @@ for src, mesh_path, twin_name in jobs:
     if not m.is_watertight or abs(to_mf(m).volume() - V0) > 1e-3 * V0:
         print("SOURCE NOT MANIFOLD", name, m.is_watertight)
     ray = trimesh.ray.ray_triangle.RayMeshIntersector(m)
+    SEGS = [[true_seg(src_rel, s) for s in g[0]["segs"]] for g in close]
+    COV = [covered_ends(m, SEGS, k) for k in range(len(SEGS))]
     if MEASURE:
         mp = os.path.join(MEASURE, os.path.relpath(mesh_path, hlib.REPO))
         mn = trimesh.load(mp, force="mesh"); rn = trimesh.ray.ray_triangle.RayMeshIntersector(mn)
-        infos = [dict(site=g[0]["site"], why=g[0]["why"], ends=measure_ends(m, [true_seg(src_rel, s) for s in g[0]["segs"]], mn, rn)) for g in close]
+        infos = [dict(site=g[0]["site"], why=g[0]["why"], ends=measure_ends(m, SEGS[gi], mn, rn, COV[gi])) for gi, g in enumerate(close)]
         report["parts"][name] = dict(stl=name, measured=os.path.relpath(mp, MEASURE), n_closed=len(close), plugs=infos)
         bad = [(i["site"], e["flush"]) for i in infos for e in i["ends"] if e["open"] and not e["flush"].get("ok")]
         print("%-24s measured %2d plugs, off: %s" % (name, len(close), bad), flush=True)
         continue
     plugs, infos = [], []
     M_src = to_mf(m)
-    for g in close:
-        segs = [true_seg(src_rel, s) for s in g[0]["segs"]]
-        U, info = choose_plug(m, ray, M_src, segs, overlap=(lambda A, src=src: plug_overlap(A, src)) if not twin_name else None)
+    for gi, g in enumerate(close):
+        segs = SEGS[gi]
+        U, info = choose_plug(m, ray, M_src, segs, overlap=(lambda A, src=src: plug_overlap(A, src)) if not twin_name else None, covered=COV[gi])
         info.update(site=g[0]["site"], why=g[0]["why"], analytic_mm3=round(sum(np.pi * (s["d"] / 2) ** 2 * np.linalg.norm(s["p1"] - s["p0"]) for s in segs), 1))
         plugs.append(U); infos.append(info)
     M = to_mf(m)
@@ -673,10 +721,10 @@ for src, mesh_path, twin_name in jobs:
     new.export(out)
     rb = trimesh.load(out); eu, ec = np.unique(rb.edges_sorted, axis=0, return_counts=True)
     ray_new = trimesh.ray.ray_triangle.RayMeshIntersector(rb)
-    for info in infos:
-        for rec, e in zip(info["ends"], info.pop("_ends")):
+    for gi, info in enumerate(infos):
+        for j, (rec, e) in enumerate(zip(info["ends"], info.pop("_ends"))):
             if e["open"]:
-                rec["flush"] = flush_of(rb, ray_new, e)
+                rec["flush"] = COVERED if COV[gi][j] else flush_of(rb, ray_new, e)
     reread = dict(watertight=bool(rb.is_watertight), open_edges=int((ec == 1).sum()), nonmanifold_edges=int((ec > 2).sum()))
     es, esc = np.unique(m.edges_sorted, axis=0, return_counts=True)
     src_edges = dict(open_edges=int((esc == 1).sum()), nonmanifold_edges=int((esc > 2).sum()))

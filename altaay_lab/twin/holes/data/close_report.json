@@ -4,7 +4,7 @@
    "stl": "body_back",
    "src": "print/body_back.stl",
    "out": "<OUT>/stl/body_back.stl",
-   "bytes": 561284,
+   "bytes": 562484,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -31,7 +31,7 @@
        "open": true,
        "R": 3.0,
        "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
-       "n_pts": 180,
+       "n_pts": 141,
        "surface_rise_mm": [
         -0.65,
         6.65
@@ -263,7 +263,7 @@
    "zero_pose": [
     {
      "inst": 2,
-     "cable_clear_mm": 8.22,
+     "cable_clear_mm": 8.23,
      "drilled_tie_spot_mm": 135.1
     }
    ],
@@ -1014,8 +1014,8 @@
       {
        "open": true,
        "R": 1.35,
-       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.10 mm)",
-       "n_pts": 36,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
         0.004,
         0.004
@@ -1023,7 +1023,7 @@
        "flush": {
         "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.10 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       },
@@ -1070,8 +1070,8 @@
       {
        "open": true,
        "R": 1.35,
-       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.10 mm)",
-       "n_pts": 36,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
         0.004,
         0.004
@@ -1079,7 +1079,7 @@
        "flush": {
         "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.10 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       },
@@ -1140,7 +1140,7 @@
    "stl": "flash_light_module",
    "src": "print/flash_light_module.stl",
    "out": "<OUT>/stl/flash_light_module.stl",
-   "bytes": 924384,
+   "bytes": 922884,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -1153,9 +1153,9 @@
    },
    "volume_mm3": [
     12520.1,
-    12899.3
+    12847.4
    ],
-   "added_mm3": 379.2,
+   "added_mm3": 327.3,
    "analytic_hole_mm3": 285.4,
    "n_closed": 8,
    "n_kept": 1,
@@ -1173,25 +1173,23 @@
         2.599
        ],
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       },
       {
        "open": true,
        "R": 2.75,
-       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.86 mm)",
+       "cap": "fitted to the part surface: floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
        "n_pts": 36,
        "surface_rise_mm": [
         0.0,
-        4.374
+        4.375
        ],
        "flush": {
-        "dimple_mm": 0.036,
+        "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.86 mm)",
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
         "ok": true
        }
       }
@@ -1208,7 +1206,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.036
+       "worst": 0.02
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1229,25 +1227,23 @@
         2.599
        ],
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       },
       {
        "open": true,
        "R": 2.75,
-       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.86 mm)",
+       "cap": "fitted to the part surface: floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
        "n_pts": 36,
        "surface_rise_mm": [
         0.0,
-        4.374
+        4.375
        ],
        "flush": {
-        "dimple_mm": 0.036,
+        "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.86 mm)",
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
         "ok": true
        }
       }
@@ -1264,7 +1260,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.036
+       "worst": 0.02
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1294,17 +1290,15 @@
       {
        "open": true,
        "R": 1.35,
-       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
-       "n_pts": 144,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
         -0.105,
         -0.103
        ],
        "flush": {
-        "dimple_mm": 99.0,
-        "proud_mm": 0.055,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.19 mm)",
-        "ok": false
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       }
      ],
@@ -1350,17 +1344,15 @@
       {
        "open": true,
        "R": 1.35,
-       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
-       "n_pts": 144,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
         -0.105,
         -0.103
        ],
        "flush": {
-        "dimple_mm": 99.0,
-        "proud_mm": 0.055,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.19 mm)",
-        "ok": false
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       }
      ],
@@ -1406,17 +1398,15 @@
       {
        "open": true,
        "R": 1.35,
-       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
-       "n_pts": 144,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
         0.095,
         0.099
        ],
        "flush": {
-        "dimple_mm": 99.0,
-        "proud_mm": 0.791,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.19 mm)",
-        "ok": false
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       }
      ],
@@ -1462,17 +1452,15 @@
       {
        "open": true,
        "R": 1.35,
-       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
-       "n_pts": 144,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
         0.095,
         0.099
        ],
        "flush": {
-        "dimple_mm": 99.0,
-        "proud_mm": 0.791,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.19 mm)",
-        "ok": false
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       }
      ],
@@ -1509,25 +1497,23 @@
         2.606
        ],
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       },
       {
        "open": true,
        "R": 2.75,
-       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.87 mm)",
+       "cap": "fitted to the part surface: floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
        "n_pts": 36,
        "surface_rise_mm": [
         0.001,
-        4.398
+        4.399
        ],
        "flush": {
-        "dimple_mm": 0.036,
+        "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.87 mm)",
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
         "ok": true
        }
       }
@@ -1544,7 +1530,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.036
+       "worst": 0.02
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1565,25 +1551,23 @@
         2.606
        ],
        "flush": {
-        "dimple_mm": 0.02,
-        "proud_mm": 0.0,
-        "ref": "plane, ring residual 0.000 mm",
-        "ok": true
+        "ok": null,
+        "note": "inner end: another closed hole of the same stack (coaxial, closed too) starts there, not visible"
        }
       },
       {
        "open": true,
        "R": 2.75,
-       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.87 mm)",
+       "cap": "fitted to the part surface: floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
        "n_pts": 36,
        "surface_rise_mm": [
         0.001,
-        4.398
+        4.399
        ],
        "flush": {
-        "dimple_mm": 0.036,
+        "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.87 mm)",
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
         "ok": true
        }
       }
@@ -1600,7 +1584,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.036
+       "worst": 0.02
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1623,7 +1607,7 @@
    "stl": "head",
    "src": "print/head.stl",
    "out": "<OUT>/stl/head.stl",
-   "bytes": 2269984,
+   "bytes": 2256484,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -1636,9 +1620,9 @@
    },
    "volume_mm3": [
     229350.2,
-    229918.9
+    229918.8
    ],
-   "added_mm3": 568.7,
+   "added_mm3": 568.6,
    "analytic_hole_mm3": 572.0,
    "n_closed": 14,
    "n_kept": 153,
@@ -2109,16 +2093,16 @@
       {
        "open": true,
        "R": 0.82,
-       "cap": "fitted to the part surface: quadratic, ring residual 0.097 mm",
-       "n_pts": 180,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.077 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
-        -0.253,
-        -0.011
+        -0.15,
+        -0.012
        ],
        "flush": {
         "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "quadratic, ring residual 0.097 mm",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.077 mm",
         "ok": true
        }
       },
@@ -3094,8 +3078,8 @@
        "plane_shift": -0.02,
        "flush": {
         "dimple_mm": 0.02,
-        "proud_mm": 1.98,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 1.16 mm)",
+        "proud_mm": 0.268,
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 1.16 mm)",
         "ok": false
        }
       },
@@ -3109,8 +3093,8 @@
        "plane_shift": -0.02,
        "flush": {
         "dimple_mm": 1.47,
-        "proud_mm": 0.03,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.98 mm)",
+        "proud_mm": 0.0,
+        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.95 mm)",
         "ok": false
        }
       }
@@ -3127,7 +3111,7 @@
        "how": "D39 cap (plane or square)",
        "overlap_mm3": 0.0,
        "fails": 2,
-       "worst": 19.82
+       "worst": 2.7
       }
      ],
      "cap_method": "D39 cap (plane or square)",
@@ -3420,7 +3404,7 @@
    "stl": "speaker_stand",
    "src": "print/speaker_stand.stl",
    "out": "<OUT>/stl/speaker_stand.stl",
-   "bytes": 1457284,
+   "bytes": 1416584,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -3433,9 +3417,9 @@
    },
    "volume_mm3": [
     6986.1,
-    7083.0
+    7081.6
    ],
-   "added_mm3": 96.9,
+   "added_mm3": 95.5,
    "analytic_hole_mm3": 96.4,
    "n_closed": 6,
    "n_kept": 4,
@@ -3558,8 +3542,8 @@
       {
        "open": true,
        "R": 1.02,
-       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.50 mm)",
-       "n_pts": 36,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
         0.023,
         0.023
@@ -3567,7 +3551,7 @@
        "flush": {
         "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.50 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       },
@@ -3614,8 +3598,8 @@
       {
        "open": true,
        "R": 1.02,
-       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.50 mm)",
-       "n_pts": 36,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
         0.023,
         0.023
@@ -3623,7 +3607,7 @@
        "flush": {
         "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.50 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       },
@@ -3686,16 +3670,16 @@
       {
        "open": true,
        "R": 1.02,
-       "cap": "fitted to the part surface: quadratic, ring residual 0.053 mm",
-       "n_pts": 180,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.003 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
-        -0.038,
-        0.22
+        -0.009,
+        -0.008
        ],
        "flush": {
-        "dimple_mm": 0.021,
+        "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "quadratic, ring residual 0.053 mm",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.003 mm",
         "ok": true
        }
       }
@@ -3712,7 +3696,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.021
+       "worst": 0.02
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3742,16 +3726,16 @@
       {
        "open": true,
        "R": 1.02,
-       "cap": "fitted to the part surface: quadratic, ring residual 0.053 mm",
-       "n_pts": 180,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.003 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
-        -0.029,
-        0.23
+        -0.001,
+        0.004
        ],
        "flush": {
-        "dimple_mm": 0.021,
+        "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "quadratic, ring residual 0.053 mm",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.003 mm",
         "ok": true
        }
       }
@@ -3768,7 +3752,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.021
+       "worst": 0.02
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3782,7 +3766,7 @@
     {
      "inst": 137,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 53.1
+     "drilled_tie_spot_mm": 53.3
     }
    ],
    "seats": null
@@ -3833,8 +3817,8 @@
       {
        "open": true,
        "R": 1.0,
-       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.23 mm)",
-       "n_pts": 36,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
         -0.0,
         -0.0
@@ -3842,7 +3826,7 @@
        "flush": {
         "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.24 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       }
@@ -3873,24 +3857,24 @@
       {
        "open": true,
        "R": 1.0,
-       "cap": "fitted to the part surface: two planes (max), ring residual 0.003 mm",
-       "n_pts": 180,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
-        5.999,
-        6.003
+        6.0,
+        6.0
        ],
        "flush": {
-        "dimple_mm": 0.002,
+        "dimple_mm": 0.0,
         "proud_mm": 0.0,
-        "ref": "two planes (max), ring residual 0.003 mm",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       },
       {
        "open": true,
        "R": 1.0,
-       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.23 mm)",
-       "n_pts": 36,
+       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+       "n_pts": 72,
        "surface_rise_mm": [
         -0.0,
         -0.0
@@ -3898,7 +3882,7 @@
        "flush": {
         "dimple_mm": 0.02,
         "proud_mm": 0.0,
-        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.23 mm)",
+        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
        }
       }

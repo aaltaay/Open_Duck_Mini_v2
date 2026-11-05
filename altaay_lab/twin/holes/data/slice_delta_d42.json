@@ -87,27 +87,27 @@
   "flash_light_module.stl": {
    "qty": 1,
    "g_d39": 8.56,
-   "g_d42": 8.59,
+   "g_d42": 8.42,
    "s_d39": 2888,
-   "s_d42": 2836,
+   "s_d42": 2703,
    "model_g_d39": 8.36,
-   "model_g_d42": 8.17,
+   "model_g_d42": 8.23,
    "rings_d42": {},
-   "dg": 0.03,
-   "dh": -0.014,
-   "dg_vs_pre_d39": 0.19
+   "dg": -0.14,
+   "dh": -0.051,
+   "dg_vs_pre_d39": 0.02
   },
   "head.stl": {
    "qty": 1,
    "g_d39": 262.01,
    "g_d42": 262.37,
    "s_d39": 78374,
-   "s_d42": 78550,
+   "s_d42": 78746,
    "model_g_d39": 232.48,
    "model_g_d42": 232.84,
    "rings_d42": {},
    "dg": 0.36,
-   "dh": 0.049,
+   "dh": 0.103,
    "dg_vs_pre_d39": 0.36
   },
   "head_bot_sheet.stl": {
@@ -182,12 +182,12 @@
    "g_d39": 10.03,
    "g_d42": 10.04,
    "s_d39": 4006,
-   "s_d42": 4005,
+   "s_d42": 4030,
    "model_g_d39": 7.62,
    "model_g_d42": 7.63,
    "rings_d42": {},
    "dg": 0.01,
-   "dh": -0.0,
+   "dh": 0.007,
    "dg_vs_pre_d39": -0.07
   },
   "trunk_top.stl": {
@@ -205,13 +205,13 @@
   }
  },
  "total": {
-  "dg_set": 0.47,
-  "dh_set": 0.114,
-  "dg_model_robot": 0.29,
+  "dg_set": 0.3,
+  "dh_set": 0.138,
+  "dg_model_robot": 0.35,
   "vs_pre_d39": {
-   "dg": -6.14,
-   "dh": -1.185
+   "dg": -6.31,
+   "dh": -1.161
   },
-  "note": "D42 against D39 (2e after), x quantity; light profile, slice.py parts --only"
+  "note": "D42 against D39 (2e after), x quantity; light profile, slice.py parts --only; body_back, flash_light_module, head, speaker_stand re-sliced again after the D42 follow-up caps"
  }
 }
