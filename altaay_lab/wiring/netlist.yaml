@@ -99,6 +99,7 @@ nets:
   I2S_LRC: {domain: I2S, note: "GPIO19"}
   I2S_BCLK: {domain: I2S, note: "GPIO18"}
   I2S_DIN: {domain: I2S, note: "GPIO21"}
+  I2S_MIC: {domain: I2S, note: "GPIO20 (pin 38), PCM data in: both mic DOUT pins, each drives only its own slot (SEL low = left, high = right) and floats in the other (D47, V1 track 11)"}
   SPK_P: {domain: AUDIO, note: "amp + to speaker +"}
   SPK_N: {domain: AUDIO, note: "amp - to speaker -"}
   USB_LINK: {domain: USB, note: "Pi USB OTG port to adapter USB-C, /dev/ttyACM0 at 1 Mbaud"}
@@ -509,6 +510,8 @@ components:
       - {pin: "33", label: "33", name: GPIO13 left antenna PWM, domain: PWM_3V3, group: header, dir: out, source: "[U] antennas.py LEFT = D13 (D9)"}
       - {pin: "35", label: "35", name: GPIO19 I2S LRC, domain: I2S, group: header, dir: out, source: "[U] table"}
       - {pin: "37", label: "GPIO26", name: GPIO26 to the 2813 OFF input (D30), domain: GPIO_3V3, group: header, dir: out, source: "[U] table"}
+      - {pin: "38", label: "38", name: GPIO20 I2S mic data in (D47), domain: I2S, group: header, dir: in, source: "[L] D47; PCM_DIN on GPIO20, googlevoicehat-soundcard overlay (raspberrypi/linux overlays README)"}
+      - {pin: "39", label: "39", name: GND, domain: GND, group: header, dir: gnd, source: "[L] D47 mic ground"}
       - {pin: "40", label: "40", name: GPIO21 I2S DIN, domain: I2S, group: header, dir: out, source: "[U] table"}
       - {pin: "USB", label: "USB", name: micro-USB OTG data port, domain: USB, group: usb, dir: bidir, source: "[U]"}
       - {pin: "PWR", label: "PWR IN", name: micro-USB power input, domain: 5V, group: pwr, dir: nc, source: "[I] leave empty"}
@@ -519,6 +522,7 @@ components:
       - {a: "6", b: "9", kind: short, note: "all GND pins are one net"}
       - {a: "9", b: "14", kind: short}
       - {a: "14", b: "20", kind: short}
+      - {a: "20", b: "39", kind: short}
       - {a: "2", b: "6", kind: load, note: "Pi Zero 2 W plus camera"}
     source: "[U] Open_Duck_Mini docs/assembly_guide.md table; Runtime 376de65 code wins where they differ (D9)"
 
@@ -775,6 +779,42 @@ components:
       - {a: "+", b: "-", kind: load, note: "8 ohm"}
     source: "[L] parts check 2026-11-01 (replaces the uxcell 4 ohm in BOM E1)"
 
+  - id: MICL
+    ref: U10
+    part: Adafruit I2S MEMS Microphone Breakout SPH0645LM4H 3421, left side of the head, SEL to GND = left slot (BOM E8, D47)
+    kind: microphone
+    region: head
+    groups:
+      header: {connector: "0.1 in pads, solder (no header)", pitch_mm: 2.54, note: "6 pads 3V GND BCLK DOUT LRCL SEL [I] Adafruit board files (6049 layout, drop-in)"}
+    pins:
+      - {pin: "3V", label: "3V", name: supply, domain: 3V3, group: header, dir: pwr_in, source: "[L] D47"}
+      - {pin: "GND", label: "GND", name: ground, domain: GND, group: header, dir: gnd, source: "[L] D47"}
+      - {pin: "BCLK", label: "BCLK", name: I2S bit clock, domain: I2S, group: header, dir: in, source: "[L] D47"}
+      - {pin: "LRCL", label: "LRCL", name: I2S frame, domain: I2S, group: header, dir: in, source: "[L] D47"}
+      - {pin: "DOUT", label: "DOUT", name: I2S data out, domain: I2S, group: header, dir: out, source: "[L] D47"}
+      - {pin: "SEL", label: "SEL", name: channel select (to GND on the board), domain: GND, group: header, dir: gnd, source: "[L] D47: a solder bridge SEL to GND on the board"}
+    internal:
+      - {a: "SEL", b: "GND", kind: short, note: "solder bridge: left slot"}
+    source: "[L] D47; BOM E8"
+
+  - id: MICR
+    ref: U11
+    part: Adafruit I2S MEMS Microphone Breakout SPH0645LM4H 3421, right side of the head, SEL to 3V = right slot (BOM E8, D47)
+    kind: microphone
+    region: head
+    groups:
+      header: {connector: "0.1 in pads, solder (no header)", pitch_mm: 2.54, note: "6 pads 3V GND BCLK DOUT LRCL SEL [I] Adafruit board files (6049 layout, drop-in)"}
+    pins:
+      - {pin: "3V", label: "3V", name: supply, domain: 3V3, group: header, dir: pwr_in, source: "[L] D47"}
+      - {pin: "GND", label: "GND", name: ground, domain: GND, group: header, dir: gnd, source: "[L] D47"}
+      - {pin: "BCLK", label: "BCLK", name: I2S bit clock, domain: I2S, group: header, dir: in, source: "[L] D47"}
+      - {pin: "LRCL", label: "LRCL", name: I2S frame, domain: I2S, group: header, dir: in, source: "[L] D47"}
+      - {pin: "DOUT", label: "DOUT", name: I2S data out, domain: I2S, group: header, dir: out, source: "[L] D47"}
+      - {pin: "SEL", label: "SEL", name: channel select (to 3V on the board), domain: 3V3, group: header, dir: pwr_in, source: "[L] D47: a solder bridge SEL to 3V on the board"}
+    internal:
+      - {a: "SEL", b: "3V", kind: short, note: "solder bridge: right slot"}
+    source: "[L] D47; BOM E8"
+
   - id: CAM
     ref: U9
     part: Raspberry Pi Camera Module 3, Adafruit 5657
@@ -1002,6 +1042,8 @@ cables:
   - {id: S11, status: active, desc: kit cable ID 30 BUS 1 to ID 31 BUS 2, regions: [trunk_top, neck], joints: [neck_pitch], polyline_mm: 80.0, rule_mm: 180.0, source: "[U]", note: "BLOCKER test fit"}
   - {id: S12, status: active, desc: kit cable ID 31 to ID 32, regions: [neck], joints: [head_pitch, head_yaw], polyline_mm: 106.3, rule_mm: 263.1, source: "[U]", note: "BLOCKER test fit (113 mm over 150); contingency X1/X2 made lead 270 mm"}
   - {id: S13, status: active, desc: kit cable ID 32 to ID 33, regions: [neck, head], joints: [head_roll], polyline_mm: 51.6, rule_mm: 147.3, source: "[U]", note: "fits (2.7 mm margin)"}
+  - {id: D14, status: active, desc: Pi header to the left mic board (D47), regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D47; calc only: the straight line Pi to the left board centre is 80 mm (twin/companion/mic_seats.json), cut 150 mm leaves room for one bend and 2 x 20 mm slack (CABLE_MAP length rule); 3D route not drawn yet (COMPANION.md BLOCKER)"}
+  - {id: D15, status: active, desc: left mic board to the right mic board across the head (D47), regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D47; calc only: the boards are 120.5 mm apart, the route goes over the head_roll_mount, cut 240 mm (2 x the straight line); 3D route not drawn yet (COMPANION.md BLOCKER)"}
 
 wires:
   # battery bay
@@ -1075,6 +1117,16 @@ wires:
   - {cable: D10, from: PI.40, to: AMP.DIN, net: I2S_DIN, gauge: 26 AWG, color: green, cut_mm: 220, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[U] table"}
   - {cable: D10, from: J5.S, to: AMP.VIN, net: 5V, gauge: 26 AWG, color: red, cut_mm: 220, i_mean_a: null, i_peak_a: null, ends: [splice, solder], source: "[L] D8; cut 220 (agent CAB 2026-11-02): cables3d worst 173 mm + 2 x 20 mm slack (CABLE_MAP length rule)"}
   - {cable: D10, from: JG.S, to: AMP.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 220, i_mean_a: null, i_peak_a: null, ends: [splice, solder], source: "[I]; cut 220 (agent CAB 2026-11-02): cables3d worst 162 mm + 2 x 20 mm slack, as the Vin wire"}
+  - {cable: D14, from: PI.17, to: MICL.3V, net: 3V3, gauge: 26 AWG, color: red, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D47"}
+  - {cable: D14, from: PI.39, to: MICL.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D47"}
+  - {cable: D14, from: PI.12, to: MICL.BCLK, net: I2S_BCLK, gauge: 26 AWG, color: yellow, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D47: second wire on pin 12, beside the D10 amp wire"}
+  - {cable: D14, from: PI.35, to: MICL.LRCL, net: I2S_LRC, gauge: 26 AWG, color: white, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D47: second wire on pin 35, beside the D10 amp wire"}
+  - {cable: D14, from: PI.38, to: MICL.DOUT, net: I2S_MIC, gauge: 26 AWG, color: blue, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D47"}
+  - {cable: D15, from: MICL.3V, to: MICR.3V, net: 3V3, gauge: 26 AWG, color: red, cut_mm: 240, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D47"}
+  - {cable: D15, from: MICL.GND, to: MICR.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 240, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D47"}
+  - {cable: D15, from: MICL.BCLK, to: MICR.BCLK, net: I2S_BCLK, gauge: 26 AWG, color: yellow, cut_mm: 240, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D47"}
+  - {cable: D15, from: MICL.LRCL, to: MICR.LRCL, net: I2S_LRC, gauge: 26 AWG, color: white, cut_mm: 240, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D47"}
+  - {cable: D15, from: MICL.DOUT, to: MICR.DOUT, net: I2S_MIC, gauge: 26 AWG, color: blue, cut_mm: 240, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D47"}
   - {cable: D11, from: AMP.SPK+, to: SPK.+, net: SPK_P, gauge: 26 AWG, color: red, cut_mm: 120, i_mean_a: null, i_peak_a: null, ends: [screw terminal, solder tab], source: "[U]"}
   - {cable: D11, from: AMP.SPK-, to: SPK.-, net: SPK_N, gauge: 26 AWG, color: black, cut_mm: 120, i_mean_a: null, i_peak_a: null, ends: [screw terminal, solder tab], source: "[U]"}
   - {cable: D12, from: PI.CSI, to: CAM.CSI, net: CSI_LINK, gauge: FPC ribbon, color: white ribbon, cut_mm: 300, i_mean_a: null, i_peak_a: null, ends: [22-pin FPC, 15-pin FPC], source: "[U] BOM E7, Adafruit 3157"}

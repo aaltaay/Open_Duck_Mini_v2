@@ -192,6 +192,12 @@ PLACEHOLDERS = [
     dict(id="camera", label="Raspberry Pi Camera Module 3", dims=[25, 24, 11.5], bom="E6",
          blockers=["B9"], dims_note="25 x 24 x 11.5 mm.",
          mount="4 x M2x5 self-tapping (BOM 17h) into the head.stl pilots 1.65 mm on 20.9 x 12.5, drilled to 4.5 mm (D34). Drawn as its PCB, 25 x 24 x 1.0 mm; the lens sits in the 7.75 mm opening."),
+    dict(id="mic_l", label="I2S mic board left (Adafruit 3421, D47)", dims=[16.51, 3.0, 12.7], bom="E8", blockers=[],
+         dims_note="16.51 x 12.7 mm board (Adafruit 6049 board files, the 3421 outline is a BLOCKER), 3.0 mm with the mic and parts.",
+         mount="2 x M2x6 (BOM 17h) into 2 printed bosses on the left inner side wall, board back 3.0 mm off the wall, mic port on the 1.2 mm wall port (twin/companion/mic_seats.json, D47)."),
+    dict(id="mic_r", label="I2S mic board right (Adafruit 3421, D47)", dims=[16.51, 3.0, 12.7], bom="E8", blockers=[],
+         dims_note="16.51 x 12.7 mm board (Adafruit 6049 board files, the 3421 outline is a BLOCKER), 3.0 mm with the mic and parts.",
+         mount="2 x M2x6 (BOM 17h) into 2 printed bosses on the right inner side wall, the mirror of the left (twin/companion/mic_seats.json, D47)."),
     dict(id="led_1", label="Eye LED left (1 W bead)", dims=[8, 8, 5], bom="E3", blockers=[],
          dims_note="Size not given: 8 x 8 x 5 mm stand-in.", mount="Behind the left bulb, 100 ohm resistor (B23 cleared)."),
     dict(id="led_2", label="Eye LED right (1 W bead)", dims=[8, 8, 5], bom="E3", blockers=[],
@@ -254,7 +260,7 @@ MOUNTING_MATCH = [
     (r"^Projector LED", ["flash_light_module", "flash_reflector_interface"]),
     (r"^Antenna servos", ["sg90", "left_antenna_holder", "right_antenna_holder"]), (r"^Castle CC BEC Pro", ["bec_pro"]),
     (r"^(5 V regulator|HENGE)", ["reg_5v"]), (r"^Fuse holder", ["fuse_holder"]), (r"^Pololu 2815", ["mosfet_switch"]),
-    (r"^XT30", ["xt30"]), (r"MAX98357A", ["amp"]), (r"^Foot switch", ["foot_switch"]), (r"^Camera Module", ["camera"]),
+    (r"^XT30", ["xt30"]), (r"MAX98357A", ["amp"]), (r"^Foot switch", ["foot_switch"]), (r"^Camera Module", ["camera"]), (r"^I2S microphones", ["mic_l", "mic_r"]),
 ]
 # placed boxes follow this part in the explode when it is within 6 mm (the lab's stated mounting surface)
 FOLLOW_HINT = {"mosfet_switch": "battery_pack_lid", "fuse_holder": "battery_pack_lid", "bec_pro": "body_middle_bottom",
@@ -292,7 +298,7 @@ BOM_VIEW = {
     "E1": ("placeholder", ["speaker"], [], ""), "E2": ("placeholder", ["amp"], [], ""),
     "E3": ("placeholder", ["led"], [], "3 beads: 2 eyes, 1 projector"), "E3b": ("none", [], [], "Resistor"),
     "E4": ("none", [], [], "Glass disc, not modelled"), "E5": ("none", [], [], "Reflector, not modelled"),
-    "E6": ("placeholder", ["camera"], [], ""), "E7": ("none", [], [], "Cable"),
+    "E6": ("placeholder", ["camera"], [], ""), "E8": ("placeholder", ["mic_l", "mic_r"], [], "2 boards, one per side wall"), "E7": ("none", [], [], "Cable"),
     "T1": ("none", [], [], "Tool"), "T2": ("none", [], [], "Tool"), "T3": ("none", [], [], "Tool"),
     "T4": ("none", [], [], "Tool"), "T5": ("none", [], [], "Tool"), "L2": ("none", [], [], "Tool"),
 }

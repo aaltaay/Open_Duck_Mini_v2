@@ -1,0 +1,215 @@
+{
+ "meta": {
+  "script": "altaay_lab/twin/companion/mic_seat.py",
+  "label": "CAD check only",
+  "frame": "URDF world, zero pose, mm",
+  "board": {
+   "w": 16.51,
+   "h": 12.7,
+   "holes": [
+    [
+     2.54,
+     10.16
+    ],
+    [
+     13.97,
+     10.16
+    ]
+   ],
+   "mic": [
+    8.255,
+    7.112
+   ],
+   "hole_d": 2.5
+  },
+  "pcb_t_mm": 1.6,
+  "board_gap_mm": 3.0,
+  "boss_d_mm": 5.0,
+  "pilot": {
+   "d": 1.65,
+   "depth": 5.0
+  },
+  "tube": {
+   "od": 4.0,
+   "id": 2.0
+  },
+  "port_d_mm": 1.2,
+  "screw": {
+   "spec": "M2x6 self-tapping pan head",
+   "line": "17h",
+   "d": 2.0,
+   "L": 6.0,
+   "rule_engage": 4.0,
+   "head_dk": 3.7,
+   "head_k": 1.4
+  },
+  "blockers": [
+   "3421 board outline not read (adafruit.com blocked here); 6049 board files used",
+   "SPH0645LM4H port offset and PCB thickness not read (datasheet hosts blocked); port at the footprint centre, PCB 0.8 to 1.6 mm checked"
+  ]
+ },
+ "seat_search": {
+  "n_candidates": 54,
+  "chosen": {
+   "x": -40.0,
+   "z": 202.0
+  }
+ },
+ "seats": {
+  "left": {
+   "board_centre_world": [
+    -39.211,
+    57.736,
+    201.291
+   ],
+   "mic_port_world": [
+    -40.0,
+    60.356,
+    202.739
+   ],
+   "port_outer_world": [
+    -40.0,
+    63.563,
+    202.739
+   ],
+   "inward_normal": [
+    0.2631,
+    -0.9354,
+    -0.2362
+   ],
+   "wall_flatness_mm": 0.0,
+   "wall_thickness_mm": 3.21,
+   "clearance_mm": {
+    "sg90[119]": 3.46,
+    "head_bot_sheet[114]": 15.22,
+    "roll_bearing[118]": 31.73,
+    "raspberrypizerow[117]": 36.07,
+    "head_roll_mount[116]": 74.56,
+    "sg90[120]": 80.22
+   },
+   "shell_clearance_mm": 3.0,
+   "screws": [
+    {
+     "seat_world": [
+      -44.724,
+      55.346,
+      204.617
+     ],
+     "axis_world": [
+      -0.2631,
+      0.9354,
+      0.2362
+     ],
+     "material_past_pilot_mm": 1.0
+    },
+    {
+     "seat_world": [
+      -33.697,
+      58.261,
+      205.354
+     ],
+     "axis_world": [
+      -0.2631,
+      0.9354,
+      0.2362
+     ],
+     "material_past_pilot_mm": 1.0
+    }
+   ],
+   "screw_engagement_mm": {
+    "pcb_0.8": 5.2,
+    "pcb_1.6": 4.4
+   }
+  },
+  "right": {
+   "board_centre_world": [
+    -39.211,
+    -57.536,
+    201.291
+   ],
+   "mic_port_world": [
+    -40.0,
+    -60.156,
+    202.739
+   ],
+   "port_outer_world": [
+    -40.0,
+    -63.363,
+    202.739
+   ],
+   "inward_normal": [
+    0.2631,
+    0.9354,
+    -0.2362
+   ],
+   "wall_flatness_mm": 0.0,
+   "wall_thickness_mm": 3.21,
+   "clearance_mm": {
+    "sg90[120]": 3.46,
+    "head_bot_sheet[114]": 15.21,
+    "speaker_stand[137]": 29.52,
+    "roll_bearing[118]": 31.73,
+    "speaker_interface[138]": 32.71,
+    "head_roll_mount[116]": 74.56
+   },
+   "shell_clearance_mm": 3.0,
+   "screws": [
+    {
+     "seat_world": [
+      -44.724,
+      -55.146,
+      204.617
+     ],
+     "axis_world": [
+      -0.2631,
+      -0.9354,
+      0.2362
+     ],
+     "material_past_pilot_mm": 1.0
+    },
+    {
+     "seat_world": [
+      -33.697,
+      -58.061,
+      205.354
+     ],
+     "axis_world": [
+      -0.2631,
+      -0.9354,
+      0.2362
+     ],
+     "material_past_pilot_mm": 1.0
+    }
+   ],
+   "screw_engagement_mm": {
+    "pcb_0.8": 5.2,
+    "pcb_1.6": 4.4
+   }
+  }
+ },
+ "mics_head_link_mm": {
+  "left": [
+   8.89,
+   60.26,
+   81.95
+  ],
+  "right": [
+   8.89,
+   -60.26,
+   81.95
+  ]
+ },
+ "mic_spacing_mm": 120.51,
+ "checks": {
+  "watertight": true,
+  "volume_added_mm3": 242.1,
+  "stl_bytes": 2454284,
+  "left_right_mirror_error_mm": 0.2,
+  "min_part_clearance_mm": 3.46,
+  "min_shell_clearance_mm": 3.0,
+  "screw_engagement_min_mm": 4.4,
+  "engagement_rule_mm": 4.0,
+  "material_past_pilot_min_mm": 1.0,
+  "pass": true
+ }
+}

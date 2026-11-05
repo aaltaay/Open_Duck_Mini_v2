@@ -520,8 +520,8 @@
 {
 "i": "17h",
 "item": "M2 self-tapping kit",
-"spec": "METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M2x8 and M2.6x6, x8, x10, x12; M2 head 3.7 x 1.4 mm (listing images). Used: 22 x M2x5 and 2 x M2x8 at servo case pilots, 2 x M2x5 for the camera (the diagonal pair, D38; pilots drilled to 4.5 mm, D34) and 2 x M2x4 at head_roll_mount (FASTENERS.md section 4); its 50 M2x6 also cover the 42 servo-bag screws if a bag is short (B2)",
-"need": "28 (M2x5 24, M2x4 2, M2x8 2; D38: 2 camera screws out)",
+"spec": "METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M2x8 and M2.6x6, x8, x10, x12; M2 head 3.7 x 1.4 mm (listing images). Used: 22 x M2x5 and 2 x M2x8 at servo case pilots, 2 x M2x5 for the camera (the diagonal pair, D38; pilots drilled to 4.5 mm, D34) and 2 x M2x4 at head_roll_mount (FASTENERS.md section 4), 4 x M2x6 at the two mic boards (D47); its 50 M2x6 also cover the 42 servo-bag screws if a bag is short (B2)",
+"need": "32 (M2x5 24, M2x6 4, M2x4 2, M2x8 2; D38: 2 camera screws out; D47: 4 M2x6 for the two mic boards)",
 "buy": "1",
 "pack": "kit",
 "line": "9.49",
@@ -1019,6 +1019,20 @@
 "link": "https://www.adafruit.com/product/3157",
 "ships": "Yes",
 "ver": "replaced (D34), quantity 0",
+"sec": "Expression (optional upstream)"
+},
+{
+"i": "E8",
+"item": "I2S microphones (D47)",
+"spec": "Adafruit I2S MEMS Microphone Breakout SPH0645LM4H, product 3421: Knowles SPH0645LM4H bottom-port I2S mic; 2 boards, one per side wall of the head, SEL low on the left, high on the right, sharing the MAX98357A clocks, data on GPIO20; Adafruit marks its ICS-43434 board (6049) discontinued with the SPH0645LM4H as the drop-in; the SPH0645LM4H itself is listed obsolete at one parts index (embeddedrelated.com), so buy both boards in one order (single source, Knowles, US maker; not Chinese)",
+"need": "2",
+"buy": "2",
+"pack": "1",
+"line": "13.90",
+"sup": "Adafruit 3421",
+"link": "https://www.adafruit.com/product/3421",
+"ships": "Yes",
+"ver": "Price $6.95 each (1 to 9) from a search result of the Adafruit page, 2026-11-05 ET; adafruit.com itself is not reachable from this session (BLOCKER: read the page and stock before an order); Jameco also lists 3421 (jameco.com)",
 "sec": "Expression (optional upstream)"
 },
 {
