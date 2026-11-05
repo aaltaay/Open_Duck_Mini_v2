@@ -49,7 +49,7 @@ meta:
   decisions: "D17 (7:24 PM ET) foot switches Omron SS-01 (SS-10 fallback) with a 2.2 kOhm pull-up per foot to Pi pin 17; D13 projector resistor added; D15 servo power bypasses the adapter (BEC -> belly splices -> SP1 SP2 SP3), adapter H1 not connected, adapter gives DATA and GND only; D23 second feeds SP4 SP5 from the belly splices into BUS 1 of ID 24 and ID 14 (V and G, data cavity empty)"
   lengths: "cut_mm from cables3d/CABLES_3D.md (worst routed length over the joint ranges + 20 mm slack per fixed end, chained through inline splices)"
   as_shipped: "BEC lead and kit cable conductors: gauge not published (Castle CC BEC Pro guide and retailers; Feetech STS3215 sheet 6-7 gives 5264-3P, 15 cm, no gauge; searched 2026-11-02), so they stay as shipped and no AWG is set here"
-  battery_note: "Tenergy over-discharge cut is 2.40 V per cell, below the P30B 2.5 V minimum: stop in software when the servo Present Voltage reads about 6.0 V (about 3.3 V per cell loaded)"
+  battery_note: "Tenergy over-discharge cut is 2.40 V per cell, below the P45B 2.5 V minimum (D44; the P30B had the same 2.5 V): stop in software when the servo Present Voltage reads about 6.0 V (about 3.3 V per cell loaded)"
   bench_check: "verify on the bench that the adapter enumerates and drives the bus with H1 unpowered (D15)"
 
 domains:
@@ -107,21 +107,21 @@ nets:
 components:
   - id: PACK
     ref: BT1
-    part: 2x Molicel INR18650-P30B in the 2S spring holder B09WCT8672
+    part: 2x Molicel INR21700-P45B, spot-welded 2S1P pack in the grown bay (D44, twin/battery/BAY.md); no holder
     kind: battery
     region: battery_bay
-    ratings: {cells: "2S", capacity_ah: 3.0, cell_i_cont_a: 30, v_range: "6.0 to 8.4"}
+    ratings: {cells: "2S", capacity_ah: 4.5, cell_i_cont_a: 45, v_range: "6.0 to 8.4"}
     groups:
-      leads: {connector: "holder leads, solder", pitch_mm: null, note: "use the holder leads for P1/P2 if 120 mm or longer"}
-      strap: {connector: "solder pad on the holder series strap", pitch_mm: null}
+      leads: {connector: "holder leads, solder", pitch_mm: null, note: "D44: the 16 AWG pack leads spot-welded to the nickel strip at the pack ends play the old holder leads (the connector kind keeps its name for the checks); use them for P1/P2 if 120 mm or longer"}
+      strap: {connector: "solder pad on the holder series strap", pitch_mm: null, note: "D44: the series nickel strip of the pack (balance tap if ever needed); solder only to a lead tab on the strip, never to a cell"}
     pins:
       - {pin: "B+", label: "+", name: pack + (cell 2 +), domain: PACK_6V0_8V4, group: leads, dir: pwr_out, source: "[U] holder"}
       - {pin: "MID", label: "strap", name: series strap (cell 1 + / cell 2 -), domain: CELL_MID_3V0_4V2, group: strap, dir: passive, source: "[L] B27, Tnkr m1 m2"}
       - {pin: "B-", label: "-", name: pack - (cell 1 -), domain: GND_CELL, group: leads, dir: pwr_out, source: "[U] holder"}
     internal:
-      - {a: "B-", b: "MID", kind: cell, note: "cell 1, Molicel P30B"}
-      - {a: "MID", b: "B+", kind: cell, note: "cell 2, Molicel P30B"}
-    source: "[U] holder, [L] cells (BOM 6, 7)"
+      - {a: "B-", b: "MID", kind: cell, note: "cell 1, Molicel P45B"}
+      - {a: "MID", b: "B+", kind: cell, note: "cell 2, Molicel P45B"}
+    source: "[L] pack (BOM 6, 7; D44)"
 
   - id: BMS
     ref: U5

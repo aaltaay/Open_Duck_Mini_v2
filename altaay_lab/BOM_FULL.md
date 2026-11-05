@@ -91,8 +91,8 @@ None: every row is covered by a purchase line, a kit, the filament or the tool l
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
-| E01 | Li-ion cell, Molicel INR18650-P30B | 18650, 3.0 Ah, 2 in series | 2 | Trunk 2 | 6 | 18650 Battery Store | bought |  |
-| E02 | 2 x 18650 series holder with leads | holder leads used for P1 and P2 if 120 mm or longer | 1 | Trunk | 7 | Amazon | bought |  |
+| E01 | Li-ion cell, Molicel INR21700-P45B | 21700, 4.5 Ah, 2 in series, spot-welded 2S1P pack (D44) | 2 | Trunk 2 | 6 | 18650 Battery Store | bought |  |
+| E02 | 2S1P pack build: nickel strip, sleeve, fish paper, 16 AWG leads | no holder (D44); pack leads used for P1 and P2 if 120 mm or longer | 1 | Trunk | 7 | not chosen | bought |  |
 | E03 | 2S protection board (BMS) | Tenergy P/N 32175 2S protection board (board marking RYD-02S-032) | 1 | Trunk 2 | 8 | Tenergy (Fremont, CA) | bought |  |
 | E04 | USB-C 2S charge board | USB-C 2S charger board, Adeept B0BJTW4QBR (BOM 11) | 1 | Trunk | 11 | Amazon (Adeept) | bought |  |
 | E05 | XT30U connector pair (mated) | Amass XT30U pair (BOM 12), female on the pack side, male on the robot side | 1 | Trunk | 12 | Amazon | bought |  |

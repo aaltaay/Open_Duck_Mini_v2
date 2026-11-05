@@ -6,7 +6,7 @@ Last written: 2026-11-01 2:18 PM ET by Legged Robots, Grok Bot agent of Ahmed Al
 ## What this is
 This repo is a public fork of [apirrone/Open_Duck_Mini](https://github.com/apirrone/Open_Duck_Mini). Upstream branch `v2` is left untouched at b23317a. All Altaay lab work lives ONLY on branch `altaay-lab`, ONLY in this `altaay_lab/` folder.
 
-The robot: Open Duck Mini v2, an open source bipedal robot by Antoine Pirrone, inspired by Disney's BDX droid. About 42 cm tall, about 2.11 kg (sim mass) (the lab build is about 2.70 kg by the mass budget, sim/MASS_BUDGET.md, not weighed), 14 Feetech STS3215 serial bus servos (5 per leg, 4 in the neck and head), Raspberry Pi Zero 2 W, BNO055 IMU, 2S 18650 pack. It walks with an RL policy trained in MuJoCo Playground and exported to ONNX.
+The robot: Open Duck Mini v2, an open source bipedal robot by Antoine Pirrone, inspired by Disney's BDX droid. About 42 cm tall, about 2.11 kg (sim mass) (the lab build is about 2.72 kg by the mass budget, sim/MASS_BUDGET.md, not weighed), 14 Feetech STS3215 serial bus servos (5 per leg, 4 in the neck and head), Raspberry Pi Zero 2 W, BNO055 IMU, 2S pack (two Molicel P45B 21700 cells since D44). It walks with an RL policy trained in MuJoCo Playground and exported to ONNX.
 
 Owner bot: **Legged Robots, Grok Bot agent of Ahmed Altaay**. The duck is one of four Altaay legged robots (with Minto, Tom and a humanoid, all in private lab repos).
 
@@ -88,7 +88,7 @@ Duck note on "bus servos only": the 14 joint servos are serial bus. The optional
 | HARNESS_BUILD.md | Cable-by-cable harness build sheet: cut lengths, colours, end treatments, continuity tests (wiring/make_harness_build.py). |
 | SERVO_UPGRADE_OPTIONS.md | Stronger servos in the same body; option A, STS3250 knees, taken by D32. |
 | twin/knee/KNEE_TWIN.md | STS3250 knees (D32) in the twins: heat, walk, pack, falls, get-ups, structure, runtime settings, training option (sim pass only). |
-| sim/MASS_BUDGET.md, sim/ADDED_MASS_SIM.md, sim/RUNTIME_THERMAL.md | Mass budget (2.70 kg build), the walk with the real mass and runtime and servo heat (both run on the 2.77 kg build before D22; sim pass only). |
+| sim/MASS_BUDGET.md, sim/ADDED_MASS_SIM.md, sim/RUNTIME_THERMAL.md | Mass budget (2.72 kg build), the walk with the real mass and runtime and servo heat (both run on the 2.77 kg build before D22; sim pass only). |
 | sim/POWER_FIX.md, sim/power_fix.py | Ankle voltage fix options and the 3S plan behind D23 (sim pass only). |
 | print/MASS_STUDY.md, print/mass_study.py, print/config_light/ | Lightest print settings that keep the strength and fit rules (D22). |
 | viewer/scene_extras.json | Connectors, splices, solder joints and small parts the exploded view draws (from blueprint/). |

@@ -16,8 +16,8 @@ Columns: Need = measured requirement; Buy = what to order; Line = price for the 
 | 3 | Compute | Raspberry Pi Zero 2 W | 1 | 1 | 1 | 19.05 | Adafruit 5291 | https://www.adafruit.com/product/5291 | Yes | DECIDED (D7). Re-read 2026-11-01 9:02 to 9:08 PM ET: bare board still out of stock everywhere checked: Adafruit 5291 $19.05 "Out of stock" (header version 6008, $19.80, out of stock), SparkFun DEV-18713 $19.00 "Out of stock", PiShop.us $17.25 "Out of stock", CanaKit PI-Z2W $16.35 and PI-Z2WH $19.60 "Sold Out", Vilros RPZW2 $17.43, every variant sold out. Chicago Electronic Distributors no longer takes orders (its page sends buyers to PiShop.us). Micro Center and DigiKey refuse curl (403); DigiKey search index copies of SC0721 disagree (0 to 133 in stock), so UNVERIFIED. In stock with the board: PiShop.us Starter Kit K2B-1388 $74.95, "Current Stock: 170" (https://www.pishop.us/product/raspberry-pi-zero-2-w-starter-kit/; kit adds a case, mini HDMI adapter, OTG cable, blank 32 GB microSD, 5.1 V 2.5 A supply, unsoldered 2x20 header, heatsinks); CanaKit PI-Z2WH-STR32-C4-BLK $89.95, "Add to Cart", no count shown (https://www.canakit.com/raspberry-pi-zero-2-w.html), with pre-soldered header (fits: 44.3 mm free below the Pi). Kit price minus this line goes to contingency X4 |
 | 4 | microSD | SanDisk Ultra 32 GB microSDHC A1 C10, SDSQUAR-032G-GN6MA | 1 | 1 | 1 | 21.25 | Amazon | https://www.amazon.com/dp/B073JWXGNT | Yes | Yes (in stock 2026-11-01, B25) |
 | 5 | IMU | Adafruit BNO055 breakout 2472 (NOT 4646: 4646 hole pattern does not match CAD, MOUNTING.md) | 1 | 1 | 1 | 34.95 | Adafruit 2472 | https://www.adafruit.com/product/2472 | Yes | Yes (in stock 2026-11-01) |
-| 6 | Li-ion cell | Molicel INR18650-P30B | 2 | 2 | 1 | 17.98 | 18650 Battery Store | https://www.18650batterystore.com/products/molicel-p30b-18650-3000mah-36a-battery | Yes | Yes |
-| 7 | 2S cell holder | 2x18650 series holder with leads | 1 | 1 | 1 | 9.99 | Amazon | https://www.amazon.com/dp/B09WCT8672 | Yes | Yes |
+| 6 | Li-ion cell | Molicel INR21700-P45B (D44): 4.5 Ah, 45 A, 70.0 g max, 21.40 x 70.00 mm; 2S1P, spot-welded pack in the grown bay (twin/battery/BAY.md). Alternate if out of stock: Molicel P50B, same size, $11.99 each, in stock 2026-11-04 | 2 | 2 | 1 | 19.98 | 18650 Battery Store | https://www.18650batterystore.com/products/molicel-p45b | Yes | Price yes ($9.99 each, read 2026-11-04 ET); out of stock that day |
+| 7 | 2S pack build (D44) | 2S1P pack build, no holder: pure nickel strip 0.15 x 8 mm (2 pieces), 2S PVC sleeve, fish-paper rings, 16 AWG leads, a 1 mm foam pad on the lid pad; spot-welded, never soldered (twin/battery/BAY.md). Replaces the 2x18650 holder (Amazon B09WCT8672, $9.99) | 1 | 1 | 1 | 0.00 | not chosen | BLOCKER: strip, sleeve and welding (tool or pack shop) not sourced or priced | No | No: BLOCKER |
 | 8 | 2S BMS | Tenergy P/N 32175 2S protection board: 10 A working, over-current detect 22 +/- 5 A, main loop 25 mOhm max, 10k 3380 NTC, 34 x 16 x 4.5 mm, no cell balancing | 1 | 1 | 1 | 22.99 | Tenergy (Fremont, CA) | https://power.tenergy.com/protection-circuit-module-pcb-for-7-2v-7-4v-2s-li-ion-battery-pack-working-10a-cutoff-22a-ntc | Yes | Yes: "in stock" and $22.99 on 2026-11-01; fits the measured envelope 17.75 x 47.2 x 5.33 mm (B12 cleared, D10). Replaces the JZK 8 A board |
 | 9 | 5 V regulator | Pololu D30V30F5 5 V step-down, 3.4 A typical max, input 5 to 45 V (subject to dropout), 0.7 x 0.8 in, US made; on the head floor, fed from the switched pack bus through the neck (D4, D8) | 1 | 1 | 1 | 29.95 | Pololu (Las Vegas, NV) | https://www.pololu.com/product/4892 | Yes | Yes: $29.95, status "Rationed (Active and Preferred)", backorders allowed; supply outlook: "505 completed units in stock", parts on site for "at least 100 more units within a few days" (https://www.pololu.com/product/4892/supply-outlook), read 2026-11-01 9:02 PM ET. Replaces the HENGE UBEC (no datasheet) |
 | 10 | Main power switch (D30) | Pololu 2813 Big Pushbutton Power Switch with Reverse Voltage Protection, HP: 4.5 to 40 V, 6 A at 55 C and 16 A at 150 C MOSFET temperature, 90 A max (the 2815 ratings), off state under 0.2 uA, 0.8 x 1.0 x 0.16 in, 2.7 g; momentary button on A and B (line 10b), Pi GPIO26 (pin 37) on OFF with dtoverlay=gpio-poweroff,gpiopin=26 (twin/assembly/ASSEMBLY_TWIN.md item 6) | 1 | 1 | 1 | 8.95 | Pololu (Las Vegas, NV) | https://www.pololu.com/product/2813 | Yes | Yes: $8.95, status "Rationed (Active and Preferred)", backorders allowed, read 2026-11-04 with curl (V1 track 2); D30, Ahmed's OK relayed by the lead at 5:58 PM ET |
@@ -34,7 +34,7 @@ Columns: Need = measured requirement; Buy = what to order; Line = price for the 
 | L3 | Inline fuse holder | Littelfuse FHAC0001ZXJ ATO 20 A, body 50 x 17.2 x 17.2 mm plus cover on a strap, 16 AWG leads 90 mm (Littelfuse drawing, parts check 2026-11-01); seat measured on the battery bay front wall (MOUNTING.md) | 1 | 1 | 1 | 7.74 | Newark 56P4171 | https://www.newark.com/littelfuse/fhac0001zxj/fuse-holder-in-line/dp/56P4171 | Yes | Yes: 3,553 in stock 2026-11-01; not re-read at the 2026-11-01 9:05 PM ET recheck: Newark and Mouser refuse plain curl (HTTP/2 stream reset, empty reply), so only the search index can re-read this line until that changes |
 | L4 | Fuse | Littelfuse 0287015.PXCN ATO 15 A | 1 | 5 | 1 | 2.20 | DigiKey | https://www.digikey.com/en/products/detail/littelfuse-inc/0287015-PXCN/2519816 | Yes | Yes: $0.44 each, min qty 1 (read via search index, direct fetch 403). Rating vs BMS: B12 |
 
-Subtotal: $735.72
+Subtotal: $744.84
 
 ## Fasteners and mechanical
 
@@ -107,7 +107,7 @@ Subtotal: $53.97
 | E7 | Camera cable (D34) | Raspberry Pi Camera Cable Standard-Mini 300 mm, 22-pin 0.5 mm (Pi Zero) to 15-pin 1 mm (camera); flat strip route 227.3 mm, 72.7 mm spare in one gentle loop of radius 6 mm (twin/complete3d/COMPLETE3D.md section 9) | 1 | 1 | 1 | 2.94 | X-On Electronics | https://www.xonelec.com/mpn/raspberrypi/rpicameracablestandardmini300mm | Yes | Price US$2.94 via search index 2026-11-04, stock not verified; same part at Pakronics, RPI-SC1129, A$3.52 (https://www.pakronics.com.au/products/raspberry-pi-camera-cable-standard-mini-300mm-rpi-sc1129); width and thickness BLOCKER until the TO9 caliper check (B61) |
 | E7r | Camera cable, replaced (D34) | Pi Zero camera cable 150 mm, Adafruit 3157: 77 mm short of the flat strip route (B61) | 0 | 0 | 1 | 0.00 | Adafruit 3157 | https://www.adafruit.com/product/3157 | Yes | replaced (D34), quantity 0 |
 
-Subtotal: $82.40
+Subtotal: $79.39
 
 ## Tools (one-time)
 
@@ -157,15 +157,17 @@ Change 2026-11-04 about 8:50 PM ET (V1 screws job phase 2, D36 and D38, twin/scr
 
 | Scope | $ |
 |---|---|
-| Robot | 735.72 |
+| Robot | 744.84 |
 | Fasteners and mechanical | 73.75 |
 | Cables, connectors, wire | 282.84 |
 | Print material | 53.97 |
 | Expression (optional upstream) | 79.39 |
 | Tools (one-time) | 271.66 |
-| Build total (robot + fasteners + cables + filament) | 1146.28 |
-| Build + expression pack | 1225.67 |
-| Build + expression + tools | 1497.33 |
+| Build total (robot + fasteners + cables + filament) | 1155.40 |
+| Build + expression pack | 1234.79 |
+| Build + expression + tools | 1506.45 |
+
+Change 2026-11-05 about 12:45 AM ET (V1 track 9, D44): line 6 becomes 2 x Molicel INR21700-P45B ($19.98, +$2.00; out of stock at the seller 2026-11-04 ET, the P50B is the in-stock alternate at $11.99 each); line 7 becomes the 2S1P pack build with no holder (-$9.99 for the holder; the strip, sleeve and welding are a BLOCKER at $0.00 until priced). The bay in body_back grows for the pack (twin/battery/BAY.md). The BOM totals were stale before this change (the line items gave $1,163.39 build, not the $1,146.28 shown; audit/bom_totals.py re-run): after D44 the build is $1,155.40. Nothing bought.
 
 Change 2026-11-01 evening (print-readiness pass, D4, D7, D8, D10, D13, D15): Tenergy BMS (+$16.10 vs JZK), Pololu 2815 main switch ($8.49, the old $6.00 placeholder becomes the line 10b control switch), Pololu D30V30F5 (+$12.66 vs HENGE), game controller (+$64.99, line 15), foam tape (+$19.00, line 29), Adafruit USB cable (-$1.50), Same Sky speaker (+$2.43). Before this pass the build total was $716.65.
 
