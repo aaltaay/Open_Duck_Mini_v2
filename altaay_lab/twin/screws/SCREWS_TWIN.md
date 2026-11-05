@@ -187,3 +187,9 @@ Calc only and CAD check only: no print, no bench test.
 - Self-tapping strip is taken at the low end.
 - Times are cost-model defaults, not a time study of this robot.
 - The KK 254 price, the XT30U rating, the WAGO outline, the insert time and the magnet data are BLOCKERS.
+## Addendum, D39 (2026-11-04 10:12 PM ET, track 2e: twin/holes)
+
+- Every hole without a screw is closed in the printed STLs (twin/holes/close_holes.py; list in twin/holes/data/close_report.json). "Any screw can come back" no longer holds: a screw comes back only with a reprint (the pre-D39 STLs are in git at 0b1cab5).
+- Back shell: 4 seats under the lower ears on body_middle_bottom fill the lip gap to 0.25 mm (433, 419, 433, 419 N, root shear at 12.7 MPa). F2 down at mid: 1.06 at 7 screws before, 1.67 at 7, 1.52 at 6 (F076 out). Side 1.95, up 1.72 at 6. F1 2.4 (one screw). Largest rim gap between screws 90 mm (unchanged).
+- Left eye: F178 and F183 out, F179 and F182 back (same F1 8.3, same 35.4 mm diagonal).
+- SG90 tabs: the stall torque (0.177 N m, 6.4 N per screw with 2) passes on one screw (the pocket stops the case within 0.25 deg), but the antenna hit (G6) is not modelled: 2 per SG90 stay (BLOCKER for a cut).

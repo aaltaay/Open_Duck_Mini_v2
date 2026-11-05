@@ -307,6 +307,9 @@ def main():
                 sw["status"] = "NEAR" if m["clearance_mm"] < NEAR else "CLEAR"
         if low:
             sw["with_iso7380_head"] = low
+        elif sw and "ISO 7380" in r["spec"]:   # D39 rerun: the spec already is the button head, so this sweep is its result
+            m = min((v for v in sw.values() if isinstance(v, dict) and "clearance_mm" in v), key=lambda x: x["clearance_mm"])
+            sw["with_iso7380_head"] = dict(clearance_mm=m["clearance_mm"], against=m["against"], where=m["where"], at=m["at"])
         if eff:
             sw["screw_first"] = sw_eff
         r["sweep"] = sw

@@ -1,0 +1,15 @@
+{
+ "note": "D39 (twin/holes/HOLES_TWIN.md): applied by report_fasteners.py after the D38 list",
+ "screws_cut": [
+  "F076",
+  "F178",
+  "F183"
+ ],
+ "inserts_cut": [
+  "I02"
+ ],
+ "refit": [
+  "F179",
+  "F182"
+ ]
+}

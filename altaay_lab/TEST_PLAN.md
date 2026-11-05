@@ -166,3 +166,10 @@ Buy one STS3250-C002 (BOM 1b) before the second. Bench supply at 7.2 V (the BEC 
 4. Heat hold at 1.1 A (the C001's 1.5 A torque by the Kt ratio 8 / 11) from a 25 C room until the reading settles or reaches 62 C, register 63 every 10 s: the thermal resistance and time constant (the twin's high end assumes Robo9's rise, 40 to 70 C in 8 minutes at 20 kg.cm). A thermocouple on the printed thigh sheet next to the case shows how much heat the aluminium case puts into the PLA.
 5. Fit in a printed thigh with 2 M2x6 machine screws (BOM_FULL F07b): thread depth, screw length, no rattle.
 PASS of all five: order the second unit.
+
+## 16. Closed holes and ear seats (D39; twin/holes/HOLES_TWIN.md, CAD check only)
+
+- 16.1 Coupon K2 (S1): add one ear seat (body_middle_bottom) and its back shell ear: the ear slides over the seat by hand with no rock, gap 0.25 mm by feeler.
+- 16.2 First trunk fit: back shell on its 6 screws; tap test round the rim for buzz (largest rim gap between screws 90 mm).
+- 16.3 Charger: with the M2.5 in, the board must not turn by hand more than about 0.5 deg (the USB-C slot holds it); plug in and pull 10 times.
+- 16.4 Every closed hole: look for a missing plug or a sunk cap on the first prints (caps are flush or up to 0.26 mm under the face).
