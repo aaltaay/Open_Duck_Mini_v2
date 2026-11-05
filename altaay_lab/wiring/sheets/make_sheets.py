@@ -512,7 +512,7 @@ def sheet_head(book):
     x0, x1, yp = pi_header(sh, 138, 46.0, rows, pitch=10.0, notes=notes, slots={20: 3, 12: 2, 35: 2}, gap=4.0,
                            title="U4  Pi header (part)", w_name=23.0)
     sh.T["PI.20"]["pitch"] = 4.0
-    y = {p_: yp[(p_ + 1) // 2] for p_ in (4, 12, 14, 16, 17, 18, 20, 22, 32, 33, 35, 37, 38, 39, 40)}
+    y = {p_: yp[(p_ + 1) // 2] for p_ in (4, 12, 14, 16, 17, 18, 20, 22, 32, 33, 35, 36, 37, 38, 39, 40)}
     # ---------------- LED loops (D13): pin -> 100 ohm -> LED -> cathode back to pin 20
     net = sh.net
     resistor_h(sh, "RL", 236, y[18], cref(net, "RL"))
@@ -581,6 +581,8 @@ def sheet_head(book):
     # D13: Pi GPIO26 (pin 37) to the Pololu 2813 OFF input (D30)
     sh.block("SW1", 22, 150, 58, 166, "2813 (part)", band=BAND_IO, tsize=7.0, pins=[("OFF", "R", y[37], "OFF")])
     sh.w("PI.37", "SW1.OFF", lab=96)
+    # D48: GPIO16 to the amp SD pin (amp off while the duck listens)
+    sh.w("PI.36", "AMP.SD", 215.0, 231.0, lab="none")
     # camera on the CSI port
     sh.block("PI", 90, 60, 124, 80, "CSI", band=BAND_IO, tsize=8.4, pins=[("CSI", "L", 72, "FPC")])
     sh.block("CAM", 20, 60, 50, 80, "camera", band=BAND_HEAD, tsize=8.0, pins=[("CSI", "R", 72, "FPC")])
@@ -588,8 +590,8 @@ def sheet_head(book):
     sh.legend()
     sh.notes_box(152, 249, 270, 287, [
         "D13: each LED through 100 ohm, about 3 mA. Upstream issue 34: no 1 W LED straight on a GPIO.",
-        "SG90 lead colours (orange, red, brown) are [I] in the netlist: check the lead. MAX98357A GAIN and SD "
-        "not connected. Terminal order of U8 on the board not checked [I].",
+        "SG90 lead colours (orange, red, brown) are [I] in the netlist: check the lead. MAX98357A GAIN "
+        "not connected (SD: D48, GPIO16). Terminal order of U8 on the board not checked [I].",
     ])
     return sh
 

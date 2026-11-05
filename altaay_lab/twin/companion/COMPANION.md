@@ -136,3 +136,120 @@ of the four for direction (ports on the outer shell, a known 120.5 mm baseline, 
 1. One clap at 1 m at 0, +60 and -60 deg: the left channel leads for +60 (slot check).
 2. A voice at 1.5 m on 12 bearings, 30 deg apart, head still and after a 0.3 rad head turn: front or back right on all 12.
 3. Record 10 s with the ears moving, the neck moving and all still: the noise floor at the ports.
+
+## 11. D48: accuracy, self-noise and the hybrid (written 2026-11-05 about 5:25 PM ET)
+
+Ahmed asked for accuracy, the right mic positions, a quiet listen next to the speaker and the servos, and a Bluetooth
+direction sensor for a mixed answer (D48). Hardware first; no software is built.
+
+### 11.1 Method for 2 mics, a head turn and the camera (calc only)
+
+| method | what it needs | with 2 mics | source |
+|---|---|---|---|
+| GCC-PHAT | one cross-correlation per pair, PHAT weights | the right tool | [S] Knapp and Carter 1976; arXiv 2405.02991 (SRP tutorial): "the GCC function with PHAT weights is essentially the same as the SRP function with PHAT weights given a pair of microphones" |
+| SRP-PHAT | a grid of steering directions, sums the pair correlations | equal to GCC-PHAT for one pair; gains only with 3 or more mics | same tutorial |
+| MUSIC | a spatial covariance per frequency band, more mics than sources | with 2 mics it can resolve one source only, is narrowband per band and costs more CPU; no gain here | [S] the same search: MUSIC works best on narrowband signals; SRP-PHAT is cheaper online |
+
+The pick is GCC-PHAT on the pair, and the head turn does three jobs:
+1. Front or back: the two mirror candidates move apart when the head turns, so a second reading picks one.
+2. Triangulation from two head angles: with the 120.5 mm pair, the two readings are a few milliseconds of rotation
+   apart, so they give the same bearing twice. That averages noise but does not give range (the baseline is the pair,
+   not the turn). Range is not needed: the camera finds the face along the bearing.
+3. Accuracy: the pair is most accurate broadside (0.34 deg at one tenth of a sample, section 3) and worst end-on
+   (2 deg at 80 deg). Turning the head toward the voice brings the source broadside before the final reading.
+
+Then the camera takes over inside its 66 deg view: a face or person box sets the final bearing to about the face
+width (a face at 1.5 m is about 6 deg wide).
+
+Expected real-room error: no measured two-mic figure was read in this session (BLOCKER: the reverberation studies
+found, arXiv 2507.07087 and the Virginia Tech thesis on reverberation and DOA, were not opened). What the calc gives:
+- the ideal pair: 0.34 deg broadside, 0.68 deg at 60 deg;
+- whole-sample timing (no interpolation): 3.4 deg broadside;
+- reverberation adds wrong peaks from the walls rather than a small bias; the head turn rejects them (a wrong peak does
+  not follow the head);
+- the duck's own noise (servos, SG90s, the speaker) adds peaks at the noise source bearing, a fixed bearing in the
+  head frame: listening is gated on motion (11.4).
+So the voice only has to put the face inside the 66 deg view (plus or minus 33 deg). The camera does the last step.
+Bench check: section 10, item 2.
+
+A third mic (top or back of the head): no.
+- One I2S data pin carries 2 slots. A third mic needs a 4-channel ADC (AC108 board, section 4) or TDM mics on a TDM
+  capture path, which the googlevoicehat overlay does not set up.
+- It removes the front or back turn and helps up and down bearings. A homebody turns its head anyway, and the camera
+  finds the face height.
+- Cost, if wanted later: one more board, a codec or a USB array, more wires through the head, and a second overlay.
+
+### 11.2 Fit and placement (CAD check only)
+
+- Mic: SPH0645LM4H, bottom port, 3.50 x 2.65 x 0.98 mm. It takes BCLK of 2.048 to 4.096 MHz (3.072 MHz used here),
+  draws 600 uA, has an SNR of 65 dB(A) and a sensitivity of -26 dBFS (-29 to -23). [S] Knowles Rev B and Rev C
+  datasheet text, from a search result. The pages themselves were not reachable: mouser.com, community.nxp.com.
+- Board: 16.51 x 12.7 mm, 2 plated 2.5 mm holes 11.43 mm apart ([R] Adafruit 6049 board files, the 3421 outline BLOCKER).
+- Port: the wall port is 1.2 mm across through the 3.2 mm wall, then a printed tube 2.0 mm bore x 3.0 mm to the board,
+  then the PCB hole to the mic. Helmholtz estimate (calc only): neck area 1.13 mm2, effective length 4.2 mm
+  (3.2 mm + 2 x 0.85 x 0.6 mm end corrections), cavity about 9.4 mm3 (the tube; the PCB hole and the mic front volume
+  are not read) gives a resonance near 9 kHz, above the 300 Hz to 8 kHz of speech. Both ports are the same, so the
+  resonance gives no direction bias.
+- Spacing: 120.5 mm, the widest the side walls give where the walls are flat (x -50 to -5 mm searched) and clear of the
+  speaker stand (right, x 0 to 50) and the side lamp opening (left, x 67 to 95). A wider pair (up to about 167 mm
+  further forward) would run into those parts and makes aliasing start lower (1.0 kHz). It gains about 0.1 deg,
+  which the camera makes moot. Height: z 202 mm, 27 mm above the head floor plate, mid-height of the side wall, above
+  the SG90 bodies.
+- No reshape: the seats are mirror images (0.2 mm off) and point straight out of each side. The section and close-ups
+  are mic_section.png, mic_seat_left.png and mic_seat_right.png. A ray along each port axis leaves the head with no
+  hit (checked).
+
+### 11.3 Wiring
+
+| cable | wires | pins | route | away from |
+|---|---|---|---|---|
+| D14 | 5 x 26 AWG twisted (3V3, GND, BCLK, LRCL, DOUT) | Pi 17, 39, 12, 35, 38 to the left board | 80.7 mm, off the header bottom, along the left wall | P13 pack feed 17.3 mm, P12 23.1 mm, D8 SG90 lead 5.1 mm (it lands on pin 33, next to pin 35) |
+| D15 | 5 x 26 AWG twisted | left board to right board | 151.9 mm, over the head behind the head_roll_mount | P13 45 mm, P12 64 mm, D8 and D9 7.1 mm |
+| D10 + 1 wire | GPIO16 to the amp SD pin | Pi 36 to U8 SD | with the D10 amp bundle | as D10 |
+
+Twisted, not shielded. All clock and data runs are short, under 0.25 m. Each wire is twisted with its return in the
+D10 rule (lay 31 to 62 mm), and the mics are digital at the board, so no analog line runs in the head. A shield is not
+needed at this length (calc only; a bench check of bit errors with the servos running is section 10, item 3).
+
+### 11.4 Self-noise: concrete hardware answers
+
+| source | distance to the nearest mic port | hardware answer |
+|---|---|---|
+| speaker (LS1, right side) | about 62 mm to the right port | half duplex in hardware: GPIO16 now drives the amp SD pin (D48 wire), so the amp is off whenever the codec is not playing (the googlevoicehat codec drives SD high only during playback, with a 5 ms delay, [R] googlevoicehat-codec.c). Listening starts after playback ends. Barge-in (talking over the duck) needs echo cancellation in software later. The speaker faces down through the head floor, away from the side ports (CAD) |
+| SG90 ears | 37 mm (body centre) to its own mic; 3.46 mm from the board envelope | the ears hold still while listening; they perk after the capture |
+| neck and head servos (STS3215, the head yaw servo at the head centre) | about 111 mm | gate: listen only when the neck and walk commands are still; the wake word runs at all times, and the direction is taken from the clean frames after it |
+| walking (14 servos, feet) | the trunk, more than 150 mm | the same gate; the duck stops walking when called (the stock walk is noisy at the mics, level not published: BLOCKER, bench item 3) |
+| structure-borne gear noise through the shell | the bosses tie the boards to the shell | a closed-cell foam ring cut from the BOM 29 foam tape on the port tube end seals the port to the board and damps it. The screws stay (2 per board). The foam is a test-fit item: it must not lift the board off the bosses by more than its compressed thickness |
+
+Noise spectra for the STS3215 and the SG90 are not published (BLOCKER): record them on the bench (section 10,
+item 3) before any software choice.
+
+### 11.5 Bluetooth direction finding and UWB (second sensor, for the hybrid)
+
+| item | BLE 5.1 AoA | UWB AoA (PDoA) |
+|---|---|---|
+| on the duck | an antenna array and a direction-finding chip, for example u-blox XPLR-AOA-1 (ANT-B10 board, 8 patch antennas, NINA-B411); the Pi Zero 2 W radio cannot do AoA | a 2-antenna UWB module with phase difference, for example Qorvo DW3000 family |
+| on the person | a BLE tag that sends the direction-finding tone (CTE); no iPhone or Android phone was found that sends it to third-party gear ([S] Nordic DevZone thread and Abalta posts, 2021: the chips exist, the OS support does not) | a UWB tag, or a UWB phone; that third-party UWB accessories work with phones is not read (BLOCKER) |
+| accuracy | 5 deg mean error, 40 updates per second ([S] u-blox XPLR-AOA-1 product summary) | 2.4 deg mean over a 90 deg range, 2.45 deg standard deviation, under 1 deg with 10 averaged ([S] arXiv 2312.13672, DW3220) |
+| size, mass | the kit board may be 29.5 x 93.5 mm (one slide, not tied to the ANT-B10: BLOCKER); mass not read | not read (BLOCKER) |
+| cost | about $230 for the kit ([S] ichome); listed obsolete at DigiKey ([S]) | not read (BLOCKER) |
+| where on the duck | flat, facing forward: only the chest or the top of the head has 90 mm of flat face; the head top would need a new printed cap (not designed) | a small module on the head top |
+| Pi fit | UART on GPIO14 and 15 (free) and 3V3 | the same, or SPI (GPIO8 to 11, free) |
+
+Verdict: not in V1. Both need the person to wear a tag. BLE AoA is no better than the voice and camera pair (5 deg),
+and its kit is obsolete. UWB is the more accurate of the two if a tag is ever wanted. GPIO14 and 15 (UART) stay free
+for it, and the chest and head top are the two places to study first. Nothing is bought or seated now.
+
+### 11.6 Hybrid, as recommended for V1
+
+| part | what | cost | mass |
+|---|---|---|---|
+| 2 x I2S mics (E8) | direction from the voice, front or back by a head turn | $13.90 | board mass not read (BLOCKER) |
+| camera (E6, already in) | final look | $0 | already counted |
+| GPIO16 to amp SD (one 26 AWG wire in D10) | half duplex, the amp off while listening | $0, wire from stock | under 1 g (calc) |
+| foam ring on each port tube (BOM 29 tape) | seal and damping | $0, from the roll | under 0.1 g |
+| 4 x M2x6 (17h kit) and the printed seats | mounting | $0 (kit) | PLA +242 mm3, about 0.3 g at 1.24 g/cm3 (calc only) |
+| BLE or UWB direction | later, only with a worn tag | not bought | none now |
+
+Added cost: $13.90. Added mass: about 0.3 g of PLA plus the two boards, wires and screws. The board mass is a
+BLOCKER; the boards are about the size of a postage stamp.

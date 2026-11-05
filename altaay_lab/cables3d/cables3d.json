@@ -31284,8 +31284,8 @@
   {
    "id": "D10",
    "desc": "Pi and splices to MAX98357A",
-   "from": "PI.35/PI.12/PI.40/J5.S/JG.S",
-   "to": "AMP.LRC/AMP.BCLK/AMP.DIN/AMP.VIN/AMP.GND",
+   "from": "PI.35/PI.12/PI.40/J5.S/JG.S/PI.36",
+   "to": "AMP.LRC/AMP.BCLK/AMP.DIN/AMP.VIN/AMP.GND/AMP.SD",
    "gauge": "26 AWG",
    "color": "#f2f2f2",
    "colors": [
@@ -31296,7 +31296,7 @@
     "#222222"
    ],
    "d_mm": 3.87,
-   "wires_n": 5,
+   "wires_n": 6,
    "cut_mm": 220,
    "length_zero_mm": 149.0,
    "length_min_mm": 149.0,
@@ -32038,6 +32038,21 @@
      "margin_runtime_mm": 75.4,
      "fits_mm": 115.4,
      "length_check": "pass"
+    },
+    {
+     "from": "PI.36",
+     "to": "AMP.SD",
+     "net": "AMP_SD",
+     "gauge": "26 AWG",
+     "color": "brown",
+     "cut_mm": 220,
+     "branch": null,
+     "od_mm": 1.5,
+     "od_source": "[I] BNTECHGO 26 AWG silicone, outer diameter 1.5 +/- 0.1 mm (https://www.amazon.com/dp/B08F9CF85N)",
+     "runs": [
+      "main",
+      "fan_PI.40"
+     ]
     }
    ],
    "check": "pass with notes",

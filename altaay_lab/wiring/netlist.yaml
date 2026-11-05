@@ -99,6 +99,7 @@ nets:
   I2S_LRC: {domain: I2S, note: "GPIO19"}
   I2S_BCLK: {domain: I2S, note: "GPIO18"}
   I2S_DIN: {domain: I2S, note: "GPIO21"}
+  AMP_SD: {domain: GPIO_3V3, note: "GPIO16 (pin 36) to the MAX98357A SD pin: the googlevoicehat codec drives it high only while it plays, so the amp is off (no hiss, no idle noise near the mics) while the duck listens (D48)"}
   I2S_MIC: {domain: I2S, note: "GPIO20 (pin 38), PCM data in: both mic DOUT pins, each drives only its own slot (SEL low = left, high = right) and floats in the other (D47, V1 track 11)"}
   SPK_P: {domain: AUDIO, note: "amp + to speaker +"}
   SPK_N: {domain: AUDIO, note: "amp - to speaker -"}
@@ -509,6 +510,7 @@ components:
       - {pin: "32", label: "32", name: GPIO12 right antenna PWM, domain: PWM_3V3, group: header, dir: out, source: "[U] antennas.py RIGHT = D12 (D9)"}
       - {pin: "33", label: "33", name: GPIO13 left antenna PWM, domain: PWM_3V3, group: header, dir: out, source: "[U] antennas.py LEFT = D13 (D9)"}
       - {pin: "35", label: "35", name: GPIO19 I2S LRC, domain: I2S, group: header, dir: out, source: "[U] table"}
+      - {pin: "36", label: "36", name: GPIO16 amp SD mode (D48), domain: GPIO_3V3, group: header, dir: out, source: "[L] D48; sdmode-gpios GPIO16 in the googlevoicehat-soundcard overlay (raspberrypi/linux)"}
       - {pin: "37", label: "GPIO26", name: GPIO26 to the 2813 OFF input (D30), domain: GPIO_3V3, group: header, dir: out, source: "[U] table"}
       - {pin: "38", label: "38", name: GPIO20 I2S mic data in (D47), domain: I2S, group: header, dir: in, source: "[L] D47; PCM_DIN on GPIO20, googlevoicehat-soundcard overlay (raspberrypi/linux overlays README)"}
       - {pin: "39", label: "39", name: GND, domain: GND, group: header, dir: gnd, source: "[L] D47 mic ground"}
@@ -757,7 +759,7 @@ components:
       - {pin: "BCLK", label: "BCLK", name: I2S bit clock, domain: I2S, group: header, dir: in, source: "[U] table"}
       - {pin: "DIN", label: "DIN", name: I2S data, domain: I2S, group: header, dir: in, source: "[U] table"}
       - {pin: "GAIN", label: "GAIN", name: gain select, domain: GPIO_3V3, group: header, dir: nc, source: "[U] table NC"}
-      - {pin: "SD", label: "SD", name: shutdown and channel select, domain: GPIO_3V3, group: header, dir: nc, source: "[U] table NC"}
+      - {pin: "SD", label: "SD", name: shutdown and channel select, domain: GPIO_3V3, group: header, dir: in, source: "[L] D48: driven by GPIO16 (googlevoicehat codec sdmode, high while playing, low = shutdown); was NC"}
       - {pin: "GND", label: "GND", name: ground, domain: GND, group: header, dir: gnd, source: "[U] table"}
       - {pin: "VIN", label: "Vin", name: supply, domain: 5V, group: header, dir: pwr_in, source: "[U] table"}
       - {pin: "SPK+", label: "+", name: speaker +, domain: AUDIO, group: spk, dir: out, source: "[U]"}
@@ -1117,6 +1119,7 @@ wires:
   - {cable: D10, from: PI.40, to: AMP.DIN, net: I2S_DIN, gauge: 26 AWG, color: green, cut_mm: 220, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[U] table"}
   - {cable: D10, from: J5.S, to: AMP.VIN, net: 5V, gauge: 26 AWG, color: red, cut_mm: 220, i_mean_a: null, i_peak_a: null, ends: [splice, solder], source: "[L] D8; cut 220 (agent CAB 2026-11-02): cables3d worst 173 mm + 2 x 20 mm slack (CABLE_MAP length rule)"}
   - {cable: D10, from: JG.S, to: AMP.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 220, i_mean_a: null, i_peak_a: null, ends: [splice, solder], source: "[I]; cut 220 (agent CAB 2026-11-02): cables3d worst 162 mm + 2 x 20 mm slack, as the Vin wire"}
+  - {cable: D10, from: PI.36, to: AMP.SD, net: AMP_SD, gauge: 26 AWG, color: brown, cut_mm: 220, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D48: amp off while the duck listens; cut as the D10 DIN wire (pin 36 sits two pitches from pin 40)"}
   - {cable: D14, from: PI.17, to: MICL.3V, net: 3V3, gauge: 26 AWG, color: red, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D47"}
   - {cable: D14, from: PI.39, to: MICL.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D47"}
   - {cable: D14, from: PI.12, to: MICL.BCLK, net: I2S_BCLK, gauge: 26 AWG, color: yellow, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D47: second wire on pin 12, beside the D10 amp wire"}

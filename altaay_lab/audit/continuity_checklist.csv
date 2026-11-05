@@ -66,6 +66,7 @@ D10,PI.12,AMP.BCLK,I2S_BCLK,26 AWG,210,"under 1 ohm, read in ohms (TEST_PLAN.md 
 D10,PI.40,AMP.DIN,I2S_DIN,26 AWG,220,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D10,J5.S,AMP.VIN,5V,26 AWG,220,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 D10,JG.S,AMP.GND,GND,26 AWG,220,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+D10,PI.36,AMP.SD,AMP_SD,26 AWG,220,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D14,PI.17,MICL.3V,3V3,26 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D14,PI.39,MICL.GND,GND,26 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 D14,PI.12,MICL.BCLK,I2S_BCLK,26 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PI.1 PI.2 PI.3 PI.4 PI.5 PI.6

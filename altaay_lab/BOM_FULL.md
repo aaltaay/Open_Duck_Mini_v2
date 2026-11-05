@@ -1,6 +1,6 @@
 # BOM_FULL: every part in the robot
 
-Generated 2026-11-05 22:05 UTC by altaay_lab/viewer/make_viewer_data.py --write-bom (module viewer/bom_full.py). Do not edit by hand: change the sources (CAD, print/parts.csv, wiring/netlist.yaml, fasteners/fasteners.json, BOM.md) and re-run.
+Generated 2026-11-05 22:10 UTC by altaay_lab/viewer/make_viewer_data.py --write-bom (module viewer/bom_full.py). Do not edit by hand: change the sources (CAD, print/parts.csv, wiring/netlist.yaml, fasteners/fasteners.json, BOM.md) and re-run.
 
 One row per distinct item that goes into the robot or is used to build it. Qty is what the robot uses (measured in the CAD, the netlist or the fastener schedule). The Line column is the BOM.md purchase line that supplies it, so prices and links live in one place (BOM.md). The exploded 3D view shows every row that is modelled (tab "Every part").
 
@@ -14,10 +14,10 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | Expression (head) | 7 | 12 | bought 7 |
 | Fasteners | 23 | 381 | bought 13, in kit 10 |
 | Cables | 50 | 50 | bought 2, in kit 11, made 37 |
-| Connectors and wire | 17 | 69 | bought 16, in kit 1 |
+| Connectors and wire | 18 | 69 | bought 17, in kit 1 |
 | Consumables and other | 22 | 130 | bought 22 |
 | Tools | 26 |  | tool 26 |
-| **All** | 217 | 763 | SHORT 14, bought 79, in kit 24, printed 37, made 37, tool 26 |
+| **All** | 218 | 763 | SHORT 14, bought 80, in kit 24, printed 37, made 37, tool 26 |
 
 ## Needs action (14)
 
@@ -200,7 +200,7 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | C29 | D7: Pi to projector LED and resistor | 3 wires, 26 AWG x2, resistor lead x1, cut 160 mm | 1 cable | head | 25, 26 | Amazon | made | pass: worst 38.5 mm vs cut 160 mm |
 | C30 | D8: left antenna SG90 lead to Pi pin 33 and splices J5 and JG | 3 wires, SG90 lead x3, cut 250 mm | 1 cable | head | 14, 26 | Amazon (Miuzei) | made | pass: worst 117.5 mm vs cut 250 mm |
 | C31 | D9: right antenna SG90 lead to Pi pin 32 and splices J5 and JG | 3 wires, SG90 lead x3, cut 250 mm | 1 cable | head | 14, 26 | Amazon (Miuzei) | made | pass: worst 169.9 mm vs cut 250 mm |
-| C32 | D10: Pi and splices to MAX98357A | 5 wires, 26 AWG x5, cut 210/220 mm | 1 cable | head | 25, 26 | Amazon | made | pass: worst 149.0 mm vs cut 220 mm |
+| C32 | D10: Pi and splices to MAX98357A | 6 wires, 26 AWG x6, cut 210/220 mm | 1 cable | head | 25, 26 | Amazon | made | pass: worst 149.0 mm vs cut 220 mm |
 | C33 | D11: MAX98357A to speaker | 2 wires, 26 AWG x2, cut 120 mm | 1 cable | head | 25, 26 | Amazon | made | pass: worst 73.0 mm vs cut 120 mm |
 | C34 | D12: Pi CSI to Camera Module 3 | 1 wire, FPC ribbon x1, cut 300 mm | 1 cable | head | E7 | X-On Electronics | bought | pass: worst 227.3 mm vs cut 300 mm |
 | C35 | D13: Pi GPIO26 (pin 37) to the 2813 OFF input (D30; gpio-poweroff) | 1 wire, 26 AWG x1, cut 590 mm | 1 cable | head, neck, trunk_top, battery_bay (crosses neck_pitch, head_pitch, head_yaw, head_roll) | 25, 26 | Amazon | made | pass: worst 542.5 mm vs cut 590 mm |
@@ -237,16 +237,17 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | C61 | Wire 22 AWG yellow | silicone stranded; sum of netlist cut lengths | 0.48 m |  | 24 | Amazon | bought |  |
 | C62 | Wire 26 AWG black | silicone stranded; sum of netlist cut lengths | 4.04 m |  | 25 | Amazon | bought |  |
 | C63 | Wire 26 AWG blue | silicone stranded; sum of netlist cut lengths | 1.53 m |  | 25 | Amazon | bought |  |
-| C64 | Wire 26 AWG green | silicone stranded; sum of netlist cut lengths | 1.39 m |  | 25 | Amazon | bought |  |
-| C65 | Wire 26 AWG red | silicone stranded; sum of netlist cut lengths | 1.28 m |  | 25 | Amazon | bought |  |
-| C66 | Wire 26 AWG white | silicone stranded; sum of netlist cut lengths | 2.05 m |  | 25 | Amazon | bought |  |
-| C67 | Wire 26 AWG yellow | silicone stranded; sum of netlist cut lengths | 1.44 m |  | 25 | Amazon | bought |  |
+| C64 | Wire 26 AWG brown | silicone stranded; sum of netlist cut lengths | 0.22 m |  | 25 | Amazon | bought |  |
+| C65 | Wire 26 AWG green | silicone stranded; sum of netlist cut lengths | 1.39 m |  | 25 | Amazon | bought |  |
+| C66 | Wire 26 AWG red | silicone stranded; sum of netlist cut lengths | 1.28 m |  | 25 | Amazon | bought |  |
+| C67 | Wire 26 AWG white | silicone stranded; sum of netlist cut lengths | 2.05 m |  | 25 | Amazon | bought |  |
+| C68 | Wire 26 AWG yellow | silicone stranded; sum of netlist cut lengths | 1.44 m |  | 25 | Amazon | bought |  |
 
 ## Consumables and other
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
-| K01 | Solder wire, rosin core | about 166 solder joints and splice ends in the netlist | 1 |  | 30 | Adafruit 1886 | bought | wiring/netlist.yaml wire ends: splices, pads, cups, header holes |
+| K01 | Solder wire, rosin core | about 168 solder joints and splice ends in the netlist | 1 |  | 30 | Adafruit 1886 | bought | wiring/netlist.yaml wire ends: splices, pads, cups, header holes |
 | K02 | Cable ties, small nylon | about 100 mm | 75 |  | 32 | Home Depot | bought | MOUNTING.md: cable tie at the servo power splices and the USB slack coil; 75 placed along the cables in the 3D view, one per retention item (55 adhesive tie mount, 9 cable tie, 2 cable tie to a neighbour cable, 3 drilled printed feature, 6 existing printed feature), 69 at gaps |
 | K09 | Adhesive tie mount MB3A | placed along the cables (altaay_lab/cables3d) | 32 |  | 34 | Standard Electric Supply (US) | bought | 32 at places where the CAD has no feature |
 | K10 | Adhesive tie mount ABM1M-AT-C | placed along the cables (altaay_lab/cables3d) | 23 |  | 34b | Hisco (Houston, TX) | bought | 23 at places where the CAD has no feature |
