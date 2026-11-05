@@ -193,3 +193,7 @@ Calc only and CAD check only: no print, no bench test.
 - Back shell: 4 seats under the lower ears on body_middle_bottom fill the lip gap to 0.25 mm (433, 419, 433, 419 N, root shear at 12.7 MPa). F2 down at mid: 1.06 at 7 screws before, 1.67 at 7, 1.52 at 6 (F076 out). Side 1.95, up 1.72 at 6. F1 2.4 (one screw). Largest rim gap between screws 90 mm (unchanged).
 - Left eye: F178 and F183 out, F179 and F182 back (same F1 8.3, same 35.4 mm diagonal).
 - SG90 tabs: the stall torque (0.177 N m, 6.4 N per screw with 2) passes on one screw (the pocket stops the case within 0.25 deg), but the antenna hit (G6) is not modelled: 2 per SG90 stay (BLOCKER for a cut).
+
+## Addendum, D42 (2026-11-04 11:01 PM ET, track 2f: twin/holes)
+
+- The screws left on a part form a uniform pattern (DECISIONS.md D42): body_front keeps its 4 corners (F067, F068, F071, F072), the battery lid all 4 (F017, F018, F027, F028), head_bot_sheet 4 mirrored corners (F083, F084, F089, F090). joints.json keeps the D38 kept lists; the D42 sets and checks are in twin/holes/data/sym_checks.json.

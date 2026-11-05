@@ -172,4 +172,5 @@ PASS of all five: order the second unit.
 - 16.1 Coupon K2 (S1): add one ear seat (body_middle_bottom) and its back shell ear: the ear slides over the seat by hand with no rock, gap 0.25 mm by feeler.
 - 16.2 First trunk fit: back shell on its 6 screws; tap test round the rim for buzz (largest rim gap between screws 90 mm).
 - 16.3 Charger: with the M2.5 in, the board must not turn by hand more than about 0.5 deg (the USB-C slot holds it); plug in and pull 10 times.
-- 16.4 Every closed hole: look for a missing plug or a sunk cap on the first prints (caps are flush or up to 0.26 mm under the face).
+- 16.4 Every closed hole: look for a missing plug or a sunk cap on the first prints (D42: caps fitted to the part surface, flush within 0.05 mm in CAD; the back shell ears must show no dimple).
+- 16.5 D42 patterns: body_front on its 4 corners, the battery lid on 4, head_bot_sheet on 4 mirrored corners; every screw goes in by hand first, then a tap test round each plate for buzz.

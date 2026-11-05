@@ -1,0 +1,6 @@
+{
+ "note": "D42 (DECISIONS.md D42, twin/holes/HOLES_TWIN.md addendum): uniform screw patterns; applied by report_fasteners.py after the D38 and D39 lists",
+ "screws_cut": ["F069", "F088"],
+ "inserts_cut": ["I05", "I52"],
+ "refit": ["F071", "I07", "F027", "F084", "I48", "F090", "I54"]
+}
