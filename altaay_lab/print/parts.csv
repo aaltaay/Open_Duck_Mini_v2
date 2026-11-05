@@ -21,14 +21,14 @@ knee_to_ankle_right_sheet.stl,4,PLA,heavy,wall3+fit,,fit,+y,2,1,3 walls and fit 
 left_antenna_holder.stl,1,PLA,heavy,wall3,,,vec:0.2631 -0.9354 -0.2362,0,1,3 walls (wall3) as before D22: thinnest part (2.0 mm); first hit if the head swings (G6)
 left_cache.stl,1,PLA,light,,,,-z,1,0,2 walls 15 % (upstream default): a cover (PRINT_PLAN.md G6: not spared)
 left_eye.stl,1,PLA,heavy,wall3,,,+x,0,0,3 walls (wall3) as before D22: 4 screw pilots; whole-part test print T1 (B14) in this profile
-left_roll_to_pitch.stl,1,PLA,light,fit,,fit,-z,1,0,2 walls 15 % with fit: servo pocket line to line (0.10 mm face overlap); G12 check; no rule asks for more walls
+left_roll_to_pitch.stl,1,PLA,heavy,wall3+fit,,fit,-z,1,0,3 walls and fit (wall3+fit) as before D22: D38 takes D26 option P1 for the structure twin's weakest part (twin/structure/STRUCTURE_TWIN.md P1; with STS3250 knees twin/knee/KNEE_TWIN.md section 5); servo pocket line to line (0.10 mm face overlap); G12 check
 leg_spacer.stl,4,PLA,rings,,insert,insert,-y,2,0,2 walls 15 % plus a 2.0 mm solid ring round each of its 4 insert bores (2 per end): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings
 neck_left_sheet.stl,1,PLA,heavy,neck,,neck,-y,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thin sheet at neck_pitch and head_pitch (G6)
 neck_right_sheet.stl,1,PLA,heavy,neck,,neck,+y,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thin sheet at neck_pitch and head_pitch (G6)
 right_antenna_holder.stl,1,PLA,heavy,wall3,,,vec:0.2631 0.9354 -0.2362,0,1,3 walls (wall3) as before D22: thinnest part (2.0 mm); first hit if the head swings (G6)
 right_cache.stl,1,PLA,light,,,,-z,0,0,2 walls 15 % (upstream default): a cover (PRINT_PLAN.md G6: not spared)
 right_eye.stl,1,PLA,heavy,wall3,,,+x,0,0,3 walls (wall3) as before D22: 4 screw pilots
-right_roll_to_pitch.stl,1,PLA,light,fit,,fit,-z,0,0,2 walls 15 % with fit: servo pocket line to line (0.10 mm face overlap); G12 check; no rule asks for more walls
+right_roll_to_pitch.stl,1,PLA,heavy,wall3+fit,,fit,-z,0,0,3 walls and fit (wall3+fit) as before D22: D38 takes D26 option P1 for the structure twin's weakest part (twin/structure/STRUCTURE_TWIN.md P1; with STS3250 knees twin/knee/KNEE_TWIN.md section 5); servo pocket line to line (0.10 mm face overlap); G12 check
 roll_motor_bottom.stl,2,PLA,heavy,wall3,,,+x,1,1,3 walls (wall3) as before D22: thinnest hip part (2.97 mm median) at hip yaw and hip roll; G12 screw (G6)
 roll_motor_top.stl,2,PLA,light,fit,,fit,-z,1,0,2 walls 15 % with fit: servo pocket line to line (0.01 mm); no rule asks for more walls
 speaker_interface.stl,1,PLA,light,,,,vec:-0.2631 -0.9354 0.2362,0,0,2 walls 15 % (upstream default); laid flat (PRINT_CHECK had it on a 48 mm2 edge)

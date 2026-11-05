@@ -46,14 +46,14 @@ V1 screws job, 2026-11-04 (D38): body_front, body_middle_top and body_middle_bot
 | left_antenna_holder.stl | 1 | PLA | heavy (wall3) | 3.57 | 0.28 | 0.05 | 3.6 | 0.28 | 3.57 | 0.28 |
 | left_cache.stl | 1 | PLA | light (base) | 57.26 | 4.95 | 1.99 | 57.3 | 4.95 | 77.34 | 5.97 |
 | left_eye.stl | 1 | PLA | heavy (wall3) | 1.80 | 0.18 | 0.00 | 1.8 | 0.18 | 1.80 | 0.18 |
-| left_roll_to_pitch.stl | 1 | PLA | light (fit) | 21.24 | 2.09 | 1.30 | 21.2 | 2.09 | 24.82 | 2.31 |
+| left_roll_to_pitch.stl | 1 | PLA | heavy (wall3+fit), D38 | 24.82 | 2.31 | 1.29 | 24.8 | 2.31 | 24.82 | 2.31 |
 | leg_spacer.stl | 4 | PLA | rings (base + 4 insert rings) | 7.17 | 0.85 | 0.16 | 28.7 | 3.41 | 8.83 | 1.00 |
 | neck_left_sheet.stl | 1 | PLA | heavy (neck) | 7.49 | 0.70 | 0.17 | 7.5 | 0.70 | 7.49 | 0.70 |
 | neck_right_sheet.stl | 1 | PLA | heavy (neck) | 6.55 | 0.61 | 0.18 | 6.5 | 0.61 | 6.55 | 0.61 |
 | right_antenna_holder.stl | 1 | PLA | heavy (wall3) | 3.57 | 0.28 | 0.05 | 3.6 | 0.28 | 3.57 | 0.28 |
 | right_cache.stl | 1 | PLA | light (base) | 57.21 | 4.95 | 1.99 | 57.2 | 4.95 | 77.32 | 6.03 |
 | right_eye.stl | 1 | PLA | heavy (wall3) | 4.56 | 0.38 | 0.01 | 4.6 | 0.38 | 4.56 | 0.38 |
-| right_roll_to_pitch.stl | 1 | PLA | light (fit) | 21.20 | 2.12 | 1.31 | 21.2 | 2.12 | 24.82 | 2.33 |
+| right_roll_to_pitch.stl | 1 | PLA | heavy (wall3+fit), D38 | 24.82 | 2.33 | 1.30 | 24.8 | 2.33 | 24.82 | 2.33 |
 | roll_motor_bottom.stl | 2 | PLA | heavy (wall3) | 8.75 | 0.72 | 0.60 | 17.5 | 1.43 | 8.75 | 0.72 |
 | roll_motor_top.stl | 2 | PLA | light (fit) | 7.14 | 0.73 | 0.41 | 14.3 | 1.46 | 8.00 | 0.80 |
 | speaker_interface.stl | 1 | PLA | light (base) | 2.33 | 0.22 | 0.00 | 2.3 | 0.22 | 2.33 | 0.22 |
@@ -65,7 +65,9 @@ V1 screws job, 2026-11-04 (D38): body_front, body_middle_top and body_middle_bot
 |---|---|---|---|---|---|---|
 | PLA | 50 | 1245.1 | 106.7 | 89.8 | 1372.7 | 114.4 |
 | TPU | 2 | 35.1 | 4.4 | 0.0 | 36.3 | 4.5 |
-| Total | 52 | 1285.7 | 112.0 | 91.2 | 1409.0 | 118.9 |
+| Total | 52 | 1292.9 | 112.4 | 91.2 | 1409.0 | 118.9 |
+
+D38 (2026-11-05): left and right roll_to_pitch re-sliced with wall3+fit (slice.py parts --only). The plate rows below add each part's own change; the plates were not re-planned.
 
 On the robot (grams less support, the way sim/mass_budget.py counts a printed part): 1190.4 g, 1318.6 g before (-128.2 g).
 
@@ -79,7 +81,7 @@ Spares (G5, G6, one set, printed in the plates below): PLA 10 parts, 104.6 g, 9.
 |---|---|---|---|---|
 | L1-1_PLA_base | foot_side x1, left_cache x1 | 71.0 | 6.10 | yes |
 | L1-2_PLA_base_rings | foot_bottom_pla x1 (rings), foot_top x1 (rings), leg_spacer x2 (rings) | 48.2 | 4.58 | yes |
-| L1-3_PLA_fit | left_roll_to_pitch x1, roll_motor_top x1 | 28.4 | 2.83 | yes |
+| L1-3_PLA_fit | left_roll_to_pitch x1 (wall3+fit, D38), roll_motor_top x1 | 32.0 | 3.05 | yes |
 | L1-4_PLA_wall3 | roll_motor_bottom x1 | 8.7 | 0.72 | yes |
 | L1-5_PLA_wall3_fit | knee_to_ankle_left_sheet x2, knee_to_ankle_right_sheet x2 | 26.5 | 2.50 | yes |
 | P220-01_PLA_base | head_bot_sheet x1 | 56.9 | 3.83 | yes |
@@ -87,7 +89,7 @@ Spares (G5, G6, one set, printed in the plates below): PLA 10 parts, 104.6 g, 9.
 | P220-03_PLA_base | body_back x1 (rings), flash_reflector_interface x1 | 80.7 | 6.67 | yes |
 | P220-04_PLA_base_rings | body_middle_bottom x1 (rings), foot_bottom_pla x1 (rings), foot_top x1 (rings), leg_spacer x2 (rings) | 155.9 | 14.03 | yes |
 | P220-05_PLA_base_rings | body_middle_top x1 (rings) | 75.2 | 6.75 | yes |
-| P220-06_PLA_fit | right_roll_to_pitch x1, roll_motor_top x1 | 28.3 | 2.86 | yes |
+| P220-06_PLA_fit | right_roll_to_pitch x1 (wall3+fit, D38), roll_motor_top x1 | 31.9 | 3.07 | yes |
 | P220-07_PLA_insert | head x1 | 262.0 | 21.92 | yes |
 | P220-08_PLA_insert_fit | trunk_bottom x1 | 42.0 | 3.53 | yes |
 | P220-09_PLA_neck | head_pitch_to_yaw x2 (1 spare), neck_left_sheet x2 (1 spare), neck_right_sheet x2 (1 spare) | 61.1 | 6.11 | yes |
@@ -95,7 +97,7 @@ Spares (G5, G6, one set, printed in the plates below): PLA 10 parts, 104.6 g, 9.
 | P220-11_PLA_wall3 | left_antenna_holder x2 (1 spare), right_antenna_holder x2 (1 spare), right_eye x1, roll_motor_bottom x2 (1 spare), speaker_stand x1 | 46.1 | 4.03 | yes |
 | P220-12_PLA_wall3_fit | knee_to_ankle_left_sheet x3 (1 spare), knee_to_ankle_right_sheet x3 (1 spare), trunk_top x1 | 114.8 | 9.87 | yes |
 | P220-13_TPU_base | foot_bottom_tpu x1 | 17.6 | 2.19 | yes |
-| Total | 18 jobs | 1370.8 | 119.5 | |
+| Total | 18 jobs | 1378.0 | 119.9 | |
 
 S1 gate fallback, 220 bed: if a light coupon fails, print these plates (same parts, same places) with the profile below and no rings:
 
@@ -114,14 +116,14 @@ With the fallback the full print is 18 jobs, 1426.8 g and 122.7 h.
 |---|---|---|---|---|
 | L1-1_PLA_base | foot_side x1, left_cache x1 | 71.0 | 6.10 | yes |
 | L1-2_PLA_base_rings | foot_bottom_pla x1 (rings), foot_top x1 (rings), leg_spacer x2 (rings) | 48.4 | 4.58 | yes |
-| L1-3_PLA_fit | left_roll_to_pitch x1, roll_motor_top x1 | 28.4 | 2.83 | yes |
+| L1-3_PLA_fit | left_roll_to_pitch x1 (wall3+fit, D38), roll_motor_top x1 | 32.0 | 3.05 | yes |
 | L1-4_PLA_wall3 | roll_motor_bottom x1 | 8.7 | 0.72 | yes |
 | L1-5_PLA_wall3_fit | knee_to_ankle_left_sheet x2, knee_to_ankle_right_sheet x2 | 26.6 | 2.51 | yes |
 | P256-01_PLA_base | bulb x2, flash_light_module x1, flash_reflector_interface x1, head_bot_sheet x1, right_cache x1, speaker_interface x1 | 131.2 | 10.44 | yes |
 | P256-02_PLA_base | battery_pack_lid x1, body_back x1 (rings), body_front x1, foot_side x1 | 164.2 | 12.73 | yes |
 | P256-03_PLA_base_rings | body_middle_bottom x1 (rings), foot_bottom_pla x1 (rings), foot_top x1 (rings), leg_spacer x2 (rings) | 156.1 | 13.95 | yes |
 | P256-04_PLA_base_rings | body_middle_top x1 (rings) | 75.2 | 6.75 | yes |
-| P256-05_PLA_fit | right_roll_to_pitch x1, roll_motor_top x1 | 28.3 | 2.86 | yes |
+| P256-05_PLA_fit | right_roll_to_pitch x1 (wall3+fit, D38), roll_motor_top x1 | 31.9 | 3.07 | yes |
 | P256-06_PLA_insert | head x1 | 262.0 | 21.92 | yes |
 | P256-07_PLA_insert_fit | trunk_bottom x1 | 42.0 | 3.53 | yes |
 | P256-08_PLA_neck | head_pitch_to_yaw x2 (1 spare), neck_left_sheet x2 (1 spare), neck_right_sheet x2 (1 spare) | 61.2 | 6.09 | yes |
@@ -129,7 +131,7 @@ With the fallback the full print is 18 jobs, 1426.8 g and 122.7 h.
 | P256-10_PLA_wall3 | left_antenna_holder x2 (1 spare), right_antenna_holder x2 (1 spare), right_eye x1, roll_motor_bottom x2 (1 spare), speaker_stand x1 | 46.1 | 4.04 | yes |
 | P256-11_PLA_wall3_fit | knee_to_ankle_left_sheet x3 (1 spare), knee_to_ankle_right_sheet x3 (1 spare), trunk_top x1 | 114.7 | 9.87 | yes |
 | P256-12_TPU_base | foot_bottom_tpu x1 | 17.6 | 2.19 | yes |
-| Total | 17 jobs | 1371.2 | 119.6 | |
+| Total | 17 jobs | 1378.4 | 120.0 | |
 
 S1 gate fallback, 256 bed: if a light coupon fails, print these plates (same parts, same places) with the profile below and no rings:
 

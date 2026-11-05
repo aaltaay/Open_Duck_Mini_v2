@@ -1335,7 +1335,7 @@ function renderPart(p) {
   if (!KNOWN_CATS.has(p.cat)) return renderSmall(p);
   const r = p.rec, cat = p.cat;
   const servo = r.group && cat === 'servo';
-  const title = servo ? 'STS3215 servo, ID ' + r.servo_id : r.label;
+  const title = servo ? servoModel(r) + ' servo, ID ' + r.servo_id : r.label;
   const sub = servo ? r.servo.replace(/_/g, ' ') + ' joint · ' + subLabel(r.sub) : subLabel(r.sub) + (r.link ? ' · ' + r.link : '');
   let cells;
   if (cat === 'pla' || cat === 'tpu') {
@@ -1524,7 +1524,7 @@ function setHover(p, e) {
   if (p && e) {
     const r = stage.getBoundingClientRect();
     tip.hidden = false;
-    tip.textContent = (p.rec.group && p.cat === 'servo' ? 'STS3215 servo ID ' + p.rec.servo_id : p.rec.label) + ' · ' + (man.categories[p.cat]?.label || p.cat);
+    tip.textContent = (p.rec.group && p.cat === 'servo' ? servoModel(p.rec) + ' servo ID ' + p.rec.servo_id : p.rec.label) + ' · ' + (man.categories[p.cat]?.label || p.cat);
     const x = Math.min(e.clientX - r.left, r.width - tip.offsetWidth - 20), y = Math.min(e.clientY - r.top, r.height - 40);
     tip.style.left = x + 'px'; tip.style.top = y + 'px';
   } else tip.hidden = true;
@@ -1631,7 +1631,7 @@ function buildUI() {
   $('#summary').innerHTML =
     '<div class="tiles">' +
     tile('Printed parts', sm.printed.found, sm.printed.expected, sm.printed.stl_files + ' STLs · ' + fmt(sm.printed.grams, 0) + ' g · ' + fmt(sm.printed.hours, 1) + ' h', okp, 'printed') +
-    tile('STS3215 servos', sm.servos.found, sm.servos.expected, '3 case parts + 2 horns each', oks, 'servo') +
+    tile('Servos', sm.servos.found, sm.servos.expected, servoMix() + ' · 3 case parts + 2 horns each', oks, 'servo') +
     tile('M3 inserts', sm.inserts.found, sm.inserts.expected, 'from the measured bores', oki, 'insert') +
     tile('6804 bearings', sm.bearings.found, sm.bearings.expected, bearingWhere(), okb, 'bearing') +
     (scr ? tile('Screws', scr.found, scr.expected ?? null, screwDetail(scr), scr.expected == null || scr.found === scr.expected, 'screw') : '') +
@@ -1786,6 +1786,14 @@ function bearingWhere() {
   const c = {};
   for (const p of parts) if (p.cat === 'bearing') { const l = subLabel(p.sub).toLowerCase(); c[l] = (c[l] || 0) + 1; }
   return Object.entries(c).map(([k, n]) => n + ' ' + k).join(', ');
+}
+function servoModel(r) { return r.model || 'STS3215'; }   // data before the knee swap (D32) has no model field: every servo was an STS3215
+function servoMix() {   // '12 STS3215 · 2 STS3250': one model per servo group (case parts and horns share it)
+  const by = new Map();
+  for (const p of parts) if (p.rec.group && p.cat === 'servo' && !by.has(p.rec.group)) by.set(p.rec.group, servoModel(p.rec));
+  const n = {};
+  for (const m of by.values()) n[m] = (n[m] || 0) + 1;
+  return Object.entries(n).sort((a, b) => b[1] - a[1]).map(([m, c]) => c + ' ' + m).join(' · ');
 }
 function tile(k, found, exp, d, ok, key) {   // ok: true (green bar), 'warn' (amber bar), false (red bar)
   return '<button class="tile' + (ok === 'warn' ? ' warn' : ok ? '' : ' bad') + '" data-tile="' + key + '" title="Highlight them in the model"><div class="k">' + esc(k) + '</div><div class="v">' + found + (exp == null ? '' : ' <small>/ ' + exp + '</small>') + '</div><div class="d">' + esc(d) + '</div></button>';

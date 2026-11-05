@@ -1,5 +1,7 @@
 # SERVO UPGRADE OPTIONS: what a stronger servo would mean (contingency only)
 
+Status 2026-11-05: **Option A is taken** (DECISIONS.md D32; Ahmed 2026-11-04 6:18 PM ET: "yes, put STS3250s on both knees"). The twin results are in twin/knee/KNEE_TWIN.md (sim pass only); BOM line 1b; the one-unit test is TEST_PLAN 15. The rest of this file is the study as written.
+
 Written 2026-11-01, 10:47 to 10:53 PM ET, by agent SU (research; work started 10:05 PM ET). Nothing was bought, posted or changed. No other lab file was edited. Prices and stock were read on supplier pages on 2026-11-01 between about 10:10 and 10:45 PM ET, before tax and shipping. Sim numbers are sim pass only. Source tags in square brackets point to the Sources list at the end; [D] marks a number derived here, with the method next to it.
 
 Ahmed's question: "if servos are running hot and we exceeded the limit, we may need something higher, unfortunately, which means an entire redesign, perhaps."

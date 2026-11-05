@@ -1,6 +1,6 @@
 # Open Duck Mini v2 (Altaay lab notes)
 
-Open Duck Mini v2 is an open source, roughly 42 cm tall, 2.1 kg (sim mass) (the lab build is about 2.65 kg by the mass budget, sim/MASS_BUDGET.md, not weighed) bipedal robot by Antoine Pirrone, inspired by Disney's BDX droid. It has 14 Feetech STS3215 serial bus servos (5 per leg, 4 in the neck and head), a Raspberry Pi Zero 2 W, a BNO055 IMU and a 2S 18650 pack. It walks with an RL policy trained in MuJoCo Playground and exported to ONNX.
+Open Duck Mini v2 is an open source, roughly 42 cm tall, 2.1 kg (sim mass) (the lab build is about 2.70 kg by the mass budget, sim/MASS_BUDGET.md, not weighed) bipedal robot by Antoine Pirrone, inspired by Disney's BDX droid. It has 14 Feetech STS3215 serial bus servos (5 per leg, 4 in the neck and head), a Raspberry Pi Zero 2 W, a BNO055 IMU and a 2S 18650 pack. It walks with an RL policy trained in MuJoCo Playground and exported to ONNX.
 
 Goal of this folder: build the robot exactly as designed upstream, and record every gap before buying anything.
 

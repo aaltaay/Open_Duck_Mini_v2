@@ -1,0 +1,170 @@
+{
+ "peaks": {
+  "walk": {
+   "c001": {
+    "knee_M_axis": 4.275,
+    "knee_M_bend": 3.765,
+    "knee_F_radial": 68.543,
+    "knee_F_axial": 18.404,
+    "hiproll_M_axis": 3.285,
+    "hiproll_M_bend": 4.226,
+    "hiproll_F_radial": 60.714,
+    "hiproll_F_axial": 12.575
+   },
+   "sts3250": {
+    "knee_M_axis": 3.189,
+    "knee_M_bend": 3.977,
+    "knee_F_radial": 65.61,
+    "knee_F_axial": 23.647,
+    "hiproll_M_axis": 3.163,
+    "hiproll_M_bend": 3.46,
+    "hiproll_F_radial": 61.817,
+    "hiproll_F_axial": 12.387
+   }
+  },
+  "push": {
+   "c001": {
+    "knee_M_axis": 14.244,
+    "knee_M_bend": 25.801,
+    "knee_F_radial": 313.249,
+    "knee_F_axial": 173.089,
+    "hiproll_M_axis": 17.586,
+    "hiproll_M_bend": 17.779,
+    "hiproll_F_radial": 331.291,
+    "hiproll_F_axial": 76.549
+   },
+   "sts3250": {
+    "knee_M_axis": 2.947,
+    "knee_M_bend": 4.484,
+    "knee_F_radial": 79.372,
+    "knee_F_axial": 33.774,
+    "hiproll_M_axis": 1.919,
+    "hiproll_M_bend": 4.168,
+    "hiproll_F_radial": 77.501,
+    "hiproll_F_axial": 15.853
+   }
+  }
+ },
+ "ratio": {
+  "walk": {
+   "knee_M_axis": 0.746,
+   "knee_M_bend": 1.056,
+   "knee_F_radial": 0.957,
+   "knee_F_axial": 1.285,
+   "hiproll_M_axis": 0.963,
+   "hiproll_M_bend": 0.819,
+   "hiproll_F_radial": 1.018,
+   "hiproll_F_axial": 0.985
+  },
+  "push": {
+   "knee_M_axis": 0.207,
+   "knee_M_bend": 0.174,
+   "knee_F_radial": 0.253,
+   "knee_F_axial": 0.195,
+   "hiproll_M_axis": 0.109,
+   "hiproll_M_bend": 0.234,
+   "hiproll_F_radial": 0.234,
+   "hiproll_F_axial": 0.207
+  }
+ },
+ "sf": {
+  "shin knee sheet eye (level 2)": {
+   "walk": {
+    "before": 1.63,
+    "load_factor": 0.808,
+    "after": 2.02,
+    "after_hot_50C": 1.25
+   },
+   "push": {
+    "before": 1.07,
+    "load_factor": 0.2,
+    "after": 5.34,
+    "after_hot_50C": 3.31
+   }
+  },
+  "shin knee sheet eye (level 1)": {
+   "walk": {
+    "before": 1.56,
+    "load_factor": 0.808,
+    "after": 1.93,
+    "after_hot_50C": 1.2
+   },
+   "push": {
+    "before": 1.04,
+    "load_factor": 0.2,
+    "after": 5.19,
+    "after_hot_50C": 3.22
+   }
+  },
+  "shin, P3 knee sheets 5 walls 40 % (level 1)": {
+   "walk": {
+    "before": 1.82,
+    "load_factor": 0.808,
+    "after": 2.25,
+    "after_hot_50C": 1.4
+   },
+   "push": {
+    "before": 1.2,
+    "load_factor": 0.2,
+    "after": 5.99,
+    "after_hot_50C": 3.71
+   }
+  },
+  "thigh, knee servo case holder (level 1)": {
+   "walk": {
+    "before": 2.7,
+    "load_factor": 1.056,
+    "after": 2.56,
+    "after_hot_50C": 1.59
+   },
+   "push": {
+    "before": 1.74,
+    "load_factor": 0.207,
+    "after": 8.41,
+    "after_hot_50C": 5.21
+   }
+  },
+  "roll_to_pitch (levels 1 to 3, lowest)": {
+   "walk": {
+    "before": 1.48,
+    "load_factor": 1.018,
+    "after": 1.45,
+    "after_hot_50C": 0.9
+   },
+   "push": {
+    "before": 1.08,
+    "load_factor": 0.234,
+    "after": 4.62,
+    "after_hot_50C": 2.86
+   }
+  },
+  "roll_to_pitch, P1 3 walls (level 1)": {
+   "walk": {
+    "before": 1.84,
+    "load_factor": 1.018,
+    "after": 1.81,
+    "after_hot_50C": 1.12
+   },
+   "push": {
+    "before": 1.25,
+    "load_factor": 0.234,
+    "after": 5.34,
+    "after_hot_50C": 3.31
+   }
+  }
+ },
+ "falls": {
+  "c001": 4,
+  "sts3250": 0
+ },
+ "p2_eye_thickness_for_sf2": {
+  "walk": {
+   "eye_mm": 3.6,
+   "sf": 2.02
+  },
+  "push": {
+   "eye_mm": 3.6,
+   "sf": 5.34
+  }
+ }
+}
