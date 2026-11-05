@@ -12,10 +12,10 @@
   },
   "solder_joints": 64,
   "washers": 16,
-  "cables": 47,
+  "cables": 48,
   "cables_all_ends_drawn": 46,
-  "cable_ends": 248,
-  "lead_ends": 24,
+  "cable_ends": 250,
+  "lead_ends": 25,
   "ends_with_body": 220,
   "no_bom_row": []
  },
@@ -260,6 +260,15 @@
    "lead_ends": 0,
    "drawn_ends": 2,
    "missing": []
+  },
+  {
+   "cable": "D13",
+   "ends": 2,
+   "lead_ends": 1,
+   "drawn_ends": 0,
+   "missing": [
+    "SW1.OFF"
+   ]
   },
   {
    "cable": "SD1",

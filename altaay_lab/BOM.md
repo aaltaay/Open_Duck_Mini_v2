@@ -48,7 +48,7 @@ Subtotal: $623.53
 | 17f | M2.5x6 SHCS | DIN 912 A2, Bolt Depot 6370 (electronics) | 17 | 20 | each | 1.80 | Bolt Depot | https://boltdepot.com/Product-Details?product=6370 | Yes | Yes (one board: nothing is fitted at the head board.stl copy, B7, FASTENERS.md finding 22) |
 | 17g | M2.5x8 SHCS | DIN 912 A2, Bolt Depot 6371 (eyes, each with two 0.3 mm washers from line 17l under the head: 2.4 mm engaged, 0.6 mm to the blind pilot floor, D21) | 8 | 10 | each | 0.90 | Bolt Depot | https://boltdepot.com/Product-Details?product=6371 | Yes | Yes |
 | 17i | M2.5x10 SHCS | DIN 912 A2, Bolt Depot 6372 (battery lid, pilot depth 2.1 to 15.3 mm; the 2.5 mm lid holes are drilled to 2.7 mm, D20) | 4 | 5 | each | 0.50 | Bolt Depot | https://boltdepot.com/Product-Details?product=6372 | Yes | Yes: head sits proud on the lid face, clamp 5.2 mm, engagement 4.8 mm, no interference (GLB measured, B3) |
-| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M2x8 and M2.6x6, x8, x10, x12; M2 head 3.7 x 1.4 mm (listing images). Used: 22 x M2x5 and 2 x M2x8 at servo case pilots, 2 x M2x4 at head_roll_mount and 4 x M2x4 for the camera (FASTENERS.md section 4); its 50 M2x6 also cover the 42 servo-bag screws if a bag is short (B2) | 30 (M2x5 22, M2x4 6, M2x8 2) | 1 | kit | 9.49 | Amazon (ships from Amazon) | https://www.amazon.com/dp/B0FS13B75Y | Yes | Yes: $9.49, "Only 6 left in stock - order soon", sold by METALLIXITY, ships from Amazon, read 2026-11-01 10:30 PM ET with plain curl; 50 pcs of each size and the head size from the listing images, read 10:31 PM ET. The kit covers every size with spares (50 against 22, 6 and 2), so no extra line. Head fit on coupon C4 and camera length on test order (B21, B9). Alternatives checked 9:08 PM ET: MCMASKE B0B7SK7BKN $13.99 has M2x5 but no M2x4, LBY B07GL2WLDD $9.89 has only M2x6, x10, x16 |
+| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M2x8 and M2.6x6, x8, x10, x12; M2 head 3.7 x 1.4 mm (listing images). Used: 22 x M2x5 and 2 x M2x8 at servo case pilots, 4 x M2x5 for the camera (pilots drilled to 4.5 mm, D34) and 2 x M2x4 at head_roll_mount (FASTENERS.md section 4); its 50 M2x6 also cover the 42 servo-bag screws if a bag is short (B2) | 30 (M2x5 26, M2x4 2, M2x8 2) | 1 | kit | 9.49 | Amazon (ships from Amazon) | https://www.amazon.com/dp/B0FS13B75Y | Yes | Yes: $9.49, "Only 6 left in stock - order soon", sold by METALLIXITY, ships from Amazon, read 2026-11-01 10:30 PM ET with plain curl; 50 pcs of each size and the head size from the listing images, read 10:31 PM ET. The kit covers every size with spares (50 against 22, 6 and 2), so no extra line. Head fit on coupon C4 and camera length on test order (B21, B9). Alternatives checked 9:08 PM ET: MCMASKE B0B7SK7BKN $13.99 has M2x5 but no M2x4, LBY B07GL2WLDD $9.89 has only M2x6, x10, x16 |
 | 17j | M3x6 button head | ISO 7380-1 A2 stainless hex socket button head (head 5.7 x 1.65 mm max, ISO 7380-1), BelMetric SB3X6SS; the 10 hip pitch sites: idle horn F196, F198, F200, F247 (left), F209, F211, F213, F254 (right) and leg_spacer F002, F010 (D19) | 10 | 12 | each | 1.08 | BelMetric (US: "Stocked in the USA", since 1976, +1-978-649-6201) | https://belmetric.com/m3x0-5-button-head-cap-screw-a2-stainless-iso-7380-1/ | Yes (US) | Yes: $0.09 each (1 to 24), $0.07 at 25 to 99, in stock, variant 6 mm SB3X6SS, read 2026-11-01 10:34 PM ET (variant price from the store's own attribute call). Not Bolt Depot: it refused plain curl. Commodity, many sources |
 | 17k | M2.5x5 SHCS | DIN 912 A2, BelMetric BSH2.5X5SS; speaker_interface to the 4 side pilots of speaker_stand, F352 to F355 (HARDWARE_AUDIT B8) | 4 | 5 | each | 0.60 | BelMetric (US) | https://belmetric.com/m2-5x0-45-a2-stainless-din-912-allen-socket-head-cap-screw/ | Yes (US) | Yes: $0.12 each (1 to 24), in stock, variant 5 mm BSH2.5X5SS, read 2026-11-01 10:36 PM ET. Commodity |
 | 17l | M2.5 flat washer, small series | ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm, BelMetric WFHV2.5X5SSA4; two under each eye screw head (0.6 mm stack: 2.4 mm engaged, 0.6 mm to the blind pilot floor, D21) | 16 | 48 | each | 3.36 | BelMetric (US) | https://belmetric.com/small-o-d-washer-a4-stainless-iso-7092-hv-200-hardened/ | Yes (US) | Yes: $0.07 each (1 to 99; $0.04 at 100 and up), in stock and purchasable, variant WFHV2.5X5SSA4 (M2.5, OD 5 mm, ID 2.7 mm, 0.3 mm thick, A4 HV200) from the store's own attribute call and the page's variant data, read with plain curl 2026-11-02 12:20 AM ET. Buy 48, not 19, so the BelMetric cart (17j to 17l, $5.04) reaches the store's $5 minimum checkout. Replaces the A2 0.5 mm washer Y7092-A2-2.5-2000, a special order box of 2000 for $20.00. Commodity, many sources |
@@ -100,7 +100,8 @@ Subtotal: $53.97
 | E4 | Eye glass | round discs for the CAD eye glass ø29.6 x 1.85 mm, 60 pcs | 2 | 60 | 60 | 8.89 | Amazon (FINGERINSPIRE) | https://www.amazon.com/dp/B0C4H17QSH | Yes | Price yes; disc fit checked with the left_eye test print |
 | E5 | Projector reflector | Aurorad S5 aluminium reflector 20x15 mm, 7 mm LED hole (CAD seat tapers to 20.0 mm, about 10 mm deep, narrow end 8.07 mm) | 1 | 1 | 1 | 9.15 | Amazon (Aurorad) | https://www.amazon.com/dp/B0BGS3C42N | Yes | Price yes (in stock, ships in 3 to 4 days); seat height on test order |
 | E6 | Camera | Raspberry Pi Camera Module 3, 21 x 12.5 mm holes match head.stl pilots 20.9 x 12.5 (B9) | 1 | 1 | 1 | 29.25 | Adafruit 5657 | https://www.adafruit.com/product/5657 | Yes | Yes (in stock 2026-11-01) |
-| E7 | Camera cable | Pi Zero camera cable 150 mm (Zero has the 22-pin port) | 1 | 1 | 1 | 5.95 | Adafruit 3157 | https://www.adafruit.com/product/3157 | Yes | Price yes; length on test order TO9 (D25: keep the 150 mm cable). Fallback if TO9 fails, no buy line: Adafruit 5818, Raspberry Pi FPC camera cable 22-pin 0.5 mm to 15-pin 1 mm, 200 mm, $2.70, "In stock" (https://www.adafruit.com/product/5818, read 2026-11-02 1:46 AM ET; Kiwi Electronics lists the same Raspberry Pi cable, MPN SC1892, for the Pi 5, Zero and CM4, read 1:46 AM ET) |
+| E7 | Camera cable (D34) | Raspberry Pi Camera Cable Standard-Mini 300 mm, 22-pin 0.5 mm (Pi Zero) to 15-pin 1 mm (camera); flat strip route 227.3 mm, 72.7 mm spare in one gentle loop of radius 6 mm (twin/complete3d/COMPLETE3D.md section 9) | 1 | 1 | 1 | 2.94 | X-On Electronics | https://www.xonelec.com/mpn/raspberrypi/rpicameracablestandardmini300mm | Yes | Price US$2.94 via search index 2026-11-04, stock not verified; same part at Pakronics, RPI-SC1129, A$3.52 (https://www.pakronics.com.au/products/raspberry-pi-camera-cable-standard-mini-300mm-rpi-sc1129); width and thickness BLOCKER until the TO9 caliper check (B61) |
+| E7r | Camera cable, replaced (D34) | Pi Zero camera cable 150 mm, Adafruit 3157: 77 mm short of the flat strip route (B61) | 0 | 0 | 1 | 0.00 | Adafruit 3157 | https://www.adafruit.com/product/3157 | Yes | replaced (D34), quantity 0 |
 
 Subtotal: $82.40
 
@@ -150,11 +151,11 @@ Subtotal: $1032.92
 | Fasteners and mechanical | 73.75 |
 | Cables, connectors, wire | 267.04 |
 | Print material | 53.97 |
-| Expression (optional upstream) | 82.40 |
+| Expression (optional upstream) | 79.39 |
 | Tools (one-time) | 250.06 |
 | Build total (robot + fasteners + cables + filament) | 1018.29 |
-| Build + expression pack | 1100.69 |
-| Build + expression + tools | 1350.75 |
+| Build + expression pack | 1097.68 |
+| Build + expression + tools | 1347.74 |
 
 Change 2026-11-01 evening (print-readiness pass, D4, D7, D8, D10, D13, D15): Tenergy BMS (+$16.10 vs JZK), Pololu 2815 main switch ($8.49, the old $6.00 placeholder becomes the line 10b control switch), Pololu D30V30F5 (+$12.66 vs HENGE), game controller (+$64.99, line 15), foam tape (+$19.00, line 29), Adafruit USB cable (-$1.50), Same Sky speaker (+$2.43). Before this pass the build total was $716.65.
 
@@ -197,7 +198,7 @@ Not costed: sales tax and the line 10b control switch (upstream part, $6.00 plac
 
 ## BLOCKERS that affect this BOM
 
-See HARDWARE_AUDIT.md section 6 for all 59 with the method for each.
+See HARDWARE_AUDIT.md section 6 for all 64 with the method for each.
 - 8: the Tenergy 32175 must trip at 21 A or more (TEST_PLAN 3.3, B47; twin/electrical/ELECTRICAL_TWIN.md, sim pass only); a board under that means a second board at $22.99 (buying needs Ahmed's OK) or accepting that a hard shove can switch the duck off.
 - 17j: hip pitch button heads clear roll_to_pitch by +0.16 mm in CAD; checked on the first leg (B31, D19).
 - 17e, T11, T13: the 24 neck chain recesses are drilled to 6.0 mm after printing, confirmed on coupon C4 first (B32, D20).
@@ -216,8 +217,8 @@ Parts where only a real part can settle the question. Every line below is alread
 | TO5 | Adafruit BNO055 2472 | 1 | 34.95 | 5 | Hole spacing with calipers (B13); IMU axis tilt test (B20) |
 | TO6 | Miuzei SG90 10-pack | 1 | 19.99 | 14 | Bag screw sizes for the antenna holder and tabs (B5); D9 lead reach without an extension (cables3d: 170 mm worst on the 250 mm lead) |
 | TO7 | Same Sky CMS0361KLX speaker | 1 | 14.82 | E1 | Depth in speaker_interface (0.2 to 0.8 mm margin), retention (B8) |
-| TO8 | Raspberry Pi Camera Module 3, Adafruit 5657 | 1 | 29.25 | E6 | Screw length on the 3.1 mm pilots (B9) |
-| TO9 | Pi Zero camera cable 150 mm, Adafruit 3157 | 1 | 5.95 | E7 | Cable reaches the Pi on the head floor |
+| TO8 | Raspberry Pi Camera Module 3, Adafruit 5657 | 1 | 29.25 | E6 | PCB thickness (caliper) for the M2x5 in the pilots drilled to 4.5 mm (B9, B60) |
+| TO9 | Raspberry Pi Camera Cable Standard-Mini 300 mm, X-On Electronics (D34) | 1 | 2.94 | E7 | Flat strip route and gentle loop fit, both ZIF ends seated, caliper width and thickness (TEST_PLAN 13, B61) |
 | TO10 | Aurorad S5 reflector | 1 | 9.15 | E5 | Height in the 20.0 mm seat |
 | TO11 | Bolt Depot M2.5x8 SHCS, 10 pcs, plus a left_eye test print | 10 | 0.90 | 17g | Left eye pilot 2.2 mm vs right 2.05 mm (B14); eye glass disc fit; the pilots are blind, so T1 clamps the robot stack, 5.6 mm: two 0.3 mm washers from 17l on the printed bulb T1b and head wall T1w (D21 note, PRINT_PLAN T1) |
 | TO12 | CNC Kitchen M3 inserts, 100 pcs | 1 | 10.90 | 16 | Bore depth 5.8 vs 6.7 (B15); foot_top wall 1.5 mm pull test (B16) |
@@ -227,7 +228,7 @@ Parts where only a real part can settle the question. Every line below is alread
 | TO16 | Bolt Depot M3x5 SHCS, 5 pcs, the 6.0 mm HSS bit and the T-handle holder | 5 + 1 + 1 | 9.65 | 17e, T11, T13 | Coupon C4 recess fit: a DIN 912 M3 head in the 5.5 mm recesses, then one recess opened to 6.0 mm (D20, B32); the M2 heads come from TO1 and TO4 |
 | TO17 | BelMetric, one order (the store's $5 minimum checkout): 12 M3x6 button heads, 5 M2.5x5 SHCS, 48 M2.5 flat washers 0.3 mm | 12 + 5 + 48 | 5.04 | 17j, 17k, 17l | Coupon T1 eye screw stack: 8 of the 17l washers, two under each M2.5x8 head, 5.6 mm with T1b and T1w (B14, D21 note); 17j (D19 first-leg hip pitch check, B31) and 17k (speaker_interface, B8) ride along to reach the minimum: 12 x $0.09 + 5 x $0.12 + 48 x $0.07 (lines 17j to 17l). Lead decision L2 |
 
-Test order total: $231.50.
+Test order total: $228.49.
 
 ## Needs Ahmed's OK (V1 track 2, 2026-11-04; not on the buy lines)
 The BOM has no screwdriver for the 95 cross-head screws (twin/assembly/ASSEMBLY_TWIN.md item 2, HARDWARE_AUDIT B53). Proposed, nothing bought:

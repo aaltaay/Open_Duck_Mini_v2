@@ -131,6 +131,8 @@ Plus or minus 40 g on the total does not change any conclusion here.
 3. Note: the lab-only parts sit behind the trunk centre of mass and move it 7.5 mm back. sim/ADDED_MASS_SIM.md shows the walk is far more sensitive to the centre of mass moving back than forward, so any later addition (dock electronics, monitor boards) should go forward of x = -56 mm in the trunk frame, not into the battery bay.
 4. Proposed hardware check (for TEST_PLAN.md, not owned here): weigh the finished robot and find its centre of mass before the first walk (robot powered at the home pose, toes on one scale and heels on another, or a balance edge under the trunk). Expected: 2.65 kg plus or minus 0.05 kg (2.71 kg if the D22 coupon gate fails) and the centre of mass about 1 mm ahead of the ankle servo axes. sim/ADDED_MASS_SIM.md finds that the stock policy tips over backwards once the whole-robot centre of mass is 4 to 6 mm further back than this estimate, so a measured value more than 4 mm behind the ankle axes means moving rear parts forward before walking.
 
+V1 3D track, 2026-11-04 about 7:40 PM ET (calc only): the D34 camera cable adds 0.64 g (row above) and the new OFF wire D13 (26 AWG, cut 590 mm, rides the P13 route) adds about the 26 AWG grams per metre of this file times 0.59 m; together under 0.1 % of the robot. The tables keep the V1 track 2 totals until the next mass run.
+
 ## Every item
 
 | Item | Category | Link | Qty | g each | g total | In CAD | Source key | Note |
@@ -295,7 +297,7 @@ Plus or minus 40 g on the total does not change any conclusion here.
 | SG90 bag screws x3 (2 tab, 1 holder) | screw | head | 2 | 0.71 | 1.42 | no | screw_mass | UNVERIFIED: SG90 bag screw sizes not published (B5); taken as M2x4 pan head, |
 | STS3215 C001 servo x1 | servo | head | 1 | 55.00 | 55.00 | yes | sts3215 |  |
 | 2.54 mm housings and terminals at the Pi header | wire | head | 1 | 2.40 | 2.40 | no | terminal | UNVERIFIED: Molex 50-37-5033 or 2.54 mm housing |
-| camera FPC cable 150 mm | wire | head | 1 | 0.70 | 0.70 | no | fpc |  |
+| camera FPC cable 300 mm (D34) | wire | head | 1 | 1.34 | 1.34 | no | fpc | [L] twin/complete3d: 300 x 16 x 0.2 mm at the fpc density of this file (1.4 g/cm3), was 0.70 g for 150 mm |
 | wires 20 AWG in head | wire | head | 1 | 4.09 | 4.09 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires 26 AWG in head | wire | head | 1 | 9.66 | 9.66 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires USB 2.0 cable in head | wire | head | 1 | 1.63 | 1.63 | no | usb_cable |  |

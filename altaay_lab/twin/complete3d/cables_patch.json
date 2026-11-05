@@ -2740,6 +2740,14 @@
     "need_mm": 267.41,
     "result": "fail: cannot reach",
     "source": "[I] BOM.md E7 note and CABLE_MAP.md D12: Adafruit 5818, Raspberry Pi Standard-Mini camera cable 200 mm, 22-pin 0.5 mm to 15-pin 1 mm, $2.70, in stock (https://www.adafruit.com/product/5818, read 2026-11-02 1:46 AM ET), Raspberry Pi MPN SC1892 (Kiwi Electronics listing, same read)"
+   },
+   "300": {
+    "cut_mm": 300,
+    "route_mm": 227.41,
+    "spare_mm": 72.59,
+    "need_mm": 267.41,
+    "result": "pass",
+    "source": "[I] D34: Raspberry Pi Camera Cable Standard-Mini 300 mm (22-pin 0.5 mm to 15-pin 1 mm), US$2.94 at X-On Electronics (https://www.xonelec.com/mpn/raspberrypi/rpicameracablestandardmini300mm, read via search index 2026-11-05, stock not verified); same part as Pakronics RPI-SC1129, A$3.52 (https://www.pakronics.com.au/products/raspberry-pi-camera-cable-standard-mini-300mm-rpi-sc1129)"
    }
   },
   "events": [

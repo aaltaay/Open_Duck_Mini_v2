@@ -18,11 +18,11 @@
     "overlaps": 0
    },
    "back": {
-    "visible": 56,
+    "visible": 54,
     "overlaps": 0
    },
    "left": {
-    "visible": 52,
+    "visible": 51,
     "overlaps": 0
    },
    "right": {
@@ -70,26 +70,6 @@
     -155.86,
     126.31,
     248.22
-   ],
-   "free": true
-  },
-  {
-   "node": "head_assembly-head_board-1",
-   "text": "board.stl copy in the head (",
-   "anchor_world": [
-    64.0,
-    -54.52,
-    225.1
-   ],
-   "phi": -0.56,
-   "z": 225.1,
-   "w": 55.2,
-   "h": 4.5,
-   "sub": "head",
-   "pos_world": [
-    133.08,
-    -98.17,
-    225.1
    ],
    "free": true
   },
@@ -157,18 +137,18 @@
    "node": "ph-camera",
    "text": "Raspberry Pi Camera Module 3",
    "anchor_world": [
-    99.55,
-    -6.15,
+    94.3,
+    -2.4,
     217.89
    ],
-   "phi": -0.05,
+   "phi": -0.02,
    "z": 217.89,
    "w": 55.2,
    "h": 4.5,
    "sub": "head",
    "pos_world": [
-    161.27,
-    -9.28,
+    161.47,
+    -3.8,
     217.89
    ],
    "free": true
@@ -194,26 +174,6 @@
    "free": true
   },
   {
-   "node": "cable-D12",
-   "text": "D12",
-   "anchor_world": [
-    45.0,
-    27.0,
-    215.0
-   ],
-   "phi": 0.38,
-   "z": 215.0,
-   "w": 7.7,
-   "h": 4.5,
-   "sub": null,
-   "pos_world": [
-    148.31,
-    68.41,
-    215.0
-   ],
-   "free": true
-  },
-  {
    "node": "cable-D6",
    "text": "D6",
    "anchor_world": [
@@ -221,14 +181,14 @@
     10.0,
     214.0
    ],
-   "phi": 0.15,
+   "phi": 0.2,
    "z": 214.0,
    "w": 5.8,
    "h": 4.5,
    "sub": null,
    "pos_world": [
-    159.57,
-    26.65,
+    158.01,
+    35.7,
     214.0
    ],
    "free": true
@@ -814,6 +774,26 @@
    "free": true
   },
   {
+   "node": "cable-D12",
+   "text": "D12",
+   "anchor_world": [
+    44.33,
+    15.75,
+    181.4
+   ],
+   "phi": 0.23,
+   "z": 181.4,
+   "w": 7.7,
+   "h": 4.5,
+   "sub": null,
+   "pos_world": [
+    156.59,
+    42.24,
+    181.4
+   ],
+   "free": true
+  },
+  {
    "node": "head_pitch_to_yaw-head_pitch_to_yaw-1",
    "text": "Head pitch to yaw",
    "anchor_world": [
@@ -914,6 +894,26 @@
    "free": true
   },
   {
+   "node": "cable-D13",
+   "text": "D13",
+   "anchor_world": [
+    -4.0,
+    -18.3,
+    142.05
+   ],
+   "phi": -0.79,
+   "z": 142.05,
+   "w": 7.7,
+   "h": 4.5,
+   "sub": null,
+   "pos_world": [
+    107.58,
+    -130.04,
+    142.05
+   ],
+   "free": true
+  },
+  {
    "node": "cable-D2",
    "text": "D2",
    "anchor_world": [
@@ -921,14 +921,14 @@
     -22.0,
     140.0
    ],
-   "phi": -0.78,
+   "phi": -0.88,
    "z": 140.0,
    "w": 5.8,
    "h": 4.5,
    "sub": null,
    "pos_world": [
-    108.48,
-    -129.14,
+    94.93,
+    -141.55,
     140.0
    ],
    "free": true
@@ -941,14 +941,14 @@
     -25.0,
     137.0
    ],
-   "phi": -0.88,
+   "phi": -0.68,
    "z": 137.0,
    "w": 7.7,
    "h": 4.5,
    "sub": null,
    "pos_world": [
-    94.82,
-    -141.64,
+    120.63,
+    -115.54,
     137.0
    ],
    "free": true
@@ -1495,7 +1495,7 @@
   },
   {
    "node": "ph-mosfet_switch",
-   "text": "Pololu 2815 Big MOSFET Slide",
+   "text": "Pololu 2813 Big Pushbutton P",
    "anchor_world": [
     -110.9,
     24.0,
@@ -1954,6 +1954,26 @@
    "free": true
   },
   {
+   "node": "cable-SP5",
+   "text": "SP5",
+   "anchor_world": [
+    -21.11,
+    -71.7,
+    4.93
+   ],
+   "phi": -1.55,
+   "z": 4.93,
+   "w": 7.7,
+   "h": 4.5,
+   "sub": null,
+   "pos_world": [
+    -19.25,
+    -183.76,
+    4.93
+   ],
+   "free": true
+  },
+  {
    "node": "cable-P10",
    "text": "P10",
    "anchor_world": [
@@ -1981,14 +2001,14 @@
     -91.55,
     -0.07
    ],
-   "phi": -1.57,
+   "phi": -1.77,
    "z": -0.07,
    "w": 55.2,
    "h": 4.5,
    "sub": "right_bracket",
    "pos_world": [
-    -22.82,
-    -183.78,
+    -59.33,
+    -180.02,
     -0.07
    ],
    "free": true
@@ -2041,35 +2061,15 @@
     -67.07,
     -0.07
    ],
-   "phi": -1.26,
+   "phi": -1.41,
    "z": -0.07,
    "w": 38.1,
    "h": 4.5,
    "sub": "right_bracket",
    "pos_world": [
-    33.43,
-    -175.13,
+    6.63,
+    -181.49,
     -0.07
-   ],
-   "free": true
-  },
-  {
-   "node": "cable-SP5",
-   "text": "SP5",
-   "anchor_world": [
-    -21.0,
-    -72.0,
-    -2.0
-   ],
-   "phi": -1.75,
-   "z": -2.0,
-   "w": 7.7,
-   "h": 4.5,
-   "sub": null,
-   "pos_world": [
-    -55.56,
-    -180.75,
-    -2.0
    ],
    "free": true
   },
@@ -2081,14 +2081,14 @@
     -56.67,
     -3.66
    ],
-   "phi": -1.82,
+   "phi": -1.57,
    "z": -3.66,
    "w": 5.8,
    "h": 4.5,
    "sub": null,
    "pos_world": [
-    -68.34,
-    -177.93,
+    -22.88,
+    -183.78,
     -3.66
    ],
    "free": true
@@ -2101,14 +2101,14 @@
     -35.0,
     -4.48
    ],
-   "phi": -2.12,
+   "phi": -1.17,
    "z": -4.48,
    "w": 34.3,
    "h": 4.5,
    "sub": "right_hip",
    "pos_world": [
-    -118.16,
-    -156.81,
+    49.51,
+    -169.18,
     -4.48
    ],
    "free": true

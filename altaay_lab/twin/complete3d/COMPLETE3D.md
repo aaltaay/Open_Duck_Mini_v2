@@ -170,3 +170,26 @@ Ahmed reverted the eye lamp change, so the head keeps the upstream layout. The b
 - The projector lead D7 is drawn in all 4 of its cables3d runs (main, hole, outside, channel), in the base run and in the published run.
 
 labels.json and TABLES.md use these three names. The LED bead size is still the 8 x 8 x 5 mm stand-in ("Size not given"). The seats come from the cable terminals.
+
+## 9. Phase 2 applied (2026-11-04 about 7:40 PM ET)
+
+Phase 2 of the V1 3D track, after D34 (300 mm camera cable, the spare in a gentle loop; camera screws M2x5 in pilots drilled
+to 4.5 mm) and D33 (head as upstream). CAD check only; lengths calc only. Scripts: phase2_data.py (data and code),
+phase2_docs.py (docs), phase2_notes.py (this section and the history file); ribbon_d12.py now designs the 300 mm loop.
+
+- Camera: drawn as its PCB (25 x 24 x 1.0 mm) on the measured boss faces, board centre 3.75 mm toward the lens row (the box
+  that poked through the front wall is gone). F344 to F347 are M2x5 "camera to head", 4.0 mm engaged; the pilot drill step is
+  print/PRINT_PLAN.md After printing (1/16 in bit, needs Ahmed's OK, $1.98 Walmart or $1.95 Zoro, read via search index).
+- D12: the 300 mm flat strip, route 227.3 mm (centre line, no twist), 72.7 mm spare in 1 gentle loop(s): radius 6 mm, legs 29.4 mm, 1.74 mm clear. Check: pass with notes.
+  Drawn as a flat band in the viewer. 150 mm and 200 mm stay short (77.4 and 27.4 mm).
+- D13 (new, D30): the OFF wire, Pi GPIO26 (pin 37) to the 2813 OFF input, 26 AWG on the P13 route plus the P12 hop and the
+  header: zero pose 467.7 mm, worst 542.5 mm, cut 590 mm, check pass with notes. The 2813 OFF pad position is a stand-in (BLOCKER).
+- P15 stays the button lead entry (the netlist names it 2813 A and B to the button, D30); its wires still name the 2815 SW
+  and GND_SW pads: the 2813 pad names need the Pololu 2813 pinout (BLOCKER, pololu.com not read here). Check: pass with notes.
+- D10: fan-out runs fan_PI.35, fan_PI.12, fan_PI.40, fan_J5, fan_JG; check pass with notes. SP1, SP2, SP4, SP5: lead-ins from the SPV and SPG splice bodies (power_splice box) SP1 16.0 mm, SP2 16.0 mm, SP4 16.0 mm, SP5 16.0 mm;
+  checks SP1 pass with notes, SP2 pass with notes, SP4 pass with notes, SP5 pass with notes.
+- roll_to_pitch: the CAD has 2 pilots per part (F029 to F032): the viewer mount text now says 2 x M2x6 (B63).
+- Viewer: head_board ghost not drawn; x-ray switch (printed shells see-through); part and cable labels (labels.json, the page
+  hides a label that faces away or would overlap one already shown, so none hides another; LED names kept); camera screw
+  labels from the record. Republish from /home/user/v1_out/3d/viewer: index.html, manifest.json, duck.glb.txt.
+- Counts after: 48 cables in 68 runs, all drawn; 86 of 118 parts rows seated; both ends at the right part 48 of 48 cables.

@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated_utc": "2026-11-02 10:14 UTC",
+  "generated_utc": "2026-11-05 00:35 UTC",
   "script": "altaay_lab/blueprint/make_scene_extras.py",
   "frame": "URDF world at the zero pose, x forward, y left, z up, mm",
   "convention": "center_mm and axis (long axis, dims_mm[0] along it). dims_mm[1] and dims_mm[2] lie along x and y of rot_z_to(axis) as in make_viewer_data.py step 10e. rotation_3x3 columns are the world directions of the box width, height and length for dims_local_mm [length, width, height] (exact for every item). shape: cylinder or cone where the real part is round (draw a box if not supported). replaces_placeholder: the viewer placeholder box this item details (xt30, power_splice). render translucent: wrap or skin.",
@@ -25,14 +25,16 @@
    },
    "solder_joints": 64,
    "washers": 16,
-   "cables": 47,
+   "cables": 48,
    "cables_all_ends_drawn": 46,
-   "cable_ends": 248,
-   "lead_ends": 24,
+   "cable_ends": 250,
+   "lead_ends": 25,
    "ends_with_body": 220,
    "no_bom_row": []
   },
-  "notes": []
+  "notes": [
+   "no cables3d terminal for SW1.OFF: solder marker skipped"
+  ]
  },
  "items": [
   {
@@ -2856,9 +2858,9 @@
    "bom_line": "E7",
    "link": "head_assembly",
    "center_mm": [
-    94.3,
-    -16.2,
-    217.9
+    92.8,
+    -11.4,
+    217.89
    ],
    "axis": [
     0.0,

@@ -2,13 +2,13 @@
  "meta": {
   "script": "altaay_lab/twin/complete3d/inventory.py",
   "label": "CAD check only",
-  "viewer_run": "2026-11-04 23:10 UTC",
+  "viewer_run": "2026-11-05 00:36 UTC",
   "published_run": "2026-11-02 11:08 UTC"
  },
  "lead_findings_check": {
-  "cables_in_cables3d": 47,
-  "runs_in_cables3d": 62,
-  "runs_drawn_base": 62,
+  "cables_in_cables3d": 48,
+  "runs_in_cables3d": 68,
+  "runs_drawn_base": 68,
   "runs_drawn_published": 62,
   "cables_with_a_scene_extras_plug": 21,
   "plug_cables": [
@@ -198,7 +198,7 @@
    "in_viewer": 1,
    "seated": "yes (robot.urdf or head.stl frame)",
    "note": "",
-   "mount": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
+   "mount": "2 x M2x6 self-tapping into the servo bottom case pilots 1.67 mm (the CAD has 2 holes per part, B63; B4 cleared), plus M3 horn screws.",
    "fasteners": {
     "n": 13,
     "by_spec": {
@@ -222,7 +222,7 @@
    "in_viewer": 1,
    "seated": "yes (robot.urdf or head.stl frame)",
    "note": "",
-   "mount": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
+   "mount": "2 x M2x6 self-tapping into the servo bottom case pilots 1.67 mm (the CAD has 2 holes per part, B63; B4 cleared), plus M3 horn screws.",
    "fasteners": {
     "n": 13,
     "by_spec": {
@@ -457,12 +457,12 @@
    "fasteners": {
     "n": 68,
     "by_spec": {
-     "M2x5 self-tapping pan head": 4,
+     "M2x5 self-tapping pan head": 8,
      "M2x6 self-tapping pan head": 2,
      "M3x8 DIN 912 A2": 8,
      "M3x6 DIN 912 A2": 4,
      "M2.5x6 DIN 912 A2": 8,
-     "M2x4 self-tapping pan head": 6,
+     "M2x4 self-tapping pan head": 2,
      "M3x5 DIN 912 A2": 20,
      "SG90 bag mounting screw": 4,
      "M3 heat-set insert CNC Kitchen M3 x 5.7": 12
@@ -1525,6 +1525,7 @@
     "D1",
     "D10",
     "D12",
+    "D13",
     "D2",
     "D3",
     "D4",
@@ -1565,23 +1566,6 @@
     "SGL",
     "SGR"
    ]
-  },
-  {
-   "group": "bought",
-   "part": "head_board",
-   "category": "electronics",
-   "bom": null,
-   "label": "board.stl copy in the head (Pi footprint, B7)",
-   "in_viewer": 1,
-   "seated": "yes (robot.urdf CAD body)",
-   "status": "OK",
-   "mount": "Same 4 holes as the Pi footprint. Not a second board: upstream lists one adapter (B7 cleared).",
-   "fasteners": {
-    "n": 0,
-    "by_spec": {}
-   },
-   "cables": [],
-   "netlist_ids": []
   },
   {
    "group": "bought",
@@ -1690,7 +1674,7 @@
    "part": "ph-mosfet_switch",
    "category": "placeholder",
    "bom": "10",
-   "label": "Pololu 2815 Big MOSFET Slide Switch HP",
+   "label": "Pololu 2813 Big Pushbutton Power Switch HP (D30)",
    "in_viewer": 1,
    "seated": "yes: Lab placement, audit/placements.json",
    "status": "OK",
@@ -1700,6 +1684,7 @@
     "by_spec": {}
    },
    "cables": [
+    "D13",
     "P15",
     "P16",
     "P7",
@@ -1811,13 +1796,13 @@
    "bom": "E6",
    "label": "Raspberry Pi Camera Module 3",
    "in_viewer": 1,
-   "seated": "NO: box centred on the 4 pilots, 3.75 mm off the drawing's board centre, and its 11.5 mm depth drawn forward through the front wall (56 of 400 samples inside head.stl); designed seat in part_seats.json",
+   "seated": "yes: PCB on the measured head.stl pilots (camera_seat.json), within 0.00 mm",
    "status": "OK",
-   "mount": "4 x M2x4 self-tapping into head.stl pilots 1.65 mm on 20.9 x 12.5 (B9 cleared; screw length on the test order).",
+   "mount": "4 x M2x5 self-tapping (BOM 17h) into the head.stl pilots 1.65 mm on 20.9 x 12.5, drilled to 4.5 mm (D34). Drawn as its PCB, 25 x 24 x 1.0 mm; the lens sits in the 7.75 mm opening.",
    "fasteners": {
     "n": 4,
     "by_spec": {
-     "M2x4 self-tapping pan head": 4
+     "M2x5 self-tapping pan head": 4
     }
    },
    "cables": [
@@ -1990,6 +1975,18 @@
    },
    "cables": [],
    "netlist_ids": []
+  },
+  {
+   "group": "bought, no own node",
+   "part": "Main power switch: replaced (D30)",
+   "bom": "10r",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Pololu 2815 Big MOSFET Slide Switch with Reverse Voltage Protection, HP: 4.5 to 32 V, 6 A ",
+   "qty": "0",
+   "fasteners": {
+    "n": 0
+   }
   },
   {
    "group": "bought, no own node",
@@ -2613,69 +2610,8 @@
    "runs": 4,
    "runs_drawn_base": 4,
    "runs_drawn_published": 4,
-   "ends_ok": "4 of 8",
-   "ends_bad": [
-    {
-     "run": "main",
-     "side": "end",
-     "cable_end": "HOLE.IN",
-     "end_gap_mm": 0.0,
-     "nearest_part": "head_assembly-head-1",
-     "part_gap_mm": 0.68,
-     "matched": null,
-     "expected": [
-      "LEDP",
-      "PI",
-      "RP"
-     ],
-     "ok": false
-    },
-    {
-     "run": "hole",
-     "side": "start",
-     "cable_end": "HOLE.IN",
-     "end_gap_mm": 0.0,
-     "nearest_part": "head_assembly-head-1",
-     "part_gap_mm": 0.68,
-     "matched": null,
-     "expected": [
-      "LEDP",
-      "PI",
-      "RP"
-     ],
-     "ok": false
-    },
-    {
-     "run": "hole",
-     "side": "end",
-     "cable_end": "HOLE.OUT",
-     "end_gap_mm": 0.0,
-     "nearest_part": "head_assembly-head-1",
-     "part_gap_mm": 1.95,
-     "matched": null,
-     "expected": [
-      "LEDP",
-      "PI",
-      "RP"
-     ],
-     "ok": false
-    },
-    {
-     "run": "outside",
-     "side": "start",
-     "cable_end": "HOLE.OUT",
-     "end_gap_mm": 0.0,
-     "nearest_part": "head_assembly-head-1",
-     "part_gap_mm": 1.95,
-     "matched": null,
-     "expected": [
-      "LEDP",
-      "PI",
-      "RP"
-     ],
-     "ok": false
-    }
-   ],
+   "ends_ok": "8 of 8",
+   "ends_bad": [],
    "shape": "round bundle d 3.00 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
    "hidden_pct": 70.0,
    "check": "pass"
@@ -2722,28 +2658,11 @@
    "in_cable_map": true,
    "in_wiring": true,
    "in_upstream": true,
-   "runs": 1,
-   "runs_drawn_base": 1,
+   "runs": 6,
+   "runs_drawn_base": 6,
    "runs_drawn_published": 1,
-   "ends_ok": "1 of 2",
-   "ends_bad": [
-    {
-     "run": "main",
-     "side": "start",
-     "cable_end": "PI.22",
-     "end_gap_mm": 5.91,
-     "nearest_part": "x-res-R4",
-     "part_gap_mm": 3.33,
-     "matched": null,
-     "expected": [
-      "AMP",
-      "J5",
-      "JG",
-      "PI"
-     ],
-     "ok": false
-    }
-   ],
+   "ends_ok": "12 of 12",
+   "ends_bad": [],
    "shape": "round bundle d 3.87 mm ([L] hexagonal packing estimate of 5 wires, cables3d.json d_mm)",
    "hidden_pct": 100.0,
    "check": "pass with notes"
@@ -2779,25 +2698,25 @@
    "ends_ok": "2 of 2",
    "ends_bad": [],
    "shape": "flat strip: width and thickness BLOCKER (stand-in 16 mm at the 15-pin end, 11.5 mm at the 22-pin end, 0.3 mm)",
-   "hidden_pct": 100.0,
-   "check": "test fit"
+   "hidden_pct": 60.0,
+   "check": "pass with notes"
   },
   {
    "id": "D13",
-   "desc": null,
-   "netlist_status": null,
-   "in_cables3d": false,
+   "desc": "Pi GPIO26 (pin 37) to the 2813 OFF input (D30, gpio-poweroff)",
+   "netlist_status": "active",
+   "in_cables3d": true,
    "in_cable_map": false,
    "in_wiring": true,
    "in_upstream": false,
-   "runs": 0,
-   "runs_drawn_base": 0,
+   "runs": 1,
+   "runs_drawn_base": 1,
    "runs_drawn_published": 0,
-   "ends_ok": "0 of 0",
+   "ends_ok": "2 of 2",
    "ends_bad": [],
-   "shape": "",
-   "hidden_pct": null,
-   "check": null
+   "shape": "round bundle d 1.50 mm ([L] hexagonal packing estimate of 1 wires, cables3d.json d_mm)",
+   "hidden_pct": 50.0,
+   "check": "pass with notes"
   },
   {
    "id": "D15",
@@ -3422,25 +3341,8 @@
    "runs": 2,
    "runs_drawn_base": 2,
    "runs_drawn_published": 2,
-   "ends_ok": "3 of 4",
-   "ends_bad": [
-    {
-     "run": "main",
-     "side": "start",
-     "cable_end": "SP.L",
-     "end_gap_mm": 0.0,
-     "nearest_part": "trunk_assembly-trunk_top-1",
-     "part_gap_mm": 5.86,
-     "matched": null,
-     "expected": [
-      "JG20",
-      "SPG",
-      "SPV",
-      "SV20"
-     ],
-     "ok": false
-    }
-   ],
+   "ends_ok": "4 of 4",
+   "ends_bad": [],
    "shape": "round bundle d 3.40 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
    "hidden_pct": 75.0,
    "check": "pass with notes"
@@ -3456,25 +3358,8 @@
    "runs": 2,
    "runs_drawn_base": 2,
    "runs_drawn_published": 2,
-   "ends_ok": "3 of 4",
-   "ends_bad": [
-    {
-     "run": "main",
-     "side": "start",
-     "cable_end": "SP.R",
-     "end_gap_mm": 0.0,
-     "nearest_part": "trunk_assembly-trunk_top-1",
-     "part_gap_mm": 5.86,
-     "matched": null,
-     "expected": [
-      "JG10",
-      "SPG",
-      "SPV",
-      "SV10"
-     ],
-     "ok": false
-    }
-   ],
+   "ends_ok": "4 of 4",
+   "ends_bad": [],
    "shape": "round bundle d 3.40 mm ([L] hexagonal packing estimate of 3 wires, cables3d.json d_mm)",
    "hidden_pct": 65.0,
    "check": "pass with notes"
@@ -3507,24 +3392,8 @@
    "runs": 1,
    "runs_drawn_base": 1,
    "runs_drawn_published": 1,
-   "ends_ok": "1 of 2",
-   "ends_bad": [
-    {
-     "run": "main",
-     "side": "start",
-     "cable_end": "SP.L",
-     "end_gap_mm": 0.0,
-     "nearest_part": "trunk_assembly-trunk_top-1",
-     "part_gap_mm": 5.86,
-     "matched": null,
-     "expected": [
-      "SPG",
-      "SPV",
-      "SV24"
-     ],
-     "ok": false
-    }
-   ],
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
    "shape": "round bundle d 3.40 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
    "hidden_pct": 40.0,
    "check": "pass with notes"
@@ -3540,26 +3409,10 @@
    "runs": 1,
    "runs_drawn_base": 1,
    "runs_drawn_published": 1,
-   "ends_ok": "1 of 2",
-   "ends_bad": [
-    {
-     "run": "main",
-     "side": "start",
-     "cable_end": "SP.R",
-     "end_gap_mm": 0.0,
-     "nearest_part": "trunk_assembly-trunk_top-1",
-     "part_gap_mm": 5.86,
-     "matched": null,
-     "expected": [
-      "SPG",
-      "SPV",
-      "SV14"
-     ],
-     "ok": false
-    }
-   ],
+   "ends_ok": "2 of 2",
+   "ends_bad": [],
    "shape": "round bundle d 3.40 mm ([L] hexagonal packing estimate of 2 wires, cables3d.json d_mm)",
-   "hidden_pct": 50.0,
+   "hidden_pct": 60.0,
    "check": "pass with notes"
   },
   {
@@ -3666,7 +3519,7 @@
    "n": null,
    "spec": "m2x4",
    "ctx": "| Camera Module 3 (Adafruit 5657) | head.stl: 4 blind pilots 1.65 mm, 3.1 mm deep, on 20.9 x 12.5 mm (measured",
-   "in_fasteners_json_total": 6,
+   "in_fasteners_json_total": 2,
    "missing": 0
   },
   {
@@ -3682,7 +3535,7 @@
    "n": null,
    "spec": "m2x4",
    "ctx": "M2x4 self-tapping: camera 4 (METALLIXITY kit, BOM 17h).",
-   "in_fasteners_json_total": 6,
+   "in_fasteners_json_total": 2,
    "missing": 0
   },
   {
@@ -3710,7 +3563,23 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:40",
+   "src": "MOUNTING.md:56",
+   "n": 8,
+   "spec": "m3x8",
+   "ctx": "Service: the lid faces into the trunk. Cells and XT30: 8 x M3x8 body_back screws out, pull body_back 20 mm bac",
+   "in_fasteners_json_total": 28,
+   "missing": 0
+  },
+  {
+   "src": "MOUNTING.md:56",
+   "n": 8,
+   "spec": "m3x8",
+   "ctx": "Service: the lid faces into the trunk. Cells and XT30: 8 x M3x8 body_back screws out, pull body_back 20 mm bac",
+   "in_fasteners_json_total": 28,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:42",
    "n": null,
    "spec": "m3x5.7",
    "ctx": "| 16 | M3 heat-set insert | CNC Kitchen M3 x 5.7, D1 4.6 mm, hole 4.0 mm | 58 | 100 | 100 | 10.90 | CNC Kitche",
@@ -3718,7 +3587,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:41",
+   "src": "BOM.md:43",
    "n": null,
    "spec": "m3x8",
    "ctx": "| 17a | M3x8 SHCS | DIN 912 A2 stainless, Bolt Depot 6379 | 28 | 33 | each | 1.98 | Bolt Depot | https://boltd",
@@ -3726,7 +3595,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:42",
+   "src": "BOM.md:44",
    "n": null,
    "spec": "m3x10",
    "ctx": "| 17b | M3x10 SHCS | DIN 912 A2, Bolt Depot 6380 | 12 | 14 | each | 0.84 | Bolt Depot | https://boltdepot.com/",
@@ -3734,7 +3603,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:43",
+   "src": "BOM.md:45",
    "n": null,
    "spec": "m3x12",
    "ctx": "| 17c | M3x12 SHCS | DIN 912 A2, Bolt Depot 6381 | 2 | 3 | each | 0.18 | Bolt Depot | https://boltdepot.com/Pr",
@@ -3742,7 +3611,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:44",
+   "src": "BOM.md:46",
    "n": null,
    "spec": "m3x6",
    "ctx": "| 17d | M3x6 SHCS | DIN 912 A2, Bolt Depot 6378 (horn screws; the 10 hip pitch sites take line 17j, D19) | 78 ",
@@ -3750,7 +3619,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:45",
+   "src": "BOM.md:47",
    "n": null,
    "spec": "m3x5",
    "ctx": "| 17e | M3x5 SHCS | DIN 912 A2, Bolt Depot 6377 (short horn sites: every neck chain horn screw, FASTENERS.md s",
@@ -3758,7 +3627,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:46",
+   "src": "BOM.md:48",
    "n": null,
    "spec": "m2.5x6",
    "ctx": "| 17f | M2.5x6 SHCS | DIN 912 A2, Bolt Depot 6370 (electronics) | 17 | 20 | each | 1.80 | Bolt Depot | https:/",
@@ -3766,7 +3635,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:47",
+   "src": "BOM.md:49",
    "n": null,
    "spec": "m2.5x8",
    "ctx": "| 17g | M2.5x8 SHCS | DIN 912 A2, Bolt Depot 6371 (eyes, each with two 0.3 mm washers from line 17l under the ",
@@ -3774,7 +3643,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:48",
+   "src": "BOM.md:50",
    "n": null,
    "spec": "m2.5x10",
    "ctx": "| 17i | M2.5x10 SHCS | DIN 912 A2, Bolt Depot 6372 (battery lid, pilot depth 2.1 to 15.3 mm; the 2.5 mm lid ho",
@@ -3782,23 +3651,23 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": null,
    "spec": "m2x4",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
-   "in_fasteners_json_total": 6,
+   "in_fasteners_json_total": 2,
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": null,
    "spec": "m2x5",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
-   "in_fasteners_json_total": 22,
+   "in_fasteners_json_total": 26,
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": null,
    "spec": "m2x6",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
@@ -3806,7 +3675,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": null,
    "spec": "m2x8",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
@@ -3814,15 +3683,15 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": 22,
    "spec": "m2x5",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
-   "in_fasteners_json_total": 22,
+   "in_fasteners_json_total": 26,
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": 2,
    "spec": "m2x8",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
@@ -3830,23 +3699,23 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": 2,
    "spec": "m2x4",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
-   "in_fasteners_json_total": 6,
+   "in_fasteners_json_total": 2,
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": 4,
    "spec": "m2x4",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
-   "in_fasteners_json_total": 6,
-   "missing": 0
+   "in_fasteners_json_total": 2,
+   "missing": 2
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": null,
    "spec": "m2x6",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
@@ -3854,23 +3723,23 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": null,
    "spec": "m2x5",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
-   "in_fasteners_json_total": 22,
+   "in_fasteners_json_total": 26,
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": null,
    "spec": "m2x4",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
-   "in_fasteners_json_total": 6,
+   "in_fasteners_json_total": 2,
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": null,
    "spec": "m2x8",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
@@ -3878,23 +3747,23 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": null,
    "spec": "m2x5",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
-   "in_fasteners_json_total": 22,
+   "in_fasteners_json_total": 26,
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": null,
    "spec": "m2x4",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
-   "in_fasteners_json_total": 6,
+   "in_fasteners_json_total": 2,
    "missing": 0
   },
   {
-   "src": "BOM.md:49",
+   "src": "BOM.md:51",
    "n": null,
    "spec": "m2x6",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
@@ -3902,7 +3771,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:50",
+   "src": "BOM.md:52",
    "n": null,
    "spec": "m3x6",
    "ctx": "| 17j | M3x6 button head | ISO 7380-1 A2 stainless hex socket button head (head 5.7 x 1.65 mm max, ISO 7380-1)",
@@ -3910,7 +3779,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:50",
+   "src": "BOM.md:52",
    "n": null,
    "spec": "m3x0",
    "ctx": "| 17j | M3x6 button head | ISO 7380-1 A2 stainless hex socket button head (head 5.7 x 1.65 mm max, ISO 7380-1)",
@@ -3918,7 +3787,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:51",
+   "src": "BOM.md:53",
    "n": null,
    "spec": "m2.5x5",
    "ctx": "| 17k | M2.5x5 SHCS | DIN 912 A2, BelMetric BSH2.5X5SS; speaker_interface to the 4 side pilots of speaker_stan",
@@ -3926,23 +3795,23 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:161",
+   "src": "BOM.md:163",
    "n": null,
    "spec": "m2x5",
    "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
-   "in_fasteners_json_total": 22,
+   "in_fasteners_json_total": 26,
    "missing": 0
   },
   {
-   "src": "BOM.md:161",
+   "src": "BOM.md:163",
    "n": null,
    "spec": "m2x4",
    "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
-   "in_fasteners_json_total": 6,
+   "in_fasteners_json_total": 2,
    "missing": 0
   },
   {
-   "src": "BOM.md:161",
+   "src": "BOM.md:163",
    "n": null,
    "spec": "m2x8",
    "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
@@ -3950,7 +3819,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:161",
+   "src": "BOM.md:163",
    "n": null,
    "spec": "m3x6",
    "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
@@ -3958,7 +3827,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:161",
+   "src": "BOM.md:163",
    "n": null,
    "spec": "m2.5x5",
    "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
@@ -3966,55 +3835,55 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:194",
+   "src": "BOM.md:196",
    "n": null,
    "spec": "m2x5",
    "ctx": "- IMSCREWS M2x5 100 pcs: replaced by the METALLIXITY kit, which also has the camera M2x4.",
-   "in_fasteners_json_total": 22,
+   "in_fasteners_json_total": 26,
    "missing": 0
   },
   {
-   "src": "BOM.md:194",
+   "src": "BOM.md:196",
    "n": null,
    "spec": "m2x4",
    "ctx": "- IMSCREWS M2x5 100 pcs: replaced by the METALLIXITY kit, which also has the camera M2x4.",
-   "in_fasteners_json_total": 6,
+   "in_fasteners_json_total": 2,
    "missing": 0
   },
   {
-   "src": "BOM.md:210",
+   "src": "BOM.md:212",
    "n": null,
    "spec": "m2x5",
    "ctx": "| TO1 | Feetech STS3215 7.4 V, Seeed | 1 | 20.00 | 1 | Count the 18-screw bag by size (B2); horn to case gap a",
-   "in_fasteners_json_total": 22,
+   "in_fasteners_json_total": 26,
    "missing": 0
   },
   {
-   "src": "BOM.md:210",
+   "src": "BOM.md:212",
    "n": null,
    "spec": "m2x5",
    "ctx": "| TO1 | Feetech STS3215 7.4 V, Seeed | 1 | 20.00 | 1 | Count the 18-screw bag by size (B2); horn to case gap a",
-   "in_fasteners_json_total": 22,
+   "in_fasteners_json_total": 26,
    "missing": 0
   },
   {
-   "src": "BOM.md:213",
+   "src": "BOM.md:215",
    "n": null,
    "spec": "m2x5",
    "ctx": "| TO4 | METALLIXITY M2 self-tapping kit | 1 | 9.49 | 17h | M2x5 head fit (B21); M2x4 vs camera PCB thickness (",
-   "in_fasteners_json_total": 22,
+   "in_fasteners_json_total": 26,
    "missing": 0
   },
   {
-   "src": "BOM.md:213",
+   "src": "BOM.md:215",
    "n": null,
    "spec": "m2x4",
    "ctx": "| TO4 | METALLIXITY M2 self-tapping kit | 1 | 9.49 | 17h | M2x5 head fit (B21); M2x4 vs camera PCB thickness (",
-   "in_fasteners_json_total": 6,
+   "in_fasteners_json_total": 2,
    "missing": 0
   },
   {
-   "src": "BOM.md:220",
+   "src": "BOM.md:222",
    "n": null,
    "spec": "m2.5x8",
    "ctx": "| TO11 | Bolt Depot M2.5x8 SHCS, 10 pcs, plus a left_eye test print | 10 | 0.90 | 17g | Left eye pilot 2.2 mm ",
@@ -4022,7 +3891,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:225",
+   "src": "BOM.md:227",
    "n": null,
    "spec": "m3x5",
    "ctx": "| TO16 | Bolt Depot M3x5 SHCS, 5 pcs, the 6.0 mm HSS bit and the T-handle holder | 5 + 1 + 1 | 9.65 | 17e, T11",
@@ -4030,7 +3899,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:226",
+   "src": "BOM.md:228",
    "n": null,
    "spec": "m3x6",
    "ctx": "| TO17 | BelMetric, one order (the store's $5 minimum checkout): 12 M3x6 button heads, 5 M2.5x5 SHCS, 48 M2.5 ",
@@ -4038,7 +3907,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:226",
+   "src": "BOM.md:228",
    "n": null,
    "spec": "m2.5x5",
    "ctx": "| TO17 | BelMetric, one order (the store's $5 minimum checkout): 12 M3x6 button heads, 5 M2.5x5 SHCS, 48 M2.5 ",
@@ -4046,7 +3915,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:226",
+   "src": "BOM.md:228",
    "n": null,
    "spec": "m2.5x8",
    "ctx": "| TO17 | BelMetric, one order (the store's $5 minimum checkout): 12 M3x6 button heads, 5 M2.5x5 SHCS, 48 M2.5 ",
@@ -4465,13 +4334,13 @@
   },
   {
    "src": "viewer mount left_roll_to_pitch_assembly-left_roll_to_pitch-1",
-   "n": 4,
+   "n": 2,
    "spec": "m2x6",
-   "ctx": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
+   "ctx": "2 x M2x6 self-tapping into the servo bottom case pilots 1.67 mm (the CAD has 2 holes per part, B63; B4 cleared",
    "part": "left_roll_to_pitch",
    "in_fasteners_json_total": 44,
    "in_fasteners_json_for_part": 2,
-   "missing": 2
+   "missing": 0
   },
   {
    "src": "viewer mount servo-left_hip_pitch-mid",
@@ -4835,13 +4704,13 @@
   },
   {
    "src": "viewer mount right_roll_to_pitch_assembly-right_roll_to_pitch-1",
-   "n": 4,
+   "n": 2,
    "spec": "m2x6",
-   "ctx": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
+   "ctx": "2 x M2x6 self-tapping into the servo bottom case pilots 1.67 mm (the CAD has 2 holes per part, B63; B4 cleared",
    "part": "right_roll_to_pitch",
    "in_fasteners_json_total": 44,
    "in_fasteners_json_for_part": 2,
-   "missing": 2
+   "missing": 0
   },
   {
    "src": "viewer mount servo-right_hip_pitch-mid",
@@ -5426,10 +5295,10 @@
   {
    "src": "viewer mount ph-camera",
    "n": 4,
-   "spec": "m2x4",
-   "ctx": "4 x M2x4 self-tapping into head.stl pilots 1.65 mm on 20.9 x 12.5 (B9 cleared; screw length on the test order)",
+   "spec": "m2x5",
+   "ctx": "4 x M2x5 self-tapping (BOM 17h) into the head.stl pilots 1.65 mm on 20.9 x 12.5, drilled to 4.5 mm (D34). Draw",
    "part": "camera",
-   "in_fasteners_json_total": 6,
+   "in_fasteners_json_total": 26,
    "in_fasteners_json_for_part": 4,
    "missing": 0
   }
@@ -5500,9 +5369,9 @@
   "parts_rows": 118,
   "parts_seated": 86,
   "cables": 55,
-  "cables_all_runs_drawn": 47,
-  "cables_ends_ok": 41,
+  "cables_all_runs_drawn": 48,
+  "cables_ends_ok": 48,
   "screws_in_fasteners_json": 355,
-  "named_missing": 12
+  "named_missing": 10
  }
 }

@@ -34,6 +34,9 @@ SRC = {
     "cut_200": "[I] BOM.md E7 note and CABLE_MAP.md D12: Adafruit 5818, Raspberry Pi Standard-Mini camera cable 200 mm, "
                "22-pin 0.5 mm to 15-pin 1 mm, $2.70, in stock (https://www.adafruit.com/product/5818, read 2026-11-02 1:46 AM ET), "
                "Raspberry Pi MPN SC1892 (Kiwi Electronics listing, same read)",
+    "cut_300": "[I] D34: Raspberry Pi Camera Cable Standard-Mini 300 mm (22-pin 0.5 mm to 15-pin 1 mm), US$2.94 at X-On Electronics "
+               "(https://www.xonelec.com/mpn/raspberrypi/rpicameracablestandardmini300mm, read via search index 2026-11-05, stock not verified); "
+               "same part as Pakronics RPI-SC1129, A$3.52 (https://www.pakronics.com.au/products/raspberry-pi-camera-cable-standard-mini-300mm-rpi-sc1129)",
     "slack": "[I] cables3d/check_cables.py SLACK_MM = 40 (2 x 20 mm service slack, CABLE_MAP.md length rule)",
 }
 BLOCKERS = {
@@ -48,7 +51,7 @@ BLOCKERS = {
             "camera image).",
 }
 W, T = 16.0, 0.3
-R_B, R_L = 3.0, 3.0
+R_B, R_L = 3.0, 12.0          # D34: the spare lies in a gentle loop (radius 12, then 10, then 8 if it does not clear)
 PITCH = 1.0
 MIN_CLR = 1.0
 
@@ -62,6 +65,7 @@ class Strip:
     def __init__(s, p, t, w):
         s.p, s.t, s.w = np.array(p, float), np.array(t, float), np.array(w, float)
         s.L, s.pts, s.ws, s.ev, s.straights = 0.0, [s.p.copy()], [s.w.copy()], [], []
+        s.cl, s.clw = [s.p.copy()], [s.w.copy()]       # clean centre line (no fold footprint samples)
 
     def _add(s, p, w):
         s.pts.append(np.array(p, float))
@@ -74,7 +78,9 @@ class Strip:
         n = max(1, int(np.ceil(L / 1.0)))
         for k in range(1, n + 1):
             s._add(p0 + s.t * L * k / n, s.w)
-        s.straights.append((len(s.pts) - n - 1, len(s.pts) - 1, p0, s.t.copy(), s.w.copy(), L))
+            s.cl.append(p0 + s.t * L * k / n)
+            s.clw.append(s.w.copy())
+        s.straights.append((len(s.pts) - n - 1, len(s.pts) - 1, p0, s.t.copy(), s.w.copy(), L, len(s.cl) - n - 1, n))
         s.p = p0 + s.t * L
         s.L += L
 
@@ -87,6 +93,8 @@ class Strip:
         for i in range(1, n + 1):
             a = ang * i / n
             s._add(c + rot(p0 - c, k, a), s.w)
+            s.cl.append(c + rot(p0 - c, k, a))
+            s.clw.append(s.w.copy())
         s.p = c + rot(p0 - c, k, ang)
         s.t = rot(t0, k, ang)
         s.L += r * ang
@@ -193,7 +201,7 @@ def search(P0, t0, w0, ends, clr, blocker):
                                 skip = (pid <= 4) | (pid >= len(st.pts) - 3)
                                 m = float(np.min(d[~skip]))
                                 par = dict(side=side, r_u=r_u, step=step, late_step=late, x1=x1, x2=x2, y_f=y_f, plane=plane, clr_grid=m)
-                                best.append((m >= 0.0, -st.L if m >= 0.0 else m, st, par))
+                                best.append((m >= 0.0, -st.L if m >= 0.0 else m, st if m >= 0.0 else None, par))
                                 f = (side, plane)
                                 if f not in fam or m > fam[f]["clr_grid"]:
                                     fam[f] = dict(par, length_mm=st.L, blocked_by=blocker(pts[~skip]))
@@ -212,7 +220,7 @@ def main():
     obst = {}
     for i in head_instances(S):
         obst[inst_name(i)] = (S.world_mesh(i), i["key"] not in ("head", "head_bot_sheet"))
-    hb = obst[[k for k in obst if k.startswith("head#")][0]][0].bounds
+    hb = obst[[k for k in obst if k.startswith("head[")][0]][0].bounds
     for k, m in glb_meshes().items():
         if k.startswith(("ph-", "x-")) and k != "ph-camera" and not k.startswith("x-fpc-D12") and np.all(m.bounds[0] > hb[0] - 1) and np.all(m.bounds[1] < hb[1] + 1):
             obst[k] = (m, True)
@@ -236,7 +244,7 @@ def main():
         if np.any(mhi < lo) or np.any(mlo > hi):
             continue
         n = int(min(400000, max(2000, m.area * 6.0)))
-        pts = m.sample(n)
+        pts = trimesh.sample.sample_surface(m, n, seed=0)[0]
         idx = np.round((pts - lo) / PITCH).astype(int)
         ok = np.all((idx >= 0) & (idx < shape), axis=1)
         occ[tuple(idx[ok].T)] = True
@@ -301,6 +309,10 @@ def main():
             break
     if pick is None:
         q = (ok or best)[0]
+        if q[2] is None:
+            pp = q[3]
+            q = (q[0], q[1], build(P0, t0, w0, ends, pp["side"], pp["r_u"], pp["x1"], pp["x2"], pp["y_f"], pp["plane"], pp["step"],
+                                   pp.get("late_step", False)), pp)
         mn, w_, ex = exact_check(q[2])
         pick = (q[2], q[3], ex, w_)
     st, par, exact, worst = pick
@@ -320,43 +332,84 @@ def main():
                 cross_.append(dict(cable=c["id"], run=rn.get("name"), centre_line_gap_mm=float(dd)))
     L = st.L
     verdict = {}
-    for cut, key in ((150, "cut_150"), (200, "cut_200")):
+    for cut, key in ((150, "cut_150"), (200, "cut_200"), (300, "cut_300")):
         spare = cut - L
         verdict[str(cut)] = dict(cut_mm=cut, route_mm=L, spare_mm=spare, need_mm=L + 40.0,
                                  result=("fail: cannot reach" if spare < 0 else ("test fit: under the 40 mm slack" if spare < 40 else "pass")),
                                  source=SRC[key])
-    # standing loop for the extra length of the 200 mm cable
-    extra = 200.0 - L
-    h = (extra - 2 * np.pi * R_L + 4 * R_L) / 2
-    loop = None
-    if h > 0:
-        cands = []
-        for (i0, i1, p0, tt, ww, Ls) in st.straights:
-            nrm = np.cross(tt, ww)
-            for s0 in np.arange(W / 2 + 1, Ls - 4 * R_L - W / 2 - 1, 2.0):
-                for sg in (1.0, -1.0):
-                    lp = Strip(p0 + tt * s0, tt, ww)
-                    lp.bend(np.pi / 2, R_L, sg * nrm)
-                    lp.straight(h)
-                    lp.bend(np.pi, R_L, -tt)
-                    lp.straight(h)
-                    lp.bend(np.pi / 2, R_L, -sg * nrm)
-                    q, _ = samples(lp)
-                    cands.append((float(np.min(clr(q[9:-9]))), s0, sg, lp, i0))
-        if cands:
-            m, s0, sg, lp, i0 = max(cands, key=lambda c: c[0])
-            q, _ = samples(lp, 17)
-            lo_ex = {}
-            for k, (mm, _) in obst.items():
-                lo_, hi_ = mm.bounds
-                sel = np.all((q > lo_ - 6) & (q < hi_ + 6), axis=1)
-                if sel.any():
-                    lo_ex[k] = float(np.min(trimesh.proximity.closest_point(mm, q[sel])[1]) - T / 2)
-            loop = dict(extra_mm=extra, radius_mm=R_L, leg_mm=h, along_route_mm=4 * R_L, on_straight_from_point=i0,
-                        start_world=lp.pts[0], side_world=sg * np.cross(*[s for s in st.straights if s[0] == i0][0][3:5]),
-                        clr_grid_mm=m, clr_exact_min_mm=min(lo_ex.values()) if lo_ex else None,
-                        clr_exact_worst=min(lo_ex.items(), key=lambda kv: kv[1]) if lo_ex else None,
-                        points_world=lp.pts, width_world=lp.ws)
+    # gentle loop(s) for the spare of the 300 mm cable (D34): each loop is two 90 degree and one 180 degree bends about the
+    # width axis, all of radius R, standing off one face of a straight piece and ending 4 R further along it (no fold)
+    extra = 300.0 - L
+
+    def omega(p0, tt, ww, R_, h, sg):
+        nrm = sg * np.cross(tt, ww)
+        lp = Strip(p0, tt, ww)
+        lp.bend(np.pi / 2, R_, nrm)
+        if h > 0:
+            lp.straight(h)
+        lp.bend(np.pi, R_, tt)
+        if h > 0:
+            lp.straight(h)
+        lp.bend(np.pi / 2, R_, tt)
+        return lp
+
+    def exact_min(lp):
+        q, _ = samples(lp, 17)
+        res = {}
+        for k, (mm, _) in obst.items():
+            lo_, hi_ = mm.bounds
+            sel = np.all((q > lo_ - 6) & (q < hi_ + 6), axis=1)
+            if sel.any():
+                res[k] = float(np.min(trimesh.proximity.closest_point(mm, q[sel])[1]) - T / 2)
+        return (min(res.values()) if res else 99.0), (min(res.items(), key=lambda kv: kv[1]) if res else None)
+
+    loops, tried_l = [], []
+    for n_l in (1, 2, 3):
+        e1 = extra / n_l
+        for R_ in (12.0, 10.0, 8.0, 6.0):
+            h = (e1 - 2 * np.pi * R_ + 4 * R_) / 2
+            if h < 0:
+                continue
+            cands = []
+            for si, sg_ in enumerate(st.straights):
+                p0, tt, ww, Ls = sg_[2], sg_[3], sg_[4], sg_[5]
+                for s0 in np.arange(1.0, Ls - 4 * R_ - 1.0, 2.0):
+                    for sg in (1.0, -1.0):
+                        q, _ = samples(omega(p0 + tt * s0, tt, ww, R_, h, sg))
+                        cands.append((float(np.min(clr(q[9:-9]))), si, s0, sg))
+            cands.sort(key=lambda c: -c[0])
+            pick_l, used, n_ex = [], [], 0
+            for sc, si, s0, sg in cands:
+                if sc < 0.0 or len(pick_l) == n_l or n_ex >= 40:
+                    break
+                if any(u[0] == si and abs(u[1] - s0) < 4 * R_ + W for u in used):
+                    continue
+                i0, i1, p0, tt, ww, Ls, c0, nseg = st.straights[si]
+                lp = omega(p0 + tt * s0, tt, ww, R_, h, sg)
+                mn, worst_l = exact_min(lp)
+                n_ex += 1
+                if mn >= MIN_CLR:
+                    step = Ls / nseg
+                    pick_l.append(dict(lp=lp, radius_mm=R_, leg_mm=h, side=sg, straight=si, s0=s0, clr_grid_mm=sc, clr_exact_min_mm=mn,
+                                       clr_exact_worst=worst_l, start_world=lp.cl[0],
+                                       splice_at=[c0 + int(np.floor(s0 / step)), c0 + int(np.ceil((s0 + 4 * R_) / step))]))
+                    used.append((si, s0))
+            tried_l.append([n_l, R_, len(pick_l)])
+            if len(pick_l) == n_l:
+                loops = pick_l
+                break
+        if loops:
+            break
+    draw, draw_w = list(st.cl), list(st.clw)
+    for d_ in sorted(loops, key=lambda d: -d["splice_at"][0]):
+        j0, j1 = d_["splice_at"]
+        draw = draw[:j0 + 1] + list(d_["lp"].cl) + draw[j1:]
+        draw_w = draw_w[:j0 + 1] + list(d_["lp"].clw) + draw_w[j1:]
+    loop = dict(cut_mm=300, extra_mm=extra, n_loops=len(loops), tried=tried_l,
+                loops=[{k: v for k, v in d.items() if k != "lp"} for d in loops],
+                radius_mm=loops[0]["radius_mm"] if loops else None, leg_mm=loops[0]["leg_mm"] if loops else None,
+                clr_exact_min_mm=min(d["clr_exact_min_mm"] for d in loops) if loops else None,
+                points_world=[p for d in loops for p in d["lp"].cl], width_world=[w for d in loops for w in d["lp"].clw])
     inv = np.linalg.inv(T0h)
     to_link = lambda p: (inv @ np.r_[p, 1.0])[:3]
     to_link_v = lambda v: inv[:3, :3] @ v
@@ -369,9 +422,11 @@ def main():
         pick=par, length_mm=L, events=st.ev, verdict=verdict, exact_clearance=exact, worst=worst, crossings=cross_,
         points_world=st.pts, width_world=st.ws, link=HEAD_LINK,
         points_link=[to_link(p) for p in st.pts], width_link=[to_link_v(w) for w in st.ws],
-        slack_loop_200=loop, slack_loop_link=dict(points=[to_link(p) for p in loop["points_world"]],
-                                                    width=[to_link_v(w) for w in loop["width_world"]]) if loop else None,
-        runners_up=[dict(q[3], length_mm=q[2].L) for q in (ok[1:6] if ok else best[1:6])])
+        slack_loop_300=loop, centerline_link=[to_link(p) for p in st.cl], centerline_width_link=[to_link_v(w) for w in st.clw],
+        draw_link=[to_link(p) for p in draw], draw_width_link=[to_link_v(w) for w in draw_w],
+        centerline_mm=float(np.sum(np.linalg.norm(np.diff(np.array(st.cl), axis=0), axis=1))),
+        draw_mm=float(np.sum(np.linalg.norm(np.diff(np.array(draw), axis=0), axis=1))),
+        runners_up=[dict(q[3], length_mm=(q[2].L if q[2] is not None else None)) for q in (ok[1:6] if ok else best[1:6])])
     write_json(out, os.path.join(HERE, "d12_ribbon.json"))
     for p_ in passes:
         print("PASS", p_["width"], "tried", p_["tried"], "grid ok", p_["feasible"], "found", p_["found"],

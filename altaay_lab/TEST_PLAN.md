@@ -142,3 +142,6 @@ Pack at full charge (8.3 V or more) and again at nominal (about 7.4 V open circu
 - Side lamp: tape the module (VHB on its back face) and pull by hand along each axis: it stays.
 - BEC: two BOM 34 mounts beside it on the belly floor, one tie over the top.
 - Weigh 10 trimmed ties and 10 mounts of each type (B59).
+
+13.1 Camera ribbon loop fit (D34, B61): seat the 300 mm Standard-Mini cable in the Pi Zero 22-pin and the Camera Module 3 15-pin connectors, lay it on the strip route of twin/complete3d/d12_ribbon.json (bends 3 mm or more, folds flat and not creased) with the 72.7 mm spare in one gentle loop of about 6 mm radius, then close the head. Caliper the strip width and thickness at both ends and write them into COMPLETE3D.md. Pass: nothing taut or pinched, and the camera gives an image after 20 head pitch, yaw and roll sweeps.
+13.2 OFF wire (D30, cable D13, B62): with dtoverlay=gpio-poweroff,gpiopin=26 in config.txt, run sudo poweroff on the Pi. Pass: after the Pi halts the 2813 switches the robot off (Pi and servo bus dark, pack current under 1 mA on the meter), and the button turns it on again. Check the D13 run on the P13 route at both neck joint limits first (TEST_PLAN 1.4).

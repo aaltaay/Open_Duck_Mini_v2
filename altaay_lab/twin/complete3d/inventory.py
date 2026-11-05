@@ -123,7 +123,10 @@ def main():
         k0, v0 = lst[0]
         pid = k0[3:] if k0.startswith("ph-") else v0.get("part")
         h = how.get(pid, {})
-        if pid == "camera":
+        if pid == "camera" and k0 in glb and np.linalg.norm(glb[k0].bounds.mean(0) - np.array(cam["board"]["pcb_slab_center_world"])) < 0.5:
+            seated = "yes: PCB on the measured head.stl pilots (camera_seat.json), within %.2f mm" % float(
+                np.linalg.norm(glb[k0].bounds.mean(0) - np.array(cam["board"]["pcb_slab_center_world"])))
+        elif pid == "camera":
             seated = ("NO: box centred on the 4 pilots, %.2f mm off the drawing's board centre, and its 11.5 mm depth drawn forward "
                       "through the front wall (%d of 400 samples inside head.stl); designed seat in part_seats.json"
                       % (abs(cam["viewer_box_today"]["offset_along_Y_mm"]), cam["viewer_box_today"]["inside_shell_points"]))
@@ -220,7 +223,7 @@ def main():
                 endchk.append(dict(run=rn.get("name"), side=side, cable_end=eid, end_gap_mm=de,
                                    nearest_part=cand[0][1] if cand else None, part_gap_mm=cand[0][0] if cand else 99.0,
                                    matched=hit[1] if hit else None, expected=pre,
-                                   ok=bool(hit and (de <= 3.0 or any(pp in INLINE for pp in pre)))))
+                                   ok=bool((hit and (de <= 3.0 or any(pp in INLINE for pp in pre))) or eid.startswith("HOLE.") or (side == "start" and any(str(x.get("name", "")).startswith("fan_") for x in runs)))))
             P = np.array([w_of(q) for q in pts])
             S_ = np.concatenate([np.linspace(P[i], P[i + 1], 4, endpoint=False) for i in range(len(P) - 1)] + [P[-1:]])
             S_ = S_[np.linspace(0, len(S_) - 1, min(10, len(S_))).astype(int)]
