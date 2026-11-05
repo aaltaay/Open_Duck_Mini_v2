@@ -111,6 +111,9 @@ class DuckAutoDockConfig(AutoDockConfig):
     last_jump_m: float = 0.03          # m: last-mile jump guard on single centre-tag frames
     max_diag_walk: float = 0.12        # m: longest diagonal walk of a right move
     last_diag_walk: float = 0.07       # m: the same at the last-mile check point (0.16 m before the stop)
+    walk_in_max_lateral: float = 0.020  # m: hard limit at the check point, the soles clear the 40 mm seat by about 22 mm
+    walk_in_max_yaw: float = 0.07      # rad (4 deg): hard limit at the check point
+    undock_timeout: float = 90.0       # s: the undock's own budget (16 back pulses with their looks take about 60 s)
     top_ups: int = 3                   # still looks and top-up steps after the last-mile stop
 
 
@@ -292,7 +295,7 @@ class DuckAutoDock(AutoDockBase):
     # ------------------------------------------------------------------ states
     def start(self) -> bool:
         """Start Docking Sequence (upstream loop with the duck's APPROACH first)"""
-        self.start_time = self.io.now()
+        self.start_time, self.timeout_s = self.io.now(), self.cfg.dock_timeout
         self.set_aruco_detections(detection_state=True)
         ok = self.do_approach()
         current_retry_count = 0
@@ -421,7 +424,11 @@ class DuckAutoDock(AutoDockBase):
             along, lat, yaw, src = r
             if along - target <= self.cfg.to_last_mile_tol:
                 # ENTER gate: square and centred enough for the pads
-                if abs(lat) > self.cfg.enter_max_lateral and n_gate < self.cfg.max_sidesteps:
+                if abs(lat) > self.cfg.enter_max_lateral:
+                    if n_gate >= self.cfg.max_sidesteps:
+                        # out of corrections: fail the state (retry), never waive the gate (PR 20 review)
+                        log.error(f"ENTER gate: lateral {lat:.3f} m left after {n_gate} sidesteps")
+                        return self.stop()
                     n_gate += 1
                     self.set_state(DockState.PARALLEL_CORRECTION, f"gate sidestep {lat:.3f} m")
                     self.side_pulse(lat)
@@ -446,6 +453,7 @@ class DuckAutoDock(AutoDockBase):
         self.set_state(DockState.LAST_MILE)
         stop_along = self.cfg.cam_offset + self.cfg.sit_gap
         # stage 1: walk to a check point where the 40 mm tag still reads well, then null the lateral offset there
+        settled, lat = False, None
         for _ in range(self.cfg.last_checks):
             r = self.look()
             if r is None:
@@ -462,7 +470,13 @@ class DuckAutoDock(AutoDockBase):
             if abs(r[2]) > self.cfg.last_yaw_tol:
                 self.turn_pulse(r[2])
                 continue
+            settled = True
             break
+        if not settled and not (lat is not None and abs(lat) <= self.cfg.walk_in_max_lateral
+                                and abs(r[2]) <= self.cfg.walk_in_max_yaw):
+            # out of checks: walk in only inside the soles' clearance of the seat, else fail the state (retry)
+            log.error(f"last-mile check point: not centred and square after {self.cfg.last_checks} checks")
+            return self.stop()
         if self.get_odom() is None:
             log.error("no odometry in the last mile")
             return self.stop()
@@ -592,12 +606,23 @@ class DuckAutoDock(AutoDockBase):
         return False
 
     def do_undock(self) -> bool:
-        """after the wake: stand, then leave clear of the spine (the dock opens the pins first, Nav2 rule)"""
-        self.set_state(DockState.UNDOCK, "stand and leave")
-        if self.sat:
-            self.io.stand()
-            self.sat = False
-        return self.back_off()
+        """after the wake: stand, then leave clear of the spine (the dock opens the pins first, Nav2 rule). Undocking has
+        its own timeout budget from now (a charge lasts longer than dock_timeout, so the docking start time would fail
+        the first guard), and it turns the tag detections on for the retreat (start() turned them off after docking;
+        back_off() reads its distance and lateral drift from looks) and off again at the end."""
+        self.start_time, self.timeout_s = self.io.now(), self.cfg.undock_timeout
+        self.set_aruco_detections(detection_state=True)
+        try:
+            self.set_state(DockState.UNDOCK, "stand and leave")
+            if self.sat:
+                self.io.stand()
+                self.sat = False
+            ok = self.back_off()
+        finally:
+            self.publish_cmd()
+            self.set_aruco_detections(detection_state=False)
+        self.set_state(DockState.IDLE, "undocked" if ok else "undock failed")
+        return ok
 
 
 def load_config(path: Optional[str] = None) -> DuckAutoDockConfig:

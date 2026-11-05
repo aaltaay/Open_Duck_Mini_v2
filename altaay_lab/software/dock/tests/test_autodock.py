@@ -130,6 +130,7 @@ class PlanarDuck(DockIO):
         self.odom = np.array([0.0, 0.0, th])
         self.seated = False
         self.log = []
+        self.det_on = True                # tag detections (AutoDockBase turns them off at construction, start() on)
 
     def now(self):
         return self.t
@@ -160,7 +161,13 @@ class PlanarDuck(DockIO):
     def cmd(self):
         return self.cmd_req
 
+    def set_detections(self, on):
+        self.det_on = bool(on)
+        return True
+
     def get_marker(self, marker):
+        if not self.det_on:
+            return None
         ty = self.TAGS[marker]
         cam = self.p[:2] + 0.10 * np.array([math.cos(self.p[2]), math.sin(self.p[2])])
         v = np.array([self.MAST_X, ty]) - cam
@@ -239,6 +246,7 @@ class TestDock(unittest.TestCase):
         cfg = load_config(YAML)
         io = PlanarDuck(1.25, -0.22, 0.0, seed=11)
         sm = DuckAutoDock(cfg, io)
+        sm.set_aruco_detections(True)
         self.assertIsNotNone(sm.look())
         self.assertIsNotNone(sm.mast_odom)
         io.p[2] = io.odom[2] = -1.5                          # turned away to the right
@@ -247,6 +255,62 @@ class TestDock(unittest.TestCase):
         brg, rng = sm.mast_bearing()
         self.assertLess(abs(brg), 0.35)
         self.assertLess(io.t, 60.0)
+
+    def _docked(self, cfg, seed=5):
+        io = PlanarDuck(0.6, 0.0, 0.0, seed=seed)
+        sm = DuckAutoDock(cfg, io)
+        self.assertTrue(sm.start())
+        self.assertFalse(io.det_on)                         # start() turns the detections off once docked
+        return io, sm
+
+    def test_undock_after_long_charge(self):
+        """PR 20 review 1: a charge longer than dock_timeout must not fail the undock's first guard"""
+        cfg = load_config(YAML)
+        io, sm = self._docked(cfg)
+        io.t += cfg.dock_timeout + 3600.0                   # a 1 h charge on the seat
+        x0 = io.p[0]
+        self.assertTrue(sm.do_undock())
+        self.assertGreater(x0 - io.p[0], cfg.retry_retreat_dis - cfg.sit_gap - 0.03)   # walked back off the seat
+        self.assertEqual(sm.history[-1][1:], ("IDLE", "undocked"))
+
+    def test_undock_turns_detections_on(self):
+        """PR 20 review 2: the retreat reads looks, so undocking turns the detections on, and off again at the end"""
+        cfg = load_config(YAML)
+        io, sm = self._docked(cfg, seed=6)
+        seen = []
+        orig = sm.look
+
+        def look(use_centre=True):
+            seen.append(io.det_on)
+            return orig(use_centre)
+        sm.look = look
+        self.assertTrue(sm.do_undock())
+        self.assertTrue(seen and all(seen))
+        self.assertFalse(io.det_on)
+
+    def test_enter_gate_not_waived(self):
+        """PR 20 review 3: out of sidesteps with the lateral error over enter_max_lateral, STEER_DOCK fails (retry)"""
+        cfg = load_config(YAML)
+        target = cfg.cam_offset + cfg.to_last_mile_dis
+        io = PlanarDuck(PlanarDuck.MAST_X - target, 0.06, 0.0, seed=8)   # 60 mm left of the axis at the gate
+        sm = DuckAutoDock(cfg, io)
+        sm.set_aruco_detections(True)
+        sm.side_pulse = lambda lat, **k: sm._guard()        # corrections that do nothing
+        self.assertFalse(sm.do_steer_dock())
+        self.assertNotEqual(sm.dock_state.name, "LAST_MILE")
+        self.assertIn("gate sidestep", " ".join(h[2] for h in sm.history))
+
+    def test_last_mile_check_not_waived(self):
+        """the same rule at the last-mile check point: no walk-in outside the soles' clearance of the seat"""
+        cfg = load_config(YAML)
+        along = cfg.cam_offset + cfg.sit_gap + cfg.check_ahead
+        io = PlanarDuck(PlanarDuck.MAST_X - along, 0.04, 0.0, seed=9)
+        sm = DuckAutoDock(cfg, io)
+        sm.set_aruco_detections(True)
+        sm.side_pulse = lambda lat, **k: sm._guard()
+        x0 = io.p[0]
+        self.assertFalse(sm.do_last_mile())
+        self.assertLess(io.p[0] - x0, 0.02)                 # it did not walk in
 
     def test_gives_up_without_markers(self):
         cfg = load_config(YAML)

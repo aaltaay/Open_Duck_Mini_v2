@@ -125,6 +125,7 @@ class AutoDockBase:
         assert self.cfg.angular_vel_range[0] < self.cfg.angular_vel_range[1], "angular vel min should be less than max"
         self.dock_state = DockState.INVALID
         self.start_time = self.io.now()
+        self.timeout_s = self.cfg.dock_timeout  # the budget check_cancel counts against (undocking sets its own)
         self.sleep_period = 1.0 / self.cfg.controller_rate
         self.history = []                       # (time, state, note) for logs and the sim score
         self.set_aruco_detections(detection_state=False)
@@ -142,7 +143,7 @@ class AutoDockBase:
         if self.io.cancelled():
             log.warning("Cancel requested")
             return True
-        if (self.io.now() - self.start_time) > self.cfg.dock_timeout:
+        if (self.io.now() - self.start_time) > self.timeout_s:
             self.set_state(self.dock_state, "Reach Timeout")
             return True
         return False
