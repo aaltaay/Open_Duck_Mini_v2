@@ -189,7 +189,7 @@ One row per joint type. e = thread engaged (mm), rule = minimum from section 8. 
 
 | Qty | Spec | Joins (head side -> anchor) | Anchor | Window near-far, stop | e / rule | Length | Clearance hole, head recess | Sweep worst | Supply | IDs |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 4 | M3x8 DIN 912 A2 | head_bot_sheet -> head | M3 insert | 2.0-7.8, 12.2 | 5.7 / 4.5 | OK | 3.20 OK (+0.20); recess 6.50 vs head 5.68 OK | head -0.96 vs head_bot_sheet (zero pose (static)) | BOM 17a | F083-F084, F089-F090 |
+| 4 | M3x8 DIN 912 A2 | head_bot_sheet -> head | M3 insert | 2.0-7.8, 12.2 | 5.7 / 4.5 | OK | 3.20 OK (+0.20); recess 6.50 vs head 5.68 OK | head +0.02 vs head_bot_sheet (zero pose (static)); bare parts collide first in some sweeps | BOM 17a | F083-F084, F089-F090 |
 | 3 | M3x8 DIN 912 A2 | head_bot_sheet -> head | M3 insert | 2.0-7.8, 12.2 | 5.7 / 4.5 | OK / LEAVE OUT (D38 screw cut) | 3.20 OK (+0.20); recess 6.50 vs head 5.68 OK | head -0.96 vs head_bot_sheet (zero pose (static)) | BOM 17a | F085-F087 |
 | 1 | M3x8 DIN 912 A2 | head_bot_sheet -> head | M3 insert | 2.0-7.8, 12.2 | 5.7 / 4.5 | OK / LEAVE OUT (D42 uniform pattern) | 3.20 OK (+0.20); recess 6.50 vs head 5.68 OK | head +0.02 vs head_bot_sheet (zero pose (static)); bare parts collide first in some sweeps | BOM 17a | F088 |
 | 4 | M3x6 DIN 912 A2 | head_roll_mount -> head | M3 insert | 1.9-7.7, 8.2 | 4.1 / 4.5 | BELOW RULE | 3.60 OK (+0.60); recess 5.50 vs head 5.68 INTERFERENCE | head -0.00 vs head_roll_mount (zero pose (static)) | BOM 17d | F091-F094 |
@@ -234,7 +234,7 @@ Hit classes: static contact 164, parts collide first 131, static overlap 37, scr
 |---|---|---|---|---|---|---|---|---|
 | F075 | M3x8 DIN 912 A2 | head | body_back | zero pose (static) | -1.50 | 0.0 | static overlap | -0.82 vs head_bot_sheet |
 | F076 | M3x8 DIN 912 A2 | head | body_back | zero pose (static) | -1.50 | 0.0 | static overlap | -0.82 vs head_bot_sheet |
-| F084 | M3x8 DIN 912 A2 | head | head_bot_sheet | zero pose (static) | -0.96 | 0.0 | static overlap | -0.82 vs body_back |
+| F084 | M3x8 DIN 912 A2 | head | head_bot_sheet | zero pose (static) | -0.96 | 0.0 | static overlap | -0.82 vs body_middle_top |
 | F085 | M3x8 DIN 912 A2 | head | head_bot_sheet | zero pose (static) | -0.96 | 0.0 | static overlap | +2.02 vs head |
 | F086 | M3x8 DIN 912 A2 | head | head_bot_sheet | zero pose (static) | -0.96 | 0.0 | static overlap | +2.02 vs head |
 | F087 | M3x8 DIN 912 A2 | head | head_bot_sheet | zero pose (static) | -0.96 | 0.0 | static overlap | -0.79 vs body_middle_top |
