@@ -1196,6 +1196,12 @@ def main():
                 sgn = 1.0 if (s0 and not s1) else (-1.0 if (s1 and not s0) else 0.0)
             inserts.append(dict(site=si, host=host["id"], host_key=host["key"], c=c, ax=ax, bore_d=dia,
                                 bore_len=round(t1 - t0, 2), open_dir=sgn))
+    # D38: inserts whose screw is left out (fasteners.json leave_out) are not fitted: the bore stays empty
+    _fj = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "fasteners", "fasteners.json")
+    _lo = [y for y in json.load(open(_fj))["fasteners"] if y["kind"] == "insert" and y.get("leave_out")]
+    inserts = [x for x in inserts if not any(x["host_key"] == y["into"] and
+                                             float(np.linalg.norm(np.asarray(x["c"], float) - np.asarray(y["seat_world"], float))) < 6.0
+                                             for y in _lo)]
     n_ins = Counter(x["host_key"] for x in inserts)
 
     # 7. foot switch slots: 6.4 x 19.8 pockets in foot_top (PRINT_CHECK, HARDWARE_AUDIT B11)

@@ -107,6 +107,8 @@ def lip_for(S, shell_i, mid_i, screw_seats, scene_trunk, other_mid_i):
     keep_S = unary_union([section_polys(mS, O, u, v, d, x0 + z) for z in (0.3, H_LIP / 2, H_LIP + 0.3)]).buffer(C)
     sites = unary_union([Point((p - O) @ u, (p - O) @ v).buffer(KEEP_OUT_R) for p in screw_seats])
     band = cav.buffer(-C).difference(cav.buffer(-C - T_LIP)).difference(keep_S).difference(sites).difference(keep_O)
+    vlim = box(-1e4, secM.bounds[1], 1e4, secM.bounds[3] - 0.5)   # only where this middle part has wall at the face
+    band = band.intersection(vlim)
     rep["cavity_mm2"] = dict(shell=round(cav.area, 0), middle=round(cavM.area, 0))
     if cav.area < 1000:   # solid cover plate (body_front is 10 mm deep): tongue on the middle part's rim, groove in the cover
         return tongue_for(S, shell_i, mid_i, mS, mM, O, u, v, d, x0, up, dup, secM, sites, keep_O, scene_trunk, rep)
@@ -121,7 +123,7 @@ def lip_for(S, shell_i, mid_i, screw_seats, scene_trunk, other_mid_i):
             w, h = g.bounds[2] - g.bounds[0], g.bounds[3] - g.bounds[1]
             if h > 2 * w:   # keep runs along the print up direction only
                 pieces.append((g, "side"))
-        bot = cav.buffer(-C).intersection(box(-1e4, vmin + C, 1e4, vmin + C + RIB_T)).difference(keep_S).difference(sites).difference(keep_O)
+        bot = cav.buffer(-C).intersection(box(-1e4, vmin + C, 1e4, vmin + C + RIB_T)).difference(keep_S).difference(sites).difference(keep_O).intersection(vlim)
         bb = bot.bounds if not bot.is_empty else None
         if bb:
             n = int((bb[2] - bb[0]) // RIB_PITCH)

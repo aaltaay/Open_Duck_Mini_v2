@@ -214,7 +214,7 @@ def main():
                     "head_bot_sheet": (["head_bot_sheet"], 3.3 + 1.2),
                     "speaker_stand": ([], 38.8), "speaker_interface": ([], 31.1), "bulb": ([], 9.0),
                     "raspberrypizerow": ([], 12.6), "board": ([], 16.0), "camera PCB (not in CAD)": ([], 4.0),
-                }[p]
+                }["camera PCB (not in CAD)" if rows[0]["source"] == "camera" else p]
                 m_g = sum(M.get(k, 0.0) for k in ride[0]) + ride[1]
                 size = rows[0]["size"]
                 if rows[0]["anchor"] == "M3 insert":
@@ -223,7 +223,7 @@ def main():
                     cap_src = "min(head pull-through pi x %.1f x %.1f x %.1f, insert pull-out %d)" % (DK[size], t, TAU_LO, INSERT_PULL)
                 else:
                     strip = {"battery_pack_lid": 305, "speaker_stand": 180, "speaker_interface": 168, "bulb": 144,
-                             "raspberrypizerow": 275, "board": 263, "camera PCB (not in CAD)": 144}[p]
+                             "raspberrypizerow": 275, "board": 263, "camera PCB (not in CAD)": 144}["camera PCB (not in CAD)" if rows[0]["source"] == "camera" else p]
                     cap, cap_src = float(strip), "thread strip, low end, %s table 3.2" % SRC["ST"]
                 F1 = {k: m_g / 1000 * acc[k] * G for k in ("walk", "soft", "mid")}
                 sf = {"walk": round(cap / F1["walk"], 1), "soft": round(cap / F1["soft"], 1), "mid": round(cap / F1["mid"], 1)}
@@ -260,7 +260,16 @@ def main():
                     J.update(F2_bearing_per_screw_N=round(bearing, 0), F2_src=SHELL_HIT_SRC, F2_SF=F2)
                     why = ("shell: %d screws (at least 1 into body_middle_top, which hangs between the two shells, and 1 into body_middle_bottom), largest triangle %s its centre of mass (%.0f mm2); F1 SF %.1f at mid with one screw. F2 (bearing, crack but no separation): see F2_SF; the printed lip (mesh_designs.py) carries the side and vertical shear where it can be printed"
                            % (len(kept), "round" if ok else "NOT round", ar, sf["mid"]))
-                    if p == "body_back":
+                    if p == "body_back":   # D38 (lead, 2026-11-04): the back shell keeps 7 of its 8 screws
+                        one = min(r["id"] for r in fit if r["into"] == "body_middle_bottom")
+                        kept = [r["id"] for r in fit if r["id"] != one]
+                        nb = len(kept)
+                        for lv in ("soft", "mid"):
+                            F2[lv]["after_screws"] = round(nb * bearing / SHELL_HIT_N[lv], 2)
+                            for dn in ("y", "z_up", "z_down"):
+                                F2[lv]["after_with_lip_" + dn] = round((nb * bearing + lipcap.get(dn, 0)) / SHELL_HIT_N[lv], 2)
+                        why = "D38: the back shell keeps 7 screws (%s out) with the lips and ribs on body_middle_bottom; " % one + why
+                    if False:
                         J["needs_ahmed_ok"] = "downward shear on the back shell (only in an upside-down landing) at the mid fall level: SF %.2f after, %.2f today; no lip can print there (body_middle_top's back face is its print bed)" % (F2["mid"]["after_with_lip_z_down"], F2["mid"]["before"])
         J.update(n_after=len(kept), kept=kept, cut=[r for r in J["ids"] if r not in kept], why=why, SF=sf)
         for r in fit:

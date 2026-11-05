@@ -8,7 +8,7 @@
   "b": {
    "listed": 261,
    "fitted": 259,
-   "after": 232
+   "after": 236
   },
   "c": {
    "listed": 8,
@@ -17,20 +17,20 @@
   }
  },
  "fitted_before": 342,
- "fitted_after": 313,
- "cut": 29,
- "share_cut_of_bc": 0.109,
- "share_cut_of_total": 0.085,
+ "fitted_after": 317,
+ "cut": 25,
+ "share_cut_of_bc": 0.094,
+ "share_cut_of_total": 0.073,
  "target_90pct_of_total_needs_cut": 308,
  "inserts_before": 58,
- "inserts_after": 44,
+ "inserts_after": 48,
  "washers_before": 16,
  "washers_after": 8,
  "by_area": {
   "back": {
    "b": [
     13,
-    7
+    11
    ]
   },
   "body front": {
@@ -101,16 +101,16 @@
    0.97
   ],
   "after": [
-   0.58,
-   0.72,
-   0.87
+   0.59,
+   0.73,
+   0.88
   ]
  },
  "kept_by_role": {
   "structural or kept": 43,
   "cover or lid": 6,
   "structural, servo chain": 168,
-  "cover (shell)": 7,
+  "cover (shell)": 11,
   "board or bracket": 14
  },
  "sources": {

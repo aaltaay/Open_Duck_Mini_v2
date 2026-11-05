@@ -1,6 +1,6 @@
 # Harness build sheet
 
-Generated 2026-11-02 11:07 UTC by altaay_lab/wiring/make_harness_build.py from wiring/netlist.yaml and cables3d/cables3d.json. Do not edit by hand.
+Generated 2026-11-05 01:42 UTC by altaay_lab/wiring/make_harness_build.py from wiring/netlist.yaml and cables3d/cables3d.json. Do not edit by hand.
 
 How to use it:
 - Build in the order below, one cable at a time. Cut every wire to the length shown; lengths include the end allowance used in the netlist.
@@ -162,7 +162,7 @@ Test: G.S to SW1.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
 Reach check (cables3d, by conductor chain): pass, worst routed 10.6 mm, cut 90 mm.
 
-### P15: 2815 SW pad pair to the panel switch
+### P15: 2813 A and B to the momentary button (D30; was the 2815 SW pad pair to the panel switch)
 
 Regions: battery_bay. Crosses joints: none. 
 
@@ -224,15 +224,15 @@ Twist: none (a 71 mm run leaves 31 mm after the 2 x 20 mm untwisted ends, under 
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | SPV.S (SPV splice) | SV20.BUS2.V (ID20 supply, pin 2) | 22 AWG | red | 150 | join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
-| 2 | SPG.S (SPG splice) | JG20.S (JG20 splice) | 22 AWG | black | 130 | join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | join at splice JG20 with SD1, SP1, solder, cover with adhesive heat shrink (BOM 26) |
+| 1 | SPV.S (SPV splice) | SV20.BUS2.V (ID20 supply, pin 2) | 22 AWG | red | 160 | join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
+| 2 | SPG.S (SPG splice) | JG20.S (JG20 splice) | 22 AWG | black | 140 | join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | join at splice JG20 with SD1, SP1, solder, cover with adhesive heat shrink (BOM 26) |
 | 3 | JG20.S (JG20 splice) | SV20.BUS2.G (ID20 ground, pin 1) | 22 AWG | black | 30 | join at splice JG20 with SD1, SP1, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks. Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
 
 Test: SPV.S to SV20.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2); SPG.S to JG20.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2); JG20.S to SV20.BUS2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
 Seats on the brackets, end to end: edge trunk_top; channel trunk_top; none (free air); edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top
 Ties (one 2.5 x 100 mm cable tie each, BOM 32): T007 stick-on mount MB3A (BOM 34) on trunk_top, 13 mm from the cable line
-Reach check (cables3d, by conductor chain): pass with notes, worst routed 95.6 mm, cut 150 mm.
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 111.6 mm, cut 150 mm.
 
 ### SP2: power pair SPV and SPG to ID 10 BUS 2 (V and G)
 
@@ -250,7 +250,7 @@ Test: SPV.S to SV10.BUS2.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2); 
 
 Seats on the brackets, end to end: edge trunk_top; channel trunk_top; edge trunk_top; none (free air); edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; edge trunk_top; channel trunk_top
 Ties (one 2.5 x 100 mm cable tie each, BOM 32): T008 stick-on mount MB3A (BOM 34) on trunk_top, 14 mm from the cable line
-Reach check (cables3d, by conductor chain): pass with notes, worst routed 93.2 mm, cut 150 mm.
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 109.2 mm, cut 150 mm.
 
 ### SP3: power pair SPV and SPG to ID 30 BUS 2 (V and G)
 
@@ -278,15 +278,15 @@ Twist: all wires twisted together, one full turn every 40 mm (allowed 27 to 54 m
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | SPV.S (SPV splice) | SV24.BUS1.V (ID24 supply, pin 2) | 22 AWG | red | 400 | join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks (DATA position left empty). Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
-| 2 | SPG.S (SPG splice) | SV24.BUS1.G (ID24 ground, pin 1) | 22 AWG | black | 400 | join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks (DATA position left empty). Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
+| 1 | SPV.S (SPV splice) | SV24.BUS1.V (ID24 supply, pin 2) | 22 AWG | red | 420 | join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks (DATA position left empty). Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
+| 2 | SPG.S (SPG splice) | SV24.BUS1.G (ID24 ground, pin 1) | 22 AWG | black | 420 | join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks (DATA position left empty). Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
 
 Test: SPV.S to SV24.BUS1.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2); SPG.S to SV24.BUS1.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
 Seats on the brackets, end to end: none (free air); edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; channel left_roll_to_pitch; none (free air); edge left_roll_to_pitch; edge left_roll_to_pitch; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge left_roll_to_pitch; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; channel knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; none (free air); edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side
 Ties (one 2.5 x 100 mm cable tie each, BOM 32): T029 stick-on mount ABM1M-AT-C (BOM 34b) on roll_motor_bottom, 13 mm from the cable line; T030 stick-on mount MB3A (BOM 34) on left_roll_to_pitch, 15 mm from the cable line; T032 stick-on mount ABM1M-AT-C (BOM 34b) on knee_to_ankle_right_sheet, 10 mm from the cable line; T033 through the hole in knee_to_ankle_right_sheet; T034 around the bundle only (bundle tie, test fit: check it at both joint limits, TEST_PLAN 1.4); T069 stick-on mount ABM1M-AT-C (BOM 34b) on roll_motor_top, 13 mm from the cable line; T073 through the hole in knee_to_ankle_right_sheet; T088 stick-on mount MB3A (BOM 34) on trunk_top, 16 mm from the cable line
 Joint loops: left_hip_yaw: leave 35 mm between T088 and T069 (14 mm more than the straight run at the zero pose); left_hip_roll: leave 38 mm between T029 and T030 (9 mm more than the straight run at the zero pose); left_hip_pitch: leave 47 mm between T030 and T032 (17 mm more than the straight run at the zero pose); left_knee: leave 42 mm between T033 and T034 (20 mm more than the straight run at the zero pose)
-Reach check (cables3d, by conductor chain): pass with notes, worst routed 347.5 mm, cut 400 mm.
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 363.5 mm, cut 400 mm.
 
 ### SP5: power pair SPV and SPG to ID 14 BUS 1 (V and G), right leg
 
@@ -296,15 +296,15 @@ Twist: all wires twisted together, one full turn every 40 mm (allowed 27 to 54 m
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | SPV.S (SPV splice) | SV14.BUS1.V (ID14 supply, pin 2) | 22 AWG | red | 430 | join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks (DATA position left empty). Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
-| 2 | SPG.S (SPG splice) | SV14.BUS1.G (ID14 ground, pin 1) | 22 AWG | black | 430 | join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks (DATA position left empty). Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
+| 1 | SPV.S (SPV splice) | SV14.BUS1.V (ID14 supply, pin 2) | 22 AWG | red | 450 | join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks (DATA position left empty). Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
+| 2 | SPG.S (SPG splice) | SV14.BUS1.G (ID14 ground, pin 1) | 22 AWG | black | 450 | join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26) | crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clicks (DATA position left empty). Copy the position order of a servo kit cable housing exactly, check it with a meter, then tug-test |
 
 Test: SPV.S to SV14.BUS1.V: under 1 ohm, read in ohms (TEST_PLAN.md section 2); SPG.S to SV14.BUS1.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
 Seats on the brackets, end to end: none (free air); edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge knee_to_ankle_left_sheet; channel right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; none (free air); edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge right_roll_to_pitch; edge knee_to_ankle_left_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge knee_to_ankle_right_sheet; edge foot_side; edge foot_side
 Ties (one 2.5 x 100 mm cable tie each, BOM 32): T043 stick-on mount ABM1M-AT-C (BOM 34b) on right_roll_to_pitch, 13 mm from the cable line; T044 stick-on mount MB3A (BOM 34) on right_roll_to_pitch, 17 mm from the cable line; T045 around the bundle only (bundle tie, test fit: check it at both joint limits, TEST_PLAN 1.4); T046 stick-on mount MB3A (BOM 34) on knee_to_ankle_left_sheet, 19 mm from the cable line; T047 stick-on mount ABM1M-AT-C (BOM 34b) on right_cache, 16 mm from the cable line; T048 stick-on mount ABM1M-AT-C (BOM 34b) on knee_to_ankle_right_sheet, 16 mm from the cable line; T081 through the hole in knee_to_ankle_right_sheet; T089 around the bundle only (bundle tie, test fit: check it at both joint limits, TEST_PLAN 1.4)
 Joint loops: right_hip_yaw+right_hip_roll: leave 48 mm between T089 and T043 (24 mm more than the straight run at the zero pose), one loop over both joints: no tie between them; right_hip_pitch: leave 47 mm between T044 and T045 (15 mm more than the straight run at the zero pose); right_knee: leave 85 mm between T047 and T048 (19 mm more than the straight run at the zero pose)
-Reach check (cables3d, by conductor chain): pass with notes, worst routed 376.8 mm, cut 430 mm.
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 392.8 mm, cut 430 mm.
 
 ## 3. Servo data leads and kit cables
 
@@ -539,6 +539,8 @@ Reach check (cables3d, by conductor chain): pass with notes, worst routed 106.9 
 
 Regions: battery_bay, trunk_top, neck, head. Crosses joints: neck_pitch, head_pitch, head_yaw, head_roll. drop about 0.09 V at 2.5 A over 2 x 0.55 m of 20 AWG [I]
 
+Inline plug: XT30U pair (BOM 12) at the neck base on trunk_top, on a straight run 20 mm or more from the neck_pitch loop end; solder cups and heat shrink both halves; the head comes off by unplugging it (X3a, D36)
+
 Twist: all wires twisted together, one full turn every 45 mm (allowed 29 to 58 mm, 8 to 16 x the bundle OD, NASA-STD-8739.4A 7.2.16 to 7.2.18), the same direction along the whole run, 20 mm untwisted at each end for the joint. Twist before the ends are made; the cut lengths already carry the take-up (up to 1.9 %).
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
@@ -561,8 +563,8 @@ Twist: none (a 31 mm run leaves 0 mm after the 2 x 20 mm untwisted ends, under o
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | U3.VOUT (U3 5 V out) | PI.2 (U4 5V) | 20 AWG | red | 130 | solder into the board hole VOUT | solder at the Pi header (pin 2) |
-| 2 | U3.GND.2 (U3 ground (output side)) | PI.6 (U4 GND) | 20 AWG | black | 130 | solder into the board hole 2 | solder at the Pi header (pin 6) |
+| 1 | U3.VOUT (U3 5 V out) | PI.2 (U4 5V) | 20 AWG | red | 130 | solder into the board hole VOUT | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 2 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
+| 2 | U3.GND.2 (U3 ground (output side)) | PI.6 (U4 GND) | 20 AWG | black | 130 | solder into the board hole 2 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 6 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
 
 Test: U3.VOUT to PI.2: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U3.VIN U3.GND.1 U3.GND.2 U3.EN U3.PG; U3.GND.2 to PI.6: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to U3.VIN U3.GND.1 U3.VOUT U3.EN U3.PG
 
@@ -576,8 +578,8 @@ Twist: none (a 16 mm run leaves 0 mm after the 2 x 20 mm untwisted ends, under o
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | PI.4 (U4 5V) | J5.S (J5 splice) | 20 AWG | red | 90 | solder at the Pi header (pin 4) | join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
-| 2 | PI.14 (U4 GND) | JG.S (JG splice) | 20 AWG | black | 90 | solder at the Pi header (pin 14) | join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
+| 1 | PI.4 (U4 5V) | J5.S (J5 splice) | 20 AWG | red | 90 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 4 until it clicks, then tug-test (X1, D36: the Pi unplugs) | join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
+| 2 | PI.14 (U4 GND) | JG.S (JG splice) | 20 AWG | black | 90 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 14 until it clicks, then tug-test (X1, D36: the Pi unplugs) | join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
 
 Test: PI.4 to J5.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.5 PI.6 PI.9; PI.14 to JG.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 
@@ -608,10 +610,10 @@ Twist: all wires twisted together, one full turn every 40 mm (allowed 28 to 55 m
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | PI.1 (U4 3V3) | BNO.VIN (U7 supply) | 26 AWG | red | 550 | solder at the Pi header (pin 1) | solder |
-| 2 | PI.9 (U4 GND) | BNO.GND (U7 ground) | 26 AWG | black | 550 | solder at the Pi header (pin 9) | solder |
-| 3 | PI.3 (U4 GPIO2 SDA) | BNO.SDA (U7 I2C data) | 26 AWG | blue | 550 | solder at the Pi header (pin 3) | solder |
-| 4 | PI.5 (U4 GPIO3 SCL) | BNO.SCL (U7 I2C clock) | 26 AWG | yellow | 550 | solder at the Pi header (pin 5) | solder |
+| 1 | PI.1 (U4 3V3) | BNO.VIN (U7 supply) | 26 AWG | red | 550 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 1 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
+| 2 | PI.9 (U4 GND) | BNO.GND (U7 ground) | 26 AWG | black | 550 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 9 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
+| 3 | PI.3 (U4 GPIO2 SDA) | BNO.SDA (U7 I2C data) | 26 AWG | blue | 550 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 3 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
+| 4 | PI.5 (U4 GPIO3 SCL) | BNO.SCL (U7 I2C clock) | 26 AWG | yellow | 550 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 5 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
 
 Test: PI.1 to BNO.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.2 PI.3 PI.4 PI.5 PI.6 PI.9; PI.9 to BNO.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; PI.3 to BNO.SDA: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.4 PI.5 PI.6 PI.9; PI.5 to BNO.SCL: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.6 PI.9
 
@@ -628,10 +630,10 @@ Twist: all wires twisted together, one full turn every 40 mm (allowed 28 to 55 m
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | PI.17 (U4 3V3) | RFL.1 (R4 3V3 side (Pi pin 17)) | resistor lead | none | 0 | solder at the Pi header (pin 17) | use the part's own lead (resistor lead), solder joint covered with heat shrink |
-| 2 | RFL.2 (R4 input side (Pi pin 15)) | PI.15 (U4 GPIO22 left foot) | resistor lead | none | 0 | use the part's own lead (resistor lead), solder joint covered with heat shrink | solder at the Pi header (pin 15) |
-| 3 | PI.15 (U4 GPIO22 left foot) | FSL1.NO (SL1 normally open) | 26 AWG | green | 900 | solder at the Pi header (pin 15) | tin and solder to FSL1.NO, heat shrink if bare |
-| 4 | PI.9 (U4 GND) | FSL1.COM (SL1 common) | 26 AWG | black | 900 | solder at the Pi header (pin 9) | tin and solder to FSL1.COM, heat shrink if bare |
+| 1 | PI.17 (U4 3V3) | RFL.1 (R4 3V3 side (Pi pin 17)) | resistor lead | none | 0 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 17 until it clicks, then tug-test (X1, D36: the Pi unplugs) | use the part's own lead (resistor lead), solder joint covered with heat shrink |
+| 2 | RFL.2 (R4 input side (Pi pin 15)) | PI.15 (U4 GPIO22 left foot) | resistor lead | none | 0 | use the part's own lead (resistor lead), solder joint covered with heat shrink | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 15 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
+| 3 | PI.15 (U4 GPIO22 left foot) | FSL1.NO (SL1 normally open) | 26 AWG | green | 900 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 15 until it clicks, then tug-test (X1, D36: the Pi unplugs) | tin and solder to FSL1.NO, heat shrink if bare |
+| 4 | PI.9 (U4 GND) | FSL1.COM (SL1 common) | 26 AWG | black | 900 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 9 until it clicks, then tug-test (X1, D36: the Pi unplugs) | tin and solder to FSL1.COM, heat shrink if bare |
 | 5 | FSL1.NO (SL1 normally open) | FSL2.NO (SL2 normally open) | 26 AWG | green | 110 | tin and solder to FSL1.NO, heat shrink if bare | tin and solder to FSL2.NO, heat shrink if bare |
 | 6 | FSL1.COM (SL1 common) | FSL2.COM (SL2 common) | 26 AWG | black | 110 | tin and solder to FSL1.COM, heat shrink if bare | tin and solder to FSL2.COM, heat shrink if bare |
 
@@ -650,10 +652,10 @@ Twist: all wires twisted together, one full turn every 40 mm (allowed 28 to 55 m
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | PI.17 (U4 3V3) | RFR.1 (R5 3V3 side (Pi pin 17)) | resistor lead | none | 0 | solder at the Pi header (pin 17) | use the part's own lead (resistor lead), solder joint covered with heat shrink |
-| 2 | RFR.2 (R5 input side (Pi pin 13)) | PI.13 (U4 GPIO27 right foot) | resistor lead | none | 0 | use the part's own lead (resistor lead), solder joint covered with heat shrink | solder at the Pi header (pin 13) |
-| 3 | PI.13 (U4 GPIO27 right foot) | FSR1.NO (SR1 normally open) | 26 AWG | white | 950 | solder at the Pi header (pin 13) | tin and solder to FSR1.NO, heat shrink if bare |
-| 4 | PI.9 (U4 GND) | FSR1.COM (SR1 common) | 26 AWG | black | 950 | solder at the Pi header (pin 9) | tin and solder to FSR1.COM, heat shrink if bare |
+| 1 | PI.17 (U4 3V3) | RFR.1 (R5 3V3 side (Pi pin 17)) | resistor lead | none | 0 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 17 until it clicks, then tug-test (X1, D36: the Pi unplugs) | use the part's own lead (resistor lead), solder joint covered with heat shrink |
+| 2 | RFR.2 (R5 input side (Pi pin 13)) | PI.13 (U4 GPIO27 right foot) | resistor lead | none | 0 | use the part's own lead (resistor lead), solder joint covered with heat shrink | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 13 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
+| 3 | PI.13 (U4 GPIO27 right foot) | FSR1.NO (SR1 normally open) | 26 AWG | white | 950 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 13 until it clicks, then tug-test (X1, D36: the Pi unplugs) | tin and solder to FSR1.NO, heat shrink if bare |
+| 4 | PI.9 (U4 GND) | FSR1.COM (SR1 common) | 26 AWG | black | 950 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 9 until it clicks, then tug-test (X1, D36: the Pi unplugs) | tin and solder to FSR1.COM, heat shrink if bare |
 | 5 | FSR1.NO (SR1 normally open) | FSR2.NO (SR2 normally open) | 26 AWG | white | 110 | tin and solder to FSR1.NO, heat shrink if bare | tin and solder to FSR2.NO, heat shrink if bare |
 | 6 | FSR1.COM (SR1 common) | FSR2.COM (SR2 common) | 26 AWG | black | 110 | tin and solder to FSR1.COM, heat shrink if bare | tin and solder to FSR2.COM, heat shrink if bare |
 
@@ -674,9 +676,9 @@ Twist: none (a 58 mm run leaves 18 mm after the 2 x 20 mm untwisted ends, under 
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | PI.18 (U4 GPIO24 left eye) | RL.1 (R1 GPIO side) | 26 AWG | yellow | 150 | solder at the Pi header (pin 18) | solder |
+| 1 | PI.18 (U4 GPIO24 left eye) | RL.1 (R1 GPIO side) | 26 AWG | yellow | 150 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 18 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
 | 2 | RL.2 (R1 LED side) | LEDL.A (LED1 anode) | resistor lead | none | 0 | use the part's own lead (resistor lead), solder joint covered with heat shrink | use the part's own lead (LED lead), solder joint covered with heat shrink |
-| 3 | LEDL.K (LED1 cathode) | PI.20 (U4 GND) | 26 AWG | black | 150 | solder | solder at the Pi header (pin 20) |
+| 3 | LEDL.K (LED1 cathode) | PI.20 (U4 GND) | 26 AWG | black | 150 | solder | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 20 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
 
 Test: PI.18 to RL.1: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; RL.2 to LEDL.A: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to RL.1; LEDL.K to PI.20: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to LEDL.A
 
@@ -691,9 +693,9 @@ Twist: all wires twisted together, one full turn every 35 mm (allowed 24 to 48 m
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | PI.16 (U4 GPIO23 right eye) | RR.1 (R2 GPIO side) | 26 AWG | white | 230 | solder at the Pi header (pin 16) | solder |
+| 1 | PI.16 (U4 GPIO23 right eye) | RR.1 (R2 GPIO side) | 26 AWG | white | 230 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 16 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
 | 2 | RR.2 (R2 LED side) | LEDR.A (LED2 anode) | resistor lead | none | 0 | use the part's own lead (resistor lead), solder joint covered with heat shrink | use the part's own lead (LED lead), solder joint covered with heat shrink |
-| 3 | LEDR.K (LED2 cathode) | PI.20 (U4 GND) | 26 AWG | black | 230 | solder | solder at the Pi header (pin 20) |
+| 3 | LEDR.K (LED2 cathode) | PI.20 (U4 GND) | 26 AWG | black | 230 | solder | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 20 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
 
 Test: PI.16 to RR.1: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; RR.2 to LEDR.A: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to RR.1; LEDR.K to PI.20: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to LEDR.A
 
@@ -709,9 +711,9 @@ Twist: none (a 38 mm run leaves 0 mm after the 2 x 20 mm untwisted ends, under o
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | PI.22 (U4 GPIO25 projector) | RP.1 (R3 GPIO side) | 26 AWG | green | 160 | solder at the Pi header (pin 22) | solder |
+| 1 | PI.22 (U4 GPIO25 projector) | RP.1 (R3 GPIO side) | 26 AWG | green | 160 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 22 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
 | 2 | RP.2 (R3 LED side) | LEDP.A (LED3 anode) | resistor lead | none | 0 | use the part's own lead (resistor lead), solder joint covered with heat shrink | use the part's own lead (LED lead), solder joint covered with heat shrink |
-| 3 | LEDP.K (LED3 cathode) | PI.20 (U4 GND) | 26 AWG | black | 160 | solder | solder at the Pi header (pin 20) |
+| 3 | LEDP.K (LED3 cathode) | PI.20 (U4 GND) | 26 AWG | black | 160 | solder | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 20 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
 
 Test: PI.22 to RP.1: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; RP.2 to LEDP.A: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to RP.1; LEDP.K to PI.20: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to LEDP.A
 
@@ -724,7 +726,7 @@ Regions: head. Crosses joints: none. lead 250 mm fits
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | SGL.SIG (M1 PWM in) | PI.33 (U4 GPIO13 left antenna PWM) | SG90 lead | orange | 250 | servo socket | solder at the Pi header (pin 33) |
+| 1 | SGL.SIG (M1 PWM in) | PI.33 (U4 GPIO13 left antenna PWM) | SG90 lead | orange | 250 | servo socket | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 33 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
 | 2 | SGL.VCC (M1 supply) | J5.S (J5 splice) | SG90 lead | red | 250 | servo socket | join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
 | 3 | SGL.GND (M1 ground) | JG.S (JG splice) | SG90 lead | brown | 250 | servo socket | join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
 
@@ -740,7 +742,7 @@ Regions: head. Crosses joints: none. lead 250 mm reaches without an extension: c
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | SGR.SIG (M2 PWM in) | PI.32 (U4 GPIO12 right antenna PWM) | SG90 lead | orange | 250 | servo socket | solder at the Pi header (pin 32) |
+| 1 | SGR.SIG (M2 PWM in) | PI.32 (U4 GPIO12 right antenna PWM) | SG90 lead | orange | 250 | servo socket | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 32 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
 | 2 | SGR.VCC (M2 supply) | J5.S (J5 splice) | SG90 lead | red | 250 | servo socket | join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
 | 3 | SGR.GND (M2 ground) | JG.S (JG splice) | SG90 lead | brown | 250 | servo socket | join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
 
@@ -758,9 +760,9 @@ Twist: all wires twisted together, one full turn every 45 mm (allowed 31 to 62 m
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | PI.35 (U4 GPIO19 I2S LRC) | AMP.LRC (U8 I2S frame) | 26 AWG | white | 220 | solder at the Pi header (pin 35) | solder |
-| 2 | PI.12 (U4 GPIO18 I2S BCLK) | AMP.BCLK (U8 I2S bit clock) | 26 AWG | yellow | 210 | solder at the Pi header (pin 12) | solder |
-| 3 | PI.40 (U4 GPIO21 I2S DIN) | AMP.DIN (U8 I2S data) | 26 AWG | green | 220 | solder at the Pi header (pin 40) | solder |
+| 1 | PI.35 (U4 GPIO19 I2S LRC) | AMP.LRC (U8 I2S frame) | 26 AWG | white | 220 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 35 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
+| 2 | PI.12 (U4 GPIO18 I2S BCLK) | AMP.BCLK (U8 I2S bit clock) | 26 AWG | yellow | 210 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 12 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
+| 3 | PI.40 (U4 GPIO21 I2S DIN) | AMP.DIN (U8 I2S data) | 26 AWG | green | 220 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 40 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
 | 4 | J5.S (J5 splice) | AMP.VIN (U8 supply) | 26 AWG | red | 220 | join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) | solder |
 | 5 | JG.S (JG splice) | AMP.GND (U8 ground) | 26 AWG | black | 220 | join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) | solder |
 
@@ -768,7 +770,7 @@ Test: PI.35 to AMP.LRC: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no s
 
 Seats on the brackets, end to end: none (free air); edge head_roll_mount; edge head_bot_sheet
 Ties (one 2.5 x 100 mm cable tie each, BOM 32): T060 stick-on mount MB3A (BOM 34) on head, 16 mm from the cable line; T062 stick-on mount MB3A (BOM 34) on head_bot_sheet, 4 mm from the cable line; T063 stick-on mount ABM1M-AT-C (BOM 34b) on head, 13 mm from the cable line
-Reach check (cables3d, by conductor chain): pass with notes, worst routed 173.7 mm, cut 220 mm.
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 149.0 mm, cut 220 mm.
 
 ### D11: MAX98357A to speaker
 
@@ -793,13 +795,26 @@ Regions: head. Crosses joints: none.
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | PI.CSI (U4 camera connector) | CAM.CSI (U9 camera ribbon) | FPC ribbon | white ribbon | 150 | bought cable end (22-pin FPC), plug in | bought cable end (15-pin FPC), plug in |
+| 1 | PI.CSI (U4 camera connector) | CAM.CSI (U9 camera ribbon) | FPC ribbon | white ribbon | 300 | bought cable end (22-pin FPC), plug in | bought cable end (15-pin FPC), plug in |
 
 Test: PI.CSI to CAM.CSI: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
 Seats on the brackets, end to end: none (free air); edge head_roll_mount; edge head
 Ties (one 2.5 x 100 mm cable tie each, BOM 32): T063 stick-on mount ABM1M-AT-C (BOM 34b) on head, 13 mm from the cable line; T064 stick-on mount ABM1M-AT-C (BOM 34b) on head, 15 mm from the cable line
-Reach check (cables3d, by conductor chain): test fit, worst routed 127.1 mm, cut 150 mm.
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 227.3 mm, cut 300 mm.
+
+## 7. Other
+
+### D13: Pi GPIO26 (pin 37) to the 2813 OFF input (D30; gpio-poweroff)
+
+Regions: head, neck, trunk_top, battery_bay. Crosses joints: neck_pitch, head_pitch, head_yaw, head_roll. 
+
+| Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
+|---|---|---|---|---|---|---|---|
+| 1 | PI.37 (U4 GPIO26 to the 2813 OFF input (D30)) | SW1.OFF (SW1 logic OFF input (D30)) | 26 AWG | blue | 590 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 37 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder into the board hole OFF |
+
+Joint loops: neck_pitch: leave 42 mm between T013 and T014 (15 mm more than the straight run at the zero pose); head_pitch+head_yaw: leave 82 mm between T038 and T016 (42 mm more than the straight run at the zero pose), one loop over both joints: no tie between them; head_roll: leave 41 mm between T017 and T018 (18 mm more than the straight run at the zero pose)
+Reach check (cables3d, by conductor chain): pass with notes, worst routed 542.5 mm, cut 590 mm.
 
 ## Splices
 
@@ -851,4 +866,4 @@ No printed feature, stick-on mount, tie-hole pair or anchored neighbour cable fi
 - T085 (S13 on neck_yaw_assembly)
 - T089 (SP5 on trunk_assembly): route change tried and not kept: the MB3A patch is on the outer -y face of body_middle_bottom, 33.9 mm away; the SP5 worst route grows from 377 to 440 mm, 448 mm with the twist take-up, past the 430 mm cut
 
-Coverage: 47 active cables, 124 wires, all from the netlist.
+Coverage: 48 active cables, 125 wires, all from the netlist.

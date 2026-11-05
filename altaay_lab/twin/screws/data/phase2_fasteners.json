@@ -7,10 +7,6 @@
   "F070",
   "F071",
   "F075",
-  "F076",
-  "F080",
-  "F081",
-  "F082",
   "F084",
   "F085",
   "F086",
@@ -37,10 +33,6 @@
   "I06",
   "I07",
   "I01",
-  "I02",
-  "I10",
-  "I11",
-  "I12",
   "I48",
   "I49",
   "I50",
@@ -59,11 +51,7 @@
    "F071"
   ],
   "body_back shell": [
-   "F075",
-   "F076",
-   "F080",
-   "F081",
-   "F082"
+   "F075"
   ],
   "head_bot_sheet -> head (head_assembly)": [
    "F084",
@@ -92,7 +80,7 @@
    "F179",
    "F182"
   ],
-  "camera PCB (not in CAD) -> head (head_assembly)": [
+  "Camera Module 3 PCB (BOM E6) -> head (head_assembly)": [
    "F345",
    "F346"
   ],

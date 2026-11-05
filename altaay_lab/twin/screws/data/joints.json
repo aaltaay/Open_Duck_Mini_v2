@@ -1004,34 +1004,33 @@
   "F2_SF": {
    "soft": {
     "before": 3.77,
-    "after_screws": 1.41,
-    "after_with_lip_y": 7.22,
-    "after_with_lip_z_up": 3.93,
-    "after_with_lip_z_down": 1.41
+    "after_screws": 3.3,
+    "after_with_lip_y": 6.55,
+    "after_with_lip_z_up": 5.81,
+    "after_with_lip_z_down": 3.3
    },
    "mid": {
     "before": 1.21,
-    "after_screws": 0.45,
-    "after_with_lip_y": 2.32,
-    "after_with_lip_z_up": 1.26,
-    "after_with_lip_z_down": 0.45
+    "after_screws": 1.06,
+    "after_with_lip_y": 2.1,
+    "after_with_lip_z_up": 1.87,
+    "after_with_lip_z_down": 1.06
    }
   },
-  "needs_ahmed_ok": "downward shear on the back shell (only in an upside-down landing) at the mid fall level: SF 0.45 after, 1.21 today; no lip can print there (body_middle_top's back face is its print bed)",
-  "n_after": 3,
+  "n_after": 7,
   "kept": [
+   "F076",
    "F077",
    "F078",
-   "F079"
-  ],
-  "cut": [
-   "F075",
-   "F076",
+   "F079",
    "F080",
    "F081",
    "F082"
   ],
-  "why": "shell: 3 screws (at least 1 into body_middle_top, which hangs between the two shells, and 1 into body_middle_bottom), largest triangle round its centre of mass (4276 mm2); F1 SF 2.4 at mid with one screw. F2 (bearing, crack but no separation): see F2_SF; the printed lip (mesh_designs.py) carries the side and vertical shear where it can be printed",
+  "cut": [
+   "F075"
+  ],
+  "why": "D38: the back shell keeps 7 screws (F075 out) with the lips and ribs on body_middle_bottom; shell: 3 screws (at least 1 into body_middle_top, which hangs between the two shells, and 1 into body_middle_bottom), largest triangle round its centre of mass (4276 mm2); F1 SF 2.4 at mid with one screw. F2 (bearing, crack but no separation): see F2_SF; the printed lip (mesh_designs.py) carries the side and vertical shear where it can be printed",
   "SF": {
    "walk": 104.3,
    "soft": 7.0,
@@ -2209,12 +2208,12 @@
   }
  },
  {
-  "joint": "camera PCB (not in CAD) -> head (head_assembly)",
+  "joint": "Camera Module 3 PCB (BOM E6) -> head (head_assembly)",
   "cls": "c",
   "n_listed": 4,
   "n_before": 4,
   "spec": [
-   "M2x4 self-tapping pan head"
+   "M2x5 self-tapping pan head"
   ],
   "area": "head",
   "ids": [

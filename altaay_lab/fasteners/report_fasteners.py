@@ -40,8 +40,18 @@ def main():
     path = os.path.join(HERE, "fasteners.json")
     D = json.load(open(path))
     R = D["fasteners"]
+    # ---- D38 (V1 screws job, twin/screws/SCREWS_TWIN.md): screws, their inserts and washers left out
+    cutf = os.path.join(os.path.dirname(HERE), "twin", "screws", "data", "phase2_fasteners.json")
+    if os.path.exists(cutf):
+        C38 = json.load(open(cutf))
+        for r in R:
+            if r["id"] in C38["screws_cut"] or r["id"] in C38["inserts_cut"]:
+                r["status"], r["leave_out"] = "LEAVE OUT (D38 screw cut)", True
+                note = "D38: left out by the V1 screw cut (twin/screws/data/phase2_fasteners.json); hole kept"
+                if note not in r.get("notes", []):
+                    r["notes"] = r.get("notes", []) + [note]
     screws = [r for r in R if r["kind"] == "screw"]
-    inserts = [r for r in R if r["kind"] == "insert"]
+    inserts = [r for r in R if r["kind"] == "insert" and not r.get("leave_out")]
     hits = D.get("sweep", {}).get("hits", [])
     if not hits and "sweep" not in D:
         sys.exit("run sweep_fasteners.py first")
@@ -64,7 +74,7 @@ def main():
     button = []
     for r in screws:
         mine = [h for h in hits if h["id"] == r["id"] and h.get("cls") in ("screw", "static overlap")
-                and not (r.get("status") == "LEAVE OUT (D18)")]
+                and not str(r.get("status") or "").startswith("LEAVE OUT")]
         low = (r.get("sweep") or {}).get("with_iso7380_head") or {}
         if not mine or not (r.get("head") or {}).get("type", "").endswith("din912") or r.get("size") != "M3":
             continue
@@ -79,7 +89,7 @@ def main():
                                                    "clears it in the sweep, see FASTENERS.md section 3" % min(h["worst_mm"] for h in mine)]
                 button.append(r["id"])
     # ---- counts
-    fitted = [r for r in screws if r.get("status") not in ("NOT FITTED", "LEAVE OUT (D18)")]
+    fitted = [r for r in screws if not str(r.get("status") or "").startswith(("NOT FITTED", "LEAVE OUT"))]
     by_spec = Counter(r["spec"] for r in fitted)
     supply = Counter()
     for r in fitted:

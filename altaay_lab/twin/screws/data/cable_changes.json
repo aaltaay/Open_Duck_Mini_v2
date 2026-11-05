@@ -22,12 +22,12 @@
   "wire_rows": 124
  },
  "after": {
-  "solder_ends": 121,
+  "solder_ends": 125,
   "of_which_pi_header": 27,
   "of_which_at_splices": 52,
-  "crimps": 48,
+  "crimps": 44,
   "housings": 7,
-  "sleeves": 34,
+  "sleeves": 38,
   "plugs": 96,
   "ties": 75,
   "mounts": 0,
@@ -51,9 +51,9 @@
    5.83
   ],
   "after_X1_X2_X3a_X4": [
-   5.44,
-   5.47,
-   5.5
+   5.48,
+   5.51,
+   5.54
   ],
   "after_without_X3": [
    5.34,
@@ -61,9 +61,9 @@
    5.4
   ],
   "after_with_X3b_too": [
-   6.04,
-   6.07,
-   6.1
+   6.08,
+   6.11,
+   6.14
   ]
  },
  "calendar": {
@@ -201,9 +201,9 @@
    "current": "P13 peak 1.91 A (2.21 A at 6.4 V) [L] CABLE_MAP.md",
    "parts": "P13 is 20 AWG, outside the 22 to 30 AWG of KK 254 and Mini-SPOX: an XT30U pair (BOM 12) is proposed, rating BLOCKER (not read); D3, D4: KK 254 (X1 parts)",
    "conductors_D3_D4": 12,
-   "delta_s_X3a": 363,
+   "delta_s_X3a": 503.0,
    "delta_s_X3b": 2166,
-   "delta_s": 363,
+   "delta_s": 503.0,
    "checks": [
     "each split on a straight run, 20 mm or more from a joint loop end (NASA-STD-8739.4A 7.2.36, as HARNESS_BUILD.md splices)",
     "the joint motion job re-checks the D25 loops with the housing in place",

@@ -145,3 +145,15 @@ Pack at full charge (8.3 V or more) and again at nominal (about 7.4 V open circu
 
 13.1 Camera ribbon loop fit (D34, B61): seat the 300 mm Standard-Mini cable in the Pi Zero 22-pin and the Camera Module 3 15-pin connectors, lay it on the strip route of twin/complete3d/d12_ribbon.json (bends 3 mm or more, folds flat and not creased) with the 72.7 mm spare in one gentle loop of about 6 mm radius, then close the head. Caliper the strip width and thickness at both ends and write them into COMPLETE3D.md. Pass: nothing taut or pinched, and the camera gives an image after 20 head pitch, yaw and roll sweeps.
 13.2 OFF wire (D30, cable D13, B62): with dtoverlay=gpio-poweroff,gpiopin=26 in config.txt, run sudo poweroff on the Pi. Pass: after the Pi halts the 2813 switches the robot off (Pi and servo bus dark, pack current under 1 mA on the meter), and the button turns it on again. Check the D13 run on the P13 route at both neck joint limits first (TEST_PLAN 1.4).
+
+## 14. Screw cut and fast cable checks (V1 screws job, D36 and D38; twin/screws/SCREWS_TWIN.md)
+
+The twin numbers are calc only and CAD check only; these checks close them. Coupons are in altaay_lab/twin/screws/stl/.
+1. Lip and tongue fit (coupons K1a with K1b, K2a with K2b): push fit by hand, no rock, 10 on and off cycles without whitening; K2a rib undersides printed without sag. If tight or loose, rerun twin/screws/mesh_designs.py with a new clearance C (now 0.25 mm).
+2. Snap clip (coupon K3): snaps over a 6 mm dowel 10 times without whitening; after 24 h on the dowel at 50 C the opening has not grown (creep).
+3. Tie bridge (coupon K4): a 2.5 mm tie passes the slot and holds a 20 N hand pull.
+4. Tug test of the plugs after the section 9 walk: each KK 254 housing on the Pi header (X1), the P13 XT30U pair (X3a) and each wire in the WAGO splices G and VSW (X4), by hand; nothing moves or backs out. If one does, re-seat it and add a tie as strain relief.
+5. Rattle and buzz: tap the boards held on 2 screws (Pi, servo adapter, camera) and both shells; compare the IMU accelerometer spectrum of the section 9 walk with the bench log; speaker at full volume without buzz. A rattle gets its screw back (every hole is kept).
+6. Lid pilots: thread an M2.5x10 into a body_back pilot coupon 10 times, then pull by hand; if it strips, the lid gets M2.5 inserts (new part, Ahmed's OK).
+7. Button 10b (MB2011LS1W01-BB) at the first fit: the snap-on cap clears the body_back opening and the plate holds it (D30).
+8. Drop check of the closed trunk (shells, lid, battery): BLOCKER: height from the standing trunk centre in the URDF, to be set before the test; after it nothing separates, cracks are logged.

@@ -74,13 +74,13 @@ F072,screw,b,M3x8 DIN 912 A2,body_front,body_middle_bottom,M3 insert,body front,
 F073,screw,b,M3x12 DIN 912 A2,trunk_top,trunk_bottom,M3 insert,trunk inside,1,1,BOM 17c,keep
 F074,screw,b,M3x12 DIN 912 A2,trunk_top,trunk_bottom,M3 insert,trunk inside,1,1,BOM 17c,keep
 F075,screw,b,M3x8 DIN 912 A2,body_back,body_middle_bottom,M3 insert,back,1,0,BOM 17a,cut
-F076,screw,b,M3x8 DIN 912 A2,body_back,body_middle_bottom,M3 insert,back,1,0,BOM 17a,cut
+F076,screw,b,M3x8 DIN 912 A2,body_back,body_middle_bottom,M3 insert,back,1,1,BOM 17a,keep
 F077,screw,b,M3x8 DIN 912 A2,body_back,body_middle_bottom,M3 insert,back,1,1,BOM 17a,keep
 F078,screw,b,M3x8 DIN 912 A2,body_back,body_middle_bottom,M3 insert,back,1,1,BOM 17a,keep
 F079,screw,b,M3x8 DIN 912 A2,body_back,body_middle_top,M3 insert,back,1,1,BOM 17a,keep
-F080,screw,b,M3x8 DIN 912 A2,body_back,body_middle_top,M3 insert,back,1,0,BOM 17a,cut
-F081,screw,b,M3x8 DIN 912 A2,body_back,body_middle_top,M3 insert,back,1,0,BOM 17a,cut
-F082,screw,b,M3x8 DIN 912 A2,body_back,body_middle_top,M3 insert,back,1,0,BOM 17a,cut
+F080,screw,b,M3x8 DIN 912 A2,body_back,body_middle_top,M3 insert,back,1,1,BOM 17a,keep
+F081,screw,b,M3x8 DIN 912 A2,body_back,body_middle_top,M3 insert,back,1,1,BOM 17a,keep
+F082,screw,b,M3x8 DIN 912 A2,body_back,body_middle_top,M3 insert,back,1,1,BOM 17a,keep
 F083,screw,b,M3x8 DIN 912 A2,head_bot_sheet,head,M3 insert,head,1,1,BOM 17a,keep
 F084,screw,b,M3x8 DIN 912 A2,head_bot_sheet,head,M3 insert,head,1,0,BOM 17a,cut
 F085,screw,b,M3x8 DIN 912 A2,head_bot_sheet,head,M3 insert,head,1,0,BOM 17a,cut
@@ -342,10 +342,10 @@ F340,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output s
 F341,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,trunk inside,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
 F342,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,right leg,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
 F343,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,right leg,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
-F344,screw,c,M2x4 self-tapping pan head,camera PCB (not in CAD),head,plastic pilot 1.65 (camera),head,1,1,METALLIXITY M2 kit (BOM 17h),keep
-F345,screw,c,M2x4 self-tapping pan head,camera PCB (not in CAD),head,plastic pilot 1.65 (camera),head,1,0,METALLIXITY M2 kit (BOM 17h),cut
-F346,screw,c,M2x4 self-tapping pan head,camera PCB (not in CAD),head,plastic pilot 1.65 (camera),head,1,0,METALLIXITY M2 kit (BOM 17h),cut
-F347,screw,c,M2x4 self-tapping pan head,camera PCB (not in CAD),head,plastic pilot 1.65 (camera),head,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F344,screw,c,M2x5 self-tapping pan head,Camera Module 3 PCB (BOM E6),head,"plastic pilot 1.65 (camera), drilled from 3.2 to 4.5 mm deep (D34)",head,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F345,screw,c,M2x5 self-tapping pan head,Camera Module 3 PCB (BOM E6),head,"plastic pilot 1.65 (camera), drilled from 3.2 to 4.5 mm deep (D34)",head,1,0,METALLIXITY M2 kit (BOM 17h),cut
+F346,screw,c,M2x5 self-tapping pan head,Camera Module 3 PCB (BOM E6),head,"plastic pilot 1.65 (camera), drilled from 3.2 to 4.5 mm deep (D34)",head,1,0,METALLIXITY M2 kit (BOM 17h),cut
+F347,screw,c,M2x5 self-tapping pan head,Camera Module 3 PCB (BOM E6),head,"plastic pilot 1.65 (camera), drilled from 3.2 to 4.5 mm deep (D34)",head,1,1,METALLIXITY M2 kit (BOM 17h),keep
 F348,screw,c,SG90 bag mounting screw,SG90 tab,head,plastic pilot 1.55 (SG90 tab),head,1,1,SG90 bag (BOM 14),keep
 F349,screw,c,SG90 bag mounting screw,SG90 tab,head,plastic pilot 1.55 (SG90 tab),head,1,1,SG90 bag (BOM 14),keep
 F350,screw,c,SG90 bag mounting screw,SG90 tab,head,plastic pilot 1.55 (SG90 tab),head,1,1,SG90 bag (BOM 14),keep
@@ -355,7 +355,7 @@ F353,screw,b,M2.5x5 DIN 912 A2,speaker_interface,speaker_stand,plastic pilot 2.1
 F354,screw,b,M2.5x5 DIN 912 A2,speaker_interface,speaker_stand,plastic pilot 2.12 (speaker stand),head,1,1,NEW LENGTH (no BOM line),keep
 F355,screw,b,M2.5x5 DIN 912 A2,speaker_interface,speaker_stand,plastic pilot 2.12 (speaker stand),head,1,0,NEW LENGTH (no BOM line),cut
 I01,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F075,back,1,0,BOM 16,cut
-I02,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F076,back,1,0,BOM 16,cut
+I02,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F076,back,1,1,BOM 16,keep
 I03,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F077,back,1,1,BOM 16,keep
 I04,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F078,back,1,1,BOM 16,keep
 I05,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F069,body front,1,1,BOM 16,keep
@@ -363,9 +363,9 @@ I06,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F07
 I07,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F071,body front,1,0,BOM 16,cut
 I08,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F072,body front,1,1,BOM 16,keep
 I09,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F079,back,1,1,BOM 16,keep
-I10,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F080,back,1,0,BOM 16,cut
-I11,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F081,back,1,0,BOM 16,cut
-I12,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F082,back,1,0,BOM 16,cut
+I10,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F080,back,1,1,BOM 16,keep
+I11,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F081,back,1,1,BOM 16,keep
+I12,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F082,back,1,1,BOM 16,keep
 I13,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F065,body front,1,0,BOM 16,cut
 I14,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F066,body front,1,0,BOM 16,cut
 I15,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F067,body front,1,1,BOM 16,keep
