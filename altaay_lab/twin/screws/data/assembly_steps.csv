@@ -1,0 +1,22 @@
+step,screws_before,screws_after,washers_before,washers_after,lip_press_after,min_before,min_after
+01 heat-set inserts (part prep),,,,,,BLOCKER x 58,BLOCKER x 44
+02 servo prep: horn centre and idle screws,17,17,0,0,0,2.8,2.8
+03 left foot,12,12,0,0,0,2.0,2.0
+04 left shin,16,16,0,0,0,2.7,2.7
+05 left thigh,16,16,0,0,0,2.7,2.7
+06 left bracket,13,13,0,0,0,2.2,2.2
+07 left hip,9,9,0,0,0,1.5,1.5
+08 right foot,12,12,0,0,0,2.0,2.0
+09 right shin,16,16,0,0,0,2.7,2.7
+10 right thigh,16,16,0,0,0,2.7,2.7
+11 right bracket,13,13,0,0,0,2.2,2.2
+12 right hip,9,9,0,0,0,1.5,1.5
+13 trunk,26,26,0,0,0,4.3,4.3
+14 trunk electronics,8,6,0,0,0,1.3,1.0
+"15 battery bay, charger, lid",5,4,0,0,0,0.8,0.7
+16 neck,36,36,0,0,0,6.0,6.0
+17 head internals,30,18,16,8,0,5.8,3.4
+18 head closing,16,11,0,0,0,2.7,1.8
+19 shells front and back,16,7,0,0,2,2.7,1.3
+
+"# times: screw 8/10/12 s, washer and press or snap 2/3/4 s: [I] https://dfma.com/resources/assembly-cost-estimating.asp (search text: threaded screw 8 to 12 s 'align, drive, verify'; snap-fit 2 to 4 s; press-fit 2 to 4 s); washer and lip press use the press-fit class (lab mapping); servo case screws are factory fitted (0 s); heat-set insert time: BLOCKER (no published per-insert time found; check: time 10 inserts on the S1 coupons)"

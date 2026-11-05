@@ -1,0 +1,560 @@
+{
+ "meta": {
+  "script": "altaay_lab/twin/complete3d/camera_seat.py",
+  "label": "CAD check only",
+  "frame": "URDF world, zero pose, mm",
+  "sources": {
+   "board": "[I] HARDWARE_AUDIT.md B9, from the Raspberry Pi Camera Module 3 mechanical drawing (datasheets.raspberrypi.com): board 25 x 24 mm, 4 holes 2.2 mm, 2 mm from the edges, 21 x 12.5 mm pattern",
+   "lens": "[I] viewer/make_viewer_data.py lens note (drawing RP-008153-DS-1, checked 2026-11-01): lens dia 5.75 mm on the upper hole row, 14.5 mm from the bottom edge",
+   "depth": "[I] BOM.md E6 and the viewer catalog: 25 x 24 x 11.5 mm overall",
+   "screw": "[I] BOM.md 17h: METALLIXITY M2 pan head kit, M2 head 3.7 x 1.4 mm; M2x4 is its shortest M2",
+   "rule": "[I] fasteners.json meta.sources.pla_rule: screw-in depth 2.0 x d in plastic (Westfield table 2, ABS row)",
+   "fpc": "[I] CABLE_MAP.md D12 and BOM.md E7: camera end 15-pin 1 mm FPC, Pi end 22-pin 0.5 mm FPC"
+  },
+  "blockers": {
+   "pcb_t": "PCB thickness not published at a reachable source (fasteners.json F344 to F347 note 'PCB thickness UNVERIFIED'). Stand-in 1.0 mm, range 0.8 to 1.6 mm checked. Settles it: caliper on the received Camera Module 3 (parts check, TO8).",
+   "conn_side": "Which face of the PCB carries the 15-pin connector, and the slot height, are not in any cited text in the repo (RP-008153-DS-1 not reachable from this session: datasheets.raspberrypi.com is blocked). Both faces are checked. Settles it: RP-008153-DS-1, or a look at the received camera.",
+   "stack": "How the 11.5 mm splits between the lens side and the back side is not cited. The check below uses the free space on both sides of the PCB against the full 11.5 mm. Settles it: RP-008153-DS-1."
+  },
+  "pcb_t_standin": 1.0
+ },
+ "pilots": [
+  {
+   "face_world": [
+    94.8,
+    -12.4,
+    228.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "d_mm": 1.64,
+   "depth_mm": 3.2,
+   "material_past_bottom_mm": 3.0,
+   "boss_radius_min_mm": 2.49,
+   "face_flatness_mm": 0.0
+  },
+  {
+   "face_world": [
+    94.8,
+    0.1,
+    228.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "d_mm": 1.64,
+   "depth_mm": 3.2,
+   "material_past_bottom_mm": 3.0,
+   "boss_radius_min_mm": 2.49,
+   "face_flatness_mm": 0.0
+  },
+  {
+   "face_world": [
+    94.8,
+    -12.4,
+    207.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "d_mm": 1.64,
+   "depth_mm": 3.2,
+   "material_past_bottom_mm": 3.0,
+   "boss_radius_min_mm": 2.49,
+   "face_flatness_mm": 0.15
+  },
+  {
+   "face_world": [
+    94.8,
+    0.1,
+    207.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "d_mm": 1.64,
+   "depth_mm": 3.2,
+   "material_past_bottom_mm": 3.0,
+   "boss_radius_min_mm": 2.49,
+   "face_flatness_mm": 0.15
+  }
+ ],
+ "pattern_centre_world": [
+  94.8,
+  -6.15,
+  217.89
+ ],
+ "boss_face_spread_mm": 0.0,
+ "frame": {
+  "note": "camera frame C: origin = board centre on the PCB front face (the boss faces); X along the 21 mm hole spacing, Y along the 12.5 mm spacing toward the lens row (board top edge), Z = lens axis, forward",
+  "T_cam_world": [
+   [
+    0.0,
+    -0.0,
+    1.0,
+    94.8
+   ],
+   [
+    0.0,
+    1.0,
+    0.0,
+    -2.4
+   ],
+   [
+    -1.0,
+    0.0,
+    0.0,
+    217.89
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "T_cam_link": [
+   [
+    -1.0,
+    0.0,
+    0.0,
+    24.04
+   ],
+   [
+    0.0,
+    1.0,
+    0.0,
+    -2.5
+   ],
+   [
+    -0.0,
+    0.0,
+    -1.0,
+    -52.85
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "link": "head_assembly",
+  "board_centre_offset_from_pattern_mm": 3.75
+ },
+ "board": {
+  "dims_mm": [
+   25.0,
+   24.0,
+   1.0
+  ],
+  "y_bottom": -8.25,
+  "y_top": 15.75,
+  "pcb_slab_center_world": [
+   94.3,
+   -2.4,
+   217.89
+  ],
+  "R_world": [
+   [
+    0.0,
+    -0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.0,
+    0.0
+   ],
+   [
+    -1.0,
+    0.0,
+    0.0
+   ]
+  ],
+  "slab_interference_points": {}
+ },
+ "lens": {
+  "opening_centre_world": [
+   99.0,
+   0.1,
+   217.9
+  ],
+  "opening_d_mm": 7.74,
+  "sites_d_mm": 7.75,
+  "predicted_centre_world": [
+   94.8,
+   0.1,
+   217.89
+  ],
+  "offset_in_plane_mm": [
+   0.0,
+   0.0,
+   0.01
+  ],
+  "offset_X_mm": -0.01,
+  "offset_Y_mm": 0.0,
+  "wall_t_mm": 2.5,
+  "pcb_front_to_wall_mm": 3.2,
+  "lens_d_drawing_mm": 5.75
+ },
+ "free": {
+  "front_min_mm": 1.29,
+  "front_min_at_XY": [
+   7.0,
+   6.25
+  ],
+  "front_median_mm": 3.18,
+  "lens_zone_min_mm": null,
+  "back_min_mm": {
+   "0.8": 12.98,
+   "1.0": 12.78,
+   "1.2": 12.58,
+   "1.6": 12.18
+  },
+  "back_min_at_XY": {
+   "0.8": [
+    -11.0,
+    13.25
+   ],
+   "1.0": [
+    -11.0,
+    13.25
+   ],
+   "1.2": [
+    -11.0,
+    13.25
+   ],
+   "1.6": [
+    -11.0,
+    13.25
+   ]
+  },
+  "stack_room_mm": {
+   "0.8": 15.07,
+   "1.0": 15.07,
+   "1.2": 15.07,
+   "1.6": 15.07
+  },
+  "need_mm": 11.5
+ },
+ "screws": [
+  {
+   "id": "F345",
+   "spec": "M2x4 self-tapping pan head (BOM 17h)",
+   "seat_world": [
+    93.8,
+    -12.4,
+    228.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "tip_world": [
+    97.8,
+    -12.4,
+    228.39
+   ],
+   "length_mm": 4.0,
+   "head_dk": 3.7,
+   "head_k": 1.4,
+   "old_seat_world": [
+    93.75,
+    -12.4,
+    228.4
+   ],
+   "moved_mm": 0.05,
+   "pilot_depth_mm": 3.2,
+   "material_past_bottom_mm": 3.0,
+   "head_clearance_mm": 0.66,
+   "by_pcb_t": [
+    {
+     "pcb_t": 0.8,
+     "engaged_mm": 3.2,
+     "to_bottom_mm": 0.0,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.0,
+     "engaged_mm": 3.0,
+     "to_bottom_mm": 0.2,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.2,
+     "engaged_mm": 2.8,
+     "to_bottom_mm": 0.4,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.6,
+     "engaged_mm": 2.4,
+     "to_bottom_mm": 0.8,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    }
+   ]
+  },
+  {
+   "id": "F347",
+   "spec": "M2x4 self-tapping pan head (BOM 17h)",
+   "seat_world": [
+    93.8,
+    0.1,
+    228.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "tip_world": [
+    97.8,
+    0.1,
+    228.39
+   ],
+   "length_mm": 4.0,
+   "head_dk": 3.7,
+   "head_k": 1.4,
+   "old_seat_world": [
+    93.75,
+    0.1,
+    228.4
+   ],
+   "moved_mm": 0.05,
+   "pilot_depth_mm": 3.2,
+   "material_past_bottom_mm": 3.0,
+   "head_clearance_mm": 0.66,
+   "by_pcb_t": [
+    {
+     "pcb_t": 0.8,
+     "engaged_mm": 3.2,
+     "to_bottom_mm": 0.0,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.0,
+     "engaged_mm": 3.0,
+     "to_bottom_mm": 0.2,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.2,
+     "engaged_mm": 2.8,
+     "to_bottom_mm": 0.4,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.6,
+     "engaged_mm": 2.4,
+     "to_bottom_mm": 0.8,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    }
+   ]
+  },
+  {
+   "id": "F344",
+   "spec": "M2x4 self-tapping pan head (BOM 17h)",
+   "seat_world": [
+    93.8,
+    -12.4,
+    207.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "tip_world": [
+    97.8,
+    -12.4,
+    207.39
+   ],
+   "length_mm": 4.0,
+   "head_dk": 3.7,
+   "head_k": 1.4,
+   "old_seat_world": [
+    93.75,
+    -12.4,
+    207.4
+   ],
+   "moved_mm": 0.05,
+   "pilot_depth_mm": 3.2,
+   "material_past_bottom_mm": 3.0,
+   "head_clearance_mm": 1.2,
+   "by_pcb_t": [
+    {
+     "pcb_t": 0.8,
+     "engaged_mm": 3.2,
+     "to_bottom_mm": 0.0,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.0,
+     "engaged_mm": 3.0,
+     "to_bottom_mm": 0.2,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.2,
+     "engaged_mm": 2.8,
+     "to_bottom_mm": 0.4,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.6,
+     "engaged_mm": 2.4,
+     "to_bottom_mm": 0.8,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    }
+   ]
+  },
+  {
+   "id": "F346",
+   "spec": "M2x4 self-tapping pan head (BOM 17h)",
+   "seat_world": [
+    93.8,
+    0.1,
+    207.39
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "tip_world": [
+    97.8,
+    0.1,
+    207.39
+   ],
+   "length_mm": 4.0,
+   "head_dk": 3.7,
+   "head_k": 1.4,
+   "old_seat_world": [
+    93.75,
+    0.1,
+    207.4
+   ],
+   "moved_mm": 0.05,
+   "pilot_depth_mm": 3.2,
+   "material_past_bottom_mm": 3.0,
+   "head_clearance_mm": 1.2,
+   "by_pcb_t": [
+    {
+     "pcb_t": 0.8,
+     "engaged_mm": 3.2,
+     "to_bottom_mm": 0.0,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.0,
+     "engaged_mm": 3.0,
+     "to_bottom_mm": 0.2,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.2,
+     "engaged_mm": 2.8,
+     "to_bottom_mm": 0.4,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    },
+    {
+     "pcb_t": 1.6,
+     "engaged_mm": 2.4,
+     "to_bottom_mm": 0.8,
+     "rule_mm": 4.0,
+     "verdict": "below rule"
+    }
+   ]
+  }
+ ],
+ "viewer_box_today": {
+  "center_world": [
+   99.55,
+   -6.15,
+   217.89
+  ],
+  "extents": [
+   11.5,
+   24.0,
+   25.0
+  ],
+  "board_centre_now": [
+   94.3,
+   -2.4,
+   217.89
+  ],
+  "offset_mm": 6.45,
+  "offset_along_Y_mm": -3.75,
+  "offset_along_Z_mm": 4.75,
+  "inside_shell_points": 56
+ },
+ "d12_end": {
+  "candidates_world": {
+   "back face": [
+    92.8,
+    -14.4,
+    217.89
+   ],
+   "front face": [
+    95.8,
+    -14.4,
+    217.89
+   ]
+  },
+  "exit_dir_world": [
+   0.0,
+   -1.0,
+   -0.0
+  ],
+  "width_dir_world": [
+   0.0,
+   0.0,
+   -1.0
+  ],
+  "plane_normal_world": [
+   1.0,
+   0.0,
+   0.0
+  ],
+  "cables3d_CAM_CSI_world": [
+   94.3,
+   -19.2,
+   217.9
+  ],
+  "cables3d_dir": [
+   0.0,
+   -1.0,
+   0.0
+  ],
+  "moved_mm": {
+   "back face": 5.03,
+   "front face": 5.03
+  }
+ }
+}

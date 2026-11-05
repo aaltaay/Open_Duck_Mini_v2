@@ -1,0 +1,19 @@
+step,minutes_mid,fix
+"solder, 1. Battery bay power",54.0,X5 bench piece
+Pi header joints (head floor),54.0,X1
+"splices, 2. Belly servo power (D15, D23)",48.0,"X4 (battery bay stars), X5 bench piece"
+"solder, 5. Pi, IMU and feet",40.0,X5 bench piece
+"solder, 6. Head expression",38.0,X5 bench piece
+"splices, 1. Battery bay power",18.0,"X4 (battery bay stars), X5 bench piece"
+"splices, 3. Servo data leads and kit cables",18.0,"X4 (battery bay stars), X5 bench piece"
+"crimp, 2. Belly servo power (D15, D23)",15.0,
+"splices, 6. Head expression",12.0,"X4 (battery bay stars), X5 bench piece"
+"crimp, 3. Servo data leads and kit cables",10.5,
+ties (75) and stick-on mounts (55),9.0,X2
+"solder, 2. Belly servo power (D15, D23)",8.0,X5 bench piece
+"splices, 4. Power up the neck to the head",8.0,"X4 (battery bay stars), X5 bench piece"
+"solder, 4. Power up the neck to the head",8.0,X5 bench piece
+"plug, 3. Servo data leads and kit cables",3.3,
+heat shrink (34 sleeves),2.9,
+"plug, 6. Head expression",0.4,
+"plug, 5. Pi, IMU and feet",0.1,

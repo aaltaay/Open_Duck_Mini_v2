@@ -216,7 +216,7 @@ With the fallback the full print is 18 jobs, 1409.3 g PLA and 122.7 h on a 220 b
 
 Suggested order inside step 3: trunk_bottom first (C1 rule applies), then the neck plates (C4 rule applies), then the rest, the head last (longest job, 21.9 h); the "base + rings" plates only after the S1 gate. Every plate was sliced as one job and checked: inside the bed, no path conflicts.
 
-### After printing: drill steps (D20, B32, D24, D25)
+### After printing: drill steps (D20, B32, D24, D25, D34)
 
 Hand tools only (BOM T11 to T14): turn the bit slowly in the T-handle, or by hand, and blow the chips out.
 1. Neck chain recesses, 24 in all, 5.5 to 6.0 mm (6.0 mm HSS bit, T11): head_pitch_to_yaw 16 (recesses 2.0 mm deep), head_yaw_to_roll 4 (4.0 mm deep), head_roll_mount 4 (5.0 mm deep); the spare set too. Stop as soon as the bit starts to cut the recess floor: the point would cut a cone into the floor under the head. Check each with a DIN 912 M3 head: it drops in and sits flat. Try it on coupon C4 first.
@@ -234,6 +234,7 @@ Hand tools only (BOM T11 to T14): turn the bit slowly in the T-handle, or by han
    - T084, the same neck_right_sheet (holds S12): two holes 7.0 mm apart through the -y face (wall 1.9 mm). Centres (22.6, -21.8, 66.7) and (15.6, -21.8, 66.4): 12.8 mm from the +x end and 11.0 mm from the -x end, 5.4 and 5.7 mm from the +z end. World (3.6, -21.7, 131.6) and (-3.4, -21.7, 131.3). Strap 6.0 mm from moving parts.
    - T072, knee_to_ankle_right_sheet of the left leg only (link knee_and_ankle_assembly_2, between the left knee and the left ankle; holds S5): two holes 7.0 mm apart through the -y face (wall 3.8 mm). Centres (-17.8, 68.2, -159.0) and (-10.9, 68.2, -158.1): 13.6 mm from the -x end and 10.2 mm from the +x end, 26.3 and 25.4 mm from the +z end. World (-36.8, 68.1, -94.1) and (-29.9, 68.1, -93.2). Strap 2.9 mm from moving parts. The right leg's copy gets no holes.
 
+6. Camera pilots (D34, lead note; HARDWARE_AUDIT B60): drill the 4 camera pilots in head.stl from 3.2 to 4.5 mm deep with a 1/16 in (1.59 mm) bit by hand (tape flag at 4.5 mm from the boss face). The pilot stays 1.65 mm across; 1.7 mm of material stays behind the bottom (twin/complete3d/camera_seat.json, CAD check only). The 4 M2x5 from BOM 17h then engage 4.0 mm at a 1.0 mm PCB. The bit is not in the tool lines: needs Ahmed's OK.
 ## Orientation and supports per part
 
 Up direction is the upstream STL axis that points up (same as PRINT_CHECK). Support grams are per part, light profile (D22).

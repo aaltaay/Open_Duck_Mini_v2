@@ -1,0 +1,276 @@
+{
+ "body_front": {
+  "pieces": {
+   "body_middle_top": {
+    "part": "body_middle_top",
+    "shell": "body_front",
+    "d": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "rim_plane": 36.0,
+    "d_dot_up": 1.0,
+    "cavity_mm2": {
+     "shell": 72.0,
+     "middle": 12140.0
+    },
+    "mode": "tongue and groove (the cover is a solid plate)",
+    "lip": "built",
+    "pieces": [
+     "tongue"
+    ],
+    "n_pieces": 1,
+    "tongue_width_mm": [
+     3.1
+    ],
+    "min_tongue_width_mm": 3.1,
+    "lip_volume_mm3": 846.0,
+    "fit": {
+     "cover with groove": {
+      "min_gap_mm": 0.25
+     }
+    },
+    "groove_roof_mm2": 467.0,
+    "groove_note": "the groove roofs are bridges 3.5 mm wide in the cover's print (bed face); PRINT_CHECK.md counts them as overhang",
+    "capacity_N": {
+     "+y": 1732.0,
+     "-y": 1732.0,
+     "z_up": 3564.0,
+     "z_down": 3564.0
+    },
+    "root_strength_MPa": 22.0,
+    "new_cover": "body_front_groove"
+   },
+   "body_middle_bottom": {
+    "part": "body_middle_bottom",
+    "shell": "body_front",
+    "d": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "rim_plane": 36.0,
+    "d_dot_up": 0.0,
+    "cavity_mm2": {
+     "shell": 72.0,
+     "middle": 12140.0
+    },
+    "mode": "tongue and groove (the cover is a solid plate)",
+    "lip": "none fits"
+   }
+  },
+  "capacity_N": {
+   "+y": 1732.0,
+   "-y": 1732.0,
+   "z_up": 3564.0,
+   "z_down": 3564.0,
+   "y": 1732.0,
+   "z": 3564.0
+  }
+ },
+ "files": {
+  "body_front": {
+   "path": "/home/user/v1_out/screws/stl/body_front_groove.stl",
+   "bytes": 286184,
+   "watertight": true
+  },
+  "body_middle_top": {
+   "path": "/home/user/v1_out/screws/stl/body_middle_top_lip.stl",
+   "bytes": 284084,
+   "watertight": true,
+   "volume_added_mm3": 736.0
+  },
+  "body_middle_bottom": {
+   "path": "/home/user/v1_out/screws/stl/body_middle_bottom_lip.stl",
+   "bytes": 2288084,
+   "watertight": true,
+   "volume_added_mm3": 4872.0
+  }
+ },
+ "body_back": {
+  "pieces": {
+   "body_middle_top": {
+    "part": "body_middle_top",
+    "shell": "body_back",
+    "d": [
+     -1.0,
+     0.0,
+     0.0
+    ],
+    "rim_plane": 114.0,
+    "d_dot_up": -1.0,
+    "lip": "none: this face is the print bed (a lip would hang under the bed)"
+   },
+   "body_middle_bottom": {
+    "part": "body_middle_bottom",
+    "shell": "body_back",
+    "d": [
+     -1.0,
+     0.0,
+     0.0
+    ],
+    "rim_plane": 114.0,
+    "d_dot_up": 0.0,
+    "cavity_mm2": {
+     "shell": 10873.0,
+     "middle": 11169.0
+    },
+    "lip": "built",
+    "pieces": [
+     "side",
+     "side",
+     "rib",
+     "rib",
+     "rib",
+     "rib",
+     "rib",
+     "rib"
+    ],
+    "n_pieces": 8,
+    "thickness_mm": [
+     3.2,
+     3.2,
+     3.5,
+     3.5,
+     3.5,
+     3.5,
+     3.5,
+     3.5
+    ],
+    "min_thickness_mm": 3.2,
+    "lip_volume_mm3": 4872.0,
+    "added_overhang_mm2_over_45deg": 1155.0,
+    "fit": {
+     "usb_c_charger#1": {
+      "min_gap_mm": 10.58,
+      "lip_points_inside": 0
+     },
+     "body_back#2": {
+      "min_gap_mm": 0.25,
+      "lip_points_inside": 0
+     },
+     "power_switch#4": {
+      "min_gap_mm": 18.97,
+      "lip_points_inside": 0
+     },
+     "battery_pack_lid#6": {
+      "min_gap_mm": 0.46,
+      "lip_points_inside": 0
+     },
+     "body_middle_top#7": {
+      "min_gap_mm": 0.3,
+      "lip_points_inside": 0
+     },
+     "trunk_top#11": {
+      "min_gap_mm": 14.38,
+      "lip_points_inside": 0
+     }
+    },
+    "capacity_N": {
+     "+y": 5227.0,
+     "-y": 5227.0,
+     "z_up": 2261.0,
+     "z_down": 0.0
+    },
+    "root_strength_MPa": 47.1
+   }
+  },
+  "capacity_N": {
+   "+y": 5227.0,
+   "-y": 5227.0,
+   "z_up": 2261.0,
+   "z_down": 0.0,
+   "y": 5227.0,
+   "z": 0.0
+  }
+ },
+ "coupons": {
+  "K1a_body_middle_top": {
+   "volume_mm3": 822.0,
+   "box_world": [
+    [
+     28.0,
+     -15.0,
+     93.89093881237622
+    ],
+    [
+     46.5,
+     15.0,
+     108.89093881237622
+    ]
+   ]
+  },
+  "K1b_body_front": {
+   "volume_mm3": 3917.0,
+   "box_world": [
+    [
+     28.0,
+     -15.0,
+     93.89093881237622
+    ],
+    [
+     46.5,
+     15.0,
+     108.89093881237622
+    ]
+   ]
+  },
+  "K2a_body_middle_bottom": {
+   "volume_mm3": 712.0,
+   "box_world": [
+    [
+     -126.0,
+     39.0,
+     -36.10906118762378
+    ],
+    [
+     -106.0,
+     56.0,
+     -5.10906118762378
+    ]
+   ]
+  },
+  "K2b_body_back": {
+   "volume_mm3": 627.0,
+   "box_world": [
+    [
+     -126.0,
+     39.0,
+     -36.10906118762378
+    ],
+    [
+     -106.0,
+     56.0,
+     -5.10906118762378
+    ]
+   ]
+  },
+  "K3_cable_clip": {
+   "volume_mm3": 212.0,
+   "snap": {
+    "arm_t_mm": 0.9,
+    "arm_L_mm": 12.0,
+    "deflection_mm": 0.4,
+    "strain_pct": 0.375,
+    "linear_limit_pct": 1.783,
+    "allow_once_pct": 0.892,
+    "allow_service_pct": 0.535,
+    "passes": true,
+    "formula": "[I] https://www.fictiv.com/articles/how-to-design-snap-fit-components (search text: Bayer cantilever eps = 1.5 t y / (L^2 Q), Q = 1 here; frequent separation: 60 % of the one-time strain)",
+    "limit": "linear limit X 47.1 / E 2641 MPa (STRUCTURE_TWIN.md 2.2) with the lab margin 2; ASSUMPTION: printed PLA stays linear to that strain; coupon K3 checks it"
+   }
+  }
+ },
+ "design": {
+  "clearance_mm": 0.25,
+  "lip_t_mm": 2.5,
+  "lip_h_mm": 2.0,
+  "rib": [
+   4.0,
+   4.0,
+   12.0
+  ],
+  "keep_out_r_mm": 5.0
+ }
+}

@@ -188,7 +188,7 @@ PLACEHOLDERS = [
          mount="Sits in speaker_interface on speaker_stand, held with foam tape (BOM 29). No clip or screw in CAD (B8)."),
     dict(id="camera", label="Raspberry Pi Camera Module 3", dims=[25, 24, 11.5], bom="E6",
          blockers=["B9"], dims_note="25 x 24 x 11.5 mm.",
-         mount="4 x M2x4 self-tapping into head.stl pilots 1.65 mm on 20.9 x 12.5 (B9 cleared; screw length on the test order)."),
+         mount="4 x M2x5 self-tapping (BOM 17h) into the head.stl pilots 1.65 mm on 20.9 x 12.5, drilled to 4.5 mm (D34). Drawn as its PCB, 25 x 24 x 1.0 mm; the lens sits in the 7.75 mm opening."),
     dict(id="led_1", label="Eye LED left (1 W bead)", dims=[8, 8, 5], bom="E3", blockers=[],
          dims_note="Size not given: 8 x 8 x 5 mm stand-in.", mount="Behind the left bulb, 100 ohm resistor (B23 cleared)."),
     dict(id="led_2", label="Eye LED right (1 W bead)", dims=[8, 8, 5], bom="E3", blockers=[],
@@ -206,7 +206,7 @@ BLOCKERS = {
     "servo": ["B2", "B6", "B10", "B17", "B21"], "horn_drive": ["B6"], "horn_idle": ["B6"],
     "battery_pack_lid": ["B3"], "left_roll_to_pitch": ["B4"], "right_roll_to_pitch": ["B4"],
     "left_antenna_holder": ["B5"], "right_antenna_holder": ["B5"], "sg90": ["B5", "B28"],
-    "head_board": ["B7"], "adapter": ["B7"], "speaker_interface": ["B8"], "speaker_stand": ["B8"],
+    "adapter": ["B7"], "speaker_interface": ["B8"], "speaker_stand": ["B8"],
     "flash_light_module": ["B8"], "flash_reflector_interface": ["B8"], "head": ["B9"],
     "bms_cad": ["B12"], "imu": ["B13", "B20"], "left_eye": ["B14"], "right_eye": ["B14"],
     "foot_top": ["B16"], "power_switch": ["B22"], "pi": ["B24"], "foot_bottom_tpu": ["B26"],
@@ -225,7 +225,6 @@ MOUNT = {
     "power_switch": "Held by the body_back cutout (23.4 x 7.4 x 16.8 mm CAD body).",
     "pi": "head.stl: 4 x M2.5x6 DIN 912 into 2.0 pilots, components side up.",
     "adapter": "trunk_top: 4 x M2.5x6 on 4 printed bosses 5 mm high, USB-C toward the neck opening.",
-    "head_board": "Same 4 holes as the Pi footprint. Not a second board: upstream lists one adapter (B7 cleared).",
     "imu": "trunk_top: 4 x M2.5x6 (M2.5x8 would bottom out with a 1.6 mm PCB). x forward, chip up. Hole spacing B13, axis signs B20.",
     "sg90": "2 tab screws per servo into head pilots 27.5 mm apart (SG90 bag), output shaft up (B5 cleared).",
     "antenna": "Optional PLA rod on the antenna holder: in the CAD but not in print/, export it from the URDF mesh (print/PRINT_PLAN.md).",
@@ -237,15 +236,15 @@ MOUNT = {
     "speaker_interface": "Holds the speaker on the stand. No clip or screw in CAD (B8).",
     "flash_light_module": "No screw found in CAD. Holds the reflector interface (B8).",
     "flash_reflector_interface": "Reflector seat tapers to 20.0 mm, about 10 mm deep, narrow end 8.07 mm (B8).",
-    "left_roll_to_pitch": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
-    "right_roll_to_pitch": "4 x M2x6 self-tapping onto servo case pilots 1.67 mm (B4 cleared), plus M3 horn screws.",
+    "left_roll_to_pitch": "2 x M2x6 self-tapping into the servo bottom case pilots 1.67 mm (the CAD has 2 holes per part, B63; B4 cleared), plus M3 horn screws.",
+    "right_roll_to_pitch": "2 x M2x6 self-tapping into the servo bottom case pilots 1.67 mm (the CAD has 2 holes per part, B63; B4 cleared), plus M3 horn screws.",
     "left_antenna_holder": "SG90 bag screw onto the SG90 horn (clearance 2.7 in a 5.05 recess, B5 cleared).",
     "right_antenna_holder": "SG90 bag screw onto the SG90 horn (clearance 2.7 in a 5.05 recess, B5 cleared).",
     "foot_top": "2 M3 inserts with a 1.5 mm wall (B16: print 4 perimeters). 2 slots for the Omron SS-10 switches.",
     "insert": "Heat-set with a Pinecil insert tip into a 4.0 mm bore. Depth 5.8 vs 6.7 mm check (B15).",
 }
 MOUNTING_MATCH = [
-    (r"^Raspberry Pi Zero", ["pi"]), (r"^Waveshare", ["adapter"]), (r"board\.stl copy", ["head_board"]),
+    (r"^Raspberry Pi Zero", ["pi"]), (r"^Waveshare", ["adapter"]),
     (r"^BNO055", ["imu"]), (r"^USB-C 2S charger", ["charger"]), (r"^(Control|Power) switch", ["power_switch"]),
     (r"^2S BMS", ["bms_tenergy", "bms_cad"]), (r"^2x18650 holder", ["holder"]), (r"^battery_pack_lid", ["battery_pack_lid"]),
     (r"^Speaker", ["speaker", "speaker_stand", "speaker_interface"]), (r"^Eyes", ["left_eye", "right_eye", "bulb", "led"]),
@@ -479,7 +478,7 @@ def load_fasteners(path=FASTENERS_JSON):
             engagement=_first(r, "engagement_mm", "e", "engagement"),
             status=("; ".join(str(f) for f in flags) if flags else _first(r, "status", default="OK")),
             note=note,
-            spec_label=_first(r, "spec", "label", default=None), color=r.get("color"),
+            spec_label=_first(r, "spec", "label", default=None), color=r.get("color"), viewer_label=r.get("viewer_label"),
             flags=flags, from_drawing=from_drawing, washer=washer, fit=not (r.get("leave_out") or r.get("install") is False),
             fit_note=("left out (%s)" % (r.get("status") or "D18")) if r.get("leave_out") else
                      ("stays in the bag, not fitted" if r.get("install") is False else "")))
@@ -738,7 +737,7 @@ def web_geometry(m, target, angle_deg=32.0):
 
 def face_target(n, key):
     caps = {"servo_bottom": 5000, "servo_top": 3600, "servo_mid": 1000, "horn_drive": 900, "horn_idle": 900,
-            "pi": 7000, "adapter": 3000, "head_board": 3000, "cell": 1200}
+            "pi": 7000, "adapter": 3000, "cell": 1200}
     if key in caps:
         return min(n, caps[key])
     return n if n <= 5000 else int(min(16000, 5000 + 0.4 * (n - 5000)))
@@ -864,12 +863,16 @@ def camera_from_pilots(Th):
             c = P.mean(0)
             span = P.max(0) - P.min(0)
             long_ax = int(np.argmax(span[1:])) + 1          # the 21 mm direction carries the 25 mm board side
-            dims = [11.5, 0.0, 0.0]
+            dims = [1.0, 0.0, 0.0]                           # the PCB (1.0 mm stand-in, B9); the lens sits in the opening
             dims[long_ax], dims[3 - long_ax] = 25.0, 24.0
             cen = c.copy()
-            cen[0] = P[:, 0].min() - 1.0 + 11.5 / 2.0        # PCB (about 1 mm) behind the boss face, lens forward
+            cen[0] = P[:, 0].min() - 0.5                     # PCB behind the boss faces (twin/complete3d/camera_seat.json)
+            if lens:   # board centre 3.75 mm from the pilot centre toward the lens row (holes 2 mm from the edges, lens row 14.5 mm up)
+                lc0 = min(lens, key=lambda x: np.linalg.norm(x[0][1:] - c[1:]))[0]
+                cen[3 - long_ax] += 3.75 * np.sign(lc0[3 - long_ax] - c[3 - long_ax])
             out = dict(dims=dims, center=(Th @ np.r_[cen, 1])[:3].round(2).tolist(),
-                       where="On the 4 measured head.stl pilots (sites_head.json), lens forward. Depth and board offset approximate.")
+                       where="PCB on the 4 measured head.stl pilots, board centre 3.75 mm toward the lens row, lens in the 7.75 mm "
+                             "opening (twin/complete3d/camera_seat.json; PCB 1.0 mm stand-in, B9)")
             if lens:
                 lc, ld = min(lens, key=lambda x: np.linalg.norm(x[0][1:] - c[1:]))
                 off = lc - c
@@ -1388,7 +1391,7 @@ def main():
 
     # 10. geometry for the GLB (one per unique source mesh)
     geoms, gidx = [], {}
-    for key in sorted(src):
+    for key in sorted(k for k in src if k != "head_board"):   # head_board: board.stl copy in the head, not a part (B7)
         m = src[key]
         pos, idx = web_geometry(m, face_target(len(m.faces), key))
         gidx[key] = len(geoms)
@@ -1417,6 +1420,8 @@ def main():
     pd_ = printed_doc
     for i in inst:
         key = i["key"]
+        if key == "head_board":   # B7: the board.stl copy in the head marks the Pi footprint, it is not a part: no node, mesh or label
+            continue
         bkey = "servo" if key.startswith("servo_") else key
         st, rows = status_of([bkey])
         rec = dict(label=servo_label(i["servo"]) + " (" + i["label"].split(", ")[-1] + ")" if "servo" in i and key.startswith("servo_")
@@ -1529,7 +1534,7 @@ def main():
                                                                         title=blk.get(b, {}).get("title", ""), open=bool(blk.get(b, {}).get("open", True))) for b in bl])
         hv3 = np.array(host["v3"], float) if host.get("v3") is not None else np.zeros(3)
         man_nodes[nid] = dict(
-            label="%s: %s into %s" % (spec, part_word(host["key"]), into_lab), part="screw", fid=s["fid"],
+            label=s.get("viewer_label") or "%s: %s into %s" % (spec, part_word(host["key"]), into_lab), part="screw", fid=s["fid"],
             file="(drawn) %s x %g mm, %s head %.1f x %.1f" % (s["size"], s["L"], s["head"], s["head_d"], s["head_h"]),
             link=host["link"], sub=host["sub"], category="screw", qty=spec_count["%s x %g" % (s["size"], s["L"])],
             material="Steel (A2 stainless or as supplied)", bom=s["line"] or None, status=st if s["status"] in (None, "", "OK", "ok") else str(s["status"]),
@@ -1876,7 +1881,6 @@ def main():
                              blockers=sorted(set(bl), key=lambda s: int(s[1:])), nodes=ids + rel))
     extra_rows = []
     for key, why in (("antenna", "Antenna rod: optional PLA part, in the CAD but not in print/ (print/PRINT_PLAN.md); filament line 27"),
-                     ("head_board", "board.stl copy in the head: B7 says it marks the Pi footprint, not a second adapter"),
                      ("horn_drive", "Servo horns: ship with the servo (BOM line 1), 2 per servo")):
         ids = [k for k, r in man_nodes.items() if r["part"] == key or (key == "horn_drive" and r["part"] == "horn_idle")]
         if ids:
@@ -2028,6 +2032,33 @@ def main():
         purchase=purchase,
         retention=retention_out,
     )
+    # V1 3D track (twin/complete3d): part and cable labels, the x-ray switch, and a flat strip cable drawn with its loop
+    try:
+        _lb = json.load(open(os.path.join(LAB, "twin", "complete3d", "labels.json")))
+        manifest["labels"] = [dict(node=q["node"], text=q["text"], pos=q["pos_world"], anchor=q["anchor_world"], phi=q["phi"])
+                              for q in _lb["labels"] if q["node"] in man_nodes]
+        manifest["meta"]["labels_rule"] = _lb["meta"]["rule"]
+    except (OSError, ValueError, KeyError):
+        manifest["labels"] = []
+    manifest["meta"]["xray"] = "X-ray switch: printed shells see-through, so the cables inside show"
+    _TL = {}
+    for _c in json.load(open(CABLES3D_JSON)).get("cables", []):
+        if _c.get("shape") != "flat strip" or not _c.get("draw_points"):
+            continue
+        _pts, _ws = [], []
+        for _q, _w in zip(_c["draw_points"], _c["draw_width_link"]):
+            if _q["link"] not in _TL:
+                _M = np.array(u.get_transform(_q["link"]), float)
+                _M[:3, 3] *= 1000.0
+                _TL[_q["link"]] = _M
+            _M = _TL[_q["link"]]
+            _pts.append((_M @ np.r_[_q["p"], 1.0])[:3].round(2).tolist())
+            _ws.append((_M[:3, :3] @ np.array(_w, float)).round(4).tolist())
+        for ce in manifest.get("cables", []):
+            if str(ce.get("id")).split(":")[0] == _c["id"]:
+                ce.update(points=_pts, width_world=_ws, shape="flat strip", width_mm=_c.get("width_mm"), thickness_mm=_c.get("thickness_mm"),
+                          point_sub=[(ce.get("point_sub") or [None])[0]] * len(_pts),
+                          point_follow=[(ce.get("point_follow") or [None])[0]] * len(_pts))
     manifest["meta"]["sources"].update(fasteners=screw_note, cables=cable_note, bom_full="altaay_lab/viewer/bom_full.py")
     with open(os.path.join(out, "manifest.json"), "w") as fh:
         json.dump(manifest, fh, separators=(",", ":"))
