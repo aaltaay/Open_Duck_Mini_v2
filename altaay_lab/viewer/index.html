@@ -1,0 +1,1888 @@
+<title>Open Duck Mini Parts Check</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one-screen workbench. Desktop: parts list column (the BOM block of an assembly drawing) beside a framed
+   3D sheet with a display card (top left), a title-block part card (top right) and the explode bar (bottom).
+   Phone: the sheet fills the screen, summary chips stay in the header, panels open as bottom sheets. */
+:root {
+  --bg: #e7ebef; --sheet: #f5f7f9; --sheet-edge: #dfe5ea; --grid: rgba(31, 60, 96, 0.055);
+  --panel: #fbfcfd; --panel-2: #f0f3f6; --ink: #142029; --muted: #566472; --faint: #8693a0;
+  --line: #ccd4dc; --line-strong: #9eaab6; --accent: #1d58b8; --accent-soft: rgba(29, 88, 184, 0.11); --accent-ink: #ffffff;
+  --ok: #287a3c; --ok-soft: rgba(40, 122, 60, 0.12); --warn: #9d5f0c; --warn-soft: rgba(176, 108, 14, 0.13);
+  --bad: #bf3426; --bad-soft: rgba(191, 52, 38, 0.11); --ph: #9446b8;
+  --shadow: 0 1px 2px rgba(20, 32, 41, 0.08), 0 8px 24px rgba(20, 32, 41, 0.10);
+  --f-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", system-ui, sans-serif;
+  --f-body: "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1217; --sheet: #141b22; --sheet-edge: #0b0f14; --grid: rgba(140, 175, 220, 0.05);
+    --panel: #171f28; --panel-2: #1d2731; --ink: #e3e9ef; --muted: #9babb9; --faint: #6c7b89;
+    --line: #283441; --line-strong: #435160; --accent: #84abff; --accent-soft: rgba(132, 171, 255, 0.15); --accent-ink: #0a1220;
+    --ok: #64c47f; --ok-soft: rgba(100, 196, 127, 0.14); --warn: #e3a74e; --warn-soft: rgba(227, 167, 78, 0.15);
+    --bad: #f2766b; --bad-soft: rgba(242, 118, 107, 0.15); --ph: #c88ce4;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 10px 28px rgba(0, 0, 0, 0.38);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1217; --sheet: #141b22; --sheet-edge: #0b0f14; --grid: rgba(140, 175, 220, 0.05);
+  --panel: #171f28; --panel-2: #1d2731; --ink: #e3e9ef; --muted: #9babb9; --faint: #6c7b89;
+  --line: #283441; --line-strong: #435160; --accent: #84abff; --accent-soft: rgba(132, 171, 255, 0.15); --accent-ink: #0a1220;
+  --ok: #64c47f; --ok-soft: rgba(100, 196, 127, 0.14); --warn: #e3a74e; --warn-soft: rgba(227, 167, 78, 0.15);
+  --bad: #f2766b; --bad-soft: rgba(242, 118, 107, 0.15); --ph: #c88ce4;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 10px 28px rgba(0, 0, 0, 0.38);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 var(--f-body); overflow: hidden; -webkit-font-smoothing: antialiased; }
+button, select, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+
+.app { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 12px; }
+.top { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap; min-width: 0; }
+.brand { min-width: 0; }
+.eyebrow { font: 600 12px/1 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.brand h1 { margin: 3px 0 0; font: 700 27px/1.02 var(--f-display); letter-spacing: 0.01em; text-wrap: balance; }
+.brand p { margin: 3px 0 0; color: var(--muted); font-size: 13.5px; max-width: 70ch; }
+.chips { display: none; gap: 6px; flex-wrap: wrap; }
+.chip { display: inline-flex; align-items: baseline; gap: 5px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); font-size: 12.5px; color: var(--muted); }
+.chip b { font: 600 13px var(--f-mono); color: var(--ink); }
+.chip.ok b { color: var(--ok); } .chip.bad b { color: var(--bad); } .chip.warn b { color: var(--warn); }
+
+.work { position: relative; display: grid; grid-template-columns: minmax(318px, 372px) minmax(0, 1fr); gap: 12px; min-height: 0; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 14px 8px; border-bottom: 1px solid var(--line); }
+.panel-head h2 { margin: 0; font: 700 15px/1.1 var(--f-display); letter-spacing: 0.1em; text-transform: uppercase; }
+.panel-head .sub { color: var(--faint); font-size: 12px; }
+.xbtn { border: 1px solid var(--line); background: var(--panel-2); border-radius: 6px; padding: 3px 9px; font-size: 13px; color: var(--muted); }
+.xbtn:hover { color: var(--ink); border-color: var(--line-strong); }
+
+/* parts list column */
+#checklist { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+#checklist .scroll { overflow: auto; min-height: 0; flex: 1; overscroll-behavior: contain; }
+.summary { padding: 12px 14px 10px; display: grid; gap: 10px; border-bottom: 1px solid var(--line); }
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tile { position: relative; padding: 8px 10px 7px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-2); min-width: 0; text-align: left; }
+.tile::before { content: ""; position: absolute; left: 0; top: 7px; bottom: 7px; width: 3px; border-radius: 0 3px 3px 0; background: var(--ok); }
+.tile.bad::before { background: var(--bad); }
+.tile.warn::before { background: var(--warn); }
+.tile .k { font: 600 11.5px/1.1 var(--f-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.tile .v { margin-top: 3px; font: 600 25px/1 var(--f-display); letter-spacing: 0.01em; }
+.tile .v small { font-size: 15px; color: var(--muted); font-weight: 500; }
+.tile .d { margin-top: 2px; font-size: 12px; color: var(--muted); }
+.facts { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+.facts b { color: var(--ink); font-weight: 600; }
+.bl-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.bpill { font: 500 11.5px/1 var(--f-mono); padding: 3px 6px; border-radius: 5px; background: var(--warn-soft); color: var(--warn); border: 0; }
+.bpill.clr { background: var(--ok-soft); color: var(--ok); }
+.tabhead { position: sticky; top: 0; z-index: 2; background: var(--panel); border-bottom: 1px solid var(--line); }
+.tabs { display: flex; gap: 0; padding: 8px 8px 0; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab-btn { flex: none; border: 0; background: none; padding: 7px 8px 8px; font: 600 13.5px/1 var(--f-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid transparent; white-space: nowrap; }
+.tab-btn[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab-btn .n { font-family: var(--f-mono); font-size: 11.5px; font-weight: 500; color: var(--faint); margin-left: 3px; letter-spacing: 0; }
+.tabpane { padding: 4px 6px 14px; }
+.sec-h { margin: 12px 8px 4px; font: 600 12px/1.2 var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; width: 100%; text-align: left; border: 0; border-radius: 7px; background: none; padding: 6px 8px; }
+.row:hover { background: var(--panel-2); }
+.row.on { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.row.mis { background: var(--bad-soft); }
+.row .nm { min-width: 0; }
+.row .nm b { display: block; font-weight: 500; font-size: 14px; overflow-wrap: anywhere; }
+.row .nm span { display: block; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.row .nm .flag { color: var(--warn); }
+.cnt { font: 500 13px var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cnt.ok { color: var(--ok); } .cnt.bad { color: var(--bad); }
+.mark { width: 20px; height: 20px; display: inline-grid; place-items: center; border-radius: 50%; font: 600 12px/1 var(--f-mono); }
+.mark.ok { background: var(--ok-soft); color: var(--ok); } .mark.bad { background: var(--bad-soft); color: var(--bad); } .mark.na { color: var(--faint); }
+.balloon { display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 4px; border-radius: 12px; border: 1.5px solid var(--ink); font: 600 11px/1 var(--f-mono); color: var(--ink); background: var(--panel); }
+.row.bomrow { grid-template-columns: auto minmax(0, 1fr) auto; }
+.show { font-size: 11.5px; padding: 2px 6px; border-radius: 5px; white-space: nowrap; border: 1px solid var(--line); color: var(--muted); }
+.show.cad { color: var(--ink); } .show.placeholder { color: var(--ph); border-color: color-mix(in srgb, var(--ph) 45%, transparent); }
+.show.filament { color: var(--muted); } .show.none { color: var(--faint); border-style: dashed; }
+.note { margin: 6px 8px; padding: 9px 11px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--line); font-size: 13.5px; }
+.note.check { background: var(--warn-soft); border-color: transparent; }
+.note .act { margin-top: 6px; }
+.linkbtn { border: 0; background: none; padding: 0; color: var(--accent); font-weight: 600; font-size: 13px; }
+.meta { margin: 10px 8px; font-size: 12.5px; color: var(--muted); }
+.meta code { font-family: var(--f-mono); font-size: 11.5px; overflow-wrap: anywhere; }
+[hidden] { display: none !important; }
+
+/* Every part tab: filter bar (sticky with the tabs), section counts, status pills */
+.ftools { display: flex; align-items: center; gap: 6px; padding: 7px 10px 8px; border-top: 1px solid var(--line); }
+.fq { flex: 1 1 auto; min-width: 0; padding: 5px 9px; border-radius: 7px; border: 1px solid var(--line); background: var(--panel-2); color: var(--ink); font-size: 14px; }
+.fq::placeholder { color: var(--faint); }
+.fbtn { flex: none; display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); background: var(--panel); border-radius: 7px; padding: 5px 8px; font-size: 13px; font-weight: 500; color: var(--muted); white-space: nowrap; }
+.fbtn:hover { border-color: var(--line-strong); color: var(--ink); }
+.fbtn .n { font: 500 11.5px var(--f-mono); }
+.fbtn[aria-pressed="true"] { background: var(--warn-soft); border-color: color-mix(in srgb, var(--warn) 55%, transparent); color: var(--warn); }
+.fcount { margin: 8px 8px 0; font-size: 12px; color: var(--faint); }
+.sec-h .n { margin-left: 5px; font: 500 11px var(--f-mono); letter-spacing: 0; color: var(--faint); text-transform: none; }
+.row.frow { display: block; padding: 0; }
+.row.frow .fmain { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; width: 100%; text-align: left; border: 0; background: none; padding: 6px 8px 6px; border-radius: 7px; color: inherit; }
+.row.frow .fmain.hasbuy { padding-bottom: 1px; }
+.row.frow .nm .nmod { color: var(--faint); font-style: normal; }
+.fbuy { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; padding: 0 8px 7px; font-size: 12px; color: var(--muted); }
+.fbuy a { color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; overflow-wrap: anywhere; }
+.fbuy .num { font-size: 11.5px; }
+.st { display: inline-block; font: 600 11px/1 var(--f-mono); padding: 4px 6px; border-radius: 5px; white-space: nowrap; }
+.st.good { background: var(--ok-soft); color: var(--ok); }
+.st.warn { background: var(--warn-soft); color: var(--warn); }
+.st.bad { background: var(--bad-soft); color: var(--bad); }
+.st.tool, .st.none { background: var(--panel-2); color: var(--muted); box-shadow: inset 0 0 0 1px var(--line); }
+.empty { margin: 14px 8px; font-size: 13.5px; color: var(--muted); }
+
+/* 3D sheet */
+#stage { position: relative; min-height: 0; min-width: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  background-color: var(--sheet);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+    radial-gradient(130% 95% at 50% 38%, var(--sheet) 0%, var(--sheet) 50%, var(--sheet-edge) 100%);
+  background-size: 28px 28px, 28px 28px, 100% 100%; }
+#stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+#labels { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.viewtag { position: absolute; left: 12px; bottom: 74px; z-index: 4; font: 500 11px/1.3 var(--f-mono); color: var(--faint); letter-spacing: 0.04em; pointer-events: none; }
+.ov { position: absolute; z-index: 6; }
+.card { background: color-mix(in srgb, var(--panel) 94%, transparent); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); }
+#display { top: 12px; left: 12px; width: 238px; max-height: calc(100% - 100px); overflow: auto; }
+#display .panel-head { padding: 8px 10px 7px; }
+#display.collapsed .dbody { display: none; }
+#display.collapsed .panel-head { border-bottom: 0; }
+.dbody { padding: 8px 10px 10px; display: grid; gap: 10px; }
+.legend { display: grid; gap: 1px; }
+.lg { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: 7px; padding: 3px 4px; border-radius: 6px; font-size: 13px; cursor: pointer; }
+.lg:hover { background: var(--panel-2); }
+.lg input { margin: 0; accent-color: var(--accent); }
+.sw { width: 13px; height: 13px; border-radius: 3px; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 24%, transparent); }
+.sw.ph { background: transparent !important; border: 1.5px dashed var(--ph); box-shadow: none; }
+.lg .c { font: 500 11.5px var(--f-mono); color: var(--faint); }
+.lg.off { color: var(--faint); }
+.switches { display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 9px; }
+.sw-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13.5px; }
+.toggle { position: relative; width: 34px; height: 20px; flex: none; }
+.toggle input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.toggle span { position: absolute; inset: 0; border-radius: 10px; background: var(--line-strong); transition: background 0.15s; pointer-events: none; }
+.toggle span::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--panel); transition: transform 0.15s; }
+.toggle input:checked + span { background: var(--accent); }
+.toggle input:checked + span::after { transform: translateX(14px); }
+.toggle input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.field { display: grid; gap: 4px; font-size: 12.5px; color: var(--muted); }
+.field select { width: 100%; padding: 6px 8px; border-radius: 7px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font-size: 14px; }
+
+#info { top: 12px; right: 12px; width: min(344px, calc(100% - 24px)); max-height: calc(100% - 96px); overflow: auto; overscroll-behavior: contain; }
+#info:not(.open) { display: none; }
+.ib { padding: 11px 13px 13px; display: grid; gap: 9px; }
+.ib-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.catchip { display: inline-flex; align-items: center; gap: 6px; font: 600 11.5px/1 var(--f-display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.status { font: 600 11.5px/1 var(--f-mono); padding: 4px 7px; border-radius: 5px; }
+.status.ok { background: var(--ok-soft); color: var(--ok); } .status.open { background: var(--warn-soft); color: var(--warn); }
+.status.rep { background: var(--bad-soft); color: var(--bad); }
+.ib-top .xbtn { margin-left: auto; }
+.ib h3 { margin: 0; font: 700 21px/1.12 var(--f-display); letter-spacing: 0.01em; text-wrap: balance; overflow-wrap: anywhere; }
+.ib .sub { margin-top: -5px; font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
+.tblock { display: grid; grid-template-columns: 1fr 1fr; border: 1.5px solid var(--ink); border-radius: 3px; margin: 0; }
+.tblock > div { padding: 5px 7px 6px; border-right: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); min-width: 0; }
+.tblock > div.r { border-right: 0; }
+.tblock > div.wide { grid-column: 1 / -1; border-right: 0; }
+.tblock > div:last-child, .tblock > div.lastrow { border-bottom: 0; }
+.tblock dt { font: 600 10.5px/1 var(--f-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+.tblock dd { margin: 3px 0 0; font: 500 13.5px/1.25 var(--f-mono); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.ib-sec h4 { margin: 0 0 3px; font: 600 12px/1.2 var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.ib-sec p { margin: 0; font-size: 13.5px; overflow-wrap: anywhere; }
+.ib-sec p + p { margin-top: 4px; }
+.ib-sec .small { font-size: 12.5px; color: var(--muted); }
+.blk { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 8px; font-size: 13px; align-items: baseline; }
+.blk .t { color: var(--muted); font-size: 12.5px; }
+.ib-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.btn { border: 1px solid var(--line); background: var(--panel); border-radius: 7px; padding: 5px 10px; font-size: 13.5px; font-weight: 500; }
+.btn:hover { border-color: var(--line-strong); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--ink); }
+.status.none { background: var(--panel-2); color: var(--muted); box-shadow: inset 0 0 0 1px var(--line); }
+.ib a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; overflow-wrap: anywhere; }
+.ib a:hover { text-decoration-thickness: 2px; }
+.sw.cable { height: 6px; border-radius: 3px; }
+.sw.dot { width: 11px; height: 11px; border-radius: 50%; }
+.sw.ring { background: transparent !important; border: 2.5px solid; border-radius: 50%; box-shadow: none; }
+ol.seats { margin: 2px 0 0; padding-left: 22px; display: grid; gap: 4px; font-size: 13px; }
+ol.seats li::marker { font: 600 12px var(--f-mono); color: var(--accent); }
+ol.seats li.none::marker, ol.seats li.none b { color: var(--warn); }
+ol.seats .small { font-size: 12px; color: var(--muted); }
+.buy { padding: 8px 10px 9px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--line); }
+.buy h4 { display: flex; justify-content: space-between; gap: 8px; }
+.buy .sup { font-size: 14.5px; font-weight: 600; }
+.buy .sup a { font-weight: 600; }
+.buy .cost { font: 500 13px var(--f-mono); color: var(--ink); white-space: nowrap; }
+.warn-t { color: var(--warn); font-weight: 600; }
+.picklist { display: grid; gap: 1px; margin: 0 -6px; }
+.picklist button { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; width: 100%; text-align: left; border: 0; background: none; border-radius: 6px; padding: 5px 6px; font-size: 13.5px; }
+.picklist button:hover { background: var(--panel-2); }
+.picklist button[aria-pressed="true"] { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.picklist .t { min-width: 0; overflow-wrap: anywhere; }
+.picklist .t small { display: block; font-size: 12px; color: var(--muted); }
+.picklist .num { font-size: 12.5px; color: var(--muted); }
+.rowlinks { display: grid; gap: 4px; }
+.rowlinks button { display: flex; align-items: center; gap: 6px; text-align: left; border: 0; background: none; padding: 0; color: var(--accent); font-weight: 600; font-size: 13px; }
+
+#bar { left: 12px; right: 12px; bottom: 12px; display: flex; align-items: center; gap: 10px 14px; padding: 9px 12px; flex-wrap: wrap; }
+.explode { display: flex; align-items: center; gap: 10px; flex: 1 1 260px; min-width: 0; }
+.explode label { font: 600 13px/1 var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.explode input[type="range"] { flex: 1; min-width: 0; accent-color: var(--accent); height: 28px; }
+.explode output { font: 500 13px var(--f-mono); width: 3.2em; text-align: right; color: var(--ink); }
+.ends { font-size: 11.5px; color: var(--faint); white-space: nowrap; }
+.barbtns { display: flex; gap: 6px; flex-wrap: wrap; }
+.phone-only { display: none !important; }
+#tip { position: absolute; z-index: 8; pointer-events: none; padding: 4px 8px; border-radius: 6px; background: var(--ink); color: var(--bg); font-size: 12.5px; white-space: nowrap; transform: translate(12px, 12px); }
+#selbar { top: 12px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; padding: 5px 6px 5px 12px; font-size: 13px; max-width: calc(100% - 24px); }
+#selbar span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+#selbar .xbtn { flex: none; white-space: nowrap; }
+#loading { inset: 0; display: grid; place-items: center; z-index: 9; background: color-mix(in srgb, var(--sheet) 82%, transparent); }
+.loadbox { width: min(300px, 80%); display: grid; gap: 8px; text-align: center; color: var(--muted); font-size: 13.5px; }
+.meter { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0%; background: var(--accent); transition: width 0.2s; }
+.err { color: var(--bad); font-weight: 500; }
+
+/* placeholder labels in the sheet */
+.ph-label { pointer-events: auto; cursor: pointer; padding: 2px 6px 3px; border-radius: 5px; border: 1px dashed var(--ph); background: color-mix(in srgb, var(--panel) 90%, transparent);
+  color: var(--ink); font: 500 11.5px/1.15 var(--f-body); white-space: nowrap; text-align: center; transform: translateY(-14px); }
+.ph-label b { display: block; font-weight: 600; color: var(--ph); font-size: 11.5px; }
+.ph-label .num { font-size: 10.5px; color: var(--muted); }
+.ph-label.culled { visibility: hidden; }
+.pl-label { pointer-events: none; padding: 1px 5px 2px; border-radius: 4px; border: 1px solid var(--line); background: color-mix(in srgb, var(--panel) 88%, transparent); color: var(--ink); font: 500 11px/1.2 var(--f-body); white-space: nowrap; }
+.ph-label.sel { border-style: solid; border-color: var(--accent); }
+.seat-label { pointer-events: none; min-width: 17px; padding: 2px 4px; border-radius: 9px; background: var(--accent); color: var(--accent-ink); font: 600 10.5px/1.1 var(--f-mono); text-align: center; transform: translate(10px, -10px); box-shadow: 0 0 0 1.5px var(--panel); }
+.seat-label.none { background: #f59f00; color: #1d1400; }
+.tray-label { pointer-events: none; font: 600 12px/1.1 var(--f-display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ph); background: none; white-space: nowrap; transform: translateY(16px); }
+
+@media (max-width: 1180px) and (min-width: 900px) {
+  .work { grid-template-columns: minmax(300px, 330px) minmax(0, 1fr); }
+}
+@media (max-width: 899px) {
+  .app { gap: 8px; padding-block: 8px; }
+  .brand h1 { font-size: 22px; }
+  .brand p { display: none; }
+  .chips { display: flex; }
+  .work { grid-template-columns: minmax(0, 1fr); overflow: hidden; border-radius: 10px; }
+  #checklist, #display, #info { position: absolute; left: 0; right: 0; bottom: 0; top: auto; width: auto; z-index: 20; max-height: 74%;
+    border-radius: 14px 14px 0 0; box-shadow: var(--shadow); transform: translateY(104%); transition: transform 0.24s ease; visibility: hidden; }
+  #checklist.open, #display.open, #info.open { transform: none; visibility: visible; }
+  #info:not(.open) { display: block; }
+  #display { overflow: auto; }
+  #display.collapsed .dbody { display: grid; }
+  #display .panel-head .xbtn.collapse { display: none; }
+  #bar { left: 8px; right: 8px; bottom: 8px; padding: 7px 9px; gap: 6px 8px; }
+  .explode { flex-basis: 100%; }
+  .barbtns { width: 100%; }
+  .barbtns .btn { flex: 1; }
+  .phone-only { display: inline-flex !important; justify-content: center; }
+  .desk-only { display: none !important; }
+  .viewtag { bottom: 98px; left: 10px; }
+  #selbar { top: 8px; }
+  .sheet-grip { display: block; width: 36px; height: 4px; border-radius: 2px; background: var(--line-strong); margin: 7px auto 0; }
+  .fq { font-size: 16px; }   /* 16 px keeps iOS from zooming the page when the filter gets focus */
+}
+.sheet-grip { display: none; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <div class="eyebrow">Open Duck Mini v2 &middot; print readiness</div>
+      <h1>Parts check, exploded</h1>
+      <p>The upstream CAD at zero joint angles, with every print STL, servo, heat-set insert, screw, cable and BOM line. Parts that are not in the CAD are dashed boxes.</p>
+    </div>
+    <div class="chips" id="chips" aria-label="Summary"></div>
+  </header>
+
+  <div class="work">
+    <aside id="checklist" class="panel" aria-label="Parts checklist">
+      <div class="sheet-grip"></div>
+      <div class="panel-head"><h2>Parts list</h2><span class="sub" id="gen"></span><button class="xbtn phone-only" data-close="checklist">Close</button></div>
+      <div class="scroll" id="clscroll">
+        <section class="summary" id="summary"><div class="facts">Loading the parts list&hellip;</div></section>
+        <div class="tabhead">
+          <div class="tabs" role="tablist">
+            <button class="tab-btn" role="tab" id="t-full" aria-selected="true" aria-controls="p-full">Every part<span class="n" id="n-full"></span></button>
+            <button class="tab-btn" role="tab" id="t-printed" aria-selected="false" aria-controls="p-printed">Printed<span class="n" id="n-printed"></span></button>
+            <button class="tab-btn" role="tab" id="t-bom" aria-selected="false" aria-controls="p-bom">BOM<span class="n" id="n-bom"></span></button>
+            <button class="tab-btn" role="tab" id="t-notes" aria-selected="false" aria-controls="p-notes">Notes<span class="n" id="n-notes"></span></button>
+          </div>
+          <div class="ftools" id="ftools">
+            <input type="search" class="fq" id="fq" placeholder="Filter: item, spec, supplier" aria-label="Filter the parts list" autocomplete="off" spellcheck="false">
+            <button class="fbtn" id="fneed" aria-pressed="false" title="Show only SHORT, MISSING and CHECK rows">Needs action<span class="n" id="n-need"></span></button>
+          </div>
+        </div>
+        <div class="tabpane" id="p-full" role="tabpanel" aria-labelledby="t-full"></div>
+        <div class="tabpane" id="p-printed" role="tabpanel" aria-labelledby="t-printed" hidden></div>
+        <div class="tabpane" id="p-bom" role="tabpanel" aria-labelledby="t-bom" hidden></div>
+        <div class="tabpane" id="p-notes" role="tabpanel" aria-labelledby="t-notes" hidden></div>
+      </div>
+    </aside>
+
+    <section id="stage" aria-label="3D exploded view">
+      <div id="labels"></div>
+      <div class="viewtag" id="viewtag">VIEW ISO &middot; UNITS mm</div>
+
+      <div id="display" class="ov card">
+        <div class="sheet-grip"></div>
+        <div class="panel-head"><h2>Display</h2>
+          <button class="xbtn collapse desk-only" id="dcollapse" aria-expanded="true">Hide</button>
+          <button class="xbtn phone-only" data-close="display">Close</button></div>
+        <div class="dbody">
+          <div class="legend" id="legend" aria-label="Colour legend, tap to show or hide"></div>
+          <div class="switches">
+            <div class="sw-row"><span id="l-ins">M3 inserts</span><span class="toggle"><input type="checkbox" id="tg-insert" aria-labelledby="l-ins" checked><span></span></span></div>
+            <div class="sw-row"><span id="l-ph">Not-in-CAD boxes</span><span class="toggle"><input type="checkbox" id="tg-ph" aria-labelledby="l-ph" checked><span></span></span></div>
+            <div class="sw-row"><span id="l-lab">Box labels</span><span class="toggle"><input type="checkbox" id="tg-lab" aria-labelledby="l-lab" checked><span></span></span></div>
+            <div class="sw-row"><span id="l-plab">Part and cable labels</span><span class="toggle"><input type="checkbox" id="tg-plab" aria-labelledby="l-plab" checked><span></span></span></div>
+            <div class="sw-row"><span id="l-xray">X-ray shells</span><span class="toggle"><input type="checkbox" id="tg-xray" aria-labelledby="l-xray"><span></span></span></div>
+          </div>
+          <label class="field">Isolate a subassembly<select id="iso"><option value="all">All parts</option></select></label>
+        </div>
+      </div>
+
+      <aside id="info" class="ov card" aria-live="polite" aria-label="Part details"></aside>
+      <div id="selbar" class="ov card" hidden><span id="seltext"></span><button class="xbtn" id="selclear">Show all</button></div>
+
+      <div id="bar" class="ov card">
+        <div class="explode">
+          <label for="explode">Explode</label>
+          <span class="ends">assembled</span>
+          <input type="range" id="explode" min="0" max="1" step="0.01" value="0.35" aria-describedby="explode-out">
+          <span class="ends">exploded</span>
+          <output id="explode-out" for="explode">0.35</output>
+        </div>
+        <div class="barbtns">
+          <button class="btn phone-only" id="open-checklist">Checklist</button>
+          <button class="btn phone-only" id="open-display">Display</button>
+          <button class="btn" id="reset">Reset view</button>
+        </div>
+      </div>
+      <div id="tip" hidden></div>
+      <div id="loading" class="ov"><div class="loadbox"><div id="loadmsg">Loading the duck model</div><div class="meter"><i id="loadbar"></i></div></div></div>
+    </section>
+  </div>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const cssv = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt = (v, d = 1) => (v == null || Number.isNaN(v) ? '-' : (+v).toFixed(d).replace(/\.0+$/, ''));
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isPhone = () => matchMedia('(max-width: 899px)').matches;
+
+const S = { explode: 0.35, target: 0.35, sel: null, hover: null, iso: 'all', catOn: {}, labels: true, autoFit: true, fly: null, dirty: true };
+let man, root, parts = [], byId = new Map(), groups = new Map(), trayGroup = null, trayLabel = null;
+let scene, camera, renderer, labelRenderer, controls, selBox;
+const stage = $('#stage');
+
+function setLoad(msg, frac) { $('#loadmsg').textContent = msg; if (frac != null) $('#loadbar').style.width = Math.round(frac * 100) + '%'; }
+function fail(err) {
+  console.error(err);
+  $('#loading').hidden = false;
+  $('#loadmsg').innerHTML = '<span class="err">The 3D view could not load.</span><br>' + esc(err && err.message ? err.message : err) +
+    '<br>Reload the page. If it keeps failing, this browser may not support WebGL.';
+}
+
+async function main() {
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  stage.prepend(renderer.domElement);
+  labelRenderer = new CSS2DRenderer({ element: $('#labels') });
+  scene = new THREE.Scene();
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x6f7b88, 0.38));
+  const key = new THREE.DirectionalLight(0xffffff, 1.7); key.position.set(1.0, 2.4, 1.3); scene.add(key);
+  const fill = new THREE.DirectionalLight(0xdde6f0, 0.3); fill.position.set(-1.6, 0.5, -1.1); scene.add(fill);
+  camera = new THREE.PerspectiveCamera(32, 1, 0.005, 50);
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; controls.dampingFactor = 0.09; controls.screenSpacePanning = true;
+  controls.addEventListener('start', () => { S.autoFit = false; S.fly = null; S.fitDir = null; });
+  // no 'change' listener: in three r160 OrbitControls fires it on every update (the target drifts by one ULP in clampLength),
+  // which kept the view re-rendering while idle. frame() checks the camera itself instead.
+  new ResizeObserver(resize).observe(stage);
+  resize();
+
+  setLoad('Loading the parts list', 0.02);
+  const manP = fetch('manifest.json').then((r) => { if (!r.ok) throw new Error('manifest.json: HTTP ' + r.status); return r.json(); });
+  // duck.glb.txt is the GLB as base64 text (the artifact host serves text, not .glb)
+  const glbP = loadText('duck.glb.txt', 4.9e6).then((txt) => {
+    setLoad('Unpacking the model', 0.93);
+    const bin = atob(txt.trim()), bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new Promise((res, rej) => new GLTFLoader().parse(bytes.buffer, '', res, (e) => rej(new Error('duck.glb: ' + (e && e.message ? e.message : 'parse failed')))));
+  });
+  const [m, gltf] = await Promise.all([manP, glbP]);
+  man = m;
+  setLoad('Building the view', 0.97);
+  buildScene(gltf);
+  buildUI();
+  buildPartLabels();
+  applyExplode(S.explode);
+  resetView(true);
+  $('#loading').hidden = true;
+  requestAnimationFrame(frame);
+}
+
+async function loadText(url, guess) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(url + ': HTTP ' + r.status);
+  const total = +r.headers.get('content-length') || guess;
+  if (!r.body || !r.body.getReader) return r.text();
+  const reader = r.body.getReader(), chunks = []; let got = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value); got += value.length;
+    setLoad('Loading the duck model, ' + (got / 1e6).toFixed(1) + ' MB', 0.05 + 0.85 * Math.min(1, got / total));
+  }
+  return new TextDecoder().decode(await new Blob(chunks).arrayBuffer());
+}
+
+/* ---------------------------------------------------------------- scene */
+const HEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
+const okHex = (s) => typeof s === 'string' && HEX.test(s.trim());
+function makeMaterial(cat, color) {
+  // per-node colour override (screws carry one per spec), else the category colour
+  const c = new THREE.Color(okHex(color) ? color.trim() : okHex(man.categories[cat]?.color) ? man.categories[cat].color : '#999999');
+  const o = { color: c, roughness: 0.7, metalness: 0.0, envMapIntensity: 0.62 };
+  if (cat === 'screw') { o.roughness = 0.34; o.metalness = 0.82; o.envMapIntensity = 1.3; }
+  if (cat === 'cable') { o.roughness = 0.5; o.envMapIntensity = 0.75; }
+  if (cat === 'connector') { o.roughness = 0.55; o.metalness = 0.05; o.envMapIntensity = 0.8; }
+  if (cat === 'tpu') o.roughness = 0.92;
+  if (cat === 'servo') { o.roughness = 0.5; }
+  if (cat === 'horn') { o.roughness = 0.42; o.metalness = 0.15; }
+  if (cat === 'electronics') o.roughness = 0.55;
+  if (cat === 'battery') o.roughness = 0.4;
+  if (cat === 'bearing') { o.roughness = 0.28; o.metalness = 0.85; o.envMapIntensity = 1.2; }
+  if (cat === 'insert') { o.roughness = 0.3; o.metalness = 0.9; o.envMapIntensity = 1.3; }
+  if (cat === 'placeholder') Object.assign(o, { transparent: true, opacity: 0.22, depthWrite: false, roughness: 0.6 });
+  return new THREE.MeshStandardMaterial(o);
+}
+function smooth(a, b, x) { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
+const tmpV = new THREE.Vector3(), tmpB = new THREE.Box3();
+
+const CAT_DEFAULT = {
+  screw: { label: 'Screw', color: '#8d949c' }, cable: { label: 'Cable', color: '#d9822b' },
+  tie: { label: 'Ties and guides', color: '#3f7fd6' }, connector: { label: 'Connectors and small parts', color: '#5f6b7a' },
+};
+const CAT_SPARE = ['#8a8f98', '#6c8ebf', '#b07aa1', '#9c755f', '#76b7b2', '#c9a227'];
+function ensureCategories() {
+  let i = 0;
+  const cats = new Set(Object.values(man.nodes || {}).map((r) => r && r.category).filter(Boolean));
+  if (Array.isArray(man.cables) && man.cables.length) cats.add('cable');
+  if (Array.isArray(man.retention) && man.retention.length) cats.add('tie');
+  for (const k of cats) {
+    if (man.categories[k]) continue;
+    const d = CAT_DEFAULT[k] || { label: k.charAt(0).toUpperCase() + k.slice(1).replace(/_/g, ' '), color: CAT_SPARE[i++ % CAT_SPARE.length] };
+    man.categories[k] = { label: d.label, color: d.color, count: 0 };
+  }
+  for (const k of ['tie', 'connector']) if (man.categories[k]) man.categories[k].label = CAT_DEFAULT[k].label;   // legend names Ahmed asked for
+  for (const c of Object.values(man.categories)) if (!okHex(c.color)) c.color = '#8a8f98';
+}
+function buildScene(gltf) {
+  ensureCategories();
+  root = gltf.scene.getObjectByName('duck') || gltf.scene.children[0];
+  scene.add(gltf.scene);
+  gltf.scene.updateMatrixWorld(true);
+  const seen = new Set();
+  const dashMats = [], solidMats = [];
+  for (const obj of [...root.children]) {
+    const id = obj.userData.id || obj.name;
+    const rec = man.nodes[id];
+    if (!rec || !obj.isMesh) continue;
+    // cables and ties are drawn by the page (man.cables, man.retention) so they follow the explode, never from a GLB mesh
+    if (rec.category === 'cable' || rec.category === 'tie') { obj.visible = false; obj.raycast = () => {}; continue; }
+    if (!seen.has(obj.geometry)) {
+      if (!obj.geometry.attributes.normal) obj.geometry.computeVertexNormals();
+      obj.geometry.computeBoundingBox(); obj.geometry.computeBoundingSphere(); seen.add(obj.geometry);
+    }
+    const cat = rec.category;
+    const mat = makeMaterial(cat, rec.color);
+    if (rec.replaced) { mat.transparent = true; mat.opacity = 0.42; mat.depthWrite = false; }
+    obj.material = mat;
+    const sub = man.subassemblies[rec.sub] || { v1: [0, 0, 0] };
+    const p = { id, obj, rec, cat, sub: rec.sub, base: obj.position.clone(), v1: sub.v1, v2: rec.v2 || [0, 0, 0], v3: rec.v3 || [0, 0, 0],
+      baseOpacity: mat.opacity, baseTransparent: mat.transparent, bb0: obj.geometry.boundingBox.clone().applyMatrix4(obj.matrix), label: null };
+    obj.userData.part = p;
+    if (cat === 'placeholder' && rec.dims) {
+      const [dx, dy, dz] = rec.dims;
+      const eg = new THREE.EdgesGeometry(new THREE.BoxGeometry(dx, dy, dz));
+      const solid = new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.95 }));
+      const dashed = new THREE.LineSegments(eg, new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 2.2, gapSize: 1.8, transparent: true, opacity: 0.75, depthTest: false }));
+      dashed.computeLineDistances(); dashed.renderOrder = 10;
+      for (const l of [solid, dashed]) { l.scale.set(1 / dx, 1 / dy, 1 / dz); l.raycast = () => {}; obj.add(l); }
+      solidMats.push(solid.material); dashMats.push(dashed.material);
+      const outer = el('div'), div = el('div', 'ph-label', '<b>' + esc(rec.short || rec.label) + '</b><span class="num">' + rec.dims.map((d) => fmt(d, 1)).join(' x ') + '</span>');
+      div.title = rec.label; outer.append(div);
+      div.addEventListener('click', (e) => { e.stopPropagation(); selectPart(p); });
+      const lab = new CSS2DObject(outer); lab.position.set(0, 0, 0.5); obj.add(lab);
+      p.label = lab; p.labelEl = div; p.labelOuter = outer;
+      p.edges = [solid, dashed];
+    }
+    parts.push(p); byId.set(id, p);
+    if (rec.group) { if (!groups.has(rec.group)) groups.set(rec.group, []); groups.get(rec.group).push(p); }
+  }
+  buildCables();
+  buildRetention();
+  for (const [k, c] of Object.entries(man.categories)) if (!c.count) c.count = parts.filter((p) => p.cat === k).length;
+  S.phLineMats = [...solidMats, ...dashMats];
+  if (man.tray) {
+    const t = man.tray, w = t.max[0] - t.min[0], d = t.max[1] - t.min[1];
+    trayGroup = new THREE.Group(); root.add(trayGroup);
+    const plate = new THREE.Mesh(new THREE.BoxGeometry(w, d, t.max[2] - t.min[2]),
+      new THREE.MeshStandardMaterial({ color: new THREE.Color(man.categories.placeholder.color), transparent: true, opacity: 0.1, depthWrite: false, roughness: 0.9 }));
+    plate.position.set((t.min[0] + t.max[0]) / 2, (t.min[1] + t.max[1]) / 2, (t.min[2] + t.max[2]) / 2);
+    plate.raycast = () => {};
+    const rim = new THREE.LineSegments(new THREE.EdgesGeometry(plate.geometry), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 4, gapSize: 3, transparent: true, opacity: 0.8 }));
+    rim.computeLineDistances(); plate.add(rim); S.phLineMats.push(rim.material);
+    trayGroup.add(plate);
+    const n = parts.filter((p) => p.sub === 'tray').length;
+    const div = el('div'); div.append(el('div', 'tray-label', esc(t.label) + ' &middot; ' + n));
+    trayLabel = new CSS2DObject(div); trayLabel.position.set((t.min[0] + t.max[0]) / 2, t.min[1], t.max[2]); trayGroup.add(trayLabel);
+    S.trayBox = new THREE.Box3(new THREE.Vector3(...t.min), new THREE.Vector3(...t.max));
+  }
+  selBox = new THREE.Box3Helper(new THREE.Box3(), 0xffffff); selBox.visible = false; scene.add(selBox);
+  for (const k of Object.keys(man.categories)) S.catOn[k] = true;
+  applyTheme();
+}
+
+function applyTheme() {
+  const acc = new THREE.Color(cssv('--accent') || '#1d58b8');
+  const ph = new THREE.Color(cssv('--ph') || '#9446b8');
+  S.accent = acc;
+  for (const m of S.phLineMats || []) m.color.copy(ph);
+  if (selBox) selBox.material.color.copy(acc);
+  if (seatFor) showSeats(seatFor);
+  refreshLook();
+}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => man && applyTheme());
+new MutationObserver(() => man && applyTheme()).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'class'] });
+
+function stages(e) {
+  const x = man.meta.explode;
+  return [smooth(x.stage1[0], x.stage1[1], e), smooth(x.stage2[0], x.stage2[1], e), smooth(x.stage3[0], x.stage3[1], e)];
+}
+function offsetOf(p, s) { return tmpV.set(p.v1[0] * s[0] + p.v2[0] * s[1] + p.v3[0] * s[2], p.v1[1] * s[0] + p.v2[1] * s[1] + p.v3[1] * s[2], p.v1[2] * s[0] + p.v2[2] * s[1] + p.v3[2] * s[2]); }
+function applyExplode(e) {
+  const s = stages(e);
+  for (const p of parts) if (!p.tube) p.obj.position.copy(p.base).add(partOffset(p, s));
+  updateCables(s);
+  placeSeats(s);
+  if (trayGroup) { const v = man.subassemblies.tray.v1; trayGroup.position.set(v[0] * s[0], v[1] * s[0], v[2] * s[0]); }
+  $('#explode-out').value = e.toFixed(2);
+  $('#viewtag').textContent = 'VIEW ISO · EXPLODE ' + e.toFixed(2) + ' · UNITS mm · ZERO POSE';
+  S.dirty = true;
+}
+
+/* ---------------------------------------------------------------- cables: one tube per man.cables entry
+   Points are URDF mm at zero pose (the frame of the GLB node matrices), so each tube is a child of root.
+   A point follows its point_follow node's explode offset, else its point_sub subassembly's v1 offset.
+   The tube is refilled in place (no new buffers) every time the explode value changes. */
+const RADIAL = 8, cableParts = [], cableByRef = new Map();
+const RCOS = [], RSIN = [];
+for (let j = 0; j <= RADIAL; j++) { const v = (j / RADIAL) * Math.PI * 2; RCOS.push(-Math.cos(v)); RSIN.push(Math.sin(v)); }
+const _q = new THREE.Vector3(), _t = new THREE.Vector3(), _tp = new THREE.Vector3(), _n = new THREE.Vector3(), _b = new THREE.Vector3();
+const AX = [new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 1)];
+const v3of = (a) => (Array.isArray(a) && a.length >= 3 && a.slice(0, 3).every(Number.isFinite) ? a : null);
+
+function buildCables() {
+  const list = Array.isArray(man.cables) ? man.cables : [];
+  const M = root.matrixWorld, wscale = new THREE.Vector3().setFromMatrixScale(M).x || 0.001;
+  for (const c of list) {
+    if (!c) continue;
+    const id = c.node || ('cable-' + c.id);
+    if (byId.has(id)) continue;
+    const rec = man.nodes[id] || { label: 'Cable ' + (c.id ?? ''), part: 'cable', category: 'cable', sub: (c.point_sub || [])[0], status: '' };
+    if (c.shape === 'flat strip' && Array.isArray(c.width_world) && Array.isArray(c.points) && c.width_world.length === c.points.length) { buildRibbon(c, id, rec); continue; }
+    const pts = [];
+    (c.points || []).forEach((q, i) => {
+      if (!v3of(q)) return;
+      pts.push({ base: new THREE.Vector3(q[0], q[1], q[2]), sub: (c.point_sub || [])[i] || rec.sub, follow: (c.point_follow || [])[i] || null });
+    });
+    if (pts.length < 2) continue;
+    const subs = [...new Set([...(Array.isArray(rec.subs) ? rec.subs : []), rec.sub, ...pts.map((q) => q.sub)].filter(Boolean))];
+    const r = Math.max(0.3, (+c.d_mm || 2.5) / 2);
+    // segments per span from its zero-pose length: about one per 5 mm, 3 to 14, at most 400 per cable
+    const ks = [];
+    for (let i = 0; i < pts.length - 1; i++) ks.push(Math.min(14, Math.max(3, Math.ceil(pts[i].base.distanceTo(pts[i + 1].base) / 5))));
+    let segs = ks.reduce((a, k) => a + k, 0);
+    if (segs > 400) { for (let i = 0; i < ks.length; i++) ks[i] = Math.max(2, Math.floor(ks[i] * 400 / segs)); segs = ks.reduce((a, k) => a + k, 0); }
+    const nv = (segs + 1) * (RADIAL + 1);
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(nv * 3), 3).setUsage(THREE.DynamicDrawUsage));
+    g.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(nv * 3), 3).setUsage(THREE.DynamicDrawUsage));
+    const idx = [];
+    for (let i = 0; i < segs; i++) for (let j = 0; j < RADIAL; j++) {
+      const a = i * (RADIAL + 1) + j, b = (i + 1) * (RADIAL + 1) + j, cc = (i + 1) * (RADIAL + 1) + j + 1, d = i * (RADIAL + 1) + j + 1;
+      idx.push(a, b, d, b, cc, d);
+    }
+    g.setIndex(idx);
+    const mat = makeMaterial('cable', okHex(c.color) ? c.color : (rec.color || null));
+    const mesh = new THREE.Mesh(g, mat);
+    mesh.name = id; mesh.raycast = cableRaycast;
+    root.add(mesh);
+    const p = { id, obj: mesh, rec, cat: 'cable', sub: rec.sub || pts[0].sub, subs, cable: c, base: new THREE.Vector3(), v1: [0, 0, 0], v2: [0, 0, 0], v3: [0, 0, 0],
+      baseOpacity: mat.opacity, baseTransparent: mat.transparent, bb0: new THREE.Box3(), label: null,
+      tube: { pts, cps: pts.map((q) => q.base.clone()), ks, segs, r, rw: r * wscale, samples: new Float32Array((segs + 1) * 3),
+        w: new Float32Array((segs + 1) * 3), wDirty: true, wc: new THREE.Vector3(), wr: 0 } };
+    mesh.userData.part = p;
+    parts.push(p); byId.set(id, p); cableParts.push(p);
+    cableByRef.set(id, p); if (c.id != null) cableByRef.set(String(c.id), p);
+  }
+  S.wscale = wscale;
+}
+/* V1 3D track: flat strip cables (D12), the label layer and the x-ray switch */
+const XRAY = new Set(['pla', 'tpu', 'other']);
+function buildRibbon(c, id, rec) {
+  const P = c.points, Wv = c.width_world, hw = (+c.width_mm || 16) / 2, n = P.length;
+  const pos = new Float32Array(n * 6), idx = [];
+  for (let i = 0; i < n; i++) {
+    const p = P[i], w = Wv[i], L = Math.hypot(w[0], w[1], w[2]) || 1;
+    for (let s = 0; s < 2; s++) { const k = (i * 2 + s) * 3, f = (s ? hw : -hw) / L; pos[k] = p[0] + w[0] * f; pos[k + 1] = p[1] + w[1] * f; pos[k + 2] = p[2] + w[2] * f; }
+    if (i < n - 1) { const a = i * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+  }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setIndex(idx); g.computeVertexNormals();
+  g.computeBoundingBox(); g.computeBoundingSphere();
+  const mat = makeMaterial('cable', okHex(c.color) ? c.color : '#c9b07a'); mat.side = THREE.DoubleSide;
+  const mesh = new THREE.Mesh(g, mat); mesh.name = id; root.add(mesh);
+  const sub = (c.point_sub || [])[0] || rec.sub, sv = (man.subassemblies[sub] || { v1: [0, 0, 0] }).v1;
+  const p = { id, obj: mesh, rec, cat: 'cable', sub, subs: [sub], cable: c, base: new THREE.Vector3(), v1: sv, v2: [0, 0, 0], v3: [0, 0, 0],
+    baseOpacity: mat.opacity, baseTransparent: mat.transparent, bb0: g.boundingBox.clone(), label: null, ribbon: true };
+  mesh.userData.part = p; parts.push(p); byId.set(id, p); cableByRef.set(id, p); if (c.id != null) cableByRef.set(String(c.id), p);
+}
+const PL = { items: [], on: true };
+function buildPartLabels() {
+  for (const q of (Array.isArray(man.labels) ? man.labels : [])) {
+    if (!v3of(q.pos) || !v3of(q.anchor)) continue;
+    const div = el('div', 'pl-label', esc(q.text)), obj = new CSS2DObject(div); root.add(obj);
+    const a = new THREE.Vector3(...q.anchor), b = new THREE.Vector3(...q.pos);
+    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), new THREE.LineBasicMaterial({ color: 0x8693a0, transparent: true, opacity: 0.7 }));
+    line.raycast = () => {}; root.add(line);
+    PL.items.push({ q, div, obj, line, a, b, n: new THREE.Vector3(Math.cos(q.phi || 0), Math.sin(q.phi || 0), 0) });
+  }
+}
+function updatePartLabels() {
+  // a label shows when it faces the camera and does not overlap a label already shown (screen rectangles), so none hides another
+  const s = stages(S.explode), rects = [], W = stage.clientWidth, H = stage.clientHeight, pa = new THREE.Vector3(), pb = new THREE.Vector3(), nw = new THREE.Vector3();
+  for (const it of PL.items) {
+    const cp = byId.get(it.q.node);
+    const off = cp && cp.cat === 'cable' ? offsetOf({ v1: (man.subassemblies[cp.sub] || { v1: [0, 0, 0] }).v1, v2: [0, 0, 0], v3: [0, 0, 0] }, s).clone()
+      : (nodeOffset(it.q.node, s) || new THREE.Vector3()).clone();
+    pa.copy(it.a).add(off); pb.copy(it.b).add(off); it.obj.position.copy(pb);
+    const ps = it.line.geometry.attributes.position; ps.setXYZ(0, pa.x, pa.y, pa.z); ps.setXYZ(1, pb.x, pb.y, pb.z); ps.needsUpdate = true;
+    const wpos = pb.clone().applyMatrix4(root.matrixWorld);
+    nw.copy(it.n).transformDirection(root.matrixWorld);
+    let show = PL.on && (!cp || cp.obj.visible) && nw.dot(camera.position.clone().sub(wpos).normalize()) > 0.26;
+    if (show) {
+      const v = wpos.clone().project(camera), x = (v.x + 1) / 2 * W, y = (1 - v.y) / 2 * H, w = it.div.offsetWidth || 60, h = it.div.offsetHeight || 14;
+      const r = [x - w / 2 - 2, y - h / 2 - 2, x + w / 2 + 2, y + h / 2 + 2];
+      if (v.z > 1 || rects.some((o) => r[0] < o[2] && r[2] > o[0] && r[1] < o[3] && r[3] > o[1])) show = false; else rects.push(r);
+    }
+    it.obj.visible = show; it.line.visible = show; it.div.style.visibility = show ? 'visible' : 'hidden';
+  }
+}
+function nodeOffset(id, s, depth = 0) {   // explode offset of any node in mm (root frame); null if the node is unknown
+  if (!id) return null;
+  const p = byId.get(id);
+  if (p && !p.tube) {
+    if (p.follow && p.follow !== id && depth < 2) { const o = nodeOffset(p.follow, s, depth + 1); if (o) return o; }
+    return offsetOf(p, s);
+  }
+  const r = man.nodes[id];
+  if (!r || r.category === 'cable') return null;
+  return offsetOf({ v1: man.subassemblies[r.sub]?.v1 || [0, 0, 0], v2: v3of(r.v2) || [0, 0, 0], v3: v3of(r.v3) || [0, 0, 0] }, s);
+}
+function partOffset(p, s) {   // ties and guides ride with their follow node; everything else uses its own vectors
+  if (p.follow) { const o = nodeOffset(p.follow, s, 1); if (o) return o; }
+  return offsetOf(p, s);
+}
+function cablePoint(p, i, s, out) {
+  const q = p.tube.pts[i];
+  let off = q.follow ? nodeOffset(q.follow, s) : null;
+  if (!off) { const v = man.subassemblies[q.sub]?.v1 || [0, 0, 0]; off = tmpV.set(v[0] * s[0], v[1] * s[0], v[2] * s[0]); }
+  return out.copy(q.base).add(off);
+}
+function updateCables(s) {
+  for (const p of cableParts) {
+    const cp = p.tube.cps;
+    for (let i = 0; i < cp.length; i++) cablePoint(p, i, s, cp[i]);
+    fillTube(p);
+  }
+}
+// centripetal Catmull-Rom through P (the curve THREE.CatmullRomCurve3 'centripetal' draws), ks[i] samples per span,
+// with the span coefficients worked out once per span instead of once per sample
+const _p0 = new THREE.Vector3(), _p3 = new THREE.Vector3();
+function crFill(P, ks, out) {
+  const n = P.length; let o = 0;
+  for (let i = 0; i < n - 1; i++) {
+    const p1 = P[i], p2 = P[i + 1];
+    const p0 = i > 0 ? P[i - 1] : _p0.subVectors(p1, p2).add(p1);
+    const p3 = i + 2 < n ? P[i + 2] : _p3.subVectors(p2, p1).add(p2);
+    let dt0 = Math.pow(p0.distanceToSquared(p1), 0.25), dt1 = Math.pow(p1.distanceToSquared(p2), 0.25), dt2 = Math.pow(p2.distanceToSquared(p3), 0.25);
+    if (dt1 < 1e-4) dt1 = 1;
+    if (dt0 < 1e-4) dt0 = dt1;
+    if (dt2 < 1e-4) dt2 = dt1;
+    const k = ks[i];
+    for (let c = 0; c < 3; c++) {
+      const x0 = p0.getComponent(c), x1 = p1.getComponent(c), x2 = p2.getComponent(c), x3 = p3.getComponent(c);
+      const t1 = ((x1 - x0) / dt0 - (x2 - x0) / (dt0 + dt1) + (x2 - x1) / dt1) * dt1;
+      const t2 = ((x2 - x1) / dt1 - (x3 - x1) / (dt1 + dt2) + (x3 - x2) / dt2) * dt1;
+      const c2 = -3 * x1 + 3 * x2 - 2 * t1 - t2, c3 = 2 * x1 - 2 * x2 + t1 + t2;
+      for (let j = 0; j < k; j++) { const t = j / k; out[(o + j) * 3 + c] = x1 + t * (t1 + t * (c2 + t * c3)); }
+    }
+    o += k;
+  }
+  const L = P[n - 1]; out[o * 3] = L.x; out[o * 3 + 1] = L.y; out[o * 3 + 2] = L.z;
+}
+function fillTube(p) {
+  const T = p.tube, { segs, r, samples } = T, g = p.obj.geometry;
+  const pos = g.attributes.position.array, nor = g.attributes.normal.array;
+  crFill(T.cps, T.ks, samples);
+  _tp.set(0, 0, 1);
+  for (let i = 0; i <= segs; i++) {
+    const i0 = Math.max(0, i - 1) * 3, i1 = Math.min(segs, i + 1) * 3;
+    _t.set(samples[i1] - samples[i0], samples[i1 + 1] - samples[i0 + 1], samples[i1 + 2] - samples[i0 + 2]);
+    const L = _t.length();
+    if (L > 1e-9) _t.multiplyScalar(1 / L); else _t.copy(_tp);
+    // parallel transport: carry the previous normal into the plane of the new tangent
+    if (i > 0) _n.addScaledVector(_t, -_n.dot(_t));
+    if (i === 0 || _n.lengthSq() < 1e-10) {
+      const ax = Math.abs(_t.x) < 0.8 ? AX[0] : Math.abs(_t.y) < 0.8 ? AX[1] : AX[2];
+      _n.crossVectors(_t, ax);
+    }
+    _n.normalize();
+    _b.crossVectors(_t, _n);
+    _tp.copy(_t);
+    const sx = samples[i * 3], sy = samples[i * 3 + 1], sz = samples[i * 3 + 2];
+    for (let j = 0; j <= RADIAL; j++) {
+      const k = (i * (RADIAL + 1) + j) * 3;
+      const nx = RCOS[j] * _n.x + RSIN[j] * _b.x, ny = RCOS[j] * _n.y + RSIN[j] * _b.y, nz = RCOS[j] * _n.z + RSIN[j] * _b.z;
+      nor[k] = nx; nor[k + 1] = ny; nor[k + 2] = nz;
+      pos[k] = sx + r * nx; pos[k + 1] = sy + r * ny; pos[k + 2] = sz + r * nz;
+    }
+  }
+  g.attributes.position.needsUpdate = true; g.attributes.normal.needsUpdate = true;
+  // bounds from the centre line plus the radius: cheaper than walking every vertex
+  const bb = g.boundingBox || (g.boundingBox = new THREE.Box3());
+  bb.makeEmpty();
+  for (let i = 0; i <= segs; i++) bb.expandByPoint(_q.fromArray(samples, i * 3));
+  bb.expandByScalar(r);
+  bb.getBoundingSphere(g.boundingSphere || (g.boundingSphere = new THREE.Sphere()));
+  T.wDirty = true;
+}
+function cableWorld(p) {   // world-space centre line and bounding sphere, worked out only when picking needs them
+  const T = p.tube, M = root.matrixWorld;
+  for (let i = 0; i <= T.segs; i++) _q.fromArray(T.samples, i * 3).applyMatrix4(M).toArray(T.w, i * 3);
+  T.wc.copy(p.obj.geometry.boundingSphere.center).applyMatrix4(M);
+  T.wr = p.obj.geometry.boundingSphere.radius * (S.wscale || 0.001);
+  T.wDirty = false;
+}
+const _ra = new THREE.Vector3(), _rb = new THREE.Vector3(), _onRay = new THREE.Vector3(), _onSeg = new THREE.Vector3();
+function cableRaycast(raycaster, hits) {   // distance from the ray to the centre line, with a few pixels of slack
+  const p = this.userData.part; if (!p) return;
+  const T = p.tube, ray = raycaster.ray, px = S.pxWorld || 0.002;
+  if (T.wDirty) cableWorld(p);
+  const reach = T.wr + T.rw + (_ra.copy(T.wc).sub(ray.origin).length() + T.wr) * px * 4;
+  if (ray.distanceSqToPoint(T.wc) > reach * reach) return;
+  const w = T.w;
+  let best = Infinity, bestPt = null;
+  for (let i = 0; i < T.segs; i++) {
+    _ra.fromArray(w, i * 3); _rb.fromArray(w, i * 3 + 3);
+    const d2 = ray.distanceSqToSegment(_ra, _rb, _onRay, _onSeg);
+    const t = _onRay.distanceTo(ray.origin);
+    const tol = T.rw + t * px * 4;
+    if (d2 <= tol * tol && t < best) { best = t; bestPt = _onRay.clone(); }
+  }
+  if (bestPt) hits.push({ distance: best, point: bestPt, object: this });
+}
+function partBox(p, s, out) {   // root-frame box of a part at explode stages s
+  if (!p.tube) return out.copy(p.bb0).translate(partOffset(p, s));
+  out.makeEmpty();
+  for (let i = 0; i < p.tube.pts.length; i++) out.expandByPoint(cablePoint(p, i, s, _q));
+  return out.expandByScalar(p.tube.r);
+}
+
+/* ---------------------------------------------------------------- ties and guides (man.retention)
+   Drawn by the page around the cable at `center`, oriented by `axis`: a cable tie is a 1.2 mm band, an adhesive
+   mount is a square pad with its band, a printed guide is an open clip on a small base, an existing printed
+   feature is a pair of rings. Colour by kind; a gap (no CAD feature to fix it to) is amber. Rides with `follow`. */
+const TIE_KIND = {
+  'cable tie': { label: 'Cable tie', color: '#3f7fd6' },
+  'adhesive tie mount': { label: 'Adhesive tie mount', color: '#cf4a9c' },
+  'printed guide': { label: 'Printed guide', color: '#14a2b3' },
+  'existing printed feature': { label: 'Existing printed feature', color: '#7fa436' },
+};
+const GAP_COLOR = '#f59f00';
+const tieKind = (k) => TIE_KIND[String(k || '').trim().toLowerCase()] || { label: String(k || 'Retention item'), color: '#7f8a96' };
+const tieParts = [], tieGeoCache = new Map();
+function mergeGeo(list) {   // [{ g, m }] -> one indexed BufferGeometry (position and normal)
+  let nv = 0, ni = 0;
+  for (const { g, m } of list) { if (m) g.applyMatrix4(m); nv += g.attributes.position.count; ni += g.index ? g.index.count : g.attributes.position.count; }
+  const pos = new Float32Array(nv * 3), nor = new Float32Array(nv * 3), idx = new (nv > 65535 ? Uint32Array : Uint16Array)(ni);
+  let ov = 0, oi = 0;
+  for (const { g } of list) {
+    const n = g.attributes.position.count;
+    pos.set(g.attributes.position.array, ov * 3); nor.set(g.attributes.normal.array, ov * 3);
+    if (g.index) { const a = g.index.array; for (let i = 0; i < a.length; i++) idx[oi + i] = a[i] + ov; oi += a.length; }
+    else { for (let i = 0; i < n; i++) idx[oi + i] = ov + i; oi += n; }
+    ov += n; g.dispose();
+  }
+  const out = new THREE.BufferGeometry();
+  out.setAttribute('position', new THREE.BufferAttribute(pos, 3)); out.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
+  out.setIndex(new THREE.BufferAttribute(idx, 1)); out.computeBoundingBox(); out.computeBoundingSphere();
+  return out;
+}
+function tieGeometry(kind, R) {   // local frame: z along the cable, +x toward the surface the item sits on
+  const key = kind + '|' + R.toFixed(2);
+  if (tieGeoCache.has(key)) return tieGeoCache.get(key);
+  const tr = (x, y, z) => new THREE.Matrix4().makeTranslation(x, y, z);
+  const band = () => ({ g: new THREE.TorusGeometry(R + 0.6, 0.6, 6, 28) });
+  let list;
+  if (kind === 'adhesive tie mount') {
+    const t = 2.4, w = Math.max(10, R * 4);
+    list = [band(), { g: new THREE.BoxGeometry(t, w, w), m: tr(R + 1.2 + t / 2, 0, 0) }];
+  } else if (kind === 'printed guide') {
+    list = [{ g: new THREE.TorusGeometry(R + 1.0, 1.0, 6, 22, Math.PI * 1.5), m: new THREE.Matrix4().makeRotationZ(-0.75 * Math.PI) },
+      { g: new THREE.BoxGeometry(2, Math.max(6, R * 2.6), 4), m: tr(R + 3, 0, 0) }];
+  } else if (kind === 'existing printed feature') {
+    list = [{ g: new THREE.TorusGeometry(R + 0.8, 0.7, 6, 28), m: tr(0, 0, -1.8) }, { g: new THREE.TorusGeometry(R + 0.8, 0.7, 6, 28), m: tr(0, 0, 1.8) }];
+  } else list = [band()];
+  const g = mergeGeo(list);
+  tieGeoCache.set(key, g);
+  return g;
+}
+function buildRetention() {
+  const list = Array.isArray(man.retention) ? man.retention : [];
+  const up = new THREE.Vector3(), zx = new THREE.Vector3(), yy = new THREE.Vector3(), basis = new THREE.Matrix4();
+  for (const t of list) {
+    const c = v3of(t?.center); if (!c) continue;
+    const id = t.node || ('tie-' + t.id);
+    if (byId.has(id)) continue;
+    const kind = String(t.kind || '').trim().toLowerCase(), K = tieKind(kind);
+    const rec = man.nodes[id] || { label: K.label + ' ' + (t.id ?? ''), part: 'tie', category: 'tie', status: '' };
+    const cps = [...new Set((Array.isArray(t.cables) ? t.cables : []).map((r) => cableByRef.get(String(r)) || cableByRef.get('cable-' + r)).filter(Boolean))];
+    const rs = cps.map((p) => (p.tube ? p.tube.r : (+(p.cable && p.cable.width_mm) || 16) / 2));   // a flat strip (D12) has no tube: size the band to half its width
+    const R = rs.length > 1 ? Math.sqrt(rs.reduce((a, r) => a + r * r, 0)) * 1.25 : rs.length ? rs[0] : 1.5;
+    const g = tieGeometry(kind, R);
+    const mat = makeMaterial('tie', t.gap ? GAP_COLOR : okHex(rec.color) ? rec.color : K.color);
+    const mesh = new THREE.Mesh(g, mat);
+    mesh.name = id; mesh.raycast = tieRaycast;
+    // z along the cable; x is the side the pad or base sits on: down in the URDF frame, or toward the back for a vertical run
+    zx.fromArray(v3of(t.axis) || [1, 0, 0]); if (zx.lengthSq() < 1e-12) zx.set(1, 0, 0); zx.normalize();
+    up.set(0, 0, -1).addScaledVector(zx, zx.z);
+    if (up.lengthSq() < 1e-4) up.set(-1, 0, 0).addScaledVector(zx, zx.x);
+    up.normalize(); yy.crossVectors(zx, up);
+    mesh.quaternion.setFromRotationMatrix(basis.makeBasis(up, yy, zx));
+    mesh.position.set(c[0], c[1], c[2]);
+    root.add(mesh); mesh.updateMatrix();
+    const sub = rec.sub || cps[0]?.sub || null;
+    const p = { id, obj: mesh, rec, cat: 'tie', sub, tie: t, kind, follow: t.follow || null, cables: cps, base: mesh.position.clone(),
+      v1: man.subassemblies[sub]?.v1 || [0, 0, 0], v2: [0, 0, 0], v3: [0, 0, 0], baseOpacity: mat.opacity, baseTransparent: mat.transparent,
+      bb0: g.boundingBox.clone().applyMatrix4(mesh.matrix), label: null, tieR: R + 1.2 };
+    if (Array.isArray(rec.subs) && rec.subs.length) p.subs = rec.subs;
+    mesh.userData.part = p;
+    parts.push(p); byId.set(id, p); tieParts.push(p);
+    for (const cp of cps) (cp.ties || (cp.ties = [])).push(p);
+  }
+  if (tieParts.length) {
+    const cat = man.categories.tie || (man.categories.tie = { color: TIE_KIND['cable tie'].color });
+    cat.label = 'Ties and guides';
+    if (!okHex(cat.color)) cat.color = TIE_KIND['cable tie'].color;
+    if (!cat.count) cat.count = tieParts.length;
+  }
+}
+function tieRaycast(raycaster, hits) {   // exact hit, plus a few pixels of slack around the centre (ties are tiny and sit on a cable)
+  THREE.Mesh.prototype.raycast.call(this, raycaster, hits);
+  const p = this.userData.part; if (!p) return;
+  const ray = raycaster.ray, ws = S.wscale || 0.001;
+  this.getWorldPosition(_ra);
+  const t = _rb.copy(_ra).sub(ray.origin).dot(ray.direction);
+  if (t <= 0) return;
+  const tol = p.tieR * ws + t * (S.pxWorld || 0.002) * 5;
+  if (ray.distanceSqToPoint(_ra) <= tol * tol) hits.push({ distance: Math.max(0, t - p.tieR * ws * 2), point: ray.at(t, new THREE.Vector3()), object: this });
+}
+
+/* ---------------------------------------------------------------- seat markers: numbered dots for the selected cable */
+let seatGroup = null, seatFor = null;
+function nearestPoint(p, c) {
+  let best = 0, bd = Infinity;
+  p.tube.pts.forEach((q, i) => { const d = q.base.distanceToSquared(_q.set(c[0], c[1], c[2])); if (d < bd) { bd = d; best = i; } });
+  return best;
+}
+function clearSeats() {
+  if (!seatGroup) return;
+  for (const o of [...seatGroup.children]) { seatGroup.remove(o); if (o.material) o.material.dispose(); }
+  root.remove(seatGroup); seatGroup = null; seatFor = null; S.dirty = true;
+}
+function showSeats(p) {
+  clearSeats();
+  const seats = Array.isArray(p?.cable?.seats) ? p.cable.seats : [];
+  if (!seats.length) return;
+  seatGroup = new THREE.Group(); root.add(seatGroup); seatFor = p;
+  const geo = S.seatGeo || (S.seatGeo = new THREE.SphereGeometry(1.6, 12, 8));
+  seats.forEach((st, i) => {
+    const c = v3of(st?.center); if (!c) return;
+    const none = String(st.kind || '').trim().toLowerCase() === 'none';
+    const data = { base: new THREE.Vector3(c[0], c[1], c[2]), part: st.part || null, idx: nearestPoint(p, c) };
+    const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: none ? GAP_COLOR : S.accent, depthTest: false, transparent: true, opacity: 0.95 }));
+    m.renderOrder = 20; m.raycast = () => {}; m.userData.seat = data;
+    const outer = el('div'); outer.append(el('div', 'seat-label' + (none ? ' none' : ''), String(i + 1)));
+    const lab = new CSS2DObject(outer); lab.userData.seat = data;
+    seatGroup.add(m, lab);
+  });
+  placeSeats(stages(S.explode));
+}
+function placeSeats(s) {
+  if (!seatGroup || !seatFor) return;
+  for (const o of seatGroup.children) {
+    const d = o.userData.seat; if (!d) continue;
+    const off = d.part ? nodeOffset(d.part, s) : null;
+    if (off) _ra.copy(off); else cablePoint(seatFor, d.idx, s, _ra).sub(seatFor.tube.pts[d.idx].base);
+    o.position.copy(d.base).add(_ra);
+  }
+  S.dirty = true;
+}
+function syncSeats() {
+  const p = S.sel && S.sel.kind === 'part' ? S.sel.part : null;
+  if (p && p.tube) { if (seatFor !== p) showSeats(p); } else clearSeats();
+}
+
+function inIso(p) {
+  if (S.iso === 'all') return true;
+  const [k, v] = S.iso.split(':');
+  if (p.subs) return k === 's' ? p.subs.includes(v) : p.subs.some((s) => man.subassemblies[s]?.group === v);
+  return k === 's' ? p.sub === v : (man.subassemblies[p.sub]?.group === v);
+}
+function shown(p) { return S.catOn[p.cat] !== false && inIso(p); }
+function applyVisibility() {
+  for (const p of parts) {
+    const v = shown(p); p.obj.visible = v;
+    if (p.label) p.label.visible = v && S.labels;
+  }
+  if (trayGroup) { trayGroup.visible = S.catOn.placeholder !== false && (S.iso === 'all' || S.iso === 's:tray'); trayLabel.visible = trayGroup.visible; }
+  updateCounts();
+  S.dirty = true;
+}
+
+/* ---------------------------------------------------------------- selection and highlight */
+function refreshLook() {
+  syncSeats();
+  const sel = S.sel, hov = S.hover;
+  for (const p of parts) {
+    const m = p.obj.material;
+    const isSel = sel && sel.ids.has(p.id);
+    const isHov = hov && hov.has(p.id);
+    const ghost = sel && sel.ghost && !isSel && !(sel.keep && sel.keep.has(p.id));
+    if (isSel) { m.emissive.copy(S.accent); m.emissiveIntensity = p.cat === 'placeholder' ? 0.65 : 0.42; }
+    else if (isHov) { m.emissive.setRGB(1, 1, 1); m.emissiveIntensity = 0.18; }
+    else if (p.cat === 'tie' && sel && sel.ghost && sel.keep && sel.keep.has(p.id)) { m.emissive.copy(m.color); m.emissiveIntensity = 0.45; }   // tiny bands, make them findable
+    else { m.emissive.setRGB(0, 0, 0); m.emissiveIntensity = 0; }
+    const xr = S.xray && XRAY.has(p.cat) && !isSel;
+    const wantT = ghost || p.baseTransparent || xr;
+    const op = ghost ? Math.min(0.1, p.baseOpacity) : xr ? Math.min(0.14, p.baseOpacity) : (isSel && p.cat === 'placeholder' ? 0.42 : p.baseOpacity);
+    if (m.transparent !== wantT) { m.transparent = wantT; m.needsUpdate = true; }
+    m.opacity = op; m.depthWrite = !wantT;
+    if (p.edges) for (const l of p.edges) l.material.opacity = ghost ? 0.15 : (l.material.isLineDashedMaterial ? 0.75 : 0.95);
+    if (p.labelEl) p.labelEl.classList.toggle('sel', !!isSel);
+  }
+  S.dirty = true;
+}
+function partIds(p) {
+  if (p.rec.group && p.cat === 'servo') return groups.get(p.rec.group).map((q) => q.id);
+  return [p.id];
+}
+function relatedIds(p) {   // stay solid (not highlighted) when the selection ghosts the rest
+  if (p.tube) return (p.ties || []).map((q) => q.id);
+  if (p.cat === 'tie') return p.cables.map((q) => q.id);
+  if (p.cat === 'screw') return (Array.isArray(p.rec.joins) ? p.rec.joins : []).filter((id) => byId.has(id));
+  return [];
+}
+function selectPart(p, opts = {}) {
+  const ids = partIds(p);
+  S.sel = { ids: new Set(ids), keep: new Set(relatedIds(p)), ghost: !!opts.ghost, kind: 'part', part: p, title: p.rec.label };
+  showInfo(renderPart(p));
+  markRows(null);
+  updateSelBar();
+  refreshLook();
+}
+function selectSet(ids, info, title, rowEl, keep) {
+  S.sel = { ids: new Set(ids.filter((id) => byId.has(id))), keep: new Set(keep || []), ghost: true, kind: 'set', title };
+  showInfo(info);
+  markRows(rowEl);
+  updateSelBar();
+  refreshLook();
+}
+function clearSel() {
+  S.sel = null; markRows(null); updateSelBar(); refreshLook(); closeInfo();
+}
+function updateSelBar() {
+  const b = $('#selbar');
+  if (S.sel && S.sel.kind === 'set') { b.hidden = false; $('#seltext').textContent = 'Showing ' + S.sel.ids.size + ': ' + S.sel.title; }
+  else b.hidden = true;
+}
+function markRows(rowEl) { document.querySelectorAll('.row.on').forEach((r) => r.classList.remove('on')); if (rowEl) rowEl.classList.add('on'); }
+function updateSelBox() {
+  // no box for a cable: it is long and thin, and its own highlight reads better
+  if (!S.sel || S.sel.kind !== 'part' || S.sel.part?.tube) { selBox.visible = false; return; }
+  const box = selBox.box.makeEmpty();
+  for (const id of S.sel.ids) { const p = byId.get(id); if (p && p.obj.visible) box.union(tmpB.setFromObject(p.obj)); }
+  selBox.visible = !box.isEmpty();
+  if (selBox.visible) box.expandByScalar(0.0025);
+}
+
+/* ---------------------------------------------------------------- info card (title block) */
+const CLOSE = '<button class="xbtn" data-close="info" aria-label="Close part details">Close</button>';
+function catChip(cat, color) {
+  const c = man.categories[cat];
+  const col = okHex(color) ? color : c?.color;
+  const cls = cat === 'placeholder' ? ' ph' : cat === 'cable' ? ' cable' : cat === 'tie' ? ' ring' : '';
+  return '<span class="catchip"><i class="sw' + cls + '" style="' + (cat === 'tie' ? 'border-color:' : 'background:') + esc(col) + '"></i>' + esc(c?.label || cat) + '</span>';
+}
+function statusPill(rec) {
+  if (rec.replaced) return '<span class="status rep">Replaced</span>';
+  if (!rec.status) return '';
+  // blocker lists read "B6 open"; free text such as CHECK is shown as it is
+  return rec.status === 'OK' ? '<span class="status ok">OK</span>' : '<span class="status open">' + esc(rec.status) + (/^B\d/.test(rec.status) ? ' open' : '') + '</span>';
+}
+function bomRow(line) { return (man.checklist.bom || []).find((b) => b.line === line); }
+function bomRef(line) {
+  if (!line) return '<dd>No BOM line</dd>';
+  const b = bomRow(line);
+  return '<dd><span class="balloon">' + esc(line) + '</span> ' + esc(b ? b.item : '(not in BOM.md)') + '</dd>';
+}
+function tb(cells) {
+  const v = cells.filter(Boolean).map(([k, val, wide]) => ({ k, val: String(val), wide: !!wide }));
+  // half-width cells pair up left and right; one with no partner spans the row
+  for (let i = 0, col = 0; i < v.length; i++) {
+    if (v[i].wide) { col = 0; continue; }
+    if (col === 0 && (i === v.length - 1 || v[i + 1].wide)) { v[i].wide = true; continue; }
+    v[i].right = col === 1; col = col ? 0 : 1;
+  }
+  const last = v.length - 1, lastRow = new Set([last]);
+  if (last > 0 && v[last].right) lastRow.add(last - 1);
+  return '<dl class="tblock">' + v.map((c, i) => '<div class="' + [c.wide ? 'wide' : '', c.right ? 'r' : '', lastRow.has(i) ? 'lastrow' : ''].filter(Boolean).join(' ') + '"><dt>' + esc(c.k) + '</dt>' +
+    (c.val.startsWith('<dd') ? c.val : '<dd>' + c.val + '</dd>') + '</div>').join('') + '</dl>';
+}
+function blockersOf(r) {   // blockers as objects; plain ids are looked up in man.blockers
+  return (Array.isArray(r.blockers) ? r.blockers : []).map((b) => (typeof b === 'string'
+    ? { id: b, title: man.blockers?.[b]?.title || '', status: man.blockers?.[b]?.status || '', open: man.blockers?.[b]?.open !== false } : b)).filter((b) => b && b.id);
+}
+function blockerList(rows) {
+  if (!rows || !rows.length) return '';
+  return '<div class="ib-sec"><h4>Blockers (HARDWARE_AUDIT section 6)</h4><div class="blk">' + rows.map((r) =>
+    '<span class="bpill' + (r.open ? '' : ' clr') + '">' + esc(r.id) + '</span><span><span>' + esc(r.title) + '</span><br><span class="t">' + esc(r.status) + '</span></span>').join('') + '</div></div>';
+}
+function mountSec(rec) {
+  const m = rec.mounting;
+  let h = '';
+  if (m) {
+    h += '<p>' + esc(m.mounts_to) + (m.screw && m.screw !== 'none' ? '. Screws: ' + esc(m.screw) : '') + (m.orientation ? '. ' + esc(m.orientation) : '') + '.</p>';
+    if (m.status) h += '<p class="small">' + esc(m.status) + '</p>';
+  } else if (rec.mount) h += '<p>' + esc(rec.mount) + '</p>';
+  if (rec.where) h += '<p class="small">Position: ' + esc(rec.where) + '</p>';
+  return h ? '<div class="ib-sec"><h4>Mount and screws' + (m ? ' (MOUNTING.md)' : '') + '</h4>' + h + '</div>' : '';
+}
+function subLabel(s) { return man.subassemblies[s]?.label || s; }
+function nodeName(id) { if (!id) return '-'; const r = man.nodes[id]; return r ? (r.label || String(id)) : String(id); }
+function nodeBtn(id) {   // a part name that selects that part when it is in the model
+  if (!id) return '-';
+  return byId.has(id) ? '<button class="linkbtn" data-act="part" data-id="' + esc(id) + '">' + esc(nodeName(id)) + '</button>' : esc(nodeName(id));
+}
+function specName(r) {
+  const s = r.spec || {}, sz = s.size ? String(s.size) : '', len = s.length != null && s.length !== '' ? fmt(+s.length, 1) : '';
+  const nm = (sz && len ? sz + 'x' + len : sz || (len ? len + ' mm' : '')) + (s.head ? ' ' + s.head : '');
+  return nm.trim() || r.label || 'Screw';
+}
+function partActions(p, solo = 'Show only this') {
+  const s = p.sub;
+  return '<div class="ib-actions"><button class="btn" data-act="frame">Frame</button><button class="btn" data-act="solo" aria-pressed="' + (S.sel && S.sel.ghost ? 'true' : 'false') + '">' + esc(solo) + '</button>' +
+    (s && man.subassemblies[s] && S.iso !== 's:' + s ? '<button class="btn" data-act="iso" data-sub="' + esc(s) + '">Isolate ' + esc(subLabel(s)) + '</button>' : '') + '</div>';
+}
+
+/* ---------------------------------------------------------------- purchase: man.purchase[BOM line] */
+function safeUrl(u) {
+  const s = String(u ?? '').trim();
+  if (!/^https?:\/\//i.test(s)) return null;
+  try { const x = new URL(s); return x.protocol === 'http:' || x.protocol === 'https:' ? x.href : null; } catch (e) { return null; }
+}
+function supLink(name, link) {   // supplier as a real anchor when the link is a web address, else plain text
+  const url = safeUrl(link);
+  const label = String(name ?? '').trim() || (url ? new URL(url).hostname.replace(/^www\./, '') : '');
+  if (!label) return '';
+  return url ? '<a href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(label) + '</a>' : esc(label);
+}
+function money(v) {
+  if (v == null || v === '') return '';
+  const n = typeof v === 'number' ? v : parseFloat(String(v).replace(/[$,\s]/g, ''));
+  if (Number.isFinite(n)) return n > 0 ? '$' + n.toFixed(2) : '';   // 0 means bought on another line or made in the lab
+  return String(v);
+}
+function buyOf(line) {
+  if (!line) return null;
+  const P = man.purchase && man.purchase[line];
+  if (P) return P;
+  const fr = (Array.isArray(man.bom_full) ? man.bom_full : []).find((r) => r && r.line === line && (r.supplier || r.link));
+  if (fr) return { item: fr.item, spec: fr.spec, supplier: fr.supplier, link: fr.link, buy: fr.buy, pack: fr.pack, line_cost: fr.line_cost };
+  const b = bomRow(line);
+  return b ? { item: b.item, spec: b.spec, supplier: b.supplier, buy: b.buy, need: b.need, verified: b.verified } : null;
+}
+function buyBlock(line) {
+  const P = buyOf(line);
+  if (!P) return '';
+  const sup = supLink(P.supplier, P.link), cost = money(P.line_cost);
+  const has = (x) => x != null && String(x).trim() !== '';
+  const qty = [has(P.buy) ? 'buy ' + P.buy : '', has(P.pack) ? 'pack ' + P.pack : '', has(P.need) ? 'need ' + P.need : ''].filter(Boolean).join(' · ');
+  let h = '<div class="ib-sec buy"><h4><span>Buy, BOM line ' + esc(line) + '</span>' + (cost ? '<span class="cost">' + esc(cost) + '</span>' : '') + '</h4>';
+  h += '<p class="sup">' + (sup || 'No supplier listed') + '</p>';
+  if (P.item || qty) h += '<p>' + esc(P.item || '') + (P.item && qty ? ' · ' : '') + esc(qty) + '</p>';
+  if (has(P.verified)) h += '<p class="small">' + esc(P.verified) + '</p>';
+  if (has(P.ships)) h += '<p class="small">Ships: ' + esc(P.ships) + '</p>';
+  return h + '</div>';
+}
+
+/* ---------------------------------------------------------------- Every part rows (man.bom_full) */
+const FULL = { items: [], secs: [], byNode: new Map(), need: false, empty: null, count: null };
+const stKey = (s) => String(s ?? '').trim().toUpperCase();
+const NEED = new Set(['SHORT', 'MISSING', 'CHECK']);
+function stClass(s) {
+  const u = stKey(s);
+  return u === 'SHORT' || u === 'MISSING' ? 'bad' : u === 'CHECK' ? 'warn' : u === 'TOOL' ? 'tool' : ['BOUGHT', 'IN KIT', 'PRINTED', 'MADE'].includes(u) ? 'good' : 'none';
+}
+function stPill(s) { return '<span class="st ' + stClass(s) + '">' + esc(String(s ?? '').trim() || 'no status') + '</span>'; }
+function qtyTxt(r) {
+  const q = r.qty == null || r.qty === '' ? '' : typeof r.qty === 'number' ? fmt(r.qty, 2) : String(r.qty);
+  return (q + (r.unit ? ' ' + r.unit : '')).trim() || '-';
+}
+function rowBuy(r) {   // the row's own supplier and link, else the purchase entry for its BOM line
+  const own = { supplier: r.supplier, link: r.link, line_cost: r.line_cost };
+  const P = (!safeUrl(r.link) && r.line && man.purchase && man.purchase[r.line]) || null;
+  return P ? { supplier: r.supplier || P.supplier, link: P.link, line_cost: r.line_cost ?? P.line_cost } : own;
+}
+function fullLinks(id) {
+  const rows = (FULL.byNode.get(id) || []).slice(0, 4);
+  if (!rows.length) return '';
+  return '<div class="ib-sec"><h4>In Every part</h4><div class="rowlinks">' + rows.map((r) => '<button data-act="row" data-row="' + esc(r.id) + '">' + stPill(r.status) + '<span>' + esc(r.item || r.id) + '</span></button>').join('') + '</div></div>';
+}
+function renderFull(r, ids) {
+  const B = rowBuy(r), sup = supLink(B.supplier, B.link), cost = money(B.line_cost);
+  const has = (x) => x != null && String(x).trim() !== '';
+  let h = '<div class="ib"><div class="ib-top"><span class="catchip">Every part' + (r.id ? ' · ' + esc(r.id) : '') + '</span>' + stPill(r.status) + CLOSE + '</div>';
+  h += '<h3>' + esc(r.item || '(no item name)') + '</h3><div class="sub">' + esc([r.section, r.source].filter(has).join(' · ')) + '</div>';
+  h += tb([['Spec', esc(r.spec || '-'), true],
+    ['Qty', '<span class="num">' + esc(qtyTxt(r)) + '</span>' + (+r.spare ? ' + ' + esc(fmt(+r.spare, 2)) + ' spare' : '')], ['Buy', esc([has(r.buy) ? r.buy : '', has(r.pack) ? 'pack ' + r.pack : ''].filter(Boolean).join(' · ') || '-')],
+    ['Where', esc(r.where || '-'), true], ['BOM line', r.line ? bomRef(r.line) : '<dd>None</dd>', true],
+    ['Supplier', sup || '-', true], ['Line cost', cost ? '<span class="num">' + esc(cost) + '</span>' : '-'], ['Status', stPill(r.status)]]);
+  if (r.note) h += '<div class="ib-sec"><h4>Note</h4><p>' + esc(r.note) + '</p></div>';
+  const P = r.line && man.purchase ? man.purchase[r.line] : null;
+  if (P && has(P.verified)) h += '<div class="ib-sec"><h4>Verified</h4><p class="small">' + esc(P.verified) + '</p></div>';
+  h += ids.length ? '<div class="ib-sec"><p class="small">' + ids.length + ' part' + (ids.length === 1 ? '' : 's') + ' in the 3D view; the rest are ghosted.</p></div><div class="ib-actions"><button class="btn" data-act="frame">Frame</button></div>'
+    : '<div class="ib-sec"><p class="small">Not modelled in the 3D view.</p></div>';
+  return h + '</div>';
+}
+
+/* ---------------------------------------------------------------- screws, cables, ties */
+function renderScrew(p) {
+  const r = p.rec, s = r.spec || {}, j = Array.isArray(r.joins) ? r.joins : [];
+  const has = (x) => x != null && x !== '' && Number.isFinite(+x);
+  const head = [s.head, has(s.head_d) ? 'D ' + fmt(+s.head_d, 1) : '', has(s.head_h) ? 'H ' + fmt(+s.head_h, 1) : ''].filter(Boolean).join(', ');
+  let h = '<div class="ib"><div class="ib-top">' + catChip('screw', r.color) + statusPill(r) + CLOSE + '</div>';
+  h += '<h3>' + esc(r.label || specName(r)) + '</h3><div class="sub">' + esc(subLabel(r.sub) + (r.link ? ' · ' + r.link : '')) + '</div>';
+  h += tb([['Spec', esc(specName(r))], ['Length', has(s.length) ? '<span class="num">' + fmt(+s.length, 1) + ' mm</span>' : '-'],
+    ['Head', esc(head || '-')], ['Engagement', has(r.engagement_mm) ? '<span class="num">' + fmt(+r.engagement_mm, 1) + ' mm</span>' : '-'],
+    ['Under the head', nodeBtn(j[0]), true], ['Anchor part', nodeBtn(j[1]), true], ['Anchor', esc(r.anchor || '-'), true], ['BOM', bomRef(r.bom), true]]);
+  h += buyBlock(r.bom);
+  if (r.mount) h += '<div class="ib-sec"><h4>Mount</h4><p>' + esc(r.mount) + '</p></div>';
+  h += blockerList(blockersOf(r)) + fullLinks(p.id) + partActions(p, j.some((id) => byId.has(id)) ? 'Show only this joint' : 'Show only this') + '</div>';
+  return h;
+}
+function checkPill(ck) {
+  const k = String(ck ?? '').trim().toLowerCase();
+  // "test fit": the cable reaches but has less than the 2 x 20 mm slack; the TEST_PLAN 1.4 test fit decides (VERIFICATION C3 WARN)
+  return k === 'pass' ? '<span class="status ok">Length pass</span>' : k === 'test fit' ? '<span class="status open">Test fit</span>' : k === 'fail' ? '<span class="status rep">Length fail</span>' : '<span class="status none">Not checked</span>';
+}
+function cableCounts(pass, fit, fail, rest) {   // "59 pass, 3 test fit": zero counts other than pass are left out
+  return [pass + ' pass', fit ? fit + ' test fit' : '', fail ? fail + ' fail' : '', rest ? rest + ' not checked' : ''].filter(Boolean);
+}
+const mmTxt = (v) => (v == null || v === '' || !Number.isFinite(+v) ? '-' : '<span class="num">' + fmt(+v, 0) + ' mm</span>');
+function seatLi(st) {
+  const k = String(st?.kind ?? '').trim().toLowerCase();
+  const kind = { hole: 'Hole', slot: 'Slot', channel: 'Channel', edge: 'Edge', tie_anchor: 'Tie anchor', none: 'No seat' }[k] || String(st?.kind || 'Seat');
+  const okn = (x) => x != null && x !== '' && Number.isFinite(+x);
+  const sz = Array.isArray(st?.size_mm) ? st.size_mm.filter(okn).map((x) => fmt(+x, 1)).join(' x ') : okn(st?.size_mm) ? fmt(+st.size_mm, 1) : '';
+  return '<li' + (k === 'none' ? ' class="none"' : '') + '><b>' + esc(kind) + '</b>' + (st?.part ? ': ' + esc(nodeName(st.part)) : '') + (sz ? ', <span class="num">' + esc(sz) + ' mm</span>' : '') +
+    (st?.note ? '<br><span class="small">' + esc(st.note) + '</span>' : '') + '</li>';
+}
+function tieColor(t) { return t.tie.gap ? GAP_COLOR : okHex(t.rec.color) ? t.rec.color : tieKind(t.kind).color; }
+function tieBtn(t) {
+  return '<button data-act="part" data-id="' + esc(t.id) + '"><i class="sw ring" style="border-color:' + esc(tieColor(t)) + '"></i><span class="t">' + esc(t.rec.label || tieKind(t.kind).label) +
+    '<small>' + esc(tieKind(t.kind).label + (t.follow ? ' · on ' + nodeName(t.follow) : '')) + '</small></span>' + (t.tie.gap ? '<span class="st warn">gap</span>' : '<span></span>') + '</button>';
+}
+function renderCable(p) {
+  const c = p.cable, r = p.rec;
+  const okn = (x) => x != null && x !== '' && Number.isFinite(+x);
+  const spare = okn(c.cut_mm) && okn(c.worst_mm) ? +c.cut_mm - +c.worst_mm : null;
+  let h = '<div class="ib"><div class="ib-top">' + catChip('cable', c.color) + checkPill(c.check) + CLOSE + '</div>';
+  h += '<h3>' + esc(r.label || 'Cable ' + (c.id ?? '')) + '</h3><div class="sub">' + esc('Cable ' + (c.id ?? '') + ' · ' + p.subs.map(subLabel).join(', ')) + '</div>';
+  h += tb([['From', esc(c.from || '-'), true], ['To', esc(c.to || '-'), true],
+    ['Gauge', esc(c.gauge || '-')], ['Wires', okn(c.wires) ? '<span class="num">' + esc(c.wires) + '</span>' : esc(c.wires || '-')],
+    ['Cut length', mmTxt(c.cut_mm)], ['Routed length', mmTxt(c.routed_mm)],
+    ['Worst-case length', mmTxt(c.worst_mm)], ['Spare at worst case', spare == null ? '-' : '<span class="num' + (spare < 0 ? ' warn-t' : '') + '">' + fmt(spare, 0) + ' mm</span>'],
+    ['Check', esc(String(c.check ?? '').trim() || 'not run')], ['Tube D', okn(c.d_mm) ? '<span class="num">' + fmt(+c.d_mm, 1) + ' mm</span>' : '-'],
+    ['BOM', bomRef(r.bom), true]]);
+  h += buyBlock(r.bom);
+  if (c.note) h += '<div class="ib-sec"><h4>Note</h4><p>' + esc(c.note) + '</p></div>';
+  const ties = p.ties || [];
+  if (ties.length) {
+    const gaps = ties.filter((t) => t.tie.gap).length;
+    h += '<div class="ib-sec"><h4>Ties and guides on this cable: ' + ties.length + (gaps ? ', ' + gaps + ' with no CAD feature' : '') + '</h4><div class="picklist">' + ties.map(tieBtn).join('') + '</div></div>';
+  }
+  const seats = Array.isArray(c.seats) ? c.seats : [];
+  if (seats.length) h += '<div class="ib-sec"><h4>Seats along the route, in order (' + seats.length + ')</h4><ol class="seats">' + seats.map(seatLi).join('') + '</ol></div>';
+  h += blockerList(blockersOf(r)) + fullLinks(p.id) + partActions(p, ties.length ? 'Show only this cable' : 'Show only this') + '</div>';
+  return h;
+}
+function renderTie(p) {
+  const t = p.tie, r = p.rec, K = tieKind(p.kind);
+  const holds = p.cables.map((c) => '<button class="linkbtn" data-act="part" data-id="' + esc(c.id) + '">' + esc(c.rec.label || c.id) + '</button>');
+  const missing = (Array.isArray(t.cables) ? t.cables : []).filter((ref) => !cableByRef.get(String(ref)) && !cableByRef.get('cable-' + ref)).map((m) => esc(m));
+  let h = '<div class="ib"><div class="ib-top">' + catChip('tie', tieColor(p)) + (t.gap ? '<span class="status open">Gap: no CAD feature</span>' : statusPill(r)) + CLOSE + '</div>';
+  h += '<h3>' + esc(r.label || K.label) + '</h3><div class="sub">' + esc(K.label + (p.sub ? ' · ' + subLabel(p.sub) : '')) + '</div>';
+  h += tb([['Kind', esc(K.label)], ['Fixing in the CAD', t.gap ? '<span class="warn-t">None (gap)</span>' : 'Yes'],
+    ['Rides with', t.follow ? nodeBtn(t.follow) : esc((p.sub ? subLabel(p.sub) : 'its') + ' (subassembly)'), true], ['Holds', [...holds, ...missing].join('<br>') || '-', true], ['BOM', bomRef(r.bom), true]]);
+  h += buyBlock(r.bom);
+  if (t.note) h += '<div class="ib-sec"><h4>Note</h4><p>' + esc(t.note) + '</p></div>';
+  h += blockerList(blockersOf(r)) + fullLinks(p.id) + partActions(p, p.cables.length ? 'Show only this and its cable' : 'Show only this') + '</div>';
+  return h;
+}
+function screwGroups() {
+  const m = new Map();
+  for (const p of parts) if (p.cat === 'screw') {
+    const k = specName(p.rec); let g = m.get(k);
+    if (!g) m.set(k, (g = { k, ids: [], color: p.rec.color, line: p.rec.bom }));
+    g.ids.push(p.id);
+  }
+  return [...m.values()].sort((a, b) => b.ids.length - a.ids.length || a.k.localeCompare(b.k));
+}
+function renderScrewSummary() {
+  const gs = screwGroups(), n = gs.reduce((a, g) => a + g.ids.length, 0);
+  let h = '<div class="ib"><div class="ib-top">' + catChip('screw') + CLOSE + '</div><h3>' + n + ' screw' + (n === 1 ? '' : 's') + ' in the model</h3><div class="sub">' + gs.length + ' size' + (gs.length === 1 ? '' : 's') + '. Pick a size to show only those.</div>';
+  h += '<div class="picklist">' + gs.map((g) => '<button data-act="spec" data-k="' + esc(g.k) + '" aria-pressed="false"><i class="sw dot" style="background:' + esc(okHex(g.color) ? g.color : man.categories.screw?.color) + '"></i><span class="t">' + esc(g.k) +
+    (g.line ? '<small>BOM ' + esc(g.line) + (bomRow(g.line) ? ' · ' + esc(bomRow(g.line).item) : '') + '</small>' : '') + '</span><span class="num">' + g.ids.length + '</span></button>').join('') + '</div>';
+  return h + '<div class="ib-actions"><button class="btn" data-act="frame">Frame</button></div></div>';
+}
+function renderCableSummary() {
+  const ck = (p) => String(p.cable.check ?? '').trim().toLowerCase(), rank = (p) => (ck(p) === 'fail' ? 0 : ck(p) === 'test fit' ? 1 : ck(p) === 'pass' ? 3 : 2);
+  const list = [...cableParts].sort((a, b) => rank(a) - rank(b)), n = list.length;
+  const pass = list.filter((p) => ck(p) === 'pass').length, fit = list.filter((p) => ck(p) === 'test fit').length, fail = list.filter((p) => ck(p) === 'fail').length;
+  let h = '<div class="ib"><div class="ib-top">' + catChip('cable') + CLOSE + '</div><h3>' + n + ' cable' + (n === 1 ? '' : 's') + ' in the model</h3><div class="sub">' + cableCounts(pass, fit, fail, n - pass - fit - fail).join(', ') + '. Pick one for its route and lengths.</div>';
+  h += '<div class="picklist">' + list.map((p) => '<button data-act="part" data-id="' + esc(p.id) + '"><i class="sw cable" style="background:' + esc(okHex(p.cable.color) ? p.cable.color : man.categories.cable?.color) + '"></i><span class="t">' + esc(p.rec.label || p.id) +
+    '<small>' + esc([p.cable.from, p.cable.to].filter(Boolean).join(' to ')) + '</small></span>' + checkPill(p.cable.check) + '</button>').join('') + '</div>';
+  return h + '<div class="ib-actions"><button class="btn" data-act="frame">Frame</button></div></div>';
+}
+function renderTieSummary(list, title) {
+  const kinds = new Map();
+  for (const t of list) { const k = tieKind(t.kind).label; kinds.set(k, (kinds.get(k) || 0) + 1); }
+  let h = '<div class="ib"><div class="ib-top">' + catChip('tie') + CLOSE + '</div><h3>' + esc(title) + '</h3><div class="sub">' + esc([...kinds].map(([k, n]) => n + ' x ' + k.toLowerCase()).join(', ')) + '</div>';
+  h += '<div class="picklist">' + list.map(tieBtn).join('') + '</div>';
+  return h + '<div class="ib-actions"><button class="btn" data-act="frame">Frame</button></div></div>';
+}
+const KNOWN_CATS = new Set(['pla', 'tpu', 'servo', 'horn', 'electronics', 'battery', 'bearing', 'insert', 'placeholder', 'other']);
+function renderSmall(p) {   // connectors and small parts, and any category added later
+  const r = p.rec, has = (x) => x != null && String(x).trim() !== '';
+  const rid = r.bom_full_row;
+  const it = has(rid) ? FULL.items.find((x) => String(x.r.id) === String(rid)) || (Number.isInteger(rid) ? FULL.items[rid] : null) : null;
+  let h = '<div class="ib"><div class="ib-top">' + catChip(p.cat, r.color) + statusPill(r) + CLOSE + '</div>';
+  h += '<h3>' + esc(r.label || p.id) + '</h3><div class="sub">' + esc([r.kind, subLabel(p.sub), r.link].filter(has).join(' · ')) + '</div>';
+  h += tb([['Kind', esc(r.kind || man.categories[p.cat]?.label || p.cat)], has(r.qty) ? ['Qty', '<span class="num">' + esc(r.qty) + '</span>'] : null,
+    ['BOM', bomRef(r.bom), true],
+    it ? ['Every part', '<button class="linkbtn" data-act="row" data-row="' + esc(it.r.id) + '">' + esc(it.r.item || it.r.id) + '</button>', true] : has(rid) ? ['Every part', esc(rid), true] : null,
+    has(r.file) ? ['File', esc(r.file), true] : null]);
+  h += buyBlock(r.bom) + mountSec(r);
+  if (has(r.note)) h += '<div class="ib-sec"><h4>Note</h4><p>' + esc(r.note) + '</p></div>';
+  h += blockerList(blockersOf(r)) + (it ? '' : fullLinks(p.id)) + partActions(p) + '</div>';
+  return h;
+}
+function renderPart(p) {
+  if (p.tube) return renderCable(p);
+  if (p.cat === 'tie') return renderTie(p);
+  if (p.cat === 'screw') return renderScrew(p);
+  if (!KNOWN_CATS.has(p.cat)) return renderSmall(p);
+  const r = p.rec, cat = p.cat;
+  const servo = r.group && cat === 'servo';
+  const title = servo ? 'STS3215 servo, ID ' + r.servo_id : r.label;
+  const sub = servo ? r.servo.replace(/_/g, ' ') + ' joint · ' + subLabel(r.sub) : subLabel(r.sub) + (r.link ? ' · ' + r.link : '');
+  let cells;
+  if (cat === 'pla' || cat === 'tpu') {
+    cells = [['Qty', '<span class="num">' + r.qty + '</span>'], ['Material', esc(r.material || '')],
+      ['Print each', esc(fmt(r.grams, 2)) + ' g · ' + esc(fmt(r.hours, 2)) + ' h'], ['M3 inserts', String(r.inserts || 0) + ' per part'],
+      ['BOM', bomRef(r.bom)], ['Orientation', esc(r.orientation || '-')], ['File', esc(r.file), true]];
+  } else if (cat === 'placeholder') {
+    cells = [['Qty', '<span class="num">' + r.qty + '</span>'], ['Box mm', esc((r.dims || []).map((d) => fmt(d, 1)).join(' x '))],
+      ['BOM', bomRef(r.bom), true], ['In CAD', 'No, placeholder box', true]];
+  } else if (cat === 'insert') {
+    cells = [['Qty', '<span class="num">' + r.qty + '</span> in the robot'], ['Size', 'M3 x 5.7, D 4.6'], ['BOM', bomRef(r.bom), true], ['Host part', esc(byId.get(r.host)?.rec.label || r.host), true]];
+  } else {
+    cells = [['Qty', '<span class="num">' + r.qty + '</span> in the model'], ['Material', esc(r.material || (cat === 'servo' ? 'Bought part' : 'Bought part'))],
+      ['BOM', bomRef(r.bom), true], ['File', esc(r.file), true]];
+    if (servo) cells.splice(1, 1, ['Servo ID', '<span class="num">' + r.servo_id + '</span>']);
+  }
+  let h = '<div class="ib"><div class="ib-top">' + catChip(cat, r.color) + statusPill(r) + CLOSE + '</div>';
+  h += '<h3>' + esc(title) + '</h3><div class="sub">' + esc(sub) + '</div>' + tb(cells) + buyBlock(r.bom);
+  if (r.replaced) h += '<div class="ib-sec"><p>' + esc(r.replaced) + '</p></div>';
+  if (r.dims_note) h += '<div class="ib-sec"><h4>Size</h4><p>' + esc(r.dims_note) + '</p></div>';
+  if (servo) h += '<div class="ib-sec"><p class="small">Selected: 3 case parts and 2 horns. The horns ship with the servo.</p></div>';
+  if (r.print_flags && r.print_flags !== 'ok') h += '<div class="ib-sec"><h4>Print check flag</h4><p>' + esc(r.print_flags) + '</p></div>';
+  h += mountSec(r) + blockerList(blockersOf(r)) + fullLinks(p.id) + partActions(p) + '</div>';
+  return h;
+}
+function renderPrinted(row) {
+  const st = row.ok ? '<span class="status ok">' + row.found + ' of ' + row.expected + ' found</span>' : '<span class="status rep">' + row.found + ' of ' + row.expected + ' found</span>';
+  let h = '<div class="ib"><div class="ib-top">' + catChip(row.material && row.material.includes('TPU') ? 'tpu' : 'pla') + st + '<button class="xbtn" data-close="info">Close</button></div>';
+  h += '<h3>' + esc(row.stl) + '</h3><div class="sub">' + esc(row.label) + ' · PRINT_CHECK.md</div>';
+  h += tb([['Expected', '<span class="num">' + row.expected + '</span>'], ['In model', '<span class="num">' + row.found + '</span>'],
+    ['Material', esc(row.material || '')], ['Each', esc(fmt(row.g_each, 2)) + ' g · ' + esc(fmt(row.h_each, 2)) + ' h'],
+    ['Total', esc(fmt(row.g_total, 2)) + ' g · ' + esc(fmt(row.h_total, 2)) + ' h', true]]);
+  if (row.flags && row.flags !== 'ok') h += '<div class="ib-sec"><h4>Print check flag</h4><p>' + esc(row.flags) + '</p></div>';
+  if (row.note) h += '<div class="ib-sec"><p>' + esc(row.note) + '</p></div>';
+  const p0 = byId.get(row.nodes[0]);
+  if (p0) h += buyBlock(p0.rec.bom) + mountSec(p0.rec) + blockerList(blockersOf(p0.rec));
+  h += '<div class="ib-actions"><button class="btn" data-act="frame">Frame</button></div></div>';
+  return h;
+}
+function renderBom(row) {
+  const st = row.ok === true ? '<span class="status ok">' + row.count + ' of ' + row.expected + ' shown</span>' : row.ok === false ? '<span class="status rep">' + row.count + ' of ' + row.expected + '</span>' : '<span class="status open" style="background:var(--panel-2);color:var(--muted)">Not modelled</span>';
+  let h = '<div class="ib"><div class="ib-top"><span class="balloon">' + esc(row.line) + '</span>' + st + '<button class="xbtn" data-close="info">Close</button></div>';
+  h += '<h3>' + esc(row.item) + '</h3><div class="sub">BOM.md · ' + esc(row.section) + '</div>';
+  h += tb([['Need', esc(row.need)], ['Buy', esc(row.buy)], ['Shown as', esc(row.show), true], ['Supplier', supLink(row.supplier, buyOf(row.line)?.link) || '-', true]]);
+  h += '<div class="ib-sec"><h4>Spec</h4><p>' + esc(row.spec) + '</p></div>';
+  if (row.note) h += '<div class="ib-sec"><p class="small">' + esc(row.note) + '</p></div>';
+  h += '<div class="ib-sec"><h4>Verified (BOM.md)</h4><p class="small">' + esc(row.verified) + '</p></div>';
+  if (row.blockers.length) h += blockerList(row.blockers.map((b) => ({ id: b, title: man.blockers[b]?.title || '', status: man.blockers[b]?.status || '', open: man.blockers[b]?.open })));
+  if (row.nodes.length) h += '<div class="ib-actions"><button class="btn" data-act="frame">Frame</button></div>';
+  return h + '</div>';
+}
+function showInfo(html) {
+  const box = $('#info');
+  box.innerHTML = html; box.classList.add('open'); box.scrollTop = 0;
+  if (isPhone()) { closeSheets('info'); }
+}
+function closeInfo() { $('#info').classList.remove('open'); }
+$('#info').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.close) { clearSel(); return; }
+  const act = b.dataset.act;
+  if (act === 'frame') frameSel();
+  if (act === 'solo' && S.sel) { S.sel.ghost = !S.sel.ghost; b.setAttribute('aria-pressed', String(S.sel.ghost)); refreshLook(); }
+  if (act === 'iso') setIso('s:' + b.dataset.sub);
+  if (act === 'part') { const q = byId.get(b.dataset.id); if (q) selectPart(q, { ghost: !!(S.sel && S.sel.ghost) }); }
+  if (act === 'row') openRowById(b.dataset.row);
+  if (act === 'spec' && S.sel) {
+    const g = screwGroups().find((x) => x.k === b.dataset.k), on = b.getAttribute('aria-pressed') === 'true';
+    $('#info').querySelectorAll('[data-act="spec"]').forEach((x) => x.setAttribute('aria-pressed', 'false'));
+    if (g && !on) { b.setAttribute('aria-pressed', 'true'); S.sel = { ...S.sel, ids: new Set(g.ids), title: g.k + ' screws' }; }
+    else S.sel = { ...S.sel, ids: new Set(parts.filter((q) => q.cat === 'screw').map((q) => q.id)), title: 'Screws' };
+    updateSelBar(); refreshLook();
+  }
+});
+
+/* ---------------------------------------------------------------- camera */
+const DEF_DIR = new THREE.Vector3(0.77, -0.539, 0.342);  // URDF frame: front right, above
+function worldBox(predicate) {
+  const s = stages(S.explode), lb = new THREE.Box3();
+  for (const p of parts) if (predicate(p)) lb.union(partBox(p, s, tmpB));
+  if (predicate === shown && trayGroup && trayGroup.visible && S.trayBox) lb.union(tmpB.copy(S.trayBox).translate(trayGroup.position));
+  if (lb.isEmpty()) return lb;
+  const out = new THREE.Box3(), c = new THREE.Vector3();
+  for (let i = 0; i < 8; i++) { c.set(i & 1 ? lb.max.x : lb.min.x, i & 2 ? lb.max.y : lb.min.y, i & 4 ? lb.max.z : lb.min.z); out.expandByPoint(c.applyMatrix4(root.matrixWorld)); }
+  return out;
+}
+function fitPose(box, dir, minR = 0) {
+  const center = box.getCenter(new THREE.Vector3());
+  if (minR) { const r = box.getSize(new THREE.Vector3()).length() / 2; if (r < minR) box = box.clone().expandByScalar(minR - r); }
+  const f = dir.clone().normalize(), up0 = new THREE.Vector3(0, 1, 0);
+  const right = new THREE.Vector3().crossVectors(up0, f); if (right.lengthSq() < 1e-8) right.set(1, 0, 0); right.normalize();
+  const up = new THREE.Vector3().crossVectors(f, right);
+  const ov = overlayPx(), free = ov.W ? (ov.W - ov.l - ov.r) / ov.W : 1;
+  const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * 0.9, tanFull = tanV * camera.aspect, tanH = tanFull * free;
+  let d = 0; const c = new THREE.Vector3();
+  for (let i = 0; i < 8; i++) {
+    c.set(i & 1 ? box.max.x : box.min.x, i & 2 ? box.max.y : box.min.y, i & 4 ? box.max.z : box.min.z).sub(center);
+    const x = c.dot(right), y = c.dot(up), z = c.dot(f);
+    d = Math.max(d, z + Math.abs(x) / tanH, z + Math.abs(y) / tanV);
+  }
+  // leave room for the explode bar, and centre the model in the part of the sheet the cards leave free
+  const look = center.clone().addScaledVector(up, -0.035 * d * tanV).addScaledVector(right, -((ov.l - ov.r) / (ov.W || 1)) * d * tanFull);
+  return { look, pos: look.clone().addScaledVector(f, d) };
+}
+function overlayPx() {
+  const W = stage.clientWidth;
+  if (isPhone() || !W) return { l: 0, r: 0, W };
+  const dsp = $('#display'), inf = $('#info');
+  let l = dsp.classList.contains('collapsed') ? 0 : dsp.offsetWidth + 20;
+  let r = inf.classList.contains('open') ? inf.offsetWidth + 20 : 0;
+  l = Math.min(l, W * 0.3); r = Math.min(r, W * 0.3);
+  return { l, r, W };
+}
+function currentDir() { return camera.position.clone().sub(controls.target).normalize(); }
+function flyTo(pose, immediate) {
+  if (!pose) return;
+  if (immediate || reduceMotion) { camera.position.copy(pose.pos); controls.target.copy(pose.look); S.fly = null; controls.update(); S.dirty = true; return; }
+  S.fly = { pos: pose.pos, look: pose.look };
+}
+function resetView(immediate) {
+  S.sel = null; markRows(null); updateSelBar(); closeInfo();
+  setIso('all', true);
+  S.target = 0.35; $('#explode').value = '0.35';
+  if (immediate) { S.explode = 0.35; applyExplode(0.35); }
+  S.autoFit = true;
+  const dir = DEF_DIR.clone().applyQuaternion(root.quaternion);
+  S.fitDir = dir.clone();
+  const s0 = S.explode; S.explode = S.target; const pose = fitPose(worldBox(shown), dir); S.explode = s0;
+  flyTo(pose, immediate);
+  refreshLook();
+}
+function frameSel() {
+  if (!S.sel) return;
+  const box = worldBox((p) => S.sel.ids.has(p.id) && p.obj.visible);
+  if (box.isEmpty()) return;
+  S.autoFit = false;
+  flyTo(fitPose(box, currentDir(), 0.06));
+}
+
+/* ---------------------------------------------------------------- picking */
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+function pick(cx, cy) {
+  const r = renderer.domElement.getBoundingClientRect();
+  ndc.set(((cx - r.left) / r.width) * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ndc, camera);
+  S.pxWorld = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) / Math.max(1, r.height);   // world size of 1 px at distance 1, for thin cables and tiny ties
+  const objs = parts.filter((p) => p.obj.visible).map((p) => p.obj);
+  const hits = ray.intersectObjects(objs, false);
+  if (!hits.length) return null;
+  // while the rest is ghosted, the solid parts win: the selection and what it keeps (a cable's ties, a screw's joined parts)
+  if (S.sel && S.sel.ghost) { const h = hits.find((x) => { const id = x.object.userData.part.id; return S.sel.ids.has(id) || (S.sel.keep && S.sel.keep.has(id)); }); if (h) return h.object.userData.part; }
+  return hits[0].object.userData.part;
+}
+let down = null;
+renderer_events();
+function renderer_events() {
+  stage.addEventListener('pointerdown', (e) => { if (e.target.tagName === 'CANVAS') down = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+  stage.addEventListener('pointerup', (e) => {
+    if (!down || e.target.tagName !== 'CANVAS' || !man) { down = null; return; }
+    const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y), dt = performance.now() - down.t;
+    down = null;
+    if (moved > 6 || dt > 500) return;
+    const p = pick(e.clientX, e.clientY);
+    // clicking a part that the ghosted view keeps solid (a cable's tie, say) keeps the view ghosted
+    if (p) selectPart(p, { ghost: !!(S.sel && S.sel.ghost && (S.sel.ids.has(p.id) || (S.sel.keep && S.sel.keep.has(p.id)))) }); else if (S.sel) clearSel();
+  });
+  let pend = null;
+  stage.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse' || !man || e.buttons) { return; }
+    pend = e;
+  });
+  stage.addEventListener('pointerleave', () => { pend = null; setHover(null); });
+  S.hoverTick = () => {
+    if (!pend) return; const e = pend; pend = null;
+    if (e.target.tagName !== 'CANVAS') { setHover(null); return; }
+    const p = pick(e.clientX, e.clientY);
+    setHover(p, e);
+  };
+}
+function setHover(p, e) {
+  const tip = $('#tip');
+  const ids = p ? new Set(partIds(p)) : null;
+  const same = (!ids && !S.hover) || (ids && S.hover && ids.size === S.hover.size && [...ids].every((i) => S.hover.has(i)));
+  if (!same) { S.hover = ids; refreshLook(); }
+  renderer.domElement.style.cursor = p ? 'pointer' : '';
+  if (p && e) {
+    const r = stage.getBoundingClientRect();
+    tip.hidden = false;
+    tip.textContent = (p.rec.group && p.cat === 'servo' ? 'STS3215 servo ID ' + p.rec.servo_id : p.rec.label) + ' · ' + (man.categories[p.cat]?.label || p.cat);
+    const x = Math.min(e.clientX - r.left, r.width - tip.offsetWidth - 20), y = Math.min(e.clientY - r.top, r.height - 40);
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  } else tip.hidden = true;
+}
+
+/* ---------------------------------------------------------------- labels: hide overlapping ones */
+function cullLabels() {
+  const items = parts.filter((p) => p.labelEl && p.label.visible && p.labelOuter.style.display !== 'none');
+  items.sort((a, b) => (b.labelEl.classList.contains('sel') - a.labelEl.classList.contains('sel')) || ((a.sub === 'tray') - (b.sub === 'tray')));
+  const placed = [];
+  for (const p of items) {
+    p.labelEl.classList.remove('culled');
+    const r = p.labelEl.getBoundingClientRect();
+    if (placed.some((q) => r.left < q.right + 2 && r.right > q.left - 2 && r.top < q.bottom + 2 && r.bottom > q.top - 2)) p.labelEl.classList.add('culled');
+    else placed.push(r);
+  }
+}
+
+/* ---------------------------------------------------------------- loop */
+let last = performance.now();
+const lastCam = { p: new THREE.Vector3(Infinity, 0, 0), q: new THREE.Quaternion() };
+function camMoved() {   // a real camera move (1 micron or 1 microradian), not floating point drift
+  const moved = lastCam.p.distanceToSquared(camera.position) > 1e-12 || 8 * (1 - Math.abs(lastCam.q.dot(camera.quaternion))) > 1e-12;
+  if (moved) { lastCam.p.copy(camera.position); lastCam.q.copy(camera.quaternion); }
+  return moved;
+}
+function frame(now) {
+  requestAnimationFrame(frame);
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (S.hoverTick) S.hoverTick();
+  controls.update();
+  let changed = camMoved();
+  if (S.explode !== S.target) {
+    const k = reduceMotion ? 1 : 1 - Math.exp(-dt * 8);
+    S.explode += (S.target - S.explode) * k;
+    if (Math.abs(S.target - S.explode) < 0.0015) S.explode = S.target;
+    applyExplode(S.explode);
+    if (S.autoFit) flyTo(fitPose(worldBox(shown), S.fitDir || currentDir()), reduceMotion);
+    changed = true;
+  }
+  if (S.fly) {
+    const k = 1 - Math.exp(-dt * 7);
+    camera.position.lerp(S.fly.pos, k); controls.target.lerp(S.fly.look, k);
+    if (camera.position.distanceTo(S.fly.pos) < 1e-4 && controls.target.distanceTo(S.fly.look) < 1e-4) S.fly = null;
+    controls.update(); changed = true;
+  }
+  if (changed || S.dirty) {
+    updateSelBox();
+    renderer.render(scene, camera);
+    updatePartLabels();
+    labelRenderer.render(scene, camera);
+    cullLabels();
+    S.dirty = false;
+  }
+}
+function resize() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  if (!w || !h) return;
+  renderer.setSize(w, h, false);
+  labelRenderer.setSize(w, h);
+  camera.aspect = w / h; camera.updateProjectionMatrix();
+  S.dirty = true;
+}
+
+/* ---------------------------------------------------------------- UI: checklist, legend, controls */
+function setIso(v, quiet) {
+  S.iso = v; $('#iso').value = v;
+  applyVisibility();
+  if (!quiet) { S.autoFit = true; flyTo(fitPose(worldBox(shown), S.fitDir || currentDir())); }
+}
+function closeSheets(except) {
+  for (const id of ['checklist', 'display', 'info']) if (id !== except) $('#' + id).classList.remove('open');
+  if (except === 'checklist' || except === 'display') $('#' + except).classList.add('open');
+}
+function updateCounts() {
+  document.querySelectorAll('.lg').forEach((row) => {
+    const cat = row.dataset.cat; const on = S.catOn[cat] !== false;
+    row.classList.toggle('off', !on); row.querySelector('input').checked = on;
+  });
+  $('#tg-insert').checked = S.catOn.insert !== false;
+  $('#tg-ph').checked = S.catOn.placeholder !== false;
+}
+function setCat(cat, on) { S.catOn[cat] = on; applyVisibility(); }
+
+function buildUI() {
+  const C = man.checklist, sm = C.summary;
+  const okp = sm.printed.found === sm.printed.expected, oks = sm.servos.found === sm.servos.expected, oki = sm.inserts.found === sm.inserts.expected, okb = sm.bearings.found === sm.bearings.expected;
+  const mism = sm.printed_mismatches.length + sm.bom.mismatches.length;
+  const scr = sm.screws || (parts.some((p) => p.cat === 'screw') ? { found: parts.filter((p) => p.cat === 'screw').length, by_spec: Object.fromEntries(screwGroups().map((g) => [g.k, g.ids.length])) } : null);
+  const ckOf = (p) => String(p.cable.check ?? '').trim().toLowerCase();
+  const cab = sm.cables || (cableParts.length ? { found: cableParts.length, pass: cableParts.filter((p) => ckOf(p) === 'pass').length, test_fit: cableParts.filter((p) => ckOf(p) === 'test fit').length, fail: cableParts.filter((p) => ckOf(p) === 'fail').length } : null);
+  const cabFit = cab ? (cab.test_fit ?? cableParts.filter((p) => ckOf(p) === 'test fit').length) : 0;
+  const full = Array.isArray(man.bom_full) ? man.bom_full.filter((r) => r && typeof r === 'object') : [];
+  const needN = full.filter((r) => NEED.has(stKey(r.status))).length, gapN = tieParts.filter((t) => t.tie.gap).length;
+  $('#chips').innerHTML =
+    '<span class="chip ' + (okp ? 'ok' : 'bad') + '"><b>' + sm.printed.found + '/' + sm.printed.expected + '</b> printed</span>' +
+    '<span class="chip ' + (oks ? 'ok' : 'bad') + '"><b>' + sm.servos.found + '/' + sm.servos.expected + '</b> servos</span>' +
+    '<span class="chip ' + (oki ? 'ok' : 'bad') + '"><b>' + sm.inserts.found + '/' + sm.inserts.expected + '</b> inserts</span>' +
+    '<span class="chip ' + (mism ? 'bad' : 'ok') + '"><b>' + mism + '</b> mismatches</span>' +
+    (scr ? '<span class="chip"><b>' + scr.found + '</b> screws</span>' : '') +
+    (cab ? '<span class="chip ' + (cab.fail ? 'bad' : cabFit ? 'warn' : 'ok') + '"><b>' + cab.found + '</b> cables' + (cab.fail ? ', <b>' + cab.fail + '</b> fail' : '') + (cabFit ? ', <b>' + cabFit + '</b> test fit' : '') + '</span>' : '');
+  $('#gen').textContent = 'built ' + man.meta.generated;
+  const openB = sm.blockers_open;
+  $('#summary').innerHTML =
+    '<div class="tiles">' +
+    tile('Printed parts', sm.printed.found, sm.printed.expected, sm.printed.stl_files + ' STLs · ' + fmt(sm.printed.grams, 0) + ' g · ' + fmt(sm.printed.hours, 1) + ' h', okp, 'printed') +
+    tile('STS3215 servos', sm.servos.found, sm.servos.expected, '3 case parts + 2 horns each', oks, 'servo') +
+    tile('M3 inserts', sm.inserts.found, sm.inserts.expected, 'from the measured bores', oki, 'insert') +
+    tile('6804 bearings', sm.bearings.found, sm.bearings.expected, bearingWhere(), okb, 'bearing') +
+    (scr ? tile('Screws', scr.found, scr.expected ?? null, screwDetail(scr), scr.expected == null || scr.found === scr.expected, 'screw') : '') +
+    (cab ? tile('Cables', cab.found, cab.expected ?? null, cableDetail(Object.assign({}, cab, { test_fit: cabFit })), cab.fail ? false : cabFit ? 'warn' : true, 'cable') : '') +
+    '</div><div class="facts">' +
+    '<div><b>' + sm.placeholders.total + '</b> parts not in the CAD: <b>' + sm.placeholders.placed + '</b> placed, <b>' + sm.placeholders.tray + '</b> in the tray</div>' +
+    '<div><b>' + sm.bom.lines + '</b> BOM lines: ' + sm.bom.cad + ' in CAD, ' + sm.bom.placeholder + ' as boxes, ' + sm.bom.filament + ' as printed parts, ' + sm.bom.not_modelled + ' not modelled</div>' +
+    (full.length ? '<div><b>' + full.length + '</b> rows in Every part: ' + (needN ? '<button class="linkbtn" data-need>' + needN + ' need action</button> (SHORT, MISSING or CHECK)' : 'none need action') + '</div>' : '') +
+    (tieParts.length ? '<div><b>' + tieParts.length + '</b> <button class="linkbtn" data-ties>ties and guides</button> on the cables' + (gapN ? ', <button class="linkbtn" data-gaps>' + gapN + ' with no CAD feature</button>' : '') + '</div>' : '') +
+    '<div><b>' + (mism ? mism : 'No') + '</b> count mismatch' + (mism === 1 ? '' : 'es') + ' between the docs and the model</div>' +
+    '<div>Open blockers: <b>' + openB.length + '</b> of ' + sm.blockers_total + '<div class="bl-list">' + openB.map((b) => '<button class="bpill" data-b="' + b + '" title="' + esc(man.blockers[b]?.title || '') + '">' + b + '</button>').join('') + '</div></div>' +
+    '</div>';
+  $('#summary').addEventListener('click', (e) => {
+    const t = e.target.closest('[data-tile]');
+    if (t) {
+      const k = t.dataset.tile;
+      const ids = parts.filter((p) => (k === 'printed' ? (p.cat === 'pla' || p.cat === 'tpu') : k === 'servo' ? (p.rec.group && p.cat === 'servo') : p.cat === k)).map((p) => p.id);
+      if (k === 'screw') { selectSet(ids, renderScrewSummary(), 'Screws', t); return; }
+      if (k === 'cable') { selectSet(ids, renderCableSummary(), 'Cables', t, tieParts.map((q) => q.id)); return; }
+      selectSet(ids, '<div class="ib"><div class="ib-top"><span class="catchip">' + esc(t.querySelector('.k').textContent) + '</span><button class="xbtn" data-close="info">Close</button></div><h3>' + esc(t.querySelector('.v').textContent) + ' found</h3><div class="sub">' + esc(t.querySelector('.d').textContent) + '</div><div class="ib-actions"><button class="btn" data-act="frame">Frame</button></div></div>', t.querySelector('.k').textContent, t);
+      return;
+    }
+    if (e.target.closest('[data-need]')) {
+      setTab('t-full'); $('#fq').value = ''; setNeed(true);
+      const sc = $('#clscroll'); sc.scrollTop += $('#checklist .tabhead').getBoundingClientRect().top - sc.getBoundingClientRect().top;
+      return;
+    }
+    const tg = e.target.closest('[data-ties], [data-gaps]');
+    if (tg) {
+      const list = tg.hasAttribute('data-gaps') ? tieParts.filter((q) => q.tie.gap) : tieParts;
+      const title = tg.hasAttribute('data-gaps') ? list.length + ' with no CAD feature to fix to' : list.length + ' ties and guides';
+      selectSet(list.map((q) => q.id), renderTieSummary(list, title), tg.hasAttribute('data-gaps') ? 'Ties with no CAD feature' : 'Ties and guides', null, list.flatMap((q) => q.cables.map((c) => c.id)));
+      return;
+    }
+    const b = e.target.closest('[data-b]');
+    if (b) {
+      const id = b.dataset.b, B = man.blockers[id];
+      const ids = parts.filter((p) => blockersOf(p.rec).some((r) => r.id === id)).map((p) => p.id);
+      const info = '<div class="ib"><div class="ib-top"><span class="bpill">' + esc(id) + '</span><button class="xbtn" data-close="info">Close</button></div><h3>' + esc(B.title) + '</h3><div class="sub">' + esc(B.status) + '</div><div class="ib-sec"><p>' + esc(B.how) + '</p></div>' +
+        (ids.length ? '<div class="ib-sec"><p class="small">' + ids.length + ' modelled parts carry this blocker.</p></div><div class="ib-actions"><button class="btn" data-act="frame">Frame</button></div>' : '<div class="ib-sec"><p class="small">No modelled part carries this blocker.</p></div>') + '</div>';
+      if (ids.length) selectSet(ids, info, id + ' ' + B.title, null); else { S.sel = null; refreshLook(); showInfo(info); }
+    }
+  });
+
+  buildFull();
+  // printed STLs
+  const pp = $('#p-printed');
+  $('#n-printed').textContent = C.printed.length;
+  pp.append(el('div', 'sec-h', 'STL &middot; expected / in model'));
+  for (const r of C.printed) {
+    const b = el('button', 'row' + (r.ok ? '' : ' mis'));
+    b.innerHTML = '<span class="nm"><b>' + esc(r.stl) + '</b><span>' + esc(r.material || '') + ' &middot; ' + esc(fmt(r.g_each, 1)) + ' g, ' + esc(fmt(r.h_each, 2)) + ' h each' +
+      (r.flags && r.flags !== 'ok' ? ' &middot; <span class="flag">' + esc(r.flags) + '</span>' : '') + '</span></span>' +
+      '<span class="cnt ' + (r.ok ? 'ok' : 'bad') + '">' + r.expected + ' / ' + r.found + '</span><span class="mark ' + (r.ok ? 'ok' : 'bad') + '">' + (r.ok ? '✓' : '!') + '</span>';
+    b.addEventListener('click', () => { selectSet(r.nodes, renderPrinted(r), r.stl, b); if (isPhone()) closeSheets('info'); });
+    pp.append(b);
+  }
+  // BOM lines by section
+  const pb = $('#p-bom');
+  $('#n-bom').textContent = C.bom.length;
+  let sec = null;
+  for (const r of C.bom) {
+    if (r.section !== sec) { sec = r.section; pb.append(el('div', 'sec-h', esc(sec))); }
+    const b = el('button', 'row bomrow' + (r.ok === false ? ' mis' : ''));
+    const cnt = r.count == null ? '' : '<span class="cnt ' + (r.ok ? 'ok' : 'bad') + '">' + r.count + (r.expected != null ? '/' + fmt(r.expected, 1) : '') + '</span> ';
+    b.innerHTML = '<span class="balloon">' + esc(r.line) + '</span><span class="nm"><b>' + esc(r.item) + '</b><span>Need ' + esc(r.need) +
+      (r.blockers.length ? ' &middot; ' + r.blockers.map((x) => '<span class="' + (man.blockers[x]?.open ? 'flag' : '') + '">' + x + '</span>').join(' ') : '') + '</span></span>' +
+      '<span>' + cnt + '<span class="show ' + esc(r.kind === 'placeholder' ? 'placeholder' : r.kind) + '">' + esc(r.show.replace(/ \(\d+ servos\)/, '')) + '</span></span>';
+    b.addEventListener('click', () => {
+      if (r.nodes.length) selectSet(r.nodes, renderBom(r), 'BOM ' + r.line + ' ' + r.item, b);
+      else { S.sel = null; markRows(b); updateSelBar(); refreshLook(); showInfo(renderBom(r)); }
+      if (isPhone()) closeSheets('info');
+    });
+    pb.append(b);
+  }
+  // notes
+  const pn = $('#p-notes');
+  const notes = C.notes || [];
+  $('#n-notes').textContent = notes.length + C.extra.length;
+  if (notes.length) pn.append(el('div', 'sec-h', 'Found while building this view'));
+  for (const n of notes) {
+    const d = el('div', 'note' + (n.kind === 'check' ? ' check' : ''), esc(n.text));
+    if (n.nodes && n.nodes.length) {
+      const a = el('div', 'act'); const bt = el('button', 'linkbtn', 'Show in the model');
+      bt.addEventListener('click', () => { selectSet(n.nodes, '<div class="ib"><div class="ib-top"><span class="catchip">Note</span><button class="xbtn" data-close="info">Close</button></div><div class="ib-sec"><p>' + esc(n.text) + '</p></div><div class="ib-actions"><button class="btn" data-act="frame">Frame</button></div></div>', 'note', null); if (isPhone()) closeSheets('info'); });
+      a.append(bt); d.append(a);
+    }
+    pn.append(d);
+  }
+  pn.append(el('div', 'sec-h', 'Modelled, without their own BOM line'));
+  for (const x of C.extra) {
+    const d = el('div', 'note', esc(x.item) + ' <span class="num">(' + x.count + ')</span>');
+    const a = el('div', 'act'); const bt = el('button', 'linkbtn', 'Show in the model');
+    bt.addEventListener('click', () => { selectSet(x.nodes, '<div class="ib"><div class="ib-top"><span class="catchip">Modelled part</span><button class="xbtn" data-close="info">Close</button></div><div class="ib-sec"><p>' + esc(x.item) + '</p></div><div class="ib-actions"><button class="btn" data-act="frame">Frame</button></div></div>', x.item, null); if (isPhone()) closeSheets('info'); });
+    a.append(bt); d.append(a); pn.append(d);
+  }
+  const M = man.meta;
+  pn.append(el('div', 'meta', '<b>How this view was built.</b> ' + esc(M.script) + ' posed <code>' + esc(M.sources.urdf) + '</code> at zero joint angles and swapped every printed mesh for its <code>print/</code> STL. Inserts from <code>' + esc(M.sources.inserts) +
+    '</code>. Docs read on every run: ' + esc(M.sources.docs) + '. ' + esc(M.placements) + '. Model: ' + M.glb.nodes + ' nodes, ' + (M.glb.triangles_drawn / 1000).toFixed(0) + 'k triangles drawn, ' + (M.glb.bytes / 1e6).toFixed(2) + ' MB. Built ' + esc(M.generated) + '.' +
+    (M.unmapped.length ? ' Unmapped meshes: ' + esc(M.unmapped.join(', ')) + '.' : ' Every URDF mesh is mapped to a print STL or a bought part.')));
+
+  // tabs
+  for (const [t] of TABS) $('#' + t).addEventListener('click', () => setTab(t));
+  let t0 = 't-full';
+  try { t0 = localStorage.getItem('duck-tab2') || 't-full'; } catch (e) {}
+  setTab(t0);
+
+  // legend (category toggles)
+  const lg = $('#legend');
+  for (const [k, c] of Object.entries(man.categories)) {
+    if (!c.count && !parts.some((p) => p.cat === k)) continue;
+    const row = el('label', 'lg'); row.dataset.cat = k;
+    const cls = k === 'placeholder' ? ' ph' : k === 'cable' ? ' cable' : k === 'tie' ? ' ring' : '';
+    row.innerHTML = '<input type="checkbox" checked aria-label="Show ' + esc(c.label) + '"><i class="sw' + cls + '" style="' + (k === 'tie' ? 'border-color:' : 'background:') + esc(c.color) + '"></i><span>' + esc(c.label) + '</span><span class="c">' + c.count + '</span>';
+    row.querySelector('input').addEventListener('change', (e) => setCat(k, e.target.checked));
+    lg.append(row);
+  }
+  $('#tg-insert').addEventListener('change', (e) => setCat('insert', e.target.checked));
+  $('#tg-ph').addEventListener('change', (e) => setCat('placeholder', e.target.checked));
+  $('#tg-lab').addEventListener('change', (e) => { S.labels = e.target.checked; applyVisibility(); });
+  $('#tg-plab').addEventListener('change', (e) => { PL.on = e.target.checked; S.dirty = true; });
+  $('#tg-xray').addEventListener('change', (e) => { S.xray = e.target.checked; refreshLook(); });
+  // isolate menu
+  const iso = $('#iso');
+  for (const g of man.groups) {
+    if (!g.subs.length) continue;
+    const og = el('optgroup'); og.label = g.label;
+    if (g.subs.length > 1) { const o = el('option', null, esc('Whole ' + g.label.toLowerCase())); o.value = 'g:' + g.id; og.append(o); }
+    for (const s of g.subs) { const o = el('option', null, esc(man.subassemblies[s].label)); o.value = 's:' + s; og.append(o); }
+    iso.append(og);
+  }
+  iso.addEventListener('change', () => setIso(iso.value));
+  // collapse display card on desktop when the sheet is narrow
+  const dc = $('#dcollapse');
+  const setCollapsed = (c) => { $('#display').classList.toggle('collapsed', c); dc.textContent = c ? 'Show' : 'Hide'; dc.setAttribute('aria-expanded', String(!c)); };
+  dc.addEventListener('click', () => setCollapsed(!$('#display').classList.contains('collapsed')));
+  if (!isPhone() && stage.clientWidth < 760) setCollapsed(true);
+  // explode
+  const ex = $('#explode');
+  ex.addEventListener('input', () => { S.target = +ex.value; $('#explode-out').value = (+ex.value).toFixed(2); });
+  $('#reset').addEventListener('click', () => resetView(false));
+  $('#selclear').addEventListener('click', clearSel);
+  $('#open-checklist').addEventListener('click', () => closeSheets('checklist'));
+  $('#open-display').addEventListener('click', () => closeSheets('display'));
+  document.querySelectorAll('[data-close]').forEach((b) => b.addEventListener('click', () => {
+    const id = b.dataset.close; if (id === 'info') clearSel(); else $('#' + id).classList.remove('open');
+  }));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (S.sel) clearSel(); closeSheets(null); } });
+  updateCounts();
+}
+function bearingWhere() {
+  const c = {};
+  for (const p of parts) if (p.cat === 'bearing') { const l = subLabel(p.sub).toLowerCase(); c[l] = (c[l] || 0) + 1; }
+  return Object.entries(c).map(([k, n]) => n + ' ' + k).join(', ');
+}
+function tile(k, found, exp, d, ok, key) {   // ok: true (green bar), 'warn' (amber bar), false (red bar)
+  return '<button class="tile' + (ok === 'warn' ? ' warn' : ok ? '' : ' bad') + '" data-tile="' + key + '" title="Highlight them in the model"><div class="k">' + esc(k) + '</div><div class="v">' + found + (exp == null ? '' : ' <small>/ ' + exp + '</small>') + '</div><div class="d">' + esc(d) + '</div></button>';
+}
+function bySpecList(bs) {   // summary.screws.by_spec as [[name, count]]: accepts {name: n}, [[name, n]] or [{spec, count}]
+  if (!bs) return [];
+  if (Array.isArray(bs)) return bs.map((x) => (Array.isArray(x) ? [String(x[0]), +x[1] || 0] : [String(x?.spec ?? x?.name ?? x?.size ?? ''), +(x?.count ?? x?.n ?? x?.found) || 0])).filter((x) => x[0]);
+  return Object.entries(bs).map(([k, v]) => [k, v && typeof v === 'object' ? +(v.count ?? v.found ?? v.n) || 0 : +v || 0]);
+}
+function screwDetail(scr) {
+  const l = bySpecList(scr.by_spec).sort((a, b) => b[1] - a[1]);
+  if (!l.length) return 'tap for the sizes';
+  return l.length + (l.length === 1 ? ' size: ' : ' sizes, most ') + l[0][0] + ' (' + l[0][1] + ')';
+}
+function cableDetail(cab) {
+  const pass = +cab.pass || 0, fit = +cab.test_fit || 0, fail = +cab.fail || 0, rest = Math.max(0, (+cab.found || 0) - pass - fit - fail);
+  return cableCounts(pass, fit, fail, rest).join(' · ');
+}
+
+/* ---------------------------------------------------------------- Every part tab */
+function buildFull() {
+  const rows = (Array.isArray(man.bom_full) ? man.bom_full : []).filter((r) => r && typeof r === 'object');
+  const pane = $('#p-full');
+  $('#n-full').textContent = rows.length || '';
+  if (!rows.length) {
+    pane.append(el('div', 'empty', 'This data build has no full parts list yet. The BOM tab has the BOM.md lines.'));
+    $('#fneed').hidden = true; $('#fq').disabled = true;
+    return;
+  }
+  FULL.count = el('div', 'fcount'); pane.append(FULL.count);
+  const secs = new Map();
+  for (const r of rows) { const k = String(r.section || 'Other'); if (!secs.has(k)) secs.set(k, []); secs.get(k).push(r); }
+  const has = (x) => x != null && String(x).trim() !== '';
+  for (const [name, list] of secs) {
+    const h = el('div', 'sec-h', esc(name) + '<span class="n"></span>');
+    pane.append(h);
+    const sec = { h, n: h.querySelector('.n'), total: list.length, items: [] };
+    for (const r of list) {
+      const ids = (Array.isArray(r.nodes) ? r.nodes : []).filter((id) => byId.has(id));
+      for (const id of ids) { if (!FULL.byNode.has(id)) FULL.byNode.set(id, []); FULL.byNode.get(id).push(r); }
+      const wrap = el('div', 'row frow'), main = el('button', 'fmain');
+      const line = [r.spec, r.where].filter(has).map((x) => esc(x)).join(' · ');
+      main.innerHTML = '<span class="nm"><b>' + esc(r.item || '(no item name)') + '</b><span>' + line + (ids.length ? '' : (line ? ' · ' : '') + '<em class="nmod">not modelled</em>') + '</span></span>' +
+        '<span class="cnt">' + esc(qtyTxt(r)) + '</span>' + stPill(r.status);
+      wrap.append(main);
+      const B = rowBuy(r), sup = supLink(B.supplier, B.link), cost = money(B.line_cost);
+      if (sup) { main.classList.add('hasbuy'); wrap.append(el('div', 'fbuy', '<span>' + (r.line ? 'BOM ' + esc(r.line) + ' · ' : '') + sup + '</span>' + (cost ? '<span class="num">' + esc(cost) + '</span>' : ''))); }
+      main.addEventListener('click', () => openFullRow(r, wrap));
+      pane.append(wrap);
+      const it = { r, el: wrap, sec, need: NEED.has(stKey(r.status)), text: [r.id, r.section, r.item, r.spec, r.where, r.line, r.supplier, r.status, r.note, r.source, r.unit].filter(has).join(' ').toLowerCase() };
+      sec.items.push(it); FULL.items.push(it);
+    }
+    FULL.secs.push(sec);
+  }
+  FULL.empty = el('div', 'empty', 'No rows match. <button class="linkbtn" type="button">Clear the filter</button>');
+  FULL.empty.querySelector('button').addEventListener('click', () => { $('#fq').value = ''; setNeed(false); });
+  pane.append(FULL.empty);
+  $('#n-need').textContent = FULL.items.filter((x) => x.need).length;
+  $('#fq').addEventListener('input', applyFullFilter);
+  $('#fneed').addEventListener('click', () => setNeed($('#fneed').getAttribute('aria-pressed') !== 'true'));
+  applyFullFilter();
+}
+function setNeed(on) { FULL.need = !!on; $('#fneed').setAttribute('aria-pressed', String(FULL.need)); applyFullFilter(); }
+function applyFullFilter() {
+  if (!FULL.items.length) return;
+  const words = $('#fq').value.trim().toLowerCase().split(/\s+/).filter(Boolean), filt = words.length > 0 || FULL.need;
+  let n = 0;
+  for (const it of FULL.items) { const ok = (!FULL.need || it.need) && words.every((w) => it.text.includes(w)); it.el.hidden = !ok; if (ok) n++; }
+  for (const sc of FULL.secs) {
+    const k = sc.items.reduce((a, it) => a + (it.el.hidden ? 0 : 1), 0);
+    sc.h.hidden = k === 0; sc.n.textContent = filt ? k + ' of ' + sc.total : String(sc.total);
+  }
+  FULL.empty.hidden = n > 0;
+  FULL.count.textContent = filt ? n + ' of ' + FULL.items.length + ' rows' : FULL.items.length + ' rows, grouped by section';
+}
+function openFullRow(r, rowEl) {
+  const ids = (Array.isArray(r.nodes) ? r.nodes : []).filter((id) => byId.has(id));
+  const keep = ids.flatMap((id) => relatedIds(byId.get(id)));
+  if (ids.length) selectSet(ids, renderFull(r, ids), r.item || r.id, rowEl, keep);
+  else { S.sel = null; markRows(rowEl); updateSelBar(); refreshLook(); showInfo(renderFull(r, ids)); }
+  if (isPhone()) closeSheets('info');
+}
+function openRowById(id) {
+  const it = FULL.items.find((x) => x.r.id === id); if (!it) return;
+  setTab('t-full');
+  if (it.el.hidden) { $('#fq').value = ''; setNeed(false); }
+  openFullRow(it.r, it.el);
+  const sc = $('#clscroll');
+  sc.scrollTop += it.el.getBoundingClientRect().top - sc.getBoundingClientRect().top - sc.clientHeight / 3;
+}
+const TABS = [['t-full', 'p-full'], ['t-printed', 'p-printed'], ['t-bom', 'p-bom'], ['t-notes', 'p-notes']];
+function setTab(t) {
+  if (!TABS.some(([x]) => x === t)) t = 't-full';
+  for (const [t2, p2] of TABS) { $('#' + t2).setAttribute('aria-selected', String(t2 === t)); $('#' + p2).hidden = t2 !== t; }
+  $('#ftools').hidden = t !== 't-full';
+  try { localStorage.setItem('duck-tab2', t); } catch (e) {}
+}
+
+main().catch(fail);
+</script>
