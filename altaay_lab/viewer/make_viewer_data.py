@@ -206,7 +206,7 @@ BLOCKERS = {
     "servo": ["B2", "B6", "B10", "B17", "B21"], "horn_drive": ["B6"], "horn_idle": ["B6"],
     "battery_pack_lid": ["B3"], "left_roll_to_pitch": ["B4"], "right_roll_to_pitch": ["B4"],
     "left_antenna_holder": ["B5"], "right_antenna_holder": ["B5"], "sg90": ["B5", "B28"],
-    "head_board": ["B7"], "adapter": ["B7"], "speaker_interface": ["B8"], "speaker_stand": ["B8"],
+    "adapter": ["B7"], "speaker_interface": ["B8"], "speaker_stand": ["B8"],
     "flash_light_module": ["B8"], "flash_reflector_interface": ["B8"], "head": ["B9"],
     "bms_cad": ["B12"], "imu": ["B13", "B20"], "left_eye": ["B14"], "right_eye": ["B14"],
     "foot_top": ["B16"], "power_switch": ["B22"], "pi": ["B24"], "foot_bottom_tpu": ["B26"],
@@ -225,7 +225,6 @@ MOUNT = {
     "power_switch": "Held by the body_back cutout (23.4 x 7.4 x 16.8 mm CAD body).",
     "pi": "head.stl: 4 x M2.5x6 DIN 912 into 2.0 pilots, components side up.",
     "adapter": "trunk_top: 4 x M2.5x6 on 4 printed bosses 5 mm high, USB-C toward the neck opening.",
-    "head_board": "Same 4 holes as the Pi footprint. Not a second board: upstream lists one adapter (B7 cleared).",
     "imu": "trunk_top: 4 x M2.5x6 (M2.5x8 would bottom out with a 1.6 mm PCB). x forward, chip up. Hole spacing B13, axis signs B20.",
     "sg90": "2 tab screws per servo into head pilots 27.5 mm apart (SG90 bag), output shaft up (B5 cleared).",
     "antenna": "Optional PLA rod on the antenna holder: in the CAD but not in print/, export it from the URDF mesh (print/PRINT_PLAN.md).",
@@ -245,7 +244,7 @@ MOUNT = {
     "insert": "Heat-set with a Pinecil insert tip into a 4.0 mm bore. Depth 5.8 vs 6.7 mm check (B15).",
 }
 MOUNTING_MATCH = [
-    (r"^Raspberry Pi Zero", ["pi"]), (r"^Waveshare", ["adapter"]), (r"board\.stl copy", ["head_board"]),
+    (r"^Raspberry Pi Zero", ["pi"]), (r"^Waveshare", ["adapter"]),
     (r"^BNO055", ["imu"]), (r"^USB-C 2S charger", ["charger"]), (r"^(Control|Power) switch", ["power_switch"]),
     (r"^2S BMS", ["bms_tenergy", "bms_cad"]), (r"^2x18650 holder", ["holder"]), (r"^battery_pack_lid", ["battery_pack_lid"]),
     (r"^Speaker", ["speaker", "speaker_stand", "speaker_interface"]), (r"^Eyes", ["left_eye", "right_eye", "bulb", "led"]),
@@ -738,7 +737,7 @@ def web_geometry(m, target, angle_deg=32.0):
 
 def face_target(n, key):
     caps = {"servo_bottom": 5000, "servo_top": 3600, "servo_mid": 1000, "horn_drive": 900, "horn_idle": 900,
-            "pi": 7000, "adapter": 3000, "head_board": 3000, "cell": 1200}
+            "pi": 7000, "adapter": 3000, "cell": 1200}
     if key in caps:
         return min(n, caps[key])
     return n if n <= 5000 else int(min(16000, 5000 + 0.4 * (n - 5000)))
@@ -1392,7 +1391,7 @@ def main():
 
     # 10. geometry for the GLB (one per unique source mesh)
     geoms, gidx = [], {}
-    for key in sorted(src):
+    for key in sorted(k for k in src if k != "head_board"):   # head_board: board.stl copy in the head, not a part (B7)
         m = src[key]
         pos, idx = web_geometry(m, face_target(len(m.faces), key))
         gidx[key] = len(geoms)
@@ -1421,7 +1420,7 @@ def main():
     pd_ = printed_doc
     for i in inst:
         key = i["key"]
-        if key == "head_board":   # the board.stl copy in the head is not a part (B7): not drawn (V1 3D track)
+        if key == "head_board":   # B7: the board.stl copy in the head marks the Pi footprint, it is not a part: no node, mesh or label
             continue
         bkey = "servo" if key.startswith("servo_") else key
         st, rows = status_of([bkey])
@@ -1882,7 +1881,6 @@ def main():
                              blockers=sorted(set(bl), key=lambda s: int(s[1:])), nodes=ids + rel))
     extra_rows = []
     for key, why in (("antenna", "Antenna rod: optional PLA part, in the CAD but not in print/ (print/PRINT_PLAN.md); filament line 27"),
-                     ("head_board", "board.stl copy in the head: B7 says it marks the Pi footprint, not a second adapter"),
                      ("horn_drive", "Servo horns: ship with the servo (BOM line 1), 2 per servo")):
         ids = [k for k, r in man_nodes.items() if r["part"] == key or (key == "horn_drive" and r["part"] == "horn_idle")]
         if ids:
