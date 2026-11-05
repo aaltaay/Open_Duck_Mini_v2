@@ -1,6 +1,6 @@
 # BOM_FULL: every part in the robot
 
-Generated 2026-11-05 00:40 UTC by altaay_lab/viewer/make_viewer_data.py --write-bom (module viewer/bom_full.py). Do not edit by hand: change the sources (CAD, print/parts.csv, wiring/netlist.yaml, fasteners/fasteners.json, BOM.md) and re-run.
+Generated 2026-11-05 01:25 UTC by altaay_lab/viewer/make_viewer_data.py --write-bom (module viewer/bom_full.py). Do not edit by hand: change the sources (CAD, print/parts.csv, wiring/netlist.yaml, fasteners/fasteners.json, BOM.md) and re-run.
 
 One row per distinct item that goes into the robot or is used to build it. Qty is what the robot uses (measured in the CAD, the netlist or the fastener schedule). The Line column is the BOM.md purchase line that supplies it, so prices and links live in one place (BOM.md). The exploded 3D view shows every row that is modelled (tab "Every part").
 
@@ -15,9 +15,9 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | Fasteners | 22 | 419 | bought 13, in kit 9 |
 | Cables | 48 | 48 | bought 2, in kit 11, made 35 |
 | Connectors and wire | 17 | 69 | bought 16, in kit 1 |
-| Consumables and other | 11 | 130 | bought 11 |
+| Consumables and other | 12 | 130 | bought 12 |
 | Tools | 22 |  | tool 22 |
-| **All** | 199 | 799 | bought 82, in kit 23, printed 37, made 35, tool 22 |
+| **All** | 200 | 799 | bought 83, in kit 23, printed 37, made 35, tool 22 |
 
 ## Needs action (0)
 
@@ -167,7 +167,7 @@ None: every row is covered by a purchase line, a kit, the filament or the tool l
 | C12 | P15: 2813 A and B to the momentary button (D30; was the 2815 SW pad pair to the panel switch) | 2 wires, 26 AWG x2, cut 150 mm | 1 cable | battery_bay | 25, 26 | Amazon | made | pass: worst 58.1 mm vs cut 150 mm |
 | C13 | P10: splices VSW and G to the BEC input leads | 2 wires, 16 AWG x2, cut 150 mm | 1 cable | battery_bay, belly | L5, 26 | Amazon | made | pass: worst 58.0 mm vs cut 150 mm |
 | C14 | P11: both BEC output leads joined (JB+ JB-) to the belly power splices SPV and SPG | 6 wires, BEC lead x4, 16 AWG x2, cut 100 mm | 1 cable | belly | L1, L5, 26 | Castle Creations; also Horizon Hobby CSE010000401 and Motion RC | made | pass: worst 8.3 mm vs cut 100 mm |
-| C15 | SP1: power pair SPV and SPG to ID 20 BUS 2 (V and G) | 3 wires, 22 AWG x3, cut 30/130/160 mm | 1 cable | belly, trunk_bottom | 24, 21, 22, 26 | Amazon | made | pass: worst 86.6 mm vs cut 150 mm |
+| C15 | SP1: power pair SPV and SPG to ID 20 BUS 2 (V and G) | 3 wires, 22 AWG x3, cut 30/140/160 mm | 1 cable | belly, trunk_bottom | 24, 21, 22, 26 | Amazon | made | pass: worst 86.6 mm vs cut 150 mm |
 | C16 | SP2: power pair SPV and SPG to ID 10 BUS 2 (V and G) | 3 wires, 22 AWG x3, cut 30/130/150 mm | 1 cable | belly, trunk_bottom | 24, 21, 22, 26 | Amazon | made | pass: worst 84.6 mm vs cut 150 mm |
 | C17 | SP3: power pair SPV and SPG to ID 30 BUS 2 (V and G) | 3 wires, 22 AWG x3, cut 30/160/180 mm | 1 cable | belly, trunk_top | 24, 21, 22, 26 | Amazon | made | pass: worst 91.7 mm vs cut 180 mm |
 | C18 | SP4: power pair SPV and SPG to ID 24 BUS 1 (V and G), left leg | 2 wires, 22 AWG x2, cut 420 mm | 1 cable | belly, trunk_bottom, left_leg (crosses left_hip_pitch, left_hip_roll, left_hip_yaw, left_knee) | 24, 21, 22, 26 | Amazon | made | pass: worst 363.5 mm vs cut 400 mm |
@@ -186,7 +186,7 @@ None: every row is covered by a purchase line, a kit, the filament or the tool l
 | C31 | D9: right antenna SG90 lead to Pi pin 32 and splices J5 and JG | 3 wires, SG90 lead x3, cut 250 mm | 1 cable | head | 14, 26 | Amazon (Miuzei) | made | pass: worst 169.9 mm vs cut 250 mm |
 | C32 | D10: Pi and splices to MAX98357A | 5 wires, 26 AWG x5, cut 210/220 mm | 1 cable | head | 25, 26 | Amazon | made | pass: worst 149.0 mm vs cut 220 mm |
 | C33 | D11: MAX98357A to speaker | 2 wires, 26 AWG x2, cut 120 mm | 1 cable | head | 25, 26 | Amazon | made | pass: worst 73.0 mm vs cut 120 mm |
-| C34 | D12: Pi CSI to Camera Module 3 | 1 wire, FPC ribbon x1, cut 300 mm | 1 cable | head | E7 | Adafruit 3157 | bought | pass: worst 227.3 mm vs cut 300 mm |
+| C34 | D12: Pi CSI to Camera Module 3 | 1 wire, FPC ribbon x1, cut 300 mm | 1 cable | head | E7 | X-On Electronics | bought | pass: worst 227.3 mm vs cut 300 mm |
 | C35 | D13: Pi GPIO26 (pin 37) to the 2813 OFF input (D30; gpio-poweroff) | 1 wire, 26 AWG x1, cut 590 mm | 1 cable | head, neck, trunk_top, battery_bay (crosses neck_pitch, head_pitch, head_yaw, head_roll) | 25, 26 | Amazon | made | pass: worst 542.5 mm vs cut 590 mm |
 | C36 | SD1: adapter H3 data lead: DATA and GND only (V position empty), data Y at YD3 to ID 20 and ID 30, GND Y at YG3 into the SP1 and SP3 grounds | 6 wires, 22 AWG x6, cut 30/45/120/130/140/170 mm | 1 cable | trunk_top, trunk_bottom | 24, 21, 22, 26 | Amazon | made | pass: worst 26.0 mm vs cut 170 mm |
 | C37 | SD2: adapter H5 data lead: DATA and GND only, to ID 10 (DATA) and JG10 (GND) | 2 wires, 22 AWG x2, cut 140/150 mm | 1 cable | trunk_top, trunk_bottom | 24, 21, 22, 26 | Amazon | made | pass: worst 66.2 mm vs cut 150 mm |
@@ -214,7 +214,7 @@ None: every row is covered by a purchase line, a kit, the filament or the tool l
 | C54 | Wire 16 AWG red | silicone stranded; sum of netlist cut lengths | 0.68 m |  | L5 | Amazon | bought |  |
 | C55 | Wire 20 AWG black | silicone stranded; sum of netlist cut lengths | 0.99 m |  | 23 | Amazon | bought |  |
 | C56 | Wire 20 AWG red | silicone stranded; sum of netlist cut lengths | 0.9 m |  | 23 | Amazon | bought |  |
-| C57 | Wire 22 AWG black | silicone stranded; sum of netlist cut lengths | 1.83 m |  | 24 | Amazon | bought |  |
+| C57 | Wire 22 AWG black | silicone stranded; sum of netlist cut lengths | 1.84 m |  | 24 | Amazon | bought |  |
 | C58 | Wire 22 AWG red | silicone stranded; sum of netlist cut lengths | 1.36 m |  | 24 | Amazon | bought |  |
 | C59 | Wire 22 AWG yellow | silicone stranded; sum of netlist cut lengths | 0.48 m |  | 24 | Amazon | bought |  |
 | C60 | Wire 26 AWG black | silicone stranded; sum of netlist cut lengths | 3.65 m |  | 25 | Amazon | bought |  |
@@ -239,6 +239,7 @@ None: every row is covered by a purchase line, a kit, the filament or the tool l
 | K15 | Flux pen (optional, recommended for 16 AWG) | Chip Quik CQ4LF no-clean liquid flux pen, 10 mL, for leaded and lead-free solder, classification printed as "INM0", shelf life over 24 months (page) | 1 |  | 31 | Adafruit 3468 | bought |  |
 | K16 | Isopropyl alcohol | Techspray 1610-P, 99.8 % anhydrous isopropyl alcohol, no denaturant, ACS reagent grade, 1 pint bottle, flammable (flash point 53 C), shelf life 1825 days (page). Wipe each line 34 and 34b mount spot and each line 29 VHB tape spot with a clean cloth or paper towel wetted with it, then let it dry before the adhesive goes on; 3M's VHB surface preparation bulletin calls for a 50:50 isopropyl alcohol and water wipe on most surfaces and 3M also lists 70:30 (read via search index; 3m.com refuses curl), so a 70 % pharmacy rubbing alcohol also works | 1 bottle (55 mount spots of lines 34 and 34b plus the line 29 tape spots) |  | 35 | TestEquity (Moorpark, CA) | bought |  |
 | K17 | Polyimide (Kapton) tape | Adafruit 3057 polyimide tape, 10 mm wide, 33 m roll, stable from about -269 C to +400 C (page); thickness and dielectric strength not stated (UNVERIFIED). Wraps the Tenergy BMS, 34 x 16 x 4.5 mm (MOUNTING.md: "wrap in kapton tape before it goes in") | about 0.2 m (2 turns of 77 mm around the 34 x 4.5 mm section to cover the 16 mm width, calculated) |  | 33 | Adafruit 3057 | bought |  |
+| K18 | Camera cable, replaced (D34) | Pi Zero camera cable 150 mm, Adafruit 3157: 77 mm short of the flat strip route (B61) | 0 |  | E7r | Adafruit 3157 | bought |  |
 
 ## Tools
 
@@ -250,22 +251,22 @@ None: every row is covered by a purchase line, a kit, the filament or the tool l
 | K06 | Bench DC supply with current limit | TEST_PLAN.md section 0: first power always current limited | 1 |  | TE2 | Siglent Technologies America (North Plains, OR) | tool | TEST_PLAN.md sections 4, 5, 7, 8 |
 | K07 | Digital calipers | TEST_PLAN.md section 0 | 1 |  | TE3 | Penn Tool Co. (Maplewood, NJ) | tool | TEST_PLAN.md section 0 and the coupon checks |
 | K08 | Load for the regulator tests | TEST_PLAN.md section 4 and 5 input sweeps | 1 |  | TE4 | Siglent Technologies America (North Plains, OR) | tool | TEST_PLAN.md sections 4 and 5 |
-| K18 | Soldering iron | Pine64 Pinecil V2 (needs a USB-C PD 20 V 3.25 A supply: lines T6 and T6b) | 1 |  | T1 | Pine64 | tool |  |
-| K19 | Insert tips | Pinecil threaded insert tips set and adapter | 1 |  | T2 | Pine64 | tool |  |
-| K20 | Crimper | Engineer PA-09 (Mini-SPOX 5263 and JST XH per DigiKey chart) | 1 |  | T3 | Amazon | tool |  |
-| K21 | Hex keys | Bondhus 12192 hex L-keys 1.5 to 6 mm, 7 pc (2.0 mm for M2.5, 2.5 mm for M3 SHCS) | 1 |  | T4 | Crawford Tool | tool |  |
-| K22 | Wire stripper | Klein 11057, 22 to 32 AWG stranded | 1 |  | T5 | Home Depot | tool |  |
-| K23 | BEC programmer | Castle Link V4 011-0173-00 (needs Windows 10 PC) | 1 |  | L2 | Castle Creations | tool |  |
-| K24 | USB-C to USB-C cable, 5 A | Adafruit 4199, USB 3.1 Gen 4 with E-Mark, 1 m; Adafruit: it "includes an EMARK chip ... you can use this for high current (5A) charging". The 3.2 A short tip draw at 20 V is above 3 A, so the cable needs the 5 A e-marker | 1 |  | T6b | Adafruit 4199 | tool |  |
-| K25 | USB-A to USB-C cable | Amazon Basics USB-A to USB-C, USB 2.0, USB-IF certified, 3 ft, maximum current 3 A, 15 W at 5 V (page). An A to C cable carries the resistor that tells the board it may draw 5 V (Adafruit on its A to C cable: "The cable has built in resistors to force it to 5V power", https://www.adafruit.com/product/4474), so it works whether or not the Adeept board has USB-C CC pull-down resistors (its listing does not say) | 1 |  | T7b | Amazon (ships from and sold by Amazon.com) | tool |  |
-| K26 | microSD card reader (optional, often on hand) | Adafruit 5212 USB Type C microSD card reader/writer, mass storage, no driver (page); USB-C plug, so the PC needs a USB-C port | 1 |  | T8 | Adafruit 5212 | tool |  |
-| K27 | Wire stripper 12 to 20 AWG | Klein 11055, "Strips, cuts, loops 10-18 AWG solid and 12-20 AWG stranded wire" (page); covers the 16 AWG and 20 AWG runs that T5 (22 to 32 AWG) cannot | 1 |  | T9 | Home Depot | tool |  |
-| K28 | Heat gun | Wagner Furno 300, dual temperature, corded, 10 A, 20 cu ft/min, minimum temperature 750 F, 2 year limited warranty (page specs); for the adhesive lined 3:1 heat shrink (line 26); shrink each joint before it goes near printed PLA | 1 |  | T10 | Home Depot | tool |  |
-| K29 | Drill bit 6.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 70 mm flutes, Qualtech DWDMM6.00; opens the 24 neck chain screw recesses from 5.5 to 6.0 mm after printing and on coupon C4 (D20, print/PRINT_PLAN.md "After printing") | 1 |  | T11 | Drills and Cutters (Doral, FL) | tool |  |
-| K30 | Drill bit 2.7 mm | HSS jobber, black oxide, 118 deg point, round shank, Qualtech DWDMM2.70; opens the 4 battery_pack_lid clearance holes from 2.5 to 2.7 mm (D20) | 1 |  | T12 | Drills and Cutters (Doral, FL) | tool |  |
-| K31 | Hand holder for T11, T12, T14 and T15 | Qualtech DWTD328 T-handle tap wrench for 1/16 to 1/4 in taps, carbon steel; turns the bits by hand, slowly, so the cut in PLA stays controlled (no power tool) | 1 |  | T13 | Drills and Cutters (Doral, FL) | tool |  |
-| K32 | Drill bit 4.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 75 mm long, 54 mm flutes, Qualtech DWDMM4.00; drills the 4.0 mm lead hole for the projector LED (D7) through the printed head wall (D24) and the three D25 cable tie-hole pairs (two in neck_right_sheet, one in the left leg's knee_to_ankle_right_sheet) (print/PRINT_PLAN.md "After printing" steps 4 and 5); turned in the T13 holder | 1 |  | T14 | Drills and Cutters (Doral, FL) | tool |  |
-| K33 | Drill bit 4.5 mm (contingency) | HSS jobber, black oxide, 118 deg point, round shank, 80 mm long, 56 mm flutes, Qualtech DWDMM4.50; opens the M2 screw recesses only if coupon C4 shows a servo-bag screw head that does not fit (D20 coupon gate) | 1 |  | T15 | Drills and Cutters (Doral, FL) | tool |  |
+| K19 | Soldering iron | Pine64 Pinecil V2 (needs a USB-C PD 20 V 3.25 A supply: lines T6 and T6b) | 1 |  | T1 | Pine64 | tool |  |
+| K20 | Insert tips | Pinecil threaded insert tips set and adapter | 1 |  | T2 | Pine64 | tool |  |
+| K21 | Crimper | Engineer PA-09 (Mini-SPOX 5263 and JST XH per DigiKey chart) | 1 |  | T3 | Amazon | tool |  |
+| K22 | Hex keys | Bondhus 12192 hex L-keys 1.5 to 6 mm, 7 pc (2.0 mm for M2.5, 2.5 mm for M3 SHCS) | 1 |  | T4 | Crawford Tool | tool |  |
+| K23 | Wire stripper | Klein 11057, 22 to 32 AWG stranded | 1 |  | T5 | Home Depot | tool |  |
+| K24 | BEC programmer | Castle Link V4 011-0173-00 (needs Windows 10 PC) | 1 |  | L2 | Castle Creations | tool |  |
+| K25 | USB-C to USB-C cable, 5 A | Adafruit 4199, USB 3.1 Gen 4 with E-Mark, 1 m; Adafruit: it "includes an EMARK chip ... you can use this for high current (5A) charging". The 3.2 A short tip draw at 20 V is above 3 A, so the cable needs the 5 A e-marker | 1 |  | T6b | Adafruit 4199 | tool |  |
+| K26 | USB-A to USB-C cable | Amazon Basics USB-A to USB-C, USB 2.0, USB-IF certified, 3 ft, maximum current 3 A, 15 W at 5 V (page). An A to C cable carries the resistor that tells the board it may draw 5 V (Adafruit on its A to C cable: "The cable has built in resistors to force it to 5V power", https://www.adafruit.com/product/4474), so it works whether or not the Adeept board has USB-C CC pull-down resistors (its listing does not say) | 1 |  | T7b | Amazon (ships from and sold by Amazon.com) | tool |  |
+| K27 | microSD card reader (optional, often on hand) | Adafruit 5212 USB Type C microSD card reader/writer, mass storage, no driver (page); USB-C plug, so the PC needs a USB-C port | 1 |  | T8 | Adafruit 5212 | tool |  |
+| K28 | Wire stripper 12 to 20 AWG | Klein 11055, "Strips, cuts, loops 10-18 AWG solid and 12-20 AWG stranded wire" (page); covers the 16 AWG and 20 AWG runs that T5 (22 to 32 AWG) cannot | 1 |  | T9 | Home Depot | tool |  |
+| K29 | Heat gun | Wagner Furno 300, dual temperature, corded, 10 A, 20 cu ft/min, minimum temperature 750 F, 2 year limited warranty (page specs); for the adhesive lined 3:1 heat shrink (line 26); shrink each joint before it goes near printed PLA | 1 |  | T10 | Home Depot | tool |  |
+| K30 | Drill bit 6.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 70 mm flutes, Qualtech DWDMM6.00; opens the 24 neck chain screw recesses from 5.5 to 6.0 mm after printing and on coupon C4 (D20, print/PRINT_PLAN.md "After printing") | 1 |  | T11 | Drills and Cutters (Doral, FL) | tool |  |
+| K31 | Drill bit 2.7 mm | HSS jobber, black oxide, 118 deg point, round shank, Qualtech DWDMM2.70; opens the 4 battery_pack_lid clearance holes from 2.5 to 2.7 mm (D20) | 1 |  | T12 | Drills and Cutters (Doral, FL) | tool |  |
+| K32 | Hand holder for T11, T12, T14 and T15 | Qualtech DWTD328 T-handle tap wrench for 1/16 to 1/4 in taps, carbon steel; turns the bits by hand, slowly, so the cut in PLA stays controlled (no power tool) | 1 |  | T13 | Drills and Cutters (Doral, FL) | tool |  |
+| K33 | Drill bit 4.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 75 mm long, 54 mm flutes, Qualtech DWDMM4.00; drills the 4.0 mm lead hole for the projector LED (D7) through the printed head wall (D24) and the three D25 cable tie-hole pairs (two in neck_right_sheet, one in the left leg's knee_to_ankle_right_sheet) (print/PRINT_PLAN.md "After printing" steps 4 and 5); turned in the T13 holder | 1 |  | T14 | Drills and Cutters (Doral, FL) | tool |  |
+| K34 | Drill bit 4.5 mm (contingency) | HSS jobber, black oxide, 118 deg point, round shank, 80 mm long, 56 mm flutes, Qualtech DWDMM4.50; opens the M2 screw recesses only if coupon C4 shows a servo-bag screw head that does not fit (D20 coupon gate) | 1 |  | T15 | Drills and Cutters (Doral, FL) | tool |  |
 
 ## BOM.md lines and the rows that use them
 

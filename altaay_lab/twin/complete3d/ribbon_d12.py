@@ -231,6 +231,27 @@ def main():
     Tp[:3, 3] = b["pcb_slab_center_world"]
     pcb.apply_transform(Tp)
     obst["camera PCB (designed seat)"] = (pcb, True)
+    # parts on other links that move against the head, swept the way cables3d/check_cables.py sweeps them (each head joint
+    # alone at 13 values over its URDF range): the strip must clear them at every pose, not only at the zero pose
+    from scipy.spatial import cKDTree
+    hj = [j for j in ("head_pitch", "head_yaw", "head_roll") if j in S.joints]
+    cfgs = [{}] + [{j: q} for j in hj for q in np.linspace(S.joints[j]["lo"], S.joints[j]["hi"], 13)]
+    Ts = [S.link_T(cfg) for cfg in cfgs]
+    hb0 = obst[[k for k in obst if k.startswith("head[")][0]][0].bounds
+    SWp = []
+    for i in S.inst:
+        if i["link"] == HEAD_LINK:
+            continue
+        b = S.world_mesh(i).bounds
+        if not (np.all(b[1] > hb0[0] - 30) and np.all(b[0] < hb0[1] + 30)):
+            continue
+        loc = trimesh.sample.sample_surface(S.mesh(i), 6000, seed=0)[0]
+        for Tl in Ts:
+            M = S.T0[HEAD_LINK] @ np.linalg.inv(Tl[HEAD_LINK]) @ Tl[i["link"]] @ i["T"]
+            SWp.append((M[:3, :3] @ loc.T).T + M[:3, 3])
+    SW = np.concatenate(SWp) if SWp else np.zeros((0, 3))
+    SWT = cKDTree(SW) if len(SW) else None
+    SWNAME = "neck parts swept over the head joint ranges"
     # route region only (Pi, camera, loops), 1 mm grid from surface samples; closed small parts filled by inside tests
     lo = np.maximum(hb[0] - 2, np.array([-30.0, -60.0, 158.0]))
     hi = np.minimum(hb[1] + 2, np.array([112.0, 80.0, 250.0]))
@@ -258,6 +279,12 @@ def main():
                 gi = np.round((G[ins] - lo) / PITCH).astype(int)
                 occ[tuple(gi.T)] = True
                 lab[tuple(gi.T)] = names.index(k)
+    if len(SW):
+        names.append(SWNAME)
+        si = np.round((SW - lo) / PITCH).astype(int)
+        ok_ = np.all((si >= 0) & (si < shape), axis=1)
+        occ[tuple(si[ok_].T)] = True
+        lab[tuple(si[ok_].T)] = len(names) - 1
     edt, near = ndimage.distance_transform_edt(~occ, sampling=PITCH, return_indices=True)
     edt -= PITCH / 2
 
@@ -287,6 +314,8 @@ def main():
             dist = trimesh.proximity.closest_point(m, pts[sel])[1] - T / 2
             inside = int(np.sum(m.contains(pts[sel]))) if m.is_watertight else None
             ex[k] = dict(min_mm=float(dist.min()), inside_points=inside)
+        if SWT is not None and (~skip).any():
+            ex[SWNAME] = dict(min_mm=float(SWT.query(pts[~skip])[0].min() - T / 2 - 0.6), inside_points=None)
         w_ = min(ex.items(), key=lambda kv: kv[1]["min_mm"]) if ex else None
         return (w_[1]["min_mm"] if w_ else 99.0), w_, ex
 
@@ -361,6 +390,8 @@ def main():
             sel = np.all((q > lo_ - 6) & (q < hi_ + 6), axis=1)
             if sel.any():
                 res[k] = float(np.min(trimesh.proximity.closest_point(mm, q[sel])[1]) - T / 2)
+        if SWT is not None:
+            res[SWNAME] = float(SWT.query(q)[0].min() - T / 2 - 0.6)
         return (min(res.values()) if res else 99.0), (min(res.items(), key=lambda kv: kv[1]) if res else None)
 
     loops, tried_l = [], []

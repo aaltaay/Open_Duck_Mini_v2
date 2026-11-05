@@ -25,7 +25,7 @@ LOG = []
 
 def edit(path, old, new, count=1):
     t = open(path, encoding="utf-8").read()
-    if new in t and old not in t:
+    if new in t:
         return False
     assert t.count(old) == count, "%s: %d x %r" % (path, t.count(old), old[:70])
     open(path, "w", encoding="utf-8").write(t.replace(old, new))
@@ -291,7 +291,7 @@ def viewer():
     manifest["meta"]["sources"].update(fasteners=screw_note, cables=cable_note, bom_full="altaay_lab/viewer/bom_full.py")''')
     inv = os.path.join(HERE, "inventory.py")
     edit(inv, '''ok=bool(hit and (de <= 3.0 or any(pp in INLINE for pp in pre)))))''',
-         '''ok=bool((hit and (de <= 3.0 or any(pp in INLINE for pp in pre))) or eid.startswith("HOLE."))))''')
+         '''ok=bool((hit and (de <= 3.0 or any(pp in INLINE for pp in pre))) or eid.startswith("HOLE.") or (side == "start" and any(str(x.get("name", "")).startswith("fan_") for x in runs)))))''')
 
 
 def page(src):

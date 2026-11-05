@@ -2,7 +2,7 @@
  "meta": {
   "script": "altaay_lab/twin/complete3d/inventory.py",
   "label": "CAD check only",
-  "viewer_run": "2026-11-05 00:36 UTC",
+  "viewer_run": "2026-11-05 01:25 UTC",
   "published_run": "2026-11-02 11:08 UTC"
  },
  "lead_findings_check": {
@@ -2038,6 +2038,18 @@
   },
   {
    "group": "bought, no own node",
+   "part": "Camera cable, replaced (D34)",
+   "bom": "E7r",
+   "in_viewer": 0,
+   "seated": "not in the robot: tool, supply or spare line (no viewer entry in BOM_VIEW)",
+   "spec": "Pi Zero camera cable 150 mm, Adafruit 3157: 77 mm short of the flat strip route (B61)",
+   "qty": "0",
+   "fasteners": {
+    "n": 0
+   }
+  },
+  {
+   "group": "bought, no own node",
    "part": "Soldering iron",
    "bom": "T1",
    "in_viewer": 0,
@@ -2706,7 +2718,7 @@
    "desc": "Pi GPIO26 (pin 37) to the 2813 OFF input (D30, gpio-poweroff)",
    "netlist_status": "active",
    "in_cables3d": true,
-   "in_cable_map": false,
+   "in_cable_map": true,
    "in_wiring": true,
    "in_upstream": false,
    "runs": 1,
@@ -3700,19 +3712,19 @@
   },
   {
    "src": "BOM.md:51",
+   "n": 4,
+   "spec": "m2x5",
+   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
+   "in_fasteners_json_total": 26,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:51",
    "n": 2,
    "spec": "m2x4",
    "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
    "in_fasteners_json_total": 2,
    "missing": 0
-  },
-  {
-   "src": "BOM.md:51",
-   "n": 4,
-   "spec": "m2x4",
-   "ctx": "| 17h | M2 self-tapping kit | METALLIXITY 304 SS M2/M2.6 pan head kit, 400 pcs: 50 each of M2x4, M2x5, M2x6, M",
-   "in_fasteners_json_total": 2,
-   "missing": 2
   },
   {
    "src": "BOM.md:51",
@@ -3795,7 +3807,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:163",
+   "src": "BOM.md:164",
    "n": null,
    "spec": "m2x5",
    "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
@@ -3803,7 +3815,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:163",
+   "src": "BOM.md:164",
    "n": null,
    "spec": "m2x4",
    "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
@@ -3811,7 +3823,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:163",
+   "src": "BOM.md:164",
    "n": null,
    "spec": "m2x8",
    "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
@@ -3819,7 +3831,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:163",
+   "src": "BOM.md:164",
    "n": null,
    "spec": "m3x6",
    "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
@@ -3827,7 +3839,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:163",
+   "src": "BOM.md:164",
    "n": null,
    "spec": "m2.5x5",
    "ctx": "Change 2026-11-01 10:50 PM ET (fastener schedule pass, fasteners/FASTENERS.md, DECISIONS.md D19 to D21): Need ",
@@ -3835,7 +3847,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:196",
+   "src": "BOM.md:197",
    "n": null,
    "spec": "m2x5",
    "ctx": "- IMSCREWS M2x5 100 pcs: replaced by the METALLIXITY kit, which also has the camera M2x4.",
@@ -3843,7 +3855,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:196",
+   "src": "BOM.md:197",
    "n": null,
    "spec": "m2x4",
    "ctx": "- IMSCREWS M2x5 100 pcs: replaced by the METALLIXITY kit, which also has the camera M2x4.",
@@ -3851,7 +3863,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:212",
+   "src": "BOM.md:213",
    "n": null,
    "spec": "m2x5",
    "ctx": "| TO1 | Feetech STS3215 7.4 V, Seeed | 1 | 20.00 | 1 | Count the 18-screw bag by size (B2); horn to case gap a",
@@ -3859,7 +3871,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:212",
+   "src": "BOM.md:213",
    "n": null,
    "spec": "m2x5",
    "ctx": "| TO1 | Feetech STS3215 7.4 V, Seeed | 1 | 20.00 | 1 | Count the 18-screw bag by size (B2); horn to case gap a",
@@ -3867,7 +3879,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:215",
+   "src": "BOM.md:216",
    "n": null,
    "spec": "m2x5",
    "ctx": "| TO4 | METALLIXITY M2 self-tapping kit | 1 | 9.49 | 17h | M2x5 head fit (B21); M2x4 vs camera PCB thickness (",
@@ -3875,7 +3887,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:215",
+   "src": "BOM.md:216",
    "n": null,
    "spec": "m2x4",
    "ctx": "| TO4 | METALLIXITY M2 self-tapping kit | 1 | 9.49 | 17h | M2x5 head fit (B21); M2x4 vs camera PCB thickness (",
@@ -3883,7 +3895,15 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:222",
+   "src": "BOM.md:220",
+   "n": null,
+   "spec": "m2x5",
+   "ctx": "| TO8 | Raspberry Pi Camera Module 3, Adafruit 5657 | 1 | 29.25 | E6 | PCB thickness (caliper) for the M2x5 in",
+   "in_fasteners_json_total": 26,
+   "missing": 0
+  },
+  {
+   "src": "BOM.md:223",
    "n": null,
    "spec": "m2.5x8",
    "ctx": "| TO11 | Bolt Depot M2.5x8 SHCS, 10 pcs, plus a left_eye test print | 10 | 0.90 | 17g | Left eye pilot 2.2 mm ",
@@ -3891,7 +3911,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:227",
+   "src": "BOM.md:228",
    "n": null,
    "spec": "m3x5",
    "ctx": "| TO16 | Bolt Depot M3x5 SHCS, 5 pcs, the 6.0 mm HSS bit and the T-handle holder | 5 + 1 + 1 | 9.65 | 17e, T11",
@@ -3899,7 +3919,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:228",
+   "src": "BOM.md:229",
    "n": null,
    "spec": "m3x6",
    "ctx": "| TO17 | BelMetric, one order (the store's $5 minimum checkout): 12 M3x6 button heads, 5 M2.5x5 SHCS, 48 M2.5 ",
@@ -3907,7 +3927,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:228",
+   "src": "BOM.md:229",
    "n": null,
    "spec": "m2.5x5",
    "ctx": "| TO17 | BelMetric, one order (the store's $5 minimum checkout): 12 M3x6 button heads, 5 M2.5x5 SHCS, 48 M2.5 ",
@@ -3915,7 +3935,7 @@
    "missing": 0
   },
   {
-   "src": "BOM.md:228",
+   "src": "BOM.md:229",
    "n": null,
    "spec": "m2.5x8",
    "ctx": "| TO17 | BelMetric, one order (the store's $5 minimum checkout): 12 M3x6 button heads, 5 M2.5x5 SHCS, 48 M2.5 ",
@@ -5366,12 +5386,12 @@
   }
  ],
  "counts": {
-  "parts_rows": 118,
+  "parts_rows": 119,
   "parts_seated": 86,
   "cables": 55,
   "cables_all_runs_drawn": 48,
   "cables_ends_ok": 48,
   "screws_in_fasteners_json": 355,
-  "named_missing": 10
+  "named_missing": 8
  }
 }
