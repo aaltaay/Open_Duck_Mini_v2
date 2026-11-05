@@ -8,19 +8,19 @@ All grams and hours are PrusaSlicer 2.7.2 estimates made on the box for a generi
 
 | Step | What | PLA g | TPU g | Hours |
 |---|---|---|---|---|
-| 1. Coupon session | S1: one PLA plate with 11 test pieces, C1, C2a, C2b, C3, C4 and T1 with its stack pieces T1b and T1w, plus the light copies C2aL, C2bL and C3L, the D22 gate (4.14 h). S2: one TPU foot sole (2.19 h) | 41.2 | 17.6 | 6.3 |
-| 2 and 3. Full print, 220 bed | 18 jobs: left leg first (5 plates), then 13 plates. All remaining robot parts plus 10 spares | 1347.8 | 17.6 | 118.6 |
-| 2 and 3. Full print, 256 bed | Same parts in 17 jobs | 1348.2 | 17.6 | 118.7 |
-| Total (220 bed) | | 1389.0 | 35.1 | 125.0 |
+| 1. Coupon session | S1: one PLA plate with 17 test pieces, C1, C2a, C2b, C3, C4 and T1 with its stack pieces T1b and T1w, plus the light copies C2aL, C2bL and C3L, the D22 gate (4.69 h). S2: one TPU foot sole (2.19 h) | 46.8 | 17.6 | 6.9 |
+| 2 and 3. Full print, 220 bed | 18 jobs: left leg first (5 plates), then 13 plates. All remaining robot parts plus 10 spares | 1353.2 | 17.6 | 119.5 |
+| 2 and 3. Full print, 256 bed | Same parts in 17 jobs | 1353.6 | 17.6 | 119.6 |
+| Total (220 bed) | | 1400.0 | 35.1 | 126.5 |
 | If the D22 gate fails (220 bed) | The 3 "base + rings" plates print with 4 walls and no rings instead (step 3) | +61.5 | | +4.1 |
 
 - Ask 1: approve step 1 (coupon session) now. Ask 2: approve steps 2 and 3 after the coupon tests pass (or with the fixes they call for), including the D22 gate: C2aL, C2bL and C3L must pass the same tests as C2a, C2b and C3.
 - Profile: the light profile of DECISIONS.md D22 (print/MASS_STUDY.md variant c): 2 walls unless a rule needs more, solid rings round the insert bores and the body_back pilots, the head, neck chain, G6 thin parts, frame parts, eyes, speaker stand and all spares at their settings before D22.
 - Before D22 (the package as published on 2026-11-01; `slice.py --set heavy` reproduces its 15 plates within 0.1 g and 0.04 h each): coupon session 27.8 g PLA, 18.2 g TPU, 5.0 h; full print on a 220 bed 15 jobs, 1474.5 g PLA, 18.1 g TPU, 126.4 h; total 1502.3 g PLA, 36.3 g TPU, 131.4 h. D22 saves 118.3 g of PLA and 7.0 h in all and adds 3 jobs (more profiles, one plate each).
-- The robot set alone (36 STLs, 52 parts, no coupons, no spares) is PLA 1245.1 g and 106.7 h, TPU 35.1 g and 4.4 h (before D22: PLA 1372.7 g and 114.4 h, TPU 36.3 g and 4.5 h; old PRINT_CHECK: PLA 1304.0 g and 127.7 h, TPU 35.0 g and 3.9 h). Details: SLICE_SUMMARY.md.
-- Filament: 1389 g PLA of the 2 kg bought (about 611 g left for failed prints; 1450 g if the gate fails), 35 g TPU of the 1 kg bought.
+- The robot set alone (36 STLs, 52 parts, no coupons, no spares) is PLA 1250.5 g and 107.6 h, TPU 35.1 g and 4.4 h (before D22: PLA 1372.7 g and 114.4 h, TPU 36.3 g and 4.5 h; old PRINT_CHECK: PLA 1304.0 g and 127.7 h, TPU 35.0 g and 3.9 h). Details: SLICE_SUMMARY.md.
+- Filament: 1400 g PLA of the 2 kg bought (about 600 g left for failed prints; 1461 g if the gate fails), 35 g TPU of the 1 kg bought.
 - Optional, not in the totals: 2 antenna rods (in the CAD, not in print/), PLA, 1.8 g, 0.2 h.
-- Session S1 is 4.14 h, 1.14 h over the 3 hour target, because of the 3 light coupons (+8.4 g, +0.86 h) and the T1 stack pieces T1b and T1w (+5.0 g, +0.54 h; T1w alone slices to 31 min: it stands 35 mm tall on its edge, as the wall prints in the head). S2 adds 2.19 h because TPU must print slowly; run it right after S1 or overnight.
+- Session S1 is 4.69 h, 1.69 h over the 3 hour target, because of the 3 light coupons (+8.4 g, +0.86 h) and the T1 stack pieces T1b and T1w (+5.0 g, +0.54 h; T1w alone slices to 31 min: it stands 35 mm tall on its edge, as the wall prints in the head). S2 adds 2.19 h because TPU must print slowly; run it right after S1 or overnight.
 
 ## Files in this folder
 
@@ -94,9 +94,9 @@ trunk_bottom uses insert+fit; head_yaw_to_roll and head_roll_mount use neck+fit;
 
 ## Print order
 
-### Step 1: coupon session (about 6.3 h, 41.2 g PLA plus 17.6 g TPU)
+### Step 1: coupon session (about 6.8 h, 46.8 g PLA plus 17.6 g TPU)
 
-S1, one PLA plate, 4.14 h, 41.2 g. Every coupon keeps the profile of the part it comes from (per-object settings and ring modifiers in the 3MF; in another slicer set them by hand). The light copies C2aL, C2bL and C3L are the D22 gate: they print next to C2a, C2b and C3, which keep 4 walls (the fallback profile). T1b and T1w are the two printed layers the eye screws pass in the robot (bulb 2.0 mm, head wall 3.0 mm); with two 0.3 mm washers from BOM 17l under each head they make the real 5.6 mm stack for T1 (DECISIONS.md D21 note):
+S1, one PLA plate, 4.69 h, 46.8 g. Every coupon keeps the profile of the part it comes from (per-object settings and ring modifiers in the 3MF; in another slicer set them by hand). The light copies C2aL, C2bL and C3L are the D22 gate: they print next to C2a, C2b and C3, which keep 4 walls (the fallback profile). T1b and T1w are the two printed layers the eye screws pass in the robot (bulb 2.0 mm, head wall 3.0 mm); with two 0.3 mm washers from BOM 17l under each head they make the real 5.6 mm stack for T1 (DECISIONS.md D21 note):
 
 | ID | Cut from (upstream STL) | What it tests | Profile | g | min |
 |---|---|---|---|---|---|
@@ -129,6 +129,8 @@ Pass or fail, physical tests (tools: Pinecil with insert tip, calipers, 2.0 and 
 | C4 | Calipers: ledge to arm gap at the ledge (CAD 34.90; the G-code makes 35.00, see "Servo pockets"). The STS3215 case slides in end first between ledge and arm with firm thumb pressure, no tools, no rattle. Up to 0.2 mm tight: light sanding of the arm underside is expected (flag 6); note it. Recess fit (D20): after one 5.5 mm recess is opened to 6.0 mm (see "After printing"), a DIN 912 M3x5 head drops in and sits flat; a servo-bag M2 head and a kit M2x5 head drop into the 4.0 mm recesses and sit flat. | More than 0.2 mm tight, or the support scar needs more than light sanding: hold the head parts; try a 0.15 mm support gap or 0.1 mm layers on head_yaw_to_roll and reprint C4. The M3 head will not seat even at 6.0 mm: tell Ahmed before the neck parts are drilled (B32). An M2 head will not seat: open that recess to 4.5 mm and note it (B21). |
 | T1, T1b, T1w | Depth rod: each eye pilot is blind, about 3.0 mm deep (D21). Calipers: T1b 2.0 mm and T1w 3.0 mm thick next to a hole. An M2.5 screw passes every hole of T1b and T1w by hand without threading. Stack as in the robot at each pilot: two 0.3 mm washers (BOM 17l) under the M2.5x8 head, then T1b, T1w and the eye, 5.6 mm in all (edges and holes lined up). The M2.5x8 then cuts its own thread in the eye and needs clear torque, snugs firmly with the short arm of a 2.0 mm key without stripping, engages 2.4 mm and stops 0.6 mm short of the floor; the eye does not move when pulled with 4 screws in, and the front skin shows no bulge or crack over a pilot. Never drive a bare M2.5x8 to the floor: it would push through the 1.3 mm skin. The eye glass disc (29.6 x 1.85 mm seat) drops in and stays when tipped. | A pilot strips: B14 stays open; options for Ahmed are an M2.5 thread-forming screw or a 2.05 mm pilot (CAD change). A T1w hole binds: open it with the 2.7 mm bit (BOM T12) by hand and note it; the same 8 holes in the head then need the bit (an after-printing step). The stack measures over 5.7 mm: less than 2.3 mm of thread, note it for Ahmed. |
 | T2 | No missing layers, no blobs over 0.5 mm, lies flat on a table (no corner up over 0.5 mm). Length 101.9 and width 40.7 mm within 0.3 mm. An M3 passes both 3.4 mm holes and its head sinks fully into the 6.5 mm counterbores. Screwed to foot_bottom_pla (or to C3 for one hole) it pulls flat, gap under 0.3 mm at the edges. Grip, record only (no upstream number): on the lab floor with 1 kg on it, tilt until it slides, note the angle next to a PLA part. | Print fails: check that the TPU was dried and the printer can feed TPU at 25 mm/s (Bowden extruders may need retraction off). Fit fails: B26 stays open. |
+
+V1 screws job (D38, in session S1 since 2026-11-04, sliced with slice.py and the D22 profile: K1a 1.03 g, K1b 2.20 g, K2a 0.96 g, K2b 0.79 g, K3 0.25 g, K4 0.40 g): coupons K1a and K1b (tongue and groove), K2a and K2b (back lip and ribs), K3 (cable clip, snap) and K4 (tie bridge) from altaay_lab/twin/screws/stl/, tests in TEST_PLAN.md section 14. body_front.stl, body_middle_top.stl and body_middle_bottom.stl in print/ now carry the groove, the tongue and the back lips and ribs (+0.74 and +4.87 cm3; body_middle_bottom adds 812 mm2 of supported overhang): re-sliced 2026-11-04 with slice.py (D22): body_front 58.05 g 4.06 h, body_middle_top 75.24 g 6.75 h, body_middle_bottom 107.45 g 9.38 h; the plates holding them are moved by these part deltas (calc), not re-sliced; the S1 gate fallback numbers are from before the change. body_middle_bottom now gets 7 insert rings: the bore of F075 (unused since D38) is clear (CAD check) but slice.py no longer classifies it next to the lip root, so it has no solid ring; re-slice with it if F075 comes back.
 
 ### Step 2: left leg, for the servo fit tests (5 plates, 16.7 h, 182.8 g; the TPU sole comes from S2)
 
@@ -339,10 +341,10 @@ G12, roll_motor_bottom screw head against roll_to_pitch (Mini issue 17): the CAD
 
 | | Needed (estimate) | BOM | Left |
 |---|---|---|---|
-| PLA (Overture Easy PLA) | 1389 g: coupon session 41.2 g (includes the left eye and a spare bulb) plus plates 1347.8 g (the rest of the robot set and 104.6 g of spares) | 2 x 1 kg (BOM line 27) | about 611 g (31%) for failed prints; a second head (262 g) still fits. 1450 g if the D22 gate fails |
+| PLA (Overture Easy PLA) | 1400 g: coupon session 46.8 g (includes the left eye and a spare bulb) plus plates 1353.2 g (the rest of the robot set and 104.6 g of spares) | 2 x 1 kg (BOM line 27) | about 611 g (31%) for failed prints; a second head (262 g) still fits. 1450 g if the D22 gate fails |
 | TPU (Overture TPU 95A) | 35.1 g: two soles (one in S2) | 1 x 1 kg (BOM line 28) | about 965 g |
 
-BOM line 27: need 1389 g sliced (1384 g before the T1 stack pieces, 1502 g before D22): still 2 spools. BOM line 28 says 36 g; the light soles need 35.1 g.
+BOM line 27: need 1400 g sliced (1384 g before the T1 stack pieces, 1502 g before D22): still 2 spools. BOM line 28 says 36 g; the light soles need 35.1 g.
 
 ## Not verified
 

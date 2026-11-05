@@ -420,6 +420,7 @@ Scope: the pieces the model did not count or counted by an older list. The model
 | D30: Pololu 2813 2.7 g for the 2815 2.6 g | +0.1 | Pololu specs |
 | D30: OFF wire GPIO26 to the 2813, 26 AWG, 531.7 mm (the P13 route) | +1.6 | wiring/netlist.yaml P13 rule length, the 26 AWG g/m of sim/mass_budget.py |
 | D30: printed button plate, 535 mm3 | +0.6 | CAD volume times the sliced bulb ratio (print/SLICE_SUMMARY.md) |
+| D38 screw cut (V1 screws job): -25 screws (10 x M3x8, 6 x M2.5x6, 4 x M2.5x8, 2 x M2.5x5, 1 x M2.5x10, 2 x M2x5), -10 inserts (0.35 g each, the INSERT_G source), -8 washers; +5.6 cm3 PLA in the tongue, lips and ribs | -13.8 | calc only: screws 14.23 g from the screw_mass sizes (no size for M2.5x5, M2x5: BLOCKER); washers not counted (no washer mass in this budget: BLOCKER); the 3 changed parts at their re-sliced grams less support (slice.py, D22): +3.9 g on the robot. Not yet in 'Our build': the sim owner re-runs sim/mass_budget.py |
 | Cable ties (D25): 78 fitted at most against the 1.0 g modelled | 0 to +31.5 | upper bound 0.417 g per tie, the gross weight of a 142 mm Panduit PLT1.5M-C (TME); trimmed tails weigh less |
 | 55 adhesive tie mounts (BOM 34, 34b) | not counted | BLOCKER: no published mass; weigh 10 of each on arrival |
 

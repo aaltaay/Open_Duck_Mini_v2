@@ -143,5 +143,21 @@
   ],
   "frame": "urdf_world_mm",
   "source": "bms.stl slot, measured envelope 17.75 x 47.2 x 5.33"
+ },
+ {
+  "id": "xt30_p13",
+  "label": "XT30U pair in P13 (service plug at the neck base, X3a, D36)",
+  "dims_xyz_mm": [
+   32.0,
+   10.0,
+   5.2
+  ],
+  "center_mm": [
+   -25.3,
+   -8.6,
+   89.0
+  ],
+  "frame": "urdf_world_mm",
+  "seat_fix": "2026-11-04 V1 screws job (D36 X3a): centred on the straight P13 run at z 89 mm (cables3d.json P13 points (-30.67, -6.2, 89.0) to (-20.0, -11.0, 89.0)), long side along the run; CAD clearance to the parts not checked here (3D job)"
  }
 ]

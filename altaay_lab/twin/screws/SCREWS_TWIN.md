@@ -13,6 +13,14 @@ Written 2026-11-05 by the V1 screws agent for the lead, phase 1 (analysis and de
 - **Assembly hours** (cited per operation times; the rest is listed as BLOCKER): fastening 0.81 h to 0.72 h; cables 5.79 h to 5.47 h; total 6.6 h to 6.2 h. Not in that total: heat-set inserts (58 to 44), part handling, routing, labels and tests. The 8 h dwell of the stick-on mounts before the ties can be loaded goes away. Soldering is the long pole: 153 solder ends at 120 s is 5.1 h. Screws are under 1 h.
 - **Needs Ahmed's OK:** the back shell going to 3 screws (one fall case gets worse, section 2); KK 254 crimp parts (X1, X3); WAGO lever splices (X4); an XT30U pair in P13 (X3a). No magnet is proposed.
 
+## Phase 2 (2026-11-04, D36 and D38, applied)
+
+- D38: the back shell keeps 7 of 8 screws (F075 out) with its lips and ribs, so the cut is 342 to 317 fitted screws (25 fewer, 7.3 %), 58 to 48 inserts, 16 to 8 washers. Applied in fasteners.json through report_fasteners.py (status LEAVE OUT (D38 screw cut), ids in data/phase2_fasteners.json), BOM.md, MOUNTING.md, the viewer.
+- The back lips are now clipped to body_middle_bottom's own height (the first cut stood 46 mm above it): side capacity 2925 N per side, up 2261 N, 812 mm2 added overhang.
+- D36: Wera tools and the 1/16 in bit on tool lines T16 to T19; KK 254 (22b, 22c; housing price BLOCKER), WAGO 221 pocket pack (26b), XT30U in P13 (line 12 Need 2). X3b not taken.
+- 10b: NKK MB2011LS1W01-BB (Newark 941 in stock, $10.37, search index); same MB2000 bushing and body, so the D30 plate is unchanged.
+- Time (cited per operation): fastening 0.81 to 0.73 h; cables 5.79 to 5.51 h; total 6.6 to 6.2 h; insert time BLOCKER.
+
 ## Files
 
 | File | What |

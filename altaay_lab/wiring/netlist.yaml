@@ -258,7 +258,7 @@ components:
     kind: splice
     region: battery_bay
     groups:
-      s: {connector: "solder splice, heat shrink", pitch_mm: null}
+      s: {connector: "WAGO 221-413 (3 wires) lever splice (X4, D36)", pitch_mm: null}
     pins:
       - {pin: "S", label: "VSW", name: splice, domain: PACK_6V0_8V4, group: s, dir: pwr, source: "[L]"}
     source: "[L] next to the 2815"
@@ -269,7 +269,7 @@ components:
     kind: splice
     region: battery_bay
     groups:
-      s: {connector: "solder splice, heat shrink", pitch_mm: null}
+      s: {connector: "WAGO 221-415 (4 wires) lever splice (X4, D36)", pitch_mm: null}
     pins:
       - {pin: "S", label: "G", name: splice, domain: GND, group: s, dir: gnd, source: "[L]"}
     source: "[L] next to the 2815; reaches BMS P- through P14, XT30, P8"
@@ -969,7 +969,7 @@ cables:
   - {id: SP3, status: active, desc: power pair SPV and SPG to ID 30 BUS 2 (V and G), regions: [belly, trunk_top], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D15, about 180 mm", note: "GND joins SD1 at JG30", twist: {lay_mm: 40, lay_range_mm: [27, 54], takeup_max: 1.019, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.4 mm harness OD; take-up at the shortest lay [L]"}}
   - {id: SP4, status: active, desc: "power pair SPV and SPG to ID 24 BUS 1 (V and G), left leg", regions: [belly, trunk_bottom, left_leg], joints: [left_hip_pitch, left_hip_roll, left_hip_yaw, left_knee], polyline_mm: 286.5, rule_mm: null, source: "[L] D23 (sim/POWER_FIX.md), route altaay_lab/cables3d", note: "service loop at every leg joint; ties in cables3d.json retention", twist: {lay_mm: 40, lay_range_mm: [27, 54], takeup_max: 1.019, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.4 mm harness OD; take-up at the shortest lay [L]"}}
   - {id: SP5, status: active, desc: "power pair SPV and SPG to ID 14 BUS 1 (V and G), right leg", regions: [belly, trunk_bottom, right_leg], joints: [right_hip_pitch, right_hip_roll, right_hip_yaw, right_knee], polyline_mm: 319.3, rule_mm: null, source: "[L] D23 (sim/POWER_FIX.md), route altaay_lab/cables3d", note: "service loop at every leg joint; ties in cables3d.json retention", twist: {lay_mm: 40, lay_range_mm: [27, 54], takeup_max: 1.019, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.4 mm harness OD; take-up at the shortest lay [L]"}}
-  - {id: P13, status: active, desc: splices VSW and G up the neck to U3 VIN and GND on the head floor, regions: [battery_bay, trunk_top, neck, head], joints: [neck_pitch, head_pitch, head_yaw, head_roll], polyline_mm: 349.7, rule_mm: 531.7, source: "[L] D8; route 2815 to Pi through the 4 neck joints (9.69 rad)", note: "drop about 0.09 V at 2.5 A over 2 x 0.55 m of 20 AWG [I]", twist: {lay_mm: 45, lay_range_mm: [29, 58], takeup_max: 1.019, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.6 mm harness OD; take-up at the shortest lay [L]"}}
+  - {id: P13, status: active, inline: "XT30U pair (BOM 12) at the neck base on trunk_top, on a straight run 20 mm or more from the neck_pitch loop end; solder cups and heat shrink both halves; the head comes off by unplugging it (X3a, D36)", desc: splices VSW and G up the neck to U3 VIN and GND on the head floor, regions: [battery_bay, trunk_top, neck, head], joints: [neck_pitch, head_pitch, head_yaw, head_roll], polyline_mm: 349.7, rule_mm: 531.7, source: "[L] D8; route 2815 to Pi through the 4 neck joints (9.69 rad)", note: "drop about 0.09 V at 2.5 A over 2 x 0.55 m of 20 AWG [I]", twist: {lay_mm: 45, lay_range_mm: [29, 58], takeup_max: 1.019, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.6 mm harness OD; take-up at the shortest lay [L]"}}
   - {id: P12, status: active, desc: U3 VOUT and GND to Pi pin 2 and pin 6, regions: [head], joints: [], polyline_mm: 44.3, rule_mm: 129.5, source: "[L] D8; U3 on the head floor under the Pi (44.3 mm free below the Pi)", note: "exact spot of U3 on the floor not fixed", twist: {lay_mm: null, note: "no twist: a 31 mm run leaves 0 mm after the 2 x 20 mm untwisted ends, under one 45 mm lay"}}
   - {id: P17, status: active, desc: Pi pin 4 and pin 14 to splices J5 and JG, regions: [head], joints: [], polyline_mm: 0.0, rule_mm: 85.2, source: "[I] splices next to the header", twist: {lay_mm: null, note: "no twist: a 16 mm run leaves 0 mm after the 2 x 20 mm untwisted ends, under one 45 mm lay"}}
   - {id: D1, status: active, desc: Pi micro-USB data port to adapter USB-C, regions: [head, neck, trunk_top, belly], joints: [neck_pitch, head_pitch, head_yaw, head_roll], polyline_mm: 320.5, rule_mm: 502.6, source: "[L] parts check: Adafruit 3878, 0.9 m", note: "coil the slack in the belly"}

@@ -41,6 +41,10 @@ def end_step(e, pin, splices):
                 "then tug-test" % empty)
     if "5264 plug" in k:
         return "kit cable plug (ships with the servo), no work"
+    if "lever splice" in k:
+        sp = pin.split(".")[0]
+        return ("strip 11 mm and push it fully into the WAGO lever splice %s (lever up, insert, lever down), then tug-test "
+                "(X4, D36; no solder, no heat shrink)" % sp)
     if "splice" in k:
         sp = pin.split(".")[0]
         others = ", ".join(sorted(set(splices.get(sp, [])) - {pin})) if sp in splices else ""
@@ -48,7 +52,8 @@ def end_step(e, pin, splices):
     if "xt30" in k:
         return "solder into the XT30U cup, heat shrink over the cup"
     if "header" in k:
-        return "solder at the Pi header (pin %s)" % pin.split(".")[-1]
+        return ("crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin %s "
+                "until it clicks, then tug-test (X1, D36: the Pi unplugs)" % pin.split(".")[-1])
     if "0.1 in hole" in k or "large hole" in k:
         return "solder into the board hole %s" % pin.split(".")[-1]
     # before the generic rule below: "screw terminal" contains "terminal", and "plug" contains "lug"
@@ -175,6 +180,8 @@ def main():
             joints = ", ".join(cab.get("joints") or []) or "none"
             L += ["### %s: %s" % (cid, cab["desc"]), "",
                   "Regions: %s. Crosses joints: %s. %s" % (", ".join(cab.get("regions") or []) or "?", joints, cab.get("note") or ""), ""]
+            if cab.get("inline"):
+                L += ["Inline plug: %s" % cab["inline"], ""]
             tx = twist_text(cab)
             if tx:
                 L += [tx, ""]

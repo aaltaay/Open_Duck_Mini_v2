@@ -88,7 +88,7 @@ def draw(ax, S, recs, az, el, explode=0.0, title="", target_faces=60000, subs=No
     # screws (x-ray, on top)
     segs, scol, heads, hcol, hs = [], [], [], [], []
     for r in recs:
-        if r.get("status") in ("NOT FITTED", "LEAVE OUT (D18)"):
+        if str(r.get("status") or "").startswith(("NOT FITTED", "LEAVE OUT")):
             continue
         off = np.array(EXPLODE.get(r["viewer_sub"], (0, 0, 0)), float) * explode
         s0 = np.array(r["seat_world"]) + off
@@ -133,7 +133,7 @@ def save_small(fig, path, limit=495_000):
 
 def legend(fig, recs, colors):
     from matplotlib.patches import Patch
-    cnt = Counter(r["color_key"] for r in recs if r.get("status") not in ("NOT FITTED", "LEAVE OUT (D18)"))
+    cnt = Counter(r["color_key"] for r in recs if not str(r.get("status") or "").startswith(("NOT FITTED", "LEAVE OUT")))
     order = [k for k in colors if k in cnt] + [k for k in cnt if k not in colors]
     labels = {"M2 servo bag": "M2x6 servo bag", "M2 kit": "M2 kit (x4, x5, x8)", "M3 horn centre": "M3x6 horn centre (bag)",
               "PA3 idle": "PA3.0x5 idle horn (bag)", "M2 case (factory)": "STS3215 case screw (factory)",
@@ -157,7 +157,7 @@ def main():
     recs = D["fasteners"]
     colors = D["meta"]["colors"]
     S = fastlib.Scene(os.path.abspath(a.scratch))
-    n_fit = sum(1 for r in recs if r.get("status") not in ("NOT FITTED", "LEAVE OUT (D18)"))
+    n_fit = sum(1 for r in recs if not str(r.get("status") or "").startswith(("NOT FITTED", "LEAVE OUT")))
     fig, axs = plt.subplots(1, 2, figsize=(16, 10), dpi=100)
     draw(axs[0], S, recs, 35, 18, title="Front left, zero pose")
     draw(axs[1], S, recs, 215, 18, title="Back right, zero pose")

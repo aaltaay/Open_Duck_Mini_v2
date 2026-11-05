@@ -61,7 +61,10 @@ def classify(e):
 
 
 def main():
-    L = open(os.path.join(LAB, "HARNESS_BUILD.md")).read().split("\n")
+    # "before" is the harness as it stood before phase 2 (commit 52d2637); the file in the tree now carries X1 and X4
+    import subprocess
+    r = subprocess.run(["git", "show", "52d2637:altaay_lab/HARNESS_BUILD.md"], cwd=LAB, capture_output=True, text=True)
+    L = (r.stdout if r.returncode == 0 else open(os.path.join(LAB, "HARNESS_BUILD.md")).read()).split("\n")
     section, cable, ends = None, None, []
     for l in L:
         if l.startswith("## "):
@@ -114,7 +117,7 @@ def main():
     # X3 service splits: head and legs come off by unplugging
     n_d34 = sum(1 for e in ends if e["cable"] in ("D3", "D4")) // 2      # wire rows of D3 and D4 (HARNESS_BUILD.md)
     after_noX3 = dict(after)
-    after["crimps"] += 2 * 2                  # X3a P13: 2 conductors x 2 sides (recommended)
+    after["solder_ends"] += 4; after["sleeves"] += 4   # X3a P13: XT30U solder cups, 2 conductors x 2 halves
     after["plugs"] += 1
     after_X3b = dict(after)                   # X3b D3, D4 hip splits: every conductor, both sides (optional)
     after_X3b["crimps"] += 2 * n_d34
@@ -123,12 +126,12 @@ def main():
                         why="with X1 the head comes off by unplugging the Pi housings and P13; a leg by unplugging S2, SP4 or SP5 at the ankle and D3 or D4 at the hip, cutting only its ties",
                         current="P13 peak 1.91 A (2.21 A at 6.4 V) [L] CABLE_MAP.md",
                         parts="P13 is 20 AWG, outside the 22 to 30 AWG of KK 254 and Mini-SPOX: an XT30U pair (BOM 12) is proposed, rating BLOCKER (not read); D3, D4: KK 254 (X1 parts)",
-                        conductors_D3_D4=n_d34, delta_s_X3a=round(4 * T["crimp_end"][0][1] + 3, 0),
-                        delta_s_X3b=round(2 * n_d34 * T["crimp_end"][0][1] + 2 * 3, 0), delta_s=round(4 * T["crimp_end"][0][1] + 3, 0),
+                        conductors_D3_D4=n_d34, delta_s_X3a=round(4 * (T["solder_end"][0][1] + T["sleeve"][0][1]) + 3, 0),
+                        delta_s_X3b=round(2 * n_d34 * T["crimp_end"][0][1] + 2 * 3, 0), delta_s=round(4 * (T["solder_end"][0][1] + T["sleeve"][0][1]) + 3, 0),
                         checks=["each split on a straight run, 20 mm or more from a joint loop end (NASA-STD-8739.4A 7.2.36, as HARNESS_BUILD.md splices)", "the joint motion job re-checks the D25 loops with the housing in place", "D3, D4 conductor count from wiring/netlist.yaml"]))
     # X4 lever splices for the battery bay stars G and VSW (power only, 16 to 20 AWG)
     n_lever = 4 + 3
-    for a_ in (after, after_noX3, after_X3b):
+    for a_ in (after, after_noX3, after_X3b):     # X4 (after_X3b is copied from after, so X3a is in it too)
         a_["solder_ends"] -= n_lever; a_["levers"] = n_lever; a_["sleeves"] -= 2
     after_noX3["mounts"] = 0
     changes.append(dict(id="X4", what="splices G (4 wires) and VSW (3 wires) in the battery bay as WAGO lever splices instead of solder in heat shrink",
