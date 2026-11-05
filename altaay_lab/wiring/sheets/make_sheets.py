@@ -507,12 +507,12 @@ def sheet_head(book):
     sh = Sheet(book, 4, "4_head_expression", "HEAD EXPRESSION",
                "Eye and projector LEDs with their resistors, antenna SG90s, I2S amplifier and speaker, camera. "
                "Splices J5 (5 V) and JG (GND) are drawn next to their loads; P17 feeds them from Pi pins 4 and 14.")
-    rows = [2, 6, 7, 8, 9, 10, 11, 16, 17, 18, 20]
-    notes = {p_: book.pin_where(f"PI.{p_}", sh.no) for p_ in (3, 13, 15, 17)}
-    x0, x1, yp = pi_header(sh, 138, 50.0, rows, pitch=10.0, notes=notes, slots={20: 3}, gap=5.0,
+    rows = [2, 6, 7, 8, 9, 10, 11, 16, 17, 18, 19, 20]
+    notes = {p_: book.pin_where(f"PI.{p_}", sh.no) for p_ in (3, 13, 15)}
+    x0, x1, yp = pi_header(sh, 138, 46.0, rows, pitch=10.0, notes=notes, slots={20: 3, 12: 2, 35: 2}, gap=4.0,
                            title="U4  Pi header (part)", w_name=23.0)
     sh.T["PI.20"]["pitch"] = 4.0
-    y = {p_: yp[(p_ + 1) // 2] for p_ in (4, 12, 14, 16, 18, 20, 22, 32, 33, 35, 40)}
+    y = {p_: yp[(p_ + 1) // 2] for p_ in (4, 12, 14, 16, 17, 18, 20, 22, 32, 33, 35, 36, 37, 38, 39, 40)}
     # ---------------- LED loops (D13): pin -> 100 ohm -> LED -> cathode back to pin 20
     net = sh.net
     resistor_h(sh, "RL", 236, y[18], cref(net, "RL"))
@@ -563,7 +563,26 @@ def sheet_head(book):
     sh.w("J5.S", "AMP.VIN", ("x", 260), lab=200)
     sh.w("PI.32", "SGR.SIG", 206, lab=182)
     sh.w("PI.33", "SGL.SIG", 20, lab=86)
-    sh.w("PI.35", "AMP.LRC", 128, 34.0, xL, 190.0, 299, lab=262)
+    sh.w("PI.35", "AMP.LRC", 128, 30.0, xL, 190.0, 299, lab=262)
+    # ---------------- I2S mics (D47): MICL on D14 to the header, MICR on D15 from MICL; SEL bridged on each board
+    mp = [("3V", "3V"), ("GND", "GND"), ("BCLK", "BCLK"), ("LRCL", "LRCL"), ("DOUT", "DOUT")]
+    ym = [97.0 + 6.0 * k for k in range(5)]
+    sh.block("MICR", 22, 88, 58, 128, "mic R", band=BAND_HEAD, tsize=7.6, sub=["SEL to 3V", "right slot"], subsize=6.0,
+             sub_y=112.0, pins=[(p_, "R", ym[k], t) for k, (p_, t) in enumerate(mp)])
+    sh.block("MICL", 76, 88, 112, 128, "mic L", band=BAND_HEAD, tsize=7.6, sub=["SEL to GND", "left slot"], subsize=6.0,
+             sub_y=112.0, pins=[(p_, "R", ym[k], t, 2, 2.0) for k, (p_, t) in enumerate(mp)])
+    for k, (p_, _t) in enumerate(mp):
+        sh.w(f"MICL.{p_}", f"MICR.{p_}", 114.0 + 1.6 * k, 85.5 - 1.2 * k, 60.5 + 2.4 * k, sa=1, lab="none" if k else 90)
+    sh.w("MICL.3V", "PI.17", 123.0, lab="none")
+    sh.w("MICL.LRCL", "PI.35", 125.0, sb=1, lab="none")
+    sh.w("MICL.GND", "PI.39", 131.0, lab="none")
+    sh.w("MICL.BCLK", "PI.12", 133.0, 174.0, 212.0, sb=1, lab="none")
+    sh.w("MICL.DOUT", "PI.38", 135.0, 172.5, 209.0, lab=("y", 150.0))
+    # D13: Pi GPIO26 (pin 37) to the Pololu 2813 OFF input (D30)
+    sh.block("SW1", 22, 150, 58, 166, "2813 (part)", band=BAND_IO, tsize=7.0, pins=[("OFF", "R", y[37], "OFF")])
+    sh.w("PI.37", "SW1.OFF", lab=96)
+    # D48: GPIO16 to the amp SD pin (amp off while the duck listens)
+    sh.w("PI.36", "AMP.SD", 215.0, 231.0, lab="none")
     # camera on the CSI port
     sh.block("PI", 90, 60, 124, 80, "CSI", band=BAND_IO, tsize=8.4, pins=[("CSI", "L", 72, "FPC")])
     sh.block("CAM", 20, 60, 50, 80, "camera", band=BAND_HEAD, tsize=8.0, pins=[("CSI", "R", 72, "FPC")])
@@ -571,8 +590,8 @@ def sheet_head(book):
     sh.legend()
     sh.notes_box(152, 249, 270, 287, [
         "D13: each LED through 100 ohm, about 3 mA. Upstream issue 34: no 1 W LED straight on a GPIO.",
-        "SG90 lead colours (orange, red, brown) are [I] in the netlist: check the lead. MAX98357A GAIN and SD "
-        "not connected. Terminal order of U8 on the board not checked [I].",
+        "SG90 lead colours (orange, red, brown) are [I] in the netlist: check the lead. MAX98357A GAIN "
+        "not connected (SD: D48, GPIO16). Terminal order of U8 on the board not checked [I].",
     ])
     return sh
 

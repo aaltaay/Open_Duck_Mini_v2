@@ -31,7 +31,7 @@ MAP = [  # component id pattern, BOM lines, a part number or name that must appe
     (r"U1", ["L1"], ["010-0004-01"]), (r"U2", ["2"], ["25514"]), (r"U3", ["9"], ["D30V30F5"]), (r"PI", ["3", "4"], ["Zero 2 W", "SDSQUAR"]),
     (r"BNO", ["5"], ["2472"]), (r"FS[LR]\d", ["13"], ["SS-01"]), (r"R[LRP]", ["E3b"], ["100 ohm"]), (r"RF[LR]", ["13b"], ["2782"]),
     (r"LED[LRP]", ["E3"], ["1 W"]), (r"SG[LR]", ["14"], ["SG90"]), (r"AMP", ["E2"], ["MAX98357A"]), (r"SPK", ["E1"], ["CMS0361KLX"]),
-    (r"CAM", ["E6"], ["5657"]), (r"SV\d+", ["1"], ["STS3215"]),
+    (r"CAM", ["E6"], ["5657"]), (r"MIC[LR]", ["E8"], ["3421"]), (r"SV\d+", ["1"], ["STS3215"]),
 ]
 
 
@@ -229,10 +229,15 @@ def main():
         D = json.load(open(fj))
         fit = [f for f in D["fasteners"] if f["kind"] == "screw" and not any(s in str(f.get("status") or "") for s in ("NOT FITTED", "LEAVE OUT"))]
         per = Counter(f.get("line") for f in fit)
-        per_spec = Counter(f["spec"] for f in fit)
+        per_spec0 = Counter(f["spec"] for f in fit)
+        per_sl = Counter((f["spec"], f.get("line")) for f in fit)
         all_spec = Counter(f["spec"] for f in D["fasteners"] if f["kind"] == "screw")
+        multi = {s for s in per_spec0 if len({l for (s2, l) in per_sl if s2 == s}) > 1}
         for r in rows:
             ln = r.get("Line", "")
+            # one row per screw spec, or per spec and BOM line when one spec is bought on two lines (M2x6: servo bag
+            # and the 17h kit, D47)
+            per_spec = {r["Item"]: per_sl.get((r["Item"], ln), 0)} if r["Item"] in multi else per_spec0
             if r["Item"] in all_spec:                      # one row per screw spec (BOM_FULL built from fasteners.json)
                 if q(r) != per_spec.get(r["Item"], 0):
                     if q(r) == all_spec[r["Item"]]:

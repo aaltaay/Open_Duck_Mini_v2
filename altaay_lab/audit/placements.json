@@ -159,5 +159,37 @@
   ],
   "frame": "urdf_world_mm",
   "seat_fix": "2026-11-04 V1 screws job (D36 X3a): centred on the straight P13 run at z 89 mm (cables3d.json P13 points (-30.67, -6.2, 89.0) to (-20.0, -11.0, 89.0)), long side along the run; CAD clearance to the parts not checked here (3D job)"
+ },
+ {
+  "id": "mic_l",
+  "label": "I2S mic board left (Adafruit 3421, BOM E8, D47)",
+  "dims_xyz_mm": [
+   16.51,
+   3.0,
+   12.7
+  ],
+  "center_mm": [
+   -38.82,
+   56.33,
+   200.94
+  ],
+  "frame": "urdf_world_mm",
+  "seat_fix": "2026-11-05 ET, V1 track 11: on the bosses of twin/companion/mic_seat.py (CAD check only)"
+ },
+ {
+  "id": "mic_r",
+  "label": "I2S mic board right (Adafruit 3421, BOM E8, D47)",
+  "dims_xyz_mm": [
+   16.51,
+   3.0,
+   12.7
+  ],
+  "center_mm": [
+   -38.82,
+   -56.13,
+   200.94
+  ],
+  "frame": "urdf_world_mm",
+  "seat_fix": "2026-11-05 ET, V1 track 11: on the bosses of twin/companion/mic_seat.py (CAD check only)"
  }
 ]
