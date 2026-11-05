@@ -1,0 +1,249 @@
+section,cable,wire,gauge,end at,op,text
+1. Battery bay power,P1,1,16 AWG,PACK.B+ (BT1 pack + (cell 2 +)),solder_end,"use the part's own lead (holder lead), solder joint covered with heat shrink"
+1. Battery bay power,P1,1,16 AWG,BMS.B+ (U5 cell stack +),solder_end,"tin and solder to BMS.B+, heat shrink if bare"
+1. Battery bay power,P2,1,16 AWG,PACK.B- (BT1 pack - (cell 1 -)),solder_end,"use the part's own lead (holder lead), solder joint covered with heat shrink"
+1. Battery bay power,P2,1,16 AWG,BMS.B- (U5 cell stack -),solder_end,"tin and solder to BMS.B-, heat shrink if bare"
+1. Battery bay power,P3,1,26 AWG,PACK.MID (BT1 series strap (cell 1 + / cell 2 -)),solder_end,solder to strap
+1. Battery bay power,P3,1,26 AWG,BMS.B1 (U5 mid tap (called BM in the brief)),solder_end,"tin and solder to BMS.B1, heat shrink if bare"
+1. Battery bay power,P4,1,20 AWG,BMS.P+ (U5 pack output + (charge and discharge)),solder_end,"tin and solder to BMS.P+, heat shrink if bare"
+1. Battery bay power,P4,1,20 AWG,CHG.B+ (U6 charge output +),solder_end,"tin and solder to CHG.B+, heat shrink if bare"
+1. Battery bay power,P5,1,20 AWG,BMS.P- (U5 pack output - (charge and discharge)),solder_end,"tin and solder to BMS.P-, heat shrink if bare"
+1. Battery bay power,P5,1,20 AWG,CHG.B- (U6 charge output -),solder_end,"tin and solder to CHG.B-, heat shrink if bare"
+1. Battery bay power,P6,1,16 AWG,BMS.P+ (U5 pack output + (charge and discharge)),solder_end,"tin and solder to BMS.P+, heat shrink if bare"
+1. Battery bay power,P6,1,16 AWG,XT30.F+ (J1 pack side +),solder_end,"solder into the XT30U cup, heat shrink over the cup"
+1. Battery bay power,P8,1,16 AWG,BMS.P- (U5 pack output - (charge and discharge)),solder_end,"tin and solder to BMS.P-, heat shrink if bare"
+1. Battery bay power,P8,1,16 AWG,XT30.F- (J1 pack side -),solder_end,"solder into the XT30U cup, heat shrink over the cup"
+1. Battery bay power,P7,1,16 AWG,XT30.M+ (J1 robot side +),solder_end,"solder into the XT30U cup, heat shrink over the cup"
+1. Battery bay power,P7,1,16 AWG,JFI.S (JFI splice),splice_end,"join at splice JFI with P7, solder, cover with adhesive heat shrink (BOM 26)"
+1. Battery bay power,P7,2,16 AWG,JFI.S (JFI splice),splice_end,"join at splice JFI with P7, solder, cover with adhesive heat shrink (BOM 26)"
+1. Battery bay power,P7,2,16 AWG,F1.IN (F1 line side (from XT30)),solder_end,"use the part's own lead (holder lead), solder joint covered with heat shrink"
+1. Battery bay power,P7,3,16 AWG,F1.OUT (F1 load side (to 2815 VIN)),solder_end,"use the part's own lead (holder lead), solder joint covered with heat shrink"
+1. Battery bay power,P7,3,16 AWG,JFO.S (JFO splice),splice_end,"join at splice JFO with P7, solder, cover with adhesive heat shrink (BOM 26)"
+1. Battery bay power,P7,4,16 AWG,JFO.S (JFO splice),splice_end,"join at splice JFO with P7, solder, cover with adhesive heat shrink (BOM 26)"
+1. Battery bay power,P7,4,16 AWG,SW1.VIN (SW1 fused pack in),solder_end,solder into the board hole VIN
+1. Battery bay power,P14,1,16 AWG,XT30.M- (J1 robot side -),solder_end,"solder into the XT30U cup, heat shrink over the cup"
+1. Battery bay power,P14,1,16 AWG,G.S (G splice),splice_end,"join at splice G with P10, P13, P14, P16, solder, cover with adhesive heat shrink (BOM 26)"
+1. Battery bay power,P9,1,16 AWG,SW1.VOUT (SW1 switched pack out),solder_end,solder into the board hole VOUT
+1. Battery bay power,P9,1,16 AWG,VSW.S (VSW splice),splice_end,"join at splice VSW with P10, P13, P9, solder, cover with adhesive heat shrink (BOM 26)"
+1. Battery bay power,P16,1,20 AWG,G.S (G splice),splice_end,"join at splice G with P10, P13, P14, P16, solder, cover with adhesive heat shrink (BOM 26)"
+1. Battery bay power,P16,1,20 AWG,SW1.GND (SW1 ground (large hole)),solder_end,solder into the board hole GND
+1. Battery bay power,P15,1,26 AWG,SW1.SW (SW1 switch control terminal (pad pair marked with a switch symbol)),solder_end,solder into the board hole SW
+1. Battery bay power,P15,1,26 AWG,CTL.1 (SW2 contact),solder_end,"tin and solder to CTL.1, heat shrink if bare"
+1. Battery bay power,P15,2,26 AWG,SW1.GND_SW (SW1 GND pad next to SW (pad pair marked with a switch symbol)),solder_end,solder into the board hole GND_SW
+1. Battery bay power,P15,2,26 AWG,CTL.2 (SW2 contact),solder_end,"tin and solder to CTL.2, heat shrink if bare"
+1. Battery bay power,P10,1,16 AWG,VSW.S (VSW splice),splice_end,"join at splice VSW with P10, P13, P9, solder, cover with adhesive heat shrink (BOM 26)"
+1. Battery bay power,P10,1,16 AWG,U1.IN+ (U1 input + (red lead)),solder_end,"use the part's own lead (solder to BEC lead), solder joint covered with heat shrink"
+1. Battery bay power,P10,2,16 AWG,G.S (G splice),splice_end,"join at splice G with P10, P13, P14, P16, solder, cover with adhesive heat shrink (BOM 26)"
+1. Battery bay power,P10,2,16 AWG,U1.IN- (U1 input - (black lead)),solder_end,"use the part's own lead (solder to BEC lead), solder joint covered with heat shrink"
+"2. Belly servo power (D15, D23)",P11,1,BEC lead,U1.OUT1+ (U1 output lead 1 + (red)),solder_end,"use the part's own lead (BEC lead), solder joint covered with heat shrink"
+"2. Belly servo power (D15, D23)",P11,1,BEC lead,JBP.S (JB+ splice),splice_end,"join at splice JBP with P11, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",P11,2,BEC lead,U1.OUT2+ (U1 output lead 2 + (red)),solder_end,"use the part's own lead (BEC lead), solder joint covered with heat shrink"
+"2. Belly servo power (D15, D23)",P11,2,BEC lead,JBP.S (JB+ splice),splice_end,"join at splice JBP with P11, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",P11,3,BEC lead,U1.OUT1- (U1 output lead 1 - (black)),solder_end,"use the part's own lead (BEC lead), solder joint covered with heat shrink"
+"2. Belly servo power (D15, D23)",P11,3,BEC lead,JBN.S (JB- splice),splice_end,"join at splice JBN with P11, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",P11,4,BEC lead,U1.OUT2- (U1 output lead 2 - (black)),solder_end,"use the part's own lead (BEC lead), solder joint covered with heat shrink"
+"2. Belly servo power (D15, D23)",P11,4,BEC lead,JBN.S (JB- splice),splice_end,"join at splice JBN with P11, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",P11,5,16 AWG,JBP.S (JB+ splice),splice_end,"join at splice JBP with P11, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",P11,5,16 AWG,SPV.S (SPV splice),splice_end,"join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",P11,6,16 AWG,JBN.S (JB- splice),splice_end,"join at splice JBN with P11, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",P11,6,16 AWG,SPG.S (SPG splice),splice_end,"join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP1,1,22 AWG,SPV.S (SPV splice),splice_end,"join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP1,1,22 AWG,"SV20.BUS2.V (ID20 supply, pin 2)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+"2. Belly servo power (D15, D23)",SP1,2,22 AWG,SPG.S (SPG splice),splice_end,"join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP1,2,22 AWG,JG20.S (JG20 splice),splice_end,"join at splice JG20 with SD1, SP1, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP1,3,22 AWG,JG20.S (JG20 splice),splice_end,"join at splice JG20 with SD1, SP1, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP1,3,22 AWG,"SV20.BUS2.G (ID20 ground, pin 1)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+"2. Belly servo power (D15, D23)",SP2,1,22 AWG,SPV.S (SPV splice),splice_end,"join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP2,1,22 AWG,"SV10.BUS2.V (ID10 supply, pin 2)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+"2. Belly servo power (D15, D23)",SP2,2,22 AWG,SPG.S (SPG splice),splice_end,"join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP2,2,22 AWG,JG10.S (JG10 splice),splice_end,"join at splice JG10 with SD2, SP2, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP2,3,22 AWG,JG10.S (JG10 splice),splice_end,"join at splice JG10 with SD2, SP2, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP2,3,22 AWG,"SV10.BUS2.G (ID10 ground, pin 1)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+"2. Belly servo power (D15, D23)",SP3,1,22 AWG,SPV.S (SPV splice),splice_end,"join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP3,1,22 AWG,"SV30.BUS2.V (ID30 supply, pin 2)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+"2. Belly servo power (D15, D23)",SP3,2,22 AWG,SPG.S (SPG splice),splice_end,"join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP3,2,22 AWG,JG30.S (JG30 splice),splice_end,"join at splice JG30 with SD1, SP3, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP3,3,22 AWG,JG30.S (JG30 splice),splice_end,"join at splice JG30 with SD1, SP3, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP3,3,22 AWG,"SV30.BUS2.G (ID30 ground, pin 1)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+"2. Belly servo power (D15, D23)",SP4,1,22 AWG,SPV.S (SPV splice),splice_end,"join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP4,1,22 AWG,"SV24.BUS1.V (ID24 supply, pin 2)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+"2. Belly servo power (D15, D23)",SP4,2,22 AWG,SPG.S (SPG splice),splice_end,"join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP4,2,22 AWG,"SV24.BUS1.G (ID24 ground, pin 1)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+"2. Belly servo power (D15, D23)",SP5,1,22 AWG,SPV.S (SPV splice),splice_end,"join at splice SPV with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP5,1,22 AWG,"SV14.BUS1.V (ID14 supply, pin 2)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+"2. Belly servo power (D15, D23)",SP5,2,22 AWG,SPG.S (SPG splice),splice_end,"join at splice SPG with P11, SP1, SP2, SP3, SP4, SP5, solder, cover with adhesive heat shrink (BOM 26)"
+"2. Belly servo power (D15, D23)",SP5,2,22 AWG,"SV14.BUS1.G (ID14 ground, pin 1)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+3. Servo data leads and kit cables,SD1,1,22 AWG,U2.H3.D (U2 bus data (H3 pin 1)),crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+3. Servo data leads and kit cables,SD1,1,22 AWG,YD3.S (YD3 splice),splice_end,"join at splice YD3 with SD1, solder, cover with adhesive heat shrink (BOM 26)"
+3. Servo data leads and kit cables,SD1,2,22 AWG,U2.H3.G (U2 ground (H3 pin 3)),crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+3. Servo data leads and kit cables,SD1,2,22 AWG,YG3.S (YG3 splice),splice_end,"join at splice YG3 with SD1, solder, cover with adhesive heat shrink (BOM 26)"
+3. Servo data leads and kit cables,SD1,3,22 AWG,YD3.S (YD3 splice),splice_end,"join at splice YD3 with SD1, solder, cover with adhesive heat shrink (BOM 26)"
+3. Servo data leads and kit cables,SD1,3,22 AWG,"SV20.BUS2.D (ID20 data, pin 3)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+3. Servo data leads and kit cables,SD1,4,22 AWG,YG3.S (YG3 splice),splice_end,"join at splice YG3 with SD1, solder, cover with adhesive heat shrink (BOM 26)"
+3. Servo data leads and kit cables,SD1,4,22 AWG,JG20.S (JG20 splice),splice_end,"join at splice JG20 with SD1, SP1, solder, cover with adhesive heat shrink (BOM 26)"
+3. Servo data leads and kit cables,SD1,5,22 AWG,YD3.S (YD3 splice),splice_end,"join at splice YD3 with SD1, solder, cover with adhesive heat shrink (BOM 26)"
+3. Servo data leads and kit cables,SD1,5,22 AWG,"SV30.BUS2.D (ID30 data, pin 3)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+3. Servo data leads and kit cables,SD1,6,22 AWG,YG3.S (YG3 splice),splice_end,"join at splice YG3 with SD1, solder, cover with adhesive heat shrink (BOM 26)"
+3. Servo data leads and kit cables,SD1,6,22 AWG,JG30.S (JG30 splice),splice_end,"join at splice JG30 with SD1, SP3, solder, cover with adhesive heat shrink (BOM 26)"
+3. Servo data leads and kit cables,SD2,1,22 AWG,U2.H5.D (U2 bus data (H5 pin 1)),crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+3. Servo data leads and kit cables,SD2,1,22 AWG,"SV10.BUS2.D (ID10 data, pin 3)",crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+3. Servo data leads and kit cables,SD2,2,22 AWG,U2.H5.G (U2 ground (H5 pin 3)),crimp,"crimp a Molex 08-70-1040 terminal with the PA-09 crimper (BOM T3), push it into a Molex 50-37-5033 housing until it clic"
+3. Servo data leads and kit cables,SD2,2,22 AWG,JG10.S (JG10 splice),splice_end,"join at splice JG10 with SD2, SP2, solder, cover with adhesive heat shrink (BOM 26)"
+3. Servo data leads and kit cables,S2,1,kit cable,"SV20.BUS1.D (ID20 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S2,1,kit cable,"SV21.BUS2.D (ID21 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S2,2,kit cable,"SV20.BUS1.V (ID20 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S2,2,kit cable,"SV21.BUS2.V (ID21 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S2,3,kit cable,"SV20.BUS1.G (ID20 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S2,3,kit cable,"SV21.BUS2.G (ID21 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S3,1,kit cable,"SV21.BUS1.D (ID21 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S3,1,kit cable,"SV22.BUS2.D (ID22 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S3,2,kit cable,"SV21.BUS1.V (ID21 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S3,2,kit cable,"SV22.BUS2.V (ID22 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S3,3,kit cable,"SV21.BUS1.G (ID21 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S3,3,kit cable,"SV22.BUS2.G (ID22 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S4,1,kit cable,"SV22.BUS1.D (ID22 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S4,1,kit cable,"SV23.BUS2.D (ID23 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S4,2,kit cable,"SV22.BUS1.V (ID22 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S4,2,kit cable,"SV23.BUS2.V (ID23 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S4,3,kit cable,"SV22.BUS1.G (ID22 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S4,3,kit cable,"SV23.BUS2.G (ID23 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S5,1,kit cable,"SV23.BUS1.D (ID23 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S5,1,kit cable,"SV24.BUS2.D (ID24 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S5,2,kit cable,"SV23.BUS1.V (ID23 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S5,2,kit cable,"SV24.BUS2.V (ID24 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S5,3,kit cable,"SV23.BUS1.G (ID23 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S5,3,kit cable,"SV24.BUS2.G (ID24 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S7,1,kit cable,"SV10.BUS1.D (ID10 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S7,1,kit cable,"SV11.BUS2.D (ID11 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S7,2,kit cable,"SV10.BUS1.V (ID10 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S7,2,kit cable,"SV11.BUS2.V (ID11 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S7,3,kit cable,"SV10.BUS1.G (ID10 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S7,3,kit cable,"SV11.BUS2.G (ID11 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S8,1,kit cable,"SV11.BUS1.D (ID11 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S8,1,kit cable,"SV12.BUS2.D (ID12 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S8,2,kit cable,"SV11.BUS1.V (ID11 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S8,2,kit cable,"SV12.BUS2.V (ID12 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S8,3,kit cable,"SV11.BUS1.G (ID11 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S8,3,kit cable,"SV12.BUS2.G (ID12 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S9,1,kit cable,"SV12.BUS1.D (ID12 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S9,1,kit cable,"SV13.BUS2.D (ID13 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S9,2,kit cable,"SV12.BUS1.V (ID12 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S9,2,kit cable,"SV13.BUS2.V (ID13 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S9,3,kit cable,"SV12.BUS1.G (ID12 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S9,3,kit cable,"SV13.BUS2.G (ID13 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S10,1,kit cable,"SV13.BUS1.D (ID13 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S10,1,kit cable,"SV14.BUS2.D (ID14 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S10,2,kit cable,"SV13.BUS1.V (ID13 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S10,2,kit cable,"SV14.BUS2.V (ID14 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S10,3,kit cable,"SV13.BUS1.G (ID13 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S10,3,kit cable,"SV14.BUS2.G (ID14 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S11,1,kit cable,"SV30.BUS1.D (ID30 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S11,1,kit cable,"SV31.BUS2.D (ID31 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S11,2,kit cable,"SV30.BUS1.V (ID30 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S11,2,kit cable,"SV31.BUS2.V (ID31 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S11,3,kit cable,"SV30.BUS1.G (ID30 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S11,3,kit cable,"SV31.BUS2.G (ID31 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S12,1,kit cable,"SV31.BUS1.D (ID31 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S12,1,kit cable,"SV32.BUS2.D (ID32 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S12,2,kit cable,"SV31.BUS1.V (ID31 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S12,2,kit cable,"SV32.BUS2.V (ID32 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S12,3,kit cable,"SV31.BUS1.G (ID31 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S12,3,kit cable,"SV32.BUS2.G (ID32 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S13,1,kit cable,"SV32.BUS1.D (ID32 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S13,1,kit cable,"SV33.BUS2.D (ID33 data, pin 3)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S13,2,kit cable,"SV32.BUS1.V (ID32 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S13,2,kit cable,"SV33.BUS2.V (ID33 supply, pin 2)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S13,3,kit cable,"SV32.BUS1.G (ID32 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+3. Servo data leads and kit cables,S13,3,kit cable,"SV33.BUS2.G (ID33 ground, pin 1)",plug,"kit cable plug (ships with the servo), no work"
+4. Power up the neck to the head,P13,1,20 AWG,VSW.S (VSW splice),splice_end,"join at splice VSW with P10, P13, P9, solder, cover with adhesive heat shrink (BOM 26)"
+4. Power up the neck to the head,P13,1,20 AWG,U3.VIN (U3 input from VSW),solder_end,solder into the board hole VIN
+4. Power up the neck to the head,P13,2,20 AWG,G.S (G splice),splice_end,"join at splice G with P10, P13, P14, P16, solder, cover with adhesive heat shrink (BOM 26)"
+4. Power up the neck to the head,P13,2,20 AWG,U3.GND.1 (U3 ground (input side)),solder_end,solder into the board hole 1
+4. Power up the neck to the head,P12,1,20 AWG,U3.VOUT (U3 5 V out),solder_end,solder into the board hole VOUT
+4. Power up the neck to the head,P12,1,20 AWG,PI.2 (U4 5V),pi_end,solder at the Pi header (pin 2)
+4. Power up the neck to the head,P12,2,20 AWG,U3.GND.2 (U3 ground (output side)),solder_end,solder into the board hole 2
+4. Power up the neck to the head,P12,2,20 AWG,PI.6 (U4 GND),pi_end,solder at the Pi header (pin 6)
+4. Power up the neck to the head,P17,1,20 AWG,PI.4 (U4 5V),pi_end,solder at the Pi header (pin 4)
+4. Power up the neck to the head,P17,1,20 AWG,J5.S (J5 splice),splice_end,"join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26)"
+4. Power up the neck to the head,P17,2,20 AWG,PI.14 (U4 GND),pi_end,solder at the Pi header (pin 14)
+4. Power up the neck to the head,P17,2,20 AWG,JG.S (JG splice),splice_end,"join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26)"
+"5. Pi, IMU and feet",D1,1,USB 2.0 cable,PI.USB (U4 micro-USB OTG data port),plug,"bought cable end (micro-USB B plug), plug in"
+"5. Pi, IMU and feet",D1,1,USB 2.0 cable,U2.USB (U2 USB-C to the CH343P serial bridge),plug,"bought cable end (USB-C plug), plug in"
+"5. Pi, IMU and feet",D2,1,26 AWG,PI.1 (U4 3V3),pi_end,solder at the Pi header (pin 1)
+"5. Pi, IMU and feet",D2,1,26 AWG,BNO.VIN (U7 supply),solder_end,solder
+"5. Pi, IMU and feet",D2,2,26 AWG,PI.9 (U4 GND),pi_end,solder at the Pi header (pin 9)
+"5. Pi, IMU and feet",D2,2,26 AWG,BNO.GND (U7 ground),solder_end,solder
+"5. Pi, IMU and feet",D2,3,26 AWG,PI.3 (U4 GPIO2 SDA),pi_end,solder at the Pi header (pin 3)
+"5. Pi, IMU and feet",D2,3,26 AWG,BNO.SDA (U7 I2C data),solder_end,solder
+"5. Pi, IMU and feet",D2,4,26 AWG,PI.5 (U4 GPIO3 SCL),pi_end,solder at the Pi header (pin 5)
+"5. Pi, IMU and feet",D2,4,26 AWG,BNO.SCL (U7 I2C clock),solder_end,solder
+"5. Pi, IMU and feet",D3,1,resistor lead,PI.17 (U4 3V3),pi_end,solder at the Pi header (pin 17)
+"5. Pi, IMU and feet",D3,1,resistor lead,RFL.1 (R4 3V3 side (Pi pin 17)),solder_end,"use the part's own lead (resistor lead), solder joint covered with heat shrink"
+"5. Pi, IMU and feet",D3,2,resistor lead,RFL.2 (R4 input side (Pi pin 15)),solder_end,"use the part's own lead (resistor lead), solder joint covered with heat shrink"
+"5. Pi, IMU and feet",D3,2,resistor lead,PI.15 (U4 GPIO22 left foot),pi_end,solder at the Pi header (pin 15)
+"5. Pi, IMU and feet",D3,3,26 AWG,PI.15 (U4 GPIO22 left foot),pi_end,solder at the Pi header (pin 15)
+"5. Pi, IMU and feet",D3,3,26 AWG,FSL1.NO (SL1 normally open),solder_end,"tin and solder to FSL1.NO, heat shrink if bare"
+"5. Pi, IMU and feet",D3,4,26 AWG,PI.9 (U4 GND),pi_end,solder at the Pi header (pin 9)
+"5. Pi, IMU and feet",D3,4,26 AWG,FSL1.COM (SL1 common),solder_end,"tin and solder to FSL1.COM, heat shrink if bare"
+"5. Pi, IMU and feet",D3,5,26 AWG,FSL1.NO (SL1 normally open),solder_end,"tin and solder to FSL1.NO, heat shrink if bare"
+"5. Pi, IMU and feet",D3,5,26 AWG,FSL2.NO (SL2 normally open),solder_end,"tin and solder to FSL2.NO, heat shrink if bare"
+"5. Pi, IMU and feet",D3,6,26 AWG,FSL1.COM (SL1 common),solder_end,"tin and solder to FSL1.COM, heat shrink if bare"
+"5. Pi, IMU and feet",D3,6,26 AWG,FSL2.COM (SL2 common),solder_end,"tin and solder to FSL2.COM, heat shrink if bare"
+"5. Pi, IMU and feet",D4,1,resistor lead,PI.17 (U4 3V3),pi_end,solder at the Pi header (pin 17)
+"5. Pi, IMU and feet",D4,1,resistor lead,RFR.1 (R5 3V3 side (Pi pin 17)),solder_end,"use the part's own lead (resistor lead), solder joint covered with heat shrink"
+"5. Pi, IMU and feet",D4,2,resistor lead,RFR.2 (R5 input side (Pi pin 13)),solder_end,"use the part's own lead (resistor lead), solder joint covered with heat shrink"
+"5. Pi, IMU and feet",D4,2,resistor lead,PI.13 (U4 GPIO27 right foot),pi_end,solder at the Pi header (pin 13)
+"5. Pi, IMU and feet",D4,3,26 AWG,PI.13 (U4 GPIO27 right foot),pi_end,solder at the Pi header (pin 13)
+"5. Pi, IMU and feet",D4,3,26 AWG,FSR1.NO (SR1 normally open),solder_end,"tin and solder to FSR1.NO, heat shrink if bare"
+"5. Pi, IMU and feet",D4,4,26 AWG,PI.9 (U4 GND),pi_end,solder at the Pi header (pin 9)
+"5. Pi, IMU and feet",D4,4,26 AWG,FSR1.COM (SR1 common),solder_end,"tin and solder to FSR1.COM, heat shrink if bare"
+"5. Pi, IMU and feet",D4,5,26 AWG,FSR1.NO (SR1 normally open),solder_end,"tin and solder to FSR1.NO, heat shrink if bare"
+"5. Pi, IMU and feet",D4,5,26 AWG,FSR2.NO (SR2 normally open),solder_end,"tin and solder to FSR2.NO, heat shrink if bare"
+"5. Pi, IMU and feet",D4,6,26 AWG,FSR1.COM (SR1 common),solder_end,"tin and solder to FSR1.COM, heat shrink if bare"
+"5. Pi, IMU and feet",D4,6,26 AWG,FSR2.COM (SR2 common),solder_end,"tin and solder to FSR2.COM, heat shrink if bare"
+6. Head expression,D5,1,26 AWG,PI.18 (U4 GPIO24 left eye),pi_end,solder at the Pi header (pin 18)
+6. Head expression,D5,1,26 AWG,RL.1 (R1 GPIO side),solder_end,solder
+6. Head expression,D5,2,resistor lead,RL.2 (R1 LED side),solder_end,"use the part's own lead (resistor lead), solder joint covered with heat shrink"
+6. Head expression,D5,2,resistor lead,LEDL.A (LED1 anode),solder_end,"use the part's own lead (LED lead), solder joint covered with heat shrink"
+6. Head expression,D5,3,26 AWG,LEDL.K (LED1 cathode),solder_end,solder
+6. Head expression,D5,3,26 AWG,PI.20 (U4 GND),pi_end,solder at the Pi header (pin 20)
+6. Head expression,D6,1,26 AWG,PI.16 (U4 GPIO23 right eye),pi_end,solder at the Pi header (pin 16)
+6. Head expression,D6,1,26 AWG,RR.1 (R2 GPIO side),solder_end,solder
+6. Head expression,D6,2,resistor lead,RR.2 (R2 LED side),solder_end,"use the part's own lead (resistor lead), solder joint covered with heat shrink"
+6. Head expression,D6,2,resistor lead,LEDR.A (LED2 anode),solder_end,"use the part's own lead (LED lead), solder joint covered with heat shrink"
+6. Head expression,D6,3,26 AWG,LEDR.K (LED2 cathode),solder_end,solder
+6. Head expression,D6,3,26 AWG,PI.20 (U4 GND),pi_end,solder at the Pi header (pin 20)
+6. Head expression,D7,1,26 AWG,PI.22 (U4 GPIO25 projector),pi_end,solder at the Pi header (pin 22)
+6. Head expression,D7,1,26 AWG,RP.1 (R3 GPIO side),solder_end,solder
+6. Head expression,D7,2,resistor lead,RP.2 (R3 LED side),solder_end,"use the part's own lead (resistor lead), solder joint covered with heat shrink"
+6. Head expression,D7,2,resistor lead,LEDP.A (LED3 anode),solder_end,"use the part's own lead (LED lead), solder joint covered with heat shrink"
+6. Head expression,D7,3,26 AWG,LEDP.K (LED3 cathode),solder_end,solder
+6. Head expression,D7,3,26 AWG,PI.20 (U4 GND),pi_end,solder at the Pi header (pin 20)
+6. Head expression,D8,1,SG90 lead,SGL.SIG (M1 PWM in),plug,servo socket
+6. Head expression,D8,1,SG90 lead,PI.33 (U4 GPIO13 left antenna PWM),pi_end,solder at the Pi header (pin 33)
+6. Head expression,D8,2,SG90 lead,SGL.VCC (M1 supply),plug,servo socket
+6. Head expression,D8,2,SG90 lead,J5.S (J5 splice),splice_end,"join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26)"
+6. Head expression,D8,3,SG90 lead,SGL.GND (M1 ground),plug,servo socket
+6. Head expression,D8,3,SG90 lead,JG.S (JG splice),splice_end,"join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26)"
+6. Head expression,D9,1,SG90 lead,SGR.SIG (M2 PWM in),plug,servo socket
+6. Head expression,D9,1,SG90 lead,PI.32 (U4 GPIO12 right antenna PWM),pi_end,solder at the Pi header (pin 32)
+6. Head expression,D9,2,SG90 lead,SGR.VCC (M2 supply),plug,servo socket
+6. Head expression,D9,2,SG90 lead,J5.S (J5 splice),splice_end,"join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26)"
+6. Head expression,D9,3,SG90 lead,SGR.GND (M2 ground),plug,servo socket
+6. Head expression,D9,3,SG90 lead,JG.S (JG splice),splice_end,"join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26)"
+6. Head expression,D10,1,26 AWG,PI.35 (U4 GPIO19 I2S LRC),pi_end,solder at the Pi header (pin 35)
+6. Head expression,D10,1,26 AWG,AMP.LRC (U8 I2S frame),solder_end,solder
+6. Head expression,D10,2,26 AWG,PI.12 (U4 GPIO18 I2S BCLK),pi_end,solder at the Pi header (pin 12)
+6. Head expression,D10,2,26 AWG,AMP.BCLK (U8 I2S bit clock),solder_end,solder
+6. Head expression,D10,3,26 AWG,PI.40 (U4 GPIO21 I2S DIN),pi_end,solder at the Pi header (pin 40)
+6. Head expression,D10,3,26 AWG,AMP.DIN (U8 I2S data),solder_end,solder
+6. Head expression,D10,4,26 AWG,J5.S (J5 splice),splice_end,"join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26)"
+6. Head expression,D10,4,26 AWG,AMP.VIN (U8 supply),solder_end,solder
+6. Head expression,D10,5,26 AWG,JG.S (JG splice),splice_end,"join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26)"
+6. Head expression,D10,5,26 AWG,AMP.GND (U8 ground),solder_end,solder
+6. Head expression,D11,1,26 AWG,AMP.SPK+ (U8 speaker +),other,screw terminal AMP.SPK+
+6. Head expression,D11,1,26 AWG,SPK.+ (LS1 speaker +),solder_end,"tin and solder to SPK.+, heat shrink if bare"
+6. Head expression,D11,2,26 AWG,AMP.SPK- (U8 speaker -),other,screw terminal AMP.SPK-
+6. Head expression,D11,2,26 AWG,SPK.- (LS1 speaker -),solder_end,"tin and solder to SPK.-, heat shrink if bare"
+6. Head expression,D12,1,FPC ribbon,PI.CSI (U4 camera connector),plug,"bought cable end (22-pin FPC), plug in"
+6. Head expression,D12,1,FPC ribbon,CAM.CSI (U9 camera ribbon),plug,"bought cable end (15-pin FPC), plug in"
