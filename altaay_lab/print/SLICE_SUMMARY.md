@@ -8,14 +8,16 @@ All grams and hours are PrusaSlicer 2.7.2 estimates made on the box with the gen
 
 Settings: the light profile of DECISIONS.md D22 (print/MASS_STUDY.md variant c). Base config/pla_print.ini and config/tpu_print.ini: 2 walls, gyroid infill PLA 15 % and TPU 40 %. Per-part overrides from parts.csv: insert 4 walls; neck 5 walls and 40 %; wall3 3 walls; fit outer wall first at 25 mm/s. Solid rings: 100 % infill cylinders (config/mod_ring.ini) round the insert bores (2.0 mm solid) and screw pilots (1.5 mm) of the parts with a rings entry in parts.csv; those parts are sliced from a 3MF that carries the modifiers. 'Before' columns: the same parts with the settings before D22 (`slice.py parts --set heavy`: config/*_heavy.ini with 3 walls, the parts.csv heavy overrides, no rings). Densities from the Overture data sheets: Easy PLA 1.20, TPU 95A 1.216 g/cm3. Upstream STLs: print/ at 730c14b (unchanged at b23317a).
 
+V1 screws job, 2026-11-04 (D38): body_front, body_middle_top and body_middle_bottom re-sliced with `slice.py parts --only` (D22 light profile) after the tongue, groove, lips and ribs; the coupon session re-sliced with K1a to K4 added (S1 46.8 g, 4.69 h). Plates holding the 3 parts are moved by the part deltas (calc), not re-sliced; the before columns and the S1 gate fallback are from before.
+
 ## What changed with D22
 
 - Robot set (36 STLs, 52 parts): 1280.3 g and 111.1 h, against 1409.0 g and 118.9 h before (-128.8 g, -7.8 h). On the robot: 1190.4 g against 1318.6 g (-128.2 g).
 - Lighter: 19 STLs. Unchanged (within 0.01 g and 1 s, the run to run noise): 17 STLs (head, head_pitch_to_yaw, head_roll_mount, head_yaw_to_roll, knee_to_ankle_left_sheet, knee_to_ankle_right_sheet, left_antenna_holder, left_eye, neck_left_sheet, neck_right_sheet, right_antenna_holder, right_eye, roll_motor_bottom, speaker_interface, speaker_stand, trunk_bottom, trunk_top).
 - S1 gate fallback (light coupon fails): +62.0 g filament, +61.7 g on the robot, +3.99 h on the 10 insert ring parts.
-- Plates, 220 bed: 18 jobs, 1365.4 g, 118.6 h; before 15 jobs, 1492.7 g, 126.5 h.
+- Plates, 220 bed: 18 jobs, 1365.4 g, 119.5 h; before 15 jobs, 1492.7 g, 126.5 h.
 - Plates, 256 bed: 17 jobs, 1365.8 g, 118.7 h; before 14 jobs, 1492.8 g, 126.6 h.
-- Coupon session: S1_PLA_coupons 41.2 g, 4.14 h; S2_TPU_coupons 17.6 g, 2.19 h.
+- Coupon session: S1_PLA_coupons 46.8 g, 4.69 h; S2_TPU_coupons 17.6 g, 2.19 h.
 - The old PRINT_CHECK run (audit/slice_best.json, parts.csv quantities): 1339.0 g, 131.5 h.
 
 ## Per part (robot set: 36 STLs, 52 parts)
@@ -24,9 +26,9 @@ Settings: the light profile of DECISIONS.md D22 (print/MASS_STUDY.md variant c).
 |---|---|---|---|---|---|---|---|---|---|---|
 | battery_pack_lid.stl | 1 | PLA | light (base) | 13.64 | 1.01 | 0.06 | 13.6 | 1.01 | 14.05 | 1.04 |
 | body_back.stl | 1 | PLA | rings (base + 5 pilot rings) | 78.43 | 6.46 | 8.08 | 78.4 | 6.46 | 88.06 | 6.94 |
-| body_front.stl | 1 | PLA | light (base) | 57.87 | 4.03 | 0.00 | 57.9 | 4.03 | 60.33 | 4.22 |
-| body_middle_bottom.stl | 1 | PLA | rings (base + 8 insert rings) | 103.09 | 8.61 | 14.13 | 103.1 | 8.61 | 116.52 | 9.53 |
-| body_middle_top.stl | 1 | PLA | rings (base + 8 insert rings) | 74.43 | 6.61 | 8.22 | 74.4 | 6.61 | 98.95 | 7.76 |
+| body_front.stl | 1 | PLA | light (base) | 58.05 | 4.06 | 0.00 | 58.0 | 4.06 | 60.33 | 4.22 |
+| body_middle_bottom.stl | 1 | PLA | rings (base + 8 insert rings) | 107.45 | 9.38 | 15.54 | 107.5 | 9.38 | 116.52 | 9.53 |
+| body_middle_top.stl | 1 | PLA | rings (base + 8 insert rings) | 75.24 | 6.75 | 8.21 | 75.2 | 6.75 | 98.95 | 7.76 |
 | bulb.stl | 2 | PLA | light (base) | 2.04 | 0.17 | 0.00 | 4.1 | 0.34 | 2.05 | 0.17 |
 | flash_light_module.stl | 1 | PLA | light (base) | 8.40 | 0.80 | 0.32 | 8.4 | 0.80 | 9.13 | 0.87 |
 | flash_reflector_interface.stl | 1 | PLA | light (base) | 2.32 | 0.24 | 0.05 | 2.3 | 0.24 | 2.57 | 0.25 |
@@ -63,7 +65,7 @@ Settings: the light profile of DECISIONS.md D22 (print/MASS_STUDY.md variant c).
 |---|---|---|---|---|---|---|
 | PLA | 50 | 1245.1 | 106.7 | 89.8 | 1372.7 | 114.4 |
 | TPU | 2 | 35.1 | 4.4 | 0.0 | 36.3 | 4.5 |
-| Total | 52 | 1280.3 | 111.1 | 89.8 | 1409.0 | 118.9 |
+| Total | 52 | 1285.7 | 112.0 | 91.2 | 1409.0 | 118.9 |
 
 On the robot (grams less support, the way sim/mass_budget.py counts a printed part): 1190.4 g, 1318.6 g before (-128.2 g).
 
@@ -81,10 +83,10 @@ Spares (G5, G6, one set, printed in the plates below): PLA 10 parts, 104.6 g, 9.
 | L1-4_PLA_wall3 | roll_motor_bottom x1 | 8.7 | 0.72 | yes |
 | L1-5_PLA_wall3_fit | knee_to_ankle_left_sheet x2, knee_to_ankle_right_sheet x2 | 26.5 | 2.50 | yes |
 | P220-01_PLA_base | head_bot_sheet x1 | 56.9 | 3.83 | yes |
-| P220-02_PLA_base | battery_pack_lid x1, body_front x1, bulb x2, flash_light_module x1, foot_side x1, right_cache x1, speaker_interface x1 | 157.5 | 12.48 | yes |
+| P220-02_PLA_base | battery_pack_lid x1, body_front x1, bulb x2, flash_light_module x1, foot_side x1, right_cache x1, speaker_interface x1 | 157.7 | 12.51 | yes |
 | P220-03_PLA_base | body_back x1 (rings), flash_reflector_interface x1 | 80.7 | 6.67 | yes |
-| P220-04_PLA_base_rings | body_middle_bottom x1 (rings), foot_bottom_pla x1 (rings), foot_top x1 (rings), leg_spacer x2 (rings) | 151.5 | 13.26 | yes |
-| P220-05_PLA_base_rings | body_middle_top x1 (rings) | 74.4 | 6.61 | yes |
+| P220-04_PLA_base_rings | body_middle_bottom x1 (rings), foot_bottom_pla x1 (rings), foot_top x1 (rings), leg_spacer x2 (rings) | 155.9 | 14.03 | yes |
+| P220-05_PLA_base_rings | body_middle_top x1 (rings) | 75.2 | 6.75 | yes |
 | P220-06_PLA_fit | right_roll_to_pitch x1, roll_motor_top x1 | 28.3 | 2.86 | yes |
 | P220-07_PLA_insert | head x1 | 262.0 | 21.92 | yes |
 | P220-08_PLA_insert_fit | trunk_bottom x1 | 42.0 | 3.53 | yes |
@@ -93,7 +95,7 @@ Spares (G5, G6, one set, printed in the plates below): PLA 10 parts, 104.6 g, 9.
 | P220-11_PLA_wall3 | left_antenna_holder x2 (1 spare), right_antenna_holder x2 (1 spare), right_eye x1, roll_motor_bottom x2 (1 spare), speaker_stand x1 | 46.1 | 4.03 | yes |
 | P220-12_PLA_wall3_fit | knee_to_ankle_left_sheet x3 (1 spare), knee_to_ankle_right_sheet x3 (1 spare), trunk_top x1 | 114.8 | 9.87 | yes |
 | P220-13_TPU_base | foot_bottom_tpu x1 | 17.6 | 2.19 | yes |
-| Total | 18 jobs | 1365.4 | 118.6 | |
+| Total | 18 jobs | 1370.8 | 119.5 | |
 
 S1 gate fallback, 220 bed: if a light coupon fails, print these plates (same parts, same places) with the profile below and no rings:
 
@@ -116,9 +118,9 @@ With the fallback the full print is 18 jobs, 1426.8 g and 122.7 h.
 | L1-4_PLA_wall3 | roll_motor_bottom x1 | 8.7 | 0.72 | yes |
 | L1-5_PLA_wall3_fit | knee_to_ankle_left_sheet x2, knee_to_ankle_right_sheet x2 | 26.6 | 2.51 | yes |
 | P256-01_PLA_base | bulb x2, flash_light_module x1, flash_reflector_interface x1, head_bot_sheet x1, right_cache x1, speaker_interface x1 | 131.2 | 10.44 | yes |
-| P256-02_PLA_base | battery_pack_lid x1, body_back x1 (rings), body_front x1, foot_side x1 | 164.0 | 12.70 | yes |
-| P256-03_PLA_base_rings | body_middle_bottom x1 (rings), foot_bottom_pla x1 (rings), foot_top x1 (rings), leg_spacer x2 (rings) | 151.7 | 13.18 | yes |
-| P256-04_PLA_base_rings | body_middle_top x1 (rings) | 74.4 | 6.61 | yes |
+| P256-02_PLA_base | battery_pack_lid x1, body_back x1 (rings), body_front x1, foot_side x1 | 164.2 | 12.73 | yes |
+| P256-03_PLA_base_rings | body_middle_bottom x1 (rings), foot_bottom_pla x1 (rings), foot_top x1 (rings), leg_spacer x2 (rings) | 156.1 | 13.95 | yes |
+| P256-04_PLA_base_rings | body_middle_top x1 (rings) | 75.2 | 6.75 | yes |
 | P256-05_PLA_fit | right_roll_to_pitch x1, roll_motor_top x1 | 28.3 | 2.86 | yes |
 | P256-06_PLA_insert | head x1 | 262.0 | 21.92 | yes |
 | P256-07_PLA_insert_fit | trunk_bottom x1 | 42.0 | 3.53 | yes |
@@ -127,7 +129,7 @@ With the fallback the full print is 18 jobs, 1426.8 g and 122.7 h.
 | P256-10_PLA_wall3 | left_antenna_holder x2 (1 spare), right_antenna_holder x2 (1 spare), right_eye x1, roll_motor_bottom x2 (1 spare), speaker_stand x1 | 46.1 | 4.04 | yes |
 | P256-11_PLA_wall3_fit | knee_to_ankle_left_sheet x3 (1 spare), knee_to_ankle_right_sheet x3 (1 spare), trunk_top x1 | 114.7 | 9.87 | yes |
 | P256-12_TPU_base | foot_bottom_tpu x1 | 17.6 | 2.19 | yes |
-| Total | 17 jobs | 1365.8 | 118.7 | |
+| Total | 17 jobs | 1371.2 | 119.6 | |
 
 S1 gate fallback, 256 bed: if a light coupon fails, print these plates (same parts, same places) with the profile below and no rings:
 

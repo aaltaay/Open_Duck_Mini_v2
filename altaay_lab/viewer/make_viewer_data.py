@@ -156,7 +156,7 @@ V2_SERVO = {
 }
 HORN_PULL, INSERT_PULL = 14.0, 11.0     # extra pull along the horn axis / insert bore, mm
 SHORT = {"bec_pro": "BEC Pro", "fuse_holder": "Fuse holder", "mosfet_switch": "Pololu 2813", "led_1": "Eye LED left", "led_2": "Eye LED right", "led_3": "Projector LED", "bms_tenergy": "Tenergy BMS",
-         "reg_5v": "5 V reg", "xt30": "XT30U", "amp": "Amp", "speaker": "Speaker", "camera": "Camera", "led": "LED",
+         "reg_5v": "5 V reg", "xt30": "XT30U", "xt30_p13": "XT30U P13", "amp": "Amp", "speaker": "Speaker", "camera": "Camera", "led": "LED",
          "foot_switch": "SS-01"}
 
 # Placeholders for bought parts that are not in the CAD. ids match audit/place_parts.py.
@@ -180,6 +180,9 @@ PLACEHOLDERS = [
     dict(id="xt30", label="XT30U connector pair, mated", dims=[32, 10, 5.2], bom="12",
          blockers=[], dims_note="About 32 x 10 x 5.2 mm mated (approximate).",
          mount="Inline on the pack lead, no screws. Tnkr: left of the cell holder, standing."),
+    dict(id="xt30_p13", label="XT30U pair in P13, service plug at the neck base (X3a, D36)", dims=[32, 10, 5.2], bom="12",
+         blockers=[], dims_note="About 32 x 10 x 5.2 mm mated (approximate), as the line 12 pair.",
+         mount="Inline on P13 on its straight run at the neck base (cables3d.json P13 route), 20 mm or more from the neck_pitch loop end; tied to the P13 bundle. The head comes off by unplugging it (X3a, D36)."),
     dict(id="amp", label="Adafruit MAX98357A I2S amp (3006)", dims=[19, 18, 3], bom="E2",
          blockers=[], dims_note="About 19 x 18 x 3 mm (approximate).",
          mount="Not in CAD, no mount (BOM E2). Tnkr: head floor, right of the speaker stand, foam tape."),
@@ -270,7 +273,7 @@ BOM_VIEW = {
     "9": ("placeholder", ["reg_5v"], [], "Pololu step-down size, about 18 x 18 x 8"),
     "10": ("placeholder", ["mosfet_switch"], [], ""),
     "10b": ("cad", ["power_switch"], [], "The CAD power_switch body in the body_back cutout"),
-    "11": ("cad", ["charger"], [], ""), "12": ("placeholder", ["xt30"], [], "1 mated pair used of the 10 bought"),
+    "11": ("cad", ["charger"], [], ""), "12": ("placeholder", ["xt30", "xt30_p13"], [], "2 mated pairs used of the 10 bought: the battery disconnect and the P13 service plug (X3a, D36)"),
     "13": ("placeholder", ["foot_switch"], [], "In the foot_top slots"), "14": ("cad", ["sg90"], [], ""),
     "13b": ("none", [], [], "Resistor, leads soldered at the Pi header (D17)"),
     "L1": ("placeholder", ["bec_pro"], [], ""), "L3": ("placeholder", ["fuse_holder"], [], "Dims not verified"),
@@ -428,6 +431,9 @@ def load_fasteners(path=FASTENERS_JSON):
         kind = str(_first(r, "kind", "type", default="screw")).lower()
         if "insert" in kind or "bearing" in kind:
             skipped[kind] += 1          # inserts and bearings are drawn from the CAD already
+            continue
+        if str(r.get("status") or "").startswith(("LEAVE OUT", "NOT FITTED")):
+            skipped["left out or not fitted"] += 1     # D18, D38 and the idle horn screws: not drawn, not counted
             continue
         pose = r.get("pose") if isinstance(r.get("pose"), dict) else {}
         world = pose.get("world") if isinstance(pose.get("world"), dict) else pose
