@@ -157,3 +157,12 @@ The twin numbers are calc only and CAD check only; these checks close them. Coup
 6. Lid pilots: thread an M2.5x10 into a body_back pilot coupon 10 times, then pull by hand; if it strips, the lid gets M2.5 inserts (new part, Ahmed's OK).
 7. Button 10b (MB2011LS1W01-BB) at the first fit: the snap-on cap clears the body_back opening and the plate holds it (D30).
 8. Drop check of the closed trunk (shells, lid, battery): BLOCKER: height from the standing trunk centre in the URDF, to be set before the test; after it nothing separates, cracks are logged.
+
+## 15. STS3250 knee servo, one unit first (D32; twin/knee/KNEE_TWIN.md, its numbers sim pass only)
+Buy one STS3250-C002 (BOM 1b) before the second. Bench supply at 7.2 V (the BEC output), limit 3 A, the servo alone.
+1. Before any write, read back the model number, the firmware version and registers 13, 14, 15, 16, 19, 20, 21, 22, 23, 28, 34, 35, 36, 38 and 48 (FTServo STS memory table). PASS: 13 is 70; 15 is 40 or less (4.0 V; the FTServo wiki lists 9 to 12.6 V for this model, and a unit set near 90 would cut the knee on our 7.2 V bus: write 40). Record the rest in the history file; the twin uses 3.8 A for 28 (the sheet; the table default 511 is 3.3 A, Robo9 reports 4.85 A). If the model number is not 777, add it to pypot's table before configure_motor.py (its "go to 0" would send raw 512).
+2. 7.2 V operation (the sheet says 6 to 12 V): hold a 1 kg mass on a 0.2 m lever (2.0 Nm, under the 2.9 Nm sheet stall at 7.2 V) for 30 s. PASS: no torque drop, no error bit in register 65. FAIL: stop; D32 then needs SERVO_UPGRADE_OPTIONS.md option B.
+3. Bench BAM identification at 7.2 V (bam/feetech/record.py pendulum; arm mass and length recorded): fit kt, R, friction and damping, and set register 21 for the C001's stiffness (twin band 11 to 19). It settles B70 and B73 and gives the run2_sts3250 retrain its values.
+4. Heat hold at 1.1 A (the C001's 1.5 A torque by the Kt ratio 8 / 11) from a 25 C room until the reading settles or reaches 62 C, register 63 every 10 s: the thermal resistance and time constant (the twin's high end assumes Robo9's rise, 40 to 70 C in 8 minutes at 20 kg.cm). A thermocouple on the printed thigh sheet next to the case shows how much heat the aluminium case puts into the PLA.
+5. Fit in a printed thigh with 2 M2x6 machine screws (BOM_FULL F07b): thread depth, screw length, no rattle.
+PASS of all five: order the second unit.

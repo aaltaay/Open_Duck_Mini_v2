@@ -52,9 +52,9 @@ INSERT_BORE = (3.8, 4.3, 5.0)          # bore diameter range and minimum length,
 # ----------------------------------------------------------------------------------------------
 # Catalog of modelled parts that are not printed (URDF mesh file -> part key, label, category, BOM)
 BOUGHT = {
-    "wj-wk00-0122topcabinetcase_95.stl": ("servo_top", "STS3215 servo case, top", "servo", "1"),
-    "wj-wk00-0123middlecase_56.stl": ("servo_mid", "STS3215 servo case, middle", "servo", "1"),
-    "wj-wk00-0124bottomcase_45.stl": ("servo_bottom", "STS3215 servo case, bottom", "servo", "1"),
+    "wj-wk00-0122topcabinetcase_95.stl": ("servo_top", "Servo case, top", "servo", "1"),
+    "wj-wk00-0123middlecase_56.stl": ("servo_mid", "Servo case, middle", "servo", "1"),
+    "wj-wk00-0124bottomcase_45.stl": ("servo_bottom", "Servo case, bottom", "servo", "1"),
     "drive_palonier.stl": ("horn_drive", "Servo horn, drive side", "horn", "1"),
     "passive_palonier.stl": ("horn_idle", "Servo horn, idle side", "horn", "1"),
     "roll_bearing.stl": ("bearing", "6804ZZ ball bearing 20 x 32 x 7", "bearing", "18"),
@@ -265,7 +265,8 @@ LABEL = {"head": "Head shell", "foot_bottom_tpu": "Foot sole (TPU)", "foot_botto
 
 # How each BOM line shows in the model (line id -> kind, part keys, note)
 BOM_VIEW = {
-    "1": ("cad", ["servo"], ["horn_drive", "horn_idle"], "14 servos, each 3 case parts plus 2 horns"),
+    "1": ("cad", ["servo"], ["horn_drive", "horn_idle"], "12 STS3215 servos (the knees are line 1b), each 3 case parts plus 2 horns"),
+    "1b": ("cad", ["servo"], ["horn_drive", "horn_idle"], "the 2 STS3250 knee servos (D32): the same outline, so the same case meshes"),
     "2": ("cad", ["adapter"], [], "board.stl on trunk_top. A copy of board.stl also sits in the head as the Pi footprint (B7)"),
     "3": ("cad", ["pi"], [], ""), "4": ("none", [], [], "Inside the Pi, not modelled"),
     "5": ("cad", ["imu"], [], ""), "6": ("cad", ["cell"], [], ""), "7": ("cad", ["holder"], [], ""),
@@ -1143,6 +1144,8 @@ def main():
             i = inst[g[p]]
             i["servo"] = g["joint"]
             i["servo_centre"] = cen
+            if g["joint"] in ("left_knee", "right_knee"):
+                i["bom"] = "1b"                                   # D32: the STS3250 knee servo is BOM line 1b
             if p.startswith("horn"):
                 ext = i["bmax"] - i["bmin"]
                 ax = int(np.argmin(ext))
@@ -1416,7 +1419,8 @@ def main():
     geoms.append(dict(name="placeholder_box", pos=bpos, idx=bidx, src_faces=12))
 
     nodes, man_nodes = [], {}
-    servo_label = lambda j: "STS3215 servo ID %d, %s" % (SERVO_ID.get(j, 0), j.replace("_", " "))
+    servo_model = lambda j: "STS3250" if j in ("left_knee", "right_knee") else "STS3215"     # D32: STS3250 knees, STS3215 C001 elsewhere
+    servo_label = lambda j: "%s servo ID %d, %s" % (servo_model(j), SERVO_ID.get(j, 0), j.replace("_", " "))
 
     def status_of(keys, cleared_ok=()):
         ids = []
@@ -1440,6 +1444,12 @@ def main():
                    else (i["label"] + (" of servo ID %d" % SERVO_ID.get(i["servo"], 0) if "servo" in i else "")),
                    part=key, file=i["file"], link=i["link"], sub=i["sub"], category=i["cat"],
                    status=st, blockers=rows, mount=MOUNT.get(bkey, ""), v2=np.round(i["v2"], 2).tolist())
+        if "servo" in i and key.startswith("servo_"):            # D32: STS3250 on the two knees, STS3215 C001 on the other 12
+            knee = servo_model(i["servo"]) == "STS3250"
+            rec.update(model=servo_model(i["servo"]), mass_g=74.5 if knee else 55.0, mass_note="whole servo (Feetech sheets)",
+                       bom="1b" if knee else "1")
+            if knee:
+                rec["mount"] = rec["mount"] + " Knees (STS3250, D32): aluminium case tapped 4-M2.0, so 2 M2x6 machine screws into the thigh (BOM_FULL F07b; thread depth not published)."
         if i.get("printed"):
             d = pd_.get(key, {})
             rec.update(qty=d.get("qty"), material=d.get("material"), grams=d.get("g_each"), hours=d.get("h_each"),
@@ -1874,17 +1884,21 @@ def main():
             ids = [k for k, r in man_nodes.items() if r["category"] == parts[0]]
             cnt = len(ids)
             exp = sum(d["qty"] for d in pd_.values() if d["cat"] == parts[0])
+        elif parts == ["servo"]:                       # D32: line 1 counts the STS3215 C001 servos, line 1b the STS3250 knees
+            want = "STS3250" if b["line"] == "1b" else "STS3215"
+            ids = [k for k in servo_nodes if not man_nodes[k]["part"].startswith("horn") and man_nodes[k].get("model") == want]
+            cnt = len({man_nodes[k].get("group") for k in ids})
         else:
             ids = []
             for pk in parts:
-                ids += [k for k in servo_nodes if not man_nodes[k]["part"].startswith("horn")] if pk == "servo" else ph_by_part.get(pk, [])
-            cnt = servo_n if parts == ["servo"] else len(ids)
+                ids += ph_by_part.get(pk, [])
+            cnt = len(ids)
         rel = [k for pk in related for k in ph_by_part.get(pk, [])]
         show = {"cad": "In CAD", "placeholder": "Placeholder", "filament": "As %d printed parts" % cnt}.get(kind, "Not modelled")
         if kind == "placeholder" and any(not k.startswith("ph-") for k in rel):
             show += " + CAD body (replaced)" if any(man_nodes[k].get("replaced") for k in rel) else " + CAD body"
         if kind == "cad" and parts == ["servo"]:
-            show += " (%d servos)" % servo_n
+            show += " (%d servos)" % cnt
         ok = None if kind == "none" else (exp is None or cnt == exp)
         bl = re.findall(r"\bB\d+\b", b["verified"])
         bom_rows.append(dict(line=b["line"], section=b["section"], item=b["item"], spec=b["spec"], need=b["need"],
@@ -1941,7 +1955,7 @@ def main():
                      doc_total_parts=doc_total["parts"] if doc_total else None,
                      grams_source=PRINT_SOURCE.get("doc", "PRINT_CHECK.md"), grams_note=PRINT_SOURCE.get("note", ""),
                      pla=sum(d["qty"] for d in pd_.values() if d["cat"] == "pla"), tpu=sum(d["qty"] for d in pd_.values() if d["cat"] == "tpu")),
-        servos=dict(found=servo_n, expected=int(num([b["need"] for b in bom if b["line"] == "1"][0]))),
+        servos=dict(found=servo_n, expected=int(sum(num(b["need"]) for b in bom if b["line"] in ("1", "1b")))),
         inserts=dict(found=len(inserts), expected=int(num([b["need"] for b in bom if b["line"] == "16"][0])), by_part=dict(n_ins)),
         bearings=dict(found=kc["bearing"], expected=int(num([b["need"] for b in bom if b["line"] == "18"][0]))),
         placeholders=dict(total=len(ph_all), placed=sum(1 for p in ph_all if p["sub"] != "tray"), tray=len(tray_items)),

@@ -10,7 +10,8 @@ Columns: Need = measured requirement; Buy = what to order; Line = price for the 
 
 | # | Item | Spec | Need | Buy | Pack | Line $ | Supplier | Link | Ships to USA | Verified |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 1 | Smart serial bus servo | Feetech STS3215 7.4 V 1:345 (C001); ships with one 15 cm 5264-3P cable and a screw bag each | 14 | 14 | 1 | 266.00 | Seeed Studio | https://www.seeedstudio.com/STS3215-19kg-cm-7-4V-Serial-Servo-p-6338.html | Yes | Yes: $19.00 each at 10+ ($20.00 at 1 to 9), in stock 2026-11-01. Bag split: test order (B2) |
+| 1 | Smart serial bus servo | Feetech STS3215 7.4 V 1:345 (C001); ships with one 15 cm 5264-3P cable and a screw bag each; 12 since D32 (the two knees are line 1b) | 12 | 12 | 1 | 228.00 | Seeed Studio | https://www.seeedstudio.com/STS3215-19kg-cm-7-4V-Serial-Servo-p-6338.html | Yes | Yes: $19.00 each at 10+ ($20.00 at 1 to 9), in stock 2026-11-01. Bag split: test order (B2) |
+| 1b | Smart serial bus servo, knees (D32) | Feetech STS3250-C002 (the STS3250 without bracket): 50 kg.cm and 4.2 A at 12 V, rated input 6 to 12 V, aluminium case tapped 4-M2.0, 74.5 g, the same 45.22 x 24.72 x 35 mm outline, 25T horn and 5264 connector as the C001 (SERVO_UPGRADE_OPTIONS.md F5, F9) | 2 | 2 | 1 | 147.98 | OpenELAB | https://openelab.com/products/feetech-sts3250-c002-servo-12v | No: ships from China, 8 to 15 business days | Design (D32), nothing bought: $73.99 each read 2026-11-01 (SERVO_UPGRADE_OPTIONS.md P5). Chinese part, single source (lab rule 6). Buy one first for TEST_PLAN 15 (7.2 V, registers, bench BAM fit), then the second. twin/knee/KNEE_TWIN.md.
 | 2 | Servo bus adapter | Waveshare Bus Servo Adapter (A), SKU 25514, 42x33 mm, 2 servo sockets (H3, H5 in parallel per schematic). Used for USB data only (D15): its schematic marks "MAX:6A" at the servo header and its spec input is 9 to 12.6 V, so servo power bypasses it and H1 stays unconnected; logic runs from USB VBUS | 1 | 1 | 1 | 4.99 | Waveshare | https://www.waveshare.com/bus-servo-adapter-a.htm | Yes (from China/HK) | Yes; flagged Chinese part, single source |
 | 3 | Compute | Raspberry Pi Zero 2 W | 1 | 1 | 1 | 19.05 | Adafruit 5291 | https://www.adafruit.com/product/5291 | Yes | DECIDED (D7). Re-read 2026-11-01 9:02 to 9:08 PM ET: bare board still out of stock everywhere checked: Adafruit 5291 $19.05 "Out of stock" (header version 6008, $19.80, out of stock), SparkFun DEV-18713 $19.00 "Out of stock", PiShop.us $17.25 "Out of stock", CanaKit PI-Z2W $16.35 and PI-Z2WH $19.60 "Sold Out", Vilros RPZW2 $17.43, every variant sold out. Chicago Electronic Distributors no longer takes orders (its page sends buyers to PiShop.us). Micro Center and DigiKey refuse curl (403); DigiKey search index copies of SC0721 disagree (0 to 133 in stock), so UNVERIFIED. In stock with the board: PiShop.us Starter Kit K2B-1388 $74.95, "Current Stock: 170" (https://www.pishop.us/product/raspberry-pi-zero-2-w-starter-kit/; kit adds a case, mini HDMI adapter, OTG cable, blank 32 GB microSD, 5.1 V 2.5 A supply, unsoldered 2x20 header, heatsinks); CanaKit PI-Z2WH-STR32-C4-BLK $89.95, "Add to Cart", no count shown (https://www.canakit.com/raspberry-pi-zero-2-w.html), with pre-soldered header (fits: 44.3 mm free below the Pi). Kit price minus this line goes to contingency X4 |
 | 4 | microSD | SanDisk Ultra 32 GB microSDHC A1 C10, SDSQUAR-032G-GN6MA | 1 | 1 | 1 | 21.25 | Amazon | https://www.amazon.com/dp/B073JWXGNT | Yes | Yes (in stock 2026-11-01, B25) |
@@ -33,7 +34,7 @@ Columns: Need = measured requirement; Buy = what to order; Line = price for the 
 | L3 | Inline fuse holder | Littelfuse FHAC0001ZXJ ATO 20 A, body 50 x 17.2 x 17.2 mm plus cover on a strap, 16 AWG leads 90 mm (Littelfuse drawing, parts check 2026-11-01); seat measured on the battery bay front wall (MOUNTING.md) | 1 | 1 | 1 | 7.74 | Newark 56P4171 | https://www.newark.com/littelfuse/fhac0001zxj/fuse-holder-in-line/dp/56P4171 | Yes | Yes: 3,553 in stock 2026-11-01; not re-read at the 2026-11-01 9:05 PM ET recheck: Newark and Mouser refuse plain curl (HTTP/2 stream reset, empty reply), so only the search index can re-read this line until that changes |
 | L4 | Fuse | Littelfuse 0287015.PXCN ATO 15 A | 1 | 5 | 1 | 2.20 | DigiKey | https://www.digikey.com/en/products/detail/littelfuse-inc/0287015-PXCN/2519816 | Yes | Yes: $0.44 each, min qty 1 (read via search index, direct fetch 403). Rating vs BMS: B12 |
 
-Subtotal: $625.74
+Subtotal: $735.72
 
 ## Fasteners and mechanical
 
@@ -87,7 +88,7 @@ Subtotal: $282.84
 
 | # | Item | Spec | Need | Buy | Pack | Line $ | Supplier | Link | Ships to USA | Verified |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 27 | PLA | Overture Easy PLA 1.75 mm 1 kg, black (need 1400 g sliced with the light profile of DECISIONS.md D22: robot set 1250 g plus the coupon session and 10 spares, print/PRINT_PLAN.md; about 600 g left for failed prints; 1450 g if the D22 coupon gate fails) | 1389 g | 2 | 1 kg | 29.98 | Amazon | https://www.amazon.com/dp/B09LCK7QJ2 | Yes | Yes; note 2026-11-01: Easy Black was out of stock at overture3d.com (other colors in stock, nozzle 190 to 220 C, bed 25 to 60 C); any in-stock color works |
+| 27 | PLA | Overture Easy PLA 1.75 mm 1 kg, black (need 1407 g sliced with the light profile of DECISIONS.md D22: robot set 1258 g (roll_to_pitch at 3 walls since D38) plus the coupon session and 10 spares, print/PRINT_PLAN.md; about 593 g left for failed prints; 1450 g if the D22 coupon gate fails) | 1389 g | 2 | 1 kg | 29.98 | Amazon | https://www.amazon.com/dp/B09LCK7QJ2 | Yes | Yes; note 2026-11-01: Easy Black was out of stock at overture3d.com (other colors in stock, nozzle 190 to 220 C, bed 25 to 60 C); any in-stock color works |
 | 28 | TPU | Overture TPU 95A 1.75 mm 1 kg, black (need 35.1 g sliced with the D22 profile: two soles, one of them in coupon session S2, print/PRINT_PLAN.md; hardness not stated upstream) | 35.1 g | 1 | 1 kg | 23.99 | Amazon | https://www.amazon.com/dp/B0BGMP1MZ7 | Yes | Yes: maker states "95A Shore hardness", nozzle 210 to 240 C, bed 35 to 50 C, print at 20 to 40 mm/s; Matte Black $22.99 in stock at overture3d.com 2026-11-01; grip on the coupon session (B26) |
 
 Subtotal: $53.97
@@ -156,15 +157,15 @@ Change 2026-11-04 about 8:50 PM ET (V1 screws job phase 2, D36 and D38, twin/scr
 
 | Scope | $ |
 |---|---|
-| Robot | 625.74 |
+| Robot | 735.72 |
 | Fasteners and mechanical | 73.75 |
 | Cables, connectors, wire | 282.84 |
 | Print material | 53.97 |
 | Expression (optional upstream) | 79.39 |
 | Tools (one-time) | 271.66 |
-| Build total (robot + fasteners + cables + filament) | 1036.30 |
-| Build + expression pack | 1115.69 |
-| Build + expression + tools | 1387.35 |
+| Build total (robot + fasteners + cables + filament) | 1146.28 |
+| Build + expression pack | 1225.67 |
+| Build + expression + tools | 1497.33 |
 
 Change 2026-11-01 evening (print-readiness pass, D4, D7, D8, D10, D13, D15): Tenergy BMS (+$16.10 vs JZK), Pololu 2815 main switch ($8.49, the old $6.00 placeholder becomes the line 10b control switch), Pololu D30V30F5 (+$12.66 vs HENGE), game controller (+$64.99, line 15), foam tape (+$19.00, line 29), Adafruit USB cable (-$1.50), Same Sky speaker (+$2.43). Before this pass the build total was $716.65.
 
@@ -207,7 +208,7 @@ Not costed: sales tax and the line 10b control switch (upstream part, $6.00 plac
 
 ## BLOCKERS that affect this BOM
 
-See HARDWARE_AUDIT.md section 6 for all 69 with the method for each.
+See HARDWARE_AUDIT.md section 6 for all 73 with the method for each.
 - 8: the Tenergy 32175 must trip at 21 A or more (TEST_PLAN 3.3, B47; twin/electrical/ELECTRICAL_TWIN.md, sim pass only); a board under that means a second board at $22.99 (buying needs Ahmed's OK) or accepting that a hard shove can switch the duck off.
 - 17j: hip pitch button heads clear roll_to_pitch by +0.16 mm in CAD; checked on the first leg (B31, D19).
 - 17e, T11, T13: the 24 neck chain recesses are drilled to 6.0 mm after printing, confirmed on coupon C4 first (B32, D20).
