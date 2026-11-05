@@ -1,0 +1,127 @@
+{
+ "counts": {
+  "a": {
+   "listed": 86,
+   "fitted": 75,
+   "after": 75
+  },
+  "b": {
+   "listed": 261,
+   "fitted": 259,
+   "after": 232
+  },
+  "c": {
+   "listed": 8,
+   "fitted": 8,
+   "after": 6
+  }
+ },
+ "fitted_before": 342,
+ "fitted_after": 313,
+ "cut": 29,
+ "share_cut_of_bc": 0.109,
+ "share_cut_of_total": 0.085,
+ "target_90pct_of_total_needs_cut": 308,
+ "inserts_before": 58,
+ "inserts_after": 44,
+ "washers_before": 16,
+ "washers_after": 8,
+ "by_area": {
+  "back": {
+   "b": [
+    13,
+    7
+   ]
+  },
+  "body front": {
+   "b": [
+    8,
+    4
+   ]
+  },
+  "head": {
+   "a": [
+    8,
+    8
+   ],
+   "b": [
+    36,
+    21
+   ],
+   "c": [
+    8,
+    6
+   ]
+  },
+  "left leg": {
+   "a": [
+    15,
+    15
+   ],
+   "b": [
+    57,
+    57
+   ]
+  },
+  "neck": {
+   "a": [
+    15,
+    15
+   ],
+   "b": [
+    36,
+    36
+   ]
+  },
+  "right leg": {
+   "a": [
+    15,
+    15
+   ],
+   "b": [
+    57,
+    57
+   ]
+  },
+  "trunk inside": {
+   "a": [
+    22,
+    22
+   ],
+   "b": [
+    52,
+    50
+   ]
+  }
+ },
+ "fastening_hours": {
+  "before": [
+   0.64,
+   0.81,
+   0.97
+  ],
+  "after": [
+   0.58,
+   0.72,
+   0.87
+  ]
+ },
+ "kept_by_role": {
+  "structural or kept": 43,
+  "cover or lid": 6,
+  "structural, servo chain": 168,
+  "cover (shell)": 7,
+  "board or bracket": 14
+ },
+ "sources": {
+  "ST": "[L] twin/structure/STRUCTURE_TWIN.md",
+  "MB": "[L] sim/MASS_BUDGET.md",
+  "FJ": "[L] fasteners/fasteners.json",
+  "GJ": "[L] twin/screws/data/geom_joints.json (CAD check only)",
+  "dfma": "[I] https://dfma.com/resources/assembly-cost-estimating.asp (search text: threaded screw 8 to 12 s 'align, drive, verify'; snap-fit 2 to 4 s; press-fit 2 to 4 s)",
+  "acc": "[L] twin/structure/STRUCTURE_TWIN.md section 3.2: walking 1 to 3 g; worst of 10 falls: soft 71 g head, 45 g trunk; mid 196 g head, 128 g trunk",
+  "pla": "[L] twin/structure/STRUCTURE_TWIN.md section 2.2 and 3: X 47.1 MPa (Overture PLA TDS v5.1); shear 12.7 to 27.2 MPa (0.577 x 22 or 47.1)",
+  "insert": "[L] twin/structure/STRUCTURE_TWIN.md section 3: pull-out 1354 to 1552 N (Eng. Proc. 157(1):40, 2026), sideways 618 to 1235 N (ASSUMPTION range there)",
+  "dk": "[I] DIN 912 table via fasteners.json meta sources din912 (dk M2.5 4.50, M3 5.50)"
+ }
+}

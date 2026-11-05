@@ -1,0 +1,2332 @@
+[
+ {
+  "joint": "left_cache -> leg_spacer (knee_and_ankle_assembly)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x10 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F001",
+   "F003"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F001",
+   "F003"
+  ],
+  "cut": [],
+  "why": "leg segment stack (the M3x10 passes the cache and the knee sheet into leg_spacer; the FEA ties it): keep all",
+  "SF": {}
+ },
+ {
+  "joint": "knee_to_ankle_right_sheet -> leg_spacer (knee_and_ankle_assembly)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x6 DIN 912 A2",
+   "M3x6 ISO 7380 A2 button head"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F002",
+   "F004"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F002",
+   "F004"
+  ],
+  "cut": [],
+  "why": "leg_spacer ties of the shin and thigh segments (FEA tied; knee sheet SF 1.63 walking, under 2): keep all",
+  "SF": {}
+ },
+ {
+  "joint": "knee_to_ankle_right_sheet -> leg_spacer (knee_and_ankle_assembly_2)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F005",
+   "F007"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F005",
+   "F007"
+  ],
+  "cut": [],
+  "why": "leg_spacer ties of the shin and thigh segments (FEA tied; knee sheet SF 1.63 walking, under 2): keep all",
+  "SF": {}
+ },
+ {
+  "joint": "knee_to_ankle_left_sheet -> leg_spacer (knee_and_ankle_assembly_2)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F006",
+   "F008"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F006",
+   "F008"
+  ],
+  "cut": [],
+  "why": "leg_spacer ties of the shin and thigh segments (FEA tied; knee sheet SF 1.63 walking, under 2): keep all",
+  "SF": {}
+ },
+ {
+  "joint": "right_cache -> leg_spacer (knee_and_ankle_assembly_3)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x10 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F009",
+   "F011"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F009",
+   "F011"
+  ],
+  "cut": [],
+  "why": "leg segment stack (the M3x10 passes the cache and the knee sheet into leg_spacer; the FEA ties it): keep all",
+  "SF": {}
+ },
+ {
+  "joint": "knee_to_ankle_left_sheet -> leg_spacer (knee_and_ankle_assembly_3)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x6 DIN 912 A2",
+   "M3x6 ISO 7380 A2 button head"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F010",
+   "F012"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F010",
+   "F012"
+  ],
+  "cut": [],
+  "why": "leg_spacer ties of the shin and thigh segments (FEA tied; knee sheet SF 1.63 walking, under 2): keep all",
+  "SF": {}
+ },
+ {
+  "joint": "knee_to_ankle_right_sheet -> leg_spacer (knee_and_ankle_assembly_4)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F013",
+   "F015"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F013",
+   "F015"
+  ],
+  "cut": [],
+  "why": "leg_spacer ties of the shin and thigh segments (FEA tied; knee sheet SF 1.63 walking, under 2): keep all",
+  "SF": {}
+ },
+ {
+  "joint": "knee_to_ankle_left_sheet -> leg_spacer (knee_and_ankle_assembly_4)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F014",
+   "F016"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F014",
+   "F016"
+  ],
+  "cut": [],
+  "why": "leg_spacer ties of the shin and thigh segments (FEA tied; knee sheet SF 1.63 walking, under 2): keep all",
+  "SF": {}
+ },
+ {
+  "joint": "battery_pack_lid -> body_back (trunk_assembly)",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2.5x10 DIN 912 A2"
+  ],
+  "area": "back",
+  "ids": [
+   "F017",
+   "F018",
+   "F027",
+   "F028"
+  ],
+  "role": "cover or lid",
+  "mass_g": 135.6,
+  "mass_src": "[L] sim/MASS_BUDGET.md and [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "F1_pull_N": {
+   "walk": 4.0,
+   "soft": 59.9,
+   "mid": 170.2
+  },
+  "cap_per_screw_N": 305.0,
+  "cap_src": "thread strip, low end, [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "SF_F1_one_screw": {
+   "walk": 76.4,
+   "soft": 5.1,
+   "mid": 1.8
+  },
+  "F1_pass": true,
+  "n_after": 3,
+  "kept": [
+   "F017",
+   "F018",
+   "F028"
+  ],
+  "cut": [
+   "F027"
+  ],
+  "why": "thin plate: 3 screws (a plane needs 3 points), largest triangle round its centre of mass (1888 mm2 of the screw plane); edges captured {'+u': 17.0, '-u': 21.0, '+v': 4.0, '-v': 14.0}; F1 SF 1.8 at mid with one screw",
+  "SF": {
+   "walk": 76.4,
+   "soft": 5.1,
+   "mid": 1.8
+  }
+ },
+ {
+  "joint": "body_middle_bottom -> trunk_bottom (trunk_assembly)",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x10 DIN 912 A2"
+  ],
+  "area": "trunk inside",
+  "ids": [
+   "F019",
+   "F020",
+   "F021",
+   "F022"
+  ],
+  "role": "structural or kept",
+  "n_after": 4,
+  "kept": [
+   "F019",
+   "F020",
+   "F021",
+   "F022"
+  ],
+  "cut": [],
+  "why": "frame: carries the shells, the battery and the shell-hit forces to trunk_bottom; no lateral key (0 mm2 lateral contact, GJ); not modelled: keep all (BLOCKER for any cut)",
+  "SF": {}
+ },
+ {
+  "joint": "foot_side -> foot_top (foot_assembly)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x10 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F023",
+   "F024"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F023",
+   "F024"
+  ],
+  "cut": [],
+  "why": "ankle idle horn share, table 3.2 SF 17 / 15 / 7.4 / 2.4: one screw would carry it but lets the part turn: keep 2",
+  "SF": {}
+ },
+ {
+  "joint": "foot_side -> foot_top (foot_assembly_2)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x10 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F025",
+   "F026"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F025",
+   "F026"
+  ],
+  "cut": [],
+  "why": "ankle idle horn share, table 3.2 SF 17 / 15 / 7.4 / 2.4: one screw would carry it but lets the part turn: keep 2",
+  "SF": {}
+ },
+ {
+  "joint": "right_hip_pitch servo case screws",
+  "cls": "b",
+  "n_listed": 5,
+  "n_before": 5,
+  "spec": [
+   "M2x5 self-tapping pan head",
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F029",
+   "F030",
+   "F137",
+   "F146",
+   "F147"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 5,
+  "kept": [
+   "F029",
+   "F030",
+   "F137",
+   "F146",
+   "F147"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 3.4,
+   "push": 3.1,
+   "soft": 0.4,
+   "mid": 0.1
+  }
+ },
+ {
+  "joint": "left_hip_pitch servo case screws",
+  "cls": "b",
+  "n_listed": 5,
+  "n_before": 5,
+  "spec": [
+   "M2x5 self-tapping pan head",
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F031",
+   "F032",
+   "F134",
+   "F144",
+   "F145"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 5,
+  "kept": [
+   "F031",
+   "F032",
+   "F134",
+   "F144",
+   "F145"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 3.9,
+   "push": 2.5,
+   "soft": 0.9,
+   "mid": 0.3
+  }
+ },
+ {
+  "joint": "left_hip_yaw drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "trunk inside",
+  "ids": [
+   "F033",
+   "F034",
+   "F035",
+   "F036"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F033",
+   "F034",
+   "F035",
+   "F036"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 11.2,
+   "push": 9.8,
+   "soft": 1.6,
+   "mid": 0.5
+  }
+ },
+ {
+  "joint": "right_hip_yaw drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "trunk inside",
+  "ids": [
+   "F037",
+   "F038",
+   "F039",
+   "F040"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F037",
+   "F038",
+   "F039",
+   "F040"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 9.1,
+   "push": 8.6,
+   "soft": 0.4,
+   "mid": 0.1
+  }
+ },
+ {
+  "joint": "left_knee servo case screws",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2x5 self-tapping pan head",
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F041",
+   "F042",
+   "F099",
+   "F100"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F041",
+   "F042",
+   "F099",
+   "F100"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in push, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 2.1,
+   "push": 1.9,
+   "soft": 1.2,
+   "mid": 0.4
+  }
+ },
+ {
+  "joint": "left_ankle servo case screws",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2x5 self-tapping pan head",
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F043",
+   "F044",
+   "F101",
+   "F102"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F043",
+   "F044",
+   "F101",
+   "F102"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in walk, push, soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 1.6,
+   "push": 1.5,
+   "soft": 1.1,
+   "mid": 0.4
+  }
+ },
+ {
+  "joint": "right_knee servo case screws",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2x5 self-tapping pan head",
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F045",
+   "F046",
+   "F103",
+   "F104"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F045",
+   "F046",
+   "F103",
+   "F104"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in push, soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 3.0,
+   "push": 1.1,
+   "soft": 0.8,
+   "mid": 0.1
+  }
+ },
+ {
+  "joint": "right_ankle servo case screws",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2x5 self-tapping pan head",
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F047",
+   "F048",
+   "F105",
+   "F106"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F047",
+   "F048",
+   "F105",
+   "F106"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in push, soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 3.1,
+   "push": 1.1,
+   "soft": 0.9,
+   "mid": 0.2
+  }
+ },
+ {
+  "joint": "neck_pitch servo case screws",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2x6 self-tapping pan head",
+   "M2x8 self-tapping pan head"
+  ],
+  "area": "trunk inside",
+  "ids": [
+   "F049",
+   "F050",
+   "F138",
+   "F139"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F049",
+   "F050",
+   "F138",
+   "F139"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 5.6,
+   "push": 4.9,
+   "soft": 0.5,
+   "mid": 0.2
+  }
+ },
+ {
+  "joint": "left_hip_roll servo case screws",
+  "cls": "b",
+  "n_listed": 6,
+  "n_before": 5,
+  "spec": [
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "trunk inside",
+  "ids": [
+   "F051",
+   "F052",
+   "F133",
+   "F152",
+   "F155"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 5,
+  "kept": [
+   "F051",
+   "F052",
+   "F133",
+   "F152",
+   "F155"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 7.8,
+   "push": 7.3,
+   "soft": 1.3,
+   "mid": 0.4
+  }
+ },
+ {
+  "joint": "right_hip_roll servo case screws",
+  "cls": "b",
+  "n_listed": 6,
+  "n_before": 5,
+  "spec": [
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "trunk inside",
+  "ids": [
+   "F053",
+   "F054",
+   "F135",
+   "F153",
+   "F154"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 5,
+  "kept": [
+   "F053",
+   "F054",
+   "F135",
+   "F153",
+   "F154"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 5.5,
+   "push": 6.8,
+   "soft": 1.1,
+   "mid": 0.3
+  }
+ },
+ {
+  "joint": "head_pitch servo case screws",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "neck",
+  "ids": [
+   "F055",
+   "F056",
+   "F148",
+   "F149"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F055",
+   "F056",
+   "F148",
+   "F149"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 4.9,
+   "push": 4.0,
+   "soft": 0.3,
+   "mid": 0.1
+  }
+ },
+ {
+  "joint": "right_hip_yaw servo case screws",
+  "cls": "b",
+  "n_listed": 8,
+  "n_before": 8,
+  "spec": [
+   "M2x5 self-tapping pan head",
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "trunk inside",
+  "ids": [
+   "F057",
+   "F058",
+   "F125",
+   "F126",
+   "F127",
+   "F128",
+   "F140",
+   "F141"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 8,
+  "kept": [
+   "F057",
+   "F058",
+   "F125",
+   "F126",
+   "F127",
+   "F128",
+   "F140",
+   "F141"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 10.7,
+   "push": 12.8,
+   "soft": 0.7,
+   "mid": 0.2
+  }
+ },
+ {
+  "joint": "left_hip_yaw servo case screws",
+  "cls": "b",
+  "n_listed": 8,
+  "n_before": 8,
+  "spec": [
+   "M2x5 self-tapping pan head",
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "trunk inside",
+  "ids": [
+   "F059",
+   "F060",
+   "F129",
+   "F130",
+   "F131",
+   "F132",
+   "F142",
+   "F143"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 8,
+  "kept": [
+   "F059",
+   "F060",
+   "F129",
+   "F130",
+   "F131",
+   "F132",
+   "F142",
+   "F143"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 14.4,
+   "push": 12.4,
+   "soft": 1.6,
+   "mid": 0.5
+  }
+ },
+ {
+  "joint": "head_roll servo case screws",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2x4 self-tapping pan head",
+   "M2x5 self-tapping pan head"
+  ],
+  "area": "head",
+  "ids": [
+   "F061",
+   "F062",
+   "F156",
+   "F157"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F061",
+   "F062",
+   "F156",
+   "F157"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 6.1,
+   "push": 4.2,
+   "soft": 0.1,
+   "mid": 0.0
+  }
+ },
+ {
+  "joint": "head_yaw servo case screws",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2x5 self-tapping pan head",
+   "M2x6 self-tapping pan head"
+  ],
+  "area": "neck",
+  "ids": [
+   "F063",
+   "F064",
+   "F150",
+   "F151"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F063",
+   "F064",
+   "F150",
+   "F151"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 18.0,
+   "push": 13.0,
+   "soft": 0.4,
+   "mid": 0.1
+  }
+ },
+ {
+  "joint": "body_front shell",
+  "cls": "b",
+  "n_listed": 8,
+  "n_before": 8,
+  "spec": [
+   "M3x8 DIN 912 A2"
+  ],
+  "area": "body front",
+  "ids": [
+   "F065",
+   "F066",
+   "F067",
+   "F068",
+   "F069",
+   "F070",
+   "F071",
+   "F072"
+  ],
+  "role": "cover (shell)",
+  "mass_g": 57.9,
+  "mass_src": "[L] sim/MASS_BUDGET.md and [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "F1_pull_N": {
+   "walk": 1.7,
+   "soft": 25.5,
+   "mid": 72.7
+  },
+  "cap_per_screw_N": 658.0,
+  "cap_src": "min(head pull-through pi x 5.5 x 3.0 x 12.7, insert pull-out 1354)",
+  "SF_F1_one_screw": {
+   "walk": 386.5,
+   "soft": 25.8,
+   "mid": 9.1
+  },
+  "F1_pass": true,
+  "F2_bearing_per_screw_N": 424.0,
+  "F2_src": "[L] twin/structure/STRUCTURE_TWIN.md answer: a printed wall hit in its middle (soft) sees 400 to 900 N, an edge on a hard floor (mid) 1300 to 2800 N",
+  "F2_SF": {
+   "soft": {
+    "before": 3.77,
+    "after_screws": 1.88,
+    "after_with_lip_y": 3.81,
+    "after_with_lip_z_up": 5.84,
+    "after_with_lip_z_down": 5.84
+   },
+   "mid": {
+    "before": 1.21,
+    "after_screws": 0.61,
+    "after_with_lip_y": 1.22,
+    "after_with_lip_z_up": 1.88,
+    "after_with_lip_z_down": 1.88
+   }
+  },
+  "n_after": 4,
+  "kept": [
+   "F067",
+   "F068",
+   "F069",
+   "F072"
+  ],
+  "cut": [
+   "F065",
+   "F066",
+   "F070",
+   "F071"
+  ],
+  "why": "shell: 4 screws (at least 1 into body_middle_top, which hangs between the two shells, and 1 into body_middle_bottom), largest triangle round its centre of mass (0 mm2); F1 SF 9.1 at mid with one screw. F2 (bearing, crack but no separation): see F2_SF; the printed lip (mesh_designs.py) carries the side and vertical shear where it can be printed",
+  "SF": {
+   "walk": 386.5,
+   "soft": 25.8,
+   "mid": 9.1
+  }
+ },
+ {
+  "joint": "trunk_top -> trunk_bottom (trunk_assembly)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x12 DIN 912 A2"
+  ],
+  "area": "trunk inside",
+  "ids": [
+   "F073",
+   "F074"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F073",
+   "F074"
+  ],
+  "cut": [],
+  "why": "frame: both hip yaw bearing loads, table 3.2 SF at mid 0.6: keep all",
+  "SF": {}
+ },
+ {
+  "joint": "body_back shell",
+  "cls": "b",
+  "n_listed": 8,
+  "n_before": 8,
+  "spec": [
+   "M3x8 DIN 912 A2"
+  ],
+  "area": "back",
+  "ids": [
+   "F075",
+   "F076",
+   "F077",
+   "F078",
+   "F079",
+   "F080",
+   "F081",
+   "F082"
+  ],
+  "role": "cover (shell)",
+  "mass_g": 214.4,
+  "mass_src": "[L] sim/MASS_BUDGET.md and [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "F1_pull_N": {
+   "walk": 6.3,
+   "soft": 94.7,
+   "mid": 269.3
+  },
+  "cap_per_screw_N": 658.0,
+  "cap_src": "min(head pull-through pi x 5.5 x 3.0 x 12.7, insert pull-out 1354)",
+  "SF_F1_one_screw": {
+   "walk": 104.3,
+   "soft": 7.0,
+   "mid": 2.4
+  },
+  "F1_pass": true,
+  "F2_bearing_per_screw_N": 424.0,
+  "F2_src": "[L] twin/structure/STRUCTURE_TWIN.md answer: a printed wall hit in its middle (soft) sees 400 to 900 N, an edge on a hard floor (mid) 1300 to 2800 N",
+  "F2_SF": {
+   "soft": {
+    "before": 3.77,
+    "after_screws": 1.41,
+    "after_with_lip_y": 7.22,
+    "after_with_lip_z_up": 3.93,
+    "after_with_lip_z_down": 1.41
+   },
+   "mid": {
+    "before": 1.21,
+    "after_screws": 0.45,
+    "after_with_lip_y": 2.32,
+    "after_with_lip_z_up": 1.26,
+    "after_with_lip_z_down": 0.45
+   }
+  },
+  "needs_ahmed_ok": "downward shear on the back shell (only in an upside-down landing) at the mid fall level: SF 0.45 after, 1.21 today; no lip can print there (body_middle_top's back face is its print bed)",
+  "n_after": 3,
+  "kept": [
+   "F077",
+   "F078",
+   "F079"
+  ],
+  "cut": [
+   "F075",
+   "F076",
+   "F080",
+   "F081",
+   "F082"
+  ],
+  "why": "shell: 3 screws (at least 1 into body_middle_top, which hangs between the two shells, and 1 into body_middle_bottom), largest triangle round its centre of mass (4276 mm2); F1 SF 2.4 at mid with one screw. F2 (bearing, crack but no separation): see F2_SF; the printed lip (mesh_designs.py) carries the side and vertical shear where it can be printed",
+  "SF": {
+   "walk": 104.3,
+   "soft": 7.0,
+   "mid": 2.4
+  }
+ },
+ {
+  "joint": "head_bot_sheet -> head (head_assembly)",
+  "cls": "b",
+  "n_listed": 8,
+  "n_before": 8,
+  "spec": [
+   "M3x8 DIN 912 A2"
+  ],
+  "area": "head",
+  "ids": [
+   "F083",
+   "F084",
+   "F085",
+   "F086",
+   "F087",
+   "F088",
+   "F089",
+   "F090"
+  ],
+  "role": "cover or lid",
+  "mass_g": 61.3,
+  "mass_src": "[L] sim/MASS_BUDGET.md and [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "F1_pull_N": {
+   "walk": 1.8,
+   "soft": 42.7,
+   "mid": 117.8
+  },
+  "cap_per_screw_N": 439.0,
+  "cap_src": "min(head pull-through pi x 5.5 x 2.0 x 12.7, insert pull-out 1354)",
+  "SF_F1_one_screw": {
+   "walk": 243.3,
+   "soft": 10.3,
+   "mid": 3.7
+  },
+  "F1_pass": true,
+  "n_after": 3,
+  "kept": [
+   "F083",
+   "F088",
+   "F089"
+  ],
+  "cut": [
+   "F084",
+   "F085",
+   "F086",
+   "F087",
+   "F090"
+  ],
+  "why": "thin plate: 3 screws (a plane needs 3 points), largest triangle round its centre of mass (12958 mm2 of the screw plane); edges captured {'+u': 293.0, '-u': 285.0, '+v': 188.0, '-v': 502.0}; F1 SF 3.7 at mid with one screw",
+  "SF": {
+   "walk": 243.3,
+   "soft": 10.3,
+   "mid": 3.7
+  }
+ },
+ {
+  "joint": "head_roll_mount -> head (head_assembly)",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "head",
+  "ids": [
+   "F091",
+   "F092",
+   "F093",
+   "F094"
+  ],
+  "role": "structural or kept",
+  "n_after": 4,
+  "kept": [
+   "F091",
+   "F092",
+   "F093",
+   "F094"
+  ],
+  "cut": [],
+  "why": "carries the head on the neck; table 3.2 side SF at mid 0.76 (under 1.2): keep all",
+  "SF": {}
+ },
+ {
+  "joint": "foot_bottom_tpu -> foot_bottom_pla (foot_assembly)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x8 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F095",
+   "F096"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F095",
+   "F096"
+  ],
+  "cut": [],
+  "why": "sole: walking friction loads, not modelled: keep all",
+  "SF": {}
+ },
+ {
+  "joint": "foot_bottom_tpu -> foot_bottom_pla (foot_assembly_2)",
+  "cls": "b",
+  "n_listed": 2,
+  "n_before": 2,
+  "spec": [
+   "M3x8 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F097",
+   "F098"
+  ],
+  "role": "structural or kept",
+  "n_after": 2,
+  "kept": [
+   "F097",
+   "F098"
+  ],
+  "cut": [],
+  "why": "sole: walking friction loads, not modelled: keep all",
+  "SF": {}
+ },
+ {
+  "joint": "speaker_stand -> head (head_assembly)",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2.5x6 DIN 912 A2"
+  ],
+  "area": "head",
+  "ids": [
+   "F107",
+   "F108",
+   "F109",
+   "F110"
+  ],
+  "role": "board or bracket",
+  "mass_g": 38.8,
+  "mass_src": "[L] sim/MASS_BUDGET.md and [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "F1_pull_N": {
+   "walk": 1.1,
+   "soft": 27.0,
+   "mid": 74.6
+  },
+  "cap_per_screw_N": 180.0,
+  "cap_src": "thread strip, low end, [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "SF_F1_one_screw": {
+   "walk": 157.6,
+   "soft": 6.7,
+   "mid": 2.4
+  },
+  "F1_pass": true,
+  "n_after": 2,
+  "kept": [
+   "F108",
+   "F109"
+  ],
+  "cut": [
+   "F107",
+   "F110"
+  ],
+  "why": "stiff board or bracket on 4 seats: the 2 diagonal screws hold it, it rests on the other 2 seats and cannot rock; F1 SF 2.4 at mid with one screw",
+  "SF": {
+   "walk": 157.6,
+   "soft": 6.7,
+   "mid": 2.4
+  }
+ },
+ {
+  "joint": "raspberrypizerow -> head (head_assembly)",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2.5x6 DIN 912 A2"
+  ],
+  "area": "head",
+  "ids": [
+   "F111",
+   "F112",
+   "F113",
+   "F114"
+  ],
+  "role": "board or bracket",
+  "mass_g": 12.6,
+  "mass_src": "[L] sim/MASS_BUDGET.md and [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "F1_pull_N": {
+   "walk": 0.4,
+   "soft": 8.8,
+   "mid": 24.2
+  },
+  "cap_per_screw_N": 275.0,
+  "cap_src": "thread strip, low end, [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "SF_F1_one_screw": {
+   "walk": 741.6,
+   "soft": 31.3,
+   "mid": 11.4
+  },
+  "F1_pass": true,
+  "n_after": 2,
+  "kept": [
+   "F111",
+   "F114"
+  ],
+  "cut": [
+   "F112",
+   "F113"
+  ],
+  "why": "stiff board or bracket on 4 seats: the 2 diagonal screws hold it, it rests on the other 2 seats and cannot rock; F1 SF 11.4 at mid with one screw",
+  "SF": {
+   "walk": 741.6,
+   "soft": 31.3,
+   "mid": 11.4
+  }
+ },
+ {
+  "joint": "bno055 -> trunk_top (trunk_assembly)",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2.5x6 DIN 912 A2"
+  ],
+  "area": "trunk inside",
+  "ids": [
+   "F115",
+   "F116",
+   "F117",
+   "F118"
+  ],
+  "role": "structural or kept",
+  "n_after": 4,
+  "kept": [
+   "F115",
+   "F116",
+   "F117",
+   "F118"
+  ],
+  "cut": [],
+  "why": "IMU: kept at 4 so the board cannot chatter (the policy reads its gyro and accelerometer, WIRING.md; the fall rule reads its NDOF orientation)",
+  "SF": {}
+ },
+ {
+  "joint": "board -> trunk_top (trunk_assembly)",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2.5x6 DIN 912 A2"
+  ],
+  "area": "trunk inside",
+  "ids": [
+   "F119",
+   "F120",
+   "F121",
+   "F122"
+  ],
+  "role": "board or bracket",
+  "mass_g": 16.0,
+  "mass_src": "[L] sim/MASS_BUDGET.md and [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "F1_pull_N": {
+   "walk": 0.5,
+   "soft": 7.1,
+   "mid": 20.1
+  },
+  "cap_per_screw_N": 263.0,
+  "cap_src": "thread strip, low end, [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "SF_F1_one_screw": {
+   "walk": 558.5,
+   "soft": 37.2,
+   "mid": 13.1
+  },
+  "F1_pass": true,
+  "n_after": 2,
+  "kept": [
+   "F119",
+   "F122"
+  ],
+  "cut": [
+   "F120",
+   "F121"
+  ],
+  "why": "stiff board or bracket on 4 seats: the 2 diagonal screws hold it, it rests on the other 2 seats and cannot rock; F1 SF 13.1 at mid with one screw",
+  "SF": {
+   "walk": 558.5,
+   "soft": 37.2,
+   "mid": 13.1
+  }
+ },
+ {
+  "joint": "usb_c_charger -> body_back (trunk_assembly)",
+  "cls": "b",
+  "n_listed": 1,
+  "n_before": 1,
+  "spec": [
+   "M2.5x6 DIN 912 A2"
+  ],
+  "area": "back",
+  "ids": [
+   "F123"
+  ],
+  "role": "structural or kept",
+  "n_after": 1,
+  "kept": [
+   "F123"
+  ],
+  "cut": [],
+  "why": "one screw plus the USB-C cutout today; the plug forces need the screw: keep 1",
+  "SF": {}
+ },
+ {
+  "joint": "head_roll drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x5 DIN 912 A2"
+  ],
+  "area": "neck",
+  "ids": [
+   "F158",
+   "F159",
+   "F160",
+   "F161"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F158",
+   "F159",
+   "F160",
+   "F161"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 15.6,
+   "push": 17.2,
+   "soft": 0.4,
+   "mid": 0.1
+  }
+ },
+ {
+  "joint": "left_ankle idle horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F164",
+   "F166",
+   "F168",
+   "F251"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F164",
+   "F166",
+   "F168",
+   "F251"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: n_min 2 by load; kept all (moment and fatigue of the pattern not modelled)",
+  "SF": {
+   "walk": 24.2,
+   "push": 20.8,
+   "soft": 10.4,
+   "mid": 3.3
+  }
+ },
+ {
+  "joint": "left_ankle drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F165",
+   "F167",
+   "F169",
+   "F252"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F165",
+   "F167",
+   "F169",
+   "F252"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 4.1,
+   "push": 2.7,
+   "soft": 3.3,
+   "mid": 1.1
+  }
+ },
+ {
+  "joint": "right_ankle idle horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F170",
+   "F172",
+   "F174",
+   "F257"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F170",
+   "F172",
+   "F174",
+   "F257"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 33.8,
+   "push": 31.1,
+   "soft": 9.1,
+   "mid": 1.0
+  }
+ },
+ {
+  "joint": "right_ankle drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F171",
+   "F173",
+   "F175",
+   "F258"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F171",
+   "F173",
+   "F175",
+   "F258"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 4.9,
+   "push": 2.4,
+   "soft": 1.3,
+   "mid": 0.1
+  }
+ },
+ {
+  "joint": "bulb -> right_eye (head_assembly)",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers"
+  ],
+  "area": "head",
+  "ids": [
+   "F176",
+   "F177",
+   "F180",
+   "F181"
+  ],
+  "role": "board or bracket",
+  "mass_g": 9.0,
+  "mass_src": "[L] sim/MASS_BUDGET.md and [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "F1_pull_N": {
+   "walk": 0.3,
+   "soft": 6.3,
+   "mid": 17.3
+  },
+  "cap_per_screw_N": 144.0,
+  "cap_src": "thread strip, low end, [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "SF_F1_one_screw": {
+   "walk": 543.7,
+   "soft": 23.0,
+   "mid": 8.3
+  },
+  "F1_pass": true,
+  "n_after": 2,
+  "kept": [
+   "F176",
+   "F181"
+  ],
+  "cut": [
+   "F177",
+   "F180"
+  ],
+  "why": "stiff board or bracket on 4 seats: the 2 diagonal screws hold it, it rests on the other 2 seats and cannot rock; F1 SF 8.3 at mid with one screw",
+  "SF": {
+   "walk": 543.7,
+   "soft": 23.0,
+   "mid": 8.3
+  }
+ },
+ {
+  "joint": "bulb -> left_eye (head_assembly)",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers"
+  ],
+  "area": "head",
+  "ids": [
+   "F178",
+   "F179",
+   "F182",
+   "F183"
+  ],
+  "role": "board or bracket",
+  "mass_g": 9.0,
+  "mass_src": "[L] sim/MASS_BUDGET.md and [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "F1_pull_N": {
+   "walk": 0.3,
+   "soft": 6.3,
+   "mid": 17.3
+  },
+  "cap_per_screw_N": 144.0,
+  "cap_src": "thread strip, low end, [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "SF_F1_one_screw": {
+   "walk": 543.7,
+   "soft": 23.0,
+   "mid": 8.3
+  },
+  "F1_pass": true,
+  "n_after": 2,
+  "kept": [
+   "F178",
+   "F183"
+  ],
+  "cut": [
+   "F179",
+   "F182"
+  ],
+  "why": "stiff board or bracket on 4 seats: the 2 diagonal screws hold it, it rests on the other 2 seats and cannot rock; F1 SF 8.3 at mid with one screw",
+  "SF": {
+   "walk": 543.7,
+   "soft": 23.0,
+   "mid": 8.3
+  }
+ },
+ {
+  "joint": "right_hip_roll idle horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F184",
+   "F190",
+   "F192",
+   "F245"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F184",
+   "F190",
+   "F192",
+   "F245"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 14.7,
+   "push": 11.1,
+   "soft": 1.8,
+   "mid": 0.5
+  }
+ },
+ {
+  "joint": "right_hip_roll drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F185",
+   "F191",
+   "F193",
+   "F246"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F185",
+   "F191",
+   "F193",
+   "F246"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 3.3,
+   "push": 4.8,
+   "soft": 1.5,
+   "mid": 0.4
+  }
+ },
+ {
+  "joint": "left_hip_roll idle horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F186",
+   "F188",
+   "F194",
+   "F243"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F186",
+   "F188",
+   "F194",
+   "F243"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: n_min 3 by load; kept all (moment and fatigue of the pattern not modelled)",
+  "SF": {
+   "walk": 17.5,
+   "push": 12.2,
+   "soft": 5.8,
+   "mid": 1.8
+  }
+ },
+ {
+  "joint": "left_hip_roll drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F187",
+   "F189",
+   "F195",
+   "F244"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F187",
+   "F189",
+   "F195",
+   "F244"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 5.3,
+   "push": 4.7,
+   "soft": 1.0,
+   "mid": 0.3
+  }
+ },
+ {
+  "joint": "left_hip_pitch idle horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 ISO 7380 A2 button head"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F196",
+   "F198",
+   "F200",
+   "F247"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F196",
+   "F198",
+   "F200",
+   "F247"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: n_min 4 by load; kept all (moment and fatigue of the pattern not modelled)",
+  "SF": {
+   "walk": 11.9,
+   "push": 8.6,
+   "soft": 4.3,
+   "mid": 1.2
+  }
+ },
+ {
+  "joint": "left_hip_pitch drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F197",
+   "F199",
+   "F201",
+   "F248"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F197",
+   "F199",
+   "F201",
+   "F248"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 6.2,
+   "push": 4.9,
+   "soft": 1.1,
+   "mid": 0.4
+  }
+ },
+ {
+  "joint": "left_knee idle horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F202",
+   "F204",
+   "F206",
+   "F249"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F202",
+   "F204",
+   "F206",
+   "F249"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: n_min 3 by load; kept all (moment and fatigue of the pattern not modelled)",
+  "SF": {
+   "walk": 15.8,
+   "push": 11.0,
+   "soft": 5.4,
+   "mid": 1.7
+  }
+ },
+ {
+  "joint": "left_knee drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "left leg",
+  "ids": [
+   "F203",
+   "F205",
+   "F207",
+   "F250"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F203",
+   "F205",
+   "F207",
+   "F250"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in push, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 2.4,
+   "push": 1.6,
+   "soft": 2.0,
+   "mid": 0.6
+  }
+ },
+ {
+  "joint": "right_hip_pitch drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F208",
+   "F210",
+   "F212",
+   "F253"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F208",
+   "F210",
+   "F212",
+   "F253"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 4.6,
+   "push": 3.4,
+   "soft": 1.1,
+   "mid": 0.2
+  }
+ },
+ {
+  "joint": "right_hip_pitch idle horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 ISO 7380 A2 button head"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F209",
+   "F211",
+   "F213",
+   "F254"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F209",
+   "F211",
+   "F213",
+   "F254"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 20.9,
+   "push": 9.4,
+   "soft": 1.7,
+   "mid": 0.3
+  }
+ },
+ {
+  "joint": "right_knee idle horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F214",
+   "F216",
+   "F218",
+   "F255"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F214",
+   "F216",
+   "F218",
+   "F255"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: n_min 4 by load; kept all (moment and fatigue of the pattern not modelled)",
+  "SF": {
+   "walk": 27.2,
+   "push": 22.7,
+   "soft": 12.6,
+   "mid": 1.5
+  }
+ },
+ {
+  "joint": "right_knee drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x6 DIN 912 A2"
+  ],
+  "area": "right leg",
+  "ids": [
+   "F215",
+   "F217",
+   "F219",
+   "F256"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F215",
+   "F217",
+   "F219",
+   "F256"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in push, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 3.6,
+   "push": 1.2,
+   "soft": 1.4,
+   "mid": 0.1
+  }
+ },
+ {
+  "joint": "head_yaw idle horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x5 DIN 912 A2"
+  ],
+  "area": "neck",
+  "ids": [
+   "F220",
+   "F222",
+   "F224",
+   "F226"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F220",
+   "F222",
+   "F224",
+   "F226"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 114.9,
+   "push": 101.5,
+   "soft": 0.9,
+   "mid": 0.3
+  }
+ },
+ {
+  "joint": "head_yaw drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x5 DIN 912 A2"
+  ],
+  "area": "neck",
+  "ids": [
+   "F221",
+   "F223",
+   "F225",
+   "F227"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F221",
+   "F223",
+   "F225",
+   "F227"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 20.5,
+   "push": 11.9,
+   "soft": 0.4,
+   "mid": 0.1
+  }
+ },
+ {
+  "joint": "neck_pitch drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x5 DIN 912 A2"
+  ],
+  "area": "neck",
+  "ids": [
+   "F228",
+   "F231",
+   "F233",
+   "F259"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F228",
+   "F231",
+   "F233",
+   "F259"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 6.4,
+   "push": 4.4,
+   "soft": 0.4,
+   "mid": 0.1
+  }
+ },
+ {
+  "joint": "neck_pitch idle horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x5 DIN 912 A2"
+  ],
+  "area": "neck",
+  "ids": [
+   "F229",
+   "F230",
+   "F232",
+   "F234"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F229",
+   "F230",
+   "F232",
+   "F234"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 19.2,
+   "push": 17.0,
+   "soft": 2.3,
+   "mid": 0.5
+  }
+ },
+ {
+  "joint": "head_pitch idle horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x5 DIN 912 A2"
+  ],
+  "area": "neck",
+  "ids": [
+   "F235",
+   "F237",
+   "F239",
+   "F241"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F235",
+   "F237",
+   "F239",
+   "F241"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 34.2,
+   "push": 30.7,
+   "soft": 2.2,
+   "mid": 0.5
+  }
+ },
+ {
+  "joint": "head_pitch drive horn",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M3x5 DIN 912 A2"
+  ],
+  "area": "neck",
+  "ids": [
+   "F236",
+   "F238",
+   "F240",
+   "F242"
+  ],
+  "role": "structural, servo chain",
+  "src": "[L] twin/structure/STRUCTURE_TWIN.md table 5",
+  "n_after": 4,
+  "kept": [
+   "F236",
+   "F238",
+   "F240",
+   "F242"
+  ],
+  "cut": [],
+  "why": "servo chain, table 5: under the margin today in soft, mid, so it needs more, not fewer (keep all)",
+  "SF": {
+   "walk": 15.7,
+   "push": 9.3,
+   "soft": 0.3,
+   "mid": 0.1
+  }
+ },
+ {
+  "joint": "camera PCB (not in CAD) -> head (head_assembly)",
+  "cls": "c",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2x4 self-tapping pan head"
+  ],
+  "area": "head",
+  "ids": [
+   "F344",
+   "F345",
+   "F346",
+   "F347"
+  ],
+  "role": "board or bracket",
+  "mass_g": 4.0,
+  "mass_src": "[L] sim/MASS_BUDGET.md and [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "F1_pull_N": {
+   "walk": 0.1,
+   "soft": 2.8,
+   "mid": 7.7
+  },
+  "cap_per_screw_N": 144.0,
+  "cap_src": "thread strip, low end, [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "SF_F1_one_screw": {
+   "walk": 1223.2,
+   "soft": 51.7,
+   "mid": 18.7
+  },
+  "F1_pass": true,
+  "n_after": 2,
+  "kept": [
+   "F344",
+   "F347"
+  ],
+  "cut": [
+   "F345",
+   "F346"
+  ],
+  "why": "stiff board or bracket on 4 seats: the 2 diagonal screws hold it, it rests on the other 2 seats and cannot rock; F1 SF 18.7 at mid with one screw",
+  "SF": {
+   "walk": 1223.2,
+   "soft": 51.7,
+   "mid": 18.7
+  }
+ },
+ {
+  "joint": "SG90 tab -> head (head_assembly)",
+  "cls": "c",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "SG90 bag mounting screw"
+  ],
+  "area": "head",
+  "ids": [
+   "F348",
+   "F349",
+   "F350",
+   "F351"
+  ],
+  "role": "structural or kept",
+  "n_after": 4,
+  "kept": [
+   "F348",
+   "F349",
+   "F350",
+   "F351"
+  ],
+  "cut": [],
+  "why": "SG90 tab: antenna torque and the head swing hit (G6) not modelled: keep all (BLOCKER for any cut)",
+  "SF": {}
+ },
+ {
+  "joint": "speaker_interface -> speaker_stand (head_assembly)",
+  "cls": "b",
+  "n_listed": 4,
+  "n_before": 4,
+  "spec": [
+   "M2.5x5 DIN 912 A2"
+  ],
+  "area": "head",
+  "ids": [
+   "F352",
+   "F353",
+   "F354",
+   "F355"
+  ],
+  "role": "board or bracket",
+  "mass_g": 31.1,
+  "mass_src": "[L] sim/MASS_BUDGET.md and [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "F1_pull_N": {
+   "walk": 0.9,
+   "soft": 21.7,
+   "mid": 59.8
+  },
+  "cap_per_screw_N": 168.0,
+  "cap_src": "thread strip, low end, [L] twin/structure/STRUCTURE_TWIN.md table 3.2",
+  "SF_F1_one_screw": {
+   "walk": 183.6,
+   "soft": 7.8,
+   "mid": 2.8
+  },
+  "F1_pass": true,
+  "n_after": 2,
+  "kept": [
+   "F353",
+   "F354"
+  ],
+  "cut": [
+   "F352",
+   "F355"
+  ],
+  "why": "stiff board or bracket on 4 seats: the 2 diagonal screws hold it, it rests on the other 2 seats and cannot rock; F1 SF 2.8 at mid with one screw",
+  "SF": {
+   "walk": 183.6,
+   "soft": 7.8,
+   "mid": 2.8
+  }
+ }
+]

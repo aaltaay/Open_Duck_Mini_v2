@@ -1,0 +1,104 @@
+{
+ "note": "phase 2 input for fasteners.json and BOM.md: screws to drop, their inserts, the washers that go with them; holes stay in the STLs (reversible)",
+ "screws_cut": [
+  "F027",
+  "F065",
+  "F066",
+  "F070",
+  "F071",
+  "F075",
+  "F076",
+  "F080",
+  "F081",
+  "F082",
+  "F084",
+  "F085",
+  "F086",
+  "F087",
+  "F090",
+  "F107",
+  "F110",
+  "F112",
+  "F113",
+  "F120",
+  "F121",
+  "F177",
+  "F180",
+  "F179",
+  "F182",
+  "F345",
+  "F346",
+  "F352",
+  "F355"
+ ],
+ "inserts_cut": [
+  "I13",
+  "I14",
+  "I06",
+  "I07",
+  "I01",
+  "I02",
+  "I10",
+  "I11",
+  "I12",
+  "I48",
+  "I49",
+  "I50",
+  "I51",
+  "I54"
+ ],
+ "washers_cut": 8,
+ "by_joint": {
+  "battery_pack_lid -> body_back (trunk_assembly)": [
+   "F027"
+  ],
+  "body_front shell": [
+   "F065",
+   "F066",
+   "F070",
+   "F071"
+  ],
+  "body_back shell": [
+   "F075",
+   "F076",
+   "F080",
+   "F081",
+   "F082"
+  ],
+  "head_bot_sheet -> head (head_assembly)": [
+   "F084",
+   "F085",
+   "F086",
+   "F087",
+   "F090"
+  ],
+  "speaker_stand -> head (head_assembly)": [
+   "F107",
+   "F110"
+  ],
+  "raspberrypizerow -> head (head_assembly)": [
+   "F112",
+   "F113"
+  ],
+  "board -> trunk_top (trunk_assembly)": [
+   "F120",
+   "F121"
+  ],
+  "bulb -> right_eye (head_assembly)": [
+   "F177",
+   "F180"
+  ],
+  "bulb -> left_eye (head_assembly)": [
+   "F179",
+   "F182"
+  ],
+  "camera PCB (not in CAD) -> head (head_assembly)": [
+   "F345",
+   "F346"
+  ],
+  "speaker_interface -> speaker_stand (head_assembly)": [
+   "F352",
+   "F355"
+  ]
+ }
+}

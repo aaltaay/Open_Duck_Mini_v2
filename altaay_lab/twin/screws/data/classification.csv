@@ -1,0 +1,414 @@
+id,kind,class,spec,part,into,anchor,area,fitted_before,fitted_after,supply,verdict
+F001,screw,b,M3x10 DIN 912 A2,left_cache,leg_spacer,M3 insert,left leg,1,1,BOM 17b,keep
+F002,screw,b,M3x6 ISO 7380 A2 button head,knee_to_ankle_right_sheet,leg_spacer,M3 insert,left leg,1,1,NEW LINE: M3x6 ISO 7380 A2 button head,keep
+F003,screw,b,M3x10 DIN 912 A2,left_cache,leg_spacer,M3 insert,left leg,1,1,BOM 17b,keep
+F004,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,leg_spacer,M3 insert,left leg,1,1,BOM 17d,keep
+F005,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,leg_spacer,M3 insert,left leg,1,1,BOM 17d,keep
+F006,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,leg_spacer,M3 insert,left leg,1,1,BOM 17d,keep
+F007,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,leg_spacer,M3 insert,left leg,1,1,BOM 17d,keep
+F008,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,leg_spacer,M3 insert,left leg,1,1,BOM 17d,keep
+F009,screw,b,M3x10 DIN 912 A2,right_cache,leg_spacer,M3 insert,right leg,1,1,BOM 17b,keep
+F010,screw,b,M3x6 ISO 7380 A2 button head,knee_to_ankle_left_sheet,leg_spacer,M3 insert,right leg,1,1,NEW LINE: M3x6 ISO 7380 A2 button head,keep
+F011,screw,b,M3x10 DIN 912 A2,right_cache,leg_spacer,M3 insert,right leg,1,1,BOM 17b,keep
+F012,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,leg_spacer,M3 insert,right leg,1,1,BOM 17d,keep
+F013,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,leg_spacer,M3 insert,right leg,1,1,BOM 17d,keep
+F014,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,leg_spacer,M3 insert,right leg,1,1,BOM 17d,keep
+F015,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,leg_spacer,M3 insert,right leg,1,1,BOM 17d,keep
+F016,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,leg_spacer,M3 insert,right leg,1,1,BOM 17d,keep
+F017,screw,b,M2.5x10 DIN 912 A2,battery_pack_lid,body_back,plastic pilot 2.0,back,1,1,BOM 17i,keep
+F018,screw,b,M2.5x10 DIN 912 A2,battery_pack_lid,body_back,plastic pilot 2.0,back,1,1,BOM 17i,keep
+F019,screw,b,M3x10 DIN 912 A2,body_middle_bottom,trunk_bottom,M3 insert,trunk inside,1,1,BOM 17b,keep
+F020,screw,b,M3x10 DIN 912 A2,body_middle_bottom,trunk_bottom,M3 insert,trunk inside,1,1,BOM 17b,keep
+F021,screw,b,M3x10 DIN 912 A2,body_middle_bottom,trunk_bottom,M3 insert,trunk inside,1,1,BOM 17b,keep
+F022,screw,b,M3x10 DIN 912 A2,body_middle_bottom,trunk_bottom,M3 insert,trunk inside,1,1,BOM 17b,keep
+F023,screw,b,M3x10 DIN 912 A2,foot_side,foot_top,M3 insert,left leg,1,1,BOM 17b,keep
+F024,screw,b,M3x10 DIN 912 A2,foot_side,foot_top,M3 insert,left leg,1,1,BOM 17b,keep
+F025,screw,b,M3x10 DIN 912 A2,foot_side,foot_top,M3 insert,right leg,1,1,BOM 17b,keep
+F026,screw,b,M3x10 DIN 912 A2,foot_side,foot_top,M3 insert,right leg,1,1,BOM 17b,keep
+F027,screw,b,M2.5x10 DIN 912 A2,battery_pack_lid,body_back,plastic pilot 2.0,back,1,0,BOM 17i,cut
+F028,screw,b,M2.5x10 DIN 912 A2,battery_pack_lid,body_back,plastic pilot 2.0,back,1,1,BOM 17i,keep
+F029,screw,b,M2x6 self-tapping pan head,right_roll_to_pitch,wj-wk00-0124bottomcase_45,servo pilot,right leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F030,screw,b,M2x6 self-tapping pan head,right_roll_to_pitch,wj-wk00-0124bottomcase_45,servo pilot,right leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F031,screw,b,M2x6 self-tapping pan head,left_roll_to_pitch,wj-wk00-0124bottomcase_45,servo pilot,left leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F032,screw,b,M2x6 self-tapping pan head,left_roll_to_pitch,wj-wk00-0124bottomcase_45,servo pilot,left leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F033,screw,b,M3x6 DIN 912 A2,roll_motor_top,drive_palonier,horn(drive),trunk inside,1,1,BOM 17d,keep
+F034,screw,b,M3x6 DIN 912 A2,roll_motor_top,drive_palonier,horn(drive),trunk inside,1,1,BOM 17d,keep
+F035,screw,b,M3x6 DIN 912 A2,roll_motor_top,drive_palonier,horn(drive),trunk inside,1,1,BOM 17d,keep
+F036,screw,b,M3x6 DIN 912 A2,roll_motor_top,drive_palonier,horn(drive),trunk inside,1,1,BOM 17d,keep
+F037,screw,b,M3x6 DIN 912 A2,roll_motor_top,drive_palonier,horn(drive),trunk inside,1,1,BOM 17d,keep
+F038,screw,b,M3x6 DIN 912 A2,roll_motor_top,drive_palonier,horn(drive),trunk inside,1,1,BOM 17d,keep
+F039,screw,b,M3x6 DIN 912 A2,roll_motor_top,drive_palonier,horn(drive),trunk inside,1,1,BOM 17d,keep
+F040,screw,b,M3x6 DIN 912 A2,roll_motor_top,drive_palonier,horn(drive),trunk inside,1,1,BOM 17d,keep
+F041,screw,b,M2x6 self-tapping pan head,knee_to_ankle_right_sheet,wj-wk00-0124bottomcase_45,servo pilot,left leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F042,screw,b,M2x6 self-tapping pan head,knee_to_ankle_right_sheet,wj-wk00-0124bottomcase_45,servo pilot,left leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F043,screw,b,M2x6 self-tapping pan head,knee_to_ankle_right_sheet,wj-wk00-0124bottomcase_45,servo pilot,left leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F044,screw,b,M2x6 self-tapping pan head,knee_to_ankle_right_sheet,wj-wk00-0124bottomcase_45,servo pilot,left leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F045,screw,b,M2x6 self-tapping pan head,knee_to_ankle_right_sheet,wj-wk00-0124bottomcase_45,servo pilot,right leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F046,screw,b,M2x6 self-tapping pan head,knee_to_ankle_right_sheet,wj-wk00-0124bottomcase_45,servo pilot,right leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F047,screw,b,M2x6 self-tapping pan head,knee_to_ankle_right_sheet,wj-wk00-0124bottomcase_45,servo pilot,right leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F048,screw,b,M2x6 self-tapping pan head,knee_to_ankle_right_sheet,wj-wk00-0124bottomcase_45,servo pilot,right leg,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F049,screw,b,M2x8 self-tapping pan head,trunk_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F050,screw,b,M2x8 self-tapping pan head,trunk_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F051,screw,b,M2x6 self-tapping pan head,roll_motor_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F052,screw,b,M2x6 self-tapping pan head,roll_motor_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F053,screw,b,M2x6 self-tapping pan head,roll_motor_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F054,screw,b,M2x6 self-tapping pan head,roll_motor_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F055,screw,b,M2x6 self-tapping pan head,neck_right_sheet,wj-wk00-0124bottomcase_45,servo pilot,neck,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F056,screw,b,M2x6 self-tapping pan head,neck_right_sheet,wj-wk00-0124bottomcase_45,servo pilot,neck,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F057,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F058,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F059,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F060,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F061,screw,b,M2x5 self-tapping pan head,head_roll_mount,wj-wk00-0124bottomcase_45,servo pilot,head,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F062,screw,b,M2x5 self-tapping pan head,head_roll_mount,wj-wk00-0124bottomcase_45,servo pilot,head,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F063,screw,b,M2x6 self-tapping pan head,head_yaw_to_roll,wj-wk00-0124bottomcase_45,servo pilot,neck,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F064,screw,b,M2x6 self-tapping pan head,head_yaw_to_roll,wj-wk00-0124bottomcase_45,servo pilot,neck,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F065,screw,b,M3x8 DIN 912 A2,body_front,body_middle_top,M3 insert,body front,1,0,BOM 17a,cut
+F066,screw,b,M3x8 DIN 912 A2,body_front,body_middle_top,M3 insert,body front,1,0,BOM 17a,cut
+F067,screw,b,M3x8 DIN 912 A2,body_front,body_middle_top,M3 insert,body front,1,1,BOM 17a,keep
+F068,screw,b,M3x8 DIN 912 A2,body_front,body_middle_top,M3 insert,body front,1,1,BOM 17a,keep
+F069,screw,b,M3x8 DIN 912 A2,body_front,body_middle_bottom,M3 insert,body front,1,1,BOM 17a,keep
+F070,screw,b,M3x8 DIN 912 A2,body_front,body_middle_bottom,M3 insert,body front,1,0,BOM 17a,cut
+F071,screw,b,M3x8 DIN 912 A2,body_front,body_middle_bottom,M3 insert,body front,1,0,BOM 17a,cut
+F072,screw,b,M3x8 DIN 912 A2,body_front,body_middle_bottom,M3 insert,body front,1,1,BOM 17a,keep
+F073,screw,b,M3x12 DIN 912 A2,trunk_top,trunk_bottom,M3 insert,trunk inside,1,1,BOM 17c,keep
+F074,screw,b,M3x12 DIN 912 A2,trunk_top,trunk_bottom,M3 insert,trunk inside,1,1,BOM 17c,keep
+F075,screw,b,M3x8 DIN 912 A2,body_back,body_middle_bottom,M3 insert,back,1,0,BOM 17a,cut
+F076,screw,b,M3x8 DIN 912 A2,body_back,body_middle_bottom,M3 insert,back,1,0,BOM 17a,cut
+F077,screw,b,M3x8 DIN 912 A2,body_back,body_middle_bottom,M3 insert,back,1,1,BOM 17a,keep
+F078,screw,b,M3x8 DIN 912 A2,body_back,body_middle_bottom,M3 insert,back,1,1,BOM 17a,keep
+F079,screw,b,M3x8 DIN 912 A2,body_back,body_middle_top,M3 insert,back,1,1,BOM 17a,keep
+F080,screw,b,M3x8 DIN 912 A2,body_back,body_middle_top,M3 insert,back,1,0,BOM 17a,cut
+F081,screw,b,M3x8 DIN 912 A2,body_back,body_middle_top,M3 insert,back,1,0,BOM 17a,cut
+F082,screw,b,M3x8 DIN 912 A2,body_back,body_middle_top,M3 insert,back,1,0,BOM 17a,cut
+F083,screw,b,M3x8 DIN 912 A2,head_bot_sheet,head,M3 insert,head,1,1,BOM 17a,keep
+F084,screw,b,M3x8 DIN 912 A2,head_bot_sheet,head,M3 insert,head,1,0,BOM 17a,cut
+F085,screw,b,M3x8 DIN 912 A2,head_bot_sheet,head,M3 insert,head,1,0,BOM 17a,cut
+F086,screw,b,M3x8 DIN 912 A2,head_bot_sheet,head,M3 insert,head,1,0,BOM 17a,cut
+F087,screw,b,M3x8 DIN 912 A2,head_bot_sheet,head,M3 insert,head,1,0,BOM 17a,cut
+F088,screw,b,M3x8 DIN 912 A2,head_bot_sheet,head,M3 insert,head,1,1,BOM 17a,keep
+F089,screw,b,M3x8 DIN 912 A2,head_bot_sheet,head,M3 insert,head,1,1,BOM 17a,keep
+F090,screw,b,M3x8 DIN 912 A2,head_bot_sheet,head,M3 insert,head,1,0,BOM 17a,cut
+F091,screw,b,M3x6 DIN 912 A2,head_roll_mount,head,M3 insert,head,1,1,BOM 17d,keep
+F092,screw,b,M3x6 DIN 912 A2,head_roll_mount,head,M3 insert,head,1,1,BOM 17d,keep
+F093,screw,b,M3x6 DIN 912 A2,head_roll_mount,head,M3 insert,head,1,1,BOM 17d,keep
+F094,screw,b,M3x6 DIN 912 A2,head_roll_mount,head,M3 insert,head,1,1,BOM 17d,keep
+F095,screw,b,M3x8 DIN 912 A2,foot_bottom_tpu,foot_bottom_pla,M3 insert,left leg,1,1,BOM 17a,keep
+F096,screw,b,M3x8 DIN 912 A2,foot_bottom_tpu,foot_bottom_pla,M3 insert,left leg,1,1,BOM 17a,keep
+F097,screw,b,M3x8 DIN 912 A2,foot_bottom_tpu,foot_bottom_pla,M3 insert,right leg,1,1,BOM 17a,keep
+F098,screw,b,M3x8 DIN 912 A2,foot_bottom_tpu,foot_bottom_pla,M3 insert,right leg,1,1,BOM 17a,keep
+F099,screw,b,M2x5 self-tapping pan head,knee_to_ankle_left_sheet,wj-wk00-0122topcabinetcase_95,servo pilot,left leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F100,screw,b,M2x5 self-tapping pan head,knee_to_ankle_left_sheet,wj-wk00-0122topcabinetcase_95,servo pilot,left leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F101,screw,b,M2x5 self-tapping pan head,knee_to_ankle_left_sheet,wj-wk00-0122topcabinetcase_95,servo pilot,left leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F102,screw,b,M2x5 self-tapping pan head,knee_to_ankle_left_sheet,wj-wk00-0122topcabinetcase_95,servo pilot,left leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F103,screw,b,M2x5 self-tapping pan head,knee_to_ankle_left_sheet,wj-wk00-0122topcabinetcase_95,servo pilot,right leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F104,screw,b,M2x5 self-tapping pan head,knee_to_ankle_left_sheet,wj-wk00-0122topcabinetcase_95,servo pilot,right leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F105,screw,b,M2x5 self-tapping pan head,knee_to_ankle_left_sheet,wj-wk00-0122topcabinetcase_95,servo pilot,right leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F106,screw,b,M2x5 self-tapping pan head,knee_to_ankle_left_sheet,wj-wk00-0122topcabinetcase_95,servo pilot,right leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F107,screw,b,M2.5x6 DIN 912 A2,speaker_stand,head,plastic pilot 2.0,head,1,0,BOM 17f,cut
+F108,screw,b,M2.5x6 DIN 912 A2,speaker_stand,head,plastic pilot 2.0,head,1,1,BOM 17f,keep
+F109,screw,b,M2.5x6 DIN 912 A2,speaker_stand,head,plastic pilot 2.0,head,1,1,BOM 17f,keep
+F110,screw,b,M2.5x6 DIN 912 A2,speaker_stand,head,plastic pilot 2.0,head,1,0,BOM 17f,cut
+F111,screw,b,M2.5x6 DIN 912 A2,raspberrypizerow,head,plastic pilot 2.0,head,1,1,BOM 17f,keep
+F112,screw,b,M2.5x6 DIN 912 A2,raspberrypizerow,head,plastic pilot 2.0,head,1,0,BOM 17f,cut
+F113,screw,b,M2.5x6 DIN 912 A2,raspberrypizerow,head,plastic pilot 2.0,head,1,0,BOM 17f,cut
+F114,screw,b,M2.5x6 DIN 912 A2,raspberrypizerow,head,plastic pilot 2.0,head,1,1,BOM 17f,keep
+F115,screw,b,M2.5x6 DIN 912 A2,bno055,trunk_top,plastic pilot 2.0,trunk inside,1,1,BOM 17f,keep
+F116,screw,b,M2.5x6 DIN 912 A2,bno055,trunk_top,plastic pilot 2.0,trunk inside,1,1,BOM 17f,keep
+F117,screw,b,M2.5x6 DIN 912 A2,bno055,trunk_top,plastic pilot 2.0,trunk inside,1,1,BOM 17f,keep
+F118,screw,b,M2.5x6 DIN 912 A2,bno055,trunk_top,plastic pilot 2.0,trunk inside,1,1,BOM 17f,keep
+F119,screw,b,M2.5x6 DIN 912 A2,board,trunk_top,plastic pilot 2.0,trunk inside,1,1,BOM 17f,keep
+F120,screw,b,M2.5x6 DIN 912 A2,board,trunk_top,plastic pilot 2.0,trunk inside,1,0,BOM 17f,cut
+F121,screw,b,M2.5x6 DIN 912 A2,board,trunk_top,plastic pilot 2.0,trunk inside,1,0,BOM 17f,cut
+F122,screw,b,M2.5x6 DIN 912 A2,board,trunk_top,plastic pilot 2.0,trunk inside,1,1,BOM 17f,keep
+F123,screw,b,M2.5x6 DIN 912 A2,usb_c_charger,body_back,plastic pilot 2.0,back,1,1,BOM 17f,keep
+F124,screw,b,M2x6 self-tapping pan head,roll_motor_bottom,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,0,0,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",
+F125,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F126,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F127,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F128,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F129,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F130,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F131,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F132,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F133,screw,b,M2x6 self-tapping pan head,roll_motor_bottom,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F134,screw,b,M2x5 self-tapping pan head,left_roll_to_pitch,wj-wk00-0122topcabinetcase_95,servo pilot,left leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F135,screw,b,M2x6 self-tapping pan head,roll_motor_bottom,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F136,screw,b,M2x6 self-tapping pan head,roll_motor_bottom,wj-wk00-0124bottomcase_45,servo pilot,trunk inside,0,0,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",
+F137,screw,b,M2x5 self-tapping pan head,right_roll_to_pitch,wj-wk00-0122topcabinetcase_95,servo pilot,right leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F138,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F139,screw,b,M2x6 self-tapping pan head,trunk_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F140,screw,b,M2x5 self-tapping pan head,trunk_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F141,screw,b,M2x5 self-tapping pan head,trunk_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F142,screw,b,M2x5 self-tapping pan head,trunk_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F143,screw,b,M2x5 self-tapping pan head,trunk_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F144,screw,b,M2x5 self-tapping pan head,left_roll_to_pitch,wj-wk00-0122topcabinetcase_95,servo pilot,left leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F145,screw,b,M2x5 self-tapping pan head,left_roll_to_pitch,wj-wk00-0122topcabinetcase_95,servo pilot,left leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F146,screw,b,M2x5 self-tapping pan head,right_roll_to_pitch,wj-wk00-0122topcabinetcase_95,servo pilot,right leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F147,screw,b,M2x5 self-tapping pan head,right_roll_to_pitch,wj-wk00-0122topcabinetcase_95,servo pilot,right leg,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F148,screw,b,M2x6 self-tapping pan head,neck_left_sheet,wj-wk00-0122topcabinetcase_95,servo pilot,neck,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F149,screw,b,M2x6 self-tapping pan head,neck_left_sheet,wj-wk00-0122topcabinetcase_95,servo pilot,neck,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F150,screw,b,M2x5 self-tapping pan head,head_yaw_to_roll,wj-wk00-0122topcabinetcase_95,servo pilot,neck,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F151,screw,b,M2x5 self-tapping pan head,head_yaw_to_roll,wj-wk00-0122topcabinetcase_95,servo pilot,neck,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F152,screw,b,M2x6 self-tapping pan head,roll_motor_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F153,screw,b,M2x6 self-tapping pan head,roll_motor_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F154,screw,b,M2x6 self-tapping pan head,roll_motor_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F155,screw,b,M2x6 self-tapping pan head,roll_motor_top,wj-wk00-0122topcabinetcase_95,servo pilot,trunk inside,1,1,"servo bag (BOM 1): the M2x6 'smallest screws' [I] https://huggingface.co/docs/lerobot/so101 (same STS3215 1/345: top horn secured with an M3x6 screw, no screw for the bottom horn, motor fastened with M2x6 screws, the smallest in the bag, printed parts to horns with M3x6); bag split UNVERIFIED (B2)",keep
+F156,screw,b,M2x4 self-tapping pan head,head_roll_mount,wj-wk00-0122topcabinetcase_95,servo pilot,head,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F157,screw,b,M2x4 self-tapping pan head,head_roll_mount,wj-wk00-0122topcabinetcase_95,servo pilot,head,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F158,screw,b,M3x5 DIN 912 A2,head_yaw_to_roll,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F159,screw,b,M3x5 DIN 912 A2,head_yaw_to_roll,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F160,screw,b,M3x5 DIN 912 A2,head_yaw_to_roll,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F161,screw,b,M3x5 DIN 912 A2,head_yaw_to_roll,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F162,screw,a,SG90 bag horn screw,left_antenna_holder,SG90 output shaft,SG90 output shaft (not modelled),head,1,1,SG90 bag (BOM 14),keep
+F163,screw,a,SG90 bag horn screw,right_antenna_holder,SG90 output shaft,SG90 output shaft (not modelled),head,1,1,SG90 bag (BOM 14),keep
+F164,screw,b,M3x6 DIN 912 A2,foot_side,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F165,screw,b,M3x6 DIN 912 A2,foot_top,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F166,screw,b,M3x6 DIN 912 A2,foot_side,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F167,screw,b,M3x6 DIN 912 A2,foot_top,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F168,screw,b,M3x6 DIN 912 A2,foot_side,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F169,screw,b,M3x6 DIN 912 A2,foot_top,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F170,screw,b,M3x6 DIN 912 A2,foot_side,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F171,screw,b,M3x6 DIN 912 A2,foot_top,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F172,screw,b,M3x6 DIN 912 A2,foot_side,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F173,screw,b,M3x6 DIN 912 A2,foot_top,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F174,screw,b,M3x6 DIN 912 A2,foot_side,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F175,screw,b,M3x6 DIN 912 A2,foot_top,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F176,screw,b,M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers,bulb,right_eye,plastic pilot (eye),head,1,1,BOM 17g,keep
+F177,screw,b,M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers,bulb,right_eye,plastic pilot (eye),head,1,0,BOM 17g,cut
+F178,screw,b,M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers,bulb,left_eye,plastic pilot (eye),head,1,1,BOM 17g,keep
+F179,screw,b,M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers,bulb,left_eye,plastic pilot (eye),head,1,0,BOM 17g,cut
+F180,screw,b,M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers,bulb,right_eye,plastic pilot (eye),head,1,0,BOM 17g,cut
+F181,screw,b,M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers,bulb,right_eye,plastic pilot (eye),head,1,1,BOM 17g,keep
+F182,screw,b,M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers,bulb,left_eye,plastic pilot (eye),head,1,0,BOM 17g,cut
+F183,screw,b,M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers,bulb,left_eye,plastic pilot (eye),head,1,1,BOM 17g,keep
+F184,screw,b,M3x6 DIN 912 A2,right_roll_to_pitch,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F185,screw,b,M3x6 DIN 912 A2,right_roll_to_pitch,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F186,screw,b,M3x6 DIN 912 A2,left_roll_to_pitch,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F187,screw,b,M3x6 DIN 912 A2,left_roll_to_pitch,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F188,screw,b,M3x6 DIN 912 A2,left_roll_to_pitch,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F189,screw,b,M3x6 DIN 912 A2,left_roll_to_pitch,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F190,screw,b,M3x6 DIN 912 A2,right_roll_to_pitch,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F191,screw,b,M3x6 DIN 912 A2,right_roll_to_pitch,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F192,screw,b,M3x6 DIN 912 A2,right_roll_to_pitch,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F193,screw,b,M3x6 DIN 912 A2,right_roll_to_pitch,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F194,screw,b,M3x6 DIN 912 A2,left_roll_to_pitch,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F195,screw,b,M3x6 DIN 912 A2,left_roll_to_pitch,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F196,screw,b,M3x6 ISO 7380 A2 button head,knee_to_ankle_right_sheet,passive_palonier,horn(passive),left leg,1,1,NEW LINE: M3x6 ISO 7380 A2 button head,keep
+F197,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F198,screw,b,M3x6 ISO 7380 A2 button head,knee_to_ankle_right_sheet,passive_palonier,horn(passive),left leg,1,1,NEW LINE: M3x6 ISO 7380 A2 button head,keep
+F199,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F200,screw,b,M3x6 ISO 7380 A2 button head,knee_to_ankle_right_sheet,passive_palonier,horn(passive),left leg,1,1,NEW LINE: M3x6 ISO 7380 A2 button head,keep
+F201,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F202,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F203,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F204,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F205,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F206,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F207,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F208,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F209,screw,b,M3x6 ISO 7380 A2 button head,knee_to_ankle_left_sheet,passive_palonier,horn(passive),right leg,1,1,NEW LINE: M3x6 ISO 7380 A2 button head,keep
+F210,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F211,screw,b,M3x6 ISO 7380 A2 button head,knee_to_ankle_left_sheet,passive_palonier,horn(passive),right leg,1,1,NEW LINE: M3x6 ISO 7380 A2 button head,keep
+F212,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F213,screw,b,M3x6 ISO 7380 A2 button head,knee_to_ankle_left_sheet,passive_palonier,horn(passive),right leg,1,1,NEW LINE: M3x6 ISO 7380 A2 button head,keep
+F214,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F215,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F216,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F217,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F218,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F219,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F220,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F221,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F222,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F223,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F224,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F225,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F226,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F227,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F228,screw,b,M3x5 DIN 912 A2,neck_left_sheet,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F229,screw,b,M3x5 DIN 912 A2,neck_right_sheet,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F230,screw,b,M3x5 DIN 912 A2,neck_right_sheet,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F231,screw,b,M3x5 DIN 912 A2,neck_left_sheet,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F232,screw,b,M3x5 DIN 912 A2,neck_right_sheet,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F233,screw,b,M3x5 DIN 912 A2,neck_left_sheet,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F234,screw,b,M3x5 DIN 912 A2,neck_right_sheet,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F235,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F236,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F237,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F238,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F239,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F240,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F241,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,passive_palonier,horn(passive),neck,1,1,BOM 17e,keep
+F242,screw,b,M3x5 DIN 912 A2,head_pitch_to_yaw,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F243,screw,b,M3x6 DIN 912 A2,left_roll_to_pitch,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F244,screw,b,M3x6 DIN 912 A2,left_roll_to_pitch,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F245,screw,b,M3x6 DIN 912 A2,right_roll_to_pitch,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F246,screw,b,M3x6 DIN 912 A2,right_roll_to_pitch,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F247,screw,b,M3x6 ISO 7380 A2 button head,knee_to_ankle_right_sheet,passive_palonier,horn(passive),left leg,1,1,NEW LINE: M3x6 ISO 7380 A2 button head,keep
+F248,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F249,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F250,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F251,screw,b,M3x6 DIN 912 A2,foot_side,passive_palonier,horn(passive),left leg,1,1,BOM 17d,keep
+F252,screw,b,M3x6 DIN 912 A2,foot_top,drive_palonier,horn(drive),left leg,1,1,BOM 17d,keep
+F253,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F254,screw,b,M3x6 ISO 7380 A2 button head,knee_to_ankle_left_sheet,passive_palonier,horn(passive),right leg,1,1,NEW LINE: M3x6 ISO 7380 A2 button head,keep
+F255,screw,b,M3x6 DIN 912 A2,knee_to_ankle_right_sheet,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F256,screw,b,M3x6 DIN 912 A2,knee_to_ankle_left_sheet,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F257,screw,b,M3x6 DIN 912 A2,foot_side,passive_palonier,horn(passive),right leg,1,1,BOM 17d,keep
+F258,screw,b,M3x6 DIN 912 A2,foot_top,drive_palonier,horn(drive),right leg,1,1,BOM 17d,keep
+F259,screw,b,M3x5 DIN 912 A2,neck_left_sheet,drive_palonier,horn(drive),neck,1,1,BOM 17e,keep
+F260,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F261,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F262,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F263,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F264,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),head,1,1,"comes with servo (BOM 1), factory fitted",keep
+F265,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),head,1,1,"comes with servo (BOM 1), factory fitted",keep
+F266,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),head,1,1,"comes with servo (BOM 1), factory fitted",keep
+F267,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),head,1,1,"comes with servo (BOM 1), factory fitted",keep
+F268,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F269,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F270,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F271,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F272,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F273,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F274,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F275,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F276,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F277,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F278,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F279,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F280,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F281,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F282,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F283,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F284,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F285,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F286,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F287,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F288,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F289,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F290,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F291,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),left leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F292,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F293,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F294,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F295,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),neck,1,1,"comes with servo (BOM 1), factory fitted",keep
+F296,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F297,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F298,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F299,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F300,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F301,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F302,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F303,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F304,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F305,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F306,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F307,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F308,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F309,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F310,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F311,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),trunk inside,1,1,"comes with servo (BOM 1), factory fitted",keep
+F312,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F313,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F314,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F315,screw,a,PA2.0 self-tapping (factory),servo top case,servo bottom case,servo case (factory),right leg,1,1,"comes with servo (BOM 1), factory fitted",keep
+F316,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,neck,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F317,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,neck,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
+F318,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,head,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F319,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,head,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F320,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,neck,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F321,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,neck,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
+F322,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,left leg,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F323,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,left leg,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
+F324,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,left leg,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F325,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,left leg,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
+F326,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,trunk inside,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F327,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,trunk inside,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
+F328,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,trunk inside,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F329,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,trunk inside,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F330,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,left leg,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F331,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,left leg,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
+F332,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,neck,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F333,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,neck,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
+F334,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,right leg,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F335,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,right leg,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
+F336,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,right leg,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F337,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,right leg,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
+F338,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,trunk inside,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F339,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,trunk inside,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
+F340,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,trunk inside,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F341,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,trunk inside,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F342,screw,a,M3x6 machine screw (Feetech rocker screw),drive horn,servo output shaft,servo output shaft,right leg,1,1,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",keep
+F343,screw,a,"PA3.0x5 self-tapping, washer head (Feetech idle screw)",idle horn,servo bottom case boss,servo idle boss pilot 2.67,right leg,0,0,"comes with servo (BOM 1) [I] https://download.kamami.pl/p1198708-STS3215-C001-20230624.pdf (Feetech STS3215 C001 spec 2023-06-23: item 6-13 rocker screw M3X6; drawing p.6: 8-PA2.0 self-tapping mounting holes, M3X6 machine screw at the output, PA3.0X5 self-tapping screw at the idle boss; p.8 packing photo)",
+F344,screw,c,M2x4 self-tapping pan head,camera PCB (not in CAD),head,plastic pilot 1.65 (camera),head,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F345,screw,c,M2x4 self-tapping pan head,camera PCB (not in CAD),head,plastic pilot 1.65 (camera),head,1,0,METALLIXITY M2 kit (BOM 17h),cut
+F346,screw,c,M2x4 self-tapping pan head,camera PCB (not in CAD),head,plastic pilot 1.65 (camera),head,1,0,METALLIXITY M2 kit (BOM 17h),cut
+F347,screw,c,M2x4 self-tapping pan head,camera PCB (not in CAD),head,plastic pilot 1.65 (camera),head,1,1,METALLIXITY M2 kit (BOM 17h),keep
+F348,screw,c,SG90 bag mounting screw,SG90 tab,head,plastic pilot 1.55 (SG90 tab),head,1,1,SG90 bag (BOM 14),keep
+F349,screw,c,SG90 bag mounting screw,SG90 tab,head,plastic pilot 1.55 (SG90 tab),head,1,1,SG90 bag (BOM 14),keep
+F350,screw,c,SG90 bag mounting screw,SG90 tab,head,plastic pilot 1.55 (SG90 tab),head,1,1,SG90 bag (BOM 14),keep
+F351,screw,c,SG90 bag mounting screw,SG90 tab,head,plastic pilot 1.55 (SG90 tab),head,1,1,SG90 bag (BOM 14),keep
+F352,screw,b,M2.5x5 DIN 912 A2,speaker_interface,speaker_stand,plastic pilot 2.12 (speaker stand),head,1,0,NEW LENGTH (no BOM line),cut
+F353,screw,b,M2.5x5 DIN 912 A2,speaker_interface,speaker_stand,plastic pilot 2.12 (speaker stand),head,1,1,NEW LENGTH (no BOM line),keep
+F354,screw,b,M2.5x5 DIN 912 A2,speaker_interface,speaker_stand,plastic pilot 2.12 (speaker stand),head,1,1,NEW LENGTH (no BOM line),keep
+F355,screw,b,M2.5x5 DIN 912 A2,speaker_interface,speaker_stand,plastic pilot 2.12 (speaker stand),head,1,0,NEW LENGTH (no BOM line),cut
+I01,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F075,back,1,0,BOM 16,cut
+I02,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F076,back,1,0,BOM 16,cut
+I03,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F077,back,1,1,BOM 16,keep
+I04,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F078,back,1,1,BOM 16,keep
+I05,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F069,body front,1,1,BOM 16,keep
+I06,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F070,body front,1,0,BOM 16,cut
+I07,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F071,body front,1,0,BOM 16,cut
+I08,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_bottom,,for F072,body front,1,1,BOM 16,keep
+I09,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F079,back,1,1,BOM 16,keep
+I10,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F080,back,1,0,BOM 16,cut
+I11,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F081,back,1,0,BOM 16,cut
+I12,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F082,back,1,0,BOM 16,cut
+I13,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F065,body front,1,0,BOM 16,cut
+I14,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F066,body front,1,0,BOM 16,cut
+I15,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F067,body front,1,1,BOM 16,keep
+I16,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,body_middle_top,,for F068,body front,1,1,BOM 16,keep
+I17,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,trunk_bottom,,for F019,trunk inside,1,1,BOM 16,keep
+I18,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,trunk_bottom,,for F020,trunk inside,1,1,BOM 16,keep
+I19,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,trunk_bottom,,for F021,trunk inside,1,1,BOM 16,keep
+I20,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,trunk_bottom,,for F022,trunk inside,1,1,BOM 16,keep
+I21,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,trunk_bottom,,for F073,trunk inside,1,1,BOM 16,keep
+I22,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,trunk_bottom,,for F074,trunk inside,1,1,BOM 16,keep
+I23,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F002,left leg,1,1,BOM 16,keep
+I24,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F004,left leg,1,1,BOM 16,keep
+I25,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F001,left leg,1,1,BOM 16,keep
+I26,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F003,left leg,1,1,BOM 16,keep
+I27,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F005,left leg,1,1,BOM 16,keep
+I28,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F007,left leg,1,1,BOM 16,keep
+I29,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F006,left leg,1,1,BOM 16,keep
+I30,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F008,left leg,1,1,BOM 16,keep
+I31,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,foot_bottom_pla,,for F095,left leg,1,1,BOM 16,keep
+I32,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,foot_bottom_pla,,for F096,left leg,1,1,BOM 16,keep
+I33,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,foot_top,,for F023,left leg,1,1,BOM 16,keep
+I34,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,foot_top,,for F024,left leg,1,1,BOM 16,keep
+I35,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F009,right leg,1,1,BOM 16,keep
+I36,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F011,right leg,1,1,BOM 16,keep
+I37,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F010,right leg,1,1,BOM 16,keep
+I38,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F012,right leg,1,1,BOM 16,keep
+I39,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F013,right leg,1,1,BOM 16,keep
+I40,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F015,right leg,1,1,BOM 16,keep
+I41,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F014,right leg,1,1,BOM 16,keep
+I42,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,leg_spacer,,for F016,right leg,1,1,BOM 16,keep
+I43,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,foot_bottom_pla,,for F097,right leg,1,1,BOM 16,keep
+I44,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,foot_bottom_pla,,for F098,right leg,1,1,BOM 16,keep
+I45,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,foot_top,,for F025,right leg,1,1,BOM 16,keep
+I46,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,foot_top,,for F026,right leg,1,1,BOM 16,keep
+I47,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F083,head,1,1,BOM 16,keep
+I48,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F084,head,1,0,BOM 16,cut
+I49,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F085,head,1,0,BOM 16,cut
+I50,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F086,head,1,0,BOM 16,cut
+I51,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F087,head,1,0,BOM 16,cut
+I52,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F088,head,1,1,BOM 16,keep
+I53,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F089,head,1,1,BOM 16,keep
+I54,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F090,head,1,0,BOM 16,cut
+I55,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F091,head,1,1,BOM 16,keep
+I56,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F092,head,1,1,BOM 16,keep
+I57,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F093,head,1,1,BOM 16,keep
+I58,insert,b,M3 heat-set insert CNC Kitchen M3 x 5.7,head,,for F094,head,1,1,BOM 16,keep
