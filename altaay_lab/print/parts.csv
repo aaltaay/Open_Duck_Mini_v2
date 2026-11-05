@@ -1,8 +1,8 @@
 stl,qty,material,profile,overrides,rings,heavy,up,leg1,spare,why
 battery_pack_lid.stl,1,PLA,light,,,,-x,0,0,2 walls 15 % (upstream default): a lid whose screws thread into body_back; no rule asks for more
-body_back.stl,1,PLA,rings,,pilot,,-x,0,0,2 walls 15 % plus a 1.5 mm solid ring round each of its 4 screw pilots (lid and charger screws; D39 closed the 5th): the pilot rule at each hole instead of 3 walls on the whole shell; no coupon
+body_back.stl,1,PLA,rings,,pilot,,-x,0,0,2 walls 15 % plus a 1.5 mm solid ring round each of its 5 screw pilots (4 lid and 1 charger; D42 reopened the F027 lid pilot that D39 closed): the pilot rule at each hole instead of 3 walls on the whole shell; no coupon
 body_front.stl,1,PLA,light,,,,+x,0,0,2 walls 15 % (upstream default): no rule asks for more
-body_middle_bottom.stl,1,PLA,rings,,insert,insert,+z,0,0,2 walls 15 % plus a 2.0 mm solid ring round each of its insert bores, 4 since D39 closed the unused ones (horizontal in this orientation): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings
+body_middle_bottom.stl,1,PLA,rings,,insert,insert,+z,0,0,2 walls 15 % plus a 2.0 mm solid ring round each of its insert bores, 4 since D39 closed the unused ones (D42: F071 back, F069 closed) (horizontal in this orientation): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings
 body_middle_top.stl,1,PLA,rings,,insert,insert,+x,0,0,2 walls 15 % plus a 2.0 mm solid ring round each of its 6 insert bores (D39 closed 2): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings
 bulb.stl,2,PLA,light,,,,-x,0,0,2 walls 15 % (upstream default); guide says x1 but the CAD has 2 (issue #26)
 flash_light_module.stl,1,PLA,light,,,,+x,0,0,2 walls 15 % (upstream default); its 4.0 mm hole is a 14.6 mm light channel and not an insert bore

@@ -1,81 +1,10 @@
 {
  "parts": {
-  "battery_pack_lid": {
-   "stl": "battery_pack_lid",
-   "src": "print/battery_pack_lid.stl",
-   "out": "<OUT>/stl/battery_pack_lid.stl",
-   "bytes": 96984,
-   "watertight": true,
-   "reread": {
-    "watertight": true,
-    "open_edges": 0,
-    "nonmanifold_edges": 0
-   },
-   "source_edges": {
-    "open_edges": 0,
-    "nonmanifold_edges": 0
-   },
-   "volume_mm3": [
-    23640.1,
-    23687.2
-   ],
-   "added_mm3": 47.1,
-   "analytic_hole_mm3": 47.5,
-   "n_closed": 1,
-   "n_kept": 3,
-   "bounds_same": true,
-   "plugs": [
-    {
-     "ends": [
-      {
-       "open": true,
-       "R": 1.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.12
-      },
-      {
-       "open": true,
-       "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 56,
-       "plane_shift": 0.08
-      }
-     ],
-     "segs": [
-      {
-       "d": 2.5,
-       "L": 2.0,
-       "scan_axis": false
-      },
-      {
-       "d": 4.0,
-       "L": 3.0,
-       "scan_axis": false
-      }
-     ],
-     "site": 19,
-     "why": "no screw: F027 (LEAVE OUT (D38 screw cut))",
-     "analytic_mm3": 47.5,
-     "kept_hole_gap_mm": 42.25
-    }
-   ],
-   "zero_pose": [
-    {
-     "inst": 6,
-     "cable_clear_mm": 1.52,
-     "drilled_tie_spot_mm": 138.9
-    }
-   ],
-   "seats": null
-  },
   "body_back": {
    "stl": "body_back",
    "src": "print/body_back.stl",
    "out": "<OUT>/stl/body_back.stl",
-   "bytes": 384584,
+   "bytes": 561284,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -88,63 +17,47 @@
    },
    "volume_mm3": [
     105525.6,
-    105870.9
+    105981.4
    ],
-   "added_mm3": 345.3,
-   "analytic_hole_mm3": 330.1,
-   "n_closed": 5,
-   "n_kept": 10,
+   "added_mm3": 455.8,
+   "analytic_hole_mm3": 288.6,
+   "n_closed": 4,
+   "n_kept": 11,
    "bounds_same": true,
    "plugs": [
     {
      "ends": [
       {
        "open": true,
-       "R": 1.0,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
-      },
-      {
-       "open": true,
-       "R": 1.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
-      }
-     ],
-     "segs": [
-      {
-       "d": 2.0,
-       "L": 13.2,
-       "scan_axis": false
-      }
-     ],
-     "site": 19,
-     "why": "no screw: F027 (LEAVE OUT (D38 screw cut))",
-     "analytic_mm3": 41.5,
-     "kept_hole_gap_mm": 20.56
-    },
-    {
-     "ends": [
-      {
-       "open": true,
        "R": 3.0,
-       "res_max": 6.319389775503201e-06,
-       "res_pos": 0.0,
-       "n_pts": 26,
-       "plane_shift": 2.101
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.65,
+        6.65
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.75,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -159,6 +72,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 100,
      "why": "no screw: F076 (one more pass)",
      "analytic_mm3": 142.0,
@@ -169,18 +91,34 @@
       {
        "open": true,
        "R": 3.0,
-       "res_max": 5.992423487752689e-06,
-       "res_pos": 0.0,
-       "n_pts": 26,
-       "plane_shift": 2.101
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.65,
+        6.65
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.75,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -195,6 +133,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 223,
      "why": "no screw: F075 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 142.0,
@@ -205,18 +152,34 @@
       {
        "open": true,
        "R": 0.49,
-       "res_max": 7.0900107416118735e-06,
-       "res_pos": 0.0,
-       "n_pts": 69,
-       "plane_shift": -0.022
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 168,
+       "surface_rise_mm": [
+        -0.002,
+        -0.001
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 0.49,
-       "res_max": 8.174353662620938e-06,
-       "res_pos": 0.0,
-       "n_pts": 69,
-       "plane_shift": -0.014
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 168,
+       "surface_rise_mm": [
+        0.006,
+        0.007
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -226,6 +189,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 427,
      "why": "unused: UNUSED: no part in the CAD or the BOM screws into this hole",
      "analytic_mm3": 2.3,
@@ -236,18 +208,34 @@
       {
        "open": true,
        "R": 0.49,
-       "res_max": 6.805152063085607e-06,
-       "res_pos": 0.0,
-       "n_pts": 69,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 168,
+       "surface_rise_mm": [
+        -0.002,
+        0.002
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 0.49,
-       "res_max": 6.9736212882975455e-06,
-       "res_pos": 0.0,
-       "n_pts": 69,
-       "plane_shift": -0.022
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 168,
+       "surface_rise_mm": [
+        -0.004,
+        0.001
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -257,6 +245,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 477,
      "why": "unused: UNUSED: no part in the CAD or the BOM screws into this hole",
      "analytic_mm3": 2.3,
@@ -266,7 +263,7 @@
    "zero_pose": [
     {
      "inst": 2,
-     "cable_clear_mm": 5.56,
+     "cable_clear_mm": 8.22,
      "drilled_tie_spot_mm": 135.1
     }
    ],
@@ -276,7 +273,7 @@
    "stl": "body_front",
    "src": "print/body_front.stl",
    "out": "<OUT>/stl/body_front.stl",
-   "bytes": 285384,
+   "bytes": 458984,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -302,18 +299,34 @@
       {
        "open": true,
        "R": 1.75,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -328,6 +341,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 87,
      "why": "no screw: F065 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 261.1,
@@ -338,18 +360,34 @@
       {
        "open": true,
        "R": 1.75,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -364,6 +402,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 88,
      "why": "no screw: F066 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 261.1,
@@ -374,18 +421,34 @@
       {
        "open": true,
        "R": 1.75,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 179,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -400,8 +463,17 @@
        "scan_axis": false
       }
      ],
-     "site": 92,
-     "why": "no screw: F070 (LEAVE OUT (D38 screw cut))",
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
+     "site": 91,
+     "why": "no screw: F069 (D42 uniform pattern)",
      "analytic_mm3": 261.1,
      "kept_hole_gap_mm": 33.07
     },
@@ -410,18 +482,34 @@
       {
        "open": true,
        "R": 1.75,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 71,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -436,8 +524,17 @@
        "scan_axis": false
       }
      ],
-     "site": 93,
-     "why": "no screw: F071 (LEAVE OUT (D38 screw cut))",
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
+     "site": 92,
+     "why": "no screw: F070 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 261.1,
      "kept_hole_gap_mm": 33.07
     }
@@ -455,7 +552,7 @@
    "stl": "body_middle_bottom",
    "src": "print/body_middle_bottom.stl",
    "out": "<OUT>/stl/body_middle_bottom.stl",
-   "bytes": 2145384,
+   "bytes": 2338184,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -468,9 +565,9 @@
    },
    "volume_mm3": [
     151113.2,
-    151393.9
+    151436.5
    ],
-   "added_mm3": 280.7,
+   "added_mm3": 323.4,
    "analytic_hole_mm3": 282.8,
    "n_closed": 4,
    "n_kept": 8,
@@ -481,18 +578,34 @@
       {
        "open": true,
        "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -507,6 +620,76 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
+     "site": 91,
+     "why": "no screw: F069 (D42 uniform pattern),I05 (D42 uniform pattern)",
+     "analytic_mm3": 81.4,
+     "kept_hole_gap_mm": 35.57
+    },
+    {
+     "ends": [
+      {
+       "open": true,
+       "R": 1.5,
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
+      },
+      {
+       "open": true,
+       "R": 2.0,
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
+      }
+     ],
+     "segs": [
+      {
+       "d": 3.0,
+       "L": 1.2,
+       "scan_axis": false
+      },
+      {
+       "d": 4.0,
+       "L": 5.8,
+       "scan_axis": false
+      }
+     ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 92,
      "why": "no screw: F070 (LEAVE OUT (D38 screw cut)),I06 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 81.4,
@@ -516,55 +699,35 @@
      "ends": [
       {
        "open": true,
-       "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
-      },
-      {
-       "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
-      }
-     ],
-     "segs": [
-      {
-       "d": 3.0,
-       "L": 1.2,
-       "scan_axis": false
-      },
-      {
-       "d": 4.0,
-       "L": 5.8,
-       "scan_axis": false
-      }
-     ],
-     "site": 93,
-     "why": "no screw: F071 (LEAVE OUT (D38 screw cut)),I07 (LEAVE OUT (D38 screw cut))",
-     "analytic_mm3": 81.4,
-     "kept_hole_gap_mm": 35.57
-    },
-    {
-     "ends": [
-      {
-       "open": true,
-       "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 67,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 71,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -579,6 +742,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 100,
      "why": "no screw: F076 (one more pass),I02 (one more pass)",
      "analytic_mm3": 81.4,
@@ -589,19 +761,34 @@
       {
        "open": true,
        "R": 2.0,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        3.4,
+        3.4
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -616,6 +803,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 223,
      "why": "no screw: F075 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 38.6,
@@ -625,8 +821,8 @@
    "zero_pose": [
     {
      "inst": 3,
-     "cable_clear_mm": 1.02,
-     "drilled_tie_spot_mm": 87.0
+     "cable_clear_mm": 1.04,
+     "drilled_tie_spot_mm": 61.8
     }
    ],
    "seats": null
@@ -635,7 +831,7 @@
    "stl": "body_middle_top",
    "src": "print/body_middle_top.stl",
    "out": "<OUT>/stl/body_middle_top.stl",
-   "bytes": 283684,
+   "bytes": 380084,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -661,18 +857,34 @@
       {
        "open": true,
        "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -687,6 +899,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 87,
      "why": "no screw: F065 (LEAVE OUT (D38 screw cut)),I13 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 81.4,
@@ -697,18 +918,34 @@
       {
        "open": true,
        "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -723,6 +960,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 88,
      "why": "no screw: F066 (LEAVE OUT (D38 screw cut)),I14 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 81.4,
@@ -742,7 +988,7 @@
    "stl": "bulb",
    "src": "print/bulb.stl",
    "out": "<OUT>/stl/bulb.stl",
-   "bytes": 162684,
+   "bytes": 259084,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -755,7 +1001,7 @@
    },
    "volume_mm3": [
     1694.9,
-    1717.2
+    1717.3
    ],
    "added_mm3": 22.4,
    "analytic_hole_mm3": 23.0,
@@ -768,18 +1014,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.003518415064948462,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.019
+       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.10 mm)",
+       "n_pts": 36,
+       "surface_rise_mm": [
+        0.004,
+        0.004
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.10 mm)",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.024
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 164,
+       "surface_rise_mm": [
+        -0.004,
+        -0.004
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -789,6 +1051,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 248,
      "why": "no screw: F177 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 11.5,
@@ -799,18 +1070,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.003428039405235572,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.019
+       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.10 mm)",
+       "n_pts": 36,
+       "surface_rise_mm": [
+        0.004,
+        0.004
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.10 mm)",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.024
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 164,
+       "surface_rise_mm": [
+        -0.004,
+        -0.004
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -820,6 +1107,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 251,
      "why": "no screw: F180 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 11.5,
@@ -835,7 +1131,7 @@
     {
      "inst": 134,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 117.8
+     "drilled_tie_spot_mm": 117.9
     }
    ],
    "seats": null
@@ -844,7 +1140,7 @@
    "stl": "flash_light_module",
    "src": "print/flash_light_module.stl",
    "out": "<OUT>/stl/flash_light_module.stl",
-   "bytes": 511584,
+   "bytes": 924384,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -857,9 +1153,9 @@
    },
    "volume_mm3": [
     12520.1,
-    12800.2
+    12899.3
    ],
-   "added_mm3": 280.1,
+   "added_mm3": 379.2,
    "analytic_hole_mm3": 285.4,
    "n_closed": 8,
    "n_kept": 1,
@@ -870,20 +1166,34 @@
       {
        "open": true,
        "R": 2.75,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 161,
+       "surface_rise_mm": [
+        2.592,
+        2.599
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 2.75,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.86 mm)",
+       "n_pts": 36,
+       "surface_rise_mm": [
+        0.0,
+        4.374
+       ],
+       "flush": {
+        "dimple_mm": 0.036,
+        "proud_mm": 0.0,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.86 mm)",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -893,6 +1203,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.036
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 435,
      "why": "unused: UNUSED: flash_light_module screw hole (2.79 clearance, 5.67 counterbore) with no pilot in head.stl or the refl",
      "analytic_mm3": 57.1,
@@ -903,20 +1222,34 @@
       {
        "open": true,
        "R": 2.75,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 161,
+       "surface_rise_mm": [
+        2.592,
+        2.599
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 2.75,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.86 mm)",
+       "n_pts": 36,
+       "surface_rise_mm": [
+        0.0,
+        4.374
+       ],
+       "flush": {
+        "dimple_mm": 0.036,
+        "proud_mm": 0.0,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.86 mm)",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -926,6 +1259,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.036
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 436,
      "why": "unused: UNUSED: flash_light_module screw hole (2.79 clearance, 5.67 counterbore) with no pilot in head.stl or the refl",
      "analytic_mm3": 57.1,
@@ -936,18 +1278,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 1.3628195645371163e-05,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.022
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.004,
+        -0.001
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 1.034071100030204e-05,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.124
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 144,
+       "surface_rise_mm": [
+        -0.105,
+        -0.103
+       ],
+       "flush": {
+        "dimple_mm": 99.0,
+        "proud_mm": 0.055,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.19 mm)",
+        "ok": false
+       }
       }
      ],
      "segs": [
@@ -957,6 +1315,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 522,
      "why": "unused: UNUSED: flash_light_module screw hole (2.79 clearance, 5.67 counterbore) with no pilot in head.stl or the refl",
      "analytic_mm3": 14.9,
@@ -967,18 +1334,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 1.3022936162591029e-05,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.022
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.004,
+        -0.001
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 1.0340749849978128e-05,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.124
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 144,
+       "surface_rise_mm": [
+        -0.105,
+        -0.103
+       ],
+       "flush": {
+        "dimple_mm": 99.0,
+        "proud_mm": 0.055,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.19 mm)",
+        "ok": false
+       }
       }
      ],
      "segs": [
@@ -988,6 +1371,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 523,
      "why": "unused: UNUSED: flash_light_module screw hole (2.79 clearance, 5.67 counterbore) with no pilot in head.stl or the refl",
      "analytic_mm3": 14.9,
@@ -998,18 +1390,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 8.916512032565357e-06,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.021
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.003,
+        0.001
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 7.305018593433012e-06,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": 0.077
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 144,
+       "surface_rise_mm": [
+        0.095,
+        0.099
+       ],
+       "flush": {
+        "dimple_mm": 99.0,
+        "proud_mm": 0.791,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.19 mm)",
+        "ok": false
+       }
       }
      ],
      "segs": [
@@ -1019,6 +1427,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 524,
      "why": "unused: UNUSED: flash_light_module screw hole (2.79 clearance, 5.67 counterbore) with no pilot in head.stl or the refl",
      "analytic_mm3": 13.8,
@@ -1029,18 +1446,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 7.76855760034969e-06,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.021
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.003,
+        0.001
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 7.305067091236117e-06,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": 0.077
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 144,
+       "surface_rise_mm": [
+        0.095,
+        0.099
+       ],
+       "flush": {
+        "dimple_mm": 99.0,
+        "proud_mm": 0.791,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.19 mm)",
+        "ok": false
+       }
       }
      ],
      "segs": [
@@ -1050,6 +1483,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 525,
      "why": "unused: UNUSED: flash_light_module screw hole (2.79 clearance, 5.67 counterbore) with no pilot in head.stl or the refl",
      "analytic_mm3": 13.8,
@@ -1060,20 +1502,34 @@
       {
        "open": true,
        "R": 2.75,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 161,
+       "surface_rise_mm": [
+        2.603,
+        2.606
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 2.75,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.87 mm)",
+       "n_pts": 36,
+       "surface_rise_mm": [
+        0.001,
+        4.398
+       ],
+       "flush": {
+        "dimple_mm": 0.036,
+        "proud_mm": 0.0,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.87 mm)",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1083,6 +1539,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.036
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 527,
      "why": "unused: UNUSED: flash_light_module screw hole (2.79 clearance, 5.67 counterbore) with no pilot in head.stl or the refl",
      "analytic_mm3": 56.9,
@@ -1093,20 +1558,34 @@
       {
        "open": true,
        "R": 2.75,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 161,
+       "surface_rise_mm": [
+        2.603,
+        2.606
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 2.75,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.87 mm)",
+       "n_pts": 36,
+       "surface_rise_mm": [
+        0.001,
+        4.398
+       ],
+       "flush": {
+        "dimple_mm": 0.036,
+        "proud_mm": 0.0,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.87 mm)",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1116,6 +1595,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.036
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 528,
      "why": "unused: UNUSED: flash_light_module screw hole (2.79 clearance, 5.67 counterbore) with no pilot in head.stl or the refl",
      "analytic_mm3": 56.9,
@@ -1135,7 +1623,7 @@
    "stl": "head",
    "src": "print/head.stl",
    "out": "<OUT>/stl/head.stl",
-   "bytes": 1843684,
+   "bytes": 2269984,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -1148,12 +1636,12 @@
    },
    "volume_mm3": [
     229350.2,
-    230023.1
+    229918.9
    ],
-   "added_mm3": 672.9,
-   "analytic_hole_mm3": 678.7,
-   "n_closed": 15,
-   "n_kept": 152,
+   "added_mm3": 568.7,
+   "analytic_hole_mm3": 572.0,
+   "n_closed": 14,
+   "n_kept": 153,
    "bounds_same": true,
    "plugs": [
     {
@@ -1161,19 +1649,27 @@
       {
        "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.6,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "square to the axis at the hole end: no surface round the end (it lies inside the part)",
+       "flush": {
+        "ok": null,
+        "note": "no surface round the end (it lies inside the part)"
+       }
       }
      ],
      "segs": [
@@ -1188,43 +1684,15 @@
        "scan_axis": false
       }
      ],
-     "site": 108,
-     "why": "no screw: F084 (LEAVE OUT (D38 screw cut)),I48 (LEAVE OUT (D38 screw cut))",
-     "analytic_mm3": 106.7,
-     "kept_hole_gap_mm": 9.28
-    },
-    {
-     "ends": [
+     "tried": [
       {
-       "open": true,
-       "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
-      },
-      {
-       "open": true,
-       "R": 1.6,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
       }
      ],
-     "segs": [
-      {
-       "d": 4.0,
-       "L": 5.8,
-       "scan_axis": false
-      },
-      {
-       "d": 3.2,
-       "L": 4.2,
-       "scan_axis": false
-      }
-     ],
+     "cap_method": "surface-fitted cap",
      "site": 109,
      "why": "no screw: F085 (LEAVE OUT (D38 screw cut)),I49 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 106.7,
@@ -1235,19 +1703,27 @@
       {
        "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.6,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "square to the axis at the hole end: no surface round the end (it lies inside the part)",
+       "flush": {
+        "ok": null,
+        "note": "no surface round the end (it lies inside the part)"
+       }
       }
      ],
      "segs": [
@@ -1262,6 +1738,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 110,
      "why": "no screw: F086 (LEAVE OUT (D38 screw cut)),I50 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 106.7,
@@ -1272,19 +1757,27 @@
       {
        "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.6,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "square to the axis at the hole end: no surface round the end (it lies inside the part)",
+       "flush": {
+        "ok": null,
+        "note": "no surface round the end (it lies inside the part)"
+       }
       }
      ],
      "segs": [
@@ -1299,6 +1792,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 111,
      "why": "no screw: F087 (LEAVE OUT (D38 screw cut)),I51 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 106.7,
@@ -1309,19 +1811,27 @@
       {
        "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.6,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "square to the axis at the hole end: no surface round the end (it lies inside the part)",
+       "flush": {
+        "ok": null,
+        "note": "no surface round the end (it lies inside the part)"
+       }
       }
      ],
      "segs": [
@@ -1336,20 +1846,37 @@
        "scan_axis": false
       }
      ],
-     "site": 114,
-     "why": "no screw: F090 (LEAVE OUT (D38 screw cut)),I54 (LEAVE OUT (D38 screw cut))",
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
+     "site": 112,
+     "why": "no screw: F088 (D42 uniform pattern),I52 (D42 uniform pattern)",
      "analytic_mm3": 106.7,
-     "kept_hole_gap_mm": 23.27
+     "kept_hole_gap_mm": 25.0
     },
     {
      "ends": [
       {
        "open": true,
        "R": 1.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": false,
@@ -1363,6 +1890,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 143,
      "why": "no screw: F107 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 15.7,
@@ -1373,10 +1909,18 @@
       {
        "open": true,
        "R": 1.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": false,
@@ -1390,6 +1934,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 146,
      "why": "no screw: F110 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 15.7,
@@ -1400,19 +1953,34 @@
       {
        "open": true,
        "R": 1.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.0,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        3.0,
+        3.0
+       ],
+       "flush": {
+        "dimple_mm": 0.0,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1422,6 +1990,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 148,
      "why": "no screw: F112 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 15.7,
@@ -1432,19 +2009,34 @@
       {
        "open": true,
        "R": 1.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.0,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        3.0,
+        3.0
+       ],
+       "flush": {
+        "dimple_mm": 0.0,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1454,6 +2046,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 149,
      "why": "no screw: F113 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 15.7,
@@ -1464,10 +2065,18 @@
       {
        "open": true,
        "R": 0.82,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.066
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.046,
+        -0.046
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": false,
@@ -1481,6 +2090,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 233,
      "why": "no screw: F345 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 6.8,
@@ -1491,10 +2109,18 @@
       {
        "open": true,
        "R": 0.82,
-       "res_max": 0.23987998534352376,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.292
+       "cap": "fitted to the part surface: quadratic, ring residual 0.097 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.253,
+        -0.011
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "quadratic, ring residual 0.097 mm",
+        "ok": true
+       }
       },
       {
        "open": false,
@@ -1508,6 +2134,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 236,
      "why": "no screw: F346 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 6.8,
@@ -1518,18 +2153,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.066
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.046,
+        -0.046
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": 0.026
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.046,
+        0.046
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1539,6 +2190,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 248,
      "why": "no screw: F177 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 17.2,
@@ -1549,18 +2209,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.066
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.046,
+        -0.046
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": 0.026
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.046,
+        0.046
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1570,6 +2246,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 249,
      "why": "no screw: F178 (one more pass)",
      "analytic_mm3": 17.2,
@@ -1580,18 +2265,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.066
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.046,
+        -0.046
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": 0.026
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.046,
+        0.046
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1601,6 +2302,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 251,
      "why": "no screw: F180 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 17.2,
@@ -1611,18 +2321,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.066
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.046,
+        -0.046
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": 0.026
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.046,
+        0.046
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1632,6 +2358,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 254,
      "why": "no screw: F183 (one more pass)",
      "analytic_mm3": 17.2,
@@ -1651,7 +2386,7 @@
    "stl": "head_bot_sheet",
    "src": "print/head_bot_sheet.stl",
    "out": "<OUT>/stl/head_bot_sheet.stl",
-   "bytes": 260684,
+   "bytes": 559684,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -1664,12 +2399,12 @@
    },
    "volume_mm3": [
     65907.4,
-    66729.2
+    66680.8
    ],
-   "added_mm3": 821.8,
-   "analytic_hole_mm3": 834.8,
-   "n_closed": 7,
-   "n_kept": 3,
+   "added_mm3": 773.5,
+   "analytic_hole_mm3": 785.5,
+   "n_closed": 6,
+   "n_kept": 4,
    "bounds_same": true,
    "plugs": [
     {
@@ -1677,18 +2412,34 @@
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.6,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1703,42 +2454,15 @@
        "scan_axis": false
       }
      ],
-     "site": 108,
-     "why": "no screw: F084 (LEAVE OUT (D38 screw cut))",
-     "analytic_mm3": 49.3,
-     "kept_hole_gap_mm": 82.35
-    },
-    {
-     "ends": [
+     "tried": [
       {
-       "open": true,
-       "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
-      },
-      {
-       "open": true,
-       "R": 1.6,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
       }
      ],
-     "segs": [
-      {
-       "d": 6.5,
-       "L": 1.0,
-       "scan_axis": false
-      },
-      {
-       "d": 3.2,
-       "L": 2.0,
-       "scan_axis": false
-      }
-     ],
+     "cap_method": "surface-fitted cap",
      "site": 109,
      "why": "no screw: F085 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 49.3,
@@ -1749,18 +2473,34 @@
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.6,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1775,28 +2515,53 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 110,
      "why": "no screw: F086 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 49.3,
-     "kept_hole_gap_mm": 72.4
+     "kept_hole_gap_mm": 67.9
     },
     {
      "ends": [
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.6,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1811,6 +2576,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 111,
      "why": "no screw: F087 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 49.3,
@@ -1821,18 +2595,34 @@
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.6,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1847,8 +2637,17 @@
        "scan_axis": false
       }
      ],
-     "site": 114,
-     "why": "no screw: F090 (LEAVE OUT (D38 screw cut))",
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
+     "site": 112,
+     "why": "no screw: F088 (D42 uniform pattern)",
      "analytic_mm3": 49.3,
      "kept_hole_gap_mm": 22.51
     },
@@ -1857,18 +2656,34 @@
       {
        "open": true,
        "R": 2.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 2.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1878,6 +2693,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 237,
      "why": "unused: UNUSED: head_bot_sheet through hole (cable pass-through), not a fastener",
      "analytic_mm3": 58.9,
@@ -1888,18 +2712,34 @@
       {
        "open": true,
        "R": 7.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 7.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -1909,6 +2749,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 246,
      "why": "unused: UNUSED: head_bot_sheet through hole (cable pass-through), not a fastener",
      "analytic_mm3": 529.4,
@@ -1928,7 +2777,7 @@
    "stl": "left_eye",
    "src": "print/left_eye.stl",
    "out": "<OUT>/stl/left_eye.stl",
-   "bytes": 105884,
+   "bytes": 152684,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -1954,10 +2803,18 @@
       {
        "open": true,
        "R": 1.1,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.016
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 166,
+       "surface_rise_mm": [
+        0.004,
+        0.004
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": false,
@@ -1971,6 +2828,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 249,
      "why": "no screw: F178 (one more pass)",
      "analytic_mm3": 11.4,
@@ -1981,10 +2847,18 @@
       {
        "open": true,
        "R": 1.1,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.016
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 166,
+       "surface_rise_mm": [
+        0.004,
+        0.004
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": false,
@@ -1998,6 +2872,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 254,
      "why": "no screw: F183 (one more pass)",
      "analytic_mm3": 11.4,
@@ -2017,7 +2900,7 @@
    "stl": "leg_spacer",
    "src": "print/leg_spacer.stl",
    "out": "<OUT>/stl/leg_spacer.stl",
-   "bytes": 153884,
+   "bytes": 311084,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -2030,9 +2913,9 @@
    },
    "volume_mm3": [
     7050.7,
-    7319.5
+    7340.1
    ],
-   "added_mm3": 268.9,
+   "added_mm3": 289.5,
    "analytic_hole_mm3": 271.4,
    "n_closed": 2,
    "n_kept": 2,
@@ -2043,20 +2926,34 @@
       {
        "open": true,
        "R": 3.0,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: quadratic, ring residual 0.055 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.057,
+        0.69
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "quadratic, ring residual 0.055 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 3.0,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: quadratic, ring residual 0.055 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.057,
+        0.69
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "quadratic, ring residual 0.055 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2066,6 +2963,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 190,
      "why": "unused: UNUSED: 6.0 x 4.8 mm hole across leg_spacer (2 per spacer), no part screws into it (cable or lightening hole)",
      "analytic_mm3": 135.7,
@@ -2076,20 +2982,34 @@
       {
        "open": true,
        "R": 3.0,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: quadratic, ring residual 0.055 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.057,
+        0.69
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "quadratic, ring residual 0.055 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 3.0,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: quadratic, ring residual 0.055 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.057,
+        0.69
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "quadratic, ring residual 0.055 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2099,6 +3019,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 191,
      "why": "unused: UNUSED: 6.0 x 4.8 mm hole across leg_spacer (2 per spacer), no part screws into it (cable or lightening hole)",
      "analytic_mm3": 135.7,
@@ -2109,22 +3038,22 @@
     {
      "inst": 46,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 64.3
+     "drilled_tie_spot_mm": 63.5
     },
     {
      "inst": 54,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 15.9
+     "drilled_tie_spot_mm": 12.5
     },
     {
      "inst": 80,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 140.5
+     "drilled_tie_spot_mm": 139.4
     },
     {
      "inst": 88,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 143.8
+     "drilled_tie_spot_mm": 137.7
     }
    ],
    "seats": null
@@ -2162,7 +3091,13 @@
        "res_max": 0.0,
        "res_pos": 0.0,
        "n_pts": 44,
-       "plane_shift": -0.02
+       "plane_shift": -0.02,
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 1.98,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 1.16 mm)",
+        "ok": false
+       }
       },
       {
        "open": true,
@@ -2171,7 +3106,13 @@
        "res_max": null,
        "res_pos": null,
        "n_pts": 0,
-       "plane_shift": -0.02
+       "plane_shift": -0.02,
+       "flush": {
+        "dimple_mm": 1.47,
+        "proud_mm": 0.03,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.98 mm)",
+        "ok": false
+       }
       }
      ],
      "segs": [
@@ -2181,6 +3122,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "D39 cap (plane or square)",
+       "overlap_mm3": 0.0,
+       "fails": 2,
+       "worst": 19.82
+      }
+     ],
+     "cap_method": "D39 cap (plane or square)",
      "site": 130,
      "why": "no screw: F333 (NOT FITTED)",
      "analytic_mm3": 100.1,
@@ -2200,7 +3150,7 @@
    "stl": "right_eye",
    "src": "print/right_eye.stl",
    "out": "<OUT>/stl/right_eye.stl",
-   "bytes": 114484,
+   "bytes": 153084,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -2226,10 +3176,18 @@
       {
        "open": true,
        "R": 1.02,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.016
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.004,
+        0.004
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": false,
@@ -2243,6 +3201,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 248,
      "why": "no screw: F177 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 9.9,
@@ -2253,10 +3220,18 @@
       {
        "open": true,
        "R": 1.02,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.016
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.004,
+        0.004
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": false,
@@ -2270,6 +3245,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 251,
      "why": "no screw: F180 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 9.9,
@@ -2289,7 +3273,7 @@
    "stl": "speaker_interface",
    "src": "print/speaker_interface.stl",
    "out": "<OUT>/stl/speaker_interface.stl",
-   "bytes": 160684,
+   "bytes": 295284,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -2315,18 +3299,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 5.765588376085461e-06,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.097
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 168,
+       "surface_rise_mm": [
+        -0.077,
+        -0.077
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 4.54945089520532e-06,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.043
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 168,
+       "surface_rise_mm": [
+        -0.023,
+        -0.023
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2336,6 +3336,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 445,
      "why": "no screw: F355 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 9.2,
@@ -2346,18 +3355,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 8.311488427068971e-06,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.097
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 168,
+       "surface_rise_mm": [
+        -0.077,
+        -0.077
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 9.375501363382464e-06,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.043
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 168,
+       "surface_rise_mm": [
+        -0.023,
+        -0.023
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2367,6 +3392,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 446,
      "why": "no screw: F352 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 9.2,
@@ -2386,7 +3420,7 @@
    "stl": "speaker_stand",
    "src": "print/speaker_stand.stl",
    "out": "<OUT>/stl/speaker_stand.stl",
-   "bytes": 1127684,
+   "bytes": 1457284,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -2399,9 +3433,9 @@
    },
    "volume_mm3": [
     6986.1,
-    7080.7
+    7083.0
    ],
-   "added_mm3": 94.6,
+   "added_mm3": 96.9,
    "analytic_hole_mm3": 96.4,
    "n_closed": 6,
    "n_kept": 4,
@@ -2412,18 +3446,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": 0.0
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.02,
+        0.02
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.04
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.02,
+        -0.02
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2433,6 +3483,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 143,
      "why": "no screw: F107 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 17.2,
@@ -2443,18 +3502,34 @@
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": 0.0
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.02,
+        0.02
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.35,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.04
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.02,
+        -0.02
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2464,6 +3539,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 146,
      "why": "no screw: F110 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 17.2,
@@ -2474,18 +3558,34 @@
       {
        "open": true,
        "R": 1.02,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 48,
-       "plane_shift": 0.003
+       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.50 mm)",
+       "n_pts": 36,
+       "surface_rise_mm": [
+        0.023,
+        0.023
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.50 mm)",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.02,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.043
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.023,
+        -0.023
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2495,6 +3595,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 151,
      "why": "unused: UNUSED: speaker_stand top pilot 2.05 x 5.0 (2 in the stand, 12.75 mm apart); no part in the CAD or the BOM use",
      "analytic_mm3": 16.5,
@@ -2505,18 +3614,34 @@
       {
        "open": true,
        "R": 1.02,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 48,
-       "plane_shift": 0.003
+       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.50 mm)",
+       "n_pts": 36,
+       "surface_rise_mm": [
+        0.023,
+        0.023
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.50 mm)",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.02,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.043
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.023,
+        -0.023
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2526,6 +3651,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 152,
      "why": "unused: UNUSED: speaker_stand top pilot 2.05 x 5.0 (2 in the stand, 12.75 mm apart); no part in the CAD or the BOM use",
      "analytic_mm3": 16.5,
@@ -2536,18 +3670,34 @@
       {
        "open": true,
        "R": 1.02,
-       "res_max": 7.455398704832527e-06,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": 0.08
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.1,
+        0.101
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.02,
-       "res_max": 0.1402365117589952,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.165
+       "cap": "fitted to the part surface: quadratic, ring residual 0.053 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.038,
+        0.22
+       ],
+       "flush": {
+        "dimple_mm": 0.021,
+        "proud_mm": 0.0,
+        "ref": "quadratic, ring residual 0.053 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2557,6 +3707,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.021
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 230,
      "why": "no screw: F352 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 14.5,
@@ -2567,18 +3726,34 @@
       {
        "open": true,
        "R": 1.02,
-       "res_max": 6.1988597048840885e-06,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": 0.082
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.1,
+        0.105
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.02,
-       "res_max": 0.1400633987333872,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.154
+       "cap": "fitted to the part surface: quadratic, ring residual 0.053 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.029,
+        0.23
+       ],
+       "flush": {
+        "dimple_mm": 0.021,
+        "proud_mm": 0.0,
+        "ref": "quadratic, ring residual 0.053 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2588,6 +3763,15 @@
        "scan_axis": true
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.021
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 231,
      "why": "no screw: F355 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 14.5,
@@ -2598,7 +3782,7 @@
     {
      "inst": 137,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 53.5
+     "drilled_tie_spot_mm": 53.1
     }
    ],
    "seats": null
@@ -2607,7 +3791,7 @@
    "stl": "trunk_top",
    "src": "print/trunk_top.stl",
    "out": "<OUT>/stl/trunk_top.stl",
-   "bytes": 735884,
+   "bytes": 762284,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -2620,9 +3804,9 @@
    },
    "volume_mm3": [
     144679.0,
-    144708.7
+    144711.3
    ],
-   "added_mm3": 29.6,
+   "added_mm3": 32.3,
    "analytic_hole_mm3": 31.4,
    "n_closed": 2,
    "n_kept": 24,
@@ -2633,19 +3817,34 @@
       {
        "open": true,
        "R": 1.0,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        6.0,
+        6.0
+       ],
+       "flush": {
+        "dimple_mm": 0.0,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.0,
-       "res_max": 0.2061682792053917,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.226
+       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.23 mm)",
+       "n_pts": 36,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.24 mm)",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2655,6 +3854,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 158,
      "why": "no screw: F120 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 15.7,
@@ -2665,19 +3873,34 @@
       {
        "open": true,
        "R": 1.0,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: two planes (max), ring residual 0.003 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        5.999,
+        6.003
+       ],
+       "flush": {
+        "dimple_mm": 0.002,
+        "proud_mm": 0.0,
+        "ref": "two planes (max), ring residual 0.003 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.0,
-       "res_max": 0.2062042921598643,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.226
+       "cap": "fitted to the part surface: radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.23 mm)",
+       "n_pts": 36,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "radial (the surface just outside the hole in each direction; ring not one smooth surface nor two faces, residual 0.23 mm)",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2687,6 +3910,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 159,
      "why": "no screw: F121 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 15.7,
@@ -2696,8 +3928,8 @@
    "zero_pose": [
     {
      "inst": 11,
-     "cable_clear_mm": 7.55,
-     "drilled_tie_spot_mm": 92.1
+     "cable_clear_mm": 7.41,
+     "drilled_tie_spot_mm": 92.0
     }
    ],
    "seats": null
@@ -2706,7 +3938,7 @@
    "stl": "body_front_groove",
    "src": "altaay_lab/twin/screws/stl/body_front_groove.stl",
    "out": "<OUT>/stl/body_front_groove.stl",
-   "bytes": 285384,
+   "bytes": 458984,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -2732,18 +3964,34 @@
       {
        "open": true,
        "R": 1.75,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2758,6 +4006,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 87,
      "why": "no screw: F065 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 261.1,
@@ -2768,18 +4025,34 @@
       {
        "open": true,
        "R": 1.75,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2794,6 +4067,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 88,
      "why": "no screw: F066 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 261.1,
@@ -2804,18 +4086,34 @@
       {
        "open": true,
        "R": 1.75,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 179,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2830,8 +4128,17 @@
        "scan_axis": false
       }
      ],
-     "site": 92,
-     "why": "no screw: F070 (LEAVE OUT (D38 screw cut))",
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
+     "site": 91,
+     "why": "no screw: F069 (D42 uniform pattern)",
      "analytic_mm3": 261.1,
      "kept_hole_gap_mm": 33.07
     },
@@ -2840,18 +4147,34 @@
       {
        "open": true,
        "R": 1.75,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 3.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 71,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2866,8 +4189,17 @@
        "scan_axis": false
       }
      ],
-     "site": 93,
-     "why": "no screw: F071 (LEAVE OUT (D38 screw cut))",
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
+     "site": 92,
+     "why": "no screw: F070 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 261.1,
      "kept_hole_gap_mm": 33.07
     }
@@ -2885,7 +4217,7 @@
    "stl": "body_middle_top_lip",
    "src": "altaay_lab/twin/screws/stl/body_middle_top_lip.stl",
    "out": "<OUT>/stl/body_middle_top_lip.stl",
-   "bytes": 283684,
+   "bytes": 380084,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -2911,18 +4243,34 @@
       {
        "open": true,
        "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2937,6 +4285,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 87,
      "why": "no screw: F065 (LEAVE OUT (D38 screw cut)),I13 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 81.4,
@@ -2947,18 +4304,34 @@
       {
        "open": true,
        "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -2973,6 +4346,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 88,
      "why": "no screw: F066 (LEAVE OUT (D38 screw cut)),I14 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 81.4,
@@ -2992,7 +4374,7 @@
    "stl": "body_middle_bottom_lip",
    "src": "altaay_lab/twin/screws/stl/body_middle_bottom_lip.stl",
    "out": "<OUT>/stl/body_middle_bottom_lip.stl",
-   "bytes": 2426484,
+   "bytes": 2619284,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -3005,9 +4387,9 @@
    },
    "volume_mm3": [
     151113.2,
-    151481.3
+    151524.0
    ],
-   "added_mm3": 368.2,
+   "added_mm3": 410.8,
    "analytic_hole_mm3": 282.8,
    "n_closed": 4,
    "n_kept": 8,
@@ -3018,18 +4400,34 @@
       {
        "open": true,
        "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -3044,6 +4442,76 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
+     "site": 91,
+     "why": "no screw: F069 (D42 uniform pattern),I05 (D42 uniform pattern)",
+     "analytic_mm3": 81.4,
+     "kept_hole_gap_mm": 35.57
+    },
+    {
+     "ends": [
+      {
+       "open": true,
+       "R": 1.5,
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
+      },
+      {
+       "open": true,
+       "R": 2.0,
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
+      }
+     ],
+     "segs": [
+      {
+       "d": 3.0,
+       "L": 1.2,
+       "scan_axis": false
+      },
+      {
+       "d": 4.0,
+       "L": 5.8,
+       "scan_axis": false
+      }
+     ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 92,
      "why": "no screw: F070 (LEAVE OUT (D38 screw cut)),I06 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 81.4,
@@ -3053,55 +4521,35 @@
      "ends": [
       {
        "open": true,
-       "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
-      },
-      {
-       "open": true,
        "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
-      }
-     ],
-     "segs": [
-      {
-       "d": 3.0,
-       "L": 1.2,
-       "scan_axis": false
-      },
-      {
-       "d": 4.0,
-       "L": 5.8,
-       "scan_axis": false
-      }
-     ],
-     "site": 93,
-     "why": "no screw: F071 (LEAVE OUT (D38 screw cut)),I07 (LEAVE OUT (D38 screw cut))",
-     "analytic_mm3": 81.4,
-     "kept_hole_gap_mm": 35.57
-    },
-    {
-     "ends": [
-      {
-       "open": true,
-       "R": 2.0,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 2.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": false
+       }
       },
       {
        "open": true,
        "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -3116,6 +4564,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 100,
      "why": "no screw: F076 (one more pass),I02 (one more pass)",
      "analytic_mm3": 81.4,
@@ -3126,19 +4583,34 @@
       {
        "open": true,
        "R": 2.0,
-       "cap": "square to the axis at the hole end (ring not flat)",
-       "res_max": null,
-       "res_pos": null,
-       "n_pts": 0,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        3.4,
+        3.4
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 2.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": false
+       }
       },
       {
        "open": true,
        "R": 1.5,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        0.0,
+        0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -3153,6 +4625,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 223,
      "why": "no screw: F075 (LEAVE OUT (D38 screw cut))",
      "analytic_mm3": 38.6,
@@ -3162,8 +4643,8 @@
    "zero_pose": [
     {
      "inst": 3,
-     "cable_clear_mm": 1.06,
-     "drilled_tie_spot_mm": 87.0
+     "cable_clear_mm": 0.97,
+     "drilled_tie_spot_mm": 61.8
     }
    ],
    "seats": [
@@ -3229,7 +4710,7 @@
    "stl": "roll_motor_bottom_L",
    "inst": 32,
    "out": "<OUT>/stl/roll_motor_bottom_L.stl",
-   "bytes": 79484,
+   "bytes": 127684,
    "watertight": true,
    "nonmanifold_edges": 0,
    "volume_mm3": [
@@ -3244,18 +4725,34 @@
       {
        "open": true,
        "R": 1.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 69,
-       "plane_shift": 0.08
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 168,
+       "surface_rise_mm": [
+        0.1,
+        0.1
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -3265,6 +4762,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 162,
      "why": "no screw: F124 (LEAVE OUT (D18))"
     }
@@ -3276,7 +4782,7 @@
    "stl": "roll_motor_bottom_R",
    "inst": 66,
    "out": "<OUT>/stl/roll_motor_bottom_R.stl",
-   "bytes": 79884,
+   "bytes": 128084,
    "watertight": true,
    "nonmanifold_edges": 0,
    "volume_mm3": [
@@ -3291,18 +4797,34 @@
       {
        "open": true,
        "R": 1.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 72,
-       "plane_shift": -0.02
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 180,
+       "surface_rise_mm": [
+        -0.0,
+        -0.0
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       },
       {
        "open": true,
        "R": 1.25,
-       "res_max": 0.0,
-       "res_pos": 0.0,
-       "n_pts": 69,
-       "plane_shift": 0.08
+       "cap": "fitted to the part surface: plane, ring residual 0.000 mm",
+       "n_pts": 168,
+       "surface_rise_mm": [
+        0.1,
+        0.1
+       ],
+       "flush": {
+        "dimple_mm": 0.02,
+        "proud_mm": 0.0,
+        "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       }
       }
      ],
      "segs": [
@@ -3312,6 +4834,15 @@
        "scan_axis": false
       }
      ],
+     "tried": [
+      {
+       "how": "surface-fitted cap",
+       "overlap_mm3": 0.0,
+       "fails": 0,
+       "worst": 0.02
+      }
+     ],
+     "cap_method": "surface-fitted cap",
      "site": 171,
      "why": "fitted F133 (head seat)"
     }
@@ -3366,8 +4897,8 @@
    "site": 19,
    "inst": 6,
    "part": "battery_pack_lid",
-   "decision": "close",
-   "why": "no screw: F027 (LEAVE OUT (D38 screw cut))",
+   "decision": "keep",
+   "why": "fitted F027 (head seat)",
    "d": [
     2.5,
     4.0
@@ -3444,8 +4975,8 @@
    "site": 19,
    "inst": 2,
    "part": "body_back",
-   "decision": "close",
-   "why": "no screw: F027 (LEAVE OUT (D38 screw cut))",
+   "decision": "keep",
+   "why": "fitted F027 (anchor)",
    "d": [
     2.0
    ],
@@ -3774,8 +5305,8 @@
    "site": 91,
    "inst": 0,
    "part": "body_front",
-   "decision": "keep",
-   "why": "fitted F069 (head seat)",
+   "decision": "close",
+   "why": "no screw: F069 (D42 uniform pattern)",
    "d": [
     3.5,
     6.5
@@ -3814,8 +5345,8 @@
    "site": 93,
    "inst": 0,
    "part": "body_front",
-   "decision": "close",
-   "why": "no screw: F071 (LEAVE OUT (D38 screw cut))",
+   "decision": "keep",
+   "why": "fitted F071 (head seat)",
    "d": [
     3.5,
     6.5
@@ -3934,8 +5465,8 @@
    "site": 91,
    "inst": 3,
    "part": "body_middle_bottom",
-   "decision": "keep",
-   "why": "fitted F069,I05 (anchor/insert bore)",
+   "decision": "close",
+   "why": "no screw: F069 (D42 uniform pattern),I05 (D42 uniform pattern)",
    "d": [
     3.0,
     4.0
@@ -3976,8 +5507,8 @@
    "site": 93,
    "inst": 3,
    "part": "body_middle_bottom",
-   "decision": "close",
-   "why": "no screw: F071 (LEAVE OUT (D38 screw cut)),I07 (LEAVE OUT (D38 screw cut))",
+   "decision": "keep",
+   "why": "fitted F071,I07 (anchor/insert bore)",
    "d": [
     3.0,
     4.0
@@ -5410,8 +6941,8 @@
    "site": 108,
    "inst": 115,
    "part": "head",
-   "decision": "close",
-   "why": "no screw: F084 (LEAVE OUT (D38 screw cut)),I48 (LEAVE OUT (D38 screw cut))",
+   "decision": "keep",
+   "why": "fitted F084,I48 (anchor/insert bore)",
    "d": [
     4.0,
     3.2
@@ -5494,8 +7025,8 @@
    "site": 112,
    "inst": 115,
    "part": "head",
-   "decision": "keep",
-   "why": "fitted F088,I52 (anchor/insert bore)",
+   "decision": "close",
+   "why": "no screw: F088 (D42 uniform pattern),I52 (D42 uniform pattern)",
    "d": [
     4.0,
     3.2
@@ -5536,8 +7067,8 @@
    "site": 114,
    "inst": 115,
    "part": "head",
-   "decision": "close",
-   "why": "no screw: F090 (LEAVE OUT (D38 screw cut)),I54 (LEAVE OUT (D38 screw cut))",
+   "decision": "keep",
+   "why": "fitted F090,I54 (anchor/insert bore)",
    "d": [
     4.0,
     3.2
@@ -8327,8 +9858,8 @@
    "site": 108,
    "inst": 114,
    "part": "head_bot_sheet",
-   "decision": "close",
-   "why": "no screw: F084 (LEAVE OUT (D38 screw cut))",
+   "decision": "keep",
+   "why": "fitted F084 (head seat)",
    "d": [
     6.5,
     3.2
@@ -8407,8 +9938,8 @@
    "site": 112,
    "inst": 114,
    "part": "head_bot_sheet",
-   "decision": "keep",
-   "why": "fitted F088 (head seat)",
+   "decision": "close",
+   "why": "no screw: F088 (D42 uniform pattern)",
    "d": [
     6.5,
     3.2
@@ -8447,8 +9978,8 @@
    "site": 114,
    "inst": 114,
    "part": "head_bot_sheet",
-   "decision": "close",
-   "why": "no screw: F090 (LEAVE OUT (D38 screw cut))",
+   "decision": "keep",
+   "why": "fitted F090 (head seat)",
    "d": [
     6.5,
     3.2
@@ -13441,8 +14972,8 @@
    "site": 91,
    "inst": 0,
    "part": "body_front",
-   "decision": "keep",
-   "why": "fitted F069 (head seat)",
+   "decision": "close",
+   "why": "no screw: F069 (D42 uniform pattern)",
    "d": [
     3.5,
     6.5
@@ -13481,8 +15012,8 @@
    "site": 93,
    "inst": 0,
    "part": "body_front",
-   "decision": "close",
-   "why": "no screw: F071 (LEAVE OUT (D38 screw cut))",
+   "decision": "keep",
+   "why": "fitted F071 (head seat)",
    "d": [
     3.5,
     6.5
@@ -13769,8 +15300,8 @@
    "site": 91,
    "inst": 3,
    "part": "body_middle_bottom",
-   "decision": "keep",
-   "why": "fitted F069,I05 (anchor/insert bore)",
+   "decision": "close",
+   "why": "no screw: F069 (D42 uniform pattern),I05 (D42 uniform pattern)",
    "d": [
     3.0,
     4.0
@@ -13811,8 +15342,8 @@
    "site": 93,
    "inst": 3,
    "part": "body_middle_bottom",
-   "decision": "close",
-   "why": "no screw: F071 (LEAVE OUT (D38 screw cut)),I07 (LEAVE OUT (D38 screw cut))",
+   "decision": "keep",
+   "why": "fitted F071,I07 (anchor/insert bore)",
    "d": [
     3.0,
     4.0

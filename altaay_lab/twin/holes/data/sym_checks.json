@@ -1,0 +1,2795 @@
+{
+ "rule": "D42: the screws left on a part form a uniform pattern (mirror-symmetric about the part's centre line, or a diagonal pair through the centre)",
+ "counts": {
+  "screws": 318,
+  "inserts": 48,
+  "washers": 8
+ },
+ "audit": [
+  {
+   "group": "part left_cache 45",
+   "listed": 2,
+   "kept": [
+    "F001",
+    "F003"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part knee_to_ankle_right_sheet 47",
+   "listed": 8,
+   "kept": [
+    "F002",
+    "F004",
+    "F041",
+    "F042",
+    "F196",
+    "F198",
+    "F200",
+    "F247"
+   ],
+   "n_kept": 8,
+   "pattern": "mirror about the plane through the centre, normal [1.0, -0.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part knee_to_ankle_right_sheet 55",
+   "listed": 8,
+   "kept": [
+    "F005",
+    "F007",
+    "F043",
+    "F044",
+    "F202",
+    "F204",
+    "F206",
+    "F249"
+   ],
+   "n_kept": 8,
+   "pattern": "mirror about the plane through the centre, normal [1.0, -0.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part knee_to_ankle_left_sheet 56",
+   "listed": 8,
+   "kept": [
+    "F006",
+    "F008",
+    "F101",
+    "F102",
+    "F203",
+    "F205",
+    "F207",
+    "F250"
+   ],
+   "n_kept": 8,
+   "pattern": "mirror about the plane through the centre, normal [1.0, 0.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part right_cache 79",
+   "listed": 2,
+   "kept": [
+    "F009",
+    "F011"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part knee_to_ankle_left_sheet 82",
+   "listed": 8,
+   "kept": [
+    "F010",
+    "F012",
+    "F103",
+    "F104",
+    "F209",
+    "F211",
+    "F213",
+    "F254"
+   ],
+   "n_kept": 8,
+   "pattern": "mirror about the plane through the centre, normal [1.0, 0.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part knee_to_ankle_right_sheet 89",
+   "listed": 8,
+   "kept": [
+    "F013",
+    "F015",
+    "F047",
+    "F048",
+    "F214",
+    "F216",
+    "F218",
+    "F255"
+   ],
+   "n_kept": 8,
+   "pattern": "mirror about the plane through the centre, normal [1.0, -0.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part knee_to_ankle_left_sheet 90",
+   "listed": 8,
+   "kept": [
+    "F014",
+    "F016",
+    "F105",
+    "F106",
+    "F215",
+    "F217",
+    "F219",
+    "F256"
+   ],
+   "n_kept": 8,
+   "pattern": "mirror about the plane through the centre, normal [1.0, 0.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part battery_pack_lid 6",
+   "listed": 4,
+   "kept": [
+    "F017",
+    "F018",
+    "F027",
+    "F028"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part body_middle_bottom 3",
+   "listed": 4,
+   "kept": [
+    "F019",
+    "F020",
+    "F021",
+    "F022"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part foot_side 62",
+   "listed": 6,
+   "kept": [
+    "F023",
+    "F024",
+    "F164",
+    "F166",
+    "F168",
+    "F251"
+   ],
+   "n_kept": 6,
+   "pattern": "NOT uniform (no half turn or mirror maps the kept set onto itself, tol 2.2 mm)",
+   "uniform": false
+  },
+  {
+   "group": "part foot_side 96",
+   "listed": 6,
+   "kept": [
+    "F025",
+    "F026",
+    "F170",
+    "F172",
+    "F174",
+    "F257"
+   ],
+   "n_kept": 6,
+   "pattern": "NOT uniform (no half turn or mirror maps the kept set onto itself, tol 2.2 mm)",
+   "uniform": false
+  },
+  {
+   "group": "part right_roll_to_pitch 73",
+   "listed": 13,
+   "kept": [
+    "F029",
+    "F030",
+    "F137",
+    "F146",
+    "F147",
+    "F184",
+    "F185",
+    "F190",
+    "F191",
+    "F192",
+    "F193",
+    "F245",
+    "F246"
+   ],
+   "n_kept": 13,
+   "pattern": "NOT uniform (no half turn or mirror maps the kept set onto itself, tol 2.4 mm)",
+   "uniform": false
+  },
+  {
+   "group": "part left_roll_to_pitch 39",
+   "listed": 13,
+   "kept": [
+    "F031",
+    "F032",
+    "F134",
+    "F144",
+    "F145",
+    "F186",
+    "F187",
+    "F188",
+    "F189",
+    "F194",
+    "F195",
+    "F243",
+    "F244"
+   ],
+   "n_kept": 13,
+   "pattern": "NOT uniform (no half turn or mirror maps the kept set onto itself, tol 2.4 mm)",
+   "uniform": false
+  },
+  {
+   "group": "part roll_motor_top 33",
+   "listed": 8,
+   "kept": [
+    "F033",
+    "F034",
+    "F035",
+    "F036",
+    "F051",
+    "F052",
+    "F152",
+    "F155"
+   ],
+   "n_kept": 8,
+   "pattern": "mirror about the plane through the centre, normal [0.0, 1.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part roll_motor_top 67",
+   "listed": 8,
+   "kept": [
+    "F037",
+    "F038",
+    "F039",
+    "F040",
+    "F053",
+    "F054",
+    "F153",
+    "F154"
+   ],
+   "n_kept": 8,
+   "pattern": "mirror about the plane through the centre, normal [0.0, 1.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part knee_to_ankle_right_sheet 81",
+   "listed": 6,
+   "kept": [
+    "F045",
+    "F046",
+    "F208",
+    "F210",
+    "F212",
+    "F253"
+   ],
+   "n_kept": 6,
+   "pattern": "mirror about the plane through the centre, normal [-1.0, 0.0, -0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part trunk_top 11",
+   "listed": 22,
+   "kept": [
+    "F049",
+    "F050",
+    "F057",
+    "F058",
+    "F059",
+    "F060",
+    "F073",
+    "F074",
+    "F125",
+    "F126",
+    "F127",
+    "F128",
+    "F129",
+    "F130",
+    "F131",
+    "F132",
+    "F138",
+    "F139",
+    "F140",
+    "F141",
+    "F142",
+    "F143"
+   ],
+   "n_kept": 22,
+   "pattern": "NOT uniform (no half turn or mirror maps the kept set onto itself, tol 2.7 mm)",
+   "uniform": false
+  },
+  {
+   "group": "part neck_right_sheet 101",
+   "listed": 6,
+   "kept": [
+    "F055",
+    "F056",
+    "F229",
+    "F230",
+    "F232",
+    "F234"
+   ],
+   "n_kept": 6,
+   "pattern": "mirror about the plane through the centre, normal [1.0, 0.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part head_roll_mount 116",
+   "listed": 8,
+   "kept": [
+    "F061",
+    "F062",
+    "F091",
+    "F092",
+    "F093",
+    "F094",
+    "F156",
+    "F157"
+   ],
+   "n_kept": 8,
+   "pattern": "mirror about the plane through the centre, normal [0.0, -1.0, -0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part head_yaw_to_roll 108",
+   "listed": 8,
+   "kept": [
+    "F063",
+    "F064",
+    "F150",
+    "F151",
+    "F158",
+    "F159",
+    "F160",
+    "F161"
+   ],
+   "n_kept": 8,
+   "pattern": "mirror about the plane through the centre, normal [-0.0, 1.0, -0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part body_front 0",
+   "listed": 8,
+   "kept": [
+    "F067",
+    "F068",
+    "F071",
+    "F072"
+   ],
+   "n_kept": 4,
+   "pattern": "mirror about the plane through the centre, normal [-0.0, -1.0, -0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part body_back 2",
+   "listed": 8,
+   "kept": [
+    "F077",
+    "F078",
+    "F079",
+    "F080",
+    "F081",
+    "F082"
+   ],
+   "n_kept": 6,
+   "pattern": "mirror about the plane through the centre, normal [-0.0, 1.0, -0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part head_bot_sheet 114",
+   "listed": 8,
+   "kept": [
+    "F083",
+    "F084",
+    "F089",
+    "F090"
+   ],
+   "n_kept": 4,
+   "pattern": "mirror about the plane through the centre, normal [-0.0, -1.0, -0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part foot_bottom_tpu 63",
+   "listed": 2,
+   "kept": [
+    "F095",
+    "F096"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part foot_bottom_tpu 97",
+   "listed": 2,
+   "kept": [
+    "F097",
+    "F098"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part knee_to_ankle_left_sheet 48",
+   "listed": 6,
+   "kept": [
+    "F099",
+    "F100",
+    "F197",
+    "F199",
+    "F201",
+    "F248"
+   ],
+   "n_kept": 6,
+   "pattern": "mirror about the plane through the centre, normal [1.0, 0.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part speaker_stand 137",
+   "listed": 4,
+   "kept": [
+    "F108",
+    "F109"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part raspberrypizerow 117",
+   "listed": 4,
+   "kept": [
+    "F111",
+    "F114"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part bno055 8",
+   "listed": 4,
+   "kept": [
+    "F115",
+    "F116",
+    "F117",
+    "F118"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part board 12",
+   "listed": 4,
+   "kept": [
+    "F119",
+    "F122"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part usb_c_charger 1",
+   "listed": 1,
+   "kept": [
+    "F123"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part roll_motor_bottom 32",
+   "listed": 2,
+   "kept": [
+    "F133"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw of 2",
+   "uniform": false
+  },
+  {
+   "group": "part roll_motor_bottom 66",
+   "listed": 2,
+   "kept": [
+    "F135"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw of 2",
+   "uniform": false
+  },
+  {
+   "group": "part neck_left_sheet 100",
+   "listed": 6,
+   "kept": [
+    "F148",
+    "F149",
+    "F228",
+    "F231",
+    "F233",
+    "F259"
+   ],
+   "n_kept": 6,
+   "pattern": "mirror about the plane through the centre, normal [1.0, -0.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "part left_antenna_holder 128",
+   "listed": 1,
+   "kept": [
+    "F162"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part right_antenna_holder 129",
+   "listed": 1,
+   "kept": [
+    "F163"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part foot_top 65",
+   "listed": 4,
+   "kept": [
+    "F165",
+    "F167",
+    "F169",
+    "F252"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part foot_top 99",
+   "listed": 4,
+   "kept": [
+    "F171",
+    "F173",
+    "F175",
+    "F258"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part bulb 133",
+   "listed": 4,
+   "kept": [
+    "F176",
+    "F181"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part bulb 134",
+   "listed": 4,
+   "kept": [
+    "F179",
+    "F182"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part head_pitch_to_yaw 107",
+   "listed": 16,
+   "kept": [
+    "F220",
+    "F221",
+    "F222",
+    "F223",
+    "F224",
+    "F225",
+    "F226",
+    "F227",
+    "F235",
+    "F236",
+    "F237",
+    "F238",
+    "F239",
+    "F240",
+    "F241",
+    "F242"
+   ],
+   "n_kept": 16,
+   "pattern": "mirror about the plane through the centre, normal [-0.0, -1.0, -0.01]",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 105",
+   "listed": 4,
+   "kept": [
+    "F260",
+    "F261",
+    "F262",
+    "F263"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 125",
+   "listed": 4,
+   "kept": [
+    "F264",
+    "F265",
+    "F266",
+    "F267"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 112",
+   "listed": 4,
+   "kept": [
+    "F268",
+    "F269",
+    "F270",
+    "F271"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 60",
+   "listed": 4,
+   "kept": [
+    "F272",
+    "F273",
+    "F274",
+    "F275"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 43",
+   "listed": 4,
+   "kept": [
+    "F276",
+    "F277",
+    "F278",
+    "F279"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 37",
+   "listed": 4,
+   "kept": [
+    "F280",
+    "F281",
+    "F282",
+    "F283"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 30",
+   "listed": 4,
+   "kept": [
+    "F284",
+    "F285",
+    "F286",
+    "F287"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 52",
+   "listed": 4,
+   "kept": [
+    "F288",
+    "F289",
+    "F290",
+    "F291"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 20",
+   "listed": 4,
+   "kept": [
+    "F292",
+    "F293",
+    "F294",
+    "F295"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 94",
+   "listed": 4,
+   "kept": [
+    "F296",
+    "F297",
+    "F298",
+    "F299"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 77",
+   "listed": 4,
+   "kept": [
+    "F300",
+    "F301",
+    "F302",
+    "F303"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 71",
+   "listed": 4,
+   "kept": [
+    "F304",
+    "F305",
+    "F306",
+    "F307"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 25",
+   "listed": 4,
+   "kept": [
+    "F308",
+    "F309",
+    "F310",
+    "F311"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part servo top case 86",
+   "listed": 4,
+   "kept": [
+    "F312",
+    "F313",
+    "F314",
+    "F315"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 103",
+   "listed": 1,
+   "kept": [
+    "F316"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 106",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 123",
+   "listed": 1,
+   "kept": [
+    "F318"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 126",
+   "listed": 1,
+   "kept": [
+    "F319"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 110",
+   "listed": 1,
+   "kept": [
+    "F320"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 113",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 58",
+   "listed": 1,
+   "kept": [
+    "F322"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 61",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 41",
+   "listed": 1,
+   "kept": [
+    "F324"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 44",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 35",
+   "listed": 1,
+   "kept": [
+    "F326"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 38",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 28",
+   "listed": 1,
+   "kept": [
+    "F328"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 31",
+   "listed": 1,
+   "kept": [
+    "F329"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 50",
+   "listed": 1,
+   "kept": [
+    "F330"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 53",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 18",
+   "listed": 1,
+   "kept": [
+    "F332"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 21",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 92",
+   "listed": 1,
+   "kept": [
+    "F334"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 95",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 75",
+   "listed": 1,
+   "kept": [
+    "F336"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 78",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 69",
+   "listed": 1,
+   "kept": [
+    "F338"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 72",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 23",
+   "listed": 1,
+   "kept": [
+    "F340"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 26",
+   "listed": 1,
+   "kept": [
+    "F341"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part drive horn 84",
+   "listed": 1,
+   "kept": [
+    "F342"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "part idle horn 87",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "part Camera Module 3 PCB (BOM E6) None",
+   "listed": 4,
+   "kept": [
+    "F344",
+    "F347"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part SG90 tab 119",
+   "listed": 2,
+   "kept": [
+    "F348",
+    "F349"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part SG90 tab 120",
+   "listed": 2,
+   "kept": [
+    "F350",
+    "F351"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "part speaker_interface 138",
+   "listed": 4,
+   "kept": [
+    "F353",
+    "F354"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_cache -> leg_spacer (knee_and_ankle_assembly)",
+   "listed": 2,
+   "kept": [
+    "F001",
+    "F003"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair knee_to_ankle_right_sheet -> leg_spacer (knee_and_ankle_assembly)",
+   "listed": 2,
+   "kept": [
+    "F002",
+    "F004"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair knee_to_ankle_right_sheet -> leg_spacer (knee_and_ankle_assembly_2)",
+   "listed": 2,
+   "kept": [
+    "F005",
+    "F007"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair knee_to_ankle_left_sheet -> leg_spacer (knee_and_ankle_assembly_2)",
+   "listed": 2,
+   "kept": [
+    "F006",
+    "F008"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_cache -> leg_spacer (knee_and_ankle_assembly_3)",
+   "listed": 2,
+   "kept": [
+    "F009",
+    "F011"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair knee_to_ankle_left_sheet -> leg_spacer (knee_and_ankle_assembly_3)",
+   "listed": 2,
+   "kept": [
+    "F010",
+    "F012"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair knee_to_ankle_right_sheet -> leg_spacer (knee_and_ankle_assembly_4)",
+   "listed": 2,
+   "kept": [
+    "F013",
+    "F015"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair knee_to_ankle_left_sheet -> leg_spacer (knee_and_ankle_assembly_4)",
+   "listed": 2,
+   "kept": [
+    "F014",
+    "F016"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair battery_pack_lid -> body_back (trunk_assembly)",
+   "listed": 4,
+   "kept": [
+    "F017",
+    "F018",
+    "F027",
+    "F028"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair body_middle_bottom -> trunk_bottom (trunk_assembly)",
+   "listed": 4,
+   "kept": [
+    "F019",
+    "F020",
+    "F021",
+    "F022"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair foot_side -> foot_top (foot_assembly)",
+   "listed": 2,
+   "kept": [
+    "F023",
+    "F024"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair foot_side -> foot_top (foot_assembly_2)",
+   "listed": 2,
+   "kept": [
+    "F025",
+    "F026"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_pitch servo case screws [right_roll_to_pitch 73 -> wj-wk00-0124bottomcase_45 76]",
+   "listed": 2,
+   "kept": [
+    "F029",
+    "F030"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_pitch servo case screws [right_roll_to_pitch 73 -> wj-wk00-0122topcabinetcase_95 77]",
+   "listed": 3,
+   "kept": [
+    "F137",
+    "F146",
+    "F147"
+   ],
+   "n_kept": 3,
+   "pattern": "mirror about the plane through the centre, normal [0.71, 0.0, -0.7]",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_pitch servo case screws [left_roll_to_pitch 39 -> wj-wk00-0124bottomcase_45 42]",
+   "listed": 2,
+   "kept": [
+    "F031",
+    "F032"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_pitch servo case screws [left_roll_to_pitch 39 -> wj-wk00-0122topcabinetcase_95 43]",
+   "listed": 3,
+   "kept": [
+    "F134",
+    "F144",
+    "F145"
+   ],
+   "n_kept": 3,
+   "pattern": "mirror about the plane through the centre, normal [0.71, 0.0, -0.7]",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_yaw drive horn",
+   "listed": 4,
+   "kept": [
+    "F033",
+    "F034",
+    "F035",
+    "F036"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_yaw drive horn",
+   "listed": 4,
+   "kept": [
+    "F037",
+    "F038",
+    "F039",
+    "F040"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_knee servo case screws [knee_to_ankle_right_sheet 47 -> wj-wk00-0124bottomcase_45 51]",
+   "listed": 2,
+   "kept": [
+    "F041",
+    "F042"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_knee servo case screws [knee_to_ankle_left_sheet 48 -> wj-wk00-0122topcabinetcase_95 52]",
+   "listed": 2,
+   "kept": [
+    "F099",
+    "F100"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_ankle servo case screws [knee_to_ankle_right_sheet 55 -> wj-wk00-0124bottomcase_45 59]",
+   "listed": 2,
+   "kept": [
+    "F043",
+    "F044"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_ankle servo case screws [knee_to_ankle_left_sheet 56 -> wj-wk00-0122topcabinetcase_95 60]",
+   "listed": 2,
+   "kept": [
+    "F101",
+    "F102"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_knee servo case screws [knee_to_ankle_right_sheet 81 -> wj-wk00-0124bottomcase_45 85]",
+   "listed": 2,
+   "kept": [
+    "F045",
+    "F046"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_knee servo case screws [knee_to_ankle_left_sheet 82 -> wj-wk00-0122topcabinetcase_95 86]",
+   "listed": 2,
+   "kept": [
+    "F103",
+    "F104"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_ankle servo case screws [knee_to_ankle_right_sheet 89 -> wj-wk00-0124bottomcase_45 93]",
+   "listed": 2,
+   "kept": [
+    "F047",
+    "F048"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_ankle servo case screws [knee_to_ankle_left_sheet 90 -> wj-wk00-0122topcabinetcase_95 94]",
+   "listed": 2,
+   "kept": [
+    "F105",
+    "F106"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair neck_pitch servo case screws [trunk_top 11 -> wj-wk00-0124bottomcase_45 19]",
+   "listed": 2,
+   "kept": [
+    "F049",
+    "F050"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair neck_pitch servo case screws [trunk_top 11 -> wj-wk00-0122topcabinetcase_95 20]",
+   "listed": 2,
+   "kept": [
+    "F138",
+    "F139"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_roll servo case screws [roll_motor_top 33 -> wj-wk00-0124bottomcase_45 36]",
+   "listed": 2,
+   "kept": [
+    "F051",
+    "F052"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_roll servo case screws [roll_motor_bottom 32 -> wj-wk00-0124bottomcase_45 36]",
+   "listed": 1,
+   "kept": [
+    "F133"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_roll servo case screws [roll_motor_top 33 -> wj-wk00-0122topcabinetcase_95 37]",
+   "listed": 2,
+   "kept": [
+    "F152",
+    "F155"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_roll servo case screws [roll_motor_top 67 -> wj-wk00-0124bottomcase_45 70]",
+   "listed": 2,
+   "kept": [
+    "F053",
+    "F054"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_roll servo case screws [roll_motor_bottom 66 -> wj-wk00-0124bottomcase_45 70]",
+   "listed": 1,
+   "kept": [
+    "F135"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_roll servo case screws [roll_motor_top 67 -> wj-wk00-0122topcabinetcase_95 71]",
+   "listed": 2,
+   "kept": [
+    "F153",
+    "F154"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair head_pitch servo case screws [neck_right_sheet 101 -> wj-wk00-0124bottomcase_45 104]",
+   "listed": 2,
+   "kept": [
+    "F055",
+    "F056"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair head_pitch servo case screws [neck_left_sheet 100 -> wj-wk00-0122topcabinetcase_95 105]",
+   "listed": 2,
+   "kept": [
+    "F148",
+    "F149"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_yaw servo case screws [trunk_top 11 -> wj-wk00-0124bottomcase_45 24]",
+   "listed": 4,
+   "kept": [
+    "F057",
+    "F058",
+    "F125",
+    "F127"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_yaw servo case screws [trunk_top 11 -> wj-wk00-0122topcabinetcase_95 25]",
+   "listed": 4,
+   "kept": [
+    "F126",
+    "F128",
+    "F140",
+    "F141"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_yaw servo case screws [trunk_top 11 -> wj-wk00-0124bottomcase_45 29]",
+   "listed": 4,
+   "kept": [
+    "F059",
+    "F060",
+    "F129",
+    "F131"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_yaw servo case screws [trunk_top 11 -> wj-wk00-0122topcabinetcase_95 30]",
+   "listed": 4,
+   "kept": [
+    "F130",
+    "F132",
+    "F142",
+    "F143"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair head_roll servo case screws [head_roll_mount 116 -> wj-wk00-0124bottomcase_45 124]",
+   "listed": 2,
+   "kept": [
+    "F061",
+    "F062"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair head_roll servo case screws [head_roll_mount 116 -> wj-wk00-0122topcabinetcase_95 125]",
+   "listed": 2,
+   "kept": [
+    "F156",
+    "F157"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair head_yaw servo case screws [head_yaw_to_roll 108 -> wj-wk00-0124bottomcase_45 111]",
+   "listed": 2,
+   "kept": [
+    "F063",
+    "F064"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair head_yaw servo case screws [head_yaw_to_roll 108 -> wj-wk00-0122topcabinetcase_95 112]",
+   "listed": 2,
+   "kept": [
+    "F150",
+    "F151"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair body_front shell [body_front 0 -> body_middle_top 7]",
+   "listed": 4,
+   "kept": [
+    "F067",
+    "F068"
+   ],
+   "n_kept": 2,
+   "pattern": "mirror about the plane through the centre, normal [0.0, 1.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "pair body_front shell [body_front 0 -> body_middle_bottom 3]",
+   "listed": 4,
+   "kept": [
+    "F071",
+    "F072"
+   ],
+   "n_kept": 2,
+   "pattern": "mirror about the plane through the centre, normal [0.0, 1.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "pair trunk_top -> trunk_bottom (trunk_assembly)",
+   "listed": 2,
+   "kept": [
+    "F073",
+    "F074"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair body_back shell [body_back 2 -> body_middle_bottom 3]",
+   "listed": 4,
+   "kept": [
+    "F077",
+    "F078"
+   ],
+   "n_kept": 2,
+   "pattern": "mirror about the plane through the centre, normal [0.0, 1.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "pair body_back shell [body_back 2 -> body_middle_top 7]",
+   "listed": 4,
+   "kept": [
+    "F079",
+    "F080",
+    "F081",
+    "F082"
+   ],
+   "n_kept": 4,
+   "pattern": "mirror about the plane through the centre, normal [0.0, 1.0, 0.0]",
+   "uniform": true
+  },
+  {
+   "group": "pair head_bot_sheet -> head (head_assembly)",
+   "listed": 8,
+   "kept": [
+    "F083",
+    "F084",
+    "F089",
+    "F090"
+   ],
+   "n_kept": 4,
+   "pattern": "mirror about the plane through the centre, normal [-0.0, -1.0, -0.0]",
+   "uniform": true
+  },
+  {
+   "group": "pair head_roll_mount -> head (head_assembly)",
+   "listed": 4,
+   "kept": [
+    "F091",
+    "F092",
+    "F093",
+    "F094"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair foot_bottom_tpu -> foot_bottom_pla (foot_assembly)",
+   "listed": 2,
+   "kept": [
+    "F095",
+    "F096"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair foot_bottom_tpu -> foot_bottom_pla (foot_assembly_2)",
+   "listed": 2,
+   "kept": [
+    "F097",
+    "F098"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair speaker_stand -> head (head_assembly)",
+   "listed": 4,
+   "kept": [
+    "F108",
+    "F109"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair raspberrypizerow -> head (head_assembly)",
+   "listed": 4,
+   "kept": [
+    "F111",
+    "F114"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair bno055 -> trunk_top (trunk_assembly)",
+   "listed": 4,
+   "kept": [
+    "F115",
+    "F116",
+    "F117",
+    "F118"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair board -> trunk_top (trunk_assembly)",
+   "listed": 4,
+   "kept": [
+    "F119",
+    "F122"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair usb_c_charger -> body_back (trunk_assembly)",
+   "listed": 1,
+   "kept": [
+    "F123"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair head_roll drive horn",
+   "listed": 4,
+   "kept": [
+    "F158",
+    "F159",
+    "F160",
+    "F161"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_ankle idle horn",
+   "listed": 4,
+   "kept": [
+    "F164",
+    "F166",
+    "F168",
+    "F251"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_ankle drive horn",
+   "listed": 4,
+   "kept": [
+    "F165",
+    "F167",
+    "F169",
+    "F252"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_ankle idle horn",
+   "listed": 4,
+   "kept": [
+    "F170",
+    "F172",
+    "F174",
+    "F257"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_ankle drive horn",
+   "listed": 4,
+   "kept": [
+    "F171",
+    "F173",
+    "F175",
+    "F258"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair bulb -> right_eye (head_assembly)",
+   "listed": 4,
+   "kept": [
+    "F176",
+    "F181"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair bulb -> left_eye (head_assembly)",
+   "listed": 4,
+   "kept": [
+    "F179",
+    "F182"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_roll idle horn",
+   "listed": 4,
+   "kept": [
+    "F184",
+    "F190",
+    "F192",
+    "F245"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_roll drive horn",
+   "listed": 4,
+   "kept": [
+    "F185",
+    "F191",
+    "F193",
+    "F246"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_roll idle horn",
+   "listed": 4,
+   "kept": [
+    "F186",
+    "F188",
+    "F194",
+    "F243"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_roll drive horn",
+   "listed": 4,
+   "kept": [
+    "F187",
+    "F189",
+    "F195",
+    "F244"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_pitch idle horn",
+   "listed": 4,
+   "kept": [
+    "F196",
+    "F198",
+    "F200",
+    "F247"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_hip_pitch drive horn",
+   "listed": 4,
+   "kept": [
+    "F197",
+    "F199",
+    "F201",
+    "F248"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_knee idle horn",
+   "listed": 4,
+   "kept": [
+    "F202",
+    "F204",
+    "F206",
+    "F249"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair left_knee drive horn",
+   "listed": 4,
+   "kept": [
+    "F203",
+    "F205",
+    "F207",
+    "F250"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_pitch drive horn",
+   "listed": 4,
+   "kept": [
+    "F208",
+    "F210",
+    "F212",
+    "F253"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_hip_pitch idle horn",
+   "listed": 4,
+   "kept": [
+    "F209",
+    "F211",
+    "F213",
+    "F254"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_knee idle horn",
+   "listed": 4,
+   "kept": [
+    "F214",
+    "F216",
+    "F218",
+    "F255"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_knee drive horn",
+   "listed": 4,
+   "kept": [
+    "F215",
+    "F217",
+    "F219",
+    "F256"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair head_yaw idle horn",
+   "listed": 4,
+   "kept": [
+    "F220",
+    "F222",
+    "F224",
+    "F226"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair head_yaw drive horn",
+   "listed": 4,
+   "kept": [
+    "F221",
+    "F223",
+    "F225",
+    "F227"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair neck_pitch drive horn",
+   "listed": 4,
+   "kept": [
+    "F228",
+    "F231",
+    "F233",
+    "F259"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair neck_pitch idle horn",
+   "listed": 4,
+   "kept": [
+    "F229",
+    "F230",
+    "F232",
+    "F234"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair head_pitch idle horn",
+   "listed": 4,
+   "kept": [
+    "F235",
+    "F237",
+    "F239",
+    "F241"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair head_pitch drive horn",
+   "listed": 4,
+   "kept": [
+    "F236",
+    "F238",
+    "F240",
+    "F242"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair Camera Module 3 PCB (BOM E6) -> head (head_assembly)",
+   "listed": 4,
+   "kept": [
+    "F344",
+    "F347"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair SG90 tab -> head (head_assembly) [SG90 tab 119 -> head 115]",
+   "listed": 2,
+   "kept": [
+    "F348",
+    "F349"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair SG90 tab -> head (head_assembly) [SG90 tab 120 -> head 115]",
+   "listed": 2,
+   "kept": [
+    "F350",
+    "F351"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair speaker_interface -> speaker_stand (head_assembly)",
+   "listed": 4,
+   "kept": [
+    "F353",
+    "F354"
+   ],
+   "n_kept": 2,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair roll_motor_bottom 32 -> wj-wk00-0124bottomcase_45 36 (hip_roll_assembly)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair roll_motor_bottom 66 -> wj-wk00-0124bottomcase_45 70 (hip_roll_assembly_2)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair left_antenna_holder 128 -> SG90 output shaft None (left_antenna_holder)",
+   "listed": 1,
+   "kept": [
+    "F162"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair right_antenna_holder 129 -> SG90 output shaft None (right_antenna_holder)",
+   "listed": 1,
+   "kept": [
+    "F163"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 105 -> servo bottom case 104 (neck_pitch_assembly)",
+   "listed": 4,
+   "kept": [
+    "F260",
+    "F261",
+    "F262",
+    "F263"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 125 -> servo bottom case 124 (head_assembly)",
+   "listed": 4,
+   "kept": [
+    "F264",
+    "F265",
+    "F266",
+    "F267"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 112 -> servo bottom case 111 (neck_yaw_assembly)",
+   "listed": 4,
+   "kept": [
+    "F268",
+    "F269",
+    "F270",
+    "F271"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 60 -> servo bottom case 59 (knee_and_ankle_assembly_2)",
+   "listed": 4,
+   "kept": [
+    "F272",
+    "F273",
+    "F274",
+    "F275"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 43 -> servo bottom case 42 (left_roll_to_pitch_assembly)",
+   "listed": 4,
+   "kept": [
+    "F276",
+    "F277",
+    "F278",
+    "F279"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 37 -> servo bottom case 36 (hip_roll_assembly)",
+   "listed": 4,
+   "kept": [
+    "F280",
+    "F281",
+    "F282",
+    "F283"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 30 -> servo bottom case 29 (trunk_assembly)",
+   "listed": 4,
+   "kept": [
+    "F284",
+    "F285",
+    "F286",
+    "F287"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 52 -> servo bottom case 51 (knee_and_ankle_assembly)",
+   "listed": 4,
+   "kept": [
+    "F288",
+    "F289",
+    "F290",
+    "F291"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 20 -> servo bottom case 19 (trunk_assembly)",
+   "listed": 4,
+   "kept": [
+    "F292",
+    "F293",
+    "F294",
+    "F295"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 94 -> servo bottom case 93 (knee_and_ankle_assembly_4)",
+   "listed": 4,
+   "kept": [
+    "F296",
+    "F297",
+    "F298",
+    "F299"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 77 -> servo bottom case 76 (right_roll_to_pitch_assembly)",
+   "listed": 4,
+   "kept": [
+    "F300",
+    "F301",
+    "F302",
+    "F303"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 71 -> servo bottom case 70 (hip_roll_assembly_2)",
+   "listed": 4,
+   "kept": [
+    "F304",
+    "F305",
+    "F306",
+    "F307"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 25 -> servo bottom case 24 (trunk_assembly)",
+   "listed": 4,
+   "kept": [
+    "F308",
+    "F309",
+    "F310",
+    "F311"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair servo top case 86 -> servo bottom case 85 (knee_and_ankle_assembly_3)",
+   "listed": 4,
+   "kept": [
+    "F312",
+    "F313",
+    "F314",
+    "F315"
+   ],
+   "n_kept": 4,
+   "pattern": "half turn (diagonal through the centre)",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 103 -> servo output shaft 105 (head_pitch_to_yaw)",
+   "listed": 1,
+   "kept": [
+    "F316"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 106 -> servo bottom case boss 104 (neck_pitch_assembly)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 123 -> servo output shaft 125 (neck_yaw_assembly)",
+   "listed": 1,
+   "kept": [
+    "F318"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 126 -> servo bottom case boss 124 (head_assembly)",
+   "listed": 1,
+   "kept": [
+    "F319"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 110 -> servo output shaft 112 (head_pitch_to_yaw)",
+   "listed": 1,
+   "kept": [
+    "F320"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 113 -> servo bottom case boss 111 (neck_yaw_assembly)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 58 -> servo output shaft 60 (foot_assembly)",
+   "listed": 1,
+   "kept": [
+    "F322"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 61 -> servo bottom case boss 59 (knee_and_ankle_assembly_2)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 41 -> servo output shaft 43 (knee_and_ankle_assembly)",
+   "listed": 1,
+   "kept": [
+    "F324"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 44 -> servo bottom case boss 42 (left_roll_to_pitch_assembly)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 35 -> servo output shaft 37 (left_roll_to_pitch_assembly)",
+   "listed": 1,
+   "kept": [
+    "F326"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 38 -> servo bottom case boss 36 (hip_roll_assembly)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 28 -> servo output shaft 30 (hip_roll_assembly)",
+   "listed": 1,
+   "kept": [
+    "F328"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 31 -> servo bottom case boss 29 (trunk_assembly)",
+   "listed": 1,
+   "kept": [
+    "F329"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 50 -> servo output shaft 52 (knee_and_ankle_assembly_2)",
+   "listed": 1,
+   "kept": [
+    "F330"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 53 -> servo bottom case boss 51 (knee_and_ankle_assembly)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 18 -> servo output shaft 20 (neck_pitch_assembly)",
+   "listed": 1,
+   "kept": [
+    "F332"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 21 -> servo bottom case boss 19 (trunk_assembly)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 92 -> servo output shaft 94 (foot_assembly_2)",
+   "listed": 1,
+   "kept": [
+    "F334"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 95 -> servo bottom case boss 93 (knee_and_ankle_assembly_4)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 75 -> servo output shaft 77 (knee_and_ankle_assembly_3)",
+   "listed": 1,
+   "kept": [
+    "F336"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 78 -> servo bottom case boss 76 (right_roll_to_pitch_assembly)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 69 -> servo output shaft 71 (right_roll_to_pitch_assembly)",
+   "listed": 1,
+   "kept": [
+    "F338"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 72 -> servo bottom case boss 70 (hip_roll_assembly_2)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 23 -> servo output shaft 25 (hip_roll_assembly_2)",
+   "listed": 1,
+   "kept": [
+    "F340"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 26 -> servo bottom case boss 24 (trunk_assembly)",
+   "listed": 1,
+   "kept": [
+    "F341"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair drive horn 84 -> servo output shaft 86 (knee_and_ankle_assembly_4)",
+   "listed": 1,
+   "kept": [
+    "F342"
+   ],
+   "n_kept": 1,
+   "pattern": "single screw (the part has 1 hole)",
+   "uniform": true
+  },
+  {
+   "group": "pair idle horn 87 -> servo bottom case boss 85 (knee_and_ankle_assembly_3)",
+   "listed": 1,
+   "kept": [],
+   "n_kept": 0,
+   "pattern": "none fitted",
+   "uniform": true
+  }
+ ],
+ "not_uniform": [
+  "part foot_side 62",
+  "part foot_side 96",
+  "part right_roll_to_pitch 73",
+  "part left_roll_to_pitch 39",
+  "part trunk_top 11",
+  "part roll_motor_bottom 32",
+  "part roll_motor_bottom 66"
+ ],
+ "joints": {
+  "body_front shell": {
+   "ids": [
+    "F065",
+    "F066",
+    "F067",
+    "F068",
+    "F069",
+    "F070",
+    "F071",
+    "F072"
+   ],
+   "before": [
+    "F067",
+    "F068",
+    "F069",
+    "F072"
+   ],
+   "after": [
+    "F067",
+    "F068",
+    "F071",
+    "F072"
+   ],
+   "F1_SF_one_screw": {
+    "walk": 386.5,
+    "soft": 25.8,
+    "mid": 9.1
+   },
+   "F1_src": "twin/screws/data/joints.json (one screw takes the whole inertial pull)",
+   "rattle_mm": {
+    "before": 98.4,
+    "after": 90.0
+   },
+   "pattern": {
+    "before": "NOT uniform (no half turn or mirror maps the kept set onto itself, tol 2.9 mm)",
+    "after": "mirror about the plane through the centre, normal [-0.0, -1.0, -0.0]"
+   },
+   "F2_SF": {
+    "soft": {
+     "before": {
+      "screws": 1.88,
+      "with_lip_y": 3.81,
+      "with_lip_z_up": 5.84,
+      "with_lip_z_down": 5.84
+     },
+     "after": {
+      "screws": 1.88,
+      "with_lip_y": 3.81,
+      "with_lip_z_up": 5.84,
+      "with_lip_z_down": 5.84
+     }
+    },
+    "mid": {
+     "before": {
+      "screws": 0.61,
+      "with_lip_y": 1.22,
+      "with_lip_z_up": 1.88,
+      "with_lip_z_down": 1.88
+     },
+     "after": {
+      "screws": 0.61,
+      "with_lip_y": 1.22,
+      "with_lip_z_up": 1.88,
+      "with_lip_z_down": 1.88
+     }
+    }
+   },
+   "into": {
+    "before": {
+     "body_middle_top": 2,
+     "body_middle_bottom": 2
+    },
+    "after": {
+     "body_middle_top": 2,
+     "body_middle_bottom": 2
+    }
+   }
+  },
+  "battery_pack_lid -> body_back (trunk_assembly)": {
+   "ids": [
+    "F017",
+    "F018",
+    "F027",
+    "F028"
+   ],
+   "before": [
+    "F017",
+    "F018",
+    "F028"
+   ],
+   "after": [
+    "F017",
+    "F018",
+    "F027",
+    "F028"
+   ],
+   "F1_SF_one_screw": {
+    "walk": 76.4,
+    "soft": 5.1,
+    "mid": 1.8
+   },
+   "F1_src": "twin/screws/data/joints.json (one screw takes the whole inertial pull)",
+   "rattle_mm": {
+    "before": 93.7,
+    "after": 81.4
+   },
+   "pattern": {
+    "before": "NOT uniform (no half turn or mirror maps the kept set onto itself, tol 2.4 mm)",
+    "after": "half turn (diagonal through the centre)"
+   }
+  },
+  "head_bot_sheet -> head (head_assembly)": {
+   "ids": [
+    "F083",
+    "F084",
+    "F085",
+    "F086",
+    "F087",
+    "F088",
+    "F089",
+    "F090"
+   ],
+   "before": [
+    "F083",
+    "F088",
+    "F089"
+   ],
+   "after": [
+    "F083",
+    "F084",
+    "F089",
+    "F090"
+   ],
+   "F1_SF_one_screw": {
+    "walk": 243.3,
+    "soft": 10.3,
+    "mid": 3.7
+   },
+   "F1_src": "twin/screws/data/joints.json (one screw takes the whole inertial pull)",
+   "rattle_mm": {
+    "before": 196.3,
+    "after": 175.1
+   },
+   "pattern": {
+    "before": "NOT uniform (no half turn or mirror maps the kept set onto itself, tol 5.2 mm)",
+    "after": "mirror about the plane through the centre, normal [-0.0, -1.0, -0.0]"
+   }
+  },
+  "body_back shell": {
+   "kept": [
+    "F077",
+    "F078",
+    "F079",
+    "F080",
+    "F081",
+    "F082"
+   ],
+   "seats_N": 1704.0,
+   "F2_SF": {
+    "soft": {
+     "side": 6.08,
+     "up": 5.34,
+     "down": 4.72
+    },
+    "mid": {
+     "side": 1.95,
+     "up": 1.72,
+     "down": 1.52
+    }
+   },
+   "rattle_mm": 90.0,
+   "pattern": "mirror about the plane through the centre, normal [-0.0, 1.0, -0.0]"
+  }
+ }
+}

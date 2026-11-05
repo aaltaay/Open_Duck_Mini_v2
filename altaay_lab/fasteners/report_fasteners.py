@@ -3,7 +3,8 @@
 
   python3 altaay_lab/fasteners/report_fasteners.py [--time "2026-11-02 1:23 AM ET"]
 
-Also marks the D18 screw (outer roll_motor_bottom screw per leg, found by the sweep as a hit against
+Applies the D38, D39 and D42 screw lists (twin/screws/data/phase2_fasteners.json, twin/holes/data/d39_fasteners.json,
+d42_fasteners.json). Also marks the D18 screw (outer roll_motor_bottom screw per leg, found by the sweep as a hit against
 roll_to_pitch) as LEAVE OUT, and recounts every spec against BOM.md lines 16 and 17a to 17i.
 """
 import argparse
@@ -60,6 +61,20 @@ def main():
             elif r["id"] in C39["refit"]:
                 r["status"] = None; r.pop("leave_out", None)
             r["notes"] = [n.replace("; hole kept", "; hole closed (D39)") if n.startswith("D38") else n for n in r.get("notes", [])]
+    # ---- D42 (uniform screw patterns, DECISIONS.md D42): body_front 4 corners, battery lid 4, head_bot_sheet mirrored corners
+    c42 = os.path.join(os.path.dirname(HERE), "twin", "holes", "data", "d42_fasteners.json")
+    if os.path.exists(c42):
+        C42 = json.load(open(c42))
+        for r in R:
+            if r["id"] in C42["screws_cut"] or r["id"] in C42["inserts_cut"]:
+                r["status"], r["leave_out"] = "LEAVE OUT (D42 uniform pattern)", True
+                note = "D42: left out so the screws left form a uniform pattern; hole closed in the printed part (twin/holes)"
+                if note not in r.get("notes", []):
+                    r["notes"] = r.get("notes", []) + [note]
+            elif r["id"] in C42["refit"]:
+                r["status"] = None; r.pop("leave_out", None)
+                note = "D42: fitted again so the screws left form a uniform pattern; hole reopened (part rebuilt from its pre-D39 STL, twin/holes)"
+                r["notes"] = [n for n in r.get("notes", []) if not n.startswith(("D38", "D39"))] + ([note] if note not in r.get("notes", []) else [])
     screws = [r for r in R if r["kind"] == "screw"]
     inserts = [r for r in R if r["kind"] == "insert" and not r.get("leave_out")]
     hits = D.get("sweep", {}).get("hits", [])
