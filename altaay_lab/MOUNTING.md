@@ -58,3 +58,15 @@ Fall shock: mid 196 g head, 128 g trunk (twin/structure/STRUCTURE_TWIN.md); VHB 
 | Eye LED beads | dome in the bulb's 8.0 mm centre hole, a VHB ring from the bead base to the bulb back | needs 7 mm2 |
 
 Service: the lid faces into the trunk. Cells and XT30: 7 x M3x8 body_back screws out (D38), pull body_back 20 mm back on its wires, then the 4 lid screws (D42) with the 2.0 mm key's short arm. microSD and Pi USB: the 8 x M3x8 head_bot_sheet screws out (2 with the neck pitch at -9.4 deg), drop the sheet down the neck. Build order: twin/assembly/BUILD_ORDER.md.
+
+## V1 track 8: the duck side of the contact dock (2026-11-05, twin/dock/DOCK_TWIN.md; CAD check and calc only)
+No STL change is needed for V1: the pad sticks on the existing flat chest face and its leads pass one 4 mm hole drilled after
+printing (a drill step, as D24). A later STL pass may print that hole (it carries the leads, so D39 does not close it) and a
+0.8 mm pocket that locates the pad; neither is made here.
+
+| Part | Mount | Check |
+|---|---|---|
+| Chest contact pad (BOM DK1), 100 x 64 x 0.8 mm FR4, 9.5 g (calc: FR4 1.85 g/cm3) | VHB 4950 (BOM 29) over its whole back, 6400 mm2, on the flat chest face of body_front (flat from trunk z -2.8 to 78.9 mm, ray tests on the V1 STL), pad at trunk z 0 to 64, centred on y 0; the three solder pads on its back over the drilled 4 mm hole at the pad centre, leads 20 AWG (CHG+, GND) and 26 AWG (SENSE) | fall shock 128 g (the V1 track 2 trunk value): 11.9 N, 1.9 kPa of 82.7 kPa (SF 44); the paddle presses at most 3 N straight on (no peel) and drags 0.45 N (PTFE 0.15, ASSUMPTION), 0.07 kPa. Open: what sits behind the drill spot inside the trunk (3D track) |
+| Pololu 5382 ideal diode (BOM DK2) with the 100 k across it (DK5) | VHB 4950 inside the trunk on the chest side, next to the pad leads | seat and board size not placed yet: BLOCKER for the 3D track |
+| Charge path fuse holder (BOM DK3, the L3 part, 50 x 17.2 x 17.2 mm) | inline on the CHG+ lead between DK2 and the pack side (BMS P+) | seat not placed yet: BLOCKER for the 3D track |
+| Cell NTC (BOM DK5) | in the seat between the two cells that the battery track left (twin/battery/BAY.md), lead along the pack to the SENSE strip; the wake branch (zener, diode, 10 k) from SENSE to the Pololu 2813 ON pad | as BAY.md |

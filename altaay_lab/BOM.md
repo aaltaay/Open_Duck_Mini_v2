@@ -33,8 +33,13 @@ Columns: Need = measured requirement; Buy = what to order; Line = price for the 
 | L1 | Servo buck regulator | Castle CC BEC Pro 010-0004-01 set to 7.2 V; minimum input voltage NOT published (one retailer says 16 V), so the TEST_PLAN.md section 4 input sweep down to 6.5 V decides it; fallback Pololu D42V110F6 (6 V, about 11 A, POWER.md section 3) | 1 | 1 | 1 | 54.95 | Castle Creations; also Horizon Hobby CSE010000401 and Motion RC | https://www.horizonhobby.com/product/castle-creations-cc-bec-pro-20a-max-output-12s-max-switching-regulator/CSE010000401.html | Yes | Yes: Horizon Hobby CSE010000401 $54.95, "In Stock", page data stockLevel 369 (horizon-us-inventory), not discontinued, read 2026-11-01 9:02 PM ET; Motion RC 010-0004-01 $54.95, schema "InStock", no count shown (https://motionrc.com/products/castle-creations-20a-bec-pro-010-0004-01), read 9:04 PM ET; castlecreations.com not re-read (it refuses curl). Motion RC still lists "Input voltage: 16V to 40V" (D16 sweep stands) |
 | L3 | Inline fuse holder | Littelfuse FHAC0001ZXJ ATO 20 A, body 50 x 17.2 x 17.2 mm plus cover on a strap, 16 AWG leads 90 mm (Littelfuse drawing, parts check 2026-11-01); seat measured on the battery bay front wall (MOUNTING.md) | 1 | 1 | 1 | 7.74 | Newark 56P4171 | https://www.newark.com/littelfuse/fhac0001zxj/fuse-holder-in-line/dp/56P4171 | Yes | Yes: 3,553 in stock 2026-11-01; not re-read at the 2026-11-01 9:05 PM ET recheck: Newark and Mouser refuse plain curl (HTTP/2 stream reset, empty reply), so only the search index can re-read this line until that changes |
 | L4 | Fuse | Littelfuse 0287015.PXCN ATO 15 A | 1 | 5 | 1 | 2.20 | DigiKey | https://www.digikey.com/en/products/detail/littelfuse-inc/0287015-PXCN/2519816 | Yes | Yes: $0.44 each, min qty 1 (read via search index, direct fetch 403). Rating vs BMS: B12 |
+| DK1 | Chest contact pad (dock, D43, V1 track 8) | One 100 x 64 x 0.8 mm FR4 board, ENIG, three strips 100 x 20 mm with 2 mm gaps (GND at trunk z 0 to 20, SENSE 22 to 42, CHG+ 44 to 64), a solder pad per strip on the back; on the flat chest face of body_front (twin/dock/DOCK_TWIN.md section 2, MOUNTING.md V1 track 8) | 1 | 1 | 1 | 0.00 | BLOCKER | BLOCKER: a US board maker and its price not chosen or read | Yes | BLOCKER: price |
+| DK2 | Charge input ideal diode (dock, V1 track 8) | Pololu 5382 ideal diode reverse voltage protector, 4 to 60 V, 10 A, under 10 mOhm, LM74700-Q1 with an N-channel MOSFET, blocks reverse current: from the CHG+ strip to the pack side, so the strips never carry pack current; 100 k across it (line DK5) lets the dock read the pack | 1 | 1 | 1 | 3.79 | Pololu | https://www.pololu.com/product/5382 | Yes | Yes: $3.79 on the Pololu listing and blog, read via the search index 2026-11-05 |
+| DK3 | Charge path fuse holder (dock, V1 track 8) | Littelfuse FHAC0001ZXJ inline ATO holder, the line L3 part, a second one on the CHG+ lead after DK2 | 1 | 1 | 1 | 7.74 | Newark 56P4171 | https://www.newark.com/littelfuse/fhac0001zxj/fuse-holder-in-line/dp/56P4171 | Yes | As line L3; its seat in the trunk is a BLOCKER for the 3D track (MOUNTING.md V1 track 8) |
+| DK4 | Charge path fuse (dock, V1 track 8) | Littelfuse 0287005.PXCN ATOF 5 A 32 V fast acting, DigiKey F4197-ND | 1 | 2 | 1 | 0.88 | DigiKey | https://www.digikey.com/en/products/result?keywords=0287005.PXCN | Yes | $0.44 each, min qty 1 (an aggregator's DigiKey snapshot via the search index 2026-11-05; not read on DigiKey; the link is a DigiKey search) |
+| DK5 | Cell NTC and wake branch parts (dock, V1 track 8) | 10 k NTC B3950 in the cell seat between the cells (twin/battery/BAY.md) to the SENSE strip; 3.9 V zener, a small signal diode and 10 k (SENSE to the Pololu 2813 ON pad); 100 k across DK2 | 1 set | 1 set | 1 | 0.00 | BLOCKER | BLOCKER: commodity parts, no listing read | Yes | BLOCKER: price |
 
-Subtotal: $744.84
+Subtotal: $757.25
 
 ## Fasteners and mechanical
 
@@ -55,7 +60,7 @@ Subtotal: $744.84
 | 17l | M2.5 flat washer, small series | ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm, BelMetric WFHV2.5X5SSA4; two under each eye screw head (0.6 mm stack: 2.4 mm engaged, 0.6 mm to the blind pilot floor, D21) | 8 | 48 | each | 3.36 | BelMetric (US) | https://belmetric.com/small-o-d-washer-a4-stainless-iso-7092-hv-200-hardened/ | Yes (US) | Yes: $0.07 each (1 to 99; $0.04 at 100 and up), in stock and purchasable, variant WFHV2.5X5SSA4 (M2.5, OD 5 mm, ID 2.7 mm, 0.3 mm thick, A4 HV200) from the store's own attribute call and the page's variant data, read with plain curl 2026-11-02 12:20 AM ET. Buy 48, not 19, so the BelMetric cart (17j to 17l, $5.04) reaches the store's $5 minimum checkout. Replaces the A2 0.5 mm washer Y7092-A2-2.5-2000, a special order box of 2000 for $20.00. Commodity, many sources |
 | 18 | Ball bearing | 6804ZZ 20x32x7 (CAD model measured 19.99/32.19/7.0), Motoforti 10-pack | 3 | 10 | 10 | 7.74 | Amazon | https://www.amazon.com/dp/B0D99THG1M | Yes | UNVERIFIED at the 2026-11-01 evening recheck: the Motoforti page returned HTTP 503 to plain curl 6 times from 9:08 to 9:40 PM ET while other Amazon pages loaded; the search index has no copy of the listing. Last good read: $7.74, "only 1 left" earlier on 2026-11-01. In-stock US alternative: VXB Bearings (Anaheim, CA) 6804ZZ, 20 x 32 x 7 mm, chrome steel, double metal shields, pre-lubricated, $7.77 each, schema "InStock" (https://vxb.com/products/6804zz-bearing-20x32x7-shielded-20mm-bore); or VXB 10-pack $39.99, "InStock" (https://vxb.com/products/10-pack-6804zz-bearings), read 9:27 PM ET. Fallback buy: 4 singles (3 needed plus 1 spare) = $31.08 |
 | 19 | Threadlocker | Loctite 243, 6 mL, P/N 1330799 | 1 | 1 | 1 | 9.90 | Amazon | https://www.amazon.com/dp/B004L439FE | Yes | Yes |
-| 29 | Foam mounting tape | 3M VHB 4950, 3/4 in x 5 yd, 1.1 mm (45 mil) acrylic foam, for the BEC Pro, fuse holder, Pololu 2813 (D30), 5 V regulator, amp, the eye LED rings, the side lamp module, its reflector interface and E5 (D33), the D30 button plate flange (MOUNTING.md; twin/assembly/ASSEMBLY_TWIN.md item 1) | 0.4 m | 1 | 5 yd | 19.00 | Zoro (3M) | https://www.zoro.com/3m-double-sided-foam-tape-34-in-w-5-yd-l-45-mil-acrylic-foam-double-sided-4950/i/G4323846 | Yes | Read via search index (zoro.com refuses curl, 403); price is the low end of the range shown, stock not verified |
+| 29 | Foam mounting tape | 3M VHB 4950, 3/4 in x 5 yd, 1.1 mm (45 mil) acrylic foam, for the BEC Pro, fuse holder, Pololu 2813 (D30), 5 V regulator, amp, the eye LED rings, the side lamp module, its reflector interface and E5 (D33), the D30 button plate flange (MOUNTING.md; twin/assembly/ASSEMBLY_TWIN.md item 1), the chest contact pad DK1 (4 strips of 100 mm) | 0.8 m | 1 | 5 yd | 19.00 | Zoro (3M) | https://www.zoro.com/3m-double-sided-foam-tape-34-in-w-5-yd-l-45-mil-acrylic-foam-double-sided-4950/i/G4323846 | Yes | Read via search index (zoro.com refuses curl, 403); price is the low end of the range shown, stock not verified |
 
 Subtotal: $73.75
 
@@ -157,15 +162,17 @@ Change 2026-11-04 about 8:50 PM ET (V1 screws job phase 2, D36 and D38, twin/scr
 
 | Scope | $ |
 |---|---|
-| Robot | 744.84 |
+| Robot | 757.25 |
 | Fasteners and mechanical | 73.75 |
 | Cables, connectors, wire | 282.84 |
 | Print material | 53.97 |
 | Expression (optional upstream) | 79.39 |
 | Tools (one-time) | 271.66 |
-| Build total (robot + fasteners + cables + filament) | 1155.40 |
-| Build + expression pack | 1234.79 |
-| Build + expression + tools | 1506.45 |
+| Build total (robot + fasteners + cables + filament) | 1167.81 |
+| Build + expression pack | 1247.20 |
+| Build + expression + tools | 1518.86 |
+
+Change 2026-11-05 about 3:50 AM ET (V1 track 8, D43, D45): the duck side of the contact dock, lines DK1 to DK5 in Robot: the chest contact pad (price BLOCKER), the Pololu 5382 ideal diode ($3.79), a second FHAC0001ZXJ holder ($7.74) and two 5 A ATO fuses ($0.88), the cell NTC and wake branch parts (BLOCKER); line 29 Need 0.4 to 0.8 m (the pad), Buy unchanged. +$12.41 on the build total. The dock itself (charger, gate, printed dock) is costed in twin/dock/DOCK_TWIN.md section 7, not here.
 
 Change 2026-11-05 about 12:45 AM ET (V1 track 9, D44): line 6 becomes 2 x Molicel INR21700-P45B ($19.98, +$2.00; out of stock at the seller 2026-11-04 ET, the P50B is the in-stock alternate at $11.99 each); line 7 becomes the 2S1P pack build with no holder (-$9.99 for the holder; the strip, sleeve and welding are a BLOCKER at $0.00 until priced). The bay in body_back grows for the pack (twin/battery/BAY.md). The BOM totals were stale before this change (the line items gave $1,163.39 build, not the $1,146.28 shown; audit/bom_totals.py re-run): after D44 the build is $1,155.40. Nothing bought.
 
@@ -215,6 +222,7 @@ See HARDWARE_AUDIT.md section 6 for all 73 with the method for each.
 - 17j: hip pitch button heads clear roll_to_pitch by +0.16 mm in CAD; checked on the first leg (B31, D19).
 - 17e, T11, T13: the 24 neck chain recesses are drilled to 6.0 mm after printing, confirmed on coupon C4 first (B32, D20).
 - 1, 17h, 20, 28, E1, E5, E7 and row 11: fit or length settled only by the test order below.
+- DK1 and DK5 (V1 track 8): price not read; DK3's seat in the trunk and the inside of the DK1 drill spot are open for the 3D track (MOUNTING.md V1 track 8).
 
 ## Needs test order
 

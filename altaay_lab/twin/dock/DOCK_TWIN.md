@@ -242,11 +242,13 @@ min x 32.4 / 21.6 Wh; dock time from section 5): MCP73213 1 : 2.1 to 1 : 5.1; BQ
 | K6 | 9 V adapter, 15 W or more | 1 | BLOCKER | |
 | K7 | printed dock parts, 923 g PLA | 1 set | the lab filament line | slice above |
 | K8 | two 4 mm x 70 mm steel rods, two 4 mm shaft collars, two compression springs (about 37.5 N/m, 50 mm free, under 10 mm OD), two M3 x 20 screws (pivot) and four M3 bolts (cups) from the build's kit, PTFE tape, steel ballast 2 x 120 x 72 x 8 mm | 1 set | BLOCKER | |
-| R1 | chest contact pad 100 x 64 x 0.8 mm FR4 ENIG | 1 | BLOCKER (commodity) | |
-| R2 | Pololu 5382 ideal diode 4 to 60 V, 10 A | 1 | $1.75 | phase 1 sources |
-| R3 | Littelfuse ATO 5 A fuse and FHAC0001ZXJ holder | 1 | $7.74 + $0.44 | BOM lines L3, L4 |
-| R4 | 10 k NTC for the cell seat, zener, diode, resistors, wire | 1 set | BLOCKER (commodity) | |
-Read prices: **$66.44** (K1, K2, K5, R2, R3), before the BLOCKER lines. With the BQ24610EVM in place of K1: $120.54.
+| R1 | chest contact pad 100 x 64 x 0.8 mm FR4 ENIG | 1 | BLOCKER | robot BOM.md line DK1 |
+| R2 | Pololu 5382 ideal diode 4 to 60 V, 10 A | 1 | $3.79 | Pololu listing and blog, via the search index 2026-11-05 (phase 1 had $1.75, wrong); robot BOM.md line DK2 |
+| R3 | Littelfuse 0287005.PXCN ATO 5 A fuse and an FHAC0001ZXJ holder | 1 | $7.74 + $0.44 | robot BOM.md lines DK3, DK4 (two fuses there, one spare) |
+| R4 | 10 k NTC for the cell seat, zener, diode, resistors | 1 set | BLOCKER (commodity) | robot BOM.md line DK5; wire from BOM 23 and 25, the pad tape from BOM 29 |
+Read prices: **$68.48** (K1, K2, K5, R2, R3), before the BLOCKER lines. With the BQ24610EVM in place of K1: $122.58. The duck-side
+lines R1 to R4 are in the robot's BOM.md (DK1 to DK5, +$12.41 on its build total with the spare fuse) and MOUNTING.md (V1 track 8);
+the chest pad needs no STL change for V1.
 
 ## 8. Bench tests (proposed; nothing run)
 | Test | Pass |
@@ -279,6 +281,7 @@ Read prices: **$66.44** (K1, K2, K5, R2, R3), before the BLOCKER lines. With the
 ## 10. Files
 - Duck repo: altaay_lab/software/dock/ (autodock/, duck_autodock.yaml, tests/, THIRD_PARTY.md); altaay_lab/twin/dock/ (this file,
   dock_parts.py, stl/).
-- The shared lab gym (overlay gym/overlays/duck), dock/: dock_course.py (floors hard, train, soft and the soft_mat option),
-  dock_sim.py, in the dock job's own branch (not committed; the lead decides). The probe of section 4.4 and the run records are
-  scratch data (lab rule 8).
+- The shared lab gym (overlay gym/overlays/duck), dock/: DOCK.md (the course and the one-command acceptance run, also with a
+  new policy), dock_course.py (floors hard, train, soft and the soft_mat option), dock_sim.py (--onnx, --mass, --knee, --mode),
+  dock_stats.py, pulse_tables.py (a policy's pulse tables for duck_autodock.yaml), pulse_falls.py. Committed in the gym on the
+  dock job's branch v1-dock-local. The probe results and the run records are scratch data (lab rule 8).
