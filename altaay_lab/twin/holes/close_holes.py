@@ -12,7 +12,7 @@ it unused. Plugs, in the STL frame (the print/ frame, so orientation and support
 Checks: watertight, volume added against the analytic hole volume, flush residual (cap plane against the ring
 surface), overlap of the added material with every other part at the zero pose, distance to kept holes, cables
 and the drilled tie spots. Also the 4 seats under the lower back shell ears on body_middle_bottom_lip (F2 down).
-Writes /home/user/v1_out/holes/stl/*.stl and data/close_report.json.
+Writes <OUT>/stl/*.stl and <OUT>/data/close_report.json (OUT: hlib.py).
 """
 import json, os, sys, collections, glob
 import numpy as np, trimesh, manifold3d

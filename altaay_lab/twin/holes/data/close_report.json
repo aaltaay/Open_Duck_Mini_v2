@@ -3,7 +3,7 @@
   "battery_pack_lid": {
    "stl": "battery_pack_lid",
    "src": "print/battery_pack_lid.stl",
-   "out": "/home/user/v1_out/holes/stl/battery_pack_lid.stl",
+   "out": "<OUT>/stl/battery_pack_lid.stl",
    "bytes": 96984,
    "watertight": true,
    "reread": {
@@ -74,7 +74,7 @@
   "body_back": {
    "stl": "body_back",
    "src": "print/body_back.stl",
-   "out": "/home/user/v1_out/holes/stl/body_back.stl",
+   "out": "<OUT>/stl/body_back.stl",
    "bytes": 384584,
    "watertight": true,
    "reread": {
@@ -275,7 +275,7 @@
   "body_front": {
    "stl": "body_front",
    "src": "print/body_front.stl",
-   "out": "/home/user/v1_out/holes/stl/body_front.stl",
+   "out": "<OUT>/stl/body_front.stl",
    "bytes": 285384,
    "watertight": true,
    "reread": {
@@ -454,7 +454,7 @@
   "body_middle_bottom": {
    "stl": "body_middle_bottom",
    "src": "print/body_middle_bottom.stl",
-   "out": "/home/user/v1_out/holes/stl/body_middle_bottom.stl",
+   "out": "<OUT>/stl/body_middle_bottom.stl",
    "bytes": 2145384,
    "watertight": true,
    "reread": {
@@ -634,7 +634,7 @@
   "body_middle_top": {
    "stl": "body_middle_top",
    "src": "print/body_middle_top.stl",
-   "out": "/home/user/v1_out/holes/stl/body_middle_top.stl",
+   "out": "<OUT>/stl/body_middle_top.stl",
    "bytes": 283684,
    "watertight": true,
    "reread": {
@@ -741,7 +741,7 @@
   "bulb": {
    "stl": "bulb",
    "src": "print/bulb.stl",
-   "out": "/home/user/v1_out/holes/stl/bulb.stl",
+   "out": "<OUT>/stl/bulb.stl",
    "bytes": 162684,
    "watertight": true,
    "reread": {
@@ -843,7 +843,7 @@
   "flash_light_module": {
    "stl": "flash_light_module",
    "src": "print/flash_light_module.stl",
-   "out": "/home/user/v1_out/holes/stl/flash_light_module.stl",
+   "out": "<OUT>/stl/flash_light_module.stl",
    "bytes": 511584,
    "watertight": true,
    "reread": {
@@ -1134,7 +1134,7 @@
   "head": {
    "stl": "head",
    "src": "print/head.stl",
-   "out": "/home/user/v1_out/holes/stl/head.stl",
+   "out": "<OUT>/stl/head.stl",
    "bytes": 1843684,
    "watertight": true,
    "reread": {
@@ -1650,7 +1650,7 @@
   "head_bot_sheet": {
    "stl": "head_bot_sheet",
    "src": "print/head_bot_sheet.stl",
-   "out": "/home/user/v1_out/holes/stl/head_bot_sheet.stl",
+   "out": "<OUT>/stl/head_bot_sheet.stl",
    "bytes": 260684,
    "watertight": true,
    "reread": {
@@ -1927,7 +1927,7 @@
   "left_eye": {
    "stl": "left_eye",
    "src": "print/left_eye.stl",
-   "out": "/home/user/v1_out/holes/stl/left_eye.stl",
+   "out": "<OUT>/stl/left_eye.stl",
    "bytes": 105884,
    "watertight": true,
    "reread": {
@@ -2016,7 +2016,7 @@
   "leg_spacer": {
    "stl": "leg_spacer",
    "src": "print/leg_spacer.stl",
-   "out": "/home/user/v1_out/holes/stl/leg_spacer.stl",
+   "out": "<OUT>/stl/leg_spacer.stl",
    "bytes": 153884,
    "watertight": true,
    "reread": {
@@ -2132,7 +2132,7 @@
   "neck_right_sheet": {
    "stl": "neck_right_sheet",
    "src": "print/neck_right_sheet.stl",
-   "out": "/home/user/v1_out/holes/stl/neck_right_sheet.stl",
+   "out": "<OUT>/stl/neck_right_sheet.stl",
    "bytes": 184484,
    "watertight": true,
    "reread": {
@@ -2199,7 +2199,7 @@
   "right_eye": {
    "stl": "right_eye",
    "src": "print/right_eye.stl",
-   "out": "/home/user/v1_out/holes/stl/right_eye.stl",
+   "out": "<OUT>/stl/right_eye.stl",
    "bytes": 114484,
    "watertight": true,
    "reread": {
@@ -2288,7 +2288,7 @@
   "speaker_interface": {
    "stl": "speaker_interface",
    "src": "print/speaker_interface.stl",
-   "out": "/home/user/v1_out/holes/stl/speaker_interface.stl",
+   "out": "<OUT>/stl/speaker_interface.stl",
    "bytes": 160684,
    "watertight": true,
    "reread": {
@@ -2385,7 +2385,7 @@
   "speaker_stand": {
    "stl": "speaker_stand",
    "src": "print/speaker_stand.stl",
-   "out": "/home/user/v1_out/holes/stl/speaker_stand.stl",
+   "out": "<OUT>/stl/speaker_stand.stl",
    "bytes": 1127684,
    "watertight": true,
    "reread": {
@@ -2606,7 +2606,7 @@
   "trunk_top": {
    "stl": "trunk_top",
    "src": "print/trunk_top.stl",
-   "out": "/home/user/v1_out/holes/stl/trunk_top.stl",
+   "out": "<OUT>/stl/trunk_top.stl",
    "bytes": 735884,
    "watertight": true,
    "reread": {
@@ -2705,7 +2705,7 @@
   "body_front_groove": {
    "stl": "body_front_groove",
    "src": "altaay_lab/twin/screws/stl/body_front_groove.stl",
-   "out": "/home/user/v1_out/holes/stl/body_front_groove.stl",
+   "out": "<OUT>/stl/body_front_groove.stl",
    "bytes": 285384,
    "watertight": true,
    "reread": {
@@ -2884,7 +2884,7 @@
   "body_middle_top_lip": {
    "stl": "body_middle_top_lip",
    "src": "altaay_lab/twin/screws/stl/body_middle_top_lip.stl",
-   "out": "/home/user/v1_out/holes/stl/body_middle_top_lip.stl",
+   "out": "<OUT>/stl/body_middle_top_lip.stl",
    "bytes": 283684,
    "watertight": true,
    "reread": {
@@ -2991,7 +2991,7 @@
   "body_middle_bottom_lip": {
    "stl": "body_middle_bottom_lip",
    "src": "altaay_lab/twin/screws/stl/body_middle_bottom_lip.stl",
-   "out": "/home/user/v1_out/holes/stl/body_middle_bottom_lip.stl",
+   "out": "<OUT>/stl/body_middle_bottom_lip.stl",
    "bytes": 2426484,
    "watertight": true,
    "reread": {
@@ -3228,7 +3228,7 @@
   "roll_motor_bottom_L": {
    "stl": "roll_motor_bottom_L",
    "inst": 32,
-   "out": "/home/user/v1_out/holes/stl/roll_motor_bottom_L.stl",
+   "out": "<OUT>/stl/roll_motor_bottom_L.stl",
    "bytes": 79484,
    "watertight": true,
    "nonmanifold_edges": 0,
@@ -3275,7 +3275,7 @@
   "roll_motor_bottom_R": {
    "stl": "roll_motor_bottom_R",
    "inst": 66,
-   "out": "/home/user/v1_out/holes/stl/roll_motor_bottom_R.stl",
+   "out": "<OUT>/stl/roll_motor_bottom_R.stl",
    "bytes": 79884,
    "watertight": true,
    "nonmanifold_edges": 0,

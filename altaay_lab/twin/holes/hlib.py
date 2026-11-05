@@ -2,14 +2,14 @@
 
 The scene is the lab scene of altaay_lab/fasteners/fastlib.py (robot.urdf at zero joint angles, print/ STLs swapped in,
 head internals on the head.stl transform), loaded READ ONLY from a scratch worktree of the duck repo at 0b1cab5
-(REPO below). Heavy caches go to /home/user/v1_out/holes/scene.
+(REPO below, found from this file; ODM_REPO overrides). Outputs and heavy caches go to OUT (ODM_HOLES_OUT, default ~/v1_out/holes, outside the repo).
 """
 import json, os, sys, pickle
 import numpy as np
 
-REPO = os.environ.get("ODM_REPO", "/home/user/wt/duck-holes-p1")
+REPO = os.environ.get("ODM_REPO", os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..")))
 LAB = os.path.join(REPO, "altaay_lab")
-OUT = "/home/user/v1_out/holes"
+OUT = os.environ.get("ODM_HOLES_OUT", os.path.join(os.path.expanduser("~"), "v1_out", "holes"))
 SCENE = os.path.join(OUT, "scene")
 DATA = os.path.join(OUT, "data")
 sys.path.insert(0, os.path.join(LAB, "fasteners"))
