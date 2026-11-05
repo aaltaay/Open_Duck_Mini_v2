@@ -5157,7 +5157,7 @@ z
     </g>
    </g>
    <g id="text_71">
-    <!-- Source: wiring/netlist.yaml rev 2026-11-02 (sha256 0f4af5bff379) -->
+    <!-- Source: wiring/netlist.yaml rev 2026-11-02 (sha256 1836fffa4318) -->
     <g style="fill: #1f2a33" transform="translate(776.692913 746.127953) scale(0.07 -0.07)">
      <defs>
       <path id="Carlito-Regular-146" d="M 497 -63 
@@ -5222,22 +5222,22 @@ z
      <use xlink:href="#Carlito-Regular-194" transform="translate(1971.84375 0)"/>
      <use xlink:href="#Carlito-Regular-475" transform="translate(2022.53125 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(2073.21875 0)"/>
-     <use xlink:href="#Carlito-Regular-18f" transform="translate(2095.828125 0)"/>
-     <use xlink:href="#Carlito-Regular-3d" transform="translate(2146.515625 0)"/>
-     <use xlink:href="#Carlito-Regular-193" transform="translate(2177.03125 0)"/>
-     <use xlink:href="#Carlito-Regular-2d" transform="translate(2227.71875 0)"/>
-     <use xlink:href="#Carlito-Regular-3d" transform="translate(2275.046875 0)"/>
-     <use xlink:href="#Carlito-Regular-194" transform="translate(2305.5625 0)"/>
-     <use xlink:href="#Carlito-Regular-30" transform="translate(2356.25 0)"/>
-     <use xlink:href="#Carlito-Regular-40" transform="translate(2407.96875 0)"/>
-     <use xlink:href="#Carlito-Regular-192" transform="translate(2466.3125 0)"/>
-     <use xlink:href="#Carlito-Regular-195" transform="translate(2517 0)"/>
-     <use xlink:href="#Carlito-Regular-196" transform="translate(2567.6875 0)"/>
-     <use xlink:href="#Carlito-Regular-151" transform="translate(2618.375 0)"/>
+     <use xlink:href="#Carlito-Regular-190" transform="translate(2095.828125 0)"/>
+     <use xlink:href="#Carlito-Regular-476" transform="translate(2146.515625 0)"/>
+     <use xlink:href="#Carlito-Regular-192" transform="translate(2197.203125 0)"/>
+     <use xlink:href="#Carlito-Regular-475" transform="translate(2247.890625 0)"/>
+     <use xlink:href="#Carlito-Regular-40" transform="translate(2298.578125 0)"/>
+     <use xlink:href="#Carlito-Regular-3d" transform="translate(2355.953125 0)"/>
+     <use xlink:href="#Carlito-Regular-2d" transform="translate(2384.515625 0)"/>
+     <use xlink:href="#Carlito-Regular-193" transform="translate(2432.421875 0)"/>
+     <use xlink:href="#Carlito-Regular-192" transform="translate(2483.109375 0)"/>
+     <use xlink:href="#Carlito-Regular-190" transform="translate(2533.796875 0)"/>
+     <use xlink:href="#Carlito-Regular-476" transform="translate(2584.484375 0)"/>
+     <use xlink:href="#Carlito-Regular-151" transform="translate(2635.171875 0)"/>
     </g>
    </g>
    <g id="text_72">
-    <!-- Date: 2026-11-02 03:39 EST (TZ=America/New_York date) -->
+    <!-- Date: 2026-11-05 17:03 EST (TZ=America/New_York date) -->
     <g style="fill: #1f2a33" transform="translate(776.692913 756.190945) scale(0.07 -0.07)">
      <defs>
       <path id="Carlito-Regular-2c" d="M 2844 4106 
@@ -5292,13 +5292,13 @@ z
      <use xlink:href="#Carlito-Regular-190" transform="translate(524.109375 0)"/>
      <use xlink:href="#Carlito-Regular-14a" transform="translate(574.796875 0)"/>
      <use xlink:href="#Carlito-Regular-18f" transform="translate(605.40625 0)"/>
-     <use xlink:href="#Carlito-Regular-191" transform="translate(656.09375 0)"/>
+     <use xlink:href="#Carlito-Regular-194" transform="translate(656.09375 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(706.78125 0)"/>
-     <use xlink:href="#Carlito-Regular-18f" transform="translate(729.390625 0)"/>
-     <use xlink:href="#Carlito-Regular-192" transform="translate(780.078125 0)"/>
+     <use xlink:href="#Carlito-Regular-190" transform="translate(729.390625 0)"/>
+     <use xlink:href="#Carlito-Regular-195" transform="translate(780.078125 0)"/>
      <use xlink:href="#Carlito-Regular-139" transform="translate(830.765625 0)"/>
-     <use xlink:href="#Carlito-Regular-192" transform="translate(857.53125 0)"/>
-     <use xlink:href="#Carlito-Regular-196" transform="translate(908.21875 0)"/>
+     <use xlink:href="#Carlito-Regular-18f" transform="translate(857.53125 0)"/>
+     <use xlink:href="#Carlito-Regular-192" transform="translate(908.21875 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(958.90625 0)"/>
      <use xlink:href="#Carlito-Regular-b" transform="translate(981.515625 0)"/>
      <use xlink:href="#Carlito-Regular-22" transform="translate(1029.375 0)"/>
@@ -5391,7 +5391,7 @@ z
     </g>
    </g>
    <g id="text_74">
-    <!-- Wires drawn in full here: 37 of 124 in the netlist; stubs to other sheets: 0 -->
+    <!-- Wires drawn in full here: 37 of 135 in the netlist; stubs to other sheets: 0 -->
     <g style="fill: #1f2a33" transform="translate(776.692913 776.316929) scale(0.07 -0.07)">
      <defs>
       <path id="Carlito-Regular-138" d="M 466 0 
@@ -5474,8 +5474,8 @@ z
      <use xlink:href="#Carlito-Regular-3d" transform="translate(1197.53125 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(1228.046875 0)"/>
      <use xlink:href="#Carlito-Regular-190" transform="translate(1250.65625 0)"/>
-     <use xlink:href="#Carlito-Regular-191" transform="translate(1301.34375 0)"/>
-     <use xlink:href="#Carlito-Regular-193" transform="translate(1352.03125 0)"/>
+     <use xlink:href="#Carlito-Regular-192" transform="translate(1301.34375 0)"/>
+     <use xlink:href="#Carlito-Regular-194" transform="translate(1352.03125 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(1402.71875 0)"/>
      <use xlink:href="#Carlito-Regular-62" transform="translate(1425.328125 0)"/>
      <use xlink:href="#Carlito-Regular-6d" transform="translate(1448.28125 0)"/>
@@ -13120,7 +13120,7 @@ z
     </g>
    </g>
    <g id="text_272">
-    <!-- 22 AWG  150 mm  RD -->
+    <!-- 22 AWG  160 mm  RD -->
     <g style="fill: #1f2a33" transform="translate(599.589885 560.700394) scale(0.074 -0.074)">
      <use xlink:href="#Carlito-Regular-191"/>
      <use xlink:href="#Carlito-Regular-191" transform="translate(50.6875 0)"/>
@@ -13131,7 +13131,7 @@ z
      <use xlink:href="#Carlito-Regular-2" transform="translate(328.921875 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(351.53125 0)"/>
      <use xlink:href="#Carlito-Regular-190" transform="translate(374.140625 0)"/>
-     <use xlink:href="#Carlito-Regular-194" transform="translate(424.828125 0)"/>
+     <use xlink:href="#Carlito-Regular-475" transform="translate(424.828125 0)"/>
      <use xlink:href="#Carlito-Regular-18f" transform="translate(475.515625 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(526.203125 0)"/>
      <use xlink:href="#Carlito-Regular-6c" transform="translate(548.8125 0)"/>
@@ -13213,7 +13213,7 @@ z
     </g>
    </g>
    <g id="text_278">
-    <!-- 22 AWG  130 mm  BK -->
+    <!-- 22 AWG  140 mm  BK -->
     <g style="fill: #1f2a33" transform="translate(497.893562 682.590157) scale(0.074 -0.074)">
      <use xlink:href="#Carlito-Regular-191"/>
      <use xlink:href="#Carlito-Regular-191" transform="translate(50.6875 0)"/>
@@ -13224,7 +13224,7 @@ z
      <use xlink:href="#Carlito-Regular-2" transform="translate(328.921875 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(351.53125 0)"/>
      <use xlink:href="#Carlito-Regular-190" transform="translate(374.140625 0)"/>
-     <use xlink:href="#Carlito-Regular-192" transform="translate(424.828125 0)"/>
+     <use xlink:href="#Carlito-Regular-193" transform="translate(424.828125 0)"/>
      <use xlink:href="#Carlito-Regular-18f" transform="translate(475.515625 0)"/>
      <use xlink:href="#Carlito-Regular-2" transform="translate(526.203125 0)"/>
      <use xlink:href="#Carlito-Regular-6c" transform="translate(548.8125 0)"/>

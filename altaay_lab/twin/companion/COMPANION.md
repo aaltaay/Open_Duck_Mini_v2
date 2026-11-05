@@ -31,7 +31,7 @@ farnell.com, elemon.com.ar. Every number that only those hosts hold is a BLOCKER
 | GPIO budget | used before: GPIO2, 3, 12, 13, 18, 19, 21, 22, 23, 24, 25, 26, 27. Now also 20 (and 16 claimed, unwired). Free: GPIO4 to 11, 14, 15, 17 | netlist; c6_gpio PASS |
 | Slots | left board SEL to GND (left slot), right board SEL to 3V (right slot); each DOUT floats in the other slot, so both share GPIO20 | [S] Adafruit product text; the SPH0645LM4H datasheet is a BLOCKER |
 | Clock range | BCLK = 48 kHz x 64 = 3.072 MHz. That this sits inside the SPH0645LM4H clock range is a BLOCKER (datasheet not read) | calc only |
-| Wires | cable D14, Pi to the left board, 5 wires, cut 150 mm (80 mm straight line); D15, left board to right board, 5 wires, cut 240 mm; 26 AWG from stock | calc only; 3D routes not drawn (BLOCKER) |
+| Wires | cable D14, Pi to the left board, 5 wires twisted, cut 150 mm (route 80.7 mm); D15, left board to right board, 5 wires twisted, cut 240 mm (route 151.9 mm, over the head behind the head_roll_mount); 26 AWG from stock | twin/companion/route_mics.py, CAD check only |
 
 ## 3. Mic count and layout (calc only)
 
@@ -124,8 +124,9 @@ of the four for direction (ports on the outer shell, a known 120.5 mm baseline, 
 2. SPH0645LM4H datasheet not read (Knowles hosts not reachable): port offset (port tube bore 2.0 mm takes 0.4 mm),
    PCB thickness (0.8 to 1.6 mm checked), BCLK range at 3.072 MHz, slot and tri-state timing, group delay spread,
    SNR and sensitivity. The part is listed obsolete at one parts index [S]: check stock before an order.
-3. Cables D14 and D15: no 3D route yet (c3_cables3d FAIL for both), and the wiring sheets are not regenerated (the sheet
-   generator already stops at D13, a known FAIL).
+3. (cleared 2026-11-05 about 5:15 PM ET) Cables D14 and D15 are routed in 3D (twin/companion/route_mics.py,
+   mic_routes.json: D14 80.7 mm, D15 151.9 mm, both clear of the parts by 1 mm or more, 17 mm or more from the P13 pack
+   feed and 5 mm or more from the SG90 leads) and drawn on sheet 4 with D13 (the sheet generator runs again: c10 PASS).
 4. SG90 travel per ms and speed for the Miuzei listing (bench).
 5. Servo and SG90 noise at the mic ports, and the Pi Zero 2 W CPU time for the direction estimate (bench).
 6. Options B to D: board spacing, mass and the AC108 and amp port sharing not read.
