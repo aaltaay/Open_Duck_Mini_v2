@@ -48,7 +48,7 @@
        "flush": {
         "dimple_mm": 14.172,
         "proud_mm": 0.0,
-        "ref": "two planes (min), ring residual 0.000 mm",
+        "ref": "two faces (convex edge, fillet 0.00 mm), ring residual 0.000 mm",
         "ok": false
        }
       },
@@ -531,9 +531,9 @@
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 2.706,
+        "dimple_mm": 2.312,
         "proud_mm": 0.0,
-        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
+        "ref": "face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.008 mm",
         "ok": false
        }
       }
@@ -555,9 +555,9 @@
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 2.706,
+        "dimple_mm": 2.312,
         "proud_mm": 0.0,
-        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
+        "ref": "face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.010 mm",
         "ok": false
        }
       }
@@ -675,9 +675,9 @@
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 2.722,
+        "dimple_mm": 2.328,
         "proud_mm": 0.0,
-        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
+        "ref": "face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.008 mm",
         "ok": false
        }
       }
@@ -699,9 +699,9 @@
        "open": true,
        "R": 2.75,
        "flush": {
-        "dimple_mm": 2.722,
+        "dimple_mm": 2.327,
         "proud_mm": 0.0,
-        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
+        "ref": "face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.008 mm",
         "ok": false
        }
       }
@@ -957,9 +957,9 @@
        "open": true,
        "R": 0.82,
        "flush": {
-        "dimple_mm": 0.223,
+        "dimple_mm": 0.26,
         "proud_mm": 0.0,
-        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.077 mm",
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
         "ok": false
        }
       },
@@ -1327,9 +1327,9 @@
        "open": true,
        "R": 3.0,
        "flush": {
-        "dimple_mm": 0.429,
+        "dimple_mm": 0.436,
         "proud_mm": 0.0,
-        "ref": "quadratic, ring residual 0.055 mm",
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
         "ok": false
        }
       },
@@ -1337,9 +1337,9 @@
        "open": true,
        "R": 3.0,
        "flush": {
-        "dimple_mm": 0.429,
+        "dimple_mm": 0.436,
         "proud_mm": 0.0,
-        "ref": "quadratic, ring residual 0.055 mm",
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
         "ok": false
        }
       }
@@ -1353,9 +1353,9 @@
        "open": true,
        "R": 3.0,
        "flush": {
-        "dimple_mm": 0.429,
+        "dimple_mm": 0.436,
         "proud_mm": 0.0,
-        "ref": "quadratic, ring residual 0.055 mm",
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
         "ok": false
        }
       },
@@ -1363,9 +1363,9 @@
        "open": true,
        "R": 3.0,
        "flush": {
-        "dimple_mm": 0.429,
+        "dimple_mm": 0.436,
         "proud_mm": 0.0,
-        "ref": "quadratic, ring residual 0.055 mm",
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
         "ok": false
        }
       }
@@ -1396,9 +1396,9 @@
        "open": true,
        "R": 3.5,
        "flush": {
-        "dimple_mm": 1.47,
-        "proud_mm": 0.0,
-        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.95 mm)",
+        "dimple_mm": 1.446,
+        "proud_mm": 0.011,
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
         "ok": false
        }
       }

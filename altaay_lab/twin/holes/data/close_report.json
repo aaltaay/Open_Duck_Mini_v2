@@ -4,7 +4,7 @@
    "stl": "body_back",
    "src": "print/body_back.stl",
    "out": "<OUT>/stl/body_back.stl",
-   "bytes": 562484,
+   "bytes": 562184,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -17,9 +17,9 @@
    },
    "volume_mm3": [
     105525.6,
-    105981.4
+    105982.6
    ],
-   "added_mm3": 455.8,
+   "added_mm3": 457.0,
    "analytic_hole_mm3": 288.6,
    "n_closed": 4,
    "n_kept": 11,
@@ -37,9 +37,16 @@
         6.65
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.2,
+        "around_step_deg": 0.0,
+        "cap_faces": 738,
         "ok": true
        }
       },
@@ -53,9 +60,16 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 346,
         "ok": true
        }
       }
@@ -77,7 +91,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -98,9 +112,16 @@
         6.65
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 662,
         "ok": true
        }
       },
@@ -114,9 +135,16 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 346,
         "ok": true
        }
       }
@@ -138,7 +166,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -159,9 +187,16 @@
         -0.001
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 240,
         "ok": true
        }
       },
@@ -175,9 +210,16 @@
         0.007
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 240,
         "ok": true
        }
       }
@@ -194,7 +236,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -215,9 +257,16 @@
         0.002
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 240,
         "ok": true
        }
       },
@@ -231,9 +280,16 @@
         0.001
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 240,
         "ok": true
        }
       }
@@ -250,7 +306,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -286,9 +342,9 @@
    },
    "volume_mm3": [
     141586.7,
-    142625.9
+    142628.4
    ],
-   "added_mm3": 1039.1,
+   "added_mm3": 1041.7,
    "analytic_hole_mm3": 1044.4,
    "n_closed": 4,
    "n_kept": 4,
@@ -306,9 +362,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 346,
         "ok": true
        }
       },
@@ -322,9 +385,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       }
@@ -346,7 +416,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -367,9 +437,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 346,
         "ok": true
        }
       },
@@ -383,9 +460,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       }
@@ -407,7 +491,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -428,9 +512,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 346,
         "ok": true
        }
       },
@@ -444,9 +535,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       }
@@ -468,7 +566,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -489,9 +587,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 346,
         "ok": true
        }
       },
@@ -505,9 +610,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       }
@@ -529,7 +641,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -542,7 +654,7 @@
    "zero_pose": [
     {
      "inst": 0,
-     "cable_clear_mm": 6.17,
+     "cable_clear_mm": 6.22,
      "drilled_tie_spot_mm": 20.3
     }
    ],
@@ -565,9 +677,9 @@
    },
    "volume_mm3": [
     151113.2,
-    151436.5
+    151437.7
    ],
-   "added_mm3": 323.4,
+   "added_mm3": 324.5,
    "analytic_hole_mm3": 282.8,
    "n_closed": 4,
    "n_kept": 8,
@@ -585,9 +697,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       },
@@ -601,9 +720,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       }
@@ -625,7 +751,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -646,9 +772,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       },
@@ -662,9 +795,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       }
@@ -686,7 +826,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -707,9 +847,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       },
@@ -723,9 +870,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       }
@@ -747,7 +901,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -768,9 +922,16 @@
         3.4
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       },
@@ -784,9 +945,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       }
@@ -808,7 +976,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -821,7 +989,7 @@
    "zero_pose": [
     {
      "inst": 3,
-     "cable_clear_mm": 1.04,
+     "cable_clear_mm": 0.95,
      "drilled_tie_spot_mm": 61.8
     }
    ],
@@ -844,9 +1012,9 @@
    },
    "volume_mm3": [
     76995.7,
-    77157.3
+    77157.9
    ],
-   "added_mm3": 161.6,
+   "added_mm3": 162.2,
    "analytic_hole_mm3": 162.8,
    "n_closed": 2,
    "n_kept": 6,
@@ -864,9 +1032,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       },
@@ -880,9 +1055,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       }
@@ -904,7 +1086,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -925,9 +1107,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       },
@@ -941,9 +1130,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       }
@@ -965,7 +1161,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1001,9 +1197,9 @@
    },
    "volume_mm3": [
     1694.9,
-    1717.3
+    1717.6
    ],
-   "added_mm3": 22.4,
+   "added_mm3": 22.7,
    "analytic_hole_mm3": 23.0,
    "n_closed": 2,
    "n_kept": 3,
@@ -1021,9 +1217,16 @@
         0.004
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 45.0,
+        "cap_faces": 480,
         "ok": true
        }
       },
@@ -1037,9 +1240,16 @@
         -0.004
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       }
@@ -1056,7 +1266,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1077,9 +1287,16 @@
         0.004
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 45.0,
+        "cap_faces": 480,
         "ok": true
        }
       },
@@ -1093,9 +1310,16 @@
         -0.004
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       }
@@ -1112,7 +1336,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1131,7 +1355,7 @@
     {
      "inst": 134,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 117.9
+     "drilled_tie_spot_mm": 117.8
     }
    ],
    "seats": null
@@ -1140,7 +1364,7 @@
    "stl": "flash_light_module",
    "src": "print/flash_light_module.stl",
    "out": "<OUT>/stl/flash_light_module.stl",
-   "bytes": 922884,
+   "bytes": 1253984,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -1153,9 +1377,9 @@
    },
    "volume_mm3": [
     12520.1,
-    12847.4
+    12837.9
    ],
-   "added_mm3": 327.3,
+   "added_mm3": 317.8,
    "analytic_hole_mm3": 285.4,
    "n_closed": 8,
    "n_kept": 1,
@@ -1180,17 +1404,24 @@
       {
        "open": true,
        "R": 2.75,
-       "cap": "fitted to the part surface: floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
-       "n_pts": 36,
+       "cap": "fitted to the part surface: face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.008 mm",
+       "n_pts": 77,
        "surface_rise_mm": [
-        0.0,
-        4.375
+        0.001,
+        5.329
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.01,
         "proud_mm": 0.0,
-        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
+        "ref": "face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.008 mm",
         "ok": true
+       },
+       "smooth": {
+        "seam_deg": 12.4,
+        "cap_step_deg": 13.0,
+        "around_step_deg": 45.0,
+        "cap_faces": 2016,
+        "ok": false
        }
       }
      ],
@@ -1206,7 +1437,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.01
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1234,17 +1465,24 @@
       {
        "open": true,
        "R": 2.75,
-       "cap": "fitted to the part surface: floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
-       "n_pts": 36,
+       "cap": "fitted to the part surface: face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.010 mm",
+       "n_pts": 77,
        "surface_rise_mm": [
-        0.0,
-        4.375
+        -0.001,
+        5.329
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.012,
         "proud_mm": 0.0,
-        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
+        "ref": "face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.010 mm",
         "ok": true
+       },
+       "smooth": {
+        "seam_deg": 12.3,
+        "cap_step_deg": 13.1,
+        "around_step_deg": 45.3,
+        "cap_faces": 2016,
+        "ok": false
        }
       }
      ],
@@ -1260,7 +1498,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.012
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1281,9 +1519,16 @@
         -0.001
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.5,
+        "around_step_deg": 0.0,
+        "cap_faces": 1316,
         "ok": true
        }
       },
@@ -1314,7 +1559,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1335,9 +1580,16 @@
         -0.001
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.4,
+        "around_step_deg": 0.0,
+        "cap_faces": 1282,
         "ok": true
        }
       },
@@ -1368,7 +1620,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1389,9 +1641,16 @@
         0.001
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.6,
+        "around_step_deg": 0.0,
+        "cap_faces": 1382,
         "ok": true
        }
       },
@@ -1422,7 +1681,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1443,9 +1702,16 @@
         0.001
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.6,
+        "around_step_deg": 0.0,
+        "cap_faces": 1343,
         "ok": true
        }
       },
@@ -1476,7 +1742,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1504,17 +1770,24 @@
       {
        "open": true,
        "R": 2.75,
-       "cap": "fitted to the part surface: floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
-       "n_pts": 36,
+       "cap": "fitted to the part surface: face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.008 mm",
+       "n_pts": 77,
        "surface_rise_mm": [
-        0.001,
-        4.399
+        0.0,
+        5.356
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.01,
         "proud_mm": 0.0,
-        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
+        "ref": "face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.008 mm",
         "ok": true
+       },
+       "smooth": {
+        "seam_deg": 12.4,
+        "cap_step_deg": 13.1,
+        "around_step_deg": 45.3,
+        "cap_faces": 2016,
+        "ok": false
        }
       }
      ],
@@ -1530,7 +1803,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.01
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1558,17 +1831,24 @@
       {
        "open": true,
        "R": 2.75,
-       "cap": "fitted to the part surface: floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
-       "n_pts": 36,
+       "cap": "fitted to the part surface: face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.008 mm",
+       "n_pts": 77,
        "surface_rise_mm": [
-        0.001,
-        4.399
+        0.0,
+        5.356
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.01,
         "proud_mm": 0.0,
-        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.63 mm)",
+        "ref": "face and wall (thin plate spline wall, C1 blend 1.50 mm), ring residual 0.008 mm",
         "ok": true
+       },
+       "smooth": {
+        "seam_deg": 12.4,
+        "cap_step_deg": 13.1,
+        "around_step_deg": 45.1,
+        "cap_faces": 2016,
+        "ok": false
        }
       }
      ],
@@ -1584,7 +1864,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.01
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1607,7 +1887,7 @@
    "stl": "head",
    "src": "print/head.stl",
    "out": "<OUT>/stl/head.stl",
-   "bytes": 2256484,
+   "bytes": 2309484,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -1620,9 +1900,9 @@
    },
    "volume_mm3": [
     229350.2,
-    229918.8
+    229920.6
    ],
-   "added_mm3": 568.6,
+   "added_mm3": 570.4,
    "analytic_hole_mm3": 572.0,
    "n_closed": 14,
    "n_kept": 153,
@@ -1640,9 +1920,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       },
@@ -1653,7 +1940,8 @@
        "flush": {
         "ok": null,
         "note": "no surface round the end (it lies inside the part)"
-       }
+       },
+       "smooth": null
       }
      ],
      "segs": [
@@ -1673,7 +1961,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1694,9 +1982,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       },
@@ -1707,7 +2002,8 @@
        "flush": {
         "ok": null,
         "note": "no surface round the end (it lies inside the part)"
-       }
+       },
+       "smooth": null
       }
      ],
      "segs": [
@@ -1727,7 +2023,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1748,9 +2044,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       },
@@ -1761,7 +2064,8 @@
        "flush": {
         "ok": null,
         "note": "no surface round the end (it lies inside the part)"
-       }
+       },
+       "smooth": null
       }
      ],
      "segs": [
@@ -1781,7 +2085,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1802,9 +2106,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       },
@@ -1815,7 +2126,8 @@
        "flush": {
         "ok": null,
         "note": "no surface round the end (it lies inside the part)"
-       }
+       },
+       "smooth": null
       }
      ],
      "segs": [
@@ -1835,7 +2147,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1856,9 +2168,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       },
@@ -1879,7 +2198,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1900,9 +2219,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       },
@@ -1923,7 +2249,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -1944,9 +2270,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       },
@@ -1964,6 +2297,13 @@
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
         "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 0,
+        "ok": true
        }
       }
      ],
@@ -1979,7 +2319,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2000,9 +2340,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       },
@@ -2020,6 +2367,13 @@
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
         "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 0,
+        "ok": true
        }
       }
      ],
@@ -2035,7 +2389,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2056,9 +2410,16 @@
         -0.046
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 384,
         "ok": true
        }
       },
@@ -2079,7 +2440,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2093,16 +2454,23 @@
       {
        "open": true,
        "R": 0.82,
-       "cap": "fitted to the part surface: plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.077 mm",
-       "n_pts": 72,
+       "cap": "fitted to the part surface: smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
+       "n_pts": 108,
        "surface_rise_mm": [
-        -0.15,
-        -0.012
+        -0.24,
+        -0.04
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
-        "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.077 mm",
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 4.1,
+        "cap_step_deg": 1.1,
+        "around_step_deg": 5.4,
+        "cap_faces": 1073,
         "ok": true
        }
       },
@@ -2123,7 +2491,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2144,9 +2512,16 @@
         -0.046
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       },
@@ -2160,9 +2535,16 @@
         0.046
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       }
@@ -2179,7 +2561,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2200,9 +2582,16 @@
         -0.046
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       },
@@ -2216,9 +2605,16 @@
         0.046
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       }
@@ -2235,7 +2631,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2256,9 +2652,16 @@
         -0.046
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       },
@@ -2272,9 +2675,16 @@
         0.046
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       }
@@ -2291,7 +2701,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2312,9 +2722,16 @@
         -0.046
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       },
@@ -2328,9 +2745,16 @@
         0.046
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       }
@@ -2347,7 +2771,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2383,9 +2807,9 @@
    },
    "volume_mm3": [
     65907.4,
-    66680.8
+    66689.2
    ],
-   "added_mm3": 773.5,
+   "added_mm3": 781.8,
    "analytic_hole_mm3": 785.5,
    "n_closed": 6,
    "n_kept": 4,
@@ -2403,9 +2827,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       },
@@ -2419,9 +2850,16 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 288,
         "ok": true
        }
       }
@@ -2443,7 +2881,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2464,9 +2902,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       },
@@ -2480,9 +2925,16 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 288,
         "ok": true
        }
       }
@@ -2504,7 +2956,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2525,9 +2977,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       },
@@ -2541,9 +3000,16 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 288,
         "ok": true
        }
       }
@@ -2565,7 +3031,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2586,9 +3052,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       },
@@ -2602,9 +3075,16 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 288,
         "ok": true
        }
       }
@@ -2626,7 +3106,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2647,9 +3127,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 592,
         "ok": true
        }
       },
@@ -2663,9 +3150,16 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 592,
         "ok": true
        }
       }
@@ -2682,7 +3176,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2703,9 +3197,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 730,
         "ok": true
        }
       },
@@ -2719,9 +3220,16 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 730,
         "ok": true
        }
       }
@@ -2738,7 +3246,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2774,9 +3282,9 @@
    },
    "volume_mm3": [
     1427.6,
-    1450.0
+    1450.2
    ],
-   "added_mm3": 22.5,
+   "added_mm3": 22.6,
    "analytic_hole_mm3": 22.8,
    "n_closed": 2,
    "n_kept": 3,
@@ -2794,9 +3302,16 @@
         0.004
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 432,
         "ok": true
        }
       },
@@ -2817,7 +3332,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2838,9 +3353,16 @@
         0.004
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 432,
         "ok": true
        }
       },
@@ -2861,7 +3383,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2884,7 +3406,7 @@
    "stl": "leg_spacer",
    "src": "print/leg_spacer.stl",
    "out": "<OUT>/stl/leg_spacer.stl",
-   "bytes": 311084,
+   "bytes": 650884,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -2897,9 +3419,9 @@
    },
    "volume_mm3": [
     7050.7,
-    7340.1
+    7339.7
    ],
-   "added_mm3": 289.5,
+   "added_mm3": 289.1,
    "analytic_hole_mm3": 271.4,
    "n_closed": 2,
    "n_kept": 2,
@@ -2910,32 +3432,46 @@
       {
        "open": true,
        "R": 3.0,
-       "cap": "fitted to the part surface: quadratic, ring residual 0.055 mm",
-       "n_pts": 180,
+       "cap": "fitted to the part surface: smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
+       "n_pts": 108,
        "surface_rise_mm": [
-        0.057,
-        0.69
+        0.04,
+        0.695
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
-        "ref": "quadratic, ring residual 0.055 mm",
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 2.3,
+        "cap_step_deg": 2.1,
+        "around_step_deg": 3.3,
+        "cap_faces": 2112,
         "ok": true
        }
       },
       {
        "open": true,
        "R": 3.0,
-       "cap": "fitted to the part surface: quadratic, ring residual 0.055 mm",
-       "n_pts": 180,
+       "cap": "fitted to the part surface: smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
+       "n_pts": 108,
        "surface_rise_mm": [
-        0.057,
-        0.69
+        0.04,
+        0.695
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
-        "ref": "quadratic, ring residual 0.055 mm",
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 2.3,
+        "cap_step_deg": 2.1,
+        "around_step_deg": 0.7,
+        "cap_faces": 2112,
         "ok": true
        }
       }
@@ -2952,7 +3488,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -2966,32 +3502,46 @@
       {
        "open": true,
        "R": 3.0,
-       "cap": "fitted to the part surface: quadratic, ring residual 0.055 mm",
-       "n_pts": 180,
+       "cap": "fitted to the part surface: smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
+       "n_pts": 108,
        "surface_rise_mm": [
-        0.057,
-        0.69
+        0.04,
+        0.695
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
-        "ref": "quadratic, ring residual 0.055 mm",
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 2.3,
+        "cap_step_deg": 2.1,
+        "around_step_deg": 0.0,
+        "cap_faces": 2112,
         "ok": true
        }
       },
       {
        "open": true,
        "R": 3.0,
-       "cap": "fitted to the part surface: quadratic, ring residual 0.055 mm",
-       "n_pts": 180,
+       "cap": "fitted to the part surface: smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
+       "n_pts": 108,
        "surface_rise_mm": [
-        0.057,
-        0.69
+        0.04,
+        0.695
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
-        "ref": "quadratic, ring residual 0.055 mm",
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 2.3,
+        "cap_step_deg": 2.1,
+        "around_step_deg": 0.0,
+        "cap_faces": 2112,
         "ok": true
        }
       }
@@ -3008,7 +3558,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3022,22 +3572,22 @@
     {
      "inst": 46,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 63.5
+     "drilled_tie_spot_mm": 61.8
     },
     {
      "inst": 54,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 12.5
+     "drilled_tie_spot_mm": 12.3
     },
     {
      "inst": 80,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 139.4
+     "drilled_tie_spot_mm": 137.4
     },
     {
      "inst": 88,
      "cable_clear_mm": null,
-     "drilled_tie_spot_mm": 137.7
+     "drilled_tie_spot_mm": 137.8
     }
    ],
    "seats": null
@@ -3081,6 +3631,13 @@
         "proud_mm": 0.268,
         "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 1.16 mm)",
         "ok": false
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 44,
+        "ok": true
        }
       },
       {
@@ -3092,10 +3649,17 @@
        "n_pts": 0,
        "plane_shift": -0.02,
        "flush": {
-        "dimple_mm": 1.47,
-        "proud_mm": 0.0,
-        "ref": "floor and rim (the face at the hole plus the rise of the surface just outside it in each direction; ring not one smooth surface nor two faces, residual 0.95 mm)",
+        "dimple_mm": 1.446,
+        "proud_mm": 0.011,
+        "ref": "smooth (thin plate spline on the 3 inner rings), ring residual 0.000 mm",
         "ok": false
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 13,
+        "ok": true
        }
       }
      ],
@@ -3147,9 +3711,9 @@
    },
    "volume_mm3": [
     4628.8,
-    4648.3
+    4648.4
    ],
-   "added_mm3": 19.5,
+   "added_mm3": 19.6,
    "analytic_hole_mm3": 19.8,
    "n_closed": 2,
    "n_kept": 3,
@@ -3167,9 +3731,16 @@
         0.004
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       },
@@ -3190,7 +3761,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3211,9 +3782,16 @@
         0.004
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       },
@@ -3234,7 +3812,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3257,7 +3835,7 @@
    "stl": "speaker_interface",
    "src": "print/speaker_interface.stl",
    "out": "<OUT>/stl/speaker_interface.stl",
-   "bytes": 295284,
+   "bytes": 295384,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -3270,9 +3848,9 @@
    },
    "volume_mm3": [
     1803.9,
-    1820.6
+    1820.9
    ],
-   "added_mm3": 16.7,
+   "added_mm3": 17.0,
    "analytic_hole_mm3": 18.4,
    "n_closed": 2,
    "n_kept": 3,
@@ -3290,9 +3868,16 @@
         -0.077
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       },
@@ -3306,9 +3891,16 @@
         -0.023
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       }
@@ -3325,7 +3917,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3346,9 +3938,16 @@
         -0.077
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       },
@@ -3362,9 +3961,16 @@
         -0.023
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       }
@@ -3381,7 +3987,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3404,7 +4010,7 @@
    "stl": "speaker_stand",
    "src": "print/speaker_stand.stl",
    "out": "<OUT>/stl/speaker_stand.stl",
-   "bytes": 1416584,
+   "bytes": 1416084,
    "watertight": true,
    "reread": {
     "watertight": true,
@@ -3417,9 +4023,9 @@
    },
    "volume_mm3": [
     6986.1,
-    7081.6
+    7082.3
    ],
-   "added_mm3": 95.5,
+   "added_mm3": 96.3,
    "analytic_hole_mm3": 96.4,
    "n_closed": 6,
    "n_kept": 4,
@@ -3437,9 +4043,16 @@
         0.02
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       },
@@ -3453,9 +4066,16 @@
         -0.02
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       }
@@ -3472,7 +4092,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3493,9 +4113,16 @@
         0.02
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       },
@@ -3509,9 +4136,16 @@
         -0.02
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 480,
         "ok": true
        }
       }
@@ -3528,7 +4162,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3549,9 +4183,16 @@
         0.023
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       },
@@ -3565,9 +4206,16 @@
         -0.023
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       }
@@ -3584,7 +4232,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3605,9 +4253,16 @@
         0.023
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       },
@@ -3621,9 +4276,16 @@
         -0.023
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       }
@@ -3640,7 +4302,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3661,9 +4323,16 @@
         0.101
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.1,
+        "around_step_deg": 0.0,
+        "cap_faces": 508,
         "ok": true
        }
       },
@@ -3677,9 +4346,16 @@
         -0.008
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.003 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.1,
+        "cap_step_deg": 0.1,
+        "around_step_deg": 6.0,
+        "cap_faces": 508,
         "ok": true
        }
       }
@@ -3696,7 +4372,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3717,9 +4393,16 @@
         0.105
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 509,
         "ok": true
        }
       },
@@ -3733,9 +4416,16 @@
         0.004
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.003 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.1,
+        "around_step_deg": 6.0,
+        "cap_faces": 509,
         "ok": true
        }
       }
@@ -3752,7 +4442,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3788,9 +4478,9 @@
    },
    "volume_mm3": [
     144679.0,
-    144711.3
+    144711.4
    ],
-   "added_mm3": 32.3,
+   "added_mm3": 32.4,
    "analytic_hole_mm3": 31.4,
    "n_closed": 2,
    "n_kept": 24,
@@ -3812,6 +4502,13 @@
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
         "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 0,
+        "ok": true
        }
       },
       {
@@ -3824,9 +4521,16 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       }
@@ -3843,7 +4547,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3868,6 +4572,13 @@
         "proud_mm": 0.0,
         "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
         "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 0,
+        "ok": true
        }
       },
       {
@@ -3880,9 +4591,16 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane (inner rings: the face at the hole on a small boss or near an edge), ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 415,
         "ok": true
        }
       }
@@ -3899,7 +4617,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -3912,7 +4630,7 @@
    "zero_pose": [
     {
      "inst": 11,
-     "cable_clear_mm": 7.41,
+     "cable_clear_mm": 7.4,
      "drilled_tie_spot_mm": 92.0
     }
    ],
@@ -3935,9 +4653,9 @@
    },
    "volume_mm3": [
     141586.7,
-    142625.9
+    142628.4
    ],
-   "added_mm3": 1039.1,
+   "added_mm3": 1041.7,
    "analytic_hole_mm3": 1044.4,
    "n_closed": 4,
    "n_kept": 4,
@@ -3955,9 +4673,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 346,
         "ok": true
        }
       },
@@ -3971,9 +4696,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       }
@@ -3995,7 +4727,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -4016,9 +4748,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 346,
         "ok": true
        }
       },
@@ -4032,9 +4771,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       }
@@ -4056,7 +4802,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -4077,9 +4823,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 346,
         "ok": true
        }
       },
@@ -4093,9 +4846,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       }
@@ -4117,7 +4877,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -4138,9 +4898,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 346,
         "ok": true
        }
       },
@@ -4154,9 +4921,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 634,
         "ok": true
        }
       }
@@ -4178,7 +4952,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -4191,7 +4965,7 @@
    "zero_pose": [
     {
      "inst": 0,
-     "cable_clear_mm": 6.17,
+     "cable_clear_mm": 6.22,
      "drilled_tie_spot_mm": 20.3
     }
    ],
@@ -4214,9 +4988,9 @@
    },
    "volume_mm3": [
     76995.7,
-    77157.3
+    77157.9
    ],
-   "added_mm3": 161.6,
+   "added_mm3": 162.2,
    "analytic_hole_mm3": 162.8,
    "n_closed": 2,
    "n_kept": 6,
@@ -4234,9 +5008,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       },
@@ -4250,9 +5031,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       }
@@ -4274,7 +5062,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -4295,9 +5083,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       },
@@ -4311,9 +5106,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       }
@@ -4335,7 +5137,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -4371,9 +5173,9 @@
    },
    "volume_mm3": [
     151113.2,
-    151524.0
+    151525.2
    ],
-   "added_mm3": 410.8,
+   "added_mm3": 412.0,
    "analytic_hole_mm3": 282.8,
    "n_closed": 4,
    "n_kept": 8,
@@ -4391,9 +5193,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       },
@@ -4407,9 +5216,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       }
@@ -4431,7 +5247,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -4452,9 +5268,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       },
@@ -4468,9 +5291,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
         "ok": true
        }
       }
@@ -4492,7 +5322,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -4513,10 +5343,17 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 2.0,
         "ref": "plane, ring residual 0.000 mm",
         "ok": false
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
+        "ok": true
        }
       },
       {
@@ -4529,9 +5366,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       }
@@ -4553,7 +5397,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -4574,10 +5418,17 @@
         3.4
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 2.0,
         "ref": "plane, ring residual 0.000 mm",
         "ok": false
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 528,
+        "ok": true
        }
       },
       {
@@ -4590,9 +5441,16 @@
         0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
+        "ok": true
+       },
+       "smooth": {
+        "seam_deg": 0.0,
+        "cap_step_deg": 0.0,
+        "around_step_deg": 0.0,
+        "cap_faces": 442,
         "ok": true
        }
       }
@@ -4614,7 +5472,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -4699,9 +5557,9 @@
    "nonmanifold_edges": 0,
    "volume_mm3": [
     8495.0,
-    8502.2
+    8502.3
    ],
-   "added_mm3": 7.2,
+   "added_mm3": 7.3,
    "n_closed": 1,
    "plugs": [
     {
@@ -4716,7 +5574,7 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
         "ok": true
@@ -4732,7 +5590,7 @@
         0.1
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
         "ok": true
@@ -4751,7 +5609,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",
@@ -4771,9 +5629,9 @@
    "nonmanifold_edges": 0,
    "volume_mm3": [
     8495.0,
-    8502.2
+    8502.3
    ],
-   "added_mm3": 7.2,
+   "added_mm3": 7.3,
    "n_closed": 1,
    "plugs": [
     {
@@ -4788,7 +5646,7 @@
         -0.0
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
         "ok": true
@@ -4804,7 +5662,7 @@
         0.1
        ],
        "flush": {
-        "dimple_mm": 0.02,
+        "dimple_mm": 0.005,
         "proud_mm": 0.0,
         "ref": "plane, ring residual 0.000 mm",
         "ok": true
@@ -4823,7 +5681,7 @@
        "how": "surface-fitted cap",
        "overlap_mm3": 0.0,
        "fails": 0,
-       "worst": 0.02
+       "worst": 0.005
       }
      ],
      "cap_method": "surface-fitted cap",

@@ -2,7 +2,7 @@
 
 ## Note 2026-11-04 11:01 PM ET: D42 uniform screw patterns and flush caps
 
-15 STLs in print/ rebuilt from their pre-D39 STLs (twin/holes/close_holes.py, twin/holes/HOLES_TWIN.md addendum): body_front (F071 open again, F069 closed), body_back (F027 pilot open again), head_bot_sheet and head (F084, F090 open again, F088 closed), battery_pack_lid back to its pre-D39 STL, and every plug cap fitted to the part surface (the back shell ear dimples are gone). Each output is watertight, same bounds, no overlap with any part; plug ends flush within 0.05 mm except neck_right_sheet 130 (a hole across a step, explained in the addendum). Follow-up 2026-11-04 11:36 PM ET: the flash_light_module boss bottoms are flush now (the conical caps are gone). CAD check only.
+15 STLs in print/ rebuilt from their pre-D39 STLs (twin/holes/close_holes.py, twin/holes/HOLES_TWIN.md addendum): body_front (F071 open again, F069 closed), body_back (F027 pilot open again), head_bot_sheet and head (F084, F090 open again, F088 closed), battery_pack_lid back to its pre-D39 STL, and every plug cap fitted to the part surface (the back shell ear dimples are gone). Each output is watertight, same bounds, no overlap with any part; plug ends flush within 0.05 mm except neck_right_sheet 130 (a hole across a step, explained in the addendum). Follow-up 2026-11-04 11:36 PM ET: the flash_light_module boss bottoms are flush now (the conical caps are gone). Follow-up 2026-11-05 12:36 AM ET: every cap rebuilt; the boss-bottom caps follow the face and the fillet beside it with no peak or crease, caps sit 0.005 to 0.02 mm under the surface; all 15 changed STLs re-sliced. CAD check only.
 
 ## Note 2026-11-04 10:12 PM ET: D39 closed holes
 

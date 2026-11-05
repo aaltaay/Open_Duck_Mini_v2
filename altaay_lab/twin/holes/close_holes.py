@@ -232,9 +232,12 @@ def poly(UV, deg):
 
 def fit_h(fit, UV):
     """height of the fitted surface along a_out at points UV of the end's (u, v) frame"""
-    if fit["kind"].startswith("two planes"):
-        h1, h2 = poly(UV, 1) @ fit["p1"], poly(UV, 1) @ fit["p2"]
-        return np.minimum(h1, h2) if fit["op"] == "min" else np.maximum(h1, h2)
+    if fit["kind"].startswith("smooth"):
+        return fit["rbf"](UV)
+    if fit["kind"].startswith("face and wall"):
+        return poly(UV, 1) @ fit["p_face"] + blend(fit["rbf"](UV), fit["k"])
+    if fit["kind"].startswith("two faces"):
+        return fillet_h(fit["p1"], fit["p2"], fit["op"], fit["rho"], UV)
     if fit["kind"] != "floor and rim":
         return poly(UV, fit["deg"]) @ fit["coef"]
     # floor and rim: the face the hole sits on (a plane), plus, in each direction, the rise or fall of the part
@@ -242,6 +245,102 @@ def fit_h(fit, UV):
     r = np.minimum(np.hypot(UV[:, 0], UV[:, 1]) / fit["r0"], 1.0)
     e = np.interp(np.mod(np.arctan2(UV[:, 1], UV[:, 0]), 2 * np.pi), fit["th"], fit["e_in"], period=2 * np.pi)
     return poly(UV, 1) @ fit["p_floor"] + e * r ** 2
+
+
+def blend(x, k):
+    """0 for x <= -k, x for x >= k, a quadratic (C1) between: the fillet at the foot of a wall, in heights"""
+    return np.where(x <= -k, 0.0, np.where(x >= k, x, (x + k) ** 2 / (4 * k)))
+
+
+def floor_wall(UV, t, R, th):
+    """a hole on a face at the foot of a wall or fillet (the ring is flat on one side and rises steeply on the
+    other): the face as a plane, the wall as a thin plate spline W of the height over the face, joined by the C1
+    blend of width k: h = face + blend(W, k). On the face W is held at -k - 0.2 (exactly the face); every ring point
+    is met. k is the one that meets the ring best. None if under 30 % of the ring lies on one face."""
+    from scipy.interpolate import RBFInterpolator
+    A = poly(UV, 1); rng = np.random.default_rng(5); best = None
+    for _ in range(300):
+        s3 = rng.choice(len(t), 3, replace=False)
+        try:
+            p = np.linalg.solve(A[s3], t[s3])
+        except np.linalg.LinAlgError:
+            continue
+        n = int((np.abs(A @ p - t) < 0.03).sum())
+        if best is None or n > best[1]:
+            best = (p, n)
+    if best is None or best[1] < 0.3 * len(t):
+        return None
+    inl = np.abs(A @ best[0] - t) < 0.03
+    p_face = np.linalg.lstsq(A[inl], t[inl], rcond=None)[0]
+    e = t - A @ p_face
+    if e.max() < 0.3:                             # no wall rising from the face
+        return None
+    on = e >= -0.03                               # points below the face lie on another face further out (a chamfer
+    UV, t, e, A = UV[on], t[on], e[on], A[on]     # at the edge of a boss): they do not bound the cap
+    out = None
+    gi = np.array([(r * np.cos(q), r * np.sin(q)) for r in np.linspace(0, R, 8) for q in th])
+    for k in (0.1, 0.2, 0.3, 0.5, 0.75, 1.0, 1.5):
+        x = np.where(e <= 0.01, -k - 0.2, np.where(e >= k, e, 2 * np.sqrt(k * np.maximum(e, 0)) - k))
+        rbf = RBFInterpolator(UV, x, kernel="thin_plate_spline", smoothing=1e-4)
+        h = A @ p_face + blend(rbf(UV), k)
+        res = float(np.abs(h - t).max())
+        hg = poly(gi, 1) @ p_face + blend(rbf(gi), k)
+        if hg.max() > t.max() + 0.05:
+            res = float("inf")
+        if out is None or res < out["res"] - 0.01 or (res <= out["res"] + 0.01 and res <= RING_TOL):   # ties: the wider, softer blend
+            out = dict(kind="face and wall (thin plate spline wall, C1 blend %.2f mm)" % k, p_face=p_face, rbf=rbf, k=k, res=res, n=len(t))
+    # a flat wall: its foot runs straight across the hole, joined to the face by a rolling-ball fillet (preferred
+    # when it meets the ring within RING_TOL: the fillet line outside the hole carries on straight through it)
+    wall = e > 0.5
+    if wall.sum() >= 6:
+        p_wall = np.linalg.lstsq(A[wall], t[wall], rcond=None)[0]
+        for rho in (0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0):
+            h = fillet_h(p_face, p_wall, "max", rho, UV)
+            res = float(np.abs(h - t).max())
+            hg = fillet_h(p_face, p_wall, "max", rho, gi)
+            if hg.max() > t.max() + 0.05:
+                continue
+            if res <= RING_TOL and (out is None or out["kind"].startswith("face and wall (thin") or res < out["res"]):
+                out = dict(kind="two faces (concave corner, fillet %.2f mm)" % rho, p1=p_face, p2=p_wall, op="max", rho=rho, res=res, n=len(t), planar_wall=True)
+    return out
+
+
+def fillet_h(p1, p2, op, rho, UV, iters=40):
+    """height field of two faces (planes p1, p2 as heights over the end frame) joined as the part has them: a concave
+    corner (op max: the air is above both) or a convex edge (op min: the part is under both), with a fillet of radius
+    rho (the wedge eroded and dilated by rho, exact rolling-ball fillet); rho 0 is the sharp join"""
+    h1, h2 = poly(UV, 1) @ p1, poly(UV, 1) @ p2
+    if rho <= 0:
+        return np.minimum(h1, h2) if op == "min" else np.maximum(h1, h2)
+    def plane(p):
+        n = np.array([-p[1], -p[2], 1.0]); L = np.linalg.norm(n)
+        return n / L, p[0] / L          # n . X = d on the face, n points out of the part
+    (n1, d1), (n2, d2) = plane(p1), plane(p2)
+    sg = 1.0 if op == "max" else -1.0  # the wedge that gets rounded: the air (max) or the part (min)
+    m1, m2 = sg * n1, sg * n2
+    b1, b2 = sg * d1 + rho, sg * d2 + rho          # E = {m . X >= b}: the wedge eroded by rho
+    if abs(m1 @ m2) > 0.995:            # two parallel faces (a step): no fillet between them, the sharp join
+        return np.minimum(h1, h2) if op == "min" else np.maximum(h1, h2)
+    G = np.array([[m1 @ m1, m1 @ m2], [m2 @ m1, m2 @ m2]]); Gi = np.linalg.inv(G)
+    def dist(X):
+        v1 = b1 - X @ m1; v2 = b2 - X @ m2
+        out = np.full(len(X), np.inf)
+        inside = (v1 <= 0) & (v2 <= 0); out[inside] = 0.0
+        Y1 = X + v1[:, None] * m1; ok1 = (v1 > 0) & (Y1 @ m2 >= b2 - 1e-9); out[ok1] = np.minimum(out[ok1], v1[ok1])
+        Y2 = X + v2[:, None] * m2; ok2 = (v2 > 0) & (Y2 @ m1 >= b1 - 1e-9); out[ok2] = np.minimum(out[ok2], v2[ok2])
+        ab = np.stack([v1, v2], 1) @ Gi.T
+        de = np.linalg.norm(ab[:, :1] * m1 + ab[:, 1:] * m2, axis=1)
+        rest = ~inside & ~ok1 & ~ok2; out[rest] = de[rest]
+        return out
+    lo = np.minimum(h1, h2) - rho - 2.0; hi = np.maximum(h1, h2) + rho + 2.0
+    for _ in range(iters):
+        mid = (lo + hi) / 2
+        inw = dist(np.c_[UV, mid]) <= rho
+        if op == "max":     # air above the surface: in the rounded air wedge -> go down
+            hi = np.where(inw, mid, hi); lo = np.where(inw, lo, mid)
+        else:               # part under the surface: in the rounded part wedge -> go up
+            lo = np.where(inw, mid, lo); hi = np.where(inw, hi, mid)
+    return (lo + hi) / 2
 
 
 def two_planes(UV, t, tol=0.03, it=300):
@@ -273,10 +372,11 @@ def two_planes(UV, t, tol=0.03, it=300):
         return None
     out = None
     for op in ("min", "max"):
-        h = np.minimum(A @ p1, A @ p2) if op == "min" else np.maximum(A @ p1, A @ p2)
-        r = np.sort(np.abs(h - t))[int(0.95 * len(t)) - 1]
-        if out is None or r < out["res"]:
-            out = dict(kind="two planes (%s)" % op, op=op, p1=p1, p2=p2, res=float(r), n=len(t))
+        for rho in (0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0):
+            h = fillet_h(p1, p2, op, rho, UV)
+            r = np.sort(np.abs(h - t))[int(0.95 * len(t)) - 1]
+            if out is None or r < out["res"] - 1e-4:
+                out = dict(kind="two faces (%s, fillet %.2f mm)" % ("concave corner" if op == "max" else "convex edge", rho), op=op, rho=rho, p1=p1, p2=p2, res=float(r), n=len(t))
     return out
 
 
@@ -313,6 +413,28 @@ def surface_fit(m, ray, c, a_out, R):
             cands.append(dict(u=u, v=v, coef=coef, deg=deg, res=res, n=int(sel.sum()), H=H, kind=kind))
             if res <= RING_TOL:
                 break
+        # smooth: thin plate spline through the 3 inner rings (each direction up to its first jump of more than 1 mm,
+        # where the ring leaves the face round the hole), the smoothest surface that meets the part all round
+        T = t.reshape(len(RING_DR), len(th)); keep = np.zeros_like(T, bool)
+        for j in range(len(th)):
+            for i in range(3):
+                if not np.isfinite(T[i, j]) or (i > 0 and abs(T[i, j] - T[i - 1, j]) > 1.0):
+                    break
+                keep[i, j] = True
+        kk = keep.ravel()
+        if kk.sum() >= 0.7 * 3 * len(th):
+            from scipy.interpolate import RBFInterpolator
+            rbf = RBFInterpolator(UV[kk], t[kk], kernel="thin_plate_spline", smoothing=1e-4)
+            res = float(np.abs(rbf(UV[kk]) - t[kk]).max())
+            gi = np.array([(r * np.cos(q), r * np.sin(q)) for r in np.linspace(0, R, 6) for q in th])
+            hg = rbf(gi)
+            if hg.max() > t[kk].max() + 0.05 or hg.min() < t[kk].min() - 0.05:
+                res = float("inf")
+            cands.append(dict(u=u, v=v, rbf=rbf, deg=5, res=res, n=int(kk.sum()), H=H, kind="smooth (thin plate spline on the 3 inner rings)"))
+            fw = floor_wall(UV[kk], t[kk], R, th)
+            if fw:
+                fw.update(u=u, v=v, H=H, deg=4 if fw.get("planar_wall") else 6)
+                cands.append(fw)
         tp = two_planes(UV[ok], t[ok])
         if tp:
             tp.update(u=u, v=v, H=H, deg=9)
@@ -348,7 +470,7 @@ def surface_fit(m, ray, c, a_out, R):
         e_in = t1 - poly(UV[:n], 1) @ p_floor
         good = [dict(u=u, v=v, kind="floor and rim", th=th, e_in=e_in, p_floor=p_floor, r0=R + RING_DR[0], H=6.0, deg=99, n=len(k),
                      res=min([c_["res"] for c_ in cands if np.isfinite(c_["res"])], default=99.0), floor_share=round(len(inl) / max(len(idx), 1), 2))]
-    best = min(good, key=lambda c_: (c_["deg"], c_["res"]))
+    best = min(good, key=lambda c_: (int(c_["res"] / 0.02), c_["deg"], c_["res"]))   # the best fit (0.02 mm steps), then the simplest
     g = np.array([(r * np.cos(t), r * np.sin(t)) for r in np.linspace(0, R + R_EXTRA + 0.5, 6) for t in th])
     h = fit_h(best, g)
     best.update(lo=float(h.min()), hi=float(h.max()))
@@ -357,12 +479,17 @@ def surface_fit(m, ray, c, a_out, R):
 
 
 def heightfield(c, a_out, fit, Rc, depth, n_r=8, n_th=48):
-    """solid under the fitted surface (minus CAP_IN) over a disk of radius Rc, down to -depth along a_out"""
+    """solid under the fitted surface (minus CAP_IN) over a disk of radius Rc, down to -depth along a_out; a curved cap
+    gets a fine grid (about 0.1 mm), so the cap shades smooth"""
     u, v = fit["u"], fit["v"]
+    if fit["deg"] != 1:     # finer toward the rim, where a wall or fillet meets the cap
+        n_r, n_th = 20, 96
     th = np.linspace(0, 2 * np.pi, n_th, endpoint=False)
-    rs = np.linspace(0, Rc, n_r + 1)[1:]
+    sgrid = np.linspace(0, 1, n_r + 1)[1:]
+    rs = Rc * (1 - (1 - sgrid) ** 2) if fit["deg"] != 1 else Rc * sgrid
     UV = np.vstack([[0.0, 0.0]] + [np.c_[r * np.cos(th), r * np.sin(th)] for r in rs])
-    h = fit_h(fit, UV) - CAP_IN
+    cap_in = min(CAP_IN, max(0.005, fit["res"] + 0.002)) if np.isfinite(fit["res"]) else CAP_IN   # just under the surface: no line at the rim
+    h = fit_h(fit, UV) - cap_in
     P = c + UV[:, :1] * u + UV[:, 1:2] * v
     top = P + h[:, None] * a_out; bot = P - depth * a_out
     V = np.vstack([top, bot]); nv = len(UV); F = []
@@ -428,6 +555,43 @@ def flush_of(mesh_new, ray_new, e):
     dev = np.where(np.isfinite(dev), dev, -99.0)          # no surface over the disk: an open hole
     return dict(dimple_mm=round(float(max(0.0, -dev.min())), 3), proud_mm=round(float(max(0.0, dev.max())), 3), ref=note,
                 ok=bool(-dev.min() <= FLUSH_TOL and dev.max() <= 1e-3))
+
+
+def smooth_of(mesh_new, ray_new, e, src=None):
+    """shading check of a cap: the normal step across the seam (part surface just outside the rim against the cap
+    just inside, same direction) and the largest normal step between neighbouring cap triangles, beside the largest
+    step between neighbouring triangles of the part's own surface round the hole (its tessellation)"""
+    fit, _ = surface_fit(mesh_new, ray_new, e["c"], e["a_out"], e["R"])
+    if fit is None:
+        return None
+    u, v, a, c, R = fit["u"], fit["v"], e["a_out"], e["c"], e["R"]
+    th = np.linspace(0, 2 * np.pi, 48, endpoint=False) + 0.05
+    def normals_at(rr):
+        UV = np.c_[rr * np.cos(th), rr * np.sin(th)]
+        O = c + a * fit["H"] + UV[:, :1] * u + UV[:, 1:2] * v
+        loc, ir, it = ray_new.intersects_location(O, np.tile(-a, (len(O), 1)), multiple_hits=True)
+        best = {}
+        for k in range(len(loc)):
+            if mesh_new.face_normals[it[k]] @ a <= 0.05:
+                continue
+            h = (loc[k] - c) @ a
+            if h < fit["H"] - 0.05 and (ir[k] not in best or h > best[ir[k]][0]):
+                best[ir[k]] = (h, mesh_new.face_normals[it[k]])
+        return best
+    ni, no = normals_at(R - 0.12), normals_at(R + 0.12)
+    seam = [np.degrees(np.arccos(np.clip(ni[k][1] @ no[k][1], -1, 1))) for k in ni if k in no]
+    P = mesh_new.triangles_center - c; r_ = np.hypot(P @ u, P @ v); hh = P @ a
+    href = fit_h(fit, np.c_[P @ u, P @ v])
+    near = (np.abs(hh - href) < 0.3) & (mesh_new.face_normals @ a > 0.2) & (mesh_new.area_faces > 1e-4)   # no slivers
+    cap = np.where(near & (r_ < R - 0.05))[0]; ring = np.where(near & (r_ > R + 0.3) & (r_ < R + 1.5))[0]
+    adj, ang = mesh_new.face_adjacency, np.degrees(mesh_new.face_adjacency_angles)
+    def step(F):
+        sel = np.isin(adj[:, 0], F) & np.isin(adj[:, 1], F)
+        return round(float(ang[sel].max()), 1) if sel.any() else 0.0
+    cs, rs = step(cap), step(ring)
+    sm = round(float(max(seam)), 1) if seam else None
+    return dict(seam_deg=sm, cap_step_deg=cs, around_step_deg=rs, cap_faces=int(len(cap)),
+                ok=bool((sm is None or sm <= 5.0) and cs <= max(5.0, rs + 0.5)))
 
 
 def build_plug(m, ray, segs):
@@ -725,6 +889,8 @@ for src, mesh_path, twin_name in jobs:
         for j, (rec, e) in enumerate(zip(info["ends"], info.pop("_ends"))):
             if e["open"]:
                 rec["flush"] = COVERED if COV[gi][j] else flush_of(rb, ray_new, e)
+                if not COV[gi][j]:
+                    rec["smooth"] = smooth_of(rb, ray_new, e)
     reread = dict(watertight=bool(rb.is_watertight), open_edges=int((ec == 1).sum()), nonmanifold_edges=int((ec > 2).sum()))
     es, esc = np.unique(m.edges_sorted, axis=0, return_counts=True)
     src_edges = dict(open_edges=int((esc == 1).sum()), nonmanifold_edges=int((esc > 2).sum()))

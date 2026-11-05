@@ -18,14 +18,14 @@
    "g_d39": 78.28,
    "g_d42": 78.48,
    "s_d39": 22992,
-   "s_d42": 23099,
+   "s_d42": 23097,
    "model_g_d39": 70.14,
    "model_g_d42": 70.34,
    "rings_d42": {
     "pilot": 5
    },
    "dg": 0.2,
-   "dh": 0.03,
+   "dh": 0.029,
    "dg_vs_pre_d39": 0.05
   },
   "body_front.stl": {
@@ -46,7 +46,7 @@
    "g_d39": 106.41,
    "g_d42": 106.35,
    "s_d39": 33407,
-   "s_d42": 33534,
+   "s_d42": 33533,
    "model_g_d39": 90.93,
    "model_g_d42": 90.93,
    "rings_d42": {
@@ -76,7 +76,7 @@
    "g_d39": 2.06,
    "g_d42": 2.06,
    "s_d39": 594,
-   "s_d42": 594,
+   "s_d42": 595,
    "model_g_d39": 2.05,
    "model_g_d42": 2.05,
    "rings_d42": {},
@@ -87,27 +87,27 @@
   "flash_light_module.stl": {
    "qty": 1,
    "g_d39": 8.56,
-   "g_d42": 8.42,
+   "g_d42": 8.41,
    "s_d39": 2888,
-   "s_d42": 2703,
+   "s_d42": 2701,
    "model_g_d39": 8.36,
-   "model_g_d42": 8.23,
+   "model_g_d42": 8.22,
    "rings_d42": {},
-   "dg": -0.14,
-   "dh": -0.051,
-   "dg_vs_pre_d39": 0.02
+   "dg": -0.15,
+   "dh": -0.052,
+   "dg_vs_pre_d39": 0.01
   },
   "head.stl": {
    "qty": 1,
    "g_d39": 262.01,
    "g_d42": 262.37,
    "s_d39": 78374,
-   "s_d42": 78746,
+   "s_d42": 78758,
    "model_g_d39": 232.48,
    "model_g_d42": 232.84,
    "rings_d42": {},
    "dg": 0.36,
-   "dh": 0.103,
+   "dh": 0.107,
    "dg_vs_pre_d39": 0.36
   },
   "head_bot_sheet.stl": {
@@ -141,14 +141,14 @@
    "g_d39": 6.02,
    "g_d42": 6.01,
    "s_d39": 2605,
-   "s_d42": 2598,
+   "s_d42": 2601,
    "model_g_d39": 5.96,
    "model_g_d42": 5.95,
    "rings_d42": {
     "insert": 4
    },
    "dg": -0.01,
-   "dh": -0.002,
+   "dh": -0.001,
    "dg_vs_pre_d39": -1.16
   },
   "right_eye.stl": {
@@ -156,12 +156,12 @@
    "g_d39": 4.5,
    "g_d42": 4.5,
    "s_d39": 1295,
-   "s_d42": 1295,
+   "s_d42": 1294,
    "model_g_d39": 4.49,
    "model_g_d42": 4.49,
    "rings_d42": {},
    "dg": 0.0,
-   "dh": 0.0,
+   "dh": -0.0,
    "dg_vs_pre_d39": -0.06
   },
   "speaker_interface.stl": {
@@ -182,12 +182,12 @@
    "g_d39": 10.03,
    "g_d42": 10.04,
    "s_d39": 4006,
-   "s_d42": 4030,
+   "s_d42": 4009,
    "model_g_d39": 7.62,
    "model_g_d42": 7.63,
    "rings_d42": {},
    "dg": 0.01,
-   "dh": 0.007,
+   "dh": 0.001,
    "dg_vs_pre_d39": -0.07
   },
   "trunk_top.stl": {
@@ -195,23 +195,23 @@
    "g_d39": 75.08,
    "g_d42": 75.0,
    "s_d39": 22074,
-   "s_d42": 22029,
+   "s_d42": 22014,
    "model_g_d39": 67.25,
    "model_g_d42": 67.17,
    "rings_d42": {},
    "dg": -0.08,
-   "dh": -0.013,
+   "dh": -0.017,
    "dg_vs_pre_d39": -0.08
   }
  },
  "total": {
-  "dg_set": 0.3,
-  "dh_set": 0.138,
-  "dg_model_robot": 0.35,
+  "dg_set": 0.29,
+  "dh_set": 0.134,
+  "dg_model_robot": 0.34,
   "vs_pre_d39": {
-   "dg": -6.31,
-   "dh": -1.161
+   "dg": -6.32,
+   "dh": -1.165
   },
-  "note": "D42 against D39 (2e after), x quantity; light profile, slice.py parts --only; body_back, flash_light_module, head, speaker_stand re-sliced again after the D42 follow-up caps"
+  "note": "D42 against D39 (2e after), x quantity; light profile, slice.py parts --only; every changed STL re-sliced after the 2026-11-05 12:36 AM ET cap rebuild"
  }
 }
