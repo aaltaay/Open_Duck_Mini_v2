@@ -574,22 +574,22 @@
   "sts3250_low": {
    "policy": {
     "replays": 36,
-    "pack_peak_A": 13.97,
-    "held_4ms_A": 13.47,
+    "pack_peak_A": 14.34,
+    "held_4ms_A": 13.75,
     "longest_over_17A_ms": 0.0,
     "trips_17A_4ms": 0
    },
    "walk": {
     "replays": 4,
-    "pack_peak_A": 6.69,
-    "held_4ms_A": 6.46,
+    "pack_peak_A": 6.89,
+    "held_4ms_A": 6.65,
     "longest_over_17A_ms": 0.0,
     "trips_17A_4ms": 0
    },
    "other": {
     "replays": 212,
-    "pack_peak_A": 13.38,
-    "held_4ms_A": 12.99,
+    "pack_peak_A": 13.85,
+    "held_4ms_A": 13.45,
     "longest_over_17A_ms": 0.0,
     "trips_17A_4ms": 0
    }

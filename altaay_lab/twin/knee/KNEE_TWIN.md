@@ -80,10 +80,11 @@ The track 1b set (v1_elec fix_runs.py: 29 fall-stop shoves, 9 policy-on-the-floo
 | Walk 20 s at 0.15 m/s (plain model) | 1.353 m | **0.277 m** | 0.277 m | 1.321 m |
 | Guard steps that cut (shoves / floor / ladder / walk) | 7 / 22 / 22 / 0 | 0 / 5 / 15 / 0 | 0 / 5 / 10 / 0 | |
 | Servo bus held 4 ms, worst of shoves / floor / ladder | 9.56 / 9.47 / 10.06 A | 8.66 / 9.40 / 9.69 A | 8.08 / 9.41 / 9.58 A | |
-| Pack peak, held 4 ms: floor runs | 16.60, 15.89 A | 14.77, 14.08 A | 13.97, 13.47 A | |
-| Pack peak, held 4 ms: shoves and ladder | 14.54, 14.14 A | 15.17, 14.76 A | 13.38, 12.99 A | |
+| Pack peak, held 4 ms: floor runs | 16.60, 15.89 A | 14.77, 14.08 A | 14.34, 13.75 A | |
+| Pack peak, held 4 ms: shoves and ladder | 14.54, 14.14 A | 15.17, 14.76 A | 13.85, 13.45 A | |
 | Over 17 A, boards that trip (17 A after 4 ms) | 0 ms, 0 of 252 replays | 0 ms, 0 of 252 | 0 ms, 0 of 252 | |
 
+- Re-run 2026-11-05 with one fresh process per job and a guard that fails on a reused one: the first pack replay of the low end had run in a worker that still held the high end's replay scaling, so its pack numbers were 0.2 to 0.5 A low (13.97 / 13.47 A floor, 13.38 / 12.99 A shoves and ladder, 6.69 / 6.46 A walk; now 14.34 / 13.75, 13.85 / 13.45, 6.89 / 6.65). Falls, walk, guard steps, bus sums, get-ups, the structure loads and the sessions were unchanged (each session and the structure runs had their own process).
 - The C001 column reproduces ELECTRICAL_TWIN.md track 1b to the digit (15.89 A floor, 14.14 A ladder): the replay is the same.
 - The 1b guard still holds with STS3250 knees: 0 trips at 17 A. The stronger knees raise the push peak by 0.6 A (14.76 A held 4 ms) and lower the floor case by 1.8 A.
 - Get-ups (the library's programs, every rest pose of our build, floor friction 1.0): C001 back 19 of 19 at 7.2 V and 19 of 19 at 6.0 V, side 10 of 10 at both. STS3250: back 19 of 19 at 7.2 V but **17 of 19 at 6.0 V** (ramp_10_up and ramp_20_up), side 10 of 10 at both. The stored front program does not load in either run (a ValueError in optimize.py, the same in both): not compared.
