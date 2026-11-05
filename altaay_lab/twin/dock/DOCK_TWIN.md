@@ -9,7 +9,7 @@ is a port of osrf/autodock), D44 (2S1P Molicel P45B pack), D45 (simplest, cheape
 
 - **Behaviour code:** osrf/autodock (Apache-2.0, fd9c2a9) ported with no ROS to `altaay_lab/software/dock/autodock/`, the four
   upstream bugs fixed, and a duck layer on top. All motion goes through measured pulse tables in `duck_autodock.yaml`, so the
-  retrained walk of track 10 (creep, symmetric turns, small sidesteps) can be swapped in by changing tables, not code. 11 unit tests.
+  retrained walk of track 10 (creep, symmetric turns, small sidesteps) can be swapped in by changing tables, not code. 15 unit tests.
 - **Dock:** a 40 mm wide seat at 112 mm on a short spine between the feet, a **sprung, swivelling chest paddle** (40 mm travel,
   3 N at full travel, +/- 10 deg about a vertical pin so it lies flat on a yawed chest) with three spring pins, and a three-tag mast
   (tag36h11 id 0 at 40 mm in the centre, ids 1 and 2 at 60 mm, 200 mm apart).
@@ -59,7 +59,7 @@ prints (the spring cup twice), 916 g of PLA, 67.0 h. The six mast face pieces ar
 | autodock/autodock_base.py | autodock_server.py | ROS removed, every robot call through a DockIO object; publish_cmd clamps each axis against its own range (bug 1) and gains a lateral axis (bug 4); every exit(0) became a zero command and return False (bug 3) |
 | autodock/duck_autodock.py | simple_autodock.py | the states rewritten for this policy (below) |
 | duck_autodock.yaml | turtlebot3.yaml | the duck values and the pulse tables |
-| tests/test_autodock.py | (new) | the fixes, frame round trips, full docks of a planar stand-in with the policy's measured response, a retry, the lost-tag recovery, a give-up, a replay of side-tag looks recorded in the gym |
+| tests/test_autodock.py | (new) | the fixes, frame round trips, full docks of a planar stand-in with the policy's measured response, a retry, the lost-tag recovery, the undock (after a long charge, detections on), both gates not waived, a give-up, a replay of side-tag looks recorded in the gym |
 
 What the duck layer does, and why (gym probes, sim pass only):
 - The stock policy does not step under a 0.10 forward command, **does not step right at all** (vy -0.2: 0 mm in 2 s; vy +0.2:
@@ -79,6 +79,12 @@ What the duck layer does, and why (gym probes, sim pass only):
   the dock put a foot on the spine), then find the staging point again. When the tags are lost, the duck turns to the mast position
   remembered on odometry and steps back until it is 0.55 m away, before any blind search (facing the saved axis heading left the
   mast out of view from 0.2 m off the axis, and the blind search then turned the duck away). At most 3 retries.
+- Gates are never waived (PR 20 review): when the ENTER gate's sidesteps run out with the lateral error over 30 mm, STEER_DOCK
+  fails and the duck retries; at the last-mile check point, after its checks the duck walks in only within 20 mm and 4 deg (the
+  soles' clearance of the seat), else it retries.
+- UNDOCK (after the dock's wake pulse): stand, then the same back-off, with its own 90 s timeout budget (a charge outlasts the
+  docking timeout) and the tag detections on for the retreat (they are off while docked), off again at the end. The sim checks
+  it after every dock.
 
 ## 4. The docking sim (the shared lab gym, overlay gym/overlays/duck, `dock/`; sim pass only)
 
@@ -122,8 +128,9 @@ Walking into a rigid stop, or reaching it early in the crouch, pitches the trunk
 | acc6 | chest strips 20 mm tall (vertical +/- 9.5 mm) (stopped before the soft floor) | 15/20 | 5/20 | |
 | acc7 | swivelling paddle; a look may miss one frame; check point 0.16 m back, 15 mm lateral there; no heading hold in the walk-in; lost tags: face the remembered mast (stopped after the soft floor) | | | 6/20 |
 | acc8 | right moves: a weak turn is topped up and the diagonal walk capped | 18/20 | 16/20 | 10/20 |
-| acc9 | right moves at the check point only with 0.12 m of room (else one back pulse first); no walk-in unless centred and square (stopped after 16 hard runs, not better; reverted, the code is acc8's) | 13/16 | | |
+| acc9 | right moves at the check point only with 0.12 m of room (else one back pulse first); no walk-in unless centred and square (stopped after 16 hard runs, not better; reverted; acc10 brings back only its walk-in limit, as a hard limit of 20 mm and 4 deg) | 13/16 | | |
 | mat1 | acc8 code, the soft floor with a rigid mat flush with it under the last 0.78 m (option, section 4.6) | | | 0/20 (18 tripped at the mat edge) |
+| acc10 | review fixes (PR 20 and 24): the sim's settle now holds kp 2 (acc8 held 4 in the 9 settle sits), gates fail instead of being waived (never triggered here), the undock's own timeout and detections; an undock after every dock | 18/20 | 16/20 | 10/20 |
 
 Each rate is docked within 3 tries with no fall. Every failure in acc6 to acc8, by cause:
 - acc6 (19 runs): 6 sits with the chest yawed 4.5 to 6 deg on the fixed paddle, pins 2.5 to 3.9 mm off the chest (fixed by the
@@ -144,28 +151,32 @@ Each rate is docked within 3 tries with no fall. Every failure in acc6 to acc8, 
   seat or the spine).
 
 ### 4.5 Precision at the seat (docked runs; sim pass only)
-Run acc8 (the code in this repo), 20 seeds per floor. Lateral and yaw: the trunk at the end against the dock axis; fore-aft: how far
-the chest pushed the paddle (0 to 40 mm is inside the window); pin errors against the strip centre lines.
+Run acc10 (the code in this repo, with the review fixes), 20 seeds per floor. Lateral and yaw: the trunk at the end against the
+dock axis; fore-aft: how far the chest pushed the paddle (0 to 40 mm is inside the window); pin errors against the strip centre
+lines. Undock: after each dock the charge is taken to outlast dock_timeout, then the duck stands and backs off to the retreat
+distance (0.47 m from the tags) without a fall.
 
-| Floor | Docked within 3 tries | Tries used (1 / 2 / 3 / 4) | Falls | Lateral mean / worst | Yaw mean / worst | Paddle push mean (min to max) | Pin across the strip, mean / worst | Pin height, mean / worst | Time to dock, mean / worst |
-|---|---|---|---|---|---|---|---|---|---|
-| hard | 18/20 | 9 / 6 / 3 / 1 | 0 | 10.9 / 20.7 mm | 3.7 / 16.7 deg | 16.9 (9.9 to 29.1) mm | 13.1 / 40.3 mm | 0.4 / 1.2 mm | 90 / 231 s |
-| train | 16/20 | 10 / 5 / 1 / 0 | 1 | 9.3 / 19.9 mm | 3.5 / 6.3 deg | 22.2 (6.9 to 29.6) mm | 9.2 / 23.4 mm | 0.7 / 2.6 mm | 66 / 190 s |
-| soft | 10/20 | 10 / 0 / 0 / 0 | 10 | 7.5 / 18.1 mm | 3.4 / 7.8 deg | 11.7 (2.6 to 19.7) mm | 9.1 / 27.6 mm | 0.0 / 0.2 mm | 47 / 72 s |
+| Floor | Docked within 3 tries | Tries used (1 / 2 / 3 / 4) | Falls | Lateral mean / worst | Yaw mean / worst | Paddle push mean (min to max) | Pin across the strip, mean / worst | Pin height, mean / worst | Time to dock, mean / worst | Undock |
+|---|---|---|---|---|---|---|---|---|---|---|
+| hard | 18/20 | 9 / 6 / 3 / 1 | 0 | 10.3 / 20.7 mm | 3.8 / 16.7 deg | 16.8 (9.9 to 29.1) mm | 12.7 / 40.3 mm | 0.4 / 1.1 mm | 90 / 231 s | 19/19 |
+| train | 16/20 | 10 / 5 / 1 / 0 | 1 | 9.3 / 19.9 mm | 3.5 / 6.3 deg | 22.3 (6.9 to 30.3) mm | 9.2 / 23.4 mm | 0.8 / 3.2 mm | 65 / 190 s | 16/16 |
+| soft | 10/20 | 10 / 0 / 0 / 0 | 10 | 7.2 / 18.1 mm | 2.7 / 7.4 deg | 12.0 (2.6 to 19.7) mm | 9.1 / 27.6 mm | 0.0 / 0.2 mm | 46 / 72 s | 0/10, all fell |
 
-Every docked run is inside the pin window (+/- 49.5 mm across, +/- 9.5 mm in height, 0 to 40 mm push) with margin; the worst yaw
+The rates are the same as acc8: the 9 settle sits now hold kp 2 and 6 of them end 1 to 4 s sooner, no outcome changed, and the
+gates never ran out of corrections. Every docked run is inside the pin window (+/- 49.5 mm across, +/- 9.5 mm in height, 0 to 40 mm push) with margin; the worst yaw
 (16.7 deg, one hard run) was taken by the swivel at its 10 deg stop with the pins 1.4 mm from the chest. The soles touched the sides
 of the seat while walking on 13 of the 20 hard runs and 10 of the 20 training-floor runs (no fall from it); the closest sole edge on
 the soft floor stayed 14 mm away. The precision is good enough for the pins; the rate is set by retries and falls, not by the pin
 window.
 
 ### 4.6 The bar is not met: numbers and the best options
-Best run (acc8): hard 18/20, train 16/20, soft 10/20 docked within 3 tries; falls 0, 1 and 10. The bar is 19/20 per floor with no
-fall. It is not lowered here. Options, best first:
+Best runs (acc8, and acc10 with the review fixes): hard 18/20, train 16/20, soft 10/20 docked within 3 tries; falls 0, 1 and 10.
+Undocking works on the hard and the training floor (19/19, 16/16) and fails on the soft floor (0/10, every one a fall on the back
+pulses). The bar is 19/20 per floor with no fall. It is not lowered here. Options, best first:
 1. **The retrained walk of track 10** (backing on soft floors, creep, symmetric turns, right sidesteps). The soft-floor failures are
-   the stock policy's backing (it falls on the first back pulse on the soft floor), and the hard and train failures start at the
-   last-mile check point, where a right move (turn, walk, turn back) walked the duck up to the stop with the tags out of view (traced
-   on one run). Its measured pulse tables go into duck_autodock.yaml with no code change, and a right sidestep removes the
+   the stock policy's backing (it falls on the first back pulse on the soft floor, so there it can neither retry nor undock), and
+   the hard and train failures start at the last-mile check point, where a right move (turn, walk, turn back) walked the duck up
+   to the stop with the tags out of view (traced on one run). Its measured pulse tables go into duck_autodock.yaml with no code change, and a right sidestep removes the
    turn-walk-turn branch.
 2. **A rigid dock mat under the last 0.78 m** (hardware, cheap: a hardboard or PETG plate; the seat and the spine stand on it), so
    the docking moves (stop-and-go, sit, stand, back-off) happen on a hard floor whatever the room. Not yet shown: in mat1 the
