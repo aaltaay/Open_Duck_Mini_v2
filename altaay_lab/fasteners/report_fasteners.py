@@ -50,6 +50,16 @@ def main():
                 note = "D38: left out by the V1 screw cut (twin/screws/data/phase2_fasteners.json); hole kept"
                 if note not in r.get("notes", []):
                     r["notes"] = r.get("notes", []) + [note]
+    # ---- D39 (V1 holes job, twin/holes/HOLES_TWIN.md): one more screw out, the left eye diagonal, holes closed
+    c39 = os.path.join(os.path.dirname(HERE), "twin", "holes", "data", "d39_fasteners.json")
+    if os.path.exists(c39):
+        C39 = json.load(open(c39))
+        for r in R:
+            if r["id"] in C39["screws_cut"] or r["id"] in C39["inserts_cut"]:
+                r["status"], r["leave_out"] = "LEAVE OUT (D39 screw cut)", True
+            elif r["id"] in C39["refit"]:
+                r["status"] = None; r.pop("leave_out", None)
+            r["notes"] = [n.replace("; hole kept", "; hole closed (D39)") if n.startswith("D38") else n for n in r.get("notes", [])]
     screws = [r for r in R if r["kind"] == "screw"]
     inserts = [r for r in R if r["kind"] == "insert" and not r.get("leave_out")]
     hits = D.get("sweep", {}).get("hits", [])

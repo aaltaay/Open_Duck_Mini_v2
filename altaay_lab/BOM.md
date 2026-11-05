@@ -40,8 +40,8 @@ Subtotal: $735.72
 
 | # | Item | Spec | Need | Buy | Pack | Line $ | Supplier | Link | Ships to USA | Verified |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 16 | M3 heat-set insert | CNC Kitchen M3 x 5.7, D1 4.6 mm, hole 4.0 mm | 48 | 100 | 100 | 10.90 | CNC Kitchen USA | https://cnckitchenus.store/products/heat-set-insert-m3-x-5-7-100-pieces | Yes (US store) | Yes |
-| 17a | M3x8 SHCS | DIN 912 A2 stainless, Bolt Depot 6379 | 18 | 33 | each | 1.98 | Bolt Depot | https://boltdepot.com/Product-Details?product=6379 | Yes (US) | Yes. Need 28 by the per-screw count (fasteners/FASTENERS.md section 2; was 44), Buy cut to the spare rule. $0.06 each from the earlier read (52 for $3.12); Bolt Depot refused plain curl at 2026-11-01 10:30 PM ET (HTTP 403, Cloudflare challenge), so not re-read |
+| 16 | M3 heat-set insert | CNC Kitchen M3 x 5.7, D1 4.6 mm, hole 4.0 mm | 47 | 100 | 100 | 10.90 | CNC Kitchen USA | https://cnckitchenus.store/products/heat-set-insert-m3-x-5-7-100-pieces | Yes (US store) | Yes |
+| 17a | M3x8 SHCS | DIN 912 A2 stainless, Bolt Depot 6379 | 17 | 33 | each | 1.98 | Bolt Depot | https://boltdepot.com/Product-Details?product=6379 | Yes (US) | Yes. D39: Need 17 (F076 out, back shell on 6 with the ear seats, twin/holes/HOLES_TWIN.md). Need 28 by the per-screw count (fasteners/FASTENERS.md section 2; was 44), Buy cut to the spare rule. $0.06 each from the earlier read (52 for $3.12); Bolt Depot refused plain curl at 2026-11-01 10:30 PM ET (HTTP 403, Cloudflare challenge), so not re-read |
 | 17b | M3x10 SHCS | DIN 912 A2, Bolt Depot 6380 | 12 | 14 | each | 0.84 | Bolt Depot | https://boltdepot.com/Product-Details?product=6380 | Yes | Yes |
 | 17c | M3x12 SHCS | DIN 912 A2, Bolt Depot 6381 | 2 | 3 | each | 0.18 | Bolt Depot | https://boltdepot.com/Product-Details?product=6381 | Yes | Yes |
 | 17d | M3x6 SHCS | DIN 912 A2, Bolt Depot 6378 (horn screws; the 10 hip pitch sites take line 17j, D19) | 78 | 100 | 100 | 3.83 | Bolt Depot | https://boltdepot.com/Product-Details?product=6378 | Yes | Yes. Need 78 by the per-screw count (FASTENERS.md section 2; was 88); one pack of 100 still covers it |

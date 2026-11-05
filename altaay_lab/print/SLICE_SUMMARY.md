@@ -10,6 +10,8 @@ Settings: the light profile of DECISIONS.md D22 (print/MASS_STUDY.md variant c).
 
 V1 screws job, 2026-11-04 (D38): body_front, body_middle_top and body_middle_bottom re-sliced with `slice.py parts --only` (D22 light profile) after the tongue, groove, lips and ribs; the coupon session re-sliced with K1a to K4 added (S1 46.8 g, 4.69 h). Plates holding the 3 parts are moved by the part deltas (calc), not re-sliced; the before columns and the S1 gate fallback are from before.
 
+V1 holes job, 2026-11-05 (D39): every hole without a screw closed in 16 STLs (twin/holes/HOLES_TWIN.md); the 16 STLs and roll_motor_bottom re-sliced with `slice.py parts --only` (D22 light profile) before and after, same box: -6.38 g and -1.22 h for the robot set (x quantity), -4.2 g on the robot without supports. A closed hole drops its perimeter walls and, at insert and pilot bores, its solid ring (body_back 5 to 4 pilot rings, body_middle_top 8 to 6 and body_middle_bottom 7 to 4 insert rings). body_middle_bottom includes the 4 ear seats. The robot set totals above are not recomputed.
+
 ## What changed with D22
 
 - Robot set (36 STLs, 52 parts): 1280.3 g and 111.1 h, against 1409.0 g and 118.9 h before (-128.8 g, -7.8 h). On the robot: 1190.4 g against 1318.6 g (-128.2 g).
@@ -24,20 +26,20 @@ V1 screws job, 2026-11-04 (D38): body_front, body_middle_top and body_middle_bot
 
 | STL | Qty | Material | Profile | g each | h each | support g each | g total | h total | before g each | before h each |
 |---|---|---|---|---|---|---|---|---|---|---|
-| battery_pack_lid.stl | 1 | PLA | light (base) | 13.64 | 1.01 | 0.06 | 13.6 | 1.01 | 14.05 | 1.04 |
-| body_back.stl | 1 | PLA | rings (base + 5 pilot rings) | 78.43 | 6.46 | 8.08 | 78.4 | 6.46 | 88.06 | 6.94 |
-| body_front.stl | 1 | PLA | light (base) | 58.05 | 4.06 | 0.00 | 58.0 | 4.06 | 60.33 | 4.22 |
-| body_middle_bottom.stl | 1 | PLA | rings (base + 8 insert rings) | 107.45 | 9.38 | 15.54 | 107.5 | 9.38 | 116.52 | 9.53 |
-| body_middle_top.stl | 1 | PLA | rings (base + 8 insert rings) | 75.24 | 6.75 | 8.21 | 75.2 | 6.75 | 98.95 | 7.76 |
-| bulb.stl | 2 | PLA | light (base) | 2.04 | 0.17 | 0.00 | 4.1 | 0.34 | 2.05 | 0.17 |
-| flash_light_module.stl | 1 | PLA | light (base) | 8.40 | 0.80 | 0.32 | 8.4 | 0.80 | 9.13 | 0.87 |
+| battery_pack_lid.stl | 1 | PLA | light (base) | 13.61 | 0.99 | 0.05 | 13.6 | 0.99 | 14.05 | 1.04 |
+| body_back.stl | 1 | PLA | rings (base + 4 pilot rings) | 78.28 | 6.39 | 8.10 | 78.3 | 6.39 | 88.06 | 6.94 |
+| body_front.stl | 1 | PLA | light (base) | 57.56 | 3.94 | 0.00 | 57.6 | 3.94 | 60.33 | 4.22 |
+| body_middle_bottom.stl | 1 | PLA | rings (base + 4 insert rings) | 106.51 | 9.35 | 15.54 | 106.5 | 9.35 | 116.52 | 9.53 |
+| body_middle_top.stl | 1 | PLA | rings (base + 6 insert rings) | 74.57 | 6.62 | 7.74 | 74.6 | 6.62 | 98.95 | 7.76 |
+| bulb.stl | 2 | PLA | light (base) | 2.06 | 0.17 | 0.00 | 4.1 | 0.33 | 2.05 | 0.17 |
+| flash_light_module.stl | 1 | PLA | light (base) | 8.56 | 0.80 | 0.19 | 8.6 | 0.80 | 9.13 | 0.87 |
 | flash_reflector_interface.stl | 1 | PLA | light (base) | 2.32 | 0.24 | 0.05 | 2.3 | 0.24 | 2.57 | 0.25 |
 | foot_bottom_pla.stl | 2 | PLA | rings (base + 2 insert rings) | 9.84 | 0.78 | 0.37 | 19.7 | 1.56 | 10.89 | 0.85 |
 | foot_bottom_tpu.stl | 2 | TPU | light (base) | 17.57 | 2.18 | 0.00 | 35.1 | 4.37 | 18.15 | 2.25 |
 | foot_side.stl | 2 | PLA | light (base) | 13.68 | 1.14 | 0.70 | 27.4 | 2.28 | 14.87 | 1.23 |
 | foot_top.stl | 2 | PLA | rings (base + 2 insert rings) | 23.98 | 2.09 | 0.92 | 48.0 | 4.18 | 31.63 | 2.69 |
-| head.stl | 1 | PLA | heavy (insert) | 262.01 | 21.96 | 29.55 | 262.0 | 21.96 | 262.01 | 21.96 |
-| head_bot_sheet.stl | 1 | PLA | light (base) | 56.89 | 3.83 | 0.10 | 56.9 | 3.83 | 57.52 | 3.88 |
+| head.stl | 1 | PLA | heavy (insert) | 262.01 | 21.77 | 29.47 | 262.0 | 21.77 | 262.01 | 21.96 |
+| head_bot_sheet.stl | 1 | PLA | light (base) | 57.16 | 3.76 | 0.04 | 57.2 | 3.76 | 57.52 | 3.88 |
 | head_pitch_to_yaw.stl | 1 | PLA | heavy (neck) | 16.57 | 1.73 | 1.43 | 16.6 | 1.73 | 16.57 | 1.73 |
 | head_roll_mount.stl | 1 | PLA | heavy (neck+fit) | 15.74 | 1.42 | 0.40 | 15.7 | 1.42 | 15.74 | 1.42 |
 | head_yaw_to_roll.stl | 1 | PLA | heavy (neck+fit) | 29.05 | 2.81 | 1.83 | 29.1 | 2.81 | 29.04 | 2.81 |
@@ -45,21 +47,21 @@ V1 screws job, 2026-11-04 (D38): body_front, body_middle_top and body_middle_bot
 | knee_to_ankle_right_sheet.stl | 4 | PLA | heavy (wall3+fit) | 6.32 | 0.60 | 0.17 | 25.3 | 2.40 | 6.32 | 0.60 |
 | left_antenna_holder.stl | 1 | PLA | heavy (wall3) | 3.57 | 0.28 | 0.05 | 3.6 | 0.28 | 3.57 | 0.28 |
 | left_cache.stl | 1 | PLA | light (base) | 57.26 | 4.95 | 1.99 | 57.3 | 4.95 | 77.34 | 5.97 |
-| left_eye.stl | 1 | PLA | heavy (wall3) | 1.80 | 0.18 | 0.00 | 1.8 | 0.18 | 1.80 | 0.18 |
+| left_eye.stl | 1 | PLA | heavy (wall3) | 1.82 | 0.17 | 0.00 | 1.8 | 0.17 | 1.80 | 0.18 |
 | left_roll_to_pitch.stl | 1 | PLA | heavy (wall3+fit), D38 | 24.82 | 2.31 | 1.29 | 24.8 | 2.31 | 24.82 | 2.31 |
-| leg_spacer.stl | 4 | PLA | rings (base + 4 insert rings) | 7.17 | 0.85 | 0.16 | 28.7 | 3.41 | 8.83 | 1.00 |
+| leg_spacer.stl | 4 | PLA | rings (base + 4 insert rings) | 6.02 | 0.72 | 0.05 | 24.1 | 2.90 | 8.83 | 1.00 |
 | neck_left_sheet.stl | 1 | PLA | heavy (neck) | 7.49 | 0.70 | 0.17 | 7.5 | 0.70 | 7.49 | 0.70 |
-| neck_right_sheet.stl | 1 | PLA | heavy (neck) | 6.55 | 0.61 | 0.18 | 6.5 | 0.61 | 6.55 | 0.61 |
+| neck_right_sheet.stl | 1 | PLA | heavy (neck) | 6.68 | 0.62 | 0.18 | 6.7 | 0.62 | 6.55 | 0.61 |
 | right_antenna_holder.stl | 1 | PLA | heavy (wall3) | 3.57 | 0.28 | 0.05 | 3.6 | 0.28 | 3.57 | 0.28 |
 | right_cache.stl | 1 | PLA | light (base) | 57.21 | 4.95 | 1.99 | 57.2 | 4.95 | 77.32 | 6.03 |
-| right_eye.stl | 1 | PLA | heavy (wall3) | 4.56 | 0.38 | 0.01 | 4.6 | 0.38 | 4.56 | 0.38 |
+| right_eye.stl | 1 | PLA | heavy (wall3) | 4.50 | 0.36 | 0.00 | 4.5 | 0.36 | 4.56 | 0.38 |
 | right_roll_to_pitch.stl | 1 | PLA | heavy (wall3+fit), D38 | 24.82 | 2.33 | 1.30 | 24.8 | 2.33 | 24.82 | 2.33 |
 | roll_motor_bottom.stl | 2 | PLA | heavy (wall3) | 8.75 | 0.72 | 0.60 | 17.5 | 1.43 | 8.75 | 0.72 |
 | roll_motor_top.stl | 2 | PLA | light (fit) | 7.14 | 0.73 | 0.41 | 14.3 | 1.46 | 8.00 | 0.80 |
-| speaker_interface.stl | 1 | PLA | light (base) | 2.33 | 0.22 | 0.00 | 2.3 | 0.22 | 2.33 | 0.22 |
-| speaker_stand.stl | 1 | PLA | heavy (wall3) | 10.11 | 1.16 | 2.47 | 10.1 | 1.16 | 10.11 | 1.16 |
+| speaker_interface.stl | 1 | PLA | light (base) | 2.35 | 0.22 | 0.00 | 2.4 | 0.22 | 2.33 | 0.22 |
+| speaker_stand.stl | 1 | PLA | heavy (wall3) | 10.03 | 1.11 | 2.39 | 10.0 | 1.11 | 10.11 | 1.16 |
 | trunk_bottom.stl | 1 | PLA | heavy (insert+fit) | 41.99 | 3.54 | 0.28 | 42.0 | 3.54 | 41.99 | 3.54 |
-| trunk_top.stl | 1 | PLA | heavy (wall3+fit) | 75.08 | 6.14 | 7.79 | 75.1 | 6.14 | 75.08 | 6.14 |
+| trunk_top.stl | 1 | PLA | heavy (wall3+fit) | 75.08 | 6.13 | 7.79 | 75.1 | 6.13 | 75.08 | 6.14 |
 
 | Material | Parts | Grams | Hours | of which support g | Before grams | Before hours |
 |---|---|---|---|---|---|---|

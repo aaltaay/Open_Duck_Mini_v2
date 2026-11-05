@@ -1,0 +1,627 @@
+{
+ "body_back_F2": {
+  "bearing_per_screw_N": 424.0,
+  "lip_N": {
+   "+y": 2925.0,
+   "-y": 2925.0,
+   "z_up": 2261.0,
+   "z_down": 0.0,
+   "y": 2925.0,
+   "z": 0.0
+  },
+  "seats_N": 1704.0,
+  "seats": [
+   {
+    "ear": [
+     -45.0,
+     42.6
+    ],
+    "gap_before_mm": 0.3,
+    "fill_mm2": 10.4,
+    "seat_root_mm2": 34.1,
+    "bearing_width_mm": 7.6,
+    "depth_mm": 2.0,
+    "bearing_N": 711.0,
+    "root_shear_N": 433.0,
+    "capacity_N": 433.0
+   },
+   {
+    "ear": [
+     -45.0,
+     2.85
+    ],
+    "gap_before_mm": 0.3,
+    "fill_mm2": 9.6,
+    "seat_root_mm2": 33.0,
+    "bearing_width_mm": 7.6,
+    "depth_mm": 2.0,
+    "bearing_N": 711.0,
+    "root_shear_N": 419.0,
+    "capacity_N": 419.0
+   },
+   {
+    "ear": [
+     45.0,
+     42.6
+    ],
+    "gap_before_mm": 0.3,
+    "fill_mm2": 10.4,
+    "seat_root_mm2": 34.1,
+    "bearing_width_mm": 7.6,
+    "depth_mm": 2.0,
+    "bearing_N": 711.0,
+    "root_shear_N": 433.0,
+    "capacity_N": 433.0
+   },
+   {
+    "ear": [
+     45.0,
+     2.85
+    ],
+    "gap_before_mm": 0.3,
+    "fill_mm2": 9.6,
+    "seat_root_mm2": 33.0,
+    "bearing_width_mm": 7.6,
+    "depth_mm": 2.0,
+    "bearing_N": 711.0,
+    "root_shear_N": 419.0,
+    "capacity_N": 419.0
+   }
+  ],
+  "SF": {
+   "8 (before D38)": {
+    "soft": {
+     "side": 7.02,
+     "up": 6.28,
+     "down": 3.77
+    },
+    "mid": {
+     "side": 2.26,
+     "up": 2.02,
+     "down": 1.21
+    }
+   },
+   "8 (before D38) + seats": {
+    "soft": {
+     "side": 7.02,
+     "up": 6.28,
+     "down": 5.66
+    },
+    "mid": {
+     "side": 2.26,
+     "up": 2.02,
+     "down": 1.82
+    }
+   },
+   "7 (D38, today)": {
+    "soft": {
+     "side": 6.55,
+     "up": 5.81,
+     "down": 3.3
+    },
+    "mid": {
+     "side": 2.1,
+     "up": 1.87,
+     "down": 1.06
+    }
+   },
+   "7 (D38, today) + seats": {
+    "soft": {
+     "side": 6.55,
+     "up": 5.81,
+     "down": 5.19
+    },
+    "mid": {
+     "side": 2.1,
+     "up": 1.87,
+     "down": 1.67
+    }
+   },
+   "6 (D39: F076 out)": {
+    "soft": {
+     "side": 6.08,
+     "up": 5.34,
+     "down": 2.83
+    },
+    "mid": {
+     "side": 1.95,
+     "up": 1.72,
+     "down": 0.91
+    }
+   },
+   "6 (D39: F076 out) + seats": {
+    "soft": {
+     "side": 6.08,
+     "up": 5.34,
+     "down": 4.72
+    },
+    "mid": {
+     "side": 1.95,
+     "up": 1.72,
+     "down": 1.52
+    }
+   },
+   "5 (not taken)": {
+    "soft": {
+     "side": 5.61,
+     "up": 4.87,
+     "down": 2.36
+    },
+    "mid": {
+     "side": 1.8,
+     "up": 1.56,
+     "down": 0.76
+    }
+   },
+   "5 (not taken) + seats": {
+    "soft": {
+     "side": 5.61,
+     "up": 4.87,
+     "down": 4.25
+    },
+    "mid": {
+     "side": 1.8,
+     "up": 1.56,
+     "down": 1.37
+    }
+   }
+  },
+  "F1_one_screw": {
+   "walk": 104.3,
+   "soft": 7.0,
+   "mid": 2.4
+  },
+  "src": "twin/screws/data/joints.json, lips.json; seats: close_report.json"
+ },
+ "body_back_rattle": {
+  "8": 90.0,
+  "7": 90.0,
+  "6": 90.0,
+  "note": "largest straight gap between neighbouring screws round the rim, mm (rim pressed by the lips and seats in y and z)"
+ },
+ "left_eye": {
+  "before_kept": [
+   "F178",
+   "F183"
+  ],
+  "before_cut": [
+   "F179",
+   "F182"
+  ],
+  "after_kept": [
+   "F179",
+   "F182"
+  ],
+  "after_cut": [
+   "F178",
+   "F183"
+  ],
+  "F1_one_screw": {
+   "walk": 543.7,
+   "soft": 23.0,
+   "mid": 8.3
+  },
+  "diagonal_mm": {
+   "before": 35.4,
+   "after": 35.4
+  }
+ },
+ "board_seats": {
+  "Pi Zero 2 W": [
+   {
+    "site": 148,
+    "ends": [
+     {
+      "open": true,
+      "ring_flat_mm": 0.0,
+      "cap": "fitted to the seat ring"
+     },
+     {
+      "open": true,
+      "ring_flat_mm": null,
+      "cap": "square to the axis at the hole end (ring not flat)"
+     }
+    ]
+   },
+   {
+    "site": 149,
+    "ends": [
+     {
+      "open": true,
+      "ring_flat_mm": 0.0,
+      "cap": "fitted to the seat ring"
+     },
+     {
+      "open": true,
+      "ring_flat_mm": null,
+      "cap": "square to the axis at the hole end (ring not flat)"
+     }
+    ]
+   }
+  ],
+  "servo bus adapter": [
+   {
+    "site": 158,
+    "ends": [
+     {
+      "open": true,
+      "ring_flat_mm": null,
+      "cap": "square to the axis at the hole end (ring not flat)"
+     },
+     {
+      "open": true,
+      "ring_flat_mm": 0.206,
+      "cap": "fitted to the seat ring"
+     }
+    ]
+   },
+   {
+    "site": 159,
+    "ends": [
+     {
+      "open": true,
+      "ring_flat_mm": null,
+      "cap": "square to the axis at the hole end (ring not flat)"
+     },
+     {
+      "open": true,
+      "ring_flat_mm": 0.206,
+      "cap": "fitted to the seat ring"
+     }
+    ]
+   }
+  ],
+  "camera": [
+   {
+    "site": 233,
+    "ends": [
+     {
+      "open": true,
+      "ring_flat_mm": 0.0,
+      "cap": "fitted to the seat ring"
+     },
+     {
+      "open": false,
+      "ring_flat_mm": null,
+      "cap": "fitted to the seat ring"
+     }
+    ]
+   },
+   {
+    "site": 236,
+    "ends": [
+     {
+      "open": true,
+      "ring_flat_mm": 0.24,
+      "cap": "fitted to the seat ring"
+     },
+     {
+      "open": false,
+      "ring_flat_mm": null,
+      "cap": "fitted to the seat ring"
+     }
+    ]
+   }
+  ]
+ },
+ "plug_checks": {
+  "battery_pack_lid": {
+   "closed": 1,
+   "watertight": true,
+   "added_mm3": 47.1,
+   "hole_mm3": 47.5,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": 1.52,
+   "min_kept_hole_gap_mm": 42.25,
+   "bytes": 96984
+  },
+  "body_back": {
+   "closed": 5,
+   "watertight": true,
+   "added_mm3": 345.3,
+   "hole_mm3": 330.1,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": 5.56,
+   "min_kept_hole_gap_mm": 20.56,
+   "bytes": 384584
+  },
+  "body_front": {
+   "closed": 4,
+   "watertight": true,
+   "added_mm3": 1039.1,
+   "hole_mm3": 1044.4,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": 6.17,
+   "min_kept_hole_gap_mm": 15.4,
+   "bytes": 285384
+  },
+  "body_middle_bottom": {
+   "closed": 4,
+   "watertight": true,
+   "added_mm3": 280.7,
+   "hole_mm3": 282.8,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": 1.02,
+   "min_kept_hole_gap_mm": 35.57,
+   "bytes": 2145384
+  },
+  "body_middle_top": {
+   "closed": 2,
+   "watertight": true,
+   "added_mm3": 161.6,
+   "hole_mm3": 162.8,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": 17.9,
+   "bytes": 283684
+  },
+  "bulb": {
+   "closed": 2,
+   "watertight": true,
+   "added_mm3": 22.4,
+   "hole_mm3": 23.0,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.024,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": 12.14,
+   "bytes": 162684
+  },
+  "flash_light_module": {
+   "closed": 8,
+   "watertight": true,
+   "added_mm3": 280.1,
+   "hole_mm3": 285.4,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": 4.51,
+   "bytes": 511584
+  },
+  "head": {
+   "closed": 15,
+   "watertight": true,
+   "added_mm3": 672.9,
+   "hole_mm3": 678.7,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.26,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": 3.68,
+   "bytes": 1843684
+  },
+  "head_bot_sheet": {
+   "closed": 7,
+   "watertight": true,
+   "added_mm3": 821.8,
+   "hole_mm3": 834.8,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": 22.51,
+   "bytes": 260684
+  },
+  "left_eye": {
+   "closed": 2,
+   "watertight": true,
+   "added_mm3": 22.5,
+   "hole_mm3": 22.8,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": 1.64,
+   "bytes": 105884
+  },
+  "leg_spacer": {
+   "closed": 2,
+   "watertight": true,
+   "added_mm3": 268.9,
+   "hole_mm3": 271.4,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": 3.11,
+   "bytes": 153884
+  },
+  "neck_right_sheet": {
+   "closed": 1,
+   "watertight": true,
+   "added_mm3": 98.4,
+   "hole_mm3": 100.1,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": 6.38,
+   "min_kept_hole_gap_mm": 0.1,
+   "bytes": 184484
+  },
+  "right_eye": {
+   "closed": 2,
+   "watertight": true,
+   "added_mm3": 19.5,
+   "hole_mm3": 19.8,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": 1.95,
+   "bytes": 114484
+  },
+  "speaker_interface": {
+   "closed": 2,
+   "watertight": true,
+   "added_mm3": 16.7,
+   "hole_mm3": 18.4,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": 11.98,
+   "bytes": 160684
+  },
+  "speaker_stand": {
+   "closed": 6,
+   "watertight": true,
+   "added_mm3": 94.6,
+   "hole_mm3": 96.4,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.16,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": 5.15,
+   "bytes": 1127684
+  },
+  "trunk_top": {
+   "closed": 2,
+   "watertight": true,
+   "added_mm3": 29.6,
+   "hole_mm3": 31.4,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.226,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": 7.55,
+   "min_kept_hole_gap_mm": 9.01,
+   "bytes": 735884
+  },
+  "body_front_groove": {
+   "closed": 4,
+   "watertight": true,
+   "added_mm3": 1039.1,
+   "hole_mm3": 1044.4,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": 6.17,
+   "min_kept_hole_gap_mm": 15.4,
+   "bytes": 285384
+  },
+  "body_middle_top_lip": {
+   "closed": 2,
+   "watertight": true,
+   "added_mm3": 161.6,
+   "hole_mm3": 162.8,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": 17.9,
+   "bytes": 283684
+  },
+  "body_middle_bottom_lip": {
+   "closed": 4,
+   "watertight": true,
+   "added_mm3": 368.2,
+   "hole_mm3": 282.8,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": 1.06,
+   "min_kept_hole_gap_mm": 35.57,
+   "bytes": 2426484
+  },
+  "roll_motor_bottom_L": {
+   "closed": 1,
+   "watertight": true,
+   "added_mm3": 7.2,
+   "hole_mm3": null,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": null,
+   "bytes": 79484
+  },
+  "roll_motor_bottom_R": {
+   "closed": 1,
+   "watertight": true,
+   "added_mm3": 7.2,
+   "hole_mm3": null,
+   "bounds_same": true,
+   "max_cap_recess_mm": 0.02,
+   "never_proud": true,
+   "overlaps": [],
+   "min_cable_clear_mm": null,
+   "min_kept_hole_gap_mm": null,
+   "bytes": 79884
+  }
+ },
+ "sg90": {
+  "stall_torque_Nm": 0.177,
+  "torque_src": "[I] SG90 datasheet mirror (search text): 1.8 kgf cm at 4.8 V; other listings 1.2 to 1.6 kgf cm",
+  "cases": [
+   {
+    "sg90_inst": 119,
+    "screws": [
+     "F348",
+     "F349"
+    ],
+    "tab_spacing_mm": 27.5,
+    "two_screws_force_N": 6.4,
+    "one_screw_pocket_penetration_mm": {
+     "+0.25": 0.028,
+     "-0.25": 0.028,
+     "+0.50": 0.065,
+     "-0.50": 0.065,
+     "+1.00": 0.234,
+     "-1.00": 0.234,
+     "+2.00": 0.576,
+     "-2.00": 0.572
+    }
+   },
+   {
+    "sg90_inst": 120,
+    "screws": [
+     "F350",
+     "F351"
+    ],
+    "tab_spacing_mm": 27.5,
+    "two_screws_force_N": 6.4,
+    "one_screw_pocket_penetration_mm": {
+     "+0.25": 0.028,
+     "-0.25": 0.028,
+     "+0.50": 0.065,
+     "-0.50": 0.065,
+     "+1.00": 0.234,
+     "-1.00": 0.234,
+     "+2.00": 0.576,
+     "-2.00": 0.572
+    }
+   }
+  ],
+  "verdict": "kept at 2 per SG90: the stall torque alone is small, but the antenna hit when the head swings (G6) is not modelled (BLOCKER for a cut)"
+ }
+}

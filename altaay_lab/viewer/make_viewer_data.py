@@ -492,7 +492,8 @@ def load_fasteners(path=FASTENERS_JSON):
     n_draw = sum(1 for s in out if s["from_drawing"])
     return out, "%d screws from altaay_lab/fasteners/fasteners.json%s%s" % (
         len(out), (", %d with the length from the drawing, not yet chosen" % n_draw) if n_draw else "",
-        (" (skipped: " + ", ".join("%s %d" % kv for kv in skipped.items()) + ")") if skipped else "")
+        (" (not drawn: %d screws left out or not fitted; inserts are drawn from the CAD bores, %d insert rows in fasteners.json of which %d left out)" % (
+            skipped.get("left out or not fitted", 0), skipped.get("insert", 0), sum(1 for r in recs if "insert" in str(r.get("kind", "")).lower() and r.get("leave_out")))) if skipped else "")
 
 
 def _wire_line(w):

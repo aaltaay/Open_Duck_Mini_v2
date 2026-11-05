@@ -202,7 +202,7 @@ def c4a(D, bom):
           "from the schedule on lines: %s; %s" % (
               len(fit), sum(1 for f in F if f["kind"] == "insert"), len(no_line), len(no_line) - sum(n for _, n in unmatched),
               ", ".join(off) or "none", "; ".join(kit_note) or "no kit line"))
-    ins = [f for f in F if f["kind"] == "insert"]
+    ins = [f for f in F if f["kind"] == "insert" and not f.get("leave_out")]   # fitted inserts (D38, D39 left some out)
     R.ev("inserts: %d in fasteners.json, BOM 16 Need %s" % (len(ins), bom["16"]["Need"]))
     if len(ins) != V.num(bom["16"]["Need"]):
         R.find("FAIL", "inserts: fasteners.json %d vs BOM 16 Need %s" % (len(ins), bom["16"]["Need"]))
