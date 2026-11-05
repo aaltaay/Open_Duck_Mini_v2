@@ -11,6 +11,7 @@ V1 scope: the stock walking duck on legs, indoors, our 2.65 kg build. No wheels,
 ## Pause (2026-11-04 about 7:50 PM ET)
 Ahmed: "Just make your best decisions, merge, and let's pause." The running tracks (2b, 2c, 2d) finish and merge; tracks 3 to 7 wait for his go. Self-charging is now a V1 must-have (D37). A separate session compares Open Duck Mini v2 with Qmini for phase one.
 2026-11-04 9:03 and 9:16 PM ET: Ahmed asked for track 2e from the 3D view (artifact comments); it runs during the pause.
+2026-11-04 9:37 PM ET: Ahmed keeps this robot (D40, no Qmini), starts the self-charging dock now with heat included (D41, track 8) and asks for a study of a DeWalt 20V MAX pack (track 9). At 9:43 PM ET he asks for wireless charging to be studied too (track 8). Tracks 3 to 7 still wait for his go.
 
 ## How it runs
 - One track at a time, one agent per track. Track 1 was the pilot. Since "continue through all the tests dont stop" (about 5:05 PM ET) the tracks run back to back: each starts as soon as the one before is merged.
@@ -36,6 +37,8 @@ Ahmed: "Just make your best decisions, merge, and let's pause." The running trac
 | 5 | vibration (lean) | Does walking vibration push the IMU outside what the policy was trained on? Does the head ring on the neck chain? Does a servo chatter at hold? Which screws and connectors loosen? | not started |
 | 6 | heat (lean) | The twin's reading for every bench heat test, and the one lever not tried yet: lower holding gains while standing. The main heat result is already known (the live twin). | not started |
 | 7 | electrical leftovers (lean) | The anticipated electrical items no track covers: the BEC dropout at half charge, the 5 V rail with every extra on, ESD on carpet. | not started |
+| 8 | self-charging dock (D37, D41) | Ahmed (9:37 PM ET): "I want, but assume the heat as well, so it needs to be good. We need full research." At 9:43 PM ET: "So instead of having pins or pegs, how about we do a magnetic field, just like how the robo cleaners and wireless phones ?? Could you study that?" How the duck finds its dock, walks in, sits and charges by itself: how real docking robots do it, contacts against wireless charging, the camera marker, the approach and the sit, the behavior layer, power states while docked, safety, cost, and heat at every step (hot servos at docking, charging heat in the body, the pack's charge temperature window, cooling on the dock, a 32 C room). It must work with today's pack and with a DeWalt pack (track 9). | running: phase 1 (research and design spec); phase 2 adds the docking sim, the heat runs, the dock STLs and the docs |
+| 9 | battery option: DeWalt 20V MAX | Ahmed (9:37 PM ET): "I'm really trying to maybe replace the batteries with DCB200. It's a Dewalt. I think for 5 A, we're talking about 500 g, around that. You could do your research and spec". The DCB200 and its family against today's 2S P30B pack and simpler upgrades: specs, mass and centre of mass, the mount, the power path (15 to 20 V against 7.4 V servos), protection, charging on the dock, runtime, walk, falls, heat, cost. | running: phase 1 (research, spec, twin numbers) |
 
 ## If we do not finish today
 - This file is the plan, and it is merged, so it survives the box.
