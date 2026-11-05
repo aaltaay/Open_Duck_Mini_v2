@@ -9,8 +9,8 @@ farnell.com, elemon.com.ar. Every number that only those hosts hold is a BLOCKER
 ## 1. Result
 
 - Pick: **2 discrete I2S MEMS mics, Adafruit 3421 (Knowles SPH0645LM4H), one on each side wall of the head, 120.5 mm
-  apart.** $13.90 for both (BOM E8, $6.95 each [S] adafruit.com/product/3421 via search, 2026-11-05). No new GPIO
-  but one: GPIO20 (pin 38). The mics share BCLK (GPIO18) and LRCLK (GPIO19) with the MAX98357A, which keeps its DIN on
+  apart.** $13.90 for both (BOM E8, $6.95 each [S] adafruit.com/product/3421 via search, 2026-11-05). Two new GPIO:
+  GPIO20 (pin 38) for the mic data and, since D48, GPIO16 (pin 36) for the amp SD pin. The mics share BCLK (GPIO18) and LRCLK (GPIO19) with the MAX98357A, which keeps its DIN on
   GPIO21. Front or back is settled by a head turn (section 3).
 - Ears: the 2 antenna SG90s stay and become the ears. No new servo.
 - No non-mic direction aid is worth adding for V1 (section 5). The camera already on the head does the last step.
@@ -26,9 +26,9 @@ farnell.com, elemon.com.ar. Every number that only those hosts hold is a BLOCKER
 | Amp and mics on one I2S port | yes. The Pi has one PCM port: BCLK GPIO18, LRCLK GPIO19, DOUT GPIO21 (to the amp), DIN GPIO20 (from the mics). The Pi is the clock master for both directions | [R] raspberrypi/linux rpi-6.6.y googlevoicehat-soundcard-overlay.dts (i2s_clk_producer) |
 | One overlay for both | dtoverlay=googlevoicehat-soundcard: the Google AIY voice HAT v1 was this same pair (MAX98357A out, 2 I2S MEMS mics in) | [R] overlays README; [R] sound/soc/bcm/googlevoicehat-codec.c |
 | Formats | playback 2 ch, capture 2 ch, 48 kHz only, S32_LE | [R] googlevoicehat-codec.c, voicehat_dai |
-| GPIO16 | the overlay drives GPIO16 as the amp SD mode pin (5 ms delay). GPIO16 (pin 36) is free in the netlist; leave it unwired (the amp SD pin stays NC, as today) | [R] the overlay (sdmode-gpios GPIO16) |
+| GPIO16 | the overlay drives GPIO16 as the amp SD mode pin (5 ms delay). D48 wires GPIO16 (pin 36) to the amp SD pin (a 6th wire in D10), so the amp is off whenever it is not playing (half duplex; section 11.4) | [R] the overlay (sdmode-gpios GPIO16) |
 | New pins | GPIO20 (pin 38) data in, GND pin 39, 3V3 from pin 17 (shared with the D17 foot pull-ups, about 1.5 mA each) | netlist PI pins 38 and 39 |
-| GPIO budget | used before: GPIO2, 3, 12, 13, 18, 19, 21, 22, 23, 24, 25, 26, 27. Now also 20 (and 16 claimed, unwired). Free: GPIO4 to 11, 14, 15, 17 | netlist; c6_gpio PASS |
+| GPIO budget | used before: GPIO2, 3, 12, 13, 18, 19, 21, 22, 23, 24, 25, 26, 27. Now also 20 (mic data) and 16 (amp SD, D48). Free: GPIO4 to 11, 14, 15, 17 | netlist; c6_gpio PASS |
 | Slots | left board SEL to GND (left slot), right board SEL to 3V (right slot); each DOUT floats in the other slot, so both share GPIO20 | [S] Adafruit product text; the SPH0645LM4H datasheet is a BLOCKER |
 | Clock range | BCLK = 48 kHz x 64 = 3.072 MHz. That this sits inside the SPH0645LM4H clock range is a BLOCKER (datasheet not read) | calc only |
 | Wires | cable D14, Pi to the left board, 5 wires twisted, cut 150 mm (route 80.7 mm); D15, left board to right board, 5 wires twisted, cut 240 mm (route 151.9 mm, over the head behind the head_roll_mount); 26 AWG from stock | twin/companion/route_mics.py, CAD check only |
