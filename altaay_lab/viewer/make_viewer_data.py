@@ -58,8 +58,8 @@ BOUGHT = {
     "drive_palonier.stl": ("horn_drive", "Servo horn, drive side", "horn", "1"),
     "passive_palonier.stl": ("horn_idle", "Servo horn, idle side", "horn", "1"),
     "roll_bearing.stl": ("bearing", "6804ZZ ball bearing 20 x 32 x 7", "bearing", "18"),
-    "cell.stl": ("cell", "Molicel INR18650-P30B cell", "battery", "6"),
-    "holder.stl": ("holder", "2 x 18650 cell holder", "battery", "7"),
+    "cell.stl": ("cell", "Molicel INR21700-P45B cell (D44)", "battery", "6"),
+    "holder.stl": ("holder", "2S1P pack nickel strip, sleeve and leads (D44)", "battery", "7"),
     "bms.stl": ("bms_cad", "2S BMS, upstream CAD body", "electronics", "8"),
     "usb_c_charger.stl": ("charger", "USB-C 2S charge board", "electronics", "11"),
     "power_switch.stl": ("power_switch", "Control switch, stock panel slide switch (CAD body)", "electronics", "10b"),
@@ -221,7 +221,7 @@ MOUNT = {
     "horn_drive": "Ships with the servo. Printed part screws to it with M3x6 SHCS (M3x5 at short sites).",
     "horn_idle": "Ships with the servo (idle side). Printed part screws to it with M3x6 SHCS.",
     "bearing": "Press into a 32.19 mm seat (2 in trunk_bottom, 1 in head): 0.19 mm slip fit on a 32.00 bearing (PRINT_CHECK flag 7).",
-    "cell": "In the 2 x 18650 holder. Charge both cells to the same voltage first.",
+    "cell": "2S1P Molicel P45B pack in the grown bay (D44, twin/battery/BAY.md): spot-welded nickel strip, sleeve, a 1 mm foam pad on the lid pad. Charge both cells to the same voltage first.",
     "holder": "Captive in the body_back battery bay, closed by battery_pack_lid (0.14 mm press, 0.62 mm gap to lid).",
     "bms_cad": "Sandwiched between body_back and battery_pack_lid, no screws. Free envelope here 17.75 x 47.2 x 5.33 mm (B12).",
     "charger": "body_back: 1 x M2.5x6 into a 2.0 pilot (the 2nd hole has no pilot), USB-C out of the body_back opening.",
@@ -249,7 +249,7 @@ MOUNT = {
 MOUNTING_MATCH = [
     (r"^Raspberry Pi Zero", ["pi"]), (r"^Waveshare", ["adapter"]),
     (r"^BNO055", ["imu"]), (r"^USB-C 2S charger", ["charger"]), (r"^(Control|Power) switch", ["power_switch"]),
-    (r"^2S BMS", ["bms_tenergy", "bms_cad"]), (r"^2x18650 holder", ["holder"]), (r"^battery_pack_lid", ["battery_pack_lid"]),
+    (r"^2S BMS", ["bms_tenergy", "bms_cad"]), (r"^2S1P pack build", ["holder"]), (r"^battery_pack_lid", ["battery_pack_lid"]),
     (r"^Speaker", ["speaker", "speaker_stand", "speaker_interface"]), (r"^Eyes", ["left_eye", "right_eye", "bulb", "led"]),
     (r"^Projector LED", ["flash_light_module", "flash_reflector_interface"]),
     (r"^Antenna servos", ["sg90", "left_antenna_holder", "right_antenna_holder"]), (r"^Castle CC BEC Pro", ["bec_pro"]),
@@ -1093,6 +1093,17 @@ def main():
 
     # load source meshes once
     src = {k: load_mesh(p, mm) for k, (p, mm) in mesh_src.items()}
+    # D44 (V1 track 9): the 2S1P Molicel P45B pack in the grown bay replaces the URDF's 18650 cells and holder:
+    # 21.4 x 70.0 mm cells on their axes (trunk frame x -133.1, y -9.35 and +12.2, z 31.5) and the pack's two nickel strips
+    if "cell" in src:
+        src["cell"] = trimesh.creation.cylinder(radius=10.7, height=70.0, sections=48)
+        for i, yc in zip([i for i in inst if i["key"] == "cell"], (-9.35, 12.2)):
+            i["T"] = trimesh.transformations.translation_matrix((-133.1, yc, 31.5))
+    if "holder" in src:
+        src["holder"] = trimesh.util.concatenate([trimesh.creation.box((8.0, 30.0, 0.3), trimesh.transformations.translation_matrix((0, 0, z)))
+                                                  for z in (35.65, -35.65)])
+        for i in [i for i in inst if i["key"] == "holder"]:
+            i["T"] = trimesh.transformations.translation_matrix((-133.1, 1.4, 31.5))
     for i in inst:
         m = src[i["key"]]
         corners = trimesh.bounds.corners(m.bounds)

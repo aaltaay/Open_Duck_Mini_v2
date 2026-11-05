@@ -1,0 +1,99 @@
+{
+ "cut_polygon_xy_mm": [
+  [
+   -119.0,
+   -20.7
+  ],
+  [
+   -137.8,
+   -20.7
+  ],
+  [
+   -144.45,
+   -14.05
+  ],
+  [
+   -144.45,
+   16.9
+  ],
+  [
+   -137.8,
+   23.55
+  ],
+  [
+   -119.0,
+   23.55
+  ],
+  [
+   -119.0,
+   -20.7
+  ]
+ ],
+ "src": "print/body_back.stl",
+ "watertight_before": true,
+ "watertight_after": true,
+ "volume_before_mm3": 105982.6,
+ "volume_after_mm3": 89439.7,
+ "removed_mm3": 16542.9,
+ "pack_overlap_mm3": {
+  "body_back (edited)": 0.0
+ },
+ "wall_rays_mm": {
+  "back -x": [
+   0.1,
+   9.65
+  ],
+  "rear +y chamfer": [
+   0.07,
+   5.48
+  ],
+  "rear -y chamfer": [
+   0.11,
+   7.53
+  ],
+  "left +y": [
+   0.1,
+   2.25,
+   11.31,
+   15.55
+  ],
+  "right -y": [
+   0.1,
+   5.1,
+   14.16,
+   18.4
+  ],
+  "right -y low": [
+   0.1,
+   5.1,
+   14.16,
+   18.4
+  ],
+  "left +y high": [
+   0.1,
+   2.25,
+   11.31,
+   15.55
+  ]
+ },
+ "fasteners_within_6mm": {
+  "F027": {
+   "spec": "M2.5x10 DIN 912 A2",
+   "part": "battery_pack_lid",
+   "into": "body_back",
+   "axis_dist_mm": 4.17
+  },
+  "F028": {
+   "spec": "M2.5x10 DIN 912 A2",
+   "part": "battery_pack_lid",
+   "into": "body_back",
+   "axis_dist_mm": 3.34
+  },
+  "F123": {
+   "spec": "M2.5x6 DIN 912 A2",
+   "part": "usb_c_charger",
+   "into": "body_back",
+   "axis_dist_mm": 1.0
+  }
+ }
+}

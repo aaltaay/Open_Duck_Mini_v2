@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vlib as V  # noqa: E402
 
 MAP = [  # component id pattern, BOM lines, a part number or name that must appear in each line's Item/Spec/Link
-    (r"PACK", ["6", "7"], ["P30B", "B09WCT8672"]),
+    (r"PACK", ["6", "7"], ["P45B", "2S1P pack build"]),
     (r"BMS", ["8"], ["32175"]), (r"CHG", ["11"], ["B0BJTW4QBR"]), (r"XT30", ["12"], ["XT30U"]),
     (r"F1", ["L3", "L4"], ["FHAC0001ZXJ", "0287015.PXCN"]), (r"SW1", ["10"], ["2815"]), (r"CTL", ["10b"], ["power_switch.stl"]),
     (r"U1", ["L1"], ["010-0004-01"]), (r"U2", ["2"], ["25514"]), (r"U3", ["9"], ["D30V30F5"]), (r"PI", ["3", "4"], ["Zero 2 W", "SDSQUAR"]),

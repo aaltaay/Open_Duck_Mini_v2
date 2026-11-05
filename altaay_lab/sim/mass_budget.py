@@ -45,6 +45,11 @@ HEADER_G = src("header", 2.1, "[I] Adafruit 2822 2x20 male header for the Pi Zer
 BNO_G = src("bno055", 3.0, "[I] Adafruit 2472, 'Weight: 3g' (https://www.adafruit.com/product/2472)")
 ADAPTER_G = src("adapter", 16.0, "[I] Waveshare Bus Servo Adapter (A) page, 'Weight: 0.016 kg' (https://www.waveshare.com/bus-servo-adapter-a.htm); may include packaging")
 CHARGER_G = src("charger", 8.53, "[I] Amazon B0BJTW4QBR Adeept 2S USB-C charger, 'Item Weight 8.53 g' (https://www.amazon.com/dp/B0BJTW4QBR)")
+P45B_G = src("p45b", 70.0, "[I] Molicel INR21700P45B-01 cell specification v0.2, 2.4.2 'Weight (g) 70.0 (Max)', 21.40 +/- 0.15 x 70.00 +/- 0.15 mm (https://www.kronium.cz/uploads/p45b-datasheet.pdf); D44")
+PACKWRAP_G = src("packwrap", 5.0, "UNVERIFIED: 2S1P P45B pack wrap: 2 nickel strips 0.15 x 8 x 30 mm (0.3 g, 8.9 g/cm3), a 2S PVC sleeve and fish-paper rings (about 3 g), 16 AWG leads 2 x 0.08 m (about 1.5 g); not weighed (track 9)")
+# D44 (track 9): the 2S1P P45B pack replaces the 2 x P30B cells and the 2 x 18650 holder. Cells as solid cylinders' boxes on
+# their axes in the grown bay (trunk frame, mm): x -133.1, y -9.35 and +12.2, z -4.0 to 67.0 (twin/battery/BAY.md)
+P45B_SEATS = [(-133.1, -9.35, 31.5), (-133.1, 12.2, 31.5)]
 HOLDER_G = src("holder", 25.0, "UNVERIFIED: Amazon B09WCT8672 lists 'Item Weight 0.05 kg' with 'Unit Count 2 Count' (https://www.amazon.com/dp/B09WCT8672); 25 g assumes the 0.05 kg is for 2 holders; 50 g if it is one")
 SG90_G = src("sg90", 9.0, "[I] Amazon B072V529YD Miuzei SG90, 'Item Weight 9 g' (https://www.amazon.com/dp/B072V529YD), lead included")
 BEC_G = src("bec", 29.0, "[I] Castle CC BEC Pro user guide 095-0047-00, 'Weight (w/o wires) 1 oz (29 grams)' (https://www.freakware.de/technik/CastleCreations/cc_bec_pro_user_guide.pdf)")
@@ -289,11 +294,15 @@ def build_budget(holder_g=None, include_antennas=False):
                 items.append(Item("antenna rod (optional)", "printed", g, "[L] print/SLICE_SUMMARY.md optional table, 0.89 g less 0.33 g support", tgt, mesh_mass(os.path.join(URDF_DIR, fn), T, g / 1000), True))
             continue
         P = os.path.join(URDF_DIR, fn)
-        if base == "cell":
-            items.append(Item("Molicel P30B cell", "battery", P30B_G, S["p30b"][1], tgt, mesh_mass(P, T, P30B_G / 1000), True))
-        elif base == "holder":
-            g = holder_g if holder_g is not None else HOLDER_G
-            items.append(Item("2S cell holder with leads", "battery", g, S["holder"][1], tgt, mesh_mass(P, T, g / 1000), True))
+        if base == "cell":       # D44: one P45B per URDF cell instance, on the grown bay's cell axes
+            k_cell = sum(1 for it in items if it.name == "Molicel P45B cell")
+            c_mm = np.array(P45B_SEATS[k_cell]) / 1000.0
+            items.append(Item("Molicel P45B cell", "battery", P45B_G, S["p45b"][1] + "; seat: grown bay (D44, track 9)", tgt,
+                              box_mass(P45B_G / 1000, c_mm, (0.0214, 0.0214, 0.070)), True))
+        elif base == "holder":   # D44: the 2 x 18650 holder is gone; the spot-welded pack's strip, sleeve and leads instead
+            g = holder_g if holder_g is not None else PACKWRAP_G
+            items.append(Item("2S1P P45B pack strip, sleeve and leads", "battery", g, S["packwrap"][1], tgt,
+                              box_mass(g / 1000, np.array((-133.1, 1.4, 31.5)) / 1000.0, (0.0222, 0.0437, 0.071)), True))
         elif base == "bms":
             pass   # replaced by the Tenergy board at its placement (below)
         elif base == "board" and ln == "trunk_assembly":

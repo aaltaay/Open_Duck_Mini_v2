@@ -329,10 +329,10 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
                          nodes=ids, line=line, status=status, note=note,
                          source="[L] wiring/netlist.yaml %s" % ", ".join(comp_ids)))
 
-    e_row("Li-ion cell, Molicel INR18650-P30B", "6", ["cell"], ["PACK"], "Electronics and power", qty=2,
-          spec="18650, 3.0 Ah, 2 in series")
-    e_row("2 x 18650 series holder with leads", "7", ["holder"], ["PACK"], "Electronics and power", qty=1,
-          spec="holder leads used for P1 and P2 if 120 mm or longer")
+    e_row("Li-ion cell, Molicel INR21700-P45B", "6", ["cell"], ["PACK"], "Electronics and power", qty=2,
+          spec="21700, 4.5 Ah, 2 in series, spot-welded 2S1P pack (D44)")
+    e_row("2S1P pack build: nickel strip, sleeve, fish paper, 16 AWG leads", "7", ["holder"], ["PACK"], "Electronics and power", qty=1,
+          spec="no holder (D44); pack leads used for P1 and P2 if 120 mm or longer")
     for cid in ("BMS", "CHG", "XT30", "SW1", "CTL", "U1", "U2", "U3", "PI", "BNO"):
         sec, item, line, keys, st = COMP[cid]
         e_row(item, line, keys, [cid], sec, qty=1)

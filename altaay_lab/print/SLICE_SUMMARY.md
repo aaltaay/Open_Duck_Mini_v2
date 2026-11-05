@@ -10,6 +10,8 @@ Settings: the light profile of DECISIONS.md D22 (print/MASS_STUDY.md variant c).
 
 V1 screws job, 2026-11-04 (D38): body_front, body_middle_top and body_middle_bottom re-sliced with `slice.py parts --only` (D22 light profile) after the tongue, groove, lips and ribs; the coupon session re-sliced with K1a to K4 added (S1 46.8 g, 4.69 h). Plates holding the 3 parts are moved by the part deltas (calc), not re-sliced; the before columns and the S1 gate fallback are from before.
 
+V1 battery job (track 9), 2026-11-05 about 12:40 AM ET (D44): body_back re-sliced alone with `slice.py parts --only body_back.stl` (D22 light profile) after the bay was grown for the 2S1P Molicel P45B pack (twin/battery/BAY.md): 78.48 to 79.21 g with support, support 8.10 to 10.72 g, 6.42 to 6.54 h, model 70.34 to 68.45 g (the run before the change gave 78.48 g against this table's 78.28 g: run to run noise of 0.2 g). The per part row and the per part total are updated; the plate tables below were not re-run (+0.9 g, +0.15 h on one plate).
+
 V1 symmetry job, 2026-11-04 11:01 PM ET (D42): uniform screw patterns and surface-fitted plug caps (twin/holes/HOLES_TWIN.md addendum); the 15 changed STLs re-sliced with `slice.py parts --only` (D22 light profile), same box: +0.29 g and +0.13 h for the robot set against D39 (x quantity), -6.32 g and -1.17 h against pre-D39 (twin/holes/data/slice_delta_d42.json). battery_pack_lid is its pre-D39 STL again; body_back has 5 pilot rings again (F027 reopened); body_middle_bottom keeps 4 insert rings (F071 back, F069 closed) and the 4 ear seats; head gains one insert bore (F084, F090 back, F088 closed). The 4 STLs whose caps moved in the 11:36 PM ET follow-up (body_back, flash_light_module, head, speaker_stand) were re-sliced again, and every changed STL once more after the 2026-11-05 12:36 AM ET cap rebuild; the numbers above are from that run. The robot set totals above are not recomputed.
 
 V1 holes job, 2026-11-05 (D39): every hole without a screw closed in 16 STLs (twin/holes/HOLES_TWIN.md); the 16 STLs and roll_motor_bottom re-sliced with `slice.py parts --only` (D22 light profile) before and after, same box: -6.38 g and -1.22 h for the robot set (x quantity), -4.2 g on the robot without supports. A closed hole drops its perimeter walls and, at insert and pilot bores, its solid ring (body_back 5 to 4 pilot rings, body_middle_top 8 to 6 and body_middle_bottom 7 to 4 insert rings). body_middle_bottom includes the 4 ear seats. The robot set totals above are not recomputed.
@@ -29,7 +31,7 @@ V1 holes job, 2026-11-05 (D39): every hole without a screw closed in 16 STLs (tw
 | STL | Qty | Material | Profile | g each | h each | support g each | g total | h total | before g each | before h each |
 |---|---|---|---|---|---|---|---|---|---|---|
 | battery_pack_lid.stl | 1 | PLA | light (base) | 13.61 | 0.99 | 0.05 | 13.6 | 0.99 | 14.05 | 1.04 |
-| body_back.stl | 1 | PLA | rings (base + 4 pilot rings) | 78.28 | 6.39 | 8.10 | 78.3 | 6.39 | 88.06 | 6.94 |
+| body_back.stl | 1 | PLA | rings (base + 4 pilot rings) | 79.21 | 6.54 | 10.72 | 79.2 | 6.54 | 88.06 | 6.94 |
 | body_front.stl | 1 | PLA | light (base) | 57.56 | 3.94 | 0.00 | 57.6 | 3.94 | 60.33 | 4.22 |
 | body_middle_bottom.stl | 1 | PLA | rings (base + 4 insert rings) | 106.51 | 9.35 | 15.54 | 106.5 | 9.35 | 116.52 | 9.53 |
 | body_middle_top.stl | 1 | PLA | rings (base + 6 insert rings) | 74.57 | 6.62 | 7.74 | 74.6 | 6.62 | 98.95 | 7.76 |
@@ -69,7 +71,7 @@ V1 holes job, 2026-11-05 (D39): every hole without a screw closed in 16 STLs (tw
 |---|---|---|---|---|---|---|
 | PLA | 50 | 1245.1 | 106.7 | 89.8 | 1372.7 | 114.4 |
 | TPU | 2 | 35.1 | 4.4 | 0.0 | 36.3 | 4.5 |
-| Total | 52 | 1292.9 | 112.4 | 91.2 | 1409.0 | 118.9 |
+| Total | 52 | 1293.8 | 112.6 | 93.8 | 1409.0 | 118.9 |
 
 D38 (2026-11-05): left and right roll_to_pitch re-sliced with wall3+fit (slice.py parts --only). The plate rows below add each part's own change; the plates were not re-planned.
 
