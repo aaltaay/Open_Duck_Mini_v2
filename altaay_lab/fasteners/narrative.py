@@ -100,7 +100,14 @@ def narrative(D, screws, inserts, fitted, hits, d18, bom_rows, SRC):
                   "(the face is tilted, the holes were drilled along y), so the screws enter at an angle; check on the head print."))
     # --- SG90 tabs
     sg = [r for r in fitted if r["source"] == "sg90_tab"]
-    if sg:
+    if sg and all(r.get("pilot_axis_measured_deg") is not None and r["pilot_axis_measured_deg"] < 2.0 for r in sg):
+        F.append(("note (corrected 2026-11-05 ET)", "SG90 tab pilots in head.stl are coaxial with the SG90 tab holes: blind 1.5 mm pilots, "
+                  "4.7 mm to the drill tip, axis %.1f deg and 0.001 mm off the tab hole axis, in both print/head.stl and "
+                  "twin/companion/stl/head.stl (twin/companion/ear_mount.py, CAD check only). The earlier note (pilots drilled "
+                  "along y, 20.7 deg off) came from the feat3d fit, which reads every bore along a mesh axis; the tilted pilot was "
+                  "read along y. Each tab sits flat on 7.25 mm of plastic (58.5 mm2 per tab) and the body ends sit in the plate "
+                  "pocket. The 4 tab screws (SG90 bag) go straight in; spacing matches (B5)." % max(r["pilot_axis_measured_deg"] for r in sg)))
+    elif sg:
         F.append(("note (NEW)", "SG90 tab pilots in head.stl (1.55 x 3.8 mm) are drilled along y while the SG90 and its tab holes follow "
                   "the antenna axis, 20.7 deg off (both the URDF head and print/head.stl). The 4 tab screws (SG90 bag) enter the pilots "
                   "at 20.7 deg. Spacing matches (B5), direction does not. Check with the first head; fallback: hot glue, or drill the "

@@ -155,6 +155,13 @@ V2_SERVO = {
     "head_pitch": (40, 0, 0), "head_yaw": (55, 0, 52), "head_roll": (30, 0, 25),
 }
 HORN_PULL, INSERT_PULL = 14.0, 11.0     # extra pull along the horn axis / insert bore, mm
+# Ear SG90s (the antenna servos, D47): each hangs from the head side plate on its 2 tab screws and carries its antenna
+# holder on the output shaft. They ride with the head shell and part only along their own shaft axis (mm at full
+# level-2 explode; + is out of the head), so the explode shows servo, tab screws, plate and holder on one line
+# instead of the servo drifting off by itself (twin/companion/ear_mount.py, CAD check only).
+EAR_PULL = {"sg90": -20.0, "left_antenna_holder": 30.0, "right_antenna_holder": 30.0, "antenna": 42.0}
+# fasteners.json part names that are not a part key: the screw rides with this part
+SCREW_PART_ALIAS = {"SG90 tab": "sg90"}
 SHORT = {"bec_pro": "BEC Pro", "fuse_holder": "Fuse holder", "mosfet_switch": "Pololu 2813", "led_1": "Eye LED left", "led_2": "Eye LED right", "led_3": "Projector LED", "bms_tenergy": "Tenergy BMS",
          "reg_5v": "5 V reg", "xt30": "XT30U", "xt30_p13": "XT30U P13", "amp": "Amp", "speaker": "Speaker", "camera": "Camera", "led": "LED",
          "foot_switch": "SS-01"}
@@ -235,7 +242,9 @@ MOUNT = {
     "pi": "head.stl: 4 x M2.5x6 DIN 912 into 2.0 pilots, components side up.",
     "adapter": "trunk_top: 4 x M2.5x6 on 4 printed bosses 5 mm high, USB-C toward the neck opening.",
     "imu": "trunk_top: 4 x M2.5x6 (M2.5x8 would bottom out with a 1.6 mm PCB). x forward, chip up. Hole spacing B13, axis signs B20.",
-    "sg90": "2 tab screws per servo into head pilots 27.5 mm apart (SG90 bag), output shaft up (B5 cleared).",
+    "sg90": "Hangs from the 7.25 mm head side plate: 2 SG90 bag screws per servo up through the tabs into blind 1.5 mm "
+            "pilots 27.5 mm apart, coaxial with the tab holes; the body ends sit in the plate pocket, which stops it turning; "
+            "output shaft out through the plate to the ear holder (B5 cleared; twin/companion/ear_mount.json, CAD check only).",
     "antenna": "Optional PLA rod on the antenna holder: in the CAD but not in print/, export it from the URDF mesh (print/PRINT_PLAN.md).",
     "battery_pack_lid": "4 x M2.5x10 DIN 912 into body_back pilots, head sits proud on the lid face (B3 cleared).",
     "left_eye": "4 x M2.5x8 through the bulb and the head wall into the eye (left pilot 2.2 mm, B14).",
@@ -1413,6 +1422,15 @@ def main():
         else:
             v = V2.get((i["sub"], i["key"]))
             i["v2"] = np.array(v, float) if v is not None else radial(i["c"], sub_c[i["sub"]])
+    shell = next((i for i in inst if i["key"] == "head"), None)
+    ears = [i for i in inst if i["key"] == "sg90"]
+    if shell is not None and ears:
+        for i in inst:
+            if i["key"] not in EAR_PULL:
+                continue
+            sv = min(ears, key=lambda e: float(np.linalg.norm(np.asarray(e["c"]) - np.asarray(i["c"]))))   # its own ear servo
+            ax = sv["T"][:3, :3] @ np.array([0.0, 0.0, 1.0])                                   # output shaft, out of the head
+            i["v2"] = shell["v2"] + ax / np.linalg.norm(ax) * EAR_PULL[i["key"]]
     for p in ph_all:
         if p["sub"] == "tray":
             p["v2"] = np.zeros(3)
@@ -1534,7 +1552,7 @@ def main():
     import bom_full
     # 10b. every screw (altaay_lab/fasteners/fasteners.json): one GLB node each, riding with the part under its head
     def host_of(part, p, link=None):
-        stem = (print_stem(part + ".stl") if part else None) or part
+        stem = SCREW_PART_ALIAS.get(part) or (print_stem(part + ".stl") if part else None) or part
         cand = [i for i in inst if i["key"] == stem] or [i for i in inst if part and i.get("urdf") and os.path.splitext(i["urdf"])[0] == part]
         if link:
             cand = [i for i in cand if i["link"] == link] or cand
@@ -1551,6 +1569,8 @@ def main():
             return "servo case"
         if "palonier" in n or n.startswith("horn_"):
             return "servo horn (%s)" % ("drive" if "drive" in n else "idle")
+        if n == "sg90":
+            return "SG90 ear servo tab"
         stem = print_stem(n + ".stl") or n
         return label_of(stem).lower()
 

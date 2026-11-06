@@ -96,6 +96,15 @@ of the four for direction (ports on the outer shell, a known 121.6 mm baseline, 
 - Noise next to the mics: each SG90 is 6.05 mm from its mic board envelope (CAD check). Since D49 the duck listens
   always with the ego-noise model (section 12), which takes the ear commands as an input; holding the ears still
   during a direction capture is the fallback.
+- Mount (CAD check only, twin/companion/ear_mount.py and ear_mount.json, 2026-11-05 ET): each ear SG90 hangs under the
+  head side plate on its 2 tabs, flat on 7.25 mm of plastic (58.5 mm2 per tab, 0.00 mm gap), with the 2 SG90 bag tab
+  screws into blind 1.5 mm pilots 27.5 mm apart that are coaxial with the tab holes (axis 0.4 deg, centre 0.001 mm
+  off). The body ends sit in the plate pocket (117.7 mm2 within 0.15 mm, gap 0 to 0.1 mm): that and the 2 screws stop
+  the servo turning under the horn load. The output shaft comes out through the plate on the ear joint axis (0.000 mm,
+  0.000 deg). Over the full -90 to 90 deg the ear holder and rod clear the shell by 2.02 mm, the mic boards by 10.07 mm
+  and the camera by 82.8 mm. The same in print/head.stl, twin/companion/stl/head.stl and the viewer mesh. The viewer
+  used to explode the servos away from their plate, with their screws left in the shell, so they looked loose there;
+  since 2026-11-05 (ET) they ride with the shell and part along the ear axis only (viewer/make_viewer_data.py EAR_PULL).
 - No new servo, no new pin (GPIO12 and 13 stay the antenna PWM pins).
 - Lab rule note: the SG90s are PWM hobby servos (GAPS.md B10a); as ears they keep that known gap.
 
