@@ -269,7 +269,7 @@ and the gate board (every Need equals the count found). Duck-side parts are in B
 | K11 | Wire: 20 AWG red and black, 26 AWG white, yellow, blue, green (cut lengths in dock_netlist.yaml) | BOM.md lines 23 and 25 surplus | 1 | 0 | 0.000 | 0.00 | (robot BOM) | https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE | the robot buys 50 ft of 20 AWG for 2.8 m and 175 ft of 26 AWG for 12.7 m |
 | K12 | Heat shrink and solder (pin cups, jack lugs, holder leads) | BOM.md lines 26 and 30 surplus | 1 | 0 | 0.000 | 0.00 | (robot BOM) | https://www.amazon.com/Wirefy-180-Heat-Shrink-Tubing/dp/B084GDLSCK | 180 sleeves bought, 42 used by the robot |
 | K12b | VHB 4950 pads under the charger board, the 2815 and the fuse holder | BOM.md line 29 surplus | 1 | 0 | 0.000 | 0.00 | (robot BOM) | https://www.amazon.com/dp/B00D3RD9TO | 3/4 in x 5 yd; about 0.09 m used here |
-| K7 | PLA for the 18 printed dock kinds (22 prints), 1070 g sliced with the light profile | Overture Easy PLA 1.75 mm 1 kg black, ASIN B09LCK7QJ2 | 1 | 1 | 29.98 | 29.98 | Amazon | https://www.amazon.com/dp/B09LCK7QJ2 | as BOM.md line 27; one roll plus 70 g of the 593 g the robot leaves |
+| K7 | PLA for the 18 printed dock kinds (21 prints), 1102 g sliced with the light profile | Overture Easy PLA 1.75 mm 1 kg black, ASIN B09LCK7QJ2 | 1 | 1 | 29.98 | 29.98 | Amazon | https://www.amazon.com/dp/B09LCK7QJ2 | as BOM.md line 27; one roll plus 102 g of the 593 g the robot leaves |
 | K8a | Guide rods: 4 mm 304 stainless, 100 mm, 10 pcs, cut to 2 x 76 mm (cheaper than the 17-4PH OnDrive GPM4000-100 at $16.89 each; slide fit checked at BT1) | 4 x 100 mm 304 stainless rod, 10 pcs | 2 | 10 | 1.17 | 11.66 | eBay | https://www.ebay.com/p/21050690914 | index: $11.66 for 10 (whole pack in both totals) |
 | K8c | Paddle return: constant-force spring 1.65 N, 6.4 mm drum, 4.75 x 0.08 mm, 304.8 mm | Century Spring CF37CS | 2 | 3 | 2.82 | 8.46 | Century Spring | https://www.centuryspring.com/shop/cf37cs | page: $2.82 (2026-11-06) |
 | K8d | Seat springs: music wire, OD 7.14, ID 6.12, free 23.88 mm, 0.25 N/mm | Century Spring CC-28CS | 2 | 3 | 2.81 | 8.43 | Century Spring | https://www.centuryspring.com/shop/cc-28cs | page: $2.81 (2026-11-06) |
@@ -486,7 +486,7 @@ make_viewer_data.py --scene).
 
 **Note for the shared lab gym (overlay gym/overlays/duck, dock/dock_course.py; not edited by this job):** PADDLE_K 75 N/m
 with springref 0 becomes a constant 3.29 N (stiffness 1 N/m, springref -3.29 m on paddle_slide), the dock_bumper face
-friction 0.15 becomes 0.4, and PIN_PROUD 1.5 mm becomes 1.05 mm. The scratch copy used environment overrides for the
+friction 0.15 becomes 0.4, PIN_PROUD 1.5 mm becomes 1.05 mm, and the dock_base box ends at x 0.220 instead of 0.190 (behind the mast, out of the duck's reach; section 12.6). The scratch copy used environment overrides for the
 first two.
 
 ### 12.2 Seat, springs and switch (CAD check only, calc only)
@@ -532,14 +532,16 @@ Scaled onto 11.3: 4.3 h becomes **4.7 h** and 2.4 h **2.6 h**: inside the 6 h ti
 1.1 A, a bound for 1.0 A.
 
 ### 12.6 Print, mass, cost
-18 printed kinds, 21 prints, 1070 g and 75.7 h sliced with the light profile (stl/slice.json). Dock about 2.3 kg with the
-948 g of ballast (calc). BOM (section 7): **$186.46** need only, **$200.40** with spares (was $284.45 and $297.54); duck side
+18 printed kinds, 21 prints, 1102 g and 77.7 h sliced with the light profile (stl/slice.json). Dock 2.12 kg, CG (x 108, y -1, z 78) mm, measured on the model (sliced grams at each part centroid, the bars at 7.87 g/cm3, bought parts at 2.0 g/cm3).
+
+**Tipping** (dock_design.py, calc only; the check picks the pivot itself: the support hull of the 12 feet, its farthest point along each load). Target 3x (the CG and the loads are estimates; 3x covers the CG a third of the way to the edge or a load twice the estimate). The walk-in push (3.62 N at 185 mm, +x) tips the dock about its **rear** feet, not the seat edge the first version used (that gave 7.7x; about the old rear feet at x 188 it was 2.5x). The base halves now run to x 220 with the rear feet at x 214: **3.4x** (tips at 12.4 N). A seated duck (its CG at the sim's worst lateral error, or its whole weight at the seat's back corner) stays over the feet, now at the seat corners: 16.6x and 14.7x with the push; the corner case alone 119x. A child: a 5 N push or pull at the mast top (460 mm) tips it 1.0x +x (toward the back), 1.97x -x (toward the seat), 1.22x +y, 1.2x -y, i.e. at 5.0 / 9.8 / 6.1 / 6.0 N: **under 3x**. More ballast cannot fix that at this height (3x at 5 N needs about 6 kg more over the rear); the choices are a strap or two screws to the wall behind the mast, or a lower, wider mast (the tags set its height): Ahmed's call (12.7). BOM (section 7): **$186.46** need only, **$200.40** with spares (was $284.45 and $297.54); duck side
 $83.76 and $88.35. Cut with no loss of function: PTFE tape $43.55, the OnDrive rods $33.78 (a $11.66 pack of 304 rods), the
 100-pack of nuts $22.45 (single nuts), the shaft collars $4.99, the 2N3906 $0.54.
 
 ### 12.7 BLOCKERs added or changed
 - K5 0933 price (digikey.com outside this session's network).
 - CF37CS load tolerance (+/- 10 % assumed); the 1.25 x drum rule is a general rule, BT1 checks the force at 0, 20, 40 mm.
+- Tipping by a child at the mast top (5 to 10 N tips it): a wall strap or a lower mast (Ahmed's call).
 - Belly friction on the seat: 0.52 needed (BLOCKER 10, BT9).
 - EV board outline (26.0 x 22.6 mm scaled from the layout), the Perma-Proto hole diameter (3.2 mm assumed), the 2815 pad
   positions, the D2F terminal order: read on the parts.

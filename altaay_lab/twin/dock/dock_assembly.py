@@ -131,7 +131,7 @@ def components(state="dock"):
         y0 = DP.BALLAST["y0"] + 0.5
         bar = box(DP.BALLAST["x0"] + 0.5, DP.BALLAST["x0"] + 0.5 + bx, *(sorted((s * y0, s * (y0 + by)))), DP.BASE["z1"] - DP.BALLAST["depth"], DP.BASE["z1"] - DP.BALLAST["depth"] + bz)
         add(f"ballast_{side}", f"Ballast bar {'left' if s > 0 else 'right'} (1018 steel 120 x 63.5 x 7.9)", "bought", "K8k", bar, "in the base pocket, held down by the bay tray", SRC["ballast"], "mast")
-    fp = [(-102, 12), (-102, -12), (-23, 12), (-23, -12)] + [(x, s * y) for s in (1, -1) for x, y in ((36, 30), (36, 130), (184, 30), (184, 130))]
+    fp = [(-105, 16), (-105, -16), (-20, 16), (-20, -16)] + [(x, s * y) for s in (1, -1) for x, y in ((36, 30), (36, 130), (DP.REAR_FOOT_X, 30), (DP.REAR_FOOT_X, 130))]
     for i, (x, y) in enumerate(fp):
         add(f"foot_{i + 1}", "Rubber foot (Adafruit 550)", "bought", "K10", cyl(x, y, 0.0, 4.0, 8.0, 20), "adhesive, in a 2 mm pocket", SRC["feet"], "mast")
     for tid, t in DP.TAGS.items():

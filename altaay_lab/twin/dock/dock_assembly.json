@@ -25,7 +25,7 @@
       100.0
      ]
     ],
-    "volume_mm3": 105027.9
+    "volume_mm3": 105032.6
    },
    {
     "id": "dock_seat_top",
@@ -86,12 +86,12 @@
       2.0
      ],
      [
-      190.0,
+      220.0,
       140.0,
       12.0
      ]
     ],
-    "volume_mm3": 159170.2
+    "volume_mm3": 201170.2
    },
    {
     "id": "dock_base_r",
@@ -108,12 +108,12 @@
       2.0
      ],
      [
-      190.0,
+      220.0,
       0.0,
       12.0
      ]
     ],
-    "volume_mm3": 160450.2
+    "volume_mm3": 202450.2
    },
    {
     "id": "dock_column_l1",
@@ -807,13 +807,13 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      -106.0,
-      8.0,
+      -109.0,
+      12.0,
       0.0
      ],
      [
-      -98.0,
-      16.0,
+      -101.0,
+      20.0,
       4.0
      ]
     ],
@@ -829,13 +829,13 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      -106.0,
-      -16.0,
+      -109.0,
+      -20.0,
       0.0
      ],
      [
-      -98.0,
-      -8.0,
+      -101.0,
+      -12.0,
       4.0
      ]
     ],
@@ -851,13 +851,13 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      -27.0,
-      8.0,
+      -24.0,
+      12.0,
       0.0
      ],
      [
-      -19.0,
-      16.0,
+      -16.0,
+      20.0,
       4.0
      ]
     ],
@@ -873,13 +873,13 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      -27.0,
-      -16.0,
+      -24.0,
+      -20.0,
       0.0
      ],
      [
-      -19.0,
-      -8.0,
+      -16.0,
+      -12.0,
       4.0
      ]
     ],
@@ -939,12 +939,12 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      180.0,
+      210.0,
       26.0,
       0.0
      ],
      [
-      188.0,
+      218.0,
       34.0,
       4.0
      ]
@@ -961,12 +961,12 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      180.0,
+      210.0,
       126.0,
       0.0
      ],
      [
-      188.0,
+      218.0,
       134.0,
       4.0
      ]
@@ -1027,12 +1027,12 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      180.0,
+      210.0,
       -34.0,
       0.0
      ],
      [
-      188.0,
+      218.0,
       -26.0,
       4.0
      ]
@@ -1049,12 +1049,12 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      180.0,
+      210.0,
       -134.0,
       0.0
      ],
      [
-      188.0,
+      218.0,
       -126.0,
       4.0
      ]
@@ -2118,7 +2118,7 @@
       100.0
      ]
     ],
-    "volume_mm3": 105027.9
+    "volume_mm3": 105032.6
    },
    {
     "id": "dock_seat_top",
@@ -2179,12 +2179,12 @@
       2.0
      ],
      [
-      190.0,
+      220.0,
       140.0,
       12.0
      ]
     ],
-    "volume_mm3": 159170.2
+    "volume_mm3": 201170.2
    },
    {
     "id": "dock_base_r",
@@ -2201,12 +2201,12 @@
       2.0
      ],
      [
-      190.0,
+      220.0,
       0.0,
       12.0
      ]
     ],
-    "volume_mm3": 160450.2
+    "volume_mm3": 202450.2
    },
    {
     "id": "dock_column_l1",
@@ -2900,13 +2900,13 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      -106.0,
-      8.0,
+      -109.0,
+      12.0,
       0.0
      ],
      [
-      -98.0,
-      16.0,
+      -101.0,
+      20.0,
       4.0
      ]
     ],
@@ -2922,13 +2922,13 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      -106.0,
-      -16.0,
+      -109.0,
+      -20.0,
       0.0
      ],
      [
-      -98.0,
-      -8.0,
+      -101.0,
+      -12.0,
       4.0
      ]
     ],
@@ -2944,13 +2944,13 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      -27.0,
-      8.0,
+      -24.0,
+      12.0,
       0.0
      ],
      [
-      -19.0,
-      16.0,
+      -16.0,
+      20.0,
       4.0
      ]
     ],
@@ -2966,13 +2966,13 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      -27.0,
-      -16.0,
+      -24.0,
+      -20.0,
       0.0
      ],
      [
-      -19.0,
-      -8.0,
+      -16.0,
+      -12.0,
       4.0
      ]
     ],
@@ -3032,12 +3032,12 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      180.0,
+      210.0,
       26.0,
       0.0
      ],
      [
-      188.0,
+      218.0,
       34.0,
       4.0
      ]
@@ -3054,12 +3054,12 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      180.0,
+      210.0,
       126.0,
       0.0
      ],
      [
-      188.0,
+      218.0,
       134.0,
       4.0
      ]
@@ -3120,12 +3120,12 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      180.0,
+      210.0,
       -34.0,
       0.0
      ],
      [
-      188.0,
+      218.0,
       -26.0,
       4.0
      ]
@@ -3142,12 +3142,12 @@
     "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
     "bounds": [
      [
-      180.0,
+      210.0,
       -134.0,
       0.0
      ],
      [
-      188.0,
+      218.0,
       -126.0,
       4.0
      ]

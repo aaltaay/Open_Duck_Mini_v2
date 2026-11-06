@@ -8,7 +8,7 @@
    98.0
   ],
   "fits_220": true,
-  "bytes": 94484,
+  "bytes": 93684,
   "printed": true,
   "qty": 1
  },
@@ -53,22 +53,22 @@
  },
  "dock_base_l": {
   "watertight": true,
-  "volume_cm3": 159.17,
+  "volume_cm3": 201.17,
   "extents_mm": [
-   160.0,
+   190.0,
    140.0,
    10.0
   ],
   "fits_220": true,
-  "bytes": 80484,
+  "bytes": 80584,
   "printed": true,
   "qty": 1
  },
  "dock_base_r": {
   "watertight": true,
-  "volume_cm3": 160.45,
+  "volume_cm3": 202.45,
   "extents_mm": [
-   160.0,
+   190.0,
    140.0,
    10.0
   ],

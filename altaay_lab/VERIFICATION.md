@@ -1,9 +1,9 @@
 # VERIFICATION: every check that runs without the robot
 
-Generated 2026-11-06 3:10 AM ET by altaay_lab/verify/report.py from one run of `bash altaay_lab/verify/run_all.sh` (results kept outside the repo). Written by agent Q (verification) for Ahmed's Open Duck Mini v2 build. Every simulation result here is sim pass only. Nothing was bought, built or printed; no lab file was edited by these checks (each script that writes files was run on a copy or into the results folder).
+Generated 2026-11-06 3:26 AM ET by altaay_lab/verify/report.py from one run of `bash altaay_lab/verify/run_all.sh` (results kept outside the repo). Written by agent Q (verification) for Ahmed's Open Duck Mini v2 build. Every simulation result here is sim pass only. Nothing was bought, built or printed; no lab file was edited by these checks (each script that writes files was run on a copy or into the results folder).
 
 ## Summary
-23 checks: **21 PASS, 2 FAIL, 0 NOT RUN**. 2 FAIL findings and 37 WARN findings in all (below). PASS means no FAIL finding; a PASS row can still carry WARN findings (risks, test fits, notes).
+23 checks: **21 PASS, 2 FAIL, 0 NOT RUN**. 2 FAIL findings and 41 WARN findings in all (below). PASS means no FAIL finding; a PASS row can still carry WARN findings (risks, test fits, notes).
 
 How to run (from the repo root): `bash altaay_lab/verify/run_all.sh` runs everything (this run: 4 minutes of check time on the shared 4-CPU box, sims under nice -n 10); `--quick` skips the MuJoCo, ngspice and CAD sweep runs and reuses earlier results in the same folder. Settings: VERIFY_OUT (results folder outside the repo), ODM_RUNTIME (Open_Duck_Mini_Runtime at 376de65), ODM_PLAYGROUND (Open_Duck_Playground at b9be205), ODM_TEST_PYTHON (a Python with rustypot and pypot for the bench tests). Each check also runs alone: the command is in the matrix.
 
@@ -32,7 +32,7 @@ Passing checks that still carry risks to measure on the bench (WARN):
 - **C7**: D15 says no servo current through the adapter, but the data-lead grounds make it a parallel return path: as built 0.35 A worst 100 ms through SD2 G (adapter H5 G terminal) (DC split, 6.0 V currents); ngspice 0.15 A worst 100 ms in the adapter H3 G lead; harmle (and 2 more)
 - **C9**: sim/MASS_BUDGET.md models 274 screws, fasteners.json fits 324 (the screw mass, 175 g, is from the older count) (and 11 more)
 - **C11**: nothing in the Runtime limits hip yaw: the policy bound keeps the walk under the onset, but a manual move, find_soft_offsets.py (Runtime issue 32 moves every joint) or a fall can still reach 21.7 to 30 deg and press the F198/F211 heads into body_middle_bottom
-- **C12**: dock BOM line K5 has no price (BLOCKER)
+- **C12**: tipping, a child's bump or pull at the mast top, +x (toward the back): tips at 5.0 N (5 N gives 1.0x): a wall strap or a lower mast, Ahmed's call (and 4 more)
 
 ## Matrix
 
@@ -60,7 +60,7 @@ Passing checks that still carry risks to measure on the bench (WARN):
 | C9 | Docs agree: numbers that appear in several docs are the same everywhere | `VERIFY_OUT=<out> python3 altaay_lab/verify/c9_docs.py` | **PASS (0 FAIL, 12 WARN)** | 0 disagreements (none); blocker table: 73 rows, 30 cleared or decided (details below) | Blocker counts and blocker status words, BOM totals and test order total, part counts, STL count, screw counts, decision range, upstream issue count, wire currents (WIRING.md vs netlist), print numbers, robot mass; 40 docs (history/ left out) | Numbers written in words or in a form the patterns do not catch; history entries; prose claims without numbers |
 | C10 | Wiring sheets cover every wire of the netlist (wiring/sheets, run on a copy) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c10_sheets.py` | **PASS** | 171 of 171 active wires drawn in full on sheets 1, 2, 3, 4, 5, 6; harness sheet 5: True (details below) | Every active netlist wire drawn in full on a sheet (every sheet but the harness), every active cable on the harness sheet (sheet 5), the generator's own stop rules, committed sheets newer than netlist.yaml | Whether a drawing is easy to read; label placement (the generator prints layout warnings) |
 | C11 | Hip yaw the stock policy uses (walk and turn) stays under the F198/F211 collision onset (21.7 deg) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py` | **PASS (0 FAIL, 1 WARN)** | largest hip yaw angle 10.4 deg (ours, turn_1.0), turn 10.3 and 10.4 deg; onset 23.3 deg; margin 12.9 deg (rule 5); policy bound 16.0 deg with the sim overshoot (details below) | Collision onset from the fastener sweep; largest /hip yaw/ in 7 sim cases (turn 1.0 rad/s included) on the trained model and our build; the policy's bound (default + 0.25 x tanh action) checked on 6000 random inputs; clamps in the Runtime code | Real servo overshoot, falls, manual moves, find_soft_offsets.py, other policies or a wider command range |
-| C12 | The charging dock: parts, fits, screws, wiring, routes, BOM against the model (twin/dock, CAD check only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py` | **PASS (0 FAIL, 1 WARN)** | dock: 94 components, 41 screws OK, 18 wires routed (self-check PASS), BOM Need matches the model (details below) | Printed parts, interferences and the paddle motion, every screw, the gate ERC, every wire's 3D route and cut, sheet 7, BOM Need against the fasteners, the assembly and the gate board | Real fits (printing tolerance), spring and switch tolerances (BT1, BT5), the sim of the walk (section 12.1 is sim pass only) |
+| C12 | The charging dock: parts, fits, screws, wiring, routes, BOM against the model (twin/dock, CAD check only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py` | **PASS (0 FAIL, 5 WARN)** | dock: 94 components, 41 screws OK, 18 wires routed (self-check PASS), BOM Need matches the model (details below) | Printed parts, interferences and the paddle motion, every screw, the gate ERC, every wire's 3D route and cut, sheet 7, BOM Need against the fasteners, the assembly and the gate board | Real fits (printing tolerance), spring and switch tolerances (BT1, BT5), the sim of the walk (section 12.1 is sim pass only) |
 
 ## FAIL findings and proposed fixes
 
@@ -131,6 +131,10 @@ Each line: what is wrong, with the numbers, then the proposed fix and the file i
 - nothing in the Runtime limits hip yaw: the policy bound keeps the walk under the onset, but a manual move, find_soft_offsets.py (Runtime issue 32 moves every joint) or a fall can still reach 21.7 to 30 deg and press the F198/F211 heads into body_middle_bottom Proposed: DECISIONS.md: record the hip yaw limit (for example the STS3215 angle limit registers set to about +/-20 deg of travel for IDs 10 and 20 in configure_motor.py, or a clip in the walk script), or relieve body_middle_bottom at the two heads
 
 ### C12
+- tipping, a child's bump or pull at the mast top, +x (toward the back): tips at 5.0 N (5 N gives 1.0x): a wall strap or a lower mast, Ahmed's call
+- tipping, a child's bump or pull at the mast top, -x (toward the seat): tips at 9.8 N (5 N gives 1.97x): a wall strap or a lower mast, Ahmed's call
+- tipping, a child's bump or pull at the mast top, +y: tips at 6.1 N (5 N gives 1.22x): a wall strap or a lower mast, Ahmed's call
+- tipping, a child's bump or pull at the mast top, -y: tips at 6.0 N (5 N gives 1.2x): a wall strap or a lower mast, Ahmed's call
 - dock BOM line K5 has no price (BLOCKER)
 
 ## Hardware-only tests that remain
@@ -525,16 +529,20 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py`. F
 - Runtime 376de65: motor target = init_pos + action x action_scale at line 290; live clip of the targets: none; commented-out clip at lines [292]; servo angle limit registers set by configure_motor.py or the HWI: False
 
 ### C12 The charging dock: parts, fits, screws, wiring, routes, BOM against the model (twin/dock, CAD check only): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026-11-06 08:10 UTC, 9 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026-11-06 08:25 UTC, 10 s.
 - printed kinds 18, prints 21; not watertight or off the bed: none
 - components 94 (dock), 94 (docked); interferences 0; paddle motion poses with a hit 0 of 9
 - fasteners: 41 screws, 18 nuts, 20 inserts; not OK: none
 - fasteners seated on their host parts in the dock state: all
 - fasteners seated on their host parts in the docked state: all
+- tipping, walk-in push on the paddle, +x: 3.42x about [218.0, -130.0] (target 3x)
+- tipping, seated duck at the seat's back corner, its weight off-centre, with the paddle push: 16.62x about [218.0, -130.0] (target 3x)
+- tipping, seated duck, its CG at the sim's worst lateral error (x -63, y 21): 14.73x about [218.0, -130.0] (target 3x)
+- tipping, seated duck's whole weight at the seat's outer back corner (an extreme: its CG cannot sit there): 119.3x about [-109.0, 16.0] (target 3x)
 - dock_erc.py: dock ERC: 0 ERROR, 0 WARN | INFO NTC window (10 k B3950, 10 k from 2.495 V): on from 43.2 C (0.793 V) down to 3.7 C (1.833 V); open reads 2.50 V, short 0 V: both off | INFO pack window through the duck's 100 k (charger off): on from 5.05 V to 9.23 V; charger on (direct): off above 8.59 V; a coin or nothing reads 0 V | INFO wake one-shot 1.1 x R17 x C4 = 110 ms
 - wire to wire (centre lines at least the sum of the radii apart, outside shared terminal zones): no overlap
 - wires 18, routed 18, self-check PASS; cuts short of the rule: none
-- sheet 7: sheet 7: 7_dock.png 567139 bytes, svg 356483 bytes, full 18 of 18, crossings 23
+- sheet 7: sheet 7: 7_dock.png 567211 bytes, svg 356483 bytes, full 18 of 18, crossings 23
 - dock_bom.py: CHECK PASS
 - viewer dock scene: printed 21/21, screws 41, inserts 20, cables 18
 
@@ -610,11 +618,11 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026
 | altaay_lab/software/PI_SETUP.md | 1bf944b894 | 2026-11-06 06:11 UTC |
 | altaay_lab/software/SOFTWARE.md | d92bbb5f81 | 2026-11-06 06:11 UTC |
 | altaay_lab/software/duck_config.altaay.json | 249171e913 | 2026-11-06 06:11 UTC |
-| altaay_lab/twin/dock/dock_assembly.py | 54ca7cb061 | 2026-11-06 07:35 UTC |
-| altaay_lab/twin/dock/dock_bom.py | b993e8b039 | 2026-11-06 07:21 UTC |
+| altaay_lab/twin/dock/dock_assembly.py | 8ec3f18caf | 2026-11-06 08:19 UTC |
+| altaay_lab/twin/dock/dock_bom.py | b312fc8cb5 | 2026-11-06 08:25 UTC |
 | altaay_lab/twin/dock/dock_fasteners.py | 217debc1e2 | 2026-11-06 06:48 UTC |
-| altaay_lab/twin/dock/dock_netlist.yaml | 586d02ccde | 2026-11-06 08:09 UTC |
-| altaay_lab/twin/dock/dock_parts.py | cfde23a709 | 2026-11-06 08:04 UTC |
+| altaay_lab/twin/dock/dock_netlist.yaml | 586d02ccde | 2026-11-06 08:24 UTC |
+| altaay_lab/twin/dock/dock_parts.py | db948cf5e0 | 2026-11-06 08:19 UTC |
 | altaay_lab/twin/dock/dock_routes.py | e69298f091 | 2026-11-06 08:04 UTC |
 | altaay_lab/viewer/MISSING_3D.md | 6b3241dde5 | 2026-11-06 06:11 UTC |
 | altaay_lab/viewer/README.md | 7e6c0904b6 | 2026-11-06 06:11 UTC |

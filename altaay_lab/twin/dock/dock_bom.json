@@ -231,14 +231,14 @@
   {
    "line": "K7",
    "group": "mechanical",
-   "part": "PLA for the 18 printed dock kinds (22 prints), 1070 g sliced with the light profile",
+   "part": "PLA for the 18 printed dock kinds (21 prints), 1102 g sliced with the light profile",
    "pn": "Overture Easy PLA 1.75 mm 1 kg black, ASIN B09LCK7QJ2",
    "need": 1,
    "buy": 1,
    "unit": 29.98,
    "seller": "Amazon",
    "url": "https://www.amazon.com/dp/B09LCK7QJ2",
-   "read": "as BOM.md line 27; one roll plus 70 g of the 593 g the robot leaves"
+   "read": "as BOM.md line 27; one roll plus 102 g of the 593 g the robot leaves"
   },
   {
    "line": "K8a",

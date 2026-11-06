@@ -112,24 +112,61 @@ def charge():
 
 
 def tipping():
-    # the dock against the paddle push alone (the duck's belly friction acts on the seat, inside the dock: the net is zero
-    # once seated; while the duck walks in, its chest pushes the paddle and nothing else holds the dock but its weight)
-    m_pla = 0.0
-    pj = json.load(open(os.path.join(HERE, "stl", "parts.json")))
-    for n, r in pj.items():
-        if r.get("printed"):
-            m_pla += r["volume_cm3"] * 1.24 * 0.5 * r["qty"]       # about half solid with the light profile (calc)
-    bar = DP.BALLAST["bar"]
-    m_bar = 2 * bar[0] * bar[1] * bar[2] / 1000 * 7.87                 # [I] 1018 steel 7.87 g/cm3 (AZoM)
-    m = (m_pla + m_bar) / 1000
-    F = 2 * DP.CF["load_n"] * 1.1
-    lever_push = 185.0                                                 # paddle centre height, mm
-    x_tip = -110.0                                                     # the dock tips about the seat's back edge
-    x_cg = 120.0                                                       # the bars and the mast dominate (calc)
-    resist = m * G * (x_cg - x_tip) / 1000
-    return dict(mass_kg=round(m, 2), pla_g=round(m_pla), ballast_g=round(m_bar), push_n=round(F, 2), push_moment_nm=round(F * lever_push / 1000, 3),
-                resist_moment_nm=round(resist, 2), margin=round(resist / (F * lever_push / 1000), 1),
-                slide="the push %.1f N against the dock's weight %.1f N: friction %.2f needed (rubber feet; under the walk-in only)" % (F, m * G, F / (m * G)))
+    """Tipping of the dock (calc only). The CG is measured on the model: each printed part at its sliced grams (stl/slice.json)
+    at its own mesh centroid, the ballast bars at 7.87 g/cm3, bought parts at 2.0 g/cm3 of their drawn volume (a rough
+    stand-in; the adapter off the dock is left out). The support polygon is the convex hull of the rubber feet (4 mm
+    radius). For each load the check picks the support edge itself: the hull's farthest point in the load's horizontal
+    direction is the pivot, so the lever of the weight is (pivot - CG) along that direction and the overturning moment is
+    the load x its height. Target margin 3x: a one-off check of a light printed stand with unmeasured friction, feet and
+    floor, and the loads themselves are estimates (calc); 3x covers a CG 1/3 of the way toward the edge or a load twice
+    the estimate."""
+    import dock_assembly as DA
+    from scipy.spatial import ConvexHull
+    S = json.load(open(os.path.join(HERE, "stl", "slice.json")))["parts"]
+    m, mc = 0.0, np.zeros(3)
+    for c in DA.components("dock"):
+        if c["id"].startswith(("adapter", "plug")):
+            continue
+        base = c["id"] if c["id"] in S else c["id"][:-2]
+        g = S[base]["grams"] if c["kind"] == "printed" else c["mesh"].volume / 1000 * (7.87 if c["id"].startswith("ballast") else 2.0)
+        m += g; mc += g * c["mesh"].center_mass
+    cg = mc / m; W = m / 1000 * G
+    feet = [c["mesh"].bounds.mean(0)[:2] for c in DA.components("dock") if c["id"].startswith("foot_")]
+    ring = np.array([f + 4.0 * np.array([np.cos(a), np.sin(a)]) for f in feet for a in np.linspace(0, 2 * np.pi, 24, endpoint=False)])
+    H = ring[ConvexHull(ring).vertices]
+    def case(name, F, d, z, extra=None, target=3.0):
+        d = np.array(d, float) / np.linalg.norm(d)
+        piv = H[np.argmax(H @ d)]; reach = float(piv @ d)
+        lever = reach - cg[:2] @ d; resist = W * lever / 1000
+        ws = [(W, cg)]
+        if extra:                                  # a vertical load (a duck's weight) at a point: its own lever about the same edge
+            Wd, pd = extra
+            resist += Wd * (reach - np.array(pd[:2]) @ d) / 1000
+        over = F * z / 1000
+        return dict(case=name, force_n=round(F, 2), height_mm=z, direction=np.round(d, 3).tolist(), pivot_xy=np.round(piv, 1).tolist(),
+                    weight_lever_mm=round(float(lever), 1), resist_nm=round(float(resist), 3), overturn_nm=round(over, 3),
+                    margin=round(float(resist / over), 2) if over else None, target=target,
+                    tips_at_n=round(float(resist / (z / 1000)), 1), ok=bool(over == 0 or resist / over >= target))
+    Fp = 2 * DP.CF["load_n"] * 1.1
+    duck_w = 2.749 * G
+    R = [case("walk-in push on the paddle, +x", Fp, (1, 0), 185.0),
+         case("seated duck at the seat's back corner, its weight off-centre, with the paddle push", Fp, (1, 0), 185.0, extra=(duck_w, (-110.0, 20.0))),
+         case("seated duck, its CG at the sim's worst lateral error (x -63, y 21)", Fp, (1, 0), 185.0, extra=(duck_w, (-63.0, 21.0)))]
+    # the duck's weight inside the hull cannot tip it; its lever about the nearest edge (positive = inside)
+    pt = np.array((-110.0, 20.0)); inside = min(float(H[np.argmax(H @ dd)] @ dd - pt @ dd) for dd in
+                                            [np.array((np.cos(a), np.sin(a))) for a in np.linspace(0, 2 * np.pi, 72, endpoint=False)])
+    dd = pt - H.mean(0); dd /= np.linalg.norm(dd); piv = H[np.argmax(H @ dd)]; reach = float(piv @ dd)
+    out_mm = float(pt @ dd - reach)
+    corner = dict(case="seated duck's whole weight at the seat's outer back corner (an extreme: its CG cannot sit there)", direction=np.round(dd, 3).tolist(),
+                  pivot_xy=np.round(piv, 1).tolist(), outside_mm=round(out_mm, 1), duck_overturn_nm=round(max(out_mm, 0) * duck_w / 1000, 3),
+                  dock_resist_nm=round(W * (reach - cg[:2] @ dd) / 1000, 3))
+    corner["margin"] = round(corner["dock_resist_nm"] / corner["duck_overturn_nm"], 1) if corner["duck_overturn_nm"] else None
+    corner["ok"] = bool(corner["margin"] is None or corner["margin"] >= 3.0)
+    kid = [case("a child's bump or pull at the mast top, %s" % nm, 5.0, dd, 460.0) for nm, dd in
+           (("+x (toward the back)", (1, 0)), ("-x (toward the seat)", (-1, 0)), ("+y", (0, 1)), ("-y", (0, -1)))]
+    return dict(mass_kg=round(m / 1000, 3), cg_mm=np.round(cg, 1).tolist(), support="feet hull (12 feet, 4 mm radius)", hull_xy=np.round(H, 1).tolist(),
+                duck_corner_inside_hull_mm=round(inside, 1), cases=R, corner=corner, kid=kid, target=3.0,
+                note="the pivot is picked per load from the hull (the farthest support point along the load); the seated duck's weight acts inside the hull (%.0f mm in from the nearest edge), so it only steadies the dock. A 5 N push at the mast top (460 mm) is a stand-in for a child's bump: the tip force per direction is listed; it is under 3x, see 12.6" % inside)
 
 
 if __name__ == "__main__":

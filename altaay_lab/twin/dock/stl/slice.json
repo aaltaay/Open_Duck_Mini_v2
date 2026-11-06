@@ -47,8 +47,8 @@
    "err": ""
   },
   "dock_base_l": {
-   "grams": 80.74,
-   "hours": 5.56,
+   "grams": 96.73,
+   "hours": 6.6,
    "qty": 1,
    "orient": [
     [
@@ -62,8 +62,8 @@
    "err": ""
   },
   "dock_base_r": {
-   "grams": 80.35,
-   "hours": 5.53,
+   "grams": 96.23,
+   "hours": 6.55,
    "qty": 1,
    "orient": [
     [
@@ -92,7 +92,7 @@
    "err": ""
   },
   "dock_column_l2": {
-   "grams": 87.48,
+   "grams": 87.43,
    "hours": 5.99,
    "qty": 1,
    "orient": [
@@ -242,8 +242,8 @@
    "err": ""
   },
   "dock_bay_tray": {
-   "grams": 89.59,
-   "hours": 6.08,
+   "grams": 89.47,
+   "hours": 6.06,
    "qty": 1,
    "orient": [
     [
@@ -272,7 +272,7 @@
    "err": ""
   }
  },
- "total_g": 1070.2,
- "total_h": 75.7,
+ "total_g": 1101.9,
+ "total_h": 77.7,
  "label": "calc only (slicer estimate)"
 }

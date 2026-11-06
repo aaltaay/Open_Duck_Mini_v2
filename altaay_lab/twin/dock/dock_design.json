@@ -163,14 +163,298 @@
   "night_h": 6.0
  },
  "tipping": {
-  "mass_kg": 2.28,
-  "pla_g": 1330,
-  "ballast_g": 948,
-  "push_n": 3.62,
-  "push_moment_nm": 0.67,
-  "resist_moment_nm": 5.14,
-  "margin": 7.7,
-  "slide": "the push 3.6 N against the dock's weight 22.3 N: friction 0.16 needed (rubber feet; under the walk-in only)"
+  "mass_kg": 2.124,
+  "cg_mm": [
+   108.0,
+   -1.1,
+   78.2
+  ],
+  "support": "feet hull (12 feet, 4 mm radius)",
+  "hull_xy": [
+   [
+    36.0,
+    -134.0
+   ],
+   [
+    214.0,
+    -134.0
+   ],
+   [
+    215.0,
+    -133.9
+   ],
+   [
+    216.0,
+    -133.5
+   ],
+   [
+    216.8,
+    -132.8
+   ],
+   [
+    217.5,
+    -132.0
+   ],
+   [
+    217.9,
+    -131.0
+   ],
+   [
+    218.0,
+    -130.0
+   ],
+   [
+    218.0,
+    130.0
+   ],
+   [
+    217.9,
+    131.0
+   ],
+   [
+    217.5,
+    132.0
+   ],
+   [
+    216.8,
+    132.8
+   ],
+   [
+    216.0,
+    133.5
+   ],
+   [
+    215.0,
+    133.9
+   ],
+   [
+    214.0,
+    134.0
+   ],
+   [
+    36.0,
+    134.0
+   ],
+   [
+    35.0,
+    133.9
+   ],
+   [
+    34.0,
+    133.5
+   ],
+   [
+    33.2,
+    132.8
+   ],
+   [
+    -107.8,
+    18.8
+   ],
+   [
+    -108.5,
+    18.0
+   ],
+   [
+    -108.9,
+    17.0
+   ],
+   [
+    -109.0,
+    16.0
+   ],
+   [
+    -109.0,
+    -16.0
+   ],
+   [
+    -108.9,
+    -17.0
+   ],
+   [
+    -108.5,
+    -18.0
+   ],
+   [
+    -107.8,
+    -18.8
+   ],
+   [
+    33.2,
+    -132.8
+   ],
+   [
+    34.0,
+    -133.5
+   ],
+   [
+    35.0,
+    -133.9
+   ]
+  ],
+  "duck_corner_inside_hull_mm": -2.4,
+  "cases": [
+   {
+    "case": "walk-in push on the paddle, +x",
+    "force_n": 3.62,
+    "height_mm": 185.0,
+    "direction": [
+     1.0,
+     0.0
+    ],
+    "pivot_xy": [
+     218.0,
+     -130.0
+    ],
+    "weight_lever_mm": 110.0,
+    "resist_nm": 2.291,
+    "overturn_nm": 0.67,
+    "margin": 3.42,
+    "target": 3.0,
+    "tips_at_n": 12.4,
+    "ok": true
+   },
+   {
+    "case": "seated duck at the seat's back corner, its weight off-centre, with the paddle push",
+    "force_n": 3.62,
+    "height_mm": 185.0,
+    "direction": [
+     1.0,
+     0.0
+    ],
+    "pivot_xy": [
+     218.0,
+     -130.0
+    ],
+    "weight_lever_mm": 110.0,
+    "resist_nm": 11.133,
+    "overturn_nm": 0.67,
+    "margin": 16.62,
+    "target": 3.0,
+    "tips_at_n": 60.2,
+    "ok": true
+   },
+   {
+    "case": "seated duck, its CG at the sim's worst lateral error (x -63, y 21)",
+    "force_n": 3.62,
+    "height_mm": 185.0,
+    "direction": [
+     1.0,
+     0.0
+    ],
+    "pivot_xy": [
+     218.0,
+     -130.0
+    ],
+    "weight_lever_mm": 110.0,
+    "resist_nm": 9.866,
+    "overturn_nm": 0.67,
+    "margin": 14.73,
+    "target": 3.0,
+    "tips_at_n": 53.3,
+    "ok": true
+   }
+  ],
+  "corner": {
+   "case": "seated duck's whole weight at the seat's outer back corner (an extreme: its CG cannot sit there)",
+   "direction": [
+    -0.995,
+    0.104
+   ],
+   "pivot_xy": [
+    -109.0,
+    16.0
+   ],
+   "outside_mm": 1.4,
+   "duck_overturn_nm": 0.038,
+   "dock_resist_nm": 4.533,
+   "margin": 119.3,
+   "ok": true
+  },
+  "kid": [
+   {
+    "case": "a child's bump or pull at the mast top, +x (toward the back)",
+    "force_n": 5.0,
+    "height_mm": 460.0,
+    "direction": [
+     1.0,
+     0.0
+    ],
+    "pivot_xy": [
+     218.0,
+     -130.0
+    ],
+    "weight_lever_mm": 110.0,
+    "resist_nm": 2.291,
+    "overturn_nm": 2.3,
+    "margin": 1.0,
+    "target": 3.0,
+    "tips_at_n": 5.0,
+    "ok": false
+   },
+   {
+    "case": "a child's bump or pull at the mast top, -x (toward the seat)",
+    "force_n": 5.0,
+    "height_mm": 460.0,
+    "direction": [
+     -1.0,
+     0.0
+    ],
+    "pivot_xy": [
+     -109.0,
+     16.0
+    ],
+    "weight_lever_mm": 217.0,
+    "resist_nm": 4.52,
+    "overturn_nm": 2.3,
+    "margin": 1.97,
+    "target": 3.0,
+    "tips_at_n": 9.8,
+    "ok": false
+   },
+   {
+    "case": "a child's bump or pull at the mast top, +y",
+    "force_n": 5.0,
+    "height_mm": 460.0,
+    "direction": [
+     0.0,
+     1.0
+    ],
+    "pivot_xy": [
+     214.0,
+     134.0
+    ],
+    "weight_lever_mm": 135.1,
+    "resist_nm": 2.813,
+    "overturn_nm": 2.3,
+    "margin": 1.22,
+    "target": 3.0,
+    "tips_at_n": 6.1,
+    "ok": false
+   },
+   {
+    "case": "a child's bump or pull at the mast top, -y",
+    "force_n": 5.0,
+    "height_mm": 460.0,
+    "direction": [
+     0.0,
+     -1.0
+    ],
+    "pivot_xy": [
+     36.0,
+     -134.0
+    ],
+    "weight_lever_mm": 132.9,
+    "resist_nm": 2.769,
+    "overturn_nm": 2.3,
+    "margin": 1.2,
+    "target": 3.0,
+    "tips_at_n": 6.0,
+    "ok": false
+   }
+  ],
+  "target": 3.0,
+  "note": "the pivot is picked per load from the hull (the farthest support point along the load); the seated duck's weight acts inside the hull (-2 mm in from the nearest edge), so it only steadies the dock. A 5 N push at the mast top (460 mm) is a stand-in for a child's bump: the tip force per direction is listed; it is under 3x, see 12.6"
  },
  "label": "calc only; pin, spring and switch values read from the pages named in each entry"
 }

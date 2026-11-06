@@ -111,7 +111,8 @@ CUP_BOLT_DZ = (-17.0, 17.0)            # spring channel flange bolts, clear of t
 COLUMN_SPLITS = {"l": [12.0, 160.0, 310.0, 460.0], "r": [12.0, 210.0, 360.0, 460.0]}
 RIB_T = 13.0
 RIB_BOLTS_Z = [35.0 + 50.0 * i for i in range(9)]
-BASE = dict(x0=30.0, x1=190.0, z0=FOOT, z1=FOOT + 10.0)
+BASE = dict(x0=30.0, x1=220.0, z0=FOOT, z1=FOOT + 10.0)   # 220: the rear feet 30 mm further back for the tipping margin (dock_design.py)
+REAR_FOOT_X = 214.0
 BALLAST = dict(x0=114.0, x1=178.5, y0=8.0, y1=129.0, depth=8.0, bar=(63.5, 120.0, 7.9))   # pocket per half, bar x, y, z
 SPINE_BOLTS = [(40.0, 8.0), (60.0, 8.0)]
 COLUMN_BOLTS = [(79.0, 70.0), (93.0, 5.0)]
@@ -150,7 +151,7 @@ def parts():
     for z in (30.0, 70.0):
         base = base.difference(cyl_x(-19, -14, 0, z, M3))                              # 2 x M3x8 into the spine inserts
     base = base.difference(cyl_x(-19, -14, 14.0, 20.0, 5.0))                           # switch lead hole into the spine
-    base = feet(base, [(-102, 12), (-102, -12), (-23, 12), (-23, -12)])
+    base = feet(base, [(-105, 16), (-105, -16), (-20, 16), (-20, -16)])   # at the seat corners: a duck off-centre stays over the feet
     P["dock_seat_base"] = base
     # ---------------------------------------------------------------- seat top (loaded pose)
     top = box(-110, -15, -20, 20, zt, SEAT_LOADED)
@@ -187,7 +188,7 @@ def parts():
             b = b.difference(cyl(x, s * y, BASE["z0"] - 1, BASE["z1"] + 1, M3)).difference(cyl(x, s * y, BASE["z0"] - 1, BASE["z0"] + 3.2, 6.0))
         if s > 0:
             b = b.difference(box(BASE["x0"] - 1, GROOVE["x1"], GROOVE["y0"], GROOVE["y1"], BASE["z1"] - GROOVE["depth"], BASE["z1"] + 1))
-        b = feet(b, [(36, s * 30), (36, s * 130), (184, s * 30), (184, s * 130)])
+        b = feet(b, [(36, s * 30), (36, s * 130), (REAR_FOOT_X, s * 30), (REAR_FOOT_X, s * 130)])
         P[f"dock_base_{side}"] = b
     # ---------------------------------------------------------------- column halves (staggered splits)
     for side, s in (("l", 1), ("r", -1)):

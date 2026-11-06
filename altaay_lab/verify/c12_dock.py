@@ -70,6 +70,15 @@ def main():
         R.ev("fasteners seated on their host parts in the %s state: %s" % (st, "all" if not bad else bad[:5]))
         if bad:
             R.find("FAIL", "fasteners off their host parts in the %s state: %s" % (st, bad[:5]), where="altaay_lab/viewer/dock_scene.py, twin/dock/dock_assembly.py")
+    rc, out = run(["dock_design.py"], scr)
+    Tp = json.load(open(os.path.join(scr, "dock_design.json")))["tipping"]
+    for c in Tp["cases"] + [Tp["corner"]]:
+        R.ev("tipping, %s: %sx about %s (target 3x)" % (c["case"], c["margin"], c["pivot_xy"]))
+        if not c["ok"]:
+            R.find("FAIL", "tipping %s: %sx, under 3x" % (c["case"], c["margin"]), where="altaay_lab/twin/dock/dock_design.py")
+    for c in Tp["kid"]:
+        if not c["ok"]:
+            R.find("WARN", "tipping, %s: tips at %s N (5 N gives %sx): a wall strap or a lower mast, Ahmed's call" % (c["case"], c["tips_at_n"], c["margin"]))
     rc, out = run(["dock_erc.py"], scr)
     R.ev("dock_erc.py: " + " | ".join(l for l in out.splitlines() if l.startswith(("dock ERC", "INFO"))))
     if rc:
