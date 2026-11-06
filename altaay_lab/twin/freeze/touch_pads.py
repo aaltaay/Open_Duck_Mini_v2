@@ -113,6 +113,26 @@ def cable_trees(link):
 
 
 OWN = {"PH1": ("D17",), "PH2": ("D18",), "PB1": ("D20",), "tch_h": ("D16", "D17", "D18"), "tch_b": ("D19", "D20", "D21", "D22")}
+def board_frame(ia, ib, rot, n=None):
+    """the one place a board footprint is oriented: the long side (33.02 mm) lies along world axis ia (rot 0) or ib
+    (rot 1). Returns (e_long, e_short, long_axis_name); with n given, both are projected into the plane normal to n.
+    The support rays, the clearance grid, the exported box and routes_freeze.board_rows() all use it."""
+    k = ia if rot == 0 else ib
+    e_l = np.eye(3)[k].astype(float)
+    e_s = np.eye(3)[ib if rot == 0 else ia].astype(float)
+    if n is not None:
+        e_l = e_l - (e_l @ n) * n
+        e_l /= np.linalg.norm(e_l)
+        e_s = np.cross(n, e_l)
+    return e_l, e_s, "xyz"[k]
+
+
+def board_points(c, e_l, e_s, n, nl=7, ns=5, nw=4):
+    """grid over the board volume: BOARD[0] along e_l, BOARD[1] along e_s, BOARD[2] along n from the face"""
+    return np.array([c + e_l * u_ + e_s * v_ + n * w_ for u_ in np.linspace(-BOARD[0] / 2, BOARD[0] / 2, nl)
+                     for v_ in np.linspace(-BOARD[1] / 2, BOARD[1] / 2, ns) for w_ in np.linspace(0.3, BOARD[2], nw)])
+
+
 def cable_gaps(ctr, item, P, rule=3.0, own_free=False):
     """gap from points P (the item) to every routed cable. A lead that ends on this item is checked too, except its
     termination: from each route end inward, the stretch until the lead first stands `rule` mm off the item (the
@@ -277,8 +297,9 @@ def main():
         best_b = None
         why = {}
         for (c, o, sh, db, shn, ia, ib), rot in [(c_, ro) for c_ in cand for ro in (0, 1)]:
-            bx, by = (BOARD[0], BOARD[1]) if rot == 0 else (BOARD[1], BOARD[0])
-            ua, ub = np.eye(3)[ia], np.eye(3)[ib]
+            e_l0, e_s0, _ = board_frame(ia, ib, rot)
+            bx, by = BOARD[0], BOARD[1]
+            ua, ub = e_l0, e_s0                                  # support rays: long side along e_l0, short along e_s0
             # the shell under the footprint: 5 x 3 hits and a plane fit (the 1.1 mm tape takes up 0.6 mm), tilt up to 25 deg
             Q = []
             for dx in np.linspace(-bx / 2, bx / 2, 5):
@@ -300,12 +321,8 @@ def main():
                 why["not flat"] = why.get("not flat", 0) + 1
                 continue
             c = c + n * ((Q.mean(0) - c) @ n)
-            ea = ua if rot == 0 else ub
-            ea = ea - (ea @ n) * n
-            ea /= np.linalg.norm(ea)
-            eb = np.cross(n, ea)
-            g = np.array([c + ea * u_ + eb * v_ + n * w_ for u_ in np.linspace(-bx / 2, bx / 2, 7)
-                          for v_ in np.linspace(-by / 2, by / 2, 5) for w_ in np.linspace(0.3, BOARD[2], 4)])
+            ea, eb, _ = board_frame(ia, ib, rot, n)
+            g = board_points(c, ea, eb, n)
             shell_g = [x for x in trees[b["link"]].items()]
             gp = min(float(t.query(g)[0].min()) for k, t in shell_g if not k.startswith(("box tch", shn + "[")))
             gc = min(cable_gaps(ctrees[b["link"]], key, g, rule=CLR_BOARD, own_free=True).values(), default=99)
@@ -328,19 +345,23 @@ def main():
         gcs = cable_gaps(ctrees[b["link"]], key, best_g, rule=CLR_BOARD)
         gc_own = min(gcs.values(), default=99)
         own_g = {k: r(v, 1) for k, v in gcs.items() if k in OWN[key]}
-        J["boards"][key] = dict(id=b["id"], centre_top_face_world=np.round(c, 2).tolist(), box_xyz_mm=[bx, by, BOARD[2]],
-                                long_side_along="xyz"[ia] if rot == 0 else "xyz"[ib], face_normal=np.round(n, 3).tolist(), tilt_deg=r(tilt, 1),
+        J["boards"][key] = dict(id=b["id"], centre_top_face_world=np.round(c, 2).tolist(), box_xyz_mm=list(BOARD),
+                                long_side_along=board_frame(ia, ib, rot)[2], face_normal=np.round(n, 3).tolist(), tilt_deg=r(tilt, 1),
                                 part_gap_mm=r(gp, 1), cable_gap_mm=r(gc, 1), own_lead_gaps_mm=own_g, own_lead_rule_mm=OWN_LEAD_TO_BOARD,
                                 own_leads_ok=bool(min(own_g.values(), default=99) >= OWN_LEAD_TO_BOARD), pad_gap_mm=r(gpad, 1), lead_sum_mm=r(lead, 0),
                                 on=shn, mount="VHB 4950 (BOM 29) on the board's back; its parts face %s" % np.round(n, 2).tolist())
-        ea = (np.eye(3)[ia] if rot == 0 else np.eye(3)[ib])
-        ea = ea - (ea @ n) * n
-        ea /= np.linalg.norm(ea)
-        eb = np.cross(n, ea)
+        ea, eb, _ = board_frame(ia, ib, rot, n)
         cc = c + n * BOARD[2] / 2
-        corners = np.array([cc + ea * sa * bx / 2 + eb * sb * by / 2 + n * sn * BOARD[2] / 2
+        corners = np.array([cc + ea * sa * BOARD[0] / 2 + eb * sb * BOARD[1] / 2 + n * sn * BOARD[2] / 2
                             for sa in (-1, 1) for sb in (-1, 1) for sn in (-1, 1)])
         ext = np.ptp(corners, axis=0)
+        # self-check: the exported box spans the same footprint the support rays hit (both from board_frame)
+        sup = np.array([c + ua_ * dx + ub_ * dy for ua_, ub_ in [board_frame(ia, ib, rot)[:2]]
+                        for dx in (-BOARD[0] / 2, BOARD[0] / 2) for dy in (-BOARD[1] / 2, BOARD[1] / 2)])
+        foot = np.array([c + ea * sa * BOARD[0] / 2 + eb * sb * BOARD[1] / 2 for sa in (-1, 1) for sb in (-1, 1)])
+        mis = float(np.max(np.abs(np.ptp(sup, 0)[[ia, ib]] - np.ptp(foot, 0)[[ia, ib]])))
+        J["boards"][key]["box_vs_support_footprint_mm"] = r(mis, 2)
+        assert mis < 0.5 + BOARD[0] * (1 - np.cos(np.radians(tilt))), (key, mis)
         J["boards"][key]["aabb_xyz_mm"] = np.round(ext, 2).tolist()
         newbox[key] = dict(id=key, label=b["label"], dims_xyz_mm=np.round(ext, 2).tolist(), box_with_margin_mm=np.round(ext + 2, 2).tolist(),
                            center_mm=np.round(cc, 2).tolist(), frame="urdf_world_mm",

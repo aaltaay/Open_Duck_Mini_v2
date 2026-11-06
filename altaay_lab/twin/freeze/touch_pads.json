@@ -174,6 +174,7 @@
    "lead_sum_mm": 111.0,
    "on": "head",
    "mount": "VHB 4950 (BOM 29) on the board's back; its parts face [0.22, 0.0, -0.98]",
+   "box_vs_support_footprint_mm": 0.79,
    "aabb_xyz_mm": [
     33.47,
     19.05,
@@ -213,6 +214,7 @@
    "lead_sum_mm": 121.0,
    "on": "body_middle_top",
    "mount": "VHB 4950 (BOM 29) on the board's back; its parts face [0.0, -1.0, -0.01]",
+   "box_vs_support_footprint_mm": 0.0,
    "aabb_xyz_mm": [
     33.04,
     5.94,

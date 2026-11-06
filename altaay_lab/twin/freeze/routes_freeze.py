@@ -53,10 +53,9 @@ def board_rows(b, tp=True):
     on the parts face 1.0 mm out"""
     c = np.array(b["centre_top_face_world"])
     n = np.array(b["face_normal"])
-    ea = np.eye(3)["xyz".index(b["long_side_along"])]
-    ea = ea - (ea @ n) * n
-    ea /= np.linalg.norm(ea)
-    eb = np.cross(n, ea)
+    from touch_pads import board_frame
+    k = "xyz".index(b["long_side_along"])
+    ea, eb, _ = board_frame(k, (k + 1) % 3, 0, n)          # the same orientation function as the seat search
     top = c + n * (b["box_xyz_mm"][2])
     h = 19.05 / 2 - 1.27
     return top + n * 1.0 - eb * h, top + n * 1.0 + eb * h, n
