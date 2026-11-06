@@ -522,10 +522,7 @@ more short (ray cast). Every printed hole has its fastener (D39); each joint use
 - Gate (dock_netlist.yaml gate_board, dock_erc.py): NTC window NTC window (10 k B3950, 10 k from 2.495 V): on from 43.2 C (0.793 V) down to 3.7 C (1.833 V); open reads 2.50 V, short 0 V: both off; pin window pack window through the duck's 100 k (charger off): on from 5.05 V to 9.23 V; charger on (direct): off above 8.59 V; a coin or nothing reads 0 V. The 2N3906 is gone: the 555 drives
   SENSE through a diode and 1 k; a second 2N3904 inverts STAT, with its pull-ups on the gated supply so the 555 does not
   fire again each time the gate closes (a pulse loop the old sketch had). U1 on the board is MCP73213-A6S (user's guide BOM).
-- 18 wires, every one routed in 3D (dock_cables3d.json): self-check **PASS** (each wire may enter a body only in the 3.5 mm
-  lead exits of its own two terminals and touch only its own parts; elsewhere its centre line keeps its radius from every
-  body, on the meshes). Cuts = route + 2 x 20 mm (+ 20 mm on the paddle cable for its 40 mm of travel): the paddle cable
-  390 to 490 mm, the seat switch pair 360 and 310 mm. Sheet 7 draws all 18.
+- 18 wires, every one routed in 3D (dock_cables3d.json). The two harnesses are routed as bundles: the paddle cable KP1 (4 conductors, a 5.15 mm envelope with the centres on a circle, neighbours at least one OD apart, through a 9 mm face hole) and the seat switch pair KC5 (2.9 mm through the spine channel, the base groove and the tray floor); each conductor keeps its slot along the bundle (parallel-transport frame) and fans out at the ends; every other wire is routed after them and keeps clear of the wires already placed and of every pad it does not end on. Self-check **PASS**: each wire enters a body only in the 3.5 mm lead exits of its own two terminals and touches only its own parts; elsewhere its centre line keeps its radius from every body; and no two wires come closer than the sum of their radii outside the terminal zones they share (C12 fails on any overlap). Cuts = route + 2 x 20 mm (+ 20 mm on the paddle cable for its 40 mm of travel): the paddle cable 450 to 550 mm, the seat switch pair 370 and 320 mm. Sheet 7 draws all 18.
 
 ### 12.5 Charge current
 The EV board ships at 500 mA and gives 1000 mA with its PROG via grounded (DS51849A section 2.3.1); 1100 mA would need

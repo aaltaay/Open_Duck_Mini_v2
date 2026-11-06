@@ -1,6 +1,6 @@
 # VERIFICATION: every check that runs without the robot
 
-Generated 2026-11-06 2:31 AM ET by altaay_lab/verify/report.py from one run of `bash altaay_lab/verify/run_all.sh` (results kept outside the repo). Written by agent Q (verification) for Ahmed's Open Duck Mini v2 build. Every simulation result here is sim pass only. Nothing was bought, built or printed; no lab file was edited by these checks (each script that writes files was run on a copy or into the results folder).
+Generated 2026-11-06 3:10 AM ET by altaay_lab/verify/report.py from one run of `bash altaay_lab/verify/run_all.sh` (results kept outside the repo). Written by agent Q (verification) for Ahmed's Open Duck Mini v2 build. Every simulation result here is sim pass only. Nothing was bought, built or printed; no lab file was edited by these checks (each script that writes files was run on a copy or into the results folder).
 
 ## Summary
 23 checks: **21 PASS, 2 FAIL, 0 NOT RUN**. 2 FAIL findings and 37 WARN findings in all (below). PASS means no FAIL finding; a PASS row can still carry WARN findings (risks, test fits, notes).
@@ -525,13 +525,16 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py`. F
 - Runtime 376de65: motor target = init_pos + action x action_scale at line 290; live clip of the targets: none; commented-out clip at lines [292]; servo angle limit registers set by configure_motor.py or the HWI: False
 
 ### C12 The charging dock: parts, fits, screws, wiring, routes, BOM against the model (twin/dock, CAD check only): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026-11-06 07:29 UTC, 8 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026-11-06 08:10 UTC, 9 s.
 - printed kinds 18, prints 21; not watertight or off the bed: none
 - components 94 (dock), 94 (docked); interferences 0; paddle motion poses with a hit 0 of 9
 - fasteners: 41 screws, 18 nuts, 20 inserts; not OK: none
+- fasteners seated on their host parts in the dock state: all
+- fasteners seated on their host parts in the docked state: all
 - dock_erc.py: dock ERC: 0 ERROR, 0 WARN | INFO NTC window (10 k B3950, 10 k from 2.495 V): on from 43.2 C (0.793 V) down to 3.7 C (1.833 V); open reads 2.50 V, short 0 V: both off | INFO pack window through the duck's 100 k (charger off): on from 5.05 V to 9.23 V; charger on (direct): off above 8.59 V; a coin or nothing reads 0 V | INFO wake one-shot 1.1 x R17 x C4 = 110 ms
+- wire to wire (centre lines at least the sum of the radii apart, outside shared terminal zones): no overlap
 - wires 18, routed 18, self-check PASS; cuts short of the rule: none
-- sheet 7: sheet 7: 7_dock.png 566385 bytes, svg 356314 bytes, full 18 of 18, crossings 23
+- sheet 7: sheet 7: 7_dock.png 567139 bytes, svg 356483 bytes, full 18 of 18, crossings 23
 - dock_bom.py: CHECK PASS
 - viewer dock scene: printed 21/21, screws 41, inserts 20, cables 18
 
@@ -607,12 +610,12 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026
 | altaay_lab/software/PI_SETUP.md | 1bf944b894 | 2026-11-06 06:11 UTC |
 | altaay_lab/software/SOFTWARE.md | d92bbb5f81 | 2026-11-06 06:11 UTC |
 | altaay_lab/software/duck_config.altaay.json | 249171e913 | 2026-11-06 06:11 UTC |
-| altaay_lab/twin/dock/dock_assembly.py | bc231b2c3a | 2026-11-06 07:05 UTC |
+| altaay_lab/twin/dock/dock_assembly.py | 54ca7cb061 | 2026-11-06 07:35 UTC |
 | altaay_lab/twin/dock/dock_bom.py | b993e8b039 | 2026-11-06 07:21 UTC |
 | altaay_lab/twin/dock/dock_fasteners.py | 217debc1e2 | 2026-11-06 06:48 UTC |
-| altaay_lab/twin/dock/dock_netlist.yaml | 57a13cd41f | 2026-11-06 07:15 UTC |
-| altaay_lab/twin/dock/dock_parts.py | fa99aed76c | 2026-11-06 07:10 UTC |
-| altaay_lab/twin/dock/dock_routes.py | bb16f76980 | 2026-11-06 07:15 UTC |
+| altaay_lab/twin/dock/dock_netlist.yaml | 586d02ccde | 2026-11-06 08:09 UTC |
+| altaay_lab/twin/dock/dock_parts.py | cfde23a709 | 2026-11-06 08:04 UTC |
+| altaay_lab/twin/dock/dock_routes.py | e69298f091 | 2026-11-06 08:04 UTC |
 | altaay_lab/viewer/MISSING_3D.md | 6b3241dde5 | 2026-11-06 06:11 UTC |
 | altaay_lab/viewer/README.md | 7e6c0904b6 | 2026-11-06 06:11 UTC |
 | altaay_lab/viewer/make_viewer_data.py | baf15ff830 | 2026-11-06 07:07 UTC |

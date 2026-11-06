@@ -86,6 +86,12 @@ def main():
         need = r["length_mm"] + (10 if "holder lead" in (w.get("ends") or []) else 40 + (20 if w["cable"] == "KP1" else 0))
         if w["cut_mm"] < need - 1e-6:
             short.append("%s-%s cut %s < %s" % (w["from"], w["to"], w["cut_mm"], round(need)))
+    sys.path.insert(0, D)
+    import dock_routes as DRt
+    over = DRt.pairwise({c["id"]: c["runs"] for c in C["cables"]}, {k: __import__("numpy").array(v) for k, v in C["terminals"].items()})
+    R.ev("wire to wire (centre lines at least the sum of the radii apart, outside shared terminal zones): %s" % ("no overlap" if not over else over[:3]))
+    if over:
+        R.find("FAIL", "routed wires overlap: %s" % over[:3], where="altaay_lab/twin/dock/dock_routes.py")
     R.ev("wires %d, routed %d, self-check %s; cuts short of the rule: %s" % (len(NL["wires"]), len(NL["wires"]) - len(miss), C["self_check"], short or "none"))
     if miss or short or C["self_check"] != "PASS":
         R.find("FAIL", "dock routes: missing %s, short %s, self-check %s" % (miss, short, C["self_check"]), where="altaay_lab/twin/dock/dock_routes.py")

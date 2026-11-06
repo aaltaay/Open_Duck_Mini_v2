@@ -165,19 +165,19 @@ Total 1070.2 g, 75.7 h.
 | KC2 | J1.SLV | GATE.GND | 20 AWG | black | 140 |
 | KC3 | FD.OUT | SWG.VIN | 16 AWG | red | 90 |
 | KC3 | SWG.VIN | GATE.V9 | 26 AWG | red | 110 |
-| KC4 | SWG.VOUT | CH.VDD | 20 AWG | red | 90 |
-| KC4 | SWG.GND | GATE.GND | 26 AWG | black | 90 |
+| KC4 | SWG.VOUT | CH.VDD | 20 AWG | red | 100 |
+| KC4 | SWG.GND | GATE.GND | 26 AWG | black | 100 |
 | KC4 | CH.VSS | GATE.GND | 20 AWG | black | 80 |
-| KC4 | CH.STAT | GATE.STAT | 26 AWG | white | 100 |
-| KC4 | CH.VBATP | GATE.CHGS | 26 AWG | yellow | 110 |
-| KC4 | SWG.VOUT | GATE.VSYS | 26 AWG | red | 120 |
-| KC5 | SWG.CTRL | MS.C | 26 AWG | blue | 360 |
-| KC5 | MS.NO | GATE.Q1C | 26 AWG | green | 310 |
-| KP1 | CH.VBATP | PADDLE.CHG | 20 AWG | red | 440 |
-| KP1 | GATE.SNS | PADDLE.SNS | 26 AWG | white | 390 |
-| KP1 | GATE.GND | PADDLE.GND_L | 20 AWG | black | 400 |
-| KP1 | SWG.VOUT | PADDLE.SYS_L | 20 AWG | red | 490 |
+| KC4 | CH.STAT | GATE.STAT | 26 AWG | white | 120 |
+| KC4 | CH.VBATP | GATE.CHGS | 26 AWG | yellow | 120 |
+| KC4 | SWG.VOUT | GATE.VSYS | 26 AWG | red | 150 |
+| KC5 | SWG.CTRL | MS.C | 26 AWG | blue | 370 |
+| KC5 | MS.NO | GATE.Q1C | 26 AWG | green | 320 |
+| KP1 | CH.VBATP | PADDLE.CHG | 20 AWG | red | 550 |
+| KP1 | GATE.SNS | PADDLE.SNS | 26 AWG | white | 470 |
+| KP1 | GATE.GND | PADDLE.GND_L | 20 AWG | black | 450 |
+| KP1 | SWG.VOUT | PADDLE.SYS_L | 20 AWG | red | 510 |
 | KP2 | PADDLE.GND_L | PADDLE.GND_R | 20 AWG | black | 50 |
 | KP2 | PADDLE.SYS_L | PADDLE.SYS_R | 20 AWG | red | 50 |
 
-Wire to cut, by gauge and colour (line K11): 20 AWG black 670 mm, 20 AWG red 1070 mm, 26 AWG black 90 mm, 26 AWG blue 360 mm, 26 AWG green 310 mm, 26 AWG red 230 mm, 26 AWG white 490 mm, 26 AWG yellow 110 mm.
+Wire to cut, by gauge and colour (line K11): 20 AWG black 720 mm, 20 AWG red 1210 mm, 26 AWG black 100 mm, 26 AWG blue 370 mm, 26 AWG green 320 mm, 26 AWG red 260 mm, 26 AWG white 590 mm, 26 AWG yellow 120 mm.

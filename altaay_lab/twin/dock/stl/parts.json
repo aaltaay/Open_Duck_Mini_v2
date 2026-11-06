@@ -92,7 +92,7 @@
  },
  "dock_column_l2": {
   "watertight": true,
-  "volume_cm3": 206.08,
+  "volume_cm3": 205.88,
   "extents_mm": [
    28.0,
    140.0,
@@ -222,14 +222,14 @@
  },
  "dock_bay_tray": {
   "watertight": true,
-  "volume_cm3": 76.45,
+  "volume_cm3": 76.29,
   "extents_mm": [
    86.0,
    201.0,
    36.0
   ],
   "fits_220": true,
-  "bytes": 116784,
+  "bytes": 116884,
   "printed": true,
   "qty": 1
  },
