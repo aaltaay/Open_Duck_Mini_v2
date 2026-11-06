@@ -1,0 +1,23 @@
+# dock_netlist.yaml: the dock's own wiring (D43, D45, D50), calc only. Rev 2026-11-05 (America/New_York).
+# No microcontroller and no Wi-Fi: the gate is a microswitch and two comparators.
+components:
+  - {id: AD, part: "9 V 4 A wall adapter, +/- 2 %, short-circuit protected (Mean Well GST36A09 class; price BLOCKER)", pins: [V+, V-]}
+  - {id: FD, part: "5 A fuse at the adapter input", pins: [IN, OUT]}
+  - {id: SWG, part: "Pololu 2815 MOSFET switch, gate (CTRL to GND turns it on)", pins: [VIN, VOUT, CTRL]}
+  - {id: MS, part: "Omron D2F-01L seat microswitch, NO, in series with SWG CTRL", pins: [C, NO]}
+  - {id: CMP, part: "2 x LM393: NTC window 5 to 45 C on SENSE; pin-voltage window 5.0 to 8.45 V on CHG+ (1 M / 330 k); wired-AND to the NPN on SWG CTRL", pins: [SENSE, CHG, OUT]}
+  - {id: REF, part: "TL431 2.50 V reference; 10 k to SENSE", pins: [K, A]}
+  - {id: CH, part: "Microchip MCP73213EV-2SOVP (A6S: 8.40 V, 6 h timer, 10 % termination, recharge at 95 %)", pins: [VIN, VBAT, STAT, GND]}
+  - {id: WK, part: "NE555 one-shot 100 ms on the STAT done edge, PNP to SENSE through 1 k (full-shutdown wake)", pins: [TRIG, OUT]}
+  - {id: PADDLE, part: "6 Mill-Max 0932 spring pins on the swivelling paddle: CHG+ 1, SENSE 1, GND 2, SYS 2 (doubled rows at y +/- 3 mm)", pins: [CHG, SNS, GND, SYS]}
+wires:
+  - {from: AD.V+, to: FD.IN}
+  - {from: FD.OUT, to: SWG.VIN}
+  - {from: SWG.VOUT, to: CH.VIN, note: "charger input"}
+  - {from: SWG.VOUT, to: PADDLE.SYS, note: "D50: the gated 9 V to the duck (about 1.0 A typical, 1.8 A peak with the ear servos and the amp)"}
+  - {from: CH.VBAT, to: PADDLE.CHG}
+  - {from: MS.NO, to: CMP.OUT, note: "microswitch in series with the comparator AND: no seated duck, no power on CHG and SYS"}
+  - {from: REF.K, to: PADDLE.SNS, note: "through 10 k"}
+  - {from: CH.STAT, to: WK.TRIG}
+  - {from: WK.OUT, to: PADDLE.SNS}
+  - {from: AD.V-, to: PADDLE.GND}

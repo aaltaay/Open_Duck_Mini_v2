@@ -271,6 +271,10 @@ def build_terminals(s, g, seats):
                              ("SW1.GND", 10.0, -7.5, "large hole GND"), ("SW1.CTL", 0.0, 7.5, "0.1 in SW and GND pads")):
         T.add(tid, "trunk_assembly", sw_c + [sw_d[0] / 2 + 1.05, dy, dz], (1, 0, 0), how,
               SRC["placement"] + " mosfet_switch %s, %s standing, wires on the +x face." % (sw_c.tolist(), sw_d.tolist()) + appr)
+    # D50: P7 load now ends at DK7 VIN (Pololu 5383 ideal diode under trunk_top, twin/dock/dock_seats.json), not SW1 VIN
+    dk7_c, dk7_d = placement("dock_dk7")
+    T.add("DK7.VIN", "trunk_assembly", dk7_c + [0, dk7_d[1] / 2 - 0.5, -2.0], (0, 1, 0), "DK7 VIN pad",
+          SRC["placement"] + " dock_dk7 %s, %s; VIN pad at its +y end (twin/dock/dock_routes.json)" % (dk7_c.tolist(), dk7_d.tolist()))
     sw = inst[("trunk_assembly", "power_switch")]
     Ms = W(sw)
     T.add("CTL.LUGS", "trunk_assembly", tf(Ms, (0.0, 0.0, -4.0 - 1.0)), rot(Ms, (0, 0, -1)), "2 solder lugs",
@@ -401,7 +405,7 @@ RUNS = [
     dict(cable="P6", run="main", a="BMS.P", b="XT30.F"),
     dict(cable="P8", run="main", a="BMS.P", b="XT30.F"),
     dict(cable="P7", run="line", a="XT30.M", b="F1.IN"),
-    dict(cable="P7", run="load", a="F1.OUT", b="SW1.VIN"),
+    dict(cable="P7", run="load", a="F1.OUT", b="DK7.VIN"),   # D50
     dict(cable="P14", run="main", a="XT30.M", b="G"),
     dict(cable="P9", run="main", a="SW1.VOUT", b="VSW"),
     dict(cable="P16", run="main", a="G", b="SW1.GND"),
@@ -630,7 +634,7 @@ def write_json_atomic(obj, path):
 
 # ------------------------------------------------------------------------------------------------ pins -> terminals
 PIN_MAP = [("PACK.MID", "PACK.MID"), ("PACK.", "PACK.LEADS"), ("BMS.B", "BMS.B"), ("BMS.P", "BMS.P"), ("CHG.", "CHG.OUT"),
-           ("XT30.F", "XT30.F"), ("XT30.M", "XT30.M"), ("F1.IN", "F1.IN"), ("F1.OUT", "F1.OUT"), ("SW1.VIN", "SW1.VIN"),
+           ("XT30.F", "XT30.F"), ("XT30.M", "XT30.M"), ("F1.IN", "F1.IN"), ("F1.OUT", "F1.OUT"), ("DK7.VIN", "DK7.VIN"), ("SW1.VIN", "SW1.VIN"),
            ("SW1.VOUT", "SW1.VOUT"), ("SW1.GND_SW", "SW1.CTL"), ("SW1.SW", "SW1.CTL"), ("SW1.GND", "SW1.GND"),
            ("CTL.", "CTL.LUGS"), ("VSW.", "VSW"), ("G.S", "G"), ("U1.IN", "U1.IN"), ("U1.OUT", "U1.OUT"), ("JBP.", "JB"),
            ("JBN.", "JB"), ("JG20.", "JG20"), ("JG10.", "JG10"), ("JG30.", "JG30"), ("YD3.", "Y.SD1"), ("YG3.", "Y.SD1"),

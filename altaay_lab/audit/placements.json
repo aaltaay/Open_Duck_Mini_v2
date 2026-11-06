@@ -191,5 +191,85 @@
   ],
   "frame": "urdf_world_mm",
   "seat_fix": "2026-11-05 ET, V1 track 11: on the bosses of twin/companion/mic_seat.py, 3.5 mm off the wall (CAD check only)"
+ },
+ {
+  "id": "dock_pad",
+  "label": "Chest contact pad, 4 strips (BOM DK1, D43, D50)",
+  "dims_xyz_mm": [
+   0.8,
+   100.0,
+   76.0
+  ],
+  "center_mm": [
+   46.4,
+   0.0,
+   38.0
+  ],
+  "frame": "urdf_world_mm",
+  "seat_fix": "2026-11-05 ET, V1 track 8: VHB on the flat chest face of body_front, trunk z 0 to 76 (CAD check only)"
+ },
+ {
+  "id": "dock_dk2",
+  "label": "Charge input ideal diode, Pololu 5382 (BOM DK2)",
+  "dims_xyz_mm": [
+   3.0,
+   13.0,
+   8.0
+  ],
+  "center_mm": [
+   33.0,
+   0.0,
+   24.0
+  ],
+  "frame": "urdf_world_mm",
+  "seat_fix": "2026-11-05 ET, V1 track 8 phase 3 (D50): twin/dock/dock_seats.py, VHB 4950 on the printed wall named in dock_seats.json (CAD check only)"
+ },
+ {
+  "id": "dock_f2",
+  "label": "Charge path fuse holder FHAC0001ZXJ, 5 A (BOM DK3, DK4)",
+  "dims_xyz_mm": [
+   18.0,
+   18.0,
+   52.0
+  ],
+  "center_mm": [
+   -85.0,
+   -42.0,
+   26.0
+  ],
+  "frame": "urdf_world_mm",
+  "seat_fix": "2026-11-05 ET, V1 track 8 phase 3 (D50): twin/dock/dock_seats.py, VHB 4950 on the printed wall named in dock_seats.json (CAD check only)"
+ },
+ {
+  "id": "dock_dk6",
+  "label": "Dock supply ideal diode, Pololu 5382 (BOM DK6, D50)",
+  "dims_xyz_mm": [
+   13.0,
+   8.0,
+   3.0
+  ],
+  "center_mm": [
+   -104.0,
+   1.0,
+   45.0
+  ],
+  "frame": "urdf_world_mm",
+  "seat_fix": "2026-11-05 ET, V1 track 8 phase 3 (D50): twin/dock/dock_seats.py, VHB 4950 on the printed wall named in dock_seats.json (CAD check only)"
+ },
+ {
+  "id": "dock_dk7",
+  "label": "Pack side ideal diode, Pololu 5383 (BOM DK7, D50)",
+  "dims_xyz_mm": [
+   8.0,
+   13.0,
+   3.0
+  ],
+  "center_mm": [
+   -104.0,
+   13.0,
+   45.0
+  ],
+  "frame": "urdf_world_mm",
+  "seat_fix": "2026-11-05 ET, V1 track 8 phase 3 (D50): twin/dock/dock_seats.py, VHB 4950 on the printed wall named in dock_seats.json (CAD check only)"
  }
 ]

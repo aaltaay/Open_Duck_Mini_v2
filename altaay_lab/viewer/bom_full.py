@@ -345,6 +345,15 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
     for cid in ("AMP", "SPK", "CAM"):
         sec, item, line, keys, st = COMP[cid]
         e_row(item, line, keys, [cid], sec, qty=1)
+    for item, line, keys, cids, spec in (
+            ("Chest contact pad, 4 strips", "DK1", ["dock_pad"], ["DKP"], None),
+            ("Charge input ideal diode, Pololu 5382", "DK2", ["dock_dk2"], ["DK2"], None),
+            ("Charge path fuse holder, Littelfuse FHAC0001ZXJ", "DK3", ["dock_f2"], ["F2"], "ATO holder for the 5 A charge fuse"),
+            ("Fuse, Littelfuse 0287005.PXCN ATO 5 A", "DK4", [], ["F2"], "sits in the DK3 holder"),
+            ("Cell NTC and wake branch parts", "DK5", [], ["RT1", "WK1"], "10 k NTC B3950; 3.9 V zener, diode, 10 k; 100 k across DK2"),
+            ("Dock supply ideal diode, Pololu 5382", "DK6", ["dock_dk6"], ["DK6"], None),
+            ("Pack side ideal diode, Pololu 5383", "DK7", ["dock_dk7"], ["DK7"], None)):
+        e_row(item, line, keys, cids, "Electronics and power", qty=1, spec=spec)
     e_row("Eye glass disc, 29.6 x 1.85 mm", "E4", [], [], "Expression (head)", qty=2, spec="one per eye (not modelled)")
     e_row("Projector reflector, Aurorad S5 20 x 15 mm", "E5", [], [], "Expression (head)", qty=1,
           spec="in flash_reflector_interface (not modelled)")

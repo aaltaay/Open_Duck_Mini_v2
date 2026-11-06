@@ -31,7 +31,7 @@ MAP = [  # component id pattern, BOM lines, a part number or name that must appe
     (r"U1", ["L1"], ["010-0004-01"]), (r"U2", ["2"], ["25514"]), (r"U3", ["9"], ["D30V30F5"]), (r"PI", ["3", "4"], ["Zero 2 W", "SDSQUAR"]),
     (r"BNO", ["5"], ["2472"]), (r"FS[LR]\d", ["13"], ["SS-01"]), (r"R[LRP]", ["E3b"], ["100 ohm"]), (r"RF[LR]", ["13b"], ["2782"]),
     (r"LED[LRP]", ["E3"], ["1 W"]), (r"SG[LR]", ["14"], ["SG90"]), (r"AMP", ["E2"], ["MAX98357A"]), (r"SPK", ["E1"], ["CMS0361KLX"]),
-    (r"CAM", ["E6"], ["5657"]), (r"MIC[LR]", ["E8"], ["3421"]), (r"SV\d+", ["1"], ["STS3215"]),
+    (r"CAM", ["E6"], ["5657"]), (r"MIC[LR]", ["E8"], ["3421"]), (r"DKP", ["DK1"], ["four strips"]), (r"DK2", ["DK2"], ["5382"]), (r"F2", ["DK3", "DK4"], ["FHAC0001ZXJ", "0287005.PXCN"]), (r"RT1|WK1", ["DK5"], ["NTC"]), (r"DK6", ["DK6"], ["5382"]), (r"DK7", ["DK7"], ["5383"]), (r"SV\d+", ["1"], ["STS3215"]),
 ]
 
 

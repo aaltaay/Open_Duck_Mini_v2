@@ -11,11 +11,11 @@ is a port of osrf/autodock), D44 (2S1P Molicel P45B pack), D45 (simplest, cheape
   upstream bugs fixed, and a duck layer on top. All motion goes through measured pulse tables in `duck_autodock.yaml`, so the
   retrained walk of track 10 (creep, symmetric turns, small sidesteps) can be swapped in by changing tables, not code. 15 unit tests.
 - **Dock:** a 40 mm wide seat at 112 mm on a short spine between the feet, a **sprung, swivelling chest paddle** (40 mm travel,
-  3 N at full travel, +/- 10 deg about a vertical pin so it lies flat on a yawed chest) with three spring pins, and a three-tag mast
+  3 N at full travel, +/- 10 deg about a vertical pin so it lies flat on a yawed chest) with six spring pins (D50), and a three-tag mast
   (tag36h11 id 0 at 40 mm in the centre, ids 1 and 2 at 60 mm, 200 mm apart).
-- **Contacts on the chest, not the belly:** three strips 100 mm wide and 20 mm tall on the flat chest face (CHG+, SENSE, GND, top
-  to bottom). The seat sets their height, the paddle takes up the stop error, the strip length takes the lateral error: the window
-  is fore-aft 0 to 40 mm into the paddle, lateral +/- 49.5 mm, vertical +/- 9.5 mm, yaw +/- 10 deg. The belly is not cut (the pocket
+- **Contacts on the chest, not the belly:** four strips 100 mm wide and 17.5 mm tall on the flat chest face (CHG+, SENSE, GND,
+  SYS, top to bottom; D50 added SYS, the dock supply that keeps the duck awake while docked, section 11). The seat sets their height, the paddle takes up the stop error, the strip length takes the lateral error: the window
+  is fore-aft 0 to 40 mm into the paddle, lateral +/- 46.5 mm (doubled rows; +/- 49.5 mm single), vertical +/- 8.25 mm, yaw +/- 10 deg. The belly is not cut (the pocket
   tried earlier is reverted). The feet set the tighter lateral limit: the soles clear the seat by about 22 mm a side.
 - **Perception closes the loop to the paddle:** the side tags square the duck and set the dock axis, saved on the IMU yaw; the
   40 mm centre tag gives the range and the lateral offset down to about 6 cm from the camera, the last 3 to 5 cm before the stop
@@ -34,21 +34,21 @@ Dock frame: x toward the mast, the paddle face at rest is x = 0, z up from the f
 |---|---|---|
 | seat | x -110 to -15, y +/- 20, top z 112 | a 60 mm seat was touched by a sole; at 40 mm the closest sole edge stayed 22 to 41 mm away |
 | spine | x -15 to 30, y +/- 20, top z 90 | links the seat to the mast base |
-| paddle | x 0 to 12 at rest, y +/- 55, z 140 to 220, slides 40 mm on two 4 mm rods, 75 N/m, swivels +/- 10 deg about a vertical pin at x 18, PTFE face (friction 0.15, ASSUMPTION) | a rigid bumper gave a 5 to 10 mm stop window; the sprung paddle takes any stop from 0 to 40 mm short of full travel; a fixed paddle left the pins 2.5 to 3.9 mm off a chest yawed 4.5 to 6 deg (acc6), the swivel lays it flat |
+| paddle | x 0 to 12 at rest, y +/- 55, z 140 to 230 (D50: 10 mm taller for the fourth row), slides 40 mm on two 4 mm rods, 75 N/m, swivels +/- 10 deg about a vertical pin at x 18, PTFE face (friction 0.15, ASSUMPTION) | a rigid bumper gave a 5 to 10 mm stop window; the sprung paddle takes any stop from 0 to 40 mm short of full travel; a fixed paddle left the pins 2.5 to 3.9 mm off a chest yawed 4.5 to 6 deg (acc6), the swivel lays it flat |
 | paddle guide | a yoke (carrier) holds the pivot (two coaxial M3 x 20 screws) and the rods; the rods run through 4.4 mm bores in the mast face into two spring cups behind it, a shaft collar on each rod end, a 37.5 N/m spring in each cup | the 75 mm between the paddle face and the mast leaves no room for 40 mm of travel plus springs in front of the mast; CAD check: no overlap at 0, 20 and 40 mm of travel and -10, 0, +10 deg |
-| pins | three Mill-Max 0932 in the paddle at y 0: CHG+ z 201, SENSE z 179, GND z 157 | one pin per strip; the MCP73213's 1.1 A is under the pin's 2 A continuous rating (two pins per power strip if the BQ24610 at 2 A is used) |
+| pins | six Mill-Max 0932 in the paddle (D50): CHG+ z 214.35 and SENSE z 194.85 at y 0, GND z 175.35 and SYS z 155.85 at y +/- 3 (the seated trunk origin z 147.1 plus each strip centre; dock_parts.py PADDLE_PINS) | GND carries the charge and SYS returns (about 2.1 A) and SYS up to 1.8 A: two pins each under the 2 A continuous rating; CAD check: all six pins sit 8.75 mm inside their strip edges with the duck seated (section 11.8) |
 | mast | an 8 mm face plate at x 75 to 83, y +/- 140, z 10 to 460 | the head front overhangs the chest by 55 mm |
 | tags | id 0, 40 mm, centre z 370; ids 1 and 2, 60 mm, y +/- 100 | id 0 stays readable to about 6 cm from the camera; ids 1 and 2 give the axis yaw from their baseline |
 
-Duck side (CAD check only): a 0.8 mm adhesive FR4 (or flex) pad, 100 x 64 mm, on the flat chest face of print/body_front.stl (flat
-from trunk z -2.8 to 78.9 mm; checked by ray tests on the V1 STL): GND strip at trunk z 0 to 20, SENSE 22 to 42, CHG+ 44 to 64,
-2 mm gaps, ENIG. Wires through one 4 mm hole drilled after printing (a drill step like D24, no STL edit). Behind it, inside the
+Duck side (CAD check only): a 0.8 mm adhesive FR4 (or flex) pad, 100 x 76 mm, on the flat chest face of print/body_front.stl (flat
+from trunk z -2.8 to 78.9 mm; checked by ray tests on the V1 STL): since D50 SYS strip at trunk z 0 to 17.5, GND 19.5 to 37,
+SENSE 39 to 56.5, CHG+ 58.5 to 76, 2 mm gaps, ENIG. Wires through one 6.0 mm hole printed in body_front (chest_hole.py: a 45 deg bell mouth inside, a chamfer at the pad; only the four pad conductors pass it, the branches are spliced inside). Behind it, inside the
 trunk: the Pololu 5382 ideal diode, a 5 A fuse, the 100 k pack-sense resistor, the wake branch to the Pololu 2813 ON pad. The cell
 NTC sits in the seat the battery job left between the cells (twin/battery/BAY.md). About 10 g with the leads (calc only).
 
 Printed dock parts (`stl/`, `dock_parts.py`, sliced with the lab's light PLA profile in print/config_light; calc only): 15 STLs, 16
-prints (the spring cup twice), 916 g of PLA, 67.0 h. The six mast face pieces are 530 g and 39 h of it; a foam board or plywood face
-(price BLOCKER) would cut the print to about 387 g and 28 h. Every part fits a 220 x 220 mm bed and a 150 mm height.
+prints (the spring cup twice), 921 g of PLA, 67.4 h (D50 paddle and carrier re-sliced: 46.1 g, 3.12 h and 11.7 g, 0.96 h). The six mast face pieces are 530 g and 39 h of it; a foam board or plywood face
+(price BLOCKER) would cut the print to about 392 g and 28.4 h. Every part fits a 220 x 220 mm bed and a 150 mm height.
 
 ## 3. The port (software, no ROS)
 
@@ -253,13 +253,13 @@ min x 32.4 / 21.6 Wh; dock time from section 5): MCP73213 1 : 2.1 to 1 : 5.1; BQ
 | K6 | 9 V adapter, 15 W or more | 1 | BLOCKER | |
 | K7 | printed dock parts, 923 g PLA | 1 set | the lab filament line | slice above |
 | K8 | two 4 mm x 70 mm steel rods, two 4 mm shaft collars, two compression springs (about 37.5 N/m, 50 mm free, under 10 mm OD), two M3 x 20 screws (pivot) and four M3 bolts (cups) from the build's kit, PTFE tape, steel ballast 2 x 120 x 72 x 8 mm | 1 set | BLOCKER | |
-| R1 | chest contact pad 100 x 64 x 0.8 mm FR4 ENIG | 1 | BLOCKER | robot BOM.md line DK1 |
+| R1 | chest contact pad 100 x 76 x 0.8 mm FR4 ENIG, four strips (D50) | 1 | BLOCKER | robot BOM.md line DK1 |
 | R2 | Pololu 5382 ideal diode 4 to 60 V, 10 A | 1 | $3.79 | Pololu listing and blog, via the search index 2026-11-05 (phase 1 had $1.75, wrong); robot BOM.md line DK2 |
 | R3 | Littelfuse 0287005.PXCN ATO 5 A fuse and an FHAC0001ZXJ holder | 1 | $7.74 + $0.44 | robot BOM.md lines DK3, DK4 (two fuses there, one spare) |
 | R4 | 10 k NTC for the cell seat, zener, diode, resistors | 1 set | BLOCKER (commodity) | robot BOM.md line DK5; wire from BOM 23 and 25, the pad tape from BOM 29 |
 Read prices: **$68.48** (K1, K2, K5, R2, R3), before the BLOCKER lines. With the BQ24610EVM in place of K1: $122.58. The duck-side
 lines R1 to R4 are in the robot's BOM.md (DK1 to DK5, +$12.41 on its build total with the spare fuse) and MOUNTING.md (V1 track 8);
-the chest pad needs no STL change for V1.
+the chest pad's lead hole is printed in body_front (D50 review, chest_hole.py).
 
 ## 8. Bench tests (proposed; nothing run)
 | Test | Pass |
@@ -288,11 +288,132 @@ the chest pad needs no STL change for V1.
 8. The Mill-Max 0932 mounting hole (1.9 mm assumed in the paddle), its spring force and stroke (the sim takes a pin as touching
    when the chest is within 2 mm of its tip).
 9. The soft floor is a compliant-contact stand-in for carpet; the real floors at home are not measured.
+10. A limp hold on the seat for hours (torque off), and the STS3215 unpowered backdrive torque (section 11.5).
+11. D50: the 9 V 4 A adapter and its price; the MCP73213 EV board's option code (A6S assumed); the 2813 ON pad position (a stand-in at its control pads, as D13); the NTC lead's fit into the cell seat.
 
 ## 10. Files
 - Duck repo: altaay_lab/software/dock/ (autodock/, duck_autodock.yaml, tests/, THIRD_PARTY.md); altaay_lab/twin/dock/ (this file,
-  dock_parts.py, stl/).
+  dock_parts.py, chest_hole.py, seats/, stl/).
 - The shared lab gym (overlay gym/overlays/duck), dock/: DOCK.md (the course and the one-command acceptance run, also with a
   new policy), dock_course.py (floors hard, train, soft and the soft_mat option), dock_sim.py (--onnx, --mass, --knee, --mode),
   dock_stats.py, pulse_tables.py (a policy's pulse tables for duck_autodock.yaml), pulse_falls.py. Committed in the gym on the
   dock job's branch v1-dock-local. The probe results and the run records are scratch data (lab rule 8).
+
+## 11. Awake while docked (phase 3, D50; calc only, sim pass only where said)
+
+Ahmed, 2026-11-05 7:32 PM ET: "How long to charge? Can the Ducky stay running for like 8 hours?" 7:33 PM ET: "Since it's a
+home buddy, it doesn't need to be small. And since it can charge for like 6 hours at night, that's awesome."
+
+### 11.1 The pick: a fourth contact carries the dock supply (SYS), ORed into the duck's switch input
+- The dock's gated 9 V (the same gate as the charger: seat microswitch, NTC window, pin-voltage window) goes out on a fourth
+  strip, SYS. In the duck, SYS passes an ideal diode (DK6, Pololu 5382) to the 2813 input; the fused pack reaches the same node
+  through a second ideal diode (DK7, Pololu 5383, under 5 mOhm, 12 A). The higher one wins: on the dock, SYS (8.82 to 9.18 V)
+  runs the whole duck (Pi, camera, mics, amp, BEC, servo idle) and the pack, at 8.40 V or less, only charges.
+- The charger then sees the pack alone, so CC/CV, the 10 % end-of-charge current and the 6 h timer of the MCP73213 work as
+  designed. Microchip's load-sharing note for its stand-alone chargers (AN1149) gives the same rule: feed the system from the
+  input when it is there, not from the cell.
+- If SYS drops (the duck is lifted, the gate opens on heat), the node falls to the pack in microseconds: no brown-out.
+- The 2813 stays the master switch: OFF is a full shutdown on or off the dock (SYS stops at the 2813 input like the pack). The
+  555 wake pulse on SENSE stays, for the full-shutdown mode only; an awake duck does not need it.
+- Rejected:
+  | Option | Why not |
+  |---|---|
+  | The load on the pack with 3 contacts and the 1.1 A charger | the load eats 0.62 of 1.1 A: from empty the 6 h timer ends the charge at 64 %; the end-of-charge current is never reached (table 11.3) |
+  | The same with a 2 A charger (BQ24610) | charges, but never terminates: the cells float at 4.20 V for hours every day, the worst case for their life |
+  | A power-path charger in the duck | its 1 to 2 W of loss and its mass go into the trunk next to the cells; the extra size belongs in the dock |
+  | SYS ORed into the 5 V regulator only, the 2813 off while docked to cut the servos | needs new control lines and a hold circuit so the Pi keeps itself on, and the button is no longer a hard off; more parts and code for 0.6 to 2.1 W |
+- Servo power stays on while docked; torque is off (limp). Cutting it would save 0.6 to 2.1 W (14 servos idle at 6 to 21 mA,
+  THERMAL_TWIN.md F1) from the dock, not from the pack, and would need a second switch in the servo feed (row above), so it is
+  not done (D45). The servos stay ready for the head turn of D47.
+- DK7 puts under 5 mOhm into the walking path (about 6 % of its resistance; 0.1 W at the 4.4 A walking mean); its 12 A rating
+  with about 40 A for seconds covers the 100 ms walking peaks and the 20 ms fall peaks; a jam above 22 A is cut by the BMS.
+
+### 11.2 Size goes into the dock, not the duck
+Mass hurts the walk: the DCB200 duck (3.24 kg) walked at 0.030 m/s against 0.103 m/s (twin/battery/BATTERY_STUDY.md 5.2). So
+the duck gains only the fourth strip, two 0.2 g diode boards and a printed lead hole (about 1.5 g in all, calc); the dock gets the bigger adapter
+(9 V 4 A, 36 W, against 15 W), two more spring pins and nothing else. No fan.
+
+### 11.3 Charge times with the load running (calc only, charge_awake model: generic NCA/NMC OCV, ASSUMPTION; 2 x 15 mOhm cells plus 50 mOhm path)
+Docked load: the 5 V branch 3 W typical, 5 W conservative (THERMAL_TWIN.md) plus servo idle and BEC, 0.62 A at the pack.
+
+| Charger | Load on | From empty | From the 48 % go-home point | After 6 h from empty |
+|---|---|---|---|---|
+| MCP73213, 1.1 A | SYS (D50) | 4.3 h, terminated at 99.6 % | 2.4 h | full |
+| MCP73213, 1.1 A | the pack (3 contacts) | timer at 6 h, 64 % | timer at 6 h, never terminates | 64 % |
+| BQ24610, 2.0 A | SYS (D50) | 2.5 h | 1.4 h | full |
+| BQ24610, 2.0 A | the pack (3 contacts) | full, never terminates (float) | float | full, floating |
+
+With SYS the load does not touch the charge current, so the 1.1 A MCP73213 stays (D45: linear, fewest parts, $44.90 against
+$99.00): a full charge from empty fits the 6 h night and the 6 h timer; the 2 A option saves 1 h and changes nothing else.
+Ahmed's 8 hours: on the dock, unlimited (the dock runs the duck); off the dock, sitting with the servos limp, about 5.5 h at
+5.3 W and 9 h at 3.1 W from the 29 Wh above a 3.3 V per cell stop (calc); walking 39 to 50 min (BATTERY_STUDY.md 5.5).
+
+### 11.4 Heat (the thermal twin, P45B, after 18 min of walking and the walk home; awake on the dock: 5 V branch 3 or 5 W in the head, servo idle and BEC loss in the trunk and the legs; sim pass only)
+| Corner, room | Cells at docking | Charge starts after | Cells highest while charging | Cells at the end | Head air highest |
+|---|---|---|---|---|---|
+| central, 25 C | 40.1 C | at once | 40.1 C | 28.1 C | 33.7 C (3 W), 37.5 C (5 W) |
+| central, 32 C | 47.0 C | 10.8 min | 45.0 C | 34.9 C | 40.5 C (3 W), 44.3 C (5 W) |
+| high, 25 C | 63.9 C | 40.7 min | 45.0 C | 29.1 C | 40.7 C (5 W) |
+| high, 32 C | 70.6 C | 65.0 min | 45.0 C | 35.9 C | 47.5 C (5 W) |
+The cells stay at or under 45 C through every charge in both rooms (the charge waits for 45 C and they keep cooling). The twin
+has no air path between the head and the trunk; with 30 % of a 5 W head heat put into the trunk air as a check, the charge
+starts 2 to 13 min later and the cells still end at 31 to 39 C. The 2 A charger ends 2.5 C warmer.
+
+### 11.5 Docked idle (hardware side)
+- Pose: the existing sit (belly on the seat at 112 mm, chest on the paddle), then torque off. Torque off is the same as the
+  sim's kp_settle step taken to zero; the sit test of the gym (test_dock_sim.py) holds at kp 2. A limp hold for hours is not
+  yet simulated (BLOCKER 10). If it slides, the seat needs a 2 mm raised lip at its rear and sides (a dock_seat_top change).
+- The paddle spring pushes the chest back with 0.5 to 2.3 N (7 to 30 mm of push at 75 N/m); the belly on the seat (7 to 22 N,
+  friction about 1) holds it.
+- Bench: the servo bus with the duck limp (no back-powering through the data line), and the STS3215's unpowered backdrive torque.
+
+### 11.6 Contacts and gate
+- Strips (bottom to top, 17.5 mm tall, 2 mm gaps): SYS z 0 to 17.5, GND 19.5 to 37, SENSE 39 to 56.5, CHG+ 58.5 to 76 (trunk z).
+  SYS sits next to GND only: a coin across them shorts the adapter (its short protection, the 5 A fuse); a coin across SYS and
+  CHG+ would charge the pack from SYS, so they are not neighbours, and the pin-voltage window would cut it at 8.45 V anyway.
+- Pins: 6 Mill-Max 0932 (2 A each): SYS 2 and GND 2 at y +/- 3 mm, CHG+ 1, SENSE 1. Vertical window +/- 8.25 mm (acc10 worst
+  3.2 mm); lateral +/- 46.5 mm for the doubled rows (acc10 worst 40.3 mm, computed from the recorded pin errors).
+- The gate is unchanged in hardware: SYS and the charger share its switch, so a duck that is not seated, too hot or too cold, or
+  shows a wrong pack voltage gets neither.
+
+### 11.7 Cost (prices read; buy nothing)
+Duck: DK6 $3.79 + DK7 $4.95 = +$8.74 (BOM.md). Dock: two more 0932 pins $1.56; the 9 V 4 A adapter (Mean Well GST36A09 class,
+price BLOCKER) replaces the 15 W one (also BLOCKER). Read total of the dock change: +$10.30.
+
+### 11.8 Files, wiring and seats
+- wiring/netlist.yaml carries the dock wiring since 2026-11-05 9:26 PM ET: components DKP, DK2, F2, RT1, WK1, DK6, DK7 and the inside splices JGD (GND) and JSN (SENSE); cables DC1 to DC4;
+  the fused pack run P7 now ends at DK7 and SW1 VIN is the OR node PACK_OR. duck_side_netlist.yaml stays as the change record;
+  dock_netlist.yaml is the dock.
+- 3D routes: seats/route2.py (1 mm grid of the trunk parts and placed boxes, a shortest clear path, string pulled) writes
+  dock_routes.json; dock_cables3d.py puts DC1 to DC4 into cables3d/cables3d.json. All in the trunk, no joint crossed. Cuts are the
+  routed length plus 2 x 20 mm, one route per wire between its own two terminals: DC1 60, 60, 180 and 110 mm; DC2 60 and 210 mm;
+  DC3 60, 220, 120 and 180 mm (WK1 to SW1 ON is an inline joint, cut 0); DC4 190, 70, 80, 60 and 70 mm. Every placed body (the
+  printed parts, the bought-part boxes and the seated dock parts) is an obstacle; only each pad's lead exit (at most 3.5 mm) is
+  open. route2.py fails its self-check if a wire has no route of its own or any route point lies inside a body (passed), and
+  dock_cables3d.py refuses a wire that reuses another's run. The NTC runs into the cell seat keep 0.35 mm to the parts (test fit).
+- Seats (seats/pick3.py, dock_seats.json, close-ups dock_seats.png, CAD check only): each board on VHB 4950 with its large face
+  1.5 mm off a printed wall, clear of every part, placed box and routed cable by 1 mm:
+  | Part | Centre (world mm, zero pose) | On |
+  |---|---|---|
+  | DK2 Pololu 5382 | (33, 0, 24) | the inner face of body_front, below the lead hole |
+  | F2 holder, standing | (-85, -42, 26) | the left inner side wall of body_middle_bottom |
+  | DK6 Pololu 5382 | (-104, 1, 45) | the underside of trunk_top, beside the 2813 |
+  | DK7 Pololu 5383 | (-104, 13, 45) | the underside of trunk_top, 16 mm from SW1 VIN |
+  No screw and no hole is added for the seats (D42, D39); the only hole is the 6.0 mm lead hole printed through body_front, which carries the leads.
+- Paddle (D50): dock_parts.py makes the 4-row, 6-pin plate (z 140 to 230, knuckles at 140 to 152 and 218 to 230 clear of the
+  pin reliefs); the clearance check over 0 to 40 mm of travel and +/- 10 deg of swivel finds no overlap; with the duck seated
+  every pin sits 8.75 mm inside its strip's edges (a section in the duck frame, CAD check only). The dock sim in the shared lab
+  gym (overlay gym/overlays/duck) has the same four strips and six pins: hard floor seeds 0 to 4 dock with all six pins on
+  their strips (sim pass only).
+- Chest feedthrough (chest_hole.py, CAD check only; section stl/chest_hole_section.png): print/body_front.stl has one 6.0 mm
+  hole at world (y 0, z 38) through the 10 mm chest wall (x 36 to 46), behind the pad centre, with the strain relief printed in
+  the wall: a 45 deg bell mouth 2 mm deep inside (10 mm across at the inner face) and a 0.8 mm 45 deg chamfer on the pad side,
+  so the leads bend over a wide mouth, not a sharp edge. The part loses 0.33 cm3 and stays watertight; re-sliced (light
+  profile) 57.63 g and 3.97 h against 57.56 g and 3.94 h, no support. A grommet ring 2 mm proud of the inner face was tried and
+  dropped: the part prints +x up, so the ring hangs under the chest wall and the slicer adds 1.8 g of support inside the shell. Only the four pad conductors pass it: 3 x 20 AWG
+  (1.9 mm) and 1 x 26 AWG (1.3 mm), a 4.6 mm bundle with 0.7 mm a side. GND and SENSE each leave the pad as one wire and branch
+  at a splice inside the trunk, 60 mm in: JGD (to DK2 G and BMS P-) and JSN (to the NTC and the wake branch). DK2 still sits 1.5 mm off the
+  wall; the grid and routes were rebuilt on the new STL (self-check passed, cuts unchanged). If close_holes.py output
+  is copied into print/ again, run chest_hole.py --write after it (it refuses a file that already has the hole).
+- U3 at 9.2 V: the Pololu D30V30F5 takes 5 to 45 V in (Pololu product page, read via the search index): passes, no change.
+- The thermal and charge runs: scratch data (lab rule 8).
