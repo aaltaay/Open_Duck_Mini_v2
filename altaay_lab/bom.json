@@ -324,7 +324,7 @@
 {
 "i": "DK1",
 "item": "Chest contact pad (dock, D43, V1 track 8)",
-"spec": "One 100 x 64 x 0.8 mm FR4 board, ENIG, three strips 100 x 20 mm with 2 mm gaps (GND at trunk z 0 to 20, SENSE 22 to 42, CHG+ 44 to 64), a solder pad per strip on the back; on the flat chest face of body_front (twin/dock/DOCK_TWIN.md section 2, MOUNTING.md V1 track 8)",
+"spec": "One 100 x 76 x 0.8 mm FR4 board, ENIG, four strips 100 x 17.5 mm with 2 mm gaps since D50 (SYS at trunk z 0 to 17.5, GND 19.5 to 37, SENSE 39 to 56.5, CHG+ 58.5 to 76), a solder pad per strip on the back; on the flat chest face of body_front (twin/dock/DOCK_TWIN.md section 2, MOUNTING.md V1 track 8)",
 "need": "1",
 "buy": "1",
 "pack": "1",
@@ -389,6 +389,34 @@
 "link": "BLOCKER: commodity parts, no listing read",
 "ships": "Yes",
 "ver": "BLOCKER: price",
+"sec": "Robot"
+},
+{
+"i": "DK6",
+"item": "Dock supply ideal diode (D50, V1 track 8)",
+"spec": "Pololu 5382 ideal diode, 4 to 60 V, 10 A, under 10 mOhm, blocks reverse current: from the SYS strip (the dock's gated 9 V) to the switch input node PACK_OR, so the docked duck runs on the dock and the strip is dead when undocked",
+"need": "1",
+"buy": "1",
+"pack": "1",
+"line": "3.79",
+"sup": "Pololu",
+"link": "https://www.pololu.com/product/5382",
+"ships": "Yes",
+"ver": "Yes: $3.79 (as DK2)",
+"sec": "Robot"
+},
+{
+"i": "DK7",
+"item": "Pack side ideal diode (D50, V1 track 8)",
+"spec": "Pololu 5383 ideal diode, 4 to 60 V, 12 A continuous (about 40 A for a few seconds), under 5 mOhm, LM74700-Q1, 7.6 x 12.7 mm, 0.2 g: between the fused pack (JFO) and the 2813 input, so the dock supply never back-feeds the pack",
+"need": "1",
+"buy": "1",
+"pack": "1",
+"line": "4.95",
+"sup": "RobotShop (Pololu out of stock 2026-11-05)",
+"link": "https://www.robotshop.com/products/pololu-ideal-diode-reverse-voltage-protector-4-60v-12a",
+"ships": "Yes",
+"ver": "$4.95 read via the search index 2026-11-05; Pololu listing out of stock",
 "sec": "Robot"
 },
 {

@@ -71,3 +71,9 @@ printing (a drill step, as D24). A later STL pass may print that hole (it carrie
 | Pololu 5382 ideal diode (BOM DK2) with the 100 k across it (DK5) | VHB 4950 inside the trunk on the chest side, next to the pad leads | seat and board size not placed yet: BLOCKER for the 3D track |
 | Charge path fuse holder (BOM DK3, the L3 part, 50 x 17.2 x 17.2 mm) | inline on the CHG+ lead between DK2 and the pack side (BMS P+) | seat not placed yet: BLOCKER for the 3D track |
 | Cell NTC (BOM DK5) | in the seat between the two cells that the battery track left (twin/battery/BAY.md), lead along the pack to the SENSE strip; the wake branch (zener, diode, 10 k) from SENSE to the Pololu 2813 ON pad | as BAY.md |
+
+## V1 track 8 phase 3: awake while docked (2026-11-05, D50; CAD check only for the pad, calc only for the rest)
+| Part | Mount | Check |
+|---|---|---|
+| Chest contact pad DK1, now 100 x 76 x 0.8 mm with four strips (SYS, GND, SENSE, CHG+ from the bottom), 11.2 g (calc) | VHB 4950 (BOM 29) over its back on the flat chest face of body_front, trunk z 0 to 76 (flat from -2.8 to 78.9 mm) | fall shock 128 g: 14.1 N on 7600 mm2, 1.9 kPa of 82.7 kPa. No STL change (one 4 mm lead hole drilled after printing, as before) |
+| DK6 Pololu 5382 (SYS) and DK7 Pololu 5383 (pack side), 7.6 x 12.7 mm, 0.2 g each | VHB 4950 on the battery bay front wall next to the 2813 (SW1), DK7 soldered at SW1 VIN, DK6's output to the same pad | seat not placed in 3D: BLOCKER for the 3D track, with the DK2 and DK3 seats |

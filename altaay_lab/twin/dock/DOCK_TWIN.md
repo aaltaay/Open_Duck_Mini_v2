@@ -288,6 +288,8 @@ the chest pad needs no STL change for V1.
 8. The Mill-Max 0932 mounting hole (1.9 mm assumed in the paddle), its spring force and stroke (the sim takes a pin as touching
    when the chest is within 2 mm of its tip).
 9. The soft floor is a compliant-contact stand-in for carpet; the real floors at home are not measured.
+10. A limp hold on the seat for hours (torque off), and the STS3215 unpowered backdrive torque (section 11.5).
+11. D50 wiring: 3D routes for DC1 to DC4 and the regenerated sheets before duck_side_netlist.yaml merges into wiring/netlist.yaml; the seats of DK2, DK3, DK6, DK7; the 9 V 4 A adapter and its price; the MCP73213 EV board's option code (A6S assumed).
 
 ## 10. Files
 - Duck repo: altaay_lab/software/dock/ (autodock/, duck_autodock.yaml, tests/, THIRD_PARTY.md); altaay_lab/twin/dock/ (this file,
@@ -296,3 +298,89 @@ the chest pad needs no STL change for V1.
   new policy), dock_course.py (floors hard, train, soft and the soft_mat option), dock_sim.py (--onnx, --mass, --knee, --mode),
   dock_stats.py, pulse_tables.py (a policy's pulse tables for duck_autodock.yaml), pulse_falls.py. Committed in the gym on the
   dock job's branch v1-dock-local. The probe results and the run records are scratch data (lab rule 8).
+
+## 11. Awake while docked (phase 3, D50; calc only, sim pass only where said)
+
+Ahmed, 2026-11-05 7:32 PM ET: "How long to charge? Can the Ducky stay running for like 8 hours?" 7:33 PM ET: "Since it's a
+home buddy, it doesn't need to be small. And since it can charge for like 6 hours at night, that's awesome."
+
+### 11.1 The pick: a fourth contact carries the dock supply (SYS), ORed into the duck's switch input
+- The dock's gated 9 V (the same gate as the charger: seat microswitch, NTC window, pin-voltage window) goes out on a fourth
+  strip, SYS. In the duck, SYS passes an ideal diode (DK6, Pololu 5382) to the 2813 input; the fused pack reaches the same node
+  through a second ideal diode (DK7, Pololu 5383, under 5 mOhm, 12 A). The higher one wins: on the dock, SYS (8.82 to 9.18 V)
+  runs the whole duck (Pi, camera, mics, amp, BEC, servo idle) and the pack, at 8.40 V or less, only charges.
+- The charger then sees the pack alone, so CC/CV, the 10 % end-of-charge current and the 6 h timer of the MCP73213 work as
+  designed. Microchip's load-sharing note for its stand-alone chargers (AN1149) gives the same rule: feed the system from the
+  input when it is there, not from the cell.
+- If SYS drops (the duck is lifted, the gate opens on heat), the node falls to the pack in microseconds: no brown-out.
+- The 2813 stays the master switch: OFF is a full shutdown on or off the dock (SYS stops at the 2813 input like the pack). The
+  555 wake pulse on SENSE stays, for the full-shutdown mode only; an awake duck does not need it.
+- Rejected:
+  | Option | Why not |
+  |---|---|
+  | The load on the pack with 3 contacts and the 1.1 A charger | the load eats 0.62 of 1.1 A: from empty the 6 h timer ends the charge at 64 %; the end-of-charge current is never reached (table 11.3) |
+  | The same with a 2 A charger (BQ24610) | charges, but never terminates: the cells float at 4.20 V for hours every day, the worst case for their life |
+  | A power-path charger in the duck | its 1 to 2 W of loss and its mass go into the trunk next to the cells; the extra size belongs in the dock |
+  | SYS ORed into the 5 V regulator only, the 2813 off while docked to cut the servos | needs new control lines and a hold circuit so the Pi keeps itself on, and the button is no longer a hard off; more parts and code for 0.6 to 2.1 W |
+- Servo power stays on while docked; torque is off (limp). Cutting it would save 0.6 to 2.1 W (14 servos idle at 6 to 21 mA,
+  THERMAL_TWIN.md F1) from the dock, not from the pack, and would need a second switch in the servo feed (row above), so it is
+  not done (D45). The servos stay ready for the head turn of D47.
+- DK7 puts under 5 mOhm into the walking path (about 6 % of its resistance; 0.1 W at the 4.4 A walking mean); its 12 A rating
+  with about 40 A for seconds covers the 100 ms walking peaks and the 20 ms fall peaks; a jam above 22 A is cut by the BMS.
+
+### 11.2 Size goes into the dock, not the duck
+Mass hurts the walk: the DCB200 duck (3.24 kg) walked at 0.030 m/s against 0.103 m/s (twin/battery/BATTERY_STUDY.md 5.2). So
+the duck gains only the fourth strip and two 0.2 g diode boards (about 1.5 g in all, calc); the dock gets the bigger adapter
+(9 V 4 A, 36 W, against 15 W), two more spring pins and nothing else. No fan.
+
+### 11.3 Charge times with the load running (calc only, charge_awake model: generic NCA/NMC OCV, ASSUMPTION; 2 x 15 mOhm cells plus 50 mOhm path)
+Docked load: the 5 V branch 3 W typical, 5 W conservative (THERMAL_TWIN.md) plus servo idle and BEC, 0.62 A at the pack.
+
+| Charger | Load on | From empty | From the 48 % go-home point | After 6 h from empty |
+|---|---|---|---|---|
+| MCP73213, 1.1 A | SYS (D50) | 4.3 h, terminated at 99.6 % | 2.4 h | full |
+| MCP73213, 1.1 A | the pack (3 contacts) | timer at 6 h, 64 % | timer at 6 h, never terminates | 64 % |
+| BQ24610, 2.0 A | SYS (D50) | 2.5 h | 1.4 h | full |
+| BQ24610, 2.0 A | the pack (3 contacts) | full, never terminates (float) | float | full, floating |
+
+With SYS the load does not touch the charge current, so the 1.1 A MCP73213 stays (D45: linear, fewest parts, $44.90 against
+$99.00): a full charge from empty fits the 6 h night and the 6 h timer; the 2 A option saves 1 h and changes nothing else.
+Ahmed's 8 hours: on the dock, unlimited (the dock runs the duck); off the dock, sitting with the servos limp, about 5.5 h at
+5.3 W and 9 h at 3.1 W from the 29 Wh above a 3.3 V per cell stop (calc); walking 39 to 50 min (BATTERY_STUDY.md 5.5).
+
+### 11.4 Heat (the thermal twin, P45B, after 18 min of walking and the walk home; awake on the dock: 5 V branch 3 or 5 W in the head, servo idle and BEC loss in the trunk and the legs; sim pass only)
+| Corner, room | Cells at docking | Charge starts after | Cells highest while charging | Cells at the end | Head air highest |
+|---|---|---|---|---|---|
+| central, 25 C | 40.1 C | at once | 40.1 C | 28.1 C | 33.7 C (3 W), 37.5 C (5 W) |
+| central, 32 C | 47.0 C | 10.8 min | 45.0 C | 34.9 C | 40.5 C (3 W), 44.3 C (5 W) |
+| high, 25 C | 63.9 C | 40.7 min | 45.0 C | 29.1 C | 40.7 C (5 W) |
+| high, 32 C | 70.6 C | 65.0 min | 45.0 C | 35.9 C | 47.5 C (5 W) |
+The cells stay at or under 45 C through every charge in both rooms (the charge waits for 45 C and they keep cooling). The twin
+has no air path between the head and the trunk; with 30 % of a 5 W head heat put into the trunk air as a check, the charge
+starts 2 to 13 min later and the cells still end at 31 to 39 C. The 2 A charger ends 2.5 C warmer.
+
+### 11.5 Docked idle (hardware side)
+- Pose: the existing sit (belly on the seat at 112 mm, chest on the paddle), then torque off. Torque off is the same as the
+  sim's kp_settle step taken to zero; the sit test of the gym (test_dock_sim.py) holds at kp 2. A limp hold for hours is not
+  yet simulated (BLOCKER 10). If it slides, the seat needs a 2 mm raised lip at its rear and sides (a dock_seat_top change).
+- The paddle spring pushes the chest back with 0.5 to 2.3 N (7 to 30 mm of push at 75 N/m); the belly on the seat (7 to 22 N,
+  friction about 1) holds it.
+- Bench: the servo bus with the duck limp (no back-powering through the data line), and the STS3215's unpowered backdrive torque.
+
+### 11.6 Contacts and gate
+- Strips (bottom to top, 17.5 mm tall, 2 mm gaps): SYS z 0 to 17.5, GND 19.5 to 37, SENSE 39 to 56.5, CHG+ 58.5 to 76 (trunk z).
+  SYS sits next to GND only: a coin across them shorts the adapter (its short protection, the 5 A fuse); a coin across SYS and
+  CHG+ would charge the pack from SYS, so they are not neighbours, and the pin-voltage window would cut it at 8.45 V anyway.
+- Pins: 6 Mill-Max 0932 (2 A each): SYS 2 and GND 2 at y +/- 3 mm, CHG+ 1, SENSE 1. Vertical window +/- 8.25 mm (acc10 worst
+  3.2 mm); lateral +/- 46.5 mm for the doubled rows (acc10 worst 40.3 mm, computed from the recorded pin errors).
+- The gate is unchanged in hardware: SYS and the charger share its switch, so a duck that is not seated, too hot or too cold, or
+  shows a wrong pack voltage gets neither.
+
+### 11.7 Cost (prices read; buy nothing)
+Duck: DK6 $3.79 + DK7 $4.95 = +$8.74 (BOM.md). Dock: two more 0932 pins $1.56; the 9 V 4 A adapter (Mean Well GST36A09 class,
+price BLOCKER) replaces the 15 W one (also BLOCKER). Read total of the dock change: +$10.30.
+
+### 11.8 Files and open items
+- duck_side_netlist.yaml (the duck-side dock wiring, schema of wiring/netlist.yaml; not merged into wiring/netlist.yaml yet:
+  each cable needs a 3D route and the sheets regenerated, BLOCKER 11) and dock_netlist.yaml (the dock); DOCK_INTERFACE.md v5.
+- The thermal and charge runs: scratch data (lab rule 8).
