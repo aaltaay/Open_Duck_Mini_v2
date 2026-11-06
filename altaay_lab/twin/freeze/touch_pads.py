@@ -46,6 +46,7 @@ EPS0 = 8.854e-3                                   # pF/mm
 ER = (2.9, 4.2)                                   # PLA, 1 to 100 MHz (Picha and Papezova 2023, via the expression study)
 BOARD = (33.02, 19.05, 4.6 + 1.1)
 CLR_PART, CLR_BOARD, PAD_TO_BOARD, PAD_TO_PAD = 3.0, 2.0, 8.0, 9.6
+OWN_LEAD_TO_BOARD = 0.5     # past its exit, a board's own lead may be dressed against the board, not through it
 SITES = {
     "PH1": dict(label="head top", link="head_assembly", shell="head", c=(10.0, 0.0), size=(30.0, 30.0), z0=200.0, d=(0, 0, 1)),
     "PH2": dict(label="back of the head", link="head_assembly", shell="head", c=(-74.0, 0.0), size=(20.0, 30.0), z0=200.0, d=(0, 0, 1)),
@@ -107,7 +108,31 @@ def cable_trees(link):
         if len(P) >= 2:
             P = np.array(P)
             dense = np.vstack([a + (b - a) * t for a, b in zip(P[:-1], P[1:]) for t in np.linspace(0, 1, 12)])
-            out[c["id"]] = (cKDTree(dense), c.get("d_mm") or 2.0)
+            out[c["id"]] = (cKDTree(dense), c.get("d_mm") or 2.0, dense)
+    return out
+
+
+OWN = {"PH1": ("D17",), "PH2": ("D18",), "PB1": ("D20",), "tch_h": ("D16", "D17", "D18"), "tch_b": ("D19", "D20", "D21", "D22")}
+def cable_gaps(ctr, item, P, rule=3.0, own_free=False):
+    """gap from points P (the item) to every routed cable. A lead that ends on this item is checked too, except its
+    termination: from each route end inward, the stretch until the lead first stands `rule` mm off the item (the
+    solder joint and the lead exit over the pad or the board); the rest of its route keeps the rule. own_free: leave
+    the item's own leads out altogether (a seat search, where they would follow the seat)"""
+    out = {}
+    tP = cKDTree(P)
+    for k, (t, dd, dense) in ctr.items():
+        if k in OWN.get(item, ()):
+            if own_free:
+                continue
+            d = tP.query(dense)[0] - dd / 2
+            far = np.nonzero(d >= rule)[0]
+            if not len(far):
+                continue
+            a, b = far[0], far[-1]
+            mid = dense[a:b + 1]
+            out[k] = float(tP.query(mid)[0].min() - dd / 2)
+            continue
+        out[k] = float(t.query(P)[0].min() - dd / 2)
     return out
 
 
@@ -166,7 +191,7 @@ def main():
         P, T, miss = patch(sh, *s["c"], s["z0"], s["d"], (s["size"][0] + EDGE, s["size"][1] + EDGE))
         Pin, Tin, _ = patch(sh, *s["c"], s["z0"], s["d"], s["size"])
         gaps = {k: float(t.query(P)[0].min()) for k, t in trees[s["link"]].items()}
-        cg = {k: float(t.query(P)[0].min() - dd / 2) for k, (t, dd) in ctrees[s["link"]].items()}
+        cg = cable_gaps(ctrees[s["link"]], pid, P)
         A = len(Pin) * 1.0                                   # projected 1 mm cells
         dmed = float(np.median(Tin))
         eff = 1.0 if s["shell"] == "head" else 0.66          # 2-wall shell, 15 % infill: about 66 % (expression study)
@@ -216,7 +241,7 @@ def main():
                     break
                 Q = np.array(Q)
                 g = min(float(t.query(Q)[0].min()) for t in trees["head_assembly"].values())
-                cgm = min((float(t.query(Q)[0].min() - dd / 2) for t, dd in ctrees["head_assembly"].values()), default=99)
+                cgm = min(cable_gaps(ctrees["head_assembly"], "cheek", Q).values(), default=99)
                 res.append(min(g, cgm))
             rows += 1
             if len(res) == 2 and None not in res and min(res) < CLR_PART:
@@ -283,7 +308,7 @@ def main():
                           for v_ in np.linspace(-by / 2, by / 2, 5) for w_ in np.linspace(0.3, BOARD[2], 4)])
             shell_g = [x for x in trees[b["link"]].items()]
             gp = min(float(t.query(g)[0].min()) for k, t in shell_g if not k.startswith(("box tch", shn + "[")))
-            gc = min((float(t.query(g)[0].min() - dd / 2) for t, dd in ctrees[b["link"]].values()), default=99)
+            gc = min(cable_gaps(ctrees[b["link"]], key, g, rule=CLR_BOARD, own_free=True).values(), default=99)
             gpad = min(float(cKDTree(P).query(g)[0].min()) for pid, P in pads.items() if SITES[pid]["link"] == b["link"])
             if gp < CLR_BOARD or gc < CLR_BOARD or gpad < PAD_TO_BOARD:
                 k_ = "part" if gp < CLR_BOARD else ("cable" if gc < CLR_BOARD else "pad")
@@ -294,14 +319,19 @@ def main():
                 lead += float(np.linalg.norm(np.array(b["near"]) - c))
             if best_b is None or lead < best_b[0]:
                 best_b = (lead, c, gp, gc, gpad, rot, (bx, by), n, tilt, shn, db, ia, ib)
+                best_g = g
         if best_b is None:
             J["boards"][key] = dict(found=False, rejected=why)
             print(key, "no seat", why)
             continue
         lead, c, gp, gc, gpad, rot, (bx, by), n, tilt, shn, db, ia, ib = best_b
+        gcs = cable_gaps(ctrees[b["link"]], key, best_g, rule=CLR_BOARD)
+        gc_own = min(gcs.values(), default=99)
+        own_g = {k: r(v, 1) for k, v in gcs.items() if k in OWN[key]}
         J["boards"][key] = dict(id=b["id"], centre_top_face_world=np.round(c, 2).tolist(), box_xyz_mm=[bx, by, BOARD[2]],
                                 long_side_along="xyz"[ia] if rot == 0 else "xyz"[ib], face_normal=np.round(n, 3).tolist(), tilt_deg=r(tilt, 1),
-                                part_gap_mm=r(gp, 1), cable_gap_mm=r(gc, 1), pad_gap_mm=r(gpad, 1), lead_sum_mm=r(lead, 0),
+                                part_gap_mm=r(gp, 1), cable_gap_mm=r(gc, 1), own_lead_gaps_mm=own_g, own_lead_rule_mm=OWN_LEAD_TO_BOARD,
+                                own_leads_ok=bool(min(own_g.values(), default=99) >= OWN_LEAD_TO_BOARD), pad_gap_mm=r(gpad, 1), lead_sum_mm=r(lead, 0),
                                 on=shn, mount="VHB 4950 (BOM 29) on the board's back; its parts face %s" % np.round(n, 2).tolist())
         ea = (np.eye(3)[ia] if rot == 0 else np.eye(3)[ib])
         ea = ea - (ea @ n) * n
@@ -319,7 +349,7 @@ def main():
                            score=None, seat_fix="altaay_lab/twin/freeze/touch_pads.py (D51)")
         print(key, J["boards"][key])
     J["pass"] = bool(all(p["ok"] for p in J["pads"].values()) and all(v >= PAD_TO_PAD for v in sp.values())
-                     and all(v.get("found", True) for v in J["boards"].values()))
+                     and all(v.get("found", True) and v.get("own_leads_ok", True) for v in J["boards"].values()))
     print("pass", J["pass"])
     if a.write:
         dump(J, os.path.join(HERE, "touch_pads.json"))

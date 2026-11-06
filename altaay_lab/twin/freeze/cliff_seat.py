@@ -208,8 +208,8 @@ def main():
         if len(m.faces):
             gaps["%s[%d]" % (i["key"], i["idx"])] = r(cKDTree(surface_cloud(m, 30000)).query(pts)[0].min(), 2)
     for k, p in placements().items():
-        if k in ("dock_pad",):
-            continue
+        if k in ("dock_pad", "tof_cliff"):
+            continue            # the box of the part being placed (written by --write) and the pad outside the wall
         gaps["box " + k] = r(cKDTree(surface_cloud(placement_box(p), 6000)).query(pts)[0].min(), 2)
     J["gaps_mm"] = dict(sorted(gaps.items(), key=lambda kv: kv[1])[:8])
     # the beam on the floor (standing pose, trunk level; calc only)

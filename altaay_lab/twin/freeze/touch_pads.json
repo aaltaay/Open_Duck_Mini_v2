@@ -44,9 +44,9 @@
     "raspberrypizerow[117]": 12.7
    },
    "cable_gaps_mm": {
+    "D17": 4.0,
     "D9": 4.1,
-    "D1": 6.0,
-    "D10": 9.0
+    "D1": 6.0
    },
    "ok": true
   },
@@ -89,9 +89,9 @@
     "sg90[119]": 22.0
    },
    "cable_gaps_mm": {
-    "D9": 25.2,
-    "D8": 34.2,
-    "D15": 41.6
+    "D18": 3.2,
+    "D17": 23.7,
+    "D9": 25.2
    },
    "ok": true
   },
@@ -134,9 +134,9 @@
     "trunk_top[11]": 28.7
    },
    "cable_gaps_mm": {
+    "D20": 3.5,
     "P15": 17.9,
-    "SD2": 21.3,
-    "SD1": 23.0
+    "SD2": 21.3
    },
    "ok": true
   }
@@ -163,6 +163,13 @@
    "tilt_deg": 12.5,
    "part_gap_mm": 13.1,
    "cable_gap_mm": 7.5,
+   "own_lead_gaps_mm": {
+    "D16": 2.0,
+    "D17": 1.3,
+    "D18": 2.0
+   },
+   "own_lead_rule_mm": 0.5,
+   "own_leads_ok": true,
    "pad_gap_mm": 8.4,
    "lead_sum_mm": 111.0,
    "on": "head",
@@ -194,6 +201,14 @@
    "tilt_deg": 0.4,
    "part_gap_mm": 9.5,
    "cable_gap_mm": 12.3,
+   "own_lead_gaps_mm": {
+    "D19": 3.3,
+    "D20": 2.3,
+    "D21": 2.0,
+    "D22": 0.9
+   },
+   "own_lead_rule_mm": 0.5,
+   "own_leads_ok": true,
    "pad_gap_mm": 31.5,
    "lead_sum_mm": 121.0,
    "on": "body_middle_top",
@@ -215,7 +230,7 @@
    "within 3 mm of a part, box or cable": 0
   },
   "searched": "x 40 to 88, z 188 to 212, both side walls at the same place, 30 x 30 mm pad with its guard ring (42 x 42 mm), 91 places",
-  "why": "no place passes on both sides: a ray of the footprint goes through a hole (the right wall carries the speaker grille and the left the side lamp opening), meets a wall outside 1.6 to 4.5 mm, or the patch comes within 3 mm of a part, box or cable (eyes, lamp, speaker, amp, mic seats and their cables)"
+  "why": "on every place at least one side has a footprint ray that goes through an opening or meets a wall outside 1.6 to 4.5 mm (counts in rejected); the side walls there carry the speaker grille and its duct (right), the side lamp opening (left), the eye and lamp bosses"
  },
  "pass": true
 }
