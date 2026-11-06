@@ -1,0 +1,4218 @@
+{
+ "label": "CAD check only",
+ "frame": "dock frame, mm: x toward the mast (paddle face at rest x 0), y left, z up from the floor",
+ "docked": {
+  "n": 94,
+  "interferences": [],
+  "components": [
+   {
+    "id": "dock_seat_base",
+    "label": "Seat base",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "seat",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      -110.0,
+      -20.0,
+      2.0
+     ],
+     [
+      -15.0,
+      20.0,
+      100.0
+     ]
+    ],
+    "volume_mm3": 105027.9
+   },
+   {
+    "id": "dock_seat_top",
+    "label": "Seat top (sprung)",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "seat",
+    "mount": "on 2 guide pins and 2 springs on the seat posts",
+    "src": "",
+    "bounds": [
+     [
+      -110.0,
+      -20.0,
+      66.12
+     ],
+     [
+      -15.0,
+      20.0,
+      112.0
+     ]
+    ],
+    "volume_mm3": 46823.3
+   },
+   {
+    "id": "dock_spine",
+    "label": "Spine",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      -15.0,
+      -20.0,
+      2.0
+     ],
+     [
+      70.0,
+      20.0,
+      90.0
+     ]
+    ],
+    "volume_mm3": 166217.1
+   },
+   {
+    "id": "dock_base_l",
+    "label": "Mast base, left",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      30.0,
+      0.0,
+      2.0
+     ],
+     [
+      190.0,
+      140.0,
+      12.0
+     ]
+    ],
+    "volume_mm3": 159170.2
+   },
+   {
+    "id": "dock_base_r",
+    "label": "Mast base, right",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      30.0,
+      -140.0,
+      2.0
+     ],
+     [
+      190.0,
+      0.0,
+      12.0
+     ]
+    ],
+    "volume_mm3": 160450.2
+   },
+   {
+    "id": "dock_column_l1",
+    "label": "Mast face L1",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      0.0,
+      12.0
+     ],
+     [
+      103.0,
+      140.0,
+      160.0
+     ]
+    ],
+    "volume_mm3": 203690.2
+   },
+   {
+    "id": "dock_column_l2",
+    "label": "Mast face L2",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      0.0,
+      160.0
+     ],
+     [
+      103.0,
+      140.0,
+      310.0
+     ]
+    ],
+    "volume_mm3": 206081.7
+   },
+   {
+    "id": "dock_column_l3",
+    "label": "Mast face L3",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      0.0,
+      310.0
+     ],
+     [
+      103.0,
+      140.0,
+      460.0
+     ]
+    ],
+    "volume_mm3": 206649.9
+   },
+   {
+    "id": "dock_column_r1",
+    "label": "Mast face R1",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      -140.0,
+      12.0
+     ],
+     [
+      103.0,
+      0.0,
+      210.0
+     ]
+    ],
+    "volume_mm3": 272309.6
+   },
+   {
+    "id": "dock_column_r2",
+    "label": "Mast face R2",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      -140.0,
+      210.0
+     ],
+     [
+      103.0,
+      0.0,
+      360.0
+     ]
+    ],
+    "volume_mm3": 206649.9
+   },
+   {
+    "id": "dock_column_r3",
+    "label": "Mast face R3",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      -140.0,
+      360.0
+     ],
+     [
+      103.0,
+      0.0,
+      460.0
+     ]
+    ],
+    "volume_mm3": 137766.6
+   },
+   {
+    "id": "dock_paddle",
+    "label": "Chest paddle (6 pins)",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "paddle",
+    "mount": "swivels on 2 coaxial M3x20 in the carrier",
+    "src": "",
+    "bounds": [
+     [
+      9.41,
+      -54.58,
+      140.0
+     ],
+     [
+      35.42,
+      55.91,
+      230.0
+     ]
+    ],
+    "volume_mm3": 120777.2
+   },
+   {
+    "id": "dock_paddle_carrier",
+    "label": "Paddle carrier (yoke)",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "paddle",
+    "mount": "slides on the 2 rods",
+    "src": "",
+    "bounds": [
+     [
+      25.43,
+      -46.0,
+      133.0
+     ],
+     [
+      44.43,
+      46.0,
+      237.0
+     ]
+    ],
+    "volume_mm3": 18801.0
+   },
+   {
+    "id": "dock_spring_cup_l",
+    "label": "Spring channel, left",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "2 x M3x16 through the mast face, nylon nuts",
+    "src": "",
+    "bounds": [
+     [
+      83.0,
+      33.0,
+      158.0
+     ],
+     [
+      152.0,
+      47.0,
+      202.0
+     ]
+    ],
+    "volume_mm3": 11227.7
+   },
+   {
+    "id": "dock_spring_cup_r",
+    "label": "Spring channel, right",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "2 x M3x16 through the mast face, nylon nuts",
+    "src": "",
+    "bounds": [
+     [
+      83.0,
+      -47.0,
+      158.0
+     ],
+     [
+      152.0,
+      -33.0,
+      202.0
+     ]
+    ],
+    "volume_mm3": 11227.7
+   },
+   {
+    "id": "dock_spring_carriage_l",
+    "label": "Spring carriage (rod end), left",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "pressed on the rod end; the strip screwed on top",
+    "src": "",
+    "bounds": [
+     [
+      98.43,
+      36.0,
+      174.8
+     ],
+     [
+      120.43,
+      44.0,
+      184.0
+     ]
+    ],
+    "volume_mm3": 1279.9
+   },
+   {
+    "id": "dock_spring_carriage_r",
+    "label": "Spring carriage (rod end), right",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "pressed on the rod end; the strip screwed on top",
+    "src": "",
+    "bounds": [
+     [
+      98.43,
+      -44.0,
+      174.8
+     ],
+     [
+      120.43,
+      -36.0,
+      184.0
+     ]
+    ],
+    "volume_mm3": 1279.9
+   },
+   {
+    "id": "dock_spring_drum_l",
+    "label": "Spring drum, left",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "turns on an M3x18 axle across the channel",
+    "src": "",
+    "bounds": [
+     [
+      87.5,
+      36.75,
+      183.52
+     ],
+     [
+      96.5,
+      43.25,
+      192.52
+     ]
+    ],
+    "volume_mm3": 198.1
+   },
+   {
+    "id": "dock_spring_drum_r",
+    "label": "Spring drum, right",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "turns on an M3x18 axle across the channel",
+    "src": "",
+    "bounds": [
+     [
+      87.5,
+      -43.25,
+      183.52
+     ],
+     [
+      96.5,
+      -36.75,
+      192.52
+     ]
+    ],
+    "volume_mm3": 198.1
+   },
+   {
+    "id": "dock_bay_tray",
+    "label": "Electronics bay tray",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "bay",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      103.5,
+      -100.5,
+      12.0
+     ],
+     [
+      189.5,
+      100.5,
+      48.0
+     ]
+    ],
+    "volume_mm3": 76445.9
+   },
+   {
+    "id": "dock_bay_lid",
+    "label": "Electronics bay lid",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "bay",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      104.0,
+      -100.0,
+      48.0
+     ],
+     [
+      189.0,
+      100.0,
+      50.0
+     ]
+    ],
+    "volume_mm3": 33255.8
+   },
+   {
+    "id": "pin_SYS_R",
+    "label": "Spring pin SYS_R (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      11.22,
+      -3.37,
+      155.04
+     ],
+     [
+      22.47,
+      -1.22,
+      156.66
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "pin_SYS_L",
+    "label": "Spring pin SYS_L (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      11.55,
+      2.62,
+      155.04
+     ],
+     [
+      22.8,
+      4.77,
+      156.66
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "pin_GND_R",
+    "label": "Spring pin GND_R (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      11.22,
+      -3.37,
+      174.54
+     ],
+     [
+      22.47,
+      -1.22,
+      176.16
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "pin_GND_L",
+    "label": "Spring pin GND_L (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      11.55,
+      2.62,
+      174.54
+     ],
+     [
+      22.8,
+      4.77,
+      176.16
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "pin_SENSE",
+    "label": "Spring pin SENSE (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      11.38,
+      -0.37,
+      194.04
+     ],
+     [
+      22.64,
+      1.78,
+      195.66
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "pin_CHG",
+    "label": "Spring pin CHG (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      11.38,
+      -0.37,
+      213.54
+     ],
+     [
+      22.64,
+      1.78,
+      215.16
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "rod_l",
+    "label": "Guide rod left, 4 x 76 mm",
+    "kind": "bought",
+    "bom": "K8a",
+    "group": "spring",
+    "mount": "pressed into the carrier crossbar and the carriage",
+    "src": "[I] OnDrive GPM4000-100, 4 mm h6 17-4PH rod, cut to 76 mm (or the cheaper rod of DOCK_TWIN section 7)",
+    "bounds": [
+     [
+      36.43,
+      38.0,
+      178.0
+     ],
+     [
+      112.43,
+      42.0,
+      182.0
+     ]
+    ],
+    "volume_mm3": 944.2
+   },
+   {
+    "id": "cf_l",
+    "label": "Constant-force spring left (Century CF37CS)",
+    "kind": "bought",
+    "bom": "K8c",
+    "group": "spring",
+    "mount": "coil on the printed drum; the strip end under an M3x8 on the carriage",
+    "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
+    "bounds": [
+     [
+      88.06,
+      37.62,
+      184.0
+     ],
+     [
+      118.93,
+      42.38,
+      191.97
+     ]
+    ],
+    "volume_mm3": 89.2
+   },
+   {
+    "id": "rod_r",
+    "label": "Guide rod right, 4 x 76 mm",
+    "kind": "bought",
+    "bom": "K8a",
+    "group": "spring",
+    "mount": "pressed into the carrier crossbar and the carriage",
+    "src": "[I] OnDrive GPM4000-100, 4 mm h6 17-4PH rod, cut to 76 mm (or the cheaper rod of DOCK_TWIN section 7)",
+    "bounds": [
+     [
+      36.43,
+      -42.0,
+      178.0
+     ],
+     [
+      112.43,
+      -38.0,
+      182.0
+     ]
+    ],
+    "volume_mm3": 944.2
+   },
+   {
+    "id": "cf_r",
+    "label": "Constant-force spring right (Century CF37CS)",
+    "kind": "bought",
+    "bom": "K8c",
+    "group": "spring",
+    "mount": "coil on the printed drum; the strip end under an M3x8 on the carriage",
+    "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
+    "bounds": [
+     [
+      88.06,
+      -42.38,
+      184.0
+     ],
+     [
+      118.93,
+      -37.62,
+      191.97
+     ]
+    ],
+    "volume_mm3": 89.2
+   },
+   {
+    "id": "seat_spring_b",
+    "label": "Seat spring (Century CC-28CS)",
+    "kind": "bought",
+    "bom": "K8d",
+    "group": "seat",
+    "mount": "in the post pocket, round the guide pin",
+    "src": "[I] Century Spring CC-28CS page: OD 7.14, ID 6.12, free 23.88 mm",
+    "bounds": [
+     [
+      -98.57,
+      -3.57,
+      83.12
+     ],
+     [
+      -91.43,
+      3.57,
+      100.0
+     ]
+    ],
+    "volume_mm3": 178.2
+   },
+   {
+    "id": "seat_spring_f",
+    "label": "Seat spring (Century CC-28CS)",
+    "kind": "bought",
+    "bom": "K8d",
+    "group": "seat",
+    "mount": "in the post pocket, round the guide pin",
+    "src": "[I] Century Spring CC-28CS page: OD 7.14, ID 6.12, free 23.88 mm",
+    "bounds": [
+     [
+      -33.57,
+      -3.57,
+      83.12
+     ],
+     [
+      -26.43,
+      3.57,
+      100.0
+     ]
+    ],
+    "volume_mm3": 178.2
+   },
+   {
+    "id": "switch",
+    "label": "Seat microswitch (Omron D2F-01L)",
+    "kind": "bought",
+    "bom": "K3",
+    "group": "seat",
+    "mount": "2 x M2x12 through its holes into the slotted tower, nylon nuts; height set at BT5",
+    "src": "[I] Omron D2F data sheet (omronfs.omron.com/en_US/ecb/products/pdf/en-d2f.pdf): 12.8 x 6.5 x 5.8 mm, 2 x 2.0 mm holes 6.5 apart, hinge lever, solder terminals (D2F-01L-D3 the fallback)",
+    "bounds": [
+     [
+      -66.2,
+      -6.68,
+      69.33
+     ],
+     [
+      -60.4,
+      6.68,
+      81.98
+     ]
+    ],
+    "volume_mm3": 479.7
+   },
+   {
+    "id": "ballast_l",
+    "label": "Ballast bar left (1018 steel 120 x 63.5 x 7.9)",
+    "kind": "bought",
+    "bom": "K8k",
+    "group": "mast",
+    "mount": "in the base pocket, held down by the bay tray",
+    "src": "[I] Zoro Select 18F312X25-12, 1018 bar 5/16 x 2-1/2 x 12 in, cut to 2 x 120 mm",
+    "bounds": [
+     [
+      114.5,
+      8.5,
+      4.0
+     ],
+     [
+      178.0,
+      128.5,
+      11.9
+     ]
+    ],
+    "volume_mm3": 60198.0
+   },
+   {
+    "id": "ballast_r",
+    "label": "Ballast bar right (1018 steel 120 x 63.5 x 7.9)",
+    "kind": "bought",
+    "bom": "K8k",
+    "group": "mast",
+    "mount": "in the base pocket, held down by the bay tray",
+    "src": "[I] Zoro Select 18F312X25-12, 1018 bar 5/16 x 2-1/2 x 12 in, cut to 2 x 120 mm",
+    "bounds": [
+     [
+      114.5,
+      -128.5,
+      4.0
+     ],
+     [
+      178.0,
+      -8.5,
+      11.9
+     ]
+    ],
+    "volume_mm3": 60198.0
+   },
+   {
+    "id": "foot_1",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      -106.0,
+      8.0,
+      0.0
+     ],
+     [
+      -98.0,
+      16.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_2",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      -106.0,
+      -16.0,
+      0.0
+     ],
+     [
+      -98.0,
+      -8.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_3",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      -27.0,
+      8.0,
+      0.0
+     ],
+     [
+      -19.0,
+      16.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_4",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      -27.0,
+      -16.0,
+      0.0
+     ],
+     [
+      -19.0,
+      -8.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_5",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      32.0,
+      26.0,
+      0.0
+     ],
+     [
+      40.0,
+      34.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_6",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      32.0,
+      126.0,
+      0.0
+     ],
+     [
+      40.0,
+      134.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_7",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      180.0,
+      26.0,
+      0.0
+     ],
+     [
+      188.0,
+      34.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_8",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      180.0,
+      126.0,
+      0.0
+     ],
+     [
+      188.0,
+      134.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_9",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      32.0,
+      -34.0,
+      0.0
+     ],
+     [
+      40.0,
+      -26.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_10",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      32.0,
+      -134.0,
+      0.0
+     ],
+     [
+      40.0,
+      -126.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_11",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      180.0,
+      -34.0,
+      0.0
+     ],
+     [
+      188.0,
+      -26.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_12",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      180.0,
+      -134.0,
+      0.0
+     ],
+     [
+      188.0,
+      -126.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "tag_0",
+    "label": "AprilTag tag36h11 id 0 (40 mm)",
+    "kind": "paper",
+    "bom": "K13",
+    "group": "mast",
+    "mount": "printed on paper, glued on the mast face",
+    "src": "[L] DOCK_TWIN section 2: tag36h11 id 0 40 mm at y 0, ids 1 and 2 60 mm at y +/- 100, centres 370 mm; printed on paper",
+    "bounds": [
+     [
+      74.7,
+      -24.0,
+      346.0
+     ],
+     [
+      75.0,
+      24.0,
+      394.0
+     ]
+    ],
+    "volume_mm3": 691.2
+   },
+   {
+    "id": "tag_1",
+    "label": "AprilTag tag36h11 id 1 (60 mm)",
+    "kind": "paper",
+    "bom": "K13",
+    "group": "mast",
+    "mount": "printed on paper, glued on the mast face",
+    "src": "[L] DOCK_TWIN section 2: tag36h11 id 0 40 mm at y 0, ids 1 and 2 60 mm at y +/- 100, centres 370 mm; printed on paper",
+    "bounds": [
+     [
+      74.7,
+      66.0,
+      336.0
+     ],
+     [
+      75.0,
+      134.0,
+      404.0
+     ]
+    ],
+    "volume_mm3": 1387.2
+   },
+   {
+    "id": "tag_2",
+    "label": "AprilTag tag36h11 id 2 (60 mm)",
+    "kind": "paper",
+    "bom": "K13",
+    "group": "mast",
+    "mount": "printed on paper, glued on the mast face",
+    "src": "[L] DOCK_TWIN section 2: tag36h11 id 0 40 mm at y 0, ids 1 and 2 60 mm at y +/- 100, centres 370 mm; printed on paper",
+    "bounds": [
+     [
+      74.7,
+      -134.0,
+      336.0
+     ],
+     [
+      75.0,
+      -66.0,
+      404.0
+     ]
+    ],
+    "volume_mm3": 1387.2
+   },
+   {
+    "id": "evm",
+    "label": "Charger board (Microchip MCP73213EV-2SOVP)",
+    "kind": "bought",
+    "bom": "K1",
+    "group": "bay",
+    "mount": "on VHB 4950 in a printed rim (bump-ons removed); no mounting holes",
+    "src": "[I] Microchip DS51849A user's guide (ww1.microchip.com/downloads/en/DeviceDoc/51849A.pdf): board top assembly and layout (fig. 2-1, A.3), TP1 VDD, TP2 VBAT+, TP3 VSS, TP4 VBAT-, STAT at D1 and R2, 4 bump-ons under it, U1 MCP73213-A6S/MF; outline 26.0 x 22.6 mm scaled from the layout by its 0603 pads (calc; no outline is published: BLOCKER for +/- 1 mm)",
+    "bounds": [
+     [
+      120.0,
+      -35.0,
+      15.1
+     ],
+     [
+      146.0,
+      -12.4,
+      18.3
+     ]
+    ],
+    "volume_mm3": 1014.8
+   },
+   {
+    "id": "vhb_evm",
+    "label": "VHB pad under the charger board",
+    "kind": "bought",
+    "bom": "K12b",
+    "group": "bay",
+    "mount": "",
+    "src": "[L] BOM 29 3M VHB 4950 1.1 mm",
+    "bounds": [
+     [
+      121.0,
+      -34.0,
+      14.0
+     ],
+     [
+      145.0,
+      -13.4,
+      15.1
+     ]
+    ],
+    "volume_mm3": 543.8
+   },
+   {
+    "id": "swg",
+    "label": "Gate switch (Pololu 2815)",
+    "kind": "bought",
+    "bom": "K2",
+    "group": "bay",
+    "mount": "on VHB 4950 in a printed rim (as the robot's 2813)",
+    "src": "[I] https://www.pololu.com/product/2815 (0.8 x 1.0 x 0.16 in, 2.7 g; VIN, VOUT, GND, CTRL pads)",
+    "bounds": [
+     [
+      150.0,
+      -40.0,
+      15.1
+     ],
+     [
+      170.3,
+      -14.6,
+      19.2
+     ]
+    ],
+    "volume_mm3": 945.0
+   },
+   {
+    "id": "vhb_swg",
+    "label": "VHB pad under the 2815",
+    "kind": "bought",
+    "bom": "K12b",
+    "group": "bay",
+    "mount": "",
+    "src": "[L] BOM 29",
+    "bounds": [
+     [
+      151.0,
+      -39.0,
+      14.0
+     ],
+     [
+      169.3,
+      -15.6,
+      15.1
+     ]
+    ],
+    "volume_mm3": 471.0
+   },
+   {
+    "id": "fuse_holder",
+    "label": "Adapter fuse holder (Littelfuse FHAC0001ZXJ) with 5 A ATO fuse",
+    "kind": "bought",
+    "bom": "K9",
+    "group": "bay",
+    "mount": "on VHB 4950 in a printed rim",
+    "src": "[L] BOM.md L3: Littelfuse FHAC0001ZXJ body 50 x 17.2 x 17.2 mm with a cover on a strap, 16 AWG leads 90 mm (Littelfuse drawing)",
+    "bounds": [
+     [
+      120.0,
+      -95.0,
+      15.1
+     ],
+     [
+      170.0,
+      -77.8,
+      32.3
+     ]
+    ],
+    "volume_mm3": 14792.0
+   },
+   {
+    "id": "vhb_fh",
+    "label": "VHB pad under the fuse holder",
+    "kind": "bought",
+    "bom": "K12b",
+    "group": "bay",
+    "mount": "",
+    "src": "[L] BOM 29",
+    "bounds": [
+     [
+      121.0,
+      -94.0,
+      14.0
+     ],
+     [
+      169.0,
+      -78.8,
+      15.1
+     ]
+    ],
+    "volume_mm3": 802.6
+   },
+   {
+    "id": "jack",
+    "label": "DC jack (Same Sky PJ-005A)",
+    "kind": "bought",
+    "bom": "K6b",
+    "group": "bay",
+    "mount": "through the 8 mm hole in the tray's rear wall, nut and washer outside",
+    "src": "[I] Same Sky PJ-005A data sheet (sameskydevices.com/product/resource/pj-005a.pdf, rev 1.09): 5 A, 24 V, 5/16-32 bushing 5.7 mm, flange 10.8 mm, body 10.0 mm, 3 solder lugs, nut and washer, mates a 5.5 x 2.1 mm plug (2.0 mm pin), insertion depth 10.1 mm",
+    "bounds": [
+     [
+      171.5,
+      -71.25,
+      23.75
+     ],
+     [
+      192.7,
+      -58.75,
+      36.25
+     ]
+    ],
+    "volume_mm3": 1407.1
+   },
+   {
+    "id": "plug",
+    "label": "Adapter plug 5.5 x 2.1 mm (Mean Well P1J)",
+    "kind": "bought",
+    "bom": "K6",
+    "group": "bay",
+    "mount": "",
+    "src": "[I] Mean Well GSM36U09-P1J (TRC Electronics page): wall plug, 9 V 4 A, 1.5 m cord, 5.5 x 2.1 mm plug; body size not read: a 70 x 45 x 32 mm stand-in (BLOCKER)",
+    "bounds": [
+     [
+      192.7,
+      -70.0,
+      25.0
+     ],
+     [
+      232.7,
+      -60.0,
+      35.0
+     ]
+    ],
+    "volume_mm3": 2564.2
+   },
+   {
+    "id": "adapter_cord",
+    "label": "Adapter cord (part of K6, 1.5 m; 0.25 m drawn)",
+    "kind": "bought",
+    "bom": "K6",
+    "group": "bay",
+    "mount": "",
+    "src": "[I] Mean Well GSM36U09-P1J (TRC Electronics page): wall plug, 9 V 4 A, 1.5 m cord, 5.5 x 2.1 mm plug; body size not read: a 70 x 45 x 32 mm stand-in (BLOCKER)",
+    "bounds": [
+     [
+      231.54,
+      -96.75,
+      0.25
+     ],
+     [
+      439.0,
+      -63.47,
+      31.56
+     ]
+    ],
+    "volume_mm3": 2118.2
+   },
+   {
+    "id": "adapter",
+    "label": "Wall adapter Mean Well GSM36U09-P1J (stand-in size)",
+    "kind": "bought",
+    "bom": "K6",
+    "group": "bay",
+    "mount": "in the wall socket",
+    "src": "[I] Mean Well GSM36U09-P1J (TRC Electronics page): wall plug, 9 V 4 A, 1.5 m cord, 5.5 x 2.1 mm plug; body size not read: a 70 x 45 x 32 mm stand-in (BLOCKER)",
+    "bounds": [
+     [
+      439.0,
+      -117.0,
+      2.0
+     ],
+     [
+      509.0,
+      -73.0,
+      34.0
+     ]
+    ],
+    "volume_mm3": 98560.0
+   },
+   {
+    "id": "perf",
+    "label": "Gate board (Adafruit 1609 Perma-Proto half)",
+    "kind": "bought",
+    "bom": "K4i",
+    "group": "bay",
+    "mount": "2 x M3x8 into inserts in 2 printed standoffs",
+    "src": "[I] https://www.adafruit.com/product/1609 (51 x 81 mm, two mounting holes 73.7 mm apart, 1.2 mm holes, 12 g); mounting hole diameter not published: 3.2 mm assumed for M3 (BLOCKER, check on the board)",
+    "bounds": [
+     [
+      120.0,
+      5.0,
+      20.0
+     ],
+     [
+      171.0,
+      86.0,
+      21.6
+     ]
+    ],
+    "volume_mm3": 6584.0
+   },
+   {
+    "id": "gate_U1",
+    "label": "U1 TI LM393P (A1 hot side, A2 cold side)",
+    "kind": "board_part",
+    "bom": "K4a",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI LM393P / NE555P data sheets: PDIP-8 (P) 9.81 x 6.35 mm body, 2.54 mm pitch, 7.62 mm rows",
+    "bounds": [
+     [
+      126.8,
+      15.1,
+      22.1
+     ],
+     [
+      133.2,
+      24.9,
+      25.4
+     ]
+    ],
+    "volume_mm3": 207.0
+   },
+   {
+    "id": "gate_U2",
+    "label": "U2 TI LM393P (B1 pack there, B2 not over)",
+    "kind": "board_part",
+    "bom": "K4a",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI LM393P / NE555P data sheets: PDIP-8 (P) 9.81 x 6.35 mm body, 2.54 mm pitch, 7.62 mm rows",
+    "bounds": [
+     [
+      126.8,
+      35.1,
+      22.1
+     ],
+     [
+      133.2,
+      44.9,
+      25.4
+     ]
+    ],
+    "volume_mm3": 207.0
+   },
+   {
+    "id": "gate_U3",
+    "label": "U3 TI NE555P one-shot, 110 ms",
+    "kind": "board_part",
+    "bom": "K4b",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI LM393P / NE555P data sheets: PDIP-8 (P) 9.81 x 6.35 mm body, 2.54 mm pitch, 7.62 mm rows",
+    "bounds": [
+     [
+      126.8,
+      57.1,
+      22.1
+     ],
+     [
+      133.2,
+      66.9,
+      25.4
+     ]
+    ],
+    "volume_mm3": 207.0
+   },
+   {
+    "id": "gate_VR1",
+    "label": "VR1 TI TL431A 2.50 V reference (cathode and ref tied)",
+    "kind": "board_part",
+    "bom": "K4c",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI TL431 LP and onsemi 2N3904 data sheets: TO-92 4.7 x 3.8 mm, 4.6 mm tall",
+    "bounds": [
+     [
+      147.65,
+      18.1,
+      24.6
+     ],
+     [
+      152.35,
+      21.9,
+      29.2
+     ]
+    ],
+    "volume_mm3": 82.2
+   },
+   {
+    "id": "gate_Q1",
+    "label": "Q1 onsemi 2N3904 gate driver",
+    "kind": "board_part",
+    "bom": "K4d",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI TL431 LP and onsemi 2N3904 data sheets: TO-92 4.7 x 3.8 mm, 4.6 mm tall",
+    "bounds": [
+     [
+      147.65,
+      38.1,
+      24.6
+     ],
+     [
+      152.35,
+      41.9,
+      29.2
+     ]
+    ],
+    "volume_mm3": 82.2
+   },
+   {
+    "id": "gate_Q3",
+    "label": "Q3 onsemi 2N3904 STAT inverter",
+    "kind": "board_part",
+    "bom": "K4d",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI TL431 LP and onsemi 2N3904 data sheets: TO-92 4.7 x 3.8 mm, 4.6 mm tall",
+    "bounds": [
+     [
+      147.65,
+      60.1,
+      24.6
+     ],
+     [
+      152.35,
+      63.9,
+      29.2
+     ]
+    ],
+    "volume_mm3": 82.2
+   },
+   {
+    "id": "gate_D1",
+    "label": "D1 1N4148 TRIG clamp to the 9 V rail",
+    "kind": "board_part",
+    "bom": "K4f",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      139.05,
+      70.0,
+      21.85
+     ],
+     [
+      140.95,
+      74.0,
+      23.75
+     ]
+    ],
+    "volume_mm3": 10.8
+   },
+   {
+    "id": "gate_D2",
+    "label": "D2 1N4148 wake pulse onto SENSE",
+    "kind": "board_part",
+    "bom": "K4f",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      145.05,
+      70.0,
+      21.85
+     ],
+     [
+      146.95,
+      74.0,
+      23.75
+     ]
+    ],
+    "volume_mm3": 10.8
+   },
+   {
+    "id": "gate_R1",
+    "label": "R1 2.2 k TL431 bias",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      10.8,
+      21.8
+     ],
+     [
+      160.15,
+      13.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R2",
+    "label": "R2 10 k REF to SENSE",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      15.8,
+      21.8
+     ],
+     [
+      160.15,
+      18.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R3",
+    "label": "R3 26.7 k = 22 k + 4.7 k in series (window A top)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      20.8,
+      21.8
+     ],
+     [
+      160.15,
+      23.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R4",
+    "label": "R4 42 k = 22 k + 10 k + 10 k in series (window A middle)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      25.8,
+      21.8
+     ],
+     [
+      160.15,
+      28.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R5",
+    "label": "R5 32 k = 22 k + 10 k in series (window A bottom)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      30.8,
+      21.8
+     ],
+     [
+      160.15,
+      33.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R6",
+    "label": "R6 14.7 k = 10 k + 4.7 k in series (window B top)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      35.8,
+      21.8
+     ],
+     [
+      160.15,
+      38.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R7",
+    "label": "R7 38.9 k = 22 k + 10 k + 4.7 k + 2.2 k in series (window B middle)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      40.8,
+      21.8
+     ],
+     [
+      160.15,
+      43.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R8",
+    "label": "R8 47 k (window B bottom)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      45.8,
+      21.8
+     ],
+     [
+      160.15,
+      48.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R9",
+    "label": "R9 1 M CHG+ divider top",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      50.8,
+      21.8
+     ],
+     [
+      160.15,
+      53.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R10",
+    "label": "R10 330 k = 220 k + 100 k + 10 k in series (CHG+ divider bottom)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      55.8,
+      21.8
+     ],
+     [
+      160.15,
+      58.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R11",
+    "label": "R11 10 k OK pull-up",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      10.8,
+      21.8
+     ],
+     [
+      168.15,
+      13.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R12",
+    "label": "R12 10 k Q1 base",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      15.8,
+      21.8
+     ],
+     [
+      168.15,
+      18.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R13",
+    "label": "R13 10 k STAT pull-up to V_SYS (never to the always-on 9 V: the charger is unpowered then)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      20.8,
+      21.8
+     ],
+     [
+      168.15,
+      23.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R14",
+    "label": "R14 10 k Q3 base",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      25.8,
+      21.8
+     ],
+     [
+      168.15,
+      28.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R15",
+    "label": "R15 10 k Q3 collector pull-up to V_SYS: at power-up STAT and Q3 rise with V_SYS, so Q3C never falls and the 555 does not fire (no pulse loop after each wake)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      30.8,
+      21.8
+     ],
+     [
+      168.15,
+      33.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R16",
+    "label": "R16 10 k TRIG pull-up",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      35.8,
+      21.8
+     ],
+     [
+      168.15,
+      38.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R17",
+    "label": "R17 100 k 555 timing: 1.1 x 100 k x 1 uF, 110 ms",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      40.8,
+      21.8
+     ],
+     [
+      168.15,
+      43.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R18",
+    "label": "R18 1 k wake pulse series",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      45.8,
+      21.8
+     ],
+     [
+      168.15,
+      48.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_C1",
+    "label": "C1 100 nF U1 supply",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      124.5,
+      26.7,
+      21.6
+     ],
+     [
+      129.5,
+      29.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   },
+   {
+    "id": "gate_C2",
+    "label": "C2 100 nF U2 supply",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      124.5,
+      48.7,
+      21.6
+     ],
+     [
+      129.5,
+      51.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   },
+   {
+    "id": "gate_C3",
+    "label": "C3 100 nF U3 supply",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      124.5,
+      68.7,
+      21.6
+     ],
+     [
+      129.5,
+      71.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   },
+   {
+    "id": "gate_C4",
+    "label": "C4 1 uF 555 timing",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      137.5,
+      28.7,
+      21.6
+     ],
+     [
+      142.5,
+      31.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   },
+   {
+    "id": "gate_C5",
+    "label": "C5 10 nF trigger coupling (Q3 collector falling edge to TRIG)",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      137.5,
+      48.7,
+      21.6
+     ],
+     [
+      142.5,
+      51.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   },
+   {
+    "id": "gate_C6",
+    "label": "C6 10 nF 555 CV",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      157.5,
+      70.7,
+      21.6
+     ],
+     [
+      162.5,
+      73.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   }
+  ]
+ },
+ "sources": {
+  "evm": "[I] Microchip DS51849A user's guide (ww1.microchip.com/downloads/en/DeviceDoc/51849A.pdf): board top assembly and layout (fig. 2-1, A.3), TP1 VDD, TP2 VBAT+, TP3 VSS, TP4 VBAT-, STAT at D1 and R2, 4 bump-ons under it, U1 MCP73213-A6S/MF; outline 26.0 x 22.6 mm scaled from the layout by its 0603 pads (calc; no outline is published: BLOCKER for +/- 1 mm)",
+  "2815": "[I] https://www.pololu.com/product/2815 (0.8 x 1.0 x 0.16 in, 2.7 g; VIN, VOUT, GND, CTRL pads)",
+  "perf": "[I] https://www.adafruit.com/product/1609 (51 x 81 mm, two mounting holes 73.7 mm apart, 1.2 mm holes, 12 g); mounting hole diameter not published: 3.2 mm assumed for M3 (BLOCKER, check on the board)",
+  "d2f": "[I] Omron D2F data sheet (omronfs.omron.com/en_US/ecb/products/pdf/en-d2f.pdf): 12.8 x 6.5 x 5.8 mm, 2 x 2.0 mm holes 6.5 apart, hinge lever, solder terminals (D2F-01L-D3 the fallback)",
+  "pin": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+  "jack": "[I] Same Sky PJ-005A data sheet (sameskydevices.com/product/resource/pj-005a.pdf, rev 1.09): 5 A, 24 V, 5/16-32 bushing 5.7 mm, flange 10.8 mm, body 10.0 mm, 3 solder lugs, nut and washer, mates a 5.5 x 2.1 mm plug (2.0 mm pin), insertion depth 10.1 mm",
+  "fuse_holder": "[L] BOM.md L3: Littelfuse FHAC0001ZXJ body 50 x 17.2 x 17.2 mm with a cover on a strap, 16 AWG leads 90 mm (Littelfuse drawing)",
+  "adapter": "[I] Mean Well GSM36U09-P1J (TRC Electronics page): wall plug, 9 V 4 A, 1.5 m cord, 5.5 x 2.1 mm plug; body size not read: a 70 x 45 x 32 mm stand-in (BLOCKER)",
+  "rod": "[I] OnDrive GPM4000-100, 4 mm h6 17-4PH rod, cut to 76 mm (or the cheaper rod of DOCK_TWIN section 7)",
+  "cf": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
+  "seat_spring": "[I] Century Spring CC-28CS page: OD 7.14, ID 6.12, free 23.88 mm",
+  "ballast": "[I] Zoro Select 18F312X25-12, 1018 bar 5/16 x 2-1/2 x 12 in, cut to 2 x 120 mm",
+  "feet": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+  "tags": "[L] DOCK_TWIN section 2: tag36h11 id 0 40 mm at y 0, ids 1 and 2 60 mm at y +/- 100, centres 370 mm; printed on paper",
+  "dip8": "[I] TI LM393P / NE555P data sheets: PDIP-8 (P) 9.81 x 6.35 mm body, 2.54 mm pitch, 7.62 mm rows",
+  "to92": "[I] TI TL431 LP and onsemi 2N3904 data sheets: TO-92 4.7 x 3.8 mm, 4.6 mm tall",
+  "axial": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)"
+ },
+ "dock": {
+  "n": 94,
+  "interferences": [],
+  "components": [
+   {
+    "id": "dock_seat_base",
+    "label": "Seat base",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "seat",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      -110.0,
+      -20.0,
+      2.0
+     ],
+     [
+      -15.0,
+      20.0,
+      100.0
+     ]
+    ],
+    "volume_mm3": 105027.9
+   },
+   {
+    "id": "dock_seat_top",
+    "label": "Seat top (sprung)",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "seat",
+    "mount": "on 2 guide pins and 2 springs on the seat posts",
+    "src": "",
+    "bounds": [
+     [
+      -110.0,
+      -20.0,
+      72.12
+     ],
+     [
+      -15.0,
+      20.0,
+      118.0
+     ]
+    ],
+    "volume_mm3": 46823.3
+   },
+   {
+    "id": "dock_spine",
+    "label": "Spine",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      -15.0,
+      -20.0,
+      2.0
+     ],
+     [
+      70.0,
+      20.0,
+      90.0
+     ]
+    ],
+    "volume_mm3": 166217.1
+   },
+   {
+    "id": "dock_base_l",
+    "label": "Mast base, left",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      30.0,
+      0.0,
+      2.0
+     ],
+     [
+      190.0,
+      140.0,
+      12.0
+     ]
+    ],
+    "volume_mm3": 159170.2
+   },
+   {
+    "id": "dock_base_r",
+    "label": "Mast base, right",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      30.0,
+      -140.0,
+      2.0
+     ],
+     [
+      190.0,
+      0.0,
+      12.0
+     ]
+    ],
+    "volume_mm3": 160450.2
+   },
+   {
+    "id": "dock_column_l1",
+    "label": "Mast face L1",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      0.0,
+      12.0
+     ],
+     [
+      103.0,
+      140.0,
+      160.0
+     ]
+    ],
+    "volume_mm3": 203690.2
+   },
+   {
+    "id": "dock_column_l2",
+    "label": "Mast face L2",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      0.0,
+      160.0
+     ],
+     [
+      103.0,
+      140.0,
+      310.0
+     ]
+    ],
+    "volume_mm3": 206081.7
+   },
+   {
+    "id": "dock_column_l3",
+    "label": "Mast face L3",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      0.0,
+      310.0
+     ],
+     [
+      103.0,
+      140.0,
+      460.0
+     ]
+    ],
+    "volume_mm3": 206649.9
+   },
+   {
+    "id": "dock_column_r1",
+    "label": "Mast face R1",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      -140.0,
+      12.0
+     ],
+     [
+      103.0,
+      0.0,
+      210.0
+     ]
+    ],
+    "volume_mm3": 272309.6
+   },
+   {
+    "id": "dock_column_r2",
+    "label": "Mast face R2",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      -140.0,
+      210.0
+     ],
+     [
+      103.0,
+      0.0,
+      360.0
+     ]
+    ],
+    "volume_mm3": 206649.9
+   },
+   {
+    "id": "dock_column_r3",
+    "label": "Mast face R3",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "mast",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      75.0,
+      -140.0,
+      360.0
+     ],
+     [
+      103.0,
+      0.0,
+      460.0
+     ]
+    ],
+    "volume_mm3": 137766.6
+   },
+   {
+    "id": "dock_paddle",
+    "label": "Chest paddle (6 pins)",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "paddle",
+    "mount": "swivels on 2 coaxial M3x20 in the carrier",
+    "src": "",
+    "bounds": [
+     [
+      0.0,
+      -55.0,
+      140.0
+     ],
+     [
+      23.0,
+      55.0,
+      230.0
+     ]
+    ],
+    "volume_mm3": 120777.2
+   },
+   {
+    "id": "dock_paddle_carrier",
+    "label": "Paddle carrier (yoke)",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "paddle",
+    "mount": "slides on the 2 rods",
+    "src": "",
+    "bounds": [
+     [
+      13.0,
+      -46.0,
+      133.0
+     ],
+     [
+      32.0,
+      46.0,
+      237.0
+     ]
+    ],
+    "volume_mm3": 18801.0
+   },
+   {
+    "id": "dock_spring_cup_l",
+    "label": "Spring channel, left",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "2 x M3x16 through the mast face, nylon nuts",
+    "src": "",
+    "bounds": [
+     [
+      83.0,
+      33.0,
+      158.0
+     ],
+     [
+      152.0,
+      47.0,
+      202.0
+     ]
+    ],
+    "volume_mm3": 11227.7
+   },
+   {
+    "id": "dock_spring_cup_r",
+    "label": "Spring channel, right",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "2 x M3x16 through the mast face, nylon nuts",
+    "src": "",
+    "bounds": [
+     [
+      83.0,
+      -47.0,
+      158.0
+     ],
+     [
+      152.0,
+      -33.0,
+      202.0
+     ]
+    ],
+    "volume_mm3": 11227.7
+   },
+   {
+    "id": "dock_spring_carriage_l",
+    "label": "Spring carriage (rod end), left",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "pressed on the rod end; the strip screwed on top",
+    "src": "",
+    "bounds": [
+     [
+      86.0,
+      36.0,
+      174.8
+     ],
+     [
+      108.0,
+      44.0,
+      184.0
+     ]
+    ],
+    "volume_mm3": 1279.9
+   },
+   {
+    "id": "dock_spring_carriage_r",
+    "label": "Spring carriage (rod end), right",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "pressed on the rod end; the strip screwed on top",
+    "src": "",
+    "bounds": [
+     [
+      86.0,
+      -44.0,
+      174.8
+     ],
+     [
+      108.0,
+      -36.0,
+      184.0
+     ]
+    ],
+    "volume_mm3": 1279.9
+   },
+   {
+    "id": "dock_spring_drum_l",
+    "label": "Spring drum, left",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "turns on an M3x18 axle across the channel",
+    "src": "",
+    "bounds": [
+     [
+      87.5,
+      36.75,
+      183.52
+     ],
+     [
+      96.5,
+      43.25,
+      192.52
+     ]
+    ],
+    "volume_mm3": 198.1
+   },
+   {
+    "id": "dock_spring_drum_r",
+    "label": "Spring drum, right",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "spring",
+    "mount": "turns on an M3x18 axle across the channel",
+    "src": "",
+    "bounds": [
+     [
+      87.5,
+      -43.25,
+      183.52
+     ],
+     [
+      96.5,
+      -36.75,
+      192.52
+     ]
+    ],
+    "volume_mm3": 198.1
+   },
+   {
+    "id": "dock_bay_tray",
+    "label": "Electronics bay tray",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "bay",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      103.5,
+      -100.5,
+      12.0
+     ],
+     [
+      189.5,
+      100.5,
+      48.0
+     ]
+    ],
+    "volume_mm3": 76445.9
+   },
+   {
+    "id": "dock_bay_lid",
+    "label": "Electronics bay lid",
+    "kind": "printed",
+    "bom": "K7",
+    "group": "bay",
+    "mount": "",
+    "src": "",
+    "bounds": [
+     [
+      104.0,
+      -100.0,
+      48.0
+     ],
+     [
+      189.0,
+      100.0,
+      50.0
+     ]
+    ],
+    "volume_mm3": 33255.8
+   },
+   {
+    "id": "pin_SYS_R",
+    "label": "Spring pin SYS_R (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      -1.05,
+      -3.81,
+      155.04
+     ],
+     [
+      10.15,
+      -2.19,
+      156.66
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "pin_SYS_L",
+    "label": "Spring pin SYS_L (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      -1.05,
+      2.19,
+      155.04
+     ],
+     [
+      10.15,
+      3.81,
+      156.66
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "pin_GND_R",
+    "label": "Spring pin GND_R (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      -1.05,
+      -3.81,
+      174.54
+     ],
+     [
+      10.15,
+      -2.19,
+      176.16
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "pin_GND_L",
+    "label": "Spring pin GND_L (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      -1.05,
+      2.19,
+      174.54
+     ],
+     [
+      10.15,
+      3.81,
+      176.16
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "pin_SENSE",
+    "label": "Spring pin SENSE (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      -1.05,
+      -0.81,
+      194.04
+     ],
+     [
+      10.15,
+      0.81,
+      195.66
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "pin_CHG",
+    "label": "Spring pin CHG (Mill-Max 0933)",
+    "kind": "bought",
+    "bom": "K5",
+    "group": "paddle",
+    "mount": "press-fit into the 1.60 mm bore, solder cup at the back",
+    "src": "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: initial height 11.201 mm, stroke 1.397 mm, press-fit 1.600 mm hole, solder cup",
+    "bounds": [
+     [
+      -1.05,
+      -0.81,
+      213.54
+     ],
+     [
+      10.15,
+      0.81,
+      215.16
+     ]
+    ],
+    "volume_mm3": 19.1
+   },
+   {
+    "id": "rod_l",
+    "label": "Guide rod left, 4 x 76 mm",
+    "kind": "bought",
+    "bom": "K8a",
+    "group": "spring",
+    "mount": "pressed into the carrier crossbar and the carriage",
+    "src": "[I] OnDrive GPM4000-100, 4 mm h6 17-4PH rod, cut to 76 mm (or the cheaper rod of DOCK_TWIN section 7)",
+    "bounds": [
+     [
+      24.0,
+      38.0,
+      178.0
+     ],
+     [
+      100.0,
+      42.0,
+      182.0
+     ]
+    ],
+    "volume_mm3": 944.2
+   },
+   {
+    "id": "cf_l",
+    "label": "Constant-force spring left (Century CF37CS)",
+    "kind": "bought",
+    "bom": "K8c",
+    "group": "spring",
+    "mount": "coil on the printed drum; the strip end under an M3x8 on the carriage",
+    "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
+    "bounds": [
+     [
+      88.06,
+      37.62,
+      184.0
+     ],
+     [
+      106.5,
+      42.38,
+      191.97
+     ]
+    ],
+    "volume_mm3": 84.5
+   },
+   {
+    "id": "rod_r",
+    "label": "Guide rod right, 4 x 76 mm",
+    "kind": "bought",
+    "bom": "K8a",
+    "group": "spring",
+    "mount": "pressed into the carrier crossbar and the carriage",
+    "src": "[I] OnDrive GPM4000-100, 4 mm h6 17-4PH rod, cut to 76 mm (or the cheaper rod of DOCK_TWIN section 7)",
+    "bounds": [
+     [
+      24.0,
+      -42.0,
+      178.0
+     ],
+     [
+      100.0,
+      -38.0,
+      182.0
+     ]
+    ],
+    "volume_mm3": 944.2
+   },
+   {
+    "id": "cf_r",
+    "label": "Constant-force spring right (Century CF37CS)",
+    "kind": "bought",
+    "bom": "K8c",
+    "group": "spring",
+    "mount": "coil on the printed drum; the strip end under an M3x8 on the carriage",
+    "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
+    "bounds": [
+     [
+      88.06,
+      -42.38,
+      184.0
+     ],
+     [
+      106.5,
+      -37.62,
+      191.97
+     ]
+    ],
+    "volume_mm3": 84.5
+   },
+   {
+    "id": "seat_spring_b",
+    "label": "Seat spring (Century CC-28CS)",
+    "kind": "bought",
+    "bom": "K8d",
+    "group": "seat",
+    "mount": "in the post pocket, round the guide pin",
+    "src": "[I] Century Spring CC-28CS page: OD 7.14, ID 6.12, free 23.88 mm",
+    "bounds": [
+     [
+      -98.57,
+      -3.57,
+      83.12
+     ],
+     [
+      -91.43,
+      3.57,
+      106.0
+     ]
+    ],
+    "volume_mm3": 241.5
+   },
+   {
+    "id": "seat_spring_f",
+    "label": "Seat spring (Century CC-28CS)",
+    "kind": "bought",
+    "bom": "K8d",
+    "group": "seat",
+    "mount": "in the post pocket, round the guide pin",
+    "src": "[I] Century Spring CC-28CS page: OD 7.14, ID 6.12, free 23.88 mm",
+    "bounds": [
+     [
+      -33.57,
+      -3.57,
+      83.12
+     ],
+     [
+      -26.43,
+      3.57,
+      106.0
+     ]
+    ],
+    "volume_mm3": 241.5
+   },
+   {
+    "id": "switch",
+    "label": "Seat microswitch (Omron D2F-01L)",
+    "kind": "bought",
+    "bom": "K3",
+    "group": "seat",
+    "mount": "2 x M2x12 through its holes into the slotted tower, nylon nuts; height set at BT5",
+    "src": "[I] Omron D2F data sheet (omronfs.omron.com/en_US/ecb/products/pdf/en-d2f.pdf): 12.8 x 6.5 x 5.8 mm, 2 x 2.0 mm holes 6.5 apart, hinge lever, solder terminals (D2F-01L-D3 the fallback)",
+    "bounds": [
+     [
+      -66.2,
+      -6.68,
+      69.33
+     ],
+     [
+      -60.4,
+      6.68,
+      85.38
+     ]
+    ],
+    "volume_mm3": 479.7
+   },
+   {
+    "id": "ballast_l",
+    "label": "Ballast bar left (1018 steel 120 x 63.5 x 7.9)",
+    "kind": "bought",
+    "bom": "K8k",
+    "group": "mast",
+    "mount": "in the base pocket, held down by the bay tray",
+    "src": "[I] Zoro Select 18F312X25-12, 1018 bar 5/16 x 2-1/2 x 12 in, cut to 2 x 120 mm",
+    "bounds": [
+     [
+      114.5,
+      8.5,
+      4.0
+     ],
+     [
+      178.0,
+      128.5,
+      11.9
+     ]
+    ],
+    "volume_mm3": 60198.0
+   },
+   {
+    "id": "ballast_r",
+    "label": "Ballast bar right (1018 steel 120 x 63.5 x 7.9)",
+    "kind": "bought",
+    "bom": "K8k",
+    "group": "mast",
+    "mount": "in the base pocket, held down by the bay tray",
+    "src": "[I] Zoro Select 18F312X25-12, 1018 bar 5/16 x 2-1/2 x 12 in, cut to 2 x 120 mm",
+    "bounds": [
+     [
+      114.5,
+      -128.5,
+      4.0
+     ],
+     [
+      178.0,
+      -8.5,
+      11.9
+     ]
+    ],
+    "volume_mm3": 60198.0
+   },
+   {
+    "id": "foot_1",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      -106.0,
+      8.0,
+      0.0
+     ],
+     [
+      -98.0,
+      16.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_2",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      -106.0,
+      -16.0,
+      0.0
+     ],
+     [
+      -98.0,
+      -8.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_3",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      -27.0,
+      8.0,
+      0.0
+     ],
+     [
+      -19.0,
+      16.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_4",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      -27.0,
+      -16.0,
+      0.0
+     ],
+     [
+      -19.0,
+      -8.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_5",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      32.0,
+      26.0,
+      0.0
+     ],
+     [
+      40.0,
+      34.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_6",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      32.0,
+      126.0,
+      0.0
+     ],
+     [
+      40.0,
+      134.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_7",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      180.0,
+      26.0,
+      0.0
+     ],
+     [
+      188.0,
+      34.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_8",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      180.0,
+      126.0,
+      0.0
+     ],
+     [
+      188.0,
+      134.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_9",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      32.0,
+      -34.0,
+      0.0
+     ],
+     [
+      40.0,
+      -26.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_10",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      32.0,
+      -134.0,
+      0.0
+     ],
+     [
+      40.0,
+      -126.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_11",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      180.0,
+      -34.0,
+      0.0
+     ],
+     [
+      188.0,
+      -26.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "foot_12",
+    "label": "Rubber foot (Adafruit 550)",
+    "kind": "bought",
+    "bom": "K10",
+    "group": "mast",
+    "mount": "adhesive, in a 2 mm pocket",
+    "src": "[I] https://www.adafruit.com/product/550 (about 8 mm diameter, 4 mm tall, polyurethane, 4 per pack)",
+    "bounds": [
+     [
+      180.0,
+      -134.0,
+      0.0
+     ],
+     [
+      188.0,
+      -126.0,
+      4.0
+     ]
+    ],
+    "volume_mm3": 197.8
+   },
+   {
+    "id": "tag_0",
+    "label": "AprilTag tag36h11 id 0 (40 mm)",
+    "kind": "paper",
+    "bom": "K13",
+    "group": "mast",
+    "mount": "printed on paper, glued on the mast face",
+    "src": "[L] DOCK_TWIN section 2: tag36h11 id 0 40 mm at y 0, ids 1 and 2 60 mm at y +/- 100, centres 370 mm; printed on paper",
+    "bounds": [
+     [
+      74.7,
+      -24.0,
+      346.0
+     ],
+     [
+      75.0,
+      24.0,
+      394.0
+     ]
+    ],
+    "volume_mm3": 691.2
+   },
+   {
+    "id": "tag_1",
+    "label": "AprilTag tag36h11 id 1 (60 mm)",
+    "kind": "paper",
+    "bom": "K13",
+    "group": "mast",
+    "mount": "printed on paper, glued on the mast face",
+    "src": "[L] DOCK_TWIN section 2: tag36h11 id 0 40 mm at y 0, ids 1 and 2 60 mm at y +/- 100, centres 370 mm; printed on paper",
+    "bounds": [
+     [
+      74.7,
+      66.0,
+      336.0
+     ],
+     [
+      75.0,
+      134.0,
+      404.0
+     ]
+    ],
+    "volume_mm3": 1387.2
+   },
+   {
+    "id": "tag_2",
+    "label": "AprilTag tag36h11 id 2 (60 mm)",
+    "kind": "paper",
+    "bom": "K13",
+    "group": "mast",
+    "mount": "printed on paper, glued on the mast face",
+    "src": "[L] DOCK_TWIN section 2: tag36h11 id 0 40 mm at y 0, ids 1 and 2 60 mm at y +/- 100, centres 370 mm; printed on paper",
+    "bounds": [
+     [
+      74.7,
+      -134.0,
+      336.0
+     ],
+     [
+      75.0,
+      -66.0,
+      404.0
+     ]
+    ],
+    "volume_mm3": 1387.2
+   },
+   {
+    "id": "evm",
+    "label": "Charger board (Microchip MCP73213EV-2SOVP)",
+    "kind": "bought",
+    "bom": "K1",
+    "group": "bay",
+    "mount": "on VHB 4950 in a printed rim (bump-ons removed); no mounting holes",
+    "src": "[I] Microchip DS51849A user's guide (ww1.microchip.com/downloads/en/DeviceDoc/51849A.pdf): board top assembly and layout (fig. 2-1, A.3), TP1 VDD, TP2 VBAT+, TP3 VSS, TP4 VBAT-, STAT at D1 and R2, 4 bump-ons under it, U1 MCP73213-A6S/MF; outline 26.0 x 22.6 mm scaled from the layout by its 0603 pads (calc; no outline is published: BLOCKER for +/- 1 mm)",
+    "bounds": [
+     [
+      120.0,
+      -35.0,
+      15.1
+     ],
+     [
+      146.0,
+      -12.4,
+      18.3
+     ]
+    ],
+    "volume_mm3": 1014.8
+   },
+   {
+    "id": "vhb_evm",
+    "label": "VHB pad under the charger board",
+    "kind": "bought",
+    "bom": "K12b",
+    "group": "bay",
+    "mount": "",
+    "src": "[L] BOM 29 3M VHB 4950 1.1 mm",
+    "bounds": [
+     [
+      121.0,
+      -34.0,
+      14.0
+     ],
+     [
+      145.0,
+      -13.4,
+      15.1
+     ]
+    ],
+    "volume_mm3": 543.8
+   },
+   {
+    "id": "swg",
+    "label": "Gate switch (Pololu 2815)",
+    "kind": "bought",
+    "bom": "K2",
+    "group": "bay",
+    "mount": "on VHB 4950 in a printed rim (as the robot's 2813)",
+    "src": "[I] https://www.pololu.com/product/2815 (0.8 x 1.0 x 0.16 in, 2.7 g; VIN, VOUT, GND, CTRL pads)",
+    "bounds": [
+     [
+      150.0,
+      -40.0,
+      15.1
+     ],
+     [
+      170.3,
+      -14.6,
+      19.2
+     ]
+    ],
+    "volume_mm3": 945.0
+   },
+   {
+    "id": "vhb_swg",
+    "label": "VHB pad under the 2815",
+    "kind": "bought",
+    "bom": "K12b",
+    "group": "bay",
+    "mount": "",
+    "src": "[L] BOM 29",
+    "bounds": [
+     [
+      151.0,
+      -39.0,
+      14.0
+     ],
+     [
+      169.3,
+      -15.6,
+      15.1
+     ]
+    ],
+    "volume_mm3": 471.0
+   },
+   {
+    "id": "fuse_holder",
+    "label": "Adapter fuse holder (Littelfuse FHAC0001ZXJ) with 5 A ATO fuse",
+    "kind": "bought",
+    "bom": "K9",
+    "group": "bay",
+    "mount": "on VHB 4950 in a printed rim",
+    "src": "[L] BOM.md L3: Littelfuse FHAC0001ZXJ body 50 x 17.2 x 17.2 mm with a cover on a strap, 16 AWG leads 90 mm (Littelfuse drawing)",
+    "bounds": [
+     [
+      120.0,
+      -95.0,
+      15.1
+     ],
+     [
+      170.0,
+      -77.8,
+      32.3
+     ]
+    ],
+    "volume_mm3": 14792.0
+   },
+   {
+    "id": "vhb_fh",
+    "label": "VHB pad under the fuse holder",
+    "kind": "bought",
+    "bom": "K12b",
+    "group": "bay",
+    "mount": "",
+    "src": "[L] BOM 29",
+    "bounds": [
+     [
+      121.0,
+      -94.0,
+      14.0
+     ],
+     [
+      169.0,
+      -78.8,
+      15.1
+     ]
+    ],
+    "volume_mm3": 802.6
+   },
+   {
+    "id": "jack",
+    "label": "DC jack (Same Sky PJ-005A)",
+    "kind": "bought",
+    "bom": "K6b",
+    "group": "bay",
+    "mount": "through the 8 mm hole in the tray's rear wall, nut and washer outside",
+    "src": "[I] Same Sky PJ-005A data sheet (sameskydevices.com/product/resource/pj-005a.pdf, rev 1.09): 5 A, 24 V, 5/16-32 bushing 5.7 mm, flange 10.8 mm, body 10.0 mm, 3 solder lugs, nut and washer, mates a 5.5 x 2.1 mm plug (2.0 mm pin), insertion depth 10.1 mm",
+    "bounds": [
+     [
+      171.5,
+      -71.25,
+      23.75
+     ],
+     [
+      192.7,
+      -58.75,
+      36.25
+     ]
+    ],
+    "volume_mm3": 1407.1
+   },
+   {
+    "id": "plug",
+    "label": "Adapter plug 5.5 x 2.1 mm (Mean Well P1J)",
+    "kind": "bought",
+    "bom": "K6",
+    "group": "bay",
+    "mount": "",
+    "src": "[I] Mean Well GSM36U09-P1J (TRC Electronics page): wall plug, 9 V 4 A, 1.5 m cord, 5.5 x 2.1 mm plug; body size not read: a 70 x 45 x 32 mm stand-in (BLOCKER)",
+    "bounds": [
+     [
+      192.7,
+      -70.0,
+      25.0
+     ],
+     [
+      232.7,
+      -60.0,
+      35.0
+     ]
+    ],
+    "volume_mm3": 2564.2
+   },
+   {
+    "id": "adapter_cord",
+    "label": "Adapter cord (part of K6, 1.5 m; 0.25 m drawn)",
+    "kind": "bought",
+    "bom": "K6",
+    "group": "bay",
+    "mount": "",
+    "src": "[I] Mean Well GSM36U09-P1J (TRC Electronics page): wall plug, 9 V 4 A, 1.5 m cord, 5.5 x 2.1 mm plug; body size not read: a 70 x 45 x 32 mm stand-in (BLOCKER)",
+    "bounds": [
+     [
+      231.54,
+      -96.75,
+      0.25
+     ],
+     [
+      439.0,
+      -63.47,
+      31.56
+     ]
+    ],
+    "volume_mm3": 2118.2
+   },
+   {
+    "id": "adapter",
+    "label": "Wall adapter Mean Well GSM36U09-P1J (stand-in size)",
+    "kind": "bought",
+    "bom": "K6",
+    "group": "bay",
+    "mount": "in the wall socket",
+    "src": "[I] Mean Well GSM36U09-P1J (TRC Electronics page): wall plug, 9 V 4 A, 1.5 m cord, 5.5 x 2.1 mm plug; body size not read: a 70 x 45 x 32 mm stand-in (BLOCKER)",
+    "bounds": [
+     [
+      439.0,
+      -117.0,
+      2.0
+     ],
+     [
+      509.0,
+      -73.0,
+      34.0
+     ]
+    ],
+    "volume_mm3": 98560.0
+   },
+   {
+    "id": "perf",
+    "label": "Gate board (Adafruit 1609 Perma-Proto half)",
+    "kind": "bought",
+    "bom": "K4i",
+    "group": "bay",
+    "mount": "2 x M3x8 into inserts in 2 printed standoffs",
+    "src": "[I] https://www.adafruit.com/product/1609 (51 x 81 mm, two mounting holes 73.7 mm apart, 1.2 mm holes, 12 g); mounting hole diameter not published: 3.2 mm assumed for M3 (BLOCKER, check on the board)",
+    "bounds": [
+     [
+      120.0,
+      5.0,
+      20.0
+     ],
+     [
+      171.0,
+      86.0,
+      21.6
+     ]
+    ],
+    "volume_mm3": 6584.0
+   },
+   {
+    "id": "gate_U1",
+    "label": "U1 TI LM393P (A1 hot side, A2 cold side)",
+    "kind": "board_part",
+    "bom": "K4a",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI LM393P / NE555P data sheets: PDIP-8 (P) 9.81 x 6.35 mm body, 2.54 mm pitch, 7.62 mm rows",
+    "bounds": [
+     [
+      126.8,
+      15.1,
+      22.1
+     ],
+     [
+      133.2,
+      24.9,
+      25.4
+     ]
+    ],
+    "volume_mm3": 207.0
+   },
+   {
+    "id": "gate_U2",
+    "label": "U2 TI LM393P (B1 pack there, B2 not over)",
+    "kind": "board_part",
+    "bom": "K4a",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI LM393P / NE555P data sheets: PDIP-8 (P) 9.81 x 6.35 mm body, 2.54 mm pitch, 7.62 mm rows",
+    "bounds": [
+     [
+      126.8,
+      35.1,
+      22.1
+     ],
+     [
+      133.2,
+      44.9,
+      25.4
+     ]
+    ],
+    "volume_mm3": 207.0
+   },
+   {
+    "id": "gate_U3",
+    "label": "U3 TI NE555P one-shot, 110 ms",
+    "kind": "board_part",
+    "bom": "K4b",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI LM393P / NE555P data sheets: PDIP-8 (P) 9.81 x 6.35 mm body, 2.54 mm pitch, 7.62 mm rows",
+    "bounds": [
+     [
+      126.8,
+      57.1,
+      22.1
+     ],
+     [
+      133.2,
+      66.9,
+      25.4
+     ]
+    ],
+    "volume_mm3": 207.0
+   },
+   {
+    "id": "gate_VR1",
+    "label": "VR1 TI TL431A 2.50 V reference (cathode and ref tied)",
+    "kind": "board_part",
+    "bom": "K4c",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI TL431 LP and onsemi 2N3904 data sheets: TO-92 4.7 x 3.8 mm, 4.6 mm tall",
+    "bounds": [
+     [
+      147.65,
+      18.1,
+      24.6
+     ],
+     [
+      152.35,
+      21.9,
+      29.2
+     ]
+    ],
+    "volume_mm3": 82.2
+   },
+   {
+    "id": "gate_Q1",
+    "label": "Q1 onsemi 2N3904 gate driver",
+    "kind": "board_part",
+    "bom": "K4d",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI TL431 LP and onsemi 2N3904 data sheets: TO-92 4.7 x 3.8 mm, 4.6 mm tall",
+    "bounds": [
+     [
+      147.65,
+      38.1,
+      24.6
+     ],
+     [
+      152.35,
+      41.9,
+      29.2
+     ]
+    ],
+    "volume_mm3": 82.2
+   },
+   {
+    "id": "gate_Q3",
+    "label": "Q3 onsemi 2N3904 STAT inverter",
+    "kind": "board_part",
+    "bom": "K4d",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "[I] TI TL431 LP and onsemi 2N3904 data sheets: TO-92 4.7 x 3.8 mm, 4.6 mm tall",
+    "bounds": [
+     [
+      147.65,
+      60.1,
+      24.6
+     ],
+     [
+      152.35,
+      63.9,
+      29.2
+     ]
+    ],
+    "volume_mm3": 82.2
+   },
+   {
+    "id": "gate_D1",
+    "label": "D1 1N4148 TRIG clamp to the 9 V rail",
+    "kind": "board_part",
+    "bom": "K4f",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      139.05,
+      70.0,
+      21.85
+     ],
+     [
+      140.95,
+      74.0,
+      23.75
+     ]
+    ],
+    "volume_mm3": 10.8
+   },
+   {
+    "id": "gate_D2",
+    "label": "D2 1N4148 wake pulse onto SENSE",
+    "kind": "board_part",
+    "bom": "K4f",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      145.05,
+      70.0,
+      21.85
+     ],
+     [
+      146.95,
+      74.0,
+      23.75
+     ]
+    ],
+    "volume_mm3": 10.8
+   },
+   {
+    "id": "gate_R1",
+    "label": "R1 2.2 k TL431 bias",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      10.8,
+      21.8
+     ],
+     [
+      160.15,
+      13.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R2",
+    "label": "R2 10 k REF to SENSE",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      15.8,
+      21.8
+     ],
+     [
+      160.15,
+      18.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R3",
+    "label": "R3 26.7 k = 22 k + 4.7 k in series (window A top)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      20.8,
+      21.8
+     ],
+     [
+      160.15,
+      23.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R4",
+    "label": "R4 42 k = 22 k + 10 k + 10 k in series (window A middle)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      25.8,
+      21.8
+     ],
+     [
+      160.15,
+      28.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R5",
+    "label": "R5 32 k = 22 k + 10 k in series (window A bottom)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      30.8,
+      21.8
+     ],
+     [
+      160.15,
+      33.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R6",
+    "label": "R6 14.7 k = 10 k + 4.7 k in series (window B top)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      35.8,
+      21.8
+     ],
+     [
+      160.15,
+      38.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R7",
+    "label": "R7 38.9 k = 22 k + 10 k + 4.7 k + 2.2 k in series (window B middle)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      40.8,
+      21.8
+     ],
+     [
+      160.15,
+      43.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R8",
+    "label": "R8 47 k (window B bottom)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      45.8,
+      21.8
+     ],
+     [
+      160.15,
+      48.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R9",
+    "label": "R9 1 M CHG+ divider top",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      50.8,
+      21.8
+     ],
+     [
+      160.15,
+      53.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R10",
+    "label": "R10 330 k = 220 k + 100 k + 10 k in series (CHG+ divider bottom)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      153.85,
+      55.8,
+      21.8
+     ],
+     [
+      160.15,
+      58.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R11",
+    "label": "R11 10 k OK pull-up",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      10.8,
+      21.8
+     ],
+     [
+      168.15,
+      13.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R12",
+    "label": "R12 10 k Q1 base",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      15.8,
+      21.8
+     ],
+     [
+      168.15,
+      18.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R13",
+    "label": "R13 10 k STAT pull-up to V_SYS (never to the always-on 9 V: the charger is unpowered then)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      20.8,
+      21.8
+     ],
+     [
+      168.15,
+      23.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R14",
+    "label": "R14 10 k Q3 base",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      25.8,
+      21.8
+     ],
+     [
+      168.15,
+      28.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R15",
+    "label": "R15 10 k Q3 collector pull-up to V_SYS: at power-up STAT and Q3 rise with V_SYS, so Q3C never falls and the 555 does not fire (no pulse loop after each wake)",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      30.8,
+      21.8
+     ],
+     [
+      168.15,
+      33.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R16",
+    "label": "R16 10 k TRIG pull-up",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      35.8,
+      21.8
+     ],
+     [
+      168.15,
+      38.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R17",
+    "label": "R17 100 k 555 timing: 1.1 x 100 k x 1 uF, 110 ms",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      40.8,
+      21.8
+     ],
+     [
+      168.15,
+      43.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_R18",
+    "label": "R18 1 k wake pulse series",
+    "kind": "board_part",
+    "bom": "K4g",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      161.85,
+      45.8,
+      21.8
+     ],
+     [
+      168.15,
+      48.2,
+      24.2
+     ]
+    ],
+    "volume_mm3": 27.2
+   },
+   {
+    "id": "gate_C1",
+    "label": "C1 100 nF U1 supply",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      124.5,
+      26.7,
+      21.6
+     ],
+     [
+      129.5,
+      29.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   },
+   {
+    "id": "gate_C2",
+    "label": "C2 100 nF U2 supply",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      124.5,
+      48.7,
+      21.6
+     ],
+     [
+      129.5,
+      51.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   },
+   {
+    "id": "gate_C3",
+    "label": "C3 100 nF U3 supply",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      124.5,
+      68.7,
+      21.6
+     ],
+     [
+      129.5,
+      71.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   },
+   {
+    "id": "gate_C4",
+    "label": "C4 1 uF 555 timing",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      137.5,
+      28.7,
+      21.6
+     ],
+     [
+      142.5,
+      31.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   },
+   {
+    "id": "gate_C5",
+    "label": "C5 10 nF trigger coupling (Q3 collector falling edge to TRIG)",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      137.5,
+      48.7,
+      21.6
+     ],
+     [
+      142.5,
+      51.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   },
+   {
+    "id": "gate_C6",
+    "label": "C6 10 nF 555 CV",
+    "kind": "board_part",
+    "bom": "K4h",
+    "group": "bay",
+    "mount": "soldered on the gate board",
+    "src": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)",
+    "bounds": [
+     [
+      157.5,
+      70.7,
+      21.6
+     ],
+     [
+      162.5,
+      73.3,
+      25.6
+     ]
+    ],
+    "volume_mm3": 52.0
+   }
+  ]
+ },
+ "motion": [
+  {
+   "push_mm": 0.0,
+   "yaw_deg": -10.0,
+   "hits": []
+  },
+  {
+   "push_mm": 0.0,
+   "yaw_deg": 0.0,
+   "hits": []
+  },
+  {
+   "push_mm": 0.0,
+   "yaw_deg": 10.0,
+   "hits": []
+  },
+  {
+   "push_mm": 20.0,
+   "yaw_deg": -10.0,
+   "hits": []
+  },
+  {
+   "push_mm": 20.0,
+   "yaw_deg": 0.0,
+   "hits": []
+  },
+  {
+   "push_mm": 20.0,
+   "yaw_deg": 10.0,
+   "hits": []
+  },
+  {
+   "push_mm": 40.0,
+   "yaw_deg": -10.0,
+   "hits": []
+  },
+  {
+   "push_mm": 40.0,
+   "yaw_deg": 0.0,
+   "hits": []
+  },
+  {
+   "push_mm": 40.0,
+   "yaw_deg": 10.0,
+   "hits": []
+  }
+ ]
+}

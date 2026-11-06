@@ -1,9 +1,10 @@
 // Headless load test for the viewer page. Run it before every publish; it must print 'STATE loaded' and 'ERRORS none'.
-// Usage: node altaay_lab/viewer/test_viewer.js <page.html> <folder with duck.glb.txt and manifest.json> <local three@0.160.0 package folder> <out.png>
+// Usage: node altaay_lab/viewer/test_viewer.js <page.html> <folder with duck.glb.txt and manifest.json> <local three@0.160.0 package folder> <out.png> [scene]
+// scene: dock or docked loads the page at #dock or #docked (dock_manifest.json + dock.glb.txt, docked_manifest.json + docked.glb.txt).
 // The three folder is the npm package (npm pack three@0.160.0, unpacked): it needs build/ and examples/jsm/. Playwright with Chromium must be installed.
 const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path');
-const PAGE = process.argv[2], DATA = process.argv[3], THREE = process.argv[4], SHOT = process.argv[5];
+const PAGE = process.argv[2], DATA = process.argv[3], THREE = process.argv[4], SHOT = process.argv[5], SCENE = process.argv[6] || '';
 (async () => {
   const browser = await chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1 });
@@ -26,7 +27,7 @@ const PAGE = process.argv[2], DATA = process.argv[3], THREE = process.argv[4], S
     }
     return route.fulfill({ status: 204, body: '' });   // fonts: not needed for the test
   });
-  await page.goto('http://viewer.local/index.html');
+  await page.goto('http://viewer.local/index.html' + (SCENE ? '#' + SCENE : ''));
   const t0 = Date.now(); let state = 'timeout';
   while (Date.now() - t0 < 150000) {
     const r = await page.evaluate(() => ({ hidden: document.getElementById('loading').hidden, msg: document.getElementById('loadmsg').textContent }));

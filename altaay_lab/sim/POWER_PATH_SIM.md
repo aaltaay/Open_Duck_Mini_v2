@@ -6,6 +6,8 @@ Why: the lab rule is that electricity is checked before parts are bought or prin
 
 ## As built: D15 star plus the D23 ankle feeds SP4 and SP5
 
+Re-run 2026-11-06 ET by the full dock job (verify/e6_power_path.py, sim pass only): the two nominal trained-mass rows below now carry D50 (the pack reaches the 2813 through the DK7 ideal diode, its 16 AWG piece DK7 VOUT to SW1 VIN in the P7 chain, the diode itself not modelled: BLOCKER) and the dock charge path DC1 (now in the model as a branch at BMS P+ that DK2 blocks off the dock: no walking current, no change from it): lowest servo 5.57 V and 5.2 % typical, 4.87 V and 20.0 % high-side; the other cells are from the earlier run. Our build at 2.749 kg (C8 runs again now that sim/mass_budget.py knows the dock and freeze parts) is under 6 V for 10.9 % of the walk in the typical corner, over the 10 % gate of TEST_PLAN section 9 (9.8 % at 2.653 kg): a finding for the lead, not changed here.
+
 This is the robot as it will be wired now, and the case VERIFICATION.md E6, E6b and C7 check. Sim pass only.
 
 How it is modelled:
@@ -24,8 +26,8 @@ Time under a voltage is counted in time (ngspice time steps weighted by their le
 |---|---|---|---|---|---|---|---|---|
 | full (8.4 V), high-side | trained mass (E5) | 7.72 V | 7.17 V | 5.2 / 11.2 / 5.53 A | left knee 5.91 V (6.95 V) | 0.0 % (50 Hz: 0.0 to 0.0 %) | 0.2 / 0.0 %, 0.0 % | 0 ms |
 | full (8.4 V), typical | trained mass (E5) | 7.89 V | 7.20 V | 5.1 / 11.3 / 5.43 A | left knee 6.52 V (7.07 V) | 0.0 % (50 Hz: 0.0 to 0.0 %) | 0.0 / 0.0 %, 0.0 % | 0 ms |
-| nominal (7.4 V), high-side | trained mass (E5) | 6.69 V | 6.37 V | 5.5 / 10.7 / 5.76 A | head roll 4.88 V (6.11 V) | 19.3 % (50 Hz: 10.7 to 33.7 %) | 27.8 / 27.9 %, 32.6 % | 0 ms |
-| nominal (7.4 V), typical | trained mass (E5) | 6.86 V | 6.54 V | 5.5 / 11.1 / 5.74 A | left knee 5.58 V (6.42 V) | 4.8 % (50 Hz: 0.0 to 14.7 %) | 5.6 / 7.9 %, 5.1 % | 0 ms |
+| nominal (7.4 V), high-side | trained mass (E5) | 6.69 V | 6.37 V | 5.5 / 10.7 / 5.77 A | head roll 4.87 V (6.11 V) | 20.0 % (50 Hz: 11.0 to 34.0 %) | 27.8 / 27.9 %, 32.6 % | 0 ms |
+| nominal (7.4 V), typical | trained mass (E5) | 6.86 V | 6.54 V | 5.5 / 11.1 / 5.74 A | left knee 5.57 V (6.42 V) | 5.2 % (50 Hz: 0.0 to 15.0 %) | 5.6 / 7.9 %, 5.1 % | 0 ms |
 | low (6.6 V), high-side | trained mass (E5) | 5.87 V | 5.55 V | 5.7 / 10.5 / 5.91 A | head roll 4.19 V (5.26 V) | 100.0 % (50 Hz: 100.0 to 100.0 %) | 100.0 / 100.0 %, 100.0 % | 125 ms |
 | low (6.6 V), typical | trained mass (E5) | 6.04 V | 5.72 V | 5.6 / 10.7 / 5.89 A | right knee 4.82 V (5.59 V) | 100.0 % (50 Hz: 98.7 to 100.0 %) | 100.0 / 99.9 %, 100.0 % | 0 ms |
 | fall after a push, low (6.6 V), high-side (3 s) | trained mass (E5) | 6.05 V | 5.74 V | 4.2 / 11.6 / 4.50 A | head roll 3.99 V (5.57 V) | 97.3 % (50 Hz: 96.7 to 98.7 %) | 98.4 / 97.8 %, 100.0 % | 37 ms |

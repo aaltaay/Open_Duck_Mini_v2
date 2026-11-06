@@ -46,6 +46,8 @@ needs_libs = pytest.mark.skipif(not (HAS_RUSTYPOT and HAS_PYPOT), reason="rustyp
 needs_walk = pytest.mark.skipif(not (HAS_RUSTYPOT and HAS_PYPOT and HAS_ORT and ONNX.exists() and RUNTIME.exists()),
                                 reason="walk needs rustypot, pypot, onnxruntime, the policy and the Runtime")
 needs_runtime = pytest.mark.skipif(not RUNTIME.exists(), reason="Runtime checkout not found")
+HAS_BNO = _has("adafruit_bno055")   # the Runtime's raw_imu imports it at load, and imu_check.py runs that reader
+needs_runtime_imu = pytest.mark.skipif(not (RUNTIME.exists() and HAS_BNO), reason="Runtime checkout or its adafruit_bno055 dependency not found")
 
 
 @pytest.fixture(scope="session")

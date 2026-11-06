@@ -1,0 +1,278 @@
+{
+ "profile": "print/config: printer_generic.ini + pla_print.ini + filament_easy_pla.ini (the light PLA profile, D22)",
+ "parts": {
+  "dock_seat_base": {
+   "grams": 97.46,
+   "hours": 7.84,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     0,
+     1
+    ],
+    0
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_seat_top": {
+   "grams": 19.81,
+   "hours": 1.66,
+   "qty": 1,
+   "orient": [
+    [
+     1,
+     0,
+     0
+    ],
+    180
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_spine": {
+   "grams": 53.16,
+   "hours": 3.95,
+   "qty": 1,
+   "orient": [
+    [
+     1,
+     0,
+     0
+    ],
+    90
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_base_l": {
+   "grams": 80.74,
+   "hours": 5.56,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     0,
+     1
+    ],
+    0
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_base_r": {
+   "grams": 80.35,
+   "hours": 5.53,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     0,
+     1
+    ],
+    0
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_column_l1": {
+   "grams": 86.63,
+   "hours": 5.85,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     1,
+     0
+    ],
+    -90
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_column_l2": {
+   "grams": 87.48,
+   "hours": 5.99,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     1,
+     0
+    ],
+    -90
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_column_l3": {
+   "grams": 87.24,
+   "hours": 5.88,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     1,
+     0
+    ],
+    -90
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_column_r1": {
+   "grams": 115.09,
+   "hours": 7.81,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     1,
+     0
+    ],
+    -90
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_column_r2": {
+   "grams": 87.23,
+   "hours": 5.88,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     1,
+     0
+    ],
+    -90
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_column_r3": {
+   "grams": 59.02,
+   "hours": 4.01,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     1,
+     0
+    ],
+    -90
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_paddle": {
+   "grams": 46.04,
+   "hours": 3.31,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     1,
+     0
+    ],
+    -90
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_paddle_carrier": {
+   "grams": 11.7,
+   "hours": 1.0,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     1,
+     0
+    ],
+    90
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_spring_cup": {
+   "grams": 13.39,
+   "hours": 1.17,
+   "qty": 2,
+   "orient": [
+    [
+     0,
+     0,
+     1
+    ],
+    0
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_spring_carriage": {
+   "grams": 1.42,
+   "hours": 0.16,
+   "qty": 2,
+   "orient": [
+    [
+     0,
+     0,
+     1
+    ],
+    0
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_spring_drum": {
+   "grams": 0.31,
+   "hours": 0.07,
+   "qty": 2,
+   "orient": [
+    [
+     1,
+     0,
+     0
+    ],
+    90
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_bay_tray": {
+   "grams": 89.59,
+   "hours": 6.08,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     0,
+     1
+    ],
+    0
+   ],
+   "ok": true,
+   "err": ""
+  },
+  "dock_bay_lid": {
+   "grams": 38.44,
+   "hours": 2.5,
+   "qty": 1,
+   "orient": [
+    [
+     0,
+     0,
+     1
+    ],
+    0
+   ],
+   "ok": true,
+   "err": ""
+  }
+ },
+ "total_g": 1070.2,
+ "total_h": 75.7,
+ "label": "calc only (slicer estimate)"
+}

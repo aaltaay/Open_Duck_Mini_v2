@@ -1,0 +1,5168 @@
+{
+ "meta": {
+  "generated_by": "altaay_lab/twin/dock/dock_fasteners.py",
+  "label": "CAD check only",
+  "units": "mm",
+  "frame": "dock frame (dock_parts.py); pose_dock is a 4x4 whose +z is the screw axis into the joint, origin at the head seat",
+  "tooling": "altaay_lab/fasteners/make_fasteners.py: SRC, HEAD, COLORS, MARGIN, INSERT_L",
+  "sources": {
+   "nut": "[I] https://belmetric.com/nylon-locking-nut-a2-stainless-din-985/ (DIN 985 heights M3 4.0, M2 2.8; prices page data 2026-11-06)",
+   "shcs": "[I] https://belmetric.com/m3x0-5-a2-stainless-din-912-allen-socket-head-cap-screw/ (prices page data 2026-11-06)",
+   "m2": "[I] https://belmetric.com/m2x0-4-phillips-pan-head-stainless-coarse-din-7985/",
+   "pla": "[I] https://westfieldfasteners.co.uk/Standards/ThreadForming-PhilPan30.html (\"Pilot holes should have a thread engagement of at least twice the screw diameter\"; table 2: ABS hole 0.80 x d, screw-in depth 2.00 x d; PLA is not listed, the ABS row is used)",
+   "insert": "[I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)"
+  }
+ },
+ "fasteners": [
+  {
+   "id": "DF001",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x12 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 12,
+   "draw_length_mm": 12.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x12",
+   "color": "#006d2c",
+   "link": "dock",
+   "group": "spine to base",
+   "seat_world": [
+    40.0,
+    8.0,
+    18.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     40.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     8.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     18.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_spine",
+   "into": "dock_base_l",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8h",
+   "line": "K8h",
+   "pn": "BelMetric BSH3X12SS",
+   "notes": [
+    "through the 6 mm spine flange into an insert in the base half (the old holes at x 40 and 60 met no spine)"
+   ]
+  },
+  {
+   "id": "DF002",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x12 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 12,
+   "draw_length_mm": 12.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x12",
+   "color": "#006d2c",
+   "link": "dock",
+   "group": "spine to base",
+   "seat_world": [
+    40.0,
+    -8.0,
+    18.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     40.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -8.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     18.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_spine",
+   "into": "dock_base_r",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8h",
+   "line": "K8h",
+   "pn": "BelMetric BSH3X12SS",
+   "notes": [
+    "through the 6 mm spine flange into an insert in the base half (the old holes at x 40 and 60 met no spine)"
+   ]
+  },
+  {
+   "id": "DF003",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x12 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 12,
+   "draw_length_mm": 12.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x12",
+   "color": "#006d2c",
+   "link": "dock",
+   "group": "spine to base",
+   "seat_world": [
+    60.0,
+    8.0,
+    18.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     60.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     8.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     18.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_spine",
+   "into": "dock_base_l",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8h",
+   "line": "K8h",
+   "pn": "BelMetric BSH3X12SS",
+   "notes": [
+    "through the 6 mm spine flange into an insert in the base half (the old holes at x 40 and 60 met no spine)"
+   ]
+  },
+  {
+   "id": "DF004",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x12 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 12,
+   "draw_length_mm": 12.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x12",
+   "color": "#006d2c",
+   "link": "dock",
+   "group": "spine to base",
+   "seat_world": [
+    60.0,
+    -8.0,
+    18.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     60.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -8.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     18.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_spine",
+   "into": "dock_base_r",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8h",
+   "line": "K8h",
+   "pn": "BelMetric BSH3X12SS",
+   "notes": [
+    "through the 6 mm spine flange into an insert in the base half (the old holes at x 40 and 60 met no spine)"
+   ]
+  },
+  {
+   "id": "DF005",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x12 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 12,
+   "draw_length_mm": 12.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x12",
+   "color": "#006d2c",
+   "link": "dock",
+   "group": "base to column",
+   "seat_world": [
+    79.0,
+    70.0,
+    5.2
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     1.0,
+     0.0,
+     79.0
+    ],
+    [
+     -1.0,
+     0.0,
+     0.0,
+     70.0
+    ],
+    [
+     0.0,
+     -0.0,
+     1.0,
+     5.2
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_base_l",
+   "into": "dock_column_l1",
+   "anchor": "M3 insert",
+   "e": 5.2,
+   "e_min": 4.5,
+   "tip_gap": 2.8,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8h",
+   "line": "K8h",
+   "pn": "BelMetric BSH3X12SS",
+   "notes": [
+    "from below in a 6.0 x 3.2 mm counterbore, into an insert in the column bottom (no bore before)"
+   ]
+  },
+  {
+   "id": "DF006",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x12 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 12,
+   "draw_length_mm": 12.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x12",
+   "color": "#006d2c",
+   "link": "dock",
+   "group": "base to column",
+   "seat_world": [
+    79.0,
+    -70.0,
+    5.2
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     1.0,
+     0.0,
+     79.0
+    ],
+    [
+     -1.0,
+     0.0,
+     0.0,
+     -70.0
+    ],
+    [
+     0.0,
+     -0.0,
+     1.0,
+     5.2
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_base_r",
+   "into": "dock_column_r1",
+   "anchor": "M3 insert",
+   "e": 5.2,
+   "e_min": 4.5,
+   "tip_gap": 2.8,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8h",
+   "line": "K8h",
+   "pn": "BelMetric BSH3X12SS",
+   "notes": [
+    "from below in a 6.0 x 3.2 mm counterbore, into an insert in the column bottom (no bore before)"
+   ]
+  },
+  {
+   "id": "DF007",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x12 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 12,
+   "draw_length_mm": 12.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x12",
+   "color": "#006d2c",
+   "link": "dock",
+   "group": "base to column",
+   "seat_world": [
+    93.0,
+    5.0,
+    5.2
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     1.0,
+     0.0,
+     93.0
+    ],
+    [
+     -1.0,
+     0.0,
+     0.0,
+     5.0
+    ],
+    [
+     0.0,
+     -0.0,
+     1.0,
+     5.2
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_base_l",
+   "into": "dock_column_l1",
+   "anchor": "M3 insert",
+   "e": 5.2,
+   "e_min": 4.5,
+   "tip_gap": 2.8,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8h",
+   "line": "K8h",
+   "pn": "BelMetric BSH3X12SS",
+   "notes": [
+    "from below in a 6.0 x 3.2 mm counterbore, into an insert in the column bottom (no bore before)"
+   ]
+  },
+  {
+   "id": "DF008",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x12 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 12,
+   "draw_length_mm": 12.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x12",
+   "color": "#006d2c",
+   "link": "dock",
+   "group": "base to column",
+   "seat_world": [
+    93.0,
+    -5.0,
+    5.2
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     1.0,
+     0.0,
+     93.0
+    ],
+    [
+     -1.0,
+     0.0,
+     0.0,
+     -5.0
+    ],
+    [
+     0.0,
+     -0.0,
+     1.0,
+     5.2
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_base_r",
+   "into": "dock_column_r1",
+   "anchor": "M3 insert",
+   "e": 5.2,
+   "e_min": 4.5,
+   "tip_gap": 2.8,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8h",
+   "line": "K8h",
+   "pn": "BelMetric BSH3X12SS",
+   "notes": [
+    "from below in a 6.0 x 3.2 mm counterbore, into an insert in the column bottom (no bore before)"
+   ]
+  },
+  {
+   "id": "DF009",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x30 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 30,
+   "draw_length_mm": 30.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x30",
+   "color": "#7f7f7f",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    13.0,
+    35.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     35.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_l1",
+   "into": "dock_column_r1",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8g",
+   "line": "K8g",
+   "pn": "BelMetric BSH3X30SS",
+   "notes": [
+    "through both 13 mm ribs; nylon nut on the right rib (26 + 4.0 = 30 mm grip)"
+   ],
+   "grip": 26.0,
+   "past_nut": 0.0
+  },
+  {
+   "id": "DF010",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x30 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 30,
+   "draw_length_mm": 30.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x30",
+   "color": "#7f7f7f",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    13.0,
+    85.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     85.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_l1",
+   "into": "dock_column_r1",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8g",
+   "line": "K8g",
+   "pn": "BelMetric BSH3X30SS",
+   "notes": [
+    "through both 13 mm ribs; nylon nut on the right rib (26 + 4.0 = 30 mm grip)"
+   ],
+   "grip": 26.0,
+   "past_nut": 0.0
+  },
+  {
+   "id": "DF011",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x30 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 30,
+   "draw_length_mm": 30.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x30",
+   "color": "#7f7f7f",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    13.0,
+    135.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     135.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_l1",
+   "into": "dock_column_r1",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8g",
+   "line": "K8g",
+   "pn": "BelMetric BSH3X30SS",
+   "notes": [
+    "through both 13 mm ribs; nylon nut on the right rib (26 + 4.0 = 30 mm grip)"
+   ],
+   "grip": 26.0,
+   "past_nut": 0.0
+  },
+  {
+   "id": "DF012",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x30 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 30,
+   "draw_length_mm": 30.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x30",
+   "color": "#7f7f7f",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    13.0,
+    185.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     185.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_l2",
+   "into": "dock_column_r1",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": 16.0,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8g",
+   "line": "K8g",
+   "pn": "BelMetric BSH3X30SS",
+   "notes": [
+    "through both 13 mm ribs; nylon nut on the right rib (26 + 4.0 = 30 mm grip)"
+   ],
+   "grip": 26.0,
+   "past_nut": 0.0
+  },
+  {
+   "id": "DF013",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x30 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 30,
+   "draw_length_mm": 30.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x30",
+   "color": "#7f7f7f",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    13.0,
+    235.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     235.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_l2",
+   "into": "dock_column_r2",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8g",
+   "line": "K8g",
+   "pn": "BelMetric BSH3X30SS",
+   "notes": [
+    "through both 13 mm ribs; nylon nut on the right rib (26 + 4.0 = 30 mm grip)"
+   ],
+   "grip": 26.0,
+   "past_nut": 0.0
+  },
+  {
+   "id": "DF014",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x30 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 30,
+   "draw_length_mm": 30.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x30",
+   "color": "#7f7f7f",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    13.0,
+    285.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     285.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_l2",
+   "into": "dock_column_r2",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8g",
+   "line": "K8g",
+   "pn": "BelMetric BSH3X30SS",
+   "notes": [
+    "through both 13 mm ribs; nylon nut on the right rib (26 + 4.0 = 30 mm grip)"
+   ],
+   "grip": 26.0,
+   "past_nut": 0.0
+  },
+  {
+   "id": "DF015",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x30 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 30,
+   "draw_length_mm": 30.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x30",
+   "color": "#7f7f7f",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    13.0,
+    335.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     335.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_l3",
+   "into": "dock_column_r2",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8g",
+   "line": "K8g",
+   "pn": "BelMetric BSH3X30SS",
+   "notes": [
+    "through both 13 mm ribs; nylon nut on the right rib (26 + 4.0 = 30 mm grip)"
+   ],
+   "grip": 26.0,
+   "past_nut": 0.0
+  },
+  {
+   "id": "DF016",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x30 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 30,
+   "draw_length_mm": 30.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x30",
+   "color": "#7f7f7f",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    13.0,
+    385.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     385.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_l3",
+   "into": "dock_column_r3",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8g",
+   "line": "K8g",
+   "pn": "BelMetric BSH3X30SS",
+   "notes": [
+    "through both 13 mm ribs; nylon nut on the right rib (26 + 4.0 = 30 mm grip)"
+   ],
+   "grip": 26.0,
+   "past_nut": 0.0
+  },
+  {
+   "id": "DF017",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x30 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 30,
+   "draw_length_mm": 30.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x30",
+   "color": "#7f7f7f",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    13.0,
+    435.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     435.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_l3",
+   "into": "dock_column_r3",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8g",
+   "line": "K8g",
+   "pn": "BelMetric BSH3X30SS",
+   "notes": [
+    "through both 13 mm ribs; nylon nut on the right rib (26 + 4.0 = 30 mm grip)"
+   ],
+   "grip": 26.0,
+   "past_nut": 0.0
+  },
+  {
+   "id": "DF018",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x16 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 16,
+   "draw_length_mm": 16.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x16",
+   "color": "#17becf",
+   "link": "dock",
+   "group": "spring channel to mast face",
+   "seat_world": [
+    75.0,
+    40.0,
+    163.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     75.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     40.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     163.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_l2",
+   "into": "dock_spring_cup_l",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8f",
+   "line": "K8f",
+   "pn": "BelMetric BSH3X16SS",
+   "notes": [
+    "through the 8 mm face and the 3 mm channel flange; nylon nut inside the flange (11 + 4.0 = 15 mm grip)"
+   ],
+   "grip": 11.0,
+   "past_nut": 1.0
+  },
+  {
+   "id": "DF019",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x16 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 16,
+   "draw_length_mm": 16.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x16",
+   "color": "#17becf",
+   "link": "dock",
+   "group": "spring channel to mast face",
+   "seat_world": [
+    75.0,
+    40.0,
+    197.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     75.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     40.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     197.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_l2",
+   "into": "dock_spring_cup_l",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8f",
+   "line": "K8f",
+   "pn": "BelMetric BSH3X16SS",
+   "notes": [
+    "through the 8 mm face and the 3 mm channel flange; nylon nut inside the flange (11 + 4.0 = 15 mm grip)"
+   ],
+   "grip": 11.0,
+   "past_nut": 1.0
+  },
+  {
+   "id": "DF020",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x18 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 18,
+   "draw_length_mm": 18.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x18",
+   "color": "#bcbd22",
+   "link": "dock",
+   "group": "drum axle",
+   "seat_world": [
+    92.0,
+    47.0,
+    188.025
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     92.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     47.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     188.025
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_spring_cup_l",
+   "into": "dock_spring_drum_l",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": 16.0,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8e",
+   "line": "K8e",
+   "pn": "BelMetric BSH3X18SS",
+   "notes": [
+    "the drum turns on it; across both channel walls (14 mm) with a nylon nut (14 + 4.0 = 18 mm)"
+   ],
+   "grip": 14.0,
+   "past_nut": 0.0
+  },
+  {
+   "id": "DF021",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock_carrier",
+   "group": "spring strip to carriage",
+   "seat_world": [
+    104.0,
+    40.0,
+    184.08
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     104.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     40.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     184.08
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "cf_l",
+   "into": "dock_spring_carriage_l",
+   "anchor": "PLA pilot",
+   "e": 7.92,
+   "e_min": 6.0,
+   "tip_gap": 0.68,
+   "len_status": "OK",
+   "rule": "M3 self-tapping a printed PLA pilot: screw-in depth >= 2 x d = 6.0 mm [I] https://westfieldfasteners.co.uk/Standards/ThreadForming-PhilPan30.html (\"Pilot holes should have a thread engagement of at least twice the screw diameter\"; table 2: ABS hole 0.80 x d, screw-in depth 2.00 x d; PLA is not listed, the ABS row is used)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the 3.25 mm hole of the CF37CS strip end into a 2.5 mm pilot in the carriage"
+   ]
+  },
+  {
+   "id": "DF022",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x16 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 16,
+   "draw_length_mm": 16.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x16",
+   "color": "#17becf",
+   "link": "dock",
+   "group": "spring channel to mast face",
+   "seat_world": [
+    75.0,
+    -40.0,
+    163.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     75.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -40.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     163.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_r1",
+   "into": "dock_spring_cup_r",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8f",
+   "line": "K8f",
+   "pn": "BelMetric BSH3X16SS",
+   "notes": [
+    "through the 8 mm face and the 3 mm channel flange; nylon nut inside the flange (11 + 4.0 = 15 mm grip)"
+   ],
+   "grip": 11.0,
+   "past_nut": 1.0
+  },
+  {
+   "id": "DF023",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x16 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 16,
+   "draw_length_mm": 16.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x16",
+   "color": "#17becf",
+   "link": "dock",
+   "group": "spring channel to mast face",
+   "seat_world": [
+    75.0,
+    -40.0,
+    197.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     75.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -40.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     197.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_column_r1",
+   "into": "dock_spring_cup_r",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8f",
+   "line": "K8f",
+   "pn": "BelMetric BSH3X16SS",
+   "notes": [
+    "through the 8 mm face and the 3 mm channel flange; nylon nut inside the flange (11 + 4.0 = 15 mm grip)"
+   ],
+   "grip": 11.0,
+   "past_nut": 1.0
+  },
+  {
+   "id": "DF024",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x18 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 18,
+   "draw_length_mm": 18.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x18",
+   "color": "#bcbd22",
+   "link": "dock",
+   "group": "drum axle",
+   "seat_world": [
+    92.0,
+    -33.0,
+    188.025
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     92.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     -33.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     188.025
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_spring_cup_r",
+   "into": "dock_spring_drum_r",
+   "anchor": "nut",
+   "e": 4.0,
+   "e_min": 4.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8e",
+   "line": "K8e",
+   "pn": "BelMetric BSH3X18SS",
+   "notes": [
+    "the drum turns on it; across both channel walls (14 mm) with a nylon nut (14 + 4.0 = 18 mm)"
+   ],
+   "grip": 14.0,
+   "past_nut": 0.0
+  },
+  {
+   "id": "DF025",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock_carrier",
+   "group": "spring strip to carriage",
+   "seat_world": [
+    104.0,
+    -40.0,
+    184.08
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     104.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -40.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     184.08
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "cf_r",
+   "into": "dock_spring_carriage_r",
+   "anchor": "PLA pilot",
+   "e": 7.92,
+   "e_min": 6.0,
+   "tip_gap": 0.68,
+   "len_status": "OK",
+   "rule": "M3 self-tapping a printed PLA pilot: screw-in depth >= 2 x d = 6.0 mm [I] https://westfieldfasteners.co.uk/Standards/ThreadForming-PhilPan30.html (\"Pilot holes should have a thread engagement of at least twice the screw diameter\"; table 2: ABS hole 0.80 x d, screw-in depth 2.00 x d; PLA is not listed, the ABS row is used)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the 3.25 mm hole of the CF37CS strip end into a 2.5 mm pilot in the carriage"
+   ]
+  },
+  {
+   "id": "DF026",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x18 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 18,
+   "draw_length_mm": 18.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x18",
+   "color": "#bcbd22",
+   "link": "dock_carrier",
+   "group": "paddle pivot",
+   "seat_world": [
+    18.0,
+    0.0,
+    237.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     18.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     237.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_paddle_carrier",
+   "into": "dock_paddle",
+   "anchor": "PLA pilot",
+   "e": 11.0,
+   "e_min": 6.0,
+   "tip_gap": 129.0,
+   "len_status": "OK",
+   "rule": "M3 self-tapping a printed PLA pilot: screw-in depth >= 2 x d = 6.0 mm [I] https://westfieldfasteners.co.uk/Standards/ThreadForming-PhilPan30.html (\"Pilot holes should have a thread engagement of at least twice the screw diameter\"; table 2: ABS hole 0.80 x d, screw-in depth 2.00 x d; PLA is not listed, the ABS row is used)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8e",
+   "line": "K8e",
+   "pn": "BelMetric BSH3X18SS",
+   "notes": [
+    "the pivot pin (top): clearance in the carrier ear, self-tapped into the 2.5 mm pilot of the paddle knuckle; the two are coaxial"
+   ]
+  },
+  {
+   "id": "DF027",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x18 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 18,
+   "draw_length_mm": 18.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x18",
+   "color": "#bcbd22",
+   "link": "dock_carrier",
+   "group": "paddle pivot",
+   "seat_world": [
+    18.0,
+    0.0,
+    133.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     1.0,
+     0.0,
+     18.0
+    ],
+    [
+     -1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     -0.0,
+     1.0,
+     133.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_paddle_carrier",
+   "into": "dock_paddle",
+   "anchor": "PLA pilot",
+   "e": 11.0,
+   "e_min": 6.0,
+   "tip_gap": null,
+   "len_status": "OK",
+   "rule": "M3 self-tapping a printed PLA pilot: screw-in depth >= 2 x d = 6.0 mm [I] https://westfieldfasteners.co.uk/Standards/ThreadForming-PhilPan30.html (\"Pilot holes should have a thread engagement of at least twice the screw diameter\"; table 2: ABS hole 0.80 x d, screw-in depth 2.00 x d; PLA is not listed, the ABS row is used)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8e",
+   "line": "K8e",
+   "pn": "BelMetric BSH3X18SS",
+   "notes": [
+    "the pivot pin (bottom): clearance in the carrier ear, self-tapped into the 2.5 mm pilot of the paddle knuckle; the two are coaxial"
+   ]
+  },
+  {
+   "id": "DF028",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "seat to spine",
+   "seat_world": [
+    -18.0,
+    0.0,
+    30.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     -18.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     30.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_seat_base",
+   "into": "dock_spine",
+   "anchor": "M3 insert",
+   "e": 5.0,
+   "e_min": 4.5,
+   "tip_gap": 3.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "from inside the seat (seat top off) through the 3 mm wall into an insert in the spine (the old M3x50 through 45 mm was 0.4 mm short)"
+   ]
+  },
+  {
+   "id": "DF029",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "seat to spine",
+   "seat_world": [
+    -18.0,
+    0.0,
+    70.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     -18.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     70.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_seat_base",
+   "into": "dock_spine",
+   "anchor": "M3 insert",
+   "e": 5.0,
+   "e_min": 4.5,
+   "tip_gap": 3.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "from inside the seat (seat top off) through the 3 mm wall into an insert in the spine (the old M3x50 through 45 mm was 0.4 mm short)"
+   ]
+  },
+  {
+   "id": "DF030",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M2x12 DIN 7985 A2 pan head",
+   "size": "M2",
+   "d": 2.0,
+   "length_mm": 12,
+   "draw_length_mm": 12.0,
+   "head": {
+    "type": "M2_pan_7985",
+    "dk": 3.8,
+    "k": 1.3
+   },
+   "color_key": "M2x12",
+   "color": "#9467bd",
+   "link": "dock",
+   "group": "seat switch",
+   "seat_world": [
+    -66.2,
+    -3.25,
+    75.98
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     -66.2
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -3.25
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     75.98
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "switch",
+   "into": "dock_seat_base",
+   "anchor": "nut",
+   "e": 2.8,
+   "e_min": 2.8,
+   "tip_gap": 20.43,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8m",
+   "line": "K8m",
+   "pn": "BelMetric MSP2X12SS",
+   "notes": [
+    "through the D2F-01L's 2.0 mm hole and the slotted tower (4 mm of height to set at BT5), M2 nylon nut behind (5.8 + 3.0 + 2.8 = 11.6 mm)"
+   ],
+   "grip": 8.8,
+   "past_nut": 0.4
+  },
+  {
+   "id": "DF031",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M2x12 DIN 7985 A2 pan head",
+   "size": "M2",
+   "d": 2.0,
+   "length_mm": 12,
+   "draw_length_mm": 12.0,
+   "head": {
+    "type": "M2_pan_7985",
+    "dk": 3.8,
+    "k": 1.3
+   },
+   "color_key": "M2x12",
+   "color": "#9467bd",
+   "link": "dock",
+   "group": "seat switch",
+   "seat_world": [
+    -66.2,
+    3.25,
+    75.98
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     -66.2
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     3.25
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     75.98
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "switch",
+   "into": "dock_seat_base",
+   "anchor": "nut",
+   "e": 2.8,
+   "e_min": 2.8,
+   "tip_gap": 20.43,
+   "len_status": "OK",
+   "rule": "nylon insert lock nut DIN 985: the whole nut engaged (thread past its face), 0 to 2 mm past [L] lab rule (FASTENERS.md section 3)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8m",
+   "line": "K8m",
+   "pn": "BelMetric MSP2X12SS",
+   "notes": [
+    "through the D2F-01L's 2.0 mm hole and the slotted tower (4 mm of height to set at BT5), M2 nylon nut behind (5.8 + 3.0 + 2.8 = 11.6 mm)"
+   ],
+   "grip": 8.8,
+   "past_nut": 0.4
+  },
+  {
+   "id": "DF032",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "gate board",
+   "seat_world": [
+    145.5,
+    8.649999999999999,
+    21.6
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     145.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     8.65
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     21.6
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "perf",
+   "into": "dock_bay_tray",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 0.6,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the board's mounting hole into an insert in the printed standoff (both holes used, D39)"
+   ]
+  },
+  {
+   "id": "DF033",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "gate board",
+   "seat_world": [
+    145.5,
+    82.35,
+    21.6
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     145.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     82.35
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     21.6
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "perf",
+   "into": "dock_bay_tray",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 0.6,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the board's mounting hole into an insert in the printed standoff (both holes used, D39)"
+   ]
+  },
+  {
+   "id": "DF034",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "bay tray to base",
+   "seat_world": [
+    110.0,
+    60.0,
+    14.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     110.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     60.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     14.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_bay_tray",
+   "into": "dock_base_l",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the 2 mm tray floor into an insert in the base half, outside the ballast pocket"
+   ]
+  },
+  {
+   "id": "DF035",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "bay tray to base",
+   "seat_world": [
+    110.0,
+    -60.0,
+    14.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     110.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -60.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     14.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_bay_tray",
+   "into": "dock_base_r",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the 2 mm tray floor into an insert in the base half, outside the ballast pocket"
+   ]
+  },
+  {
+   "id": "DF036",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "bay tray to base",
+   "seat_world": [
+    182.0,
+    60.0,
+    14.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     182.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     60.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     14.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_bay_tray",
+   "into": "dock_base_l",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the 2 mm tray floor into an insert in the base half, outside the ballast pocket"
+   ]
+  },
+  {
+   "id": "DF037",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "bay tray to base",
+   "seat_world": [
+    182.0,
+    -60.0,
+    14.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     182.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -60.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     14.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_bay_tray",
+   "into": "dock_base_r",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the 2 mm tray floor into an insert in the base half, outside the ballast pocket"
+   ]
+  },
+  {
+   "id": "DF038",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "bay lid",
+   "seat_world": [
+    107.5,
+    96.5,
+    50.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     107.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     96.5
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     50.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_bay_lid",
+   "into": "dock_bay_tray",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the 2 mm lid into an insert at the top of a corner boss"
+   ]
+  },
+  {
+   "id": "DF039",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "bay lid",
+   "seat_world": [
+    107.5,
+    -96.5,
+    50.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     107.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -96.5
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     50.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_bay_lid",
+   "into": "dock_bay_tray",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the 2 mm lid into an insert at the top of a corner boss"
+   ]
+  },
+  {
+   "id": "DF040",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "bay lid",
+   "seat_world": [
+    185.5,
+    96.5,
+    50.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     185.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     96.5
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     50.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_bay_lid",
+   "into": "dock_bay_tray",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the 2 mm lid into an insert at the top of a corner boss"
+   ]
+  },
+  {
+   "id": "DF041",
+   "kind": "screw",
+   "source": "dock",
+   "spec": "M3x8 DIN 912 A2",
+   "size": "M3",
+   "d": 3.0,
+   "length_mm": 8,
+   "draw_length_mm": 8.0,
+   "head": {
+    "type": "M3_din912",
+    "dk": 5.5,
+    "k": 3.0
+   },
+   "color_key": "M3x8",
+   "color": "#2ca02c",
+   "link": "dock",
+   "group": "bay lid",
+   "seat_world": [
+    185.5,
+    -96.5,
+    50.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     185.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -96.5
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     50.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "part": "dock_bay_lid",
+   "into": "dock_bay_tray",
+   "anchor": "M3 insert",
+   "e": 5.7,
+   "e_min": 4.5,
+   "tip_gap": 1.0,
+   "len_status": "OK",
+   "rule": "brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert [I] https://tameson.com/pages/thread-engagement-chart (table 1: cast iron, brass 1.5 to 2.0 x screw diameter)",
+   "clearance": {
+    "path_hits": [],
+    "head_hits": []
+   },
+   "supply": "DOCK K8l",
+   "line": "K8l",
+   "pn": "BelMetric BSH3X8SS",
+   "notes": [
+    "through the 2 mm lid into an insert at the top of a corner boss"
+   ]
+  },
+  {
+   "id": "DN01",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    -13.0,
+    35.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     -13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     35.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF009",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN02",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    -13.0,
+    85.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     -13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     85.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF010",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN03",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    -13.0,
+    135.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     -13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     135.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF011",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN04",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    -13.0,
+    185.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     -13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     185.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF012",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN05",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    -13.0,
+    235.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     -13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     235.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF013",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN06",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    -13.0,
+    285.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     -13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     285.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF014",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN07",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    -13.0,
+    335.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     -13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     335.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF015",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN08",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    -13.0,
+    385.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     -13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     385.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF016",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN09",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "column ribs",
+   "seat_world": [
+    93.0,
+    -13.0,
+    435.0
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     93.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     -13.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     435.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF017",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN10",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "spring channel to mast face",
+   "seat_world": [
+    86.0,
+    40.0,
+    163.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     86.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     40.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     163.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF018",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN11",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "spring channel to mast face",
+   "seat_world": [
+    86.0,
+    40.0,
+    197.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     86.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     40.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     197.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF019",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN12",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "drum axle",
+   "seat_world": [
+    92.0,
+    33.0,
+    188.025
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     92.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     33.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     188.025
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF020",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN13",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "spring channel to mast face",
+   "seat_world": [
+    86.0,
+    -40.0,
+    163.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     86.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -40.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     163.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF022",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN14",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "spring channel to mast face",
+   "seat_world": [
+    86.0,
+    -40.0,
+    197.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     86.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -40.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     197.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF023",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN15",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "size": "M3",
+   "s": 5.5,
+   "h": 4.0,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "drum axle",
+   "seat_world": [
+    92.0,
+    -47.0,
+    188.025
+   ],
+   "axis_world": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     1.0,
+     0.0,
+     0.0,
+     92.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     -47.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0,
+     188.025
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF024",
+   "supply": "DOCK K8i",
+   "line": "K8i",
+   "pn": "BelMetric NN3SS"
+  },
+  {
+   "id": "DN16",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M2 nylon insert lock nut DIN 985 A2",
+   "size": "M2",
+   "s": 4.0,
+   "h": 2.8,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "seat switch",
+   "seat_world": [
+    -57.4,
+    -3.25,
+    75.98
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     -57.4
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -3.25
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     75.98
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF030",
+   "supply": "DOCK K8n",
+   "line": "K8n",
+   "pn": "BelMetric NN2SS"
+  },
+  {
+   "id": "DN17",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "M2 nylon insert lock nut DIN 985 A2",
+   "size": "M2",
+   "s": 4.0,
+   "h": 2.8,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "seat switch",
+   "seat_world": [
+    -57.4,
+    3.25,
+    75.98
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     -57.4
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     3.25
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     75.98
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF031",
+   "supply": "DOCK K8n",
+   "line": "K8n",
+   "pn": "BelMetric NN2SS"
+  },
+  {
+   "id": "DN18",
+   "kind": "nut",
+   "source": "dock",
+   "spec": "5/16-32 hex nut and washer (with the jack)",
+   "size": "5/16-32",
+   "s": 10.8,
+   "h": 2.5,
+   "color_key": "nut",
+   "color": "#555555",
+   "link": "dock",
+   "group": "DC jack",
+   "seat_world": [
+    189.0,
+    -65.0,
+    30.0
+   ],
+   "axis_world": [
+    1,
+    0,
+    0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     189.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -65.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     30.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": null,
+   "supply": "DOCK K6b",
+   "line": "K6b",
+   "pn": "Same Sky PJ-005A"
+  },
+  {
+   "id": "DI01",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "spine to base",
+   "part": "dock_base_l",
+   "seat_world": [
+    40.0,
+    8.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     40.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     8.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF001",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI02",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "spine to base",
+   "part": "dock_base_r",
+   "seat_world": [
+    40.0,
+    -8.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     40.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -8.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF002",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI03",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "spine to base",
+   "part": "dock_base_l",
+   "seat_world": [
+    60.0,
+    8.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     60.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     8.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF003",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI04",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "spine to base",
+   "part": "dock_base_r",
+   "seat_world": [
+    60.0,
+    -8.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     60.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -8.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF004",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI05",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "base to column",
+   "part": "dock_column_l1",
+   "seat_world": [
+    79.0,
+    70.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     1.0,
+     0.0,
+     79.0
+    ],
+    [
+     -1.0,
+     0.0,
+     0.0,
+     70.0
+    ],
+    [
+     0.0,
+     -0.0,
+     1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF005",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI06",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "base to column",
+   "part": "dock_column_r1",
+   "seat_world": [
+    79.0,
+    -70.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     1.0,
+     0.0,
+     79.0
+    ],
+    [
+     -1.0,
+     0.0,
+     0.0,
+     -70.0
+    ],
+    [
+     0.0,
+     -0.0,
+     1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF006",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI07",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "base to column",
+   "part": "dock_column_l1",
+   "seat_world": [
+    93.0,
+    5.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     1.0,
+     0.0,
+     93.0
+    ],
+    [
+     -1.0,
+     0.0,
+     0.0,
+     5.0
+    ],
+    [
+     0.0,
+     -0.0,
+     1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF007",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI08",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "base to column",
+   "part": "dock_column_r1",
+   "seat_world": [
+    93.0,
+    -5.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     1.0,
+     0.0,
+     93.0
+    ],
+    [
+     -1.0,
+     0.0,
+     0.0,
+     -5.0
+    ],
+    [
+     0.0,
+     -0.0,
+     1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF008",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI09",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "seat to spine",
+   "part": "dock_spine",
+   "seat_world": [
+    -15.0,
+    0.0,
+    30.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     -15.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     30.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF028",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI10",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "seat to spine",
+   "part": "dock_spine",
+   "seat_world": [
+    -15.0,
+    0.0,
+    70.0
+   ],
+   "axis_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "pose_dock": [
+    [
+     0.0,
+     0.0,
+     1.0,
+     -15.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     70.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF029",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI11",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "gate board",
+   "part": "dock_bay_tray",
+   "seat_world": [
+    145.5,
+    8.65,
+    20.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     145.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     8.65
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     20.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF032",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI12",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "gate board",
+   "part": "dock_bay_tray",
+   "seat_world": [
+    145.5,
+    82.35,
+    20.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     145.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     82.35
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     20.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF033",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI13",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "bay tray to base",
+   "part": "dock_base_l",
+   "seat_world": [
+    110.0,
+    60.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     110.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     60.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF034",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI14",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "bay tray to base",
+   "part": "dock_base_r",
+   "seat_world": [
+    110.0,
+    -60.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     110.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -60.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF035",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI15",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "bay tray to base",
+   "part": "dock_base_l",
+   "seat_world": [
+    182.0,
+    60.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     182.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     60.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF036",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI16",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "bay tray to base",
+   "part": "dock_base_r",
+   "seat_world": [
+    182.0,
+    -60.0,
+    12.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     182.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -60.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     12.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF037",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI17",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "bay lid",
+   "part": "dock_bay_tray",
+   "seat_world": [
+    107.5,
+    96.5,
+    48.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     107.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     96.5
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     48.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF038",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI18",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "bay lid",
+   "part": "dock_bay_tray",
+   "seat_world": [
+    107.5,
+    -96.5,
+    48.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     107.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -96.5
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     48.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF039",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI19",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "bay lid",
+   "part": "dock_bay_tray",
+   "seat_world": [
+    185.5,
+    96.5,
+    48.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     185.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     96.5
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     48.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF040",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  },
+  {
+   "id": "DI20",
+   "kind": "insert",
+   "source": "dock",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "size": "M3",
+   "d": 4.6,
+   "length_mm": 5.7,
+   "color_key": "M3 insert",
+   "color": "#d3a62c",
+   "link": "dock",
+   "group": "bay lid",
+   "part": "dock_bay_tray",
+   "seat_world": [
+    185.5,
+    -96.5,
+    48.0
+   ],
+   "axis_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "pose_dock": [
+    [
+     -0.0,
+     1.0,
+     0.0,
+     185.5
+    ],
+    [
+     1.0,
+     0.0,
+     0.0,
+     -96.5
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0,
+     48.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "screw": "DF041",
+   "supply": "DOCK K8o",
+   "line": "K8o",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)"
+  }
+ ],
+ "bom": [
+  {
+   "line": "K8l",
+   "spec": "M3x8 DIN 912 A2",
+   "pn": "BelMetric BSH3X8SS",
+   "need": 14,
+   "unit": 0.09,
+   "url": "https://belmetric.com/m3x0-5-a2-stainless-din-912-allen-socket-head-cap-screw/"
+  },
+  {
+   "line": "K8h",
+   "spec": "M3x12 DIN 912 A2",
+   "pn": "BelMetric BSH3X12SS",
+   "need": 8,
+   "unit": 0.09,
+   "url": "https://belmetric.com/m3x0-5-a2-stainless-din-912-allen-socket-head-cap-screw/"
+  },
+  {
+   "line": "K8f",
+   "spec": "M3x16 DIN 912 A2",
+   "pn": "BelMetric BSH3X16SS",
+   "need": 4,
+   "unit": 0.1,
+   "url": "https://belmetric.com/m3x0-5-a2-stainless-din-912-allen-socket-head-cap-screw/"
+  },
+  {
+   "line": "K8e",
+   "spec": "M3x18 DIN 912 A2",
+   "pn": "BelMetric BSH3X18SS",
+   "need": 4,
+   "unit": 0.13,
+   "url": "https://belmetric.com/m3x0-5-a2-stainless-din-912-allen-socket-head-cap-screw/"
+  },
+  {
+   "line": "K8g",
+   "spec": "M3x30 DIN 912 A2",
+   "pn": "BelMetric BSH3X30SS",
+   "need": 9,
+   "unit": 0.14,
+   "url": "https://belmetric.com/m3x0-5-a2-stainless-din-912-allen-socket-head-cap-screw/"
+  },
+  {
+   "line": "K8m",
+   "spec": "M2x12 DIN 7985 A2 pan head",
+   "pn": "BelMetric MSP2X12SS",
+   "need": 2,
+   "unit": 0.08,
+   "url": "https://belmetric.com/m2x0-4-phillips-pan-head-stainless-coarse-din-7985/"
+  },
+  {
+   "line": "K8i",
+   "spec": "M3 nylon insert lock nut DIN 985 A2",
+   "pn": "BelMetric NN3SS",
+   "need": 15,
+   "unit": 0.09,
+   "url": "https://belmetric.com/nylon-locking-nut-a2-stainless-din-985/"
+  },
+  {
+   "line": "K8n",
+   "spec": "M2 nylon insert lock nut DIN 985 A2",
+   "pn": "BelMetric NN2SS",
+   "need": 2,
+   "unit": 0.58,
+   "url": "https://belmetric.com/nylon-locking-nut-a2-stainless-din-985/"
+  },
+  {
+   "line": "K8o",
+   "spec": "M3 heat-set insert CNC Kitchen M3 x 5.7",
+   "pn": "BOM 16 surplus (100 bought, 48 used by the robot)",
+   "need": 20,
+   "unit": 0.0,
+   "url": "https://cnckitchenus.store/products/heat-set-insert-m3-x-5-7-100-pieces"
+  },
+  {
+   "line": "K6b",
+   "spec": "5/16-32 hex nut and washer (with the jack)",
+   "pn": "Same Sky PJ-005A hardware, in the jack's box",
+   "need": 1,
+   "unit": 0.0,
+   "url": "https://www.sameskydevices.com/product/resource/pj-005a.pdf"
+  }
+ ],
+ "summary": {
+  "screws": 41,
+  "nuts": 18,
+  "inserts": 20,
+  "not_ok": []
+ },
+ "empty_holes": []
+}

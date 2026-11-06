@@ -1,0 +1,80 @@
+id,kind,spec,group,part,into,anchor,e,e_min,tip_gap,status,line,seat_x,seat_y,seat_z,axis
+DF001,screw,M3x12 DIN 912 A2,spine to base,dock_spine,dock_base_l,M3 insert,5.7,4.5,1.0,OK,K8h,40.0,8.0,18.0,0.0 0.0 -1.0
+DF002,screw,M3x12 DIN 912 A2,spine to base,dock_spine,dock_base_r,M3 insert,5.7,4.5,1.0,OK,K8h,40.0,-8.0,18.0,0.0 0.0 -1.0
+DF003,screw,M3x12 DIN 912 A2,spine to base,dock_spine,dock_base_l,M3 insert,5.7,4.5,1.0,OK,K8h,60.0,8.0,18.0,0.0 0.0 -1.0
+DF004,screw,M3x12 DIN 912 A2,spine to base,dock_spine,dock_base_r,M3 insert,5.7,4.5,1.0,OK,K8h,60.0,-8.0,18.0,0.0 0.0 -1.0
+DF005,screw,M3x12 DIN 912 A2,base to column,dock_base_l,dock_column_l1,M3 insert,5.2,4.5,2.8,OK,K8h,79.0,70.0,5.2,0.0 0.0 1.0
+DF006,screw,M3x12 DIN 912 A2,base to column,dock_base_r,dock_column_r1,M3 insert,5.2,4.5,2.8,OK,K8h,79.0,-70.0,5.2,0.0 0.0 1.0
+DF007,screw,M3x12 DIN 912 A2,base to column,dock_base_l,dock_column_l1,M3 insert,5.2,4.5,2.8,OK,K8h,93.0,5.0,5.2,0.0 0.0 1.0
+DF008,screw,M3x12 DIN 912 A2,base to column,dock_base_r,dock_column_r1,M3 insert,5.2,4.5,2.8,OK,K8h,93.0,-5.0,5.2,0.0 0.0 1.0
+DF009,screw,M3x30 DIN 912 A2,column ribs,dock_column_l1,dock_column_r1,nut,4.0,4.0,,OK,K8g,93.0,13.0,35.0,0.0 -1.0 0.0
+DF010,screw,M3x30 DIN 912 A2,column ribs,dock_column_l1,dock_column_r1,nut,4.0,4.0,,OK,K8g,93.0,13.0,85.0,0.0 -1.0 0.0
+DF011,screw,M3x30 DIN 912 A2,column ribs,dock_column_l1,dock_column_r1,nut,4.0,4.0,,OK,K8g,93.0,13.0,135.0,0.0 -1.0 0.0
+DF012,screw,M3x30 DIN 912 A2,column ribs,dock_column_l2,dock_column_r1,nut,4.0,4.0,16.0,OK,K8g,93.0,13.0,185.0,0.0 -1.0 0.0
+DF013,screw,M3x30 DIN 912 A2,column ribs,dock_column_l2,dock_column_r2,nut,4.0,4.0,,OK,K8g,93.0,13.0,235.0,0.0 -1.0 0.0
+DF014,screw,M3x30 DIN 912 A2,column ribs,dock_column_l2,dock_column_r2,nut,4.0,4.0,,OK,K8g,93.0,13.0,285.0,0.0 -1.0 0.0
+DF015,screw,M3x30 DIN 912 A2,column ribs,dock_column_l3,dock_column_r2,nut,4.0,4.0,,OK,K8g,93.0,13.0,335.0,0.0 -1.0 0.0
+DF016,screw,M3x30 DIN 912 A2,column ribs,dock_column_l3,dock_column_r3,nut,4.0,4.0,,OK,K8g,93.0,13.0,385.0,0.0 -1.0 0.0
+DF017,screw,M3x30 DIN 912 A2,column ribs,dock_column_l3,dock_column_r3,nut,4.0,4.0,,OK,K8g,93.0,13.0,435.0,0.0 -1.0 0.0
+DF018,screw,M3x16 DIN 912 A2,spring channel to mast face,dock_column_l2,dock_spring_cup_l,nut,4.0,4.0,,OK,K8f,75.0,40.0,163.0,1.0 0.0 0.0
+DF019,screw,M3x16 DIN 912 A2,spring channel to mast face,dock_column_l2,dock_spring_cup_l,nut,4.0,4.0,,OK,K8f,75.0,40.0,197.0,1.0 0.0 0.0
+DF020,screw,M3x18 DIN 912 A2,drum axle,dock_spring_cup_l,dock_spring_drum_l,nut,4.0,4.0,16.0,OK,K8e,92.0,47.0,188.03,0.0 -1.0 0.0
+DF021,screw,M3x8 DIN 912 A2,spring strip to carriage,cf_l,dock_spring_carriage_l,PLA pilot,7.92,6.0,0.68,OK,K8l,104.0,40.0,184.08,0.0 0.0 -1.0
+DF022,screw,M3x16 DIN 912 A2,spring channel to mast face,dock_column_r1,dock_spring_cup_r,nut,4.0,4.0,,OK,K8f,75.0,-40.0,163.0,1.0 0.0 0.0
+DF023,screw,M3x16 DIN 912 A2,spring channel to mast face,dock_column_r1,dock_spring_cup_r,nut,4.0,4.0,,OK,K8f,75.0,-40.0,197.0,1.0 0.0 0.0
+DF024,screw,M3x18 DIN 912 A2,drum axle,dock_spring_cup_r,dock_spring_drum_r,nut,4.0,4.0,,OK,K8e,92.0,-33.0,188.03,0.0 -1.0 0.0
+DF025,screw,M3x8 DIN 912 A2,spring strip to carriage,cf_r,dock_spring_carriage_r,PLA pilot,7.92,6.0,0.68,OK,K8l,104.0,-40.0,184.08,0.0 0.0 -1.0
+DF026,screw,M3x18 DIN 912 A2,paddle pivot,dock_paddle_carrier,dock_paddle,PLA pilot,11.0,6.0,129.0,OK,K8e,18.0,0.0,237.0,0.0 0.0 -1.0
+DF027,screw,M3x18 DIN 912 A2,paddle pivot,dock_paddle_carrier,dock_paddle,PLA pilot,11.0,6.0,,OK,K8e,18.0,0.0,133.0,0.0 0.0 1.0
+DF028,screw,M3x8 DIN 912 A2,seat to spine,dock_seat_base,dock_spine,M3 insert,5.0,4.5,3.0,OK,K8l,-18.0,0.0,30.0,1.0 0.0 0.0
+DF029,screw,M3x8 DIN 912 A2,seat to spine,dock_seat_base,dock_spine,M3 insert,5.0,4.5,3.0,OK,K8l,-18.0,0.0,70.0,1.0 0.0 0.0
+DF030,screw,M2x12 DIN 7985 A2 pan head,seat switch,switch,dock_seat_base,nut,2.8,2.8,20.43,OK,K8m,-66.2,-3.25,75.98,1.0 0.0 0.0
+DF031,screw,M2x12 DIN 7985 A2 pan head,seat switch,switch,dock_seat_base,nut,2.8,2.8,20.43,OK,K8m,-66.2,3.25,75.98,1.0 0.0 0.0
+DF032,screw,M3x8 DIN 912 A2,gate board,perf,dock_bay_tray,M3 insert,5.7,4.5,0.6,OK,K8l,145.5,8.65,21.6,0.0 0.0 -1.0
+DF033,screw,M3x8 DIN 912 A2,gate board,perf,dock_bay_tray,M3 insert,5.7,4.5,0.6,OK,K8l,145.5,82.35,21.6,0.0 0.0 -1.0
+DF034,screw,M3x8 DIN 912 A2,bay tray to base,dock_bay_tray,dock_base_l,M3 insert,5.7,4.5,1.0,OK,K8l,110.0,60.0,14.0,0.0 0.0 -1.0
+DF035,screw,M3x8 DIN 912 A2,bay tray to base,dock_bay_tray,dock_base_r,M3 insert,5.7,4.5,1.0,OK,K8l,110.0,-60.0,14.0,0.0 0.0 -1.0
+DF036,screw,M3x8 DIN 912 A2,bay tray to base,dock_bay_tray,dock_base_l,M3 insert,5.7,4.5,1.0,OK,K8l,182.0,60.0,14.0,0.0 0.0 -1.0
+DF037,screw,M3x8 DIN 912 A2,bay tray to base,dock_bay_tray,dock_base_r,M3 insert,5.7,4.5,1.0,OK,K8l,182.0,-60.0,14.0,0.0 0.0 -1.0
+DF038,screw,M3x8 DIN 912 A2,bay lid,dock_bay_lid,dock_bay_tray,M3 insert,5.7,4.5,1.0,OK,K8l,107.5,96.5,50.0,0.0 0.0 -1.0
+DF039,screw,M3x8 DIN 912 A2,bay lid,dock_bay_lid,dock_bay_tray,M3 insert,5.7,4.5,1.0,OK,K8l,107.5,-96.5,50.0,0.0 0.0 -1.0
+DF040,screw,M3x8 DIN 912 A2,bay lid,dock_bay_lid,dock_bay_tray,M3 insert,5.7,4.5,1.0,OK,K8l,185.5,96.5,50.0,0.0 0.0 -1.0
+DF041,screw,M3x8 DIN 912 A2,bay lid,dock_bay_lid,dock_bay_tray,M3 insert,5.7,4.5,1.0,OK,K8l,185.5,-96.5,50.0,0.0 0.0 -1.0
+DN01,nut,M3 nylon insert lock nut DIN 985 A2,column ribs,,,,,,,,K8i,93.0,-13.0,35.0,0.0 -1.0 0.0
+DN02,nut,M3 nylon insert lock nut DIN 985 A2,column ribs,,,,,,,,K8i,93.0,-13.0,85.0,0.0 -1.0 0.0
+DN03,nut,M3 nylon insert lock nut DIN 985 A2,column ribs,,,,,,,,K8i,93.0,-13.0,135.0,0.0 -1.0 0.0
+DN04,nut,M3 nylon insert lock nut DIN 985 A2,column ribs,,,,,,,,K8i,93.0,-13.0,185.0,0.0 -1.0 0.0
+DN05,nut,M3 nylon insert lock nut DIN 985 A2,column ribs,,,,,,,,K8i,93.0,-13.0,235.0,0.0 -1.0 0.0
+DN06,nut,M3 nylon insert lock nut DIN 985 A2,column ribs,,,,,,,,K8i,93.0,-13.0,285.0,0.0 -1.0 0.0
+DN07,nut,M3 nylon insert lock nut DIN 985 A2,column ribs,,,,,,,,K8i,93.0,-13.0,335.0,0.0 -1.0 0.0
+DN08,nut,M3 nylon insert lock nut DIN 985 A2,column ribs,,,,,,,,K8i,93.0,-13.0,385.0,0.0 -1.0 0.0
+DN09,nut,M3 nylon insert lock nut DIN 985 A2,column ribs,,,,,,,,K8i,93.0,-13.0,435.0,0.0 -1.0 0.0
+DN10,nut,M3 nylon insert lock nut DIN 985 A2,spring channel to mast face,,,,,,,,K8i,86.0,40.0,163.0,1.0 0.0 0.0
+DN11,nut,M3 nylon insert lock nut DIN 985 A2,spring channel to mast face,,,,,,,,K8i,86.0,40.0,197.0,1.0 0.0 0.0
+DN12,nut,M3 nylon insert lock nut DIN 985 A2,drum axle,,,,,,,,K8i,92.0,33.0,188.03,0.0 -1.0 0.0
+DN13,nut,M3 nylon insert lock nut DIN 985 A2,spring channel to mast face,,,,,,,,K8i,86.0,-40.0,163.0,1.0 0.0 0.0
+DN14,nut,M3 nylon insert lock nut DIN 985 A2,spring channel to mast face,,,,,,,,K8i,86.0,-40.0,197.0,1.0 0.0 0.0
+DN15,nut,M3 nylon insert lock nut DIN 985 A2,drum axle,,,,,,,,K8i,92.0,-47.0,188.03,0.0 -1.0 0.0
+DN16,nut,M2 nylon insert lock nut DIN 985 A2,seat switch,,,,,,,,K8n,-57.4,-3.25,75.98,1.0 0.0 0.0
+DN17,nut,M2 nylon insert lock nut DIN 985 A2,seat switch,,,,,,,,K8n,-57.4,3.25,75.98,1.0 0.0 0.0
+DN18,nut,5/16-32 hex nut and washer (with the jack),DC jack,,,,,,,,K6b,189.0,-65.0,30.0,1 0 0
+DI01,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,spine to base,dock_base_l,,,,,,,K8o,40.0,8.0,12.0,0.0 0.0 -1.0
+DI02,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,spine to base,dock_base_r,,,,,,,K8o,40.0,-8.0,12.0,0.0 0.0 -1.0
+DI03,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,spine to base,dock_base_l,,,,,,,K8o,60.0,8.0,12.0,0.0 0.0 -1.0
+DI04,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,spine to base,dock_base_r,,,,,,,K8o,60.0,-8.0,12.0,0.0 0.0 -1.0
+DI05,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,base to column,dock_column_l1,,,,,,,K8o,79.0,70.0,12.0,0.0 0.0 1.0
+DI06,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,base to column,dock_column_r1,,,,,,,K8o,79.0,-70.0,12.0,0.0 0.0 1.0
+DI07,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,base to column,dock_column_l1,,,,,,,K8o,93.0,5.0,12.0,0.0 0.0 1.0
+DI08,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,base to column,dock_column_r1,,,,,,,K8o,93.0,-5.0,12.0,0.0 0.0 1.0
+DI09,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,seat to spine,dock_spine,,,,,,,K8o,-15.0,0.0,30.0,1.0 0.0 0.0
+DI10,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,seat to spine,dock_spine,,,,,,,K8o,-15.0,0.0,70.0,1.0 0.0 0.0
+DI11,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,gate board,dock_bay_tray,,,,,,,K8o,145.5,8.65,20.0,0.0 0.0 -1.0
+DI12,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,gate board,dock_bay_tray,,,,,,,K8o,145.5,82.35,20.0,0.0 0.0 -1.0
+DI13,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,bay tray to base,dock_base_l,,,,,,,K8o,110.0,60.0,12.0,0.0 0.0 -1.0
+DI14,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,bay tray to base,dock_base_r,,,,,,,K8o,110.0,-60.0,12.0,0.0 0.0 -1.0
+DI15,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,bay tray to base,dock_base_l,,,,,,,K8o,182.0,60.0,12.0,0.0 0.0 -1.0
+DI16,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,bay tray to base,dock_base_r,,,,,,,K8o,182.0,-60.0,12.0,0.0 0.0 -1.0
+DI17,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,bay lid,dock_bay_tray,,,,,,,K8o,107.5,96.5,48.0,0.0 0.0 -1.0
+DI18,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,bay lid,dock_bay_tray,,,,,,,K8o,107.5,-96.5,48.0,0.0 0.0 -1.0
+DI19,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,bay lid,dock_bay_tray,,,,,,,K8o,185.5,96.5,48.0,0.0 0.0 -1.0
+DI20,insert,M3 heat-set insert CNC Kitchen M3 x 5.7,bay lid,dock_bay_tray,,,,,,,K8o,185.5,-96.5,48.0,0.0 0.0 -1.0

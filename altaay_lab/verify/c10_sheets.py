@@ -103,10 +103,13 @@ def main():
             R.find("FAIL", "no harness sheet (sheet 5) yet: cable routes by region are not drawn", where="altaay_lab/wiring/sheets")
     # committed sheets vs netlist time
     net_t = os.path.getmtime(V.lab("wiring", "netlist.yaml"))
-    old = [os.path.basename(f) for f in glob.glob(os.path.join(src, "*.svg")) if os.path.getmtime(f) < net_t]
+    # sheet 7 (the dock) is drawn from twin/dock/dock_netlist.yaml by make_dock_sheet.py, not from netlist.yaml
+    dock_t = os.path.getmtime(V.lab("twin", "dock", "dock_netlist.yaml"))
+    old = [os.path.basename(f) for f in glob.glob(os.path.join(src, "*.svg"))
+           if os.path.getmtime(f) < (dock_t if os.path.basename(f).startswith("7_") else net_t)]
     R.ev("committed sheet SVGs: %d, older than netlist.yaml: %s" % (len(glob.glob(os.path.join(src, "*.svg"))), old or "none"))
     for o in old:
-        R.find("FAIL", "%s is older than netlist.yaml" % o, fix="re-run wiring/sheets/make_sheets.py", where="altaay_lab/wiring/sheets")
+        R.find("FAIL", "%s is older than its netlist" % o, fix="re-run wiring/sheets/make_sheets.py (sheet 7: make_dock_sheet.py)", where="altaay_lab/wiring/sheets")
     R.write()
 
 

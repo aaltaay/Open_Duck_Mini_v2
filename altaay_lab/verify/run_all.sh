@@ -58,6 +58,7 @@ run c11_hip_yaw_envelope.py
 run c4_fasteners.py
 run c3_cables3d.py
 run c10_sheets.py
+run c12_dock.py
 run e8_bench_pytest.py
 # 6. the page
 log "report"

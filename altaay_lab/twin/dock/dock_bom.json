@@ -1,0 +1,553 @@
+{
+ "lines": [
+  {
+   "line": "K1",
+   "group": "electrical",
+   "part": "Charger board, MCP73213 2-cell, 8.40 V, 6 h timer, PROG via to ground for 1000 mA (U1 MCP73213-A6S/MF)",
+   "pn": "Microchip MCP73213EV-2SOVP, DigiKey MCP73213EV-2SOVP-ND",
+   "need": 1,
+   "buy": 1,
+   "unit": 33.58,
+   "seller": "DigiKey",
+   "url": "https://www.digikey.com/en/products/detail/microchip-technology/MCP73213EV-2SOVP/2170203",
+   "read": "index: $33.58 (Newark $32.88, index); A6S read in the user's guide BOM, DS51849A"
+  },
+  {
+   "line": "K2",
+   "group": "electrical",
+   "part": "Gate switch for CHG and SYS, MOSFET slide switch with reverse protection, HP",
+   "pn": "Pololu 2815",
+   "need": 1,
+   "buy": 1,
+   "unit": 8.49,
+   "seller": "Pololu",
+   "url": "https://www.pololu.com/product/2815",
+   "read": "page: $8.49"
+  },
+  {
+   "line": "K3",
+   "group": "electrical",
+   "part": "Seat microswitch, hinge lever, NO used (D2F-01L-D3 solder lug is the fallback)",
+   "pn": "Omron D2F-01L",
+   "need": 1,
+   "buy": 2,
+   "unit": 1.44,
+   "seller": "Mouser",
+   "url": "https://www.mouser.com/en/ProductDetail/Omron-Electronics/D2F-01L?qs=0w99tykdtPJyAZbwr7e4aQ%3D%3D",
+   "read": "index: $1.44"
+  },
+  {
+   "line": "K4a",
+   "group": "electrical",
+   "part": "Dual comparator, DIP-8 (NTC window, pin-voltage window)",
+   "pn": "TI LM393P",
+   "need": 2,
+   "buy": 3,
+   "unit": 0.49,
+   "seller": "DigiKey",
+   "url": "https://www.digikey.com/en/products/detail/texas-instruments/LM393P/277045",
+   "read": "index: $0.49"
+  },
+  {
+   "line": "K4b",
+   "group": "electrical",
+   "part": "555 timer, DIP-8 (110 ms wake one-shot)",
+   "pn": "TI NE555P",
+   "need": 1,
+   "buy": 2,
+   "unit": 0.51,
+   "seller": "DigiKey",
+   "url": "https://www.digikey.com/en/products/detail/texas-instruments/NE555P/277057",
+   "read": "index: $0.51"
+  },
+  {
+   "line": "K4c",
+   "group": "electrical",
+   "part": "2.50 V shunt reference, TO-92",
+   "pn": "TI TL431AILPR",
+   "need": 1,
+   "buy": 2,
+   "unit": 0.24,
+   "seller": "Mouser",
+   "url": "https://www.mouser.com/c/?q=TL431AILPR",
+   "read": "index: $0.24"
+  },
+  {
+   "line": "K4d",
+   "group": "electrical",
+   "part": "NPN, TO-92: Q1 gate driver, Q3 STAT inverter",
+   "pn": "onsemi 2N3904BU",
+   "need": 2,
+   "buy": 3,
+   "unit": 0.28,
+   "seller": "DigiKey",
+   "url": "https://www.digikey.com/en/products/detail/onsemi/2N3904BU/1413",
+   "read": "index: $0.28"
+  },
+  {
+   "line": "K4f",
+   "group": "electrical",
+   "part": "1N4148 (dock D1, D2; duck wake branch DK5)",
+   "pn": "onsemi 1N4148",
+   "need": 3,
+   "buy": 10,
+   "unit": 0.039,
+   "seller": "DigiKey",
+   "url": "https://www.digikey.com/en/products/detail/onsemi/1N4148/458603",
+   "read": "index: $0.039 at 10"
+  },
+  {
+   "line": "K4g",
+   "group": "electrical",
+   "part": "Resistor kit 1/4 W, 500 pcs: the 31 gate resistors (some values as series pairs) and the duck's DK5 10 k and 100 k",
+   "pn": "SparkFun COM-10969",
+   "need": 1,
+   "buy": 1,
+   "unit": 9.95,
+   "seller": "SparkFun",
+   "url": "https://www.sparkfun.com/products/10969",
+   "read": "page: $9.95 (22 k to 1 M, 1 k to 10 k ranges read 2026-11-06)"
+  },
+  {
+   "line": "K4h",
+   "group": "electrical",
+   "part": "Capacitor kit (100 nF x 3, 1 uF, 10 nF x 2 used; all in the kit, read 2026-11-06)",
+   "pn": "SparkFun KIT-13698",
+   "need": 1,
+   "buy": 1,
+   "unit": 11.5,
+   "seller": "SparkFun",
+   "url": "https://www.sparkfun.com/products/13698",
+   "read": "page: $11.50"
+  },
+  {
+   "line": "K4i",
+   "group": "electrical",
+   "part": "Gate board, Perma-Proto half (51 x 81 mm, 2 mounting holes 73.7 mm apart)",
+   "pn": "Adafruit 1609",
+   "need": 1,
+   "buy": 1,
+   "unit": 4.5,
+   "seller": "Adafruit",
+   "url": "https://www.adafruit.com/product/1609",
+   "read": "page: $4.50"
+  },
+  {
+   "line": "K5",
+   "group": "electrical",
+   "part": "Spring pin, press-fit into an insulator (1.600 mm hole), solder cup, 45 gf at mid stroke, 1.397 mm stroke, 6 A (4.80 A derated), 40 mOhm max",
+   "pn": "Mill-Max 0933-0-15-20-72-14-11-0, DigiKey 54-0933-0-15-20-72-14-11-0-ND",
+   "need": 6,
+   "buy": 8,
+   "unit": null,
+   "seller": "DigiKey",
+   "url": "https://www.digikey.com/en/products/detail/mill-max-manufacturing-corp/0933-0-15-20-72-14-11-0/26950711",
+   "read": "BLOCKER: price not read (digikey.com is outside this session's network; no index price); specs read on the Mill-Max data sheet. The 0932 it replaces was $1.23 (index)"
+  },
+  {
+   "line": "K6",
+   "group": "electrical",
+   "part": "Wall adapter 9 V 4 A 36 W, Class II, 5.5 x 2.1 mm plug centre positive",
+   "pn": "Mean Well GSM36U09-P1J",
+   "need": 1,
+   "buy": 1,
+   "unit": 21.91,
+   "seller": "TRC Electronics",
+   "url": "https://www.trcelectronics.com/products/mean-well-gsm36u09-p1j",
+   "read": "page: $21.91"
+  },
+  {
+   "line": "K6b",
+   "group": "electrical",
+   "part": "Panel DC jack, 5 A 24 V, 2.0 mm pin (mates 5.5 x 2.1), 5/16-32 bushing, nut and washer",
+   "pn": "Same Sky PJ-005A",
+   "need": 1,
+   "buy": 2,
+   "unit": 3.07,
+   "seller": "DigiKey",
+   "url": "https://www.digikey.com/en/products/detail/same-sky-formerly-cui-devices/PJ-005A/165838",
+   "read": "index: $3.07 at 1 (digikey.com.br, USD); 5 A rating read on the Same Sky data sheet: the old BLOCKER (3 A needed) is closed"
+  },
+  {
+   "line": "K9",
+   "group": "electrical",
+   "part": "Adapter input fuse holder, inline ATO, 16 AWG leads 90 mm",
+   "pn": "Littelfuse FHAC0001ZXJ, Newark 56P4171",
+   "need": 1,
+   "buy": 1,
+   "unit": 7.74,
+   "seller": "Newark",
+   "url": "https://www.newark.com/littelfuse/fhac0001zxj/fuse-holder-in-line/dp/56P4171",
+   "read": "as BOM.md L3"
+  },
+  {
+   "line": "K9b",
+   "group": "electrical",
+   "part": "Adapter input fuse, 5 A ATO fast",
+   "pn": "Littelfuse 0287005.PXCN",
+   "need": 1,
+   "buy": 2,
+   "unit": 0.44,
+   "seller": "DigiKey",
+   "url": "https://www.digikey.com/en/products/result?keywords=0287005.PXCN",
+   "read": "as BOM.md DK4 (index)"
+  },
+  {
+   "line": "K11",
+   "group": "electrical",
+   "part": "Wire: 20 AWG red and black, 26 AWG white, yellow, blue, green (cut lengths in dock_netlist.yaml)",
+   "pn": "BOM.md lines 23 and 25 surplus",
+   "need": 1,
+   "buy": 0,
+   "unit": 0.0,
+   "seller": "(robot BOM)",
+   "url": "https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE",
+   "read": "the robot buys 50 ft of 20 AWG for 2.8 m and 175 ft of 26 AWG for 12.7 m"
+  },
+  {
+   "line": "K12",
+   "group": "electrical",
+   "part": "Heat shrink and solder (pin cups, jack lugs, holder leads)",
+   "pn": "BOM.md lines 26 and 30 surplus",
+   "need": 1,
+   "buy": 0,
+   "unit": 0.0,
+   "seller": "(robot BOM)",
+   "url": "https://www.amazon.com/Wirefy-180-Heat-Shrink-Tubing/dp/B084GDLSCK",
+   "read": "180 sleeves bought, 42 used by the robot"
+  },
+  {
+   "line": "K12b",
+   "group": "electrical",
+   "part": "VHB 4950 pads under the charger board, the 2815 and the fuse holder",
+   "pn": "BOM.md line 29 surplus",
+   "need": 1,
+   "buy": 0,
+   "unit": 0.0,
+   "seller": "(robot BOM)",
+   "url": "https://www.amazon.com/dp/B00D3RD9TO",
+   "read": "3/4 in x 5 yd; about 0.09 m used here"
+  },
+  {
+   "line": "K7",
+   "group": "mechanical",
+   "part": "PLA for the 18 printed dock kinds (22 prints), 1070 g sliced with the light profile",
+   "pn": "Overture Easy PLA 1.75 mm 1 kg black, ASIN B09LCK7QJ2",
+   "need": 1,
+   "buy": 1,
+   "unit": 29.98,
+   "seller": "Amazon",
+   "url": "https://www.amazon.com/dp/B09LCK7QJ2",
+   "read": "as BOM.md line 27; one roll plus 70 g of the 593 g the robot leaves"
+  },
+  {
+   "line": "K8a",
+   "group": "mechanical",
+   "part": "Guide rods: 4 mm 304 stainless, 100 mm, 10 pcs, cut to 2 x 76 mm (cheaper than the 17-4PH OnDrive GPM4000-100 at $16.89 each; slide fit checked at BT1)",
+   "pn": "4 x 100 mm 304 stainless rod, 10 pcs",
+   "need": 2,
+   "buy": 10,
+   "unit": 1.166,
+   "seller": "eBay",
+   "url": "https://www.ebay.com/p/21050690914",
+   "read": "index: $11.66 for 10 (whole pack in both totals)"
+  },
+  {
+   "line": "K8c",
+   "group": "mechanical",
+   "part": "Paddle return: constant-force spring 1.65 N, 6.4 mm drum, 4.75 x 0.08 mm, 304.8 mm",
+   "pn": "Century Spring CF37CS",
+   "need": 2,
+   "buy": 3,
+   "unit": 2.82,
+   "seller": "Century Spring",
+   "url": "https://www.centuryspring.com/shop/cf37cs",
+   "read": "page: $2.82 (2026-11-06)"
+  },
+  {
+   "line": "K8d",
+   "group": "mechanical",
+   "part": "Seat springs: music wire, OD 7.14, ID 6.12, free 23.88 mm, 0.25 N/mm",
+   "pn": "Century Spring CC-28CS",
+   "need": 2,
+   "buy": 3,
+   "unit": 2.81,
+   "seller": "Century Spring",
+   "url": "https://www.centuryspring.com/shop/cc-28cs",
+   "read": "page: $2.81 (2026-11-06)"
+  },
+  {
+   "line": "K8e",
+   "group": "fasteners",
+   "part": "M3x18 DIN 912 A2 (paddle pivot 2, drum axles 2)",
+   "pn": "BelMetric BSH3X18SS",
+   "need": 4,
+   "buy": 5,
+   "unit": 0.13,
+   "seller": "BelMetric",
+   "url": "https://belmetric.com/m3x0-5-a2-stainless-din-912-allen-socket-head-cap-screw/",
+   "read": "page data: $0.13 (2026-11-06)"
+  },
+  {
+   "line": "K8f",
+   "group": "fasteners",
+   "part": "M3x16 DIN 912 A2 (spring channels to the mast face)",
+   "pn": "BelMetric BSH3X16SS",
+   "need": 4,
+   "buy": 5,
+   "unit": 0.1,
+   "seller": "BelMetric",
+   "url": "https://belmetric.com/m3x0-5-a2-stainless-din-912-allen-socket-head-cap-screw/",
+   "read": "page data: $0.10"
+  },
+  {
+   "line": "K8g",
+   "group": "fasteners",
+   "part": "M3x30 DIN 912 A2 (column rib bolts)",
+   "pn": "BelMetric BSH3X30SS",
+   "need": 9,
+   "buy": 10,
+   "unit": 0.14,
+   "seller": "BelMetric",
+   "url": "https://belmetric.com/m3x0-5-a2-stainless-din-912-allen-socket-head-cap-screw/",
+   "read": "page data: $0.14"
+  },
+  {
+   "line": "K8h",
+   "group": "fasteners",
+   "part": "M3x12 DIN 912 A2 (spine flange 4, base to column 4)",
+   "pn": "BelMetric BSH3X12SS",
+   "need": 8,
+   "buy": 10,
+   "unit": 0.09,
+   "seller": "BelMetric",
+   "url": "https://belmetric.com/m3x0-5-a2-stainless-din-912-allen-socket-head-cap-screw/",
+   "read": "page data: $0.09 (2026-11-06)"
+  },
+  {
+   "line": "K8l",
+   "group": "fasteners",
+   "part": "M3x8 DIN 912 A2 (seat to spine 2, strip ends 2, gate board 2, bay tray 4, bay lid 4)",
+   "pn": "BelMetric BSH3X8SS",
+   "need": 14,
+   "buy": 16,
+   "unit": 0.09,
+   "seller": "BelMetric",
+   "url": "https://belmetric.com/m3x0-5-a2-stainless-din-912-allen-socket-head-cap-screw/",
+   "read": "page data: $0.09 (2026-11-06)"
+  },
+  {
+   "line": "K8m",
+   "group": "fasteners",
+   "part": "M2x12 DIN 7985 A2 pan head (seat microswitch)",
+   "pn": "BelMetric MSP2X12SS",
+   "need": 2,
+   "buy": 3,
+   "unit": 0.08,
+   "seller": "BelMetric",
+   "url": "https://belmetric.com/m2x0-4-phillips-pan-head-stainless-coarse-din-7985/",
+   "read": "page data: $0.08 (2026-11-06)"
+  },
+  {
+   "line": "K8i",
+   "group": "fasteners",
+   "part": "M3 nylon insert lock nut DIN 985 A2 (ribs 9, channels 4, axles 2): single nuts, not a 100-pack",
+   "pn": "BelMetric NN3SS",
+   "need": 15,
+   "buy": 17,
+   "unit": 0.09,
+   "seller": "BelMetric",
+   "url": "https://belmetric.com/nylon-locking-nut-a2-stainless-din-985/",
+   "read": "page data: $0.09 (2026-11-06)"
+  },
+  {
+   "line": "K8n",
+   "group": "fasteners",
+   "part": "M2 nylon insert lock nut DIN 985 A2 (switch)",
+   "pn": "BelMetric NN2SS",
+   "need": 2,
+   "buy": 3,
+   "unit": 0.58,
+   "seller": "BelMetric",
+   "url": "https://belmetric.com/nylon-locking-nut-a2-stainless-din-985/",
+   "read": "page data: $0.58 (2026-11-06)"
+  },
+  {
+   "line": "K8o",
+   "group": "fasteners",
+   "part": "M3 heat-set inserts (20)",
+   "pn": "BOM.md line 16 surplus (100 bought, 48 used)",
+   "need": 20,
+   "buy": 0,
+   "unit": 0.0,
+   "seller": "(robot BOM)",
+   "url": "https://cnckitchenus.store/products/heat-set-insert-m3-x-5-7-100-pieces",
+   "read": "52 left"
+  },
+  {
+   "line": "K8k",
+   "group": "mechanical",
+   "part": "Ballast: 1018 bar 5/16 x 2-1/2 x 12 in, cut to 2 x 120 mm (one per base pocket, 474 g each)",
+   "pn": "Zoro Select 18F312X25-12",
+   "need": 1,
+   "buy": 1,
+   "unit": 18.85,
+   "seller": "Zoro",
+   "url": "https://zoro.com/zoro-select-carbon-steel-bar-12-l-2-12-w-18f312x25-12/i/G301842078",
+   "read": "index: $18.85"
+  },
+  {
+   "line": "K10",
+   "group": "mechanical",
+   "part": "Rubber feet about 8 x 4 mm, 4-pack (seat base 4, base halves 8)",
+   "pn": "Adafruit 550",
+   "need": 3,
+   "buy": 3,
+   "unit": 0.95,
+   "seller": "Adafruit",
+   "url": "https://www.adafruit.com/product/550",
+   "read": "page: $0.95 per 4"
+  },
+  {
+   "line": "K13",
+   "group": "mechanical",
+   "part": "Three AprilTags tag36h11 (id 0 at 40 mm, ids 1 and 2 at 60 mm), printed on paper and glued",
+   "pn": "paper",
+   "need": 3,
+   "buy": 0,
+   "unit": 0.0,
+   "seller": "",
+   "url": "",
+   "read": "no purchase"
+  }
+ ],
+ "duck": [
+  {
+   "line": "DK1",
+   "part": "Chest contact pad, 100 x 76 x 0.8 mm FR4 ENIG, four strips (D50)",
+   "pn": "OSH Park 2 layer 2 oz 0.8 mm, 3 copies",
+   "need": 1,
+   "buy": 1,
+   "unit": 58.9,
+   "seller": "OSH Park",
+   "url": "https://docs.oshpark.com/services/two-layer-hhdc",
+   "read": "index: $5 per sq in x 11.78 sq in (3 copies; the order is the smallest buy)"
+  },
+  {
+   "line": "DK2",
+   "part": "Charge input ideal diode",
+   "pn": "Pololu 5382",
+   "need": 1,
+   "buy": 1,
+   "unit": 3.79,
+   "seller": "Pololu",
+   "url": "https://www.pololu.com/product/5382",
+   "read": "page: $3.79"
+  },
+  {
+   "line": "DK3",
+   "part": "Charge path fuse holder",
+   "pn": "Littelfuse FHAC0001ZXJ",
+   "need": 1,
+   "buy": 1,
+   "unit": 7.74,
+   "seller": "Newark",
+   "url": "https://www.newark.com/littelfuse/fhac0001zxj/fuse-holder-in-line/dp/56P4171",
+   "read": "as L3"
+  },
+  {
+   "line": "DK4",
+   "part": "Charge path fuse 5 A ATO",
+   "pn": "Littelfuse 0287005.PXCN",
+   "need": 1,
+   "buy": 2,
+   "unit": 0.44,
+   "seller": "DigiKey",
+   "url": "https://www.digikey.com/en/products/result?keywords=0287005.PXCN",
+   "read": "index"
+  },
+  {
+   "line": "DK5",
+   "part": "Cell NTC 10 k B3950 (Adafruit 372, $4.00) and 3.9 V zener (onsemi 1N5228B, $0.15); the 1N4148 and the 10 k and 100 k from dock K4f and K4g",
+   "pn": "Adafruit 372 + onsemi 1N5228B",
+   "need": 1,
+   "buy": 2,
+   "unit": 4.15,
+   "seller": "Adafruit, DigiKey",
+   "url": "https://www.adafruit.com/product/372",
+   "read": "page: $4.00 (NTC); index: $0.15 (zener)"
+  },
+  {
+   "line": "DK6",
+   "part": "Dock supply ideal diode",
+   "pn": "Pololu 5382",
+   "need": 1,
+   "buy": 1,
+   "unit": 3.79,
+   "seller": "Pololu",
+   "url": "https://www.pololu.com/product/5382",
+   "read": "page: $3.79"
+  },
+  {
+   "line": "DK7",
+   "part": "Pack side ideal diode, 12 A",
+   "pn": "Pololu 5383",
+   "need": 1,
+   "buy": 1,
+   "unit": 4.95,
+   "seller": "Pololu",
+   "url": "https://www.pololu.com/product/5383",
+   "read": "page: $4.95, in stock 2026-11-06"
+  }
+ ],
+ "removed": [
+  {
+   "line": "K4e",
+   "part": "2N3906 PNP (wake pulse)",
+   "saved": 0.54,
+   "why": "the 555 drives SENSE through D2 and R18; the PNP needed an inverter it never had"
+  },
+  {
+   "line": "K8b",
+   "part": "ServoCity 4 mm collar 2-pack",
+   "saved": 4.99,
+   "why": "the printed carriage nose is the rest stop"
+  },
+  {
+   "line": "K8i (old)",
+   "part": "Foreverbolt M3 nylon nut 100-pack",
+   "saved": 22.45,
+   "why": "15 single nuts at $0.09 (BelMetric) instead: $1.53 with 2 spares"
+  },
+  {
+   "line": "K8j",
+   "part": "3M 5490 PTFE tape",
+   "saved": 43.55,
+   "why": "the pins carry the push; the face is only an over-travel stop (sim run with friction 0.4 on the face: section 12.1)"
+  },
+  {
+   "line": "K8a (old)",
+   "part": "OnDrive GPM4000-100 x 2",
+   "saved": 33.78,
+   "why": "a 10-pack of 4 x 100 mm 304 rods at $11.66 (index)"
+  }
+ ],
+ "totals": {
+  "dock_need": 186.46,
+  "dock_buy": 200.4,
+  "blockers": [
+   "K5"
+  ],
+  "duck_need": 83.76,
+  "duck_buy": 88.35,
+  "k5_standin": {
+   "unit": 1.23,
+   "need": 7.38,
+   "buy": 9.84,
+   "note": "the 0932's index price, not the 0933's"
+  },
+  "removed": 105.31
+ },
+ "check": "PASS",
+ "label": "prices read 2026-11-06 or by the sourcing research the same day (page or index); buy nothing; no shipping, tax or tariff"
+}

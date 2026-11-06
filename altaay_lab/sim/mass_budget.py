@@ -78,6 +78,13 @@ TAPE_DENS = src("vhb_density", 0.8, "UNVERIFIED: 3M VHB 4950 foam density about 
 HOUSING_G = src("housing", 0.15, "UNVERIFIED: Molex 50-37-5033 or 2.54 mm housing")
 TERMINAL_G = src("terminal", 0.05, "UNVERIFIED: Molex 08-70-1040 or 2.54 mm crimp terminal")
 BEC_LEADS_G = src("bec_out_leads", 4.6, "UNVERIFIED: CC BEC Pro output leads, length and gauge not published (netlist U1); 2 leads x 3 wires x 150 mm x 5.1 g/m (22 AWG silicone)")
+DOCKPAD_G = src("dock_pad", 15.6, "calc: BOM DK1 chest pad 100 x 76 x 0.8 mm FR4 at 1.85 g/cm3 (11.2 g) plus four 100 x 17.5 mm strips of 2 oz copper (70 um, 8.94 g/cm3: 4.4 g); not weighed")
+IDEAL_DIODE_G = src("ideal_diode", 0.2, "[L] BOM.md DK7: Pololu 5383 7.6 x 12.7 mm, 0.2 g (Pololu page); the 5382 (DK2, DK6) is taken the same (UNVERIFIED)")
+NTC_G = src("ntc", 0.5, "UNVERIFIED: Adafruit 372 10 k NTC with its leads, no weight on the page")
+MIC_G = src("mic_3421", 0.4, "[L] twin/companion/COMPANION.md: Adafruit 3421, 16.7 x 12.7 x 1.8 mm, 0.4 g each (product page)")
+MPR121_G = src("mpr121", 3.0, "BLOCKER: Adafruit 1982 MPR121 mass not published; twin/freeze/FREEZE.md section 6 takes about 6 g for the two")
+TOF_G = src("tof", 1.8, "[L] twin/freeze/FREEZE.md section 6: Adafruit 5396 VL53L4CD board 1.8 g")
+FOIL_G = src("copper_foil", 1.9, "[L] twin/freeze/FREEZE.md section 6: Adafruit 1127 copper foil pads PH1, PH2, PB1 with guard rings, about 1.9 g")
 SOLDER_HS_G = src("solder_heatshrink", 4.0, "UNVERIFIED: solder and heat shrink on about 60 joints outside the splices, about 0.07 g each")
 TIE_G = src("cable_ties", 1.0, "UNVERIFIED: a few small cable ties (USB slack coil, harness)")
 BEARING_STEEL = src("steel_density", 7.85, "[I] AZoM 304 stainless density 7.85 to 8.06 g/cm3 (https://www.azom.com/properties.aspx?ArticleID=965); 7.85 used for bearing steel")
@@ -409,6 +416,36 @@ def build_budget(holder_g=None, include_antennas=False):
         items.append(Item(f"VHB 4950 tape under {pid}", "lab_added", g, S["vhb_density"][1], "trunk_assembly", pl_box(pid, g), False))
     g = 0.0178 * 0.0203 * 1.1e-3 * TAPE_DENS * 1e6
     items.append(Item("VHB 4950 tape under the regulator", "lab_added", g, S["vhb_density"][1], "head_assembly", point_mass(g / 1000, reg_c), False))
+    # ---- duck-side dock parts (D43, D50) and the companion and freeze boards (D47, D51, D54) ----
+    # seats: audit/placements.json boxes, the touch pad centres of twin/freeze/touch_pads.json; zero-pose world = trunk frame
+    T_head_inv = np.linalg.inv(u.get_transform("head_assembly", "trunk_assembly"))
+    def at(link, p_world_mm):
+        p = np.array(p_world_mm, float) / 1000.0
+        return p if link == "trunk_assembly" else (T_head_inv @ np.r_[p, 1.0])[:3]
+    tp = json.load(open(os.path.join(LAB, "twin", "freeze", "touch_pads.json")))["pads"]
+    for nm, pid, g, key, lk in (("chest contact pad (BOM DK1)", "dock_pad", DOCKPAD_G, "dock_pad", "trunk_assembly"),
+                                ("Pololu 5382 ideal diode, charge input (BOM DK2)", "dock_dk2", IDEAL_DIODE_G, "ideal_diode", "trunk_assembly"),
+                                ("Pololu 5382 ideal diode, dock supply (BOM DK6)", "dock_dk6", IDEAL_DIODE_G, "ideal_diode", "trunk_assembly"),
+                                ("Pololu 5383 ideal diode, pack side (BOM DK7)", "dock_dk7", IDEAL_DIODE_G, "ideal_diode", "trunk_assembly"),
+                                ("Littelfuse FHAC0001ZXJ charge fuse holder (BOM DK3)", "dock_f2", FUSEHOLDER_G, "fuse_holder", "trunk_assembly"),
+                                ("ATO 5 A charge fuse (BOM DK4)", "dock_f2", FUSE_G, "ato_fuse", "trunk_assembly"),
+                                ("I2S mic board, left (Adafruit 3421, D47)", "mic_l", MIC_G, "mic_3421", "head_assembly"),
+                                ("I2S mic board, right (Adafruit 3421, D47)", "mic_r", MIC_G, "mic_3421", "head_assembly"),
+                                ("MPR121 touch board, head (D51)", "tch_h", MPR121_G, "mpr121", "head_assembly"),
+                                ("MPR121 touch board, body (D51)", "tch_b", MPR121_G, "mpr121", "trunk_assembly"),
+                                ("cliff ToF board (Adafruit 5396, D54)", "tof_cliff", TOF_G, "tof", "trunk_assembly")):
+        items.append(Item(nm, "lab_added", g, S[key][1] + PLSRC, lk, point_mass(g / 1000, at(lk, pl[pid]["center_mm"])), False))
+    rt1 = (-129.6, 0.0, 66.0)        # the NTC in the cell seat (twin/dock/dock_routes.json RT1)
+    items.append(Item("cell NTC 10 k on its lead (BOM DK5)", "lab_added", NTC_G, S["ntc"][1], "trunk_assembly", point_mass(NTC_G / 1000, at("trunk_assembly", rt1)), False))
+    items.append(Item("wake branch: zener, diode, 10 k; and the 100 k across DK2 (BOM DK5)", "lab_added", 4 * RES_G, S["resistor"][1], "trunk_assembly",
+                      point_mass(4 * RES_G / 1000, at("trunk_assembly", (-107.8, 24.0, 44.0))), False))
+    items.append(Item("dock splices JGD, JSN (GND and SENSE branches)", "lab_added", 2 * SPLICE_G, S["splice"][1], "trunk_assembly",
+                      point_mass(2 * SPLICE_G / 1000, at("trunk_assembly", (27.0, 0.0, 31.0))), False))
+    foil = [(k, v) for k, v in tp.items()]
+    for k, v in foil:
+        g = FOIL_G * v["pad_area_mm2"] / sum(w["pad_area_mm2"] for _, w in foil)
+        items.append(Item(f"copper foil touch pad {k} with its guard ring (D51)", "lab_added", g, S["copper_foil"][1], v["link"],
+                          point_mass(g / 1000, at(v["link"], v["centre_world"])), False))
     # ---- wires along their routes ----
     wire_items, usb_route_frac = wires(u, inst, servo_pos, pl, head_pt, pi_c_link, reg_c, amp_c, spk_c, cam_c)
     items += wire_items
@@ -493,6 +530,15 @@ def wires(u, inst, servo_pos, pl, head_pt, pi_c, reg_c, amp_c, spk_c, cam_c):
         pos[k] = (inst_c("foot_top.stl", foot), foot)
     for i, jn in JOINT_OF_ID.items():
         pos[f"SV{i}"] = (servo_c[jn][0], servo_c[jn][1])
+    # components added after this table (dock D43/D50, companion D47, freeze D51/D54): the centre of their cable ends in
+    # cables3d/cables3d.json (zero-pose world = trunk frame), so every wire of the netlist has both ends placed
+    ends = collections.defaultdict(list)
+    for e in json.load(open(os.path.join(LAB, "cables3d", "cables3d.json")))["cable_ends"]:
+        ends[e["id"].split(".")[0]].append(e)
+    for cid, es in ends.items():
+        if cid not in pos:
+            lk = es[0]["link"]; c = np.mean([x["p_world0"] for x in es], axis=0) / 1000.0
+            pos[cid] = (c, lk)
     out = []; usb_frac = None
     per_link = collections.defaultdict(lambda: [0.0, np.zeros(3)])   # aggregate per (link, gauge) for a short table
     for w in nl["wires"]:

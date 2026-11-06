@@ -1,146 +1,172 @@
 {
  "dock_seat_base": {
   "watertight": true,
-  "volume_cm3": 108.8,
+  "volume_cm3": 105.03,
   "extents_mm": [
    95.0,
    40.0,
-   96.0
+   98.0
   ],
   "fits_220": true,
-  "bytes": 38684
+  "bytes": 94484,
+  "printed": true,
+  "qty": 1
  },
  "dock_seat_top": {
   "watertight": true,
-  "volume_cm3": 37.9,
+  "volume_cm3": 46.82,
   "extents_mm": [
    95.0,
    40.0,
-   32.0
+   45.9
   ],
   "fits_220": true,
-  "bytes": 14484
+  "bytes": 28284,
+  "printed": true,
+  "qty": 1
  },
  "dock_pin_holder": {
   "watertight": true,
-  "volume_cm3": 7.4,
+  "volume_cm3": 7.45,
   "extents_mm": [
    26.2,
    37.2,
    7.8
   ],
   "fits_220": true,
-  "bytes": 33684
+  "bytes": 33684,
+  "printed": false,
+  "qty": 0
  },
  "dock_spine": {
   "watertight": true,
-  "volume_cm3": 161.2,
+  "volume_cm3": 166.22,
   "extents_mm": [
-   45.0,
+   85.0,
    40.0,
-   90.0
+   88.0
   ],
   "fits_220": true,
-  "bytes": 10684
+  "bytes": 57784,
+  "printed": true,
+  "qty": 1
  },
  "dock_base_l": {
   "watertight": true,
-  "volume_cm3": 163.2,
+  "volume_cm3": 159.17,
   "extents_mm": [
    160.0,
    140.0,
    10.0
   ],
   "fits_220": true,
-  "bytes": 27884
+  "bytes": 80484,
+  "printed": true,
+  "qty": 1
  },
  "dock_base_r": {
   "watertight": true,
-  "volume_cm3": 163.2,
+  "volume_cm3": 160.45,
   "extents_mm": [
    160.0,
    140.0,
    10.0
   ],
   "fits_220": true,
-  "bytes": 27884
+  "bytes": 79484,
+  "printed": true,
+  "qty": 1
  },
  "dock_column_l1": {
   "watertight": true,
-  "volume_cm3": 197.8,
+  "volume_cm3": 203.69,
   "extents_mm": [
    28.0,
    140.0,
-   150.0
+   148.0
   ],
   "fits_220": true,
-  "bytes": 11284
+  "bytes": 29284,
+  "printed": true,
+  "qty": 1
  },
  "dock_column_l2": {
   "watertight": true,
-  "volume_cm3": 197.6,
+  "volume_cm3": 206.08,
   "extents_mm": [
    28.0,
    140.0,
    150.0
   ],
   "fits_220": true,
-  "bytes": 26284
+  "bytes": 36284,
+  "printed": true,
+  "qty": 1
  },
  "dock_column_l3": {
   "watertight": true,
-  "volume_cm3": 197.8,
+  "volume_cm3": 206.65,
   "extents_mm": [
    28.0,
    140.0,
    150.0
   ],
   "fits_220": true,
-  "bytes": 11284
+  "bytes": 16284,
+  "printed": true,
+  "qty": 1
  },
  "dock_column_r1": {
   "watertight": true,
-  "volume_cm3": 197.8,
+  "volume_cm3": 272.31,
   "extents_mm": [
    28.0,
    140.0,
-   150.0
+   198.0
   ],
   "fits_220": true,
-  "bytes": 11284
+  "bytes": 49284,
+  "printed": true,
+  "qty": 1
  },
  "dock_column_r2": {
   "watertight": true,
-  "volume_cm3": 197.6,
+  "volume_cm3": 206.65,
   "extents_mm": [
    28.0,
    140.0,
    150.0
   ],
   "fits_220": true,
-  "bytes": 26284
+  "bytes": 16284,
+  "printed": true,
+  "qty": 1
  },
  "dock_column_r3": {
   "watertight": true,
-  "volume_cm3": 197.8,
+  "volume_cm3": 137.77,
   "extents_mm": [
    28.0,
    140.0,
-   150.0
+   100.0
   ],
   "fits_220": true,
-  "bytes": 11284
+  "bytes": 11284,
+  "printed": true,
+  "qty": 1
  },
  "dock_paddle": {
   "watertight": true,
-  "volume_cm3": 120.7,
+  "volume_cm3": 120.78,
   "extents_mm": [
    23.0,
    110.0,
    90.0
   ],
   "fits_220": true,
-  "bytes": 80284
+  "bytes": 61084,
+  "printed": true,
+  "qty": 1
  },
  "dock_paddle_carrier": {
   "watertight": true,
@@ -151,17 +177,73 @@
    104.0
   ],
   "fits_220": true,
-  "bytes": 33684
+  "bytes": 33684,
+  "printed": true,
+  "qty": 1
  },
  "dock_spring_cup": {
   "watertight": true,
-  "volume_cm3": 5.7,
+  "volume_cm3": 11.23,
   "extents_mm": [
-   58.0,
-   16.0,
-   30.0
+   69.0,
+   14.0,
+   44.0
   ],
   "fits_220": true,
-  "bytes": 27684
+  "bytes": 28084,
+  "printed": true,
+  "qty": 2
+ },
+ "dock_spring_carriage": {
+  "watertight": true,
+  "volume_cm3": 1.28,
+  "extents_mm": [
+   22.0,
+   8.0,
+   9.2
+  ],
+  "fits_220": true,
+  "bytes": 12684,
+  "printed": true,
+  "qty": 2
+ },
+ "dock_spring_drum": {
+  "watertight": true,
+  "volume_cm3": 0.2,
+  "extents_mm": [
+   9.0,
+   6.5,
+   9.0
+  ],
+  "fits_220": true,
+  "bytes": 19284,
+  "printed": true,
+  "qty": 2
+ },
+ "dock_bay_tray": {
+  "watertight": true,
+  "volume_cm3": 76.45,
+  "extents_mm": [
+   86.0,
+   201.0,
+   36.0
+  ],
+  "fits_220": true,
+  "bytes": 116784,
+  "printed": true,
+  "qty": 1
+ },
+ "dock_bay_lid": {
+  "watertight": true,
+  "volume_cm3": 33.26,
+  "extents_mm": [
+   85.0,
+   200.0,
+   2.0
+  ],
+  "fits_220": true,
+  "bytes": 33084,
+  "printed": true,
+  "qty": 1
  }
 }
