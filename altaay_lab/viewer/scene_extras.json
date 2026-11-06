@@ -1,39 +1,94 @@
 {
  "meta": {
-  "generated_utc": "2026-11-05 00:35 UTC",
+  "generated_utc": "2026-11-06 05:13 UTC",
   "script": "altaay_lab/blueprint/make_scene_extras.py",
   "frame": "URDF world at the zero pose, x forward, y left, z up, mm",
   "convention": "center_mm and axis (long axis, dims_mm[0] along it). dims_mm[1] and dims_mm[2] lie along x and y of rot_z_to(axis) as in make_viewer_data.py step 10e. rotation_3x3 columns are the world directions of the box width, height and length for dims_local_mm [length, width, height] (exact for every item). shape: cylinder or cone where the real part is round (draw a box if not supported). replaces_placeholder: the viewer placeholder box this item details (xt30, power_splice). render translucent: wrap or skin.",
   "sources": {
    "cables3d": "2026-11-02 04:50 UTC",
-   "netlist": "2026-11-02",
+   "netlist": "2026-11-06",
    "fasteners": "altaay_lab/fasteners/make_fasteners.py",
    "bom_full": "bom_full.csv",
    "placements": "audit/placements.json"
   },
   "bom_full_rows": "ids from bom_full.csv at generation time; ids shift when BOM_FULL is regenerated, so bom_full_item gives the row name to match on; empty = no BOM_FULL row",
   "summary": {
-   "items": 177,
+   "items": 174,
    "by_kind": {
     "connector": 54,
     "heat_shrink": 11,
-    "other": 85,
+    "other": 82,
     "splice": 13,
     "resistor": 5,
     "foam_pad": 6,
     "disc": 3
    },
-   "solder_joints": 64,
-   "washers": 16,
-   "cables": 48,
-   "cables_all_ends_drawn": 46,
-   "cable_ends": 250,
+   "solder_joints": 69,
+   "washers": 8,
+   "cables": 61,
+   "cables_all_ends_drawn": 45,
+   "cable_ends": 342,
    "lead_ends": 25,
-   "ends_with_body": 220,
+   "ends_with_body": 241,
    "no_bom_row": []
   },
   "notes": [
-   "no cables3d terminal for SW1.OFF: solder marker skipped"
+   "no cables3d terminal for DK2.GND: solder marker skipped",
+   "no cables3d terminal for DK2.VIN: solder marker skipped",
+   "no cables3d terminal for DK2.VOUT: solder marker skipped",
+   "no cables3d terminal for DK6.GND: solder marker skipped",
+   "no cables3d terminal for DK6.VIN: solder marker skipped",
+   "no cables3d terminal for DK6.VOUT: solder marker skipped",
+   "no cables3d terminal for DK7.GND: solder marker skipped",
+   "no cables3d terminal for DK7.VIN: solder marker skipped",
+   "no cables3d terminal for DK7.VOUT: solder marker skipped",
+   "no cables3d terminal for DKP.CHG: solder marker skipped",
+   "no cables3d terminal for DKP.GND: solder marker skipped",
+   "no cables3d terminal for DKP.SNS: solder marker skipped",
+   "no cables3d terminal for DKP.SYS: solder marker skipped",
+   "no cables3d terminal for F2.IN: solder marker skipped",
+   "no cables3d terminal for F2.OUT: solder marker skipped",
+   "no cables3d terminal for JGD.S: solder marker skipped",
+   "no cables3d terminal for JSN.S: solder marker skipped",
+   "no cables3d terminal for MICL.3V: solder marker skipped",
+   "no cables3d terminal for MICL.BCLK: solder marker skipped",
+   "no cables3d terminal for MICL.DOUT: solder marker skipped",
+   "no cables3d terminal for MICL.GND: solder marker skipped",
+   "no cables3d terminal for MICL.LRCL: solder marker skipped",
+   "no cables3d terminal for MICR.3V: solder marker skipped",
+   "no cables3d terminal for MICR.BCLK: solder marker skipped",
+   "no cables3d terminal for MICR.DOUT: solder marker skipped",
+   "no cables3d terminal for MICR.GND: solder marker skipped",
+   "no cables3d terminal for MICR.LRCL: solder marker skipped",
+   "no cables3d terminal for PB1.E: solder marker skipped",
+   "no cables3d terminal for PB1.G: solder marker skipped",
+   "no cables3d terminal for PH1.E: solder marker skipped",
+   "no cables3d terminal for PH1.G: solder marker skipped",
+   "no cables3d terminal for PH2.E: solder marker skipped",
+   "no cables3d terminal for PH2.G: solder marker skipped",
+   "no cables3d terminal for PI.36: solder marker skipped",
+   "no cables3d terminal for RT1.1: solder marker skipped",
+   "no cables3d terminal for RT1.2: solder marker skipped",
+   "no cables3d terminal for SW1.OFF: solder marker skipped",
+   "no cables3d terminal for SW1.ON: solder marker skipped",
+   "no cables3d terminal for TCHB.E0: solder marker skipped",
+   "no cables3d terminal for TCHB.GND: solder marker skipped",
+   "no cables3d terminal for TCHB.SCL: solder marker skipped",
+   "no cables3d terminal for TCHB.SDA: solder marker skipped",
+   "no cables3d terminal for TCHB.VIN: solder marker skipped",
+   "no cables3d terminal for TCHH.E0: solder marker skipped",
+   "no cables3d terminal for TCHH.E1: solder marker skipped",
+   "no cables3d terminal for TCHH.GND: solder marker skipped",
+   "no cables3d terminal for TCHH.SCL: solder marker skipped",
+   "no cables3d terminal for TCHH.SDA: solder marker skipped",
+   "no cables3d terminal for TCHH.VIN: solder marker skipped",
+   "no cables3d terminal for TOF.GND: solder marker skipped",
+   "no cables3d terminal for TOF.GPIO: solder marker skipped",
+   "no cables3d terminal for TOF.SCL: solder marker skipped",
+   "no cables3d terminal for TOF.SDA: solder marker skipped",
+   "no cables3d terminal for TOF.VIN: solder marker skipped",
+   "no cables3d terminal for WK1.A: solder marker skipped",
+   "no cables3d terminal for WK1.K: solder marker skipped"
   ]
  },
  "items": [
@@ -41,7 +96,7 @@
    "id": "plug-S10-SV13-BUS1",
    "kind": "connector",
    "label": "Kit cable S10 5264 plug at ID 13 BUS 1 (right_knee)",
-   "bom_full_row": "C44",
+   "bom_full_row": "C45",
    "bom_full_item": "S10: kit cable ID 13 to ID 14",
    "bom_line": "1",
    "link": "knee_and_ankle_assembly_3",
@@ -87,14 +142,14 @@
    "cable": "S10",
    "end_of": "SV13.BUS1",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S10-SV14-BUS2",
    "kind": "connector",
    "label": "Kit cable S10 5264 plug at ID 14 BUS 2 (right_ankle)",
-   "bom_full_row": "C44",
+   "bom_full_row": "C45",
    "bom_full_item": "S10: kit cable ID 13 to ID 14",
    "bom_line": "1",
    "link": "knee_and_ankle_assembly_4",
@@ -140,14 +195,14 @@
    "cable": "S10",
    "end_of": "SV14.BUS2",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S11-SV30-BUS1",
    "kind": "connector",
    "label": "Kit cable S11 5264 plug at ID 30 BUS 1 (neck_pitch)",
-   "bom_full_row": "C45",
+   "bom_full_row": "C46",
    "bom_full_item": "S11: kit cable ID 30 BUS 1 to ID 31 BUS 2",
    "bom_line": "1",
    "link": "trunk_assembly",
@@ -193,14 +248,14 @@
    "cable": "S11",
    "end_of": "SV30.BUS1",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S11-SV31-BUS2",
    "kind": "connector",
    "label": "Kit cable S11 5264 plug at ID 31 BUS 2 (head_pitch)",
-   "bom_full_row": "C45",
+   "bom_full_row": "C46",
    "bom_full_item": "S11: kit cable ID 30 BUS 1 to ID 31 BUS 2",
    "bom_line": "1",
    "link": "neck_pitch_assembly",
@@ -246,14 +301,14 @@
    "cable": "S11",
    "end_of": "SV31.BUS2",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S12-SV31-BUS1",
    "kind": "connector",
    "label": "Kit cable S12 5264 plug at ID 31 BUS 1 (head_pitch)",
-   "bom_full_row": "C46",
+   "bom_full_row": "C47",
    "bom_full_item": "S12: kit cable ID 31 to ID 32",
    "bom_line": "1",
    "link": "neck_pitch_assembly",
@@ -299,14 +354,14 @@
    "cable": "S12",
    "end_of": "SV31.BUS1",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S12-SV32-BUS2",
    "kind": "connector",
    "label": "Kit cable S12 5264 plug at ID 32 BUS 2 (head_yaw)",
-   "bom_full_row": "C46",
+   "bom_full_row": "C47",
    "bom_full_item": "S12: kit cable ID 31 to ID 32",
    "bom_line": "1",
    "link": "neck_yaw_assembly",
@@ -352,14 +407,14 @@
    "cable": "S12",
    "end_of": "SV32.BUS2",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S13-SV32-BUS1",
    "kind": "connector",
    "label": "Kit cable S13 5264 plug at ID 32 BUS 1 (head_yaw)",
-   "bom_full_row": "C47",
+   "bom_full_row": "C48",
    "bom_full_item": "S13: kit cable ID 32 to ID 33",
    "bom_line": "1",
    "link": "neck_yaw_assembly",
@@ -405,14 +460,14 @@
    "cable": "S13",
    "end_of": "SV32.BUS1",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S13-SV33-BUS2",
    "kind": "connector",
    "label": "Kit cable S13 5264 plug at ID 33 BUS 2 (head_roll)",
-   "bom_full_row": "C47",
+   "bom_full_row": "C48",
    "bom_full_item": "S13: kit cable ID 32 to ID 33",
    "bom_line": "1",
    "link": "head_assembly",
@@ -458,14 +513,14 @@
    "cable": "S13",
    "end_of": "SV33.BUS2",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S2-SV20-BUS1",
    "kind": "connector",
    "label": "Kit cable S2 5264 plug at ID 20 BUS 1 (left_hip_yaw)",
-   "bom_full_row": "C37",
+   "bom_full_row": "C38",
    "bom_full_item": "S2: kit cable ID 20 BUS 1 to ID 21 BUS 2",
    "bom_line": "1",
    "link": "trunk_assembly",
@@ -511,14 +566,14 @@
    "cable": "S2",
    "end_of": "SV20.BUS1",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S2-SV21-BUS2",
    "kind": "connector",
    "label": "Kit cable S2 5264 plug at ID 21 BUS 2 (left_hip_roll)",
-   "bom_full_row": "C37",
+   "bom_full_row": "C38",
    "bom_full_item": "S2: kit cable ID 20 BUS 1 to ID 21 BUS 2",
    "bom_line": "1",
    "link": "hip_roll_assembly",
@@ -564,14 +619,14 @@
    "cable": "S2",
    "end_of": "SV21.BUS2",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S3-SV21-BUS1",
    "kind": "connector",
    "label": "Kit cable S3 5264 plug at ID 21 BUS 1 (left_hip_roll)",
-   "bom_full_row": "C38",
+   "bom_full_row": "C39",
    "bom_full_item": "S3: kit cable ID 21 to ID 22",
    "bom_line": "1",
    "link": "hip_roll_assembly",
@@ -617,14 +672,14 @@
    "cable": "S3",
    "end_of": "SV21.BUS1",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S3-SV22-BUS2",
    "kind": "connector",
    "label": "Kit cable S3 5264 plug at ID 22 BUS 2 (left_hip_pitch)",
-   "bom_full_row": "C38",
+   "bom_full_row": "C39",
    "bom_full_item": "S3: kit cable ID 21 to ID 22",
    "bom_line": "1",
    "link": "left_roll_to_pitch_assembly",
@@ -670,14 +725,14 @@
    "cable": "S3",
    "end_of": "SV22.BUS2",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S4-SV22-BUS1",
    "kind": "connector",
    "label": "Kit cable S4 5264 plug at ID 22 BUS 1 (left_hip_pitch)",
-   "bom_full_row": "C39",
+   "bom_full_row": "C40",
    "bom_full_item": "S4: kit cable ID 22 to ID 23",
    "bom_line": "1",
    "link": "left_roll_to_pitch_assembly",
@@ -723,14 +778,14 @@
    "cable": "S4",
    "end_of": "SV22.BUS1",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S4-SV23-BUS2",
    "kind": "connector",
    "label": "Kit cable S4 5264 plug at ID 23 BUS 2 (left_knee)",
-   "bom_full_row": "C39",
+   "bom_full_row": "C40",
    "bom_full_item": "S4: kit cable ID 22 to ID 23",
    "bom_line": "1",
    "link": "knee_and_ankle_assembly",
@@ -776,14 +831,14 @@
    "cable": "S4",
    "end_of": "SV23.BUS2",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S5-SV23-BUS1",
    "kind": "connector",
    "label": "Kit cable S5 5264 plug at ID 23 BUS 1 (left_knee)",
-   "bom_full_row": "C40",
+   "bom_full_row": "C41",
    "bom_full_item": "S5: kit cable ID 23 BUS 1 to ID 24 BUS 2",
    "bom_line": "1",
    "link": "knee_and_ankle_assembly",
@@ -829,14 +884,14 @@
    "cable": "S5",
    "end_of": "SV23.BUS1",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S5-SV24-BUS2",
    "kind": "connector",
    "label": "Kit cable S5 5264 plug at ID 24 BUS 2 (left_ankle)",
-   "bom_full_row": "C40",
+   "bom_full_row": "C41",
    "bom_full_item": "S5: kit cable ID 23 BUS 1 to ID 24 BUS 2",
    "bom_line": "1",
    "link": "knee_and_ankle_assembly_2",
@@ -882,14 +937,14 @@
    "cable": "S5",
    "end_of": "SV24.BUS2",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S7-SV10-BUS1",
    "kind": "connector",
    "label": "Kit cable S7 5264 plug at ID 10 BUS 1 (right_hip_yaw)",
-   "bom_full_row": "C41",
+   "bom_full_row": "C42",
    "bom_full_item": "S7: kit cable ID 10 to ID 11",
    "bom_line": "1",
    "link": "trunk_assembly",
@@ -935,14 +990,14 @@
    "cable": "S7",
    "end_of": "SV10.BUS1",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S7-SV11-BUS2",
    "kind": "connector",
    "label": "Kit cable S7 5264 plug at ID 11 BUS 2 (right_hip_roll)",
-   "bom_full_row": "C41",
+   "bom_full_row": "C42",
    "bom_full_item": "S7: kit cable ID 10 to ID 11",
    "bom_line": "1",
    "link": "hip_roll_assembly_2",
@@ -988,14 +1043,14 @@
    "cable": "S7",
    "end_of": "SV11.BUS2",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S8-SV11-BUS1",
    "kind": "connector",
    "label": "Kit cable S8 5264 plug at ID 11 BUS 1 (right_hip_roll)",
-   "bom_full_row": "C42",
+   "bom_full_row": "C43",
    "bom_full_item": "S8: kit cable ID 11 to ID 12",
    "bom_line": "1",
    "link": "hip_roll_assembly_2",
@@ -1041,14 +1096,14 @@
    "cable": "S8",
    "end_of": "SV11.BUS1",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S8-SV12-BUS2",
    "kind": "connector",
    "label": "Kit cable S8 5264 plug at ID 12 BUS 2 (right_hip_pitch)",
-   "bom_full_row": "C42",
+   "bom_full_row": "C43",
    "bom_full_item": "S8: kit cable ID 11 to ID 12",
    "bom_line": "1",
    "link": "right_roll_to_pitch_assembly",
@@ -1094,14 +1149,14 @@
    "cable": "S8",
    "end_of": "SV12.BUS2",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S9-SV12-BUS1",
    "kind": "connector",
    "label": "Kit cable S9 5264 plug at ID 12 BUS 1 (right_hip_pitch)",
-   "bom_full_row": "C43",
+   "bom_full_row": "C44",
    "bom_full_item": "S9: kit cable ID 12 to ID 13",
    "bom_line": "1",
    "link": "right_roll_to_pitch_assembly",
@@ -1147,14 +1202,14 @@
    "cable": "S9",
    "end_of": "SV12.BUS1",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "plug-S9-SV13-BUS2",
    "kind": "connector",
    "label": "Kit cable S9 5264 plug at ID 13 BUS 2 (right_knee)",
-   "bom_full_row": "C43",
+   "bom_full_row": "C44",
    "bom_full_item": "S9: kit cable ID 12 to ID 13",
    "bom_line": "1",
    "link": "knee_and_ankle_assembly_3",
@@ -1200,14 +1255,14 @@
    "cable": "S9",
    "end_of": "SV13.BUS2",
    "bom_full_rows_also": [
-    "C48"
+    "C55"
    ]
   },
   {
    "id": "msx-SV10-BUS2",
    "kind": "connector",
    "label": "Mini-SPOX housing 50-37-5033 at ID 10 BUS 2 (right_hip_yaw): SP2 V, SP2 G, SD2 D",
-   "bom_full_row": "C49",
+   "bom_full_row": "C56",
    "bom_full_item": "Mini-SPOX housing, Molex 50-37-5033",
    "bom_line": "21",
    "link": "trunk_assembly",
@@ -1260,7 +1315,7 @@
    "id": "crimp-SV10-BUS2-V",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 10 BUS 2 pin V (SP2 SERVO_7V2)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -1309,7 +1364,7 @@
    "id": "crimp-SV10-BUS2-G",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 10 BUS 2 pin G (SP2 GND)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -1358,7 +1413,7 @@
    "id": "crimp-SV10-BUS2-D",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 10 BUS 2 pin D (SD2 BUS_DATA)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -1407,7 +1462,7 @@
    "id": "msx-SV14-BUS1",
    "kind": "connector",
    "label": "Mini-SPOX housing 50-37-5033 at ID 14 BUS 1 (right_ankle): SP5 V, SP5 G",
-   "bom_full_row": "C49",
+   "bom_full_row": "C56",
    "bom_full_item": "Mini-SPOX housing, Molex 50-37-5033",
    "bom_line": "21",
    "link": "knee_and_ankle_assembly_4",
@@ -1459,7 +1514,7 @@
    "id": "crimp-SV14-BUS1-V",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 14 BUS 1 pin V (SP5 SERVO_7V2)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "knee_and_ankle_assembly_4",
@@ -1508,7 +1563,7 @@
    "id": "crimp-SV14-BUS1-G",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 14 BUS 1 pin G (SP5 GND)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "knee_and_ankle_assembly_4",
@@ -1557,7 +1612,7 @@
    "id": "msx-SV20-BUS2",
    "kind": "connector",
    "label": "Mini-SPOX housing 50-37-5033 at ID 20 BUS 2 (left_hip_yaw): SP1 V, SP1 G, SD1 D",
-   "bom_full_row": "C49",
+   "bom_full_row": "C56",
    "bom_full_item": "Mini-SPOX housing, Molex 50-37-5033",
    "bom_line": "21",
    "link": "trunk_assembly",
@@ -1610,7 +1665,7 @@
    "id": "crimp-SV20-BUS2-V",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 20 BUS 2 pin V (SP1 SERVO_7V2)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -1659,7 +1714,7 @@
    "id": "crimp-SV20-BUS2-G",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 20 BUS 2 pin G (SP1 GND)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -1708,7 +1763,7 @@
    "id": "crimp-SV20-BUS2-D",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 20 BUS 2 pin D (SD1 BUS_DATA)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -1757,7 +1812,7 @@
    "id": "msx-SV24-BUS1",
    "kind": "connector",
    "label": "Mini-SPOX housing 50-37-5033 at ID 24 BUS 1 (left_ankle): SP4 V, SP4 G",
-   "bom_full_row": "C49",
+   "bom_full_row": "C56",
    "bom_full_item": "Mini-SPOX housing, Molex 50-37-5033",
    "bom_line": "21",
    "link": "knee_and_ankle_assembly_2",
@@ -1809,7 +1864,7 @@
    "id": "crimp-SV24-BUS1-V",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 24 BUS 1 pin V (SP4 SERVO_7V2)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "knee_and_ankle_assembly_2",
@@ -1858,7 +1913,7 @@
    "id": "crimp-SV24-BUS1-G",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 24 BUS 1 pin G (SP4 GND)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "knee_and_ankle_assembly_2",
@@ -1907,7 +1962,7 @@
    "id": "msx-SV30-BUS2",
    "kind": "connector",
    "label": "Mini-SPOX housing 50-37-5033 at ID 30 BUS 2 (neck_pitch): SP3 V, SP3 G, SD1 D",
-   "bom_full_row": "C49",
+   "bom_full_row": "C56",
    "bom_full_item": "Mini-SPOX housing, Molex 50-37-5033",
    "bom_line": "21",
    "link": "trunk_assembly",
@@ -1960,7 +2015,7 @@
    "id": "crimp-SV30-BUS2-V",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 30 BUS 2 pin V (SP3 SERVO_7V2)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -2009,7 +2064,7 @@
    "id": "crimp-SV30-BUS2-G",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 30 BUS 2 pin G (SP3 GND)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -2058,7 +2113,7 @@
    "id": "crimp-SV30-BUS2-D",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, ID 30 BUS 2 pin D (SD1 BUS_DATA)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -2107,7 +2162,7 @@
    "id": "msx-U2-H3",
    "kind": "connector",
    "label": "Mini-SPOX housing 50-37-5033 at adapter H3, D and G only (V empty): SD1",
-   "bom_full_row": "C49",
+   "bom_full_row": "C56",
    "bom_full_item": "Mini-SPOX housing, Molex 50-37-5033",
    "bom_line": "21",
    "link": "trunk_assembly",
@@ -2159,7 +2214,7 @@
    "id": "crimp-U2-H3-D",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, adapter H3 pin D (SD1 BUS_DATA)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -2208,7 +2263,7 @@
    "id": "crimp-U2-H3-G",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, adapter H3 pin G (SD1 GND)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -2257,7 +2312,7 @@
    "id": "msx-U2-H5",
    "kind": "connector",
    "label": "Mini-SPOX housing 50-37-5033 at adapter H5, D and G only (V empty): SD2",
-   "bom_full_row": "C49",
+   "bom_full_row": "C56",
    "bom_full_item": "Mini-SPOX housing, Molex 50-37-5033",
    "bom_line": "21",
    "link": "trunk_assembly",
@@ -2309,7 +2364,7 @@
    "id": "crimp-U2-H5-D",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, adapter H5 pin D (SD2 BUS_DATA)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -2358,7 +2413,7 @@
    "id": "crimp-U2-H5-G",
    "kind": "connector",
    "label": "Crimp terminal 08-70-1040, adapter H5 pin G (SD2 GND)",
-   "bom_full_row": "C50",
+   "bom_full_row": "C57",
    "bom_full_item": "Mini-SPOX crimp terminal, Molex 08-70-1040",
    "bom_line": "22",
    "link": "trunk_assembly",
@@ -2507,7 +2562,7 @@
    "id": "hs-XT30-Fp",
    "kind": "heat_shrink",
    "label": "Heat shrink over the XT30U solder cup XT30.F+ (P6)",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -2556,7 +2611,7 @@
    "id": "hs-XT30-Fn",
    "kind": "heat_shrink",
    "label": "Heat shrink over the XT30U solder cup XT30.F- (P8)",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -2605,7 +2660,7 @@
    "id": "hs-XT30-Mp",
    "kind": "heat_shrink",
    "label": "Heat shrink over the XT30U solder cup XT30.M+ (P7)",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -2654,7 +2709,7 @@
    "id": "hs-XT30-Mn",
    "kind": "heat_shrink",
    "label": "Heat shrink over the XT30U solder cup XT30.M- (P14)",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -3205,6 +3260,58 @@
    "end_kind": "solder"
   },
   {
+   "id": "sj-AMP-SD",
+   "kind": "other",
+   "label": "Solder joint AMP.SD (D10)",
+   "bom_full_row": "K01",
+   "bom_full_item": "Solder wire, rosin core",
+   "bom_line": "30",
+   "link": "head_assembly",
+   "center_mm": [
+    52.5,
+    -65.46,
+    180.6
+   ],
+   "axis": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "dims_mm": [
+    3.0,
+    1.8,
+    1.8
+   ],
+   "color": "#b9bdc2",
+   "source": "altaay_lab/cables3d/cables3d.json cable_ends (wire exit point and direction of the terminal); pad offset [I] netlist AMP group note: printed LRC BCLK DIN GAIN SD GND Vin, order on the board not checked; solder joint marker 3.0 x 1.8 x 1.8 mm (drawing convention, not a part size)",
+   "dims_local_mm": [
+    3.0,
+    1.8,
+    1.8
+   ],
+   "rotation_3x3": [
+    [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     -1.0,
+     0.0
+    ]
+   ],
+   "cables": [
+    "D10"
+   ],
+   "end_kind": "solder"
+  },
+  {
    "id": "sj-AMP-VIN",
    "kind": "other",
    "label": "Solder joint AMP.VIN (D10)",
@@ -3415,7 +3522,7 @@
   {
    "id": "sj-BMS-Pp",
    "kind": "other",
-   "label": "Solder joint BMS.P+ (P4, P6)",
+   "label": "Solder joint BMS.P+ (DC1, P4, P6)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -3460,15 +3567,16 @@
     ]
    ],
    "cables": [
+    "DC1",
     "P4",
     "P6"
    ],
-   "end_kind": "solder pad"
+   "end_kind": "solder, solder pad"
   },
   {
    "id": "sj-BMS-P-",
    "kind": "other",
-   "label": "Solder joint BMS.P- (P5, P8)",
+   "label": "Solder joint BMS.P- (DC2, DC3, P5, P8)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -3513,15 +3621,17 @@
     ]
    ],
    "cables": [
+    "DC2",
+    "DC3",
     "P5",
     "P8"
    ],
-   "end_kind": "solder pad"
+   "end_kind": "solder, solder pad"
   },
   {
    "id": "sj-BNO-GND",
    "kind": "other",
-   "label": "Solder joint BNO.GND (D2)",
+   "label": "Solder joint BNO.GND (D19, D2)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -3566,6 +3676,7 @@
     ]
    ],
    "cables": [
+    "D19",
     "D2"
    ],
    "end_kind": "solder"
@@ -3573,7 +3684,7 @@
   {
    "id": "sj-BNO-SCL",
    "kind": "other",
-   "label": "Solder joint BNO.SCL (D2)",
+   "label": "Solder joint BNO.SCL (D19, D2)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -3618,6 +3729,7 @@
     ]
    ],
    "cables": [
+    "D19",
     "D2"
    ],
    "end_kind": "solder"
@@ -3625,7 +3737,7 @@
   {
    "id": "sj-BNO-SDA",
    "kind": "other",
-   "label": "Solder joint BNO.SDA (D2)",
+   "label": "Solder joint BNO.SDA (D19, D2)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -3670,6 +3782,7 @@
     ]
    ],
    "cables": [
+    "D19",
     "D2"
    ],
    "end_kind": "solder"
@@ -3677,7 +3790,7 @@
   {
    "id": "sj-BNO-VIN",
    "kind": "other",
-   "label": "Solder joint BNO.VIN (D2)",
+   "label": "Solder joint BNO.VIN (D19, D2)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -3722,6 +3835,7 @@
     ]
    ],
    "cables": [
+    "D19",
     "D2"
    ],
    "end_kind": "solder"
@@ -4561,7 +4675,7 @@
   {
    "id": "sj-PI-1",
    "kind": "other",
-   "label": "Solder joint PI.1 (D2)",
+   "label": "Solder joint PI.1 (D16, D2)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -4606,14 +4720,67 @@
     ]
    ],
    "cables": [
+    "D16",
     "D2"
+   ],
+   "end_kind": "solder to header pin"
+  },
+  {
+   "id": "sj-PI-11",
+   "kind": "other",
+   "label": "Solder joint PI.11 (D22)",
+   "bom_full_row": "K01",
+   "bom_full_item": "Solder wire, rosin core",
+   "bom_line": "30",
+   "link": "head_assembly",
+   "center_mm": [
+    47.43,
+    58.33,
+    217.5
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "dims_mm": [
+    3.0,
+    1.8,
+    1.8
+   ],
+   "color": "#b9bdc2",
+   "source": "altaay_lab/cables3d/cables3d.json cable_ends (wire exit point and direction of the terminal); on the header pin, 1.5 mm from its tip; solder joint marker 3.0 x 1.8 x 1.8 mm (drawing convention, not a part size)",
+   "dims_local_mm": [
+    3.0,
+    1.8,
+    1.8
+   ],
+   "rotation_3x3": [
+    [
+     -1.0,
+     -0.0,
+     0.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   ],
+   "cables": [
+    "D22"
    ],
    "end_kind": "solder to header pin"
   },
   {
    "id": "sj-PI-12",
    "kind": "other",
-   "label": "Solder joint PI.12 (D10)",
+   "label": "Solder joint PI.12 (D10, D14)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -4658,7 +4825,8 @@
     ]
    ],
    "cables": [
-    "D10"
+    "D10",
+    "D14"
    ],
    "end_kind": "solder to header pin"
   },
@@ -4873,7 +5041,7 @@
   {
    "id": "sj-PI-17",
    "kind": "other",
-   "label": "Solder joint PI.17 (D3, D4)",
+   "label": "Solder joint PI.17 (D14, D3, D4)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -4918,10 +5086,11 @@
     ]
    ],
    "cables": [
+    "D14",
     "D3",
     "D4"
    ],
-   "end_kind": "header pin"
+   "end_kind": "header pin, solder to header pin"
   },
   {
    "id": "sj-PI-18",
@@ -5134,9 +5303,61 @@
    "end_kind": "solder to header pin"
   },
   {
+   "id": "sj-PI-25",
+   "kind": "other",
+   "label": "Solder joint PI.25 (D16)",
+   "bom_full_row": "K01",
+   "bom_full_item": "Solder wire, rosin core",
+   "bom_line": "30",
+   "link": "head_assembly",
+   "center_mm": [
+    29.65,
+    58.33,
+    217.5
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "dims_mm": [
+    3.0,
+    1.8,
+    1.8
+   ],
+   "color": "#b9bdc2",
+   "source": "altaay_lab/cables3d/cables3d.json cable_ends (wire exit point and direction of the terminal); on the header pin, 1.5 mm from its tip; solder joint marker 3.0 x 1.8 x 1.8 mm (drawing convention, not a part size)",
+   "dims_local_mm": [
+    3.0,
+    1.8,
+    1.8
+   ],
+   "rotation_3x3": [
+    [
+     -1.0,
+     -0.0,
+     0.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   ],
+   "cables": [
+    "D16"
+   ],
+   "end_kind": "solder to header pin"
+  },
+  {
    "id": "sj-PI-3",
    "kind": "other",
-   "label": "Solder joint PI.3 (D2)",
+   "label": "Solder joint PI.3 (D16, D2)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -5181,6 +5402,7 @@
     ]
    ],
    "cables": [
+    "D16",
     "D2"
    ],
    "end_kind": "solder to header pin"
@@ -5292,7 +5514,7 @@
   {
    "id": "sj-PI-35",
    "kind": "other",
-   "label": "Solder joint PI.35 (D10)",
+   "label": "Solder joint PI.35 (D10, D14)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -5337,7 +5559,112 @@
     ]
    ],
    "cables": [
-    "D10"
+    "D10",
+    "D14"
+   ],
+   "end_kind": "solder to header pin"
+  },
+  {
+   "id": "sj-PI-38",
+   "kind": "other",
+   "label": "Solder joint PI.38 (D14)",
+   "bom_full_row": "K01",
+   "bom_full_item": "Solder wire, rosin core",
+   "bom_line": "30",
+   "link": "head_assembly",
+   "center_mm": [
+    14.41,
+    60.87,
+    217.5
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "dims_mm": [
+    3.0,
+    1.8,
+    1.8
+   ],
+   "color": "#b9bdc2",
+   "source": "altaay_lab/cables3d/cables3d.json cable_ends (wire exit point and direction of the terminal); on the header pin, 1.5 mm from its tip; solder joint marker 3.0 x 1.8 x 1.8 mm (drawing convention, not a part size)",
+   "dims_local_mm": [
+    3.0,
+    1.8,
+    1.8
+   ],
+   "rotation_3x3": [
+    [
+     -1.0,
+     -0.0,
+     0.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   ],
+   "cables": [
+    "D14"
+   ],
+   "end_kind": "solder to header pin"
+  },
+  {
+   "id": "sj-PI-39",
+   "kind": "other",
+   "label": "Solder joint PI.39 (D14)",
+   "bom_full_row": "K01",
+   "bom_full_item": "Solder wire, rosin core",
+   "bom_line": "30",
+   "link": "head_assembly",
+   "center_mm": [
+    11.87,
+    58.33,
+    217.5
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "dims_mm": [
+    3.0,
+    1.8,
+    1.8
+   ],
+   "color": "#b9bdc2",
+   "source": "altaay_lab/cables3d/cables3d.json cable_ends (wire exit point and direction of the terminal); on the header pin, 1.5 mm from its tip; solder joint marker 3.0 x 1.8 x 1.8 mm (drawing convention, not a part size)",
+   "dims_local_mm": [
+    3.0,
+    1.8,
+    1.8
+   ],
+   "rotation_3x3": [
+    [
+     -1.0,
+     -0.0,
+     0.0
+    ],
+    [
+     -0.0,
+     1.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   ],
+   "cables": [
+    "D14"
    ],
    "end_kind": "solder to header pin"
   },
@@ -5448,7 +5775,7 @@
   {
    "id": "sj-PI-5",
    "kind": "other",
-   "label": "Solder joint PI.5 (D2)",
+   "label": "Solder joint PI.5 (D16, D2)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -5493,6 +5820,7 @@
     ]
    ],
    "cables": [
+    "D16",
     "D2"
    ],
    "end_kind": "solder to header pin"
@@ -5866,7 +6194,7 @@
   {
    "id": "sj-SW1-GND",
    "kind": "other",
-   "label": "Solder joint SW1.GND (P16)",
+   "label": "Solder joint SW1.GND (DC4, P16)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -5911,9 +6239,10 @@
     ]
    ],
    "cables": [
+    "DC4",
     "P16"
    ],
-   "end_kind": "solder in large hole"
+   "end_kind": "solder, solder in large hole"
   },
   {
    "id": "sj-SW1-GND_SW",
@@ -6022,7 +6351,7 @@
   {
    "id": "sj-SW1-VIN",
    "kind": "other",
-   "label": "Solder joint SW1.VIN (P7)",
+   "label": "Solder joint SW1.VIN (DC4)",
    "bom_full_row": "K01",
    "bom_full_item": "Solder wire, rosin core",
    "bom_line": "30",
@@ -6067,9 +6396,9 @@
     ]
    ],
    "cables": [
-    "P7"
+    "DC4"
    ],
-   "end_kind": "solder in large hole"
+   "end_kind": "solder"
   },
   {
    "id": "sj-SW1-VOUT",
@@ -6335,7 +6664,7 @@
    "id": "splice-VSW",
    "kind": "splice",
    "label": "Splice VSW (P10, P13, P9), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -6389,7 +6718,7 @@
    "id": "splice-G",
    "kind": "splice",
    "label": "Splice G (P10, P13, P14, P16), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -6444,7 +6773,7 @@
    "id": "splice-J5",
    "kind": "splice",
    "label": "Splice J5 (D10, D8, D9, P17), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "head_assembly",
@@ -6499,7 +6828,7 @@
    "id": "splice-JG",
    "kind": "splice",
    "label": "Splice JG (D10, D8, D9, P17), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "head_assembly",
@@ -6554,7 +6883,7 @@
    "id": "splice-JG20",
    "kind": "splice",
    "label": "Splice JG20 (SD1, SP1), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -6607,7 +6936,7 @@
    "id": "splice-JG10",
    "kind": "splice",
    "label": "Splice JG10 (SD2, SP2), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -6660,7 +6989,7 @@
    "id": "splice-JG30",
    "kind": "splice",
    "label": "Splice JG30 (SD1, SP3), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -6713,7 +7042,7 @@
    "id": "splice-JBP",
    "kind": "splice",
    "label": "Splice JBP (P11), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -6765,7 +7094,7 @@
    "id": "splice-JBN",
    "kind": "splice",
    "label": "Splice JBN (P11), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -6817,7 +7146,7 @@
    "id": "splice-SPV",
    "kind": "splice",
    "label": "Splice SPV (P11, SP1, SP2, SP3, SP4, SP5), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -6875,7 +7204,7 @@
    "id": "splice-SPG",
    "kind": "splice",
    "label": "Splice SPG (P11, SP1, SP2, SP3, SP4, SP5), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -6933,7 +7262,7 @@
    "id": "splice-YD3",
    "kind": "splice",
    "label": "Splice YD3 (SD1), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -6985,7 +7314,7 @@
    "id": "splice-YG3",
    "kind": "splice",
    "label": "Splice YG3 (SD1), solder in adhesive heat shrink",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -7086,7 +7415,7 @@
    "id": "hs-R1-LED",
    "kind": "heat_shrink",
    "label": "Heat shrink over the R1 lead to left eye LED anode joint (D5)",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "head_assembly",
@@ -7184,7 +7513,7 @@
    "id": "hs-R2-LED",
    "kind": "heat_shrink",
    "label": "Heat shrink over the R2 lead to right eye LED anode joint (D6)",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "head_assembly",
@@ -7282,7 +7611,7 @@
    "id": "hs-R3-LED",
    "kind": "heat_shrink",
    "label": "Heat shrink over the R3 lead to projector LED anode joint (D7)",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "head_assembly",
@@ -7429,7 +7758,7 @@
    "id": "hs-P10-BEC-INp",
    "kind": "heat_shrink",
    "label": "Heat shrink over the P10 to BEC input lead + joint",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -7478,7 +7807,7 @@
    "id": "hs-P10-BEC-INn",
    "kind": "heat_shrink",
    "label": "Heat shrink over the P10 to BEC input lead - joint",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -7527,7 +7856,7 @@
    "id": "hs-U1-OUT1S",
    "kind": "heat_shrink",
    "label": "Insulation cap on the cut third wire of BEC output lead 1",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -7576,7 +7905,7 @@
    "id": "hs-U1-OUT2S",
    "kind": "heat_shrink",
    "label": "Insulation cap on the cut third wire of BEC output lead 2",
-   "bom_full_row": "C51",
+   "bom_full_row": "C58",
    "bom_full_item": "Heat shrink pieces (splices and solder joints)",
    "bom_line": "26",
    "link": "trunk_assembly",
@@ -7625,7 +7954,7 @@
    "id": "foam-bec_pro",
    "kind": "foam_pad",
    "label": "Foam tape pad under bec pro",
-   "bom_full_row": "K12",
+   "bom_full_row": "K15",
    "bom_full_item": "Foam mounting tape",
    "bom_line": "29",
    "link": "trunk_assembly",
@@ -7678,7 +8007,7 @@
    "id": "foam-fuse_holder",
    "kind": "foam_pad",
    "label": "Foam tape pad under fuse holder",
-   "bom_full_row": "K12",
+   "bom_full_row": "K15",
    "bom_full_item": "Foam mounting tape",
    "bom_line": "29",
    "link": "trunk_assembly",
@@ -7731,7 +8060,7 @@
    "id": "foam-mosfet_switch",
    "kind": "foam_pad",
    "label": "Foam tape pad under mosfet switch",
-   "bom_full_row": "K12",
+   "bom_full_row": "K15",
    "bom_full_item": "Foam mounting tape",
    "bom_line": "29",
    "link": "trunk_assembly",
@@ -7784,7 +8113,7 @@
    "id": "foam-usb_slack",
    "kind": "foam_pad",
    "label": "Foam tape pad under usb slack",
-   "bom_full_row": "K12",
+   "bom_full_row": "K15",
    "bom_full_item": "Foam mounting tape",
    "bom_line": "29",
    "link": "trunk_assembly",
@@ -7837,7 +8166,7 @@
    "id": "foam-reg_5v",
    "kind": "foam_pad",
    "label": "Foam tape pad under reg 5v",
-   "bom_full_row": "K12",
+   "bom_full_row": "K15",
    "bom_full_item": "Foam mounting tape",
    "bom_line": "29",
    "link": "head_assembly",
@@ -7890,7 +8219,7 @@
    "id": "foam-amp",
    "kind": "foam_pad",
    "label": "Foam tape pad under amp",
-   "bom_full_row": "K12",
+   "bom_full_row": "K15",
    "bom_full_item": "Foam mounting tape",
    "bom_line": "29",
    "link": "head_assembly",
@@ -7943,7 +8272,7 @@
    "id": "glass-left",
    "kind": "disc",
    "label": "Eye glass disc, left eye (29.6 x 1.85 mm)",
-   "bom_full_row": "E23",
+   "bom_full_row": "E30",
    "bom_full_item": "Eye glass disc, 29.6 x 1.85 mm",
    "bom_line": "E4",
    "link": "head_assembly",
@@ -7992,7 +8321,7 @@
    "id": "glass-right",
    "kind": "disc",
    "label": "Eye glass disc, right eye (29.6 x 1.85 mm)",
-   "bom_full_row": "E23",
+   "bom_full_row": "E30",
    "bom_full_item": "Eye glass disc, 29.6 x 1.85 mm",
    "bom_line": "E4",
    "link": "head_assembly",
@@ -8041,7 +8370,7 @@
    "id": "reflector",
    "kind": "disc",
    "label": "Projector reflector, Aurorad S5 (20 mm x 15 mm envelope)",
-   "bom_full_row": "E24",
+   "bom_full_row": "E31",
    "bom_full_item": "Projector reflector, Aurorad S5 20 x 15 mm",
    "bom_line": "E5",
    "link": "head_assembly",
@@ -8186,7 +8515,7 @@
    "id": "washer-F176-1",
    "kind": "other",
    "label": "M2.5 washer 0.3 mm, 1 of 2 under F176 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F20",
+   "bom_full_row": "F21",
    "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
@@ -8236,7 +8565,7 @@
    "id": "washer-F176-2",
    "kind": "other",
    "label": "M2.5 washer 0.3 mm, 2 of 2 under F176 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F20",
+   "bom_full_row": "F21",
    "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
@@ -8283,210 +8612,10 @@
    "fastener": "F176"
   },
   {
-   "id": "washer-F177-1",
-   "kind": "other",
-   "label": "M2.5 washer 0.3 mm, 1 of 2 under F177 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F20",
-   "bom_full_item": "M2.5 flat washer, small series",
-   "bom_line": "17l",
-   "link": "head_assembly",
-   "center_mm": [
-    95.85,
-    -27.4,
-    216.7
-   ],
-   "axis": [
-    1.0,
-    0.0,
-    0.0
-   ],
-   "dims_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "color": "#c0c6cc",
-   "source": "fasteners.json F177 seat_world and axis_world, washer 1 of 2 from 0.0 to 0.3 mm out of the seat; fasteners.json: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BOM 17l, BelMetric WFHV2.5X5SSA4) under each eye screw head (D21 note)",
-   "dims_local_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "rotation_3x3": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    [
-     1.0,
-     0.0,
-     0.0
-    ],
-    [
-     0.0,
-     1.0,
-     0.0
-    ]
-   ],
-   "shape": "cylinder",
-   "fastener": "F177"
-  },
-  {
-   "id": "washer-F177-2",
-   "kind": "other",
-   "label": "M2.5 washer 0.3 mm, 2 of 2 under F177 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F20",
-   "bom_full_item": "M2.5 flat washer, small series",
-   "bom_line": "17l",
-   "link": "head_assembly",
-   "center_mm": [
-    95.55,
-    -27.4,
-    216.7
-   ],
-   "axis": [
-    1.0,
-    0.0,
-    0.0
-   ],
-   "dims_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "color": "#c0c6cc",
-   "source": "fasteners.json F177 seat_world and axis_world, washer 2 of 2 from 0.3 to 0.6 mm out of the seat; fasteners.json: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BOM 17l, BelMetric WFHV2.5X5SSA4) under each eye screw head (D21 note)",
-   "dims_local_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "rotation_3x3": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    [
-     1.0,
-     0.0,
-     0.0
-    ],
-    [
-     0.0,
-     1.0,
-     0.0
-    ]
-   ],
-   "shape": "cylinder",
-   "fastener": "F177"
-  },
-  {
-   "id": "washer-F178-1",
-   "kind": "other",
-   "label": "M2.5 washer 0.3 mm, 1 of 2 under F178 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F20",
-   "bom_full_item": "M2.5 flat washer, small series",
-   "bom_line": "17l",
-   "link": "head_assembly",
-   "center_mm": [
-    95.85,
-    27.6,
-    216.7
-   ],
-   "axis": [
-    1.0,
-    0.0,
-    0.0
-   ],
-   "dims_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "color": "#c0c6cc",
-   "source": "fasteners.json F178 seat_world and axis_world, washer 1 of 2 from 0.0 to 0.3 mm out of the seat; fasteners.json: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BOM 17l, BelMetric WFHV2.5X5SSA4) under each eye screw head (D21 note)",
-   "dims_local_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "rotation_3x3": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    [
-     1.0,
-     0.0,
-     0.0
-    ],
-    [
-     0.0,
-     1.0,
-     0.0
-    ]
-   ],
-   "shape": "cylinder",
-   "fastener": "F178"
-  },
-  {
-   "id": "washer-F178-2",
-   "kind": "other",
-   "label": "M2.5 washer 0.3 mm, 2 of 2 under F178 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F20",
-   "bom_full_item": "M2.5 flat washer, small series",
-   "bom_line": "17l",
-   "link": "head_assembly",
-   "center_mm": [
-    95.55,
-    27.6,
-    216.7
-   ],
-   "axis": [
-    1.0,
-    0.0,
-    0.0
-   ],
-   "dims_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "color": "#c0c6cc",
-   "source": "fasteners.json F178 seat_world and axis_world, washer 2 of 2 from 0.3 to 0.6 mm out of the seat; fasteners.json: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BOM 17l, BelMetric WFHV2.5X5SSA4) under each eye screw head (D21 note)",
-   "dims_local_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "rotation_3x3": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    [
-     1.0,
-     0.0,
-     0.0
-    ],
-    [
-     0.0,
-     1.0,
-     0.0
-    ]
-   ],
-   "shape": "cylinder",
-   "fastener": "F178"
-  },
-  {
    "id": "washer-F179-1",
    "kind": "other",
    "label": "M2.5 washer 0.3 mm, 1 of 2 under F179 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F20",
+   "bom_full_row": "F21",
    "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
@@ -8536,7 +8665,7 @@
    "id": "washer-F179-2",
    "kind": "other",
    "label": "M2.5 washer 0.3 mm, 2 of 2 under F179 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F20",
+   "bom_full_row": "F21",
    "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
@@ -8583,110 +8712,10 @@
    "fastener": "F179"
   },
   {
-   "id": "washer-F180-1",
-   "kind": "other",
-   "label": "M2.5 washer 0.3 mm, 1 of 2 under F180 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F20",
-   "bom_full_item": "M2.5 flat washer, small series",
-   "bom_line": "17l",
-   "link": "head_assembly",
-   "center_mm": [
-    95.85,
-    -52.4,
-    191.7
-   ],
-   "axis": [
-    1.0,
-    0.0,
-    0.0
-   ],
-   "dims_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "color": "#c0c6cc",
-   "source": "fasteners.json F180 seat_world and axis_world, washer 1 of 2 from 0.0 to 0.3 mm out of the seat; fasteners.json: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BOM 17l, BelMetric WFHV2.5X5SSA4) under each eye screw head (D21 note)",
-   "dims_local_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "rotation_3x3": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    [
-     1.0,
-     0.0,
-     0.0
-    ],
-    [
-     0.0,
-     1.0,
-     0.0
-    ]
-   ],
-   "shape": "cylinder",
-   "fastener": "F180"
-  },
-  {
-   "id": "washer-F180-2",
-   "kind": "other",
-   "label": "M2.5 washer 0.3 mm, 2 of 2 under F180 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F20",
-   "bom_full_item": "M2.5 flat washer, small series",
-   "bom_line": "17l",
-   "link": "head_assembly",
-   "center_mm": [
-    95.55,
-    -52.4,
-    191.7
-   ],
-   "axis": [
-    1.0,
-    0.0,
-    0.0
-   ],
-   "dims_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "color": "#c0c6cc",
-   "source": "fasteners.json F180 seat_world and axis_world, washer 2 of 2 from 0.3 to 0.6 mm out of the seat; fasteners.json: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BOM 17l, BelMetric WFHV2.5X5SSA4) under each eye screw head (D21 note)",
-   "dims_local_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "rotation_3x3": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    [
-     1.0,
-     0.0,
-     0.0
-    ],
-    [
-     0.0,
-     1.0,
-     0.0
-    ]
-   ],
-   "shape": "cylinder",
-   "fastener": "F180"
-  },
-  {
    "id": "washer-F181-1",
    "kind": "other",
    "label": "M2.5 washer 0.3 mm, 1 of 2 under F181 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F20",
+   "bom_full_row": "F21",
    "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
@@ -8736,7 +8765,7 @@
    "id": "washer-F181-2",
    "kind": "other",
    "label": "M2.5 washer 0.3 mm, 2 of 2 under F181 (M2.5x8 DIN 912 A2 into right_eye)",
-   "bom_full_row": "F20",
+   "bom_full_row": "F21",
    "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
@@ -8786,7 +8815,7 @@
    "id": "washer-F182-1",
    "kind": "other",
    "label": "M2.5 washer 0.3 mm, 1 of 2 under F182 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F20",
+   "bom_full_row": "F21",
    "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
@@ -8836,7 +8865,7 @@
    "id": "washer-F182-2",
    "kind": "other",
    "label": "M2.5 washer 0.3 mm, 2 of 2 under F182 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F20",
+   "bom_full_row": "F21",
    "bom_full_item": "M2.5 flat washer, small series",
    "bom_line": "17l",
    "link": "head_assembly",
@@ -8881,106 +8910,6 @@
    ],
    "shape": "cylinder",
    "fastener": "F182"
-  },
-  {
-   "id": "washer-F183-1",
-   "kind": "other",
-   "label": "M2.5 washer 0.3 mm, 1 of 2 under F183 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F20",
-   "bom_full_item": "M2.5 flat washer, small series",
-   "bom_line": "17l",
-   "link": "head_assembly",
-   "center_mm": [
-    95.85,
-    52.6,
-    191.7
-   ],
-   "axis": [
-    1.0,
-    0.0,
-    0.0
-   ],
-   "dims_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "color": "#c0c6cc",
-   "source": "fasteners.json F183 seat_world and axis_world, washer 1 of 2 from 0.0 to 0.3 mm out of the seat; fasteners.json: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BOM 17l, BelMetric WFHV2.5X5SSA4) under each eye screw head (D21 note)",
-   "dims_local_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "rotation_3x3": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    [
-     1.0,
-     0.0,
-     0.0
-    ],
-    [
-     0.0,
-     1.0,
-     0.0
-    ]
-   ],
-   "shape": "cylinder",
-   "fastener": "F183"
-  },
-  {
-   "id": "washer-F183-2",
-   "kind": "other",
-   "label": "M2.5 washer 0.3 mm, 2 of 2 under F183 (M2.5x8 DIN 912 A2 into left_eye)",
-   "bom_full_row": "F20",
-   "bom_full_item": "M2.5 flat washer, small series",
-   "bom_line": "17l",
-   "link": "head_assembly",
-   "center_mm": [
-    95.55,
-    52.6,
-    191.7
-   ],
-   "axis": [
-    1.0,
-    0.0,
-    0.0
-   ],
-   "dims_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "color": "#c0c6cc",
-   "source": "fasteners.json F183 seat_world and axis_world, washer 2 of 2 from 0.3 to 0.6 mm out of the seat; fasteners.json: two M2.5 flat washers, ISO 7092 A4 HV200, 2.7 x 5.0 x 0.3 mm (BOM 17l, BelMetric WFHV2.5X5SSA4) under each eye screw head (D21 note)",
-   "dims_local_mm": [
-    0.3,
-    5.0,
-    5.0
-   ],
-   "rotation_3x3": [
-    [
-     0.0,
-     0.0,
-     1.0
-    ],
-    [
-     1.0,
-     0.0,
-     0.0
-    ],
-    [
-     0.0,
-     1.0,
-     0.0
-    ]
-   ],
-   "shape": "cylinder",
-   "fastener": "F183"
   },
   {
    "id": "horn-SG90-left",
@@ -9082,7 +9011,7 @@
    "id": "kapton-BMS",
    "kind": "other",
    "label": "Kapton tape wrap on the Tenergy BMS",
-   "bom_full_row": "K15",
+   "bom_full_row": "K21",
    "bom_full_item": "Polyimide (Kapton) tape",
    "bom_line": "33",
    "link": "trunk_assembly",

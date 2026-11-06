@@ -37,6 +37,8 @@ CLASSES = [  # class, connector text pattern, allowed end patterns
     ("SG90 lead", r"3-wire lead", [r"^servo$"]),
     ("0.1 in hole", r"0\.1 in holes", [r"solder in 0\.1 in hole"]),
     ("0.1 in header holes", r"0\.1 in header holes", [r"^solder$"]),
+    ("0.1 in electrode holes", r"0\.1 in electrode holes", [r"^solder$"]),          # MPR121 E0 to E11 (D51)
+    ("copper foil pad", r"copper foil", [r"^solder$"]),                               # touch pads, wire soldered to the foil (D51)
     ("lug", r"solder lugs", [r"solder lug"]),
     ("terminal", r"solder terminals", [r"solder terminal"]),
     ("tab", r"solder tabs", [r"solder tab"]),

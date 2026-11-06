@@ -280,6 +280,7 @@ MOUNTING_MATCH = [
     (r"^Antenna servos", ["sg90", "left_antenna_holder", "right_antenna_holder"]), (r"^Castle CC BEC Pro", ["bec_pro"]),
     (r"^(5 V regulator|HENGE)", ["reg_5v"]), (r"^Fuse holder", ["fuse_holder"]), (r"^Pololu 2815", ["mosfet_switch"]),
     (r"^XT30", ["xt30"]), (r"MAX98357A", ["amp"]), (r"^Foot switch", ["foot_switch"]), (r"^Camera Module", ["camera"]), (r"^I2S microphones", ["mic_l", "mic_r"]),
+    (r"^Touch boards", ["tch_h", "tch_b"]), (r"^Cliff sensor", ["tof_cliff"]),
 ]
 # placed boxes follow this part in the explode when it is within 6 mm (the lab's stated mounting surface)
 FOLLOW_HINT = {"mosfet_switch": "battery_pack_lid", "fuse_holder": "battery_pack_lid", "bec_pro": "body_middle_bottom",
@@ -298,6 +299,9 @@ BOM_VIEW = {
     "8": ("placeholder", ["bms_tenergy"], ["bms_cad"], "Placeholder in the upstream bms.stl slot; the CAD body is kept and marked replaced"),
     "9": ("placeholder", ["reg_5v"], [], "Pololu step-down size, about 18 x 18 x 8"),
     "10": ("placeholder", ["mosfet_switch"], [], ""),
+    "5b": ("placeholder", ["tof_cliff"], [], "In the chest of body_front, 52 deg down (D54)"),
+    "10r": ("none", [], [], "Replaced by line 10 (D30), quantity 0"), "10b-old": ("none", [], [], "Replaced by line 10b (D30), quantity 0"),
+    "E7r": ("none", [], [], "Replaced by line E7 (D34), quantity 0"),
     "10b": ("cad", ["power_switch"], [], "The CAD power_switch body in the body_back cutout"),
     "11": ("cad", ["charger"], [], ""), "12": ("placeholder", ["xt30", "xt30_p13"], [], "2 mated pairs used of the 10 bought: the battery disconnect and the P13 service plug (X3a, D36)"),
     "13": ("placeholder", ["foot_switch"], [], "In the foot_top slots"), "14": ("cad", ["sg90"], [], ""),
@@ -317,7 +321,7 @@ BOM_VIEW = {
     "E1": ("placeholder", ["speaker"], [], ""), "E2": ("placeholder", ["amp"], [], ""),
     "E3": ("placeholder", ["led"], [], "3 beads: 2 eyes, 1 projector"), "E3b": ("none", [], [], "Resistor"),
     "E4": ("none", [], [], "Glass disc, not modelled"), "E5": ("none", [], [], "Reflector, not modelled"),
-    "E6": ("placeholder", ["camera"], [], ""), "E8": ("placeholder", ["mic_l", "mic_r"], [], "2 boards, one per side wall"), "DK1": ("placeholder", ["dock_pad"], [], ""), "DK2": ("placeholder", ["dock_dk2"], [], ""), "DK3": ("placeholder", ["dock_f2"], [], ""), "DK4": ("none", [], [], "Fuse in the DK3 holder"), "DK5": ("none", [], [], "Small parts on the leads"), "DK6": ("placeholder", ["dock_dk6"], [], ""), "DK7": ("placeholder", ["dock_dk7"], [], ""), "E7": ("none", [], [], "Cable"),
+    "E6": ("placeholder", ["camera"], [], ""), "E8": ("placeholder", ["mic_l", "mic_r"], [], "2 boards, one per side wall"), "E9": ("placeholder", ["tch_h", "tch_b"], [], "2 boards: head roof and body side wall (D51)"), "E10": ("none", [], [], "Copper foil pads on the inner shells (twin/freeze/touch_pads.json), not modelled"), "DK1": ("placeholder", ["dock_pad"], [], ""), "DK2": ("placeholder", ["dock_dk2"], [], ""), "DK3": ("placeholder", ["dock_f2"], [], ""), "DK4": ("none", [], [], "Fuse in the DK3 holder"), "DK5": ("none", [], [], "Small parts on the leads"), "DK6": ("placeholder", ["dock_dk6"], [], ""), "DK7": ("placeholder", ["dock_dk7"], [], ""), "E7": ("none", [], [], "Cable"),
     "T1": ("none", [], [], "Tool"), "T2": ("none", [], [], "Tool"), "T3": ("none", [], [], "Tool"),
     "T4": ("none", [], [], "Tool"), "T5": ("none", [], [], "Tool"), "L2": ("none", [], [], "Tool"),
 }
@@ -1095,15 +1099,24 @@ def main():
             mesh_src[i["key"]] = (os.path.join(URDF_DIR, i["urdf"]), True)
 
     # frame check: print STL vs URDF mesh (x1000), same part frame
-    frame_check = {}
+    # The frame is the same when, on every axis, at least one of the two bounding faces agrees within 0.05 mm: a frame
+    # shift or turn moves both faces of an axis, a printed feature the lab added (D38 tongue and lips, D47 mic seats,
+    # D54 cliff seat) moves one face only. The faces that moved are listed with their size (frame_grown).
+    frame_check, frame_grown = {}, {}
     for i in inst:
         if i.get("printed") and i["key"] not in frame_check:
             a = load_mesh(os.path.join(URDF_DIR, i["urdf"]), True).bounds
             b = load_mesh(os.path.join(PRINT_DIR, i["key"] + ".stl"), False).bounds
-            frame_check[i["key"]] = round(float(np.abs(a - b).max()), 3)
+            d = b - a                                    # print minus URDF, rows min and max
+            per_axis = [float(min(abs(d[0][k]), abs(d[1][k]))) for k in range(3)]
+            frame_check[i["key"]] = round(max(per_axis), 3)
+            grown = {"%s%s" % ("-+"[row], "xyz"[k]): round(float(d[row][k]) * (1 if row else -1), 3)
+                     for row in (0, 1) for k in range(3) if abs(d[row][k]) > 0.05}
+            if grown:
+                frame_grown[i["key"]] = grown
     bad = {k: v for k, v in frame_check.items() if v > 0.05}
     if bad:
-        warnings.append("print STL and URDF mesh bounds differ by more than 0.05 mm: %s" % bad)
+        warnings.append("print STL and URDF mesh frames differ (both faces of an axis moved) by more than 0.05 mm: %s" % bad)
 
     # 3. head internals in the head.stl frame
     Th = [i["T"] for i in inst if i["key"] == "head"][0]
@@ -2086,7 +2099,7 @@ def main():
                   sources=dict(urdf="mini_bdx/robots/open_duck_mini_v2/robot.urdf (Open_Duck_Mini b23317a)",
                                stl="print/ (STL commit 730c14b per PRINT_CHECK.md)", inserts="altaay_lab/audit/sites.json",
                                docs="altaay_lab/PRINT_CHECK.md, print/SLICE_SUMMARY.md (D22 print grams), BOM.md, HARDWARE_AUDIT.md section 6, MOUNTING.md"),
-                  placements=pl_note, assembly_json_match=asm_ok, frame_check_mm=frame_check,
+                  placements=pl_note, assembly_json_match=asm_ok, frame_check_mm=frame_check, frame_grown_mm=frame_grown,
                   unmapped=sorted(set(unmapped)), warnings=warnings,
                   glb=dict(bytes=os.path.getsize(glb_path), geometries=len(geoms), nodes=len(nodes),
                            triangles_unique=int(sum(len(g["idx"]) for g in geoms)),

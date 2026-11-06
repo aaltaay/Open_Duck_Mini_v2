@@ -40,7 +40,7 @@ RUB_WARN = 2.0          # mm surface gap below which a cable is flagged as a rub
 END_ZONE = 8.0          # mm from a run end treated as the connector zone
 
 
-INLINE = {"VSW", "G", "YD3", "YG3", "JG20", "JG10", "JG30", "J5", "JG"}     # floating inline splices
+INLINE = {"VSW", "G", "YD3", "YG3", "JG20", "JG10", "JG30", "J5", "JG", "JGD", "JSN"}     # floating inline splices (JGD, JSN: the D50 dock branches)
 
 
 def twist_factors():

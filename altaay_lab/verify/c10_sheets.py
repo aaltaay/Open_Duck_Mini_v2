@@ -22,8 +22,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(sys.argv[1])))
 import make_sheets as M
 import sheetlib as L
 book = M.Book()
-book.n_sheets = 5
-book.complete = len(M.BUILDERS) == 5
+book.n_sheets = len(M.BUILDERS)
+book.complete = True
 for p in (1, 2):
     book.pass_no = p
     sheets = M.build(book)
@@ -51,7 +51,7 @@ json.dump(out, open(sys.argv[2], "w"))
 def main():
     R = V.Result("C10", "Wiring sheets cover every wire of the netlist (wiring/sheets, run on a copy)",
                  "VERIFY_OUT=<out> python3 altaay_lab/verify/c10_sheets.py",
-                 "Every active netlist wire drawn in full on a sheet (sheets 1 to 4), every active cable on the harness sheet "
+                 "Every active netlist wire drawn in full on a sheet (every sheet but the harness), every active cable on the harness sheet "
                  "(sheet 5), the generator's own stop rules, committed sheets newer than netlist.yaml",
                  "Whether a drawing is easy to read; label placement (the generator prints layout warnings)")
     src = V.lab("wiring", "sheets")
@@ -87,7 +87,7 @@ def main():
         net = V.load_netlist()
         active = {cb["id"] for cb in net["cables"] if cb.get("status", "active") == "active"}
         wires = ["%s|%s|%s" % (w["cable"], w["from"], w["to"]) for w in net["wires"] if w["cable"] in active]
-        full = {k for k, v in cov["full"].items() if any(n <= 4 for n in v)}
+        full = {k for k, v in cov["full"].items() if any(n != 5 for n in v)}   # every sheet but the harness overview (5)
         miss = [w for w in wires if w not in full]
         nos = sorted(s["no"] for s in cov["sheets"])
         R.ev("sheets built: %s; active wires drawn in full: %d of %d" % (", ".join("%d %s (full %s, stubs %s)" % (

@@ -1,6 +1,6 @@
 # BOM_FULL: every part in the robot
 
-Generated 2026-11-06 04:01 UTC by altaay_lab/viewer/make_viewer_data.py --write-bom (module viewer/bom_full.py). Do not edit by hand: change the sources (CAD, print/parts.csv, wiring/netlist.yaml, fasteners/fasteners.json, BOM.md) and re-run.
+Generated 2026-11-06 05:35 UTC by altaay_lab/viewer/make_viewer_data.py --write-bom (module viewer/bom_full.py). Do not edit by hand: change the sources (CAD, print/parts.csv, wiring/netlist.yaml, fasteners/fasteners.json, BOM.md) and re-run.
 
 One row per distinct item that goes into the robot or is used to build it. Qty is what the robot uses (measured in the CAD, the netlist or the fastener schedule). The Line column is the BOM.md purchase line that supplies it, so prices and links live in one place (BOM.md). The exploded 3D view shows every row that is modelled (tab "Every part").
 
@@ -9,34 +9,19 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | Section | Rows | Pieces | Status |
 |---|---|---|---|
 | Printed parts | 37 | 54 | printed 37 |
-| Servos | 17 | 44 | SHORT 14, bought 1, in kit 2 |
-| Electronics and power | 25 | 30 | bought 25 |
-| Expression (head) | 7 | 12 | bought 7 |
-| Fasteners | 23 | 381 | bought 13, in kit 10 |
-| Cables | 54 | 54 | bought 2, in kit 11, made 41 |
+| Servos | 17 | 44 | bought 15, in kit 2 |
+| Electronics and power | 26 | 31 | bought 26 |
+| Expression (head) | 9 | 17 | bought 9 |
+| Fasteners | 23 | 383 | bought 13, in kit 10 |
+| Cables | 61 | 61 | bought 2, in kit 11, made 48 |
 | Connectors and wire | 18 | 77 | bought 17, in kit 1 |
-| Consumables and other | 17 | 130 | bought 17 |
+| Consumables and other | 16 | 130 | bought 16 |
 | Tools | 26 |  | tool 26 |
-| **All** | 224 | 782 | SHORT 14, bought 82, in kit 24, printed 37, made 41, tool 26 |
+| **All** | 233 | 797 | bought 98, in kit 24, printed 37, made 48, tool 26 |
 
-## Needs action (14)
+## Needs action (0)
 
-| ID | Item | Qty | Status | Note |
-|---|---|---|---|---|
-| S01 | Feetech STS3215 C001, ID 10, right hip yaw | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S02 | Feetech STS3215 C001, ID 11, right hip roll | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S03 | Feetech STS3215 C001, ID 12, right hip pitch | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S04 | Feetech STS3215 C001, ID 13, right knee | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S05 | Feetech STS3215 C001, ID 14, right ankle | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S06 | Feetech STS3215 C001, ID 20, left hip yaw | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S07 | Feetech STS3215 C001, ID 21, left hip roll | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S08 | Feetech STS3215 C001, ID 22, left hip pitch | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S09 | Feetech STS3215 C001, ID 23, left knee | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S10 | Feetech STS3215 C001, ID 24, left ankle | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S11 | Feetech STS3215 C001, ID 30, neck pitch | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S12 | Feetech STS3215 C001, ID 31, head pitch | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S13 | Feetech STS3215 C001, ID 32, head yaw | 1  | SHORT | line 1 buys 12, the robot uses 14 |
-| S14 | Feetech STS3215 C001, ID 33, head roll | 1  | SHORT | line 1 buys 12, the robot uses 14 |
+None: every row is covered by a purchase line, a kit, the filament or the tool list.
 
 ## Printed parts
 
@@ -44,7 +29,7 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 |---|---|---|---|---|---|---|---|---|
 | P01 | Battery pack lid | print/battery_pack_lid.stl, PLA 15%, 14.1 g, 1.04 h each | 1 | Trunk | 27 | Amazon | printed | 2 walls 15 % (upstream default): a lid whose screws thread into body_back; no rule asks for more |
 | P02 | Body back | print/body_back.stl, PLA 15%, 88.1 g, 6.94 h each | 1 | Trunk | 27 | Amazon | printed | 2 walls 15 % plus a 1.5 mm solid ring round each of its 5 screw pilots (4 lid and 1 charger; D42 reopened the F027 lid pilot that D39 closed): the pilot rule at each hole instead of 3 walls on the whole shell; no coupon |
-| P03 | Body front | print/body_front.stl, PLA 15%, 60.3 g, 4.22 h each | 1 | Trunk | 27 | Amazon | printed | 2 walls 15 % (upstream default): no rule asks for more |
+| P03 | Body front | print/body_front.stl, PLA 15%, 60.3 g, 4.22 h each | 1 | Trunk | 27 | Amazon | printed | 2 walls 15 % (upstream default): no rule asks for more; front face on the bed since D54 (the cliff ToF seat grows from the inner face) |
 | P04 | Body middle bottom | print/body_middle_bottom.stl, PLA 15%, 4 walls, 116.5 g, 9.53 h each | 1 | Trunk | 27 | Amazon | printed | 2 walls 15 % plus a 2.0 mm solid ring round each of its insert bores |
 | P05 | Body middle top | print/body_middle_top.stl, PLA 15%, 4 walls, 99.0 g, 7.76 h each | 1 | Trunk | 27 | Amazon | printed | 2 walls 15 % plus a 2.0 mm solid ring round each of its 6 insert bores (D39 closed 2): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings |
 | P06 | Eye bulb | print/bulb.stl, PLA 15%, 2.0 g, 0.17 h each | 2 | Head 2 | 27 | Amazon | printed | 2 walls 15 % (upstream default); guide says x1 but the CAD has 2 (issue #26) |
@@ -84,20 +69,20 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
-| S01 | Feetech STS3215 C001, ID 10, right hip yaw | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Trunk | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S02 | Feetech STS3215 C001, ID 11, right hip roll | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Right hip | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S03 | Feetech STS3215 C001, ID 12, right hip pitch | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Right hip bracket | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S04 | Feetech STS3215 C001, ID 13, right knee | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Right thigh | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S05 | Feetech STS3215 C001, ID 14, right ankle | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Right shin | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S06 | Feetech STS3215 C001, ID 20, left hip yaw | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Trunk | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S07 | Feetech STS3215 C001, ID 21, left hip roll | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Left hip | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S08 | Feetech STS3215 C001, ID 22, left hip pitch | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Left hip bracket | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S09 | Feetech STS3215 C001, ID 23, left knee | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Left thigh | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S10 | Feetech STS3215 C001, ID 24, left ankle | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Left shin | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S11 | Feetech STS3215 C001, ID 30, neck pitch | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Trunk | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S12 | Feetech STS3215 C001, ID 31, head pitch | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Neck | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S13 | Feetech STS3215 C001, ID 32, head yaw | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Neck | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
-| S14 | Feetech STS3215 C001, ID 33, head roll | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Head | 1 | Seeed Studio | SHORT | line 1 buys 12, the robot uses 14 |
+| S01 | Feetech STS3215 C001, ID 10, right hip yaw | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Trunk | 1 | Seeed Studio | bought |  |
+| S02 | Feetech STS3215 C001, ID 11, right hip roll | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Right hip | 1 | Seeed Studio | bought |  |
+| S03 | Feetech STS3215 C001, ID 12, right hip pitch | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Right hip bracket | 1 | Seeed Studio | bought |  |
+| S04 | Feetech STS3250-C002, ID 13, right knee | 50 kg.cm, same outline, 25T horn and 5264 ports as the C001 (BOM line 1b, D32) | 1 | Right thigh | 1b | OpenELAB | bought |  |
+| S05 | Feetech STS3215 C001, ID 14, right ankle | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Right shin | 1 | Seeed Studio | bought |  |
+| S06 | Feetech STS3215 C001, ID 20, left hip yaw | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Trunk | 1 | Seeed Studio | bought |  |
+| S07 | Feetech STS3215 C001, ID 21, left hip roll | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Left hip | 1 | Seeed Studio | bought |  |
+| S08 | Feetech STS3215 C001, ID 22, left hip pitch | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Left hip bracket | 1 | Seeed Studio | bought |  |
+| S09 | Feetech STS3250-C002, ID 23, left knee | 50 kg.cm, same outline, 25T horn and 5264 ports as the C001 (BOM line 1b, D32) | 1 | Left thigh | 1b | OpenELAB | bought |  |
+| S10 | Feetech STS3215 C001, ID 24, left ankle | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Left shin | 1 | Seeed Studio | bought |  |
+| S11 | Feetech STS3215 C001, ID 30, neck pitch | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Trunk | 1 | Seeed Studio | bought |  |
+| S12 | Feetech STS3215 C001, ID 31, head pitch | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Neck | 1 | Seeed Studio | bought |  |
+| S13 | Feetech STS3215 C001, ID 32, head yaw | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Neck | 1 | Seeed Studio | bought |  |
+| S14 | Feetech STS3215 C001, ID 33, head roll | 7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1) | 1 | Head | 1 | Seeed Studio | bought |  |
 | S15 | Servo horn, drive side | comes with each STS3215 (BOM line 1) | 14 | Head, Left hip, Left hip bracket, Left shin, Left thigh, Neck 2, Right hip, Right hip bracket, Right shin, Right thigh, Trunk 3 | 1 | Seeed Studio | in kit |  |
 | S16 | Servo horn, idle side | comes with each STS3215 (BOM line 1) | 14 | Head, Left hip, Left hip bracket, Left shin, Left thigh, Neck 2, Right hip, Right hip bracket, Right shin, Right thigh, Trunk 3 | 1 | Seeed Studio | in kit |  |
 | S17 | SG90-class antenna servo | Miuzei 9 g, lead 250 mm; tab and horn screws from its bag | 2 | Head 2 | 14 | Amazon (Miuzei) | bought |  |
@@ -111,46 +96,49 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | E03 | 2S protection board (BMS) | Tenergy P/N 32175 2S protection board (board marking RYD-02S-032) | 1 | Trunk 2 | 8 | Tenergy (Fremont, CA) | bought |  |
 | E04 | USB-C 2S charge board | USB-C 2S charger board, Adeept B0BJTW4QBR (BOM 11) | 1 | Trunk | 11 | Amazon (Adeept) | bought |  |
 | E05 | XT30U connector pair (mated) | Amass XT30U pair (BOM 12), female on the pack side, male on the robot side | 1 | Trunk | 12 | Amazon | bought |  |
-| E06 | Main power switch, Pololu 2815 | Pololu 2813 Big Pushbutton Power Switch with Reverse Voltage Protection, HP (D30, was the 2815 slide switch; same size and MOSFET ratings; button on A and B, GPIO26 on OFF) | 1 | Trunk | 10 | Pololu (Las Vegas, NV) | bought |  |
-| E07 | Control switch (panel slide switch) | stock panel switch in the body_back cutout (CAD power_switch.stl, upstream Amazon B0CH3JCQM5; BOM 10b) | 1 | Trunk | 10b | Newark (941 in stock, search index) | bought |  |
+| E06 | Main power switch, Pololu 2813 (D30) | Pololu 2813 Big Pushbutton Power Switch with Reverse Voltage Protection, HP (D30, was the 2815 slide switch; same size and MOSFET ratings; button on A and B, GPIO26 on OFF) | 1 | Trunk | 10 | Pololu (Las Vegas, NV) | bought |  |
+| E07 | Control button, NKK MB2011LS1W01-BB (D30, D38) | NKK MB2011LS1W01-BB momentary pushbutton in the printed D30 plate in the body_back cutout (BOM 10b, D30, D38; replaces the stock panel switch of CAD power_switch.stl) | 1 | Trunk | 10b | Newark (941 in stock, search index) | bought |  |
 | E08 | Servo regulator, Castle CC BEC Pro at 7.2 V | Castle Creations CC BEC Pro, P/N 010-0004-01, set to 7.2 V | 1 | Trunk | L1 | Castle Creations; also Horizon Hobby CSE010000401 and Motion RC | bought |  |
 | E09 | Servo bus adapter, Waveshare (A) | Waveshare Bus Servo Adapter (A), SKU 25514 | 1 | Trunk | 2 | Waveshare | bought |  |
 | E10 | 5 V regulator, Pololu D30V30F5 | Pololu D30V30F5 5 V 3.4 A step-down regulator (item 4892) | 1 | Head | 9 | Pololu (Las Vegas, NV) | bought |  |
 | E11 | Raspberry Pi Zero 2 W | Raspberry Pi Zero 2 W | 1 | Head | 3 | Adafruit 5291 | bought |  |
 | E12 | IMU, Adafruit BNO055 2472 | Adafruit BNO055 breakout 2472 | 1 | Trunk | 5 | Adafruit 2472 | bought |  |
-| E13 | Inline fuse holder, Littelfuse FHAC0001ZXJ | ATO 20 A holder, 16 AWG leads | 1 | Trunk | L3 | Newark 56P4171 | bought |  |
-| E14 | Fuse, Littelfuse 0287015.PXCN ATO 15 A | sits in the L3 holder | 1 | battery bay | L4 | DigiKey | bought |  |
-| E15 | microSD card, SanDisk Ultra 32 GB | in the Pi | 1 | head | 4 | Amazon | bought |  |
-| E16 | Foot contact switch, Omron SS-01 (SS-10 fallback) | Omron SS-01 (SS-10 fallback) microswitch, left foot, slot 1 | 4 | Left foot 2, Right foot 2 | 13 | DigiKey | bought |  |
-| E17 | Foot switch pull-up, 2.2 kOhm 1/4 W | 2.2 kOhm 5 % 1/4 W resistor, Adafruit 2782 (BOM 13b), left foot pull-up | 2 | head | 13b | Adafruit 2782 | bought |  |
-| E23 | Chest contact pad, 4 strips | chest contact pad, 100 x 76 x 0.8 mm FR4 ENIG, four strips (BOM DK1, D43, D50) | 1 | Trunk | DK1 | BLOCKER | bought |  |
-| E24 | Charge input ideal diode, Pololu 5382 | Pololu 5382 ideal diode reverse voltage protector 4-60 V 10 A, charge input (BOM DK2), 100 k from VIN to VOUT (BOM DK5) | 1 | Trunk | DK2 | Pololu | bought |  |
-| E25 | Charge path fuse holder, Littelfuse FHAC0001ZXJ | ATO holder for the 5 A charge fuse | 1 | Trunk | DK3 | Newark 56P4171 | bought |  |
-| E26 | Fuse, Littelfuse 0287005.PXCN ATO 5 A | sits in the DK3 holder | 1 | trunk top | DK4 | DigiKey | bought |  |
-| E27 | Cell NTC and wake branch parts | 10 k NTC B3950; 3.9 V zener, diode, 10 k; 100 k across DK2 | 1 | battery bay | DK5 | BLOCKER | bought |  |
-| E28 | Dock supply ideal diode, Pololu 5382 | Pololu 5382 ideal diode reverse voltage protector 4-60 V 10 A, dock supply SYS (BOM DK6, D50) | 1 | Trunk | DK6 | Pololu | bought |  |
-| E29 | Pack side ideal diode, Pololu 5383 | Pololu 5383 ideal diode reverse voltage protector 4-60 V 12 A, pack side (BOM DK7, D50) | 1 | Trunk | DK7 | RobotShop (Pololu out of stock 2026-11-05) | bought |  |
-| E32 | Game controller, Xbox Wireless (Bluetooth) | off-robot: the Runtime drives the walk from it | 1 |  | 15 | Microsoft Store (also Walmart, Best Buy) | bought |  |
+| E13 | Cliff ToF, Adafruit 5396 VL53L4CD (D54) | Adafruit 5396 VL53L4CD time-of-flight breakout, STEMMA QT, cliff sensor 52 deg down in the chest (I2C 0x29; BOM 5b, D54) | 1 | Trunk | 5b | Adafruit | bought |  |
+| E14 | Inline fuse holder, Littelfuse FHAC0001ZXJ | ATO 20 A holder, 16 AWG leads | 1 | Trunk | L3 | Newark 56P4171 | bought |  |
+| E15 | Fuse, Littelfuse 0287015.PXCN ATO 15 A | sits in the L3 holder | 1 | battery bay | L4 | DigiKey | bought |  |
+| E16 | microSD card, SanDisk Ultra 32 GB | in the Pi | 1 | head | 4 | Amazon | bought |  |
+| E17 | Foot contact switch, Omron SS-01 (SS-10 fallback) | Omron SS-01 (SS-10 fallback) microswitch, left foot, slot 1 | 4 | Left foot 2, Right foot 2 | 13 | DigiKey | bought |  |
+| E18 | Foot switch pull-up, 2.2 kOhm 1/4 W | 2.2 kOhm 5 % 1/4 W resistor, Adafruit 2782 (BOM 13b), left foot pull-up | 2 | head | 13b | Adafruit 2782 | bought |  |
+| E26 | Chest contact pad, 4 strips | chest contact pad, 100 x 76 x 0.8 mm FR4 ENIG, four strips (BOM DK1, D43, D50) | 1 | Trunk | DK1 | BLOCKER | bought |  |
+| E27 | Charge input ideal diode, Pololu 5382 | Pololu 5382 ideal diode reverse voltage protector 4-60 V 10 A, charge input (BOM DK2), 100 k from VIN to VOUT (BOM DK5) | 1 | Trunk | DK2 | Pololu | bought |  |
+| E28 | Charge path fuse holder, Littelfuse FHAC0001ZXJ | ATO holder for the 5 A charge fuse | 1 | Trunk | DK3 | Newark 56P4171 | bought |  |
+| E29 | Fuse, Littelfuse 0287005.PXCN ATO 5 A | sits in the DK3 holder | 1 | trunk top | DK4 | DigiKey | bought |  |
+| E30 | Cell NTC and wake branch parts | 10 k NTC B3950; 3.9 V zener, diode, 10 k; 100 k across DK2 | 1 | battery bay | DK5 | BLOCKER | bought |  |
+| E31 | Dock supply ideal diode, Pololu 5382 | Pololu 5382 ideal diode reverse voltage protector 4-60 V 10 A, dock supply SYS (BOM DK6, D50) | 1 | Trunk | DK6 | Pololu | bought |  |
+| E32 | Pack side ideal diode, Pololu 5383 | Pololu 5383 ideal diode reverse voltage protector 4-60 V 12 A, pack side (BOM DK7, D50) | 1 | Trunk | DK7 | RobotShop (Pololu out of stock 2026-11-05) | bought |  |
+| E35 | Game controller, Xbox Wireless (Bluetooth) | off-robot: the Runtime drives the walk from it | 1 |  | 15 | Microsoft Store (also Walmart, Best Buy) | bought |  |
 
 ## Expression (head)
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
-| E18 | 1 W LED bead (2 eyes, 1 projector) | 1 W LED bead (BOM E3), left eye | 3 | Head 3 | E3 | Amazon (uxcell) | bought |  |
-| E19 | LED resistor, 100 ohm 1/4 W | 100 ohm 1/4 W resistor (BOM E3b), left eye | 3 | head | E3b | SparkFun PRT-14493 | bought |  |
-| E20 | I2S amplifier, Adafruit MAX98357A | Adafruit MAX98357A I2S amplifier 3006 | 1 | Head | E2 | Adafruit | bought |  |
-| E21 | Speaker, Same Sky CMS0361KLX | Same Sky CMS0361KLX speaker, 36.1 mm square, 14.5 mm deep, 8 ohm, 2 W | 1 | Head 3 | E1 | DigiKey 102-1304-ND | bought |  |
-| E22 | Raspberry Pi Camera Module 3 | Raspberry Pi Camera Module 3, Adafruit 5657 | 1 | Head | E6 | Adafruit 5657 | bought |  |
-| E30 | Eye glass disc, 29.6 x 1.85 mm | one per eye (not modelled) | 2 |  | E4 | Amazon (FINGERINSPIRE) | bought |  |
-| E31 | Projector reflector, Aurorad S5 20 x 15 mm | in flash_reflector_interface (not modelled) | 1 |  | E5 | Amazon (Aurorad) | bought |  |
+| E19 | 1 W LED bead (2 eyes, 1 projector) | 1 W LED bead (BOM E3), left eye | 3 | Head 3 | E3 | Amazon (uxcell) | bought |  |
+| E20 | LED resistor, 100 ohm 1/4 W | 100 ohm 1/4 W resistor (BOM E3b), left eye | 3 | head | E3b | SparkFun PRT-14493 | bought |  |
+| E21 | Touch board, Adafruit MPR121 1982 (D51) | Adafruit MPR121 12-key capacitive touch breakout, STEMMA QT, product 1982, head board, I2C 0x5A (BOM E9, D51) | 2 | Head, Trunk | E9 | Adafruit | bought |  |
+| E22 | Touch pad, copper foil Adafruit 1127 (D51) | copper foil touch pad, Adafruit 1127 tape with conductive adhesive, 30 x 30 mm, with a 3 mm guard ring 3 mm outside it (BOM E10, D51) | 3 | head, trunk top | E10 | Adafruit | bought |  |
+| E23 | I2S amplifier, Adafruit MAX98357A | Adafruit MAX98357A I2S amplifier 3006 | 1 | Head | E2 | Adafruit | bought |  |
+| E24 | Speaker, Same Sky CMS0361KLX | Same Sky CMS0361KLX speaker, 36.1 mm square, 14.5 mm deep, 8 ohm, 2 W | 1 | Head 3 | E1 | DigiKey 102-1304-ND | bought |  |
+| E25 | Raspberry Pi Camera Module 3 | Raspberry Pi Camera Module 3, Adafruit 5657 | 1 | Head | E6 | Adafruit 5657 | bought |  |
+| E33 | Eye glass disc, 29.6 x 1.85 mm | one per eye (not modelled) | 2 |  | E4 | Amazon (FINGERINSPIRE) | bought |  |
+| E34 | Projector reflector, Aurorad S5 20 x 15 mm | in flash_reflector_interface (not modelled) | 1 |  | E5 | Amazon (Aurorad) | bought |  |
 
 ## Fasteners
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
 | F01 | M2.5x10 DIN 912 A2 | plastic pilot 2.0, M2.5_din912 head | 4 | Trunk 4 | 17i | Bolt Depot | bought | head d 4.5 does not fit the 4.00 recess: it sits on the part face, 3.0 mm higher; -1.25 mm vs head_bot_sheet (neck_pitch+head_pitch (57.9, 0.0)) |
-| F02 | M2.5x5 DIN 912 A2 | plastic pilot 2.12 (speaker stand), M2.5_din912 head | 2 | Head 2 | 17k | BelMetric (US) | bought | found here, not in audit/screws2.py or MOUNTING.md (B8 says no screw): pilot axis 20.7 deg off the clearance hole axis, pilot centre 0.00 mm off it; 0.10 mm vs speaker_interface (zero pose (static) 0.0) |
-| F03 | M2.5x6 DIN 912 A2 | plastic pilot 2.0, M2.5_din912 head | 11 | Head 4, Trunk 7 | 17f | Bolt Depot | bought | -0.00 mm vs speaker_stand (zero pose (static) 0.0) |
+| F02 | M2.5x5 DIN 912 A2 | plastic pilot 2.12 (speaker stand), M2.5_din912 head | 2 | Head 2 | 17k | BelMetric (US) | bought | pilot on the screw axis: measured on the mesh 0.01 deg off (the feat3d fit reads it along the head y axis, 20.7 deg off); the 2.05 mm pilot runs through 4.5 mm of stand wall (t 1.58 to 6.08 mm from the seat), so an M2.5x5 engages 3.4 mm; 0.10 mm vs speaker_interface (zero pose (static) 0.0) |
+| F03 | M2.5x6 DIN 912 A2 | plastic pilot 2.0, M2.5_din912 head | 13 | Head 4, Trunk 9 | 17f | Bolt Depot | bought | -0.00 mm vs speaker_stand (zero pose (static) 0.0) |
 | F04 | M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers | plastic pilot (eye), M2.5_din912 head | 4 | Head 4 | 17g | Bolt Depot | bought | eye pilot is blind (3.0 mm deep, 1.5 mm front skin, ray cast): M2.5x8 alone reaches the floor (0.0 mm); with two 0.3 mm washers (0.6 mm): 2.4 mm of thread, 0.6 mm to the floor; 0.62 mm vs bulb (zero pose (static) 0.0) |
 | F05 | M2x4 self-tapping pan head | servo pilot, M2_pan_selftap head | 2 | Head 2 | 17h | Amazon (ships from Amazon) | in kit | 0.02 mm vs head_roll_mount (zero pose (static) 0.0) |
 | F06 | M2x5 self-tapping pan head | servo pilot, M2_pan_selftap head | 24 | Head 4, Left hip bracket 3, Left shin 2, Left thigh 2, Neck 2, Right hip bracket 3, Right shin 2, Right thigh 2, Trunk 4 | 17h | Amazon (ships from Amazon) | in kit | 0.02 mm vs head_roll_mount (zero pose (static) 0.0) |
@@ -226,55 +214,61 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | C48 | S13: kit cable ID 32 to ID 33 | 3 wires, kit cable x3, cut 150 mm | 1 cable | neck, head (crosses head_roll) | 1 | Seeed Studio | in kit | pass: worst 106.9 mm vs cut 150 mm |
 | C49 | D14: Pi header to the left mic board (D47) | 5 wires, 26 AWG x5, cut 150 mm | 1 cable | head | 25, 26 | Amazon | made |  |
 | C50 | D15: left mic board to the right mic board across the head (D47) | 5 wires, 26 AWG x5, cut 240 mm | 1 cable | head | 25, 26 | Amazon | made |  |
-| C51 | DC1: chest CHG+ to DK2, DK2 to the 5 A fuse F2, F2 to BMS P+ (D43) | 4 wires, 20 AWG x3, 26 AWG x1, cut 60/110/180 mm | 1 cable | trunk_top, battery_bay | 23, 25, 26 | Amazon | made |  |
-| C52 | DC2: chest GND to the splice JGD inside the trunk, JGD to BMS P- (D43, D50) | 2 wires, 20 AWG x2, cut 60/210 mm | 1 cable | trunk_top, battery_bay | 23, 26 | Amazon | made |  |
-| C53 | DC3: chest SENSE to the splice JSN inside the trunk, JSN to the cell NTC and to the wake branch at SW1 ON (D43) | 5 wires, 26 AWG x5, cut 60/120/180/220 mm | 1 cable | trunk_top, battery_bay | 25, 26 | Amazon | made |  |
-| C54 | DC4: chest SYS to DK6, DK6 and DK7 to SW1 VIN (D50) | 5 wires, 20 AWG x2, 26 AWG x2, 16 AWG x1, cut 60/70/80/190 mm | 1 cable | trunk_top, battery_bay | 23, 25, L5, 26 | Amazon | made |  |
+| C51 | D16: Pi header to the head touch board (3V3, GND, SDA, SCL; D51) | 4 wires, 26 AWG x4, cut 140 mm | 1 cable | head | 25, 26 | Amazon | made |  |
+| C52 | D17: head touch board E0 and GND to the head-top pad PH1 (D51) | 2 wires, 26 AWG x2, cut 90 mm | 1 cable | head | 25, 26 | Amazon | made |  |
+| C53 | D18: head touch board E1 and GND to the back-of-head pad PH2 (D51) | 2 wires, 26 AWG x2, cut 90 mm | 1 cable | head | 25, 26 | Amazon | made |  |
+| C54 | D19: BNO055 header to the body touch board (3V3, GND, SDA, SCL, tapping D2; D51) | 4 wires, 26 AWG x4, cut 100 mm | 1 cable | trunk_top | 25, 26 | Amazon | made |  |
+| C55 | D20: body touch board E0 and GND to the back pad PB1 (D51) | 2 wires, 26 AWG x2, cut 80 mm | 1 cable | trunk_top | 25, 26 | Amazon | made |  |
+| C56 | D21: body touch board to the cliff ToF (3V3, GND, SDA, SCL; D54) | 4 wires, 26 AWG x4, cut 200 mm | 1 cable | trunk_top, belly | 25, 26 | Amazon | made |  |
+| C57 | D22: cliff ToF interrupt to Pi GPIO17, pin 11 (D54), one wire in the D21, D19 and D2 bundles | 1 wire, 26 AWG x1, cut 690 mm | 1 cable | belly, trunk_top, neck, head (crosses neck_pitch, head_pitch, head_yaw, head_roll) | 25, 26 | Amazon | made |  |
+| C58 | DC1: chest CHG+ to DK2, DK2 to the 5 A fuse F2, F2 to BMS P+ (D43) | 4 wires, 20 AWG x3, 26 AWG x1, cut 60/110/180 mm | 1 cable | trunk_top, battery_bay | 23, 25, 26 | Amazon | made |  |
+| C59 | DC2: chest GND to the splice JGD inside the trunk, JGD to BMS P- (D43, D50) | 2 wires, 20 AWG x2, cut 60/210 mm | 1 cable | trunk_top, battery_bay | 23, 26 | Amazon | made |  |
+| C60 | DC3: chest SENSE to the splice JSN inside the trunk, JSN to the cell NTC and to the wake branch at SW1 ON (D43) | 5 wires, 26 AWG x5, cut 60/120/180/220 mm | 1 cable | trunk_top, battery_bay | 25, 26 | Amazon | made |  |
+| C61 | DC4: chest SYS to DK6, DK6 and DK7 to SW1 VIN (D50) | 5 wires, 20 AWG x2, 26 AWG x2, 16 AWG x1, cut 60/70/80/190 mm | 1 cable | trunk_top, battery_bay | 23, 25, L5, 26 | Amazon | made |  |
 
 ## Connectors and wire
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
-| C55 | Servo kit cable, 15 cm 5264-3P | one ships with each STS3215 (14 in all) | 11 |  | 1 | Seeed Studio | in kit | 11 used, 3 spare |
-| C56 | Mini-SPOX housing, Molex 50-37-5033 | 3 pos 2.5 mm, mates the servo sockets | 7 |  | 21 | Newark 57H1785 | bought |  |
-| C57 | Mini-SPOX crimp terminal, Molex 08-70-1040 | 22 to 28 AWG | 17 |  | 22 | Newark 54H5573 | bought |  |
-| C58 | Heat shrink pieces (splices and solder joints) | one sleeve per joint: 17 splices, 16 wire to lead, 3 lead to lead, 4 XT30 solder cups, 2 caps on cut lead wires | 42 |  | 26 | Amazon | bought | one sleeve per splice; one per solder joint outside a splice where a wire meets a part's flying lead or two flying leads meet (holder, BEC, resistor and LED leads); one over each XT30 solder cup (HARNESS_BUILD 'heat shrink over the cup'); one cap on each cut lead wire the netlist says to insulate. None on board pads, holes, header pins, plugs, sockets and screw terminals; switch terminals, lugs and tabs get one only if copper shows (HARNESS_BUILD 'heat shrink if bare'), not counted (wiring/netlist.yaml). The 3D view draws 42 of the 42. The 2 holder lead joints (hs-P1-PACK-Bp, hs-P2-PACK-Bn) go away if the holder leads reach the BMS (120 mm or longer, netlist PACK note). |
-| C59 | Wire 16 AWG black | silicone stranded; sum of netlist cut lengths | 0.66 m |  | L5 | Amazon | bought |  |
-| C60 | Wire 16 AWG red | silicone stranded; sum of netlist cut lengths | 0.74 m |  | L5 | Amazon | bought |  |
-| C61 | Wire 20 AWG black | silicone stranded; sum of netlist cut lengths | 1.26 m |  | 23 | Amazon | bought |  |
-| C62 | Wire 20 AWG red | silicone stranded; sum of netlist cut lengths | 1.51 m |  | 23 | Amazon | bought |  |
-| C63 | Wire 22 AWG black | silicone stranded; sum of netlist cut lengths | 1.84 m |  | 24 | Amazon | bought |  |
-| C64 | Wire 22 AWG red | silicone stranded; sum of netlist cut lengths | 1.36 m |  | 24 | Amazon | bought |  |
-| C65 | Wire 22 AWG yellow | silicone stranded; sum of netlist cut lengths | 0.48 m |  | 24 | Amazon | bought |  |
-| C66 | Wire 26 AWG black | silicone stranded; sum of netlist cut lengths | 4.37 m |  | 25 | Amazon | bought |  |
-| C67 | Wire 26 AWG blue | silicone stranded; sum of netlist cut lengths | 1.53 m |  | 25 | Amazon | bought |  |
-| C68 | Wire 26 AWG brown | silicone stranded; sum of netlist cut lengths | 0.22 m |  | 25 | Amazon | bought |  |
-| C69 | Wire 26 AWG green | silicone stranded; sum of netlist cut lengths | 1.39 m |  | 25 | Amazon | bought |  |
-| C70 | Wire 26 AWG red | silicone stranded; sum of netlist cut lengths | 1.28 m |  | 25 | Amazon | bought |  |
-| C71 | Wire 26 AWG white | silicone stranded; sum of netlist cut lengths | 2.51 m |  | 25 | Amazon | bought |  |
-| C72 | Wire 26 AWG yellow | silicone stranded; sum of netlist cut lengths | 1.44 m |  | 25 | Amazon | bought |  |
+| C62 | Servo kit cable, 15 cm 5264-3P | one ships with each STS3215 (14 in all) | 11 |  | 1 | Seeed Studio | in kit | 11 used, 3 spare |
+| C63 | Mini-SPOX housing, Molex 50-37-5033 | 3 pos 2.5 mm, mates the servo sockets | 7 |  | 21 | Newark 57H1785 | bought |  |
+| C64 | Mini-SPOX crimp terminal, Molex 08-70-1040 | 22 to 28 AWG | 17 |  | 22 | Newark 54H5573 | bought |  |
+| C65 | Heat shrink pieces (splices and solder joints) | one sleeve per joint: 17 splices, 16 wire to lead, 3 lead to lead, 4 XT30 solder cups, 2 caps on cut lead wires | 42 |  | 26 | Amazon | bought | one sleeve per splice; one per solder joint outside a splice where a wire meets a part's flying lead or two flying leads meet (holder, BEC, resistor and LED leads); one over each XT30 solder cup (HARNESS_BUILD 'heat shrink over the cup'); one cap on each cut lead wire the netlist says to insulate. None on board pads, holes, header pins, plugs, sockets and screw terminals; switch terminals, lugs and tabs get one only if copper shows (HARNESS_BUILD 'heat shrink if bare'), not counted (wiring/netlist.yaml). The 3D view draws 42 of the 42. The 2 holder lead joints (hs-P1-PACK-Bp, hs-P2-PACK-Bn) go away if the holder leads reach the BMS (120 mm or longer, netlist PACK note). |
+| C66 | Wire 16 AWG black | silicone stranded; sum of netlist cut lengths | 0.66 m |  | L5 | Amazon | bought |  |
+| C67 | Wire 16 AWG red | silicone stranded; sum of netlist cut lengths | 0.74 m |  | L5 | Amazon | bought |  |
+| C68 | Wire 20 AWG black | silicone stranded; sum of netlist cut lengths | 1.26 m |  | 23 | Amazon | bought |  |
+| C69 | Wire 20 AWG red | silicone stranded; sum of netlist cut lengths | 1.51 m |  | 23 | Amazon | bought |  |
+| C70 | Wire 22 AWG black | silicone stranded; sum of netlist cut lengths | 1.84 m |  | 24 | Amazon | bought |  |
+| C71 | Wire 22 AWG red | silicone stranded; sum of netlist cut lengths | 1.36 m |  | 24 | Amazon | bought |  |
+| C72 | Wire 22 AWG yellow | silicone stranded; sum of netlist cut lengths | 0.48 m |  | 24 | Amazon | bought |  |
+| C73 | Wire 26 AWG black | silicone stranded; sum of netlist cut lengths | 5.07 m |  | 25 | Amazon | bought |  |
+| C74 | Wire 26 AWG blue | silicone stranded; sum of netlist cut lengths | 1.97 m |  | 25 | Amazon | bought |  |
+| C75 | Wire 26 AWG brown | silicone stranded; sum of netlist cut lengths | 0.22 m |  | 25 | Amazon | bought |  |
+| C76 | Wire 26 AWG green | silicone stranded; sum of netlist cut lengths | 2.08 m |  | 25 | Amazon | bought |  |
+| C77 | Wire 26 AWG red | silicone stranded; sum of netlist cut lengths | 1.72 m |  | 25 | Amazon | bought |  |
+| C78 | Wire 26 AWG white | silicone stranded; sum of netlist cut lengths | 2.77 m |  | 25 | Amazon | bought |  |
+| C79 | Wire 26 AWG yellow | silicone stranded; sum of netlist cut lengths | 1.88 m |  | 25 | Amazon | bought |  |
 
 ## Consumables and other
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
-| K01 | Solder wire, rosin core | about 200 solder joints and splice ends in the netlist | 1 |  | 30 | Adafruit 1886 | bought | wiring/netlist.yaml wire ends: splices, pads, cups, header holes |
+| K01 | Solder wire, rosin core | about 237 solder joints and splice ends in the netlist | 1 |  | 30 | Adafruit 1886 | bought | wiring/netlist.yaml wire ends: splices, pads, cups, header holes |
 | K02 | Cable ties, small nylon | about 100 mm | 75 |  | 32 | Home Depot | bought | MOUNTING.md: cable tie at the servo power splices and the USB slack coil; 75 placed along the cables in the 3D view, one per retention item (55 adhesive tie mount, 9 cable tie, 2 cable tie to a neighbour cable, 3 drilled printed feature, 6 existing printed feature), 69 at gaps |
 | K09 | Adhesive tie mount MB3A | placed along the cables (altaay_lab/cables3d) | 32 |  | 34 | Standard Electric Supply (US) | bought | 32 at places where the CAD has no feature |
 | K10 | Adhesive tie mount ABM1M-AT-C | placed along the cables (altaay_lab/cables3d) | 23 |  | 34b | Hisco (Houston, TX) | bought | 23 at places where the CAD has no feature |
-| K11 | Smart serial bus servo, knees (D32) | Feetech STS3250-C002 (the STS3250 without bracket): 50 kg.cm and 4.2 A at 12 V, rated input 6 to 12 V, aluminium case tapped 4-M2.0, 74.5 g, the same 45.22 x 24.72 x 35 mm outline, 25T horn and 5264 connector as the C001 (SERVO_UPGRADE_OPTIONS.md F5, F9) | 2 |  | 1b | OpenELAB | bought |  |
-| K12 | Main power switch: replaced (D30) | Pololu 2815 Big MOSFET Slide Switch with Reverse Voltage Protection, HP: 4.5 to 32 V, 6 A at 55 C and 16 A at 150 C MOSFET temperature, 90 A max, 0.8 x 1.0 x 0.16 in; on-board slide set OFF, controlled by line 10b | 0 |  | 10r | Pololu (Las Vegas, NV) | bought |  |
-| K13 | Control switch: replaced (D30) | Stock panel slide switch in the body_back cutout (CAD power_switch.stl: flange 23.4 x 7.4, body 15.7 x 7.4, actuator 5.4 x 3.8 mm), switches only the Pololu 2815 control pin (microamps) | 0 |  | 10b-old | see Verified | bought |  |
-| K14 | Threadlocker | Loctite 243, 6 mL, P/N 1330799 | 1 |  | 19 | Amazon | bought |  |
-| K15 | Foam mounting tape | 3M VHB 4950, 3/4 in x 5 yd, 1.1 mm (45 mil) acrylic foam, for the BEC Pro, fuse holder, Pololu 2813 (D30), 5 V regulator, amp, the eye LED rings, the side lamp module, its reflector interface and E5 (D33), the D30 button plate flange (MOUNTING.md; twin/assembly/ASSEMBLY_TWIN.md item 1), the chest contact pad DK1 (4 strips of 100 mm) | 0.8 m |  | 29 | Zoro (3M) | bought |  |
-| K16 | KK 254 crimp terminal (X1, D36) | Molex 08-50-0114, KK 254 2759 series, 22 to 30 AWG, 3 A ([I] https://www.datasheets.com/molex/08-50-0114, search text; 4 A on Octopart); the 27 Pi header ends (D2 to D10, P12, P17) crimped instead of soldered, so the Pi unplugs | 27 |  | 22b | Octopart (lowest listed) | bought |  |
-| K17 | KK 254 crimp housings (X1, D36) | Molex KK 254 1-row housings (2695 series), one per Pi header cable, widths from the pin map in wiring/netlist.yaml (11 cables) | 11 |  | 22c | BLOCKER | bought |  |
-| K18 | Lever splices (X4, D36) | WAGO 221 pocket pack: 3 each of 221-412, 221-413 and 221-415 (24 to 12 AWG, 20 A, 600 V: [I] https://core-electronics.com.au/wago-snap-action-solderless-connection-5-conductor-221-415.html, search text); splice G uses one 221-415 (4 wires), VSW one 221-413 (3 wires), in the battery bay | 2 |  | 26b | eBay | bought |  |
-| K19 | Flux pen (optional, recommended for 16 AWG) | Chip Quik CQ4LF no-clean liquid flux pen, 10 mL, for leaded and lead-free solder, classification printed as "INM0", shelf life over 24 months (page) | 1 |  | 31 | Adafruit 3468 | bought |  |
-| K20 | Isopropyl alcohol | Techspray 1610-P, 99.8 % anhydrous isopropyl alcohol, no denaturant, ACS reagent grade, 1 pint bottle, flammable (flash point 53 C), shelf life 1825 days (page). Wipe each line 34 and 34b mount spot and each line 29 VHB tape spot with a clean cloth or paper towel wetted with it, then let it dry before the adhesive goes on; 3M's VHB surface preparation bulletin calls for a 50:50 isopropyl alcohol and water wipe on most surfaces and 3M also lists 70:30 (read via search index; 3m.com refuses curl), so a 70 % pharmacy rubbing alcohol also works | 1 bottle (55 mount spots of lines 34 and 34b plus the line 29 tape spots) |  | 35 | TestEquity (Moorpark, CA) | bought |  |
-| K21 | Polyimide (Kapton) tape | Adafruit 3057 polyimide tape, 10 mm wide, 33 m roll, stable from about -269 C to +400 C (page); thickness and dielectric strength not stated (UNVERIFIED). Wraps the Tenergy BMS, 34 x 16 x 4.5 mm (MOUNTING.md: "wrap in kapton tape before it goes in") | about 0.2 m (2 turns of 77 mm around the 34 x 4.5 mm section to cover the 16 mm width, calculated) |  | 33 | Adafruit 3057 | bought |  |
-| K22 | Camera cable, replaced (D34) | Pi Zero camera cable 150 mm, Adafruit 3157: 77 mm short of the flat strip route (B61) | 0 |  | E7r | Adafruit 3157 | bought |  |
-| K23 | I2S microphones (D47) | Adafruit I2S MEMS Microphone Breakout SPH0645LM4H, product 3421: Knowles SPH0645LM4H-B bottom-port I2S mic (datasheet Rev B: 2.048 to 4.096 MHz clock, AOP 120 dB SPL, SNR 65 dB(A)); 2 boards, one per side wall of the head, SEL low on the left, high on the right, sharing the MAX98357A clocks, data on GPIO20; board 16.51 x 12.7 mm (board files), 16.7 x 12.7 x 1.8 mm overall and 0.4 g (product page); Adafruit marks its ICS-43434 board (6049) discontinued with the SPH0645LM4H as the drop-in; the bare SPH0645LM4H is listed obsolete at one parts index and a DigiKey search result, so buy both boards in one order (single source, Knowles, US maker; not Chinese) | 2 |  | E8 | Adafruit 3421 | bought |  |
+| K11 | Main power switch: replaced (D30) | Pololu 2815 Big MOSFET Slide Switch with Reverse Voltage Protection, HP: 4.5 to 32 V, 6 A at 55 C and 16 A at 150 C MOSFET temperature, 90 A max, 0.8 x 1.0 x 0.16 in; on-board slide set OFF, controlled by line 10b | 0 |  | 10r | Pololu (Las Vegas, NV) | bought |  |
+| K12 | Control switch: replaced (D30) | Stock panel slide switch in the body_back cutout (CAD power_switch.stl: flange 23.4 x 7.4, body 15.7 x 7.4, actuator 5.4 x 3.8 mm), switches only the Pololu 2815 control pin (microamps) | 0 |  | 10b-old | see Verified | bought |  |
+| K13 | Threadlocker | Loctite 243, 6 mL, P/N 1330799 | 1 |  | 19 | Amazon | bought |  |
+| K14 | Foam mounting tape | 3M VHB 4950, 3/4 in x 5 yd, 1.1 mm (45 mil) acrylic foam, for the BEC Pro, fuse holder, Pololu 2813 (D30), 5 V regulator, amp, the eye LED rings, the side lamp module, its reflector interface and E5 (D33), the D30 button plate flange (MOUNTING.md; twin/assembly/ASSEMBLY_TWIN.md item 1), the chest contact pad DK1 (4 strips of 100 mm), the two MPR121 touch boards (D51) and the foam ring on the speaker duct end, one liner left on (D52) | 0.8 m |  | 29 | Zoro (3M) | bought |  |
+| K15 | KK 254 crimp terminal (X1, D36) | Molex 08-50-0114, KK 254 2759 series, 22 to 30 AWG, 3 A ([I] https://www.datasheets.com/molex/08-50-0114, search text; 4 A on Octopart); the 27 Pi header ends (D2 to D10, P12, P17) crimped instead of soldered, so the Pi unplugs | 27 |  | 22b | Octopart (lowest listed) | bought |  |
+| K16 | KK 254 crimp housings (X1, D36) | Molex KK 254 1-row housings (2695 series), one per Pi header cable, widths from the pin map in wiring/netlist.yaml (11 cables) | 11 |  | 22c | BLOCKER | bought |  |
+| K17 | Lever splices (X4, D36) | WAGO 221 pocket pack: 3 each of 221-412, 221-413 and 221-415 (24 to 12 AWG, 20 A, 600 V: [I] https://core-electronics.com.au/wago-snap-action-solderless-connection-5-conductor-221-415.html, search text); splice G uses one 221-415 (4 wires), VSW one 221-413 (3 wires), in the battery bay | 2 |  | 26b | eBay | bought |  |
+| K18 | Flux pen (optional, recommended for 16 AWG) | Chip Quik CQ4LF no-clean liquid flux pen, 10 mL, for leaded and lead-free solder, classification printed as "INM0", shelf life over 24 months (page) | 1 |  | 31 | Adafruit 3468 | bought |  |
+| K19 | Isopropyl alcohol | Techspray 1610-P, 99.8 % anhydrous isopropyl alcohol, no denaturant, ACS reagent grade, 1 pint bottle, flammable (flash point 53 C), shelf life 1825 days (page). Wipe each line 34 and 34b mount spot and each line 29 VHB tape spot with a clean cloth or paper towel wetted with it, then let it dry before the adhesive goes on; 3M's VHB surface preparation bulletin calls for a 50:50 isopropyl alcohol and water wipe on most surfaces and 3M also lists 70:30 (read via search index; 3m.com refuses curl), so a 70 % pharmacy rubbing alcohol also works | 1 bottle (55 mount spots of lines 34 and 34b plus the line 29 tape spots) |  | 35 | TestEquity (Moorpark, CA) | bought |  |
+| K20 | Polyimide (Kapton) tape | Adafruit 3057 polyimide tape, 10 mm wide, 33 m roll, stable from about -269 C to +400 C (page); thickness and dielectric strength not stated (UNVERIFIED). Wraps the Tenergy BMS, 34 x 16 x 4.5 mm (MOUNTING.md: "wrap in kapton tape before it goes in") | about 0.2 m (2 turns of 77 mm around the 34 x 4.5 mm section to cover the 16 mm width, calculated) |  | 33 | Adafruit 3057 | bought |  |
+| K21 | Camera cable, replaced (D34) | Pi Zero camera cable 150 mm, Adafruit 3157: 77 mm short of the flat strip route (B61) | 0 |  | E7r | Adafruit 3157 | bought |  |
+| K22 | I2S microphones (D47) | Adafruit I2S MEMS Microphone Breakout SPH0645LM4H, product 3421: Knowles SPH0645LM4H-B bottom-port I2S mic (datasheet Rev B: 2.048 to 4.096 MHz clock, AOP 120 dB SPL, SNR 65 dB(A)); 2 boards, one per side wall of the head, SEL low on the left, high on the right, sharing the MAX98357A clocks, data on GPIO20; board 16.51 x 12.7 mm (board files), 16.7 x 12.7 x 1.8 mm overall and 0.4 g (product page); Adafruit marks its ICS-43434 board (6049) discontinued with the SPH0645LM4H as the drop-in; the bare SPH0645LM4H is listed obsolete at one parts index and a DigiKey search result, so buy both boards in one order (single source, Knowles, US maker; not Chinese) | 2 |  | E8 | Adafruit 3421 | bought |  |
 
 ## Tools
 
@@ -286,26 +280,26 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | K06 | Bench DC supply with current limit | TEST_PLAN.md section 0: first power always current limited | 1 |  | TE2 | Siglent Technologies America (North Plains, OR) | tool | TEST_PLAN.md sections 4, 5, 7, 8 |
 | K07 | Digital calipers | TEST_PLAN.md section 0 | 1 |  | TE3 | Penn Tool Co. (Maplewood, NJ) | tool | TEST_PLAN.md section 0 and the coupon checks |
 | K08 | Load for the regulator tests | TEST_PLAN.md section 4 and 5 input sweeps | 1 |  | TE4 | Siglent Technologies America (North Plains, OR) | tool | TEST_PLAN.md sections 4 and 5 |
-| K24 | Soldering iron | Pine64 Pinecil V2 (needs a USB-C PD 20 V 3.25 A supply: lines T6 and T6b) | 1 |  | T1 | Pine64 | tool |  |
-| K25 | Insert tips | Pinecil threaded insert tips set and adapter | 1 |  | T2 | Pine64 | tool |  |
-| K26 | Crimper | Engineer PA-09 (Mini-SPOX 5263 and JST XH per DigiKey chart) | 1 |  | T3 | Amazon | tool |  |
-| K27 | Hex keys | Bondhus 12192 hex L-keys 1.5 to 6 mm, 7 pc (2.0 mm for M2.5, 2.5 mm for M3 SHCS) | 1 |  | T4 | Crawford Tool | tool |  |
-| K28 | Wire stripper | Klein 11057, 22 to 32 AWG stranded | 1 |  | T5 | Home Depot | tool |  |
-| K29 | BEC programmer | Castle Link V4 011-0173-00 (needs Windows 10 PC) | 1 |  | L2 | Castle Creations | tool |  |
-| K30 | USB-C to USB-C cable, 5 A | Adafruit 4199, USB 3.1 Gen 4 with E-Mark, 1 m; Adafruit: it "includes an EMARK chip ... you can use this for high current (5A) charging". The 3.2 A short tip draw at 20 V is above 3 A, so the cable needs the 5 A e-marker | 1 |  | T6b | Adafruit 4199 | tool |  |
-| K31 | USB-A to USB-C cable | Amazon Basics USB-A to USB-C, USB 2.0, USB-IF certified, 3 ft, maximum current 3 A, 15 W at 5 V (page). An A to C cable carries the resistor that tells the board it may draw 5 V (Adafruit on its A to C cable: "The cable has built in resistors to force it to 5V power", https://www.adafruit.com/product/4474), so it works whether or not the Adeept board has USB-C CC pull-down resistors (its listing does not say) | 1 |  | T7b | Amazon (ships from and sold by Amazon.com) | tool |  |
-| K32 | microSD card reader (optional, often on hand) | Adafruit 5212 USB Type C microSD card reader/writer, mass storage, no driver (page); USB-C plug, so the PC needs a USB-C port | 1 |  | T8 | Adafruit 5212 | tool |  |
-| K33 | Wire stripper 12 to 20 AWG | Klein 11055, "Strips, cuts, loops 10-18 AWG solid and 12-20 AWG stranded wire" (page); covers the 16 AWG and 20 AWG runs that T5 (22 to 32 AWG) cannot | 1 |  | T9 | Home Depot | tool |  |
-| K34 | Heat gun | Wagner Furno 300, dual temperature, corded, 10 A, 20 cu ft/min, minimum temperature 750 F, 2 year limited warranty (page specs); for the adhesive lined 3:1 heat shrink (line 26); shrink each joint before it goes near printed PLA | 1 |  | T10 | Home Depot | tool |  |
-| K35 | Drill bit 6.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 70 mm flutes, Qualtech DWDMM6.00; opens the 24 neck chain screw recesses from 5.5 to 6.0 mm after printing and on coupon C4 (D20, print/PRINT_PLAN.md "After printing") | 1 |  | T11 | Drills and Cutters (Doral, FL) | tool |  |
-| K36 | Drill bit 2.7 mm | HSS jobber, black oxide, 118 deg point, round shank, Qualtech DWDMM2.70; opens the 4 battery_pack_lid clearance holes from 2.5 to 2.7 mm (D20) | 1 |  | T12 | Drills and Cutters (Doral, FL) | tool |  |
-| K37 | Hand holder for T11, T12, T14 and T15 | Qualtech DWTD328 T-handle tap wrench for 1/16 to 1/4 in taps, carbon steel; turns the bits by hand, slowly, so the cut in PLA stays controlled (no power tool) | 1 |  | T13 | Drills and Cutters (Doral, FL) | tool |  |
-| K38 | Drill bit 4.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 75 mm long, 54 mm flutes, Qualtech DWDMM4.00; drills the 4.0 mm lead hole for the projector LED (D7) through the printed head wall (D24) and the three D25 cable tie-hole pairs (two in neck_right_sheet, one in the left leg's knee_to_ankle_right_sheet) (print/PRINT_PLAN.md "After printing" steps 4 and 5); turned in the T13 holder | 1 |  | T14 | Drills and Cutters (Doral, FL) | tool |  |
-| K39 | Drill bit 4.5 mm (contingency) | HSS jobber, black oxide, 118 deg point, round shank, 80 mm long, 56 mm flutes, Qualtech DWDMM4.50; opens the M2 screw recesses only if coupon C4 shows a servo-bag screw head that does not fit (D20 coupon gate) | 1 |  | T15 | Drills and Cutters (Doral, FL) | tool |  |
-| K40 | Screwdriver PH 0 (D36) | Wera 2050 PH 0 x 60 mm, blade 3.0 mm, for the cross-head screws (twin/assembly/ASSEMBLY_TWIN.md item 2, B53) | 1 |  | T16 | Haus of Tools | tool |  |
-| K41 | Screwdriver PH 1 (D36) | Wera 2050 PH 1 x 80 mm, blade 4.0 mm | 1 |  | T17 | Haus of Tools | tool |  |
-| K42 | Bit PH 0 x 25 mm (D36) | Wera 851/1 Z PH 0 x 25 mm, 1/4 in hex, for the six screws with 35.6 to 58.5 mm free | 1 |  | T18 | Jensen Tools | tool |  |
-| K43 | Drill bit 1/16 in (D36) | Hyper Tough 3 piece 1/16 in HSS roll forged bits, AU00040K; the camera pilots (print/PRINT_PLAN.md After printing) | 1 |  | T19 | Walmart | tool |  |
+| K23 | Soldering iron | Pine64 Pinecil V2 (needs a USB-C PD 20 V 3.25 A supply: lines T6 and T6b) | 1 |  | T1 | Pine64 | tool |  |
+| K24 | Insert tips | Pinecil threaded insert tips set and adapter | 1 |  | T2 | Pine64 | tool |  |
+| K25 | Crimper | Engineer PA-09 (Mini-SPOX 5263 and JST XH per DigiKey chart) | 1 |  | T3 | Amazon | tool |  |
+| K26 | Hex keys | Bondhus 12192 hex L-keys 1.5 to 6 mm, 7 pc (2.0 mm for M2.5, 2.5 mm for M3 SHCS) | 1 |  | T4 | Crawford Tool | tool |  |
+| K27 | Wire stripper | Klein 11057, 22 to 32 AWG stranded | 1 |  | T5 | Home Depot | tool |  |
+| K28 | BEC programmer | Castle Link V4 011-0173-00 (needs Windows 10 PC) | 1 |  | L2 | Castle Creations | tool |  |
+| K29 | USB-C to USB-C cable, 5 A | Adafruit 4199, USB 3.1 Gen 4 with E-Mark, 1 m; Adafruit: it "includes an EMARK chip ... you can use this for high current (5A) charging". The 3.2 A short tip draw at 20 V is above 3 A, so the cable needs the 5 A e-marker | 1 |  | T6b | Adafruit 4199 | tool |  |
+| K30 | USB-A to USB-C cable | Amazon Basics USB-A to USB-C, USB 2.0, USB-IF certified, 3 ft, maximum current 3 A, 15 W at 5 V (page). An A to C cable carries the resistor that tells the board it may draw 5 V (Adafruit on its A to C cable: "The cable has built in resistors to force it to 5V power", https://www.adafruit.com/product/4474), so it works whether or not the Adeept board has USB-C CC pull-down resistors (its listing does not say) | 1 |  | T7b | Amazon (ships from and sold by Amazon.com) | tool |  |
+| K31 | microSD card reader (optional, often on hand) | Adafruit 5212 USB Type C microSD card reader/writer, mass storage, no driver (page); USB-C plug, so the PC needs a USB-C port | 1 |  | T8 | Adafruit 5212 | tool |  |
+| K32 | Wire stripper 12 to 20 AWG | Klein 11055, "Strips, cuts, loops 10-18 AWG solid and 12-20 AWG stranded wire" (page); covers the 16 AWG and 20 AWG runs that T5 (22 to 32 AWG) cannot | 1 |  | T9 | Home Depot | tool |  |
+| K33 | Heat gun | Wagner Furno 300, dual temperature, corded, 10 A, 20 cu ft/min, minimum temperature 750 F, 2 year limited warranty (page specs); for the adhesive lined 3:1 heat shrink (line 26); shrink each joint before it goes near printed PLA | 1 |  | T10 | Home Depot | tool |  |
+| K34 | Drill bit 6.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 70 mm flutes, Qualtech DWDMM6.00; opens the 24 neck chain screw recesses from 5.5 to 6.0 mm after printing and on coupon C4 (D20, print/PRINT_PLAN.md "After printing") | 1 |  | T11 | Drills and Cutters (Doral, FL) | tool |  |
+| K35 | Drill bit 2.7 mm | HSS jobber, black oxide, 118 deg point, round shank, Qualtech DWDMM2.70; opens the 4 battery_pack_lid clearance holes from 2.5 to 2.7 mm (D20) | 1 |  | T12 | Drills and Cutters (Doral, FL) | tool |  |
+| K36 | Hand holder for T11, T12, T14 and T15 | Qualtech DWTD328 T-handle tap wrench for 1/16 to 1/4 in taps, carbon steel; turns the bits by hand, slowly, so the cut in PLA stays controlled (no power tool) | 1 |  | T13 | Drills and Cutters (Doral, FL) | tool |  |
+| K37 | Drill bit 4.0 mm | HSS jobber, black oxide, 118 deg point, round shank, 75 mm long, 54 mm flutes, Qualtech DWDMM4.00; drills the 4.0 mm lead hole for the projector LED (D7) through the printed head wall (D24) and the three D25 cable tie-hole pairs (two in neck_right_sheet, one in the left leg's knee_to_ankle_right_sheet) (print/PRINT_PLAN.md "After printing" steps 4 and 5); turned in the T13 holder | 1 |  | T14 | Drills and Cutters (Doral, FL) | tool |  |
+| K38 | Drill bit 4.5 mm (contingency) | HSS jobber, black oxide, 118 deg point, round shank, 80 mm long, 56 mm flutes, Qualtech DWDMM4.50; opens the M2 screw recesses only if coupon C4 shows a servo-bag screw head that does not fit (D20 coupon gate) | 1 |  | T15 | Drills and Cutters (Doral, FL) | tool |  |
+| K39 | Screwdriver PH 0 (D36) | Wera 2050 PH 0 x 60 mm, blade 3.0 mm, for the cross-head screws (twin/assembly/ASSEMBLY_TWIN.md item 2, B53) | 1 |  | T16 | Haus of Tools | tool |  |
+| K40 | Screwdriver PH 1 (D36) | Wera 2050 PH 1 x 80 mm, blade 4.0 mm | 1 |  | T17 | Haus of Tools | tool |  |
+| K41 | Bit PH 0 x 25 mm (D36) | Wera 851/1 Z PH 0 x 25 mm, 1/4 in hex, for the six screws with 35.6 to 58.5 mm free | 1 |  | T18 | Jensen Tools | tool |  |
+| K42 | Drill bit 1/16 in (D36) | Hyper Tough 3 piece 1/16 in HSS roll forged bits, AU00040K; the camera pilots (print/PRINT_PLAN.md After printing) | 1 |  | T19 | Walmart | tool |  |
 
 ## BOM.md lines and the rows that use them
 

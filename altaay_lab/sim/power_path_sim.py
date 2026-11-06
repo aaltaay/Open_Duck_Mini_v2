@@ -115,7 +115,13 @@ def netlist_lengths(path=None):
     d["P6"] = one("P6", "BMS.P+", "XT30.F+")
     d["P8"] = one("P8", "BMS.P-", "XT30.F-")
     # P7: XT30 male + -> JFI -> fuse holder line lead; fuse holder load lead -> JFO -> 2815 VIN (four pieces in series)
-    d["P7"] = [one("P7", "XT30.M+", "JFI.S"), one("P7", "JFI.S", "F1.IN"), one("P7", "F1.OUT", "JFO.S"), one("P7", "JFO.S", "SW1.VIN")]
+    if any(w["cable"] == "P7" and w["to"] == "DK7.VIN" for w in W):
+        # D50: the fused pack reaches the 2813 through the DK7 ideal diode (Pololu 5383): P7 to DK7 VIN, then the 16 AWG
+        # DC4 piece DK7 VOUT to SW1 VIN; the diode's own on-resistance is not in this model (not read: BLOCKER, it adds)
+        d["P7"] = [one("P7", "XT30.M+", "JFI.S"), one("P7", "JFI.S", "F1.IN"), one("P7", "F1.OUT", "JFO.S"), one("P7", "JFO.S", "DK7.VIN"),
+                   one("DC4", "DK7.VOUT", "SW1.VIN")]
+    else:
+        d["P7"] = [one("P7", "XT30.M+", "JFI.S"), one("P7", "JFI.S", "F1.IN"), one("P7", "F1.OUT", "JFO.S"), one("P7", "JFO.S", "SW1.VIN")]
     d["P14"] = one("P14", "XT30.M-", "G.S")
     d["P9"] = one("P9", "SW1.VOUT", "VSW.S")
     d["P10p"] = one("P10", "VSW.S", "U1.IN+"); d["P10n"] = one("P10", "G.S", "U1.IN-")

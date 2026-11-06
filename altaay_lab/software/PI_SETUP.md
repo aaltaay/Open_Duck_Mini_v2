@@ -77,6 +77,16 @@ dtoverlay=i2c-gpio,bus=1,i2c_gpio_sda=2,i2c_gpio_scl=3,i2c_gpio_delay_us=2
 ```
 [I overlays README lines 2215-2233: i2c-gpio params, `bus` sets /dev/i2c-<n>, delay 2 us = about 100 kHz]. Reboot and run imu_check.py again.
 
+### 4c. V1 freeze (2026-11-06 ET): ear PWM and the new I2C parts (D51, D53, D54)
+Ears on hardware PWM (D53). In /boot/firmware/config.txt:
+```
+dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4
+```
+- GPIO12 is PWM0 and GPIO13 is PWM1 in alt function 0 (func=4); the overlay's default pins are 18 and 19, which are the I2S BCLK and LRCLK here, so the plain overlay would break the audio (expression study 4.4, from the raspberrypi/linux rpi-6.6.y overlays README, pwm-2chan). Keep the onboard analogue audio off: it uses both PWM channels (same README).
+- Check: `ls /sys/class/pwm/pwmchip0` lists `export`, and `raspi-gpio get 12,13` (or `pinctrl get 12,13`) shows a0 PWM0 and PWM1.
+- BLOCKER for the software: the Runtime's antennas.py drives GPIO12 and 13 through Blinka pwmio, which on a Pi Zero 2 W is RPi.GPIO software PWM (expression study, Blinka 9.2.0 pwmio.py line 25). With this overlay the pins belong to the PWM block, so antennas.py has to write the hardware channels (sysfs /sys/class/pwm/pwmchip0/pwm0 and pwm1, 20 ms period, 1.0 to 2.0 ms duty) instead. That is a Runtime change, and D6 keeps the Runtime unmodified: Ahmed's call (STATE.md open questions). Stop the pulses after each move so the analogue SG90 idles quietly (expression study 4.4).
+I2C bus 1 after the freeze: `i2cdetect -y 1` shows 28 (BNO055), 29 (VL53L4CD cliff ToF), 5a (MPR121 head) and 5b (MPR121 body). The BNO055 ADR pin must stay low: at 0x29 it would clash with the ToF (perception study 3.1). The ToF interrupt is GPIO17 (pin 11), an input; polling the ToF every walk cycle is the default and the interrupt is optional.
+
 ## 5. Servo bus adapter and udev
 
 Jumper on B (USB) [I Waveshare wiki "USB Control"], H1 screw terminal not connected (D15). Plug the adapter into the Pi data micro-USB port.

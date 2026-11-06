@@ -9,7 +9,7 @@ Writes, next to this script:
   4_head_expression.svg/.png  eye and projector LEDs with resistors, antenna SG90s, amplifier and speaker, camera
   5_harness.svg/.png       where each cable runs through the body (regions, joints crossed)
   WIRING_SHEETS.md         index, coverage table, how to regenerate
-Stops with an error if any active netlist wire is not drawn in full on sheets 1 to 4, or any active cable is
+Stops with an error if any active netlist wire is not drawn in full on sheets 1 to 4 and 6, or any active cable is
 missing from sheet 5. Layout warnings (overlaps, labels too long) are printed; --strict turns them into errors.
 Usage: python3 wiring/sheets/make_sheets.py [--strict]
 """
@@ -758,6 +758,9 @@ def sheet_harness(book):
     sh.lane("SP5", [(160, 156), (160, 176), (148, 176), (148, 236.2), (176, 236.2)], "p")
     sh.lane("S2", [(58, 190), (58, 204.6)], "s")
     sh.lane("S7", [(184, 190), (184, 204.6)], "s")
+    # V1 freeze (D54): the ToF lead from trunk_top down to the chest, and its interrupt up the neck beside D2
+    sh.lane("D21", [(124, 124), (124, 160)], "d")
+    sh.lane("D22", [(121, 41), (121, 160)], "d")
     for cid, x, y0, y1 in (("S3", 58, 208.6, 214.6), ("S4", 58, 218.6, 224.6), ("S5", 58, 228.6, 234.2),
                            ("S8", 184, 208.6, 214.6), ("S9", 184, 218.6, 224.6), ("S10", 184, 228.6, 234.2)):
         sh.lane(cid, [(x, y0), (x, y1)], "s")
@@ -769,7 +772,8 @@ def sheet_harness(book):
                       ("SP1", 100, 174.0), ("SP2", 182, 178.0), ("P10", 129, 153.5), ("S2", 58, 199.0),
                       ("S7", 184, 199.0), ("S3", 58, 211.5), ("S4", 58, 221.5), ("S5", 58, 231.5),
                       ("S8", 184, 211.5), ("S9", 184, 221.5), ("S10", 184, 231.5), ("D3", 26, 222.0),
-                      ("D4", 230, 222.0), ("SP4", 122, 172.0), ("SP4", 32, 216.5), ("SP5", 148, 216.5)):
+                      ("D4", 230, 222.0), ("SP4", 122, 172.0), ("SP4", 32, 216.5), ("SP5", 148, 216.5),
+                      ("D22", 121, 65.0), ("D22", 121, 83.0), ("D22", 121, 90.0), ("D22", 121, 110.0), ("D21", 124, 140.0)):
         chip(sh, x, y, cid)
     # local cables (one region, no joint crossed)
     local = collections.defaultdict(list)
@@ -777,7 +781,7 @@ def sheet_harness(book):
         c = net.cables[cid]
         if len(c["regions"]) == 1 and not c["joints"]:
             local[c["regions"][0]].append(cid)
-    spots = {"head": (66, 46.5, 96), "battery_bay": (38, 156.5, 92), "belly": (148, 164.5, 182)}
+    spots = {"head": (66, 46.5, 96), "battery_bay": (38, 156.5, 92), "belly": (148, 164.5, 182), "trunk_top": (180, 131.0, 236)}
     for reg, cids in local.items():
         x, y, xmax = spots[reg]
         sh.text(x, y - 4.4, "local:", 6.0, True, GREY, z=31)
@@ -820,7 +824,7 @@ def sheet_harness(book):
     sh.text(X0, yy, "Removed (D15), not drawn: " + ", ".join(rem), 6.0, False, "#b3261e", z=31)
     sh.text(X0, yy + 3.4, "Joints: NP neck_pitch, HP head_pitch, HY head_yaw, HR head_roll; L or R then HY HR HP K A:",
             6.0, False, "#7b3fa0", z=31)
-    sh.text(X0, yy + 6.4, "hip yaw, hip roll, hip pitch, knee, ankle. Per-wire detail: sheets 1 to 4; routes: CABLE_MAP.md.",
+    sh.text(X0, yy + 6.4, "hip yaw, hip roll, hip pitch, knee, ankle. Per-wire detail: sheets 1 to 4 and 6; routes: CABLE_MAP.md.",
             6.0, False, "#7b3fa0", z=31)
     sh.legend()
     sh.notes_box(152, 249, 270, 287, [
@@ -839,8 +843,65 @@ def sheet_harness(book):
     return sh
 
 
+# ================================================================== sheet 6: touch and cliff (V1 freeze, D51, D54)
+def sheet_touch_cliff(book):
+    sh = Sheet(book, 6, "6_touch_cliff", "TOUCH AND CLIFF",
+               "The two MPR121 touch boards with their copper pads (D51) and the cliff ToF in the chest (D54), all on the "
+               "software I2C bus 1 with the BNO055: 0x5A head, 0x5B body, 0x29 ToF, 0x28 IMU.")
+    x0, x1, yp = pi_header(sh, 200, 50.0, [1, 2, 3, 6, 13], pitch=11.0, slots={1: 2, 3: 2, 5: 2}, title="U4  Pi header (part)")
+    y = {1: yp[1], 3: yp[2], 5: yp[3], 11: yp[6], 25: yp[13]}
+    # head touch board and its pads
+    sh.block("TCHH", 70, 40, 120, 96, "MPR121 head", band=BAND_HEAD, tsize=8.0, sub=["0x5A, ADDR open", "IRQ not wired"], subsize=6.2,
+             sub_y=86.0, pins=[("VIN", "R", 48.0, "Vin"), ("SDA", "R", 56.0, "SDA"), ("SCL", "R", 64.0, "SCL"),
+                               ("GND", "R", 72.0, "GND", 3, 2.6), ("E0", "L", 56.0, "E0"), ("E1", "L", 72.0, "E1"),
+                               ("3VO", "L", 88.0, "3Vo"), ("IRQ", "L", 92.0, "IRQ"), ("ADDR", "D", 110.0, "ADDR"),
+                               ("E2", "D", 80.0, "E2 to E11")])
+    sh.w("PI.1", "TCHH.VIN", 150.0, sa=1, lab=170)
+    sh.w("PI.3", "TCHH.SDA", 155.0, sa=1, lab=170)
+    sh.w("PI.5", "TCHH.SCL", 160.0, sa=1, lab=170)
+    sh.w("PI.25", "TCHH.GND", 165.0, lab=180)
+    sh.block("PH1", 10, 40, 50, 60, "pad PH1", band=BAND_HEAD, tsize=7.4, sub=["head top"], subsize=6.0, sub_y=50.0,
+             pins=[("E", "R", 56.0, "pad"), ("G", "D", 30.0, "ring")])
+    sh.block("PH2", 10, 66, 50, 86, "pad PH2", band=BAND_HEAD, tsize=7.4, sub=["back of head"], subsize=6.0, sub_y=76.0,
+             pins=[("E", "R", 72.0, "pad"), ("G", "D", 30.0, "ring")])
+    sh.w("TCHH.E0", "PH1.E", lab=57)
+    sh.w("TCHH.E1", "PH2.E", lab=57)
+    sh.w("TCHH.GND", "PH1.G", 130.0, 102.0, 30.0, sb=0, sa=1, lab=("y", 102.0))
+    sh.w("TCHH.GND", "PH2.G", 135.0, 106.0, 34.0, sa=2, lab="none")
+    # body: BNO055 tap, body touch board, pad PB1, cliff ToF
+    sh.block("BNO", 300, 130, 340, 170, "BNO055", band=BAND_IO, tsize=8.0, sub=["U7, sheet 3"], subsize=6.0, sub_y=164.0,
+             pins=[("VIN", "L", 138.0, "VIN"), ("SDA", "L", 146.0, "SDA"), ("SCL", "L", 154.0, "SCL"), ("GND", "L", 162.0, "GND")])
+    sh.block("TCHB", 180, 130, 230, 186, "MPR121 body", band=BAND_IO, tsize=8.0, sub=["0x5B, ADDR to 3Vo", "IRQ not wired"],
+             subsize=6.2, sub_y=176.0,
+             pins=[("VIN", "R", 138.0, "Vin", 2, 2.6), ("SDA", "R", 146.0, "SDA", 2, 2.6), ("SCL", "R", 154.0, "SCL", 2, 2.6),
+                   ("GND", "R", 162.0, "GND", 3, 2.6), ("E0", "L", 146.0, "E0"), ("3VO", "L", 162.0, "3Vo"),
+                   ("ADDR", "L", 168.0, "ADDR"), ("IRQ", "L", 174.0, "IRQ"), ("E2", "D", 205.0, "E2 to E11")])
+    for k, p_ in enumerate(("VIN", "SDA", "SCL", "GND")):
+        sh.w("BNO." + p_, "TCHB." + p_, 280.0 - 3.0 * k, sb=0, lab=(240 + 10 * (k % 2)))
+    sh.block("PB1", 120, 136, 150, 156, "pad PB1", band=BAND_IO, tsize=7.4, sub=["back"], subsize=6.0, sub_y=150.0,
+             pins=[("E", "R", 146.0, "pad"), ("G", "D", 135.0, "ring")])
+    sh.w("TCHB.E0", "PB1.E", lab=165)
+    sh.w("TCHB.GND", "PB1.G", 240.0, 194.0, 135.0, sa=1, lab=("y", 194.0))
+    sh.block("TOF", 300, 196, 350, 240, "VL53L4CD", band=BAND_IO, tsize=8.0, sub=["0x29, chest, 52 deg down"], subsize=6.0,
+             sub_y=232.0, pins=[("VIN", "L", 204.0, "VIN"), ("SDA", "L", 210.0, "SDA"), ("SCL", "L", 216.0, "SCL"),
+                                ("GND", "L", 222.0, "GND"), ("GPIO", "R", 210.0, "GPIO"), ("XSHUT", "R", 222.0, "XSHUT")])
+    sh.w("TCHB.VIN", "TOF.VIN", 250.0, sa=1, lab=280)
+    sh.w("TCHB.SDA", "TOF.SDA", 256.0, sa=1, lab=280)
+    sh.w("TCHB.SCL", "TOF.SCL", 262.0, sa=1, lab=280)
+    sh.w("TCHB.GND", "TOF.GND", 268.0, sa=2, lab=280)
+    sh.w("TOF.GPIO", "PI.11", 372.0, 34.0, 188.0, lab=("y", 160.0))
+    sh.legend()
+    sh.notes_box(152, 249, 270, 287, [
+        "I2C bus 1 is software I2C on GPIO2 and GPIO3 (D28); BNO055 0x28 (ADR low), MPR121 0x5A and 0x5B, VL53L4CD 0x29: "
+        "no clash. Pull-ups: the Pi 1.8 k and 10 k on each board, about 1.0 k in parallel (calc only).",
+        "Pad leads are not twisted with their ground (NXP AN3863). The ToF interrupt rides in the D21, D19 and D2 bundles.",
+    ])
+    return sh
+
+
 # ================================================================== main
-BUILDERS = [sheet_power, sheet_servo_bus, sheet_pi, sheet_head, sheet_harness]
+BUILDERS = [sheet_power, sheet_servo_bus, sheet_pi, sheet_head, sheet_harness, sheet_touch_cliff]
+HARNESS_NO = 5
 
 
 def build(book):
@@ -861,7 +922,7 @@ def check_coverage(book, sheets):
     net = book.net
     full = collections.defaultdict(list)
     for sh in sheets:
-        if sh.no > 4:
+        if sh.no == HARNESS_NO:
             continue
         for r in sh.routes:
             if r["kind"] == "full" and sh.no not in full[r["w"]["n"]]:
@@ -869,7 +930,7 @@ def check_coverage(book, sheets):
     missing = [w for w in net.active_wires if w["n"] not in full]
     if missing:
         lines = [f"  row {w['n']}: {w['cable']} {w['from']} - {w['to']}" for w in missing]
-        raise SystemExit("active netlist wires not drawn in full on any of sheets 1 to 4:\n" + "\n".join(lines))
+        raise SystemExit("active netlist wires not drawn in full on any wiring sheet:\n" + "\n".join(lines))
     return full
 
 
@@ -892,6 +953,8 @@ def write_md(book, sheets, full, sizes, n_warn):
               4: ("Head expression", f"eye and projector LEDs {r('LEDL')} to {r('LEDP')} with {r('RL')} to {r('RP')}, "
                   f"antenna SG90s {r('SGL')} {r('SGR')}, MAX98357A {r('AMP')} and speaker {r('SPK')}, camera {r('CAM')}, "
                   "splices J5 and JG fed by P17"),
+              6: ("Touch and cliff", "the two MPR121 touch boards TCHH (0x5A) and TCHB (0x5B) with the pads PH1, PH2 and PB1, "
+                  "the BNO055 tap D19 and the cliff ToF with its interrupt to GPIO17 (D51, D54)"),
               5: ("Harness overview", "body regions and joints, a lane per cable that leaves its region, local cables "
                   "per region, and a table of all active cables (run, wire, cut length, joints crossed)")}
     out = []
@@ -929,13 +992,13 @@ def write_md(book, sheets, full, sizes, n_warn):
                "cables. A wire counts as drawn on a sheet only when it is drawn in full, terminal to terminal. A stub "
                "is the start of a wire that is drawn in full on another sheet; it ends in a flag that carries the "
                "wire label and the sheet and zone of the far end. The generator stops with an error if any active "
-               "wire is not drawn in full on at least one of sheets 1 to 4, or if any active cable is missing from "
+               "wire is not drawn in full on at least one of sheets 1 to 4 and 6, or if any active cable is missing from "
                "sheet 5.")
     out.append("")
     out.append("| Sheet | Wires drawn in full / wires in the netlist | Share | Stubs (drawn in full elsewhere) | Cables touched |")
     out.append("|---|---|---|---|---|")
     for sh in sheets:
-        if sh.no > 4:
+        if sh.no == HARNESS_NO:
             continue
         cabs = {r["w"]["cable"] for r in sh.routes if r["kind"] in ("full", "stub")}
         out.append(f"| {sh.no} {titles[sh.no][0]} | {sh.n_full} / {n_all} | {100 * sh.n_full / n_all:.0f} % | "
@@ -1029,8 +1092,8 @@ def write_md(book, sheets, full, sizes, n_warn):
 def main():
     strict = "--strict" in sys.argv
     book = Book()
-    book.n_sheets = 5
-    book.complete = len(BUILDERS) == 5
+    book.n_sheets = len(BUILDERS)
+    book.complete = True
     for p in (1, 2):
         book.pass_no = p
         sheets = build(book)
@@ -1054,7 +1117,7 @@ def main():
         if sizes[s.no][1] >= 1_000_000:
             raise SystemExit(f"{png} is {sizes[s.no][1]} bytes, over 1 MB")
     write_md(book, sheets, full, sizes, n_warn)
-    print(f"coverage: {len(full)} of {len(book.net.active_wires)} active wires drawn in full on sheets 1 to 4")
+    print(f"coverage: {len(full)} of {len(book.net.active_wires)} active wires drawn in full on the wiring sheets (all but the harness sheet 5)")
     if strict and n_warn:
         raise SystemExit(f"{n_warn} layout warning(s) with --strict")
 

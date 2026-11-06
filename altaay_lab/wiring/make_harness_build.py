@@ -29,6 +29,8 @@ GROUPS = [
     ("5. Pi, IMU and feet", ["D1", "D2", "D3", "D4"]),
     ("6. Head expression", ["D5", "D6", "D7", "D8", "D9", "D10", "D11", "D12"]),
     ("7. Dock contacts, chest pad to the trunk (D43, D50)", ["DC1", "DC2", "DC3", "DC4"]),
+    ("8. Head: the OFF wire and the mics (D30, D47)", ["D13", "D14", "D15"]),
+    ("9. Touch and cliff (D51, D54)", ["D16", "D17", "D18", "D19", "D20", "D21", "D22"]),
 ]
 
 

@@ -1,5 +1,5 @@
 # netlist.yaml: single source of truth for the altaay-lab Open Duck Mini v2 wiring.
-# Rev 2026-11-02 (America/New_York). Read by wiring/sheets/make_sheets.py, wiring/make_harness_build.py,
+# Rev 2026-11-06 (America/New_York): V1 freeze pass (D51 touch, D53 ear PWM, D54 cliff ToF); first rev 2026-11-02. Read by wiring/sheets/make_sheets.py, wiring/make_harness_build.py,
 # audit/erc.py, viewer/make_viewer_data.py and cables3d/. WIRING.md and CABLE_MAP.md follow this file.
 #
 # Tags in every "source" field: [U] upstream (Open_Duck_Mini docs, Runtime code at 376de65, Tnkr guide),
@@ -42,7 +42,7 @@
 
 meta:
   title: Open Duck Mini v2, altaay-lab build, wiring netlist
-  rev: "2026-11-02"
+  rev: "2026-11-06"
   units: {length: mm, current: A, voltage: V}
   orientation: "drawings show the robot seen from behind: robot left is on the left of the page"
   current_source: "sim pass only; per wire in its source field: sim/CURRENT_BUDGET.md (walking mean, worst 100 ms, worst 20 ms fall at 7.4 V), sim/POWER_PATH_SIM.md as built (P1, P2, P6 to P11, P14: walking, worst of full and nominal pack and both corners) or VERIFICATION.md C7 (SP1 to SP5: E5 walks at 6.0 V, worse corner); i_fall_a stays from CURRENT_BUDGET.md"
@@ -69,6 +69,7 @@ domains:
   CTRL: {v_min: 0.0, v_max: 8.4, note: "Pololu 2815 SW pad: 0 V = ON, VIN through 100 kOhm = OFF"}
   NTC: {v_min: 0.0, v_max: 8.4, note: "BMS thermistor lead, not used"}
   GND: {v_min: 0.0, v_max: 0.0, note: "common ground, returns to BMS P-"}
+  TOUCH: {v_min: 0.0, v_max: 3.3, note: "MPR121 electrode: the chip charges the pad with a constant current and reads the voltage, 0 to its 3.3 V supply (D51)"}
   SYS_9V: {v_min: 8.8, v_max: 9.2, note: "dock supply on the chest SYS strip (D50): present only while seated and the dock gate is on"}
   PACK_OR_6V0_9V2: {v_min: 6.0, v_max: 9.2, note: "2813 input after the D50 ideal-diode OR: the fused pack or, on the dock, SYS"}
   SENSE: {v_min: 0.0, v_max: 9.0, note: "dock SENSE strip: NTC reading 0.7 to 2.2 V; the 555 wake pulse 9 V for 100 ms"}
@@ -92,9 +93,13 @@ nets:
   SERVO_7V2: {domain: SERVO_7V2, note: "BEC output, belly splice SPV, SP1 to SP5, every servo V (not the adapter, D15)"}
   BUS_DATA: {domain: BUS_DATA, note: "servo bus data line"}
   5V: {domain: 5V, note: "U3 output, Pi 5 V pins, SG90 and amp supply"}
-  3V3: {domain: 3V3, note: "Pi pin 1 to BNO055 VIN; Pi pin 17 to the foot pull-ups R4, R5 (D17)"}
-  I2C_SDA: {domain: I2C, note: "GPIO2"}
-  I2C_SCL: {domain: I2C, note: "GPIO3"}
+  3V3: {domain: 3V3, note: "Pi pin 1 to BNO055 VIN and the head touch board (D16); BNO055 VIN on to the body touch board (D19) and the cliff ToF (D21); Pi pin 17 to the foot pull-ups R4, R5 (D17) and the mics"}
+  I2C_SDA: {domain: I2C, note: "GPIO2; software I2C bus 1 (i2c-gpio, D28): BNO055 0x28, MPR121 0x5A (head) and 0x5B (body), VL53L4CD 0x29 (D51, D54)"}
+  I2C_SCL: {domain: I2C, note: "GPIO3; same bus as I2C_SDA"}
+  TOF_INT: {domain: GPIO_3V3, note: "VL53L4CD GPIO1 interrupt (2.8 V push-pull out of the 5396 board) to Pi GPIO17, pin 11 (D54); optional in software, polling is the default"}
+  TOUCH_PH1: {domain: TOUCH, note: "head touch board E0 to the head-top pad PH1 (D51)"}
+  TOUCH_PH2: {domain: TOUCH, note: "head touch board E1 to the back-of-head pad PH2 (D51)"}
+  TOUCH_PB1: {domain: TOUCH, note: "body touch board E0 to the back pad PB1 (D51)"}
   FOOT_L: {domain: GPIO_3V3, note: "GPIO22, internal pull-up plus 2.2 kOhm to 3V3 (D17), pressed = low, about 1.5 mA closed"}
   FOOT_R: {domain: GPIO_3V3, note: "GPIO27, internal pull-up plus 2.2 kOhm to 3V3 (D17), pressed = low, about 1.5 mA closed"}
   EYE_L: {domain: GPIO_3V3, note: "GPIO24 to the left eye resistor"}
@@ -247,11 +252,11 @@ components:
       - {a: "VIN", b: "VOUT", kind: switch, note: "2 P-MOSFETs, on while SW is pulled to GND; on-board slide switch set OFF"}
       - {a: "GND", b: "GND_SW", kind: short}
       - {a: "VIN", b: "SW", kind: load, note: "100 kOhm (R3): about 84 uA when SW is grounded at 8.4 V"}
-    source: "[L] D8; https://www.pololu.com/product/2815; MOUNTING.md: battery bay front wall, centre (-108.5, 19.0, 36.5)"
+    source: "[L] D8; https://www.pololu.com/product/2813; MOUNTING.md: battery bay front wall, centre (-108.5, 19.0, 36.5)"
 
   - id: CTL
     ref: SW2
-    part: stock panel switch in the body_back cutout (CAD power_switch.stl, upstream Amazon B0CH3JCQM5; BOM 10b)
+    part: NKK MB2011LS1W01-BB momentary pushbutton in the printed D30 plate in the body_back cutout (BOM 10b, D30, D38; replaces the stock panel switch of CAD power_switch.stl)
     kind: switch
     region: battery_bay
     groups:
@@ -261,7 +266,7 @@ components:
       - {pin: "2", label: "2", name: contact, domain: GND, group: lugs, dir: passive, source: "[I]"}
     internal:
       - {a: "1", b: "2", kind: switch, note: "closed = robot ON; carries under 0.1 mA"}
-    source: "[U] switch, [L] D8 use as control switch only"
+    source: "[L] D30 (Pololu 2813 button on A and B), D38 (in-stock NKK replacement); BOM 10b"
 
   - id: VSW
     ref: VSW
@@ -508,6 +513,8 @@ components:
       - {pin: "6", label: "6", name: GND, domain: GND, group: header, dir: gnd, source: "[L] D8"}
       - {pin: "9", label: "9", name: GND, domain: GND, group: header, dir: gnd, source: "[U] table"}
       - {pin: "17", label: "17", name: 3V3, domain: 3V3, group: header, dir: pwr_out, source: "[L] D17 foot pull-ups"}
+      - {pin: "11", label: "11", name: "GPIO17 cliff ToF interrupt (D54)", domain: GPIO_3V3, group: header, dir: in, source: "[L] D54; GPIO17 was free (netlist before the freeze, expression study 4.6)"}
+      - {pin: "25", label: "25", name: GND, domain: GND, group: header, dir: gnd, source: "[L] D51 head touch board ground"}
       - {pin: "12", label: "12", name: GPIO18 I2S BCLK, domain: I2S, group: header, dir: out, source: "[U] table"}
       - {pin: "13", label: "13", name: GPIO27 right foot, domain: GPIO_3V3, group: header, dir: in, source: "[U] feet_contacts.py D27; [L] D17 pull-up R5"}
       - {pin: "14", label: "14", name: GND, domain: GND, group: header, dir: gnd, source: "[I] pin 6 holds the U3 ground"}
@@ -516,8 +523,8 @@ components:
       - {pin: "18", label: "18", name: GPIO24 left eye, domain: GPIO_3V3, group: header, dir: out, source: "[U] eyes.py LEFT_EYE = D24 (D9)"}
       - {pin: "20", label: "20", name: GND, domain: GND, group: header, dir: gnd, source: "[I] LED returns"}
       - {pin: "22", label: "22", name: GPIO25 projector, domain: GPIO_3V3, group: header, dir: out, source: "[U] projector.py D25"}
-      - {pin: "32", label: "32", name: GPIO12 right antenna PWM, domain: PWM_3V3, group: header, dir: out, source: "[U] antennas.py RIGHT = D12 (D9)"}
-      - {pin: "33", label: "33", name: GPIO13 left antenna PWM, domain: PWM_3V3, group: header, dir: out, source: "[U] antennas.py LEFT = D13 (D9)"}
+      - {pin: "32", label: "32", name: "GPIO12 right antenna PWM (hardware PWM0, D53)", domain: PWM_3V3, group: header, dir: out, source: "[U] antennas.py RIGHT = D12 (D9); [L] D53 dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4"}
+      - {pin: "33", label: "33", name: "GPIO13 left antenna PWM (hardware PWM1, D53)", domain: PWM_3V3, group: header, dir: out, source: "[U] antennas.py LEFT = D13 (D9); [L] D53 dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4"}
       - {pin: "35", label: "35", name: GPIO19 I2S LRC, domain: I2S, group: header, dir: out, source: "[U] table"}
       - {pin: "36", label: "36", name: GPIO16 amp SD mode (D48), domain: GPIO_3V3, group: header, dir: out, source: "[L] D48; sdmode-gpios GPIO16 in the googlevoicehat-soundcard overlay (raspberrypi/linux)"}
       - {pin: "37", label: "GPIO26", name: GPIO26 to the 2813 OFF input (D30), domain: GPIO_3V3, group: header, dir: out, source: "[U] table"}
@@ -534,6 +541,7 @@ components:
       - {a: "9", b: "14", kind: short}
       - {a: "14", b: "20", kind: short}
       - {a: "20", b: "39", kind: short}
+      - {a: "39", b: "25", kind: short}
       - {a: "2", b: "6", kind: load, note: "Pi Zero 2 W plus camera"}
     source: "[U] Open_Duck_Mini docs/assembly_guide.md table; Runtime 376de65 code wins where they differ (D9)"
 
@@ -832,10 +840,106 @@ components:
     kind: camera
     region: head
     groups:
-      fpc: {connector: "15-pin FPC (cable Adafruit 3157, 22-pin to 15-pin, 150 mm)", pitch_mm: null}
+      fpc: {connector: "15-pin FPC (cable BOM E7: Raspberry Pi Camera Cable Standard-Mini 300 mm, 22-pin to 15-pin, D34)", pitch_mm: null}
     pins:
       - {pin: "CSI", label: "CSI", name: camera ribbon, domain: CSI, group: fpc, dir: out, source: "[U] BOM E6, E7"}
     source: "[U] BOM E6"
+
+  - id: TCHH
+    ref: U12
+    part: Adafruit MPR121 12-key capacitive touch breakout, STEMMA QT, product 1982, head board, I2C 0x5A (BOM E9, D51)
+    kind: sensor
+    region: head
+    groups:
+      header: {connector: "0.1 in header holes, solder", pitch_mm: 2.54, note: "power and I2C row (Vin, 3Vo, GND, SCL, SDA, IRQ, ADDR) [R] Adafruit MPR121 guide pinouts; the 2 STEMMA QT sockets are not used"}
+      ele: {connector: "0.1 in electrode holes 0 to 11, solder", pitch_mm: 2.54, note: "[R] guide"}
+    pins:
+      - {pin: "VIN", label: "Vin", name: "supply 3 to 5 V (own 3.3 V regulator)", domain: 3V3, group: header, dir: pwr_in, source: "[R] Adafruit MPR121 guide, pinouts"}
+      - {pin: "3VO", label: "3Vo", name: "regulator out", domain: 3V3, group: header, dir: nc, source: "[R] Adafruit MPR121 guide, pinouts"}
+      - {pin: "GND", label: "GND", name: "ground", domain: GND, group: header, dir: gnd, source: "[R] guide"}
+      - {pin: "SDA", label: "SDA", name: "I2C data", domain: I2C, group: header, dir: bidir, source: "[R] guide"}
+      - {pin: "SCL", label: "SCL", name: "I2C clock", domain: I2C, group: header, dir: in, source: "[R] guide"}
+      - {pin: "IRQ", label: "IRQ", name: "interrupt (not wired: polled, D51)", domain: GPIO_3V3, group: header, dir: nc, source: "[L] D51"}
+      - {pin: "ADDR", label: "ADDR", name: "address select (left on its pull-down: 0x5A)", domain: GND, group: header, dir: nc, source: "[R] guide: 100 k pull-down = 0x5A; to 3Vo = 0x5B"}
+      - {pin: "E0", label: "0", name: "electrode 0", domain: TOUCH, group: ele, dir: passive, source: "[L] D51"}
+      - {pin: "E1", label: "1", name: electrode 1, domain: TOUCH, group: ele, dir: passive, source: "[L] D51"}
+      - {pin: "E2", label: "2", name: "electrodes 2 to 11 spare", domain: TOUCH, group: ele, dir: nc, source: "[L] D51: spares"}
+    source: "[R] adafruit.com/product/1982 (2026-11-06 ET); [L] D51; seat twin/freeze/touch_pads.json (VHB on the inner roof of the head)"
+
+  - id: TCHB
+    ref: U13
+    part: Adafruit MPR121 12-key capacitive touch breakout, STEMMA QT, product 1982, body board, I2C 0x5B with ADDR to 3Vo (BOM E9, D51)
+    kind: sensor
+    region: trunk_top
+    groups:
+      header: {connector: "0.1 in header holes, solder", pitch_mm: 2.54, note: "power and I2C row [R] Adafruit MPR121 guide pinouts; a short wire on the header from ADDR to 3Vo sets 0x5B"}
+      ele: {connector: "0.1 in electrode holes 0 to 11, solder", pitch_mm: 2.54, note: "[R] guide"}
+    pins:
+      - {pin: "VIN", label: "Vin", name: "supply 3 to 5 V (own 3.3 V regulator)", domain: 3V3, group: header, dir: pwr_in, source: "[R] Adafruit MPR121 guide, pinouts"}
+      - {pin: "3VO", label: "3Vo", name: "regulator out", domain: 3V3, group: header, dir: passive, source: "[R] Adafruit MPR121 guide, pinouts"}
+      - {pin: "GND", label: "GND", name: "ground", domain: GND, group: header, dir: gnd, source: "[R] guide"}
+      - {pin: "SDA", label: "SDA", name: "I2C data", domain: I2C, group: header, dir: bidir, source: "[R] guide"}
+      - {pin: "SCL", label: "SCL", name: "I2C clock", domain: I2C, group: header, dir: in, source: "[R] guide"}
+      - {pin: "IRQ", label: "IRQ", name: "interrupt (not wired: polled, D51)", domain: GPIO_3V3, group: header, dir: nc, source: "[L] D51"}
+      - {pin: "ADDR", label: "ADDR", name: "address select (a jumper wire to 3Vo: 0x5B)", domain: 3V3, group: header, dir: passive, source: "[R] guide: 100 k pull-down = 0x5A; to 3Vo = 0x5B"}
+      - {pin: "E0", label: "0", name: "electrode 0", domain: TOUCH, group: ele, dir: passive, source: "[L] D51"}
+      - {pin: "E2", label: "2", name: "electrodes 2 to 11 spare", domain: TOUCH, group: ele, dir: nc, source: "[L] D51: spares"}
+    internal:
+      - {a: "ADDR", b: "3VO", kind: short, note: "jumper wire on the header: I2C 0x5B (D51)"}
+    source: "[R] adafruit.com/product/1982; [L] D51; seat twin/freeze/touch_pads.json (VHB on the left inner side wall of body_middle_top)"
+
+  - id: TOF
+    ref: U14
+    part: Adafruit 5396 VL53L4CD time-of-flight breakout, STEMMA QT, cliff sensor 52 deg down in the chest (I2C 0x29; BOM 5b, D54)
+    kind: sensor
+    region: belly
+    ratings: {range_mm: "0 to 1300 (full FoV)", fov_deg: "18 diagonal", rate_hz: "up to 100", i_active_ma: "22 typ, 24 max, VCSEL peak 40 (ST DS13812 Rev 3 Table 12, at 2.8 V)"}
+    groups:
+      header: {connector: "0.1 in header holes JP2, solder from the back of the board", pitch_mm: 2.54, note: "6 pins VIN GND SCL SDA GPIO XSHUT [R] Adafruit VL53L4CD guide pinouts; the order on the board is not checked [I]; the 2 STEMMA QT sockets are not used"}
+    pins:
+      - {pin: "VIN", label: "VIN", name: "supply 3 to 5 V (own 2.8 V regulator)", domain: 3V3, group: header, dir: pwr_in, source: "[R] Adafruit VL53L4CD guide, pinouts"}
+      - {pin: "GND", label: "GND", name: "ground", domain: GND, group: header, dir: gnd, source: "[R] guide"}
+      - {pin: "SDA", label: "SDA", name: "I2C data (10 k pull-up on the board)", domain: I2C, group: header, dir: bidir, source: "[R] guide"}
+      - {pin: "SCL", label: "SCL", name: "I2C clock (10 k pull-up on the board)", domain: I2C, group: header, dir: in, source: "[R] guide"}
+      - {pin: "GPIO", label: "GPIO", name: "interrupt out, 2.8 V logic", domain: GPIO_3V3, group: header, dir: out, source: "[R] guide: GPIO is the interrupt output, 2.8 V logic"}
+      - {pin: "XSHUT", label: "XSHUT", name: "shutdown (active low; left open)", domain: GPIO_3V3, group: header, dir: nc, source: "[R] guide; [R] ST DS13812: XSHUT tied to AVDD through a pull-up when the host does not drive it"}
+    source: "[R] adafruit.com/product/5396 (2026-11-06 ET), Adafruit-VL53L4CD-PCB board file, ST DS13812 Rev 3; [L] D54; seat twin/freeze/cliff_seat.json"
+
+  - id: PH1
+    ref: TP1
+    part: copper foil touch pad, Adafruit 1127 tape with conductive adhesive, 30 x 30 mm, with a 3 mm guard ring 3 mm outside it (BOM E10, D51)
+    kind: electrode
+    region: head
+    groups:
+      foil: {connector: "copper foil, wire soldered to the foil", pitch_mm: null, note: "[R] adafruit.com/product/1127; NXP AN3863 ground ring for a floating-ground robot"}
+    pins:
+      - {pin: "E", label: "pad", name: "electrode", domain: TOUCH, group: foil, dir: passive, source: "[L] D51"}
+      - {pin: "G", label: "ring", name: "guard ring", domain: GND, group: foil, dir: gnd, source: "[L] D51; NXP AN3863 3.6"}
+    source: "[L] D51, head top, inner roof of head.stl; twin/freeze/touch_pads.json"
+
+  - id: PH2
+    ref: TP2
+    part: copper foil touch pad, Adafruit 1127 tape with conductive adhesive, 20 x 30 mm, with a 3 mm guard ring 3 mm outside it (BOM E10, D51)
+    kind: electrode
+    region: head
+    groups:
+      foil: {connector: "copper foil, wire soldered to the foil", pitch_mm: null, note: "[R] adafruit.com/product/1127; NXP AN3863 ground ring for a floating-ground robot"}
+    pins:
+      - {pin: "E", label: "pad", name: "electrode", domain: TOUCH, group: foil, dir: passive, source: "[L] D51"}
+      - {pin: "G", label: "ring", name: "guard ring", domain: GND, group: foil, dir: gnd, source: "[L] D51; NXP AN3863 3.6"}
+    source: "[L] D51, back of the head, inner back slope; twin/freeze/touch_pads.json"
+
+  - id: PB1
+    ref: TP3
+    part: copper foil touch pad, Adafruit 1127 tape with conductive adhesive, 17 x 34 mm, with a 3 mm guard ring 3 mm outside it (BOM E10, D51)
+    kind: electrode
+    region: trunk_top
+    groups:
+      foil: {connector: "copper foil, wire soldered to the foil", pitch_mm: null, note: "[R] adafruit.com/product/1127; NXP AN3863 ground ring for a floating-ground robot"}
+    pins:
+      - {pin: "E", label: "pad", name: "electrode", domain: TOUCH, group: foil, dir: passive, source: "[L] D51"}
+      - {pin: "G", label: "ring", name: "guard ring", domain: GND, group: foil, dir: gnd, source: "[L] D51; NXP AN3863 3.6"}
+    source: "[L] D51, back behind the neck, inner roof of body_middle_top; twin/freeze/touch_pads.json"
 
 # STS3215 C001 servos: two 3-pin bus ports in parallel (BUS1, BUS2), side by side in a slot in the bottom
 # case (Tnkr). Pins named by function with the Feetech pin number (STS3215 sheet item 6-7: 1 GND, 2 Vcc,
@@ -883,13 +987,13 @@ components:
     source: "[U] left_hip_pitch, ID 22"
   - id: SV23
     ref: ID23
-    part: Feetech STS3215 C001 7.4 V 1:345
+    part: Feetech STS3250-C002 (BOM 1b, D32), 50 kg.cm, same outline, 25T horn and 5264 ports as the C001
     kind: servo
     region: left_leg
     groups: *sts_groups
     pins: *sts_pins
     internal: *sts_internal
-    source: "[U] left_knee, ID 23"
+    source: "[U] left_knee, ID 23; [L] D32 STS3250 on both knees"
   - id: SV24
     ref: ID24
     part: Feetech STS3215 C001 7.4 V 1:345
@@ -934,13 +1038,13 @@ components:
     source: "[U] right_hip_pitch, ID 12"
   - id: SV13
     ref: ID13
-    part: Feetech STS3215 C001 7.4 V 1:345
+    part: Feetech STS3250-C002 (BOM 1b, D32), 50 kg.cm, same outline, 25T horn and 5264 ports as the C001
     kind: servo
     region: right_leg
     groups: *sts_groups
     pins: *sts_pins
     internal: *sts_internal
-    source: "[U] right_knee, ID 13"
+    source: "[U] right_knee, ID 13; [L] D32 STS3250 on both knees"
   - id: SV14
     ref: ID14
     part: Feetech STS3215 C001 7.4 V 1:345
@@ -1180,6 +1284,13 @@ cables:
   - {id: S13, status: active, desc: kit cable ID 32 to ID 33, regions: [neck, head], joints: [head_roll], polyline_mm: 51.6, rule_mm: 147.3, source: "[U]", note: "fits (2.7 mm margin)"}
   - {id: D14, status: active, desc: Pi header to the left mic board (D47), regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D47; 3D route 78.3 mm (twin/companion/route_mics.py, mic_routes.json); cut 150 mm leaves 2 x 20 mm slack and room for one bend (CABLE_MAP length rule)", twist: {lay_mm: 45, lay_range_mm: [31, 62], takeup_max: 1.028, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "the D10 rule: NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.9 mm harness OD; take-up at the shortest lay [L]; twisted so the clock and data lines pick up less servo and amp noise (D47)"}}
   - {id: D15, status: active, desc: left mic board to the right mic board across the head (D47), regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D47; the boards are 121.6 mm apart; 3D route 148.4 mm over the head behind the head_roll_mount (twin/companion/route_mics.py, mic_routes.json); cut 240 mm", twist: {lay_mm: 45, lay_range_mm: [31, 62], takeup_max: 1.028, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "the D10 rule: NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.9 mm harness OD; take-up at the shortest lay [L]; twisted so the clock and data lines pick up less servo and amp noise (D47)"}}
+  - {id: D16, status: active, desc: "Pi header to the head touch board (3V3, GND, SDA, SCL; D51)", regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D51; 3D route twin/freeze/routes_freeze.py", twist: {lay_mm: 40, lay_range_mm: [28, 55], takeup_max: 1.024, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "the D2 rule: NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.5 mm harness OD; take-up at the shortest lay [L]"}}
+  - {id: D17, status: active, desc: "head touch board E0 and GND to the head-top pad PH1 (D51)", regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D51; twin/freeze/routes_freeze.py", twist: {lay_mm: null, note: "electrode lead and its guard ground kept apart, not twisted: NXP AN3863 keeps the electrode trace away from ground so its own capacitance stays low (D51)"}}
+  - {id: D18, status: active, desc: "head touch board E1 and GND to the back-of-head pad PH2 (D51)", regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D51; twin/freeze/routes_freeze.py", twist: {lay_mm: null, note: "electrode lead and its guard ground kept apart, not twisted: NXP AN3863 keeps the electrode trace away from ground so its own capacitance stays low (D51)"}}
+  - {id: D19, status: active, desc: "BNO055 header to the body touch board (3V3, GND, SDA, SCL, tapping D2; D51)", regions: [trunk_top], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D51 (expression study 4.1: taps D2 at the BNO055); twin/freeze/routes_freeze.py", twist: {lay_mm: 40, lay_range_mm: [28, 55], takeup_max: 1.024, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "the D2 rule: NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.5 mm harness OD; take-up at the shortest lay [L]"}}
+  - {id: D20, status: active, desc: "body touch board E0 and GND to the back pad PB1 (D51)", regions: [trunk_top], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D51; twin/freeze/routes_freeze.py", twist: {lay_mm: null, note: "electrode lead and its guard ground kept apart, not twisted: NXP AN3863 keeps the electrode trace away from ground so its own capacitance stays low (D51)"}}
+  - {id: D21, status: active, desc: "body touch board to the cliff ToF (3V3, GND, SDA, SCL; D54)", regions: [trunk_top, belly], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D54; twin/freeze/routes_freeze.py", twist: {lay_mm: 40, lay_range_mm: [28, 55], takeup_max: 1.024, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "the D2 rule: NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.5 mm harness OD; take-up at the shortest lay [L]"}}
+  - {id: D22, status: active, desc: "cliff ToF interrupt to Pi GPIO17, pin 11 (D54), one wire in the D21, D19 and D2 bundles", regions: [belly, trunk_top, neck, head], joints: [neck_pitch, head_pitch, head_yaw, head_roll], polyline_mm: null, rule_mm: null, source: "[L] D54; twin/freeze/routes_freeze.py: the D21, D19 and D2 routes and D2's service loops"}
 
   - {id: DC1, status: active, desc: "chest CHG+ to DK2, DK2 to the 5 A fuse F2, F2 to BMS P+ (D43)", regions: [trunk_top, battery_bay], joints: [], polyline_mm: 135.7, rule_mm: 175.7, source: "[L] D43, D50; twin/dock/dock_routes.json, twin/dock/dock_cables3d.py (CAD check only)", twist: {lay_mm: null, note: "not twisted: a short trunk run along the other bundles, no joint crossed (D25: twist where one lay fits; ties hold it)"}}
   - {id: DC2, status: active, desc: "chest GND to the splice JGD inside the trunk, JGD to BMS P- (D43, D50)", regions: [trunk_top, battery_bay], joints: [], polyline_mm: 160.1, rule_mm: 200.1, source: "[L] D43, D50; twin/dock/dock_routes.json, twin/dock/dock_cables3d.py (CAD check only)", twist: {lay_mm: null, note: "not twisted: a short trunk run along the other bundles, no joint crossed (D25: twist where one lay fits; ties hold it)"}}
@@ -1187,21 +1298,21 @@ cables:
   - {id: DC4, status: active, desc: "chest SYS to DK6, DK6 and DK7 to SW1 VIN (D50)", regions: [trunk_top, battery_bay], joints: [], polyline_mm: 149.5, rule_mm: 189.5, source: "[L] D43, D50; twin/dock/dock_routes.json, twin/dock/dock_cables3d.py (CAD check only)", twist: {lay_mm: null, note: "not twisted: a short trunk run along the other bundles, no joint crossed (D25: twist where one lay fits; ties hold it)"}}
 wires:
   # dock (D43, D50)
-  - {cable: DC1, from: DKP.CHG, to: DK2.VIN, net: CHG_IN, gauge: 20 AWG, color: red, cut_mm: 60, i_mean_a: 1.1, i_peak_a: 1.1, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC1, from: JGD.S, to: DK2.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 60, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC1, from: DK2.VOUT, to: F2.IN, net: CHG_D, gauge: 20 AWG, color: red, cut_mm: 180, i_mean_a: 1.1, i_peak_a: 1.1, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC1, from: F2.OUT, to: BMS.P+, net: PACK_P, gauge: 20 AWG, color: red, cut_mm: 110, i_mean_a: 1.1, i_peak_a: 1.1, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC2, from: DKP.GND, to: JGD.S, net: GND, gauge: 20 AWG, color: black, cut_mm: 60, i_mean_a: null, i_peak_a: null, ends: [solder, splice], source: "[L] D50: branch joint inside the trunk (twin/dock/dock_routes.json)"}
-  - {cable: DC2, from: JGD.S, to: BMS.P-, net: GND, gauge: 20 AWG, color: black, cut_mm: 210, i_mean_a: 2.1, i_peak_a: 2.9, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC3, from: DKP.SNS, to: JSN.S, net: SNS, gauge: 26 AWG, color: white, cut_mm: 60, i_mean_a: null, i_peak_a: null, ends: [solder, splice], source: "[L] D50: branch joint inside the trunk (twin/dock/dock_routes.json)"}
-  - {cable: DC3, from: JSN.S, to: RT1.1, net: SNS, gauge: 26 AWG, color: white, cut_mm: 220, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC3, from: RT1.2, to: BMS.P-, net: GND, gauge: 26 AWG, color: black, cut_mm: 120, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC3, from: JSN.S, to: WK1.A, net: SNS, gauge: 26 AWG, color: white, cut_mm: 180, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC4, from: DKP.SYS, to: DK6.VIN, net: SYS_IN, gauge: 20 AWG, color: red, cut_mm: 190, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC4, from: DK6.VOUT, to: SW1.VIN, net: PACK_OR, gauge: 20 AWG, color: red, cut_mm: 70, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC4, from: DK6.GND, to: SW1.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 80, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC4, from: DK7.VOUT, to: SW1.VIN, net: PACK_OR, gauge: 16 AWG, color: red, cut_mm: 60, i_mean_a: 5.66, i_peak_a: 7.04, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC4, from: DK7.GND, to: SW1.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 70, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC1, from: DKP.CHG, to: DK2.VIN, net: CHG_IN, gauge: 20 AWG, color: red, cut_mm: 60, i_mean_a: 1.1, i_peak_a: 1.1, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC1, from: JGD.S, to: DK2.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 60, i_mean_a: 0.001, i_peak_a: 0.001, ends: [splice, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC1, from: DK2.VOUT, to: F2.IN, net: CHG_D, gauge: 20 AWG, color: red, cut_mm: 180, i_mean_a: 1.1, i_peak_a: 1.1, ends: [solder pad, holder lead], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC1, from: F2.OUT, to: BMS.P+, net: PACK_P, gauge: 20 AWG, color: red, cut_mm: 110, i_mean_a: 1.1, i_peak_a: 1.1, ends: [holder lead, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC2, from: DKP.GND, to: JGD.S, net: GND, gauge: 20 AWG, color: black, cut_mm: 60, i_mean_a: null, i_peak_a: null, ends: [solder pad, splice], source: "[L] D50: branch joint inside the trunk (twin/dock/dock_routes.json)"}
+  - {cable: DC2, from: JGD.S, to: BMS.P-, net: GND, gauge: 20 AWG, color: black, cut_mm: 210, i_mean_a: 2.1, i_peak_a: 2.9, ends: [splice, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC3, from: DKP.SNS, to: JSN.S, net: SNS, gauge: 26 AWG, color: white, cut_mm: 60, i_mean_a: null, i_peak_a: null, ends: [solder pad, splice], source: "[L] D50: branch joint inside the trunk (twin/dock/dock_routes.json)"}
+  - {cable: DC3, from: JSN.S, to: RT1.1, net: SNS, gauge: 26 AWG, color: white, cut_mm: 220, i_mean_a: 0.001, i_peak_a: 0.001, ends: [splice, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC3, from: RT1.2, to: BMS.P-, net: GND, gauge: 26 AWG, color: black, cut_mm: 120, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC3, from: JSN.S, to: WK1.A, net: SNS, gauge: 26 AWG, color: white, cut_mm: 180, i_mean_a: 0.001, i_peak_a: 0.001, ends: [splice, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC4, from: DKP.SYS, to: DK6.VIN, net: SYS_IN, gauge: 20 AWG, color: red, cut_mm: 190, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC4, from: DK6.VOUT, to: SW1.VIN, net: PACK_OR, gauge: 20 AWG, color: red, cut_mm: 70, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC4, from: DK6.GND, to: SW1.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 80, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC4, from: DK7.VOUT, to: SW1.VIN, net: PACK_OR, gauge: 16 AWG, color: red, cut_mm: 60, i_mean_a: 5.66, i_peak_a: 7.04, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC4, from: DK7.GND, to: SW1.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 70, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
   - {cable: DC3, from: WK1.K, to: SW1.ON, net: SW1_ON, gauge: 26 AWG, color: white, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.001, ends: [solder, solder in 0.1 in hole], source: "[L] D43: the wake branch sits in heat shrink at the SW1 control pads"}
   # battery bay
   - {cable: P1, from: PACK.B+, to: BMS.B+, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 120, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [holder lead, solder pad], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)", note: "6.4 V pack: 4.9 A mean, 8.7 A worst 100 ms"}
@@ -1214,7 +1325,7 @@ wires:
   - {cable: P7, branch: line, from: XT30.M+, to: JFI.S, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 30, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [XT30 solder cup, splice], source: "[L] D3; cut 30 (agent CAB 2026-11-02): a 20 mm piece of 16 AWG (3.0 mm OD) leaves no room between the XT30 cup sleeve and the JFI sleeve, which must reach 2 x OD = 6 mm past the lap (NASA-STD-8739.4A 19.2.6); cables3d chain 30 + 90 = 120 mm (needs 92); currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}
   - {cable: P7, branch: line, from: JFI.S, to: F1.IN, net: PACK_P, gauge: 16 AWG, color: holder lead, cut_mm: 90, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [splice, holder lead], source: "[L] D3; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)", note: "holder lead as shipped"}
   - {cable: P7, branch: load, from: F1.OUT, to: JFO.S, net: PACK_F, gauge: 16 AWG, color: holder lead, cut_mm: 90, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [holder lead, splice], source: "[L] D3; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)", note: "holder lead as shipped; its -y end leaves about 4 mm from the body wall, turn it at once (cables3d)"}
-  - {cable: P7, branch: load, from: JFO.S, to: DK7.VIN, net: PACK_F, gauge: 16 AWG, color: red, cut_mm: 40, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [splice, solder in large hole], source: "[L] D3; cables3d: chain 90 + 40 = 130 mm (needs 124); currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}
+  - {cable: P7, branch: load, from: JFO.S, to: DK7.VIN, net: PACK_F, gauge: 16 AWG, color: red, cut_mm: 40, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [splice, solder pad], source: "[L] D3; cables3d: chain 90 + 40 = 130 mm (needs 124); currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}
   - {cable: P14, from: XT30.M-, to: G.S, net: GND, gauge: 16 AWG, color: black, cut_mm: 140, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [XT30 solder cup, splice], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}
   - {cable: P9, from: SW1.VOUT, to: VSW.S, net: VSW, gauge: 16 AWG, color: red, cut_mm: 90, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [solder in large hole, splice], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}
   - {cable: P16, from: G.S, to: SW1.GND, net: GND, gauge: 20 AWG, color: black, cut_mm: 90, i_mean_a: 0.0006, i_peak_a: 0.0006, ends: [splice, solder in large hole], source: "[I]", note: "2815 control and LED current only (about 65 uA per volt)"}
@@ -1285,10 +1396,29 @@ wires:
   - {cable: D15, from: MICL.BCLK, to: MICR.BCLK, net: I2S_BCLK, gauge: 26 AWG, color: yellow, cut_mm: 240, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D47"}
   - {cable: D15, from: MICL.LRCL, to: MICR.LRCL, net: I2S_LRC, gauge: 26 AWG, color: white, cut_mm: 240, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D47"}
   - {cable: D15, from: MICL.DOUT, to: MICR.DOUT, net: I2S_MIC, gauge: 26 AWG, color: blue, cut_mm: 240, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D47"}
+  - {cable: D16, from: PI.1, to: TCHH.VIN, net: 3V3, gauge: 26 AWG, color: red, cut_mm: 140, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D51: second wire on pin 1, beside D2"}
+  - {cable: D16, from: PI.25, to: TCHH.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 140, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D51"}
+  - {cable: D16, from: PI.3, to: TCHH.SDA, net: I2C_SDA, gauge: 26 AWG, color: blue, cut_mm: 140, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D51: second wire on pin 3, beside D2"}
+  - {cable: D16, from: PI.5, to: TCHH.SCL, net: I2C_SCL, gauge: 26 AWG, color: yellow, cut_mm: 140, i_mean_a: null, i_peak_a: null, ends: [solder to header pin, solder], source: "[L] D51: second wire on pin 5, beside D2"}
+  - {cable: D17, from: TCHH.E0, to: PH1.E, net: TOUCH_PH1, gauge: 26 AWG, color: white, cut_mm: 90, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D51: soldered to the foil"}
+  - {cable: D17, from: TCHH.GND, to: PH1.G, net: GND, gauge: 26 AWG, color: black, cut_mm: 90, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D51: guard ring to the board ground"}
+  - {cable: D18, from: TCHH.E1, to: PH2.E, net: TOUCH_PH2, gauge: 26 AWG, color: white, cut_mm: 90, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D51"}
+  - {cable: D18, from: TCHH.GND, to: PH2.G, net: GND, gauge: 26 AWG, color: black, cut_mm: 90, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D51"}
+  - {cable: D19, from: BNO.VIN, to: TCHB.VIN, net: 3V3, gauge: 26 AWG, color: red, cut_mm: 100, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D51: second wire in the BNO055 VIN hole"}
+  - {cable: D19, from: BNO.GND, to: TCHB.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 100, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D51"}
+  - {cable: D19, from: BNO.SDA, to: TCHB.SDA, net: I2C_SDA, gauge: 26 AWG, color: blue, cut_mm: 100, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D51"}
+  - {cable: D19, from: BNO.SCL, to: TCHB.SCL, net: I2C_SCL, gauge: 26 AWG, color: yellow, cut_mm: 100, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D51"}
+  - {cable: D20, from: TCHB.E0, to: PB1.E, net: TOUCH_PB1, gauge: 26 AWG, color: white, cut_mm: 80, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D51"}
+  - {cable: D20, from: TCHB.GND, to: PB1.G, net: GND, gauge: 26 AWG, color: black, cut_mm: 80, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D51"}
+  - {cable: D21, from: TCHB.VIN, to: TOF.VIN, net: 3V3, gauge: 26 AWG, color: red, cut_mm: 200, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D54: second wire in the TCHB Vin hole"}
+  - {cable: D21, from: TCHB.GND, to: TOF.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 200, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D54"}
+  - {cable: D21, from: TCHB.SDA, to: TOF.SDA, net: I2C_SDA, gauge: 26 AWG, color: blue, cut_mm: 200, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D54"}
+  - {cable: D21, from: TCHB.SCL, to: TOF.SCL, net: I2C_SCL, gauge: 26 AWG, color: yellow, cut_mm: 200, i_mean_a: null, i_peak_a: null, ends: [solder, solder], source: "[L] D54"}
+  - {cable: D22, from: TOF.GPIO, to: PI.11, net: TOF_INT, gauge: 26 AWG, color: green, cut_mm: 690, i_mean_a: null, i_peak_a: null, ends: [solder, solder to header pin], source: "[L] D54: one 26 AWG wire beside D21, D19 and D2"}
   - {cable: D11, from: AMP.SPK+, to: SPK.+, net: SPK_P, gauge: 26 AWG, color: red, cut_mm: 120, i_mean_a: null, i_peak_a: null, ends: [screw terminal, solder tab], source: "[U]"}
   - {cable: D11, from: AMP.SPK-, to: SPK.-, net: SPK_N, gauge: 26 AWG, color: black, cut_mm: 120, i_mean_a: null, i_peak_a: null, ends: [screw terminal, solder tab], source: "[U]"}
   - {cable: D12, from: PI.CSI, to: CAM.CSI, net: CSI_LINK, gauge: FPC ribbon, color: white ribbon, cut_mm: 300, i_mean_a: null, i_peak_a: null, ends: [22-pin FPC, 15-pin FPC], source: "[U] BOM E7, Adafruit 3157"}
-  - {cable: D13, from: PI.37, to: SW1.OFF, net: PWR_OFF, gauge: 26 AWG, color: blue, cut_mm: 590, i_mean_a: 0.0, i_peak_a: 0.0, ends: [header socket, solder in 0.1 in hole], source: "[L] D30; logic signal; colour [I]"}
+  - {cable: D13, from: PI.37, to: SW1.OFF, net: PWR_OFF, gauge: 26 AWG, color: blue, cut_mm: 590, i_mean_a: 0.0, i_peak_a: 0.0, ends: [KK 254 socket on the header pin (X1), solder in 0.1 in hole], source: "[L] D30; logic signal; colour [I]"}
   # servo bus (D15). Power: BEC -> SPV/SPG -> SP1 SP2 SP3 (22 AWG) -> first servo BUS 2. Data: adapter H3/H5,
   # DATA and GND only. Ground of each data lead joins the power-pair ground just before the servo housing.
   # D23: SP4 SP5 (22 AWG) from SPV/SPG into BUS 1 of the ankle servos ID 24 and ID 14, data position empty.

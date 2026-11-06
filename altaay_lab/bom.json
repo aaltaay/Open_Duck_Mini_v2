@@ -84,6 +84,20 @@
 "sec": "Robot"
 },
 {
+"i": "5b",
+"item": "Cliff sensor (D54)",
+"spec": "Adafruit 5396 VL53L4CD time-of-flight breakout, STEMMA QT: ST VL53L4CD, 0 to 1300 mm, 18 deg diagonal FoV, up to 100 Hz, I2C 0x29, active 22 mA typ / 24 mA max at 2.8 V, VCSEL peak 40 mA (ST DS13812 Rev 3 Table 12); 25.4 x 17.8 x 4.6 mm, 1.8 g. In the chest of body_front, 52 deg down, on 4 printed standoffs with 2 x M2.5x6 (17f); wires D21 and D22 soldered, the STEMMA QT sockets not used (twin/freeze/cliff_seat.json)",
+"need": "1",
+"buy": "1",
+"pack": "1",
+"line": "14.95",
+"sup": "Adafruit",
+"link": "https://www.adafruit.com/product/5396",
+"ships": "Yes",
+"ver": "Yes: $14.95 (1 to 9), in stock, read 2026-11-06 ET",
+"sec": "Robot"
+},
+{
 "i": "6",
 "item": "Li-ion cell",
 "spec": "Molicel INR21700-P45B (D44): 4.5 Ah, 45 A, 70.0 g max, 21.40 x 70.00 mm; 2S1P, spot-welded pack in the grown bay (twin/battery/BAY.md). Alternate if out of stock: Molicel P50B, same size, $11.99 each, in stock 2026-11-04",
@@ -506,8 +520,8 @@
 {
 "i": "17f",
 "item": "M2.5x6 SHCS",
-"spec": "DIN 912 A2, Bolt Depot 6370 (electronics)",
-"need": "11",
+"spec": "DIN 912 A2, Bolt Depot 6370 (electronics; 2 since D54 for the cliff ToF in body_front)",
+"need": "13",
 "buy": "20",
 "pack": "each",
 "line": "1.80",
@@ -632,7 +646,7 @@
 {
 "i": "29",
 "item": "Foam mounting tape",
-"spec": "3M VHB 4950, 3/4 in x 5 yd, 1.1 mm (45 mil) acrylic foam, for the BEC Pro, fuse holder, Pololu 2813 (D30), 5 V regulator, amp, the eye LED rings, the side lamp module, its reflector interface and E5 (D33), the D30 button plate flange (MOUNTING.md; twin/assembly/ASSEMBLY_TWIN.md item 1), the chest contact pad DK1 (4 strips of 100 mm)",
+"spec": "3M VHB 4950, 3/4 in x 5 yd, 1.1 mm (45 mil) acrylic foam, for the BEC Pro, fuse holder, Pololu 2813 (D30), 5 V regulator, amp, the eye LED rings, the side lamp module, its reflector interface and E5 (D33), the D30 button plate flange (MOUNTING.md; twin/assembly/ASSEMBLY_TWIN.md item 1), the chest contact pad DK1 (4 strips of 100 mm), the two MPR121 touch boards (D51) and the foam ring on the speaker duct end, one liner left on (D52)",
 "need": "0.8 m",
 "buy": "1",
 "pack": "5 yd",
@@ -1061,6 +1075,34 @@
 "link": "https://www.adafruit.com/product/3421",
 "ships": "Yes",
 "ver": "Yes: $6.95 each (1 to 9), \"In stock\", read on the Adafruit page 2026-11-05 about 7:45 PM ET with plain curl; Jameco also lists 3421 (jameco.com)",
+"sec": "Expression (optional upstream)"
+},
+{
+"i": "E9",
+"item": "Touch boards (D51)",
+"spec": "Adafruit MPR121 12-key capacitive touch breakout, STEMMA QT, product 1982: I2C 0x5A, 0x5B with ADDR to 3Vo; 3 to 5 V (own regulator); 33.0 x 19.1 mm; mass not published. Head board TCHH (0x5A) on VHB on the inner roof of the head, body board TCHB (0x5B) on VHB on the left inner side wall of body_middle_top; polled on the software I2C bus 1 (IRQ unwired) (twin/freeze/touch_pads.json)",
+"need": "2",
+"buy": "2",
+"pack": "1",
+"line": "15.90",
+"sup": "Adafruit",
+"link": "https://www.adafruit.com/product/1982",
+"ships": "Yes",
+"ver": "Yes: $7.95 each (1 to 9), in stock, read 2026-11-06 ET",
+"sec": "Expression (optional upstream)"
+},
+{
+"i": "E10",
+"item": "Touch pad foil (D51)",
+"spec": "Adafruit 1127 copper foil tape with conductive adhesive, 25 mm x 15 m, 0.07 mm: pads PH1 30 x 30 mm (head top), PH2 20 x 30 mm (back of the head), PB1 17 x 34 mm (back behind the neck), each with a 3 mm guard ring 3 mm outside it to GND (NXP AN3863); about 0.3 m of tape in all",
+"need": "0.3 m",
+"buy": "1",
+"pack": "15 m",
+"line": "19.95",
+"sup": "Adafruit",
+"link": "https://www.adafruit.com/product/1127",
+"ships": "Yes",
+"ver": "Yes: $19.95, 22 in stock, read 2026-11-06 ET; $0 if a roll is on hand",
 "sec": "Expression (optional upstream)"
 },
 {

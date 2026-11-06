@@ -120,7 +120,7 @@ CAD, STL and sim assets are not copied here. Use the upstream commits. Onshape C
 Full text: [DECISIONS.md](DECISIONS.md). D1 to D25 are decided (D14 superseded by D15). Still Ahmed's call, most important first:
 1. Rented GPU time, capped at $20, to train a walk policy at our real mass and on small terrain, and a get-up policy: asked and approved 2026-11-03 (Ahmed: "go ahead and do a run pod"; STATE.md), waiting for the RunPod key; nothing ran or was spent. Lab rule 7.
 2. On hold until the twin is done (Ahmed, 2026-11-03): OK to start the coupon print session (print/PRINT_PLAN.md: S1 17 coupons, 46.8 g PLA, 4.69 h; S2 one TPU sole, 17.6 g, 2.19 h)? Lab rule 4.
-3. OK to buy the test order (BOM.md "Needs test order", 17 lines, $231.50)? Lab rule 7.
+3. OK to buy the test order (BOM.md "Needs test order", 17 lines, $228.49)? Lab rule 7.
 4. Printer model (not in any lab file): the print package is printer-agnostic, bed at least 220 x 220 mm.
 5. Before the right leg prints: D26 (roll_to_pitch and the knee sheet eye, HARDWARE_AUDIT B42 and B43) and the floor for the first walks (B45).
 6. Keep developing the heel-wheel version in sim (the roll-to-walk switch, the wheel mounts)? (asked 2026-11-03; STATE.md)

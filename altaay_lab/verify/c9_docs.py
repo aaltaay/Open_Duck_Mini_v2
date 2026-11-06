@@ -118,6 +118,7 @@ def main():
         if t["header"] == ["Scope", "$"]:
             tot = {r["Scope"]: float(r["$"]) for r in t["rows"]}
     to = re.search(r"Test order total: \$([0-9.]+)\.", open(V.lab("BOM.md")).read())
+    n_to = len(re.findall(r"^\| TO\d+ \|", open(V.lab("BOM.md")).read(), re.M))
     R.ev("BOM.md: build %.2f, with expression %.2f, with tools %.2f; test order %s" % (
         tot.get("Build total (robot + fasteners + cables + filament)", 0), tot.get("Build + expression pack", 0),
         tot.get("Build + expression + tools", 0), to.group(1) if to else "?"))
@@ -144,6 +145,17 @@ def main():
                     nq += 1
                     if to and abs(float(m.group(1).rstrip(".")) - float(to.group(1))) > 0.005:
                         R.find("FAIL", "%s line %d test order total $%s, BOM.md $%s" % (rel(p), i, m.group(1), to.group(1)))
+                # the short forms used in STATE.md and START_HERE.md: 'the test order (..., 17 lines, $228.49)' and
+                # 'test order $228.49 (17 lines)'; the line count is checked against the TO rows too
+                for m in list(re.finditer(r"test order\b[^$]{0,60}?\b(\d+) lines, \$([0-9,]+\.[0-9]{2})", low)) + \
+                        list(re.finditer(r"test order \$([0-9,]+\.[0-9]{2}) \((\d+) lines\)", low)):
+                    a_, b_ = m.groups()
+                    n_l, v = (int(a_), b_) if "lines," in m.group(0) else (int(b_), a_)
+                    nq += 1
+                    if to and abs(float(v.replace(",", "")) - float(to.group(1))) > 0.005:
+                        R.find("FAIL", "%s line %d test order $%s, BOM.md $%s" % (rel(p), i, v, to.group(1)))
+                    if n_l != n_to:
+                        R.find("FAIL", "%s line %d test order of %d lines, BOM.md has %d TO lines" % (rel(p), i, n_l, n_to))
     R.ev("totals quoted as current outside BOM.md: %d checked" % nq)
     # ------------------------------------------------------------------ part counts
     man = os.path.join(V.out_dir(), "e4_viewer", "manifest.json")
