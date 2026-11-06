@@ -262,7 +262,7 @@ needed at this length (calc only; a bench check of bit errors with the servos ru
 
 | source | distance to the nearest mic port | hardware answer |
 |---|---|---|
-| speaker (LS1, right side) | about 62 mm to the right port | half duplex in hardware: GPIO16 now drives the amp SD pin (D48 wire), so the amp is off whenever the codec is not playing (the googlevoicehat codec drives SD high only during playback, with a 5 ms delay, [R] googlevoicehat-codec.c). Since D49 the playback is the echo reference for an echo canceller (section 12.3), so the duck can keep listening while it speaks; until that is in, listening pauses while it speaks (the fallback). The speaker faces down through the head floor, away from the side ports (CAD) |
+| speaker (LS1, right side) | about 62 mm to the right port | (2026-11-06 ET correction, expression study 1: the speaker fires at the right side wall along (-0.26, -0.94, +0.24), not down through the head floor; since D52 a duct takes its front wave straight to the grille, section 15) half duplex in hardware: GPIO16 now drives the amp SD pin (D48 wire), so the amp is off whenever the codec is not playing (the googlevoicehat codec drives SD high only during playback, with a 5 ms delay, [R] googlevoicehat-codec.c). Since D49 the playback is the echo reference for an echo canceller (section 12.3), so the duck can keep listening while it speaks; until that is in, listening pauses while it speaks (the fallback). The speaker faces down through the head floor, away from the side ports (CAD) |
 | SG90 ears | about 37 mm (body centre) to its own mic; 6.05 mm from the board envelope | listen always with the ego-noise model (D49, section 12; the ear commands are an input); gating is the fallback: the ears hold still during the capture and perk after it |
 | neck and head servos (STS3215, the head yaw servo at the head centre) | about 111 mm | listen always with the ego-noise model (D49, section 12; joint commands and speeds are inputs); gating is the fallback: listen only when the neck and walk commands are still. The wake word runs at all times |
 | walking (14 servos, feet) | the trunk, more than 150 mm | listen always with the ego-noise model (D49, section 12); gating is the fallback: the duck stops walking when called (the stock walk is noisy at the mics, level not published: BLOCKER, TEST_PLAN 17) |
@@ -557,3 +557,72 @@ is a BLOCKER (bench).
    this session's reader): no number from their full texts is used here.
 7. The FLAC and gzip CSV sizes (first session).
 8. A loudspeaker on hand for S7. Nothing is bought; if there is none, S7 waits.
+
+## 13. Being picked up (D55, design only; written 2026-11-06 ET)
+
+No new hardware. Three cues, each from parts already on the duck; at least 2 of the 3 must agree for 3 control
+cycles (60 ms at 50 Hz) before the duck acts, so one bad reading never sets it off. Numbers are starting values for the
+bench (calc only), not tuned.
+
+| cue | from | trips when |
+|---|---|---|
+| lift and tilt | BNO055 at 50 Hz (the walk loop already reads it) | vertical acceleration (gravity removed) over +2 m/s2 for 100 ms, or the trunk tilt over 35 deg while no fall is under way (falling is its own safety case in section 14) |
+| leg load drops | Present Load of the 10 leg servos (the Runtime reads positions and speeds each cycle; the load register is read with them) | the summed absolute knee and hip pitch load falls under 20 % of its standing value: the legs no longer carry the 2.7 kg |
+| floor gone | cliff ToF (D54), every cycle | over 250 mm, or no target, for 2 reads (the same reading as a cliff; the two are told apart by the other two cues) |
+
+Response:
+1. Stop walking at once: the walk command goes to zero and the policy is paused (start_paused path of the Runtime).
+2. Go limp and safe: torque off on the 10 leg servos, so a child's hand is not pinched and the duck cannot kick;
+   the head and ears keep a soft hold (P 8, the Runtime head gain) so the head does not flop; servo power stays on.
+3. Optional "whee": one short sound clip and an ear perk (D53 hardware PWM ears); off by a config flag.
+4. Set-down: the duck waits until the cliff ToF reads a floor (150 to 250 mm) and the IMU reads still and level
+   (tilt under 10 deg) for 1 s, then torques the legs back to the standing pose with the soft start, and checks the
+   floor before any step: a slow head look-down sweep with the camera (perception study 6.3: after a lift the floor
+   memory is empty), and no step while the ToF reads over 250 mm. Until then it only turns its head.
+5. If the duck is set down on a table (ToF far, IMU still and level): it stays limp and says so; a person has to put
+   it on the floor.
+Bench checks (TEST_PLAN, when the parts come): lift 20 times from standing, walking and docked; the 2-of-3 vote must
+trip within 200 ms and never trip in 10 min of walking (servo load noise, footsteps).
+
+## 14. One arbitration layer (D56, design; written 2026-11-06 ET)
+
+Ahmed (D56): "Wi-Fi processing is fine, we'll have a server". So the heavy work (speech, the agent, depth, mapping:
+perception study 1) runs on the home server, and the robot keeps one arbiter on the Pi that owns every actuator
+command. Every input feeds it; nothing else writes to the walk, the head, the ears or the speaker.
+
+| priority | layer | inputs | what it may do |
+|---|---|---|---|
+| 1 | safety | cliff ToF (D54), picked up (section 13), falling (IMU tilt and rate; the get-up), low battery (the battery guard, D16) | stop, freeze the stance, go limp, sit down, shut down; overrides all below at once |
+| 2 | dock and charge | dock tags and the camera, the dock SENSE and SYS contacts (D43, D50), the battery state | walk to the dock, seat, stay seated while charging |
+| 3 | people | mics and the wake word (D47 to D49), the camera (faces), touch (D51), the home server's agent | turn to the caller, look, answer, react to a pat |
+| 4 | play | idle animation, ears, sounds, the server's suggestions with no person in the loop | anything left |
+
+Rules:
+- A higher layer pre-empts a lower one in the same cycle; a lower layer gets control back only when the higher layer
+  releases it (for safety: its exit condition, for example the set-down check of section 13).
+- The home server only suggests. Each off-board command carries a time-to-live of 300 ms against a 100 ms heartbeat:
+  no heartbeat for 300 ms and the command decays to zero, the duck stands, and it may only creep on the on-board layer
+  or wait (perception study 4.3). An off-board command never reaches layer 1 and cannot clear a safety state.
+- The robot keeps the final say on safety: layer 1 runs in the walk process on the Pi, reads its sensors itself and
+  needs neither Wi-Fi nor the server (perception study 4).
+- Touch while walking is a people event, not a stop; a cliff reading while docked (the ToF sees the dock base) is
+  ignored only while the dock contacts report a seat (SENSE present, D43).
+- Every arbiter decision is logged with the cycle time on the clock of section 12.5, so the bench data shows which
+  layer had control.
+
+## 15. V1 freeze additions (written 2026-11-06 ET; CAD check only, calc only, sim pass only)
+
+- Touch (D51): two MPR121 boards (0x5A head, 0x5B body), pads PH1 head top, PH2 back of the head, PB1 back behind
+  the neck, copper foil with guard rings; no cheek pads (no place passes on both side walls). twin/freeze/touch_pads.json.
+- Speaker duct (D52): the speaker's front wave now leaves only by the grille; 36 outer grille holes closed, 91 stay;
+  the duct is 30.8 mm from the right mic board and 53 mm from the ear servo. twin/freeze/speaker_duct.json. Any change
+  near the mics means the ego-noise data of section 12.6 is taken after it, and this is such a change: the head is
+  now frozen with the duct.
+- Mic seats (D47) are now in print/head.stl, the file the viewer and the slicer read (they were only in
+  twin/companion/stl/head.stl); the ear mount is unchanged (twin/freeze/head_freeze.json: no material changed within
+  3 mm of either ear servo; ear_mount.py gives the same numbers).
+- Ears (D53): hardware PWM on GPIO12 and 13; the Runtime change it needs waits for Ahmed (D6).
+- Cliff ToF (D54): see DECISIONS.md D54 and twin/freeze/cliff_seat.json.
+- Colour eyes (D57): not added for now ("no colour eyes for now, keep them simple"). This defers the RGBW eye of the
+  expression study 5 (Adafruit 4776 on GPIO10, SPI); it is not rejected for good. GPIO10 stays free for it, and the
+  eye bulbs keep their 8.0 mm centre hole, so it can come back later without a reprint of the eyes.

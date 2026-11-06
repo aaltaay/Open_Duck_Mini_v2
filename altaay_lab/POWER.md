@@ -89,3 +89,18 @@ Issue #51 (https://github.com/apirrone/Open_Duck_Mini/issues/51) asks whether th
 - Castle does not publish the CC BEC Pro minimum input voltage, and Motion RC lists "16V to 40V" while Castle's table rates it at 2S to 4S. Its behavior below the 7.2 V setpoint (pass-through, or shut-off) is not verified.
 - TEST_PLAN.md section 4 sweeps the input from 8.4 V down to 6.5 V on the bench before assembly. If it shuts off, use the Pololu D42V110F6 (6 V fixed, about 11 A, section 3) and accept slower servos.
 - Battery: the Tenergy board cuts only at 2.40 V per cell (P30B minimum 2.5 V), so the software stops walking at about 3.5 V per cell under load and shuts down at servo Present Voltage 6.0 V (TEST_PLAN.md section 11).
+
+## 10. The Pi 3.3 V rail after the V1 freeze (2026-11-06 ET, D51, D54; calc only)
+The new I2C parts draw from the Pi 3V3 pins 1 and 17 (the touch boards and the ToF have their own regulators, fed 3.3 V).
+
+| load | current | source |
+|---|---|---|
+| BNO055 (normal power, fusion running) | 12.3 mA | [I] Bosch BNO055 datasheet BST-BNO055-DS000 (the figure is not re-read in this session: check) |
+| 2 x SPH0645LM4H mics | 2 x 0.6 mA | [R] Knowles SPH0645LM4H-B Rev B (COMPANION.md 11.2) |
+| 2 x MPR121 boards | 2 x 0.03 mA chip at 16 ms sampling, plus each board's regulator and the IRQ LED when touched (about 1 mA, not published) | [R] NXP MPR121 rev 4 via the expression study; LED: BLOCKER (board, not published) |
+| VL53L4CD cliff ToF | 22 mA typ, 24 mA max while ranging; VCSEL peak 40 mA; plus the board's power LED (cut the LED jumper to save it) | [R] ST DS13812 Rev 3 Table 12; [R] Adafruit guide (LED jumper) |
+| foot pull-ups R4, R5 | 2 x 1.5 mA with both feet down | D17 |
+| I2C pull-ups (Pi 1.8 k and 4 x 10 k in parallel, about 1.05 k) | up to 3.2 mA while a line is low | calc only |
+| total | about 45 mA typical, about 62 mA with the ToF peak | calc only |
+
+The Pi Zero 2 W 3.3 V pin current limit is not in its product brief: BLOCKER (read the Raspberry Pi documentation, or measure the rail with the parts on, TEST_PLAN). If the rail is short, the touch boards and the ToF take 5 V on their Vin instead (both accept 3 to 5 V and shift the I2C levels themselves), which moves about 25 mA from the 3.3 V rail to the U3 5 V branch (3.4 A rating). The 5 V branch total moves by under 0.1 A either way (calc only).

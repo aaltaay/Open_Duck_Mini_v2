@@ -1,0 +1,117 @@
+{
+ "script": "altaay_lab/twin/freeze/speaker_duct.py",
+ "label": "CAD check only (part); calc only (acoustics)",
+ "axis_world": [
+  -0.2631,
+  -0.9354,
+  0.2361
+ ],
+ "centre_world": [
+  21.301,
+  -64.464,
+  200.51
+ ],
+ "plate_front_t_mm": -0.08,
+ "wall_t_mm": [
+  12.62,
+  15.62
+ ],
+ "wall_flat_ptp_mm": 0.032,
+ "duct": {
+  "bore_mm": 33.0,
+  "outside_mm": 36.8,
+  "wall_mm": 1.9,
+  "length_mm": 12.0,
+  "foam_gap_mm": 1.0,
+  "volume_mm3": 2498.0,
+  "mass_g_at_1_24": 3.1
+ },
+ "gaps_mm": {
+  "head_bot_sheet[114]": 5.19,
+  "head[115] (away from the duct end)": 1.33,
+  "head[115] (duct end, foam gap)": 1.0,
+  "head_roll_mount[116]": 34.26,
+  "raspberrypizerow[117]": 90.4,
+  "roll_bearing[118]": 62.06,
+  "sg90[119]": 108.38,
+  "sg90[120]": 53.42,
+  "board[121]": 17.03,
+  "servo_mid[122]": 55.58,
+  "drive_palonier[123]": 58.16,
+  "servo_bottom[124]": 61.26,
+  "servo_top[125]": 52.89,
+  "passive_palonier[126]": 70.52,
+  "left_eye[131]": 109.97,
+  "right_eye[132]": 62.71,
+  "bulb[133]": 58.28,
+  "bulb[134]": 107.33,
+  "flash_light_module[135]": 148.85,
+  "flash_reflector_interface[136]": 160.33,
+  "speaker_stand[137]": 0.69,
+  "box bec_pro": 195.79,
+  "box fuse_holder": 184.16,
+  "box mosfet_switch": 198.31,
+  "box power_splice": 163.68,
+  "box usb_slack": 191.79,
+  "box bms_tenergy": 200.88,
+  "box xt30_p13": 108.98,
+  "box mic_l": 118.26,
+  "box mic_r": 30.78,
+  "box dock_pad": 111.49,
+  "box dock_dk2": 167.15,
+  "box dock_f2": 159.97,
+  "box dock_dk6": 186.67,
+  "box dock_dk7": 191.41
+ },
+ "worst_gaps_mm": {
+  "speaker_stand[137]": 0.69,
+  "head[115] (away from the duct end)": 1.33,
+  "head_bot_sheet[114]": 5.19,
+  "board[121]": 17.03,
+  "box mic_r": 30.78,
+  "head_roll_mount[116]": 34.26
+ },
+ "mic_box_gaps_mm": {
+  "mic_l": 118.26,
+  "mic_r": 30.78
+ },
+ "ear_parts_gaps_mm": {
+  "sg90[119]": 108.38,
+  "sg90[120]": 53.42
+ },
+ "screw_access": {
+  "F353": {
+   "screw_r_mm": 22.63,
+   "head_edge_r_mm": 20.38,
+   "duct_clear_mm": 1.98,
+   "key_circle_clear_mm": 1.98
+  },
+  "F354": {
+   "screw_r_mm": 22.63,
+   "head_edge_r_mm": 20.38,
+   "duct_clear_mm": 1.98,
+   "key_circle_clear_mm": 1.98
+  }
+ },
+ "acoustics": {
+  "front_chamber_mm3": 10862.0,
+  "grille_area_mm2": 285.9,
+  "neck_eff_mm": 4.7,
+  "helmholtz_hz": 4085.0,
+  "before": {
+   "open_side_area_mm2": 1476.0,
+   "note": "the 12.7 mm gap is open all round (2 pi x 18.5 x 12.7 mm of side opening)"
+  },
+  "note": "calc only: with the duct the front wave leaves only by the 91 grille holes; the bench A/B sweep of the expression study (phone at 0.5 m) settles the gain"
+ },
+ "file": {
+  "watertight": true,
+  "volume_mm3": 4145.2,
+  "added_mm3": 2324.3
+ },
+ "clearance_rules_mm": {
+  "other_parts": 1.0,
+  "speaker_stand": 0.5
+ },
+ "pass": true
+}

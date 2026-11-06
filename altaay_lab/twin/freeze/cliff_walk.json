@@ -1,0 +1,87 @@
+{
+ "script": "altaay_lab/twin/freeze/cliff_walk.py",
+ "label": "sim pass only",
+ "cone_half_deg": 14.0,
+ "trigger_mm": 250,
+ "cases": {
+  "stand_in_place": {
+   "steps": 900,
+   "fell": false,
+   "foot_in_cone_steps": 0,
+   "first_hits": [],
+   "slant_mm": [
+    213.5,
+    215.8,
+    216.0
+   ]
+  },
+  "walk_forward_0.15": {
+   "steps": 1400,
+   "fell": false,
+   "foot_in_cone_steps": 0,
+   "first_hits": [],
+   "slant_mm": [
+    190.2,
+    201.2,
+    213.0
+   ]
+  },
+  "turn_1.0": {
+   "steps": 900,
+   "fell": false,
+   "foot_in_cone_steps": 0,
+   "first_hits": [],
+   "slant_mm": [
+    190.0,
+    203.4,
+    213.2
+   ]
+  },
+  "walk_side_0.2": {
+   "steps": 900,
+   "fell": false,
+   "foot_in_cone_steps": 0,
+   "first_hits": [],
+   "slant_mm": [
+    192.4,
+    203.6,
+    215.5
+   ]
+  },
+  "walk_backlash": {
+   "steps": 1400,
+   "fell": false,
+   "foot_in_cone_steps": 0,
+   "first_hits": [],
+   "slant_mm": [
+    190.9,
+    203.6,
+    212.1
+   ]
+  },
+  "walk_rough_backlash": {
+   "steps": 0,
+   "fell": true,
+   "foot_in_cone_steps": 0,
+   "first_hits": [],
+   "slant_mm": null
+  },
+  "walk_pushes": {
+   "steps": 433,
+   "fell": true,
+   "foot_in_cone_steps": 0,
+   "first_hits": [],
+   "slant_mm": [
+    168.0,
+    201.4,
+    428.1
+   ]
+  }
+ },
+ "foot_in_cone_any": false,
+ "slant_max_mm": 216.0,
+ "slant_max_cases_that_fell_mm": {
+  "walk_pushes": 428.1
+ },
+ "note": "slant_max_mm is over the cases that walk to the end; in walk_pushes the trunk tips before the fall is flagged and the beam reads past 250 mm: the arbiter's fall rule (D56, trunk tilt) acts there, not the cliff rule"
+}

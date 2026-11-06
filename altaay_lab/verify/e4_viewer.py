@@ -63,7 +63,10 @@ bad_frames = {k: v for k, v in meta["frame_check_mm"].items() if v > 0.05}
 R.ev("STL vs URDF frame check: %d parts, worst %.3f mm; assembly.json match %s; unmapped meshes %s" % (
     len(meta["frame_check_mm"]), max(meta["frame_check_mm"].values()), meta["assembly_json_match"], meta["unmapped"] or "none"))
 if bad_frames:
-    R.find("FAIL", "print STL and URDF bounds differ over 0.05 mm: %s" % bad_frames)
+    R.find("FAIL", "print STL and URDF frames differ over 0.05 mm (both bounding faces of an axis moved): %s" % bad_frames)
+grown = meta.get("frame_grown_mm") or {}
+R.ev("faces of the print STLs that moved against the URDF mesh (one face per axis: printed features the lab added, "
+     "mm, + = grown): %s" % (grown or "none"))
 for w in meta["warnings"]:
     R.find("WARN", "viewer warning: " + w)
 R.ev("screws drawn %d (%s); cables drawn %d (%s)" % (S["screws"]["found"], meta["sources"].get("fasteners"),

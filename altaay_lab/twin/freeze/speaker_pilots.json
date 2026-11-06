@@ -1,0 +1,94 @@
+{
+ "script": "altaay_lab/twin/freeze/speaker_pilots.py",
+ "label": "CAD check only",
+ "fit_angle_feat3d_deg": 20.7,
+ "pilots": {
+  "F352": {
+   "fitted": false,
+   "pilot_axis_measured_deg": 0.07,
+   "pilot_axis_vs_mesh_y_deg": 20.7,
+   "interface_mm": [
+    0.08,
+    1.58
+   ],
+   "stand_material_mm": [
+    1.58,
+    6.08
+   ],
+   "screw": "M2.5x5 DIN 912 A2",
+   "screw_length_mm": 5,
+   "pilot_through": false,
+   "engaged_mm": 3.42,
+   "tip_to_exit_mm": 1.08
+  },
+  "F353": {
+   "fitted": true,
+   "pilot_d_mm": 2.04,
+   "pilot_found_t_mm": [
+    1.8,
+    5.8
+   ],
+   "centre_line_vs_screw_deg": 0.0,
+   "centre_off_mm": 0.0,
+   "pilot_axis_measured_deg": 0.01,
+   "pilot_axis_vs_mesh_y_deg": 20.7,
+   "interface_mm": [
+    0.08,
+    1.58
+   ],
+   "stand_material_mm": [
+    1.58,
+    6.08
+   ],
+   "screw": "M2.5x5 DIN 912 A2",
+   "screw_length_mm": 5,
+   "pilot_through": true,
+   "engaged_mm": 3.42,
+   "tip_to_exit_mm": 1.08
+  },
+  "F354": {
+   "fitted": true,
+   "pilot_d_mm": 2.04,
+   "pilot_found_t_mm": [
+    1.8,
+    5.8
+   ],
+   "centre_line_vs_screw_deg": 0.0,
+   "centre_off_mm": 0.001,
+   "pilot_axis_measured_deg": 0.01,
+   "pilot_axis_vs_mesh_y_deg": 20.7,
+   "interface_mm": [
+    0.08,
+    1.58
+   ],
+   "stand_material_mm": [
+    1.58,
+    6.08
+   ],
+   "screw": "M2.5x5 DIN 912 A2",
+   "screw_length_mm": 5,
+   "pilot_through": true,
+   "engaged_mm": 3.42,
+   "tip_to_exit_mm": 1.08
+  },
+  "F355": {
+   "fitted": false,
+   "pilot_axis_measured_deg": 0.16,
+   "pilot_axis_vs_mesh_y_deg": 20.7,
+   "interface_mm": [
+    0.08,
+    1.58
+   ],
+   "stand_material_mm": [
+    1.58,
+    6.08
+   ],
+   "screw": "M2.5x5 DIN 912 A2",
+   "screw_length_mm": 5,
+   "pilot_through": false,
+   "engaged_mm": 3.42,
+   "tip_to_exit_mm": 1.08
+  }
+ },
+ "verdict": "coaxial: the 2 fitted pilots are 0.01 deg off the screw axis on the mesh; the 20.7 deg was the feat3d fit reading them along the mesh y axis (the same artefact as the ear pilots, PR 25)"
+}

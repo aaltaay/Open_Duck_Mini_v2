@@ -1,6 +1,6 @@
 # Harness build sheet
 
-Generated 2026-11-06 03:51 UTC by altaay_lab/wiring/make_harness_build.py from wiring/netlist.yaml and cables3d/cables3d.json. Do not edit by hand.
+Generated 2026-11-06 05:34 UTC by altaay_lab/wiring/make_harness_build.py from wiring/netlist.yaml and cables3d/cables3d.json. Do not edit by hand.
 
 How to use it:
 - Build in the order below, one cable at a time. Cut every wire to the length shown; lengths include the end allowance used in the netlist.
@@ -117,7 +117,7 @@ Twist: none (the two made pieces (XT30 to JFI, JFO to the 2815) are in series th
 | 1 | XT30.M+ (J1 robot side +) | JFI.S (JFI splice) | 16 AWG | red | 30 | solder into the XT30U cup, heat shrink over the cup | join at splice JFI with P7, solder, cover with adhesive heat shrink (BOM 26) |
 | 2 | JFI.S (JFI splice) | F1.IN (F1 line side (from XT30)) | 16 AWG | holder lead | 90 | join at splice JFI with P7, solder, cover with adhesive heat shrink (BOM 26) | use the part's own lead (holder lead), solder joint covered with heat shrink |
 | 3 | F1.OUT (F1 load side (to 2815 VIN)) | JFO.S (JFO splice) | 16 AWG | holder lead | 90 | use the part's own lead (holder lead), solder joint covered with heat shrink | join at splice JFO with P7, solder, cover with adhesive heat shrink (BOM 26) |
-| 4 | JFO.S (JFO splice) | DK7.VIN (D5 fused pack from JFO) | 16 AWG | red | 40 | join at splice JFO with P7, solder, cover with adhesive heat shrink (BOM 26) | solder into the board hole VIN |
+| 4 | JFO.S (JFO splice) | DK7.VIN (D5 fused pack from JFO) | 16 AWG | red | 40 | join at splice JFO with P7, solder, cover with adhesive heat shrink (BOM 26) | tin and solder to DK7.VIN, heat shrink if bare |
 
 Test: XT30.M+ to JFI.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to XT30.M-; JFI.S to F1.IN: under 1 ohm, read in ohms (TEST_PLAN.md section 2); F1.OUT to JFO.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to F1.IN; JFO.S to DK7.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
@@ -726,7 +726,7 @@ Regions: head. Crosses joints: none. lead 250 mm fits
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | SGL.SIG (M1 PWM in) | PI.33 (U4 GPIO13 left antenna PWM) | SG90 lead | orange | 250 | servo socket | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 33 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
+| 1 | SGL.SIG (M1 PWM in) | PI.33 (U4 GPIO13 left antenna PWM (hardware PWM1, D53)) | SG90 lead | orange | 250 | servo socket | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 33 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
 | 2 | SGL.VCC (M1 supply) | J5.S (J5 splice) | SG90 lead | red | 250 | servo socket | join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
 | 3 | SGL.GND (M1 ground) | JG.S (JG splice) | SG90 lead | brown | 250 | servo socket | join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
 
@@ -742,7 +742,7 @@ Regions: head. Crosses joints: none. lead 250 mm reaches without an extension: c
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | SGR.SIG (M2 PWM in) | PI.32 (U4 GPIO12 right antenna PWM) | SG90 lead | orange | 250 | servo socket | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 32 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
+| 1 | SGR.SIG (M2 PWM in) | PI.32 (U4 GPIO12 right antenna PWM (hardware PWM0, D53)) | SG90 lead | orange | 250 | servo socket | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 32 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
 | 2 | SGR.VCC (M2 supply) | J5.S (J5 splice) | SG90 lead | red | 250 | servo socket | join at splice J5 with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
 | 3 | SGR.GND (M2 ground) | JG.S (JG splice) | SG90 lead | brown | 250 | servo socket | join at splice JG with D10, D8, D9, P17, solder, cover with adhesive heat shrink (BOM 26) |
 
@@ -814,10 +814,10 @@ Twist: none (not twisted: a short trunk run along the other bundles, no joint cr
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | DKP.CHG (J9 charge strip (z 58.5 to 76)) | DK2.VIN (D2 from the CHG+ strip) | 20 AWG | red | 60 | solder | solder |
-| 2 | JGD.S (JGD splice) | DK2.GND (D2 ground) | 26 AWG | black | 60 | solder | solder |
-| 3 | DK2.VOUT (D2 to the 5 A fuse) | F2.IN (F2 from DK2) | 20 AWG | red | 180 | solder | solder |
-| 4 | F2.OUT (F2 to JFI (PACK_P)) | BMS.P+ (U5 pack output + (charge and discharge)) | 20 AWG | red | 110 | solder | solder |
+| 1 | DKP.CHG (J9 charge strip (z 58.5 to 76)) | DK2.VIN (D2 from the CHG+ strip) | 20 AWG | red | 60 | tin and solder to DKP.CHG, heat shrink if bare | tin and solder to DK2.VIN, heat shrink if bare |
+| 2 | JGD.S (JGD splice) | DK2.GND (D2 ground) | 26 AWG | black | 60 | join at splice JGD with DC1, DC2, solder, cover with adhesive heat shrink (BOM 26) | tin and solder to DK2.GND, heat shrink if bare |
+| 3 | DK2.VOUT (D2 to the 5 A fuse) | F2.IN (F2 from DK2) | 20 AWG | red | 180 | tin and solder to DK2.VOUT, heat shrink if bare | use the part's own lead (holder lead), solder joint covered with heat shrink |
+| 4 | F2.OUT (F2 to JFI (PACK_P)) | BMS.P+ (U5 pack output + (charge and discharge)) | 20 AWG | red | 110 | use the part's own lead (holder lead), solder joint covered with heat shrink | tin and solder to BMS.P+, heat shrink if bare |
 
 Test: DKP.CHG to DK2.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to DKP.SYS DKP.GND DKP.SNS; JGD.S to DK2.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2); DK2.VOUT to F2.IN: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to DK2.VIN DK2.GND; F2.OUT to BMS.P+: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to F2.IN
 
@@ -830,8 +830,8 @@ Twist: none (not twisted: a short trunk run along the other bundles, no joint cr
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | DKP.GND (J9 ground strip (z 19.5 to 37)) | JGD.S (JGD splice) | 20 AWG | black | 60 | solder | join at splice JGD with DC1, DC2, solder, cover with adhesive heat shrink (BOM 26) |
-| 2 | JGD.S (JGD splice) | BMS.P- (U5 pack output - (charge and discharge)) | 20 AWG | black | 210 | solder | solder |
+| 1 | DKP.GND (J9 ground strip (z 19.5 to 37)) | JGD.S (JGD splice) | 20 AWG | black | 60 | tin and solder to DKP.GND, heat shrink if bare | join at splice JGD with DC1, DC2, solder, cover with adhesive heat shrink (BOM 26) |
+| 2 | JGD.S (JGD splice) | BMS.P- (U5 pack output - (charge and discharge)) | 20 AWG | black | 210 | join at splice JGD with DC1, DC2, solder, cover with adhesive heat shrink (BOM 26) | tin and solder to BMS.P-, heat shrink if bare |
 
 Test: DKP.GND to JGD.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to DKP.SYS DKP.SNS DKP.CHG; JGD.S to BMS.P-: under 1 ohm, read in ohms (TEST_PLAN.md section 2)
 
@@ -844,10 +844,10 @@ Twist: none (not twisted: a short trunk run along the other bundles, no joint cr
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | DKP.SNS (J9 sense strip (z 39 to 56.5)) | JSN.S (JSN splice) | 26 AWG | white | 60 | solder | join at splice JSN with DC3, solder, cover with adhesive heat shrink (BOM 26) |
-| 2 | JSN.S (JSN splice) | RT1.1 (RT1 to SENSE) | 26 AWG | white | 220 | solder | solder |
-| 3 | RT1.2 (RT1 to GND) | BMS.P- (U5 pack output - (charge and discharge)) | 26 AWG | black | 120 | solder | solder |
-| 4 | JSN.S (JSN splice) | WK1.A (D3 from SENSE) | 26 AWG | white | 180 | solder | solder |
+| 1 | DKP.SNS (J9 sense strip (z 39 to 56.5)) | JSN.S (JSN splice) | 26 AWG | white | 60 | tin and solder to DKP.SNS, heat shrink if bare | join at splice JSN with DC3, solder, cover with adhesive heat shrink (BOM 26) |
+| 2 | JSN.S (JSN splice) | RT1.1 (RT1 to SENSE) | 26 AWG | white | 220 | join at splice JSN with DC3, solder, cover with adhesive heat shrink (BOM 26) | solder |
+| 3 | RT1.2 (RT1 to GND) | BMS.P- (U5 pack output - (charge and discharge)) | 26 AWG | black | 120 | solder | tin and solder to BMS.P-, heat shrink if bare |
+| 4 | JSN.S (JSN splice) | WK1.A (D3 from SENSE) | 26 AWG | white | 180 | join at splice JSN with DC3, solder, cover with adhesive heat shrink (BOM 26) | solder |
 | 5 | WK1.K (D3 to SW1 ON) | SW1.ON (SW1 logic ON input (dock wake, D43)) | 26 AWG | white | 0 | solder | solder into the board hole ON |
 
 Test: DKP.SNS to JSN.S: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to DKP.SYS DKP.GND DKP.CHG; JSN.S to RT1.1: under 1 ohm, read in ohms (TEST_PLAN.md section 2); RT1.2 to BMS.P-: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to RT1.1; JSN.S to WK1.A: under 1 ohm, read in ohms (TEST_PLAN.md section 2); WK1.K to SW1.ON: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to WK1.A
@@ -861,16 +861,16 @@ Twist: none (not twisted: a short trunk run along the other bundles, no joint cr
 
 | Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
 |---|---|---|---|---|---|---|---|
-| 1 | DKP.SYS (J9 dock supply strip (z 0 to 17.5)) | DK6.VIN (D4 from the SYS strip) | 20 AWG | red | 190 | solder | solder |
-| 2 | DK6.VOUT (D4 to SW1 VIN) | SW1.VIN (SW1 pack in after the D50 ideal-diode OR (DK7 soldered here, DK6 output joins)) | 20 AWG | red | 70 | solder | solder |
-| 3 | DK6.GND (D4 ground) | SW1.GND (SW1 ground (large hole)) | 26 AWG | black | 80 | solder | solder |
-| 4 | DK7.VOUT (D5 to SW1 VIN) | SW1.VIN (SW1 pack in after the D50 ideal-diode OR (DK7 soldered here, DK6 output joins)) | 16 AWG | red | 60 | solder | solder |
-| 5 | DK7.GND (D5 ground) | SW1.GND (SW1 ground (large hole)) | 26 AWG | black | 70 | solder | solder |
+| 1 | DKP.SYS (J9 dock supply strip (z 0 to 17.5)) | DK6.VIN (D4 from the SYS strip) | 20 AWG | red | 190 | tin and solder to DKP.SYS, heat shrink if bare | tin and solder to DK6.VIN, heat shrink if bare |
+| 2 | DK6.VOUT (D4 to SW1 VIN) | SW1.VIN (SW1 pack in after the D50 ideal-diode OR (DK7 soldered here, DK6 output joins)) | 20 AWG | red | 70 | tin and solder to DK6.VOUT, heat shrink if bare | solder into the board hole VIN |
+| 3 | DK6.GND (D4 ground) | SW1.GND (SW1 ground (large hole)) | 26 AWG | black | 80 | tin and solder to DK6.GND, heat shrink if bare | solder into the board hole GND |
+| 4 | DK7.VOUT (D5 to SW1 VIN) | SW1.VIN (SW1 pack in after the D50 ideal-diode OR (DK7 soldered here, DK6 output joins)) | 16 AWG | red | 60 | tin and solder to DK7.VOUT, heat shrink if bare | solder into the board hole VIN |
+| 5 | DK7.GND (D5 ground) | SW1.GND (SW1 ground (large hole)) | 26 AWG | black | 70 | tin and solder to DK7.GND, heat shrink if bare | solder into the board hole GND |
 
 Test: DKP.SYS to DK6.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to DKP.GND DKP.SNS DKP.CHG; DK6.VOUT to SW1.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to DK6.VIN DK6.GND; DK6.GND to SW1.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to DK6.VIN DK6.VOUT; DK7.VOUT to SW1.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to DK7.VIN DK7.GND; DK7.GND to SW1.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to DK7.VIN DK7.VOUT
 
 
-## 8. Other
+## 8. Head: the OFF wire and the mics (D30, D47)
 
 ### D13: Pi GPIO26 (pin 37) to the 2813 OFF input (D30; gpio-poweroff)
 
@@ -882,6 +882,7 @@ Regions: head, neck, trunk_top, battery_bay. Crosses joints: neck_pitch, head_pi
 
 Test: PI.37 to SW1.OFF: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6
 
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T011 stick-on mount ABM1M-AT-C (BOM 34b) on battery_pack_lid, 24 mm from the cable line; T012 stick-on mount MB3A (BOM 34) on trunk_top, 3 mm from the cable line; T013 stick-on mount ABM1M-AT-C (BOM 34b) on trunk_top, 18 mm from the cable line; T014 through the drilled tie-hole pair in neck_right_sheet (4.0 mm holes 12.1 mm apart, print/PRINT_PLAN.md After printing), 18 mm from the cable line; T016 around the bundle only (bundle tie, test fit: check it at both joint limits, TEST_PLAN 1.4); T017 around the bundle only (bundle tie, test fit: check it at both joint limits, TEST_PLAN 1.4); T018 stick-on mount MB3A (BOM 34) on head_bot_sheet, 15 mm from the cable line; T038 through the hole in neck_right_sheet
 Joint loops: neck_pitch: leave 42 mm between T013 and T014 (15 mm more than the straight run at the zero pose); head_pitch+head_yaw: leave 82 mm between T038 and T016 (42 mm more than the straight run at the zero pose), one loop over both joints: no tie between them; head_roll: leave 41 mm between T017 and T018 (18 mm more than the straight run at the zero pose)
 Reach check (cables3d, by conductor chain): pass with notes, worst routed 542.5 mm, cut 590 mm.
 
@@ -919,6 +920,111 @@ Twist: all wires twisted together, one full turn every 45 mm (allowed 31 to 62 m
 Test: MICL.3V to MICR.3V: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to MICL.GND MICL.BCLK MICL.LRCL MICL.DOUT MICL.SEL; MICL.GND to MICR.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to MICL.3V MICL.BCLK MICL.LRCL MICL.DOUT MICL.SEL; MICL.BCLK to MICR.BCLK: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to MICL.3V MICL.GND MICL.LRCL MICL.DOUT MICL.SEL; MICL.LRCL to MICR.LRCL: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to MICL.3V MICL.GND MICL.BCLK MICL.DOUT MICL.SEL; MICL.DOUT to MICR.DOUT: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to MICL.3V MICL.GND MICL.BCLK MICL.LRCL MICL.SEL
 
 
+## 9. Touch and cliff (D51, D54)
+
+### D16: Pi header to the head touch board (3V3, GND, SDA, SCL; D51)
+
+Regions: head. Crosses joints: none. 
+
+Twist: all wires twisted together, one full turn every 40 mm (allowed 28 to 55 mm, 8 to 16 x the bundle OD, NASA-STD-8739.4A 7.2.16 to 7.2.18), the same direction along the whole run, 20 mm untwisted at each end for the joint. Twist before the ends are made; the cut lengths already carry the take-up (up to 2.4 %).
+
+| Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
+|---|---|---|---|---|---|---|---|
+| 1 | PI.1 (U4 3V3) | TCHH.VIN (U12 supply 3 to 5 V (own 3.3 V regulator)) | 26 AWG | red | 140 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 1 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
+| 2 | PI.25 (U4 GND) | TCHH.GND (U12 ground) | 26 AWG | black | 140 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 25 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
+| 3 | PI.3 (U4 GPIO2 SDA) | TCHH.SDA (U12 I2C data) | 26 AWG | blue | 140 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 3 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
+| 4 | PI.5 (U4 GPIO3 SCL) | TCHH.SCL (U12 I2C clock) | 26 AWG | yellow | 140 | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 5 until it clicks, then tug-test (X1, D36: the Pi unplugs) | solder |
+
+Test: PI.1 to TCHH.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.2 PI.3 PI.4 PI.5 PI.6 PI.9; PI.25 to TCHH.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.5 PI.6; PI.3 to TCHH.SDA: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.4 PI.5 PI.6 PI.9; PI.5 to TCHH.SCL: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to PI.1 PI.2 PI.3 PI.4 PI.6 PI.9
+
+
+### D17: head touch board E0 and GND to the head-top pad PH1 (D51)
+
+Regions: head. Crosses joints: none. 
+
+Twist: none (electrode lead and its guard ground kept apart, not twisted: NXP AN3863 keeps the electrode trace away from ground so its own capacitance stays low (D51)).
+
+| Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
+|---|---|---|---|---|---|---|---|
+| 1 | TCHH.E0 (U12 electrode 0) | PH1.E (TP1 electrode) | 26 AWG | white | 90 | solder | solder |
+| 2 | TCHH.GND (U12 ground) | PH1.G (TP1 guard ring) | 26 AWG | black | 90 | solder | solder |
+
+Test: TCHH.E0 to PH1.E: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to TCHH.E1 TCHH.E2; TCHH.GND to PH1.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to TCHH.VIN TCHH.3VO TCHH.SDA TCHH.SCL TCHH.IRQ TCHH.ADDR
+
+
+### D18: head touch board E1 and GND to the back-of-head pad PH2 (D51)
+
+Regions: head. Crosses joints: none. 
+
+Twist: none (electrode lead and its guard ground kept apart, not twisted: NXP AN3863 keeps the electrode trace away from ground so its own capacitance stays low (D51)).
+
+| Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
+|---|---|---|---|---|---|---|---|
+| 1 | TCHH.E1 (U12 electrode 1) | PH2.E (TP2 electrode) | 26 AWG | white | 90 | solder | solder |
+| 2 | TCHH.GND (U12 ground) | PH2.G (TP2 guard ring) | 26 AWG | black | 90 | solder | solder |
+
+Test: TCHH.E1 to PH2.E: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to TCHH.E0 TCHH.E2; TCHH.GND to PH2.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to TCHH.VIN TCHH.3VO TCHH.SDA TCHH.SCL TCHH.IRQ TCHH.ADDR
+
+
+### D19: BNO055 header to the body touch board (3V3, GND, SDA, SCL, tapping D2; D51)
+
+Regions: trunk_top. Crosses joints: none. 
+
+Twist: all wires twisted together, one full turn every 40 mm (allowed 28 to 55 mm, 8 to 16 x the bundle OD, NASA-STD-8739.4A 7.2.16 to 7.2.18), the same direction along the whole run, 20 mm untwisted at each end for the joint. Twist before the ends are made; the cut lengths already carry the take-up (up to 2.4 %).
+
+| Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
+|---|---|---|---|---|---|---|---|
+| 1 | BNO.VIN (U7 supply) | TCHB.VIN (U13 supply 3 to 5 V (own 3.3 V regulator)) | 26 AWG | red | 100 | solder | solder |
+| 2 | BNO.GND (U7 ground) | TCHB.GND (U13 ground) | 26 AWG | black | 100 | solder | solder |
+| 3 | BNO.SDA (U7 I2C data) | TCHB.SDA (U13 I2C data) | 26 AWG | blue | 100 | solder | solder |
+| 4 | BNO.SCL (U7 I2C clock) | TCHB.SCL (U13 I2C clock) | 26 AWG | yellow | 100 | solder | solder |
+
+Test: BNO.VIN to TCHB.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to BNO.3VO BNO.GND BNO.SDA BNO.SCL BNO.RST; BNO.GND to TCHB.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to BNO.VIN BNO.3VO BNO.SDA BNO.SCL BNO.RST; BNO.SDA to TCHB.SDA: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to BNO.VIN BNO.3VO BNO.GND BNO.SCL BNO.RST; BNO.SCL to TCHB.SCL: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to BNO.VIN BNO.3VO BNO.GND BNO.SDA BNO.RST
+
+
+### D20: body touch board E0 and GND to the back pad PB1 (D51)
+
+Regions: trunk_top. Crosses joints: none. 
+
+Twist: none (electrode lead and its guard ground kept apart, not twisted: NXP AN3863 keeps the electrode trace away from ground so its own capacitance stays low (D51)).
+
+| Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
+|---|---|---|---|---|---|---|---|
+| 1 | TCHB.E0 (U13 electrode 0) | PB1.E (TP3 electrode) | 26 AWG | white | 80 | solder | solder |
+| 2 | TCHB.GND (U13 ground) | PB1.G (TP3 guard ring) | 26 AWG | black | 80 | solder | solder |
+
+Test: TCHB.E0 to PB1.E: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to TCHB.E2; TCHB.GND to PB1.G: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to TCHB.VIN TCHB.3VO TCHB.SDA TCHB.SCL TCHB.IRQ TCHB.ADDR
+
+
+### D21: body touch board to the cliff ToF (3V3, GND, SDA, SCL; D54)
+
+Regions: trunk_top, belly. Crosses joints: none. 
+
+Twist: all wires twisted together, one full turn every 40 mm (allowed 28 to 55 mm, 8 to 16 x the bundle OD, NASA-STD-8739.4A 7.2.16 to 7.2.18), the same direction along the whole run, 20 mm untwisted at each end for the joint. Twist before the ends are made; the cut lengths already carry the take-up (up to 2.4 %).
+
+| Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
+|---|---|---|---|---|---|---|---|
+| 1 | TCHB.VIN (U13 supply 3 to 5 V (own 3.3 V regulator)) | TOF.VIN (U14 supply 3 to 5 V (own 2.8 V regulator)) | 26 AWG | red | 200 | solder | solder |
+| 2 | TCHB.GND (U13 ground) | TOF.GND (U14 ground) | 26 AWG | black | 200 | solder | solder |
+| 3 | TCHB.SDA (U13 I2C data) | TOF.SDA (U14 I2C data (10 k pull-up on the board)) | 26 AWG | blue | 200 | solder | solder |
+| 4 | TCHB.SCL (U13 I2C clock) | TOF.SCL (U14 I2C clock (10 k pull-up on the board)) | 26 AWG | yellow | 200 | solder | solder |
+
+Test: TCHB.VIN to TOF.VIN: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to TCHB.3VO TCHB.GND TCHB.SDA TCHB.SCL TCHB.IRQ TCHB.ADDR; TCHB.GND to TOF.GND: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to TCHB.VIN TCHB.3VO TCHB.SDA TCHB.SCL TCHB.IRQ TCHB.ADDR; TCHB.SDA to TOF.SDA: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to TCHB.VIN TCHB.3VO TCHB.GND TCHB.SCL TCHB.IRQ TCHB.ADDR; TCHB.SCL to TOF.SCL: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to TCHB.VIN TCHB.3VO TCHB.GND TCHB.SDA TCHB.IRQ TCHB.ADDR
+
+
+### D22: cliff ToF interrupt to Pi GPIO17, pin 11 (D54), one wire in the D21, D19 and D2 bundles
+
+Regions: belly, trunk_top, neck, head. Crosses joints: neck_pitch, head_pitch, head_yaw, head_roll. 
+
+| Wire | From | To | Gauge | Colour | Cut mm | End at From | End at To |
+|---|---|---|---|---|---|---|---|
+| 1 | TOF.GPIO (U14 interrupt out, 2.8 V logic) | PI.11 (U4 GPIO17 cliff ToF interrupt (D54)) | 26 AWG | green | 690 | solder | crimp a Molex 08-50-0114 KK 254 terminal (BOM 22b) and push it into this cable's KK 254 housing (BOM 22c) at Pi pin 11 until it clicks, then tug-test (X1, D36: the Pi unplugs) |
+
+Test: TOF.GPIO to PI.11: under 1 ohm, read in ohms (TEST_PLAN.md section 2), no short to TOF.VIN TOF.GND TOF.SDA TOF.SCL TOF.XSHUT
+
+Ties (one 2.5 x 100 mm cable tie each, BOM 32): T010 stick-on mount ABM1M-AT-C (BOM 34b) on trunk_bottom, 8 mm from the cable line; T013 stick-on mount ABM1M-AT-C (BOM 34b) on trunk_top, 18 mm from the cable line; T014 through the drilled tie-hole pair in neck_right_sheet (4.0 mm holes 12.1 mm apart, print/PRINT_PLAN.md After printing), 18 mm from the cable line; T016 around the bundle only (bundle tie, test fit: check it at both joint limits, TEST_PLAN 1.4); T017 around the bundle only (bundle tie, test fit: check it at both joint limits, TEST_PLAN 1.4); T025 stick-on mount MB3A (BOM 34) on trunk_top, 14 mm from the cable line; T026 around the bundle only (bundle tie, test fit: check it at both joint limits, TEST_PLAN 1.4); T038 through the hole in neck_right_sheet
+Joint loops: neck_pitch: leave 41 mm between T013 and T014 (15 mm more than the straight run at the zero pose); head_pitch+head_yaw: leave 79 mm between T038 and T016 (42 mm more than the straight run at the zero pose), one loop over both joints: no tie between them; head_roll: leave 39 mm between T017 and T026 (15 mm more than the straight run at the zero pose)
+
 ## Splices
 
 Every splice is soldered and covered with adhesive heat shrink. Make each one after all its cables are cut and labelled.
@@ -953,7 +1059,7 @@ Drilled after printing, before the harness goes in (print/PRINT_PLAN.md After pr
 
 | Tie | Cables | Part | Holes apart mm | Wall mm | From the cable line mm | Hole centres in the part STL frame mm |
 |---|---|---|---|---|---|---|
-| T014 | D1, D2, D3, D4, P13 | neck_right_sheet | 12.1 | 5.8 and 5.8 | 18.1 | [26.8, -21.8, 44.7]; [14.8, -21.8, 46.4] |
+| T014 | D1, D2, D3, D4, P13, D13, D22 | neck_right_sheet | 12.1 | 5.8 and 5.8 | 18.1 | [26.8, -21.8, 44.7]; [14.8, -21.8, 46.4] |
 | T072 | S5 | knee_to_ankle_right_sheet | 7.0 | 3.8 and 3.8 | 9.2 | [-17.8, 68.2, -159.0]; [-10.9, 68.2, -158.1] |
 | T084 | S12 | neck_right_sheet | 7.0 | 1.9 and 1.9 | 19.8 | [22.6, -21.8, 66.7]; [15.6, -21.8, 66.4] |
 
@@ -961,14 +1067,14 @@ Drilled after printing, before the harness goes in (print/PRINT_PLAN.md After pr
 
 No printed feature, stick-on mount, tie-hole pair or anchored neighbour cable fits at these points, and D25 adds no printed parts and no STL change. Put a line 32 tie round the bundle only, then at the TEST_PLAN.md 1.4 test fit turn every joint the cable crosses to both limits and check the bundle stays clear of moving parts. Only if it reaches a moving part: a drilled tie-hole pair or a printed anchor there (report it first).
 
-- T016 (D2, P13 on neck_yaw_assembly)
-- T017 (D2, D3, D4, P13 on neck_yaw_assembly)
+- T016 (D2, P13, D13, D22 on neck_yaw_assembly)
+- T017 (D2, D3, D4, P13, D13, D22 on neck_yaw_assembly)
 - T023 (D1, D3, D4 on neck_pitch_assembly)
 - T024 (D1 on neck_yaw_assembly)
-- T026 (D2, D3, D4 on head_assembly): route change tried and not kept: the MB3A patch is on the underside of head_bot_sheet, 28.6 mm below the bundle, so the bundle drops under the head floor and back; the worst routes of D2, D3 and D4 grow by 83 to 84 mm and D2 (cut 550 mm) and D3 (cut 900 mm) would reach with 18 to 25 mm less than the 40 mm slack
+- T026 (D2, D3, D4, D22 on head_assembly): route change tried and not kept: the MB3A patch is on the underside of head_bot_sheet, 28.6 mm below the bundle, so the bundle drops under the head floor and back; the worst routes of D2, D3 and D4 grow by 83 to 84 mm and D2 (cut 550 mm) and D3 (cut 900 mm) would reach with 18 to 25 mm less than the 40 mm slack
 - T034 (D3, SP4 on knee_and_ankle_assembly_2)
 - T045 (D4, SP5 on knee_and_ankle_assembly_3)
 - T085 (S13 on neck_yaw_assembly)
 - T089 (SP5 on trunk_assembly): route change tried and not kept: the MB3A patch is on the outer -y face of body_middle_bottom, 33.9 mm away; the SP5 worst route grows from 377 to 440 mm, 448 mm with the twist take-up, past the 430 mm cut
 
-Coverage: 54 active cables, 152 wires, all from the netlist.
+Coverage: 61 active cables, 171 wires, all from the netlist.

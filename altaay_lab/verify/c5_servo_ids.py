@@ -6,7 +6,7 @@ Sources compared (joint name -> bus ID), every one read from its file on each ru
   WIRING.md   section 2 chain table
   CABLE_MAP   section A rows ("ID 21 L hip roll")
   viewer      SERVO_ID in viewer/make_viewer_data.py
-  BOM_FULL    servo rows ("Feetech STS3215 C001, ID 10, right hip yaw")
+  BOM_FULL    servo rows ("Feetech STS3215 C001, ID 10, right hip yaw"; the knees "Feetech STS3250-C002, ID 13, right knee", D32)
   runtime     self.joints in mini_bdx_runtime/rustypot_position_hwi.py at 376de65 (what the robot runs)
   runtime cfg scripts/configure_all_motors.py joints (what sets the IDs), software/duck_config.altaay.json joint names
   bench       bench/odm_bench/joints.py JOINTS and CHAINS (bench agent)
@@ -107,7 +107,7 @@ def gather():
     bf = {}
     for t in V.md_tables(V.lab("BOM_FULL.md")):
         for r in t["rows"]:
-            mm = re.match(r"Feetech STS3215 C001, ID (\d+), (.+)$", r.get("Item", ""))
+            mm = re.match(r"Feetech (?:STS3215 C001|STS3250-C002), ID (\d+), (.+)$", r.get("Item", ""))
             if mm:
                 j = short(mm.group(2))
                 bf[j] = int(mm.group(1))

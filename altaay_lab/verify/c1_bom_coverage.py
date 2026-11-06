@@ -27,11 +27,14 @@ import vlib as V  # noqa: E402
 MAP = [  # component id pattern, BOM lines, a part number or name that must appear in each line's Item/Spec/Link
     (r"PACK", ["6", "7"], ["P45B", "2S1P pack build"]),
     (r"BMS", ["8"], ["32175"]), (r"CHG", ["11"], ["B0BJTW4QBR"]), (r"XT30", ["12"], ["XT30U"]),
-    (r"F1", ["L3", "L4"], ["FHAC0001ZXJ", "0287015.PXCN"]), (r"SW1", ["10"], ["2815"]), (r"CTL", ["10b"], ["power_switch.stl"]),
+    (r"F1", ["L3", "L4"], ["FHAC0001ZXJ", "0287015.PXCN"]), (r"SW1", ["10"], ["2813"]), (r"CTL", ["10b"], ["MB2011LS1W01"]),
     (r"U1", ["L1"], ["010-0004-01"]), (r"U2", ["2"], ["25514"]), (r"U3", ["9"], ["D30V30F5"]), (r"PI", ["3", "4"], ["Zero 2 W", "SDSQUAR"]),
     (r"BNO", ["5"], ["2472"]), (r"FS[LR]\d", ["13"], ["SS-01"]), (r"R[LRP]", ["E3b"], ["100 ohm"]), (r"RF[LR]", ["13b"], ["2782"]),
     (r"LED[LRP]", ["E3"], ["1 W"]), (r"SG[LR]", ["14"], ["SG90"]), (r"AMP", ["E2"], ["MAX98357A"]), (r"SPK", ["E1"], ["CMS0361KLX"]),
-    (r"CAM", ["E6"], ["5657"]), (r"MIC[LR]", ["E8"], ["3421"]), (r"DKP", ["DK1"], ["four strips"]), (r"DK2", ["DK2"], ["5382"]), (r"F2", ["DK3", "DK4"], ["FHAC0001ZXJ", "0287005.PXCN"]), (r"RT1|WK1", ["DK5"], ["NTC"]), (r"DK6", ["DK6"], ["5382"]), (r"DK7", ["DK7"], ["5383"]), (r"SV\d+", ["1"], ["STS3215"]),
+    (r"CAM", ["E6"], ["5657"]), (r"MIC[LR]", ["E8"], ["3421"]), (r"DKP", ["DK1"], ["four strips"]), (r"DK2", ["DK2"], ["5382"]), (r"F2", ["DK3", "DK4"], ["FHAC0001ZXJ", "0287005.PXCN"]), (r"RT1|WK1", ["DK5"], ["NTC"]), (r"DK6", ["DK6"], ["5382"]), (r"DK7", ["DK7"], ["5383"]),
+    (r"TCH[HB]", ["E9"], ["1982"]), (r"P[HB]\d", ["E10"], ["1127"]), (r"TOF", ["5b"], ["5396"]),
+    # servos by the model the netlist names (D32: STS3250 on both knees, line 1b; the other 12 STS3215 C001, line 1)
+    (r"SV\d+", ["1b"], ["STS3250"], r"STS3250"), (r"SV\d+", ["1"], ["STS3215"], r"STS3215"),
 ]
 
 
@@ -103,16 +106,28 @@ def main():
     for c in net["components"]:
         if c.get("kind") == "splice":
             continue
-        hit = next((m for m in MAP if re.fullmatch(m[0], c["id"])), None)
+        hit = next((m for m in MAP if re.fullmatch(m[0], c["id"]) and (len(m) < 4 or re.search(m[3], c.get("part") or ""))), None)
         if not hit:
             unmapped.append(c["id"])
             continue
-        for lid, tok in zip(hit[1], hit[2]):
+        for lid, tok in zip(hit[1], hit[2][:len(hit[1])]):
             if lid not in bom:
                 R.find("FAIL", "%s maps to BOM line %s, which does not exist" % (c["id"], lid))
             elif tok not in text[lid]:
                 R.find("FAIL", "%s: BOM line %s does not name %s" % (c["id"], lid, tok))
             per_line[lid] += 2 if c["id"] == "PACK" and lid == "6" else 1
+    # inline parts written on a cable, not as a component (P13 'inline: XT30U pair (BOM 12)' for the X3a service plug,
+    # D36): each one counts on its BOM line when the line's part number is in the inline text
+    inline_n = []
+    for cb in net["cables"]:
+        if cb.get("status", "active") != "active" or not cb.get("inline"):
+            continue
+        for m in MAP:
+            for lid, tok in zip(m[1], m[2]):
+                if re.search(r"\bBOM %s\b" % re.escape(lid), cb["inline"]) and tok in cb["inline"]:
+                    per_line[lid] += 1
+                    inline_n.append("%s on %s (line %s)" % (tok, cb["id"], lid))
+    R.ev("inline parts on cables: %s" % (", ".join(inline_n) or "none"))
     nspl = sum(1 for c in net["components"] if c.get("kind") == "splice")
     R.ev("netlist: %d components, %d splices (made from wire and heat shrink, BOM 26), %d mapped to BOM lines, unmapped %s" % (
         len(net["components"]), nspl, len(net["components"]) - nspl - len(unmapped), unmapped or "none"))
@@ -128,6 +143,10 @@ def main():
         R.find("FAIL", "netlist %s refers to BOM %s, which is not a BOM.md line" % (cid, lid))
     cnt_bad = []
     for lid, n in sorted(per_line.items()):
+        if re.search(r"[a-z]", str(bom[lid]["Need"]).lower()):
+            R.ev("line %s is bought by length or weight (Need %s): its %d parts are cut from it, no piece count" % (
+                lid, bom[lid]["Need"], n))
+            continue
         need = V.num(bom[lid]["Need"])
         if need is not None and need != n:
             cnt_bad.append("%s: netlist %d, Need %g" % (lid, n, need))
@@ -178,7 +197,7 @@ def main():
     # servos and electronics vs netlist
     comps = [c["id"] for c in net["components"]]
     nsv = sum(1 for c in comps if re.fullmatch(r"SV\d+", c))
-    srv = [r for r in rows if r["Item"].startswith("Feetech STS3215")]
+    srv = [r for r in rows if r["Item"].startswith(("Feetech STS3215", "Feetech STS3250"))]
     if sum(q(r) for r in srv) != nsv:
         bad.append("servo rows %g vs netlist %d" % (sum(q(r) for r in srv), nsv))
     grp = {"E16": (r"FS[LR]\d", "Foot contact switch"), "E17": (r"RF[LR]", "Foot switch pull-up"), "E18": (r"LED[LRP]", "1 W LED"),

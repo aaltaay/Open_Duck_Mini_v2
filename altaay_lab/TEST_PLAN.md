@@ -185,3 +185,11 @@ Needs the two mic boards (BOM E8, not bought), the head built to the V1 seats wi
 - 17.5 Sessions S0 to S8 of COMPANION.md 12.6 (380 min, about 9.1 GB raw, calc only), in that order. The head is not changed between them; a change to a seat, the foam, an ear horn or a nearby screw means S0 to S4 and S6 again.
 - 17.6 First numbers from the data, for D49: the ego-noise level and spectrum per actuator and per walk speed (S1 to S4); the direction error at the 8 bearings standing (S7 still) and while stepping in place, with and without the ego-noise mask (bench script, not written yet); the wake word false-reject rate in each motion state and false-accept rate per hour in S0 and S4. These replace the BLOCKERs of COMPANION.md 12.9 items 2 and 3.
 
+
+## 18. V1 freeze parts (D51 to D56; twin/freeze/FREEZE.md; when the parts come, nothing bought)
+1. `i2cdetect -y 1` with everything wired: 28, 29, 5a, 5b and nothing else; then bench/timing_budget.py with the BNO055, both MPR121 (20 Hz each) and the ToF (50 Hz) read in the loop: the 50 Hz loop keeps its budget.
+2. Touch: copper foil on a printed 3.0 mm coupon and on the real shell: a palm and two fingertips change the MPR121 filtered data clearly over its baseline; no touch reads from neck or ear motion, the speaker playing, or the duck on its dock (expression study 4.1).
+3. Speaker duct: the expression study A/B sweep (phone at 0.5 m) with and without the duct; the foam ring seals without lifting the stand.
+4. Cliff ToF: flat floor 200 to 215 mm (calc 209 mm), a 40 mm step trips (over 250 mm), black and glossy floors, carpet, sunlight through a window; the robot walking on flat ground never trips (cliff_walk.json, sim: 190 to 216 mm).
+5. Being picked up (D55): 20 lifts from standing, walking and docked: the 2-of-3 vote trips within 200 ms; 10 min of walking: no trip; set-down on the floor: legs back only after the floor check; on a table: stays limp.
+6. Ears on hardware PWM (D53): no jitter at hold with the scope on GPIO12 and 13; I2S audio still plays and records with the overlay in.

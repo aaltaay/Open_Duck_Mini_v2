@@ -505,7 +505,8 @@ def build(scratch):
                      pilot_axis_measured_deg=None if ang_m is None else round(ang_m, 1), notes=[note]))
 
     # speaker_interface to speaker_stand: 4 clearance holes 2.7 mm on a 32 x 32 mm square over the 4 side pilots
-    # 2.12 mm of the stand (same square, same 20.7 deg tilted face; the pilots are drilled along y)
+    # 2.12 mm of the stand (same square; feat3d reads the pilots along y, 20.7 deg off, but on the mesh they are coaxial
+    # with the clearance holes: twin/freeze/speaker_pilots.py)
     k_si = [k for k, i in enumerate(inst) if i["key"] == "speaker_interface"][0]
     k_st = [k for k, i in enumerate(inst) if i["key"] == "speaker_stand"][0]
     for w in [w for w in W if w["i"] == k_si and 2.6 <= w["d"] <= 2.8]:
@@ -524,8 +525,10 @@ def build(scratch):
                  link="head_assembly", anchor="plastic pilot 2.12 (speaker stand)", near=round(float(np.dot(p_entry - seat, ax_t)), 2),
                  far=round(float(np.dot(p_end - seat, ax_t)), 2), seat_pt=seat, axis=ax_t, clr=w["d"], clr_len=round(w["L"], 2),
                  seat_type="flat face", recess=None, pilot_angle_deg=round(ang, 1), anchor_d=pil["d"], offset=round(float(off), 2),
-                 notes=["found here, not in audit/screws2.py or MOUNTING.md (B8 says no screw): pilot axis %.1f deg off the "
-                        "clearance hole axis, pilot centre %.2f mm off it" % (ang, off)]))
+                 notes=["found here, not in audit/screws2.py or MOUNTING.md (B8 says no screw); the feat3d fit reads the pilot "
+                        "along a mesh axis, %.1f deg off the clearance hole axis, pilot centre %.2f mm off it; measured on the "
+                        "mesh along the screw axis the pilot is coaxial (twin/freeze/speaker_pilots.py, pilot_axis_measured_deg)"
+                        % (ang, off)]))
 
     # ------------------------------------------------------------------------------------------ 5. inserts
     printed = {k for k, i in enumerate(inst) if i["printed"]}

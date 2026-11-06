@@ -56,7 +56,8 @@
    ],
    "generated_utc": "2026-11-02 07:01 UTC",
    "how": "route_cables.py --only SP1,SP2,SP3,SD1,SD2 into the scratch folder, merged by agent CAB (the five cable records and the cable ends JG20, JG10, JG30, Y.SD1); splice centres at the netlist cut minus 6.5 mm from the crimped end"
-  }
+  },
+  "freeze": "2026-11-06 ET: D16 to D22 and the D13 refill by twin/freeze/routes_freeze.py (CAD check only)"
  },
  "terminals": [
   {
@@ -2810,6 +2811,216 @@
    ],
    "kind": "dock part pad or lead",
    "how": "[L] twin/dock/dock_seats.json and dock_routes.json (D50)"
+  },
+  {
+   "id": "PI.11",
+   "link": "head_assembly",
+   "p_world0": [
+    47.43,
+    58.33,
+    215.0
+   ],
+   "p": [
+    21.149,
+    58.23,
+    -5.48
+   ],
+   "dir_world0": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "kind": "header pin",
+   "how": "[L] PI.1 plus 2.54 mm pitches along the odd row (pin 11, GPIO17)"
+  },
+  {
+   "id": "PI.25",
+   "link": "head_assembly",
+   "p_world0": [
+    29.65,
+    58.33,
+    215.0
+   ],
+   "p": [
+    21.149,
+    58.23,
+    12.3
+   ],
+   "dir_world0": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "kind": "header pin",
+   "how": "[L] PI.1 plus 2.54 mm pitches along the odd row (pin 25, GND)"
+  },
+  {
+   "id": "TCHH.HDR",
+   "link": "head_assembly",
+   "p_world0": [
+    -33.55,
+    43.25,
+    216.29
+   ],
+   "p": [
+    22.44,
+    43.154,
+    75.496
+   ],
+   "dir_world0": [
+    0.217,
+    0.0,
+    -0.976
+   ],
+   "kind": "0.1 in header holes VIN GND SDA SCL",
+   "how": "[L] twin/freeze/touch_pads.json board seat; JP2 row of the MPR121 .brd"
+  },
+  {
+   "id": "TCHH.ELE",
+   "link": "head_assembly",
+   "p_world0": [
+    -33.55,
+    26.75,
+    216.29
+   ],
+   "p": [
+    22.44,
+    26.646,
+    75.496
+   ],
+   "dir_world0": [
+    0.217,
+    0.0,
+    -0.976
+   ],
+   "kind": "0.1 in electrode holes E0 to E11",
+   "how": "[L] twin/freeze/touch_pads.json; JP1 row of the MPR121 .brd"
+  },
+  {
+   "id": "TCHB.HDR",
+   "link": "trunk_assembly",
+   "p_world0": [
+    -87.97,
+    45.31,
+    65.71
+   ],
+   "p": [
+    -87.973,
+    45.311,
+    65.711
+   ],
+   "dir_world0": [
+    0.004,
+    -1.0,
+    -0.005
+   ],
+   "kind": "0.1 in header holes VIN GND SDA SCL",
+   "how": "[L] twin/freeze/touch_pads.json board seat; JP2 row"
+  },
+  {
+   "id": "TCHB.ELE",
+   "link": "trunk_assembly",
+   "p_world0": [
+    -87.97,
+    45.23,
+    82.22
+   ],
+   "p": [
+    -87.973,
+    45.229,
+    82.222
+   ],
+   "dir_world0": [
+    0.004,
+    -1.0,
+    -0.005
+   ],
+   "kind": "0.1 in electrode holes E0 to E11",
+   "how": "[L] twin/freeze/touch_pads.json; JP1 row"
+  },
+  {
+   "id": "TOF.HDR",
+   "link": "trunk_assembly",
+   "p_world0": [
+    28.09,
+    0.0,
+    -2.47
+   ],
+   "p": [
+    28.088,
+    0.0,
+    -2.467
+   ],
+   "dir_world0": [
+    -0.6157,
+    -0.0,
+    0.788
+   ],
+   "kind": "0.1 in header holes JP2, wires from the back",
+   "how": "[R] Adafruit-VL53L4CD-PCB JP2 at y 2.54; seat twin/freeze/cliff_seat.json"
+  },
+  {
+   "id": "PH1.PAD",
+   "link": "head_assembly",
+   "p_world0": [
+    -1.5,
+    7.07,
+    229.48
+   ],
+   "p": [
+    35.629,
+    6.965,
+    43.453
+   ],
+   "dir_world0": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "kind": "copper foil pad, lead soldered to the foil",
+   "how": "[L] twin/freeze/touch_pads.json PH1"
+  },
+  {
+   "id": "PH2.PAD",
+   "link": "head_assembly",
+   "p_world0": [
+    -66.49,
+    7.45,
+    212.27
+   ],
+   "p": [
+    18.419,
+    7.345,
+    108.443
+   ],
+   "dir_world0": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "kind": "copper foil pad, lead soldered to the foil",
+   "how": "[L] twin/freeze/touch_pads.json PH2"
+  },
+  {
+   "id": "PB1.PAD",
+   "link": "trunk_assembly",
+   "p_world0": [
+    -93.83,
+    15.12,
+    103.89
+   ],
+   "p": [
+    -93.826,
+    15.119,
+    103.89
+   ],
+   "dir_world0": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "kind": "copper foil pad, lead soldered to the foil",
+   "how": "[L] twin/freeze/touch_pads.json PB1"
   }
  ],
  "cables": [
@@ -32425,7 +32636,11 @@
      "runs": [
       "main",
       "fan_PI.40"
-     ]
+     ],
+     "length_zero_mm": 175.1,
+     "length_min_mm": 175.1,
+     "length_max_mm": 175.1,
+     "length_max_runtime_mm": 175.1
     }
    ],
    "check": "pass with notes",
@@ -42736,9 +42951,6 @@
    "runs": [
     {
      "name": "main",
-     "from": "PI.37",
-     "to": "SW1.OFF",
-     "d_mm": 1.5,
      "points": [
       {
        "link": "trunk_assembly",
@@ -43117,25 +43329,87 @@
        ]
       }
      ],
-     "joints": [
-      "neck_pitch",
-      "head_pitch",
-      "head_yaw",
-      "head_roll"
-     ],
+     "d_mm": 1.5,
      "routed": true,
-     "through": null,
      "seats": [],
+     "joints": [
+      "head_pitch",
+      "head_roll",
+      "head_yaw",
+      "neck_pitch"
+     ],
+     "spans": [
+      {
+       "span": [
+        14,
+        15
+       ],
+       "joints": [
+        "neck_pitch"
+       ],
+       "zero_mm": 1.7,
+       "min_mm": 1.0,
+       "max_mm": 16.6,
+       "at_max": {
+        "neck_pitch": 1.134
+       }
+      },
+      {
+       "span": [
+        30,
+        31
+       ],
+       "joints": [
+        "head_pitch"
+       ],
+       "zero_mm": 2.8,
+       "min_mm": 2.4,
+       "max_mm": 17.2,
+       "at_max": {
+        "head_pitch": 0.785
+       }
+      },
+      {
+       "span": [
+        32,
+        33
+       ],
+       "joints": [
+        "head_yaw"
+       ],
+       "zero_mm": 2.8,
+       "min_mm": 2.1,
+       "max_mm": 30.5,
+       "at_max": {
+        "head_yaw": 2.793
+       }
+      },
+      {
+       "span": [
+        37,
+        38
+       ],
+       "joints": [
+        "head_roll"
+       ],
+       "zero_mm": 3.0,
+       "min_mm": 2.7,
+       "max_mm": 20.8,
+       "at_max": {
+        "head_roll": -0.524
+       }
+      }
+     ],
      "service_loops": [
       {
        "span": [
-        13,
-        14
+        14,
+        15
        ],
        "spans": [
         [
-         13,
-         14
+         14,
+         15
         ]
        ],
        "joints": [
@@ -43143,7 +43417,7 @@
        ],
        "angle_rad": 1.134,
        "angle_runtime_rad": 1.134,
-       "od_mm": 3.6,
+       "od_mm": 1.5,
        "free_needed_mm": 12.3,
        "free_mm": 26.7,
        "radius_mm": 11.1,
@@ -43163,27 +43437,28 @@
         62.1
        ],
        "ties_at_mm": [
-        165.6,
-        192.4
+        186.5,
+        213.3
        ],
        "tie_ids": [
         "T013",
         "T014"
-       ]
+       ],
+       "host": "rides in the bundle of P13"
       },
       {
        "span": [
-        29,
-        32
+        30,
+        33
        ],
        "spans": [
         [
-         29,
-         30
+         30,
+         31
         ],
         [
-         31,
-         32
+         32,
+         33
         ]
        ],
        "joints": [
@@ -43192,7 +43467,7 @@
        ],
        "angle_rad": 3.578,
        "angle_runtime_rad": 1.28,
-       "od_mm": 3.6,
+       "od_mm": 1.5,
        "free_needed_mm": 38.6,
        "free_mm": 39.5,
        "radius_mm": 11.0,
@@ -43212,24 +43487,25 @@
         18.9
        ],
        "ties_at_mm": [
-        260.6,
-        300.0
+        281.5,
+        320.9
        ],
        "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 2.8 mm of route between them",
        "tie_ids": [
         "T038",
         "T016"
-       ]
+       ],
+       "host": "rides in the bundle of P13"
       },
       {
        "span": [
-        36,
-        37
+        37,
+        38
        ],
        "spans": [
         [
-         36,
-         37
+         37,
+         38
         ]
        ],
        "joints": [
@@ -43237,7 +43513,7 @@
        ],
        "angle_rad": 0.524,
        "angle_runtime_rad": 0.5,
-       "od_mm": 3.6,
+       "od_mm": 1.5,
        "free_needed_mm": 5.7,
        "free_mm": 23.0,
        "radius_mm": 11.1,
@@ -43257,51 +43533,22 @@
         21.5
        ],
        "ties_at_mm": [
-        336.9,
-        359.9
+        357.8,
+        380.8
        ],
        "tie_ids": [
         "T017",
         "T018"
-       ]
+       ],
+       "host": "rides in the bundle of P13"
       }
-     ],
-     "swept_joints": [
-      "head_pitch",
-      "head_roll",
-      "head_yaw",
-      "neck_pitch"
      ],
      "length_zero_mm": 467.7,
-     "length_min_mm": 468.0,
+     "length_min_mm": 465.6,
      "length_max_mm": 542.5,
-     "span_taut_min_gap_mm": -1.2,
-     "span_taut_at": [
-      "head_pitch_to_yaw",
-      {
-       "head_yaw": -2.793
-      }
-     ],
-     "rub_min_gap_runtime_mm": -1.1,
-     "rub_min_gap_mm": -1.2,
-     "rub_part_link": "head_pitch_to_yaw",
-     "rub_at": {
-      "head_yaw": 0.931
-     },
-     "static_min_gap_mm": 1.6,
-     "clearance_min_mm": 1.6,
-     "clearance_part": "servo_bottom",
-     "clearance_at": [
-      9.0,
-      -18.0,
-      78.0
-     ],
-     "bend_min_radius_mm": 1.3,
-     "loop_min_radius_mm": null,
-     "bend_rule_mm": {
-      "min": 4.5,
-      "optimum": 15.0
-     }
+     "length_max_runtime_mm": 518.0,
+     "to": "SW1.OFF",
+     "from": "PI.37"
     }
    ],
    "wires": [
@@ -43322,7 +43569,7 @@
      "required_mm": 582.5,
      "margin_mm": 7.5,
      "length_zero_mm": 467.7,
-     "length_min_mm": 468.0,
+     "length_min_mm": 465.6,
      "chains": [
       {
        "chain": [
@@ -43337,7 +43584,8 @@
      ],
      "margin_runtime_mm": 7.5,
      "fits_mm": 47.5,
-     "length_check": "pass"
+     "length_check": "pass",
+     "length_max_runtime_mm": 518.0
     }
    ],
    "seats": [],
@@ -43691,7 +43939,11 @@
      "od_source": "[I] BNTECHGO 26 AWG silicone, outer diameter 1.5 +/- 0.1 mm (https://www.amazon.com/dp/B08F9CF85N)",
      "runs": [
       "main"
-     ]
+     ],
+     "length_zero_mm": 78.3,
+     "length_min_mm": 78.3,
+     "length_max_mm": 78.3,
+     "length_max_runtime_mm": 78.3
     },
     {
      "from": "PI.39",
@@ -43705,7 +43957,11 @@
      "od_source": "[I] BNTECHGO 26 AWG silicone, outer diameter 1.5 +/- 0.1 mm (https://www.amazon.com/dp/B08F9CF85N)",
      "runs": [
       "main"
-     ]
+     ],
+     "length_zero_mm": 78.3,
+     "length_min_mm": 78.3,
+     "length_max_mm": 78.3,
+     "length_max_runtime_mm": 78.3
     },
     {
      "from": "PI.12",
@@ -43719,7 +43975,11 @@
      "od_source": "[I] BNTECHGO 26 AWG silicone, outer diameter 1.5 +/- 0.1 mm (https://www.amazon.com/dp/B08F9CF85N)",
      "runs": [
       "main"
-     ]
+     ],
+     "length_zero_mm": 78.3,
+     "length_min_mm": 78.3,
+     "length_max_mm": 78.3,
+     "length_max_runtime_mm": 78.3
     },
     {
      "from": "PI.35",
@@ -43733,7 +43993,11 @@
      "od_source": "[I] BNTECHGO 26 AWG silicone, outer diameter 1.5 +/- 0.1 mm (https://www.amazon.com/dp/B08F9CF85N)",
      "runs": [
       "main"
-     ]
+     ],
+     "length_zero_mm": 78.3,
+     "length_min_mm": 78.3,
+     "length_max_mm": 78.3,
+     "length_max_runtime_mm": 78.3
     },
     {
      "from": "PI.38",
@@ -43747,7 +44011,11 @@
      "od_source": "[I] BNTECHGO 26 AWG silicone, outer diameter 1.5 +/- 0.1 mm (https://www.amazon.com/dp/B08F9CF85N)",
      "runs": [
       "main"
-     ]
+     ],
+     "length_zero_mm": 78.3,
+     "length_min_mm": 78.3,
+     "length_max_mm": 78.3,
+     "length_max_runtime_mm": 78.3
     }
    ],
    "seats": [],
@@ -43902,7 +44170,11 @@
      "od_source": "[I] BNTECHGO 26 AWG silicone, outer diameter 1.5 +/- 0.1 mm (https://www.amazon.com/dp/B08F9CF85N)",
      "runs": [
       "main"
-     ]
+     ],
+     "length_zero_mm": 148.4,
+     "length_min_mm": 148.4,
+     "length_max_mm": 148.4,
+     "length_max_runtime_mm": 148.4
     },
     {
      "from": "MICL.GND",
@@ -43916,7 +44188,11 @@
      "od_source": "[I] BNTECHGO 26 AWG silicone, outer diameter 1.5 +/- 0.1 mm (https://www.amazon.com/dp/B08F9CF85N)",
      "runs": [
       "main"
-     ]
+     ],
+     "length_zero_mm": 148.4,
+     "length_min_mm": 148.4,
+     "length_max_mm": 148.4,
+     "length_max_runtime_mm": 148.4
     },
     {
      "from": "MICL.BCLK",
@@ -43930,7 +44206,11 @@
      "od_source": "[I] BNTECHGO 26 AWG silicone, outer diameter 1.5 +/- 0.1 mm (https://www.amazon.com/dp/B08F9CF85N)",
      "runs": [
       "main"
-     ]
+     ],
+     "length_zero_mm": 148.4,
+     "length_min_mm": 148.4,
+     "length_max_mm": 148.4,
+     "length_max_runtime_mm": 148.4
     },
     {
      "from": "MICL.LRCL",
@@ -43944,7 +44224,11 @@
      "od_source": "[I] BNTECHGO 26 AWG silicone, outer diameter 1.5 +/- 0.1 mm (https://www.amazon.com/dp/B08F9CF85N)",
      "runs": [
       "main"
-     ]
+     ],
+     "length_zero_mm": 148.4,
+     "length_min_mm": 148.4,
+     "length_max_mm": 148.4,
+     "length_max_runtime_mm": 148.4
     },
     {
      "from": "MICL.DOUT",
@@ -43958,12 +44242,2531 @@
      "od_source": "[I] BNTECHGO 26 AWG silicone, outer diameter 1.5 +/- 0.1 mm (https://www.amazon.com/dp/B08F9CF85N)",
      "runs": [
       "main"
-     ]
+     ],
+     "length_zero_mm": 148.4,
+     "length_min_mm": 148.4,
+     "length_max_mm": 148.4,
+     "length_max_runtime_mm": 148.4
     }
    ],
    "seats": [],
    "note": "twisted 5-wire bundle (D47); routed by twin/companion/route_mics.py, clear of P13, P12, D8 and D9 (mic_routes.json)",
    "service_loops": []
+  },
+  {
+   "id": "D16",
+   "desc": "Pi header to the head touch board (3V3, GND, SDA, SCL; D51)",
+   "from": "PI.1/PI.25/PI.3/PI.5",
+   "to": "TCHH.VIN/TCHH.GND/TCHH.SDA/TCHH.SCL",
+   "gauge": "26 AWG",
+   "color": "#d62728",
+   "colors": [
+    "#d62728",
+    "#222222",
+    "#1f77b4",
+    "#e6c200"
+   ],
+   "d_mm": 3.5,
+   "wires_n": 4,
+   "cut_mm": 140,
+   "joints": [],
+   "points": [
+    {
+     "link": "head_assembly",
+     "p": [
+      19.649,
+      58.23,
+      -8.655
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      19.149,
+      57.9,
+      -1.05
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      19.149,
+      47.9,
+      70.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      19.149,
+      46.9,
+      71.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      19.149,
+      45.9,
+      72.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      19.149,
+      44.9,
+      73.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      19.149,
+      43.9,
+      74.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      22.44,
+      43.154,
+      75.496
+     ]
+    }
+   ],
+   "runs": [
+    {
+     "name": "main",
+     "points": [
+      {
+       "link": "head_assembly",
+       "p": [
+        19.649,
+        58.23,
+        -8.655
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        19.149,
+        57.9,
+        -1.05
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        19.149,
+        47.9,
+        70.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        19.149,
+        46.9,
+        71.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        19.149,
+        45.9,
+        72.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        19.149,
+        44.9,
+        73.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        19.149,
+        43.9,
+        74.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        22.44,
+        43.154,
+        75.496
+       ]
+      }
+     ],
+     "d_mm": 3.5,
+     "routed": true,
+     "seats": [],
+     "joints": [],
+     "spans": [],
+     "service_loops": [],
+     "length_zero_mm": 89.4,
+     "length_min_mm": 89.4,
+     "length_max_mm": 89.4,
+     "length_max_runtime_mm": 89.4
+    }
+   ],
+   "wires": [
+    {
+     "from": "PI.1",
+     "to": "TCHH.VIN",
+     "net": "3V3",
+     "gauge": "26 AWG",
+     "color": "red",
+     "cut_mm": 140,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 89.4,
+     "length_min_mm": 89.4,
+     "length_max_mm": 89.4,
+     "length_max_runtime_mm": 89.4
+    },
+    {
+     "from": "PI.25",
+     "to": "TCHH.GND",
+     "net": "GND",
+     "gauge": "26 AWG",
+     "color": "black",
+     "cut_mm": 140,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 89.4,
+     "length_min_mm": 89.4,
+     "length_max_mm": 89.4,
+     "length_max_runtime_mm": 89.4
+    },
+    {
+     "from": "PI.3",
+     "to": "TCHH.SDA",
+     "net": "I2C_SDA",
+     "gauge": "26 AWG",
+     "color": "blue",
+     "cut_mm": 140,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 89.4,
+     "length_min_mm": 89.4,
+     "length_max_mm": 89.4,
+     "length_max_runtime_mm": 89.4
+    },
+    {
+     "from": "PI.5",
+     "to": "TCHH.SCL",
+     "net": "I2C_SCL",
+     "gauge": "26 AWG",
+     "color": "yellow",
+     "cut_mm": 140,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 89.4,
+     "length_min_mm": 89.4,
+     "length_max_mm": 89.4,
+     "length_max_runtime_mm": 89.4
+    }
+   ],
+   "seats": [],
+   "length_zero_mm": 89.4,
+   "length_min_mm": 89.4,
+   "length_max_mm": 89.4,
+   "note": "routed by twin/freeze/routes_freeze.py (D51, D54)"
+  },
+  {
+   "id": "D17",
+   "desc": "head touch board E0 and GND to the head-top pad PH1 (D51)",
+   "from": "TCHH.E0/TCHH.GND",
+   "to": "PH1.E/PH1.G",
+   "gauge": "26 AWG",
+   "color": "#f2f2f2",
+   "colors": [
+    "#f2f2f2",
+    "#222222"
+   ],
+   "d_mm": 3.0,
+   "wires_n": 2,
+   "cut_mm": 90,
+   "joints": [],
+   "points": [
+    {
+     "link": "head_assembly",
+     "p": [
+      22.44,
+      26.646,
+      75.496
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      22.149,
+      23.9,
+      74.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      22.149,
+      23.9,
+      72.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      22.149,
+      23.9,
+      71.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      22.149,
+      23.9,
+      70.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      23.149,
+      22.9,
+      69.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      24.149,
+      21.9,
+      68.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      32.149,
+      9.9,
+      46.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      34.149,
+      7.9,
+      44.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      35.629,
+      6.965,
+      43.453
+     ]
+    }
+   ],
+   "runs": [
+    {
+     "name": "main",
+     "points": [
+      {
+       "link": "head_assembly",
+       "p": [
+        22.44,
+        26.646,
+        75.496
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        22.149,
+        23.9,
+        74.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        22.149,
+        23.9,
+        72.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        22.149,
+        23.9,
+        71.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        22.149,
+        23.9,
+        70.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        23.149,
+        22.9,
+        69.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        24.149,
+        21.9,
+        68.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        32.149,
+        9.9,
+        46.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        34.149,
+        7.9,
+        44.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        35.629,
+        6.965,
+        43.453
+       ]
+      }
+     ],
+     "d_mm": 3.0,
+     "routed": true,
+     "seats": [],
+     "joints": [],
+     "spans": [],
+     "service_loops": [],
+     "length_zero_mm": 42.4,
+     "length_min_mm": 42.4,
+     "length_max_mm": 42.4,
+     "length_max_runtime_mm": 42.4
+    }
+   ],
+   "wires": [
+    {
+     "from": "TCHH.E0",
+     "to": "PH1.E",
+     "net": "TOUCH_PH1",
+     "gauge": "26 AWG",
+     "color": "white",
+     "cut_mm": 90,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 42.4,
+     "length_min_mm": 42.4,
+     "length_max_mm": 42.4,
+     "length_max_runtime_mm": 42.4
+    },
+    {
+     "from": "TCHH.GND",
+     "to": "PH1.G",
+     "net": "GND",
+     "gauge": "26 AWG",
+     "color": "black",
+     "cut_mm": 90,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 42.4,
+     "length_min_mm": 42.4,
+     "length_max_mm": 42.4,
+     "length_max_runtime_mm": 42.4
+    }
+   ],
+   "seats": [],
+   "length_zero_mm": 42.4,
+   "length_min_mm": 42.4,
+   "length_max_mm": 42.4,
+   "note": "routed by twin/freeze/routes_freeze.py (D51, D54)"
+  },
+  {
+   "id": "D18",
+   "desc": "head touch board E1 and GND to the back-of-head pad PH2 (D51)",
+   "from": "TCHH.E1/TCHH.GND",
+   "to": "PH2.E/PH2.G",
+   "gauge": "26 AWG",
+   "color": "#f2f2f2",
+   "colors": [
+    "#f2f2f2",
+    "#222222"
+   ],
+   "d_mm": 3.0,
+   "wires_n": 2,
+   "cut_mm": 90,
+   "joints": [],
+   "points": [
+    {
+     "link": "head_assembly",
+     "p": [
+      22.44,
+      26.646,
+      75.496
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      22.149,
+      23.9,
+      76.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      22.149,
+      23.9,
+      77.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      22.149,
+      23.9,
+      78.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      22.149,
+      23.9,
+      79.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      22.149,
+      23.9,
+      80.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      21.149,
+      22.9,
+      81.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      20.149,
+      21.9,
+      82.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      19.149,
+      21.9,
+      92.95
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      18.419,
+      7.345,
+      108.443
+     ]
+    }
+   ],
+   "runs": [
+    {
+     "name": "main",
+     "points": [
+      {
+       "link": "head_assembly",
+       "p": [
+        22.44,
+        26.646,
+        75.496
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        22.149,
+        23.9,
+        76.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        22.149,
+        23.9,
+        77.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        22.149,
+        23.9,
+        78.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        22.149,
+        23.9,
+        79.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        22.149,
+        23.9,
+        80.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        21.149,
+        22.9,
+        81.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        20.149,
+        21.9,
+        82.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        19.149,
+        21.9,
+        92.95
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        18.419,
+        7.345,
+        108.443
+       ]
+      }
+     ],
+     "d_mm": 3.0,
+     "routed": true,
+     "seats": [],
+     "joints": [],
+     "spans": [],
+     "service_loops": [],
+     "length_zero_mm": 41.9,
+     "length_min_mm": 41.9,
+     "length_max_mm": 41.9,
+     "length_max_runtime_mm": 41.9
+    }
+   ],
+   "wires": [
+    {
+     "from": "TCHH.E1",
+     "to": "PH2.E",
+     "net": "TOUCH_PH2",
+     "gauge": "26 AWG",
+     "color": "white",
+     "cut_mm": 90,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 41.9,
+     "length_min_mm": 41.9,
+     "length_max_mm": 41.9,
+     "length_max_runtime_mm": 41.9
+    },
+    {
+     "from": "TCHH.GND",
+     "to": "PH2.G",
+     "net": "GND",
+     "gauge": "26 AWG",
+     "color": "black",
+     "cut_mm": 90,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 41.9,
+     "length_min_mm": 41.9,
+     "length_max_mm": 41.9,
+     "length_max_runtime_mm": 41.9
+    }
+   ],
+   "seats": [],
+   "length_zero_mm": 41.9,
+   "length_min_mm": 41.9,
+   "length_max_mm": 41.9,
+   "note": "routed by twin/freeze/routes_freeze.py (D51, D54)"
+  },
+  {
+   "id": "D19",
+   "desc": "BNO055 header to the body touch board (3V3, GND, SDA, SCL, tapping D2; D51)",
+   "from": "BNO.VIN/BNO.GND/BNO.SDA/BNO.SCL",
+   "to": "TCHB.VIN/TCHB.GND/TCHB.SDA/TCHB.SCL",
+   "gauge": "26 AWG",
+   "color": "#d62728",
+   "colors": [
+    "#d62728",
+    "#222222",
+    "#1f77b4",
+    "#e6c200"
+   ],
+   "d_mm": 3.5,
+   "wires_n": 4,
+   "cut_mm": 100,
+   "joints": [],
+   "points": [
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -78.38,
+      0.0,
+      39.29
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -78.0,
+      16.0,
+      39.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -81.0,
+      27.0,
+      46.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -87.973,
+      45.311,
+      65.711
+     ]
+    }
+   ],
+   "runs": [
+    {
+     "name": "main",
+     "points": [
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -78.38,
+        0.0,
+        39.29
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -78.0,
+        16.0,
+        39.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -81.0,
+        27.0,
+        46.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -87.973,
+        45.311,
+        65.711
+       ]
+      }
+     ],
+     "d_mm": 3.5,
+     "routed": true,
+     "seats": [],
+     "joints": [],
+     "spans": [],
+     "service_loops": [],
+     "length_zero_mm": 57.2,
+     "length_min_mm": 57.2,
+     "length_max_mm": 57.2,
+     "length_max_runtime_mm": 57.2
+    }
+   ],
+   "wires": [
+    {
+     "from": "BNO.VIN",
+     "to": "TCHB.VIN",
+     "net": "3V3",
+     "gauge": "26 AWG",
+     "color": "red",
+     "cut_mm": 100,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 57.2,
+     "length_min_mm": 57.2,
+     "length_max_mm": 57.2,
+     "length_max_runtime_mm": 57.2
+    },
+    {
+     "from": "BNO.GND",
+     "to": "TCHB.GND",
+     "net": "GND",
+     "gauge": "26 AWG",
+     "color": "black",
+     "cut_mm": 100,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 57.2,
+     "length_min_mm": 57.2,
+     "length_max_mm": 57.2,
+     "length_max_runtime_mm": 57.2
+    },
+    {
+     "from": "BNO.SDA",
+     "to": "TCHB.SDA",
+     "net": "I2C_SDA",
+     "gauge": "26 AWG",
+     "color": "blue",
+     "cut_mm": 100,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 57.2,
+     "length_min_mm": 57.2,
+     "length_max_mm": 57.2,
+     "length_max_runtime_mm": 57.2
+    },
+    {
+     "from": "BNO.SCL",
+     "to": "TCHB.SCL",
+     "net": "I2C_SCL",
+     "gauge": "26 AWG",
+     "color": "yellow",
+     "cut_mm": 100,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 57.2,
+     "length_min_mm": 57.2,
+     "length_max_mm": 57.2,
+     "length_max_runtime_mm": 57.2
+    }
+   ],
+   "seats": [],
+   "length_zero_mm": 57.2,
+   "length_min_mm": 57.2,
+   "length_max_mm": 57.2,
+   "note": "routed by twin/freeze/routes_freeze.py (D51, D54)"
+  },
+  {
+   "id": "D20",
+   "desc": "body touch board E0 and GND to the back pad PB1 (D51)",
+   "from": "TCHB.E0/TCHB.GND",
+   "to": "PB1.E/PB1.G",
+   "gauge": "26 AWG",
+   "color": "#f2f2f2",
+   "colors": [
+    "#f2f2f2",
+    "#222222"
+   ],
+   "d_mm": 3.0,
+   "wires_n": 2,
+   "cut_mm": 80,
+   "joints": [],
+   "points": [
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -87.973,
+      45.229,
+      82.222
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -93.826,
+      15.119,
+      103.89
+     ]
+    }
+   ],
+   "runs": [
+    {
+     "name": "main",
+     "points": [
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -87.973,
+        45.229,
+        82.222
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -93.826,
+        15.119,
+        103.89
+       ]
+      }
+     ],
+     "d_mm": 3.0,
+     "routed": true,
+     "seats": [],
+     "joints": [],
+     "spans": [],
+     "service_loops": [],
+     "length_zero_mm": 37.6,
+     "length_min_mm": 37.6,
+     "length_max_mm": 37.6,
+     "length_max_runtime_mm": 37.6
+    }
+   ],
+   "wires": [
+    {
+     "from": "TCHB.E0",
+     "to": "PB1.E",
+     "net": "TOUCH_PB1",
+     "gauge": "26 AWG",
+     "color": "white",
+     "cut_mm": 80,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 37.6,
+     "length_min_mm": 37.6,
+     "length_max_mm": 37.6,
+     "length_max_runtime_mm": 37.6
+    },
+    {
+     "from": "TCHB.GND",
+     "to": "PB1.G",
+     "net": "GND",
+     "gauge": "26 AWG",
+     "color": "black",
+     "cut_mm": 80,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 37.6,
+     "length_min_mm": 37.6,
+     "length_max_mm": 37.6,
+     "length_max_runtime_mm": 37.6
+    }
+   ],
+   "seats": [],
+   "length_zero_mm": 37.6,
+   "length_min_mm": 37.6,
+   "length_max_mm": 37.6,
+   "note": "routed by twin/freeze/routes_freeze.py (D51, D54)"
+  },
+  {
+   "id": "D21",
+   "desc": "body touch board to the cliff ToF (3V3, GND, SDA, SCL; D54)",
+   "from": "TCHB.VIN/TCHB.GND/TCHB.SDA/TCHB.SCL",
+   "to": "TOF.VIN/TOF.GND/TOF.SDA/TOF.SCL",
+   "gauge": "26 AWG",
+   "color": "#d62728",
+   "colors": [
+    "#d62728",
+    "#222222",
+    "#1f77b4",
+    "#e6c200"
+   ],
+   "d_mm": 3.5,
+   "wires_n": 4,
+   "cut_mm": 200,
+   "joints": [],
+   "points": [
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -87.973,
+      45.311,
+      65.711
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -85.0,
+      45.0,
+      65.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -84.0,
+      45.0,
+      64.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -83.0,
+      45.0,
+      63.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -82.0,
+      45.0,
+      62.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -81.0,
+      45.0,
+      61.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -61.0,
+      40.0,
+      43.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -60.0,
+      39.0,
+      42.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -39.0,
+      18.0,
+      33.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      1.0,
+      16.0,
+      14.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      24.0,
+      2.0,
+      0.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      25.0,
+      1.0,
+      -1.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      28.088,
+      0.0,
+      -2.467
+     ]
+    }
+   ],
+   "runs": [
+    {
+     "name": "main",
+     "points": [
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -87.973,
+        45.311,
+        65.711
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -85.0,
+        45.0,
+        65.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -84.0,
+        45.0,
+        64.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -83.0,
+        45.0,
+        63.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -82.0,
+        45.0,
+        62.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -81.0,
+        45.0,
+        61.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -61.0,
+        40.0,
+        43.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -60.0,
+        39.0,
+        42.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -39.0,
+        18.0,
+        33.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        1.0,
+        16.0,
+        14.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        24.0,
+        2.0,
+        0.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        25.0,
+        1.0,
+        -1.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        28.088,
+        0.0,
+        -2.467
+       ]
+      }
+     ],
+     "d_mm": 3.5,
+     "routed": true,
+     "seats": [],
+     "joints": [],
+     "spans": [],
+     "service_loops": [],
+     "length_zero_mm": 148.8,
+     "length_min_mm": 148.8,
+     "length_max_mm": 148.8,
+     "length_max_runtime_mm": 148.8
+    }
+   ],
+   "wires": [
+    {
+     "from": "TCHB.VIN",
+     "to": "TOF.VIN",
+     "net": "3V3",
+     "gauge": "26 AWG",
+     "color": "red",
+     "cut_mm": 200,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 148.8,
+     "length_min_mm": 148.8,
+     "length_max_mm": 148.8,
+     "length_max_runtime_mm": 148.8
+    },
+    {
+     "from": "TCHB.GND",
+     "to": "TOF.GND",
+     "net": "GND",
+     "gauge": "26 AWG",
+     "color": "black",
+     "cut_mm": 200,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 148.8,
+     "length_min_mm": 148.8,
+     "length_max_mm": 148.8,
+     "length_max_runtime_mm": 148.8
+    },
+    {
+     "from": "TCHB.SDA",
+     "to": "TOF.SDA",
+     "net": "I2C_SDA",
+     "gauge": "26 AWG",
+     "color": "blue",
+     "cut_mm": 200,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 148.8,
+     "length_min_mm": 148.8,
+     "length_max_mm": 148.8,
+     "length_max_runtime_mm": 148.8
+    },
+    {
+     "from": "TCHB.SCL",
+     "to": "TOF.SCL",
+     "net": "I2C_SCL",
+     "gauge": "26 AWG",
+     "color": "yellow",
+     "cut_mm": 200,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 148.8,
+     "length_min_mm": 148.8,
+     "length_max_mm": 148.8,
+     "length_max_runtime_mm": 148.8
+    }
+   ],
+   "seats": [],
+   "length_zero_mm": 148.8,
+   "length_min_mm": 148.8,
+   "length_max_mm": 148.8,
+   "note": "routed by twin/freeze/routes_freeze.py (D51, D54)"
+  },
+  {
+   "id": "D22",
+   "desc": "cliff ToF interrupt to Pi GPIO17, pin 11 (D54), one wire in the D21, D19 and D2 bundles",
+   "from": "TOF.GPIO",
+   "to": "PI.11",
+   "gauge": "26 AWG",
+   "color": "#2ca02c",
+   "colors": [
+    "#2ca02c"
+   ],
+   "d_mm": 1.5,
+   "wires_n": 1,
+   "cut_mm": 690,
+   "joints": [
+    "head_pitch",
+    "head_roll",
+    "head_yaw",
+    "neck_pitch"
+   ],
+   "points": [
+    {
+     "link": "trunk_assembly",
+     "p": [
+      28.088,
+      0.0,
+      -2.467
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      25.0,
+      1.0,
+      -1.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      24.0,
+      2.0,
+      0.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      1.0,
+      16.0,
+      14.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -39.0,
+      18.0,
+      33.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -60.0,
+      39.0,
+      42.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -61.0,
+      40.0,
+      43.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -81.0,
+      45.0,
+      61.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -82.0,
+      45.0,
+      62.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -83.0,
+      45.0,
+      63.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -84.0,
+      45.0,
+      64.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -85.0,
+      45.0,
+      65.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -87.973,
+      45.311,
+      65.711
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -87.973,
+      45.311,
+      65.711
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -81.0,
+      27.0,
+      46.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -78.0,
+      16.0,
+      39.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -78.38,
+      0.0,
+      39.29
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -78.38,
+      0.0,
+      40.79
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -78.38,
+      0.0,
+      38.79
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -71.0,
+      -7.0,
+      31.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -53.0,
+      -7.0,
+      31.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -39.0,
+      -16.0,
+      40.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      -7.57,
+      -17.57,
+      40.79
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      1.0,
+      -18.0,
+      41.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      3.0,
+      -20.0,
+      42.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      3.0,
+      -24.0,
+      42.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      4.0,
+      -26.0,
+      44.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      4.0,
+      -26.0,
+      74.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      6.0,
+      -24.0,
+      76.0
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      6.0,
+      -18.3,
+      76.05
+     ]
+    },
+    {
+     "link": "trunk_assembly",
+     "p": [
+      9.0,
+      -18.0,
+      78.0
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      9.0,
+      -11.0,
+      38.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      12.0,
+      -8.0,
+      38.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      15.0,
+      -0.0,
+      40.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      17.0,
+      20.0,
+      41.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      14.0,
+      23.0,
+      44.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      2.0,
+      47.0,
+      44.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      -1.0,
+      50.0,
+      41.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      -5.0,
+      52.05,
+      37.45
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      6.0,
+      52.0,
+      37.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      8.0,
+      54.0,
+      38.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      12.0,
+      58.0,
+      38.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      13.0,
+      61.0,
+      38.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      14.0,
+      62.0,
+      37.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      15.0,
+      68.0,
+      32.15
+     ]
+    },
+    {
+     "link": "neck_pitch_assembly",
+     "p": [
+      15.0,
+      79.33,
+      20.82
+     ]
+    },
+    {
+     "link": "head_pitch_to_yaw",
+     "p": [
+      15.0,
+      15.22,
+      18.93
+     ]
+    },
+    {
+     "link": "neck_yaw_assembly",
+     "p": [
+      15.0,
+      2.01,
+      -39.89
+     ]
+    },
+    {
+     "link": "neck_yaw_assembly",
+     "p": [
+      15.0,
+      3.9,
+      -38.0
+     ]
+    },
+    {
+     "link": "neck_yaw_assembly",
+     "p": [
+      13.95,
+      5.0,
+      -37.45
+     ]
+    },
+    {
+     "link": "neck_yaw_assembly",
+     "p": [
+      15.0,
+      12.9,
+      -38.0
+     ]
+    },
+    {
+     "link": "neck_yaw_assembly",
+     "p": [
+      20.0,
+      18.9,
+      -32.0
+     ]
+    },
+    {
+     "link": "neck_yaw_assembly",
+     "p": [
+      29.91,
+      30.14,
+      -22.86
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      -2.18,
+      32.01,
+      9.39
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      14.58,
+      52.61,
+      -8.78
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      19.15,
+      58.23,
+      -13.74
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      21.15,
+      58.23,
+      -13.74
+     ]
+    },
+    {
+     "link": "head_assembly",
+     "p": [
+      21.149,
+      58.23,
+      -5.48
+     ]
+    }
+   ],
+   "runs": [
+    {
+     "name": "main",
+     "points": [
+      {
+       "link": "trunk_assembly",
+       "p": [
+        28.088,
+        0.0,
+        -2.467
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        25.0,
+        1.0,
+        -1.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        24.0,
+        2.0,
+        0.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        1.0,
+        16.0,
+        14.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -39.0,
+        18.0,
+        33.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -60.0,
+        39.0,
+        42.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -61.0,
+        40.0,
+        43.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -81.0,
+        45.0,
+        61.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -82.0,
+        45.0,
+        62.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -83.0,
+        45.0,
+        63.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -84.0,
+        45.0,
+        64.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -85.0,
+        45.0,
+        65.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -87.973,
+        45.311,
+        65.711
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -87.973,
+        45.311,
+        65.711
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -81.0,
+        27.0,
+        46.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -78.0,
+        16.0,
+        39.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -78.38,
+        0.0,
+        39.29
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -78.38,
+        0.0,
+        40.79
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -78.38,
+        0.0,
+        38.79
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -71.0,
+        -7.0,
+        31.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -53.0,
+        -7.0,
+        31.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -39.0,
+        -16.0,
+        40.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -7.57,
+        -17.57,
+        40.79
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        1.0,
+        -18.0,
+        41.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        3.0,
+        -20.0,
+        42.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        3.0,
+        -24.0,
+        42.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        4.0,
+        -26.0,
+        44.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        4.0,
+        -26.0,
+        74.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        6.0,
+        -24.0,
+        76.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        6.0,
+        -18.3,
+        76.05
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        9.0,
+        -18.0,
+        78.0
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        9.0,
+        -11.0,
+        38.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        12.0,
+        -8.0,
+        38.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        15.0,
+        -0.0,
+        40.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        17.0,
+        20.0,
+        41.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        14.0,
+        23.0,
+        44.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        2.0,
+        47.0,
+        44.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        -1.0,
+        50.0,
+        41.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        -5.0,
+        52.05,
+        37.45
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        6.0,
+        52.0,
+        37.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        8.0,
+        54.0,
+        38.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        12.0,
+        58.0,
+        38.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        13.0,
+        61.0,
+        38.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        14.0,
+        62.0,
+        37.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        15.0,
+        68.0,
+        32.15
+       ]
+      },
+      {
+       "link": "neck_pitch_assembly",
+       "p": [
+        15.0,
+        79.33,
+        20.82
+       ]
+      },
+      {
+       "link": "head_pitch_to_yaw",
+       "p": [
+        15.0,
+        15.22,
+        18.93
+       ]
+      },
+      {
+       "link": "neck_yaw_assembly",
+       "p": [
+        15.0,
+        2.01,
+        -39.89
+       ]
+      },
+      {
+       "link": "neck_yaw_assembly",
+       "p": [
+        15.0,
+        3.9,
+        -38.0
+       ]
+      },
+      {
+       "link": "neck_yaw_assembly",
+       "p": [
+        13.95,
+        5.0,
+        -37.45
+       ]
+      },
+      {
+       "link": "neck_yaw_assembly",
+       "p": [
+        15.0,
+        12.9,
+        -38.0
+       ]
+      },
+      {
+       "link": "neck_yaw_assembly",
+       "p": [
+        20.0,
+        18.9,
+        -32.0
+       ]
+      },
+      {
+       "link": "neck_yaw_assembly",
+       "p": [
+        29.91,
+        30.14,
+        -22.86
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        -2.18,
+        32.01,
+        9.39
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        14.58,
+        52.61,
+        -8.78
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        19.15,
+        58.23,
+        -13.74
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        21.15,
+        58.23,
+        -13.74
+       ]
+      },
+      {
+       "link": "head_assembly",
+       "p": [
+        21.149,
+        58.23,
+        -5.48
+       ]
+      }
+     ],
+     "d_mm": 1.5,
+     "routed": true,
+     "seats": [],
+     "joints": [
+      "head_pitch",
+      "head_roll",
+      "head_yaw",
+      "neck_pitch"
+     ],
+     "spans": [
+      {
+       "span": [
+        30,
+        31
+       ],
+       "joints": [
+        "neck_pitch"
+       ],
+       "zero_mm": 1.7,
+       "min_mm": 1.0,
+       "max_mm": 16.6,
+       "at_max": {
+        "neck_pitch": 1.134
+       }
+      },
+      {
+       "span": [
+        45,
+        46
+       ],
+       "joints": [
+        "head_pitch"
+       ],
+       "zero_mm": 2.7,
+       "min_mm": 2.3,
+       "max_mm": 17.3,
+       "at_max": {
+        "head_pitch": 0.785
+       }
+      },
+      {
+       "span": [
+        46,
+        47
+       ],
+       "joints": [
+        "head_yaw"
+       ],
+       "zero_mm": 2.7,
+       "min_mm": 2.0,
+       "max_mm": 30.0,
+       "at_max": {
+        "head_yaw": 2.793
+       }
+      },
+      {
+       "span": [
+        52,
+        53
+       ],
+       "joints": [
+        "head_roll"
+       ],
+       "zero_mm": 2.9,
+       "min_mm": 2.4,
+       "max_mm": 17.9,
+       "at_max": {
+        "head_roll": -0.524
+       }
+      }
+     ],
+     "service_loops": [
+      {
+       "span": [
+        30,
+        31
+       ],
+       "spans": [
+        [
+         30,
+         31
+        ]
+       ],
+       "joints": [
+        "neck_pitch"
+       ],
+       "angle_rad": 1.134,
+       "angle_runtime_rad": 1.134,
+       "od_mm": 1.5,
+       "free_needed_mm": 11.8,
+       "free_mm": 25.7,
+       "radius_mm": 10.7,
+       "radius_runtime_mm": 10.7,
+       "radius_bend_mm": 22.7,
+       "radius_bend_runtime_mm": 22.7,
+       "radius_storage_mm": 10.7,
+       "radius_storage_runtime_mm": 10.7,
+       "chord_min_mm": 20.3,
+       "loop_length_mm": 40.6,
+       "dress_extra_mm": 14.8,
+       "rule_mm": 10.4,
+       "ok": true,
+       "ok_runtime": true,
+       "room_mm": [
+        144.6,
+        62.3
+       ],
+       "ties_at_mm": [
+        352.1,
+        377.8
+       ],
+       "tie_ids": [
+        "T013",
+        "T014"
+       ],
+       "host": "rides in the bundle of D2"
+      },
+      {
+       "span": [
+        45,
+        47
+       ],
+       "spans": [
+        [
+         45,
+         46
+        ],
+        [
+         46,
+         47
+        ]
+       ],
+       "joints": [
+        "head_pitch",
+        "head_yaw"
+       ],
+       "angle_rad": 3.578,
+       "angle_runtime_rad": 1.28,
+       "od_mm": 1.5,
+       "free_needed_mm": 37.1,
+       "free_mm": 37.3,
+       "radius_mm": 10.4,
+       "radius_runtime_mm": 16.5,
+       "radius_bend_mm": 10.4,
+       "radius_bend_runtime_mm": 29.2,
+       "radius_storage_mm": 16.0,
+       "radius_storage_runtime_mm": 16.5,
+       "chord_min_mm": 19.5,
+       "loop_length_mm": 79.3,
+       "dress_extra_mm": 41.9,
+       "rule_mm": 10.4,
+       "ok": true,
+       "ok_runtime": true,
+       "room_mm": [
+        100.6,
+        19.8
+       ],
+       "ties_at_mm": [
+        446.4,
+        483.8
+       ],
+       "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 0.0 mm of route between them",
+       "tie_ids": [
+        "T038",
+        "T016"
+       ],
+       "host": "rides in the bundle of D2"
+      },
+      {
+       "span": [
+        52,
+        53
+       ],
+       "spans": [
+        [
+         52,
+         53
+        ]
+       ],
+       "joints": [
+        "head_roll"
+       ],
+       "angle_rad": 0.524,
+       "angle_runtime_rad": 0.5,
+       "od_mm": 1.5,
+       "free_needed_mm": 5.4,
+       "free_mm": 23.9,
+       "radius_mm": 10.8,
+       "radius_runtime_mm": 10.8,
+       "radius_bend_mm": 45.7,
+       "radius_bend_runtime_mm": 47.9,
+       "radius_storage_mm": 10.8,
+       "radius_storage_runtime_mm": 10.8,
+       "chord_min_mm": 20.9,
+       "loop_length_mm": 39.0,
+       "dress_extra_mm": 15.0,
+       "rule_mm": 10.4,
+       "ok": true,
+       "ok_runtime": true,
+       "room_mm": [
+        39.7,
+        43.0
+       ],
+       "ties_at_mm": [
+        523.4,
+        547.4
+       ],
+       "tie_ids": [
+        "T017",
+        "T026"
+       ],
+       "host": "rides in the bundle of D2"
+      }
+     ],
+     "length_zero_mm": 577.6,
+     "length_min_mm": 575.3,
+     "length_max_mm": 649.4,
+     "length_max_runtime_mm": 625.5
+    }
+   ],
+   "wires": [
+    {
+     "from": "TOF.GPIO",
+     "to": "PI.11",
+     "net": "TOF_INT",
+     "gauge": "26 AWG",
+     "color": "green",
+     "cut_mm": 690,
+     "branch": null,
+     "od_mm": 1.5,
+     "runs": [
+      "main"
+     ],
+     "length_zero_mm": 577.6,
+     "length_min_mm": 575.3,
+     "length_max_mm": 649.4,
+     "length_max_runtime_mm": 625.5
+    }
+   ],
+   "seats": [],
+   "length_zero_mm": 577.6,
+   "length_min_mm": 575.3,
+   "length_max_mm": 649.4,
+   "note": "routed by twin/freeze/routes_freeze.py (D51, D54); rides in the D21, D19 and D2 bundles, D2's service loops and ties at the neck"
   },
   {
    "id": "SD1",
@@ -61889,7 +64692,8 @@
    "id": "T010",
    "cables": [
     "D2",
-    "SP3"
+    "SP3",
+    "D22"
    ],
    "kind": "adhesive tie mount",
    "gap": true,
@@ -61937,7 +64741,8 @@
   {
    "id": "T011",
    "cables": [
-    "P13"
+    "P13",
+    "D13"
    ],
    "kind": "adhesive tie mount",
    "gap": true,
@@ -61985,7 +64790,8 @@
    "id": "T012",
    "cables": [
     "P13",
-    "SD1"
+    "SD1",
+    "D13"
    ],
    "kind": "adhesive tie mount",
    "gap": true,
@@ -62038,7 +64844,9 @@
     "D3",
     "D4",
     "P13",
-    "SD1"
+    "SD1",
+    "D13",
+    "D22"
    ],
    "kind": "adhesive tie mount",
    "gap": true,
@@ -62117,7 +64925,9 @@
     "D2",
     "D3",
     "D4",
-    "P13"
+    "P13",
+    "D13",
+    "D22"
    ],
    "kind": "drilled printed feature",
    "gap": true,
@@ -62214,7 +65024,9 @@
    "id": "T016",
    "cables": [
     "D2",
-    "P13"
+    "P13",
+    "D13",
+    "D22"
    ],
    "kind": "cable tie",
    "gap": true,
@@ -62259,7 +65071,9 @@
     "D2",
     "D3",
     "D4",
-    "P13"
+    "P13",
+    "D13",
+    "D22"
    ],
    "kind": "cable tie",
    "gap": true,
@@ -62301,7 +65115,8 @@
   {
    "id": "T018",
    "cables": [
-    "P13"
+    "P13",
+    "D13"
    ],
    "kind": "adhesive tie mount",
    "gap": true,
@@ -62526,7 +65341,8 @@
    "id": "T025",
    "cables": [
     "D1",
-    "D2"
+    "D2",
+    "D22"
    ],
    "kind": "adhesive tie mount",
    "gap": true,
@@ -62589,7 +65405,8 @@
    "cables": [
     "D2",
     "D3",
-    "D4"
+    "D4",
+    "D22"
    ],
    "kind": "cable tie",
    "gap": true,
@@ -63096,7 +65913,9 @@
     "D2",
     "D3",
     "D4",
-    "P13"
+    "P13",
+    "D13",
+    "D22"
    ],
    "kind": "existing printed feature",
    "gap": false,

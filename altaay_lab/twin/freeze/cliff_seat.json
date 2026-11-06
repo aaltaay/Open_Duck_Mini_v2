@@ -1,0 +1,198 @@
+{
+ "script": "altaay_lab/twin/freeze/cliff_seat.py",
+ "label": "CAD check only (seat); calc only (beam)",
+ "frame": "URDF world, zero pose, mm; the file stays in the print/ frame",
+ "board": {
+  "origin_pcb_top_centre": [
+   35.0,
+   0.0,
+   -1.0
+  ],
+  "normal": [
+   0.6157,
+   0.0,
+   -0.788
+  ],
+  "long_axis": [
+   0.0,
+   1.0,
+   0.0
+  ],
+  "short_axis": [
+   0.788,
+   -0.0,
+   0.6157
+  ],
+  "size_mm": [
+   25.4,
+   17.78,
+   4.6
+  ]
+ },
+ "screws": [
+  {
+   "hole_mm": [
+    2.54,
+    2.54
+   ],
+   "seat_world": [
+    29.011,
+    -10.16,
+    -3.649
+   ],
+   "axis_world": [
+    0.6157,
+    0.0,
+    -0.788
+   ],
+   "spec": "M2.5x6 DIN 912 A2",
+   "line": "17f",
+   "engaged_mm": 4.4,
+   "pilot_d_mm": 2.0,
+   "pilot_depth_mm": 5.4
+  },
+  {
+   "hole_mm": [
+    22.86,
+    15.24
+   ],
+   "seat_world": [
+    39.019,
+    10.16,
+    4.17
+   ],
+   "axis_world": [
+    0.6157,
+    0.0,
+    -0.788
+   ],
+   "spec": "M2.5x6 DIN 912 A2",
+   "line": "17f",
+   "engaged_mm": 4.4,
+   "pilot_d_mm": 2.0,
+   "pilot_depth_mm": 5.4
+  }
+ ],
+ "solid_rests": [
+  [
+   22.86,
+   2.54
+  ],
+  [
+   2.54,
+   15.24
+  ]
+ ],
+ "file": {
+  "watertight": true,
+  "added_mm3": -1588.0,
+  "added_g_at_1_24": -1.97
+ },
+ "board_front_skin_mm": 1.73,
+ "window_on_front_face": {
+  "z_mm": [
+   -31.08,
+   -6.82
+  ],
+  "y_mm": [
+   -7.07,
+   7.07
+  ],
+  "centre_above_floor_mm": 149.9
+ },
+ "window_to_pad_mm": 6.82,
+ "window_to_chest_hole_mm": 39.82,
+ "window_to_bottom_edge_mm": 4.03,
+ "wall_min_round_pocket_mm": 4.75,
+ "gaps_mm": {
+  "body_middle_bottom[3]": 10.91,
+  "box dock_dk2": 15.69,
+  "trunk_bottom[10]": 27.02,
+  "roll_bearing[9]": 35.22,
+  "roll_bearing[13]": 35.26,
+  "trunk_top[11]": 46.21,
+  "servo_bottom[19]": 57.14,
+  "servo_mid[17]": 57.18
+ },
+ "beam": {
+  "sensor_above_floor_mm": 165.0,
+  "centre_ahead_of_toe_mm": 130.3,
+  "spot_ahead_of_toe_mm": [
+   92.8,
+   178.3
+  ],
+  "slant_flat_mm": 209.4,
+  "slant_drop_180_mm": 437.9,
+  "slant_pitch_pm5_mm": [
+   196.8,
+   225.7
+  ],
+  "trigger_mm": 250,
+  "drop_that_trips_mm": 32.0,
+  "stop_margin_s_at_0p1": 0.93
+ },
+ "legs_in_cone_zero_pose": {},
+ "legs_in_cone_sweep": {
+  "poses": 3456,
+  "hits": [
+   {
+    "side": "left",
+    "hip_pitch_deg": 35.0,
+    "knee_deg": 13.6,
+    "ankle_rad": -0.94,
+    "body": "foot_assembly"
+   },
+   {
+    "side": "left",
+    "hip_pitch_deg": 45.0,
+    "knee_deg": 0.0,
+    "ankle_rad": -0.94,
+    "body": "foot_assembly"
+   },
+   {
+    "side": "left",
+    "hip_pitch_deg": 45.0,
+    "knee_deg": 13.6,
+    "ankle_rad": -1.57,
+    "body": "foot_assembly"
+   },
+   {
+    "side": "left",
+    "hip_pitch_deg": 55.0,
+    "knee_deg": 0.0,
+    "ankle_rad": -1.57,
+    "body": "foot_assembly"
+   },
+   {
+    "side": "right",
+    "hip_pitch_deg": -55.0,
+    "knee_deg": 0.0,
+    "ankle_rad": -1.57,
+    "body": "foot_assembly_2"
+   },
+   {
+    "side": "right",
+    "hip_pitch_deg": -45.0,
+    "knee_deg": 0.0,
+    "ankle_rad": -0.94,
+    "body": "foot_assembly_2"
+   },
+   {
+    "side": "right",
+    "hip_pitch_deg": -35.0,
+    "knee_deg": 13.6,
+    "ankle_rad": -0.94,
+    "body": "foot_assembly_2"
+   }
+  ],
+  "n_hits": 7,
+  "label": "CAD check only (kinematics, no dynamics)",
+  "note": "a grid wider than the walk: these poses swing a leg 35 deg or more forward with the knee near straight (a kick); the walk itself is judged by cliff_walk.py"
+ },
+ "walk_sim": {
+  "foot_in_cone_any": false,
+  "slant_max_mm": 216.0,
+  "by": "cliff_walk.py, sim pass only"
+ },
+ "pass": true
+}

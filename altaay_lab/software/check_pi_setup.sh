@@ -21,6 +21,10 @@ grep -Eq '^dtparam=i2c_arm=on' $CFG && ok "I2C enabled in $CFG" || \
 if command -v i2cdetect >/dev/null; then
   i2cdetect -y 1 2>/dev/null | grep -q " 28" && ok "BNO055 answers at 0x28" || warn "no device at 0x28 (IMU wired and powered?)"
 fi
+grep -Eq '^dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4' $CFG && ok "ears on hardware PWM0/PWM1, GPIO12 and 13 (D53, step 4c)" || bad "ear PWM overlay missing (D53, step 4c)"
+if command -v i2cdetect >/dev/null; then
+  for a in 29 5a 5b; do i2cdetect -y 1 2>/dev/null | grep -q " $a" && ok "I2C device at 0x$a (D51, D54)" || warn "no device at 0x$a (wired and powered? step 4c)"; done
+fi
 grep -Eq '^enable_uart=1' $CFG && warn "enable_uart=1: the Pi UART is not used by this build (step 4)" || ok "Pi UART off (not used)"
 grep -q 'console=serial0' /boot/firmware/cmdline.txt 2>/dev/null && warn "serial console on (not needed)" || ok "no serial console"
 id -nG | grep -qw dialout && ok "user in dialout" || bad "user not in dialout (step 3)"

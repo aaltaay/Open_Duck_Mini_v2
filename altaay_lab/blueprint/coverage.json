@@ -1,22 +1,22 @@
 {
  "summary": {
-  "items": 177,
+  "items": 174,
   "by_kind": {
    "connector": 54,
    "heat_shrink": 11,
-   "other": 85,
+   "other": 82,
    "splice": 13,
    "resistor": 5,
    "foam_pad": 6,
    "disc": 3
   },
-  "solder_joints": 64,
-  "washers": 16,
-  "cables": 48,
-  "cables_all_ends_drawn": 46,
-  "cable_ends": 250,
+  "solder_joints": 69,
+  "washers": 8,
+  "cables": 61,
+  "cables_all_ends_drawn": 45,
+  "cable_ends": 342,
   "lead_ends": 25,
-  "ends_with_body": 220,
+  "ends_with_body": 241,
   "no_bom_row": []
  },
  "per_cable": [
@@ -73,8 +73,9 @@
    "cable": "P7",
    "ends": 8,
    "lead_ends": 2,
-   "drawn_ends": 2,
+   "drawn_ends": 1,
    "missing": [
+    "DK7.VIN",
     "JFI.S",
     "JFO.S"
    ]
@@ -242,10 +243,12 @@
   },
   {
    "cable": "D10",
-   "ends": 10,
+   "ends": 12,
    "lead_ends": 0,
-   "drawn_ends": 10,
-   "missing": []
+   "drawn_ends": 11,
+   "missing": [
+    "PI.36"
+   ]
   },
   {
    "cable": "D11",
@@ -360,6 +363,176 @@
    "lead_ends": 0,
    "drawn_ends": 6,
    "missing": []
+  },
+  {
+   "cable": "D14",
+   "ends": 10,
+   "lead_ends": 0,
+   "drawn_ends": 5,
+   "missing": [
+    "MICL.3V",
+    "MICL.BCLK",
+    "MICL.DOUT",
+    "MICL.GND",
+    "MICL.LRCL"
+   ]
+  },
+  {
+   "cable": "D15",
+   "ends": 10,
+   "lead_ends": 0,
+   "drawn_ends": 0,
+   "missing": [
+    "MICL.3V",
+    "MICL.BCLK",
+    "MICL.DOUT",
+    "MICL.GND",
+    "MICL.LRCL",
+    "MICR.3V",
+    "MICR.BCLK",
+    "MICR.DOUT",
+    "MICR.GND",
+    "MICR.LRCL"
+   ]
+  },
+  {
+   "cable": "D16",
+   "ends": 8,
+   "lead_ends": 0,
+   "drawn_ends": 4,
+   "missing": [
+    "TCHH.GND",
+    "TCHH.SCL",
+    "TCHH.SDA",
+    "TCHH.VIN"
+   ]
+  },
+  {
+   "cable": "D17",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 0,
+   "missing": [
+    "PH1.E",
+    "PH1.G",
+    "TCHH.E0",
+    "TCHH.GND"
+   ]
+  },
+  {
+   "cable": "D18",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 0,
+   "missing": [
+    "PH2.E",
+    "PH2.G",
+    "TCHH.E1",
+    "TCHH.GND"
+   ]
+  },
+  {
+   "cable": "D19",
+   "ends": 8,
+   "lead_ends": 0,
+   "drawn_ends": 4,
+   "missing": [
+    "TCHB.GND",
+    "TCHB.SCL",
+    "TCHB.SDA",
+    "TCHB.VIN"
+   ]
+  },
+  {
+   "cable": "D20",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 0,
+   "missing": [
+    "PB1.E",
+    "PB1.G",
+    "TCHB.E0",
+    "TCHB.GND"
+   ]
+  },
+  {
+   "cable": "D21",
+   "ends": 8,
+   "lead_ends": 0,
+   "drawn_ends": 0,
+   "missing": [
+    "TCHB.GND",
+    "TCHB.SCL",
+    "TCHB.SDA",
+    "TCHB.VIN",
+    "TOF.GND",
+    "TOF.SCL",
+    "TOF.SDA",
+    "TOF.VIN"
+   ]
+  },
+  {
+   "cable": "D22",
+   "ends": 2,
+   "lead_ends": 0,
+   "drawn_ends": 1,
+   "missing": [
+    "TOF.GPIO"
+   ]
+  },
+  {
+   "cable": "DC1",
+   "ends": 8,
+   "lead_ends": 0,
+   "drawn_ends": 1,
+   "missing": [
+    "DK2.GND",
+    "DK2.VIN",
+    "DK2.VOUT",
+    "DKP.CHG",
+    "F2.IN",
+    "F2.OUT",
+    "JGD.S"
+   ]
+  },
+  {
+   "cable": "DC2",
+   "ends": 4,
+   "lead_ends": 0,
+   "drawn_ends": 1,
+   "missing": [
+    "DKP.GND",
+    "JGD.S"
+   ]
+  },
+  {
+   "cable": "DC3",
+   "ends": 10,
+   "lead_ends": 0,
+   "drawn_ends": 1,
+   "missing": [
+    "DKP.SNS",
+    "JSN.S",
+    "RT1.1",
+    "RT1.2",
+    "SW1.ON",
+    "WK1.A",
+    "WK1.K"
+   ]
+  },
+  {
+   "cable": "DC4",
+   "ends": 10,
+   "lead_ends": 0,
+   "drawn_ends": 4,
+   "missing": [
+    "DK6.GND",
+    "DK6.VIN",
+    "DK6.VOUT",
+    "DK7.GND",
+    "DK7.VOUT",
+    "DKP.SYS"
+   ]
   }
  ],
  "foam_fit": {

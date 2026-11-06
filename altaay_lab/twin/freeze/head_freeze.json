@@ -1,0 +1,60 @@
+{
+ "script": "altaay_lab/twin/freeze/head_freeze.py",
+ "label": "CAD check only",
+ "frame": "checks in the URDF world, zero pose; file in the print/ frame",
+ "mic_seats": {
+  "source": "twin/companion/stl/head.stl (twin/companion/mic_seat.py on print/head.stl of 1473799)",
+  "seat_zone_half_mm": 14.0,
+  "noise_floor_mm3": 0.01,
+  "ear_envelope_pad_mm": 3.0,
+  "ear_envelopes": 2,
+  "added": {
+   "volume_mm3": 310.028,
+   "in_seat_zones_mm3": 310.028,
+   "outside_seat_zones_mm3": 0.0,
+   "in_ear_envelopes_mm3": 0.0
+  },
+  "removed": {
+   "volume_mm3": 24.468,
+   "in_seat_zones_mm3": 24.466,
+   "outside_seat_zones_mm3": 0.0023,
+   "in_ear_envelopes_mm3": 0.0
+  },
+  "ok": true
+ },
+ "grille": {
+  "holes": 127,
+  "hole_d_mm": 2.0,
+  "rings_mm": [
+   0,
+   3,
+   6,
+   9,
+   12,
+   15,
+   18
+  ],
+  "wall_mm": [
+   12.62,
+   15.62
+  ],
+  "plugged": 36,
+  "plugged_ring_r_mm": 18.0,
+  "kept": 91,
+  "kept_open_after": 91,
+  "plugged_still_open": 0,
+  "plug_flush_worst_mm": 0.03,
+  "flush_rule_mm": 0.05,
+  "open_area_before_mm2": 399.0,
+  "open_area_after_mm2": 285.9,
+  "kept_max_edge_r_mm": 16.06
+ },
+ "file": {
+  "watertight": true,
+  "volume_mm3": 230536.2,
+  "volume_vs_print_before_mm3": 615.6,
+  "faces": 62214,
+  "bytes": 3110784
+ },
+ "pass": true
+}

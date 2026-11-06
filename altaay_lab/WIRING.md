@@ -81,13 +81,14 @@ Eyes and antennas are swapped compared with the upstream assembly_guide pin tabl
 
 | Pi pin | Signal | Goes to | Cable | Tag |
 |---|---|---|---|---|
-| 1 | 3V3 | BNO055 VIN | D2 | [U] |
+| 1 | 3V3 | BNO055 VIN; head touch board TCHH Vin (second wire, D51) | D2, D16 | [U], [L] D51 |
 | 2 | 5V in | U3 VOUT | P12 | [L] |
-| 3 | GPIO2 SDA | BNO055 SDA | D2 | [U] |
+| 3 | GPIO2 SDA | BNO055 SDA; TCHH SDA (software I2C bus 1: 0x28 IMU, 0x29 cliff ToF, 0x5A and 0x5B touch) | D2, D16 | [U], [L] D51, D54 |
 | 4 | 5V out | splice J5 (SG90 x2 +, amp Vin) | P17 | [L] |
-| 5 | GPIO3 SCL | BNO055 SCL | D2 | [U] |
+| 5 | GPIO3 SCL | BNO055 SCL; TCHH SCL | D2, D16 | [U], [L] D51 |
 | 6 | GND | U3 GND | P12 | [L] |
 | 9 | GND | BNO055 GND, left and right foot COM | D2, D3, D4 | [U] (3 x 26 AWG: twist and tin [I]) |
+| 11 | GPIO17 | cliff ToF interrupt (VL53L4CD GPIO1, 2.8 V out), input, optional (polling is the default) | D22 | [L] D54 |
 | 12 | GPIO18 | MAX98357A BCLK | D10 | [U] |
 | 13 | GPIO27 | right foot NO (2 x Omron SS-01, SS-10 fallback, in parallel); R5 2.2 kOhm to pin 17 | D4 | [U] code, [L] D17 |
 | 14 | GND | splice JG (SG90 x2 -, amp GND) | P17 | [I] (pin 6 holds the U3 ground) |
@@ -97,12 +98,13 @@ Eyes and antennas are swapped compared with the upstream assembly_guide pin tabl
 | 18 | GPIO24 | left eye: 100 ohm, then LED + | D5 | [U] code |
 | 20 | GND | the 3 LED cathodes | D5, D6, D7 | [I] |
 | 22 | GPIO25 | projector: 100 ohm (added by D13), then LED + | D7 | [U] code, [L] D13 |
-| 32 | GPIO12 | right antenna SG90 signal | D9 | [U] code |
-| 33 | GPIO13 | left antenna SG90 signal | D8 | [U] code |
+| 25 | GND | head touch board TCHH GND | D16 | [L] D51 |
+| 32 | GPIO12 | right antenna SG90 signal, hardware PWM0 (dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4, D53) | D9 | [U] code, [L] D53 |
+| 33 | GPIO13 | left antenna SG90 signal, hardware PWM1 (D53) | D8 | [U] code, [L] D53 |
 | 35 | GPIO19 | MAX98357A LRC | D10 | [U] |
 | 40 | GPIO21 | MAX98357A DIN | D10 | [U] |
 | USB port | OTG data | adapter USB-C, /dev/ttyACM0 at 1 Mbaud | D1 (Adafruit 3878, 0.9 m, slack coiled in the belly) | [U], [L] cable |
-| CSI | camera | Camera Module 3 (Adafruit 5657) | D12 (Adafruit 3157, 150 mm) | [U] |
+| CSI | camera | Camera Module 3 (Adafruit 5657) | D12 (BOM E7, 300 mm, D34) | [U], [L] D34 |
 
 - GND pins 6, 9, 14, 20, 25, 30, 34, 39 are one net and 5 V pins 2 and 4 are tied to the Pi power input (pinout.xyz). Leave the PWR IN port empty [I].
 - LEDs (D13): eyes as upstream, GPIO through 100 ohm, about 3 mA, dim but inside GPIO limits; the projector gets the same 100 ohm (upstream issue 34 warns about 1 W LEDs straight on GPIO). Brighter LEDs with MOSFET drivers are a later step.

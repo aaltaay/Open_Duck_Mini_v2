@@ -716,6 +716,8 @@ def main():
     for r in fz.get("fasteners", []):
         if not r.get("washer"):
             continue
+        if str(r.get("status") or "").startswith(("LEAVE OUT", "NOT FITTED")):
+            continue          # D38, D39: a screw left out has no washers either (fasteners.json fits 8 washers under 4 eye screws)
         ax = unit(r["axis_world"])
         seat = np.array(r["seat_world"], float)
         n, te = int(r["washer"].get("n", 1)), float(r["washer"].get("t_each", r["washer"].get("t", 0.5)))

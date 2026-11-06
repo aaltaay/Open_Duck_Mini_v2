@@ -28,9 +28,14 @@ def board_pin(src, name):
 
 def netlist_gpio(lab):
     """GPIO number -> description from the Pi header pin entries of wiring/netlist.yaml."""
+    import yaml                                   # parsed, not matched as text: pin names may be quoted (D53)
     out = {}
-    for m in re.finditer(r'\{pin: "(\d+)", label: "\d+", name: GPIO(\d+) ([^,]+),', read(lab / "wiring" / "netlist.yaml")):
-        out[int(m.group(2))] = (int(m.group(1)), m.group(3).strip())
+    net = yaml.safe_load(read(lab / "wiring" / "netlist.yaml"))
+    pi = next(c for c in net["components"] if c["id"] == "PI")
+    for p in pi["pins"]:
+        m = re.match(r"GPIO(\d+) (.+)$", str(p.get("name", "")))
+        if m and str(p["pin"]).isdigit():
+            out[int(m.group(1))] = (int(p["pin"]), m.group(2).strip())
     return out
 
 

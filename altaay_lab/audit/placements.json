@@ -271,5 +271,83 @@
   ],
   "frame": "urdf_world_mm",
   "seat_fix": "2026-11-05 ET, V1 track 8 phase 3 (D50): twin/dock/dock_seats.py, VHB 4950 on the printed wall named in dock_seats.json (CAD check only)"
+ },
+ {
+  "id": "tch_h",
+  "label": "MPR121 touch board, head (Adafruit 1982, I2C 0x5A, BOM E9, D51)",
+  "dims_xyz_mm": [
+   33.47,
+   19.05,
+   12.73
+  ],
+  "box_with_margin_mm": [
+   35.47,
+   21.05,
+   14.73
+  ],
+  "center_mm": [
+   -34.38,
+   35.0,
+   220.05
+  ],
+  "frame": "urdf_world_mm",
+  "n_positions": null,
+  "dist_to_anchor_mm": null,
+  "dist_to_imu_mm": null,
+  "flat_face_support": "VHB 4950 on head, face normal [0.22, 0.0, -0.98]",
+  "score": null,
+  "seat_fix": "altaay_lab/twin/freeze/touch_pads.py (D51)"
+ },
+ {
+  "id": "tch_b",
+  "label": "MPR121 touch board, body (Adafruit 1982, I2C 0x5B, ADDR to 3Vo, BOM E9, D51)",
+  "dims_xyz_mm": [
+   33.04,
+   5.94,
+   19.08
+  ],
+  "box_with_margin_mm": [
+   35.04,
+   7.94,
+   21.08
+  ],
+  "center_mm": [
+   -87.99,
+   49.12,
+   73.98
+  ],
+  "frame": "urdf_world_mm",
+  "n_positions": null,
+  "dist_to_anchor_mm": null,
+  "dist_to_imu_mm": null,
+  "flat_face_support": "VHB 4950 on body_middle_top, face normal [0.0, -1.0, -0.01]",
+  "score": null,
+  "seat_fix": "altaay_lab/twin/freeze/touch_pads.py (D51)"
+ },
+ {
+  "id": "tof_cliff",
+  "label": "Cliff ToF, Adafruit 5396 VL53L4CD, I2C 0x29, 52 deg down (BOM 5b, D54)",
+  "dims_xyz_mm": [
+   16.84,
+   25.4,
+   14.57
+  ],
+  "box_with_margin_mm": [
+   18.84,
+   27.4,
+   16.57
+  ],
+  "center_mm": [
+   35.43,
+   0.0,
+   -1.55
+  ],
+  "frame": "urdf_world_mm",
+  "n_positions": null,
+  "dist_to_anchor_mm": null,
+  "dist_to_imu_mm": null,
+  "flat_face_support": "4 printed standoffs in print/body_front.stl, 2 x M2.5x6 (D54)",
+  "score": null,
+  "seat_fix": "altaay_lab/twin/freeze/cliff_seat.py (D54)"
  }
 ]

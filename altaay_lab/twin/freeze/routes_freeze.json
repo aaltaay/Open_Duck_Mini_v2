@@ -1,0 +1,215 @@
+{
+ "script": "altaay_lab/twin/freeze/routes_freeze.py",
+ "label": "CAD check only",
+ "routes": {
+  "D16": {
+   "routed": true,
+   "link": "head_assembly",
+   "length_mm": 89.4,
+   "points": 8,
+   "clearance_used_mm": 2.75,
+   "min_grid_gap_mm": 0.95,
+   "od_mm": 3.5,
+   "to_power_mm": {
+    "P13": 19.8,
+    "P12": 3.4,
+    "P11": 180.2,
+    "SP1": 121.2,
+    "SP2": 141.2,
+    "SP3": 149.6,
+    "DC1": 179.4,
+    "DC2": 180.6
+   },
+   "length_zero_mm": 89.4,
+   "length_max_mm": 89.4
+  },
+  "D17": {
+   "routed": true,
+   "link": "head_assembly",
+   "length_mm": 42.4,
+   "points": 10,
+   "clearance_used_mm": 2.5,
+   "min_grid_gap_mm": 0.5,
+   "od_mm": 3.0,
+   "to_power_mm": {
+    "P13": 49.7,
+    "P12": 73.2,
+    "P11": 179.6,
+    "SP1": 124.4,
+    "SP2": 135.0,
+    "SP3": 145.0,
+    "DC1": 176.9,
+    "DC2": 185.7
+   },
+   "length_zero_mm": 42.4,
+   "length_max_mm": 42.4
+  },
+  "D18": {
+   "routed": true,
+   "link": "head_assembly",
+   "length_mm": 41.9,
+   "points": 10,
+   "clearance_used_mm": 2.5,
+   "min_grid_gap_mm": 0.5,
+   "od_mm": 3.0,
+   "to_power_mm": {
+    "P13": 62.1,
+    "P12": 84.7,
+    "P11": 170.5,
+    "SP1": 121.6,
+    "SP2": 126.0,
+    "SP3": 145.1,
+    "DC1": 163.0,
+    "DC2": 177.0
+   },
+   "length_zero_mm": 41.9,
+   "length_max_mm": 41.9
+  },
+  "D19": {
+   "routed": true,
+   "link": "trunk_assembly",
+   "length_mm": 57.2,
+   "points": 4,
+   "clearance_used_mm": 2.75,
+   "min_grid_gap_mm": 1.06,
+   "od_mm": 3.5,
+   "to_power_mm": {
+    "P13": 4.4,
+    "P12": 177.7,
+    "P11": 0.0,
+    "SP1": 11.3,
+    "SP2": 13.1,
+    "SP3": 22.1,
+    "DC1": 35.2,
+    "DC2": 25.0
+   },
+   "length_zero_mm": 57.2,
+   "length_max_mm": 57.2
+  },
+  "D20": {
+   "routed": true,
+   "link": "trunk_assembly",
+   "length_mm": 37.6,
+   "points": 2,
+   "clearance_used_mm": 2.5,
+   "min_grid_gap_mm": 4.74,
+   "od_mm": 3.0,
+   "to_power_mm": {
+    "P13": 25.1,
+    "P12": 164.1,
+    "P11": 60.3,
+    "SP1": 25.0,
+    "SP2": 53.2,
+    "SP3": 68.4,
+    "DC1": 73.4,
+    "DC2": 77.1
+   },
+   "length_zero_mm": 37.6,
+   "length_max_mm": 37.6
+  },
+  "D21": {
+   "routed": true,
+   "link": "trunk_assembly",
+   "length_mm": 148.8,
+   "points": 13,
+   "clearance_used_mm": 2.75,
+   "min_grid_gap_mm": 0.78,
+   "od_mm": 3.5,
+   "to_power_mm": {
+    "P13": 15.2,
+    "P12": 175.8,
+    "P11": 32.2,
+    "SP1": 9.7,
+    "SP2": 26.1,
+    "SP3": 19.2,
+    "DC1": 16.6,
+    "DC2": 26.8
+   },
+   "length_zero_mm": 148.8,
+   "length_max_mm": 148.8
+  },
+  "D22": {
+   "routed": true,
+   "host": "D21, D19 and D2",
+   "lead_in_mm": 207.5,
+   "points": 58,
+   "length_zero_mm": 577.6,
+   "length_max_mm": 649.4
+  },
+  "D13": {
+   "length_zero_mm": 467.7,
+   "length_max_mm": 542.5
+  }
+ },
+ "D13": {
+  "prefix_points": 1,
+  "lead_in_mm": 20.9,
+  "spans": [
+   [
+    14,
+    15
+   ],
+   [
+    30,
+    31
+   ],
+   [
+    32,
+    33
+   ],
+   [
+    37,
+    38
+   ]
+  ],
+  "loops": [
+   [
+    14,
+    15
+   ],
+   [
+    30,
+    33
+   ],
+   [
+    37,
+    38
+   ]
+  ]
+ },
+ "lengths_filled": [
+  "D10 PI.36>AMP.SD",
+  "D14 PI.17>MICL.3V",
+  "D14 PI.39>MICL.GND",
+  "D14 PI.12>MICL.BCLK",
+  "D14 PI.35>MICL.LRCL",
+  "D14 PI.38>MICL.DOUT",
+  "D15 MICL.3V>MICR.3V",
+  "D15 MICL.GND>MICR.GND",
+  "D15 MICL.BCLK>MICR.BCLK",
+  "D15 MICL.LRCL>MICR.LRCL",
+  "D15 MICL.DOUT>MICR.DOUT"
+ ],
+ "ties_shared": {
+  "D13": [
+   "T011",
+   "T012",
+   "T013",
+   "T014",
+   "T016",
+   "T017",
+   "T018",
+   "T038"
+  ],
+  "D22": [
+   "T010",
+   "T013",
+   "T014",
+   "T016",
+   "T017",
+   "T025",
+   "T026",
+   "T038"
+  ]
+ }
+}

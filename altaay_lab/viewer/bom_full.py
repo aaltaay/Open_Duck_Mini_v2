@@ -98,8 +98,9 @@ COMP = {
     "BMS": ("Electronics and power", "2S protection board (BMS)", "8", ["bms_tenergy", "bms_cad"], "bought"),
     "CHG": ("Electronics and power", "USB-C 2S charge board", "11", ["charger"], "bought"),
     "XT30": ("Electronics and power", "XT30U connector pair (mated)", "12", ["xt30"], "bought"),
-    "SW1": ("Electronics and power", "Main power switch, Pololu 2815", "10", ["mosfet_switch"], "bought"),
-    "CTL": ("Electronics and power", "Control switch (panel slide switch)", "10b", ["power_switch"], "bought"),
+    "SW1": ("Electronics and power", "Main power switch, Pololu 2813 (D30)", "10", ["mosfet_switch"], "bought"),
+    "CTL": ("Electronics and power", "Control button, NKK MB2011LS1W01-BB (D30, D38)", "10b", ["power_switch"], "bought"),
+    "TOF": ("Electronics and power", "Cliff ToF, Adafruit 5396 VL53L4CD (D54)", "5b", ["tof_cliff"], "bought"),
     "U1": ("Electronics and power", "Servo regulator, Castle CC BEC Pro at 7.2 V", "L1", ["bec_pro"], "bought"),
     "U2": ("Electronics and power", "Servo bus adapter, Waveshare (A)", "2", ["adapter"], "bought"),
     "U3": ("Electronics and power", "5 V regulator, Pololu D30V30F5", "9", ["reg_5v"], "bought"),
@@ -115,6 +116,8 @@ GROUPED = {  # several netlist components -> one row
     "pullup": ("Electronics and power", "Foot switch pull-up, 2.2 kOhm 1/4 W", "13b", [], ["RFL", "RFR"]),
     "led": ("Expression (head)", "1 W LED bead (2 eyes, 1 projector)", "E3", ["led"], ["LEDL", "LEDR", "LEDP"]),
     "led_r": ("Expression (head)", "LED resistor, 100 ohm 1/4 W", "E3b", [], ["RL", "RR", "RP"]),
+    "touch": ("Expression (head)", "Touch board, Adafruit MPR121 1982 (D51)", "E9", ["tch_h", "tch_b"], ["TCHH", "TCHB"]),
+    "pads": ("Expression (head)", "Touch pad, copper foil Adafruit 1127 (D51)", "E10", [], ["PH1", "PH2", "PB1"]),
 }
 SPLICE_KINDS = ("splice",)
 
@@ -289,6 +292,7 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
                          note="In the CAD but not in print/: export from the URDF mesh (PRINT_PLAN.md)", source="[L] print/PRINT_PLAN.md"))
 
     # 2. servos and horns -----------------------------------------------------------------------
+    netlist_comps = {c["id"]: c for c in netlist["components"]}
     joints = OrderedDict()
     for nid, r in nodes.items():
         if r.get("servo"):
@@ -296,10 +300,17 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
     for n, (j, ids) in enumerate(sorted(joints.items(), key=lambda kv: nodes[kv[1][0]].get("servo_id") or 0), 1):
         sid = nodes[ids[0]].get("servo_id")
         case = [i for i in ids if not nodes[i]["part"].startswith("horn")]
-        rows.append(_row(id="S%02d" % n, section="Servos", item="Feetech STS3215 C001, ID %s, %s" % (sid, j.replace("_", " ")),
-                         spec="7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1)",
-                         qty=1, where=where_of(case, counts=False), nodes=ids, line="1", status="bought",
-                         source="[U] Runtime IDs (WIRING.md section 2), CAD"))
+        # the model is the one the netlist names for this ID (D32: STS3250-C002 on both knees, BOM line 1b)
+        part = str(((netlist_comps or {}).get("SV%s" % sid) or {}).get("part") or "")
+        if "STS3250" in part:
+            item, spec, line = ("Feetech STS3250-C002, ID %s, %s" % (sid, j.replace("_", " ")),
+                                "50 kg.cm, same outline, 25T horn and 5264 ports as the C001 (BOM line 1b, D32)", "1b")
+        else:
+            item, spec, line = ("Feetech STS3215 C001, ID %s, %s" % (sid, j.replace("_", " ")),
+                                "7.4 V 1:345; ships with 1 horn set, 1 x 15 cm 5264 cable and a screw bag (BOM line 1)", "1")
+        rows.append(_row(id="S%02d" % n, section="Servos", item=item, spec=spec,
+                         qty=1, where=where_of(case, counts=False), nodes=ids, line=line, status="bought",
+                         source="[U] Runtime IDs (WIRING.md section 2), CAD; model from wiring/netlist.yaml"))
     for key, label in (("horn_drive", "Servo horn, drive side"), ("horn_idle", "Servo horn, idle side")):
         ids = by_part.get(key, [])
         if ids:
@@ -333,7 +344,7 @@ def build(nodes, sub_labels, netlist, bom, parts_csv, fasteners=None, cables3d=N
           spec="21700, 4.5 Ah, 2 in series, spot-welded 2S1P pack (D44)")
     e_row("2S1P pack build: nickel strip, sleeve, fish paper, 16 AWG leads", "7", ["holder"], ["PACK"], "Electronics and power", qty=1,
           spec="no holder (D44); pack leads used for P1 and P2 if 120 mm or longer")
-    for cid in ("BMS", "CHG", "XT30", "SW1", "CTL", "U1", "U2", "U3", "PI", "BNO"):
+    for cid in ("BMS", "CHG", "XT30", "SW1", "CTL", "U1", "U2", "U3", "PI", "BNO", "TOF"):
         sec, item, line, keys, st = COMP[cid]
         e_row(item, line, keys, [cid], sec, qty=1)
     e_row("Inline fuse holder, Littelfuse FHAC0001ZXJ", "L3", ["fuse_holder"], ["F1"], "Electronics and power", qty=1,
