@@ -87,8 +87,9 @@ of the four for direction (ports on the outer shell, a known 120.5 mm baseline, 
   antennas.py). The travel per ms of the Miuzei SG90 (BOM 14) is not in the listing read so far: BLOCKER, measure on the
   bench (TO list). Perk (up), twitch (a flick) and droop are inside that range.
 - Speed: the SG90 speed for this listing is not read: BLOCKER, bench item.
-- Noise next to the mics: each SG90 is 3.46 mm from its mic board envelope (CAD check). Rule for the build: the ears
-  hold still while the duck captures the voice for direction; they perk after the capture.
+- Noise next to the mics: each SG90 is 3.46 mm from its mic board envelope (CAD check). Since D49 the duck listens
+  always with the ego-noise model (section 12), which takes the ear commands as an input; holding the ears still
+  during a direction capture is the fallback.
 - No new servo, no new pin (GPIO12 and 13 stay the antenna PWM pins).
 - Lab rule note: the SG90s are PWM hobby servos (GAPS.md B10a); as ears they keep that known gap.
 
@@ -135,7 +136,8 @@ of the four for direction (ports on the outer shell, a known 120.5 mm baseline, 
 
 1. One clap at 1 m at 0, +60 and -60 deg: the left channel leads for +60 (slot check).
 2. A voice at 1.5 m on 12 bearings, 30 deg apart, head still and after a 0.3 rad head turn: front or back right on all 12.
-3. Record 10 s with the ears moving, the neck moving and all still: the noise floor at the ports.
+3. Record 10 s with the ears moving, the neck moving and all still: the noise floor at the ports. (Since D49 these
+   checks and the full ego-noise recording protocol are TEST_PLAN 17.)
 
 ## 11. D48: accuracy, self-noise and the hybrid (written 2026-11-05 about 5:25 PM ET)
 
@@ -168,7 +170,8 @@ found, arXiv 2507.07087 and the Virginia Tech thesis on reverberation and DOA, w
 - reverberation adds wrong peaks from the walls rather than a small bias; the head turn rejects them (a wrong peak does
   not follow the head);
 - the duck's own noise (servos, SG90s, the speaker) adds peaks at the noise source bearing, a fixed bearing in the
-  head frame: listening is gated on motion (11.4).
+  head frame: since D49 the duck listens always with the ego-noise model (section 12); gating on motion (11.4) is
+  the fallback.
 So the voice only has to put the face inside the 66 deg view (plus or minus 33 deg). The camera does the last step.
 Bench check: section 10, item 2.
 
@@ -215,14 +218,14 @@ needed at this length (calc only; a bench check of bit errors with the servos ru
 
 | source | distance to the nearest mic port | hardware answer |
 |---|---|---|
-| speaker (LS1, right side) | about 62 mm to the right port | half duplex in hardware: GPIO16 now drives the amp SD pin (D48 wire), so the amp is off whenever the codec is not playing (the googlevoicehat codec drives SD high only during playback, with a 5 ms delay, [R] googlevoicehat-codec.c). Listening starts after playback ends. Barge-in (talking over the duck) needs echo cancellation in software later. The speaker faces down through the head floor, away from the side ports (CAD) |
-| SG90 ears | 37 mm (body centre) to its own mic; 3.46 mm from the board envelope | the ears hold still while listening; they perk after the capture |
-| neck and head servos (STS3215, the head yaw servo at the head centre) | about 111 mm | gate: listen only when the neck and walk commands are still; the wake word runs at all times, and the direction is taken from the clean frames after it |
-| walking (14 servos, feet) | the trunk, more than 150 mm | the same gate; the duck stops walking when called (the stock walk is noisy at the mics, level not published: BLOCKER, bench item 3) |
+| speaker (LS1, right side) | about 62 mm to the right port | half duplex in hardware: GPIO16 now drives the amp SD pin (D48 wire), so the amp is off whenever the codec is not playing (the googlevoicehat codec drives SD high only during playback, with a 5 ms delay, [R] googlevoicehat-codec.c). Since D49 the playback is the echo reference for an echo canceller (section 12.3), so the duck can keep listening while it speaks; until that is in, listening pauses while it speaks (the fallback). The speaker faces down through the head floor, away from the side ports (CAD) |
+| SG90 ears | 37 mm (body centre) to its own mic; 3.46 mm from the board envelope | listen always with the ego-noise model (D49, section 12; the ear commands are an input); gating is the fallback: the ears hold still during the capture and perk after it |
+| neck and head servos (STS3215, the head yaw servo at the head centre) | about 111 mm | listen always with the ego-noise model (D49, section 12; joint commands and speeds are inputs); gating is the fallback: listen only when the neck and walk commands are still. The wake word runs at all times |
+| walking (14 servos, feet) | the trunk, more than 150 mm | listen always with the ego-noise model (D49, section 12); gating is the fallback: the duck stops walking when called (the stock walk is noisy at the mics, level not published: BLOCKER, TEST_PLAN 17) |
 | structure-borne gear noise through the shell | the bosses tie the boards to the shell | a closed-cell foam ring cut from the BOM 29 foam tape on the port tube end seals the port to the board and damps it. The screws stay (2 per board). The foam is a test-fit item: it must not lift the board off the bosses by more than its compressed thickness |
 
-Noise spectra for the STS3215 and the SG90 are not published (BLOCKER): record them on the bench (section 10,
-item 3) before any software choice.
+Noise spectra for the STS3215 and the SG90 are not published (BLOCKER): record them on the bench (TEST_PLAN 17,
+D49) before any software choice.
 
 ### 11.5 Bluetooth direction finding and UWB (second sensor, for the hybrid)
 
@@ -246,10 +249,237 @@ for it, and the chest and head top are the two places to study first. Nothing is
 |---|---|---|---|
 | 2 x I2S mics (E8) | direction from the voice, front or back by a head turn | $13.90 | board mass not read (BLOCKER) |
 | camera (E6, already in) | final look | $0 | already counted |
-| GPIO16 to amp SD (one 26 AWG wire in D10) | half duplex, the amp off while listening | $0, wire from stock | under 1 g (calc) |
+| GPIO16 to amp SD (one 26 AWG wire in D10) | the amp off whenever it is not playing (no idle hiss at the mics) | $0, wire from stock | under 1 g (calc) |
 | foam ring on each port tube (BOM 29 tape) | seal and damping | $0, from the roll | under 0.1 g |
 | 4 x M2x6 (17h kit) and the printed seats | mounting | $0 (kit) | PLA +242 mm3, about 0.3 g at 1.24 g/cm3 (calc only) |
 | BLE or UWB direction | later, only with a worn tag | not bought | none now |
 
 Added cost: $13.90. Added mass: about 0.3 g of PLA plus the two boards, wires and screws. The board mass is a
 BLOCKER; the boards are about the size of a postage stamp.
+
+## 12. D49: listen all the time, the duck's own noise removed by a learned model (written 2026-11-05 about 7:40 PM ET)
+
+Ahmed (D49): the duck listens all the time, also while it walks, moves its neck or moves its ears. Its own noise
+(ego-noise) is removed by a learned model. Motion gating (D48) stays only as the fallback. This section is the
+design, the plan and the data protocol. No software module is written (D47: "maybe we don't need the software stuff
+yet").
+
+Source tags used here: [R] read in full, or the cited part read; [A] the abstract read (the OpenAlex record of the
+paper; the full text was not read, so no number from the full text is used); [S] a search result only.
+Labels: calc only for every estimate; bench numbers are BLOCKERs until TEST_PLAN 17 is run.
+
+### 12.1 The layers, from cheapest to richest
+
+| layer | where | method picked | main source | licence |
+|---|---|---|---|---|
+| L0 hardware (in) | head | foam ring seals, mic-to-servo distances, twisted D14 and D15, amp off when silent (D48) | section 11 | n/a |
+| L1 motor-informed ego-noise estimate | Pi, audio core | a small network predicts the ego-noise power of each mic, per band and per 10 ms frame, from the joint commands, joint speeds, ear commands, gait phase and IMU; a motion template table is its first version and its fallback. Its output drives a Wiener-type gain (speech) and a mask (direction) | Ito et al. 2005 NPSS and MDSS [A]; Ince et al. 2009 [A] | the methods are published; the duck's code would be the lab's own |
+| L2 single-model speech enhancer | Pi, audio core | RNNoise, retrained with the duck's ego-noise, on one 48 kHz channel | Valin 2018 [R]; xiph/rnnoise [R] | BSD-style (COPYING) [R] |
+| L3 wake word | Pi, its own core | openWakeWord custom model for the duck's name, trained with the duck's ego-noise as background and as negative data | dscripka/openWakeWord [R] | code Apache-2.0; its pre-trained models CC BY-NC-SA 4.0 [R] |
+| L4 heavier enhancer | home PC (the agent side) | DeepFilterNet on the speech that the agent hears | Rikorose/DeepFilterNet README [R] | MIT or Apache-2.0 [R] |
+| L5 fallback | Pi | motion gating (D48): still the neck and ears, or stop walking, then listen | section 11.4 | n/a |
+
+### 12.2 L1: motor-informed suppression, the literature and the pick
+
+| work | what it does | fit for 2 mics on a Pi Zero 2 W |
+|---|---|---|
+| Ito, Kanayama, Suzuki, Makino, "Internal noise suppression for speech recognition by small robots", Interspeech 2005 [A] | spectral subtraction with a noise spectrum that depends on the motion. MDSS keeps a noise spectrum for each motion; NPSS predicts the noise spectrum from the angular velocities of all joints with a neural network. NPSS worked even when the motion noise was unstable; MDSS did well when the noise of one motion was stable | best fit: a small robot, few mics, joint speeds the duck already reads, one small network per frame |
+| Ince, Nakadai, Rodemann, Hasegawa (Honda Research Institute Japan), "Ego noise suppression of a robot using template subtraction", IROS 2009 [A]; Ince et al. 2010, "Robust ego noise suppression of a robot" [A, record only] | ego-motion noise predicted from the current joint status, then subtracted; ASR during ego-motion improved considerably | fits; it is the template table that L1 starts from |
+| Jaroslavceva, Wake, Sasabuchi, Ikeuchi, IEEJ Trans. 2021 [A] | templates indexed by a dance notation (Labanotation); notes that short motion templates and neural predictors did poorly on long, motion-linked ego-noise | a warning: the walk is a long, repeating motion, so L1 also takes the gait phase |
+| Schmidt, Deleforge, Kellermann, "Ego-noise reduction using a motor data-guided multichannel dictionary", IROS 2016 [A] | a learned dictionary of spatial and spectral ego-noise; nonlinear classifiers pick the dictionary entries from the motor state, which cuts the computing load by one third | later, off the Pi first: a dictionary search per frame is heavier than one small network (calc only) |
+| Schmidt, Brendel, Haubner, Kellermann, "Motor data-regularized nonnegative matrix factorization for ego-noise suppression", EURASIP JASMP 2020 [A]; Schmidt and Kellermann, ICAS 2021 (multichannel NMF) [A] | NMF dictionary of ego-noise; motor data regularize the activations because audio alone is easily misled by other sounds | later; iterative NMF updates per frame (calc only: too heavy to add next to the walk without a bench number) |
+| Lagace, Ferland, Grondin, "Ego-noise reduction of a mobile robot using noise spatial covariance matrix learning and MVDR", IROS 2023 [R] | 16 mics on a wheeled robot; a dictionary of ego-noise spatial covariance matrices from 90 s of noise, chosen by PCA, then an MVDR beamformer; 32 kHz, 0.5 s segments; a laptop runs a 0.5 s segment in 0.2 s in Python; SDR up to 10 dB better and WER down by 55 % in some cases (abstract); it notes that template and motor-data methods need the audio and the motor data in sync | with 2 mics an MVDR has one null (calc only): enough for one fixed source such as an ear SG90, not for 14 joints. A later option |
+| Schmidt, Lollmann, Kellermann, "Acoustic self-awareness of autonomous systems in a world of sounds", Proc. IEEE 2020 [A] | review of ego-noise suppression | background |
+| Shoda et al., arXiv 2609.07440 (2026), legged-robot audition [A] | walking ego-noise is footstep impacts, joint-backlash rattle and motor noise | the duck is legged with backlash (KNEE_TWIN): L1 needs the gait phase and the foot contact, not only joint speeds |
+| HARK (Nakadai et al., Humanoids 2008 [A]; Advanced Robotics 2010 [A]; JRM 2017 [A]) | open-source robot audition from Honda Research Institute Japan and Kyoto University | HARK License Agreement version 2.0, July 2020: use "only for the purpose of research, development, education and/or academic purpose" [R]. The duck uses the published methods, not HARK code. ODAS (Grondin, MIT licence [R]) is the open localization alternative |
+
+Pick for V1: L1 is the NPSS idea (Ito 2005). Inputs, all already on the duck:
+- the 14 joint commands, and the present positions and speeds, which the Runtime reads every cycle
+  (scripts/v2_rl_walk_mujoco.py lines 127 and 134 at 376de65 [R]);
+- the 2 ear commands, the walk command, the gait phase and the IMU.
+
+Output: the ego-noise power of each mic in each band, for each 10 ms frame. The network is trained offline on the
+bench recordings (12.6). A Wiener-type gain with a floor removes the estimate from the speech path. The same
+estimate builds the direction mask (12.4).
+
+The first version is the MDSS-style table: a mean spectrum per motion class (stand, each walk speed, turn, neck move,
+ear move). It stays as the fallback when the network meets a motion it was not trained on.
+
+### 12.3 L2 to L4, and the speaker echo
+
+- RNNoise (L2):
+  - Design: 20 ms windows with 10 ms hops at 48 kHz; 215 units in 4 hidden layers; 87,503 weights (8-bit
+    quantizable); about 40 Mflops.
+  - Speed in the paper: 14 % of one 1.2 GHz Cortex-A53 core (Raspberry Pi 3) for one 48 kHz channel, with the
+    paper's floating-point C code [R Valin 2018, v3].
+  - The current release changed the model format, ships a "little" model too, and does not state its complexity
+    [R README]: the Pi number for today's model is a BLOCKER (bench).
+  - Training takes clean speech, background noise and foreground noise (transients such as keyboard sounds)
+    [R README]. The duck's gear whine is the background noise; footsteps and servo clicks are the foreground noise.
+- openWakeWord (L3):
+  - Input: 16 kHz 16-bit audio [R example detect_from_microphone.py], in 80 ms frames [R README].
+  - Speed: "a single core of a Raspberry Pi 3 can run 15-20 openWakeWord models simultaneously in real-time"
+    [R README].
+  - Custom training reads background_paths with a duplication rate for each background type [R custom_model.yml,
+    train.py]. The duck's ego-noise clips go in as an oversampled background and as negative data.
+  - Options: Silero VAD and Speex noise suppression [R README].
+  - Licence: the pre-trained models are non-commercial (CC BY-NC-SA 4.0), so the duck trains its own. The licence
+    of the synthetic voices used to make training clips was not read: BLOCKER, and the model stays home-use until
+    it is read.
+- DeepFilterNet (L4, home PC): full-band 48 kHz, with a real-time version and a LADSPA plugin [R README]. The duck
+  sends its L1 and L2 cleaned 16 kHz mono stream plus its motion flags. The PC runs the heavier model before the
+  agent's speech recognition.
+- Speaker echo, now that the duck listens always:
+  - Playback and capture share one I2S clock in full duplex (googlevoicehat, section 2 [R]), so the samples the
+    duck plays are an exact echo reference.
+  - The SpeexDSP acoustic echo canceller (BSD-style [R COPYING; speex_echo.h]) is the planned way to listen while
+    the duck speaks.
+  - Until then the D48 half duplex is the fallback: the amp is off when silent, and listening pauses while the duck
+    speaks.
+
+### 12.4 Direction finding under ego-noise
+
+Method: weighted GCC-PHAT. The L1 estimate weights every time-frequency bin:
+- weight 0 where the predicted ego-noise power is above the observed power times a threshold;
+- otherwise the soft weight 1 - (predicted noise power / observed power).
+
+Precedents:
+- a binary frequency mask on weighted GCC-PHAT on a mobile robot, which improves TDOA discrimination under coherent
+  broadband noise and lowers the load when there is no voice (Grondin and Michaud, IROS 2015 [A]);
+- a single-channel DNN soft ratio mask feeding SRP and time-frequency spatial filtering on a drone (Wang and
+  Cavallaro, IEEE Sensors J. 2022 [A]);
+- DREGON (Strauss, Mordel, Miguet, Deleforge, IROS 2018 [A]), which logged rotor speeds and IMU data with the audio
+  and evaluated baselines with real time in mind.
+
+The ear SG90 sits beside its own mic, so its noise arrives at a nearly fixed delay. That lag can also be left out of
+the correlation peak search (calc only).
+
+Expected accuracy:
+- Standing: as D48 (0.34 deg for the ideal pair broadside, calc only), and the camera makes the last step.
+- Walking: no figure for a two-mic walking robot was read: BLOCKER, bench (TEST_PLAN 17.5). A calc-only scaling:
+  if the masked bins are independent, the delay error grows as one over the square root of the share of bins kept,
+  so keeping a quarter of the bins doubles it.
+- The head also moves while walking (the policy's head action). Its yaw is in the joint log at every frame, so each
+  reading is turned into a body bearing frame by frame (sync, 12.5).
+- Fallback: if the share of bins kept falls under a floor set on the bench, the duck uses the D48 gate (still the
+  neck and the ears, take the reading).
+
+### 12.5 Sync: one clock for audio frames and servo state
+
+Needed alignment (calc only):
+- Ego-noise changes with the joint state at the 50 Hz control rate (20 ms).
+- Footsteps come twice per gait period of 0.54 s (Playground reference motion, as read in the shared lab gym
+  (overlay gym/overlays/duck) duck_policy.py header [R]).
+- L1 frames are 20 ms with a 10 ms hop (the RNNoise layout).
+- An error of half a hop moves the estimate by half a frame, so the target is audio and servo timestamps within 5 ms.
+
+How (no new hardware):
+- One clock for everything: CLOCK_MONOTONIC_RAW on the Pi.
+- ALSA gives a system timestamp with each status (avail and delay), and the clock is selectable, CLOCK_MONOTONIC_RAW
+  included [R kernel doc "ALSA PCM Timestamping"]. Where a driver has no link timestamps, the audio time is the DMA
+  time from the hardware pointer [R]. Each capture period therefore gives a (sample index, system time) pair, and a
+  straight-line fit over many periods removes the DMA burst jitter (calc only).
+- The long-term drift between audio time and system time is tracked with the ratio the same doc gives,
+  (tstamp - trigger_tstamp) / audio_tstamp [R].
+- The walk loop stamps the time before and after each bus read (positions and speeds) and at each write (commands).
+  The ear PWM writes and the IMU read are stamped too.
+- Check: at the start and end of each session, the duck plays a 50 ms chirp on its own speaker (its playback sample
+  time is known on the same I2S clock) and gives one sharp ear command (a click). TEST_PLAN 17.2 measures both
+  offsets.
+
+### 12.6 Data plan, on the bench from day one (TEST_PLAN 17)
+
+Format:
+- Audio: 2 channels at 48 kHz, S32_LE (the googlevoicehat capture format [R]); WAV while recording, FLAC (lossless)
+  for the archive. Channel 0 is the left board (SEL low), channel 1 the right.
+- Joint log: one row per 20 ms cycle, gzip CSV. Columns:
+  - time (CLOCK_MONOTONIC_RAW, ns), the bus read start and end times;
+  - for each of the 14 joints: command, present position and present speed;
+  - the walk command (7 values) and the 2 ear commands;
+  - the IMU gyro and accelerometer;
+  - the foot switches, and flags (speaker playing, gate on).
+- Sidecar JSON per session:
+  - session id, date and time ET, room id, floor, the RT60 from a hand clap (the method of Lagace 2023 [R]);
+  - build state: foam rings on or off, ear horns fitted;
+  - software commits;
+  - audio settings (rate, format, channel map, ALSA period);
+  - sync events: chirp and click times in samples and in system time, and the measured offsets;
+  - the motion script and its parameters;
+  - speech segments: start and end sample, source (loudspeaker or person id), text, wake word yes or no, bearing in
+    deg from the duck's start heading, distance in m, mouth height in m;
+  - the echo playback file and its start sample; consent ids; notes.
+- An index in git: session id, sha256, size and labels in a small file (planned:
+  altaay_lab/twin/companion/DATA_INDEX.md, made with the first session). The audio stays out of git.
+
+Sessions (minutes, calc only):
+
+| id | session | where | minutes |
+|---|---|---|---|
+| S0 | still and silent: duck off 2 min, then on and standing still 2 min | 3 rooms | 12 |
+| S1 | each servo alone at 3 speeds, 30 s each: the 14 bus servos and the 2 SG90s (duck on a stand, feet free) | bench room | 24 |
+| S2 | neck and head moves: yaw sweeps, nods, roll, quick look-at steps, 3 speeds | bench room | 10 |
+| S3 | ear moves: perk, twitch, droop, wiggle, random | bench room | 5 |
+| S4 | walking: vx 0.05, 0.10 and 0.15 m/s; vx 0.02 (the stock policy steps in place below 0.037 m/s, train/TRAIN.md in the shared lab gym (overlay gym/overlays/duck) [R]); turns in place at wz 0.5 and 1.0 both ways; vx 0.10 with wz 0.5 both ways; 1 min each | 3 rooms (hard floor, carpet, tile) | 30 |
+| S5 | the speaker playing phrases and music at 3 volumes, standing and walking (echo) | bench room | 10 |
+| S6 | foam rings off: S0 (on), S1 at mid speed for 6 actuators, S4 at 2 conditions; then the rings back | bench room | 7 |
+| S7 | played speech: LibriSpeech (CC BY 4.0, 16 kHz [R openslr.org/12]) and the recorded wake word and phrases through a loudspeaker on hand, at 8 bearings x 3 distances (0.5, 1.5, 3.0 m) x 2 heights (0.6, 1.5 m), 30 s each, in 4 motion states (still, neck moving, ears moving, stepping in place) | 2 rooms | 192 |
+| S8 | live voices: 3 people say the wake word and phrases, still and stepping in place, 15 min each | bench room | 90 |
+| | total | | 380 (6.3 h) |
+
+Size (calc only):
+- Audio: 2 x 4 bytes x 48,000 per s = 384 kB/s = 1.38 GB per hour, so 8.8 GB raw for the 6.3 h. The FLAC size is
+  measured on the first session.
+- Joint log: about 256 bytes per row as binary numbers, 12.8 kB/s, about 0.3 GB for the set; the gzip CSV size is
+  measured too.
+- Whole set: about 9.0 GB raw.
+
+Where the data lives:
+- During a session: on the duck's 32 GB microSD (BOM 4).
+- Each day: copied to the lab's big-file archive on Ahmed's PC (GrokBox_Archive, START_HERE.md: heavy data never in
+  git), checked by sha256, then deleted from the card.
+- Voices are personal data. The people recorded agree first, and the recordings never go to the public repo.
+
+### 12.7 Hardware implications
+
+- Keep: the foam ring seals and the mic-to-servo distances (section 11). They make the ego-noise steadier and so
+  easier to learn. Keep the twisted D14 and D15 too.
+- New parts: none.
+  - A reference sensor near the motors (a mic or a piezo) is a known option in the literature (Lagace 2023,
+    introduction, its refs 9 to 12 [R]).
+  - Even, Sawada, Saruwatari, Shikano (IROS 2009) used extra internal sensors to record internal noise [A].
+  - The duck already knows its motor state, and Ito 2005 did the job on small robots from joint speeds [A], so no
+    sensor is added.
+- Freeze the head before the data is taken: the model learns this head. A change to a seat, the foam, an ear horn or
+  a screw pattern near the mics means recording S0 to S4 and S6 again (about 1.5 h, calc only).
+- Clipping: the SPH0645LM4H acoustic overload point was not read (BLOCKER). TEST_PLAN 17.4 checks the peaks in the
+  loudest sessions (walking, ears next to the mic).
+- Storage: the full raw set is about 9.0 GB against the 32 GB card. The daily copy keeps the card from filling.
+
+### 12.8 CPU budget next to the 50 Hz walk and the vision (calc only)
+
+Pi Zero 2 W: quad-core Cortex-A53 at 1 GHz, 512 MB LPDDR2, Bluetooth 4.2 [R product brief, April 2024].
+
+| core | task | basis | estimate |
+|---|---|---|---|
+| 0 | walk loop: 50 Hz policy, bus reads and writes, the guards | the policy and Python CPU time on the Pi is UNVERIFIED (software/SOFTWARE.md) | BLOCKER (bench) |
+| 1 | capture 2 x 48 kHz, L1 estimate, mask, weighted GCC-PHAT | L1 network of the size planned here (48 inputs, 2 hidden layers of 64, 44 outputs, 100 frames per s): about 2 Mflop/s. GCC-PHAT for one pair: SRP-PHAT ran online on one Raspberry Pi 3 core up to 12 mics (66 pairs) and passed 100 % at 13 mics (106 %) [R Grondin and Michaud 2018, arXiv 1812.00115], so one pair is about 1.5 % of such a core | a few % of a core |
+| 1 | RNNoise, 1 channel at 48 kHz | 14 % of a 1.2 GHz A53 core [R Valin 2018], about 17 % at 1.0 GHz if the work per clock is the same | about 17 % (today's model: BLOCKER) |
+| 2 | wake word (openWakeWord, 16 kHz) | one Raspberry Pi 3 core runs 15 to 20 models [R README]; one model's share is not published | under one core; budget the whole core |
+| 3 | camera and face detection after a call; Wi-Fi stream; logging | the vision is not measured (BLOCKER); the stream is 16 kHz x 16 bit = 256 kbit/s | BLOCKER for the vision |
+
+Memory: RNNoise is small (87,503 weights). The footprint of onnxruntime with the wake word and the policy in 512 MB
+is a BLOCKER (bench).
+
+### 12.9 BLOCKERs (D49)
+
+1. Pi Zero 2 W CPU time of the walk policy, the face detection, today's RNNoise model and one openWakeWord model;
+   the memory footprint (bench).
+2. Direction error while walking, with the mask (bench, TEST_PLAN 17.5).
+3. Ego-noise levels and spectra of the STS3215s, the SG90s and the footsteps (bench, TEST_PLAN 17).
+4. The SPH0645LM4H acoustic overload point (datasheet not read).
+5. The licence of the synthetic voices used to train a custom openWakeWord model (not read).
+6. Only the abstracts were read for Ito 2005, Ince 2009, Schmidt 2016, 2020 and 2021, Grondin and Michaud 2015,
+   Wang and Cavallaro 2022, DREGON, Even 2009, Jaroslavceva 2021 and Shoda 2026 (the publisher and HAL pages blocked
+   this session's reader): no number from their full texts is used here.
+7. The FLAC and gzip CSV sizes (first session).
+8. A loudspeaker on hand for S7. Nothing is bought; if there is none, S7 waits.
