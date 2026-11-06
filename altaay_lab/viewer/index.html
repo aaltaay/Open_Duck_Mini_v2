@@ -54,6 +54,11 @@ button { cursor: pointer; }
 .brand h1 { margin: 3px 0 0; font: 700 27px/1.02 var(--f-display); letter-spacing: 0.01em; text-wrap: balance; }
 .brand p { margin: 3px 0 0; color: var(--muted); font-size: 13.5px; max-width: 70ch; }
 .chips { display: none; gap: 6px; flex-wrap: wrap; }
+.scenes { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 999px; overflow: hidden; background: var(--panel); }
+.scenes button { font: inherit; font-size: 13px; padding: 5px 13px; border: 0; background: transparent; color: var(--muted); cursor: pointer; min-height: 32px; }
+.scenes button + button { border-left: 1px solid var(--line); }
+.scenes button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.scenes button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .chip { display: inline-flex; align-items: baseline; gap: 5px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); font-size: 12.5px; color: var(--muted); }
 .chip b { font: 600 13px var(--f-mono); color: var(--ink); }
 .chip.ok b { color: var(--ok); } .chip.bad b { color: var(--bad); } .chip.warn b { color: var(--warn); }
@@ -296,9 +301,14 @@ ol.seats .small { font-size: 12px; color: var(--muted); }
 <div class="app">
   <header class="top">
     <div class="brand">
-      <div class="eyebrow">Open Duck Mini v2 &middot; print readiness</div>
-      <h1>Parts check, exploded</h1>
-      <p>The upstream CAD at zero joint angles, with every print STL, servo, heat-set insert, screw, cable and BOM line. Parts that are not in the CAD are dashed boxes.</p>
+      <div class="eyebrow" id="eyebrow">Open Duck Mini v2 &middot; print readiness</div>
+      <h1 id="title">Parts check, exploded</h1>
+      <p id="lede">The upstream CAD at zero joint angles, with every print STL, servo, heat-set insert, screw, cable and BOM line. Parts that are not in the CAD are dashed boxes.</p>
+    </div>
+    <div class="scenes" role="group" aria-label="Scene">
+      <button type="button" data-scene="" aria-pressed="true">Duck</button>
+      <button type="button" data-scene="dock" aria-pressed="false">Dock</button>
+      <button type="button" data-scene="docked" aria-pressed="false">Docked</button>
     </div>
     <div class="chips" id="chips" aria-label="Summary"></div>
   </header>
@@ -407,6 +417,26 @@ function fail(err) {
     '<br>Reload the page. If it keeps failing, this browser may not support WebGL.';
 }
 
+/* ---------------------------------------------------------------- scenes: Duck, Dock, Docked (the URL hash picks one)
+   Each scene is its own data pair next to this page: manifest.json + duck.glb.txt, dock_manifest.json + dock.glb.txt,
+   docked_manifest.json + docked.glb.txt. Switching sets the hash and reloads, so every scene starts from a clean page. */
+const SCENES = {
+  '': { man: 'manifest.json', glb: 'duck.glb.txt', what: 'duck', guess: 5.8e6, eyebrow: 'Open Duck Mini v2 · print readiness', title: 'Parts check, exploded',
+        lede: 'The upstream CAD at zero joint angles, with every print STL, servo, heat-set insert, screw, cable and BOM line. Parts that are not in the CAD are dashed boxes.' },
+  dock: { man: 'dock_manifest.json', glb: 'dock.glb.txt', what: 'dock', guess: 4e6, eyebrow: 'Open Duck Mini v2 · charging dock', title: 'Dock, every part',
+          lede: 'The charging dock with no duck on it: every printed part, bought part, screw, nut, insert and wire, the seat top up and the paddle at rest.' },
+  docked: { man: 'docked_manifest.json', glb: 'docked.glb.txt', what: 'duck on the dock', guess: 9.5e6, eyebrow: 'Open Duck Mini v2 · docked', title: 'Duck on the dock',
+            lede: 'The duck seated on the dock in the sim pose (hard floor, seed 0): the chest on the six pins, the belly on the seat at 112 mm, the paddle pushed. The duck\'s cables are in the Duck scene.' },
+};
+const SCENE_KEY = Object.prototype.hasOwnProperty.call(SCENES, location.hash.replace('#', '')) ? location.hash.replace('#', '') : '';
+const SC = SCENES[SCENE_KEY];
+$('#eyebrow').textContent = SC.eyebrow; $('#title').textContent = SC.title; $('#lede').textContent = SC.lede;
+for (const b of document.querySelectorAll('.scenes button')) {
+  b.setAttribute('aria-pressed', String(b.dataset.scene === SCENE_KEY));
+  b.addEventListener('click', () => { if (b.dataset.scene === SCENE_KEY) return; location.hash = b.dataset.scene || ''; location.reload(); });
+}
+setLoad('Loading the ' + SC.what + ' model', 0);
+
 async function main() {
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -429,16 +459,18 @@ async function main() {
   resize();
 
   setLoad('Loading the parts list', 0.02);
-  const manP = fetch('manifest.json').then((r) => { if (!r.ok) throw new Error('manifest.json: HTTP ' + r.status); return r.json(); });
+  const manP = fetch(SC.man).then((r) => { if (!r.ok) throw new Error(SC.man + ': HTTP ' + r.status); return r.json(); });
   // duck.glb.txt is the GLB as base64 text (the artifact host serves text, not .glb)
-  const glbP = loadText('duck.glb.txt', 4.9e6).then((txt) => {
+  const glbP = loadText(SC.glb, SC.guess).then((txt) => {
     setLoad('Unpacking the model', 0.93);
     const bin = atob(txt.trim()), bytes = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    return new Promise((res, rej) => new GLTFLoader().parse(bytes.buffer, '', res, (e) => rej(new Error('duck.glb: ' + (e && e.message ? e.message : 'parse failed')))));
+    return new Promise((res, rej) => new GLTFLoader().parse(bytes.buffer, '', res, (e) => rej(new Error(SC.glb + ': ' + (e && e.message ? e.message : 'parse failed')))));
   });
   const [m, gltf] = await Promise.all([manP, glbP]);
   man = m;
+  document.body.dataset.scene = (man.meta && man.meta.scene) || 'duck';   // the loaded data names its scene (test_viewer.js checks it)
+  if (document.body.dataset.scene !== (SCENE_KEY || 'duck')) throw new Error(SC.man + ' is the ' + document.body.dataset.scene + ' scene, not ' + (SCENE_KEY || 'duck'));
   setLoad('Building the view', 0.97);
   buildScene(gltf);
   buildUI();
@@ -459,7 +491,7 @@ async function loadText(url, guess) {
     const { done, value } = await reader.read();
     if (done) break;
     chunks.push(value); got += value.length;
-    setLoad('Loading the duck model, ' + (got / 1e6).toFixed(1) + ' MB', 0.05 + 0.85 * Math.min(1, got / total));
+    setLoad('Loading the ' + SC.what + ' model, ' + (got / 1e6).toFixed(1) + ' MB', 0.05 + 0.85 * Math.min(1, got / total));
   }
   return new TextDecoder().decode(await new Blob(chunks).arrayBuffer());
 }
@@ -1621,7 +1653,7 @@ function buildUI() {
   const needN = full.filter((r) => NEED.has(stKey(r.status))).length, gapN = tieParts.filter((t) => t.tie.gap).length;
   $('#chips').innerHTML =
     '<span class="chip ' + (okp ? 'ok' : 'bad') + '"><b>' + sm.printed.found + '/' + sm.printed.expected + '</b> printed</span>' +
-    '<span class="chip ' + (oks ? 'ok' : 'bad') + '"><b>' + sm.servos.found + '/' + sm.servos.expected + '</b> servos</span>' +
+    (sm.servos.expected ? '<span class="chip ' + (oks ? 'ok' : 'bad') + '"><b>' + sm.servos.found + '/' + sm.servos.expected + '</b> servos</span>' : '') +
     '<span class="chip ' + (oki ? 'ok' : 'bad') + '"><b>' + sm.inserts.found + '/' + sm.inserts.expected + '</b> inserts</span>' +
     '<span class="chip ' + (mism ? 'bad' : 'ok') + '"><b>' + mism + '</b> mismatches</span>' +
     (scr ? '<span class="chip"><b>' + scr.found + '</b> screws</span>' : '') +
@@ -1631,9 +1663,9 @@ function buildUI() {
   $('#summary').innerHTML =
     '<div class="tiles">' +
     tile('Printed parts', sm.printed.found, sm.printed.expected, sm.printed.stl_files + ' STLs · ' + fmt(sm.printed.grams, 0) + ' g · ' + fmt(sm.printed.hours, 1) + ' h', okp, 'printed') +
-    tile('Servos', sm.servos.found, sm.servos.expected, servoMix() + ' · 3 case parts + 2 horns each', oks, 'servo') +
+    (sm.servos.expected ? tile('Servos', sm.servos.found, sm.servos.expected, servoMix() + ' · 3 case parts + 2 horns each', oks, 'servo') : '') +
     tile('M3 inserts', sm.inserts.found, sm.inserts.expected, 'from the measured bores', oki, 'insert') +
-    tile('6804 bearings', sm.bearings.found, sm.bearings.expected, bearingWhere(), okb, 'bearing') +
+    (sm.bearings.expected ? tile('6804 bearings', sm.bearings.found, sm.bearings.expected, bearingWhere(), okb, 'bearing') : '') +
     (scr ? tile('Screws', scr.found, scr.expected ?? null, screwDetail(scr), scr.expected == null || scr.found === scr.expected, 'screw') : '') +
     (cab ? tile('Cables', cab.found, cab.expected ?? null, cableDetail(Object.assign({}, cab, { test_fit: cabFit })), cab.fail ? false : cabFit ? 'warn' : true, 'cable') : '') +
     '</div><div class="facts">' +

@@ -103,7 +103,7 @@ means a number that no source read here gives. Decisions: DECISIONS.md D51 to D5
 1. MPR121 board mass and its IRQ and power LED current (not published).
 2. The Pi Zero 2 W 3.3 V pin current limit (not in the product brief).
 3. The 6-pin order on the 5396 header and the MPR121 header [I]: read it on the boards.
-4. Ahmed's own words for D51 to D55: the brief gave the lead's wording.
+4. Ahmed's own words for D51 to D55: CLEARED 2026-11-06 by the full dock job (DECISIONS.md now quotes his messages; D52 and D53 came from the expression study he asked for).
 5. The duct gain and the touch thresholds: bench (TEST_PLAN 18).
 6. The runtime ear PWM change (D6) and the arbiter and pick-up code: not written (D47: hardware first).
 

@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from conftest import item, last_report, needs_runtime
+from conftest import item, last_report, needs_runtime_imu
 
 
 def _imu(run, *args, cfg=None):
@@ -11,7 +11,7 @@ def _imu(run, *args, cfg=None):
                env={"ODM_FAKE_IMU": json.dumps(cfg or {})})
 
 
-@needs_runtime
+@needs_runtime_imu
 def test_clean_imu_passes_1000_reads(run):
     r, out = _imu(run, "--reads", "1000", "--rate", "1000")
     rep = last_report(out, "imu")
@@ -20,7 +20,7 @@ def test_clean_imu_passes_1000_reads(run):
     assert item(rep, "10.cfg")["measured"]["axis_remap"] == [1, 0, 2, 1, 0, 0]   # Runtime (Y, X, Z; -, +, +)
 
 
-@needs_runtime
+@needs_runtime_imu
 def test_g2_bit_flip_glitches_fail(run):
     """G2: top bit of the first byte flipped on some reads (1.28 m/s^2 or 0.14 rad/s jumps)."""
     r, out = _imu(run, "--reads", "1000", "--rate", "1000", cfg={"glitch_every": 37})
@@ -31,7 +31,7 @@ def test_g2_bit_flip_glitches_fail(run):
     assert item(rep, "10.1.fix")["status"] == "INFO"
 
 
-@needs_runtime
+@needs_runtime_imu
 def test_i2c_errors_fail(run):
     r, out = _imu(run, "--reads", "300", "--rate", "1000", cfg={"oserror_every": 50})
     rep = last_report(out, "imu")
@@ -48,7 +48,7 @@ STEPS_OK = {
 }
 
 
-@needs_runtime
+@needs_runtime_imu
 @pytest.mark.parametrize("step", list(STEPS_OK))
 def test_tilt_signs_runtime_mounting(run, step):
     r, out = _imu(run, "--tilt-step", step, "--seconds", "0.3", cfg=STEPS_OK[step])
@@ -56,7 +56,7 @@ def test_tilt_signs_runtime_mounting(run, step):
     assert item(rep, f"10.2.{step}")["status"] == "PASS", item(rep, f"10.2.{step}")
 
 
-@needs_runtime
+@needs_runtime_imu
 @pytest.mark.parametrize("mount,step", [("rot180z", "nose_down"), ("rot180z", "right_down"),
                                         ("flip_x", "level"), ("rot90z", "nose_down")])
 def test_tilt_catches_a_wrong_mounting(run, mount, step):
@@ -66,7 +66,7 @@ def test_tilt_catches_a_wrong_mounting(run, mount, step):
     assert item(rep, f"10.2.{step}")["status"] == "FAIL"
 
 
-@needs_runtime
+@needs_runtime_imu
 def test_upside_down_board_needs_imu_upside_down_true(run):
     cfg = {"mount": "flip_x", "pitch_deg": 25}
     r, out = run("imu_check.py", "--tilt-step", "nose_down", "--seconds", "0.3", "--yes", "--upside-down", "true",

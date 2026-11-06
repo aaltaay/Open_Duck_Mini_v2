@@ -7,7 +7,7 @@ Written 2026-11-01 9:40 PM ET by agent M (simulation), for Ahmed's print-readine
 ## Answer
 - 2026-11-06 ET, V1 freeze (twin/freeze/FREEZE.md section 6, calc only, not yet in the sim model): about +18.6 g on the 2720.1 g build, so about 2738.7 g: the cliff ToF board 1.8 g, two MPR121 boards about 6 g (mass not published: BLOCKER), copper foil about 1.9 g, the new 26 AWG wires D16 to D22 about 6.8 g (2.97 m at about 2.3 g/m), tape about 0.5 g, PLA +3.1 g speaker duct, +0.45 g grille plugs, -1.97 g body_front (the ToF pocket and window take out more than its standoffs add). The trunk takes about 13 g, the head about 6 g. The sim model and C8 still run the 2720.1 g build: re-run sim/mass_budget.py when the boards are weighed.
 - 2026-11-05 about 12:50 AM ET, V1 track 9 (D44): the 2S1P Molicel P45B pack replaces the two P30B cells and the 2 x 18650 holder: cells 2 x 70.0 g (Molicel INR21700P45B-01 v0.2) on the grown bay's cell axes, the strip, sleeve and leads 5 g (UNVERIFIED) for the 25 g holder: **+26.0 g**; body_back with the grown bay -1.69 g (sliced 70.18 to 68.49 g without support, print/SLICE_SUMMARY.md). The script (sim/mass_budget.py, run 2026-11-05 ET on this tree) gives 2659.4 g before and 2685.4 g after (without the knee servos' +39.0 g); so the build is about **2.72 kg** (2695.8 + 26.0 - 1.7 = 2720.1 g, not weighed). Whole robot centre of mass at the home pose, trunk frame: [-27.6, 0.4, 49.7] to [-28.7, 0.5, 49.4] mm (1.1 mm back; the walk held 3.6 to 4.4 mm back in sim/ADDED_MASS_SIM.md); trunk principal inertia (kg m2 x 1e-4) [19.70, 34.90, 41.26] to [19.84, 36.98, 43.39]. The tables below are from the run of 2026-11-02 and are not regenerated here (sim/mass_budget.png is). Twin checks at the new mass: twin/battery/BAY.md.
-- Our build: **2.72 kg** (2720.1 g since D44: 2695.8 g before, plus 26.0 g for the 2S1P P45B pack and -1.7 g for body_back with the grown bay, line above; the 2695.8 g were: the 2652.8 g of the tables below, plus 39.0 g for the two STS3250 knee servos, 74.5 g against 55 g at each thigh, D32, plus 7.2 g for left and right roll_to_pitch at 3 walls, D38, minus 5.4 g for D39: closed holes -4.2 g of printed parts on the robot (print/SLICE_SUMMARY.md), one M3x8 screw and one insert -1.24 g (0.89 and 0.35 g each, the trunk rows below); plus 2.2 g for D42 (uniform patterns: +0.34 g printed on the robot, print/SLICE_SUMMARY.md; one more M3x8 and insert on head_bot_sheet +1.24 g; one more M2.5x10 on the lid +0.66 g, calc only from its volume); updated 2026-11-04 11:01 PM ET, the tables and the centre of mass are not recomputed; twin/knee/KNEE_TWIN.md). The MuJoCo model the policy was trained on: **2.107 kg** [U] (Open_Duck_Playground b9be205, xmls/open_duck_mini_v2.xml, body masses). Difference **+613 g (+29 %)** [L] (+587 g, +28 % before D44). Before D22 (print profile with 3 to 5 walls) it was 2.77 kg, +660 g (+31 %); D22 alone gave 2.64 kg (2638.6 g), the netlist final pass adds 13.3 g of wire (the D23 ankle feeds SP4 and SP5, the P7 lead extensions, the cut lengths from the 3D routes) and agent CAB's later cut changes (the D25 twist take-up included) 0.9 g more.
+- Our build: **2.75 kg** (2749.0 g, the tables below, re-run 2026-11-06 2:01 AM ET by the full dock job: sim/mass_budget.py now places and weighs the duck-side dock parts (DK1 pad 15.6 g calc, DK2, DK6, DK7 0.2 g each, the DK3 holder and DK4 fuse 9.0 g, the NTC, the wake branch, the splices JGD and JSN) and the D47, D51 and D54 boards (mics 0.4 g each, MPR121 3.0 g each BLOCKER, ToF 1.8 g, copper foil 1.9 g); any part without a table seat takes the centre of its cable ends in cables3d.json, so every netlist wire, the dock cables DC1 to DC4 and the freeze wires D16 to D22 included, is weighed on its route. The 2720.1 g of the line before this one added the D32 to D44 changes by hand; this run carries them in the model. Before: **2.72 kg** (2720.1 g since D44: 2695.8 g before, plus 26.0 g for the 2S1P P45B pack and -1.7 g for body_back with the grown bay, line above; the 2695.8 g were: the 2652.8 g of the tables below, plus 39.0 g for the two STS3250 knee servos, 74.5 g against 55 g at each thigh, D32, plus 7.2 g for left and right roll_to_pitch at 3 walls, D38, minus 5.4 g for D39: closed holes -4.2 g of printed parts on the robot (print/SLICE_SUMMARY.md), one M3x8 screw and one insert -1.24 g (0.89 and 0.35 g each, the trunk rows below); plus 2.2 g for D42 (uniform patterns: +0.34 g printed on the robot, print/SLICE_SUMMARY.md; one more M3x8 and insert on head_bot_sheet +1.24 g; one more M2.5x10 on the lid +0.66 g, calc only from its volume); updated 2026-11-04 11:01 PM ET, the tables and the centre of mass are not recomputed; twin/knee/KNEE_TWIN.md). The MuJoCo model the policy was trained on: **2.107 kg** [U] (Open_Duck_Playground b9be205, xmls/open_duck_mini_v2.xml, body masses). Difference **+613 g (+29 %)** [L] (+587 g, +28 % before D44). Before D22 (print profile with 3 to 5 walls) it was 2.77 kg, +660 g (+31 %); D22 alone gave 2.64 kg (2638.6 g), the netlist final pass adds 13.3 g of wire (the D23 ankle feeds SP4 and SP5, the P7 lead extensions, the cut lengths from the 3D routes) and agent CAB's later cut changes (the D25 twist take-up included) 0.9 g more.
 - Where: trunk +242 g (+35 %), head +141 g (+35 %), each leg +64 to +65 g (+16 %), neck chain +33 g (+19 %) [L] (table 2).
 - Why, in two parts [L] (table 3):
   1. **405 g of parts the trained CAD does not have at all**: screws and inserts 196 g, wires 122 g, the lab-only power parts 59 g (BEC Pro, fuse, Pololu 2815, D30V30F5, splices, XT30, tape), the projector print, foot switches and small electronics.
@@ -29,59 +29,59 @@ Written 2026-11-01 9:40 PM ET by agent M (simulation), for Ahmed's print-readine
 | Category | Our build g | of which not in the trained CAD g |
 |---|---|---|
 | servo | 770.0 | 0.0 |
-| printed | 1190.4 | 10.3 |
+| printed | 1194.8 | 10.6 |
 | electronics | 108.3 | 13.9 |
 | mechanical | 80.7 | 0.0 |
-| battery | 119.0 | 0.0 |
+| battery | 145.0 | 0.0 |
 | screw | 175.3 | 175.3 |
-| wire | 121.8 | 121.8 |
-| lab_added | 61.9 | 58.9 |
+| wire | 149.5 | 149.5 |
+| lab_added | 100.1 | 97.1 |
 | insert | 20.3 | 20.3 |
 | misc | 5.0 | 5.0 |
-| total | 2652.8 | 405.5 |
+| total | 2749.0 | 471.6 |
 
 ## Table 2: per link (MJCF body), trained model, URDF and our build
 CoM in the link frame (= the MJCF body frame), mm. Legs are listed both sides.
 
 | Link (MJCF body) | Trained MJCF g | URDF g | Our build g | Delta g | Delta % | Model CoM mm (link frame) | Our CoM mm | CoM shift mm |
 |---|---|---|---|---|---|---|---|---|
-| trunk | 698.5 | 698.5 | 941.0 | +242.4 | +35 | [-48.3, -0.1, 38.5] | [-55.8, 0.4, 36.8] | [-7.5, 0.5, -1.7] (7.7) |
-| L hip roll link | 66.5 | 66.5 | 77.3 | +10.9 | +16 | [0.8, -0.0, -33.1] | [0.8, -0.0, -31.9] | [0.0, 0.0, 1.1] (1.1) |
-| L hip pitch link | 75.2 | 75.2 | 86.1 | +10.9 | +14 | [50.8, -0.4, 20.5] | [46.9, -0.4, 19.9] | [-3.9, 0.0, -0.6] (4.0) |
-| L thigh (knee servo) | 124.1 | 124.1 | 145.9 | +21.9 | +18 | [2.5, -39.1, 10.3] | [2.3, -35.9, 10.7] | [-0.2, 3.1, 0.4] (3.2) |
-| L shin (ankle servo) | 72.6 | 72.6 | 90.3 | +17.7 | +24 | [0.0, -57.7, 18.1] | [-0.0, -50.0, 17.8] | [-0.0, 7.7, -0.3] (7.8) |
+| trunk | 698.5 | 698.5 | 1015.6 | +317.1 | +45 | [-48.3, -0.1, 38.5] | [-56.6, 0.3, 36.7] | [-8.3, 0.4, -1.8] (8.5) |
+| L hip roll link | 66.5 | 66.5 | 77.4 | +10.9 | +16 | [0.8, -0.0, -33.1] | [0.8, -0.0, -31.9] | [0.0, 0.0, 1.1] (1.1) |
+| L hip pitch link | 75.2 | 75.2 | 89.7 | +14.5 | +19 | [50.8, -0.4, 20.5] | [46.5, -0.4, 19.6] | [-4.3, -0.0, -0.9] (4.4) |
+| L thigh (knee servo) | 124.1 | 124.1 | 145.0 | +20.9 | +17 | [2.5, -39.1, 10.3] | [2.3, -36.1, 10.6] | [-0.2, 3.0, 0.4] (3.0) |
+| L shin (ankle servo) | 72.6 | 72.6 | 89.3 | +16.7 | +23 | [0.0, -57.7, 18.1] | [-0.0, -50.3, 17.8] | [-0.0, 7.4, -0.3] (7.4) |
 | L foot | 75.2 | 75.2 | 78.3 | +3.1 | +4 | [11.1, -24.7, 19.1] | [10.2, -22.1, 18.6] | [-0.9, 2.5, -0.5] (2.7) |
-| neck pitch link | 66.2 | 66.2 | 82.8 | +16.6 | +25 | [-0.0, 49.3, 18.2] | [-0.0, 43.7, 16.7] | [0.0, -5.6, -1.5] (5.8) |
-| head pitch link | 16.9 | 16.9 | 33.5 | +16.6 | +98 | [-7.7, 26.0, 18.7] | [-3.5, 24.0, 17.1] | [4.2, -2.1, -1.6] (4.9) |
-| head yaw link | 91.8 | 91.8 | 92.0 | +0.2 | +0 | [4.1, 0.0, -22.3] | [8.0, 0.0, -20.8] | [3.9, -0.0, 1.5] (4.2) |
-| head | 406.6 | 361.0 | 547.2 | +140.6 | +35 | [8.2, -3.9, 22.8] | [10.7, -0.2, 19.9] | [2.5, 3.7, -2.9] (5.3) |
+| neck pitch link | 66.2 | 66.2 | 83.7 | +17.5 | +26 | [-0.0, 49.3, 18.2] | [-0.0, 43.5, 16.6] | [0.0, -5.8, -1.6] (6.0) |
+| head pitch link | 16.9 | 16.9 | 34.2 | +17.3 | +102 | [-7.7, 26.0, 18.7] | [-3.4, 24.1, 16.9] | [4.3, -2.0, -1.8] (5.0) |
+| head yaw link | 91.8 | 91.8 | 92.6 | +0.7 | +1 | [4.1, 0.0, -22.3] | [8.1, 0.0, -20.7] | [4.0, -0.0, 1.6] (4.3) |
+| head | 406.6 | 361.0 | 563.3 | +156.7 | +39 | [8.2, -3.9, 22.8] | [10.9, -0.0, 21.1] | [2.7, 3.9, -1.7] (5.1) |
 | R hip roll link | 66.5 | 66.5 | 77.4 | +10.9 | +16 | [0.8, -0.0, -33.1] | [0.8, -0.0, -31.9] | [0.0, 0.0, 1.1] (1.1) |
-| R hip pitch link | 75.2 | 75.2 | 86.0 | +10.9 | +14 | [-50.8, -0.4, 20.5] | [-46.9, -0.4, 19.9] | [3.9, 0.0, -0.6] (4.0) |
-| R thigh (knee servo) | 124.1 | 124.1 | 146.1 | +22.1 | +18 | [2.5, 39.1, 10.8] | [2.3, 36.0, 11.4] | [-0.2, -3.1, 0.6] (3.2) |
-| R shin (ankle servo) | 72.6 | 72.6 | 90.4 | +17.8 | +24 | [0.0, -57.7, 18.1] | [-0.0, -50.0, 17.8] | [-0.0, 7.8, -0.3] (7.8) |
+| R hip pitch link | 75.2 | 75.2 | 89.7 | +14.6 | +19 | [-50.8, -0.4, 20.5] | [-46.5, -0.4, 19.6] | [4.3, -0.0, -0.9] (4.4) |
+| R thigh (knee servo) | 124.1 | 124.1 | 145.2 | +21.1 | +17 | [2.5, 39.1, 10.8] | [2.3, 36.1, 11.4] | [-0.2, -3.0, 0.6] (3.1) |
+| R shin (ankle servo) | 72.6 | 72.6 | 89.4 | +16.8 | +23 | [0.0, -57.7, 18.1] | [-0.0, -50.3, 17.8] | [-0.0, 7.4, -0.4] (7.4) |
 | R foot | 75.2 | 75.2 | 78.3 | +3.1 | +4 | [11.1, -24.7, 19.1] | [10.2, -22.1, 18.6] | [-0.9, 2.5, -0.5] (2.7) |
-| total | 2107.1 | 2061.5 | 2652.8 | +545.6 | +26 | | | |
+| total | 2107.1 | 2061.5 | 2749.0 | +641.8 | +30 | | | |
 
 ## Table 3: where the difference comes from
 
 | Link | Trained g | Ours, parts the trained CAD also has g | Ours, parts the CAD lacks g | of which screws and inserts g | wires g | lab-only parts g |
 |---|---|---|---|---|---|---|
-| trunk | 698.5 | 776.3 (+77.8) | 164.7 | 41.7 | 63.7 | 54.2 |
-| L hip roll link | 66.5 | 69.9 (+3.4) | 7.5 | 5.5 | 1.9 | 0.0 |
-| L hip pitch link | 75.2 | 74.9 (-0.2) | 11.1 | 8.3 | 2.8 | 0.0 |
-| L thigh (knee servo) | 124.1 | 130.2 (+6.2) | 15.7 | 13.0 | 2.7 | 0.0 |
-| L shin (ankle servo) | 72.6 | 75.0 (+2.4) | 15.4 | 13.0 | 2.3 | 0.0 |
+| trunk | 698.5 | 802.7 (+104.2) | 212.9 | 41.7 | 78.9 | 87.3 |
+| L hip roll link | 66.5 | 69.9 (+3.4) | 7.5 | 5.5 | 2.0 | 0.0 |
+| L hip pitch link | 75.2 | 78.5 (+3.4) | 11.2 | 8.3 | 2.8 | 0.0 |
+| L thigh (knee servo) | 124.1 | 129.2 (+5.1) | 15.8 | 13.0 | 2.7 | 0.0 |
+| L shin (ankle servo) | 72.6 | 73.9 (+1.3) | 15.4 | 13.0 | 2.4 | 0.0 |
 | L foot | 75.2 | 63.1 (-12.2) | 15.3 | 11.2 | 0.9 | 0.0 |
-| neck pitch link | 66.2 | 68.7 (+2.5) | 14.1 | 7.3 | 6.8 | 0.0 |
-| head pitch link | 16.9 | 15.1 (-1.8) | 18.4 | 12.4 | 6.0 | 0.0 |
-| head yaw link | 91.8 | 82.2 (-9.6) | 9.8 | 5.0 | 4.8 | 0.0 |
-| head | 406.6 | 478.9 (+72.3) | 68.4 | 27.1 | 18.8 | 4.6 |
+| neck pitch link | 66.2 | 68.8 (+2.6) | 14.9 | 7.3 | 7.6 | 0.0 |
+| head pitch link | 16.9 | 15.1 (-1.8) | 19.1 | 12.4 | 6.7 | 0.0 |
+| head yaw link | 91.8 | 82.2 (-9.6) | 10.3 | 5.0 | 5.4 | 0.0 |
+| head | 406.6 | 479.3 (+72.7) | 84.0 | 27.1 | 29.0 | 9.8 |
 | R hip roll link | 66.5 | 69.9 (+3.4) | 7.5 | 5.5 | 2.0 | 0.0 |
-| R hip pitch link | 75.2 | 74.9 (-0.3) | 11.2 | 8.3 | 2.8 | 0.0 |
-| R thigh (knee servo) | 124.1 | 130.2 (+6.1) | 16.0 | 13.0 | 2.9 | 0.0 |
-| R shin (ankle servo) | 72.6 | 75.0 (+2.4) | 15.4 | 13.0 | 2.4 | 0.0 |
+| R hip pitch link | 75.2 | 78.5 (+3.4) | 11.2 | 8.3 | 2.9 | 0.0 |
+| R thigh (knee servo) | 124.1 | 129.1 (+5.1) | 16.0 | 13.0 | 3.0 | 0.0 |
+| R shin (ankle servo) | 72.6 | 73.9 (+1.3) | 15.4 | 13.0 | 2.4 | 0.0 |
 | R foot | 75.2 | 63.1 (-12.2) | 15.3 | 11.2 | 0.9 | 0.0 |
-| total | 2107.1 | 2247.3 (+140.1) | 405.5 | 195.6 | 121.8 | 58.9 |
+| total | 2107.1 | 2277.3 (+170.2) | 471.6 | 195.6 | 149.5 | 97.1 |
 
 ## Table 4: the trained model's own part masses (fit), legs and neck
 
@@ -90,14 +90,14 @@ CoM in the link frame (= the MJCF body frame), mm. Legs are listed both sides.
 | L hip roll link | roll_motor_bottom | 5.5 | 8.2 | -0.04, 0.12, 1.0 % |
 |  | roll_motor_top | 7.6 | 6.7 |  |
 |  | servo (case + horns) | 53.3 | 55.0 |  |
-| L hip pitch link | left_roll_to_pitch | 20.5 | 19.9 | +0.05, 0.13, 0.3 % |
+| L hip pitch link | left_roll_to_pitch | 20.5 | 23.5 | +0.05, 0.13, 0.3 % |
 |  | servo (case + horns) | 54.7 | 55.0 |  |
 | L thigh (knee servo) | left_cache | 51.6 | 55.3 | +0.03, 0.04, 0.0 % |
-|  | leg_spacer | 8.9 | 7.0 |  |
+|  | leg_spacer | 8.9 | 6.0 |  |
 |  | left_knee_to_ankle_right_sheet | 3.3 | 6.2 |  |
 |  | left_knee_to_ankle_left_sheet | 4.1 | 6.8 |  |
 |  | servo (case + horns) | 56.1 | 55.0 |  |
-| L shin (ankle servo) | leg_spacer | 8.7 | 7.0 | +0.01, 0.02, 0.1 % |
+| L shin (ankle servo) | leg_spacer | 8.7 | 6.0 | +0.01, 0.02, 0.1 % |
 |  | left_knee_to_ankle_right_sheet | 3.5 | 6.2 |  |
 |  | left_knee_to_ankle_left_sheet | 4.4 | 6.8 |  |
 |  | servo (case + horns) | 56.0 | 55.0 |  |
@@ -106,17 +106,17 @@ CoM in the link frame (= the MJCF body frame), mm. Legs are listed both sides.
 |  | foot_bottom_pla | 19.0 | 9.5 |  |
 |  | foot_top | 23.4 | 23.1 |  |
 | neck pitch link | neck_left_sheet | 6.0 | 7.3 | -0.05, 0.23, 0.3 % |
-|  | neck_right_sheet | 5.1 | 6.4 |  |
+|  | neck_right_sheet | 5.1 | 6.5 |  |
 |  | servo (case + horns) | 55.0 | 55.0 |  |
 | head pitch link | head_pitch_to_yaw | 16.9 | 15.1 | -0.00, 0.00, 0.0 % |
 | head yaw link | head_yaw_to_roll | 36.5 | 27.2 | -0.08, 0.02, 1.1 % |
 |  | servo (case + horns) | 55.2 | 55.0 |  |
 
 ## Centre of mass of the whole robot
-- Whole robot CoM at the zero pose, trunk frame: trained [-22.7, -0.7, 39.7] mm (2.107 kg), ours [-24.7, 0.3, 45.9] mm (2.653 kg), shift [-2.1, 1.0, 6.2] mm; feet sites [[-34.6, 89.4, -193.6], [-34.6, -91.8, -193.6]] mm
-- Whole robot CoM at the home pose, trunk frame: trained [-25.6, -0.6, 44.0] mm (2.107 kg), ours [-27.7, 0.4, 49.5] mm (2.653 kg), shift [-2.1, 1.0, 5.6] mm; feet sites [[-29.7, 80.9, -160.7], [-30.0, -81.4, -160.8]] mm
-- trunk principal inertia about its CoM (kg m2 x 1e-4): trained [16.76, 29.27, 34.45], ours [19.54, 34.89, 41.27]
-- head principal inertia about its CoM (kg m2 x 1e-4): trained [10.73, 16.87, 24.53], ours [15.1, 20.58, 32.08]
+- Whole robot CoM at the zero pose, trunk frame: trained [-22.7, -0.7, 39.7] mm (2.107 kg), ours [-25.8, 0.3, 46.7] mm (2.749 kg), shift [-3.1, 1.0, 7.0] mm; feet sites [[-34.6, 89.4, -193.6], [-34.6, -91.8, -193.6]] mm
+- Whole robot CoM at the home pose, trunk frame: trained [-25.6, -0.6, 44.0] mm (2.107 kg), ours [-28.6, 0.4, 50.2] mm (2.749 kg), shift [-3.0, 1.0, 6.2] mm; feet sites [[-29.7, 80.9, -160.7], [-30.0, -81.4, -160.8]] mm
+- trunk principal inertia about its CoM (kg m2 x 1e-4): trained [16.76, 29.27, 34.45], ours [20.21, 39.3, 45.55]
+- head principal inertia about its CoM (kg m2 x 1e-4): trained [10.73, 16.87, 24.53], ours [15.57, 20.75, 32.69]
 
 ## UNVERIFIED items (193 g in all)
 No published mass was found for these; each has its basis in the source list. The two big ones set the uncertainty of the total:
@@ -139,35 +139,47 @@ V1 3D track, 2026-11-04 about 7:40 PM ET (calc only): the D34 camera cable adds 
 
 | Item | Category | Link | Qty | g each | g total | In CAD | Source key | Note |
 |---|---|---|---|---|---|---|---|---|
-| 2S cell holder with leads | battery | trunk | 1 | 25.00 | 25.00 | yes | holder |  |
-| Molicel P30B cell | battery | trunk | 2 | 47.00 | 94.00 | yes | p30b |  |
+| 2S1P P45B pack strip, sleeve and leads | battery | trunk | 1 | 5.00 | 5.00 | yes | packwrap |  |
+| Molicel P45B cell | battery | trunk | 2 | 70.00 | 140.00 | yes | p45b | seat: grown bay (D44, track 9) |
 | BNO055 breakout (Adafruit 2472) | electronics | trunk | 1 | 3.00 | 3.00 | yes | bno055 |  |
 | USB-C 2S charger (Adeept) | electronics | trunk | 1 | 8.53 | 8.53 | yes | charger |  |
 | Waveshare Bus Servo Adapter (A) | electronics | trunk | 1 | 16.00 | 16.00 | yes | adapter |  |
 | panel control switch | electronics | trunk | 1 | 2.00 | 2.00 | yes | panel_switch |  |
 | M3 heat-set inserts x22 in trunk | insert | trunk | 1 | 7.70 | 7.70 | no | insert | sites audit/sites.json, audit/sites_head.json |
 | ATO 15 A fuse | lab_added | trunk | 1 | 1.00 | 1.00 | no | ato_fuse | seat: audit/placements.json |
+| ATO 5 A charge fuse (BOM DK4) | lab_added | trunk | 1 | 1.00 | 1.00 | no | ato_fuse | seat: audit/placements.json |
 | Amass XT30U pair | lab_added | trunk | 1 | 0.90 | 0.90 | no | xt30_pair | seat: left of the holder (MOUNTING.md, Tnkr placement), 30 mm to +y |
 | CC BEC Pro output leads | lab_added | trunk | 1 | 4.60 | 4.60 | no | bec_out_leads | seat: audit/placements.json |
 | Castle CC BEC Pro | lab_added | trunk | 1 | 29.00 | 29.00 | no | bec | seat: audit/placements.json |
+| Littelfuse FHAC0001ZXJ charge fuse holder (BOM DK3) | lab_added | trunk | 1 | 8.00 | 8.00 | no | fuse_holder | seat: audit/placements.json |
 | Littelfuse FHAC0001ZXJ fuse holder with leads | lab_added | trunk | 1 | 8.00 | 8.00 | no | fuse_holder | seat: audit/placements.json |
+| MPR121 touch board, body (D51) | lab_added | trunk | 1 | 3.00 | 3.00 | no | mpr121 | seat: audit/placements.json |
 | Pololu 2815 MOSFET switch | lab_added | trunk | 1 | 2.60 | 2.60 | no | sw2815 | seat: audit/placements.json |
+| Pololu 5382 ideal diode, charge input (BOM DK2) | lab_added | trunk | 1 | 0.20 | 0.20 | no | ideal_diode | seat: audit/placements.json |
+| Pololu 5382 ideal diode, dock supply (BOM DK6) | lab_added | trunk | 1 | 0.20 | 0.20 | no | ideal_diode | seat: audit/placements.json |
+| Pololu 5383 ideal diode, pack side (BOM DK7) | lab_added | trunk | 1 | 0.20 | 0.20 | no | ideal_diode | seat: audit/placements.json |
 | Tenergy 32175 BMS | lab_added | trunk | 1 | 3.00 | 3.00 | yes | tenergy_bms | seat: audit/placements.json |
 | VHB 4950 tape under bec_pro | lab_added | trunk | 1 | 1.36 | 1.36 | no | vhb_density |  |
 | VHB 4950 tape under fuse_holder | lab_added | trunk | 1 | 0.82 | 0.82 | no | vhb_density |  |
 | VHB 4950 tape under mosfet_switch | lab_added | trunk | 1 | 0.45 | 0.45 | no | vhb_density |  |
+| cell NTC 10 k on its lead (BOM DK5) | lab_added | trunk | 1 | 0.50 | 0.50 | no | ntc |  |
+| chest contact pad (BOM DK1) | lab_added | trunk | 1 | 15.60 | 15.60 | no | dock_pad | seat: audit/placements.json |
+| cliff ToF board (Adafruit 5396, D54) | lab_added | trunk | 1 | 1.80 | 1.80 | no | tof | seat: audit/placements.json |
+| copper foil touch pad PB1 with its guard ring (D51) | lab_added | trunk | 1 | 0.53 | 0.53 | no | copper_foil |  |
+| dock splices JGD, JSN (GND and SENSE branches) | lab_added | trunk | 1 | 1.00 | 1.00 | no | splice |  |
 | servo power splices SPV, SPG | lab_added | trunk | 1 | 1.00 | 1.00 | no | splice | seat: audit/placements.json |
 | splices JB+, JB- (BEC outputs) | lab_added | trunk | 1 | 1.00 | 1.00 | no | splice |  |
 | splices VSW, G (switched bus, ground) | lab_added | trunk | 1 | 1.00 | 1.00 | no | splice |  |
 | splices YD3, YG3, JG30, JG20, JG10 (data Y and grounds) | lab_added | trunk | 1 | 2.50 | 2.50 | no | splice |  |
+| wake branch: zener, diode, 10 k; and the 100 k across DK2 (BOM DK5) | lab_added | trunk | 1 | 1.00 | 1.00 | no | resistor |  |
 | 6804ZZ bearing | mechanical | trunk | 2 | 26.90 | 53.80 | yes | bearing |  |
 | cable ties | misc | trunk | 1 | 1.00 | 1.00 | no | cable_ties |  |
 | solder and heat shrink (joints outside splices) | misc | trunk | 1 | 4.00 | 4.00 | no | solder_heatshrink |  |
-| battery_pack_lid | printed | trunk | 1 | 13.58 | 13.58 | yes | slice |  |
-| body_back | printed | trunk | 1 | 70.35 | 70.35 | yes | slice |  |
-| body_front | printed | trunk | 1 | 57.87 | 57.87 | yes | slice |  |
-| body_middle_bottom | printed | trunk | 1 | 88.96 | 88.96 | yes | slice |  |
-| body_middle_top | printed | trunk | 1 | 66.21 | 66.21 | yes | slice |  |
+| battery_pack_lid | printed | trunk | 1 | 13.56 | 13.56 | yes | slice |  |
+| body_back | printed | trunk | 1 | 68.49 | 68.49 | yes | slice |  |
+| body_front | printed | trunk | 1 | 57.56 | 57.56 | yes | slice |  |
+| body_middle_bottom | printed | trunk | 1 | 90.97 | 90.97 | yes | slice |  |
+| body_middle_top | printed | trunk | 1 | 66.83 | 66.83 | yes | slice |  |
 | trunk_bottom | printed | trunk | 1 | 41.71 | 41.71 | yes | slice |  |
 | trunk_top | printed | trunk | 1 | 67.29 | 67.29 | yes | slice |  |
 | M2 servo-case screws (servo bag) x20 in trunk | screw | trunk | 1 | 5.47 | 5.47 | no | servo_bag |  |
@@ -178,10 +190,10 @@ V1 3D track, 2026-11-04 about 7:40 PM ET (calc only): the D34 camera cable adds 
 | STS3215 C001 servo x3 | servo | trunk | 1 | 165.00 | 165.00 | yes | sts3215 |  |
 | Mini-SPOX housings and terminals at ID 20, 10, 30 | wire | trunk | 1 | 0.90 | 0.90 | no | terminal | UNVERIFIED: Molex 50-37-5033 or 2.54 mm housing |
 | USB cable slack coil (part of Adafruit 3878) | wire | trunk | 1 | 10.95 | 10.95 | no | usb_cable | seat: audit/placements.json |
-| wires 16 AWG in trunk | wire | trunk | 1 | 27.51 | 27.51 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
-| wires 20 AWG in trunk | wire | trunk | 1 | 5.12 | 5.12 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
-| wires 22 AWG in trunk | wire | trunk | 1 | 11.21 | 11.21 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
-| wires 26 AWG in trunk | wire | trunk | 1 | 4.57 | 4.57 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 16 AWG in trunk | wire | trunk | 1 | 28.60 | 28.60 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 20 AWG in trunk | wire | trunk | 1 | 11.15 | 11.15 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 22 AWG in trunk | wire | trunk | 1 | 11.38 | 11.38 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 26 AWG in trunk | wire | trunk | 1 | 12.44 | 12.44 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires USB 2.0 cable in trunk | wire | trunk | 1 | 2.61 | 2.61 | no | usb_cable |  |
 | wires kit cable in trunk | wire | trunk | 1 | 0.84 | 0.84 | no | kit_cable_gpm |  |
 | roll_motor_bottom | printed | L hip roll link | 1 | 8.15 | 8.15 | yes | slice |  |
@@ -190,41 +202,41 @@ V1 3D track, 2026-11-04 about 7:40 PM ET (calc only): the D34 camera cable adds 
 | M3 horn screws (M3x6/M3x5 mix) x4 in L hip roll link | screw | L hip roll link | 1 | 3.09 | 3.09 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3x6 horn centre screws (servo bag) x1 in L hip roll link | screw | L hip roll link | 1 | 0.78 | 0.78 | no | servo_bag |  |
 | STS3215 C001 servo x1 | servo | L hip roll link | 1 | 55.00 | 55.00 | yes | sts3215 |  |
-| wires 22 AWG in L hip roll link | wire | L hip roll link | 1 | 0.62 | 0.62 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 22 AWG in L hip roll link | wire | L hip roll link | 1 | 0.65 | 0.65 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires 26 AWG in L hip roll link | wire | L hip roll link | 1 | 0.46 | 0.46 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires kit cable in L hip roll link | wire | L hip roll link | 1 | 0.86 | 0.86 | no | kit_cable_gpm |  |
-| left_roll_to_pitch | printed | L hip pitch link | 1 | 19.94 | 19.94 | yes | slice |  |
+| left_roll_to_pitch | printed | L hip pitch link | 1 | 23.53 | 23.53 | yes | slice |  |
 | M2 servo-case screws (servo bag) x3 in L hip pitch link | screw | L hip pitch link | 1 | 0.82 | 0.82 | no | servo_bag |  |
 | M2x6 roll_to_pitch screws (servo bag, HARDWARE_AUDIT.md B4) x2 in L hip pitch link | screw | L hip pitch link | 1 | 0.55 | 0.55 | no | servo_bag |  |
 | M3 horn screws (M3x6/M3x5 mix) x8 in L hip pitch link | screw | L hip pitch link | 1 | 6.19 | 6.19 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3x6 horn centre screws (servo bag) x1 in L hip pitch link | screw | L hip pitch link | 1 | 0.78 | 0.78 | no | servo_bag |  |
 | STS3215 C001 servo x1 | servo | L hip pitch link | 1 | 55.00 | 55.00 | yes | sts3215 |  |
-| wires 22 AWG in L hip pitch link | wire | L hip pitch link | 1 | 1.01 | 1.01 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 22 AWG in L hip pitch link | wire | L hip pitch link | 1 | 1.07 | 1.07 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires 26 AWG in L hip pitch link | wire | L hip pitch link | 1 | 0.76 | 0.76 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires kit cable in L hip pitch link | wire | L hip pitch link | 1 | 1.01 | 1.01 | no | kit_cable_gpm |  |
 | M3 heat-set inserts x4 in L thigh (knee servo) | insert | L thigh (knee servo) | 1 | 1.40 | 1.40 | no | insert | sites audit/sites.json, audit/sites_head.json |
 | knee_to_ankle_left_sheet | printed | L thigh (knee servo) | 1 | 6.79 | 6.79 | yes | slice |  |
 | knee_to_ankle_right_sheet | printed | L thigh (knee servo) | 1 | 6.15 | 6.15 | yes | slice |  |
 | left_cache | printed | L thigh (knee servo) | 1 | 55.27 | 55.27 | yes | slice |  |
-| leg_spacer | printed | L thigh (knee servo) | 1 | 7.01 | 7.01 | yes | slice |  |
+| leg_spacer | printed | L thigh (knee servo) | 1 | 5.97 | 5.97 | yes | slice |  |
 | M2 servo-case screws (servo bag) x4 in L thigh (knee servo) | screw | L thigh (knee servo) | 1 | 1.09 | 1.09 | no | servo_bag |  |
 | M3 horn screws (M3x6/M3x5 mix) x8 in L thigh (knee servo) | screw | L thigh (knee servo) | 1 | 6.19 | 6.19 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3 insert screws (M3x8/10/12 mix) x4 in L thigh (knee servo) | screw | L thigh (knee servo) | 1 | 3.57 | 3.57 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3x6 horn centre screws (servo bag) x1 in L thigh (knee servo) | screw | L thigh (knee servo) | 1 | 0.78 | 0.78 | no | servo_bag |  |
 | STS3215 C001 servo x1 | servo | L thigh (knee servo) | 1 | 55.00 | 55.00 | yes | sts3215 |  |
-| wires 22 AWG in L thigh (knee servo) | wire | L thigh (knee servo) | 1 | 0.97 | 0.97 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 22 AWG in L thigh (knee servo) | wire | L thigh (knee servo) | 1 | 1.02 | 1.02 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires 26 AWG in L thigh (knee servo) | wire | L thigh (knee servo) | 1 | 0.73 | 0.73 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires kit cable in L thigh (knee servo) | wire | L thigh (knee servo) | 1 | 0.99 | 0.99 | no | kit_cable_gpm |  |
 | M3 heat-set inserts x4 in L shin (ankle servo) | insert | L shin (ankle servo) | 1 | 1.40 | 1.40 | no | insert | sites audit/sites.json, audit/sites_head.json |
 | knee_to_ankle_left_sheet | printed | L shin (ankle servo) | 1 | 6.79 | 6.79 | yes | slice |  |
 | knee_to_ankle_right_sheet | printed | L shin (ankle servo) | 1 | 6.15 | 6.15 | yes | slice |  |
-| leg_spacer | printed | L shin (ankle servo) | 1 | 7.01 | 7.01 | yes | slice |  |
+| leg_spacer | printed | L shin (ankle servo) | 1 | 5.97 | 5.97 | yes | slice |  |
 | M2 servo-case screws (servo bag) x4 in L shin (ankle servo) | screw | L shin (ankle servo) | 1 | 1.09 | 1.09 | no | servo_bag |  |
 | M3 horn screws (M3x6/M3x5 mix) x8 in L shin (ankle servo) | screw | L shin (ankle servo) | 1 | 6.19 | 6.19 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3 insert screws (M3x8/10/12 mix) x4 in L shin (ankle servo) | screw | L shin (ankle servo) | 1 | 3.57 | 3.57 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3x6 horn centre screws (servo bag) x1 in L shin (ankle servo) | screw | L shin (ankle servo) | 1 | 0.78 | 0.78 | no | servo_bag |  |
 | STS3215 C001 servo x1 | servo | L shin (ankle servo) | 1 | 55.00 | 55.00 | yes | sts3215 |  |
-| wires 22 AWG in L shin (ankle servo) | wire | L shin (ankle servo) | 1 | 0.80 | 0.80 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 22 AWG in L shin (ankle servo) | wire | L shin (ankle servo) | 1 | 0.84 | 0.84 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires 26 AWG in L shin (ankle servo) | wire | L shin (ankle servo) | 1 | 0.73 | 0.73 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires kit cable in L shin (ankle servo) | wire | L shin (ankle servo) | 1 | 0.80 | 0.80 | no | kit_cable_gpm |  |
 | Omron SS-01 foot switch x2 | electronics | L foot | 1 | 3.20 | 3.20 | no | omron_ss | seat: 2 slots in foot_top (MOUNTING.md) |
@@ -237,19 +249,19 @@ V1 3D track, 2026-11-04 about 7:40 PM ET (calc only): the D34 camera cable adds 
 | M3 insert screws (M3x8/10/12 mix) x4 in L foot | screw | L foot | 1 | 3.57 | 3.57 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | wires 26 AWG in L foot | wire | L foot | 1 | 0.89 | 0.89 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | neck_left_sheet | printed | neck pitch link | 1 | 7.32 | 7.32 | yes | slice |  |
-| neck_right_sheet | printed | neck pitch link | 1 | 6.37 | 6.37 | yes | slice |  |
+| neck_right_sheet | printed | neck pitch link | 1 | 6.50 | 6.50 | yes | slice |  |
 | M2 servo-case screws (servo bag) x4 in neck pitch link | screw | neck pitch link | 1 | 1.09 | 1.09 | no | servo_bag |  |
 | M3 horn screws (M3x6/M3x5 mix) x7 in neck pitch link | screw | neck pitch link | 1 | 5.41 | 5.41 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3x6 horn centre screws (servo bag) x1 in neck pitch link | screw | neck pitch link | 1 | 0.78 | 0.78 | no | servo_bag |  |
 | STS3215 C001 servo x1 | servo | neck pitch link | 1 | 55.00 | 55.00 | yes | sts3215 |  |
 | wires 20 AWG in neck pitch link | wire | neck pitch link | 1 | 1.45 | 1.45 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
-| wires 26 AWG in neck pitch link | wire | neck pitch link | 1 | 2.58 | 2.58 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 26 AWG in neck pitch link | wire | neck pitch link | 1 | 3.34 | 3.34 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires USB 2.0 cable in neck pitch link | wire | neck pitch link | 1 | 1.85 | 1.85 | no | usb_cable |  |
 | wires kit cable in neck pitch link | wire | neck pitch link | 1 | 0.93 | 0.93 | no | kit_cable_gpm |  |
 | head_pitch_to_yaw | printed | head pitch link | 1 | 15.14 | 15.14 | yes | slice |  |
 | M3 horn screws (M3x6/M3x5 mix) x16 in head pitch link | screw | head pitch link | 1 | 12.38 | 12.38 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | wires 20 AWG in head pitch link | wire | head pitch link | 1 | 1.32 | 1.32 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
-| wires 26 AWG in head pitch link | wire | head pitch link | 1 | 2.35 | 2.35 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 26 AWG in head pitch link | wire | head pitch link | 1 | 3.04 | 3.04 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires USB 2.0 cable in head pitch link | wire | head pitch link | 1 | 1.69 | 1.69 | no | usb_cable |  |
 | wires kit cable in head pitch link | wire | head pitch link | 1 | 0.65 | 0.65 | no | kit_cable_gpm |  |
 | head_yaw_to_roll | printed | head yaw link | 1 | 27.22 | 27.22 | yes | slice |  |
@@ -258,7 +270,7 @@ V1 3D track, 2026-11-04 about 7:40 PM ET (calc only): the D34 camera cable adds 
 | M3x6 horn centre screws (servo bag) x1 in head yaw link | screw | head yaw link | 1 | 0.78 | 0.78 | no | servo_bag |  |
 | STS3215 C001 servo x1 | servo | head yaw link | 1 | 55.00 | 55.00 | yes | sts3215 |  |
 | wires 20 AWG in head yaw link | wire | head yaw link | 1 | 0.99 | 0.99 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
-| wires 26 AWG in head yaw link | wire | head yaw link | 1 | 1.77 | 1.77 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 26 AWG in head yaw link | wire | head yaw link | 1 | 2.29 | 2.29 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires USB 2.0 cable in head yaw link | wire | head yaw link | 1 | 1.27 | 1.27 | no | usb_cable |  |
 | wires kit cable in head yaw link | wire | head yaw link | 1 | 0.82 | 0.82 | no | kit_cable_gpm |  |
 | 1 W LED bead | electronics | head | 3 | 0.30 | 0.90 | no | led |  |
@@ -274,21 +286,26 @@ V1 3D track, 2026-11-04 about 7:40 PM ET (calc only): the D34 camera cable adds 
 | microSD card | electronics | head | 1 | 0.50 | 0.50 | no | microsd |  |
 | speaker Same Sky CMS0361KLX | electronics | head | 1 | 28.80 | 28.80 | yes | speaker | seat: speaker_interface (print STL bounds) |
 | M3 heat-set inserts x12 in head | insert | head | 1 | 4.20 | 4.20 | no | insert | sites audit/sites.json, audit/sites_head.json |
+| I2S mic board, left (Adafruit 3421, D47) | lab_added | head | 1 | 0.40 | 0.40 | no | mic_3421 | seat: audit/placements.json |
+| I2S mic board, right (Adafruit 3421, D47) | lab_added | head | 1 | 0.40 | 0.40 | no | mic_3421 | seat: audit/placements.json |
+| MPR121 touch board, head (D51) | lab_added | head | 1 | 3.00 | 3.00 | no | mpr121 | seat: audit/placements.json |
 | Pololu D30V30F5 5 V regulator | lab_added | head | 1 | 3.30 | 3.30 | no | d30v30f5 | seat: head floor below the Pi (MOUNTING.md; no placements.json entry, x and y of the Pi centre) |
 | VHB 4950 tape under the regulator | lab_added | head | 1 | 0.32 | 0.32 | no | vhb_density |  |
+| copper foil touch pad PH1 with its guard ring (D51) | lab_added | head | 1 | 0.81 | 0.81 | no | copper_foil |  |
+| copper foil touch pad PH2 with its guard ring (D51) | lab_added | head | 1 | 0.55 | 0.55 | no | copper_foil |  |
 | splices J5, JG (head 5 V and ground) | lab_added | head | 1 | 1.00 | 1.00 | no | splice |  |
 | 6804ZZ bearing | mechanical | head | 1 | 26.90 | 26.90 | yes | bearing |  |
-| bulb | printed | head | 2 | 2.04 | 4.08 | yes | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
-| flash_light_module | printed | head | 1 | 8.08 | 8.08 | no | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
+| bulb | printed | head | 2 | 2.06 | 4.12 | yes | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
+| flash_light_module | printed | head | 1 | 8.37 | 8.37 | no | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
 | flash_reflector_interface | printed | head | 1 | 2.27 | 2.27 | no | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
-| head | printed | head | 1 | 232.46 | 232.46 | yes | slice |  |
-| head_bot_sheet | printed | head | 1 | 56.79 | 56.79 | yes | slice |  |
+| head | printed | head | 1 | 232.54 | 232.54 | yes | slice |  |
+| head_bot_sheet | printed | head | 1 | 57.12 | 57.12 | yes | slice |  |
 | head_roll_mount | printed | head | 1 | 15.34 | 15.34 | yes | slice |  |
 | left_antenna_holder | printed | head | 1 | 3.52 | 3.52 | yes | slice |  |
-| left_eye | printed | head | 1 | 1.80 | 1.80 | yes | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
+| left_eye | printed | head | 1 | 1.82 | 1.82 | yes | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
 | right_antenna_holder | printed | head | 1 | 3.52 | 3.52 | yes | slice |  |
-| right_eye | printed | head | 1 | 4.55 | 4.55 | yes | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
-| speaker_interface | printed | head | 1 | 2.33 | 2.33 | yes | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
+| right_eye | printed | head | 1 | 4.50 | 4.50 | yes | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
+| speaker_interface | printed | head | 1 | 2.35 | 2.35 | yes | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
 | speaker_stand | printed | head | 1 | 7.64 | 7.64 | yes | slice | seat from print STL in the head.stl frame (audit/headgroup.py) |
 | M2 servo-case screws (servo bag) x4 in head | screw | head | 1 | 1.09 | 1.09 | no | servo_bag |  |
 | M2.5x6 electronics screws x8 in head | screw | head | 1 | 3.75 | 3.75 | no | screw_mass |  |
@@ -299,9 +316,9 @@ V1 3D track, 2026-11-04 about 7:40 PM ET (calc only): the D34 camera cable adds 
 | SG90 bag screws x3 (2 tab, 1 holder) | screw | head | 2 | 0.71 | 1.42 | no | screw_mass | UNVERIFIED: SG90 bag screw sizes not published (B5); taken as M2x4 pan head, |
 | STS3215 C001 servo x1 | servo | head | 1 | 55.00 | 55.00 | yes | sts3215 |  |
 | 2.54 mm housings and terminals at the Pi header | wire | head | 1 | 2.40 | 2.40 | no | terminal | UNVERIFIED: Molex 50-37-5033 or 2.54 mm housing |
-| camera FPC cable 300 mm (D34) | wire | head | 1 | 1.34 | 1.34 | no | fpc | [L] twin/complete3d: 300 x 16 x 0.2 mm at the fpc density of this file (1.4 g/cm3), was 0.70 g for 150 mm |
+| camera FPC cable 150 mm | wire | head | 1 | 0.70 | 0.70 | no | fpc |  |
 | wires 20 AWG in head | wire | head | 1 | 4.09 | 4.09 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
-| wires 26 AWG in head | wire | head | 1 | 9.66 | 9.66 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 26 AWG in head | wire | head | 1 | 19.80 | 19.80 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires USB 2.0 cable in head | wire | head | 1 | 1.63 | 1.63 | no | usb_cable |  |
 | wires kit cable in head | wire | head | 1 | 0.34 | 0.34 | no | kit_cable_gpm |  |
 | roll_motor_bottom | printed | R hip roll link | 1 | 8.15 | 8.15 | yes | slice |  |
@@ -310,41 +327,41 @@ V1 3D track, 2026-11-04 about 7:40 PM ET (calc only): the D34 camera cable adds 
 | M3 horn screws (M3x6/M3x5 mix) x4 in R hip roll link | screw | R hip roll link | 1 | 3.09 | 3.09 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3x6 horn centre screws (servo bag) x1 in R hip roll link | screw | R hip roll link | 1 | 0.78 | 0.78 | no | servo_bag |  |
 | STS3215 C001 servo x1 | servo | R hip roll link | 1 | 55.00 | 55.00 | yes | sts3215 |  |
-| wires 22 AWG in R hip roll link | wire | R hip roll link | 1 | 0.65 | 0.65 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 22 AWG in R hip roll link | wire | R hip roll link | 1 | 0.68 | 0.68 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires 26 AWG in R hip roll link | wire | R hip roll link | 1 | 0.47 | 0.47 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires kit cable in R hip roll link | wire | R hip roll link | 1 | 0.86 | 0.86 | no | kit_cable_gpm |  |
-| right_roll_to_pitch | printed | R hip pitch link | 1 | 19.89 | 19.89 | yes | slice |  |
+| right_roll_to_pitch | printed | R hip pitch link | 1 | 23.52 | 23.52 | yes | slice |  |
 | M2 servo-case screws (servo bag) x3 in R hip pitch link | screw | R hip pitch link | 1 | 0.82 | 0.82 | no | servo_bag |  |
 | M2x6 roll_to_pitch screws (servo bag, HARDWARE_AUDIT.md B4) x2 in R hip pitch link | screw | R hip pitch link | 1 | 0.55 | 0.55 | no | servo_bag |  |
 | M3 horn screws (M3x6/M3x5 mix) x8 in R hip pitch link | screw | R hip pitch link | 1 | 6.19 | 6.19 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3x6 horn centre screws (servo bag) x1 in R hip pitch link | screw | R hip pitch link | 1 | 0.78 | 0.78 | no | servo_bag |  |
 | STS3215 C001 servo x1 | servo | R hip pitch link | 1 | 55.00 | 55.00 | yes | sts3215 |  |
-| wires 22 AWG in R hip pitch link | wire | R hip pitch link | 1 | 1.06 | 1.06 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 22 AWG in R hip pitch link | wire | R hip pitch link | 1 | 1.11 | 1.11 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires 26 AWG in R hip pitch link | wire | R hip pitch link | 1 | 0.77 | 0.77 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires kit cable in R hip pitch link | wire | R hip pitch link | 1 | 0.99 | 0.99 | no | kit_cable_gpm |  |
 | M3 heat-set inserts x4 in R thigh (knee servo) | insert | R thigh (knee servo) | 1 | 1.40 | 1.40 | no | insert | sites audit/sites.json, audit/sites_head.json |
 | knee_to_ankle_left_sheet | printed | R thigh (knee servo) | 1 | 6.79 | 6.79 | yes | slice |  |
 | knee_to_ankle_right_sheet | printed | R thigh (knee servo) | 1 | 6.15 | 6.15 | yes | slice |  |
-| leg_spacer | printed | R thigh (knee servo) | 1 | 7.01 | 7.01 | yes | slice |  |
+| leg_spacer | printed | R thigh (knee servo) | 1 | 5.97 | 5.97 | yes | slice |  |
 | right_cache | printed | R thigh (knee servo) | 1 | 55.22 | 55.22 | yes | slice |  |
 | M2 servo-case screws (servo bag) x4 in R thigh (knee servo) | screw | R thigh (knee servo) | 1 | 1.09 | 1.09 | no | servo_bag |  |
 | M3 horn screws (M3x6/M3x5 mix) x8 in R thigh (knee servo) | screw | R thigh (knee servo) | 1 | 6.19 | 6.19 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3 insert screws (M3x8/10/12 mix) x4 in R thigh (knee servo) | screw | R thigh (knee servo) | 1 | 3.57 | 3.57 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3x6 horn centre screws (servo bag) x1 in R thigh (knee servo) | screw | R thigh (knee servo) | 1 | 0.78 | 0.78 | no | servo_bag |  |
 | STS3215 C001 servo x1 | servo | R thigh (knee servo) | 1 | 55.00 | 55.00 | yes | sts3215 |  |
-| wires 22 AWG in R thigh (knee servo) | wire | R thigh (knee servo) | 1 | 1.13 | 1.13 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 22 AWG in R thigh (knee servo) | wire | R thigh (knee servo) | 1 | 1.18 | 1.18 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires 26 AWG in R thigh (knee servo) | wire | R thigh (knee servo) | 1 | 0.81 | 0.81 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires kit cable in R thigh (knee servo) | wire | R thigh (knee servo) | 1 | 1.01 | 1.01 | no | kit_cable_gpm |  |
 | M3 heat-set inserts x4 in R shin (ankle servo) | insert | R shin (ankle servo) | 1 | 1.40 | 1.40 | no | insert | sites audit/sites.json, audit/sites_head.json |
 | knee_to_ankle_left_sheet | printed | R shin (ankle servo) | 1 | 6.79 | 6.79 | yes | slice |  |
 | knee_to_ankle_right_sheet | printed | R shin (ankle servo) | 1 | 6.15 | 6.15 | yes | slice |  |
-| leg_spacer | printed | R shin (ankle servo) | 1 | 7.01 | 7.01 | yes | slice |  |
+| leg_spacer | printed | R shin (ankle servo) | 1 | 5.97 | 5.97 | yes | slice |  |
 | M2 servo-case screws (servo bag) x4 in R shin (ankle servo) | screw | R shin (ankle servo) | 1 | 1.09 | 1.09 | no | servo_bag |  |
 | M3 horn screws (M3x6/M3x5 mix) x8 in R shin (ankle servo) | screw | R shin (ankle servo) | 1 | 6.19 | 6.19 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3 insert screws (M3x8/10/12 mix) x4 in R shin (ankle servo) | screw | R shin (ankle servo) | 1 | 3.57 | 3.57 | no | screw_mass | sites audit/sites.json, audit/sites_head.json |
 | M3x6 horn centre screws (servo bag) x1 in R shin (ankle servo) | screw | R shin (ankle servo) | 1 | 0.78 | 0.78 | no | servo_bag |  |
 | STS3215 C001 servo x1 | servo | R shin (ankle servo) | 1 | 55.00 | 55.00 | yes | sts3215 |  |
-| wires 22 AWG in R shin (ankle servo) | wire | R shin (ankle servo) | 1 | 0.84 | 0.84 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
+| wires 22 AWG in R shin (ankle servo) | wire | R shin (ankle servo) | 1 | 0.88 | 0.88 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires 26 AWG in R shin (ankle servo) | wire | R shin (ankle servo) | 1 | 0.74 | 0.74 | no | wire_gpm | [L] wiring/netlist.yaml cut_mm, routed along the joints crossed |
 | wires kit cable in R shin (ankle servo) | wire | R shin (ankle servo) | 1 | 0.80 | 0.80 | no | kit_cable_gpm |  |
 | Omron SS-01 foot switch x2 | electronics | R foot | 1 | 3.20 | 3.20 | no | omron_ss | seat: 2 slots in foot_top (MOUNTING.md) |

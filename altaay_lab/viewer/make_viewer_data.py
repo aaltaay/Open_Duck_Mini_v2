@@ -17,6 +17,8 @@ What it does (re-run it any time the docs, the STLs or placements.json change):
      <out>/duck.glb       nodes in mm, URDF frame (x forward, y left, z up) under a root node that
                           turns it to glTF y-up and scales to metres
      <out>/duck.glb.txt   the same GLB as base64 text (the artifact host does not serve .glb files)
+   --scene dock and --scene docked write dock.glb.txt / dock_manifest.json and docked.glb.txt / docked_manifest.json
+   (viewer/dock_scene.py: the charging dock, and the dock with the duck seated in its sim pose)
      <out>/manifest.json  node id -> label, file, subassembly, category, qty, material, print g/h,
                           BOM line, mount note, status; the checklist; the explode vectors.
 Docs parsed on every run: PRINT_CHECK.md, print/SLICE_SUMMARY.md (print grams and hours of the D22 profile), BOM.md,
@@ -1032,11 +1034,19 @@ def main():
     ap.add_argument("--out", required=True, help="output folder, must be outside the repo")
     ap.add_argument("--write-bom", action="store_true",
                     help="also write altaay_lab/BOM_FULL.md and altaay_lab/bom_full.csv (text, every part)")
+    ap.add_argument("--scene", choices=["duck", "dock", "docked"], default="duck",
+                    help="duck (default); dock: the charging dock alone (dock.glb.txt, dock_manifest.json); docked: the dock with "
+                         "the duck seated in its sim pose (docked.glb.txt, docked_manifest.json; run the duck scene into --out first)")
     args = ap.parse_args()
     out = os.path.abspath(args.out)
     if os.path.commonpath([out, REPO]) == REPO:
         sys.exit("refusing to write inside the repo: " + out)
     os.makedirs(out, exist_ok=True)
+    if args.scene != "duck":
+        sys.path.insert(0, HERE)
+        import dock_scene
+        dock_scene.build(out, args.scene, write_glb)
+        return
     t_start = time.time()
     warnings = []
 

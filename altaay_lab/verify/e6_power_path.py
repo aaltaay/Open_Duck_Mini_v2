@@ -35,7 +35,7 @@ GROUPS = (("left leg", lambda n: n.startswith("left_")), ("right leg", lambda n:
           ("neck and head", lambda n: not (n.startswith("left_") or n.startswith("right_"))))
 # active netlist cables on the servo power path that the as_built model reads (sim/power_path_sim.py netlist_lengths)
 MODEL_CABLES = {"P1", "P2", "P6", "P7", "P8", "P9", "P10", "P11", "P12", "P13", "P14", "SP1", "SP2", "SP3", "SP4", "SP5",
-                "SD1", "SD2", "S2", "S3", "S4", "S5", "S7", "S8", "S9", "S10", "S11", "S12", "S13"}
+                "SD1", "SD2", "S2", "S3", "S4", "S5", "S7", "S8", "S9", "S10", "S11", "S12", "S13", "DC1"}
 POWER_NETS = ("SERVO_7V2", "VSW", "PACK_P", "PACK_F", "CELL_N")
 NOT_SERVO_PATH = {"P3": "BMS cell sense only", "P4": "charger, carries current only while charging", "P5": "charger",
                   "P15": "2815 control switch, under 0.1 mA", "P16": "2815 control ground, under 1 mA",

@@ -9,7 +9,7 @@ Mass note (2026-11-02, agent NL2): the results below are for the 2.77 kg build o
 Gym note (2026-11-03, from the duck port to the shared lab gym, overlay gym/overlays/duck; history/2026-11-03_1524_duck_gym_overlay.md; applied by the twin integration agent; sim pass only): the side step and push results below hold only in the duck's training physics (2 ms Euler, Newton with 1 iteration, pyramidal cone, floor friction 0.6). For our 2.65 kg build (the VERIFICATION.md C8 model; this file's runs are the 2.77 kg build), on the same Playground scene, a 1 ms time step alone (the policy still at 50 Hz) moves the side step from 0.24 to 0.48 of the command, so the finding that the side step halves with our mass (Answer and finding 1) goes away, and it makes our build fall in the 15 N push case (13.8 s, after the 4th push, a push to the right); each of four other single solver or contact settings does the same (13.7 to 13.9 s), and the gym's frozen floor profile (1 ms, implicitfast, elliptic cone with impratio 5, floor friction 1.0) falls in 6 of 6 seeds. So "our build in 0 of 7" under pushes (Answer, finding 3) is a marginal result, not a margin; the real floor friction is HARDWARE_AUDIT B41. Also: the home keyframe starts the soles 12.4 to 16.9 mm inside the floor (MuJoCo contact depth at the key, both feet; checked again 2026-11-03 on the Playground scene at b9be205, MuJoCo 3.17.0), not the 10.7 mm this file says; a start lifted to 1 mm above the floor changes no flat-ground result.
 
 ## Answer
-- **On flat ground the stock BEST_WALK_ONNX_2 still walks the robot we will build** (2.77 kg, +31 % over the trained 2.11 kg, sim/MASS_BUDGET.md): no fall in standing, walking forward, turning, sideways and the backlash-model walk, in the nominal run and in 6 seeded runs per case (sim pass only) [L].
+- **On flat ground the stock BEST_WALK_ONNX_2 still walks the robot we will build** (2.75 kg since the 2026-11-06 re-run, 2.77 kg before; +30 % over the trained 2.11 kg, sim/MASS_BUDGET.md): no fall in standing, walking forward, turning, sideways and the backlash-model walk, in the nominal run and in 6 seeded runs per case (sim pass only) [L].
 - It walks **slower and leans further forward** [L]: speed tracking falls from 0.73 to 0.67 of the command walking forward (seed means), 0.82 to 0.79 turning, 0.95 to 0.88 in the backlash model, and **the side step halves (0.46 to 0.23)**. Mean torso pitch rises by 1 to 2 degrees (nose down); roll stays at 2 to 3.5 degrees RMS.
 - **Pushes**: under the current_budget.py push case (15 N for 0.1 s every 3 s, alternating left and right) the trained mass falls in 7 of 7 runs and our build in 0 of 7: the same impulse changes a heavier robot's speed less. In a sweep of single 0.1 s pushes [L] (table 8): sideways our build takes 18 N with at most 1 fall in 8 where the trained mass falls in 4 of 8; **pushes toward the back are the weak direction for both**: the trained mass falls in 4 of 8 runs already at 9 N, our build in 4 of 8 at 12 N, and both fall nearly always from 15 N; pushes forward (from behind) give our build isolated falls from 12 N (1 or 2 in 8) where the trained mass has none up to 18 N.
   - Note 2026-11-03 (twin/structure/STRUCTURE_TWIN.md sections 1.1 and 7, applied by the structure twin integration agent; sim pass only): these push results use the upstream solver setting, 1 Newton iteration, the setting the policy was trained with (history/2026-11-03_1524_duck_gym_overlay.md). With converged contact forces (2 or more iterations; the twin's loads use 30), our 2.65 kg build (this file's runs are the 2.77 kg build) falls in 4 of 4 runs of the 15 N push case, at the 4th or 5th push (with 1 iteration in none), and single 0.1 s pushes while walking forward topple it in 1 to 4 of 8 gait phases from 15 N sideways and from 12 N forward or back. Walking forward, tracking moves from 0.70 to 0.73 of the command. With 1 iteration the forward walk also logs unconverged ground force spikes of 133 to 194 N, which vanish with 10, 30 or 100 iterations. The shared lab gym (overlay gym/overlays/duck) found the same push result with its own physics profile (history/2026-11-03_1524_duck_gym_overlay.md).
@@ -30,24 +30,26 @@ Gym note (2026-11-03, from the duck port to the shared lab gym, overlay gym/over
 
 ## Table 1: nominal runs
 
+Re-run 2026-11-06 ET by the full dock job (verify/c8_policy_mass.py, sim pass only) at 2.749 kg (sim/mass_budget.py now weighs the dock, companion and freeze parts): no fall in the six flat cases and 0 of 6 seeds each; the tracking cells of the ours rows below are from that run, the other columns from the 2.77 kg run.
+
 | Case | Model | Falls (s) | Tracking (measured / command) | vx m/s | vy m/s | yaw rate rad/s | Torso pitch mean +- rms (deg) | Roll rms (deg) | Max abs pitch, roll (deg) |
 |---|---|---|---|---|---|---|---|---|---|
 | Stand, zero command | stock | none |  | -0.000 | +0.000 | -0.00 | -1.9 +- 0.1 | 0.0 | 2, 5 |
 | Stand, zero command | ours | none |  | -0.000 | +0.000 | -0.00 | -1.2 +- 0.1 | 0.0 | 1, 5 |
 | Walk forward 0.15 m/s | stock | none | 0.73 | +0.110 | +0.006 | +0.00 | +1.6 +- 0.6 | 2.7 | 3, 5 |
-| Walk forward 0.15 m/s | ours | none | 0.67 | +0.101 | +0.001 | +0.00 | +2.8 +- 0.6 | 2.5 | 4, 4 |
+| Walk forward 0.15 m/s | ours | none | 0.68 | +0.101 | +0.001 | +0.00 | +2.8 +- 0.6 | 2.5 | 4, 4 |
 | Turn 1.0 rad/s | stock | none | 0.82 | +0.011 | +0.059 | +0.82 | +1.1 +- 0.5 | 2.3 | 2, 3 |
-| Turn 1.0 rad/s | ours | none | 0.79 | +0.014 | +0.053 | +0.79 | +2.2 +- 0.5 | 2.2 | 3, 3 |
+| Turn 1.0 rad/s | ours | none | 0.80 | +0.014 | +0.053 | +0.79 | +2.2 +- 0.5 | 2.2 | 3, 3 |
 | Walk sideways 0.2 m/s | stock | none | 0.47 | +0.008 | +0.094 | +0.00 | +0.8 +- 0.5 | 1.8 | 2, 4 |
-| Walk sideways 0.2 m/s | ours | none | 0.23 | +0.009 | +0.045 | -0.00 | +1.0 +- 0.8 | 2.1 | 3, 4 |
+| Walk sideways 0.2 m/s | ours | none | 0.22 | +0.009 | +0.045 | -0.00 | +1.0 +- 0.8 | 2.1 | 3, 4 |
 | Walk forward, backlash model | stock | none | 0.95 | +0.141 | +0.015 | -0.01 | +2.1 +- 0.7 | 3.5 | 4, 6 |
-| Walk forward, backlash model | ours | none | 0.88 | +0.132 | +0.007 | +0.00 | +4.1 +- 0.7 | 3.2 | 6, 6 |
+| Walk forward, backlash model | ours | none | 0.90 | +0.132 | +0.007 | +0.00 | +4.1 +- 0.7 | 3.2 | 6, 6 |
 | Walk forward, 15 N pushes every 3 s | stock | fell at 10.68 | - | - | - | - | - | - | - |
-| Walk forward, 15 N pushes every 3 s | ours | none | 0.62 | +0.092 | +0.001 | +0.01 | +3.1 +- 0.9 | 3.2 | 8, 12 |
+| Walk forward, 15 N pushes every 3 s | ours | none | 0.63 | +0.092 | +0.001 | +0.01 | +3.1 +- 0.9 | 3.2 | 8, 12 |
 | Rough terrain, backlash, upstream start | stock | fell at 0.28 | - | - | - | - | - | - | - |
 | Rough terrain, backlash, upstream start | ours | fell at 0.3 | - | - | - | - | - | - | - |
 | Rough terrain, backlash, start raised 23 mm | stock | fell at 9.14 | - | - | - | - | - | - | - |
-| Rough terrain, backlash, start raised 23 mm | ours | fell at 4.3 | - | - | - | - | - | - | - |
+| Rough terrain, backlash, start raised 23 mm | ours | fell at 4.2 | - | - | - | - | - | - | - |
 
 ## Table 2: seeded runs (6 per case)
 

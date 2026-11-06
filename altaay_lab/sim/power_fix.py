@@ -240,6 +240,12 @@ def netlist_as_built(pw, dt, vcell, opt, p):
               f"Bbecin becip becin I={{ V(beco,becon) * I(Vbecs) / ({p['BEC_EFF']} * max(V(becip,becin), 1)) }}",
               "Vi_p13 bus bus_p13 0", f"Rp13p bus_p13 regp {wire(*N['P13p']):.9g}", f"Rp13n busn regn {wire(*N['P13n']):.9g}",
               f"Breg regp regn I={{ {p['P_5V']} / ({p['REG_EFF']} * max(V(regp,regn), 1)) }}"]
+    if "DC1" in N:
+        # dock charge path (D43, D50): BMS P+ <- F2 fuse lead piece <- DK2 VOUT; DK2 blocks (1 GOhm) with its 100 k bypass;
+        # the chest strip floats off the dock (1 TOhm to the pack minus keeps the node defined)
+        (g1, l1), (g2, l2), (g3, l3) = N["DC1"]
+        lines += [f"Rdc1c pp dc1f {wire(g3, l3) + p['R_fuse']:.9g}", f"Rdc1b dc1f dc1d {wire(g2, l2):.9g}",
+                  "Rdk2 dc1d dc1s 1e9", "Rdk2by dc1d dc1s 100e3", f"Rdc1a dc1s dkp {wire(g1, l1):.9g}", "Rdkpfl dkp bm 1e12"]
     plus, loads, _ = servo_net(opt, p)
     def nd(x, s): return ("beco2" if s == "p" else "becon") if x == "src" else f"{x}{s}"
     probes = ["p10", "p13"]

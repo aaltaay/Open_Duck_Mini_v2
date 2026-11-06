@@ -123,6 +123,11 @@ def netlist_lengths(path=None):
     else:
         d["P7"] = [one("P7", "XT30.M+", "JFI.S"), one("P7", "JFI.S", "F1.IN"), one("P7", "F1.OUT", "JFO.S"), one("P7", "JFO.S", "SW1.VIN")]
     d["P14"] = one("P14", "XT30.M-", "G.S")
+    # D43, D50: the dock charge input DC1 (chest CHG+ strip -> DK2 ideal diode -> F2 5 A fuse -> BMS P+). It joins the pack
+    # side at BMS P+; off the dock DK2 blocks it (only the 100 k across DK2 joins the strip to the pack), so it carries no
+    # walking current, but it is in the model so a changed charge path is read from the netlist like every other cable
+    if any(w["cable"] == "DC1" for w in W):
+        d["DC1"] = [one("DC1", "DKP.CHG", "DK2.VIN"), one("DC1", "DK2.VOUT", "F2.IN"), one("DC1", "F2.OUT", "BMS.P+")]
     d["P9"] = one("P9", "SW1.VOUT", "VSW.S")
     d["P10p"] = one("P10", "VSW.S", "U1.IN+"); d["P10n"] = one("P10", "G.S", "U1.IN-")
     d["P13p"] = one("P13", "VSW.S", "U3.VIN"); d["P13n"] = one("P13", "G.S", "U3.GND.1")

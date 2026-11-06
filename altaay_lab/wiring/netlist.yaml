@@ -82,7 +82,7 @@ nets:
   PACK_F: {domain: PACK_6V0_8V4, note: "fused pack +, fuse load side through splice JFO to Pololu 2815 VIN"}
   VSW: {domain: PACK_6V0_8V4, note: "switched pack bus after the 2815"}
   GND: {domain: GND, note: "every ground; one node at BMS P-"}
-  CHG_IN: {domain: PACK_6V0_8V4, note: "chest CHG+ strip to DK2 (dock charger output, 8.40 V CV, 1.1 A; D43)"}
+  CHG_IN: {domain: PACK_6V0_8V4, note: "chest CHG+ strip to DK2 (dock charger output, 8.40 V CV, 1.0 A on the EV board; D43)"}
   CHG_D: {domain: PACK_6V0_8V4, note: "DK2 output to the 5 A fuse F2"}
   SNS: {domain: SENSE, note: "chest SENSE strip: cell NTC to GND and the wake branch to SW1 ON (D43)"}
   SYS_IN: {domain: SYS_9V, note: "chest SYS strip to DK6 (D50)"}
@@ -1298,10 +1298,10 @@ cables:
   - {id: DC4, status: active, desc: "chest SYS to DK6, DK6 and DK7 to SW1 VIN (D50)", regions: [trunk_top, battery_bay], joints: [], polyline_mm: 149.5, rule_mm: 189.5, source: "[L] D43, D50; twin/dock/dock_routes.json, twin/dock/dock_cables3d.py (CAD check only)", twist: {lay_mm: null, note: "not twisted: a short trunk run along the other bundles, no joint crossed (D25: twist where one lay fits; ties hold it)"}}
 wires:
   # dock (D43, D50)
-  - {cable: DC1, from: DKP.CHG, to: DK2.VIN, net: CHG_IN, gauge: 20 AWG, color: red, cut_mm: 60, i_mean_a: 1.1, i_peak_a: 1.1, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC1, from: DKP.CHG, to: DK2.VIN, net: CHG_IN, gauge: 20 AWG, color: red, cut_mm: 60, i_mean_a: 1.0, i_peak_a: 1.0, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
   - {cable: DC1, from: JGD.S, to: DK2.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 60, i_mean_a: 0.001, i_peak_a: 0.001, ends: [splice, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC1, from: DK2.VOUT, to: F2.IN, net: CHG_D, gauge: 20 AWG, color: red, cut_mm: 180, i_mean_a: 1.1, i_peak_a: 1.1, ends: [solder pad, holder lead], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC1, from: F2.OUT, to: BMS.P+, net: PACK_P, gauge: 20 AWG, color: red, cut_mm: 110, i_mean_a: 1.1, i_peak_a: 1.1, ends: [holder lead, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC1, from: DK2.VOUT, to: F2.IN, net: CHG_D, gauge: 20 AWG, color: red, cut_mm: 180, i_mean_a: 1.0, i_peak_a: 1.0, ends: [solder pad, holder lead], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC1, from: F2.OUT, to: BMS.P+, net: PACK_P, gauge: 20 AWG, color: red, cut_mm: 110, i_mean_a: 1.0, i_peak_a: 1.0, ends: [holder lead, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
   - {cable: DC2, from: DKP.GND, to: JGD.S, net: GND, gauge: 20 AWG, color: black, cut_mm: 60, i_mean_a: null, i_peak_a: null, ends: [solder pad, splice], source: "[L] D50: branch joint inside the trunk (twin/dock/dock_routes.json)"}
   - {cable: DC2, from: JGD.S, to: BMS.P-, net: GND, gauge: 20 AWG, color: black, cut_mm: 210, i_mean_a: 2.1, i_peak_a: 2.9, ends: [splice, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
   - {cable: DC3, from: DKP.SNS, to: JSN.S, net: SNS, gauge: 26 AWG, color: white, cut_mm: 60, i_mean_a: null, i_peak_a: null, ends: [solder pad, splice], source: "[L] D50: branch joint inside the trunk (twin/dock/dock_routes.json)"}

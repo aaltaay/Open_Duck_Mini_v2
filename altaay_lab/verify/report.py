@@ -14,7 +14,7 @@ from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vlib as V  # noqa: E402
 
-ORDER = ["E1", "E2", "E3", "E4", "E5", "E6", "E6b", "E7", "E8", "E9", "C1", "C2", "C3", "C4a", "C4b", "C5", "C6", "C7", "C8", "C9", "C10", "C11"]
+ORDER = ["E1", "E2", "E3", "E4", "E5", "E6", "E6b", "E7", "E8", "E9", "C1", "C2", "C3", "C4a", "C4b", "C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12"]
 
 RUN_NOTES = [  # dated observations that a single run cannot show (agent SFX, last fixes for PR 6, 2026-11-02)
     "Run 2026-11-02 by agent SFX for the lead, the last full run for PR 6, after the C8 and E6b fixes (sim/MASS_BUDGET.md and "

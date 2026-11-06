@@ -1,23 +1,192 @@
-# dock_netlist.yaml: the dock's own wiring (D43, D45, D50), calc only. Rev 2026-11-05 (America/New_York).
-# No microcontroller and no Wi-Fi: the gate is a microswitch and two comparators.
+# dock_netlist.yaml: the charging dock's own wiring (D43, D45, D50), in the schema of wiring/netlist.yaml. Calc only.
+# Rev 2026-11-06 (America/New_York), the full dock job: every terminal, wire, gauge, colour and cut length; the gate board
+# down to its parts (gate_board: below). No microcontroller and no Wi-Fi: the gate is a seat microswitch and four
+# comparators. Read by twin/dock/dock_routes.py (3D routes, cut checks), wiring/sheets/make_dock_sheet.py (sheet 7),
+# twin/dock/dock_erc.py (every pin on a net, gate thresholds) and viewer/make_viewer_data.py (the Dock scene).
+# The duck side of the contacts is in wiring/netlist.yaml (DKP, DK2, F2, RT1, WK1, DK6, DK7; cables DC1 to DC4).
+# Tags: [I] data sheet or product page read 2026-11-06, [L] lab decision or calc in this repo. BLOCKER = open item.
+meta:
+  title: Open Duck Mini v2 charging dock, wiring netlist
+  rev: "2026-11-06"
+  units: {length: mm, current: A, voltage: V}
+  frame: "3D positions in the dock frame of twin/dock/dock_parts.py"
+  current_source: "calc only: charge 1.0 A (MCP73213 EV board, PROG via grounded), SYS 1.0 A typical and 1.8 A peak (DOCK_TWIN.md section 11)"
+domains:
+  ADAPTER_9V: {v_min: 8.82, v_max: 9.18, note: "Mean Well GSM36U09-P1J 9 V +/- 2 % [I] TRC Electronics page"}
+  SYS_9V: {v_min: 8.8, v_max: 9.2, note: "after the 2815 gate switch: the charger input and the SYS pins"}
+  PACK_6V0_8V4: {v_min: 0.0, v_max: 8.48, note: "charger output and the CHG+ pin (8.40 V CV +/- 1 %)"}
+  SENSE: {v_min: 0.0, v_max: 8.5, note: "2.50 V through 10 k on the duck's NTC; the 555 wake pulse lifts it to about 7 V for 110 ms"}
+  REF_2V5: {v_min: 2.45, v_max: 2.55, note: "TL431A 2.495 V +/- 1 % [I] TI TL431 data sheet"}
+  LOGIC_9V: {v_min: 0.0, v_max: 9.2, note: "gate board signals"}
+  GND: {v_min: 0.0, v_max: 0.0, note: "dock ground (adapter minus)"}
+nets:
+  V_AD: {domain: ADAPTER_9V, note: "jack centre pin to the fuse"}
+  V9: {domain: ADAPTER_9V, note: "fused 9 V: the 2815 input and the gate board supply"}
+  V_SYS: {domain: SYS_9V, note: "gated 9 V: the charger input and the SYS pins"}
+  V_CHG: {domain: PACK_6V0_8V4, note: "charger VBAT+: the CHG+ pin and the pin-voltage window"}
+  SNS: {domain: SENSE, note: "the SENSE pin"}
+  CTRL: {domain: LOGIC_9V, note: "2815 CTRL: to ground through the seat switch and Q1 turns the gate on"}
+  CTRL_SW: {domain: LOGIC_9V, note: "between the seat switch NO and Q1's collector"}
+  STAT: {domain: LOGIC_9V, note: "MCP73213 STAT (open drain, low while charging), pulled up to V_SYS on the gate board"}
+  GND: {domain: GND, note: "star at the gate board's ground rail"}
 components:
-  - {id: AD, part: "9 V 4 A wall adapter, +/- 2 %, short-circuit protected (Mean Well GST36A09 class; price BLOCKER)", pins: [V+, V-]}
-  - {id: FD, part: "5 A fuse at the adapter input", pins: [IN, OUT]}
-  - {id: SWG, part: "Pololu 2815 MOSFET switch, gate (CTRL to GND turns it on)", pins: [VIN, VOUT, CTRL]}
-  - {id: MS, part: "Omron D2F-01L seat microswitch, NO, in series with SWG CTRL", pins: [C, NO]}
-  - {id: CMP, part: "2 x LM393: NTC window 5 to 45 C on SENSE; pin-voltage window 5.0 to 8.45 V on CHG+ (1 M / 330 k); wired-AND to the NPN on SWG CTRL", pins: [SENSE, CHG, OUT]}
-  - {id: REF, part: "TL431 2.50 V reference; 10 k to SENSE", pins: [K, A]}
-  - {id: CH, part: "Microchip MCP73213EV-2SOVP (A6S: 8.40 V, 6 h timer, 10 % termination, recharge at 95 %)", pins: [VIN, VBAT, STAT, GND]}
-  - {id: WK, part: "NE555 one-shot 100 ms on the STAT done edge, PNP to SENSE through 1 k (full-shutdown wake)", pins: [TRIG, OUT]}
-  - {id: PADDLE, part: "6 Mill-Max 0932 spring pins on the swivelling paddle: CHG+ 1, SENSE 1, GND 2, SYS 2 (doubled rows at y +/- 3 mm)", pins: [CHG, SNS, GND, SYS]}
+  - id: AD
+    ref: PS1
+    part: "Mean Well GSM36U09-P1J wall adapter, 9 V 4 A 36 W, Class II, 1.5 m cord, 5.5 x 2.1 mm plug centre positive (BOM K6)"
+    kind: charger
+    region: floor
+    pins:
+      - {pin: VP, label: "+ (plug centre)", net: V_AD, dir: pwr_out}
+      - {pin: VN, label: "- (plug sleeve)", net: GND, dir: gnd}
+    source: "[I] https://www.trcelectronics.com/products/mean-well-gsm36u09-p1j"
+  - id: J1
+    ref: J1
+    part: "Same Sky PJ-005A panel DC jack, 5 A 24 V, 2.0 mm pin (mates 5.5 x 2.1 mm), 5/16-32 bushing (BOM K6b)"
+    kind: connector
+    region: bay
+    pins:
+      - {pin: TIP, label: "1 (centre pin)", net: V_AD, dir: pwr_in}
+      - {pin: SLV, label: "2 (sleeve)", net: GND, dir: gnd}
+      - {pin: SHN, label: "3 (shunt)", net: null, dir: nc}
+    internal:
+      - {a: TIP, b: AD.VP, kind: mated, note: "the adapter plug"}
+      - {a: SLV, b: AD.VN, kind: mated, note: "the adapter plug"}
+    source: "[I] https://www.sameskydevices.com/product/resource/pj-005a.pdf (rev 1.09)"
+  - id: FD
+    ref: F1
+    part: "Littelfuse FHAC0001ZXJ inline ATO holder with a 0287005.PXCN 5 A fast fuse; 16 AWG leads 90 mm (BOM K9, K9b)"
+    kind: fuse
+    region: bay
+    pins:
+      - {pin: IN, label: "lead", net: V_AD, dir: pwr_in}
+      - {pin: OUT, label: "lead", net: V9, dir: pwr_out}
+    internal:
+      - {a: IN, b: OUT, kind: fuse, note: "5 A fast: the adapter's own limit is about 4.4 to 5 A (its short protection), the jack 5 A"}
+    source: "[L] BOM.md L3 and DK3 (same holder)"
+  - id: SWG
+    ref: Q10
+    part: "Pololu 2815 Big MOSFET Slide Switch with reverse protection, HP, on-board slide left OFF (BOM K2)"
+    kind: switch
+    region: bay
+    pins:
+      - {pin: VIN, label: "VIN", net: V9, dir: pwr_in}
+      - {pin: VOUT, label: "VOUT", net: V_SYS, dir: pwr_out}
+      - {pin: GND, label: "GND", net: GND, dir: gnd}
+      - {pin: CTRL, label: "CTRL", net: CTRL, dir: in}
+    internal:
+      - {a: VIN, b: VOUT, kind: switch, note: "on while CTRL is pulled to GND (on-board slide OFF), 16 A board rating; reverse protected"}
+    source: "[I] https://www.pololu.com/product/2815; pad positions on the board: read on the part (the 3D terminals are a stand-in layout)"
+  - id: CH
+    ref: U10
+    part: "Microchip MCP73213EV-2SOVP charger board, U1 MCP73213-A6S/MF: 8.40 V CV, 10 % precondition and termination, automatic recharge; PROG via grounded for 1000 mA (BOM K1)"
+    kind: charger
+    region: bay
+    pins:
+      - {pin: VDD, label: "TP1 VDD", net: V_SYS, dir: pwr_in}
+      - {pin: VSS, label: "TP3 VSS", net: GND, dir: gnd}
+      - {pin: VBATP, label: "TP2 VBAT+", net: V_CHG, dir: pwr_out}
+      - {pin: VBATN, label: "TP4 VBAT-", net: null, dir: nc, note: "joined to VSS on the board [I] layout A.4; the CHG return goes to the ground star"}
+      - {pin: STAT, label: "STAT (D1 cathode / R2 pad)", net: STAT, dir: out}
+    source: "[I] Microchip DS51849A (ww1.microchip.com/downloads/en/DeviceDoc/51849A.pdf): TP1 to TP4, STAT table 2-2, PROG via, BOM table B-1"
+  - id: MS
+    ref: S1
+    part: "Omron D2F-01L seat microswitch, hinge lever, NO used (BOM K3; D2F-01L-D3 solder lug fallback)"
+    kind: switch
+    region: seat
+    pins:
+      - {pin: C, label: "COM", net: CTRL, dir: passive}
+      - {pin: "NO", label: "NO", net: CTRL_SW, dir: passive}
+      - {pin: "NC", label: "NC", net: null, dir: nc}
+    internal:
+      - {a: C, b: "NO", kind: switch, note: "closed with the seat top down (a seated duck)"}
+    source: "[I] https://omronfs.omron.com/en_US/ecb/products/pdf/en-d2f.pdf; terminal order COM, NC, NO to be read on the case marking"
+  - id: GATE
+    ref: A1
+    part: "gate board: Adafruit 1609 Perma-Proto half with 2 x LM393, NE555, TL431, 2 x 2N3904, 2 x 1N4148, 31 resistors (18 positions, some as series pairs from the kit values), 6 capacitors (gate_board: below; BOM K4a to K4i)"
+    kind: board
+    region: bay
+    pins:
+      - {pin: GND, label: "GND rail", net: GND, dir: gnd}
+      - {pin: V9, label: "+9 V rail", net: V9, dir: pwr_in}
+      - {pin: VSYS, label: "VSYS (STAT pull-up)", net: V_SYS, dir: pwr_in}
+      - {pin: STAT, label: "STAT", net: STAT, dir: in}
+      - {pin: CHGS, label: "CHG sense", net: V_CHG, dir: in}
+      - {pin: SNS, label: "SENSE", net: SNS, dir: bidir}
+      - {pin: Q1C, label: "Q1 C (gate)", net: CTRL_SW, dir: out}
+    source: "[L] DOCK_TWIN.md section 6.2 and 12; gate_board below"
+  - id: PADDLE
+    ref: J10
+    part: "6 x Mill-Max 0933-0-15-20-72-14-11-0 spring pins in the paddle: CHG+ 1, SENSE 1, GND 2, SYS 2 (BOM K5)"
+    kind: connector
+    region: paddle
+    pins:
+      - {pin: CHG, label: "CHG+ (z 214.35, y 0)", net: V_CHG, dir: pwr_out}
+      - {pin: SNS, label: "SENSE (z 194.85, y 0)", net: SNS, dir: bidir}
+      - {pin: GND_L, label: "GND (z 175.35, y +3)", net: GND, dir: gnd}
+      - {pin: GND_R, label: "GND (z 175.35, y -3)", net: GND, dir: gnd}
+      - {pin: SYS_L, label: "SYS (z 155.85, y +3)", net: V_SYS, dir: pwr_out}
+      - {pin: SYS_R, label: "SYS (z 155.85, y -3)", net: V_SYS, dir: pwr_out}
+    source: "[I] Mill-Max 0933-0-15-20-72-14-11-0 data sheet: 6 A (4.80 A derated), 40 mOhm max, solder cup; [L] D50 pin rows"
+cables:
+  - {id: KC1, status: active, desc: "adapter cord (part of the adapter, mated plug)", from: AD, to: J1, note: "bought, 1.5 m"}
+  - {id: KC2, status: active, desc: "jack to the fuse holder and the ground star", note: "in the bay"}
+  - {id: KC3, status: active, desc: "fused 9 V to the 2815 and the gate board", note: "in the bay"}
+  - {id: KC4, status: active, desc: "gated 9 V to the charger; charger to the gate board", note: "in the bay"}
+  - {id: KC5, status: active, desc: "seat switch pair: 2815 CTRL to COM, NO to Q1 (26 AWG, twisted)", note: "bay, groove in base_l, spine channel, seat", twist: {lay_mm: 20, note: "twisted pair through the groove, D25 style"}}
+  - {id: KP1, status: active, desc: "paddle cable: CHG+, SENSE, GND, SYS from the bay through the mast face to the pins, with a service loop for 40 mm of travel and +/- 10 deg of swivel", note: "bay, behind the mast face, the 7 mm face hole, the loop, the paddle back"}
+  - {id: KP2, status: active, desc: "paddle jumpers between the doubled pins", note: "on the paddle back"}
 wires:
-  - {from: AD.V+, to: FD.IN}
-  - {from: FD.OUT, to: SWG.VIN}
-  - {from: SWG.VOUT, to: CH.VIN, note: "charger input"}
-  - {from: SWG.VOUT, to: PADDLE.SYS, note: "D50: the gated 9 V to the duck (about 1.0 A typical, 1.8 A peak with the ear servos and the amp)"}
-  - {from: CH.VBAT, to: PADDLE.CHG}
-  - {from: MS.NO, to: CMP.OUT, note: "microswitch in series with the comparator AND: no seated duck, no power on CHG and SYS"}
-  - {from: REF.K, to: PADDLE.SNS, note: "through 10 k"}
-  - {from: CH.STAT, to: WK.TRIG}
-  - {from: WK.OUT, to: PADDLE.SNS}
-  - {from: AD.V-, to: PADDLE.GND}
+  - {cable: KC2, from: J1.TIP, to: FD.IN, net: V_AD, gauge: 16 AWG, color: red, cut_mm: 90, i_mean_a: 2.0, i_peak_a: 2.8, ends: [solder lug, holder lead], note: "the holder's own 90 mm lead, soldered to the jack lug"}
+  - {cable: KC2, from: J1.SLV, to: GATE.GND, net: GND, gauge: 20 AWG, color: black, cut_mm: 140, i_mean_a: 2.0, i_peak_a: 2.8, ends: [solder lug, perfboard hole]}
+  - {cable: KC3, from: FD.OUT, to: SWG.VIN, net: V9, gauge: 16 AWG, color: red, cut_mm: 90, i_mean_a: 2.0, i_peak_a: 2.8, ends: [holder lead, solder pad], note: "the holder's own 90 mm lead"}
+  - {cable: KC3, from: SWG.VIN, to: GATE.V9, net: V9, gauge: 26 AWG, color: red, cut_mm: 120, i_mean_a: 0.02, i_peak_a: 0.2, ends: [solder pad, perfboard hole], note: "gate supply, on the 2815 VIN pad with the holder lead"}
+  - {cable: KC4, from: SWG.VOUT, to: CH.VDD, net: V_SYS, gauge: 20 AWG, color: red, cut_mm: 100, i_mean_a: 1.0, i_peak_a: 1.0, ends: [solder pad, test point]}
+  - {cable: KC4, from: SWG.GND, to: GATE.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 110, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, perfboard hole]}
+  - {cable: KC4, from: CH.VSS, to: GATE.GND, net: GND, gauge: 20 AWG, color: black, cut_mm: 80, i_mean_a: 1.0, i_peak_a: 1.0, ends: [test point, perfboard hole]}
+  - {cable: KC4, from: CH.STAT, to: GATE.STAT, net: STAT, gauge: 26 AWG, color: white, cut_mm: 110, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, perfboard hole]}
+  - {cable: KC4, from: CH.VBATP, to: GATE.CHGS, net: V_CHG, gauge: 26 AWG, color: yellow, cut_mm: 130, i_mean_a: 0.0, i_peak_a: 0.0, ends: [test point, perfboard hole]}
+  - {cable: KC4, from: SWG.VOUT, to: GATE.VSYS, net: V_SYS, gauge: 26 AWG, color: red, cut_mm: 130, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, perfboard hole]}
+  - {cable: KC5, from: SWG.CTRL, to: MS.C, net: CTRL, gauge: 26 AWG, color: blue, cut_mm: 370, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, solder lug]}
+  - {cable: KC5, from: MS.NO, to: GATE.Q1C, net: CTRL_SW, gauge: 26 AWG, color: green, cut_mm: 320, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder lug, perfboard hole]}
+  - {cable: KP1, from: CH.VBATP, to: PADDLE.CHG, net: V_CHG, gauge: 20 AWG, color: red, cut_mm: 420, i_mean_a: 1.0, i_peak_a: 1.0, ends: [test point, solder cup]}
+  - {cable: KP1, from: GATE.SNS, to: PADDLE.SNS, net: SNS, gauge: 26 AWG, color: white, cut_mm: 360, i_mean_a: 0.001, i_peak_a: 0.007, ends: [perfboard hole, solder cup]}
+  - {cable: KP1, from: GATE.GND, to: PADDLE.GND_L, net: GND, gauge: 20 AWG, color: black, cut_mm: 360, i_mean_a: 2.0, i_peak_a: 2.8, ends: [perfboard hole, solder cup]}
+  - {cable: KP1, from: SWG.VOUT, to: PADDLE.SYS_L, net: V_SYS, gauge: 20 AWG, color: red, cut_mm: 410, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder cup], note: "red with a white band at both ends (the robot's 20 AWG is red and black only)"}
+  - {cable: KP2, from: PADDLE.GND_L, to: PADDLE.GND_R, net: GND, gauge: 20 AWG, color: black, cut_mm: 50, i_mean_a: 1.0, i_peak_a: 1.4, ends: [solder cup, solder cup]}
+  - {cable: KP2, from: PADDLE.SYS_L, to: PADDLE.SYS_R, net: V_SYS, gauge: 20 AWG, color: red, cut_mm: 50, i_mean_a: 0.5, i_peak_a: 0.9, ends: [solder cup, solder cup]}
+gate_board:
+  note: "the gate on the Adafruit 1609 perfboard (calc only; thresholds in DOCK_TWIN.md section 12.4; BT3 and BT4 set them on the bench). Four LM393 open-collector outputs share one pull-up (wired AND): the gate is on only with the NTC window and the pin-voltage window both true and the seat switch closed."
+  parts:
+    - {ref: U1, part: "TI LM393P (A1 hot side, A2 cold side)", bom: K4a, pins: {1: OK, 2: VHOT, 3: SNS, 4: GND, 5: VCOLD_IN, 6: SNS, 7: OK, 8: V9}, note: "A1: + SENSE, - V_hot; A2: + V_cold, - SENSE (pin 5 is A2 +, pin 6 A2 -)"}
+    - {ref: U2, part: "TI LM393P (B1 pack there, B2 not over)", bom: K4a, pins: {1: OK, 2: VLO, 3: CHGDIV, 4: GND, 5: VHI, 6: CHGDIV, 7: OK, 8: V9}}
+    - {ref: U3, part: "TI NE555P one-shot, 110 ms", bom: K4b, pins: {1: GND, 2: TRIG, 3: OUT555, 4: V9, 5: CV, 6: THR, 7: THR, 8: V9}, note: "on the always-on 9 V: the pulse opens the gate (SENSE leaves the NTC window) and must outlast V_SYS"}
+    - {ref: VR1, part: "TI TL431A 2.50 V reference (cathode and ref tied)", bom: K4c, pins: {K: REF, R: REF, A: GND}}
+    - {ref: Q1, part: "onsemi 2N3904 gate driver", bom: K4d, pins: {C: CTRL_SW, B: Q1B, E: GND}}
+    - {ref: Q3, part: "onsemi 2N3904 STAT inverter", bom: K4d, pins: {C: Q3C, B: Q3B, E: GND}}
+    - {ref: D1, part: "1N4148 TRIG clamp to the 9 V rail", bom: K4f, pins: {A: TRIG, K: V9}}
+    - {ref: D2, part: "1N4148 wake pulse onto SENSE", bom: K4f, pins: {A: OUT555, K: WK}}
+    - {ref: R1, part: "2.2 k TL431 bias", bom: K4g, pins: {1: V9, 2: REF}}
+    - {ref: R2, part: "10 k REF to SENSE", bom: K4g, pins: {1: REF, 2: SNS}}
+    - {ref: R3, part: "26.7 k = 22 k + 4.7 k in series (window A top)", bom: K4g, pins: {1: REF, 2: VCOLD_IN}}
+    - {ref: R4, part: "42 k = 22 k + 10 k + 10 k in series (window A middle)", bom: K4g, pins: {1: VCOLD_IN, 2: VHOT}}
+    - {ref: R5, part: "32 k = 22 k + 10 k in series (window A bottom)", bom: K4g, pins: {1: VHOT, 2: GND}}
+    - {ref: R6, part: "14.7 k = 10 k + 4.7 k in series (window B top)", bom: K4g, pins: {1: REF, 2: VHI}}
+    - {ref: R7, part: "38.9 k = 22 k + 10 k + 4.7 k + 2.2 k in series (window B middle)", bom: K4g, pins: {1: VHI, 2: VLO}}
+    - {ref: R8, part: "47 k (window B bottom)", bom: K4g, pins: {1: VLO, 2: GND}}
+    - {ref: R9, part: "1 M CHG+ divider top", bom: K4g, pins: {1: V_CHG, 2: CHGDIV}}
+    - {ref: R10, part: "330 k = 220 k + 100 k + 10 k in series (CHG+ divider bottom)", bom: K4g, pins: {1: CHGDIV, 2: GND}}
+    - {ref: R11, part: "10 k OK pull-up", bom: K4g, pins: {1: V9, 2: OK}}
+    - {ref: R12, part: "10 k Q1 base", bom: K4g, pins: {1: OK, 2: Q1B}}
+    - {ref: R13, part: "10 k STAT pull-up to V_SYS (never to the always-on 9 V: the charger is unpowered then)", bom: K4g, pins: {1: V_SYS, 2: STAT}}
+    - {ref: R14, part: "10 k Q3 base", bom: K4g, pins: {1: STAT, 2: Q3B}}
+    - {ref: R15, part: "10 k Q3 collector pull-up to V_SYS: at power-up STAT and Q3 rise with V_SYS, so Q3C never falls and the 555 does not fire (no pulse loop after each wake)", bom: K4g, pins: {1: V_SYS, 2: Q3C}}
+    - {ref: R16, part: "10 k TRIG pull-up", bom: K4g, pins: {1: V9, 2: TRIG}}
+    - {ref: R17, part: "100 k 555 timing: 1.1 x 100 k x 1 uF, 110 ms", bom: K4g, pins: {1: V9, 2: THR}}
+    - {ref: R18, part: "1 k wake pulse series", bom: K4g, pins: {1: WK, 2: SNS}}
+    - {ref: C1, part: "100 nF U1 supply", bom: K4h, pins: {1: V9, 2: GND}}
+    - {ref: C2, part: "100 nF U2 supply", bom: K4h, pins: {1: V9, 2: GND}}
+    - {ref: C3, part: "100 nF U3 supply", bom: K4h, pins: {1: V9, 2: GND}}
+    - {ref: C4, part: "1 uF 555 timing", bom: K4h, pins: {1: THR, 2: GND}}
+    - {ref: C5, part: "10 nF trigger coupling (Q3 collector falling edge to TRIG)", bom: K4h, pins: {1: Q3C, 2: TRIG}}
+    - {ref: C6, part: "10 nF 555 CV", bom: K4h, pins: {1: CV, 2: GND}}
+  terminals: {GND: GND, V9: V9, VSYS: V_SYS, STAT: STAT, CHGS: V_CHG, SNS: SNS, Q1C: CTRL_SW}

@@ -34,15 +34,15 @@ Columns: Need = measured requirement; Buy = what to order; Line = price for the 
 | L1 | Servo buck regulator | Castle CC BEC Pro 010-0004-01 set to 7.2 V; minimum input voltage NOT published (one retailer says 16 V), so the TEST_PLAN.md section 4 input sweep down to 6.5 V decides it; fallback Pololu D42V110F6 (6 V, about 11 A, POWER.md section 3) | 1 | 1 | 1 | 54.95 | Castle Creations; also Horizon Hobby CSE010000401 and Motion RC | https://www.horizonhobby.com/product/castle-creations-cc-bec-pro-20a-max-output-12s-max-switching-regulator/CSE010000401.html | Yes | Yes: Horizon Hobby CSE010000401 $54.95, "In Stock", page data stockLevel 369 (horizon-us-inventory), not discontinued, read 2026-11-01 9:02 PM ET; Motion RC 010-0004-01 $54.95, schema "InStock", no count shown (https://motionrc.com/products/castle-creations-20a-bec-pro-010-0004-01), read 9:04 PM ET; castlecreations.com not re-read (it refuses curl). Motion RC still lists "Input voltage: 16V to 40V" (D16 sweep stands) |
 | L3 | Inline fuse holder | Littelfuse FHAC0001ZXJ ATO 20 A, body 50 x 17.2 x 17.2 mm plus cover on a strap, 16 AWG leads 90 mm (Littelfuse drawing, parts check 2026-11-01); seat measured on the battery bay front wall (MOUNTING.md) | 1 | 1 | 1 | 7.74 | Newark 56P4171 | https://www.newark.com/littelfuse/fhac0001zxj/fuse-holder-in-line/dp/56P4171 | Yes | Yes: 3,553 in stock 2026-11-01; not re-read at the 2026-11-01 9:05 PM ET recheck: Newark and Mouser refuse plain curl (HTTP/2 stream reset, empty reply), so only the search index can re-read this line until that changes |
 | L4 | Fuse | Littelfuse 0287015.PXCN ATO 15 A | 1 | 5 | 1 | 2.20 | DigiKey | https://www.digikey.com/en/products/detail/littelfuse-inc/0287015-PXCN/2519816 | Yes | Yes: $0.44 each, min qty 1 (read via search index, direct fetch 403). Rating vs BMS: B12 |
-| DK1 | Chest contact pad (dock, D43, V1 track 8) | One 100 x 76 x 0.8 mm FR4 board, ENIG, four strips 100 x 17.5 mm with 2 mm gaps since D50 (SYS at trunk z 0 to 17.5, GND 19.5 to 37, SENSE 39 to 56.5, CHG+ 58.5 to 76), a solder pad per strip on the back; on the flat chest face of body_front (twin/dock/DOCK_TWIN.md section 2, MOUNTING.md V1 track 8) | 1 | 1 | 1 | 0.00 | BLOCKER | BLOCKER: a US board maker and its price not chosen or read | Yes | BLOCKER: price |
+| DK1 | Chest contact pad (dock, D43, D50) | One 100 x 76 x 0.8 mm FR4 board, 2 oz, ENIG, four strips 100 x 17.5 mm with 2 mm gaps (SYS at trunk z 0 to 17.5, GND 19.5 to 37, SENSE 39 to 56.5, CHG+ 58.5 to 76), a solder pad per strip on the back; on the flat chest face of body_front (twin/dock/DOCK_TWIN.md sections 2 and 12) | 1 | 3 | 3 | 58.90 | OSH Park (Portland, OR) | https://docs.oshpark.com/services/two-layer-hhdc | Yes (US made) | index: 2 layer 2 oz 0.8 mm service, $5 per sq in x 11.78 sq in for 3 copies, ENIG standard; the area rule, not a live quote (sourcing 2026-11-06) |
 | DK2 | Charge input ideal diode (dock, V1 track 8) | Pololu 5382 ideal diode reverse voltage protector, 4 to 60 V, 10 A, under 10 mOhm, LM74700-Q1 with an N-channel MOSFET, blocks reverse current: from the CHG+ strip to the pack side, so the strips never carry pack current; 100 k across it (line DK5) lets the dock read the pack | 1 | 1 | 1 | 3.79 | Pololu | https://www.pololu.com/product/5382 | Yes | Yes: $3.79 on the Pololu listing and blog, read via the search index 2026-11-05 |
 | DK3 | Charge path fuse holder (dock, V1 track 8) | Littelfuse FHAC0001ZXJ inline ATO holder, the line L3 part, a second one on the CHG+ lead after DK2 | 1 | 1 | 1 | 7.74 | Newark 56P4171 | https://www.newark.com/littelfuse/fhac0001zxj/fuse-holder-in-line/dp/56P4171 | Yes | As line L3; seat in twin/dock/dock_seats.json (MOUNTING.md V1 track 8) |
 | DK4 | Charge path fuse (dock, V1 track 8) | Littelfuse 0287005.PXCN ATOF 5 A 32 V fast acting, DigiKey F4197-ND | 1 | 2 | 1 | 0.88 | DigiKey | https://www.digikey.com/en/products/result?keywords=0287005.PXCN | Yes | $0.44 each, min qty 1 (an aggregator's DigiKey snapshot via the search index 2026-11-05; not read on DigiKey; the link is a DigiKey search) |
-| DK5 | Cell NTC and wake branch parts (dock, V1 track 8) | 10 k NTC B3950 in the cell seat between the cells (twin/battery/BAY.md) to the SENSE strip; 3.9 V zener, a small signal diode and 10 k (SENSE to the Pololu 2813 ON pad); 100 k across DK2 | 2 sets | 2 sets | 1 | 0.00 | BLOCKER | BLOCKER: commodity parts, no listing read | Yes | BLOCKER: price |
+| DK5 | Cell NTC and wake branch parts (dock, V1 track 8) | 10 k NTC B3950 (Adafruit 372) in the cell seat to the SENSE strip; 3.9 V zener onsemi 1N5228B, a 1N4148 and 10 k (SENSE to the Pololu 2813 ON pad); 100 k across DK2. The 1N4148 and the resistors come from the dock kits (DOCK_TWIN.md section 7, K4f and K4g) | 1 set | 2 NTC, 2 zeners | 1 | 8.30 | Adafruit, DigiKey | https://www.adafruit.com/product/372 | Yes | page: NTC $4.00 (Adafruit); index: zener $0.15 (DigiKey) |
 | DK6 | Dock supply ideal diode (D50, V1 track 8) | Pololu 5382 ideal diode, 4 to 60 V, 10 A, under 10 mOhm, blocks reverse current: from the SYS strip (the dock's gated 9 V) to the switch input node PACK_OR, so the docked duck runs on the dock and the strip is dead when undocked | 1 | 1 | 1 | 3.79 | Pololu | https://www.pololu.com/product/5382 | Yes | Yes: $3.79 (as DK2) |
-| DK7 | Pack side ideal diode (D50, V1 track 8) | Pololu 5383 ideal diode, 4 to 60 V, 12 A continuous (about 40 A for a few seconds), under 5 mOhm, LM74700-Q1, 7.6 x 12.7 mm, 0.2 g: between the fused pack (JFO) and the 2813 input, so the dock supply never back-feeds the pack | 1 | 1 | 1 | 4.95 | RobotShop (Pololu out of stock 2026-11-05) | https://www.robotshop.com/products/pololu-ideal-diode-reverse-voltage-protector-4-60v-12a | Yes | $4.95 read via the search index 2026-11-05; Pololu listing out of stock |
+| DK7 | Pack side ideal diode (D50, V1 track 8) | Pololu 5383 ideal diode, 4 to 60 V, 12 A continuous (about 40 A for a few seconds), under 5 mOhm, LM74700-Q1, 7.6 x 12.7 mm, 0.2 g: between the fused pack (JFO) and the 2813 input, so the dock supply never back-feeds the pack | 1 | 1 | 1 | 4.95 | Pololu | https://www.pololu.com/product/5383 | Yes | page: $4.95, in stock 2026-11-06 (was RobotShop while Pololu was out) |
 
-Subtotal: $780.94
+Subtotal: $848.14
 
 ## Fasteners and mechanical
 
@@ -168,15 +168,15 @@ Change 2026-11-04 about 8:50 PM ET (V1 screws job phase 2, D36 and D38, twin/scr
 
 | Scope | $ |
 |---|---|
-| Robot | 780.94 |
+| Robot | 848.14 |
 | Fasteners and mechanical | 73.75 |
 | Cables, connectors, wire | 282.84 |
 | Print material | 53.97 |
 | Expression (optional upstream) | 129.14 |
 | Tools (one-time) | 271.66 |
-| Build total (robot + fasteners + cables + filament) | 1191.50 |
-| Build + expression pack | 1320.64 |
-| Build + expression + tools | 1592.30 |
+| Build total (robot + fasteners + cables + filament) | 1258.70 |
+| Build + expression pack | 1387.84 |
+| Build + expression + tools | 1659.50 |
 
 Change 2026-11-05 about 7:50 PM ET (V1 track 11): line E8 verified on adafruit.com/product/3421 ($6.95 each, in stock, 0.4 g, 16.7 x 12.7 x 1.8 mm) and against its datasheet and board files; no cost change. Nothing bought.
 
