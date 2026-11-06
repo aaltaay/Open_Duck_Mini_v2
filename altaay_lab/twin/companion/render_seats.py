@@ -74,7 +74,7 @@ def main():
             ax.annotate("outside", (-5.5, 11), fontsize=7); ax.annotate("inside (board side)", (2, 11), fontsize=7)
             ax.set_xlim(-8, 10); ax.set_ylim(-13, 13); ax.set_aspect("equal"); ax.grid(alpha=0.2)
             ax.set_xlabel("along the wall normal, mm (+ inward)", fontsize=7); ax.set_title(lab, fontsize=8)
-        fig.suptitle(f"{side} mic seat: wall 3.2 mm, port tube 4.0/2.0 x 3.0 mm, 1.2 mm port (red dot = mic port; the 2 bosses lie off these cuts)", fontsize=8)
+        fig.suptitle(f"{side} mic seat: wall 3.2 mm, port tube 4.0/2.0 x 3.5 mm, 1.2 mm port (red dot = mic port; the 2 bosses lie off these cuts)", fontsize=8)
         fig.tight_layout(); fig.savefig(os.path.join(HERE, f"mic_seat_{side}.png")); plt.close(fig)
     print("written")
 
