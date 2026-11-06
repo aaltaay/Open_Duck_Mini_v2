@@ -12,12 +12,12 @@ DOCK_TWIN.md sections 2, 6 and 11. Labels: sim pass only, calc only, CAD check o
   charges. Torque off while docked. The 2813 OFF is still a full shutdown; the 555 wake pulse stays for that mode.
 
 ## 2. Contacts (dock: six Mill-Max 0932 spring pins on the sprung, swivelling paddle; duck: four strips on the chest)
-| name | dock pins (paddle face) | duck strip (100 mm wide, trunk z) | carries |
+| name | dock pins (paddle face; dock z, mm) | duck strip (100 mm wide, trunk z) | carries |
 |---|---|---|---|
-| CHG+ | 1, y 0 | 58.5 to 76 | charge current (1.1 A) through DK2 (Pololu 5382) and a 5 A fuse to the pack |
-| SENSE | 1, y 0 | 39 to 56.5 | 10 k NTC in the cell seat to GND; the wake branch (3.9 V zener, diode, 10 k) to the 2813 ON pin |
-| GND | 2, y +/- 3 mm | 19.5 to 37 | charge and SYS return (about 2.1 A) |
-| SYS | 2, y +/- 3 mm | 0 to 17.5 | the gated 9 V: about 1.0 A typical, 1.8 A peak, through DK6 (Pololu 5382) to the 2813 input |
+| CHG+ | 1, y 0, z 214.35 | 58.5 to 76 | charge current (1.1 A) through DK2 (Pololu 5382) and a 5 A fuse to the pack |
+| SENSE | 1, y 0, z 194.85 | 39 to 56.5 | 10 k NTC in the cell seat to GND; the wake branch (3.9 V zener, diode, 10 k) to the 2813 ON pin |
+| GND | 2, y +/- 3 mm, z 175.35 | 19.5 to 37 | charge and SYS return (about 2.1 A) |
+| SYS | 2, y +/- 3 mm, z 155.85 | 0 to 17.5 | the gated 9 V: about 1.0 A typical, 1.8 A peak, through DK6 (Pololu 5382) to the 2813 input |
 Window: fore-aft 0 to 40 mm into the paddle, lateral +/- 46.5 mm (single pins +/- 49.5), vertical +/- 8.25 mm, yaw +/- 10 deg.
 
 ## 3. Duck-side parts

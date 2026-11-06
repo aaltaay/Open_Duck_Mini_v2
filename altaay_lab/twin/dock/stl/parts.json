@@ -133,22 +133,22 @@
  },
  "dock_paddle": {
   "watertight": true,
-  "volume_cm3": 107.7,
+  "volume_cm3": 120.7,
   "extents_mm": [
    23.0,
    110.0,
-   80.0
+   90.0
   ],
   "fits_220": true,
-  "bytes": 50884
+  "bytes": 80284
  },
  "dock_paddle_carrier": {
   "watertight": true,
-  "volume_cm3": 17.8,
+  "volume_cm3": 18.8,
   "extents_mm": [
    19.0,
    92.0,
-   94.0
+   104.0
   ],
   "fits_220": true,
   "bytes": 33684

@@ -11,11 +11,11 @@ is a port of osrf/autodock), D44 (2S1P Molicel P45B pack), D45 (simplest, cheape
   upstream bugs fixed, and a duck layer on top. All motion goes through measured pulse tables in `duck_autodock.yaml`, so the
   retrained walk of track 10 (creep, symmetric turns, small sidesteps) can be swapped in by changing tables, not code. 15 unit tests.
 - **Dock:** a 40 mm wide seat at 112 mm on a short spine between the feet, a **sprung, swivelling chest paddle** (40 mm travel,
-  3 N at full travel, +/- 10 deg about a vertical pin so it lies flat on a yawed chest) with three spring pins, and a three-tag mast
+  3 N at full travel, +/- 10 deg about a vertical pin so it lies flat on a yawed chest) with six spring pins (D50), and a three-tag mast
   (tag36h11 id 0 at 40 mm in the centre, ids 1 and 2 at 60 mm, 200 mm apart).
-- **Contacts on the chest, not the belly:** three strips 100 mm wide and 20 mm tall on the flat chest face (CHG+, SENSE, GND, top
-  to bottom). The seat sets their height, the paddle takes up the stop error, the strip length takes the lateral error: the window
-  is fore-aft 0 to 40 mm into the paddle, lateral +/- 49.5 mm, vertical +/- 9.5 mm, yaw +/- 10 deg. The belly is not cut (the pocket
+- **Contacts on the chest, not the belly:** four strips 100 mm wide and 17.5 mm tall on the flat chest face (CHG+, SENSE, GND,
+  SYS, top to bottom; D50 added SYS, the dock supply that keeps the duck awake while docked, section 11). The seat sets their height, the paddle takes up the stop error, the strip length takes the lateral error: the window
+  is fore-aft 0 to 40 mm into the paddle, lateral +/- 46.5 mm (doubled rows; +/- 49.5 mm single), vertical +/- 8.25 mm, yaw +/- 10 deg. The belly is not cut (the pocket
   tried earlier is reverted). The feet set the tighter lateral limit: the soles clear the seat by about 22 mm a side.
 - **Perception closes the loop to the paddle:** the side tags square the duck and set the dock axis, saved on the IMU yaw; the
   40 mm centre tag gives the range and the lateral offset down to about 6 cm from the camera, the last 3 to 5 cm before the stop
@@ -34,21 +34,21 @@ Dock frame: x toward the mast, the paddle face at rest is x = 0, z up from the f
 |---|---|---|
 | seat | x -110 to -15, y +/- 20, top z 112 | a 60 mm seat was touched by a sole; at 40 mm the closest sole edge stayed 22 to 41 mm away |
 | spine | x -15 to 30, y +/- 20, top z 90 | links the seat to the mast base |
-| paddle | x 0 to 12 at rest, y +/- 55, z 140 to 220, slides 40 mm on two 4 mm rods, 75 N/m, swivels +/- 10 deg about a vertical pin at x 18, PTFE face (friction 0.15, ASSUMPTION) | a rigid bumper gave a 5 to 10 mm stop window; the sprung paddle takes any stop from 0 to 40 mm short of full travel; a fixed paddle left the pins 2.5 to 3.9 mm off a chest yawed 4.5 to 6 deg (acc6), the swivel lays it flat |
+| paddle | x 0 to 12 at rest, y +/- 55, z 140 to 230 (D50: 10 mm taller for the fourth row), slides 40 mm on two 4 mm rods, 75 N/m, swivels +/- 10 deg about a vertical pin at x 18, PTFE face (friction 0.15, ASSUMPTION) | a rigid bumper gave a 5 to 10 mm stop window; the sprung paddle takes any stop from 0 to 40 mm short of full travel; a fixed paddle left the pins 2.5 to 3.9 mm off a chest yawed 4.5 to 6 deg (acc6), the swivel lays it flat |
 | paddle guide | a yoke (carrier) holds the pivot (two coaxial M3 x 20 screws) and the rods; the rods run through 4.4 mm bores in the mast face into two spring cups behind it, a shaft collar on each rod end, a 37.5 N/m spring in each cup | the 75 mm between the paddle face and the mast leaves no room for 40 mm of travel plus springs in front of the mast; CAD check: no overlap at 0, 20 and 40 mm of travel and -10, 0, +10 deg |
-| pins | three Mill-Max 0932 in the paddle at y 0: CHG+ z 201, SENSE z 179, GND z 157 | one pin per strip; the MCP73213's 1.1 A is under the pin's 2 A continuous rating (two pins per power strip if the BQ24610 at 2 A is used) |
+| pins | six Mill-Max 0932 in the paddle (D50): CHG+ z 214.35 and SENSE z 194.85 at y 0, GND z 175.35 and SYS z 155.85 at y +/- 3 (the seated trunk origin z 147.1 plus each strip centre; dock_parts.py PADDLE_PINS) | GND carries the charge and SYS returns (about 2.1 A) and SYS up to 1.8 A: two pins each under the 2 A continuous rating; CAD check: all six pins sit 8.75 mm inside their strip edges with the duck seated (section 11.8) |
 | mast | an 8 mm face plate at x 75 to 83, y +/- 140, z 10 to 460 | the head front overhangs the chest by 55 mm |
 | tags | id 0, 40 mm, centre z 370; ids 1 and 2, 60 mm, y +/- 100 | id 0 stays readable to about 6 cm from the camera; ids 1 and 2 give the axis yaw from their baseline |
 
-Duck side (CAD check only): a 0.8 mm adhesive FR4 (or flex) pad, 100 x 64 mm, on the flat chest face of print/body_front.stl (flat
-from trunk z -2.8 to 78.9 mm; checked by ray tests on the V1 STL): GND strip at trunk z 0 to 20, SENSE 22 to 42, CHG+ 44 to 64,
-2 mm gaps, ENIG. Wires through one 4 mm hole drilled after printing (a drill step like D24, no STL edit). Behind it, inside the
+Duck side (CAD check only): a 0.8 mm adhesive FR4 (or flex) pad, 100 x 76 mm, on the flat chest face of print/body_front.stl (flat
+from trunk z -2.8 to 78.9 mm; checked by ray tests on the V1 STL): since D50 SYS strip at trunk z 0 to 17.5, GND 19.5 to 37,
+SENSE 39 to 56.5, CHG+ 58.5 to 76, 2 mm gaps, ENIG. Wires through one 4 mm hole drilled after printing (a drill step like D24, no STL edit). Behind it, inside the
 trunk: the Pololu 5382 ideal diode, a 5 A fuse, the 100 k pack-sense resistor, the wake branch to the Pololu 2813 ON pad. The cell
 NTC sits in the seat the battery job left between the cells (twin/battery/BAY.md). About 10 g with the leads (calc only).
 
 Printed dock parts (`stl/`, `dock_parts.py`, sliced with the lab's light PLA profile in print/config_light; calc only): 15 STLs, 16
-prints (the spring cup twice), 916 g of PLA, 67.0 h. The six mast face pieces are 530 g and 39 h of it; a foam board or plywood face
-(price BLOCKER) would cut the print to about 387 g and 28 h. Every part fits a 220 x 220 mm bed and a 150 mm height.
+prints (the spring cup twice), 921 g of PLA, 67.4 h (D50 paddle and carrier re-sliced: 46.1 g, 3.12 h and 11.7 g, 0.96 h). The six mast face pieces are 530 g and 39 h of it; a foam board or plywood face
+(price BLOCKER) would cut the print to about 392 g and 28.4 h. Every part fits a 220 x 220 mm bed and a 150 mm height.
 
 ## 3. The port (software, no ROS)
 
@@ -253,7 +253,7 @@ min x 32.4 / 21.6 Wh; dock time from section 5): MCP73213 1 : 2.1 to 1 : 5.1; BQ
 | K6 | 9 V adapter, 15 W or more | 1 | BLOCKER | |
 | K7 | printed dock parts, 923 g PLA | 1 set | the lab filament line | slice above |
 | K8 | two 4 mm x 70 mm steel rods, two 4 mm shaft collars, two compression springs (about 37.5 N/m, 50 mm free, under 10 mm OD), two M3 x 20 screws (pivot) and four M3 bolts (cups) from the build's kit, PTFE tape, steel ballast 2 x 120 x 72 x 8 mm | 1 set | BLOCKER | |
-| R1 | chest contact pad 100 x 64 x 0.8 mm FR4 ENIG | 1 | BLOCKER | robot BOM.md line DK1 |
+| R1 | chest contact pad 100 x 76 x 0.8 mm FR4 ENIG, four strips (D50) | 1 | BLOCKER | robot BOM.md line DK1 |
 | R2 | Pololu 5382 ideal diode 4 to 60 V, 10 A | 1 | $3.79 | Pololu listing and blog, via the search index 2026-11-05 (phase 1 had $1.75, wrong); robot BOM.md line DK2 |
 | R3 | Littelfuse 0287005.PXCN ATO 5 A fuse and an FHAC0001ZXJ holder | 1 | $7.74 + $0.44 | robot BOM.md lines DK3, DK4 (two fuses there, one spare) |
 | R4 | 10 k NTC for the cell seat, zener, diode, resistors | 1 set | BLOCKER (commodity) | robot BOM.md line DK5; wire from BOM 23 and 25, the pad tape from BOM 29 |
@@ -400,5 +400,10 @@ price BLOCKER) replaces the 15 W one (also BLOCKER). Read total of the dock chan
   | DK6 Pololu 5382 | (-104, 1, 45) | the underside of trunk_top, beside the 2813 |
   | DK7 Pololu 5383 | (-104, 13, 45) | the underside of trunk_top, 16 mm from SW1 VIN |
   No screw and no hole is added (D42, D39); the only hole is the 4 mm lead hole through body_front, which carries the leads.
+- Paddle (D50): dock_parts.py makes the 4-row, 6-pin plate (z 140 to 230, knuckles at 140 to 152 and 218 to 230 clear of the
+  pin reliefs); the clearance check over 0 to 40 mm of travel and +/- 10 deg of swivel finds no overlap; with the duck seated
+  every pin sits 8.75 mm inside its strip's edges (a section in the duck frame, CAD check only). The dock sim in the shared lab
+  gym (overlay gym/overlays/duck) has the same four strips and six pins: hard floor seeds 0 to 4 dock with all six pins on
+  their strips (sim pass only).
 - U3 at 9.2 V: the Pololu D30V30F5 takes 5 to 45 V in (Pololu product page, read via the search index): passes, no change.
 - The thermal and charge runs: scratch data (lab rule 8).

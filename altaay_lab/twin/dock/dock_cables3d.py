@@ -71,6 +71,18 @@ if __name__ == "__main__":
     if "--write" in sys.argv:
         ids = {r["id"] for r in recs}
         C3["cables"] = [c for c in C3["cables"] if c["id"] not in ids] + recs
+        # D50: P7's load run (F1.OUT to the fuse lead extension at JFO, then to DK7 VIN) re-routed to DK7 VIN
+        p7 = next(c for c in C3["cables"] if c["id"] == "P7")
+        r7 = R["runs"]["P7"][0]; L7 = float(r7["length_mm"])
+        run = next(r for r in p7["runs"] if r["name"] == "load")
+        for k in [k for k in run if k.startswith(("clearance", "rub", "static"))]:
+            run.pop(k)
+        run.update(points=[dict(link="trunk_assembly", p=p) for p in r7["points"]], to="DK7.VIN", length_zero_mm=round(L7, 1),
+                   length_min_mm=round(L7, 1), length_max_mm=round(L7, 1), clearance_min_mm=round(float(r7["min_clear_centre_mm"]) - 1.4, 2))
+        for w in p7["wires"]:
+            if "load" in (w.get("runs") or []):
+                w.update(to="DK7.VIN", length_zero_mm=round(L7, 1), length_min_mm=round(L7, 1), length_max_mm=round(L7, 1))
+        p7.update(length_zero_mm=max(L7, 51.7), length_min_mm=max(L7, 51.7), length_max_mm=max(L7, 51.7))
         E = {e["id"]: e for e in C3["cable_ends"]}
         for k in [k for k in E if k.startswith("DOCK.")]:
             E.pop(k)

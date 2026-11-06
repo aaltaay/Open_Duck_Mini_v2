@@ -60,7 +60,7 @@ T = {  # terminals, world mm at the zero pose (trunk_assembly link): each pad or
     'DK2.VIN': [33.0, 0.0, 28.5], 'DK2.VOUT': [33.0, 0.0, 19.5], 'DK2.GND': [33.0, -7.5, 24.0],
     'F2.IN': [-85.0, -42.0, 53.0], 'F2.OUT': [-85.0, -42.0, -1.0], 'BMS.P+': [-126.3, -27.5, 33.0], 'BMS.P-': [-126.3, -31.5, 33.0],
     'DK6.VIN': [-104.0, -4.5, 43.0], 'DK6.VOUT': [-110.0, 1.0, 43.0], 'DK6.GND': [-104.0, 5.5, 43.0],
-    'DK7.VIN': [-104.0, 19.0, 43.0], 'DK7.VOUT': [-104.0, 7.0, 43.0], 'DK7.GND': [-108.5, 13.0, 43.0],
+    'DK7.VIN': [-104.0, 19.0, 43.0], 'F1.OUT': [-103.9, -47.0, 25.0], 'DK7.VOUT': [-104.0, 7.0, 43.0], 'DK7.GND': [-108.5, 13.0, 43.0],
     'SW1.VIN': [-107.8, 14.0, 29.0], 'SW1.GND': [-107.8, 34.0, 29.0], 'SW1.CTL': [-107.8, 24.0, 44.0], 'RT1': [-129.6, 0.0, 66.0]}
 # one route per wire, between that wire's own two terminals: (from pin, to pin, from terminal, to terminal, wire radius)
 WIRES = {
@@ -71,7 +71,8 @@ WIRES = {
             ('DKP.SNS', 'WK1.A', 'DKP.SNS', 'SW1.CTL', 0.7)],
     'DC4': [('DKP.SYS', 'DK6.VIN', 'DKP.SYS', 'DK6.VIN', 1.0), ('DK6.VOUT', 'SW1.VIN', 'DK6.VOUT', 'SW1.VIN', 1.0),
             ('DK6.GND', 'SW1.GND', 'DK6.GND', 'SW1.GND', 0.7), ('DK7.VOUT', 'SW1.VIN', 'DK7.VOUT', 'SW1.VIN', 1.4),
-            ('DK7.GND', 'SW1.GND', 'DK7.GND', 'SW1.GND', 0.7)]}
+            ('DK7.GND', 'SW1.GND', 'DK7.GND', 'SW1.GND', 0.7)],
+    'P7': [('F1.OUT', 'DK7.VIN', 'F1.OUT', 'DK7.VIN', 1.4)]}   # D50: the P7 load run re-routed to DK7 (16 AWG)
 def mouth(p, need=2.0):
     i = np.array(idx(p)); best = None
     for d in np.argwhere(np.ones((31, 31, 31), bool)) - 15:

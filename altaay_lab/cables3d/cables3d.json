@@ -7381,9 +7381,9 @@
    "d_mm": 3.0,
    "wires_n": 2,
    "cut_mm": 130,
-   "length_zero_mm": 84.3,
-   "length_min_mm": 84.3,
-   "length_max_mm": 84.3,
+   "length_zero_mm": 81.9,
+   "length_min_mm": 81.9,
+   "length_max_mm": 81.9,
    "joints": [],
    "points": [
     {
@@ -7639,8 +7639,8 @@
       {
        "link": "trunk_assembly",
        "p": [
-        -103.9,
-        -48.5,
+        -104.0,
+        -48.0,
         25.0
        ]
       },
@@ -7648,15 +7648,15 @@
        "link": "trunk_assembly",
        "p": [
         -104.0,
-        -49.0,
-        37.0
+        -48.0,
+        36.0
        ]
       },
       {
        "link": "trunk_assembly",
        "p": [
         -104.0,
-        -47.0,
+        -43.0,
         39.0
        ]
       },
@@ -7664,38 +7664,22 @@
        "link": "trunk_assembly",
        "p": [
         -104.0,
-        -14.0,
-        39.0
+        19.0,
+        41.0
        ]
       },
       {
        "link": "trunk_assembly",
        "p": [
         -104.0,
-        7.0,
-        39.0
-       ]
-      },
-      {
-       "link": "trunk_assembly",
-       "p": [
-        -106.3,
-        14.0,
-        29.0
-       ]
-      },
-      {
-       "link": "trunk_assembly",
-       "p": [
-        -107.8,
-        14.0,
-        29.0
+        19.0,
+        43.0
        ]
       }
      ],
-     "length_zero_mm": 84.3,
-     "length_min_mm": 84.3,
-     "length_max_mm": 84.3,
+     "length_zero_mm": 81.9,
+     "length_min_mm": 81.9,
+     "length_max_mm": 81.9,
      "length_max_runtime_mm": 84.3,
      "joints": [],
      "spans": [],
@@ -7789,25 +7773,14 @@
      "service_loops": [],
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
-     "rub_min_gap_runtime_mm": null,
-     "rub_min_gap_mm": null,
-     "rub_part_link": null,
-     "rub_at": null,
-     "static_min_gap_mm": 1.0,
      "swept_joints": [],
-     "clearance_min_mm": 1.14,
-     "clearance_part": "body_middle_bottom",
-     "clearance_at": [
-      -104.0,
-      -49.0,
-      37.0
-     ],
      "bend_min_radius_mm": 6.7,
      "loop_min_radius_mm": null,
      "bend_rule_mm": {
       "min": 9.0,
       "optimum": 30.0
-     }
+     },
+     "clearance_min_mm": 0.01
     }
    ],
    "wires": [
@@ -7877,9 +7850,9 @@
      "runs": [
       "load"
      ],
-     "length_zero_mm": 84.3,
-     "length_min_mm": 84.3,
-     "length_max_mm": 84.3,
+     "length_zero_mm": 81.9,
+     "length_min_mm": 81.9,
+     "length_max_mm": 81.9,
      "length_max_runtime_mm": 84.3,
      "pin_offset_mm": 0.0,
      "chains": [
