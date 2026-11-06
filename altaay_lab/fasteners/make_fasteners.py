@@ -479,15 +479,30 @@ def build(scratch):
             pc = (pil["p0"] + pil["p1"]) / 2
             ax_t = w["ax"] if np.dot(pc - c, w["ax"]) > 0 else -w["ax"]
             seat = c - ax_t * w["L"] / 2
+            # feat3d fits the pilot along a mesh axis (y here), which is not the pilot's own axis: pilot_angle_deg keeps
+            # that fit angle for the site bookkeeping below; the pilot itself is measured on the head mesh (PCA of the
+            # pilot wall vertices within 0.9 mm of the tab hole axis), pilot_axis_measured_deg (ear_mount.py, CAD check)
             ang = float(np.degrees(np.arccos(min(1.0, abs(np.dot(ax_t, pil["ax"]))))))
+            hv = S.mesh(head_k).vertices - (c + ax_t * w["L"] / 2)
+            t_ = hv @ ax_t
+            wall = hv[(np.linalg.norm(hv - np.outer(t_, ax_t), axis=1) < 0.9) & (t_ > -0.2) & (t_ < 8.0)]
+            ang_m = None
+            if len(wall) >= 6:
+                a_ = np.linalg.svd(wall - wall.mean(0), full_matrices=False)[2][0]
+                ang_m = float(np.degrees(np.arccos(min(1.0, abs(np.dot(a_, ax_t))))))
             p_entry = min((pil["p0"], pil["p1"]), key=lambda p: np.dot(p - seat, ax_t))
             p_end = max((pil["p0"], pil["p1"]), key=lambda p: np.dot(p - seat, ax_t))
+            note = ("SG90 bag screw (BOM 14), size not published; the head pilot is coaxial with the SG90 tab hole "
+                    "(measured on the mesh: axis %.1f deg off; the feat3d fit reads it along the head y axis, %.1f deg off)"
+                    % (ang_m, ang)) if ang_m is not None and ang_m < 2.0 else \
+                   ("SG90 bag screw (BOM 14), size not published; head pilot axis is %.1f deg off the SG90 tab axis in the CAD"
+                    % (ang_m if ang_m is not None else ang))
             add(dict(source="sg90_tab", part="SG90 tab", part_inst=k, into="head", into_inst=head_k, link="head_assembly",
                      pilot_pt=pc, pilot_ax=pil["ax"],
                      anchor="plastic pilot 1.55 (SG90 tab)", near=round(float(np.dot(p_entry - seat, ax_t)), 2),
                      far=round(float(np.dot(p_end - seat, ax_t)), 2), seat_pt=seat, axis=ax_t, clr=2.0, clr_len=w["L"],
                      seat_type="SG90 tab top face", recess=None, pilot_angle_deg=round(ang, 1),
-                     notes=["SG90 bag screw (BOM 14), size not published; head pilot axis is %.1f deg off the SG90 tab axis in the CAD" % ang]))
+                     pilot_axis_measured_deg=None if ang_m is None else round(ang_m, 1), notes=[note]))
 
     # speaker_interface to speaker_stand: 4 clearance holes 2.7 mm on a 32 x 32 mm square over the 4 side pilots
     # 2.12 mm of the stand (same square, same 20.7 deg tilted face; the pilots are drilled along y)
@@ -772,7 +787,8 @@ def hole_ledger(R):
         elif any(abs(d - 7.0) < 0.1 for d in ds) and ("drive_palonier" in keys or "passive_palonier" in keys):
             why = "screwdriver access hole over a horn centre"
         elif keys == {"sg90"}:
-            why = "SG90 tab hole (screw recorded as an SG90 tab screw; the head pilot is 20.7 deg off this axis so it is a separate stack)"
+            why = ("SG90 tab hole (screw recorded as an SG90 tab screw; the feat3d fit reads the head pilot along y, 20.7 deg off, "
+                   "so it is a separate stack here; on the mesh the pilot is coaxial with this hole)")
         elif keys <= {"left_antenna_holder", "right_antenna_holder"} and all(abs(d - 1.8) < 0.1 for d in ds):
             why = "antenna rod holes (antenna.stl, no BOM line, no fastener)"
         elif keys == {"power_switch"}:
@@ -780,7 +796,7 @@ def hole_ledger(R):
         elif keys == {"usb_c_charger"}:
             why = "charger 2nd hole: no pilot under it (MOUNTING.md)"
         elif keys == {"head"} and all(1.5 <= d <= 1.6 for d in ds):
-            why = "SG90 tab pilot in head.stl (used by the SG90 tab screws, axis 20.7 deg off the SG90 tab)"
+            why = "SG90 tab pilot in head.stl (used by the SG90 tab screws; coaxial with the tab hole on the mesh, the feat3d fit reads it 20.7 deg off)"
         elif keys == {"head"} and all(2.0 <= d <= 2.1 for d in ds) and max(n[2] for n in names) <= 2.3:
             why = "grille or vent hole: one of the 2.06 mm through holes in the head shell, not a fastener"
         elif keys == {"board"}:
@@ -875,7 +891,7 @@ def records_for_json(R):
                    part=f.get("part"), part_inst=f.get("part_inst"), into=f.get("into"), into_inst=f.get("into_inst"),
                    anchor=f.get("anchor"), servo=f.get("servo"), site=f.get("site"))
         for k in ("near", "far", "stop", "e", "e_min", "lmin", "lmax", "tip_gap", "len_status", "rule", "clearance",
-                  "recess_check", "offset", "supply", "line", "status", "washer", "install", "pilot_angle_deg",
+                  "recess_check", "offset", "supply", "line", "status", "washer", "install", "pilot_angle_deg", "pilot_axis_measured_deg",
                   "seat_type", "clr", "head_proud_of_recess", "bore_d", "bore_len", "screw"):
             if k in f and f[k] is not None:
                 rec[k] = ser(f[k])

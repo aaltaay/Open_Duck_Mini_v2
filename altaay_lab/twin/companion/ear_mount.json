@@ -1,0 +1,469 @@
+{
+ "script": "altaay_lab/twin/companion/ear_mount.py",
+ "method": "and per head STL (print/head.stl, the printable copy; twin/companion/stl/head.stl, the twin copy with\nthe mic seats; the viewer mesh when --glb is given):\n  1. tab contact: rays from 0.3 mm below the tab top face along the servo axis on a 0.25 mm grid over both tabs\n     (hole areas left out); a ray that meets plastic within 0.15 mm of the tab face is contact.\n  2. plate thickness above the tabs: the same rays, entry to exit.\n  3. pilots: 24 radial rays at 7 depths from each tab hole axis give the pilot centre and diameter; PCA of the pilot\n     wall vertices gives its axis against the tab axis.\n  4. what stops the servo turning: the servo surface is sampled (120000 points); points within 0.15 mm of the head\n     are contact, summed per face group (body end faces above the tabs bear on the pocket ends).\n  5. gaps from the body to the plastic: rays from each body face along its normal at 4 heights.\n  6. ear travel: the antenna holder and rod of each side over the URDF limits (-90 to 90 deg, 5 deg steps): least\n     distance to the head shell, to the mic board envelopes (mic_seats.json) and to the camera box.",
+ "frame": "head.stl frame (print/ frame); servo frame: sg90.stl x1000 (x along the tabs, z the output shaft)",
+ "pose": "audit/assembly.json sg90 instances",
+ "heads": {
+  "print/head.stl": {
+   "faces": 46188,
+   "watertight": true,
+   "ears": {
+    "left": {
+     "tabs": [
+      {
+       "tab": "+x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": -0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.49,
+       "pilot_centre_off_mm": 0.001,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.4
+      },
+      {
+       "tab": "-x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": 0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.49,
+       "pilot_centre_off_mm": 0.001,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.4
+      }
+     ],
+     "contact_mm2": {
+      "tab top faces": {
+       "contact": 119.7,
+       "of": 119.7
+      },
+      "body end faces above the tabs (x = +-11.5)": {
+       "contact": 117.7,
+       "of": 156.9
+      },
+      "body side faces above the tabs (y = +-6.5)": {
+       "contact": 16.2,
+       "of": 271.7
+      },
+      "gear top and shaft boss": {
+       "contact": 16.5,
+       "of": 343.8
+      },
+      "body below the tabs": {
+       "contact": 0.0,
+       "of": 1499.9
+      }
+     },
+     "contact_total_mm2": 400.3,
+     "servo_depth_in_plastic_max_mm": 0.0,
+     "body_gap_mm": {
+      "z=10": {
+       "+x": 19.8,
+       "-x": 155.89,
+       "+y": 20.86,
+       "-y": null
+      },
+      "z=21": {
+       "+x": 0.1,
+       "-x": 0.0,
+       "+y": 12.01,
+       "-y": null
+      },
+      "z=23": {
+       "+x": 0.1,
+       "-x": 0.0,
+       "+y": 9.29,
+       "-y": null
+      }
+     }
+    },
+    "right": {
+     "tabs": [
+      {
+       "tab": "+x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": -0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.49,
+       "pilot_centre_off_mm": 0.0,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.4
+      },
+      {
+       "tab": "-x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": 0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.49,
+       "pilot_centre_off_mm": 0.0,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.4
+      }
+     ],
+     "contact_mm2": {
+      "tab top faces": {
+       "contact": 119.7,
+       "of": 119.7
+      },
+      "body end faces above the tabs (x = +-11.5)": {
+       "contact": 117.7,
+       "of": 156.9
+      },
+      "body side faces above the tabs (y = +-6.5)": {
+       "contact": 16.2,
+       "of": 271.7
+      },
+      "gear top and shaft boss": {
+       "contact": 16.5,
+       "of": 343.8
+      },
+      "body below the tabs": {
+       "contact": 0.0,
+       "of": 1499.9
+      }
+     },
+     "contact_total_mm2": 400.3,
+     "servo_depth_in_plastic_max_mm": 0.0,
+     "body_gap_mm": {
+      "z=10": {
+       "+x": 19.8,
+       "-x": 155.89,
+       "+y": null,
+       "-y": 20.86
+      },
+      "z=21": {
+       "+x": 0.1,
+       "-x": 0.0,
+       "+y": null,
+       "-y": 12.01
+      },
+      "z=23": {
+       "+x": 0.1,
+       "-x": 0.0,
+       "+y": null,
+       "-y": 9.29
+      }
+     }
+    }
+   }
+  },
+  "twin/companion/stl/head.stl": {
+   "faces": 48994,
+   "watertight": false,
+   "ears": {
+    "left": {
+     "tabs": [
+      {
+       "tab": "+x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": -0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.49,
+       "pilot_centre_off_mm": 0.001,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.4
+      },
+      {
+       "tab": "-x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": 0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.49,
+       "pilot_centre_off_mm": 0.001,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.4
+      }
+     ],
+     "contact_mm2": {
+      "tab top faces": {
+       "contact": 119.7,
+       "of": 119.7
+      },
+      "body end faces above the tabs (x = +-11.5)": {
+       "contact": 117.7,
+       "of": 156.9
+      },
+      "body side faces above the tabs (y = +-6.5)": {
+       "contact": 16.2,
+       "of": 271.7
+      },
+      "gear top and shaft boss": {
+       "contact": 16.5,
+       "of": 343.8
+      },
+      "body below the tabs": {
+       "contact": 0.0,
+       "of": 1499.9
+      }
+     },
+     "contact_total_mm2": 400.3,
+     "body_gap_mm": {
+      "z=10": {
+       "+x": 19.8,
+       "-x": 155.89,
+       "+y": 20.86,
+       "-y": null
+      },
+      "z=21": {
+       "+x": 0.1,
+       "-x": 0.0,
+       "+y": 12.01,
+       "-y": null
+      },
+      "z=23": {
+       "+x": 0.1,
+       "-x": 0.0,
+       "+y": 9.29,
+       "-y": null
+      }
+     }
+    },
+    "right": {
+     "tabs": [
+      {
+       "tab": "+x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": -0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.49,
+       "pilot_centre_off_mm": 0.0,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.4
+      },
+      {
+       "tab": "-x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": 0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.49,
+       "pilot_centre_off_mm": 0.0,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.4
+      }
+     ],
+     "contact_mm2": {
+      "tab top faces": {
+       "contact": 119.7,
+       "of": 119.7
+      },
+      "body end faces above the tabs (x = +-11.5)": {
+       "contact": 117.7,
+       "of": 156.9
+      },
+      "body side faces above the tabs (y = +-6.5)": {
+       "contact": 16.2,
+       "of": 271.7
+      },
+      "gear top and shaft boss": {
+       "contact": 16.5,
+       "of": 343.8
+      },
+      "body below the tabs": {
+       "contact": 0.0,
+       "of": 1499.9
+      }
+     },
+     "contact_total_mm2": 400.3,
+     "body_gap_mm": {
+      "z=10": {
+       "+x": 19.8,
+       "-x": 155.89,
+       "+y": null,
+       "-y": 20.86
+      },
+      "z=21": {
+       "+x": 0.1,
+       "-x": 0.0,
+       "+y": null,
+       "-y": 12.01
+      },
+      "z=23": {
+       "+x": 0.1,
+       "-x": 0.0,
+       "+y": null,
+       "-y": 9.29
+      }
+     }
+    }
+   }
+  },
+  "viewer GLB head (decimated)": {
+   "faces": 15998,
+   "watertight": false,
+   "ears": {
+    "left": {
+     "tabs": [
+      {
+       "tab": "+x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": 0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.47,
+       "pilot_centre_off_mm": 0.002,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.4
+      },
+      {
+       "tab": "-x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": 0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.47,
+       "pilot_centre_off_mm": 0.002,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.5
+      }
+     ],
+     "contact_mm2": {
+      "tab top faces": {
+       "contact": 119.7,
+       "of": 119.7
+      },
+      "body end faces above the tabs (x = +-11.5)": {
+       "contact": 117.7,
+       "of": 156.9
+      },
+      "body side faces above the tabs (y = +-6.5)": {
+       "contact": 16.2,
+       "of": 271.7
+      },
+      "gear top and shaft boss": {
+       "contact": 16.5,
+       "of": 343.8
+      },
+      "body below the tabs": {
+       "contact": 0.0,
+       "of": 1499.9
+      }
+     },
+     "contact_total_mm2": 400.3,
+     "body_gap_mm": {
+      "z=10": {
+       "+x": 19.8,
+       "-x": 155.89,
+       "+y": 20.86,
+       "-y": null
+      },
+      "z=21": {
+       "+x": 0.1,
+       "-x": 0.0,
+       "+y": 12.01,
+       "-y": null
+      },
+      "z=23": {
+       "+x": 0.1,
+       "-x": 0.0,
+       "+y": 9.29,
+       "-y": null
+      }
+     }
+    },
+    "right": {
+     "tabs": [
+      {
+       "tab": "+x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": 0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.47,
+       "pilot_centre_off_mm": 0.001,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.6
+      },
+      {
+       "tab": "-x",
+       "tab_area_mm2": 58.5,
+       "contact_mm2": 58.5,
+       "gap_max_mm": 0.0,
+       "plate_mm": 7.25,
+       "pilot_d_mm": 1.47,
+       "pilot_centre_off_mm": 0.001,
+       "pilot_depth_mm": 4.7,
+       "pilot_axis_vs_tab_axis_deg": 0.3
+      }
+     ],
+     "contact_mm2": {
+      "tab top faces": {
+       "contact": 119.7,
+       "of": 119.7
+      },
+      "body end faces above the tabs (x = +-11.5)": {
+       "contact": 117.7,
+       "of": 156.9
+      },
+      "body side faces above the tabs (y = +-6.5)": {
+       "contact": 16.2,
+       "of": 271.7
+      },
+      "gear top and shaft boss": {
+       "contact": 16.5,
+       "of": 343.8
+      },
+      "body below the tabs": {
+       "contact": 0.0,
+       "of": 1499.9
+      }
+     },
+     "contact_total_mm2": 400.3,
+     "body_gap_mm": {
+      "z=10": {
+       "+x": 19.8,
+       "-x": 155.89,
+       "+y": null,
+       "-y": 20.86
+      },
+      "z=21": {
+       "+x": 0.1,
+       "-x": -0.0,
+       "+y": null,
+       "-y": 12.01
+      },
+      "z=23": {
+       "+x": 0.1,
+       "-x": -0.0,
+       "+y": null,
+       "-y": 9.29
+      }
+     }
+    }
+   }
+  }
+ },
+ "viewer_pose_vs_assembly_max_mm": 0.0,
+ "ear_travel": {
+  "left": {
+   "travel_deg": [
+    -90.0,
+    90.0
+   ],
+   "min_to_shell_mm": 2.02,
+   "min_to_mic_mm": 10.07,
+   "min_to_camera_mm": 93.62,
+   "at_shell_deg": 85.0,
+   "at_mic_deg": -65.0,
+   "at_camera_deg": -70.0
+  },
+  "right": {
+   "travel_deg": [
+    -90.0,
+    90.0
+   ],
+   "min_to_shell_mm": 2.02,
+   "min_to_mic_mm": 10.07,
+   "min_to_camera_mm": 82.77,
+   "at_shell_deg": 25.0,
+   "at_mic_deg": 65.0,
+   "at_camera_deg": 75.0
+  }
+ }
+}
