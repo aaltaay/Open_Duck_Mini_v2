@@ -199,6 +199,38 @@ def components(state="dock"):
     return C
 
 
+def link_transform(link, state="dock"):
+    """4x4 of a dock link in a state: the carrier slides with the push, the paddle also turns about its pivot, the seat
+    top floats up with no duck; every fastener and wire end takes the transform of the link it rides on"""
+    push = PUSH_DOCKED if state == "docked" else 0.0
+    yaw = YAW_DOCKED if state == "docked" else 0.0
+    if link == "dock_carrier":
+        return T_xyz(push, 0, 0)
+    if link == "dock_paddle":
+        return T_xyz(push, 0, 0) @ rz(yaw, (18.0, 0.0))
+    if link == "dock_seat_top":
+        return T_xyz(0, 0, 0.0 if state == "docked" else DP.SEAT_TRAVEL)
+    return np.eye(4)
+
+
+def fastener_seating(state, tol=0.3):
+    """each screw's head seat in the given state lies on its host part (the part under its head) within tol mm"""
+    F = json.load(open(os.path.join(HERE, "dock_fasteners.json")))["fasteners"]
+    M = {c["id"]: c["mesh"] for c in components(state)}
+    bad = []
+    for f in F:
+        if f["kind"] != "screw" or f["part"] not in M:
+            continue
+        T = link_transform(f["link"], state) @ np.array(f["pose_dock"], float)
+        r = 0.5 * (f["d"] / 2 + 0.2 + f["head"]["dk"] / 2)          # under the head, outside the clearance hole
+        pts = [(T @ np.r_[r * np.cos(a), r * np.sin(a), 0.0, 1.0])[:3] for a in np.linspace(0, 2 * np.pi, 8, endpoint=False)]
+        _, d, _ = trimesh.proximity.closest_point(M[f["part"]], pts)
+        dm = float(np.median(d))
+        if dm > tol:
+            bad.append((f["id"], f["part"], round(dm, 2)))
+    return bad
+
+
 def meshes(state="dock"):
     return {c["id"]: c["mesh"] for c in components(state)}
 

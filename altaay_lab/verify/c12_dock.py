@@ -63,6 +63,13 @@ def main():
     committed = json.load(open(os.path.join(D, "dock_fasteners.json")))
     if [f["seat_world"] for f in committed["fasteners"]] != [f["seat_world"] for f in F["fasteners"]]:
         R.find("FAIL", "dock_fasteners.json is not the schedule the current parts give", fix="run dock_fasteners.py", where="altaay_lab/twin/dock")
+    sys.path.insert(0, scr)
+    import dock_assembly as DAc
+    for st in ("dock", "docked"):
+        bad = DAc.fastener_seating(st)
+        R.ev("fasteners seated on their host parts in the %s state: %s" % (st, "all" if not bad else bad[:5]))
+        if bad:
+            R.find("FAIL", "fasteners off their host parts in the %s state: %s" % (st, bad[:5]), where="altaay_lab/viewer/dock_scene.py, twin/dock/dock_assembly.py")
     rc, out = run(["dock_erc.py"], scr)
     R.ev("dock_erc.py: " + " | ".join(l for l in out.splitlines() if l.startswith(("dock ERC", "INFO"))))
     if rc:

@@ -38,7 +38,8 @@ const PAGE = process.argv[2], DATA = process.argv[3], THREE = process.argv[4], S
   console.log('STATE', state, 'after', ((Date.now() - t0) / 1000).toFixed(0), 's');
   if (state === 'loaded') {
     await page.waitForTimeout(1500);
-    const info = await page.evaluate(() => ({ chips: document.getElementById('chips').innerText, labels: document.querySelectorAll('.pl-label').length }));
+    const info = await page.evaluate(() => ({ scene: document.body.dataset.scene, chips: document.getElementById('chips').innerText, labels: document.querySelectorAll('.pl-label').length }));
+    if (info.scene !== (SCENE || 'duck')) errs.push('scene: asked ' + (SCENE || 'duck') + ', loaded ' + info.scene);
     console.log('INFO', JSON.stringify(info));
     await page.click('#tg-xray', { force: true }).catch((e) => console.log('xray click', e.message));
     await page.waitForTimeout(1000);

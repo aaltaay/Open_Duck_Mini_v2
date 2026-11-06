@@ -87,7 +87,7 @@ def dock_parts(state):
                         material="PLA, light profile" if c["kind"] == "printed" else "", bom=c["bom"], source=c["src"])
     F = json.load(open(os.path.join(DOCK, "dock_fasteners.json")))["fasteners"]
     for f in F:
-        T = np.array(f["pose_dock"], float)
+        T = DA.link_transform(f.get("link", "dock"), state) @ np.array(f["pose_dock"], float)   # the fastener rides on its link
         nid = "dock-" + f["id"]
         if f["kind"] == "screw":
             m = screw_mesh(f["d"], f["length_mm"], f["head"]["dk"], f["head"]["k"]); cat = "screw"

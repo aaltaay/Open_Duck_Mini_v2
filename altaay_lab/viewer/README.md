@@ -3,3 +3,5 @@ Run: `python3 altaay_lab/viewer/make_viewer_data.py --out <folder outside the re
 Publish duck.glb.txt and manifest.json next to the viewer page (the artifact host does not serve .glb); the page loads them by relative URL and reads every count from manifest.json.
 
 The page itself is viewer/index.html (the published page, without the host skeleton). Before every publish, run the headless load test: `node altaay_lab/viewer/test_viewer.js altaay_lab/viewer/index.html <data folder> <three@0.160.0 folder> out.png`. It must print STATE loaded and ERRORS none. Added 2026-11-04 after a published page crashed on load: the flat camera strip D12 has no tube, and the tie sizing read its radius.
+
+Scenes (2026-11-06): the page has Duck, Dock and Docked buttons; the URL hash picks the data pair (none: manifest.json + duck.glb.txt; #dock: dock_manifest.json + dock.glb.txt; #docked: docked_manifest.json + docked.glb.txt), written by `make_viewer_data.py --out <folder> [--scene dock|docked]` (run the duck scene first). The page refuses data whose meta.scene is not the scene asked; `test_viewer.js ... <out.png> [dock|docked]` checks it.
