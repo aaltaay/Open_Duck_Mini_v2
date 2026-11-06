@@ -1,4 +1,20 @@
 cable,from,to,net,gauge,cut_mm,expect,check_no_short_to
+DC1,DKP.CHG,DK2.VIN,CHG_IN,20 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.SYS DKP.GND DKP.SNS
+DC1,JGD.S,DK2.GND,GND,26 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+DC1,DK2.VOUT,F2.IN,CHG_D,20 AWG,180,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK2.VIN DK2.GND
+DC1,F2.OUT,BMS.P+,PACK_P,20 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F2.IN
+DC2,DKP.GND,JGD.S,GND,20 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.SYS DKP.SNS DKP.CHG
+DC2,JGD.S,BMS.P-,GND,20 AWG,210,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+DC3,DKP.SNS,JSN.S,SNS,26 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.SYS DKP.GND DKP.CHG
+DC3,JSN.S,RT1.1,SNS,26 AWG,220,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+DC3,RT1.2,BMS.P-,GND,26 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RT1.1
+DC3,JSN.S,WK1.A,SNS,26 AWG,180,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+DC4,DKP.SYS,DK6.VIN,SYS_IN,20 AWG,190,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.GND DKP.SNS DKP.CHG
+DC4,DK6.VOUT,SW1.VIN,PACK_OR,20 AWG,70,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK6.VIN DK6.GND
+DC4,DK6.GND,SW1.GND,GND,26 AWG,80,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK6.VIN DK6.VOUT
+DC4,DK7.VOUT,SW1.VIN,PACK_OR,16 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK7.VIN DK7.GND
+DC4,DK7.GND,SW1.GND,GND,26 AWG,70,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK7.VIN DK7.VOUT
+DC3,WK1.K,SW1.ON,SW1_ON,26 AWG,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",WK1.A
 P1,PACK.B+,BMS.B+,PACK_P,16 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.B-
 P2,PACK.B-,BMS.B-,CELL_N,16 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.B+
 P3,PACK.MID,BMS.B1,CELL_MID,26 AWG,140,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
@@ -9,7 +25,7 @@ P8,BMS.P-,XT30.F-,GND,16 AWG,150,"under 1 ohm, read in ohms (TEST_PLAN.md sectio
 P7,XT30.M+,JFI.S,PACK_P,16 AWG,30,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",XT30.M-
 P7,JFI.S,F1.IN,PACK_P,16 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 P7,F1.OUT,JFO.S,PACK_F,16 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F1.IN
-P7,JFO.S,SW1.VIN,PACK_F,16 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+P7,JFO.S,DK7.VIN,PACK_F,16 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 P14,XT30.M-,G.S,GND,16 AWG,140,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",XT30.M+
 P9,SW1.VOUT,VSW.S,VSW,16 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SW1.VIN SW1.GND
 P16,G.S,SW1.GND,GND,20 AWG,90,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",

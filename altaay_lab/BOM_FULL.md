@@ -1,6 +1,6 @@
 # BOM_FULL: every part in the robot
 
-Generated 2026-11-06 03:24 UTC by altaay_lab/viewer/make_viewer_data.py --write-bom (module viewer/bom_full.py). Do not edit by hand: change the sources (CAD, print/parts.csv, wiring/netlist.yaml, fasteners/fasteners.json, BOM.md) and re-run.
+Generated 2026-11-06 03:51 UTC by altaay_lab/viewer/make_viewer_data.py --write-bom (module viewer/bom_full.py). Do not edit by hand: change the sources (CAD, print/parts.csv, wiring/netlist.yaml, fasteners/fasteners.json, BOM.md) and re-run.
 
 One row per distinct item that goes into the robot or is used to build it. Qty is what the robot uses (measured in the CAD, the netlist or the fastener schedule). The Line column is the BOM.md purchase line that supplies it, so prices and links live in one place (BOM.md). The exploded 3D view shows every row that is modelled (tab "Every part").
 
@@ -14,10 +14,10 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | Expression (head) | 7 | 12 | bought 7 |
 | Fasteners | 23 | 381 | bought 13, in kit 10 |
 | Cables | 54 | 54 | bought 2, in kit 11, made 41 |
-| Connectors and wire | 19 | 75 | bought 18, in kit 1 |
+| Connectors and wire | 18 | 77 | bought 17, in kit 1 |
 | Consumables and other | 17 | 130 | bought 17 |
 | Tools | 26 |  | tool 26 |
-| **All** | 225 | 780 | SHORT 14, bought 83, in kit 24, printed 37, made 41, tool 26 |
+| **All** | 224 | 782 | SHORT 14, bought 82, in kit 24, printed 37, made 41, tool 26 |
 
 ## Needs action (14)
 
@@ -227,8 +227,8 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | C49 | D14: Pi header to the left mic board (D47) | 5 wires, 26 AWG x5, cut 150 mm | 1 cable | head | 25, 26 | Amazon | made |  |
 | C50 | D15: left mic board to the right mic board across the head (D47) | 5 wires, 26 AWG x5, cut 240 mm | 1 cable | head | 25, 26 | Amazon | made |  |
 | C51 | DC1: chest CHG+ to DK2, DK2 to the 5 A fuse F2, F2 to BMS P+ (D43) | 4 wires, 20 AWG x3, 26 AWG x1, cut 60/110/180 mm | 1 cable | trunk_top, battery_bay | 23, 25, 26 | Amazon | made |  |
-| C52 | DC2: chest GND to BMS P- (D43, D50) | 1 wire, 20 AWG x1, cut 210 mm | 1 cable | trunk_top, battery_bay | 23, 26 | Amazon | made |  |
-| C53 | DC3: chest SENSE to the cell NTC and to the wake branch at SW1 ON (D43) | 4 wires, 26 AWG x4, cut 120/190/230 mm | 1 cable | trunk_top, battery_bay | 25, 26 | Amazon | made |  |
+| C52 | DC2: chest GND to the splice JGD inside the trunk, JGD to BMS P- (D43, D50) | 2 wires, 20 AWG x2, cut 60/210 mm | 1 cable | trunk_top, battery_bay | 23, 26 | Amazon | made |  |
+| C53 | DC3: chest SENSE to the splice JSN inside the trunk, JSN to the cell NTC and to the wake branch at SW1 ON (D43) | 5 wires, 26 AWG x5, cut 60/120/180/220 mm | 1 cable | trunk_top, battery_bay | 25, 26 | Amazon | made |  |
 | C54 | DC4: chest SYS to DK6, DK6 and DK7 to SW1 VIN (D50) | 5 wires, 20 AWG x2, 26 AWG x2, 16 AWG x1, cut 60/70/80/190 mm | 1 cable | trunk_top, battery_bay | 23, 25, L5, 26 | Amazon | made |  |
 
 ## Connectors and wire
@@ -238,28 +238,27 @@ Status: bought = a BOM.md line buys it and covers the quantity; in kit = ships w
 | C55 | Servo kit cable, 15 cm 5264-3P | one ships with each STS3215 (14 in all) | 11 |  | 1 | Seeed Studio | in kit | 11 used, 3 spare |
 | C56 | Mini-SPOX housing, Molex 50-37-5033 | 3 pos 2.5 mm, mates the servo sockets | 7 |  | 21 | Newark 57H1785 | bought |  |
 | C57 | Mini-SPOX crimp terminal, Molex 08-70-1040 | 22 to 28 AWG | 17 |  | 22 | Newark 54H5573 | bought |  |
-| C58 | Heat shrink pieces (splices and solder joints) | one sleeve per joint: 15 splices, 16 wire to lead, 3 lead to lead, 4 XT30 solder cups, 2 caps on cut lead wires | 40 |  | 26 | Amazon | bought | one sleeve per splice; one per solder joint outside a splice where a wire meets a part's flying lead or two flying leads meet (holder, BEC, resistor and LED leads); one over each XT30 solder cup (HARNESS_BUILD 'heat shrink over the cup'); one cap on each cut lead wire the netlist says to insulate. None on board pads, holes, header pins, plugs, sockets and screw terminals; switch terminals, lugs and tabs get one only if copper shows (HARNESS_BUILD 'heat shrink if bare'), not counted (wiring/netlist.yaml). The 3D view draws 40 of the 40. The 2 holder lead joints (hs-P1-PACK-Bp, hs-P2-PACK-Bn) go away if the holder leads reach the BMS (120 mm or longer, netlist PACK note). |
+| C58 | Heat shrink pieces (splices and solder joints) | one sleeve per joint: 17 splices, 16 wire to lead, 3 lead to lead, 4 XT30 solder cups, 2 caps on cut lead wires | 42 |  | 26 | Amazon | bought | one sleeve per splice; one per solder joint outside a splice where a wire meets a part's flying lead or two flying leads meet (holder, BEC, resistor and LED leads); one over each XT30 solder cup (HARNESS_BUILD 'heat shrink over the cup'); one cap on each cut lead wire the netlist says to insulate. None on board pads, holes, header pins, plugs, sockets and screw terminals; switch terminals, lugs and tabs get one only if copper shows (HARNESS_BUILD 'heat shrink if bare'), not counted (wiring/netlist.yaml). The 3D view draws 42 of the 42. The 2 holder lead joints (hs-P1-PACK-Bp, hs-P2-PACK-Bn) go away if the holder leads reach the BMS (120 mm or longer, netlist PACK note). |
 | C59 | Wire 16 AWG black | silicone stranded; sum of netlist cut lengths | 0.66 m |  | L5 | Amazon | bought |  |
 | C60 | Wire 16 AWG red | silicone stranded; sum of netlist cut lengths | 0.74 m |  | L5 | Amazon | bought |  |
-| C61 | Wire 20 AWG black | silicone stranded; sum of netlist cut lengths | 1.2 m |  | 23 | Amazon | bought |  |
-| C62 | Wire 20 AWG orange | silicone stranded; sum of netlist cut lengths | 0.26 m |  | 23 | Amazon | bought |  |
-| C63 | Wire 20 AWG red | silicone stranded; sum of netlist cut lengths | 1.25 m |  | 23 | Amazon | bought |  |
-| C64 | Wire 22 AWG black | silicone stranded; sum of netlist cut lengths | 1.84 m |  | 24 | Amazon | bought |  |
-| C65 | Wire 22 AWG red | silicone stranded; sum of netlist cut lengths | 1.36 m |  | 24 | Amazon | bought |  |
-| C66 | Wire 22 AWG yellow | silicone stranded; sum of netlist cut lengths | 0.48 m |  | 24 | Amazon | bought |  |
-| C67 | Wire 26 AWG black | silicone stranded; sum of netlist cut lengths | 4.37 m |  | 25 | Amazon | bought |  |
-| C68 | Wire 26 AWG blue | silicone stranded; sum of netlist cut lengths | 1.53 m |  | 25 | Amazon | bought |  |
-| C69 | Wire 26 AWG brown | silicone stranded; sum of netlist cut lengths | 0.22 m |  | 25 | Amazon | bought |  |
-| C70 | Wire 26 AWG green | silicone stranded; sum of netlist cut lengths | 1.39 m |  | 25 | Amazon | bought |  |
-| C71 | Wire 26 AWG red | silicone stranded; sum of netlist cut lengths | 1.28 m |  | 25 | Amazon | bought |  |
-| C72 | Wire 26 AWG white | silicone stranded; sum of netlist cut lengths | 2.47 m |  | 25 | Amazon | bought |  |
-| C73 | Wire 26 AWG yellow | silicone stranded; sum of netlist cut lengths | 1.44 m |  | 25 | Amazon | bought |  |
+| C61 | Wire 20 AWG black | silicone stranded; sum of netlist cut lengths | 1.26 m |  | 23 | Amazon | bought |  |
+| C62 | Wire 20 AWG red | silicone stranded; sum of netlist cut lengths | 1.51 m |  | 23 | Amazon | bought |  |
+| C63 | Wire 22 AWG black | silicone stranded; sum of netlist cut lengths | 1.84 m |  | 24 | Amazon | bought |  |
+| C64 | Wire 22 AWG red | silicone stranded; sum of netlist cut lengths | 1.36 m |  | 24 | Amazon | bought |  |
+| C65 | Wire 22 AWG yellow | silicone stranded; sum of netlist cut lengths | 0.48 m |  | 24 | Amazon | bought |  |
+| C66 | Wire 26 AWG black | silicone stranded; sum of netlist cut lengths | 4.37 m |  | 25 | Amazon | bought |  |
+| C67 | Wire 26 AWG blue | silicone stranded; sum of netlist cut lengths | 1.53 m |  | 25 | Amazon | bought |  |
+| C68 | Wire 26 AWG brown | silicone stranded; sum of netlist cut lengths | 0.22 m |  | 25 | Amazon | bought |  |
+| C69 | Wire 26 AWG green | silicone stranded; sum of netlist cut lengths | 1.39 m |  | 25 | Amazon | bought |  |
+| C70 | Wire 26 AWG red | silicone stranded; sum of netlist cut lengths | 1.28 m |  | 25 | Amazon | bought |  |
+| C71 | Wire 26 AWG white | silicone stranded; sum of netlist cut lengths | 2.51 m |  | 25 | Amazon | bought |  |
+| C72 | Wire 26 AWG yellow | silicone stranded; sum of netlist cut lengths | 1.44 m |  | 25 | Amazon | bought |  |
 
 ## Consumables and other
 
 | ID | Item | Spec | Qty | Where | Line | Supplier | Status | Note |
 |---|---|---|---|---|---|---|---|---|
-| K01 | Solder wire, rosin core | about 196 solder joints and splice ends in the netlist | 1 |  | 30 | Adafruit 1886 | bought | wiring/netlist.yaml wire ends: splices, pads, cups, header holes |
+| K01 | Solder wire, rosin core | about 200 solder joints and splice ends in the netlist | 1 |  | 30 | Adafruit 1886 | bought | wiring/netlist.yaml wire ends: splices, pads, cups, header holes |
 | K02 | Cable ties, small nylon | about 100 mm | 75 |  | 32 | Home Depot | bought | MOUNTING.md: cable tie at the servo power splices and the USB slack coil; 75 placed along the cables in the 3D view, one per retention item (55 adhesive tie mount, 9 cable tie, 2 cable tie to a neighbour cable, 3 drilled printed feature, 6 existing printed feature), 69 at gaps |
 | K09 | Adhesive tie mount MB3A | placed along the cables (altaay_lab/cables3d) | 32 |  | 34 | Standard Electric Supply (US) | bought | 32 at places where the CAD has no feature |
 | K10 | Adhesive tie mount ABM1M-AT-C | placed along the cables (altaay_lab/cables3d) | 23 |  | 34b | Hisco (Houston, TX) | bought | 23 at places where the CAD has no feature |

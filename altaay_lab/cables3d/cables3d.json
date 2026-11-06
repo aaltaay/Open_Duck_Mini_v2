@@ -2415,14 +2415,14 @@
    "id": "DKP",
    "link": "trunk_assembly",
    "p": [
-    34.5,
+    33.5,
     0.0,
-    39.5
+    39.2
    ],
    "p_world0": [
-    34.5,
+    33.5,
     0.0,
-    39.5
+    39.2
    ],
    "kind": "dock part pad or lead",
    "how": "[L] twin/dock/dock_seats.json and dock_routes.json (D50)"
@@ -2671,14 +2671,14 @@
    "id": "DKP.CHG",
    "link": "trunk_assembly",
    "p": [
-    34.5,
+    33.5,
     0.0,
-    39.5
+    39.2
    ],
    "p_world0": [
-    34.5,
+    33.5,
     0.0,
-    39.5
+    39.2
    ],
    "kind": "dock part pad or lead",
    "how": "[L] twin/dock/dock_seats.json and dock_routes.json (D50)"
@@ -2687,14 +2687,14 @@
    "id": "DKP.SNS",
    "link": "trunk_assembly",
    "p": [
-    34.5,
+    33.5,
     0.0,
-    38.5
+    38.4
    ],
    "p_world0": [
-    34.5,
+    33.5,
     0.0,
-    38.5
+    38.4
    ],
    "kind": "dock part pad or lead",
    "how": "[L] twin/dock/dock_seats.json and dock_routes.json (D50)"
@@ -2703,14 +2703,14 @@
    "id": "DKP.GND",
    "link": "trunk_assembly",
    "p": [
-    34.5,
+    33.5,
     0.0,
-    37.5
+    37.6
    ],
    "p_world0": [
-    34.5,
+    33.5,
     0.0,
-    37.5
+    37.6
    ],
    "kind": "dock part pad or lead",
    "how": "[L] twin/dock/dock_seats.json and dock_routes.json (D50)"
@@ -2719,14 +2719,14 @@
    "id": "DKP.SYS",
    "link": "trunk_assembly",
    "p": [
-    34.5,
+    33.5,
     0.0,
-    36.5
+    36.8
    ],
    "p_world0": [
-    34.5,
+    33.5,
     0.0,
-    36.5
+    36.8
    ],
    "kind": "dock part pad or lead",
    "how": "[L] twin/dock/dock_seats.json and dock_routes.json (D50)"
@@ -2775,6 +2775,38 @@
     -108.5,
     13.0,
     43.0
+   ],
+   "kind": "dock part pad or lead",
+   "how": "[L] twin/dock/dock_seats.json and dock_routes.json (D50)"
+  },
+  {
+   "id": "JGD",
+   "link": "trunk_assembly",
+   "p": [
+    27.0,
+    -4.0,
+    31.0
+   ],
+   "p_world0": [
+    27.0,
+    -4.0,
+    31.0
+   ],
+   "kind": "dock part pad or lead",
+   "how": "[L] twin/dock/dock_seats.json and dock_routes.json (D50)"
+  },
+  {
+   "id": "JSN",
+   "link": "trunk_assembly",
+   "p": [
+    27.0,
+    4.0,
+    31.0
+   ],
+   "p_world0": [
+    27.0,
+    4.0,
+    31.0
    ],
    "kind": "dock part pad or lead",
    "how": "[L] twin/dock/dock_seats.json and dock_routes.json (D50)"
@@ -59907,9 +59939,9 @@
     {
      "link": "trunk_assembly",
      "p": [
-      34.5,
+      33.5,
       0.0,
-      39.5
+      39.2
      ]
     },
     {
@@ -59947,9 +59979,9 @@
       {
        "link": "trunk_assembly",
        "p": [
-        34.5,
+        33.5,
         0.0,
-        39.5
+        39.2
        ]
       },
       {
@@ -59992,38 +60024,22 @@
       "head_yaw",
       "neck_pitch"
      ],
-     "length_zero_mm": 11.3,
-     "length_min_mm": 11.3,
-     "length_max_mm": 11.3
+     "length_zero_mm": 11.1,
+     "length_min_mm": 11.1,
+     "length_max_mm": 11.1
     },
     {
      "name": "r1",
-     "from": "DKP.GND",
+     "from": "JGD.S",
      "to": "DK2.GND",
      "d_mm": 1.3,
      "points": [
       {
        "link": "trunk_assembly",
        "p": [
-        34.5,
-        0.0,
-        37.5
-       ]
-      },
-      {
-       "link": "trunk_assembly",
-       "p": [
-        34.0,
-        0.0,
-        37.0
-       ]
-      },
-      {
-       "link": "trunk_assembly",
-       "p": [
-        33.0,
-        -9.0,
-        29.0
+        27.0,
+        -4.0,
+        31.0
        ]
       },
       {
@@ -60058,9 +60074,9 @@
       "head_yaw",
       "neck_pitch"
      ],
-     "length_zero_mm": 19.3,
-     "length_min_mm": 19.3,
-     "length_max_mm": 19.3
+     "length_zero_mm": 12.0,
+     "length_min_mm": 12.0,
+     "length_max_mm": 12.0
     },
     {
      "name": "r2",
@@ -60233,12 +60249,12 @@
      "runs": [
       "r0"
      ],
-     "length_zero_mm": 11.3,
-     "length_min_mm": 11.3,
-     "length_max_mm": 11.3
+     "length_zero_mm": 11.1,
+     "length_min_mm": 11.1,
+     "length_max_mm": 11.1
     },
     {
-     "from": "DKP.GND",
+     "from": "JGD.S",
      "to": "DK2.GND",
      "net": "GND",
      "gauge": "26 AWG",
@@ -60250,9 +60266,9 @@
      "runs": [
       "r1"
      ],
-     "length_zero_mm": 19.3,
-     "length_min_mm": 19.3,
-     "length_max_mm": 19.3
+     "length_zero_mm": 12.0,
+     "length_min_mm": 12.0,
+     "length_max_mm": 12.0
     },
     {
      "from": "DK2.VOUT",
@@ -60303,25 +60319,25 @@
   },
   {
    "id": "DC2",
-   "desc": "chest GND to BMS P- (D43, D50)",
+   "desc": "chest GND to the splice JGD inside the trunk, JGD to BMS P- (D43, D50)",
    "from": "DKP.GND",
-   "to": "BMS.P-",
+   "to": "JGD.S",
    "gauge": "20 AWG",
    "color": "#1f77b4",
    "colors": [
     "#1f77b4"
    ],
    "d_mm": 2.5,
-   "wires_n": 1,
+   "wires_n": 2,
    "cut_mm": 210,
    "joints": [],
    "points": [
     {
      "link": "trunk_assembly",
      "p": [
-      34.5,
+      33.5,
       0.0,
-      37.5
+      37.6
      ]
     },
     {
@@ -60329,39 +60345,15 @@
      "p": [
       34.0,
       0.0,
-      37.0
+      38.0
      ]
     },
     {
      "link": "trunk_assembly",
      "p": [
-      -5.0,
-      -24.0,
-      37.0
-     ]
-    },
-    {
-     "link": "trunk_assembly",
-     "p": [
-      -122.0,
-      -31.0,
-      37.0
-     ]
-    },
-    {
-     "link": "trunk_assembly",
-     "p": [
-      -126.0,
-      -31.0,
-      33.0
-     ]
-    },
-    {
-     "link": "trunk_assembly",
-     "p": [
-      -126.3,
-      -31.5,
-      33.0
+      27.0,
+      -4.0,
+      31.0
      ]
     }
    ],
@@ -60369,15 +60361,15 @@
     {
      "name": "r0",
      "from": "DKP.GND",
-     "to": "BMS.P-",
+     "to": "JGD.S",
      "d_mm": 1.9,
      "points": [
       {
        "link": "trunk_assembly",
        "p": [
-        34.5,
+        33.5,
         0.0,
-        37.5
+        37.6
        ]
       },
       {
@@ -60385,23 +60377,73 @@
        "p": [
         34.0,
         0.0,
-        37.0
+        38.0
        ]
       },
       {
        "link": "trunk_assembly",
        "p": [
-        -5.0,
-        -24.0,
-        37.0
+        27.0,
+        -4.0,
+        31.0
+       ]
+      }
+     ],
+     "joints": [
+      "neck_pitch",
+      "head_pitch",
+      "head_yaw",
+      "head_roll"
+     ],
+     "routed": true,
+     "through": null,
+     "seats": [],
+     "swept_joints": [
+      "head_pitch",
+      "head_roll",
+      "head_yaw",
+      "neck_pitch"
+     ],
+     "length_zero_mm": 11.3,
+     "length_min_mm": 11.3,
+     "length_max_mm": 11.3
+    },
+    {
+     "name": "r1",
+     "from": "JGD.S",
+     "to": "BMS.P-",
+     "d_mm": 1.9,
+     "points": [
+      {
+       "link": "trunk_assembly",
+       "p": [
+        27.0,
+        -4.0,
+        31.0
        ]
       },
       {
        "link": "trunk_assembly",
        "p": [
-        -122.0,
+        -16.0,
+        -25.0,
+        33.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -115.0,
+        -30.0,
+        38.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -124.0,
         -31.0,
-        37.0
+        35.0
        ]
       },
       {
@@ -60436,14 +60478,31 @@
       "head_yaw",
       "neck_pitch"
      ],
-     "length_zero_mm": 169.9,
-     "length_min_mm": 169.9,
-     "length_max_mm": 169.9
+     "length_zero_mm": 160.1,
+     "length_min_mm": 160.1,
+     "length_max_mm": 160.1
     }
    ],
    "wires": [
     {
      "from": "DKP.GND",
+     "to": "JGD.S",
+     "net": "GND",
+     "gauge": "20 AWG",
+     "color": "black",
+     "cut_mm": 60,
+     "branch": null,
+     "od_mm": 1.9,
+     "od_source": "[I] BNTECHGO 20 AWG silicone, outside diameter 1.8 +/- 0.1 mm (https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE)",
+     "runs": [
+      "r0"
+     ],
+     "length_zero_mm": 11.3,
+     "length_min_mm": 11.3,
+     "length_max_mm": 11.3
+    },
+    {
+     "from": "JGD.S",
      "to": "BMS.P-",
      "net": "GND",
      "gauge": "20 AWG",
@@ -60453,11 +60512,11 @@
      "od_mm": 1.9,
      "od_source": "[I] BNTECHGO 20 AWG silicone, outside diameter 1.8 +/- 0.1 mm (https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE)",
      "runs": [
-      "r0"
+      "r1"
      ],
-     "length_zero_mm": 169.9,
-     "length_min_mm": 169.9,
-     "length_max_mm": 169.9
+     "length_zero_mm": 160.1,
+     "length_min_mm": 160.1,
+     "length_max_mm": 160.1
     }
    ],
    "seats": [],
@@ -60468,31 +60527,31 @@
    "bend_min_kind": "corner",
    "rub_min_gap_runtime_mm": -1.1,
    "clearance_min_mm": 1.6,
-   "length_zero_mm": 169.9,
-   "length_min_mm": 169.9,
-   "length_max_mm": 169.9
+   "length_zero_mm": 160.1,
+   "length_min_mm": 160.1,
+   "length_max_mm": 160.1
   },
   {
    "id": "DC3",
-   "desc": "chest SENSE to the cell NTC and to the wake branch at SW1 ON (D43)",
+   "desc": "chest SENSE to the splice JSN inside the trunk, JSN to the cell NTC and to the wake branch at SW1 ON (D43)",
    "from": "DKP.SNS",
-   "to": "RT1.1",
+   "to": "JSN.S",
    "gauge": "26 AWG",
    "color": "#1f77b4",
    "colors": [
     "#1f77b4"
    ],
    "d_mm": 1.9,
-   "wires_n": 4,
-   "cut_mm": 230,
+   "wires_n": 5,
+   "cut_mm": 220,
    "joints": [],
    "points": [
     {
      "link": "trunk_assembly",
      "p": [
-      34.5,
+      33.5,
       0.0,
-      38.5
+      38.4
      ]
     },
     {
@@ -60500,47 +60559,15 @@
      "p": [
       34.0,
       0.0,
-      39.0
+      38.0
      ]
     },
     {
      "link": "trunk_assembly",
      "p": [
-      -25.0,
-      0.0,
-      89.0
-     ]
-    },
-    {
-     "link": "trunk_assembly",
-     "p": [
-      -109.0,
-      0.0,
-      81.0
-     ]
-    },
-    {
-     "link": "trunk_assembly",
-     "p": [
-      -124.0,
-      0.0,
-      66.0
-     ]
-    },
-    {
-     "link": "trunk_assembly",
-     "p": [
-      -130.0,
-      0.0,
-      66.0
-     ]
-    },
-    {
-     "link": "trunk_assembly",
-     "p": [
-      -129.6,
-      0.0,
-      66.0
+      27.0,
+      4.0,
+      31.0
      ]
     }
    ],
@@ -60548,15 +60575,15 @@
     {
      "name": "r0",
      "from": "DKP.SNS",
-     "to": "RT1.1",
+     "to": "JSN.S",
      "d_mm": 1.3,
      "points": [
       {
        "link": "trunk_assembly",
        "p": [
-        34.5,
+        33.5,
         0.0,
-        38.5
+        38.4
        ]
       },
       {
@@ -60564,23 +60591,81 @@
        "p": [
         34.0,
         0.0,
-        39.0
+        38.0
        ]
       },
       {
        "link": "trunk_assembly",
        "p": [
-        -25.0,
-        0.0,
-        89.0
+        27.0,
+        4.0,
+        31.0
+       ]
+      }
+     ],
+     "joints": [
+      "neck_pitch",
+      "head_pitch",
+      "head_yaw",
+      "head_roll"
+     ],
+     "routed": true,
+     "through": null,
+     "seats": [],
+     "swept_joints": [
+      "head_pitch",
+      "head_roll",
+      "head_yaw",
+      "neck_pitch"
+     ],
+     "length_zero_mm": 11.3,
+     "length_min_mm": 11.3,
+     "length_max_mm": 11.3
+    },
+    {
+     "name": "r1",
+     "from": "JSN.S",
+     "to": "RT1.1",
+     "d_mm": 1.3,
+     "points": [
+      {
+       "link": "trunk_assembly",
+       "p": [
+        27.0,
+        4.0,
+        31.0
        ]
       },
       {
        "link": "trunk_assembly",
        "p": [
-        -109.0,
-        0.0,
-        81.0
+        -26.0,
+        23.0,
+        34.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -78.0,
+        27.0,
+        49.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -91.0,
+        22.0,
+        62.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -118.0,
+        6.0,
+        72.0
        ]
       },
       {
@@ -60623,12 +60708,12 @@
       "head_yaw",
       "neck_pitch"
      ],
-     "length_zero_mm": 190.0,
-     "length_min_mm": 190.0,
-     "length_max_mm": 190.0
+     "length_zero_mm": 179.4,
+     "length_min_mm": 179.4,
+     "length_max_mm": 179.4
     },
     {
-     "name": "r1",
+     "name": "r2",
      "from": "RT1.2",
      "to": "BMS.P-",
      "d_mm": 1.3,
@@ -60726,33 +60811,25 @@
      "length_max_mm": 71.8
     },
     {
-     "name": "r2",
-     "from": "DKP.SNS",
+     "name": "r3",
+     "from": "JSN.S",
      "to": "WK1.A",
      "d_mm": 1.3,
      "points": [
       {
        "link": "trunk_assembly",
        "p": [
-        34.5,
-        0.0,
-        38.5
+        27.0,
+        4.0,
+        31.0
        ]
       },
       {
        "link": "trunk_assembly",
        "p": [
-        34.0,
-        0.0,
-        39.0
-       ]
-      },
-      {
-       "link": "trunk_assembly",
-       "p": [
-        1.0,
-        20.0,
-        39.0
+        -21.0,
+        24.0,
+        33.0
        ]
       },
       {
@@ -60787,12 +60864,12 @@
       "head_yaw",
       "neck_pitch"
      ],
-     "length_zero_mm": 148.7,
-     "length_min_mm": 148.7,
-     "length_max_mm": 148.7
+     "length_zero_mm": 139.9,
+     "length_min_mm": 139.9,
+     "length_max_mm": 139.9
     },
     {
-     "name": "r3",
+     "name": "r4",
      "from": "WK1.K",
      "to": "SW1.ON",
      "d_mm": 1.3,
@@ -60837,20 +60914,37 @@
    "wires": [
     {
      "from": "DKP.SNS",
-     "to": "RT1.1",
+     "to": "JSN.S",
      "net": "SNS",
      "gauge": "26 AWG",
      "color": "white",
-     "cut_mm": 230,
+     "cut_mm": 60,
      "branch": null,
      "od_mm": 1.3,
      "od_source": "[I] BNTECHGO 20 AWG silicone, outside diameter 1.8 +/- 0.1 mm (https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE)",
      "runs": [
       "r0"
      ],
-     "length_zero_mm": 190.0,
-     "length_min_mm": 190.0,
-     "length_max_mm": 190.0
+     "length_zero_mm": 11.3,
+     "length_min_mm": 11.3,
+     "length_max_mm": 11.3
+    },
+    {
+     "from": "JSN.S",
+     "to": "RT1.1",
+     "net": "SNS",
+     "gauge": "26 AWG",
+     "color": "white",
+     "cut_mm": 220,
+     "branch": null,
+     "od_mm": 1.3,
+     "od_source": "[I] BNTECHGO 20 AWG silicone, outside diameter 1.8 +/- 0.1 mm (https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE)",
+     "runs": [
+      "r1"
+     ],
+     "length_zero_mm": 179.4,
+     "length_min_mm": 179.4,
+     "length_max_mm": 179.4
     },
     {
      "from": "RT1.2",
@@ -60863,28 +60957,28 @@
      "od_mm": 1.3,
      "od_source": "[I] BNTECHGO 20 AWG silicone, outside diameter 1.8 +/- 0.1 mm (https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE)",
      "runs": [
-      "r1"
+      "r2"
      ],
      "length_zero_mm": 71.8,
      "length_min_mm": 71.8,
      "length_max_mm": 71.8
     },
     {
-     "from": "DKP.SNS",
+     "from": "JSN.S",
      "to": "WK1.A",
      "net": "SNS",
      "gauge": "26 AWG",
      "color": "white",
-     "cut_mm": 190,
+     "cut_mm": 180,
      "branch": null,
      "od_mm": 1.3,
      "od_source": "[I] BNTECHGO 20 AWG silicone, outside diameter 1.8 +/- 0.1 mm (https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE)",
      "runs": [
-      "r2"
+      "r3"
      ],
-     "length_zero_mm": 148.7,
-     "length_min_mm": 148.7,
-     "length_max_mm": 148.7
+     "length_zero_mm": 139.9,
+     "length_min_mm": 139.9,
+     "length_max_mm": 139.9
     },
     {
      "from": "WK1.K",
@@ -60897,7 +60991,7 @@
      "od_mm": 1.3,
      "od_source": "[I] BNTECHGO 20 AWG silicone, outside diameter 1.8 +/- 0.1 mm (https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE)",
      "runs": [
-      "r3"
+      "r4"
      ],
      "length_zero_mm": 0.0,
      "length_min_mm": 0.0,
@@ -60912,9 +61006,9 @@
    "bend_min_kind": "corner",
    "rub_min_gap_runtime_mm": -1.1,
    "clearance_min_mm": 1.6,
-   "length_zero_mm": 190.0,
-   "length_min_mm": 190.0,
-   "length_max_mm": 190.0
+   "length_zero_mm": 179.4,
+   "length_min_mm": 179.4,
+   "length_max_mm": 179.4
   },
   {
    "id": "DC4",
@@ -60934,9 +61028,9 @@
     {
      "link": "trunk_assembly",
      "p": [
-      34.5,
+      33.5,
       0.0,
-      36.5
+      36.8
      ]
     },
     {
@@ -60990,9 +61084,9 @@
       {
        "link": "trunk_assembly",
        "p": [
-        34.5,
+        33.5,
         0.0,
-        36.5
+        36.8
        ]
       },
       {
@@ -61051,9 +61145,9 @@
       "head_yaw",
       "neck_pitch"
      ],
-     "length_zero_mm": 149.7,
-     "length_min_mm": 149.7,
-     "length_max_mm": 149.7
+     "length_zero_mm": 149.5,
+     "length_min_mm": 149.5,
+     "length_max_mm": 149.5
     },
     {
      "name": "r1",
@@ -61302,7 +61396,7 @@
      "to": "DK6.VIN",
      "net": "SYS_IN",
      "gauge": "20 AWG",
-     "color": "orange",
+     "color": "red",
      "cut_mm": 190,
      "branch": null,
      "od_mm": 1.9,
@@ -61310,16 +61404,16 @@
      "runs": [
       "r0"
      ],
-     "length_zero_mm": 149.7,
-     "length_min_mm": 149.7,
-     "length_max_mm": 149.7
+     "length_zero_mm": 149.5,
+     "length_min_mm": 149.5,
+     "length_max_mm": 149.5
     },
     {
      "from": "DK6.VOUT",
      "to": "SW1.VIN",
      "net": "PACK_OR",
      "gauge": "20 AWG",
-     "color": "orange",
+     "color": "red",
      "cut_mm": 70,
      "branch": null,
      "od_mm": 1.9,
@@ -61391,9 +61485,9 @@
    "bend_min_kind": "corner",
    "rub_min_gap_runtime_mm": -1.1,
    "clearance_min_mm": 1.6,
-   "length_zero_mm": 149.7,
-   "length_min_mm": 149.7,
-   "length_max_mm": 149.7
+   "length_zero_mm": 149.5,
+   "length_min_mm": 149.5,
+   "length_max_mm": 149.5
   }
  ],
  "retention": [

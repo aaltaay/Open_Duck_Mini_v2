@@ -8,15 +8,15 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 LAB = os.path.dirname(os.path.dirname(HERE))
 C3P = os.path.join(LAB, "cables3d", "cables3d.json")
 R = json.load(open(os.path.join(HERE, "dock_routes.json")))
-GAUGE = {("DKP.CHG", "DK2.VIN"): ("20 AWG", "red"), ("DKP.GND", "DK2.GND"): ("26 AWG", "black"), ("DK2.VOUT", "F2.IN"): ("20 AWG", "red"),
-         ("F2.OUT", "BMS.P+"): ("20 AWG", "red"), ("DKP.GND", "BMS.P-"): ("20 AWG", "black"), ("DKP.SNS", "RT1.1"): ("26 AWG", "white"),
-         ("RT1.2", "BMS.P-"): ("26 AWG", "black"), ("DKP.SNS", "WK1.A"): ("26 AWG", "white"), ("DKP.SYS", "DK6.VIN"): ("20 AWG", "orange"),
-         ("DK6.VOUT", "SW1.VIN"): ("20 AWG", "orange"), ("DK6.GND", "SW1.GND"): ("26 AWG", "black"), ("DK7.VOUT", "SW1.VIN"): ("16 AWG", "red"),
+GAUGE = {("DKP.CHG", "DK2.VIN"): ("20 AWG", "red"), ("JGD.S", "DK2.GND"): ("26 AWG", "black"), ("DKP.GND", "JGD.S"): ("20 AWG", "black"), ("DKP.SNS", "JSN.S"): ("26 AWG", "white"), ("DK2.VOUT", "F2.IN"): ("20 AWG", "red"),
+         ("F2.OUT", "BMS.P+"): ("20 AWG", "red"), ("JGD.S", "BMS.P-"): ("20 AWG", "black"), ("JSN.S", "RT1.1"): ("26 AWG", "white"),
+         ("RT1.2", "BMS.P-"): ("26 AWG", "black"), ("JSN.S", "WK1.A"): ("26 AWG", "white"), ("DKP.SYS", "DK6.VIN"): ("20 AWG", "red"),
+         ("DK6.VOUT", "SW1.VIN"): ("20 AWG", "red"), ("DK6.GND", "SW1.GND"): ("26 AWG", "black"), ("DK7.VOUT", "SW1.VIN"): ("16 AWG", "red"),
          ("DK7.GND", "SW1.GND"): ("26 AWG", "black"), ("WK1.K", "SW1.ON"): ("26 AWG", "white")}
-NET = {"DKP.CHG": "CHG_IN", "DK2.VOUT": "CHG_D", "F2.OUT": "PACK_P", "DKP.SNS": "SNS", "DKP.SYS": "SYS_IN", "DK6.VOUT": "PACK_OR",
+NET = {"DKP.CHG": "CHG_IN", "DK2.VOUT": "CHG_D", "F2.OUT": "PACK_P", "DKP.SNS": "SNS", "JSN.S": "SNS", "DKP.SYS": "SYS_IN", "DK6.VOUT": "PACK_OR",
        "DK7.VOUT": "PACK_OR", "WK1.K": "SW1_ON"}
-DESC = {"DC1": "chest CHG+ to DK2, DK2 to the 5 A fuse F2, F2 to BMS P+ (D43)", "DC2": "chest GND to BMS P- (D43, D50)",
-        "DC3": "chest SENSE to the cell NTC and to the wake branch at SW1 ON (D43)", "DC4": "chest SYS to DK6, DK6 and DK7 to SW1 VIN (D50)"}
+DESC = {"DC1": "chest CHG+ to DK2, DK2 to the 5 A fuse F2, F2 to BMS P+ (D43)", "DC2": "chest GND to the splice JGD inside the trunk, JGD to BMS P- (D43, D50)",
+        "DC3": "chest SENSE to the splice JSN inside the trunk, JSN to the cell NTC and to the wake branch at SW1 ON (D43)", "DC4": "chest SYS to DK6, DK6 and DK7 to SW1 VIN (D50)"}
 OD = {"20 AWG": 1.9, "26 AWG": 1.3, "16 AWG": 2.8}
 def cut(L): return int(np.ceil((L + 40.0) / 10.0) * 10)
 def records():
@@ -88,7 +88,7 @@ if __name__ == "__main__":
             E.pop(k)
         T = R["terminals"]
         ends = {"DKP": T["DKP.CHG"], "DKP.CHG": T["DKP.CHG"], "DKP.SNS": T["DKP.SNS"], "DKP.GND": T["DKP.GND"], "DKP.SYS": T["DKP.SYS"],
-                "DK2.GND": T["DK2.GND"], "DK6.GND": T["DK6.GND"], "DK7.GND": T["DK7.GND"], "DK2.VIN": T["DK2.VIN"], "DK2.VOUT": T["DK2.VOUT"], "DK2": T["DK2.VIN"], "F2.IN": T["F2.IN"],
+                "DK2.GND": T["DK2.GND"], "DK6.GND": T["DK6.GND"], "DK7.GND": T["DK7.GND"], "JGD": T["JGD"], "JSN": T["JSN"], "DK2.VIN": T["DK2.VIN"], "DK2.VOUT": T["DK2.VOUT"], "DK2": T["DK2.VIN"], "F2.IN": T["F2.IN"],
                 "F2.OUT": T["F2.OUT"], "RT1.1": T["RT1"], "RT1.2": T["RT1"], "WK1.A": T["SW1.CTL"], "WK1.K": T["SW1.CTL"],
                 "DK6.VIN": T["DK6.VIN"], "DK6.VOUT": T["DK6.VOUT"], "DK6": T["DK6.VIN"], "DK7.VIN": T["DK7.VIN"],
                 "DK7.VOUT": T["DK7.VOUT"], "DK7": T["DK7.VIN"]}

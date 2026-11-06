@@ -1,5 +1,12 @@
 # PRINT_CHECK
 
+## Note 2026-11-05 10:50 PM ET: D50 chest lead hole
+
+print/body_front.stl has the dock pad's lead feedthrough (twin/dock/chest_hole.py, twin/dock/DOCK_TWIN.md 11.8; CAD check only):
+one 6.0 mm hole through the chest wall behind the pad centre, a 45 deg bell mouth 2 mm deep inside and a 0.8 mm chamfer on the
+pad side. Watertight; 142628.4 to 142293.6 mm3 (-0.33 cm3). Re-sliced alone with the light profile (slice.py parts --only):
+57.63 g and 3.97 h, against 57.56 g and 3.94 h for the pre-D50 file the same way, no support (the table row below is older). Apply it after any close_holes.py rebuild of body_front.
+
 ## Note 2026-11-04 11:01 PM ET: D42 uniform screw patterns and flush caps
 
 15 STLs in print/ rebuilt from their pre-D39 STLs (twin/holes/close_holes.py, twin/holes/HOLES_TWIN.md addendum): body_front (F071 open again, F069 closed), body_back (F027 pilot open again), head_bot_sheet and head (F084, F090 open again, F088 closed), battery_pack_lid back to its pre-D39 STL, and every plug cap fitted to the part surface (the back shell ear dimples are gone). Each output is watertight, same bounds, no overlap with any part; plug ends flush within 0.05 mm except neck_right_sheet 130 (a hole across a step, explained in the addendum). Follow-up 2026-11-04 11:36 PM ET: the flash_light_module boss bottoms are flush now (the conical caps are gone). Follow-up 2026-11-05 12:36 AM ET: every cap rebuilt; the boss-bottom caps follow the face and the fillet beside it with no peak or crease, caps sit 0.005 to 0.02 mm under the surface; all 15 changed STLs re-sliced. CAD check only.

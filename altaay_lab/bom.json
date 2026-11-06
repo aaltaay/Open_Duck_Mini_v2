@@ -730,8 +730,8 @@
 {
 "i": "23",
 "item": "Wire 20 AWG",
-"spec": "BNTECHGO silicone red 25 ft and black 25 ft (netlist cut lengths: red 0.90 m, black 0.99 m)",
-"need": "1.9 m",
+"spec": "BNTECHGO silicone red 25 ft and black 25 ft (netlist cut lengths: red 1.51 m, black 1.26 m since D50; the dock SYS leads are red)",
+"need": "2.8 m",
 "buy": "1",
 "pack": "50 ft",
 "line": "12.48",
@@ -758,8 +758,8 @@
 {
 "i": "25",
 "item": "Wire 26 AWG",
-"spec": "BNTECHGO silicone 7 colors 25 ft each (netlist cut lengths 9.2 m in all, black 3.65 m the most of one colour)",
-"need": "9.2 m",
+"spec": "BNTECHGO silicone 7 colors 25 ft each (netlist cut lengths 12.7 m in all, black 4.37 m the most of one colour, 2026-11-05 with D50)",
+"need": "12.7 m",
 "buy": "1",
 "pack": "175 ft",
 "line": "15.98",
@@ -772,7 +772,7 @@
 {
 "i": "26",
 "item": "Heat shrink",
-"spec": "Wirefy 3:1 adhesive lined, 180 pcs, 3.5 in each: 70 x 3/32 in, 50 x 1/8 in, 25 x 3/16 in, 16 x 1/4 in, 9 x 3/8 in, 5 x 1/2 in, 5 x 3/4 in (the 3/4 in count is 180 less the other six). The robot uses 34 sleeves (BOM_FULL rule): 2 x 3/32, 10 x 1/8, 7 x 3/16, 9 x 1/4, 3 x 3/8 in, and 3 small lead joints whose size waits for the lead diameters",
+"spec": "Wirefy 3:1 adhesive lined, 180 pcs, 3.5 in each: 70 x 3/32 in, 50 x 1/8 in, 25 x 3/16 in, 16 x 1/4 in, 9 x 3/8 in, 5 x 1/2 in, 5 x 3/4 in (the 3/4 in count is 180 less the other six). The robot uses 42 sleeves (BOM_FULL rule, with D50): 6 x 3/32, 11 x 1/8, 10 x 3/16, 9 x 1/4, 3 x 3/8 in, and 3 small lead joints whose size waits for the lead diameters (D50 adds 4 x 3/32 on the NTC and wake diode leads, 1/8 on splice JSN, 3/16 on splice JGD and the two DK3 holder leads; calc only)",
 "need": "1",
 "buy": "1",
 "pack": "180",

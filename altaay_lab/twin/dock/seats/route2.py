@@ -25,15 +25,15 @@ def astar(a, b, need):
     # bounding box of the two ends plus margin, to keep the graph small
     lo_i = np.maximum(np.minimum(A, B) - 70, 0); hi_i = np.minimum(np.maximum(A, B) + 71, occ.shape)
     sub = free[lo_i[0]:hi_i[0], lo_i[1]:hi_i[1], lo_i[2]:hi_i[2]]; dsub = dist[lo_i[0]:hi_i[0], lo_i[1]:hi_i[1], lo_i[2]:hi_i[2]]
-    ids = -np.ones(sub.shape, int); nz = np.argwhere(sub); ids[tuple(nz.T)] = np.arange(len(nz))
+    ids = -np.ones(sub.shape, np.int32); nz = np.argwhere(sub).astype(np.int32); ids[tuple(nz.T)] = np.arange(len(nz), dtype=np.int32)
     rows, cols, w = [], [], []
     for dv in [(i, j, k) for i in (-1, 0, 1) for j in (-1, 0, 1) for k in (-1, 0, 1) if (i, j, k) > (0, 0, 0)]:
-        q = nz + dv; ok = np.all((q >= 0) & (q < sub.shape), 1); p0, q0 = nz[ok], q[ok]
+        q = nz + np.array(dv, np.int32); ok = np.all((q >= 0) & (q < sub.shape), 1); p0, q0 = nz[ok], q[ok]
         tgt = ids[tuple(q0.T)]; m = tgt >= 0
-        cost = np.linalg.norm(dv) * (1 + 0.3 / np.maximum(dsub[tuple(q0[m].T)], 0.5))
+        cost = (np.linalg.norm(dv) * (1 + 0.3 / np.maximum(dsub[tuple(q0[m].T)], 0.5))).astype(np.float32)   # int32/float32: the graph fits the 3 GB cap
         rows += [ids[tuple(p0[m].T)]]; cols += [tgt[m]]; w += [cost]
     rows, cols, w = map(np.concatenate, (rows, cols, w))
-    Gm = csr_matrix((np.r_[w, w], (np.r_[rows, cols], np.r_[cols, rows])), shape=(len(nz), len(nz)))
+    Gm = csr_matrix((np.r_[w, w], (np.r_[rows, cols], np.r_[cols, rows])), shape=(len(nz), len(nz))); del rows, cols, w
     sa, sb = ids[tuple(np.array(A) - lo_i)], ids[tuple(np.array(B) - lo_i)]
     if sa < 0 or sb < 0: return None
     D, pred = dijkstra(Gm, indices=sa, return_predecessors=True)
@@ -56,7 +56,8 @@ def astar(a, b, need):
                 return None
     return [p.round(2).tolist() for p in out]
 T = {  # terminals, world mm at the zero pose (trunk_assembly link): each pad or lead exit of a wire end
-    'DKP.CHG': [34.5, 0.0, 39.5], 'DKP.SNS': [34.5, 0.0, 38.5], 'DKP.GND': [34.5, 0.0, 37.5], 'DKP.SYS': [34.5, 0.0, 36.5],
+    'DKP.CHG': [33.5, 0.0, 39.2], 'DKP.SNS': [33.5, 0.0, 38.4], 'DKP.GND': [33.5, 0.0, 37.6], 'DKP.SYS': [33.5, 0.0, 36.8],   # leads out of the 6 mm hole
+    'JGD': [27.0, -4.0, 31.0], 'JSN': [27.0, 4.0, 31.0],   # D50: the GND and SENSE branch splices inside the trunk, so only 4 wires pass the hole
     'DK2.VIN': [33.0, 0.0, 28.5], 'DK2.VOUT': [33.0, 0.0, 19.5], 'DK2.GND': [33.0, -7.5, 24.0],
     'F2.IN': [-85.0, -42.0, 53.0], 'F2.OUT': [-85.0, -42.0, -1.0], 'BMS.P+': [-126.3, -27.5, 33.0], 'BMS.P-': [-126.3, -31.5, 33.0],
     'DK6.VIN': [-104.0, -4.5, 43.0], 'DK6.VOUT': [-110.0, 1.0, 43.0], 'DK6.GND': [-104.0, 5.5, 43.0],
@@ -64,11 +65,11 @@ T = {  # terminals, world mm at the zero pose (trunk_assembly link): each pad or
     'SW1.VIN': [-107.8, 14.0, 29.0], 'SW1.GND': [-107.8, 34.0, 29.0], 'SW1.CTL': [-107.8, 24.0, 44.0], 'RT1': [-129.6, 0.0, 66.0]}
 # one route per wire, between that wire's own two terminals: (from pin, to pin, from terminal, to terminal, wire radius)
 WIRES = {
-    'DC1': [('DKP.CHG', 'DK2.VIN', 'DKP.CHG', 'DK2.VIN', 1.0), ('DKP.GND', 'DK2.GND', 'DKP.GND', 'DK2.GND', 0.7),
+    'DC1': [('DKP.CHG', 'DK2.VIN', 'DKP.CHG', 'DK2.VIN', 1.0), ('JGD.S', 'DK2.GND', 'JGD', 'DK2.GND', 0.7),
             ('DK2.VOUT', 'F2.IN', 'DK2.VOUT', 'F2.IN', 1.0), ('F2.OUT', 'BMS.P+', 'F2.OUT', 'BMS.P+', 1.0)],
-    'DC2': [('DKP.GND', 'BMS.P-', 'DKP.GND', 'BMS.P-', 1.0)],
-    'DC3': [('DKP.SNS', 'RT1.1', 'DKP.SNS', 'RT1', 0.7), ('RT1.2', 'BMS.P-', 'RT1', 'BMS.P-', 0.7),
-            ('DKP.SNS', 'WK1.A', 'DKP.SNS', 'SW1.CTL', 0.7)],
+    'DC2': [('DKP.GND', 'JGD.S', 'DKP.GND', 'JGD', 1.0), ('JGD.S', 'BMS.P-', 'JGD', 'BMS.P-', 1.0)],
+    'DC3': [('DKP.SNS', 'JSN.S', 'DKP.SNS', 'JSN', 0.7), ('JSN.S', 'RT1.1', 'JSN', 'RT1', 0.7), ('RT1.2', 'BMS.P-', 'RT1', 'BMS.P-', 0.7),
+            ('JSN.S', 'WK1.A', 'JSN', 'SW1.CTL', 0.7)],
     'DC4': [('DKP.SYS', 'DK6.VIN', 'DKP.SYS', 'DK6.VIN', 1.0), ('DK6.VOUT', 'SW1.VIN', 'DK6.VOUT', 'SW1.VIN', 1.0),
             ('DK6.GND', 'SW1.GND', 'DK6.GND', 'SW1.GND', 0.7), ('DK7.VOUT', 'SW1.VIN', 'DK7.VOUT', 'SW1.VIN', 1.4),
             ('DK7.GND', 'SW1.GND', 'DK7.GND', 'SW1.GND', 0.7)],

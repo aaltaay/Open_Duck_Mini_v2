@@ -199,7 +199,7 @@ PLACEHOLDERS = [
          dims_note="16.51 x 12.7 mm board (the 3421 board files); drawn 3.0 mm thick (1.8 mm overall on the product page, 0.4 g).",
          mount="2 x M2x6 (BOM 17h) into 2 printed bosses on the right inner side wall, the mirror of the left (twin/companion/mic_seats.json, D47)."),
     dict(id="dock_pad", label="Chest contact pad (BOM DK1, D50)", dims=[0.8, 100.0, 76.0], bom="DK1", blockers=[],
-         dims_note="100 x 76 x 0.8 mm FR4, four strips.", mount="VHB 4950 on the flat chest face of body_front, trunk z 0 to 76; leads through one 4 mm hole drilled at its centre (MOUNTING.md V1 track 8)."),
+         dims_note="100 x 76 x 0.8 mm FR4, four strips.", mount="VHB 4950 on the flat chest face of body_front, trunk z 0 to 76; four leads through one 6.0 mm hole printed in body_front at its centre, with a 45 deg bell mouth inside (MOUNTING.md V1 track 8 phase 3)."),
     dict(id="dock_dk2", label="Charge input ideal diode Pololu 5382 (BOM DK2)", dims=[3.0, 13.0, 8.0], bom="DK2", blockers=[],
          dims_note="0.3 x 0.5 in board, 3 mm with parts.", mount="VHB 4950 on the inner face of body_front below the lead hole (twin/dock/dock_seats.json)."),
     dict(id="dock_f2", label="Charge path fuse holder, 5 A (BOM DK3, DK4)", dims=[18.0, 18.0, 52.0], bom="DK3", blockers=[],

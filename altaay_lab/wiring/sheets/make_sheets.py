@@ -118,7 +118,7 @@ def sheet_power(book):
     # ---------------- dock contacts (D43, D50): chest pad, charge path, SENSE, SYS
     sh.region(226, 124, 294, 180, "DOCK", "chest pad and charge path (D43, D50)")
     sh.block("DKP", 228, 134, 244, 176, "pad", band=BAND_PWR, tsize=7.0,
-             pins=[("CHG", "R", 140, "CHG+"), ("SNS", "R", 150, "SENSE", 2, 3.0), ("GND", "R", 160, "GND", 2, 3.0), ("SYS", "R", 170, "SYS")])
+             pins=[("CHG", "R", 140, "CHG+"), ("SNS", "R", 152, "SENSE"), ("GND", "R", 160, "GND"), ("SYS", "R", 170, "SYS")])
     sh.block("DK2", 252, 134, 266, 146, "DK2", band=BAND_PWR, tsize=6.6,
              pins=[("VIN", "L", 140, "VIN"), ("VOUT", "R", 140, "VOUT"), ("GND", "D", 259, "G")])
     sh.block("F2", 272, 134, 286, 146, "F2 5 A", band=BAND_PWR, tsize=6.6, pins=[("IN", "L", 140, "1"), ("OUT", "R", 140, "2")])
@@ -126,14 +126,19 @@ def sheet_power(book):
     sh.block("WK1", 272, 148, 286, 156, "WK1 wake", band=BAND_PWR, tsize=6.2, pins=[("A", "L", 152, "A"), ("K", "R", 152, "K")])
     sh.block("DK6", 252, 164, 266, 176, "DK6", band=BAND_PWR, tsize=6.6,
              pins=[("VIN", "L", 170, "VIN"), ("VOUT", "R", 170, "VOUT"), ("GND", "D", 259, "G")])
+    # round 4: GND and SENSE branch at splices JGD and JSN inside the trunk, so one wire per contact passes the chest hole
+    sh.splice("JSN", 248.5, 152, lab_dx=0, lab_dy=-2.6, ha="center")
+    sh.splice("JGD", 246.5, 160, lab_dx=1.6, lab_dy=2.4, ha="left")
     sh.w("DKP.CHG", "DK2.VIN")
-    sh.w("DKP.GND", "DK2.GND", 248, 158.0, 259, lab="none")
+    sh.w("DKP.GND", "JGD.S", lab="none")
+    sh.w("JGD.S", "DK2.GND", ("x", 259), lab="none")
     sh.w("DK2.VOUT", "F2.IN")
     sh.w("F2.OUT", "BMS.P+", 290, 120.0, 110, sb=3, lab="none")
-    sh.w("DKP.GND", "BMS.P-", 246, 178.5, 112, sa=1, sb=3, lab="none")
-    sh.w("DKP.SNS", "RT1.1", 248.5, lab="none")
+    sh.w("JGD.S", "BMS.P-", ("y", 178.5), 112, sb=3, lab="none")
+    sh.w("DKP.SNS", "JSN.S", lab="none")
+    sh.w("JSN.S", "RT1.1", lab="none")
     sh.w("RT1.2", "BMS.P-", 268, 179.5, 114, sb=0, lab="none")
-    sh.w("DKP.SNS", "WK1.A", 249, 157.5, 270, sa=1, lab="none")
+    sh.w("JSN.S", "WK1.A", ("y", 157.0), 270, lab="none")
     sh.w("WK1.K", "SW1.ON", 288, 108.0, 308, lab="none")
     sh.w("DKP.SYS", "DK6.VIN")
     sh.w("DK6.VOUT", "SW1.VIN", 292, 118.0, 309, sb=1, lab="none")

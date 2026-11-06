@@ -21,8 +21,9 @@ DOCK_TWIN.md sections 2, 6 and 11. Labels: sim pass only, calc only, CAD check o
 Window: fore-aft 0 to 40 mm into the paddle, lateral +/- 46.5 mm (single pins +/- 49.5), vertical +/- 8.25 mm, yaw +/- 10 deg.
 
 ## 3. Duck-side parts
-Pad 100 x 76 x 0.8 mm FR4 ENIG on the flat chest face of body_front (no STL change; one 4 mm lead hole drilled after
-printing); DK2, DK3/DK4 (5 A fuse), DK5 (NTC, wake parts, 100 k), DK6 (SYS diode), DK7 (Pololu 5383, pack side, between the
+Pad 100 x 76 x 0.8 mm FR4 ENIG on the flat chest face of body_front (its four leads pass one 6.0 mm hole
+printed in body_front at the pad centre, with a 45 deg bell mouth inside and a chamfer at the pad: chest_hole.py; the GND and SENSE branches are
+spliced inside the trunk at JGD and JSN); DK2, DK3/DK4 (5 A fuse), DK5 (NTC, wake parts, 100 k), DK6 (SYS diode), DK7 (Pololu 5383, pack side, between the
 fuse and the 2813). Wiring: wiring/netlist.yaml (cables DC1 to DC4); seats: dock_seats.json. About 13 g with the leads.
 
 ## 4. What the battery job is asked for

@@ -42,7 +42,7 @@ Dock frame: x toward the mast, the paddle face at rest is x = 0, z up from the f
 
 Duck side (CAD check only): a 0.8 mm adhesive FR4 (or flex) pad, 100 x 76 mm, on the flat chest face of print/body_front.stl (flat
 from trunk z -2.8 to 78.9 mm; checked by ray tests on the V1 STL): since D50 SYS strip at trunk z 0 to 17.5, GND 19.5 to 37,
-SENSE 39 to 56.5, CHG+ 58.5 to 76, 2 mm gaps, ENIG. Wires through one 4 mm hole drilled after printing (a drill step like D24, no STL edit). Behind it, inside the
+SENSE 39 to 56.5, CHG+ 58.5 to 76, 2 mm gaps, ENIG. Wires through one 6.0 mm hole printed in body_front (chest_hole.py: a 45 deg bell mouth inside, a chamfer at the pad; only the four pad conductors pass it, the branches are spliced inside). Behind it, inside the
 trunk: the Pololu 5382 ideal diode, a 5 A fuse, the 100 k pack-sense resistor, the wake branch to the Pololu 2813 ON pad. The cell
 NTC sits in the seat the battery job left between the cells (twin/battery/BAY.md). About 10 g with the leads (calc only).
 
@@ -259,7 +259,7 @@ min x 32.4 / 21.6 Wh; dock time from section 5): MCP73213 1 : 2.1 to 1 : 5.1; BQ
 | R4 | 10 k NTC for the cell seat, zener, diode, resistors | 1 set | BLOCKER (commodity) | robot BOM.md line DK5; wire from BOM 23 and 25, the pad tape from BOM 29 |
 Read prices: **$68.48** (K1, K2, K5, R2, R3), before the BLOCKER lines. With the BQ24610EVM in place of K1: $122.58. The duck-side
 lines R1 to R4 are in the robot's BOM.md (DK1 to DK5, +$12.41 on its build total with the spare fuse) and MOUNTING.md (V1 track 8);
-the chest pad needs no STL change for V1.
+the chest pad's lead hole is printed in body_front (D50 review, chest_hole.py).
 
 ## 8. Bench tests (proposed; nothing run)
 | Test | Pass |
@@ -293,7 +293,7 @@ the chest pad needs no STL change for V1.
 
 ## 10. Files
 - Duck repo: altaay_lab/software/dock/ (autodock/, duck_autodock.yaml, tests/, THIRD_PARTY.md); altaay_lab/twin/dock/ (this file,
-  dock_parts.py, stl/).
+  dock_parts.py, chest_hole.py, seats/, stl/).
 - The shared lab gym (overlay gym/overlays/duck), dock/: DOCK.md (the course and the one-command acceptance run, also with a
   new policy), dock_course.py (floors hard, train, soft and the soft_mat option), dock_sim.py (--onnx, --mass, --knee, --mode),
   dock_stats.py, pulse_tables.py (a policy's pulse tables for duck_autodock.yaml), pulse_falls.py. Committed in the gym on the
@@ -330,7 +330,7 @@ home buddy, it doesn't need to be small. And since it can charge for like 6 hour
 
 ### 11.2 Size goes into the dock, not the duck
 Mass hurts the walk: the DCB200 duck (3.24 kg) walked at 0.030 m/s against 0.103 m/s (twin/battery/BATTERY_STUDY.md 5.2). So
-the duck gains only the fourth strip and two 0.2 g diode boards (about 1.5 g in all, calc); the dock gets the bigger adapter
+the duck gains only the fourth strip, two 0.2 g diode boards and a printed lead hole (about 1.5 g in all, calc); the dock gets the bigger adapter
 (9 V 4 A, 36 W, against 15 W), two more spring pins and nothing else. No fan.
 
 ### 11.3 Charge times with the load running (calc only, charge_awake model: generic NCA/NMC OCV, ASSUMPTION; 2 x 15 mOhm cells plus 50 mOhm path)
@@ -381,13 +381,13 @@ Duck: DK6 $3.79 + DK7 $4.95 = +$8.74 (BOM.md). Dock: two more 0932 pins $1.56; t
 price BLOCKER) replaces the 15 W one (also BLOCKER). Read total of the dock change: +$10.30.
 
 ### 11.8 Files, wiring and seats
-- wiring/netlist.yaml carries the dock wiring since 2026-11-06 ET: components DKP, DK2, F2, RT1, WK1, DK6, DK7; cables DC1 to DC4;
+- wiring/netlist.yaml carries the dock wiring since 2026-11-05 9:26 PM ET: components DKP, DK2, F2, RT1, WK1, DK6, DK7 and the inside splices JGD (GND) and JSN (SENSE); cables DC1 to DC4;
   the fused pack run P7 now ends at DK7 and SW1 VIN is the OR node PACK_OR. duck_side_netlist.yaml stays as the change record;
   dock_netlist.yaml is the dock.
 - 3D routes: seats/route2.py (1 mm grid of the trunk parts and placed boxes, a shortest clear path, string pulled) writes
   dock_routes.json; dock_cables3d.py puts DC1 to DC4 into cables3d/cables3d.json. All in the trunk, no joint crossed. Cuts are the
-  routed length plus 2 x 20 mm, one route per wire between its own two terminals: DC1 60, 60, 180 and 110 mm; DC2 210 mm;
-  DC3 230, 120 and 190 mm (WK1 to SW1 ON is an inline joint, cut 0); DC4 190, 70, 80, 60 and 70 mm. Every placed body (the
+  routed length plus 2 x 20 mm, one route per wire between its own two terminals: DC1 60, 60, 180 and 110 mm; DC2 60 and 210 mm;
+  DC3 60, 220, 120 and 180 mm (WK1 to SW1 ON is an inline joint, cut 0); DC4 190, 70, 80, 60 and 70 mm. Every placed body (the
   printed parts, the bought-part boxes and the seated dock parts) is an obstacle; only each pad's lead exit (at most 3.5 mm) is
   open. route2.py fails its self-check if a wire has no route of its own or any route point lies inside a body (passed), and
   dock_cables3d.py refuses a wire that reuses another's run. The NTC runs into the cell seat keep 0.35 mm to the parts (test fit).
@@ -399,11 +399,21 @@ price BLOCKER) replaces the 15 W one (also BLOCKER). Read total of the dock chan
   | F2 holder, standing | (-85, -42, 26) | the left inner side wall of body_middle_bottom |
   | DK6 Pololu 5382 | (-104, 1, 45) | the underside of trunk_top, beside the 2813 |
   | DK7 Pololu 5383 | (-104, 13, 45) | the underside of trunk_top, 16 mm from SW1 VIN |
-  No screw and no hole is added (D42, D39); the only hole is the 4 mm lead hole through body_front, which carries the leads.
+  No screw and no hole is added for the seats (D42, D39); the only hole is the 6.0 mm lead hole printed through body_front, which carries the leads.
 - Paddle (D50): dock_parts.py makes the 4-row, 6-pin plate (z 140 to 230, knuckles at 140 to 152 and 218 to 230 clear of the
   pin reliefs); the clearance check over 0 to 40 mm of travel and +/- 10 deg of swivel finds no overlap; with the duck seated
   every pin sits 8.75 mm inside its strip's edges (a section in the duck frame, CAD check only). The dock sim in the shared lab
   gym (overlay gym/overlays/duck) has the same four strips and six pins: hard floor seeds 0 to 4 dock with all six pins on
   their strips (sim pass only).
+- Chest feedthrough (chest_hole.py, CAD check only; section stl/chest_hole_section.png): print/body_front.stl has one 6.0 mm
+  hole at world (y 0, z 38) through the 10 mm chest wall (x 36 to 46), behind the pad centre, with the strain relief printed in
+  the wall: a 45 deg bell mouth 2 mm deep inside (10 mm across at the inner face) and a 0.8 mm 45 deg chamfer on the pad side,
+  so the leads bend over a wide mouth, not a sharp edge. The part loses 0.33 cm3 and stays watertight; re-sliced (light
+  profile) 57.63 g and 3.97 h against 57.56 g and 3.94 h, no support. A grommet ring 2 mm proud of the inner face was tried and
+  dropped: the part prints +x up, so the ring hangs under the chest wall and the slicer adds 1.8 g of support inside the shell. Only the four pad conductors pass it: 3 x 20 AWG
+  (1.9 mm) and 1 x 26 AWG (1.3 mm), a 4.6 mm bundle with 0.7 mm a side. GND and SENSE each leave the pad as one wire and branch
+  at a splice inside the trunk, 60 mm in: JGD (to DK2 G and BMS P-) and JSN (to the NTC and the wake branch). DK2 still sits 1.5 mm off the
+  wall; the grid and routes were rebuilt on the new STL (self-check passed, cuts unchanged). If close_holes.py output
+  is copied into print/ again, run chest_hole.py --write after it (it refuses a file that already has the hole).
 - U3 at 9.2 V: the Pololu D30V30F5 takes 5 to 45 V in (Pololu product page, read via the search index): passes, no change.
 - The thermal and charge runs: scratch data (lab rule 8).
