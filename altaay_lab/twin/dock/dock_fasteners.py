@@ -81,7 +81,7 @@ def joints():
                       "through the 8 mm face and the 3 mm channel flange; nylon nut inside the flange (11 + 4.0 = 15 mm grip)", 86.0))
         J.append(("drum axle", "M3x18 DIN 912 A2", "M3", 18, (DP.COIL_C[0], s * DP.ROD["y"] + 7.0, DP.COIL_C[1]), (0, -1, 0), f"dock_spring_cup_{'l' if s > 0 else 'r'}", f"dock_spring_drum_{'l' if s > 0 else 'r'}", "nut", "nut", "dock",
                   "the drum turns on it; across both channel walls (14 mm) with a nylon nut (14 + 4.0 = 18 mm)", s * DP.ROD["y"] - 7.0))
-        J.append(("spring strip to carriage", "M3x8 DIN 912 A2", "M3", 8, (104.0, s * DP.ROD["y"], 184.0 + DP.CF["t"]), (0, 0, -1), f"cf_{'l' if s > 0 else 'r'}", f"dock_spring_carriage_{'l' if s > 0 else 'r'}", "PLA pilot", "pla", "dock_carrier",
+        J.append(("spring strip to carriage", "M3x8 DIN 912 A2", "M3", 8, (104.0, s * DP.ROD["y"], 184.0 + DP.CF["t"]), (0, 0, -1), f"cf_{'l' if s > 0 else 'r'}_strip", f"dock_spring_carriage_{'l' if s > 0 else 'r'}", "PLA pilot", "pla", "dock_carrier",
                   "through the 3.25 mm hole of the CF37CS strip end into a 2.5 mm pilot in the carriage", None))
     for zk, ax, z0 in (("top", (0, 0, -1), 237.0), ("bottom", (0, 0, 1), 133.0)):
         J.append(("paddle pivot", "M3x18 DIN 912 A2", "M3", 18, (18.0, 0.0, z0), ax, "dock_paddle_carrier", "dock_paddle", "PLA pilot", "pla", "dock_carrier",

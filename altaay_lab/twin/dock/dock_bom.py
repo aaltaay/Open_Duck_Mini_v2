@@ -98,7 +98,7 @@ def check():
     F = json.load(open(os.path.join(HERE, "dock_fasteners.json")))
     cnt = collections.Counter(f["line"] for f in F["fasteners"])
     A = json.load(open(os.path.join(HERE, "dock_assembly.json")))["dock"]["components"]
-    comp = collections.Counter(c["bom"] for c in A if c["kind"] in ("bought", "board_part", "paper"))
+    comp = collections.Counter(c["bom"] for c in A if c["kind"] in ("bought", "board_part", "paper") and not c["id"].endswith("_strip"))   # a strip is the same spring as its coil
     NL = yaml.safe_load(open(os.path.join(HERE, "dock_netlist.yaml")))
     gb = collections.Counter(p["bom"] for p in NL["gate_board"]["parts"])
     need = {l[0]: l[4] for l in L}

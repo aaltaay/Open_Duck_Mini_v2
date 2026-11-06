@@ -40,7 +40,7 @@ def fasteners():
         return []
     out = []
     for f in json.load(open(p))["fasteners"]:
-        T = np.array(f["pose_dock"])
+        T = DA.link_transform(f.get("link", "dock"), "dock") @ np.array(f["pose_dock"], float)   # on its link, as dock_assembly places it
         if f["kind"] == "screw":
             m = trimesh.creation.cylinder(radius=f["d"] / 2, height=f["draw_length_mm"], sections=12); m.apply_translation((0, 0, f["draw_length_mm"] / 2))
             h = trimesh.creation.cylinder(radius=f["head"]["dk"] / 2, height=f["head"]["k"], sections=14); h.apply_translation((0, 0, -f["head"]["k"] / 2))

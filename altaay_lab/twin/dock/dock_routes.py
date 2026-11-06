@@ -21,7 +21,7 @@ Method (the same as the duck-side router, twin/dock/seats/route2.py, and its sel
 Cut rule: routed length + 2 x 20 mm service tails, + 20 mm for the paddle cable's 40 mm of travel (it is longest
 with the paddle at rest, measured here); the holder's own 16 AWG leads must reach with 10 mm to spare.
 """
-import argparse, json, os, re, sys
+import argparse, hashlib, json, os, re, sys
 import numpy as np
 import trimesh
 import yaml
@@ -124,11 +124,8 @@ def chaikin(P, n=3):
 
 
 def T_state(link, push, yaw):
-    if link == "paddle":
-        return DA.T_xyz(push, 0, 0) @ DA.rz(yaw, (18.0, 0.0))
-    if link == "carrier":
-        return DA.T_xyz(push, 0, 0)
-    return np.eye(4)
+    """the dock's own link transform (dock_assembly.link_transform), never a second copy of it"""
+    return DA.link_transform(link, (push, yaw))
 
 
 def pose_run(r, push, yaw):
@@ -166,24 +163,12 @@ def family(w):
     return None
 
 
-def obstacles():
-    comps = DA.components("dock")
+def obstacles(push=0.0, yaw=0.0):
+    """the bodies a wire must clear in a paddle pose: the dock's components and fasteners as dock_assembly builds them for
+    that pose (the strips rebuilt for the push), not a rest-state copy moved here"""
+    comps = DA.components((push, yaw))
     M = [(c["id"], c["mesh"]) for c in comps if not c["id"].startswith(("adapter", "plug"))]
-    fj = os.path.join(HERE, "dock_fasteners.json")
-    if os.path.exists(fj):
-        for f in json.load(open(fj))["fasteners"]:
-            T = np.array(f["pose_dock"])
-            if f["kind"] == "screw":
-                m = trimesh.creation.cylinder(radius=f["d"] / 2, height=f["length_mm"], sections=10); m.apply_translation((0, 0, f["length_mm"] / 2))
-                hd = trimesh.creation.cylinder(radius=f["head"]["dk"] / 2, height=f["head"]["k"], sections=10); hd.apply_translation((0, 0, -f["head"]["k"] / 2))
-                m = m.union(hd)                    # one watertight solid (a concatenation is open and contains() would miss it)
-            elif f["kind"] == "nut":
-                m = trimesh.creation.cylinder(radius=f["s"] / 2 / np.cos(np.pi / 6), height=f["h"], sections=6); m.apply_translation((0, 0, f["h"] / 2))
-            else:
-                continue
-            m.apply_transform(T)
-            M.append((f["id"], m))
-    return M
+    return M + DA.fastener_meshes((push, yaw))
 
 
 def grid(M):
@@ -350,18 +335,39 @@ def pairwise(cables, T, zone=None):
     return out
 
 
+def input_fingerprint(here=None):
+    """sha256 over everything a route result depends on: the printed parts' STLs, the fastener schedule (kinds, sizes,
+    links, poses), the netlist wires (ends, gauges, cables; not the cut lengths this script writes back), the terminals,
+    the docked pose and the sources of dock_parts.py, dock_assembly.py and this file (their design parameters). C12
+    recomputes it and fails on any mismatch, so a stale dock_cables3d.json can never pass."""
+    here = here or HERE
+    h = hashlib.sha256()
+    for n in sorted(DP.PRINTED):
+        h.update(n.encode()); h.update(open(os.path.join(here, "stl", n + ".stl"), "rb").read())
+    for f in json.load(open(os.path.join(here, "dock_fasteners.json")))["fasteners"]:
+        h.update(json.dumps([f.get(k) for k in ("id", "kind", "link", "pose_dock", "d", "length_mm", "head", "s", "h")], sort_keys=True).encode())
+    nl = yaml.safe_load(open(os.path.join(here, "dock_netlist.yaml")))
+    h.update(json.dumps([[w.get(k) for k in ("from", "to", "net", "gauge", "cable", "ends")] for w in nl["wires"]], sort_keys=True).encode())
+    h.update(json.dumps({k: np.round(np.asarray(v, float), 3).tolist() for k, v in sorted(terminals().items())}).encode())
+    for f in ("docked_pose.json", "dock_parts.py", "dock_assembly.py", "dock_routes.py"):
+        h.update(f.encode()); h.update(open(os.path.join(here, f), "rb").read())
+    return h.hexdigest()
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--write-cuts", action="store_true"); a = ap.parse_args()
     NL = yaml.safe_load(open(os.path.join(HERE, "dock_netlist.yaml")))
     T = terminals()
     M = obstacles()
+    FP = input_fingerprint()
     cache = os.environ.get("DOCK_ROUTE_CACHE")
-    if cache and os.path.exists(cache):
-        z = np.load(cache); occ, dist = z["occ"], z["dist"]
+    z = np.load(cache) if cache and os.path.exists(cache) else None
+    if z is not None and "fp" in z.files and str(z["fp"]) == FP:     # the grid cache is reused only for the same inputs
+        occ, dist = z["occ"], z["dist"]
     else:
         occ, dist = grid(M)
         if cache:
-            np.savez_compressed(cache, occ=occ, dist=dist)
+            np.savez_compressed(cache, occ=occ, dist=dist, fp=np.array(FP))
     print("grid", occ.shape, "solid", int(occ.sum()), flush=True)
     cables = {}
     bad = []
@@ -543,14 +549,9 @@ def main():
         print(w["cable"], fa, fb, rec.get("length_mm"), "clearance", rec.get("clearance_mm"), "radius", rad, flush=True)
     # 3. every state of the paddle (rest, docked, full travel, the swivel stops): bodies, wire to wire, bend radius of the free
     # span (3 x OD), stretch (the span's length covers its chord); the cut covers the longest state
-    comps = DA.components("dock"); moves = {c["id"]: c.get("moves") for c in comps}
-    flinks = {f["id"]: f.get("link") for f in json.load(open(os.path.join(HERE, "dock_fasteners.json")))["fasteners"]}
     state_res = {}
     for sname, (push, yaw) in STATES.items():
-        Ms = []
-        for cid, m in M:
-            lk = {"paddle": "paddle", "carrier": "carrier"}.get(moves.get(cid)) or {"dock_carrier": "carrier", "dock_paddle": "paddle"}.get(flinks.get(cid))
-            Ms.append((cid, m.copy().apply_transform(T_state(lk, push, yaw)) if lk else m))
+        Ms = obstacles(push, yaw)        # every body rebuilt for the pose by dock_assembly
         Ts = {k: (T_state("paddle", push, yaw) @ np.r_[v, 1.0])[:3] if k.startswith("PADDLE.") else v for k, v in T.items()}
         posed, issues = {}, []
         for cid, rs in cables.items():
@@ -594,7 +595,7 @@ def main():
         bad.append("a wire has two routes")
     if any(len(set(map(tuple, np.round(np.array(r["points"]), 0).tolist()))) < 2 for rs in cables.values() for r in rs if r["points"]):
         bad.append("a route has no length")
-    out = dict(meta=dict(generated_by="altaay_lab/twin/dock/dock_routes.py", label="CAD check only", frame="dock frame (dock_parts.py), mm, the dock state (paddle at rest, seat top up)",
+    out = dict(meta=dict(generated_by="altaay_lab/twin/dock/dock_routes.py", label="CAD check only", input_fingerprint=FP, frame="dock frame (dock_parts.py), mm, the dock state (paddle at rest, seat top up)",
                          grid_mm=H, lead_exit_mm=EXIT, rule="cut = the longest state's route + 2 x 20 mm tails (the paddle cable's free span carries the travel in its own length); holder leads 90 mm must reach with 10 mm to spare",
                          states={k: dict(push_mm=round(v[0], 2), yaw_deg=round(float(np.degrees(v[1])), 2), check=state_res.get(k, {}).get("check")) for k, v in STATES.items()},
                          od_source="[I] BNTECHGO silicone wire listings (16 AWG 3.0 mm, 20 AWG 1.8 mm); 26 AWG 1.3 mm (BOM 25)"),

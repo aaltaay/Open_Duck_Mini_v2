@@ -2,7 +2,7 @@
  "label": "CAD check only",
  "frame": "dock frame, mm: x toward the mast (paddle face at rest x 0), y left, z up from the floor",
  "docked": {
-  "n": 94,
+  "n": 96,
   "interferences": [],
   "components": [
    {
@@ -623,25 +623,47 @@
    },
    {
     "id": "cf_l",
-    "label": "Constant-force spring left (Century CF37CS)",
+    "label": "Constant-force spring left (Century CF37CS), coil",
     "kind": "bought",
     "bom": "K8c",
     "group": "spring",
-    "mount": "coil on the printed drum; the strip end under an M3x8 on the carriage",
+    "mount": "coil on the printed drum (fixed: it stays on the drum at every push)",
     "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
     "bounds": [
      [
       88.06,
+      37.62,
+      184.08
+     ],
+     [
+      95.94,
+      42.38,
+      191.97
+     ]
+    ],
+    "volume_mm3": 79.0
+   },
+   {
+    "id": "cf_l_strip",
+    "label": "Constant-force spring left (Century CF37CS), extended strip",
+    "kind": "bought",
+    "bom": "K8c",
+    "group": "spring",
+    "mount": "the strip from the coil to the carriage, its length rebuilt for the push; its end under an M3x8 on the carriage",
+    "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
+    "bounds": [
+     [
+      92.0,
       37.62,
       184.0
      ],
      [
       118.93,
       42.38,
-      191.97
+      184.08
      ]
     ],
-    "volume_mm3": 89.2
+    "volume_mm3": 10.2
    },
    {
     "id": "rod_r",
@@ -667,25 +689,47 @@
    },
    {
     "id": "cf_r",
-    "label": "Constant-force spring right (Century CF37CS)",
+    "label": "Constant-force spring right (Century CF37CS), coil",
     "kind": "bought",
     "bom": "K8c",
     "group": "spring",
-    "mount": "coil on the printed drum; the strip end under an M3x8 on the carriage",
+    "mount": "coil on the printed drum (fixed: it stays on the drum at every push)",
     "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
     "bounds": [
      [
       88.06,
+      -42.38,
+      184.08
+     ],
+     [
+      95.94,
+      -37.62,
+      191.97
+     ]
+    ],
+    "volume_mm3": 79.0
+   },
+   {
+    "id": "cf_r_strip",
+    "label": "Constant-force spring right (Century CF37CS), extended strip",
+    "kind": "bought",
+    "bom": "K8c",
+    "group": "spring",
+    "mount": "the strip from the coil to the carriage, its length rebuilt for the push; its end under an M3x8 on the carriage",
+    "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
+    "bounds": [
+     [
+      92.0,
       -42.38,
       184.0
      ],
      [
       118.93,
       -37.62,
-      191.97
+      184.08
      ]
     ],
-    "volume_mm3": 89.2
+    "volume_mm3": 10.2
    },
    {
     "id": "seat_spring_b",
@@ -2095,7 +2139,7 @@
   "axial": "1/4 W axial resistor 6.3 x 2.4 mm (SparkFun COM-10969 kit), 1N4148 DO-35 4.0 x 1.9 mm (onsemi data sheet)"
  },
  "dock": {
-  "n": 94,
+  "n": 96,
   "interferences": [],
   "components": [
    {
@@ -2716,25 +2760,47 @@
    },
    {
     "id": "cf_l",
-    "label": "Constant-force spring left (Century CF37CS)",
+    "label": "Constant-force spring left (Century CF37CS), coil",
     "kind": "bought",
     "bom": "K8c",
     "group": "spring",
-    "mount": "coil on the printed drum; the strip end under an M3x8 on the carriage",
+    "mount": "coil on the printed drum (fixed: it stays on the drum at every push)",
     "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
     "bounds": [
      [
       88.06,
+      37.62,
+      184.08
+     ],
+     [
+      95.94,
+      42.38,
+      191.97
+     ]
+    ],
+    "volume_mm3": 79.0
+   },
+   {
+    "id": "cf_l_strip",
+    "label": "Constant-force spring left (Century CF37CS), extended strip",
+    "kind": "bought",
+    "bom": "K8c",
+    "group": "spring",
+    "mount": "the strip from the coil to the carriage, its length rebuilt for the push; its end under an M3x8 on the carriage",
+    "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
+    "bounds": [
+     [
+      92.0,
       37.62,
       184.0
      ],
      [
       106.5,
       42.38,
-      191.97
+      184.08
      ]
     ],
-    "volume_mm3": 84.5
+    "volume_mm3": 5.5
    },
    {
     "id": "rod_r",
@@ -2760,25 +2826,47 @@
    },
    {
     "id": "cf_r",
-    "label": "Constant-force spring right (Century CF37CS)",
+    "label": "Constant-force spring right (Century CF37CS), coil",
     "kind": "bought",
     "bom": "K8c",
     "group": "spring",
-    "mount": "coil on the printed drum; the strip end under an M3x8 on the carriage",
+    "mount": "coil on the printed drum (fixed: it stays on the drum at every push)",
     "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
     "bounds": [
      [
       88.06,
+      -42.38,
+      184.08
+     ],
+     [
+      95.94,
+      -37.62,
+      191.97
+     ]
+    ],
+    "volume_mm3": 79.0
+   },
+   {
+    "id": "cf_r_strip",
+    "label": "Constant-force spring right (Century CF37CS), extended strip",
+    "kind": "bought",
+    "bom": "K8c",
+    "group": "spring",
+    "mount": "the strip from the coil to the carriage, its length rebuilt for the push; its end under an M3x8 on the carriage",
+    "src": "[I] Century Spring CF37CS page: drum 6.4 mm, 4.75 x 0.08 mm, 304.8 mm, 1.65 N",
+    "bounds": [
+     [
+      92.0,
       -42.38,
       184.0
      ],
      [
       106.5,
       -37.62,
-      191.97
+      184.08
      ]
     ],
-    "volume_mm3": 84.5
+    "volume_mm3": 5.5
    },
    {
     "id": "seat_spring_b",

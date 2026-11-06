@@ -36,6 +36,23 @@ def assembly_fail(A):
     return hits, mot
 
 
+def route_staleness(C, NL, here, DRt):
+    """why the committed route result (C, dock_cables3d.json) is not the one the live inputs give: the input fingerprint
+    recomputed on `here` (the rebuilt parts and schedule) against the one stamped in C, and every run's diameter against
+    its live netlist gauge. An empty list means current."""
+    out = []
+    fp = (C.get("meta") or {}).get("input_fingerprint")
+    live = DRt.input_fingerprint(here)
+    if fp != live:
+        out.append("input fingerprint %s, the live inputs give %s (rerun dock_routes.py --write-cuts)" % ((fp or "missing")[:12], live[:12]))
+    runs = {(r["frm"], r["to"]): r for c in C["cables"] for r in c["runs"]}
+    for w in NL["wires"]:
+        r = runs.get((w["from"], w["to"]))
+        if r is not None and abs(r["od_mm"] - DRt.OD[w["gauge"]]) > 1e-9:
+            out.append("%s-%s routed at %s mm, the netlist gauge %s is %s mm" % (w["from"], w["to"], r["od_mm"], w["gauge"], DRt.OD[w["gauge"]]))
+    return out
+
+
 def main():
     R = V.Result("C12", "The charging dock: parts, fits, screws, wiring, routes, BOM against the model (twin/dock, CAD check only)",
                  "VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py",
@@ -109,7 +126,13 @@ def main():
             short.append("%s-%s cut %s < %s" % (w["from"], w["to"], w["cut_mm"], round(need)))
     sys.path.insert(0, D)
     import dock_routes as DRt
-    over = DRt.pairwise({c["id"]: c["runs"] for c in C["cables"]}, {k: __import__("numpy").array(v) for k, v in C["terminals"].items()})
+    stale = route_staleness(C, NL, scr, DRt)
+    R.ev("route result against the live inputs (fingerprint of parts, fasteners, netlist, terminals, design sources; diameters from the netlist gauges): %s" % (stale[:3] or "current"))
+    if stale:
+        R.find("FAIL", "dock_cables3d.json is stale: %s" % stale[:3], fix="run dock_routes.py --write-cuts", where="altaay_lab/twin/dock/dock_routes.py")
+    gauge = {(w["from"], w["to"]): w["gauge"] for w in NL["wires"]}
+    live_runs = {c["id"]: [dict(r, od_mm=DRt.OD[gauge[(r["frm"], r["to"])]]) if (r["frm"], r["to"]) in gauge else r for r in c["runs"]] for c in C["cables"]}
+    over = DRt.pairwise(live_runs, {k: __import__("numpy").array(v) for k, v in DRt.terminals().items()})
     R.ev("wire to wire (centre lines at least the sum of the radii apart, outside shared terminal zones): %s" % ("no overlap" if not over else over[:3]))
     if over:
         R.find("FAIL", "routed wires overlap: %s" % over[:3], where="altaay_lab/twin/dock/dock_routes.py")
@@ -148,7 +171,10 @@ def main():
     for pre in ("dock", "docked"):
         mp = os.path.join(V.out_dir(), "viewer_dock", pre + "_manifest.json")
         if os.path.exists(mp):
-            dang = DSc.check_refs(json.load(open(mp)))
+            Mf = json.load(open(mp))
+            if Mf["meta"].get("route_fingerprint") != C["meta"].get("input_fingerprint"):
+                R.find("FAIL", "%s scene was built from another route result (fingerprint %s, routes %s): rebuild it" % (pre, str(Mf["meta"].get("route_fingerprint"))[:12], str(C["meta"].get("input_fingerprint"))[:12]), where="altaay_lab/viewer/make_viewer_data.py")
+            dang = DSc.check_refs(Mf)
             R.ev("%s scene manifest: references to dock nodes that resolve to no node: %s" % (pre, dang[:4] or "none"))
             if dang:
                 R.find("FAIL", "%s scene: dangling references %s" % (pre, dang[:4]), where="altaay_lab/viewer/dock_scene.py")

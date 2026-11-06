@@ -28,3 +28,26 @@ def test_seating_missing_host_is_unchecked(monkeypatch):
     monkeypatch.setattr(DA, "components", lambda state="dock": [c for c in real(state) if c["id"] != "dock_spine"])
     bad = DA.fastener_seating("dock")
     assert any("UNCHECKED" in str(x[2]) for x in bad)
+
+
+def test_gauge_change_makes_routes_stale_until_regenerated(tmp_path):
+    """C12 fails on a route result whose inputs changed: one wire's gauge changed in a copy of the dock folder makes
+    route_staleness report it (fingerprint and diameter); the committed inputs give no finding"""
+    import json, shutil, yaml
+    import dock_routes as DRt
+    d = tmp_path / "dock"
+    shutil.copytree(HERE, d, ignore=shutil.ignore_patterns("__pycache__", "*.png"))
+    C = json.load(open(d / "dock_cables3d.json"))
+    NL = yaml.safe_load(open(d / "dock_netlist.yaml"))
+    assert c12_dock.route_staleness(C, NL, str(d), DRt) == []
+    w = NL["wires"][0]
+    w["gauge"] = "26 AWG" if w["gauge"] != "26 AWG" else "20 AWG"
+    yaml.safe_dump(NL, open(d / "dock_netlist.yaml", "w"), sort_keys=False)
+    stale = c12_dock.route_staleness(C, NL, str(d), DRt)
+    assert any("fingerprint" in s for s in stale) and any("gauge" in s for s in stale)
+    C["meta"]["input_fingerprint"] = DRt.input_fingerprint(str(d))    # what a regenerated result would carry
+    for c in C["cables"]:
+        for r in c["runs"]:
+            if (r["frm"], r["to"]) == (w["from"], w["to"]):
+                r["od_mm"] = DRt.OD[w["gauge"]]
+    assert c12_dock.route_staleness(C, NL, str(d), DRt) == []

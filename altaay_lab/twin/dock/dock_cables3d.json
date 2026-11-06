@@ -2,6 +2,7 @@
  "meta": {
   "generated_by": "altaay_lab/twin/dock/dock_routes.py",
   "label": "CAD check only",
+  "input_fingerprint": "dedb7e1224447b61c63655cebcf3424ddc2f80cf06876bb32b58fd4848881307",
   "frame": "dock frame (dock_parts.py), mm, the dock state (paddle at rest, seat top up)",
   "grid_mm": 1.5,
   "lead_exit_mm": 3.5,

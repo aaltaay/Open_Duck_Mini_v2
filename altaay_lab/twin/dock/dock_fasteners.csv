@@ -19,11 +19,11 @@ DF017,screw,M3x30 DIN 912 A2,column ribs,dock_column_l3,dock_column_r3,nut,4.0,4
 DF018,screw,M3x16 DIN 912 A2,spring channel to mast face,dock_column_l2,dock_spring_cup_l,nut,4.0,4.0,,OK,K8f,75.0,40.0,163.0,1.0 0.0 0.0
 DF019,screw,M3x16 DIN 912 A2,spring channel to mast face,dock_column_l2,dock_spring_cup_l,nut,4.0,4.0,,OK,K8f,75.0,40.0,197.0,1.0 0.0 0.0
 DF020,screw,M3x18 DIN 912 A2,drum axle,dock_spring_cup_l,dock_spring_drum_l,nut,4.0,4.0,16.0,OK,K8e,92.0,47.0,188.03,0.0 -1.0 0.0
-DF021,screw,M3x8 DIN 912 A2,spring strip to carriage,cf_l,dock_spring_carriage_l,PLA pilot,7.92,6.0,0.68,OK,K8l,104.0,40.0,184.08,0.0 0.0 -1.0
+DF021,screw,M3x8 DIN 912 A2,spring strip to carriage,cf_l_strip,dock_spring_carriage_l,PLA pilot,7.92,6.0,0.68,OK,K8l,104.0,40.0,184.08,0.0 0.0 -1.0
 DF022,screw,M3x16 DIN 912 A2,spring channel to mast face,dock_column_r1,dock_spring_cup_r,nut,4.0,4.0,,OK,K8f,75.0,-40.0,163.0,1.0 0.0 0.0
 DF023,screw,M3x16 DIN 912 A2,spring channel to mast face,dock_column_r1,dock_spring_cup_r,nut,4.0,4.0,,OK,K8f,75.0,-40.0,197.0,1.0 0.0 0.0
 DF024,screw,M3x18 DIN 912 A2,drum axle,dock_spring_cup_r,dock_spring_drum_r,nut,4.0,4.0,,OK,K8e,92.0,-33.0,188.03,0.0 -1.0 0.0
-DF025,screw,M3x8 DIN 912 A2,spring strip to carriage,cf_r,dock_spring_carriage_r,PLA pilot,7.92,6.0,0.68,OK,K8l,104.0,-40.0,184.08,0.0 0.0 -1.0
+DF025,screw,M3x8 DIN 912 A2,spring strip to carriage,cf_r_strip,dock_spring_carriage_r,PLA pilot,7.92,6.0,0.68,OK,K8l,104.0,-40.0,184.08,0.0 0.0 -1.0
 DF026,screw,M3x18 DIN 912 A2,paddle pivot,dock_paddle_carrier,dock_paddle,PLA pilot,11.0,6.0,129.0,OK,K8e,18.0,0.0,237.0,0.0 0.0 -1.0
 DF027,screw,M3x18 DIN 912 A2,paddle pivot,dock_paddle_carrier,dock_paddle,PLA pilot,11.0,6.0,,OK,K8e,18.0,0.0,133.0,0.0 0.0 1.0
 DF028,screw,M3x8 DIN 912 A2,seat to spine,dock_seat_base,dock_spine,M3 insert,5.0,4.5,3.0,OK,K8l,-18.0,0.0,30.0,1.0 0.0 0.0

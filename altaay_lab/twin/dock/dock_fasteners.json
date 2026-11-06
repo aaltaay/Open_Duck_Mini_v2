@@ -1552,7 +1552,7 @@
      1.0
     ]
    ],
-   "part": "cf_l",
+   "part": "cf_l_strip",
    "into": "dock_spring_carriage_l",
    "anchor": "PLA pilot",
    "e": 7.92,
@@ -1850,7 +1850,7 @@
      1.0
     ]
    ],
-   "part": "cf_r",
+   "part": "cf_r_strip",
    "into": "dock_spring_carriage_r",
    "anchor": "PLA pilot",
    "e": 7.92,

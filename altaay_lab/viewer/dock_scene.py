@@ -241,6 +241,7 @@ def dock_manifest(nodes_man, cables, generated):
                           frame="dock frame: x toward the mast (the paddle face at rest x 0), y left, z up from the floor (glTF root turns it y-up, scale 0.001)",
                           sources=dict(parts="altaay_lab/twin/dock/dock_assembly.py", fasteners="altaay_lab/twin/dock/dock_fasteners.json",
                                        cables="altaay_lab/twin/dock/dock_cables3d.json", bom="altaay_lab/twin/dock/dock_bom.json"),
+                          route_fingerprint=(json.load(open(os.path.join(DOCK, "dock_cables3d.json"))).get("meta") or {}).get("input_fingerprint"),
                           explode=dict(stage1=[0.0, 0.6], stage2=[0.2, 0.9], stage3=[0.5, 1.0], horn_pull=14.0, insert_pull=11.0),
                           totals=T, scene="dock"),
                 categories=cats, groups=[dict(id="dock", label="Dock station", subs=list(SUBS))], subassemblies=subs, tray=None, nodes=nodes_man,

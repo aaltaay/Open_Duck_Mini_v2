@@ -60,12 +60,25 @@ def load_stl(name):
 
 
 # ------------------------------------------------------------------------------------------------ the parts list
+def pose_of(state="dock"):
+    """(push mm, yaw rad, seat lift mm) of a state: "dock" (rest, no duck), "docked" (the sim pose), or a tuple
+    (push, yaw[, seat lift]) for any paddle pose. The one place a state becomes numbers."""
+    if isinstance(state, (tuple, list)):
+        return float(state[0]), float(state[1]), float(state[2]) if len(state) > 2 else DP.SEAT_TRAVEL
+    if state == "docked":
+        return PUSH_DOCKED, YAW_DOCKED, 0.0
+    if state == "dock":
+        return 0.0, 0.0, DP.SEAT_TRAVEL
+    raise ValueError("unknown dock state %r" % (state,))
+
+
 def components(state="dock"):
-    """list of dicts: id, label, kind (printed | bought | board_part | paper), bom (line), mount, src, mesh (trimesh)"""
+    """list of dicts: id, label, kind (printed | bought | board_part | paper), bom (line), mount, src, mesh (trimesh).
+    THE geometry of the dock in a state (see pose_of): every consumer (the interference and motion checks, the route
+    obstacles, the renders, the viewer) builds its meshes here, so a part that does not move rigidly (the spring strip)
+    is rebuilt for each pose instead of being carried along with a link"""
     C = []
-    seat_dz = 0.0 if state == "docked" else DP.SEAT_TRAVEL
-    push = PUSH_DOCKED if state == "docked" else 0.0
-    yaw = YAW_DOCKED if state == "docked" else 0.0
+    push, yaw, seat_dz = pose_of(state)
 
     def add(cid, label, kind, bom, mesh, mount="", src="", group="dock", moves=None):
         C.append(dict(id=cid, label=label, kind=kind, bom=bom, mount=mount, src=src, group=group, moves=moves, mesh=mesh))
@@ -107,9 +120,11 @@ def components(state="dock"):
         add(f"rod_{side}", f"Guide rod {'left' if s > 0 else 'right'}, 4 x 76 mm", "bought", "K8a", r, "pressed into the carrier crossbar and the carriage", SRC["rod"], "spring", "carrier")
         cx, cz = DP.COIL_C
         coil = cyl_y(cx, s * DP.ROD["y"] - DP.CF["width"] / 2, s * DP.ROD["y"] + DP.CF["width"] / 2, cz, DP.CF["coil_od"]).difference(cyl_y(cx, s * DP.ROD["y"] - 3, s * DP.ROD["y"] + 3, cz, DP.CF["drum"] - 0.01))
+        add(f"cf_{side}", f"Constant-force spring {'left' if s > 0 else 'right'} (Century CF37CS), coil", "bought", "K8c", coil,
+            "coil on the printed drum (fixed: it stays on the drum at every push)", SRC["cf"], "spring", None)
         strip = box(cx, 104.0 + push + 2.5, s * DP.ROD["y"] - DP.CF["width"] / 2, s * DP.ROD["y"] + DP.CF["width"] / 2, 184.0, 184.0 + DP.CF["t"])
-        add(f"cf_{side}", f"Constant-force spring {'left' if s > 0 else 'right'} (Century CF37CS)", "bought", "K8c", coil.union(strip),
-            "coil on the printed drum; the strip end under an M3x8 on the carriage", SRC["cf"], "spring", "carrier")
+        add(f"cf_{side}_strip", f"Constant-force spring {'left' if s > 0 else 'right'} (Century CF37CS), extended strip", "bought", "K8c", strip,
+            "the strip from the coil to the carriage, its length rebuilt for the push; its end under an M3x8 on the carriage", SRC["cf"], "spring", "strip")
     # seat springs
     for x in DP.SEAT_POSTS:
         L = DP.SPRING_REST_L - (DP.SEAT_TRAVEL - seat_dz)
@@ -202,15 +217,32 @@ def components(state="dock"):
 def link_transform(link, state="dock"):
     """4x4 of a dock link in a state: the carrier slides with the push, the paddle also turns about its pivot, the seat
     top floats up with no duck; every fastener and wire end takes the transform of the link it rides on"""
-    push = PUSH_DOCKED if state == "docked" else 0.0
-    yaw = YAW_DOCKED if state == "docked" else 0.0
-    if link == "dock_carrier":
+    push, yaw, seat_dz = pose_of(state)
+    if link in ("dock_carrier", "carrier"):
         return T_xyz(push, 0, 0)
-    if link == "dock_paddle":
+    if link in ("dock_paddle", "paddle"):
         return T_xyz(push, 0, 0) @ rz(yaw, (18.0, 0.0))
-    if link == "dock_seat_top":
-        return T_xyz(0, 0, 0.0 if state == "docked" else DP.SEAT_TRAVEL)
+    if link in ("dock_seat_top", "seat"):
+        return T_xyz(0, 0, seat_dz)
     return np.eye(4)
+
+
+def fastener_meshes(state="dock"):
+    """every screw and nut of dock_fasteners.json as a watertight solid, placed on its link in the state (pose_of): the
+    one fastener geometry the route obstacles and the checks use"""
+    out = []
+    for f in json.load(open(os.path.join(HERE, "dock_fasteners.json")))["fasteners"]:
+        if f["kind"] == "screw":
+            m = trimesh.creation.cylinder(radius=f["d"] / 2, height=f["length_mm"], sections=10); m.apply_translation((0, 0, f["length_mm"] / 2))
+            hd = trimesh.creation.cylinder(radius=f["head"]["dk"] / 2, height=f["head"]["k"], sections=10); hd.apply_translation((0, 0, -f["head"]["k"] / 2))
+            m = m.union(hd)                    # one watertight solid (a concatenation is open and contains() would miss it)
+        elif f["kind"] == "nut":
+            m = trimesh.creation.cylinder(radius=f["s"] / 2 / np.cos(np.pi / 6), height=f["h"], sections=6); m.apply_translation((0, 0, f["h"] / 2))
+        else:
+            continue
+        m.apply_transform(link_transform(f.get("link", "dock"), state) @ np.array(f["pose_dock"], float))
+        out.append((f["id"], m))
+    return out
 
 
 def fastener_seating(state, tol=0.3):
@@ -291,19 +323,14 @@ def interferences(M, tol_mm3=0.5):
 
 
 def motion_check():
-    """the moving paddle group (paddle, pins, carrier, rods, carriages, strips) against the fixed parts at 0, 20, 40 mm
-    and -10, 0, +10 deg of swivel"""
-    fixed = {c["id"]: c["mesh"] for c in components("dock") if c.get("moves") not in ("paddle", "carrier")}
+    """the moving paddle group (paddle, pins, carrier, rods, carriages, the strips rebuilt for the push) against the fixed
+    parts at 0, 20, 40 mm and -10, 0, +10 deg of swivel; every pose is built by components() itself"""
     res = []
     for push in (0.0, 20.0, 40.0):
         for yaw_deg in (-10.0, 0.0, 10.0):
-            T_push = T_xyz(push, 0, 0); T_pad = T_push @ rz(np.radians(yaw_deg), (18.0, 0.0))
-            mov = {}
-            for c in components("dock"):
-                if c.get("moves") == "paddle":
-                    mov[c["id"]] = c["mesh"].copy().apply_transform(T_xyz(0, 0, 0) @ np.linalg.inv(np.eye(4)) @ T_pad)
-                elif c.get("moves") == "carrier":
-                    mov[c["id"]] = c["mesh"].copy().apply_transform(T_push)
+            comps = components((push, np.radians(yaw_deg)))
+            fixed = {c["id"]: c["mesh"] for c in comps if c.get("moves") not in ("paddle", "carrier", "strip")}
+            mov = {c["id"]: c["mesh"] for c in comps if c.get("moves") in ("paddle", "carrier", "strip")}
             hits = []
             for i, mi in mov.items():
                 for j, mj in list(fixed.items()) + [(k, v) for k, v in mov.items() if k != i]:

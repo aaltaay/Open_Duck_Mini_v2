@@ -38,9 +38,11 @@ Total 1102.5 g, 77.8 h.
 | pin_SENSE | Spring pin SENSE (Mill-Max 0933) | K5 | press-fit into the 1.60 mm bore, solder cup at the back |
 | pin_CHG | Spring pin CHG (Mill-Max 0933) | K5 | press-fit into the 1.60 mm bore, solder cup at the back |
 | rod_l | Guide rod left, 4 x 76 mm | K8a | pressed into the carrier crossbar and the carriage |
-| cf_l | Constant-force spring left (Century CF37CS) | K8c | coil on the printed drum; the strip end under an M3x8 on the carriage |
+| cf_l | Constant-force spring left (Century CF37CS), coil | K8c | coil on the printed drum (fixed: it stays on the drum at every push) |
+| cf_l_strip | Constant-force spring left (Century CF37CS), extended strip | K8c | the strip from the coil to the carriage, its length rebuilt for the push; its end under an M3x8 on the carriage |
 | rod_r | Guide rod right, 4 x 76 mm | K8a | pressed into the carrier crossbar and the carriage |
-| cf_r | Constant-force spring right (Century CF37CS) | K8c | coil on the printed drum; the strip end under an M3x8 on the carriage |
+| cf_r | Constant-force spring right (Century CF37CS), coil | K8c | coil on the printed drum (fixed: it stays on the drum at every push) |
+| cf_r_strip | Constant-force spring right (Century CF37CS), extended strip | K8c | the strip from the coil to the carriage, its length rebuilt for the push; its end under an M3x8 on the carriage |
 | seat_spring_b | Seat spring (Century CC-28CS) | K8d | in the post pocket, round the guide pin |
 | seat_spring_f | Seat spring (Century CC-28CS) | K8d | in the post pocket, round the guide pin |
 | switch | Seat microswitch (Omron D2F-01L) | K3 | 2 x M2x12 through its holes into the slotted tower, nylon nuts; height set at BT5 |
