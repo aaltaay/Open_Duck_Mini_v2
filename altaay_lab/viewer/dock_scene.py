@@ -27,6 +27,36 @@ SUBS = {"seat": ("Seat", "dock", [-110, 0, 0]), "spine": ("Spine", "dock", [-55,
         "bay": ("Electronics bay", "dock", [120, 0, -10])}
 
 
+def nid(x):
+    """the one id function of the dock scenes: every node id and every reference to a dock node goes through it"""
+    return None if x is None else "dock-" + str(x)
+
+
+def check_refs(man, only_prefix="dock-"):
+    """every id the manifest refers to (fastener joins and hosts, BOM view and printed-part node lists, Every part rows,
+    cable follow nodes) resolves to a node of this scene; with only_prefix, refs from and to dock records are checked
+    (the duck records of the Docked scene keep the duck scene's own conventions). Returns the dangling references."""
+    nodes = set(man["nodes"]) | {c["node"] for c in man.get("cables", [])}
+    bad = []
+    for k, v in man["nodes"].items():
+        if only_prefix and not k.startswith(only_prefix):
+            continue
+        for j in list(v.get("joins") or []) + ([v["host"]] if v.get("host") else []):
+            if j not in nodes:
+                bad.append(("node " + k, j))
+    lists = [("bom " + str(b.get("line")), b.get("nodes") or []) for b in man["checklist"]["bom"]] + \
+            [("printed " + str(b.get("stl")), b.get("nodes") or []) for b in man["checklist"]["printed"]] + \
+            [("every part " + str(b.get("id")), b.get("nodes") or []) for b in man.get("bom_full", [])] + \
+            [("cable " + str(c.get("id")), [x for x in (c.get("point_follow") or []) if x]) for c in man.get("cables", [])]
+    for where, ids in lists:
+        for j in ids:
+            if only_prefix and not str(j).startswith(only_prefix):
+                continue
+            if j not in nodes:
+                bad.append((where, j))
+    return bad
+
+
 def sub_of(c):
     i = c["id"]
     if i.startswith(("dock_seat", "seat_spring", "switch")) or i in ("foot_1", "foot_2", "foot_3", "foot_4"):
@@ -78,17 +108,17 @@ def dock_parts(state):
     comps = DA.components(state)
     geoms, nodes, man = [], [], {}
     for c in comps:
-        nid = "dock-" + c["id"]
-        geoms.append(geom_of(c["mesh"], nid)); nodes.append(dict(name=nid, mesh=len(geoms) - 1, matrix=np.eye(4)))
+        nid_ = nid(c["id"])
+        geoms.append(geom_of(c["mesh"], nid_)); nodes.append(dict(name=nid_, mesh=len(geoms) - 1, matrix=np.eye(4)))
         sub = sub_of(c)
-        man[nid] = dict(label=c["label"], part=c["id"], file="twin/dock/stl/%s.stl" % c["id"].rsplit("_", 1)[0] if c["kind"] == "printed" and c["id"][-2:] in ("_l", "_r") and "spring" in c["id"] else
+        man[nid_] = dict(label=c["label"], part=c["id"], file="twin/dock/stl/%s.stl" % c["id"].rsplit("_", 1)[0] if c["kind"] == "printed" and c["id"][-2:] in ("_l", "_r") and "spring" in c["id"] else
                         ("twin/dock/stl/%s.stl" % c["id"] if c["kind"] == "printed" else "(drawn) " + c["label"]),
                         link="dock", sub=sub, category=cat_of(c), status="OK", blockers=[], mount=c["mount"], v2=v2_of(c), qty=1,
                         material="PLA, light profile" if c["kind"] == "printed" else "", bom=c["bom"], source=c["src"])
     F = json.load(open(os.path.join(DOCK, "dock_fasteners.json")))["fasteners"]
     for f in F:
         T = DA.link_transform(f.get("link", "dock"), state) @ np.array(f["pose_dock"], float)   # the fastener rides on its link
-        nid = "dock-" + f["id"]
+        nid_ = nid(f["id"])
         if f["kind"] == "screw":
             m = screw_mesh(f["d"], f["length_mm"], f["head"]["dk"], f["head"]["k"]); cat = "screw"
             lab = "%s: %s into %s" % (f["spec"], f["part"], f["into"])
@@ -98,17 +128,19 @@ def dock_parts(state):
         else:
             m = trimesh.creation.cylinder(radius=f["s"] / 2 / np.cos(np.pi / 6), height=f["h"], sections=6); m.apply_translation((0, 0, f["h"] / 2)); cat = "connector"
             lab = "%s (%s)" % (f["spec"], f.get("screw") or "jack")
-        geoms.append(geom_of(m, nid)); nodes.append(dict(name=nid, mesh=len(geoms) - 1, matrix=T))
+        geoms.append(geom_of(m, nid_)); nodes.append(dict(name=nid_, mesh=len(geoms) - 1, matrix=T))
         ax = np.array(f["axis_world"], float)
         sub = "paddle" if f.get("group") == "paddle pivot" else "spring" if f.get("group", "").startswith(("drum", "spring")) else \
             "seat" if f.get("group", "").startswith("seat") else "spine" if f.get("group") == "spine to base" else \
             "bay" if f.get("group", "").startswith(("bay", "gate", "DC")) else "mast"
-        man[nid] = dict(label=lab, part=cat, fid=f["id"], file="(drawn) %s" % f["spec"], link="dock", sub=sub, category=cat, qty=1,
+        man[nid_] = dict(label=lab, part=cat, fid=f["id"], file="(drawn) %s" % f["spec"], link="dock", sub=sub, category=cat, qty=1,
                         material="A2 stainless" if cat != "insert" else "brass", bom=f["line"], status=f.get("len_status", "OK"), blockers=[],
                         mount="%s; engaged %s mm (rule %s)" % (f.get("anchor", ""), f.get("e", ""), f.get("e_min", "")) if cat == "screw" else "",
                         color=f.get("color"), v2=[0, 0, 0], v3=(-ax * (14.0 if cat == "screw" else 9.0)).round(2).tolist(),
                         spec=dict(size=f.get("size"), length=f.get("length_mm"), head=(f.get("head") or {}).get("type")),
-                        joins=[f.get("part"), f.get("into")], supplied="DOCK " + f["line"], note="; ".join(f.get("notes", [])))
+                        joins=[nid(x) for x in ((f.get("part"), f.get("into")) if f["kind"] == "screw" else (f.get("part"), f.get("screw"))) if x],
+                        host=nid(f.get("into") or f.get("part") or f.get("screw")),
+                        supplied="DOCK " + f["line"], note="; ".join(f.get("notes", [])))
     return geoms, nodes, man
 
 
@@ -124,7 +156,7 @@ def dock_cables():
             P = np.array(r["points"])
             subs = ["paddle" if (p[0] < 22 and p[2] > 125) else "seat" if p[0] < -15 else "spine" if p[0] < 30 else "bay" if p[0] >= 103 else "mast" for p in P]
             out.append(dict(id="%s:%s" % (c["id"], r["wire"]), cable=c["id"], run=r["wire"], seats=[], desc=desc.get(c["id"], ""),
-                            node="dock-cable-%s-%s" % (c["id"], r["wire"].replace(".", "_")), color=WIRE_HEX.get(r["color"], "#e07a1f"),
+                            node=nid("cable-%s-%s" % (c["id"], r["wire"].replace(".", "_"))), color=WIRE_HEX.get(r["color"], "#e07a1f"),
                             d_mm=r["od_mm"], points=P.round(2).tolist(), point_sub=subs, point_follow=[None] * len(P), sub=subs[len(P) // 2],
                             **{"from": r["frm"]}, to=r["to"], gauge=r["gauge"], wires=1, wires_detail=["%s %s %s" % (r["net"], r["gauge"], r["color"])],
                             cut_mm=r["cut_mm"], routed_mm=r["length_mm"], worst_mm=r["length_mm"],
@@ -239,6 +271,9 @@ def read_glb(path):
 
 
 def write(out, prefix, geoms, nodes, man, write_glb):
+    bad = check_refs(man)
+    if bad:     # a dangling reference would leave a dead link or a ghosted joint in the page
+        raise SystemExit("%s manifest: references that resolve to no node: %s" % (prefix, bad[:6]))
     path = os.path.join(out, prefix + ".glb")
     write_glb(path, geoms, nodes)
     M = man["meta"]

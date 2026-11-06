@@ -119,6 +119,15 @@ def main():
     B = json.load(open(os.path.join(scr, "dock_bom.json")))
     for b in B["totals"]["blockers"]:
         R.find("WARN", "dock BOM line %s has no price (BLOCKER)" % b)
+    sys.path.insert(0, V.lab("viewer"))
+    import dock_scene as DSc
+    for pre in ("dock", "docked"):
+        mp = os.path.join(V.out_dir(), "viewer_dock", pre + "_manifest.json")
+        if os.path.exists(mp):
+            dang = DSc.check_refs(json.load(open(mp)))
+            R.ev("%s scene manifest: references to dock nodes that resolve to no node: %s" % (pre, dang[:4] or "none"))
+            if dang:
+                R.find("FAIL", "%s scene: dangling references %s" % (pre, dang[:4]), where="altaay_lab/viewer/dock_scene.py")
     vm = os.path.join(V.out_dir(), "viewer_dock", "dock_manifest.json")
     if os.path.exists(vm):
         M = json.load(open(vm))
