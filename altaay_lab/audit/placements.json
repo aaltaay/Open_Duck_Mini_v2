@@ -169,12 +169,12 @@
    12.7
   ],
   "center_mm": [
-   -38.82,
-   56.33,
-   200.94
+   -36.18,
+   56.57,
+   200.82
   ],
   "frame": "urdf_world_mm",
-  "seat_fix": "2026-11-05 ET, V1 track 11: on the bosses of twin/companion/mic_seat.py (CAD check only)"
+  "seat_fix": "2026-11-05 ET, V1 track 11: on the bosses of twin/companion/mic_seat.py, 3.5 mm off the wall (CAD check only)"
  },
  {
   "id": "mic_r",
@@ -185,11 +185,11 @@
    12.7
   ],
   "center_mm": [
-   -38.82,
-   -56.13,
-   200.94
+   -36.18,
+   -56.37,
+   200.82
   ],
   "frame": "urdf_world_mm",
-  "seat_fix": "2026-11-05 ET, V1 track 11: on the bosses of twin/companion/mic_seat.py (CAD check only)"
+  "seat_fix": "2026-11-05 ET, V1 track 11: on the bosses of twin/companion/mic_seat.py, 3.5 mm off the wall (CAD check only)"
  }
 ]

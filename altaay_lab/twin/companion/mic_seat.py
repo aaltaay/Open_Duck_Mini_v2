@@ -17,14 +17,19 @@ Method:
      and horns, the SG90 antenna servos.
   4. The left seat is chosen, the right one is its mirror (y -> -y), and both are checked on the real mesh.
 Sources:
-  board: [I] Adafruit-I2S-MEMS-Microphone-Breakout-PCB (github.com/adafruit, the 6049 board files, read 2026-11-05):
-         outline 16.51 x 12.7 mm, 2 plated holes 2.5 mm at (2.54, 10.16) and (13.97, 10.16), mic footprint
-         SPH0645LM4H at (8.255, 7.112), 6 pads at 2.54 mm on y = 2.54. Adafruit states SPH0645LM4H is the drop-in
-         part for the discontinued ICS-43434 (adafruit.com/product/6049 text, seen in a search result 2026-11-05).
-  BLOCKERS: the 3421 (SPH0645) board outline is not read (adafruit.com is not reachable from this session); the
-         SPH0645LM4H port offset and the PCB thickness are not read (the Knowles datasheet hosts are not reachable).
-         Stand-ins: the 6049 outline and holes, the port at the mic footprint centre, PCB 1.6 mm (checked 0.8 to 1.6).
-         The 2.0 mm port tube bore takes a port offset up to 0.4 mm. Settles it: caliper on the received board.
+  board: [R] the 3421 board files, github.com/adafruit/Adafruit-I2S-Microphone-Breakout-PCB (EagleCAD, file names
+         "Adafruit I2S Mic SPK0415HM4H", README links product 3421; read 2026-11-05 about 7:45 PM ET): outline
+         16.51 x 12.7 mm, 2 plated holes 2.5 mm at (2.54, 10.16) and (13.97, 10.16) from the outline corner, IC1
+         SPH0645LM4H at (8.255, 7.112) mirrored and turned 180 deg, its footprint pad 3 (GND, drilled 1.025 mm, the
+         sound port through the PCB) at (0, -0.71) in the package, so the port is at (8.255, 7.822); 6 pads at 2.54 mm
+         on y = 2.54. [R] the SPH0645 fab print in the Adafruit guide (downloads page): 0.65 x 0.5 in, holes 0.1 in in
+         from the edges, "Port" 0.31 in above the pad edge. The 6049 (ICS-43434) files used before give the same
+         outline, holes and footprint.
+  mic: [R] Knowles SPH0645LM4H-B Rev B datasheet (cdn-shop.adafruit.com product-files 3421): 3.50 x 2.65 x 0.98 mm,
+         acoustic port 0.325 mm, clock 2.048 to 4.096 MHz, AOP 120 dB SPL.
+  PCB thickness: not published. [R] adafruit.com/product/3421 gives 16.7 x 12.7 x 1.8 mm overall and 0.4 g; with the
+         0.98 mm mic on it the PCB is at most about 0.8 mm if the mic is the tallest part (calc only). Checked: 0.8 to
+         1.6 mm. Settles it: caliper on the received board.
 """
 import json
 import os
@@ -39,12 +44,14 @@ LAB = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, os.path.join(LAB, "twin", "complete3d"))
 from common import scene, inst_world, head_instances, inst_name   # noqa: E402
 
-BOARD = dict(w=16.51, h=12.7, holes=[(2.54, 10.16), (13.97, 10.16)], mic=(8.255, 7.112), hole_d=2.5)
-PCB_T, PCB_T_RANGE = 1.6, (0.8, 1.6)
+BOARD = dict(w=16.51, h=12.7, holes=[(2.54, 10.16), (13.97, 10.16)], mic=(8.255, 7.112), port=(8.255, 7.822),
+             port_pcb_d=1.025, hole_d=2.5)
+PCB_T, PCB_T_RANGE = 1.6, (0.8, 1.6)   # envelope stand-in 1.6 (conservative); range checked for the screws
 TOP_PARTS = 2.5          # tallest part on the top face (mic can and 0603 parts, stand-in) plus the soldered wire bend
 WIRE_BEND = 4.0
-BOARD_GAP = 3.0          # wall to board back face
-BOSS_D, PILOT_D, PILOT_DEPTH = 5.0, 1.65, 5.0
+BOARD_GAP = 3.5          # wall to board back face (3.0 before 2026-11-05 about 7:50 PM ET: a 0.8 mm PCB let the M2x6 tip reach past the 5.0 mm pilot)
+BOSS_D, PILOT_D, PILOT_DEPTH = 5.0, 1.65, 5.6
+TIP_GAP_MIN = 0.25       # screw tip to pilot bottom, the smallest gap allowed
 TUBE_OD, TUBE_ID, PORT_D = 4.0, 2.0, 1.2
 SCREW = dict(spec="M2x6 self-tapping pan head", line="17h", d=2.0, L=6.0, rule_engage=4.0, head_dk=3.7, head_k=1.4)
 OUT_STL = os.path.join(HERE, "stl", "head.stl")
@@ -186,20 +193,21 @@ def main():
             loc, _, _ = head.ray.intersects_location([pilot_bot], [-F["n"]])
             rem = float(np.min(np.linalg.norm(loc - pilot_bot, axis=1))) if len(loc) else None
             holes.append(dict(seat_world=np.round(top, 3).tolist(), axis_world=np.round(-F["n"], 4).tolist(), material_past_pilot_mm=None if rem is None else round(rem, 2)))
-        pu, pv = BOARD["mic"]
+        pu, pv = BOARD["port"]
         t0 = board_point(F, pu, pv, -0.4); t1 = board_point(F, pu, pv, BOARD_GAP)
         add.append(cyl(t0, t1, TUBE_OD / 2))
         cut.append(cyl(board_point(F, pu, pv, 0.0), t1 + 0.2 * F["n"], TUBE_ID / 2, 24))
         port_out = F["outer"] + ((board_point(F, pu, pv, 0.0) - F["inner"]))   # same offset on the outer face
         cut.append(cyl(board_point(F, pu, pv, 0.05) , board_point(F, pu, pv, -F["thick"] - 1.5), PORT_D / 2, 24))
         engage = {f"pcb_{t}": round(SCREW["L"] - t, 2) for t in PCB_T_RANGE}
+        tip_gap = {f"pcb_{t}": round(PILOT_DEPTH - (SCREW["L"] - t), 2) for t in PCB_T_RANGE}
         seats[name] = dict(
             board_centre_world=np.round(board_point(F, BOARD["w"] / 2, BOARD["h"] / 2, BOARD_GAP), 3).tolist(),
             mic_port_world=np.round(board_point(F, pu, pv, 0.0), 3).tolist(),
             port_outer_world=np.round(port_out, 3).tolist(),
             inward_normal=np.round(F["n"], 4).tolist(), wall_flatness_mm=round(F["flat"], 3), wall_thickness_mm=round(F["thick"], 2),
             clearance_mm={k: round(v, 2) for k, v in sorted(c.items(), key=lambda kv: kv[1])[:6]}, shell_clearance_mm=round(cs, 2),
-            screws=holes, screw_engagement_mm=engage)
+            screws=holes, screw_engagement_mm=engage, screw_tip_gap_mm=tip_gap)
     # build: union bosses and tubes, then cut pilots, tube bores and ports; in the print/ frame
     Tinv = np.linalg.inv(Thead)
     to_m = lambda t: manifold3d.Manifold(manifold3d.Mesh(vert_properties=np.asarray(t.vertices, np.float32), tri_verts=np.asarray(t.faces, np.uint32)))
@@ -226,15 +234,16 @@ def main():
         min_shell_clearance_mm=round(min(s["shell_clearance_mm"] for s in seats.values()), 2),
         screw_engagement_min_mm=min(min(s["screw_engagement_mm"].values()) for s in seats.values()),
         engagement_rule_mm=SCREW["rule_engage"],
+        screw_tip_gap_min_mm=min(min(s["screw_tip_gap_mm"].values()) for s in seats.values()), tip_gap_rule_mm=TIP_GAP_MIN,
         material_past_pilot_min_mm=min(h["material_past_pilot_mm"] for s in seats.values() for h in s["screws"] if h["material_past_pilot_mm"] is not None))
     checks["pass"] = bool(checks["watertight"] and checks["min_part_clearance_mm"] >= 1.0 and checks["min_shell_clearance_mm"] >= 0.5
                           and checks["screw_engagement_min_mm"] >= SCREW["rule_engage"] and checks["material_past_pilot_min_mm"] >= 0.8
+                          and checks["screw_tip_gap_min_mm"] >= TIP_GAP_MIN
                           and checks["left_right_mirror_error_mm"] < 1.0)
     J = dict(meta=dict(script="altaay_lab/twin/companion/mic_seat.py", label="CAD check only", frame="URDF world, zero pose, mm",
                        board=BOARD, pcb_t_mm=PCB_T, board_gap_mm=BOARD_GAP, boss_d_mm=BOSS_D, pilot=dict(d=PILOT_D, depth=PILOT_DEPTH),
                        tube=dict(od=TUBE_OD, id=TUBE_ID), port_d_mm=PORT_D, screw=SCREW,
-                       blockers=["3421 board outline not read (adafruit.com blocked here); 6049 board files used",
-                                 "SPH0645LM4H port offset and PCB thickness not read (datasheet hosts blocked); port at the footprint centre, PCB 0.8 to 1.6 mm checked"]),
+                       blockers=["PCB thickness not published: 0.8 to 1.6 mm checked (the 1.8 mm overall height of the product page points to about 0.8 mm, calc only)"]),
              seat_search=dict(n_candidates=len(rows), chosen=dict(x=bx, z=bz)),
              seats=seats,
              mics_head_link_mm=dict(left=np.round(to_link(pl), 2).tolist(), right=np.round(to_link(pr), 2).tolist()),

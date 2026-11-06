@@ -3,13 +3,18 @@
 Written 2026-11-05 about 4:55 PM ET (America/New_York). Hardware only (Ahmed, D47): no software, no agent and no gym sim in this track.
 Labels: calc only for the acoustics, CAD check only for the seats. Sources are cited per line; [S] means a search result
 page (the seller or datasheet page itself was not reachable from this session), [R] means read in full.
-Hosts not reachable from this session: adafruit.com, cdn-shop.adafruit.com, invensense.tdk.com, community.nxp.com,
-farnell.com, elemon.com.ar. Every number that only those hosts hold is a BLOCKER below.
+Hosts not reachable from this session's web reader: adafruit.com, cdn-shop.adafruit.com, invensense.tdk.com,
+community.nxp.com, farnell.com, elemon.com.ar. Every number that only those hosts hold is a BLOCKER below.
+Update 2026-11-05 about 7:50 PM ET: adafruit.com, its file host and the Adafruit guide were then read with curl. The
+3421 page, its board files, its fab print and the SPH0645LM4H-B datasheet clear BLOCKERs 1 and 2 (section 9). The
+real port sits 0.71 mm from the mic centre, so the seats were redrawn on it with taller bosses (section 8), and the
+numbers below are the new ones.
 
 ## 1. Result
 
-- Pick: **2 discrete I2S MEMS mics, Adafruit 3421 (Knowles SPH0645LM4H), one on each side wall of the head, 120.5 mm
-  apart.** $13.90 for both (BOM E8, $6.95 each [S] adafruit.com/product/3421 via search, 2026-11-05). Two new GPIO:
+- Pick: **2 discrete I2S MEMS mics, Adafruit 3421 (Knowles SPH0645LM4H), one on each side wall of the head, 121.6 mm
+  apart** (120.5 mm before the seats moved to the real port). $13.90 for both (BOM E8, $6.95 each and in stock [R]
+  adafruit.com/product/3421, read 2026-11-05 about 7:45 PM ET). Two new GPIO:
   GPIO20 (pin 38) for the mic data and, since D48, GPIO16 (pin 36) for the amp SD pin. The mics share BCLK (GPIO18) and LRCLK (GPIO19) with the MAX98357A, which keeps its DIN on
   GPIO21. Front or back is settled by a head turn (section 3).
 - Ears: the 2 antenna SG90s stay and become the ears. No new servo.
@@ -29,9 +34,9 @@ farnell.com, elemon.com.ar. Every number that only those hosts hold is a BLOCKER
 | GPIO16 | the overlay drives GPIO16 as the amp SD mode pin (5 ms delay). D48 wires GPIO16 (pin 36) to the amp SD pin (a 6th wire in D10), so the amp is off whenever it is not playing (half duplex; section 11.4) | [R] the overlay (sdmode-gpios GPIO16) |
 | New pins | GPIO20 (pin 38) data in, GND pin 39, 3V3 from pin 17 (shared with the D17 foot pull-ups, about 1.5 mA each) | netlist PI pins 38 and 39 |
 | GPIO budget | used before: GPIO2, 3, 12, 13, 18, 19, 21, 22, 23, 24, 25, 26, 27. Now also 20 (mic data) and 16 (amp SD, D48). Free: GPIO4 to 11, 14, 15, 17 | netlist; c6_gpio PASS |
-| Slots | left board SEL to GND (left slot), right board SEL to 3V (right slot); each DOUT floats in the other slot, so both share GPIO20 | [S] Adafruit product text; the SPH0645LM4H datasheet is a BLOCKER |
-| Clock range | BCLK = 48 kHz x 64 = 3.072 MHz. That this sits inside the SPH0645LM4H clock range is a BLOCKER (datasheet not read) | calc only |
-| Wires | cable D14, Pi to the left board, 5 wires twisted, cut 150 mm (route 80.7 mm); D15, left board to right board, 5 wires twisted, cut 240 mm (route 151.9 mm, over the head behind the head_roll_mount); 26 AWG from stock | twin/companion/route_mics.py, CAD check only |
+| Slots | left board SEL to GND (left slot), right board SEL to 3V (right slot); each DOUT floats in the other slot, so both share GPIO20 | [R] SPH0645LM4H-B Rev B datasheet: SEL high drives DATA while WS is high, SEL low while WS is low, tri-state otherwise; the 100 k pull-down it asks for is for a single mic on the bus |
+| Clock range | BCLK = 48 kHz x 64 = 3.072 MHz, inside the 2.048 to 4.096 MHz range; WS must be BCLK/64, and the mode I2S with the MSB one BCLK after WS | [R] datasheet |
+| Wires | cable D14, Pi to the left board, 5 wires twisted, cut 150 mm (route 78.3 mm); D15, left board to right board, 5 wires twisted, cut 240 mm (route 148.4 mm, over the head behind the head_roll_mount); 26 AWG from stock | twin/companion/route_mics.py, CAD check only |
 
 ## 3. Mic count and layout (calc only)
 
@@ -43,9 +48,9 @@ narrows and side peaks appear, so a larger d is not free.
 
 | layout | spacing in this head | sigma at 0 / 60 / 80 deg off the pair axis normal | aliasing from | 360 deg? | Pi fit |
 |---|---|---|---|---|---|
-| 2 mics, left and right side walls (the pick) | 120.5 mm, measured on the CAD seats (mic_seats.json) | 0.34 / 0.68 / 1.96 deg; 3.4 deg at whole samples | 1.42 kHz | no: front and back mirror; a head turn of 0.25 rad or more between two readings tells them apart (the two mirror candidates move opposite ways) | 2 slots on GPIO20: fits |
-| 3 mics, triangle: left, right, back wall | sides 120.5, about 80, about 80 mm (back seat near x = -90 mm from the head bounds; not seat-checked, the SG90s sit at x = -61) | short pairs 0.52 deg at their best angle; any bearing has one pair near its best | 2.15 kHz (short pairs) | yes | NO on one data pin: 3 slots need TDM mics or a codec |
-| 4 mics: left, right, front, back | 120.5 mm and about 180 mm front to back (the front seat must clear the eyes, the camera and the bulbs: not seat-checked) | 0.34 deg and 0.23 deg on the two pairs | 1.42 and 0.95 kHz | yes | NO on one data pin (as for 3) |
+| 2 mics, left and right side walls (the pick) | 121.6 mm, measured on the CAD seats (mic_seats.json) | 0.34 / 0.67 / 1.94 deg; 3.4 deg at whole samples | 1.41 kHz | no: front and back mirror; a head turn of 0.25 rad or more between two readings tells them apart (the two mirror candidates move opposite ways) | 2 slots on GPIO20: fits |
+| 3 mics, triangle: left, right, back wall | sides 121.6, about 80, about 80 mm (back seat near x = -90 mm from the head bounds; not seat-checked, the SG90s sit at x = -61) | short pairs 0.52 deg at their best angle; any bearing has one pair near its best | 2.15 kHz (short pairs) | yes | NO on one data pin: 3 slots need TDM mics or a codec |
+| 4 mics: left, right, front, back | 121.6 mm and about 180 mm front to back (the front seat must clear the eyes, the camera and the bulbs: not seat-checked) | 0.34 deg and 0.23 deg on the two pairs | 1.41 and 0.95 kHz | yes | NO on one data pin (as for 3) |
 
 Why 2: the I2S data pin carries two slots. The SPH0645LM4H has only left and right slots (no TDM), so a third or fourth
 mic needs a 4-channel ADC board (AC108, section 4) or a USB array. For a homebody that is called from a room, the head
@@ -53,9 +58,10 @@ turn that settles front and back costs about one second and nothing else; the ca
 
 Matching needs (calc only):
 - Timing: a fixed extra delay dt on one mic biases the angle by c x dt / d. For 1 deg at the front, dt must stay under
-  6.1 us, an acoustic path difference under 2.1 mm. The seats are mirror images (0.2 mm mirror error in the CAD), the
+  6.2 us, an acoustic path difference under 2.1 mm. The seats are mirror images (0.2 mm mirror error in the CAD), the
   port tubes are the same length, and both mics sample on the same BCLK and LRCLK edge, so the pair is matched by build.
-- Mic group delay spread between two SPH0645LM4H parts: not read (datasheet BLOCKER). Buy both boards in one order.
+- Mic group delay spread between two SPH0645LM4H parts: not in the Rev B datasheet (BLOCKER; the clap check of
+  TEST_PLAN 17.1 shows a fixed lag at 0 deg). Buy both boards in one order.
 - Sensitivity spread: GCC-PHAT divides out the magnitude, so a 1 to 2 dB spread hardly moves the delay estimate.
 - A wrong slot (SEL) swaps left and right: a sign flip that the bench check catches in one clap (TEST_PLAN note below).
 
@@ -63,13 +69,13 @@ Matching needs (calc only):
 
 | option | what it is | price | Pi Zero 2 W fit (I2S, GPIO vs the netlist) | mass, size | space in the head | noise next to the mics |
 |---|---|---|---|---|---|---|
-| A. 2 x Adafruit 3421 SPH0645LM4H (pick) | discrete I2S MEMS boards, bottom port | $13.90 [S] | GPIO20 only; shares the amp clocks; one overlay | 16.51 x 12.7 mm each [R] Adafruit 6049 board files (the 3421 outline BLOCKER); mass not read (BLOCKER) | on the side walls, 3.46 mm clear of the SG90s (CAD check) | each mic sits beside its ear SG90 (3.46 mm): the ears must hold still while the duck listens |
+| A. 2 x Adafruit 3421 SPH0645LM4H (pick) | discrete I2S MEMS boards, bottom port | $13.90 [R] | GPIO20 only; shares the amp clocks; one overlay | 16.51 x 12.7 mm each [R] 3421 board files and fab print; 16.7 x 12.7 x 1.8 mm overall and 0.4 g each [R] product page | on the side walls, 6.05 mm clear of the SG90s (CAD check) | each mic sits beside its ear SG90 (6.05 mm): the ear commands feed the ego-noise model (D49) |
 | B. Seeed ReSpeaker 2-Mics Pi HAT (107100001) | WM8960 codec on I2C1 at 0x1a, 2 mics on the board, speaker driver, 3 APA102 LEDs on SPI | about $19 [S] RobotShop and element14 listings; marked retired at one seller [S] | takes the whole 40-pin header on top of the Pi; its codec would replace the MAX98357A; I2C 0x1a does not clash with the BNO055 (0x28/0x29); the LEDs take SPI0; its Grove digital port is GPIO12 and 13, the antenna PWM pins (leave it empty) | 65 x 30 x 15 mm, 12 g net [S] Core Electronics | sits on the Pi in the head floor, the mics look up inside the shell, no wall ports; the mic spacing on the board is not read (BLOCKER) | the mics sit inside the head next to the Pi and the neck servo: muffled and closer to servo noise |
 | C. Seeed ReSpeaker 4-Mic Array for Pi (AC108) | 4 mics on a round board, AC108 4-channel ADC, 12 LEDs, no audio out | $24.50 at launch, about $28 now [S]; discontinued at one seller [S] | uses 11 header pins [S] pinout.xyz; whether the MAX98357A can still share the PCM port with the AC108 TDM capture is a BLOCKER | not read (BLOCKER) | a full board over the Pi, spacing set by the board (not read) | as B |
 | D. Seeed ReSpeaker USB Mic Array (XVF-3000) | 4 mics, on-board DOA, echo cancel, USB audio | $87.45 [S] RobotShop | USB: the Pi's only OTG port already feeds the servo bus adapter (netlist cable D1), so it needs a hub; no I2S pins | 77 mm disc, 43.6 g net [S] | a 77 mm disc does not fit flat between the side walls at the mic height (about 120 mm inside, but the Pi, the speaker and the neck mount fill the floor) | inside the head, as B |
 
 Pick A: simplest (2 small boards, 1 new pin, the overlay already exists), cheapest ($13.90), and the most reliable
-of the four for direction (ports on the outer shell, a known 120.5 mm baseline, no hub, no second codec).
+of the four for direction (ports on the outer shell, a known 121.6 mm baseline, no hub, no second codec).
 
 ## 5. Non-mic direction aids (comparison only)
 
@@ -87,7 +93,7 @@ of the four for direction (ports on the outer shell, a known 120.5 mm baseline, 
   antennas.py). The travel per ms of the Miuzei SG90 (BOM 14) is not in the listing read so far: BLOCKER, measure on the
   bench (TO list). Perk (up), twitch (a flick) and droop are inside that range.
 - Speed: the SG90 speed for this listing is not read: BLOCKER, bench item.
-- Noise next to the mics: each SG90 is 3.46 mm from its mic board envelope (CAD check). Since D49 the duck listens
+- Noise next to the mics: each SG90 is 6.05 mm from its mic board envelope (CAD check). Since D49 the duck listens
   always with the ego-noise model (section 12), which takes the ear commands as an input; holding the ears still
   during a direction capture is the fallback.
 - No new servo, no new pin (GPIO12 and 13 stay the antenna PWM pins).
@@ -106,28 +112,51 @@ of the four for direction (ports on the outer shell, a known 120.5 mm baseline, 
 
 ## 8. CAD seats (CAD check only; twin/companion/mic_seat.py, mic_seats.json, stl/head.stl)
 
-- Seat search on the inner side walls of print/head.stl: 15-ray plane fit per seat; chosen x = -40, z = 202 mm (URDF
-  world), wall 3.21 mm thick, flatness 0.00 mm; the right seat is the mirror (0.2 mm off).
-- Per board: 2 bosses 5.0 mm, 3.0 mm high, pilots 1.65 mm x 5.0 mm (the camera pilot, D34), M2x6 self-tapping from the
-  BOM 17h kit (it holds 50 M2x6), engagement 4.4 to 5.2 mm with a 1.6 to 0.8 mm PCB (rule 4.0 mm, Westfield table 2),
-  1.0 mm of wall left past the pilot; a port tube 4.0 OD, 2.0 bore around the mic; a 1.2 mm sound port through the wall.
+- Update 2026-11-05 about 7:50 PM ET: the seats are drawn on the 3421 board files. The board outline and holes match
+  the 6049 stand-in, but the sound port sits 0.71 mm from the mic centre: the PCB hole of footprint pad 3 (GND,
+  drilled 1.025 mm) is at (8.255, 7.822) mm from the outline corner. The fab print gives "Port" 0.31 in above the pad
+  edge. Before, the tube and the wall port were centred on the mic centre (7.112). The product page's 1.8 mm overall
+  height points to a PCB of about 0.8 mm (calc only). With 3.0 mm bosses and 5.0 mm pilots, the M2x6 tip would then
+  pass the pilot bottom by 0.2 mm, so the bosses are now 3.5 mm high with 5.6 mm pilots.
+- Seat search on the inner side walls of print/head.stl: 15-ray plane fit per seat; chosen x = -37.5, z = 202 mm (URDF
+  world; -40 before, the taller envelope moved it), wall 3.21 mm thick, flatness 0.00 mm; the right seat is the mirror
+  (0.2 mm off).
+- Per board: 2 bosses 5.0 mm, 3.5 mm high, pilots 1.65 mm x 5.6 mm (the camera pilot diameter, D34), M2x6
+  self-tapping from the BOM 17h kit (it holds 50 M2x6). Engagement 5.2 to 4.4 mm with a 0.8 to 1.6 mm PCB (rule
+  4.0 mm, Westfield table 2); tip gap 0.4 to 1.2 mm (rule 0.25 mm); 0.9 mm of wall left past the pilot. A port tube
+  4.0 OD, 2.0 bore, 3.5 mm long, sits on the PCB port, and a 1.2 mm sound port goes through the wall on the same axis.
+  The 2.0 mm bore takes the 1.025 mm PCB hole with 0.49 mm to spare each side, against the 0.25 mm play of an M2
+  screw in a 2.5 mm hole.
 - D42: the 2 screws of each board are a mirror pair about the board centre line; the two boards mirror each other.
 - D39: both board holes take a screw; the sound port is a sound hole (kept open by D39).
-- Clearance of the board envelope (PCB, parts, the wire bend; 0.8 to 1.6 mm PCB): 3.46 mm to the SG90s, 15.2 mm to
-  head_bot_sheet, 29.5 mm to the speaker stand; shell 3.0 mm (the boss gap). Watertight, +242 mm3 of PLA.
+- Clearance of the board envelope (PCB, parts, the wire bend; 0.8 to 1.6 mm PCB): 6.05 mm to the SG90s, 15.1 mm to
+  head_bot_sheet, 26.9 mm to the speaker stand; shell 3.5 mm (the boss gap). Watertight, +285.6 mm3 of PLA.
 - The edited head.stl is 2.45 MB (under the 5 MB rule).
 - fasteners.json F356 to F359; MOUNTING.md row; viewer placeholders mic_l and mic_r (audit/placements.json).
 
 ## 9. BLOCKERs
 
-1. adafruit.com not reachable: the 3421 price and stock on the page itself, the 3421 board outline (the 6049 board files
-   were used; Adafruit names the SPH0645LM4H the drop-in) and the board mass.
-2. SPH0645LM4H datasheet not read (Knowles hosts not reachable): port offset (port tube bore 2.0 mm takes 0.4 mm),
-   PCB thickness (0.8 to 1.6 mm checked), BCLK range at 3.072 MHz, slot and tri-state timing, group delay spread,
-   SNR and sensitivity. The part is listed obsolete at one parts index [S]: check stock before an order.
-3. (cleared 2026-11-05 about 5:15 PM ET) Cables D14 and D15 are routed in 3D (twin/companion/route_mics.py,
-   mic_routes.json: D14 80.7 mm, D15 151.9 mm, both clear of the parts by 1 mm or more, 17 mm or more from the P13 pack
-   feed and 5 mm or more from the SG90 leads) and drawn on sheet 4 with D13 (the sheet generator runs again: c10 PASS).
+1. (cleared 2026-11-05 about 7:50 PM ET) adafruit.com/product/3421 read with curl: $6.95 each (1 to 9), in stock,
+   16.7 x 12.7 x 1.8 mm overall, 0.4 g. The 3421's own board files (github.com/adafruit/Adafruit-I2S-Microphone-
+   Breakout-PCB) and its fab print give the outline (16.51 x 12.7 mm, 0.65 x 0.5 in), the holes (2.5 mm, 11.43 mm
+   apart, 2.54 mm in from the edges, as the stand-in) and the port.
+2. (mostly cleared 2026-11-05 about 7:50 PM ET) The SPH0645LM4H-B Rev B datasheet (the PDF on the Adafruit product
+   page) is read:
+   - clock 2.048 to 4.096 MHz (3.072 used);
+   - AOP 120 dB SPL at 10 % THD at 1 kHz;
+   - SNR 65 dB(A), sensitivity -26 dBFS (-29 to -23);
+   - 24-bit I2S with 18-bit precision, the tri-state per SEL, a 0.325 mm acoustic port.
+   The PCB port position is read from the board files, and the seats are redrawn on it (section 8).
+   Still open:
+   - the PCB thickness: not published; the 1.8 mm overall height points to about 0.8 mm; 0.8 to 1.6 mm is checked
+     and the screws fit the whole range;
+   - the group delay spread between two parts: not in the datasheet.
+   One parts index [S] and a DigiKey search result [S] list the bare SPH0645LM4H as obsolete; Adafruit shows the
+   board in stock.
+3. (cleared 2026-11-05 about 5:15 PM ET; lengths updated 7:50 PM ET) Cables D14 and D15 are routed in 3D
+   (twin/companion/route_mics.py, mic_routes.json: D14 78.3 mm, D15 148.4 mm). Both clear the parts by 1 mm or more,
+   stay 17 mm or more from the P13 pack feed and 5 mm or more from the SG90 leads, and are drawn on sheet 4 with D13
+   (the sheet generator runs again: c10 PASS).
 4. SG90 travel per ms and speed for the Miuzei listing (bench).
 5. Servo and SG90 noise at the mic ports, and the Pi Zero 2 W CPU time for the direction estimate (bench).
 6. Options B to D: board spacing, mass and the AC108 and amp port sharing not read.
@@ -154,7 +183,7 @@ direction sensor for a mixed answer (D48). Hardware first; no software is built.
 
 The pick is GCC-PHAT on the pair, and the head turn does three jobs:
 1. Front or back: the two mirror candidates move apart when the head turns, so a second reading picks one.
-2. Triangulation from two head angles: with the 120.5 mm pair, the two readings are a few milliseconds of rotation
+2. Triangulation from two head angles: with the 121.6 mm pair, the two readings are a few milliseconds of rotation
    apart, so they give the same bearing twice. That averages noise but does not give range (the baseline is the pair,
    not the turn). Range is not needed: the camera finds the face along the bearing.
 3. Accuracy: the pair is most accurate broadside (0.34 deg at one tenth of a sample, section 3) and worst end-on
@@ -184,16 +213,22 @@ A third mic (top or back of the head): no.
 
 ### 11.2 Fit and placement (CAD check only)
 
-- Mic: SPH0645LM4H, bottom port, 3.50 x 2.65 x 0.98 mm. It takes BCLK of 2.048 to 4.096 MHz (3.072 MHz used here),
-  draws 600 uA, has an SNR of 65 dB(A) and a sensitivity of -26 dBFS (-29 to -23). [S] Knowles Rev B and Rev C
-  datasheet text, from a search result. The pages themselves were not reachable: mouser.com, community.nxp.com.
-- Board: 16.51 x 12.7 mm, 2 plated 2.5 mm holes 11.43 mm apart ([R] Adafruit 6049 board files, the 3421 outline BLOCKER).
-- Port: the wall port is 1.2 mm across through the 3.2 mm wall, then a printed tube 2.0 mm bore x 3.0 mm to the board,
-  then the PCB hole to the mic. Helmholtz estimate (calc only): neck area 1.13 mm2, effective length 4.2 mm
-  (3.2 mm + 2 x 0.85 x 0.6 mm end corrections), cavity about 9.4 mm3 (the tube; the PCB hole and the mic front volume
-  are not read) gives a resonance near 9 kHz, above the 300 Hz to 8 kHz of speech. Both ports are the same, so the
-  resonance gives no direction bias.
-- Spacing: 120.5 mm, the widest the side walls give where the walls are flat (x -50 to -5 mm searched) and clear of the
+- Mic: SPH0645LM4H, bottom port, 3.50 x 2.65 x 0.98 mm, acoustic port 0.325 mm. It takes BCLK of 2.048 to 4.096 MHz
+  (3.072 MHz used here), has an SNR of 65 dB(A), a sensitivity of -26 dBFS (-29 to -23) and an AOP of 120 dB SPL
+  [R Knowles SPH0645LM4H-B Rev B datasheet, read 2026-11-05 about 7:45 PM ET]. It draws 600 uA typical. Its
+  specifications are guaranteed from 0 to 45 C, and it works with lower performance from -40 to 100 C [R]. The thermal
+  twin puts the head air at 34 C in a 25 C room and 41 C in a 32 C room with about 3 W of head losses (sim pass only,
+  twin/thermal/THERMAL_TWIN.md). That is inside the guaranteed range by 4 K at 32 C, but the D49 audio work adds CPU
+  load in the head, and those watts are not measured (BLOCKER). TEST_PLAN 17.3 logs the Pi SoC temperature as an
+  upper bound on the head air.
+- Board: 16.51 x 12.7 mm, 2 plated 2.5 mm holes 11.43 mm apart, PCB port 1.025 mm at (8.255, 7.822) mm ([R] the
+  3421 board files and fab print).
+- Port: the wall port is 1.2 mm across through the 3.2 mm wall, then a printed tube 2.0 mm bore x 3.5 mm to the board,
+  then the 1.025 mm PCB hole to the mic. Helmholtz estimate (calc only): neck area 1.13 mm2, effective length 4.2 mm
+  (3.2 mm + 2 x 0.85 x 0.6 mm end corrections), and a cavity of about 11.0 mm3 (the tube; the PCB hole and the mic
+  front volume are not read). That gives a resonance near 8.5 kHz, just above the 300 Hz to 8 kHz of speech. Both
+  ports are the same, so the resonance gives no direction bias.
+- Spacing: 121.6 mm, the widest the side walls give where the walls are flat (x -50 to -5 mm searched) and clear of the
   speaker stand (right, x 0 to 50) and the side lamp opening (left, x 67 to 95). A wider pair (up to about 167 mm
   further forward) would run into those parts and makes aliasing start lower (1.0 kHz). It gains about 0.1 deg,
   which the camera makes moot. Height: z 202 mm, 27 mm above the head floor plate, mid-height of the side wall, above
@@ -206,8 +241,8 @@ A third mic (top or back of the head): no.
 
 | cable | wires | pins | route | away from |
 |---|---|---|---|---|
-| D14 | 5 x 26 AWG twisted (3V3, GND, BCLK, LRCL, DOUT) | Pi 17, 39, 12, 35, 38 to the left board | 80.7 mm, off the header bottom, along the left wall | P13 pack feed 17.3 mm, P12 23.1 mm, D8 SG90 lead 5.1 mm (it lands on pin 33, next to pin 35) |
-| D15 | 5 x 26 AWG twisted | left board to right board | 151.9 mm, over the head behind the head_roll_mount | P13 45 mm, P12 64 mm, D8 and D9 7.1 mm |
+| D14 | 5 x 26 AWG twisted (3V3, GND, BCLK, LRCL, DOUT) | Pi 17, 39, 12, 35, 38 to the left board | 78.3 mm, off the header bottom, along the left wall | P13 pack feed 17.3 mm, P12 23.1 mm, D8 SG90 lead 5.1 mm (it lands on pin 33, next to pin 35) |
+| D15 | 5 x 26 AWG twisted | left board to right board | 148.4 mm, over the head behind the head_roll_mount | P13 45.5 mm, P12 64.2 mm, D8 6.6 mm, D9 7.2 mm |
 | D10 + 1 wire | GPIO16 to the amp SD pin | Pi 36 to U8 SD | with the D10 amp bundle | as D10 |
 
 Twisted, not shielded. All clock and data runs are short, under 0.25 m. Each wire is twisted with its return in the
@@ -219,7 +254,7 @@ needed at this length (calc only; a bench check of bit errors with the servos ru
 | source | distance to the nearest mic port | hardware answer |
 |---|---|---|
 | speaker (LS1, right side) | about 62 mm to the right port | half duplex in hardware: GPIO16 now drives the amp SD pin (D48 wire), so the amp is off whenever the codec is not playing (the googlevoicehat codec drives SD high only during playback, with a 5 ms delay, [R] googlevoicehat-codec.c). Since D49 the playback is the echo reference for an echo canceller (section 12.3), so the duck can keep listening while it speaks; until that is in, listening pauses while it speaks (the fallback). The speaker faces down through the head floor, away from the side ports (CAD) |
-| SG90 ears | 37 mm (body centre) to its own mic; 3.46 mm from the board envelope | listen always with the ego-noise model (D49, section 12; the ear commands are an input); gating is the fallback: the ears hold still during the capture and perk after it |
+| SG90 ears | about 37 mm (body centre) to its own mic; 6.05 mm from the board envelope | listen always with the ego-noise model (D49, section 12; the ear commands are an input); gating is the fallback: the ears hold still during the capture and perk after it |
 | neck and head servos (STS3215, the head yaw servo at the head centre) | about 111 mm | listen always with the ego-noise model (D49, section 12; joint commands and speeds are inputs); gating is the fallback: listen only when the neck and walk commands are still. The wake word runs at all times |
 | walking (14 servos, feet) | the trunk, more than 150 mm | listen always with the ego-noise model (D49, section 12); gating is the fallback: the duck stops walking when called (the stock walk is noisy at the mics, level not published: BLOCKER, TEST_PLAN 17) |
 | structure-borne gear noise through the shell | the bosses tie the boards to the shell | a closed-cell foam ring cut from the BOM 29 foam tape on the port tube end seals the port to the board and damps it. The screws stay (2 per board). The foam is a test-fit item: it must not lift the board off the bosses by more than its compressed thickness |
@@ -247,15 +282,15 @@ for it, and the chest and head top are the two places to study first. Nothing is
 
 | part | what | cost | mass |
 |---|---|---|---|
-| 2 x I2S mics (E8) | direction from the voice, front or back by a head turn | $13.90 | board mass not read (BLOCKER) |
+| 2 x I2S mics (E8) | direction from the voice, front or back by a head turn | $13.90 | 0.8 g (0.4 g each [R] product page) |
 | camera (E6, already in) | final look | $0 | already counted |
 | GPIO16 to amp SD (one 26 AWG wire in D10) | the amp off whenever it is not playing (no idle hiss at the mics) | $0, wire from stock | under 1 g (calc) |
 | foam ring on each port tube (BOM 29 tape) | seal and damping | $0, from the roll | under 0.1 g |
-| 4 x M2x6 (17h kit) and the printed seats | mounting | $0 (kit) | PLA +242 mm3, about 0.3 g at 1.24 g/cm3 (calc only) |
+| 4 x M2x6 (17h kit) and the printed seats | mounting | $0 (kit) | PLA +285.6 mm3, about 0.35 g at 1.24 g/cm3 (calc only) |
 | BLE or UWB direction | later, only with a worn tag | not bought | none now |
 
-Added cost: $13.90. Added mass: about 0.3 g of PLA plus the two boards, wires and screws. The board mass is a
-BLOCKER; the boards are about the size of a postage stamp.
+Added cost: $13.90. Added mass: about 0.35 g of PLA and 0.8 g of boards, plus the wires and the 4 screws (their
+mass is not counted here).
 
 ## 12. D49: listen all the time, the duck's own noise removed by a learned model (written 2026-11-05 about 7:40 PM ET)
 
@@ -480,8 +515,8 @@ Where the data lives:
     sensor is added.
 - Freeze the head before the data is taken: the model learns this head. A change to a seat, the foam, an ear horn or
   a screw pattern near the mics means recording S0 to S4 and S6 again (about 1.5 h, calc only).
-- Clipping: the SPH0645LM4H acoustic overload point was not read (BLOCKER). TEST_PLAN 17.4 checks the peaks in the
-  loudest sessions (walking, ears next to the mic).
+- Clipping: the SPH0645LM4H overload point is 120 dB SPL at 10 % THD at 1 kHz [R datasheet, read after D49 was
+  written]. TEST_PLAN 17.4 checks the peaks in the loudest sessions (walking, ears next to the mic).
 - Storage: the full raw set is about 9.1 GB against the 32 GB card. The daily copy keeps the card from filling.
 
 ### 12.8 CPU budget next to the 50 Hz walk and the vision (calc only)
@@ -505,7 +540,8 @@ is a BLOCKER (bench).
    the memory footprint (bench).
 2. Direction error while walking, with the mask (bench, TEST_PLAN 17.5).
 3. Ego-noise levels and spectra of the STS3215s, the SG90s and the footsteps (bench, TEST_PLAN 17).
-4. The SPH0645LM4H acoustic overload point (datasheet not read).
+4. (cleared 2026-11-05 about 7:50 PM ET) The SPH0645LM4H acoustic overload point: 120 dB SPL at 10 % THD at 1 kHz
+   [R datasheet].
 5. The licence of the synthetic voices used to train a custom openWakeWord model (not read).
 6. Only the abstracts were read for Ito 2005, Ince 2009, Schmidt 2016, 2020 and 2021, Grondin and Michaud 2015,
    Wang and Cavallaro 2022, DREGON, Even 2009, Jaroslavceva 2021 and Shoda 2026 (the publisher and HAL pages blocked

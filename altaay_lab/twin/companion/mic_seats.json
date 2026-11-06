@@ -20,14 +20,19 @@
     8.255,
     7.112
    ],
+   "port": [
+    8.255,
+    7.822
+   ],
+   "port_pcb_d": 1.025,
    "hole_d": 2.5
   },
   "pcb_t_mm": 1.6,
-  "board_gap_mm": 3.0,
+  "board_gap_mm": 3.5,
   "boss_d_mm": 5.0,
   "pilot": {
    "d": 1.65,
-   "depth": 5.0
+   "depth": 5.6
   },
   "tube": {
    "od": 4.0,
@@ -44,33 +49,32 @@
    "head_k": 1.4
   },
   "blockers": [
-   "3421 board outline not read (adafruit.com blocked here); 6049 board files used",
-   "SPH0645LM4H port offset and PCB thickness not read (datasheet hosts blocked); port at the footprint centre, PCB 0.8 to 1.6 mm checked"
+   "PCB thickness not published: 0.8 to 1.6 mm checked (the 1.8 mm overall height of the product page points to about 0.8 mm, calc only)"
   ]
  },
  "seat_search": {
   "n_candidates": 54,
   "chosen": {
-   "x": -40.0,
+   "x": -37.5,
    "z": 202.0
   }
  },
  "seats": {
   "left": {
    "board_centre_world": [
-    -39.211,
-    57.736,
-    201.291
+    -36.579,
+    57.972,
+    201.173
    ],
    "mic_port_world": [
-    -40.0,
-    60.356,
-    202.739
+    -37.5,
+    60.885,
+    203.427
    ],
    "port_outer_world": [
-    -40.0,
-    63.563,
-    202.739
+    -37.5,
+    64.092,
+    203.427
    ],
    "inward_normal": [
     0.2631,
@@ -80,62 +84,66 @@
    "wall_flatness_mm": 0.0,
    "wall_thickness_mm": 3.21,
    "clearance_mm": {
-    "sg90[119]": 3.46,
-    "head_bot_sheet[114]": 15.22,
-    "roll_bearing[118]": 31.73,
-    "raspberrypizerow[117]": 36.07,
-    "head_roll_mount[116]": 74.56,
-    "sg90[120]": 80.22
+    "sg90[119]": 6.05,
+    "head_bot_sheet[114]": 15.11,
+    "roll_bearing[118]": 31.94,
+    "raspberrypizerow[117]": 33.84,
+    "head_roll_mount[116]": 72.17,
+    "drive_palonier[123]": 80.45
    },
-   "shell_clearance_mm": 3.0,
+   "shell_clearance_mm": 3.5,
    "screws": [
     {
      "seat_world": [
-      -44.724,
-      55.346,
-      204.617
+      -42.093,
+      55.581,
+      204.499
      ],
      "axis_world": [
       -0.2631,
       0.9354,
       0.2362
      ],
-     "material_past_pilot_mm": 1.0
+     "material_past_pilot_mm": 0.9
     },
     {
      "seat_world": [
-      -33.697,
-      58.261,
-      205.354
+      -31.066,
+      58.497,
+      205.235
      ],
      "axis_world": [
       -0.2631,
       0.9354,
       0.2362
      ],
-     "material_past_pilot_mm": 1.0
+     "material_past_pilot_mm": 0.9
     }
    ],
    "screw_engagement_mm": {
     "pcb_0.8": 5.2,
     "pcb_1.6": 4.4
+   },
+   "screw_tip_gap_mm": {
+    "pcb_0.8": 0.4,
+    "pcb_1.6": 1.2
    }
   },
   "right": {
    "board_centre_world": [
-    -39.211,
-    -57.536,
-    201.291
+    -36.579,
+    -57.772,
+    201.173
    ],
    "mic_port_world": [
-    -40.0,
-    -60.156,
-    202.739
+    -37.5,
+    -60.685,
+    203.427
    ],
    "port_outer_world": [
-    -40.0,
-    -63.363,
-    202.739
+    -37.5,
+    -63.892,
+    203.427
    ],
    "inward_normal": [
     0.2631,
@@ -145,71 +153,77 @@
    "wall_flatness_mm": 0.0,
    "wall_thickness_mm": 3.21,
    "clearance_mm": {
-    "sg90[120]": 3.46,
-    "head_bot_sheet[114]": 15.21,
-    "speaker_stand[137]": 29.52,
-    "roll_bearing[118]": 31.73,
-    "speaker_interface[138]": 32.71,
-    "head_roll_mount[116]": 74.56
+    "sg90[120]": 6.05,
+    "head_bot_sheet[114]": 15.08,
+    "speaker_stand[137]": 26.9,
+    "speaker_interface[138]": 30.1,
+    "roll_bearing[118]": 31.93,
+    "head_roll_mount[116]": 72.17
    },
-   "shell_clearance_mm": 3.0,
+   "shell_clearance_mm": 3.5,
    "screws": [
     {
      "seat_world": [
-      -44.724,
-      -55.146,
-      204.617
+      -42.093,
+      -55.381,
+      204.499
      ],
      "axis_world": [
       -0.2631,
       -0.9354,
       0.2362
      ],
-     "material_past_pilot_mm": 1.0
+     "material_past_pilot_mm": 0.9
     },
     {
      "seat_world": [
-      -33.697,
-      -58.061,
-      205.354
+      -31.066,
+      -58.297,
+      205.235
      ],
      "axis_world": [
       -0.2631,
       -0.9354,
       0.2362
      ],
-     "material_past_pilot_mm": 1.0
+     "material_past_pilot_mm": 0.9
     }
    ],
    "screw_engagement_mm": {
     "pcb_0.8": 5.2,
     "pcb_1.6": 4.4
+   },
+   "screw_tip_gap_mm": {
+    "pcb_0.8": 0.4,
+    "pcb_1.6": 1.2
    }
   }
  },
  "mics_head_link_mm": {
   "left": [
-   8.89,
-   60.26,
-   81.95
+   9.58,
+   60.78,
+   79.45
   ],
   "right": [
-   8.89,
-   -60.26,
-   81.95
+   9.58,
+   -60.79,
+   79.45
   ]
  },
- "mic_spacing_mm": 120.51,
+ "mic_spacing_mm": 121.57,
  "checks": {
   "watertight": true,
-  "volume_added_mm3": 242.1,
-  "stl_bytes": 2454284,
+  "volume_added_mm3": 285.6,
+  "stl_bytes": 2449784,
   "left_right_mirror_error_mm": 0.2,
-  "min_part_clearance_mm": 3.46,
-  "min_shell_clearance_mm": 3.0,
+  "min_part_clearance_mm": 6.05,
+  "min_shell_clearance_mm": 3.5,
   "screw_engagement_min_mm": 4.4,
   "engagement_rule_mm": 4.0,
-  "material_past_pilot_min_mm": 1.0,
+  "screw_tip_gap_min_mm": 0.4,
+  "tip_gap_rule_mm": 0.25,
+  "material_past_pilot_min_mm": 0.9,
   "pass": true
  }
 }

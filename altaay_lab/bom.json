@@ -1024,7 +1024,7 @@
 {
 "i": "E8",
 "item": "I2S microphones (D47)",
-"spec": "Adafruit I2S MEMS Microphone Breakout SPH0645LM4H, product 3421: Knowles SPH0645LM4H bottom-port I2S mic; 2 boards, one per side wall of the head, SEL low on the left, high on the right, sharing the MAX98357A clocks, data on GPIO20; Adafruit marks its ICS-43434 board (6049) discontinued with the SPH0645LM4H as the drop-in; the SPH0645LM4H itself is listed obsolete at one parts index (embeddedrelated.com), so buy both boards in one order (single source, Knowles, US maker; not Chinese)",
+"spec": "Adafruit I2S MEMS Microphone Breakout SPH0645LM4H, product 3421: Knowles SPH0645LM4H-B bottom-port I2S mic (datasheet Rev B: 2.048 to 4.096 MHz clock, AOP 120 dB SPL, SNR 65 dB(A)); 2 boards, one per side wall of the head, SEL low on the left, high on the right, sharing the MAX98357A clocks, data on GPIO20; board 16.51 x 12.7 mm (board files), 16.7 x 12.7 x 1.8 mm overall and 0.4 g (product page); Adafruit marks its ICS-43434 board (6049) discontinued with the SPH0645LM4H as the drop-in; the bare SPH0645LM4H is listed obsolete at one parts index and a DigiKey search result, so buy both boards in one order (single source, Knowles, US maker; not Chinese)",
 "need": "2",
 "buy": "2",
 "pack": "1",
@@ -1032,7 +1032,7 @@
 "sup": "Adafruit 3421",
 "link": "https://www.adafruit.com/product/3421",
 "ships": "Yes",
-"ver": "Price $6.95 each (1 to 9) from a search result of the Adafruit page, 2026-11-05 ET; adafruit.com itself is not reachable from this session (BLOCKER: read the page and stock before an order); Jameco also lists 3421 (jameco.com)",
+"ver": "Yes: $6.95 each (1 to 9), \"In stock\", read on the Adafruit page 2026-11-05 about 7:45 PM ET with plain curl; Jameco also lists 3421 (jameco.com)",
 "sec": "Expression (optional upstream)"
 },
 {

@@ -787,7 +787,7 @@ components:
     kind: microphone
     region: head
     groups:
-      header: {connector: "0.1 in pads, solder (no header)", pitch_mm: 2.54, note: "6 pads 3V GND BCLK DOUT LRCL SEL [I] Adafruit board files (6049 layout, drop-in)"}
+      header: {connector: "0.1 in pads, solder (no header)", pitch_mm: 2.54, note: "6 pads 3V GND BCLK DOUT LRCL SEL [R] the 3421 board files (Adafruit-I2S-Microphone-Breakout-PCB) and fab print"}
     pins:
       - {pin: "3V", label: "3V", name: supply, domain: 3V3, group: header, dir: pwr_in, source: "[L] D47"}
       - {pin: "GND", label: "GND", name: ground, domain: GND, group: header, dir: gnd, source: "[L] D47"}
@@ -805,7 +805,7 @@ components:
     kind: microphone
     region: head
     groups:
-      header: {connector: "0.1 in pads, solder (no header)", pitch_mm: 2.54, note: "6 pads 3V GND BCLK DOUT LRCL SEL [I] Adafruit board files (6049 layout, drop-in)"}
+      header: {connector: "0.1 in pads, solder (no header)", pitch_mm: 2.54, note: "6 pads 3V GND BCLK DOUT LRCL SEL [R] the 3421 board files (Adafruit-I2S-Microphone-Breakout-PCB) and fab print"}
     pins:
       - {pin: "3V", label: "3V", name: supply, domain: 3V3, group: header, dir: pwr_in, source: "[L] D47"}
       - {pin: "GND", label: "GND", name: ground, domain: GND, group: header, dir: gnd, source: "[L] D47"}
@@ -1044,8 +1044,8 @@ cables:
   - {id: S11, status: active, desc: kit cable ID 30 BUS 1 to ID 31 BUS 2, regions: [trunk_top, neck], joints: [neck_pitch], polyline_mm: 80.0, rule_mm: 180.0, source: "[U]", note: "BLOCKER test fit"}
   - {id: S12, status: active, desc: kit cable ID 31 to ID 32, regions: [neck], joints: [head_pitch, head_yaw], polyline_mm: 106.3, rule_mm: 263.1, source: "[U]", note: "BLOCKER test fit (113 mm over 150); contingency X1/X2 made lead 270 mm"}
   - {id: S13, status: active, desc: kit cable ID 32 to ID 33, regions: [neck, head], joints: [head_roll], polyline_mm: 51.6, rule_mm: 147.3, source: "[U]", note: "fits (2.7 mm margin)"}
-  - {id: D14, status: active, desc: Pi header to the left mic board (D47), regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D47; calc only: the straight line Pi to the left board centre is 80 mm (twin/companion/mic_seats.json), cut 150 mm leaves room for one bend and 2 x 20 mm slack (CABLE_MAP length rule); 3D route: twin/companion/route_mics.py", twist: {lay_mm: 45, lay_range_mm: [31, 62], takeup_max: 1.028, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "the D10 rule: NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.9 mm harness OD; take-up at the shortest lay [L]; twisted so the clock and data lines pick up less servo and amp noise (D47)"}}
-  - {id: D15, status: active, desc: left mic board to the right mic board across the head (D47), regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D47; calc only: the boards are 120.5 mm apart, the route goes over the head_roll_mount, cut 240 mm (2 x the straight line); 3D route: twin/companion/route_mics.py", twist: {lay_mm: 45, lay_range_mm: [31, 62], takeup_max: 1.028, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "the D10 rule: NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.9 mm harness OD; take-up at the shortest lay [L]; twisted so the clock and data lines pick up less servo and amp noise (D47)"}}
+  - {id: D14, status: active, desc: Pi header to the left mic board (D47), regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D47; 3D route 78.3 mm (twin/companion/route_mics.py, mic_routes.json); cut 150 mm leaves 2 x 20 mm slack and room for one bend (CABLE_MAP length rule)", twist: {lay_mm: 45, lay_range_mm: [31, 62], takeup_max: 1.028, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "the D10 rule: NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.9 mm harness OD; take-up at the shortest lay [L]; twisted so the clock and data lines pick up less servo and amp noise (D47)"}}
+  - {id: D15, status: active, desc: left mic board to the right mic board across the head (D47), regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D47; the boards are 121.6 mm apart; 3D route 148.4 mm over the head behind the head_roll_mount (twin/companion/route_mics.py, mic_routes.json); cut 240 mm", twist: {lay_mm: 45, lay_range_mm: [31, 62], takeup_max: 1.028, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "the D10 rule: NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.9 mm harness OD; take-up at the shortest lay [L]; twisted so the clock and data lines pick up less servo and amp noise (D47)"}}
 
 wires:
   # battery bay
