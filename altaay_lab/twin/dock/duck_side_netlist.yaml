@@ -1,0 +1,39 @@
+# duck_side_netlist.yaml: the change record of the dock wiring (D43, D50). MERGED into wiring/netlist.yaml on 2026-11-06 (ET)
+# Rev 2026-11-05 (America/New_York), V1 track 8 phase 3. wiring/netlist.yaml is now the source (cables DC1 to DC4, routed in
+# cables3d.json by twin/dock/dock_cables3d.py, drawn on sheet 1); this file is kept as the record of the change.
+# Calc only. Currents: docked and awake, sitting, torque off (DOCK_TWIN.md section 11.3).
+nets:
+  CHG_IN:  {domain: PACK_6V0_8V4, note: "chest CHG+ strip to DK2 IN; the dock charger output (8.40 V CV, 1.1 A)"}
+  CHG_D:   {domain: PACK_6V0_8V4, note: "DK2 OUT to the DK3 fuse holder"}
+  SNS:     {domain: SENSE, note: "chest SENSE strip: 10 k NTC in the cell seat to GND; wake branch to SW1 ON"}
+  SYS_IN:  {domain: SYS_9V, note: "chest SYS strip: the dock's gated 9 V (8.82 to 9.18 V, adapter +/- 2 %)"}
+  PACK_OR: {domain: PACK_OR_6V0_9V2, note: "SW1 VIN: the higher of the fused pack (through DK7) and SYS (through DK6)"}
+domains:
+  SYS_9V: {v_min: 8.8, v_max: 9.2, note: "dock supply, present only while seated and the gate is on"}
+  PACK_OR_6V0_9V2: {v_min: 6.0, v_max: 9.2, note: "after D50 VSW follows this node: up to 9.2 V on the dock"}
+components:
+  - {id: DKP, ref: J9, part: "chest contact pad, BOM DK1 (4 strips)", kind: connector, region: trunk_top,
+     pins: [{pin: SYS, net: SYS_IN}, {pin: GND, net: GND}, {pin: SNS, net: SNS}, {pin: CHG, net: CHG_IN}]}
+  - {id: DK2, ref: D2, part: "Pololu 5382 ideal diode, BOM DK2", kind: diode, region: trunk_top,
+     pins: [{pin: VIN, net: CHG_IN}, {pin: VOUT, net: CHG_D}, {pin: GND, net: GND}],
+     note: "100 k (DK5) from VIN to VOUT so the dock reads the pack voltage"}
+  - {id: F2, ref: F2, part: "Littelfuse FHAC0001ZXJ with 0287005.PXCN 5 A, BOM DK3 DK4", kind: fuse, region: battery_bay,
+     pins: [{pin: IN, net: CHG_D}, {pin: OUT, net: PACK_P}]}
+  - {id: NTC2, ref: RT1, part: "10 k NTC B3950, BOM DK5", kind: sensor, region: battery_bay,
+     pins: [{pin: 1, net: SNS}, {pin: 2, net: GND}], note: "in the seat between the cells (twin/battery/BAY.md)"}
+  - {id: WAKE, ref: D3, part: "3.9 V zener, small signal diode, 10 k in series, BOM DK5", kind: resistor, region: battery_bay,
+     pins: [{pin: A, net: SNS}, {pin: K, net: SW1_ON}], note: "dock 555 pulse (9 V, 100 ms) on SENSE turns SW1 on (full-shutdown mode); the NTC reading stays under 3.9 V"}
+  - {id: DK6, ref: D4, part: "Pololu 5382 ideal diode, BOM DK6", kind: diode, region: battery_bay,
+     pins: [{pin: VIN, net: SYS_IN}, {pin: VOUT, net: PACK_OR}, {pin: GND, net: GND}]}
+  - {id: DK7, ref: D5, part: "Pololu 5383 ideal diode, BOM DK7", kind: diode, region: battery_bay,
+     pins: [{pin: VIN, net: PACK_F}, {pin: VOUT, net: PACK_OR}, {pin: GND, net: GND}],
+     note: "in the main path: walking mean 4.4 A, under 5 mOhm (0.1 W); 12 A continuous, about 40 A for seconds"}
+changes_to_wiring_netlist:
+  - "JFO to SW1.VIN (the fused 16 AWG run) ends at DK7.VIN; DK7.VOUT solders to SW1.VIN (cut 0); SW1.VIN net PACK_F -> PACK_OR"
+  - "SW1.ON: nc -> SW1_ON (the WAKE branch)"
+  - "VSW and the U3, BEC inputs: domain PACK_6V0_8V4 -> PACK_OR_6V0_9V2 (9.2 V on the dock: the 2813 takes 40 V, the BEC Pro 2S to 4S, U3 input rating to be read, BLOCKER)"
+cables:   # lengths: calc, chest pad centre to the battery bay front wall about 0.12 m plus slack; 3D route BLOCKER
+  - {id: DC1, desc: "chest CHG+ to DK2, DK2 to F2, F2 to JFI", gauge: 20 AWG, cut_mm: 220, i_mean_a: 1.1}
+  - {id: DC2, desc: "chest GND to the GND node at BMS P-", gauge: 20 AWG, cut_mm: 200, i_mean_a: 2.1, note: "charge 1.1 A plus SYS return about 1.0 A"}
+  - {id: DC3, desc: "chest SENSE to the cell NTC and the WAKE branch", gauge: 26 AWG, cut_mm: 220, i_mean_a: 0.001}
+  - {id: DC4, desc: "chest SYS to DK6, DK6 to SW1 VIN", gauge: 20 AWG, cut_mm: 220, i_mean_a: 1.0, i_peak_a: 1.8}

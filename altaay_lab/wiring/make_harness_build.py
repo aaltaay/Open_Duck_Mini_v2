@@ -28,6 +28,7 @@ GROUPS = [
     ("4. Power up the neck to the head", ["P13", "P12", "P17"]),
     ("5. Pi, IMU and feet", ["D1", "D2", "D3", "D4"]),
     ("6. Head expression", ["D5", "D6", "D7", "D8", "D9", "D10", "D11", "D12"]),
+    ("7. Dock contacts, chest pad to the trunk (D43, D50)", ["DC1", "DC2", "DC3", "DC4"]),
 ]
 
 
@@ -155,7 +156,7 @@ def main():
 
     listed = [cid for _, ids in GROUPS for cid in ids]
     missing = [cid for cid in cables if cid not in listed]
-    groups = GROUPS + ([("7. Other", missing)] if missing else [])
+    groups = GROUPS + ([("%d. Other" % (len(GROUPS) + 1), missing)] if missing else [])
     L = ["# Harness build sheet", "",
          "Generated %s by altaay_lab/wiring/make_harness_build.py from wiring/netlist.yaml%s. Do not edit by hand." % (
              time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()), " and cables3d/cables3d.json" if c3 else ""), "",
