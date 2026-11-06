@@ -28,6 +28,14 @@ def run(cmd, cwd):
     return p.returncode, p.stdout + p.stderr
 
 
+def assembly_fail(A):
+    """the interference and motion results that fail C12: any overlap, and any pair whose boolean could not be computed
+    (status UNCHECKED: a check that did not run never counts as clear)"""
+    hits = A["dock"]["interferences"] + A["docked"]["interferences"]
+    mot = [m for m in A["motion"] if m["hits"]]
+    return hits, mot
+
+
 def main():
     R = V.Result("C12", "The charging dock: parts, fits, screws, wiring, routes, BOM against the model (twin/dock, CAD check only)",
                  "VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py",
@@ -40,6 +48,10 @@ def main():
         shutil.rmtree(scr)
     shutil.copytree(D, scr)
     R.inp(*[os.path.join(D, f) for f in ("dock_parts.py", "dock_assembly.py", "dock_fasteners.py", "dock_netlist.yaml", "dock_routes.py", "dock_bom.py")])
+    pt = subprocess.run([sys.executable, "-m", "pytest", "-q", os.path.join(D, "test_dock_checks.py")], capture_output=True, text=True, timeout=600)
+    R.ev("fail-closed tests (test_dock_checks.py): " + (pt.stdout.strip().splitlines() or ["no output"])[-1])
+    if pt.returncode:
+        R.find("FAIL", "the dock checks no longer fail closed: " + pt.stdout[-300:], where="altaay_lab/twin/dock/test_dock_checks.py")
     # parts (on the copy, so the repo is not written)
     rc, out = run(["dock_parts.py"], scr)
     pj = json.load(open(os.path.join(scr, "stl", "parts.json")))
@@ -49,11 +61,11 @@ def main():
         R.find("FAIL", "dock_parts.py: %s" % (bad or out[-300:]), where="altaay_lab/twin/dock/dock_parts.py")
     rc, out = run(["dock_assembly.py"], scr)
     A = json.load(open(os.path.join(scr, "dock_assembly.json")))
-    hits = A["dock"]["interferences"] + A["docked"]["interferences"]
-    mot = [m for m in A["motion"] if m["hits"]]
+    hits, mot = assembly_fail(A)
     R.ev("components %d (dock), %d (docked); interferences %d; paddle motion poses with a hit %d of %d" % (A["dock"]["n"], A["docked"]["n"], len(hits), len(mot), len(A["motion"])))
     if rc or hits or mot:
-        R.find("FAIL", "interference: %s %s" % (hits[:3], mot[:2]), where="altaay_lab/twin/dock/dock_assembly.py")
+        unc = [h for h in hits + [x for m in mot for x in m["hits"]] if h.get("status") == "UNCHECKED"]
+        R.find("FAIL", "interference: %s %s%s" % (hits[:3], mot[:2], "; %d pairs UNCHECKED (boolean failed)" % len(unc) if unc else ""), where="altaay_lab/twin/dock/dock_assembly.py")
     rc, out = run(["dock_fasteners.py"], scr)
     F = json.load(open(os.path.join(scr, "dock_fasteners.json")))
     nok = F["summary"]["not_ok"]

@@ -106,7 +106,7 @@ def obstacles():
             if f["kind"] == "screw":
                 m = trimesh.creation.cylinder(radius=f["d"] / 2, height=f["length_mm"], sections=10); m.apply_translation((0, 0, f["length_mm"] / 2))
                 hd = trimesh.creation.cylinder(radius=f["head"]["dk"] / 2, height=f["head"]["k"], sections=10); hd.apply_translation((0, 0, -f["head"]["k"] / 2))
-                m = trimesh.util.concatenate([m, hd])
+                m = m.union(hd)                    # one watertight solid (a concatenation is open and contains() would miss it)
             elif f["kind"] == "nut":
                 m = trimesh.creation.cylinder(radius=f["s"] / 2 / np.cos(np.pi / 6), height=f["h"], sections=6); m.apply_translation((0, 0, f["h"] / 2))
             else:
@@ -125,14 +125,15 @@ def grid(M):
             continue
         ii = np.stack(np.meshgrid(*[np.arange(b0[k], b1[k]) for k in range(3)], indexing="ij"), -1).reshape(-1, 3)
         P = LO + ii * H
-        inside = m.contains(P) if m.is_watertight else np.zeros(len(P), bool)
-        try:
-            d = np.abs(trimesh.proximity.signed_distance(m, P[~inside])) if (~inside).sum() and len(P) < 400000 else None
-        except Exception:
-            d = None
+        if not m.is_watertight:            # contains() would read an open mesh as empty: refuse, never route through it
+            raise SystemExit("obstacle %s is not watertight" % cid)
+        inside = m.contains(P)
         sol = inside.copy()
-        if d is not None:
-            sol[~inside] = d < H * 0.6
+        rest = np.nonzero(~inside)[0]
+        for k0 in range(0, len(rest), 200000):     # every voxel near a surface is solid too (no size limit, no fallback)
+            ch = rest[k0:k0 + 200000]
+            _, dd, _ = trimesh.proximity.closest_point(m, P[ch])
+            sol[ch] = dd < H * 0.6
         occ[tuple(ii[sol].T)] = True
     dist = ndimage.distance_transform_edt(~occ) * H
     return occ, dist
@@ -210,7 +211,9 @@ def inside_any(M, pts, skip_near, radius=0.0):
         if not sel.any():
             continue
         Q = P[sel]
-        ins = m.contains(Q) if m.is_watertight else np.zeros(len(Q), bool)
+        if not m.is_watertight:
+            raise SystemExit("obstacle %s is not watertight: the inside test would pass it" % cid)
+        ins = m.contains(Q)
         if ins.any():
             bad.append((cid, np.round(Q[ins][0], 1).tolist()))
     return bad

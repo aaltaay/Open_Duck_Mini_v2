@@ -219,8 +219,10 @@ def fastener_seating(state, tol=0.3):
     M = {c["id"]: c["mesh"] for c in components(state)}
     bad = []
     for f in F:
-        if f["kind"] != "screw" or f["part"] not in M:
+        if f["kind"] != "screw":
             continue
+        if f["part"] not in M:              # a host that is not in the model is a failed check, not a seated screw
+            bad.append((f["id"], f["part"], "UNCHECKED: host not in the model")); continue
         T = link_transform(f["link"], state) @ np.array(f["pose_dock"], float)
         r = 0.5 * (f["d"] / 2 + 0.2 + f["head"]["dk"] / 2)          # under the head, outside the clearance hole
         pts = [(T @ np.r_[r * np.cos(a), r * np.sin(a), 0.0, 1.0])[:3] for a in np.linspace(0, 2 * np.pi, 8, endpoint=False)]
@@ -281,8 +283,8 @@ def interferences(M, tol_mm3=0.5):
                 continue
             try:
                 v = M[i].intersection(M[j]).volume
-            except Exception:
-                v = 0.0
+            except Exception as e:      # an uncomputed pair is a failed check, never a clear one
+                out.append(dict(a=i, b=j, mm3=None, status="UNCHECKED", error="boolean failed: %s" % e)); continue
             if v > tol_mm3:
                 out.append(dict(a=i, b=j, mm3=round(float(v), 2)))
     return out
@@ -312,8 +314,8 @@ def motion_check():
                         continue
                     try:
                         v = mi.intersection(mj).volume
-                    except Exception:
-                        v = 0.0
+                    except Exception as e:  # an uncomputed pair is a failed check, never a clear one
+                        hits.append(dict(a=i, b=j, mm3=None, status="UNCHECKED", error="boolean failed: %s" % e)); continue
                     if v > 0.5:
                         hits.append(dict(a=i, b=j, mm3=round(float(v), 2)))
             uniq = {tuple(sorted((h["a"], h["b"]))): h for h in hits}

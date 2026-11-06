@@ -157,7 +157,9 @@ def engagement(kind, seat, axis, L, into_mesh, nut_at, size):
         loc, _, _ = into_mesh.ray.intersects_location([o], [a])
         if len(loc):
             ts.append(min(float(np.dot(p - s0, a)) for p in loc))
-    near = float(np.median(ts)) if ts else 0.0
+    if not ts:                               # no wall found round the bore: the engagement is unknown, never assumed
+        return dict(e=None, e_min=4.5 if kind == "insert" else 6.0, near=None, rule="UNCHECKED: no ray met the part round the bore")
+    near = float(np.median(ts))
     if kind == "insert":
         e = min(L - near, MF.INSERT_L)
         return dict(e=round(e, 2), e_min=4.5, near=round(near, 2), rule="brass insert: engage >= 1.5 x d = 4.5 mm of the 5.7 mm insert " + MF.SRC["insert_rule"])
@@ -183,6 +185,8 @@ def main():
             status = "PATH BLOCKED"
         elif chk["head_hits"]:
             status = "HEAD HITS"
+        elif eng["e"] is None:
+            status = "UNCHECKED"
         elif eng["e"] < eng["e_min"] - 1e-6:
             status = "BELOW RULE"
         elif kind == "nut" and not (0 <= eng["past"] <= 2.0):
@@ -204,7 +208,7 @@ def main():
             nuts.append(dict(id="DN%02d" % (len(nuts) + 1), kind="nut", source="dock", spec=nspec, size=size, s=NUT[size]["s"], h=NUT[size]["h"],
                              color_key="nut", color=COL_EXTRA["nut"], link=link, group=grp, seat_world=p.tolist(), axis_world=list(map(float, axis)),
                              pose_dock=np.round(frame(p, axis), 4).tolist(), screw=fid, supply=f"DOCK {LINES[nspec][0]}", line=LINES[nspec][0], pn=LINES[nspec][1]))
-        if kind == "insert":
+        if kind == "insert" and eng["near"] is not None:
             ins_seat = np.asarray(seat, float) + np.asarray(axis, float) * eng["near"]
             inserts.append(dict(id="DI%02d" % (len(inserts) + 1), kind="insert", source="dock", spec="M3 heat-set insert CNC Kitchen M3 x 5.7", size="M3", d=4.6,
                                 length_mm=MF.INSERT_L, color_key="M3 insert", color=MF.COLORS["M3 insert"], link=link, group=grp, part=into,
