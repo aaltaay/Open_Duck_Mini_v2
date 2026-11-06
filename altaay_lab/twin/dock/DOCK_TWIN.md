@@ -386,8 +386,10 @@ price BLOCKER) replaces the 15 W one (also BLOCKER). Read total of the dock chan
   dock_netlist.yaml is the dock.
 - 3D routes: seats/route2.py (1 mm grid of the trunk parts and placed boxes, a shortest clear path, string pulled) writes
   dock_routes.json; dock_cables3d.py puts DC1 to DC4 into cables3d/cables3d.json. All in the trunk, no joint crossed. Cuts are the
-  routed length plus 2 x 20 mm: DC1 50, 180 and 100 mm; DC2 220 mm; DC3 230, 120 and 190 mm; DC4 190 and 60 mm. The NTC lead
-  enters the cell seat with no clearance to spare (test fit).
+  routed length plus 2 x 20 mm: DC1 60, 180 and 100 mm; DC2 220 mm; DC3 240, 120 and 190 mm; DC4 190 and 60 mm. Each route
+  starts at its lead exit (the nearest point with 2 mm clearance, at most 2 mm from the pad) and every segment is checked
+  clear of the parts by at least the wire radius; the NTC runs into the cell seat keep 0.35 mm to the parts (test fit). C3 checks
+  every DC wire's length (the records carry their routed lengths).
 - Seats (seats/pick3.py, dock_seats.json, close-ups dock_seats.png, CAD check only): each board on VHB 4950 with its large face
   1.5 mm off a printed wall, clear of every part, placed box and routed cable by 1 mm:
   | Part | Centre (world mm, zero pose) | On |

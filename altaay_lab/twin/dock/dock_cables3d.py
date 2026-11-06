@@ -13,7 +13,7 @@ WIRES = {  # cable: [(run index, from pin, to pin, net, gauge, colour)]
             (1, "DK2.VOUT", "F2.IN", "CHG_D", "20 AWG", "red"), (2, "F2.OUT", "BMS.P+", "PACK_P", "20 AWG", "red")],
     "DC2": [(0, "DKP.GND", "BMS.P-", "GND", "20 AWG", "black")],
     "DC3": [(0, "DKP.SNS", "RT1.1", "SNS", "26 AWG", "white"), (2, "RT1.2", "BMS.P-", "GND", "26 AWG", "black"),
-            (1, "DKP.SNS", "WK1.A", "SNS", "26 AWG", "white"), (1, "WK1.K", "SW1.ON", "SW1_ON", "26 AWG", "white", 0)],
+            (1, "DKP.SNS", "WK1.A", "SNS", "26 AWG", "white"), (3, "WK1.K", "SW1.ON", "SW1_ON", "26 AWG", "white", 0)],
     "DC4": [(0, "DKP.SYS", "DK6.VIN", "SYS_IN", "20 AWG", "orange"), (1, "DK6.VOUT", "SW1.VIN", "PACK_OR", "20 AWG", "orange"),
             (1, "DK6.GND", "SW1.GND", "GND", "26 AWG", "black"), (2, "DK7.VOUT", "SW1.VIN", "PACK_OR", "16 AWG", "red"),
             (2, "DK7.GND", "SW1.GND", "GND", "26 AWG", "black")],
@@ -26,7 +26,11 @@ def records():
     C3 = json.load(open(C3P)); tpl = next(c for c in C3["cables"] if c["id"] == "D13")
     out = []
     for cid, ws in WIRES.items():
-        runs = R["runs"][cid]; rec = copy.deepcopy(tpl)
+        runs = list(R["runs"][cid])
+        if cid == "DC3":   # the wake branch is inline at the SW1 control pads: WK1.K solders to SW1 ON, no wire run
+            p0 = R["terminals"]["SW1.CTL"]
+            runs.append(dict(frm="WK1.K", to="SW1.ON", points=[p0, p0], length_mm=0.0))
+        rec = copy.deepcopy(tpl)
         for k in ("findings", "check", "margin_mm", "required_mm", "worst_mm", "length_max_mm", "length_min_mm", "length_zero_mm",
                   "rub", "clearance", "connector_room", "free_stretch_mm", "free_stretch_run", "service_loops"):
             rec.pop(k, None)
@@ -44,10 +48,17 @@ def records():
             w = copy.deepcopy(tpl["wires"][0])
             for k in list(w):
                 if k.startswith(("length", "margin", "fits", "required", "chains", "pin_offset")): w.pop(k)
+            Lw = float(runs[j]["length_mm"])
+            w.update(length_zero_mm=round(Lw, 1), length_min_mm=round(Lw, 1), length_max_mm=round(Lw, 1))   # no joint crossed
             w.update(net=net, gauge=g, color=col, cut_mm=(wt[6] if len(wt) > 6 else cut(runs[j]["length_mm"])), runs=["r%d" % j], od_mm=OD[g], branch=None,
                      to=b, **{"from": a})
             wl.append(w)
+        for run, r in zip(rr, runs):
+            run.update(length_zero_mm=round(float(r["length_mm"]), 1), length_min_mm=round(float(r["length_mm"]), 1),
+                       length_max_mm=round(float(r["length_mm"]), 1))
         pts = rr[0]["points"]
+        Lmax = max(float(r["length_mm"]) for r in runs)
+        rec.update(length_zero_mm=round(Lmax, 1), length_min_mm=round(Lmax, 1), length_max_mm=round(Lmax, 1))
         rec.update(id=cid, desc=DESC[cid], points=pts, runs=rr, wires=wl, wires_n=len(wl), gauge=ws[0][4], d_mm=max(OD[w[4]] for w in ws) + 0.6,
                    cut_mm=max(w["cut_mm"] for w in wl), seats=[], joints=[], to=ws[0][2], note="twin/dock/dock_routes.json (seats/route2.py, "
                    "1 mm grid, clear of the printed parts and placed boxes, along the other bundles); trunk only, no joint crossed", **{"from": ws[0][1]})

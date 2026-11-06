@@ -14,7 +14,7 @@ from scipy.sparse.csgraph import dijkstra
 def astar(a, b, need):
     A, B = idx(a), idx(b); free = dist >= need
     for q in (A, B):
-        sl = tuple(slice(max(0, q[k] - 7), q[k] + 8) for k in range(3)); free[sl] |= True
+        sl = tuple(slice(max(0, q[k] - 2), q[k] + 3) for k in range(3)); free[sl] |= True   # the lead exit only (2 mm)
     # bounding box of the two ends plus margin, to keep the graph small
     lo_i = np.maximum(np.minimum(A, B) - 70, 0); hi_i = np.minimum(np.maximum(A, B) + 71, occ.shape)
     sub = free[lo_i[0]:hi_i[0], lo_i[1]:hi_i[1], lo_i[2]:hi_i[2]]; dsub = dist[lo_i[0]:hi_i[0], lo_i[1]:hi_i[1], lo_i[2]:hi_i[2]]
@@ -42,24 +42,44 @@ def astar(a, b, need):
             if all(dist[idx(s)] >= need or np.linalg.norm(s - P[0]) < 4 or np.linalg.norm(s - P[-1]) < 4 for s in seg): break
             j -= 1
         out.append(P[j]); i = j
+    # validate every final segment: outside 3 mm of the two ends no sample may sit in an occupied voxel or under the clearance
+    for p, q in zip(out[:-1], out[1:]):
+        for t in np.linspace(p, q, int(np.linalg.norm(q - p) / 0.5) + 2):
+            if min(np.linalg.norm(t - P[0]), np.linalg.norm(t - P[-1])) > 3.0 and dist[idx(t)] < need:
+                return None
     return [p.round(2).tolist() for p in out]
 T = {  # terminals, world mm at the zero pose (trunk_assembly link)
     'DKP.HOLE': [34.5, 0.0, 38.0], 'DK2.VIN': [33.0, 0.0, 28.5], 'DK2.VOUT': [33.0, 0.0, 19.5],
     'F2.IN': [-85.0, -42.0, 53.0], 'F2.OUT': [-85.0, -42.0, -1.0], 'BMS.P': [-126.3, -29.5, 33.0],
-    'DK6.VIN': [-97.0, 1.0, 43.0], 'DK6.VOUT': [-110.0, 1.0, 43.0], 'DK7.VIN': [-104.0, 19.0, 43.0], 'DK7.VOUT': [-104.0, 7.0, 43.0],
+    'DK6.VIN': [-104.0, -4.5, 43.0], 'DK6.VOUT': [-110.0, 1.0, 43.0], 'DK7.VIN': [-104.0, 19.0, 43.0], 'DK7.VOUT': [-104.0, 7.0, 43.0],
     'SW1.VIN': [-107.8, 14.0, 29.0], 'SW1.GND': [-107.8, 34.0, 29.0], 'SW1.CTL': [-107.8, 24.0, 44.0], 'RT1': [-129.6, 0.0, 66.0]}
 RUNS = {'DC1': [('DKP.HOLE', 'DK2.VIN', 1.5), ('DK2.VOUT', 'F2.IN', 1.5), ('F2.OUT', 'BMS.P', 1.5)],
         'DC2': [('DKP.HOLE', 'BMS.P', 1.5)],
-        'DC3': [('DKP.HOLE', 'RT1', 1.0), ('DKP.HOLE', 'SW1.CTL', 1.0), ('RT1', 'BMS.P', 1.0)],
-        'DC4': [('DKP.HOLE', 'DK6.VIN', 1.5), ('DK6.VOUT', 'SW1.VIN', 1.5), ('DK7.VOUT', 'SW1.VIN', 1.0)]}
+        'DC3': [('DKP.HOLE', 'RT1', 0.7), ('DKP.HOLE', 'SW1.CTL', 0.7), ('RT1', 'BMS.P', 0.7)],
+        'DC4': [('DKP.HOLE', 'DK6.VIN', 1.0), ('DK6.VOUT', 'SW1.VIN', 1.5), ('DK7.VOUT', 'SW1.VIN', 1.0)]}
+def mouth(p, need=2.0):
+    i = np.array(idx(p)); best = None
+    for d in np.argwhere(np.ones((31, 31, 31), bool)) - 15:
+        j = i + d
+        if (j >= 0).all() and (j < occ.shape).all() and dist[tuple(j)] >= need:
+            n = np.linalg.norm(d)
+            if best is None or n < best[0]: best = (n, j)
+    return pos(best[1]).round(2).tolist()
+PAD = dict(T)
+LEAD_IN = {}
+for k in T:                     # route from each terminal's lead exit: the nearest point with 2 mm clearance
+    T[k] = mouth(PAD[k], 1.2 if k == 'DK6.VIN' else 2.0); LEAD_IN[k] = round(float(np.linalg.norm(np.subtract(T[k], PAD[k]))), 1)
+print('lead-in mm', LEAD_IN)
 res = {}
 for cid, runs in RUNS.items():
     res[cid] = []
     for a, b, rad in runs:
-        P = astar(T[a], T[b], rad + 1.0) or astar(T[a], T[b], rad + 0.3)
+        P = astar(T[a], T[b], rad + 1.0) or astar(T[a], T[b], rad + 0.3) or astar(T[a], T[b], rad)
+        if P is not None:
+            P = [list(PAD[a])] * (LEAD_IN[a] > 0) + P + [list(PAD[b])] * (LEAD_IN[b] > 0)
         L = None if P is None else float(np.sum(np.linalg.norm(np.diff(np.array(P), axis=0), axis=1)))
         mind = None if P is None else float(min(dist[idx(s)] for p, q in zip(P[:-1], P[1:]) for s in np.linspace(p, q, 20)
-                                               if np.linalg.norm(s - np.array(T[a])) > 4 and np.linalg.norm(s - np.array(T[b])) > 4) if len(P) > 1 else 0)
+                                               if np.linalg.norm(s - np.array(T[a])) > 3 and np.linalg.norm(s - np.array(T[b])) > 3) if len(P) > 1 else 0)
         res[cid].append(dict(frm=a, to=b, points=P, length_mm=None if L is None else round(L, 1), min_clear_centre_mm=mind))
         print(cid, a, b, L and round(L, 1), mind)
-json.dump(dict(terminals=T, runs=res), open('routes.json', 'w'), indent=1)
+json.dump(dict(terminals=PAD, lead_exit=T, lead_in_mm=LEAD_IN, runs=res), open('routes.json', 'w'), indent=1)
