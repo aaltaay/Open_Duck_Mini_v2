@@ -383,6 +383,9 @@ How (no new hardware):
   (tstamp - trigger_tstamp) / audio_tstamp [R].
 - The walk loop stamps the time before and after each bus read (positions and speeds) and at each write (commands).
   The ear PWM writes and the IMU read are stamped too.
+- The walk policy's gait phase goes into every joint-log row in the exact form the policy sees it, and its origin
+  and every reset, freeze and rate change are events in the session metadata (12.6). L1 then knows where in the
+  step each audio frame falls.
 - Check: at the start and end of each session, the duck plays a 50 ms chirp on its own speaker (its playback sample
   time is known on the same I2S clock) and gives one sharp ear command (a click). TEST_PLAN 17.2 measures both
   offsets.
@@ -397,13 +400,39 @@ Format:
   - for each of the 14 joints: command, present position and present speed;
   - the walk command (7 values) and the 2 ear commands;
   - the IMU gyro and accelerometer;
-  - the foot switches, and flags (speaker playing, gate on).
+  - the walk policy's gait phase, in the policy's own form:
+    - the two observation values imitation_phase = [cos(2 pi i / N), sin(2 pi i / N)], the last 2 of the 101
+      observation entries (indices 99 and 100);
+    - the counter i (imitation_i) after this cycle's update.
+    - The Runtime builds the observation before it updates the phase, so a row's two phase values come from the
+      counter of the cycle before.
+    - The update is i(k) = (i(k-1) + f + o) mod N, with N = nb_steps_in_period = int(period x fps) = 27;
+      f = phase_frequency_factor (1.0, or 1.3 while LB is held); o = phase_frequency_factor_offset (from
+      duck_config, plus or minus 0.05 per d-pad press).
+    - At the start, i = 0 and the phase is [0, 0] (not [1, 0]).
+    - Sources [R], Open_Duck_Mini_Runtime 376de65:
+      - scripts/v2_rl_walk_mujoco.py line 95 (start_paused from duck_config);
+      - the same file, lines 104 to 109 (start values), 156 to 170 (the observation, imitation_phase last),
+        213 to 228 (offset and factor changes), 249 to 254 (a pause or an empty observation skips the update) and
+        257 to 269 (the update);
+      - mini_bdx_runtime/poly_reference_motion.py line 40 (nb_steps_in_period = int(period x fps));
+      - period 0.54 s and fps 50, as read in the shared lab gym (overlay gym/overlays/duck) duck_policy.py header.
+  - the foot switches, and flags (speaker playing, gate on, walk paused, observation empty so no phase update).
 - Sidecar JSON per session:
   - session id, date and time ET, room id, floor, the RT60 from a hand clap (the method of Lagace 2023 [R]);
   - build state: foam rings on or off, ear horns fitted;
   - software commits;
   - audio settings (rate, format, channel map, ALSA period);
   - sync events: chirp and click times in samples and in system time, and the measured offsets;
+  - phase events, each with the system time, the cycle index and i before and after:
+    - the phase origin: the first policy cycle of this walk object, with i = 0, the observation phase [0, 0], N, f
+      and o;
+    - every reset: a new walk object (a script restart, a hand-back from a get-up or the dock), which sets i back
+      to 0;
+    - every freeze and resume: a pause, or a cycle with an empty observation;
+    - every change of f or o;
+    - the phase order: "runtime", the observation built before the update (the lab's sims use the other order,
+      the gym overlay's "lab" mode);
   - the motion script and its parameters;
   - speech segments: start and end sample, source (loudspeaker or person id), text, wake word yes or no, bearing in
     deg from the duck's start heading, distance in m, mouth height in m;
@@ -429,9 +458,9 @@ Sessions (minutes, calc only):
 Size (calc only):
 - Audio: 2 x 4 bytes x 48,000 per s = 384 kB/s = 1.38 GB per hour, so 8.8 GB raw for the 6.3 h. The FLAC size is
   measured on the first session.
-- Joint log: about 256 bytes per row as binary numbers, 12.8 kB/s, about 0.3 GB for the set; the gzip CSV size is
-  measured too.
-- Whole set: about 9.0 GB raw.
+- Joint log: about 268 bytes per row as binary numbers (256, plus 12 for the three phase values), 13.4 kB/s, about
+  0.31 GB for the set; the gzip CSV size is measured too.
+- Whole set: about 9.1 GB raw (D49 gave 9.0 GB before the phase columns).
 
 Where the data lives:
 - During a session: on the duck's 32 GB microSD (BOM 4).
@@ -453,7 +482,7 @@ Where the data lives:
   a screw pattern near the mics means recording S0 to S4 and S6 again (about 1.5 h, calc only).
 - Clipping: the SPH0645LM4H acoustic overload point was not read (BLOCKER). TEST_PLAN 17.4 checks the peaks in the
   loudest sessions (walking, ears next to the mic).
-- Storage: the full raw set is about 9.0 GB against the 32 GB card. The daily copy keeps the card from filling.
+- Storage: the full raw set is about 9.1 GB against the 32 GB card. The daily copy keeps the card from filling.
 
 ### 12.8 CPU budget next to the 50 Hz walk and the vision (calc only)
 
