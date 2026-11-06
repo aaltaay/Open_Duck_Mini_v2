@@ -289,7 +289,7 @@ the chest pad needs no STL change for V1.
    when the chest is within 2 mm of its tip).
 9. The soft floor is a compliant-contact stand-in for carpet; the real floors at home are not measured.
 10. A limp hold on the seat for hours (torque off), and the STS3215 unpowered backdrive torque (section 11.5).
-11. D50 wiring: 3D routes for DC1 to DC4 and the regenerated sheets before duck_side_netlist.yaml merges into wiring/netlist.yaml; the seats of DK2, DK3, DK6, DK7; the 9 V 4 A adapter and its price; the MCP73213 EV board's option code (A6S assumed).
+11. D50: the 9 V 4 A adapter and its price; the MCP73213 EV board's option code (A6S assumed); the 2813 ON pad position (a stand-in at its control pads, as D13); the NTC lead's fit into the cell seat.
 
 ## 10. Files
 - Duck repo: altaay_lab/software/dock/ (autodock/, duck_autodock.yaml, tests/, THIRD_PARTY.md); altaay_lab/twin/dock/ (this file,
@@ -380,7 +380,22 @@ starts 2 to 13 min later and the cells still end at 31 to 39 C. The 2 A charger 
 Duck: DK6 $3.79 + DK7 $4.95 = +$8.74 (BOM.md). Dock: two more 0932 pins $1.56; the 9 V 4 A adapter (Mean Well GST36A09 class,
 price BLOCKER) replaces the 15 W one (also BLOCKER). Read total of the dock change: +$10.30.
 
-### 11.8 Files and open items
-- duck_side_netlist.yaml (the duck-side dock wiring, schema of wiring/netlist.yaml; not merged into wiring/netlist.yaml yet:
-  each cable needs a 3D route and the sheets regenerated, BLOCKER 11) and dock_netlist.yaml (the dock); DOCK_INTERFACE.md v5.
+### 11.8 Files, wiring and seats
+- wiring/netlist.yaml carries the dock wiring since 2026-11-06 ET: components DKP, DK2, F2, RT1, WK1, DK6, DK7; cables DC1 to DC4;
+  the fused pack run P7 now ends at DK7 and SW1 VIN is the OR node PACK_OR. duck_side_netlist.yaml stays as the change record;
+  dock_netlist.yaml is the dock.
+- 3D routes: seats/route2.py (1 mm grid of the trunk parts and placed boxes, a shortest clear path, string pulled) writes
+  dock_routes.json; dock_cables3d.py puts DC1 to DC4 into cables3d/cables3d.json. All in the trunk, no joint crossed. Cuts are the
+  routed length plus 2 x 20 mm: DC1 50, 180 and 100 mm; DC2 220 mm; DC3 230, 120 and 190 mm; DC4 190 and 60 mm. The NTC lead
+  enters the cell seat with no clearance to spare (test fit).
+- Seats (seats/pick3.py, dock_seats.json, close-ups dock_seats.png, CAD check only): each board on VHB 4950 with its large face
+  1.5 mm off a printed wall, clear of every part, placed box and routed cable by 1 mm:
+  | Part | Centre (world mm, zero pose) | On |
+  |---|---|---|
+  | DK2 Pololu 5382 | (33, 0, 24) | the inner face of body_front, below the lead hole |
+  | F2 holder, standing | (-85, -42, 26) | the left inner side wall of body_middle_bottom |
+  | DK6 Pololu 5382 | (-104, 1, 45) | the underside of trunk_top, beside the 2813 |
+  | DK7 Pololu 5383 | (-104, 13, 45) | the underside of trunk_top, 16 mm from SW1 VIN |
+  No screw and no hole is added (D42, D39); the only hole is the 4 mm lead hole through body_front, which carries the leads.
+- U3 at 9.2 V: the Pololu D30V30F5 takes 5 to 45 V in (Pololu product page, read via the search index): passes, no change.
 - The thermal and charge runs: scratch data (lab rule 8).

@@ -64,7 +64,7 @@ def sheet_power(book):
     sh.block("BMS", 78, 36, 106, 108, "BMS", band=BAND_PWR, sub_y=57,
              sub=["Tenergy", "P/N 32175", "10 A working", "OC 22 +/- 5 A"],
              pins=[("B+", "L", yP, "B+"), ("B1", "L", 74, "B1"), ("B-", "L", yN, "B-"),
-                   ("P+", "R", yP, "P+", 2, s), ("T", "R", 74, "T"), ("P-", "R", yN, "P-", 2, s)])
+                   ("P+", "R", yP, "P+", 4, s), ("T", "R", 74, "T"), ("P-", "R", yN, "P-", 4, s)])
     sh.nc_note(109.5, 79.2, "T: NTC, open [I]")
     sh.w("PACK.B+", "BMS.B+")
     sh.w("PACK.MID", "BMS.B1")
@@ -72,13 +72,13 @@ def sheet_power(book):
     sh.block("CHG", 140, 58, 168, 88, "charger", band=BAND_PWR, tsize=8.6, sub_y=71.5,
              sub=["USB-C 2S", "B0BJTW4QBR"],
              pins=[("B+", "U", 154, "B+"), ("B-", "D", 154, "B-"), ("USB", "R", 79.5, "USB-C in")])
-    sh.w("BMS.P+", "CHG.B+", 154, sa=1, lab=124)
-    sh.w("BMS.P-", "CHG.B-", 154, sa=0, lab=124)
+    sh.w("BMS.P+", "CHG.B+", 154, sa=2, lab=124)
+    sh.w("BMS.P-", "CHG.B-", 154, sa=1, lab=124)
     sh.block("XT30", 184, 36, 206, 108, "XT30U", band=BAND_PWR, tsize=8.8, sub_y=60,
              sub=["F: pack", "M: robot", "mated", "15 A"],
              pins=[("F+", "L", yA, "F+"), ("F-", "L", yB, "F-"), ("M+", "R", yA, "M+"), ("M-", "R", yB, "M-")])
-    sh.w("BMS.P+", "XT30.F+", sa=0, lab=124)
-    sh.w("BMS.P-", "XT30.F-", sa=1, lab=124)
+    sh.w("BMS.P+", "XT30.F+", sa=1, lab=124)
+    sh.w("BMS.P-", "XT30.F-", sa=2, lab=124)
     # P7: each fuse holder lead (90 mm as shipped) is lengthened with 16 AWG red at splice JFI or JFO (cables3d)
     yF = 78.0                              # fuse lead row, below the + line so each P7 piece has room for its label
     sh.splice("JFI", 243, yA, lab_dx=0, lab_dy=-3.4, ha="center")
@@ -91,10 +91,15 @@ def sheet_power(book):
     sh.w("F1.OUT", "JFO.S", 270, lab=("y", 61.5))
     sh.block("SW1", 312, 36, 346, 94, "Pololu 2815", band=BAND_PWR, tsize=8.6, sub_y=85.5,
              sub=["MOSFET switch HP", "slide switch: OFF"], subsize=6.8,
-             pins=[("VIN", "L", yA, plab(sh.net, "SW1", "VIN")), ("SW", "L", 66, plab(sh.net, "SW1", "SW")),
+             pins=[("VIN", "L", yA, plab(sh.net, "SW1", "VIN"), 2, 4.0), ("SW", "L", 66, plab(sh.net, "SW1", "SW")),
                    ("GND_SW", "L", 73, plab(sh.net, "SW1", "GND_SW")), ("ON", "L", 80, plab(sh.net, "SW1", "ON")),
-                   ("VOUT", "R", yA, plab(sh.net, "SW1", "VOUT")), ("GND", "R", 64, plab(sh.net, "SW1", "GND"))])
-    sh.w("JFO.S", "SW1.VIN")
+                   ("VOUT", "R", yA, plab(sh.net, "SW1", "VOUT")), ("GND", "R", 64, plab(sh.net, "SW1", "GND"), 3, 4.0)])
+    # D50: DK7 (Pololu 5383 ideal diode) between JFO and SW1 VIN; DK6 (SYS) joins SW1 VIN from the dock region below
+    sh.block("DK7", 280, 38, 302, 58, "DK7 5383", band=BAND_PWR, tsize=7.0,
+             pins=[("VIN", "L", yA, "VIN"), ("VOUT", "R", yA, "VOUT"), ("GND", "D", 291, "GND")])
+    sh.w("JFO.S", "DK7.VIN")
+    sh.w("DK7.VOUT", "SW1.VIN", 306, lab="none")
+    sh.w("DK7.GND", "SW1.GND", ("y", 104.0), 352, sb=1, lab="none")
     sh.block("CTL", 212, 52, 236, 76, "panel sw.", band=BAND_PWR, tsize=8.0, sub_y=61.4,
              sub=["stock switch", "in body_back"], subsize=6.6,
              pins=[("2", "D", 220, "2"), ("1", "D", 228, "1")])
@@ -110,6 +115,29 @@ def sheet_power(book):
     # ---------------- band 2: head (U3, Pi) and belly (BEC)
     sh.region(12, 124, 224, 180, "HEAD", "head floor, 5 V branch (D4, D8)")
     sh.region(296, 124, 408, 180, "BELLY", "servo regulator (D3, D15)")
+    # ---------------- dock contacts (D43, D50): chest pad, charge path, SENSE, SYS
+    sh.region(226, 124, 294, 180, "DOCK", "chest pad and charge path (D43, D50)")
+    sh.block("DKP", 228, 134, 244, 176, "pad", band=BAND_PWR, tsize=7.0,
+             pins=[("CHG", "R", 140, "CHG+"), ("SNS", "R", 150, "SENSE", 2, 3.0), ("GND", "R", 160, "GND", 2, 3.0), ("SYS", "R", 170, "SYS")])
+    sh.block("DK2", 252, 134, 266, 146, "DK2", band=BAND_PWR, tsize=6.6,
+             pins=[("VIN", "L", 140, "VIN"), ("VOUT", "R", 140, "VOUT"), ("GND", "D", 259, "G")])
+    sh.block("F2", 272, 134, 286, 146, "F2 5 A", band=BAND_PWR, tsize=6.6, pins=[("IN", "L", 140, "1"), ("OUT", "R", 140, "2")])
+    sh.block("RT1", 252, 148, 266, 156, "RT1 NTC", band=BAND_PWR, tsize=6.2, pins=[("1", "L", 152, "1"), ("2", "R", 152, "2")])
+    sh.block("WK1", 272, 148, 286, 156, "WK1 wake", band=BAND_PWR, tsize=6.2, pins=[("A", "L", 152, "A"), ("K", "R", 152, "K")])
+    sh.block("DK6", 252, 164, 266, 176, "DK6", band=BAND_PWR, tsize=6.6,
+             pins=[("VIN", "L", 170, "VIN"), ("VOUT", "R", 170, "VOUT"), ("GND", "D", 259, "G")])
+    sh.w("DKP.CHG", "DK2.VIN")
+    sh.w("DKP.GND", "DK2.GND", 248, 158.0, 259, lab="none")
+    sh.w("DK2.VOUT", "F2.IN")
+    sh.w("F2.OUT", "BMS.P+", 290, 120.0, 110, sb=3, lab="none")
+    sh.w("DKP.GND", "BMS.P-", 246, 178.5, 112, sa=1, sb=3, lab="none")
+    sh.w("DKP.SNS", "RT1.1", 248.5, lab="none")
+    sh.w("RT1.2", "BMS.P-", 268, 179.5, 114, sb=0, lab="none")
+    sh.w("DKP.SNS", "WK1.A", 249, 157.5, 270, sa=1, lab="none")
+    sh.w("WK1.K", "SW1.ON", 288, 108.0, 308, lab="none")
+    sh.w("DKP.SYS", "DK6.VIN")
+    sh.w("DK6.VOUT", "SW1.VIN", 292, 118.0, 309, sb=1, lab="none")
+    sh.w("DK6.GND", "SW1.GND", 181.0, 354, sb=2, lab="none")
     sh.block("U1", 372, 130, 406, 174, "BEC Pro", band=BAND_PWR, tsize=8.6, sub_y=145,
              sub=["Castle CC", "set to 7.2 V"], subsize=6.8,
              pins=[(p_, side, pos, plab(sh.net, "U1", p_) if side != "D" else "")

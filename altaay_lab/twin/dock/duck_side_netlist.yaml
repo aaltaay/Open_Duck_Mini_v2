@@ -1,7 +1,6 @@
-# duck_side_netlist.yaml: the duck-side wiring of the contact dock (D43, D50), in the schema of wiring/netlist.yaml.
-# Rev 2026-11-05 (America/New_York), V1 track 8 phase 3. NOT yet merged into wiring/netlist.yaml: each new cable there
-# needs a 3D route (cables3d, check C3) and the sheets regenerated (check C10); that pass is open (DOCK_TWIN.md section 11,
-# BLOCKER). Until then this file is the source for the dock wiring; wiring/netlist.yaml stays as built without the dock.
+# duck_side_netlist.yaml: the change record of the dock wiring (D43, D50). MERGED into wiring/netlist.yaml on 2026-11-06 (ET)
+# Rev 2026-11-05 (America/New_York), V1 track 8 phase 3. wiring/netlist.yaml is now the source (cables DC1 to DC4, routed in
+# cables3d.json by twin/dock/dock_cables3d.py, drawn on sheet 1); this file is kept as the record of the change.
 # Calc only. Currents: docked and awake, sitting, torque off (DOCK_TWIN.md section 11.3).
 nets:
   CHG_IN:  {domain: PACK_6V0_8V4, note: "chest CHG+ strip to DK2 IN; the dock charger output (8.40 V CV, 1.1 A)"}

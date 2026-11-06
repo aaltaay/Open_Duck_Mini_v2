@@ -23,7 +23,7 @@ Window: fore-aft 0 to 40 mm into the paddle, lateral +/- 46.5 mm (single pins +/
 ## 3. Duck-side parts
 Pad 100 x 76 x 0.8 mm FR4 ENIG on the flat chest face of body_front (no STL change; one 4 mm lead hole drilled after
 printing); DK2, DK3/DK4 (5 A fuse), DK5 (NTC, wake parts, 100 k), DK6 (SYS diode), DK7 (Pololu 5383, pack side, between the
-fuse and the 2813). Wiring: duck_side_netlist.yaml. About 13 g with the leads.
+fuse and the 2813). Wiring: wiring/netlist.yaml (cables DC1 to DC4); seats: dock_seats.json. About 13 g with the leads.
 
 ## 4. What the battery job is asked for
 1. The pack monitor reports charge current and the cell temperature to the Pi.
