@@ -165,8 +165,8 @@
  "tipping": {
   "mass_kg": 2.124,
   "cg_mm": [
-   108.0,
-   -1.1,
+   108.1,
+   -1.0,
    78.2
   ],
   "support": "feet hull (12 feet, 4 mm radius)",
@@ -306,8 +306,8 @@
      218.0,
      -130.0
     ],
-    "weight_lever_mm": 110.0,
-    "resist_nm": 2.291,
+    "weight_lever_mm": 109.9,
+    "resist_nm": 2.29,
     "overturn_nm": 0.67,
     "margin": 3.42,
     "target": 3.0,
@@ -326,7 +326,7 @@
      218.0,
      -130.0
     ],
-    "weight_lever_mm": 110.0,
+    "weight_lever_mm": 109.9,
     "resist_nm": 11.133,
     "overturn_nm": 0.67,
     "margin": 16.62,
@@ -346,7 +346,7 @@
      218.0,
      -130.0
     ],
-    "weight_lever_mm": 110.0,
+    "weight_lever_mm": 109.9,
     "resist_nm": 9.866,
     "overturn_nm": 0.67,
     "margin": 14.73,
@@ -367,7 +367,7 @@
    ],
    "outside_mm": 1.4,
    "duck_overturn_nm": 0.038,
-   "dock_resist_nm": 4.533,
+   "dock_resist_nm": 4.535,
    "margin": 119.3,
    "ok": true
   },
@@ -384,8 +384,8 @@
      218.0,
      -130.0
     ],
-    "weight_lever_mm": 110.0,
-    "resist_nm": 2.291,
+    "weight_lever_mm": 109.9,
+    "resist_nm": 2.29,
     "overturn_nm": 2.3,
     "margin": 1.0,
     "target": 3.0,
@@ -404,8 +404,8 @@
      -109.0,
      16.0
     ],
-    "weight_lever_mm": 217.0,
-    "resist_nm": 4.52,
+    "weight_lever_mm": 217.1,
+    "resist_nm": 4.522,
     "overturn_nm": 2.3,
     "margin": 1.97,
     "target": 3.0,
@@ -424,7 +424,7 @@
      214.0,
      134.0
     ],
-    "weight_lever_mm": 135.1,
+    "weight_lever_mm": 135.0,
     "resist_nm": 2.813,
     "overturn_nm": 2.3,
     "margin": 1.22,
@@ -444,8 +444,8 @@
      36.0,
      -134.0
     ],
-    "weight_lever_mm": 132.9,
-    "resist_nm": 2.769,
+    "weight_lever_mm": 133.0,
+    "resist_nm": 2.771,
     "overturn_nm": 2.3,
     "margin": 1.2,
     "target": 3.0,

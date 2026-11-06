@@ -119,7 +119,7 @@ COLUMN_BOLTS = [(79.0, 70.0), (93.0, 5.0)]
 BAY = dict(x0=104.0, x1=189.0, y=100.0, z0=BASE["z1"], floor=2.0, wall=2.0, z1=BASE["z1"] + 36.0, lid=2.0)
 BAY_FLOOR_BOLTS = [(110.0, 60.0), (182.0, 60.0)]
 BAY_LID_BOSSES = [(107.5, 96.5), (185.5, 96.5)]
-CABLE_HOLE = dict(y=20.0, z=200.0, d=9.0)          # paddle cable bundle (4 conductors, 4.4 mm) through the face plate (column l2)          # paddle cable through the face plate (column l2)
+PADDLE_GROOVE = dict(y0=26.0, y1=34.0, x0=40.0, x1=113.0, depth=7.0)   # the paddle cable bundle (5.15 mm) from the foot of its service loop to the bay
 GROOVE = dict(y0=12.0, y1=16.0, depth=4.0, x1=110.0)  # switch cable groove in base_l top
 JACK = dict(y=-65.0, z=BASE["z1"] + 2.0 + 16.0, hole=8.0)   # Same Sky PJ-005A 5/16-32 bushing in the tray rear wall
 PERF = dict(x0=120.0, x1=171.0, y0=5.0, y1=86.0, standoff=6.0, hole_pitch=73.7)
@@ -188,6 +188,8 @@ def parts():
             b = b.difference(cyl(x, s * y, BASE["z0"] - 1, BASE["z1"] + 1, M3)).difference(cyl(x, s * y, BASE["z0"] - 1, BASE["z0"] + 3.2, 6.0))
         if s > 0:
             b = b.difference(box(BASE["x0"] - 1, GROOVE["x1"], GROOVE["y0"], GROOVE["y1"], BASE["z1"] - GROOVE["depth"], BASE["z1"] + 1))
+            g = PADDLE_GROOVE
+            b = b.difference(box(g["x0"], g["x1"], g["y0"], g["y1"], BASE["z1"] - g["depth"], BASE["z1"] + 1))
         b = feet(b, [(36, s * 30), (36, s * 130), (REAR_FOOT_X, s * 30), (REAR_FOOT_X, s * 130)])
         P[f"dock_base_{side}"] = b
     # ---------------------------------------------------------------- column halves (staggered splits)
@@ -208,8 +210,6 @@ def parts():
                 c = c.difference(hole_x(74, 84, s * ROD["y"], ROD["z"], 4.4))
                 for dz in CUP_BOLT_DZ:
                     c = c.difference(hole_x(74, 84, s * ROD["y"], ROD["z"] + dz, M3))
-            if s > 0 and zc[i] < CABLE_HOLE["z"] < zc[i + 1]:
-                c = c.difference(hole_x(74, 84, CABLE_HOLE["y"], CABLE_HOLE["z"], CABLE_HOLE["d"]))
             P[f"dock_column_{side}{i + 1}"] = c
     # ---------------------------------------------------------------- paddle plate (D50 rows, 0933 pins)
     pad = box(0, 12, -55, 55, 140, 230)
@@ -257,7 +257,7 @@ def parts():
     for (x0, x1, y0, y1) in ((119.5, 146.5, -35.5, -11.9), (149.5, 170.8, -40.5, -14.1), (119.5, 170.5, -95.5, -77.3)):
         rim = box(x0 - 1.2, x1 + 1.2, y0 - 1.2, y1 + 1.2, zf - 0.5, zf + 2.0).difference(box(x0, x1, y0, y1, zf - 1, zf + 3))
         t = t.union(rim)                                                               # locating rims for the taped boards
-    t = t.difference(box(BAY["x0"] - 1, BAY["x0"] + BAY["wall"] + 1, CABLE_HOLE["y"] - 1.0, CABLE_HOLE["y"] + 9.0, zf, zf + 16))   # paddle cable notch (bundle 5.1 mm)
+    t = t.difference(box(BAY["x0"] + BAY["wall"] + 0.5, PADDLE_GROOVE["x1"], PADDLE_GROOVE["y0"], PADDLE_GROOVE["y1"], BAY["z0"] - 1, zf + 1))   # the paddle cable from its groove
     t = t.difference(box(BAY["x0"] + BAY["wall"] + 0.5, GROOVE["x1"], GROOVE["y0"], GROOVE["y1"], BAY["z0"] - 1, zf + 1))       # switch cable from the groove
     t = t.difference(hole_x(BAY["x1"] - 3, BAY["x1"] + 1, JACK["y"], JACK["z"], JACK["hole"]))
     P["dock_bay_tray"] = t

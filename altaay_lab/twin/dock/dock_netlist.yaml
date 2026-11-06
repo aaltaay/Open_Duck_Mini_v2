@@ -139,19 +139,19 @@ wires:
   - {cable: KC2, from: J1.TIP, to: FD.IN, net: V_AD, gauge: 16 AWG, color: red, cut_mm: 90, i_mean_a: 2.0, i_peak_a: 2.8, ends: [solder lug, holder lead], note: "the holder's own 90 mm lead, soldered to the jack lug"}
   - {cable: KC2, from: J1.SLV, to: GATE.GND, net: GND, gauge: 20 AWG, color: black, cut_mm: 140, i_mean_a: 2.0, i_peak_a: 2.8, ends: [solder lug, perfboard hole]}
   - {cable: KC3, from: FD.OUT, to: SWG.VIN, net: V9, gauge: 16 AWG, color: red, cut_mm: 90, i_mean_a: 2.0, i_peak_a: 2.8, ends: [holder lead, solder pad], note: "the holder's own 90 mm lead"}
-  - {cable: KC3, from: SWG.VIN, to: GATE.V9, net: V9, gauge: 26 AWG, color: red, cut_mm: 110, i_mean_a: 0.02, i_peak_a: 0.2, ends: [solder pad, perfboard hole], note: "gate supply, on the 2815 VIN pad with the holder lead"}
+  - {cable: KC3, from: SWG.VIN, to: GATE.V9, net: V9, gauge: 26 AWG, color: red, cut_mm: 120, i_mean_a: 0.02, i_peak_a: 0.2, ends: [solder pad, perfboard hole], note: "gate supply, on the 2815 VIN pad with the holder lead"}
   - {cable: KC4, from: SWG.VOUT, to: CH.VDD, net: V_SYS, gauge: 20 AWG, color: red, cut_mm: 100, i_mean_a: 1.0, i_peak_a: 1.0, ends: [solder pad, test point]}
-  - {cable: KC4, from: SWG.GND, to: GATE.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 100, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, perfboard hole]}
+  - {cable: KC4, from: SWG.GND, to: GATE.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 110, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, perfboard hole]}
   - {cable: KC4, from: CH.VSS, to: GATE.GND, net: GND, gauge: 20 AWG, color: black, cut_mm: 80, i_mean_a: 1.0, i_peak_a: 1.0, ends: [test point, perfboard hole]}
-  - {cable: KC4, from: CH.STAT, to: GATE.STAT, net: STAT, gauge: 26 AWG, color: white, cut_mm: 120, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, perfboard hole]}
-  - {cable: KC4, from: CH.VBATP, to: GATE.CHGS, net: V_CHG, gauge: 26 AWG, color: yellow, cut_mm: 120, i_mean_a: 0.0, i_peak_a: 0.0, ends: [test point, perfboard hole]}
-  - {cable: KC4, from: SWG.VOUT, to: GATE.VSYS, net: V_SYS, gauge: 26 AWG, color: red, cut_mm: 150, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, perfboard hole]}
+  - {cable: KC4, from: CH.STAT, to: GATE.STAT, net: STAT, gauge: 26 AWG, color: white, cut_mm: 110, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, perfboard hole]}
+  - {cable: KC4, from: CH.VBATP, to: GATE.CHGS, net: V_CHG, gauge: 26 AWG, color: yellow, cut_mm: 130, i_mean_a: 0.0, i_peak_a: 0.0, ends: [test point, perfboard hole]}
+  - {cable: KC4, from: SWG.VOUT, to: GATE.VSYS, net: V_SYS, gauge: 26 AWG, color: red, cut_mm: 130, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, perfboard hole]}
   - {cable: KC5, from: SWG.CTRL, to: MS.C, net: CTRL, gauge: 26 AWG, color: blue, cut_mm: 370, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, solder lug]}
   - {cable: KC5, from: MS.NO, to: GATE.Q1C, net: CTRL_SW, gauge: 26 AWG, color: green, cut_mm: 320, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder lug, perfboard hole]}
-  - {cable: KP1, from: CH.VBATP, to: PADDLE.CHG, net: V_CHG, gauge: 20 AWG, color: red, cut_mm: 550, i_mean_a: 1.0, i_peak_a: 1.0, ends: [test point, solder cup]}
-  - {cable: KP1, from: GATE.SNS, to: PADDLE.SNS, net: SNS, gauge: 26 AWG, color: white, cut_mm: 470, i_mean_a: 0.001, i_peak_a: 0.007, ends: [perfboard hole, solder cup]}
-  - {cable: KP1, from: GATE.GND, to: PADDLE.GND_L, net: GND, gauge: 20 AWG, color: black, cut_mm: 450, i_mean_a: 2.0, i_peak_a: 2.8, ends: [perfboard hole, solder cup]}
-  - {cable: KP1, from: SWG.VOUT, to: PADDLE.SYS_L, net: V_SYS, gauge: 20 AWG, color: red, cut_mm: 510, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder cup], note: "red with a white band at both ends (the robot's 20 AWG is red and black only)"}
+  - {cable: KP1, from: CH.VBATP, to: PADDLE.CHG, net: V_CHG, gauge: 20 AWG, color: red, cut_mm: 420, i_mean_a: 1.0, i_peak_a: 1.0, ends: [test point, solder cup]}
+  - {cable: KP1, from: GATE.SNS, to: PADDLE.SNS, net: SNS, gauge: 26 AWG, color: white, cut_mm: 360, i_mean_a: 0.001, i_peak_a: 0.007, ends: [perfboard hole, solder cup]}
+  - {cable: KP1, from: GATE.GND, to: PADDLE.GND_L, net: GND, gauge: 20 AWG, color: black, cut_mm: 360, i_mean_a: 2.0, i_peak_a: 2.8, ends: [perfboard hole, solder cup]}
+  - {cable: KP1, from: SWG.VOUT, to: PADDLE.SYS_L, net: V_SYS, gauge: 20 AWG, color: red, cut_mm: 410, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder cup], note: "red with a white band at both ends (the robot's 20 AWG is red and black only)"}
   - {cable: KP2, from: PADDLE.GND_L, to: PADDLE.GND_R, net: GND, gauge: 20 AWG, color: black, cut_mm: 50, i_mean_a: 1.0, i_peak_a: 1.4, ends: [solder cup, solder cup]}
   - {cable: KP2, from: PADDLE.SYS_L, to: PADDLE.SYS_R, net: V_SYS, gauge: 20 AWG, color: red, cut_mm: 50, i_mean_a: 0.5, i_peak_a: 0.9, ends: [solder cup, solder cup]}
 gate_board:

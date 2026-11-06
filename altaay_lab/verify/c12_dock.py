@@ -4,8 +4,8 @@ Re-runs the dock's own tools on the committed files and checks:
     no interference between any two components in the dock and docked states, none for the moving paddle at 0, 20, 40 mm
     and -10, 0, +10 deg (dock_assembly.py);
   - fasteners: every screw OK (path open, head clear, engagement by its rule, tip clear) in dock_fasteners.json, rebuilt;
-  - wiring: dock_erc.py 0 ERROR; every netlist wire routed in dock_cables3d.json with self-check PASS and a cut no
-    shorter than its route plus the slack rule; wiring sheet 7 drawn and newer than dock_netlist.yaml;
+  - wiring: dock_erc.py 0 ERROR; every netlist wire routed in dock_cables3d.json with self-check PASS in every state
+    (rest, docked, full travel, the yaw limits) and a cut no shorter than its longest state plus the slack rule; wiring sheet 7 drawn and newer than dock_netlist.yaml;
   - BOM vs model: dock_bom.py check (every fastener spec, bought part and gate part counted on its line);
   - viewer: when a dock scene was built in the output folder (VERIFY_OUT/viewer_dock), its counts match the BOM and the
     fastener schedule.
@@ -104,7 +104,7 @@ def main():
         r = runs.get((w["from"], w["to"]))
         if not r or not r.get("points"):
             miss.append("%s-%s" % (w["from"], w["to"])); continue
-        need = r["length_mm"] + (10 if "holder lead" in (w.get("ends") or []) else 40 + (20 if w["cable"] == "KP1" else 0))
+        need = r.get("length_max_mm", r["length_mm"]) + (10 if "holder lead" in (w.get("ends") or []) else 40)   # the paddle travel is in the service loop's own length, so the paddle cable gets the same 2 x 20 mm
         if w["cut_mm"] < need - 1e-6:
             short.append("%s-%s cut %s < %s" % (w["from"], w["to"], w["cut_mm"], round(need)))
     sys.path.insert(0, D)
@@ -113,6 +113,18 @@ def main():
     R.ev("wire to wire (centre lines at least the sum of the radii apart, outside shared terminal zones): %s" % ("no overlap" if not over else over[:3]))
     if over:
         R.find("FAIL", "routed wires overlap: %s" % over[:3], where="altaay_lab/twin/dock/dock_routes.py")
+    sts = (C.get("meta") or {}).get("states") or {}
+    R.ev("route check per state: " + ", ".join("%s (push %s mm, yaw %s deg) %s" % (k, v["push_mm"], v["yaw_deg"], v["check"]) for k, v in sts.items()))
+    need_st = {"rest", "docked", "full_travel"}
+    bad_st = [k for k, v in sts.items() if v["check"] != "PASS"] + sorted(need_st - set(sts))
+    for (fa, fb), r in runs.items():
+        for k, v in (r.get("states") or {}).items():
+            if v.get("check") != "PASS":
+                bad_st.append("%s %s-%s" % (k, fa, fb))
+        if r.get("states") and r["cut_mm"] < max(v["length_mm"] for v in r["states"].values()) - 1e-6:
+            short.append("%s-%s cut %s under its longest state" % (fa, fb, r["cut_mm"]))
+    if bad_st:
+        R.find("FAIL", "dock routes fail (or are missing) in a moving state: %s" % bad_st[:6], where="altaay_lab/twin/dock/dock_routes.py")
     R.ev("wires %d, routed %d, self-check %s; cuts short of the rule: %s" % (len(NL["wires"]), len(NL["wires"]) - len(miss), C["self_check"], short or "none"))
     if miss or short or C["self_check"] != "PASS":
         R.find("FAIL", "dock routes: missing %s, short %s, self-check %s" % (miss, short, C["self_check"]), where="altaay_lab/twin/dock/dock_routes.py")

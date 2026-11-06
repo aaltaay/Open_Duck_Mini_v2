@@ -144,41 +144,42 @@ def dock_parts(state):
     return geoms, nodes, man
 
 
-def dock_cables():
+def dock_cables(state="rest"):
+    """the dock wires in one state of dock_cables3d.json (rest for the dock scene, docked for the docked scene): the points,
+    the length and the pass or fail label all come from that state's own route check in dock_routes.py"""
     J = json.load(open(os.path.join(DOCK, "dock_cables3d.json")))
     NL = __import__("yaml").safe_load(open(os.path.join(DOCK, "dock_netlist.yaml")))
     desc = {c["id"]: c["desc"] for c in NL["cables"]}
+    st = (J.get("meta") or {}).get("states", {}).get(state)
+    if st is None:
+        raise SystemExit("dock_cables3d.json has no state %r: rerun dock_routes.py" % state)
     out = []
     for c in J["cables"]:
         for r in c["runs"]:
             if not r.get("points"):
                 continue
-            P = np.array(r["points"])
-            subs = ["paddle" if (p[0] < 22 and p[2] > 125) else "seat" if p[0] < -15 else "spine" if p[0] < 30 else "bay" if p[0] >= 103 else "mast" for p in P]
+            rs = (r.get("states") or {}).get(state)
+            if rs is None:
+                raise SystemExit("run %s has no %s state: rerun dock_routes.py" % (r["wire"], state))
+            P = np.array(rs["points"])
+            att = r.get("attach") or ["fixed"] * len(P)
+            subs = ["paddle" if (a == "paddle" or a.startswith("blend:") or a in ("carrier", "span")) else
+                    "seat" if p[0] < -15 else "spine" if p[0] < 30 else "bay" if p[0] >= 103 else "mast" for a, p in zip(att, P)]
+            ok = rs.get("check") == "PASS" and st.get("check") == "PASS"
             out.append(dict(id="%s:%s" % (c["id"], r["wire"]), cable=c["id"], run=r["wire"], seats=[], desc=desc.get(c["id"], ""),
                             node=nid("cable-%s-%s" % (c["id"], r["wire"].replace(".", "_"))), color=WIRE_HEX.get(r["color"], "#e07a1f"),
                             d_mm=r["od_mm"], points=P.round(2).tolist(), point_sub=subs, point_follow=[None] * len(P), sub=subs[len(P) // 2],
                             **{"from": r["frm"]}, to=r["to"], gauge=r["gauge"], wires=1, wires_detail=["%s %s %s" % (r["net"], r["gauge"], r["color"])],
-                            cut_mm=r["cut_mm"], routed_mm=r["length_mm"], worst_mm=r["length_mm"],
-                            check="pass" if J["self_check"] == "PASS" else "fail",
-                            note="clearance %s mm to every body (wire radius %s mm); cut %s mm by the rule (dock_routes.py)" % (r.get("clearance_mm"), r.get("radius_mm"), r["cut_mm"])))
+                            cut_mm=r["cut_mm"], routed_mm=rs["length_mm"], worst_mm=r.get("length_max_mm", r["length_mm"]),
+                            check="pass" if ok else "fail", state=state,
+                            note="%s state (push %s mm, yaw %s deg): route check %s; clearance %s mm at rest (wire radius %s mm); cut %s mm covers the longest state %s mm plus slack (dock_routes.py)"
+                                 % (state, st["push_mm"], st["yaw_deg"], rs.get("check"), r.get("clearance_mm"), r.get("radius_mm"), r["cut_mm"], r.get("length_max_mm"))))
     return out
 
 
 def dock_cables_docked():
-    """the dock wires in the docked state: the paddle points move with the paddle push and turn of docked_pose.json"""
-    import dock_assembly as DA
-    out = dock_cables()
-    c, sn = np.cos(DA.YAW_DOCKED), np.sin(DA.YAW_DOCKED)
-    for cb in out:
-        P = np.array(cb["points"])
-        for i, sub in enumerate(cb["point_sub"]):
-            if sub == "paddle":
-                x, y = P[i, 0] - 18.0, P[i, 1]
-                P[i, 0], P[i, 1] = 18.0 + c * x - sn * y + DA.PUSH_DOCKED, sn * x + c * y
-        cb["points"] = P.round(2).tolist()
-        cb["note"] += "; the paddle end follows the docked push and turn, the loop to the mast face takes up the travel"
-    return out
+    """the dock wires in the docked state: each point as dock_routes.py placed it for the docked push and turn"""
+    return dock_cables("docked")
 
 
 def dock_manifest(nodes_man, cables, generated):

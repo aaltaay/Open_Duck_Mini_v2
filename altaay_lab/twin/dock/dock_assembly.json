@@ -91,7 +91,7 @@
       12.0
      ]
     ],
-    "volume_mm3": 201170.2
+    "volume_mm3": 197082.2
    },
    {
     "id": "dock_base_r",
@@ -157,7 +157,7 @@
       310.0
      ]
     ],
-    "volume_mm3": 205882.9
+    "volume_mm3": 206386.1
    },
    {
     "id": "dock_column_l3",
@@ -443,7 +443,7 @@
       48.0
      ]
     ],
-    "volume_mm3": 76285.9
+    "volume_mm3": 76501.9
    },
    {
     "id": "dock_bay_lid",
@@ -2184,7 +2184,7 @@
       12.0
      ]
     ],
-    "volume_mm3": 201170.2
+    "volume_mm3": 197082.2
    },
    {
     "id": "dock_base_r",
@@ -2250,7 +2250,7 @@
       310.0
      ]
     ],
-    "volume_mm3": 205882.9
+    "volume_mm3": 206386.1
    },
    {
     "id": "dock_column_l3",
@@ -2536,7 +2536,7 @@
       48.0
      ]
     ],
-    "volume_mm3": 76285.9
+    "volume_mm3": 76501.9
    },
    {
     "id": "dock_bay_lid",

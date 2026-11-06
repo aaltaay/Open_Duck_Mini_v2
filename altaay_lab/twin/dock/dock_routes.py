@@ -77,20 +77,90 @@ def lead_dir(k):
     return np.array((0, 0, 1.0))
 
 
-# waypoints per wire family (through the groove, the spine channel and the face hole)
-FACE = (DP.CABLE_HOLE["y"], DP.CABLE_HOLE["z"])
+# waypoints per wire family. The paddle cable: carried on the paddle and the carrier down to below the paddle, a free span
+# (a service loop) down to its fixed clamp point where it drops into a groove in base_l, the groove to the bay.
+PG = DP.PADDLE_GROOVE
+CARRIER_VIAS = [(27.0, 20.0, 150.0), (27.0, 30.0, 126.0)]   # behind the paddle's yaw sweep (paddle back x 23, 10 deg about x 18)
+FIXED_VIAS = [(44.0, 30.0, 16.0), (46.0, 30.0, DP.BASE["z1"] - 3.5), (105.0, 30.0, DP.BASE["z1"] - 3.5), (110.0, 30.0, DP.BASE["z1"] - 1.0),
+              (111.0, 30.0, ZB + 6.0)]   # the groove-to-tray rise taken in two steps, so the bundle bend is wider than its slot circle
+SPAN_EXTRA = 12.0          # the free span is this much longer than its longest chord over the travel
+FAN_BACK, FAN_OUT = 6.0, 3.0     # each conductor leaves the bundle end along a straight stub: 6 mm back, 3 mm out from the axis
+STATES = {"rest": (0.0, 0.0), "docked": (DA.PUSH_DOCKED, DA.YAW_DOCKED), "full_travel": (40.0, 0.0),
+          "full_travel_yaw_plus": (40.0, np.radians(10.0)), "full_travel_yaw_minus": (40.0, -np.radians(10.0)),
+          "rest_yaw_plus": (0.0, np.radians(10.0)), "rest_yaw_minus": (0.0, -np.radians(10.0))}
 VIA = {
-    "paddle": [(14.0, 14.0, None), (14.0, FACE[0], FACE[1]), (60.0, FACE[0], FACE[1]), (79.0, FACE[0], FACE[1]), (90.0, FACE[0] + 2, FACE[1]),
-               (90.0, FACE[0] + 2, 40.0), (97.0, FACE[0] + 4, ZB + 10.0), (103.0, FACE[0] + 4, ZB + 10.0), (110.0, FACE[0] + 4, ZB + 10.0)],
     "seat": [(-40.0, 10.0, 12.0), (-21.0, 14.0, 20.0), (-16.5, 14.0, 20.0), (27.0, 14.0, 20.0), (27.0, 14.0, DP.BASE["z1"] - 1.5),
              (60.0, 14.0, DP.BASE["z1"] - 1.8), (108.0, 14.0, DP.BASE["z1"] - 1.8), (108.2, 14.0, ZB + 3.0)],
 }
+
+
+def arc(A, B, L, n, k):
+    """k points of a circular arc of length L from A to B, bulging toward n (made square to AB); None if L < the chord"""
+    A, B = np.asarray(A, float), np.asarray(B, float); c = float(np.linalg.norm(B - A)); u = (B - A) / c
+    n = np.asarray(n, float) - u * np.dot(n, u); n /= np.linalg.norm(n)
+    if L < c - 1e-6:
+        return None, None
+    if L - c < 1e-6:
+        return [A + (B - A) * t for t in np.linspace(0, 1, k)], float("inf")
+    lo, hi = 1e-6, 2 * np.pi - 1e-6
+    for _ in range(80):
+        th = (lo + hi) / 2
+        if th / (2 * np.sin(th / 2)) < L / c: lo = th
+        else: hi = th
+    R = L / th; mid = (A + B) / 2; ctr = mid - n * R * np.cos(th / 2)
+    return [ctr + R * (np.cos(f) * n + np.sin(f) * u) for f in np.linspace(-th / 2, th / 2, k)], R
+
+
+def chaikin(P, n=3):
+    """round the corners of a routed trunk (corner cutting, the ends kept), so the conductors in their slots keep their
+    spacing through a bend instead of crowding at a sharp corner"""
+    P = [np.asarray(p, float) for p in P]
+    for _ in range(n):
+        Q = [P[0]]
+        for a, b in zip(P[:-1], P[1:]):
+            Q += [0.75 * a + 0.25 * b, 0.25 * a + 0.75 * b]
+        Q.append(P[-1]); P = Q
+    return P
+
+
+def T_state(link, push, yaw):
+    if link == "paddle":
+        return DA.T_xyz(push, 0, 0) @ DA.rz(yaw, (18.0, 0.0))
+    if link == "carrier":
+        return DA.T_xyz(push, 0, 0)
+    return np.eye(4)
+
+
+def pose_run(r, push, yaw):
+    """a wire's points in a state: paddle and carrier points ride their link, the free span is rebuilt as an arc of its own
+    rest length between its moved ends, fixed points stay. Returns (points, span radius or None, span ok)"""
+    P = np.array(r["points"], float); tags = r["attach"]
+    Q = []
+    for p, t in zip(P, tags):
+        if t.startswith("blend:"):       # a leg between the paddle and the carrier: it flexes, moving from the paddle's pose to the carrier's
+            f = float(t[6:]); h = np.r_[p, 1.0]
+            Q.append((1 - f) * (T_state("paddle", push, yaw) @ h)[:3] + f * (T_state("carrier", push, yaw) @ h)[:3])
+        else:
+            Q.append((T_state(t, push, yaw) @ np.r_[p, 1.0])[:3] if t in ("paddle", "carrier") else p.copy())
+    idx = [i for i, t in enumerate(tags) if t == "span"]
+    if not idx:
+        return np.array(Q), None, True
+    i0, i1 = idx[0], idx[-1]
+    A, B = Q[i0 - 1], Q[i1 + 1]
+    L = float(np.sum(np.linalg.norm(np.diff(P[i0 - 1:i1 + 2], axis=0), axis=1)))
+    bul = P[(i0 + i1) // 2] - (P[i0 - 1] + P[i1 + 1]) / 2
+    pts, R = arc(A, B, L, bul if np.linalg.norm(bul) > 1e-6 else np.array((-1.0, 0, 0)), i1 - i0 + 3)
+    if pts is None:
+        return np.array(Q), 0.0, False
+    for k, i in enumerate(range(i0, i1 + 1)):
+        Q[i] = pts[k + 1]
+    return np.array(Q), R, True
+
+
 TIGHT = {"seat"}
 
 
 def family(w):
-    if w["cable"] == "KP1":
-        return "paddle"
     if w["cable"] == "KC5":
         return "seat"
     return None
@@ -346,8 +416,7 @@ def main():
         return [np.asarray(p, float) for p in P], None
 
     # 1. harness trunks as bundles: one path with the bundle's envelope, the conductors laid in it at fixed offsets
-    BUNDLE = {"KP1": [np.array((19.0, FACE[0], 150.0)), np.array((19.0, FACE[0], FACE[1]))] + [np.array([v[0], v[1], v[2]], float) for v in VIA["paddle"][2:]],
-              "KC5": [np.array(v, float) for v in VIA["seat"]]}
+    BUNDLE = {"KP1": None, "KC5": [np.array(v, float) for v in VIA["seat"]]}
     trunk = {}
     for cid, vias in BUNDLE.items():
         ws = [w for w in NL["wires"] if w["cable"] == cid]
@@ -355,7 +424,21 @@ def main():
         n = len(ws)
         rho = 0.0 if n == 1 else max(ods) / (2 * np.sin(np.pi / n)) + (0.4 if n > 2 else 0.15)   # room for the bends     # conductor centres on a circle, neighbours >= one OD apart
         rb = rho + max(ods) / 2
-        P, fail = route_chain(vias, (rb + 0.3, rb), [], own=[w_["from"] for w_ in ws] + [w_["to"] for w_ in ws])
+        own_ = [w_["from"] for w_ in ws] + [w_["to"] for w_ in ws]
+        if vias is None:                 # the paddle cable: carrier part, free span (arc), fixed part
+            Pc, fail = route_chain([np.array(v) for v in CARRIER_VIAS], (rb + 0.3, rb), [], own=own_)
+            Pf, fail2 = route_chain([np.array(v) for v in FIXED_VIAS], (rb + 0.3, rb), [], own=own_)
+            if Pc is None or Pf is None:
+                bad.append("%s bundle: no route %s" % (cid, fail or fail2)); continue
+            chord = max(float(np.linalg.norm(Pf[0] - (Pc[-1] + np.array((ps, 0, 0))))) for ps, _ in STATES.values())
+            span, Rb = arc(Pc[-1], Pf[0], chord + SPAN_EXTRA, np.array((-1.0, 0, 0)), 24)
+            Pc, Pf = chaikin(Pc), chaikin(Pf)
+            P = Pc + span[1:-1] + Pf
+            ttag = ["carrier"] * len(Pc) + ["span"] * (len(span) - 2) + ["fixed"] * len(Pf)
+        else:
+            P, fail = route_chain(vias, (rb + 0.3, rb), [], own=own_)
+            # the seat pair runs in the spine channel and the base groove: kept on its grid path, no corner rounding
+            ttag = ["fixed"] * (len(P) if P else 0)
         if P is None:
             bad.append("%s bundle: no route between %s" % (cid, fail)); continue
         # parallel-transport frame along the trunk, so each conductor keeps its slot through the bends
@@ -370,13 +453,13 @@ def main():
         for k, w in enumerate(ws):
             ang = 2 * np.pi * k / n
             slots[(w["from"], w["to"])] = [P[m] + rho * (np.cos(ang) * frames[m][0] + np.sin(ang) * frames[m][1]) for m in range(len(P))]
-        trunk[cid] = dict(P=P, slots=slots, rb=rb, rho=rho)
+        trunk[cid] = dict(P=P, slots=slots, rb=rb, rho=rho, tags=ttag)
         reserve(P, rb)
         for w_ in ws:                    # the straight fan-out stubs of every conductor, before any leg is routed
             S_ = slots[(w_["from"], w_["to"])]
             for e0, e1, c_ in ((S_[0], S_[1], P[0]), (S_[-1], S_[-2], P[-1])):
                 d_ = (e1 - e0) / np.linalg.norm(e1 - e0); r_ = (e0 - c_) / max(np.linalg.norm(e0 - c_), 1e-9)
-                reserve([e0, e0 - d_ * 6.0 + r_ * 4.0], OD[w_["gauge"]] / 2)
+                reserve([e0, e0 - d_ * FAN_BACK + r_ * FAN_OUT], OD[w_["gauge"]] / 2)
         print(cid, "bundle", round(2 * rb, 2), "mm, %d conductors, trunk %.0f mm" % (n, float(np.sum(np.linalg.norm(np.diff(np.array(P), axis=0), axis=1)))), flush=True)
     # 2. every wire: its own legs from its terminals to its slot in the bundle, or its whole route; placed wires are kept clear
     order = sorted(NL["wires"], key=lambda w: (w["cable"] not in BUNDLE, w["cable"] == "KP2"))
@@ -387,8 +470,9 @@ def main():
         Xa, Xb = T[fa] + lead_dir(fa) * (LEAD + rad), T[fb] + lead_dir(fb) * (LEAD + rad)   # past the exit by one radius
         needs = (rad + 1.0, rad + 0.6)
         ok = True
+        tags = None
         if w["cable"] == "KP2":
-            P = [T[fa], T[fb]]
+            P = [T[fa], T[fb]]; tags = ["paddle", "paddle"]
         elif w["cable"] in trunk:
             S = trunk[w["cable"]]["slots"][(fa, fb)]
             near_a = np.linalg.norm(S[0] - Xa) < np.linalg.norm(S[-1] - Xa)
@@ -399,18 +483,28 @@ def main():
             da = body[1] - body[0]; da = da / np.linalg.norm(da); db = body[-1] - body[-2]; db = db / np.linalg.norm(db)
             tr = trunk[w["cable"]]["P"]; c0, c1 = (tr[0], tr[-1]) if near_a else (tr[-1], tr[0])
             ra = (sa - c0) / max(np.linalg.norm(sa - c0), 1e-9); rb_ = (sb - c1) / max(np.linalg.norm(sb - c1), 1e-9)
-            pa_, pb_ = sa - da * 6.0 + ra * 4.0, sb + db * 6.0 + rb_ * 4.0   # the conductors fan out of the bundle end, each from its own slot
+            pa_, pb_ = sa - da * FAN_BACK + ra * FAN_OUT, sb + db * FAN_BACK + rb_ * FAN_OUT   # the conductors fan out of the bundle end, each from its own slot
             leg_a = [Xa, pa_]
             leg_b = [pb_, Xb]
             sh = [T[x] for x in (fa, fb) if x in used] + [x_ for x_, k_ in ((Xa, fa), (Xb, fb)) if k_ in used]
-            La, fail_a = route_chain(leg_a, needs, ends + [Xa, Xb], own=(fa, fb), shared=sh)    # only the wire's own lead exits are opened
-            Lb, fail_b = route_chain(leg_b, needs, ends + [Xa, Xb], own=(fa, fb), shared=sh)
+            flex = (rad + 1.0, rad + 0.6)    # a pin-to-bundle leg flexes with the paddle yaw: routed with more room to its neighbours and the paddle
+            La, fail_a = route_chain(leg_a, flex if fa == pad else needs, ends + [Xa, Xb], own=(fa, fb), shared=sh)    # only the wire's own lead exits are opened
+            Lb, fail_b = route_chain(leg_b, flex if fb == pad else needs, ends + [Xa, Xb], own=(fa, fb), shared=sh)
             if La is not None and Lb is not None:
                 La, Lb = La + [sa], [sb] + Lb                            # the last 6 mm straight into its slot
             if La is None or Lb is None:
                 ok = False; bad.append("%s %s-%s: no leg route %s" % (w["cable"], fa, fb, fail_a or fail_b))
             else:
                 P = [T[fa]] + La + [np.asarray(x) for x in body[1:-1]] + Lb + [T[fb]]
+                tg = trunk[w["cable"]]["tags"]; tg = tg if near_a else tg[::-1]
+                ea = "paddle" if fa.startswith("PADDLE") else "fixed"; eb = "paddle" if fb.startswith("PADDLE") else "fixed"
+                tags = [ea] * (1 + len(La)) + tg[1:-1] + [eb] * (len(Lb) + 1)
+                for lo, hi, end_, nxt in ((0, 1 + len(La), ea, tg[1]), (len(tags) - len(Lb) - 1, len(tags), eb, tg[-2])):
+                    if end_ == "paddle" and nxt == "carrier":   # pin to bundle: blended by length from the pin (paddle) to the slot (carrier)
+                        seg = [np.asarray(x, float) for x in P[lo:hi]] if lo == 0 else [np.asarray(x, float) for x in P[lo:hi]][::-1]
+                        cum = np.r_[0, np.cumsum(np.linalg.norm(np.diff(np.array(seg), axis=0), axis=1))]; cum = cum / max(cum[-1], 1e-9)
+                        bl = ["blend:%.3f" % c for c in cum]; bl[0] = "paddle"
+                        tags[lo:hi] = bl if lo == 0 else bl[::-1]
                 reserve(La, rad); reserve(Lb, rad)
         else:
             sh = [T[x] for x in (fa, fb) if x in used] + [x_ for x_, k_ in ((Xa, fa), (Xb, fb)) if k_ in used]
@@ -419,6 +513,7 @@ def main():
                 ok = False; bad.append("%s %s-%s: no route between %s" % (w["cable"], fa, fb, fail))
             else:
                 P = [T[fa]] + P + [T[fb]]
+                tags = ["fixed"] * len(P)
         used.update((fa, fb))
         rec = dict(wire="%s-%s" % (fa, fb), frm=fa, to=fb, net=w["net"], gauge=w["gauge"], color=w["color"], od_mm=od, cable=w["cable"],
                    bundle=dict(od_mm=round(2 * trunk[w["cable"]]["rb"], 2), slot_radius_mm=round(trunk[w["cable"]]["rho"], 2)) if w["cable"] in trunk else None)
@@ -433,12 +528,12 @@ def main():
                 hits = hits + [("clearance", round(exact, 2))]
             if hits:
                 bad.append("%s %s-%s inside %s" % (w["cable"], fa, fb, hits[:3]))
-            slack = 40.0 + (20.0 if w["cable"] == "KP1" else 0.0)
+            slack = 40.0                     # 2 x 20 mm tails; the paddle travel is in the free span's own length
             holder = "holder lead" in (w.get("ends") or [])
             cut = int(np.ceil((L + slack) / 10.0) * 10) if not holder else 90
             if holder and L + 10 > 90:
                 bad.append("%s %s-%s: the 90 mm holder lead is short (%.0f mm routed)" % (w["cable"], fa, fb, L))
-            rec.update(points=np.round(np.array(P), 2).tolist(), length_mm=round(L, 1), cut_mm=cut, slack_mm=slack if not holder else round(90 - L, 1),
+            rec.update(attach=tags, points=np.round(np.array(P), 2).tolist(), length_mm=round(L, 1), cut_mm=cut, slack_mm=slack if not holder else round(90 - L, 1),
                        clearance_mm=None if exact is None else round(exact, 2), radius_mm=rad, lead_exit_mm=EXIT, hits=hits)
             if w["cable"] not in trunk and w["cable"] != "KP2":
                 reserve(P, rad)
@@ -446,17 +541,62 @@ def main():
             rec.update(points=None)
         cables.setdefault(w["cable"], []).append(rec)
         print(w["cable"], fa, fb, rec.get("length_mm"), "clearance", rec.get("clearance_mm"), "radius", rad, flush=True)
-    # 3. wire to wire: no two conductor centre lines closer than the sum of their radii, outside the terminal zones they share
-    pw = pairwise(cables, T)
-    for x in pw:
-        bad.append("wires overlap: %s and %s, %.2f mm apart at %s (radii sum %.2f)" % x)
+    # 3. every state of the paddle (rest, docked, full travel, the swivel stops): bodies, wire to wire, bend radius of the free
+    # span (3 x OD), stretch (the span's length covers its chord); the cut covers the longest state
+    comps = DA.components("dock"); moves = {c["id"]: c.get("moves") for c in comps}
+    flinks = {f["id"]: f.get("link") for f in json.load(open(os.path.join(HERE, "dock_fasteners.json")))["fasteners"]}
+    state_res = {}
+    for sname, (push, yaw) in STATES.items():
+        Ms = []
+        for cid, m in M:
+            lk = {"paddle": "paddle", "carrier": "carrier"}.get(moves.get(cid)) or {"dock_carrier": "carrier", "dock_paddle": "paddle"}.get(flinks.get(cid))
+            Ms.append((cid, m.copy().apply_transform(T_state(lk, push, yaw)) if lk else m))
+        Ts = {k: (T_state("paddle", push, yaw) @ np.r_[v, 1.0])[:3] if k.startswith("PADDLE.") else v for k, v in T.items()}
+        posed, issues = {}, []
+        for cid, rs in cables.items():
+            for r in rs:
+                if not r.get("points"):
+                    continue
+                Q, R, ok_ = pose_run(r, push, yaw)
+                Lq = float(np.sum(np.linalg.norm(np.diff(Q, axis=0), axis=1)))
+                rr = dict(r, points=Q.round(2).tolist())
+                posed.setdefault(cid, []).append(rr)
+                fa, fb = r["frm"], r["to"]; ends = [Ts[fa], Ts[fb]]
+                smp = [x for p_, q_ in zip(Q[:-1], Q[1:]) for x in np.linspace(p_, q_, int(np.linalg.norm(q_ - p_) / 0.5) + 2)]
+                Mw = [(c_, m_) for c_, m_ in Ms if c_ not in own_parts(fa) + own_parts(fb)]
+                h = inside_any(Mw, smp, ends); ex = exact_clearance(Mw, smp, ends)
+                if h or (ex is not None and ex < r["radius_mm"] - 0.15):
+                    issues.append("%s %s: in a body %s, clearance %s" % (r["cable"], r["wire"], h[:2], ex))
+                if not ok_:
+                    issues.append("%s %s: stretched (the span is shorter than its chord)" % (r["cable"], r["wire"]))
+                elif R is not None and R < 3 * r["od_mm"]:
+                    issues.append("%s %s: span bend radius %.1f mm under 3 x OD" % (r["cable"], r["wire"], R))
+                rr["length_mm"] = round(Lq, 1); rr["span_radius_mm"] = None if R is None or not np.isfinite(R) else round(R, 1)
+        for x in pairwise(posed, Ts):
+            issues.append("wires overlap: %s and %s, %.2f mm apart at %s (radii sum %.2f)" % x)
+        state_res[sname] = dict(push_mm=round(push, 2), yaw_deg=round(float(np.degrees(yaw)), 2), check="PASS" if not issues else issues,
+                                runs={r["wire"]: dict(points=r["points"], length_mm=r["length_mm"], span_radius_mm=r.get("span_radius_mm")) for rs in posed.values() for r in rs})
+        bad += ["%s: %s" % (sname, x) for x in issues]
+        print(sname, "PASS" if not issues else issues[:3], flush=True)
+    for rs in cables.values():          # the cut covers the longest state; per-state geometry and checks on each run
+        for r in rs:
+            if not r.get("points"):
+                continue
+            Lmax = max(st["runs"][r["wire"]]["length_mm"] for st in state_res.values())
+            r["length_max_mm"] = Lmax
+            if r["cut_mm"] != 90:
+                r["cut_mm"] = int(np.ceil((Lmax + 40.0) / 10.0) * 10)
+            r["states"] = {k: dict(points=st["runs"][r["wire"]]["points"], length_mm=st["runs"][r["wire"]]["length_mm"],
+                                   span_radius_mm=st["runs"][r["wire"]]["span_radius_mm"],
+                                   check="PASS" if st["check"] == "PASS" or not any(r["wire"] in x for x in st["check"]) else "FAIL") for k, st in state_res.items()}
     keys = [(r["frm"], r["to"]) for rs in cables.values() for r in rs]
     if len(keys) != len(set(keys)):
         bad.append("a wire has two routes")
     if any(len(set(map(tuple, np.round(np.array(r["points"]), 0).tolist()))) < 2 for rs in cables.values() for r in rs if r["points"]):
         bad.append("a route has no length")
     out = dict(meta=dict(generated_by="altaay_lab/twin/dock/dock_routes.py", label="CAD check only", frame="dock frame (dock_parts.py), mm, the dock state (paddle at rest, seat top up)",
-                         grid_mm=H, lead_exit_mm=EXIT, rule="cut = route + 2 x 20 mm tails (+ 20 mm on KP1 for the 40 mm of paddle travel); holder leads 90 mm must reach with 10 mm to spare",
+                         grid_mm=H, lead_exit_mm=EXIT, rule="cut = the longest state's route + 2 x 20 mm tails (the paddle cable's free span carries the travel in its own length); holder leads 90 mm must reach with 10 mm to spare",
+                         states={k: dict(push_mm=round(v[0], 2), yaw_deg=round(float(np.degrees(v[1])), 2), check=state_res.get(k, {}).get("check")) for k, v in STATES.items()},
                          od_source="[I] BNTECHGO silicone wire listings (16 AWG 3.0 mm, 20 AWG 1.8 mm); 26 AWG 1.3 mm (BOM 25)"),
                cables=[dict(id=c, runs=r) for c, r in cables.items()], terminals={k: np.round(v, 2).tolist() for k, v in T.items()},
                self_check="PASS" if not bad else bad)
