@@ -10,6 +10,8 @@ S = C.scene()
 ms = [S.world_mesh(i) for i in S.inst if i['link'] == 'trunk_assembly']
 P = json.load(open(os.path.join(LAB, 'audit', 'placements.json')))
 P = P if isinstance(P, list) else P['placements']
+# seat search grid: the dock parts are left out here because they are the ones being placed; route2.py adds them back
+# as obstacles for the cable routes
 for p in [q for q in P if not q['id'].startswith('dock_')]:
     if p['center_mm'][2] < 120:
         b = trimesh.creation.box(extents=p['dims_xyz_mm']); b.apply_translation(p['center_mm']); ms.append(b)

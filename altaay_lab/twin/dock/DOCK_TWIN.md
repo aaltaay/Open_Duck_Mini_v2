@@ -386,10 +386,11 @@ price BLOCKER) replaces the 15 W one (also BLOCKER). Read total of the dock chan
   dock_netlist.yaml is the dock.
 - 3D routes: seats/route2.py (1 mm grid of the trunk parts and placed boxes, a shortest clear path, string pulled) writes
   dock_routes.json; dock_cables3d.py puts DC1 to DC4 into cables3d/cables3d.json. All in the trunk, no joint crossed. Cuts are the
-  routed length plus 2 x 20 mm: DC1 60, 180 and 100 mm; DC2 220 mm; DC3 240, 120 and 190 mm; DC4 190 and 60 mm. Each route
-  starts at its lead exit (the nearest point with 2 mm clearance, at most 2 mm from the pad) and every segment is checked
-  clear of the parts by at least the wire radius; the NTC runs into the cell seat keep 0.35 mm to the parts (test fit). C3 checks
-  every DC wire's length (the records carry their routed lengths).
+  routed length plus 2 x 20 mm, one route per wire between its own two terminals: DC1 60, 60, 180 and 110 mm; DC2 210 mm;
+  DC3 230, 120 and 190 mm (WK1 to SW1 ON is an inline joint, cut 0); DC4 190, 70, 80, 60 and 70 mm. Every placed body (the
+  printed parts, the bought-part boxes and the seated dock parts) is an obstacle; only each pad's lead exit (at most 3.5 mm) is
+  open. route2.py fails its self-check if a wire has no route of its own or any route point lies inside a body (passed), and
+  dock_cables3d.py refuses a wire that reuses another's run. The NTC runs into the cell seat keep 0.35 mm to the parts (test fit).
 - Seats (seats/pick3.py, dock_seats.json, close-ups dock_seats.png, CAD check only): each board on VHB 4950 with its large face
   1.5 mm off a printed wall, clear of every part, placed box and routed cable by 1 mm:
   | Part | Centre (world mm, zero pose) | On |

@@ -6,6 +6,13 @@ os.chdir(OUT)
 import numpy as np, json, heapq
 from scipy import ndimage
 d = np.load('occ.npz'); occ, lo, h = d['occ'], d['lo'], float(d['h'])
+# the seated dock parts are obstacles too (audit/placements.json dock_ boxes); only their lead exits are opened below
+occ = occ.copy()
+for q in json.load(open(os.path.join(LAB, 'audit', 'placements.json'))):
+    if q['id'].startswith('dock_') and q['id'] != 'dock_pad':
+        c, dd = np.array(q['center_mm']), np.array(q['dims_xyz_mm'])
+        a_ = np.maximum(np.round((c - dd / 2 - lo) / h).astype(int), 0); b_ = np.round((c + dd / 2 - lo) / h).astype(int) + 1
+        occ[a_[0]:b_[0], a_[1]:b_[1], a_[2]:b_[2]] = True
 dist = ndimage.distance_transform_edt(~occ) * h
 def idx(p): return tuple(np.round((np.array(p) - lo) / h).astype(int))
 def pos(i): return lo + np.array(i) * h
@@ -48,15 +55,23 @@ def astar(a, b, need):
             if min(np.linalg.norm(t - P[0]), np.linalg.norm(t - P[-1])) > 3.0 and dist[idx(t)] < need:
                 return None
     return [p.round(2).tolist() for p in out]
-T = {  # terminals, world mm at the zero pose (trunk_assembly link)
-    'DKP.HOLE': [34.5, 0.0, 38.0], 'DK2.VIN': [33.0, 0.0, 28.5], 'DK2.VOUT': [33.0, 0.0, 19.5],
-    'F2.IN': [-85.0, -42.0, 53.0], 'F2.OUT': [-85.0, -42.0, -1.0], 'BMS.P': [-126.3, -29.5, 33.0],
-    'DK6.VIN': [-104.0, -4.5, 43.0], 'DK6.VOUT': [-110.0, 1.0, 43.0], 'DK7.VIN': [-104.0, 19.0, 43.0], 'DK7.VOUT': [-104.0, 7.0, 43.0],
+T = {  # terminals, world mm at the zero pose (trunk_assembly link): each pad or lead exit of a wire end
+    'DKP.CHG': [34.5, 0.0, 39.5], 'DKP.SNS': [34.5, 0.0, 38.5], 'DKP.GND': [34.5, 0.0, 37.5], 'DKP.SYS': [34.5, 0.0, 36.5],
+    'DK2.VIN': [33.0, 0.0, 28.5], 'DK2.VOUT': [33.0, 0.0, 19.5], 'DK2.GND': [33.0, -7.5, 24.0],
+    'F2.IN': [-85.0, -42.0, 53.0], 'F2.OUT': [-85.0, -42.0, -1.0], 'BMS.P+': [-126.3, -27.5, 33.0], 'BMS.P-': [-126.3, -31.5, 33.0],
+    'DK6.VIN': [-104.0, -4.5, 43.0], 'DK6.VOUT': [-110.0, 1.0, 43.0], 'DK6.GND': [-104.0, 5.5, 43.0],
+    'DK7.VIN': [-104.0, 19.0, 43.0], 'DK7.VOUT': [-104.0, 7.0, 43.0], 'DK7.GND': [-108.5, 13.0, 43.0],
     'SW1.VIN': [-107.8, 14.0, 29.0], 'SW1.GND': [-107.8, 34.0, 29.0], 'SW1.CTL': [-107.8, 24.0, 44.0], 'RT1': [-129.6, 0.0, 66.0]}
-RUNS = {'DC1': [('DKP.HOLE', 'DK2.VIN', 1.5), ('DK2.VOUT', 'F2.IN', 1.5), ('F2.OUT', 'BMS.P', 1.5)],
-        'DC2': [('DKP.HOLE', 'BMS.P', 1.5)],
-        'DC3': [('DKP.HOLE', 'RT1', 0.7), ('DKP.HOLE', 'SW1.CTL', 0.7), ('RT1', 'BMS.P', 0.7)],
-        'DC4': [('DKP.HOLE', 'DK6.VIN', 1.0), ('DK6.VOUT', 'SW1.VIN', 1.5), ('DK7.VOUT', 'SW1.VIN', 1.0)]}
+# one route per wire, between that wire's own two terminals: (from pin, to pin, from terminal, to terminal, wire radius)
+WIRES = {
+    'DC1': [('DKP.CHG', 'DK2.VIN', 'DKP.CHG', 'DK2.VIN', 1.0), ('DKP.GND', 'DK2.GND', 'DKP.GND', 'DK2.GND', 0.7),
+            ('DK2.VOUT', 'F2.IN', 'DK2.VOUT', 'F2.IN', 1.0), ('F2.OUT', 'BMS.P+', 'F2.OUT', 'BMS.P+', 1.0)],
+    'DC2': [('DKP.GND', 'BMS.P-', 'DKP.GND', 'BMS.P-', 1.0)],
+    'DC3': [('DKP.SNS', 'RT1.1', 'DKP.SNS', 'RT1', 0.7), ('RT1.2', 'BMS.P-', 'RT1', 'BMS.P-', 0.7),
+            ('DKP.SNS', 'WK1.A', 'DKP.SNS', 'SW1.CTL', 0.7)],
+    'DC4': [('DKP.SYS', 'DK6.VIN', 'DKP.SYS', 'DK6.VIN', 1.0), ('DK6.VOUT', 'SW1.VIN', 'DK6.VOUT', 'SW1.VIN', 1.0),
+            ('DK6.GND', 'SW1.GND', 'DK6.GND', 'SW1.GND', 0.7), ('DK7.VOUT', 'SW1.VIN', 'DK7.VOUT', 'SW1.VIN', 1.4),
+            ('DK7.GND', 'SW1.GND', 'DK7.GND', 'SW1.GND', 0.7)]}
 def mouth(p, need=2.0):
     i = np.array(idx(p)); best = None
     for d in np.argwhere(np.ones((31, 31, 31), bool)) - 15:
@@ -71,15 +86,32 @@ for k in T:                     # route from each terminal's lead exit: the near
     T[k] = mouth(PAD[k], 1.2 if k == 'DK6.VIN' else 2.0); LEAD_IN[k] = round(float(np.linalg.norm(np.subtract(T[k], PAD[k]))), 1)
 print('lead-in mm', LEAD_IN)
 res = {}
-for cid, runs in RUNS.items():
+for cid, ws in WIRES.items():
     res[cid] = []
-    for a, b, rad in runs:
+    for fp, tp, a, b, rad in ws:
         P = astar(T[a], T[b], rad + 1.0) or astar(T[a], T[b], rad + 0.3) or astar(T[a], T[b], rad)
         if P is not None:
             P = [list(PAD[a])] * (LEAD_IN[a] > 0) + P + [list(PAD[b])] * (LEAD_IN[b] > 0)
         L = None if P is None else float(np.sum(np.linalg.norm(np.diff(np.array(P), axis=0), axis=1)))
-        mind = None if P is None else float(min(dist[idx(s)] for p, q in zip(P[:-1], P[1:]) for s in np.linspace(p, q, 20)
-                                               if np.linalg.norm(s - np.array(T[a])) > 3 and np.linalg.norm(s - np.array(T[b])) > 3) if len(P) > 1 else 0)
-        res[cid].append(dict(frm=a, to=b, points=P, length_mm=None if L is None else round(L, 1), min_clear_centre_mm=mind))
-        print(cid, a, b, L and round(L, 1), mind)
-json.dump(dict(terminals=PAD, lead_exit=T, lead_in_mm=LEAD_IN, runs=res), open('routes.json', 'w'), indent=1)
+        mind = None if P is None else float(min([dist[idx(x)] for p_, q_ in zip(P[:-1], P[1:]) for x in np.linspace(p_, q_, 20)
+                                                 if np.linalg.norm(x - np.array(PAD[a])) > 3 and np.linalg.norm(x - np.array(PAD[b])) > 3] or [99.0]))
+        res[cid].append(dict(wire_from=fp, wire_to=tp, frm=a, to=b, radius_mm=rad, points=P, length_mm=None if L is None else round(L, 1),
+                             min_clear_centre_mm=mind))
+        print(cid, fp, tp, L and round(L, 1), mind, flush=True)
+# self-check: every wire has its own route, and no point (outside the 3 mm lead exit at each end) lies inside any body
+bad = []
+for cid, rs in res.items():
+    for r in rs:
+        if r['points'] is None:
+            bad.append('%s %s-%s not routed' % (cid, r['wire_from'], r['wire_to'])); continue
+        for p_, q_ in zip(r['points'][:-1], r['points'][1:]):
+            for x in np.linspace(p_, q_, int(np.linalg.norm(np.subtract(q_, p_)) / 0.5) + 2):
+                if min(np.linalg.norm(x - np.array(r['points'][0])), np.linalg.norm(x - np.array(r['points'][-1]))) > 3.0 and occ[idx(x)]:
+                    bad.append('%s %s-%s point %s inside a body' % (cid, r['wire_from'], r['wire_to'], np.round(x, 1).tolist())); break
+keys = [(cid, r['wire_from'], r['wire_to']) for cid, rs in res.items() for r in rs]
+if len(keys) != len(set(keys)): bad.append('a wire has two routes')
+print('SELF-CHECK', 'PASS' if not bad else 'FAIL', bad[:5])
+json.dump(dict(terminals=PAD, lead_exit=T, lead_in_mm=LEAD_IN, runs=res, self_check=('PASS' if not bad else bad)), open('routes.json', 'w'), indent=1)
+
+if bad:
+    raise SystemExit(1)
