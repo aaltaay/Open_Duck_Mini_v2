@@ -208,6 +208,49 @@ def cfg_left(h=0.0, k=0.0, a=0.0, roll=0.0, yaw=0.0, neck=None, head=None, both=
     return c
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# hole features (audit/feat3d.py): every existing hole stays as it was (the brief: keep every existing feature)
+# ---------------------------------------------------------------------------------------------------------------
+def hole_features(mesh):
+    sys.path.insert(0, os.path.join(LAB, "audit"))
+    from feat3d import features
+    return features(mesh)
+
+
+def holes_changed(base, new, tol=0.15):
+    """hole features of two meshes of one part (same frame): the ones in one and not the other, matched by kind,
+    diameter within tol and both ends within tol (either direction)"""
+    fa, fb = hole_features(base), hole_features(new)
+
+    def same(f, g):
+        if f["kind"] != g["kind"] or abs(f["d"] - g["d"]) > tol:
+            return False
+        a0, a1, b0, b1 = (np.asarray(x, float) for x in (f["p0"], f["p1"], g["p0"], g["p1"]))
+        return (np.abs(a0 - b0).max() <= tol and np.abs(a1 - b1).max() <= tol) or \
+            (np.abs(a0 - b1).max() <= tol and np.abs(a1 - b0).max() <= tol)
+
+    def unmatched(A, B):
+        return [dict(kind=f["kind"], d=round(f["d"], 2), p0=np.round(f["p0"], 1).tolist(), p1=np.round(f["p1"], 1).tolist())
+                for f in A if not any(same(f, g) for g in B)]
+    return dict(base=len(fa), new=len(fb), gone=unmatched(fa, fb), added=unmatched(fb, fa))
+
+
+def hole_keepout(mesh_world, extend=12.0, grow=0.4):
+    """manifold of every hole feature of a part (world frame), each a cylinder grown by `grow` on the radius and
+    run on `extend` mm past both ends along its axis: new material (a lug, a pad seat) is cut by it, so it never
+    covers a hole, a recess or the driver's way to a screw"""
+    cyls = []
+    for f in hole_features(mesh_world):
+        p0, p1 = np.asarray(f["p0"], float), np.asarray(f["p1"], float)
+        a = p1 - p0
+        n = np.linalg.norm(a)
+        if n < 1e-6:
+            continue
+        a /= n
+        cyls.append(to_man(cyl(p0 - a * extend, p1 + a * extend, f["d"] / 2 + grow, 48)))
+    return union(cyls) if cyls else None
+
+
 def r(x, n=2):
     return None if x is None else round(float(x), n)
 

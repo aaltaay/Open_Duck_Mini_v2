@@ -34,6 +34,7 @@ What changes (SIT_DESIGN.md changes 1, 2, 3 and 5; SIT_V2.md 3.3 changes 1 to 4;
   sit_seat (new, TPU, 1) and sit_bumper (new, TPU, 1): under the rear and the front of body_middle_bottom on VHB.
 """
 import argparse
+import json
 import os
 import sys
 import time
@@ -68,7 +69,7 @@ ANKLE = np.array([-35.06, -157.37])
 HORNS = ("drive_palonier", "passive_palonier")
 # lug regions (world zero pose, mm): the box a lug may fill; the sweep of the counterpart over the free range carves it
 ROLL_LUG = ((-16.0, 50.0, 2.0), (-6.0, 62.8, 11.6))         # on left_roll_to_pitch, front of the D3/SP4/S3 loop
-NECK_LUG = ((-26.0, None, 88.0), (-8.0, None, 104.0))       # on each neck sheet, behind its back edge, y = the sheet
+NECK_LUG = ((-26.0, None, 88.0), (-10.0, None, 104.0))      # on each neck sheet, behind its back edge, y = the sheet; x to -10 keeps it off the F233/F234 horn screw recess (x -6, r 3.25)
 HEAD_LUG = ((6.0, -9.0, 165.0), (15.5, 9.0, 173.0))          # on head_pitch_to_yaw, over the head pitch servo top
 SEAT = dict(x=-110.0, z_low=-66.0, r=16.0, half_y=40.0)     # SIT_V2.md 3.3: lowest point 66 mm under the trunk origin
 BUMPER = dict(x=20.0, z_low=-69.0, r=12.0, half_y=30.0)     # SIT_V2.md 3.3: 3 mm off the floor in the sit
@@ -220,6 +221,25 @@ def pad_mesh(dims):
     return trimesh.creation.box(extents=dims)
 
 
+def move_heel_screw(S, key, m_world):
+    """the foot plate with its heel screw hole stack moved HEEL_DX in x (plugged at the old place); world zero pose"""
+    Tw = L.inst_world(S, L.inst(S, FT, key))
+    feats = []
+    for f in L.hole_features(L.from_man(L.xform(L.to_man(m_world), np.linalg.inv(Tw)))):
+        p0, p1 = (Tw @ np.r_[f["p0"], 1])[:3], (Tw @ np.r_[f["p1"], 1])[:3]
+        if abs(p0[0] - HEEL_OLD[0]) < 1.0 and abs(p0[2] - HEEL_OLD[1]) < 1.0 and abs(p1[0] - p0[0]) < 0.05:
+            feats.append((f["d"], p0, p1))
+    if not feats:
+        raise SystemExit("%s: no heel screw hole at x %.2f z %.2f" % (key, HEEL_OLD[0], HEEL_OLD[1]))
+    M = L.to_man(m_world)
+    M = L.union([M] + [L.to_man(L.cyl(p0, p1, d / 2 + 0.3, 48)) for d, p0, p1 in feats])        # D39 plug
+    for d, p0, p1 in feats:
+        a = (p1 - p0) / np.linalg.norm(p1 - p0)
+        dx = np.array([HEEL_DX, 0.0, 0.0])
+        M = M - L.to_man(L.cyl(p0 + dx - 0.05 * a, p1 + dx + 0.05 * a, d / 2, 48))
+    return L.solid(M), [dict(d=L.r(d, 2), y=[L.r(p0[1], 2), L.r(p1[1], 2)]) for d, p0, p1 in feats]
+
+
 # ---------------------------------------------------------------------------------------------------------------
 # lugs by carving: a region on the host, minus everything the counterparts sweep over the free range
 # ---------------------------------------------------------------------------------------------------------------
@@ -234,6 +254,9 @@ def carve_lug(S, host_link, host, region, counter, cfg_of, free, step=0.5):
         Ts = sweep_T(S, ln, host_link, [cfg_of(a) for a in angs])
         cutters.append(L.swept_cut(pieces_of(ms, 2.0), Ts, 0.0, near=near))
     lug = (R - L.union(cutters)) - host
+    ko = L.hole_keepout(L.from_man(host))      # never over a hole, a recess or the driver's way to a screw
+    if ko is not None:
+        lug = lug - ko
     comps = sorted(lug.decompose(), key=lambda m: -m.volume())
     # keep the pieces that touch the host (a lug must grow from it)
     keep = [cm for cm in comps if (L.dilate(cm, 0.2) ^ host).volume() > 0.5]
@@ -271,6 +294,10 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
     # the ankle horns (on the shin link in the URDF, discs on the ankle axis): they pass the thigh and the cover with the
     # shin, but the foot plates are screwed to them, so the foot notch leaves them out
     shin_parts_pc_h = shin_parts_pc + pieces_of(link_meshes(S, SH, skip_prefix=(), keys=HORNS), 3.0)
+    # the foot turns about the ankle servo's own axis: its case (and horns) clear the foot plates at every ankle angle in
+    # the stock design, so the foot notch is cut by the shin sheets, the spacer and the knee bumper only (a swept case
+    # with the clearance would thin the plates at the horn screws)
+    shin_parts_pc_foot = sum(shin_pc.values(), []) + L.convex_pieces(sp, 3.0) + L.convex_pieces(kb, 3.0)
     log("shin parts %.1f s" % (time.time() - t0))
 
     # thigh spacer relief on the shin clamp front corner (knee 130 to 150)
@@ -305,12 +332,16 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
         ast = L.STOPS["ankle_sit"]["stop"]
         Ts_a = sweep_T(S, SH, FT, [L.cfg_left(a=a, both=False) for a in angles(ast - 0.5, -40.0, 0.5)])
         foot = {}
+        foot_moved = {}
         for key in ("foot_top", "foot_side"):
             i = L.inst(S, FT, key)
             m = L.base_mesh("print/%s.stl" % key)
             m.apply_transform(L.inst_world(S, i))
-            foot[key], v = cut_by(L.to_man(m), shin_parts_pc, Ts_a, CLR)
-            info[key] = dict(notch_mm3=L.r(v, 1), ankle_range=[ast - 0.5, -40.0])
+            Mh, stack = move_heel_screw(S, key, m)
+            foot_moved[key] = L.from_man(Mh)
+            foot[key], v = cut_by(Mh, shin_parts_pc_foot, Ts_a, CLR)
+            info[key] = dict(notch_mm3=L.r(v, 1), ankle_range=[ast - 0.5, -40.0],
+                             heel_screw=dict(moved_x_mm=HEEL_DX, from_xz=list(HEEL_OLD), stack=stack))
         # ankle pads: each shin clamp block lands on a flat pad seat at the stop. The block's back face is the plane
         # x = BACK_X of the left shin zero pose; at the stop it is a plane of the foot frame; the pad top is that plane.
         T_st = L.rel_T(S, L.cfg_left(a=ast, both=False), SH, FT)
@@ -336,9 +367,11 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
             seat.apply_transform(Tp)
             pocket = L.box((-dims[0] / 2 - 0.3, -dims[1] / 2 - 0.3, -PAD_T / 2 - 0.01), (dims[0] / 2 + 0.3, dims[1] / 2 + 0.3, PAD_T / 2 + VHB_T))
             pocket.apply_transform(Tp)
-            orig = L.base_mesh("print/%s.stl" % key)
-            orig.apply_transform(L.inst_world(S, L.inst(S, FT, key)))
+            orig = foot_moved[key]
             seat_m = L.to_man(seat) ^ L.dilate(L.to_man(orig), 0.0).hull()   # the seat stays inside the plate's outline
+            ko = L.hole_keepout(orig)
+            if ko is not None:
+                seat_m = seat_m - ko                                # and off every hole of the plate
             foot[key] = L.solid((foot[key] + seat_m) - L.to_man(pocket))
             if len(foot[key].decompose()) != 1:
                 raise SystemExit("%s: the pad seat does not join the plate" % key)
@@ -578,9 +611,35 @@ def _shift_y(T, dy):
     return T
 
 
+# stock parts this job changes: every hole feature of the base print STL must be there, the same (audit/feat3d.py)
+HOLES_KEPT = ("knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet", "foot_top", "foot_side", "left_cache", "right_cache",
+              "left_roll_to_pitch", "right_roll_to_pitch", "neck_left_sheet", "neck_right_sheet", "head_pitch_to_yaw")
+
+
 def write(S, out, info):
     P, place = outputs(S, out)
     rep = {}
+    holes = {}
+    for stem in HOLES_KEPT:
+        hc = L.holes_changed(L.base_mesh("print/%s.stl" % stem), P[stem])
+        if stem in ("foot_top", "foot_side"):
+            # the heel screw stack moved HEEL_DX in x (part frame x = world x + 19): every gone feature must come back
+            # moved by HEEL_DX, and nothing else may change
+            def moved_to(f, g, tol=0.2):
+                return f["kind"] == g["kind"] and abs(f["d"] - g["d"]) <= tol and all(
+                    abs(f[k][0] + HEEL_DX - g[k][0]) <= tol and abs(f[k][1] - g[k][1]) <= tol and abs(f[k][2] - g[k][2]) <= tol
+                    for k in ("p0", "p1"))
+            ok = (hc["gone"] and len(hc["gone"]) == len(hc["added"]) and all(any(moved_to(f, g) for g in hc["added"]) for f in hc["gone"])
+                  and all(any(moved_to(f, g) for f in hc["gone"]) for g in hc["added"]))
+            if not ok:
+                raise SystemExit("%s: the heel screw holes did not move cleanly by %.1f mm: %s" % (stem, HEEL_DX, json.dumps(hc)))
+            holes[stem] = "the same %d hole features as the base STL, the heel screw stack (%d) moved %.0f mm in x" % (
+                hc["base"], len(hc["gone"]), HEEL_DX)
+            continue
+        if hc["gone"] or hc["added"]:
+            raise SystemExit("%s: hole features changed (the edit must keep every hole): %s" % (stem, json.dumps(hc)))
+        holes[stem] = "the same %d hole features as the base STL" % hc["base"]
+    info["holes_kept"] = holes
     for stem, m in P.items():
         ok, vol = L.stl_roundtrip_ok(m)
         if not ok:
@@ -605,8 +664,14 @@ def write(S, out, info):
 
 
 ANKLE_PAD_DIMS = (6.0, 7.5, PAD_T)
-ANKLE_PAD_U = 6.1               # pad centre along the clamp face, toward the ankle: the foot_side pocket clears the F024
-                                # M3 hole (x -62.2, z -176.7) by 1.0 mm or more
+ANKLE_PAD_U = 6.1               # pad centre along the clamp face, toward the ankle (kept from when the F024 hole was beside it)
+# The heel screw F024 (F026 right: M3x10 from foot_side into the foot_top insert I34, I46) sits where the shin's ankle
+# clamp corner (the M2 screw F043 and its boss) arrives past about -88 deg: both are about 34 mm from the ankle axis.
+# Its whole hole stack (foot_side: 6.5 counterbore and 3.5 clearance; foot_top: 4.0 insert bore and 2.0 pilot) moves
+# HEEL_DX toward the toe, out of the foot notch (notch edge x -51.6 at the heel height, boss radius 4.5, 0.5 margin) and
+# 3.3 mm off the Omron switch slot (x -53.96 to -47.56); the old stack is plugged (D39). Same stack, so the same screw.
+HEEL_OLD = (-62.25, -176.7)     # world x, z of the stock heel screw axis (fasteners.json F024 seat; axis +y)
+HEEL_DX = 20.0
 
 
 def _pack(o):

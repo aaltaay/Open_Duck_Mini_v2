@@ -16,17 +16,18 @@ re-run gives the same files) and brings them to the robot.urdf of the working tr
                   feature joins the site it is coaxial with, within 0.35 mm, or opens a new site at the end), so the
                   site numbers the other records use stay. A site whose only holes were the old spacer pattern is
                   left with no segments and a 'd59' note (the shin sheets plug those holes, D39).
+                  The foot plates' heel screw stack moved 20 mm in x (sit_cad.py HEEL_DX): their audited features move
+                  with it and their sites are redone the same way.
   fasteners.json  the head internals (instances 131 to 138 before) are 141 to 148 now; the shin rows name the shin
                   parts; the 8 spacer screws and 8 inserts of each shin move to the new spacer pattern (sitlib
                   SPACER_HOLES, 9 mm out with the plates); the M2 screws under the clamp blocks keep their seat (the
-                  block is counterbored); the shin leg_spacer rows of empty_holes are marked superseded. The sweep
+                  block is counterbored); the heel screws F024, F026 and inserts I34, I46 move HEEL_DX; the shin leg_spacer rows of empty_holes are marked superseded. The sweep
                   fields are then rewritten by fasteners/sweep_fasteners.py on the new ranges (SIT.md commands).
 """
 import argparse
 import copy
 import json
 import os
-import subprocess
 import sys
 
 import numpy as np
@@ -37,7 +38,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import sitlib as L  # noqa: E402
 sys.path.insert(0, os.path.join(L.LAB, "audit"))
-from feat3d import features  # noqa: E402
+from feat3d import features  # noqa: E402  (audit/assemble.py method)
 import sit_cad as SC  # noqa: E402
 
 AUDIT = os.path.join(L.LAB, "audit")
@@ -46,6 +47,7 @@ SHIN_LINKS = {"knee_and_ankle_assembly_2": 90.65, "knee_and_ankle_assembly_4": 9
 RENAME = {"knee_to_ankle_left_sheet": "shin_left_sheet", "knee_to_ankle_right_sheet": "shin_right_sheet", "leg_spacer": "shin_spacer"}
 SPACER_ROWS = {   # stock screw/insert rows of the shin spacer -> index of the new hole (SC.SPACER_HOLES) by the stock x
     -27.06: 0, -43.06: 1}
+HEEL_ROWS = ("F024", "I34", "F026", "I46")   # the heel screw and its insert, both feet (sit_cad.py HEEL_OLD, HEEL_DX)
 CHANGED_ELSEWHERE = ["left_cache", "right_cache", "foot_top", "foot_side", "left_roll_to_pitch", "right_roll_to_pitch",
                      "neck_left_sheet", "neck_right_sheet", "head_pitch_to_yaw", "knee_to_ankle_left_sheet",
                      "knee_to_ankle_right_sheet"]
@@ -76,25 +78,9 @@ def feats_of_urdf_mesh(fn):
     return features(m)
 
 
-def holes_changed(stem, tol=0.15):
-    """hole features (feat3d) of the base and the new print STL of a part this job changed elsewhere: the features
-    that are in one and not the other (matched by kind, diameter within tol and both ends within tol)"""
-    fa = features(L.base_mesh("print/%s.stl" % stem))
-    fb = features(trimesh.load(os.path.join(L.REPO, "print", stem + ".stl"), force="mesh"))
-
-    def key(f):
-        return np.r_[f["d"], f["p0"], f["p1"]]
-
-    def unmatched(A, B):
-        out = []
-        for f in A:
-            ok = any(f["kind"] == g["kind"] and np.all(np.abs(key(f) - key(g)) <= tol) or
-                     (f["kind"] == g["kind"] and abs(f["d"] - g["d"]) <= tol and
-                      np.allclose(f["p0"], g["p1"], atol=tol) and np.allclose(f["p1"], g["p0"], atol=tol)) for g in B)
-            if not ok:
-                out.append(dict(kind=f["kind"], d=round(f["d"], 2), p0=np.round(f["p0"], 1).tolist(), p1=np.round(f["p1"], 1).tolist()))
-        return out
-    return dict(base=len(fa), new=len(fb), gone=unmatched(fa, fb), added=unmatched(fb, fa))
+def holes_changed(stem):
+    """hole features of the base and the new print STL of a part this job changed elsewhere (sitlib.holes_changed)"""
+    return L.holes_changed(L.base_mesh("print/%s.stl" % stem), trimesh.load(os.path.join(L.REPO, "print", stem + ".stl"), force="mesh"))
 
 
 def linedist(p, o, a):
@@ -228,6 +214,21 @@ def update_fasteners(D, T0, log):
             f["notes"] = list(f.get("notes") or []) + [
                 "D59: the clamp block stands %.0f mm out over this head; the head seat is the stock one, reached "
                 "through the block's counterbore (twin/sit/sit_cad.py M2_HEAD_CB)" % L.JOG]
+    for f in D["fasteners"]:
+        if f["id"] in HEEL_ROWS:
+            if abs(f["seat_world"][0] - SC.HEEL_OLD[0]) > 0.05 or abs(f["seat_world"][2] - SC.HEEL_OLD[1]) > 0.05:
+                raise SystemExit("%s is not at the stock heel screw place: %s" % (f["id"], f["seat_world"]))
+            seat = np.array(f["seat_world"], float) + [SC.HEEL_DX, 0.0, 0.0]
+            p, a, P = link_pose(T0, f["link"], seat, f["axis_world"], np.array(f["pose_link"])[:3, :3])
+            f["seat_world"] = [round(float(v), 3) for v in seat]
+            f["seat_link"] = [round(float(v), 3) for v in p]
+            f["pose_link"] = [[round(float(v), 4) for v in row] for row in P]
+            f["site"] = None
+            f["notes"] = list(f.get("notes") or []) + [
+                "D59: the heel screw stack moved %.0f mm toward the toe, out of the foot notch the shin's ankle clamp "
+                "corner needs past -88 deg (twin/sit/sit_cad.py HEEL_DX); same stack, same screw; the old holes are "
+                "plugged (D39)" % SC.HEEL_DX]
+            moved.append(f["id"])
     log["fasteners_moved"] = moved
     log["fasteners_renamed"] = sorted(set(renamed))
     sup = []
@@ -268,17 +269,38 @@ def main():
     new_meshes = sorted({i["mesh"] for i in inst} - set(feats))
     for fn in new_meshes:
         feats[fn] = feats_of_urdf_mesh(fn)
-    log["assembly"] = dict(instances=len(inst), swapped=changed_inst, new_meshes={fn: len(feats[fn]) for fn in new_meshes})
+    # the foot plates: their heel screw stack moved (sit_cad.py move_heel_screw); the other features stay as audited
+    heel_old_part = np.array([SC.HEEL_OLD[0], SC.HEEL_OLD[1]])
+    foot_inst = []
+    for fn in ("foot_side.stl", "foot_top.stl"):
+        ks = [k for k, i in enumerate(inst) if i["mesh"] == fn]
+        Tw = np.array(inst[ks[0]]["T"])
+        n = 0
+        out_f = []
+        for f in feats[fn]:
+            p0w = (Tw @ np.r_[f["p0"], 1])[:3]
+            if abs(p0w[0] - heel_old_part[0]) < 1.0 and abs(p0w[2] - heel_old_part[1]) < 1.0:
+                dxp = np.linalg.inv(Tw)[:3, :3] @ np.array([SC.HEEL_DX, 0.0, 0.0])
+                f = dict(f, p0=(np.asarray(f["p0"]) + dxp).tolist(), p1=(np.asarray(f["p1"]) + dxp).tolist())
+                n += 1
+            out_f.append(f)
+        if n == 0:
+            raise SystemExit("%s: no heel screw feature in the audited features" % fn)
+        feats[fn] = out_f
+        foot_inst += ks
+    log["assembly"] = dict(instances=len(inst), swapped=changed_inst, new_meshes={fn: len(feats[fn]) for fn in new_meshes},
+                           heel_screw_features_moved=dict(instances=foot_inst, dx_mm=SC.HEEL_DX))
     hc = {s: holes_changed(s) for s in CHANGED_ELSEWHERE}
     log["holes_of_parts_changed_elsewhere"] = {s: ("same %d holes" % v["base"]) if not v["gone"] and not v["added"] else v for s, v in hc.items()}
-    bad = {s: v for s, v in hc.items() if v["gone"] or v["added"]}
+    # the foot plates' heel screw move is checked feature by feature in sit_cad.py write() (HEEL_DX); nothing else may change
+    bad = {s: v for s, v in hc.items() if (v["gone"] or v["added"]) and s not in ("foot_top", "foot_side")}
     A1 = dict(inst=inst, feats=feats)
-    S1 = update_sites(S0, inst, feats, changed_inst + list(range(L.N_URDF_BASE, L.N_URDF_BASE + 10)), log)
+    S1 = update_sites(S0, inst, feats, changed_inst + foot_inst + list(range(L.N_URDF_BASE, L.N_URDF_BASE + 10)), log)
     T0 = {ln: L.c3d_lib.mm(u.get_transform(ln)) for ln in u.link_map}
     F1 = update_fasteners(F0, T0, log)
     print(json.dumps(log, indent=1, default=str))
     if bad:
-        print("WARNING: holes changed on parts outside the shin: %s (their sites are not redone here)" % sorted(bad))
+        raise SystemExit("holes changed on parts outside the shin: %s (sit_cad.py must keep them)" % sorted(bad))
     if a.write:
         json.dump(A1, open(os.path.join(AUDIT, "assembly.json"), "w"))
         json.dump(S1, open(os.path.join(AUDIT, "sites.json"), "w"), default=str)

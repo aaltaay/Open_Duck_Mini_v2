@@ -8,7 +8,9 @@ registers and twin/sit/sit_model.py uses as the sim actuator ranges. calc only.
 Hard stop per joint end, the nearest of:
   - the URDF limit (robot.urdf, after sit_urdf.py: the designed sit stops are the URDF limits, sitlib.STOPS);
   - the first CAD contact found by sit_sweep.py (hard_stops: one joint moved from the zero pose, 0.5 deg steps,
-    the first new overlap over the zero pose), read from sit_sweep.json.
+    the first new overlap over the zero pose), read from sit_sweep.json;
+  - the first screw head or tip a part meets before the parts meet (fasteners.json sweep, sweep_fasteners.py on the
+    same URDF ranges: single-joint rows of class 'screw' on fitted screws, e.g. F198 and F211 at hip yaw, D19).
 Software limit = hard stop moved SOFT_MARGIN_DEG (3 deg) toward zero.
 Encoder: raw = 2048 + (q + offset) x 4096 / 360 deg, the rustypot conversion the Runtime uses (bench/odm_bench/sts3215.py
 POS_CENTER; KNEE_TWIN.md section 2: STS3250 4096 steps, centre 2048 [F5]). The margin to the 0/4095 wrap is reported at
@@ -56,6 +58,17 @@ def build():
             mirror = any(s in rj for s in ("hip_roll", "hip_pitch"))
             side = {"lo": "hi", "hi": "lo"}[v["side"]] if mirror else v["side"]
             designed.setdefault(rj, {})[side] = (-v["stop"] if mirror else v["stop"], k)
+    # screw-limited onsets (fitted screws only), per joint and side
+    F = json.load(open(os.path.join(L.LAB, "fasteners", "fasteners.json")))
+    fitted = {f["id"] for f in F["fasteners"] if f["kind"] == "screw" and not str(f.get("status") or "").startswith(("LEAVE OUT", "NOT FITTED"))}
+    screw = {}
+    for h in (F.get("sweep") or {}).get("hits", []):
+        if h["id"] not in fitted or h.get("cls") != "screw" or h["where"] not in JOINTS or not isinstance(h.get("onset"), (int, float)):
+            continue
+        side = "hi" if h["onset"] > 0 else "lo"
+        cur = screw.get((h["where"], side))
+        if cur is None or abs(h["onset"]) < abs(cur[0]):
+            screw[(h["where"], side)] = (float(h["onset"]), "%s %s vs %s" % (h["id"], h["kind"], h["against"]))
     out = {}
     for jn, sid in JOINTS.items():
         lo_u, hi_u = urdf[jn]
@@ -70,6 +83,8 @@ def build():
             # the ends without one (a designed end's earlier contact is a coupled one: knee_ankle_coupling)
             if cc is not None and not (jn in designed and side in designed[jn]):
                 cands.append((cc, "CAD contact (sit_sweep.py hard_stops, %s)" % c.get(side + "_by", "")))
+            if (jn, side) in screw:
+                cands.append((screw[(jn, side)][0], "screw first (fasteners.json sweep, %s)" % screw[(jn, side)][1]))
             pick = max(cands, key=lambda x: x[0]) if side == "lo" else min(cands, key=lambda x: x[0])
             ends[side] = pick
         soft_lo = ends["lo"][0] + L.SOFT_MARGIN_DEG
