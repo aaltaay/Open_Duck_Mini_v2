@@ -171,12 +171,65 @@ def write(out, variant="sit"):
                         del a.attrib["inheritrange"]
                     a.set("ctrlrange", "%.9g %.9g" % soft[n])
         tree.write(os.path.join(d, rf))
+    stops = compliant_stops(d) if variant == "sit" else {}
     # the meshes: Playground assets, with the repo URDF copies of every changed and new part over them
-    J = dict(variant=variant, playground="Open_Duck_Playground b9be205: playground/open_duck_mini_v2/xmls (ODM_PLAYGROUND)", mass_kg=round(sum(v.m for v in links.values()), 4),
+    J = dict(stops=stops, variant=variant, playground="Open_Duck_Playground b9be205: playground/open_duck_mini_v2/xmls (ODM_PLAYGROUND)", mass_kg=round(sum(v.m for v in links.values()), 4),
              repo_meshes=stems if variant == "sit" else [], urdf_limits_deg={k: [round(np.degrees(a), 3) for a in v] for k, v in lim.items()},
              soft_limits_deg={k: [round(np.degrees(a), 3) for a in v] for k, v in soft.items()} if variant == "sit" else {})
     L.dump(J, os.path.join(d, "sit_model.json"))
     return d
+
+
+def compliant_stops(d):
+    """write each designed stop's stack stiffness (sitlib.STOP_STACK) into its joints' limit: solref (timeconst,
+    dampratio) and solimp with a constant impedance d, so the limit acts as a spring K = d I k on the joint, I the
+    joint's effective inertia at the keyframe pose (the mass matrix, armature included). MuJoCo's soft limit gives
+    I r'' = d I (-k r - b r') + (1 - d) T, so K = I / (d timeconst^2 dampratio^2). Both ends of a joint share it."""
+    import mujoco
+    md = mujoco.MjModel.from_xml_string(open(os.path.join(d, "scene_flat_terrain.xml")).read(), assets=_assets_raw(d))
+    dd = mujoco.MjData(md)
+    dd.qpos[:] = md.key_qpos[0]
+    mujoco.mj_forward(md, dd)
+    M = np.zeros((md.nv, md.nv))
+    e, r = np.zeros(md.nv), np.zeros(md.nv)
+    for i in range(md.nv):
+        e[:] = 0
+        e[i] = 1
+        mujoco.mj_mulM(md, dd, r, e)
+        M[:, i] = r
+    Mi = np.linalg.inv(M)
+    dimp = L.STOP_SOLIMP[1]
+    out = {}
+    for key, st in L.STOP_STACK.items():
+        K = L.stop_K(st)
+        for jn in st["joints"]:
+            jid = mujoco.mj_name2id(md, mujoco.mjtObj.mjOBJ_JOINT, jn)
+            I = 1.0 / Mi[md.jnt_dofadr[jid], md.jnt_dofadr[jid]]
+            tc = float(np.sqrt(I / (dimp * K)) / L.STOP_DAMPRATIO)
+            if tc < 2 * md.opt.timestep:
+                raise SystemExit("%s: stop timeconst %.4f s is under 2 time steps: the sim cannot hold that stiffness" % (jn, tc))
+            out[jn] = dict(stop=key, K_Nm_rad=round(K, 1), I_eff=round(float(I), 5), timeconst=round(tc, 5), dampratio=L.STOP_DAMPRATIO)
+    for rf in ROBOT_FILES:
+        tree = ET.parse(os.path.join(d, rf))
+        for j in tree.getroot().iter("joint"):
+            if j.get("name") in out:
+                o = out[j.get("name")]
+                j.set("solreflimit", "%.6g %.6g" % (o["timeconst"], o["dampratio"]))
+                j.set("solimplimit", " ".join("%g" % v for v in L.STOP_SOLIMP))
+        tree.write(os.path.join(d, rf))
+    return out
+
+
+def _assets_raw(d):
+    a = {}
+    for f in os.listdir(os.path.join(SRC_XML, "assets")):
+        a[f] = open(os.path.join(SRC_XML, "assets", f), "rb").read()
+    for s in changed_stems():
+        a[s + ".stl"] = open(os.path.join(L.URDF_DIR, s + ".stl"), "rb").read()
+    for f in os.listdir(d):
+        if f.endswith(".xml"):
+            a[f] = open(os.path.join(d, f), "rb").read()
+    return a
 
 
 def assets(d):
@@ -220,6 +273,12 @@ def check(d):
                         bad.append("geom %s_%s_%d missing" % (stem, ln, seen[stem]))
                     if stem in FLOOR_CONTACT and "%s_%s_%d_collision" % (stem, ln, seen[stem]) not in names:
                         bad.append("collision geom of %s on %s missing" % (stem, ln))
+        for key, st in L.STOP_STACK.items():
+            for jn in st["joints"]:
+                jid = mujoco.mj_name2id(md, mujoco.mjtObj.mjOBJ_JOINT, jn)
+                o = J.get("stops", {}).get(jn)
+                if not o or abs(o["K_Nm_rad"] - round(L.stop_K(st), 1)) > 0.05 or not np.allclose(md.jnt_solref[jid], [o["timeconst"], o["dampratio"]], rtol=1e-4):
+                    bad.append("%s: compliant stop missing or not the sitlib.STOP_STACK stiffness" % jn)
         if set(J["repo_meshes"]) != set(changed_stems()):
             bad.append("model meshes differ from sit_cad.json")
     if bad:

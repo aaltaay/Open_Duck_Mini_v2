@@ -267,7 +267,7 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
     ref = None
     minpads = {}
     pr, hr = [99, -99], [99, -99]
-    lim = {}
+    lim, side = {}, {}
     jn = {j: m.mj_id2name(md, m.mjtObj.mjOBJ_JOINT, j) for j in range(1, md.njnt)}
     for i in range(int(T / md.opt.timestep)):
         t = dd.time - t0
@@ -286,6 +286,7 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
             n = jn[j]
             if f > lim.get(n, 0.0):
                 lim[n] = float(f)
+        limit_forces(md, dd, jn, side)
         if t >= t_first - 0.1:
             # every physics step once it has settled: the least pins per pad, the pitch and head ranges at rest
             p = pin_eval(md, dd, SF, pins)
@@ -301,8 +302,23 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
                 pitch_range=pr, head_elev=head_elev(md, dd), head_range=hr, z_mm=ts_["z"] * 1000, fell=bool(ts_["up"] < 0.8),
                 pads_final=pads, pads_min=minpads, all4_final=bool(min(pads.values()) >= 2), all4_always=bool(min(minpads.values()) >= 2),
                 constraint_torque_max={k: round(v, 3) for k, v in lim.items() if v > 0.01},
+                limit_torque_max={k: round(v, 3) for k, v in sorted(side.items()) if v > 0.01},
                 joints={n: round(float(np.degrees(dd.qpos[md.jnt_qposadr[j]])), 1) for j in range(1, md.njnt)
                         for n in [m.mj_id2name(md, m.mjtObj.mjOBJ_JOINT, j)]})
+
+
+def limit_forces(md, dd, jn, side):
+    """the joint limit constraint force of every joint at its lower ("<joint>:lo") and upper ("<joint>:hi") end,
+    largest so far, into side (a stop load belongs to the end it acts at: the designed stop is one end only)"""
+    import mujoco as m
+    for i in range(dd.nefc):
+        if dd.efc_type[i] == m.mjtConstraint.mjCNSTR_LIMIT_JOINT:
+            j = dd.efc_id[i]
+            lo, hi = md.jnt_range[j]
+            k = "%s:%s" % (jn[j], "lo" if dd.qpos[md.jnt_qposadr[j]] < 0.5 * (lo + hi) else "hi")
+            f = abs(float(dd.efc_force[i]))
+            if f > side.get(k, 0.0):
+                side[k] = f
 
 
 def rise(md, dd, cb, off=None, T=1.5, kp=KP):
@@ -338,17 +354,74 @@ def push_job(a):
     name, opt = a
     t = time.time()
     md = model(OUT[0], opt.get("mu", 0.8))
-    saved = (md.dof_frictionloss.copy(), md.dof_damping.copy())
+    saved = (md.dof_frictionloss.copy(), md.dof_damping.copy(), md.opt.timestep)
+    md.opt.timestep = opt.get("dt", saved[2])
     if "fric" in opt:
         md.dof_frictionloss[6:] = opt["fric"]
     dd, SF, pins, tr, cb = enter(md, pins_on=opt.get("pins", True))
     if "off_damp" in opt:
         md.dof_damping[6:] = opt["off_damp"]
     r = hold(md, dd, SF, pins, F=opt["F"], dirs=opt.get("dirs", DIRS), T=opt.get("T", 60.0), pins_on=opt.get("pins", True))
-    md.dof_frictionloss[:], md.dof_damping[:] = saved
+    md.dof_frictionloss[:], md.dof_damping[:], md.opt.timestep = saved
     r.update(name=name, opt=opt, secs=round(time.time() - t, 1), entry_tau_max={md.actuator(i).name: round(float(tr.tmax[i]), 3) for i in range(md.nu)})
     print(name, "fell", r["fell"], "drift %.1f" % r["drift_mm"], "pitch %.1f face %.1f" % (r["pitch"], r["head_elev"]), "pads", r["pads_final"], "min", r["pads_min"], flush=True)
     return r
+
+
+SHOVE_N = 12.0                   # a shove on the head (D59 review: a toy gets shoved)
+
+
+def shove_job(a):
+    """a SHOVE_N horizontal force on the head's CoM, forward or back along the trunk heading, for dur s, from the settled
+    sit with the torque off or on (on: the sit commands, neck +22 and head -22, 3 deg off their stops); the joint limit
+    torques at each end on every step (sim pass only)"""
+    name, opt = a
+    import mujoco as m
+    t0 = time.time()
+    md = model(OUT[0])
+    dt0 = md.opt.timestep
+    md.opt.timestep = opt.get("dt", dt0)
+    dd, SF, pins, tr, cb = enter(md)
+    jn = {j: m.mj_id2name(md, m.mjtObj.mjOBJ_JOINT, j) for j in range(1, md.njnt)}
+    if opt["torque"] == "off":
+        torque(md, False)
+    for _ in range(int(3.0 / md.opt.timestep)):
+        pin_eval(md, dd, SF, pins, apply=True)
+        m.mj_step(md, dd)
+    trb = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, "trunk_assembly")
+    hd = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, "head_assembly")
+    R = dd.xmat[trb].reshape(3, 3)
+    f = np.r_[R[:2, 0] / np.linalg.norm(R[:2, 0]), 0.0] * (SHOVE_N if opt["dir"] == "forward" else -SHOVE_N)
+    side, q = {}, {}
+    nk, hp = (m.mj_name2id(md, m.mjtObj.mjOBJ_JOINT, n) for n in ("neck_pitch", "head_pitch"))
+    q0 = {n: float(np.degrees(dd.qpos[md.jnt_qposadr[j]])) for n, j in (("neck", nk), ("head", hp))}
+    for i in range(int(2.0 / md.opt.timestep)):
+        pin_eval(md, dd, SF, pins, apply=True)
+        if i * md.opt.timestep < opt["dur"]:
+            m.mj_applyFT(md, dd, f, np.zeros(3), dd.xipos[hd].copy(), hd, dd.qfrc_applied)
+        m.mj_step(md, dd)
+        limit_forces(md, dd, jn, side)
+        for n_, j in (("neck", nk), ("head", hp)):
+            v = float(np.degrees(dd.qpos[md.jnt_qposadr[j]]))
+            q[n_] = [min(q.get(n_, [v, v])[0], v), max(q.get(n_, [v, v])[1], v)]
+    torque(md, True)
+    md.opt.timestep = dt0
+    return dict(name=name, opt=opt, start_deg=q0, range_deg=q, limit_torque_max={k: round(v, 3) for k, v in sorted(side.items()) if v > 0.01},
+                fell=bool(trunk_state(md, dd)["up"] < 0.8), secs=round(time.time() - t0, 1))
+
+
+LOAD_DT = 0.0005                 # s: the stop loads converge here (the 12 N push case: within 15 % of 0.25 ms; 2 ms, the
+                                 # model's own step, overstates the stiff printed lug stops up to 2.7 x)
+
+
+def shove_cases(dt=LOAD_DT):
+    return [("head_%s_torque_%s_%.1fs" % (d, t, u), dict(dir=d, torque=t, dur=u, dt=dt)) for d in ("forward", "back")
+            for t in ("off", "on") for u in (0.2, 1.0)]
+
+
+def load_cases(dt=LOAD_DT):
+    """the stop load runs of sit_stress.py: every push case at LOAD_DT (the behaviour runs keep the model's step)"""
+    return [(n, dict(o, dt=dt)) for n, o in push_cases()]
 
 
 def push_cases():
@@ -401,7 +474,7 @@ def up_job(a):
     return dict(seed=seed, sig=sig, lim=lim, sit_pads=r["pads_final"], sit_all4=r["all4_final"], sit_fell=r["fell"], stood=stood,
                 success=bool(stood and min(pads.values()) >= 2), pads_after=pads,
                 rise_tau={md.actuator(i).name: float(tr.tmax[i]) for i in range(md.nu)},
-                entry_tau={md.actuator(i).name: float(tr_in.tmax[i]) for i in range(md.nu)}, stop_torque=r["constraint_torque_max"])
+                entry_tau={md.actuator(i).name: float(tr_in.tmax[i]) for i in range(md.nu)}, stop_torque=r["constraint_torque_max"], limit_torque_max=r["limit_torque_max"])
 
 
 def walk_model_dirs(out):
@@ -537,9 +610,11 @@ def run_cached(a, test, J, fn, key):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
-    ap.add_argument("test", choices=("push", "up", "walk", "summary"))
+    ap.add_argument("test", choices=("push", "up", "walk", "shove", "loads", "summary"))
     ap.add_argument("--jobs", type=int, default=3)
     ap.add_argument("--seeds", type=int, default=20)
+    ap.add_argument("--seed0", type=int, default=0, help="up: the first seed (100: the held-out seeds 100 to 119, never used "
+                    "for tuning the sequence; written to sit_sim_up_heldout.json)")
     a = ap.parse_args()
     OUT[0] = a.out
     t0 = time.time()
@@ -549,8 +624,12 @@ def main():
         return
     if a.test == "push":
         R = run_cached(a, "push", push_cases(), push_job, lambda j: j[0])
+    elif a.test == "shove":
+        R = run_cached(a, "shove", shove_cases(), shove_job, lambda j: j[0])
+    elif a.test == "loads":
+        R = run_cached(a, "loads", load_cases(), push_job, lambda j: j[0])
     elif a.test == "up":
-        J = [(s, sig, lim) for sig, lim in ((0.0, "model"), (0.5, "model"), (1.0, "model"), (1.0, "sheet")) for s in range(a.seeds)]
+        J = [(s, sig, lim) for sig, lim in ((0.0, "model"), (0.5, "model"), (1.0, "model"), (1.0, "sheet")) for s in range(a.seed0, a.seed0 + a.seeds)]
         R = run_cached(a, "up", J, up_job, lambda j: "s%d_sig%s_%s" % j)
     else:
         dirs = walk_model_dirs(a.out)
@@ -560,7 +639,7 @@ def main():
         with Pool(a.jobs, initializer=_init, initargs=(a.out,)) as p:
             R = p.map(walk_job, J, chunksize=1)
     L.dump(dict(test=a.test, inputs_key=inputs_key(a.out), seconds=round(time.time() - t0), results=R),
-           os.path.join(a.out, "sit_sim_%s.json" % a.test))
+           os.path.join(a.out, "sit_sim_%s.json" % (a.test + ("_heldout" if a.test == "up" and a.seed0 else ""))))
     print("done", a.test, round(time.time() - t0), "s")
 
 

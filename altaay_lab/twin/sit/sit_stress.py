@@ -59,15 +59,26 @@ def section_props(poly_xy, axis_dir):
 
 
 SHOVE_N = 12.0                   # a shove on the head (D59 review: a toy gets shoved; 12 N, the largest push of the sim)
-GAP_DEG = 3.0                    # the head starts this far off its stop (the software limit) when the shove comes
-E_TPU = 26.0                     # MPa, TPU 95A tensile modulus, est (typical data sheet value for 95A grades; not measured)
 SF_SHOVE = 1.5                   # the margin asked for the shove (D59 review)
 ABUSE = ("8dirs_F12", "mat_mu0.4_F8")   # push cases past the A1b use: a 12 N shove from 8 sides, the sit sliding on a mat
 
 
-def stop_torques(paths, abuse=False):
-    """largest |constraint torque| per joint over the runs (sit_sim.py constraint_torque_max / stop_torque); the ABUSE
-    push cases are kept apart (abuse=True gives only them): their peaks are the limit impacts of a shove past the A1b tests"""
+DESIGNED_END = {"left_knee": "hi", "right_knee": "hi", "left_ankle": "lo", "right_ankle": "lo", "left_hip_roll": "lo",
+                "right_hip_roll": "hi", "left_hip_pitch": "lo", "right_hip_pitch": "hi", "neck_pitch": "hi", "head_pitch": "lo"}
+
+
+def designed_end_ok():
+    """DESIGNED_END agrees with sitlib.STOPS (the left joints; the right ones mirror hip roll and hip pitch)"""
+    for st in L.STOPS.values():
+        if DESIGNED_END.get(st["joint"]) != st["side"]:
+            raise SystemExit("DESIGNED_END of %s is not sitlib.STOPS' %s" % (st["joint"], st["side"]))
+
+
+def stop_torques(paths, abuse=False, key=None, far=False):
+    """largest joint limit torque per joint at its designed stop end (sit_sim.py limit_torque_max, every physics step
+    from the torque going off, with the compliant stops of sit_model.py); far=True gives the other ends instead (not
+    designed stops: reported, not checked). The ABUSE push cases are kept apart (abuse=True gives only them). Every
+    result file must carry the inputs_key of the model given (a result of another model or sim code is refused)."""
     T = {}
     for p in paths:
         if not p:
@@ -75,12 +86,52 @@ def stop_torques(paths, abuse=False):
         if not os.path.exists(p):
             raise SystemExit("sim result %s not found: the loads would fall back to the floors" % p)
         J = json.load(open(p))
+        if key is not None and J.get("inputs_key") != key:
+            raise SystemExit("%s was run on another model or sim code (inputs_key %s, model %s)" % (os.path.basename(p), J.get("inputs_key"), key))
         for r in J["results"]:
             if (r.get("name") in ABUSE) != abuse:
                 continue
-            for k, v in (r.get("constraint_torque_max") or r.get("stop_torque") or {}).items():
-                T[k] = max(T.get(k, 0.0), float(v))
+            if "limit_torque_max" not in r:
+                raise SystemExit("%s has no limit_torque_max (per stop end): rerun it" % os.path.basename(p))
+            for k, v in r["limit_torque_max"].items():
+                j, end = k.split(":")
+                if (DESIGNED_END.get(j) == end) != far:
+                    T[j] = max(T.get(j, 0.0), float(v))
     return T
+
+
+def stack_check(S, cad, tol=1.0):
+    """every stop radius of sitlib.STOP_STACK (the compliant stops of the sim) is the CAD's within tol mm"""
+    meas = {}
+    kb = cad["placements"]["knee_bumper"][0]
+    sp = cad["build"]["shin_spacer"]
+    n = np.array([sp["case_face_normal_xz"][0], 0.0, sp["case_face_normal_xz"][1]])
+    meas["knee_fold"] = lever(*S.joint_world("left_knee"), (S.T0[kb["link"]] @ np.array(kb["T_link_mm"]))[:3, 3], n)
+    pts = [(S.T0[r["link"]] @ np.array(r["T_link_mm"]))[:3, 3] for r in cad["placements"]["ankle_pad"] if r["link"] == "foot_assembly"]
+    nrm = np.array(cad["build"]["foot_top"]["pad"]["normal_out"])
+    meas["ankle_sit"] = float(np.mean([lever(*S.joint_world("left_ankle"), p, nrm) for p in pts]))
+    hp = cad["placements"]["hip_pad"][0]
+    c = (S.T0[hp["link"]] @ np.array(hp["T_link_mm"]))[:3, 3]
+    p_, d_ = S.joint_world("left_hip_pitch")
+    v = c - p_
+    meas["hip_pitch_back"] = float(np.sqrt(v @ v - (v @ d_) ** 2))
+    for k, (key, jn) in (("hip_roll_out", ("roll", "left_hip_roll")), ("neck_back", ("neck", "neck_pitch")), ("head_fwd", ("head", "head_pitch"))):
+        g = lug_geometry_cached(S).get(key)
+        if g:
+            meas[k] = lever(*S.joint_world(jn), g["contact"], g["force_dir"])
+    bad = {k: (round(v, 1), L.STOP_STACK[k]["r_mm"]) for k, v in meas.items() if abs(v - L.STOP_STACK[k]["r_mm"]) > tol}
+    if bad:
+        raise SystemExit("sitlib.STOP_STACK radii differ from the CAD (measured, table): %s" % bad)
+    return meas
+
+
+_LUGS = {}
+
+
+def lug_geometry_cached(S):
+    if not _LUGS:
+        _LUGS.update(lug_geometry(S))
+    return _LUGS
 
 
 def lever(axis_p, axis_d, point, force_dir):
@@ -147,64 +198,6 @@ def check(name, sigma, allow, load, label="calc", what=""):
                 need=need, ok=bool(sf >= need), label=label, what=what)
 
 
-def axis_inertia(md, dd, jname):
-    """inertia about a hinge of everything it carries (the subtree) plus the servo armature, at the pose in dd"""
-    import mujoco as m
-    j = m.mj_name2id(md, m.mjtObj.mjOBJ_JOINT, jname)
-    b0 = md.jnt_bodyid[j]
-    a = dd.xaxis[j] / np.linalg.norm(dd.xaxis[j])
-    p = dd.xanchor[j]
-    I = float(md.dof_armature[md.jnt_dofadr[j]])
-    for b in range(md.nbody):
-        k = b
-        while k != 0 and k != b0:
-            k = md.body_parentid[k]
-        if k != b0:
-            continue
-        R = dd.ximat[b].reshape(3, 3)
-        d = dd.xipos[b] - p
-        r2 = float(d @ d - (d @ a) ** 2)
-        I += float(a @ (R @ np.diag(md.body_inertia[b]) @ R.T) @ a) + float(md.body_mass[b]) * r2
-    return I, a, p
-
-
-def head_shove(S, model_dir, lug, pad_dims, pad_r_mm):
-    """a SHOVE_N shove on the head with the torque off, the head GAP_DEG off its forward stop: it swings onto the stop
-    and the TPU pad takes the impact. Work-energy: omega = sqrt(2 T theta / I); a linear pad k = E A / t at radius r gives
-    a peak of omega sqrt(I k_rot) on top of the push (VHB in series is softer still: left out, conservative)"""
-    import mujoco as m
-    sys.path.insert(0, HERE)
-    import sit_model as SM
-    md = SM.load(model_dir)
-    dd = m.MjData(md)
-    dd.qpos[:] = md.key_qpos[0] if md.nkey else dd.qpos
-    for jn, v in (("neck_pitch", 22.0), ("head_pitch", -22.0)):
-        dd.qpos[md.jnt_qposadr[m.mj_name2id(md, m.mjtObj.mjOBJ_JOINT, jn)]] = np.radians(v)
-    m.mj_kinematics(md, dd)
-    I, a, p = axis_inertia(md, dd, "head_pitch")
-    # lever: the head's farthest point from the head pitch axis, the shove square to it (the largest torque 12 N can give)
-    hp, hd = S.joint_world("head_pitch")
-    lev = 0.0
-    for i in S.inst:
-        if i["link"] in ("head_assembly", "neck_yaw_assembly", "head_pitch_to_yaw") and i["key"] in ("head", "head_bot_sheet"):
-            V = np.asarray(S.world_mesh(i).vertices)
-            dv = V - hp
-            lev = max(lev, float(np.sqrt((dv ** 2).sum(1) - (dv @ hd) ** 2).max()))
-    T_push = SHOVE_N * lev / 1000.0
-    th = np.radians(GAP_DEG)
-    w = float(np.sqrt(2 * T_push * th / I))
-    A = pad_dims[0] * pad_dims[1]
-    k_lin = E_TPU * A / pad_dims[2] * 1000.0                      # N/m (MPa x mm2 / mm = N/mm)
-    k_rot = k_lin * (pad_r_mm / 1000.0) ** 2
-    T_pk = w * float(np.sqrt(I * k_rot)) + T_push
-    F = T_pk * 1000.0 / pad_r_mm
-    sig = F / lug["root_area"] + F * lug["arm"] / lug["root_W"]
-    return dict(I_axis_kg_m2=round(I, 5), lever_mm=round(lev, 1), push_Nm=round(T_push, 3), gap_deg=GAP_DEG, omega_rad_s=round(w, 3),
-                pad_k_N_mm=round(k_lin / 1000, 1), pad_r_mm=round(pad_r_mm, 1), peak_Nm=round(T_pk, 3), F_N=round(F, 1),
-                pad_MPa=round(F / A, 2), pad_strain=round(F / (E_TPU * A), 3), lug_MPa=round(sig, 2), SF=round(Z_INTER / sig, 2),
-                ok=bool(Z_INTER / sig >= SF_SHOVE))
-
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sim", default="")
@@ -215,9 +208,21 @@ def main():
     cad = json.load(open(os.path.join(HERE, "sit_cad.json")))
     if a.write and (not a.sim or not a.model):
         raise SystemExit("--write needs --sim (the push and up results) and --model (the head shove inertia)")
-    T = stop_torques(a.sim.split(",") if a.sim else [])
-    TA = stop_torques(a.sim.split(",") if a.sim else [], abuse=True)
+    designed_end_ok()
+    key = None
+    if a.model:
+        import sit_sim as SS
+        key = SS.inputs_key(os.path.dirname(os.path.normpath(a.model)))
+    paths = [p for p in a.sim.split(",") if p]
+    load_paths = [p for p in paths if not os.path.basename(p).startswith("sit_sim_shove")]
+    shove_paths = [p for p in paths if os.path.basename(p).startswith("sit_sim_shove")]
+    if a.write and not shove_paths:
+        raise SystemExit("--write needs the head shove results (sit_sim.py shove: sit_sim_shove.json) in --sim")
+    T = stop_torques(load_paths, key=key)
+    TA = stop_torques(load_paths, abuse=True, key=key)
+    TF = stop_torques(load_paths, key=key, far=True)
     rows, loads = [], {}
+    stack_check(S, cad)
 
     def tq(j, floor=0.0, src=None):
         src = T if src is None else src
@@ -302,7 +307,7 @@ def main():
                               what="F %.1f N at r %.1f mm; root %.0f mm2, W %.0f mm3, arm %.1f mm (across the layers, conservative)" % (F, r_, root_area, root_W, arm)))
             rows[-1]["case"] = load
 
-    lugs = lug_geometry(S)
+    lugs = lug_geometry_cached(S)
     loads["lug_geometry"] = lugs
     for key, joint in (("roll", "hip_roll"), ("neck", "neck_pitch"), ("head", "head_pitch")):
         g = lugs.get(key)
@@ -313,40 +318,50 @@ def main():
         tn = tq(joint)
         lug_rows("%s stop lug" % key, jn, (p_, d_), g["contact"], g["force_dir"], g["root_area"], g["root_W"], g["arm"], tn, STALL["other"], tqa(joint))
 
-    # ---------------- a shove on the head: the head lug lands on its TPU pad (sit_cad.py head_pad)
-    hpad = cad["build"]["head_pitch_to_yaw"].get("pad")
-    if a.model and hpad and lugs.get("head"):
-        hp_, hd_ = S.joint_world("head_pitch")
-        c_ = np.array(hpad["centre"]) - hp_
-        r_pad = float(np.sqrt(c_ @ c_ - (c_ @ hd_) ** 2))
-        sh = head_shove(S, a.model, lugs["head"], hpad["dims"], r_pad)
-        loads["head shove"] = sh
-        rows.append(dict(part="head stop lug, %d N shove on the head (TPU pad)" % SHOVE_N, load="shove", case="shove", stress_MPa=sh["lug_MPa"],
-                         allowable_MPa=Z_INTER, SF=sh["SF"], need=SF_SHOVE, ok=sh["ok"], label="calc",
-                         what="omega %.2f rad/s after %.0f deg, I %.4f kg m2, pad k %.0f N/mm at r %.1f mm: peak %.2f N m, %.0f N" % (
-                             sh["omega_rad_s"], GAP_DEG, sh["I_axis_kg_m2"], sh["pad_k_N_mm"], sh["pad_r_mm"], sh["peak_Nm"], sh["F_N"])))
-    # ---------------- a shove backward on the head with the torque off: the neck lug already carries the head (its service
-    # torque) and takes the shove on top, statically (it rests on its stop)
-    if lugs.get("neck"):
-        npnt, nd = S.joint_world("neck_pitch")
-        lev = 0.0
-        for i in S.inst:
-            if i["key"] in ("head", "head_bot_sheet"):
-                dv = np.asarray(S.world_mesh(i).vertices) - npnt
-                lev = max(lev, float(np.sqrt((dv ** 2).sum(1) - (dv @ nd) ** 2).max()))
+    # ---------------- shoves on the head and the neck stall (one lug or face carries it all: no load sharing is counted)
+    SH = {}
+    for p in shove_paths:
+        J_ = json.load(open(p))
+        if key is not None and J_.get("inputs_key") != key:
+            raise SystemExit("%s was run on another model or sim code" % os.path.basename(p))
+        for r in J_["results"]:
+            SH[r["name"]] = r
+    hd, nk = L.STOP_STACK["head_fwd"], L.STOP_STACK["neck_back"]
+    for jn, end, st, g, direction in (("head_pitch", "lo", hd, lugs.get("head"), "forward"), ("neck_pitch", "hi", nk, lugs.get("neck"), "back")):
+        for tq_ in ("off", "on"):
+            cs = [r for n_, r in SH.items() if r["opt"]["dir"] == direction and r["opt"]["torque"] == tq_]
+            if not cs or not g:
+                continue
+            Tn = max(r["limit_torque_max"].get("%s:%s" % (jn, end), 0.0) for r in cs)
+            F = Tn * 1000.0 / st["r_mm"]
+            sig = F / g["root_area"] + F * g["arm"] / g["root_W"]
+            rows.append(dict(part="%s stop, %d N shove %s on the head, torque %s" % (jn.split("_")[0], SHOVE_N, direction, tq_), load="shove",
+                             case="shove", stress_MPa=round(sig, 2), allowable_MPa=Z_INTER, SF=round(Z_INTER / sig, 2), need=SF_SHOVE,
+                             ok=bool(Z_INTER / sig >= SF_SHOVE), label="sim pass only (load, compliant stop K %.0f N m/rad) and calc (stress)" % L.stop_K(st),
+                             what="%.2f N m at the %s stop (largest of %d sims, 0.2 and 1.0 s) -> %.0f N at r %.1f mm on one lug, root %.0f mm2" % (
+                                 Tn, jn, len(cs), F, st["r_mm"], g["root_area"])))
+    if lugs.get("neck") and a.model:
+        import mujoco as m
+        import sit_model as SM
+        md = SM.load(a.model)
+        dd = m.MjData(md)
+        P = json.load(open(os.path.join(HERE, "sit_pose.json")))
+        for jn_, v in P["joints_deg"].items():
+            dd.qpos[md.jnt_qposadr[m.mj_name2id(md, m.mjtObj.mjOBJ_JOINT, jn_)]] = np.radians(v)
+        m.mj_forward(md, dd)
+        T_g = abs(float(dd.qfrc_bias[md.jnt_dofadr[m.mj_name2id(md, m.mjtObj.mjOBJ_JOINT, "neck_pitch")]]))
         g = lugs["neck"]
-        Tn = tq("neck_pitch") + SHOVE_N * lev / 1000.0
-        r_ = lever(npnt, nd, g["contact"], g["force_dir"])
-        F = Tn * 1000.0 / r_ / 2                                  # two neck sheets, one lug each
+        Tn = STALL["other"] + T_g
+        F = Tn * 1000.0 / nk["r_mm"]
         sig = F / g["root_area"] + F * g["arm"] / g["root_W"]
-        loads["neck shove"] = dict(lever_mm=round(lev, 1), torque_Nm=round(Tn, 3), F_per_lug_N=round(F, 1))
-        rows.append(dict(part="neck stop lug, %d N shove back on the head (static, torque off)" % SHOVE_N, load="shove", case="shove",
-                         stress_MPa=round(sig, 2), allowable_MPa=Z_INTER, SF=round(Z_INTER / sig, 2), need=SF_SHOVE,
-                         ok=bool(Z_INTER / sig >= SF_SHOVE), label="calc",
-                         what="%.2f N m (sim service %.2f + %d N at %.0f mm) over 2 lugs at r %.1f mm" % (Tn, tq("neck_pitch"), SHOVE_N, lev, r_)))
+        loads["neck stall"] = dict(stall_Nm=STALL["other"], gravity_Nm=round(T_g, 3), F_N=round(F, 1))
+        rows.append(dict(part="neck stop at a servo stall (one lug)", load="stall", case="stall_shove", stress_MPa=round(sig, 2), allowable_MPa=Z_INTER,
+                         SF=round(Z_INTER / sig, 2), need=SF_SHOVE, ok=bool(Z_INTER / sig >= SF_SHOVE), label="calc",
+                         what="stall %.2f + head weight %.2f N m (sit pose) -> %.0f N at r %.1f mm" % (STALL["other"], T_g, F, nk["r_mm"])))
+    loads["far_end_peaks_Nm"] = {k: round(v, 2) for k, v in sorted(TF.items())}
     J = dict(generated_by="altaay_lab/twin/sit/sit_stress.py", label="calc", loads=loads, sim_inputs=[os.path.basename(p) for p in a.sim.split(",") if p], rows=rows,
              all_ok=all(r["ok"] for r in rows if r.get("case") not in ("stall", "abuse")),
-             shove_ok=all(r["ok"] for r in rows if r.get("case") == "shove") and any(r.get("case") == "shove" for r in rows),
+             shove_ok=all(r["ok"] for r in rows if r.get("case") in ("shove", "stall_shove")) and any(r.get("case") == "shove" for r in rows),
              abuse_ok=all(r["ok"] for r in rows if r.get("case") == "abuse"), abuse_cases=list(ABUSE),
              abuse_peaks_Nm={k: round(v, 2) for k, v in sorted(TA.items())},
              stall_ok=all(r["ok"] for r in rows if r.get("case") == "stall"))

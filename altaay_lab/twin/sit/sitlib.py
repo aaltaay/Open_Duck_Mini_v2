@@ -44,6 +44,37 @@ STOPS = {
     "neck_back": dict(joint="neck_pitch", stop=25.0, side="hi", kind="printed lug on the neck sheets onto the trunk top"),
     "head_fwd": dict(joint="head_pitch", stop=-25.0, side="lo", kind="printed lug on head_pitch_to_yaw onto the neck"),
 }
+
+# Compliant stops (D59 review): each designed stop is modelled as the stack that takes the impact, a TPU face in series
+# with printed parts, as a linear spring at the contact radius r: K = k_stack r^2 (N m/rad). The printed lugs, the
+# spacer and the faces are taken as rigid next to the TPU (stiffer stack: a higher, conservative impact peak); a stop
+# with no TPU face is the printed lug in compression, E A / h. sit_model.py writes K into the joint limit (solreflimit,
+# solimplimit) of the MJCF; sit_stress.py checks every r here against the CAD (1 mm) and fails otherwise.
+E_TPU = 26.0                  # MPa, TPU 95A, est (typical data sheet tensile modulus for 95A grades; not measured)
+E_PLA = 3500.0                # MPa, printed PLA modulus, est (STRUCTURE_TWIN.md uses the Overture TDS strength)
+STOP_DAMPRATIO = 0.1          # TPU 95A loss factor about 0.2 (est): a low damping ratio is the conservative peak
+STOP_SOLIMP = (0.95, 0.95, 0.001, 0.5, 2.0)
+STOP_STACK = {
+    "knee_fold": dict(joints=("left_knee", "right_knee"), r_mm=24.1, pads=[(28.0, 14.0, 3.0, 1)]),
+    "ankle_sit": dict(joints=("left_ankle", "right_ankle"), r_mm=34.5, pads=[(6.0, 7.5, 3.0, 2)]),
+    "hip_roll_out": dict(joints=("left_hip_roll", "right_hip_roll"), r_mm=17.5, lug=dict(area_mm2=96.0, h_mm=6.0)),
+    "hip_pitch_back": dict(joints=("left_hip_pitch", "right_hip_pitch"), r_mm=40.8, pads=[(22.0, 6.0, 1.5, 1)]),
+    "neck_back": dict(joints=("neck_pitch",), r_mm=20.5, lug=dict(area_mm2=38.2, h_mm=6.0)),
+    "head_fwd": dict(joints=("head_pitch",), r_mm=14.0, lug=dict(area_mm2=87.0, h_mm=6.0)),
+}
+
+
+def stop_k_lin(st):
+    """N/mm of a stop stack: TPU pads (n in parallel, E A / t), or the printed lug in compression"""
+    if st.get("pads"):
+        return sum(n * E_TPU * a * b / t for a, b, t, n in st["pads"])
+    return E_PLA * st["lug"]["area_mm2"] / st["lug"]["h_mm"]
+
+
+def stop_K(st):
+    """N m/rad at the joint"""
+    return stop_k_lin(st) * 1000.0 * (st["r_mm"] / 1000.0) ** 2
+
 SOFT_MARGIN_DEG = 3.0          # software commands stay this far inside every hard stop (D59)
 JOG = 9.0                      # shin sheet joggle, mm away from the leg centre plane (SIT_DESIGN change 1)
 R_HORN = 16.0                  # the joggle starts this far from the knee axis (SIT_DESIGN change 1)
