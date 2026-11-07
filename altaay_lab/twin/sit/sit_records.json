@@ -13,8 +13,8 @@
    "ankle_pad.stl": 0,
    "hip_pad.stl": 0,
    "knee_bumper.stl": 0,
-   "shin_left_sheet.stl": 19,
-   "shin_right_sheet.stl": 19,
+   "shin_left_sheet.stl": 17,
+   "shin_right_sheet.stl": 17,
    "shin_spacer.stl": 4,
    "sit_bumper.stl": 0,
    "sit_seat.stl": 0
@@ -169,7 +169,7 @@
   "knee_to_ankle_right_sheet": "same 17 holes"
  },
  "sites": {
-  "features": 136,
+  "features": 128,
   "new_sites": 10,
   "emptied": [
    2,

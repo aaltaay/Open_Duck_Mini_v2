@@ -52,7 +52,6 @@ CLR = 0.8                       # clearance of every cut to a part that moves pa
 R_WEB = 18.4                    # outer radius of the joggle web (the thigh sheet ends 19.0 mm from the knee axis)
 Z_CLAMP = -119.6                # the servo clamp of the shin sheet starts below this z (zero pose, left shin)
 OVL = 0.37                      # overlap of the joggle pieces (radially and at the clamp line)
-STEP = 9.0 / 7.0                # sweep step of the web and the clamp block (not a divisor of the plate features)
 VHB_T = 1.1                     # BOM 29 VHB 4950, 1.1 mm (D35)
 PAD_T = 3.0                     # TPU 95A pad thickness
 STACK = VHB_T + PAD_T           # a pad face touches its counterpart at the stop
@@ -63,7 +62,7 @@ SPACER_HOLES = [(-44.0, -104.0), (-39.5, -112.9)]          # one pattern on both
 INSERT_BORE, INSERT_DEPTH = 4.0, 5.8                       # as the stock leg_spacer (audit/sites.json)
 SHEET_HOLE, SHEET_RECESS, RECESS_DEPTH = 3.2, 6.5, 2.0     # as the stock sheet at the spacer (audit/sites.json)
 OLD_SPACER_HOLES = [(-27.1, -99.0), (-43.1, -99.0)]
-M2_HEAD_CB = 4.6                # counterbore for the M2 pan head (dk 3.8 to 4.0) plus a driver gap
+M2_HEAD_CB = 5.0                # the stock M2 pan head recess (feat3d: 5.0 mm), continued out through the clamp block
 KNEE = np.array([-35.06, -78.72])
 ANKLE = np.array([-35.06, -157.37])
 HORNS = ("drive_palonier", "passive_palonier")
@@ -155,12 +154,17 @@ def joggle_sheet(S, key):
     plate = W - C1i - below
     clamp = (W ^ below_o) - C0
 
-    def sweep(M):
-        return L.union([M] + [M.translate((0.0, n * s, 0.0)) for s in np.arange(STEP, L.JOG + 1e-6, STEP)])
-    web, plate_j, block = sweep(band), plate.translate((0.0, n * L.JOG, 0.0)), sweep(clamp)
+    # the web and the clamp block are prisms of their pieces' shadows (flat faces: a swept union would leave 1.3 mm
+    # steps on every chamfer and smear the outer-face reliefs into thin fins)
+    y_in0, y_out0 = (109.05, 112.95) if n > 0 else (71.95, 68.10)      # stock inner and outer plate faces
+    y_in = y_in0 + n * L.JOG
+    y_out = y_out0 + n * L.JOG
+    web = L.prism_y(band, min(y_in0, y_out), max(y_in0, y_out))
+    # the block: the stock clamp as it is (its inner face fits the servo case) plus a slab from its outer face out JOG
+    slab = L.prism_y(clamp, min(y_out0 - n * OVL, y_out0 + n * L.JOG), max(y_out0 - n * OVL, y_out0 + n * L.JOG))
+    block = L.union([clamp, slab])
+    plate_j = plate.translate((0.0, n * L.JOG, 0.0))
     new = L.union([horn, web, plate_j, block])
-    y_in = (109.05 if n > 0 else 71.95) + n * L.JOG
-    y_out = (112.95 if n > 0 else 68.10) + n * L.JOG
     lo, hi = min(y_in, y_out), max(y_in, y_out)
     for (x, z) in OLD_SPACER_HOLES:                           # D39: no empty hole; plugs flush with both plate faces
         new = new + L.to_man(L.cyl((x, lo, z), (x, hi, z), SHEET_RECESS / 2 + 0.4))
@@ -170,11 +174,12 @@ def joggle_sheet(S, key):
         new = new - L.to_man(L.cyl((x, y_out - n * RECESS_DEPTH, z), (x, y_out + n * 1.0, z), SHEET_RECESS / 2))
         holes.append(dict(x=x, z=z, y_outer_face=L.r(y_out, 2), recess_floor=L.r(y_out - n * RECESS_DEPTH, 2)))
     zc = -128.4 if n > 0 else -124.6
-    y_cb0 = (112.95 if n > 0 else 68.10)                     # the stock outer face where the M2 head sat
+    y_cb0 = y_out0                                            # the stock outer face over the M2 head recess
     cbs = []
     for x in (-24.8, -45.3):
-        new = new - L.to_man(L.cyl((x, y_cb0, zc), (x, y_cb0 + n * (L.JOG + 1.0), zc), M2_HEAD_CB / 2))
-        cbs.append(dict(x=x, z=zc, head_seat_y=y_cb0, depth=L.JOG))
+        # the stock head recess (5.0 mm) runs on out through the slab: same seat, the driver comes in along the axis
+        new = new - L.to_man(L.cyl((x, y_cb0 - n * 0.5, zc), (x, y_cb0 + n * (L.JOG + 1.0), zc), M2_HEAD_CB / 2))
+        cbs.append(dict(x=x, z=zc, recess_d=M2_HEAD_CB, from_y=L.r(y_cb0, 2), depth_added=L.JOG))
     info = dict(spacer_holes=holes, counterbores=cbs, plate_faces_y=[L.r(lo, 2), L.r(hi, 2)])
     return new, dict(horn=horn, web=web, plate=plate_j, block=block), Tw, info
 
@@ -294,10 +299,12 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
     # the ankle horns (on the shin link in the URDF, discs on the ankle axis): they pass the thigh and the cover with the
     # shin, but the foot plates are screwed to them, so the foot notch leaves them out
     shin_parts_pc_h = shin_parts_pc + pieces_of(link_meshes(S, SH, skip_prefix=(), keys=HORNS), 3.0)
-    # the foot turns about the ankle servo's own axis: its case (and horns) clear the foot plates at every ankle angle in
-    # the stock design, so the foot notch is cut by the shin sheets, the spacer and the knee bumper only (a swept case
-    # with the clearance would thin the plates at the horn screws)
+    # the foot turns about the ankle servo's own axis: its case (and horns) sit 0.1 to 0.5 mm off the foot plates and
+    # clear them down to about -95 deg in the stock design. The foot notch is cut by the shin sheets, the spacer and the
+    # knee bumper over the whole path, and by the case only past the stop (CASE_BAND, CASE_CLR): the TPU pad gives a
+    # little under load, and a swept case with the full clearance would thin the plates at the horn screws
     shin_parts_pc_foot = sum(shin_pc.values(), []) + L.convex_pieces(sp, 3.0) + L.convex_pieces(kb, 3.0)
+    case_pc = pieces_of(case_sh, 3.0)
     log("shin parts %.1f s" % (time.time() - t0))
 
     # thigh spacer relief on the shin clamp front corner (knee 130 to 150)
@@ -340,7 +347,9 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
             Mh, stack = move_heel_screw(S, key, m)
             foot_moved[key] = L.from_man(Mh)
             foot[key], v = cut_by(Mh, shin_parts_pc_foot, Ts_a, CLR)
-            info[key] = dict(notch_mm3=L.r(v, 1), ankle_range=[ast - 0.5, -40.0],
+            Ts_c = sweep_T(S, SH, FT, [L.cfg_left(a=a, both=False) for a in angles(CASE_BAND[0], CASE_BAND[1], 0.5)])
+            foot[key], vc = cut_by(foot[key], case_pc, Ts_c, CASE_CLR)
+            info[key] = dict(notch_mm3=L.r(v, 1), case_relief_mm3=L.r(vc, 1), case_band=list(CASE_BAND), ankle_range=[ast - 0.5, -40.0],
                              heel_screw=dict(moved_x_mm=HEEL_DX, from_xz=list(HEEL_OLD), stack=stack))
         # ankle pads: each shin clamp block lands on a flat pad seat at the stop. The block's back face is the plane
         # x = BACK_X of the left shin zero pose; at the stop it is a plane of the foot frame; the pad top is that plane.
@@ -670,6 +679,7 @@ ANKLE_PAD_U = 6.1               # pad centre along the clamp face, toward the an
 # Its whole hole stack (foot_side: 6.5 counterbore and 3.5 clearance; foot_top: 4.0 insert bore and 2.0 pilot) moves
 # HEEL_DX toward the toe, out of the foot notch (notch edge x -51.6 at the heel height, boss radius 4.5, 0.5 margin) and
 # 3.3 mm off the Omron switch slot (x -53.96 to -47.56); the old stack is plugged (D39). Same stack, so the same screw.
+CASE_BAND, CASE_CLR = (-97.5, -94.0), 0.3     # ankle angles where the ankle servo case is cleared out of the foot plates
 HEEL_OLD = (-62.25, -176.7)     # world x, z of the stock heel screw axis (fasteners.json F024 seat; axis +y)
 HEEL_DX = 20.0
 

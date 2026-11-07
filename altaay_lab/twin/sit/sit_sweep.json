@@ -32,20 +32,29 @@
   "ankle_sit": {
    "joint": "left_ankle",
    "stop": -95.0,
-   "ok": true,
+   "ok": false,
    "inside": {
     "angle": -94.5,
     "new_overlap_mm3": {}
    },
    "at": {
     "angle": -95.0,
-    "new_overlap_mm3": {}
+    "new_overlap_mm3": {
+     "servo_mid|foot_top": 1.1,
+     "servo_bottom|foot_side": 0.29,
+     "servo_bottom|foot_top": 0.63,
+     "servo_top|foot_top": 0.37
+    }
    },
    "past": {
     "angle": -95.5,
     "new_overlap_mm3": {
      "shin_right_sheet|ankle_pad": 13.56,
-     "shin_left_sheet|ankle_pad": 13.56
+     "shin_left_sheet|ankle_pad": 13.56,
+     "servo_mid|foot_top": 13.13,
+     "servo_bottom|foot_side": 3.04,
+     "servo_bottom|foot_top": 6.68,
+     "servo_top|foot_top": 5.19
     }
    }
   },
@@ -122,8 +131,8 @@
    "past": {
     "angle": -25.5,
     "new_overlap_mm3": {
-     "servo_mid|head_pitch_to_yaw": 0.05,
-     "servo_fill|head_pitch_to_yaw": 2.44
+     "servo_mid|head_pitch_to_yaw": 0.03,
+     "servo_fill|head_pitch_to_yaw": 1.65
     }
    }
   }

@@ -284,6 +284,14 @@ def dilate(M, c):
     return union([M] + [M.translate(tuple(c * d)) for d in _DIRS])
 
 
+def prism_y(M, y0, y1):
+    """the solid of M's shadow on the xz plane, from y0 to y1: a clean extrusion (flat faces, no steps)"""
+    R = np.array([[1, 0, 0, 0], [0, 0, -1, 0], [0, 1, 0, 0], [0, 0, 0, 1.0]])     # y -> z
+    cs = M.transform(R[:3, :4]).project()
+    P = manifold3d.Manifold.extrude(cs, float(y1 - y0)).translate((0.0, 0.0, float(y0)))
+    return P.transform(np.linalg.inv(R)[:3, :4])
+
+
 def swept(M, Ts):
     """union of M placed by each 4x4 in Ts"""
     return union([xform(M, T) for T in Ts])
@@ -303,16 +311,17 @@ def pinch_edges(m):
 def finalize(M, tol=1e-3, keep_largest=True):
     """a clean printable trimesh: the largest body only (cut-off crumbs dropped, keep_largest) or the bodies over
     1 mm3; slivers simplified away; a pinch (two faces of the solid touching along an edge, which an STL round trip turns
-    non-manifold) is filled with a 0.4 mm cube so the solid joins properly there. Raises if it cannot be cleaned."""
+    non-manifold) is filled with a 0.4 mm cube (0.7 mm after 6 tries) so the solid joins properly there. Raises if it cannot be cleaned."""
     comps = sorted(M.decompose(), key=lambda c: -c.volume())
     M = comps[0] if keep_largest else solid(M)
-    for _ in range(6):
+    for k in range(12):
         m = from_man(M.simplify(tol))
         bad = pinch_edges(m)
         if not bad:
             return m
-        M = union([M] + [to_man(box(np.asarray(p) - 0.2, np.asarray(p) + 0.2)) for p in bad])
-    raise RuntimeError("no clean STL after 6 pinch fills")
+        h = 0.2 if k < 6 else 0.35                   # a larger cube when the small ones keep leaving a new pinch
+        M = union([M] + [to_man(box(np.asarray(p) - h, np.asarray(p) + h)) for p in bad])
+    raise RuntimeError("no clean STL after 12 pinch fills")
 
 
 def solid(M, min_vol=1.0):

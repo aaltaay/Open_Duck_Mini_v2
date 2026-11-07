@@ -44,18 +44,18 @@
  },
  "parts": {
   "shin_left_sheet": {
-   "volume_mm3": 14043.2,
-   "faces": 15508,
+   "volume_mm3": 13895.2,
+   "faces": 6562,
    "print_file": "print/shin_left_sheet.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/shin_left_sheet.stl",
-   "bytes": 775484
+   "bytes": 328184
   },
   "shin_right_sheet": {
-   "volume_mm3": 11751.4,
-   "faces": 14858,
+   "volume_mm3": 12174.3,
+   "faces": 6716,
    "print_file": "print/shin_right_sheet.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/shin_right_sheet.stl",
-   "bytes": 742984
+   "bytes": 335884
   },
   "shin_spacer": {
    "volume_mm3": 11431.5,
@@ -73,38 +73,38 @@
   },
   "knee_to_ankle_right_sheet": {
    "volume_mm3": 6120.8,
-   "faces": 4756,
+   "faces": 4760,
    "print_file": "print/knee_to_ankle_right_sheet.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/left_knee_to_ankle_right_sheet.stl",
-   "bytes": 237884
+   "bytes": 238084
   },
   "foot_top": {
-   "volume_mm3": 38221.5,
-   "faces": 3728,
+   "volume_mm3": 37847.2,
+   "faces": 4008,
    "print_file": "print/foot_top.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/foot_top.stl",
-   "bytes": 186484
+   "bytes": 200484
   },
   "foot_side": {
-   "volume_mm3": 20098.0,
-   "faces": 3756,
+   "volume_mm3": 20049.4,
+   "faces": 4116,
    "print_file": "print/foot_side.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/foot_side.stl",
-   "bytes": 187884
+   "bytes": 205884
   },
   "left_cache": {
-   "volume_mm3": 51969.3,
-   "faces": 4488,
+   "volume_mm3": 51917.7,
+   "faces": 4234,
    "print_file": "print/left_cache.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/left_cache.stl",
-   "bytes": 224484
+   "bytes": 211784
   },
   "right_cache": {
-   "volume_mm3": 51969.3,
-   "faces": 4488,
+   "volume_mm3": 51917.7,
+   "faces": 4234,
    "print_file": "print/right_cache.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/right_cache.stl",
-   "bytes": 224484
+   "bytes": 211784
   },
   "left_roll_to_pitch": {
    "volume_mm3": 30706.0,
@@ -499,14 +499,16 @@
     {
      "x": -24.8,
      "z": -128.4,
-     "head_seat_y": 112.95,
-     "depth": 9.0
+     "recess_d": 5.0,
+     "from_y": 112.95,
+     "depth_added": 9.0
     },
     {
      "x": -45.3,
      "z": -128.4,
-     "head_seat_y": 112.95,
-     "depth": 9.0
+     "recess_d": 5.0,
+     "from_y": 112.95,
+     "depth_added": 9.0
     }
    ],
    "plate_faces_y": [
@@ -534,14 +536,16 @@
     {
      "x": -24.8,
      "z": -124.6,
-     "head_seat_y": 68.1,
-     "depth": 9.0
+     "recess_d": 5.0,
+     "from_y": 68.1,
+     "depth_added": 9.0
     },
     {
      "x": -45.3,
      "z": -124.6,
-     "head_seat_y": 68.1,
-     "depth": 9.0
+     "recess_d": 5.0,
+     "from_y": 68.1,
+     "depth_added": 9.0
     }
    ],
    "plate_faces_y": [
@@ -611,6 +615,11 @@
   },
   "foot_top": {
    "notch_mm3": 1274.1,
+   "case_relief_mm3": 374.2,
+   "case_band": [
+    -97.5,
+    -94.0
+   ],
    "ankle_range": [
     -95.5,
     -40.0
@@ -658,6 +667,11 @@
   },
   "foot_side": {
    "notch_mm3": 1192.9,
+   "case_relief_mm3": 48.6,
+   "case_band": [
+    -97.5,
+    -94.0
+   ],
    "ankle_range": [
     -95.5,
     -40.0
@@ -709,17 +723,17 @@
   "cache": {
    "cut_by_leg": {
     "L": {
-     "by_shin_mm3": 10664.0,
+     "by_shin_mm3": 10716.3,
      "by_foot_mm3": 1380.5,
      "by_hip_pad_mm3": 229.9
     },
     "R": {
-     "by_shin_mm3": 276.4,
+     "by_shin_mm3": 275.5,
      "by_foot_mm3": 82.4,
      "by_hip_pad_mm3": 0.5
     }
    },
-   "removed_mm3": 12633.7,
+   "removed_mm3": 12685.1,
    "base_mm3": 64609.0
   },
   "neck_left_sheet": {

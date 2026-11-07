@@ -137,7 +137,7 @@ def load_slice_summary():
         c = [x.strip() for x in line.strip().strip("|").split("|")]
         if on and len(c) == 11 and c[0].endswith(".stl") and c[1].isdigit():
             rows[c[0][:-4]] = dict(qty=int(c[1]), material=c[2], g_each=float(c[4]), support_each=float(c[6]))
-    assert len(rows) == 36, len(rows)
+    assert len(rows) == 44, len(rows)      # 36 robot STLs, 44 since the D59 sit parts (twin/sit/sit_print.py)
     return rows
 
 # ---------------------------------------------------------------------------------------------------------------
