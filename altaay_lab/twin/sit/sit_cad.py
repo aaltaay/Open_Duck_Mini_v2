@@ -42,7 +42,8 @@ import time
 import numpy as np
 import trimesh
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+HERE_CAD = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE_CAD)
 import sitlib as L  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -692,6 +693,17 @@ def _pack(o):
     return o
 
 
+def cache_key():
+    """what a cached build depends on: this file, sitlib.py and the libraries it imports (cables3d, audit/feat3d.py),
+    and the base revision every stock part is read from (git blobs at L.BASE_REV)"""
+    import hashlib
+    h = hashlib.sha256(L.BASE_REV.encode())
+    for p in (os.path.abspath(__file__), os.path.join(HERE_CAD, "sitlib.py"), os.path.join(L.LAB, "cables3d", "c3d_lib.py"),
+              os.path.join(L.LAB, "audit", "feat3d.py")):
+        h.update(open(p, "rb").read())
+    return h.hexdigest()
+
+
 def _unpack(o):
     if isinstance(o, dict):
         return {k: _unpack(v) for k, v in o.items()}
@@ -704,20 +716,27 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--redo", default=None, help="with --cache: steps to recompute (%s)" % ",".join(STEPS_ALL))
-    ap.add_argument("--cache", help="pickle of the build outside the repo (reused when it exists: delete it after a design change)")
+    ap.add_argument("--cache", help="pickle of the build outside the repo, reused only when it was built by the same code from "
+                    "the same base (cache_key); --redo recomputes steps of a matching cache")
     a = ap.parse_args()
     S = L.scene_base()
     import json
     import pickle
+    key = cache_key()
+    prev = None
     if a.cache and os.path.exists(a.cache):
-        pout, pinfo = pickle.load(open(a.cache, "rb"))
-        prev = (_unpack(pout), pinfo)
+        c = pickle.load(open(a.cache, "rb"))
+        if isinstance(c, dict) and c.get("key") == key:
+            prev = (_unpack(c["out"]), c["info"])
+        else:
+            print("cache %s was built by other code or from another base: full build" % os.path.basename(a.cache))
+    if prev is not None:
         redo = tuple(x for x in a.redo.split(",") if x) if a.redo is not None else ()
         out, info = build(S, prev=prev, redo=redo)
     else:
         out, info = build(S)
     if a.cache:
-        pickle.dump((_pack(out), info), open(a.cache, "wb"))
+        pickle.dump(dict(key=key, out=_pack(out), info=info), open(a.cache, "wb"))
     if a.write:
         J = write(S, out, info)
         print(json.dumps(J["parts"], indent=1))

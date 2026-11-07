@@ -279,9 +279,15 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
         m.mj_step(md, dd)
         if ref is None and t >= t_first - 0.1:
             ref = dd.qpos[0:3].copy()
+        # every physics step from the moment the torque goes off: the largest constraint torque on each joint (the
+        # landing on the stops comes first; an impact lasts a few steps, a decimated or delayed sample would miss it)
+        for j in range(1, md.njnt):
+            f = abs(dd.qfrc_constraint[md.jnt_dofadr[j]])
+            n = jn[j]
+            if f > lim.get(n, 0.0):
+                lim[n] = float(f)
         if t >= t_first - 0.1:
-            # every physics step: the least pins per pad, the pitch and head ranges and the largest constraint torque
-            # on each joint (an impact lasts a few steps; a decimated sample would miss its peak)
+            # every physics step once it has settled: the least pins per pad, the pitch and head ranges at rest
             p = pin_eval(md, dd, SF, pins)
             for k, v in p.items():
                 minpads[k] = min(minpads.get(k, 99), v)
@@ -289,11 +295,6 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
             pr = [min(pr[0], ts_["pitch"]), max(pr[1], ts_["pitch"])]
             he = head_elev(md, dd)
             hr = [min(hr[0], he), max(hr[1], he)]
-            for j in range(1, md.njnt):
-                f = abs(dd.qfrc_constraint[md.jnt_dofadr[j]])
-                n = jn[j]
-                if f > lim.get(n, 0.0):
-                    lim[n] = float(f)
     ts_ = trunk_state(md, dd)
     pads = pin_eval(md, dd, SF, pins)
     return dict(F=F, dirs=list(dirs), drift_mm=float(np.linalg.norm(dd.qpos[0:2] - ref[0:2]) * 1000), pitch=ts_["pitch"],
@@ -447,6 +448,10 @@ def summary(out):
     """the aggregate numbers of the three runs in <out> (sim pass only)"""
     from collections import defaultdict
     J = {t: json.load(open(os.path.join(out, "sit_sim_%s.json" % t))) for t in ("push", "up", "walk")}
+    key = inputs_key(out)
+    stale = [t for t, j in J.items() if j.get("inputs_key") != key]
+    if stale:
+        raise SystemExit("sit_sim_%s.json was run on another model or sim code: run it again" % ", ".join(stale))
     M = json.load(open(os.path.join(out, "sit", "sit_model.json")))
     P = J["push"]["results"]
     push = dict(cases=len(P), falls=sum(r["fell"] for r in P), all4_pads_at_end=sum(r["all4_final"] for r in P),
@@ -470,7 +475,7 @@ def summary(out):
         W[r["tag"]].append(r)
     walk = {k: dict(seeds=len(v), falls=sum(r["fell"] for r in v), forward_m_s=round(float(np.mean([r["v"] for r in v])), 4),
                     turn_rad_s=round(float(np.mean([r["turn"] for r in v if r["turn"] is not None])), 3)) for k, v in W.items()}
-    return dict(generated_by="altaay_lab/twin/sit/sit_sim.py summary", label="sim pass only", model=M, push=push, up=up,
+    return dict(generated_by="altaay_lab/twin/sit/sit_sim.py summary", label="sim pass only", inputs_key=key, model=M, push=push, up=up,
                 up_peak_torque_Nm={k: round(v, 2) for k, v in sorted(pk.items())}, walk=walk)
 
 
@@ -484,19 +489,49 @@ def _cached_job(args):
     return r
 
 
-def run_cached(a, test, J, fn, key):
-    """run the cases of a test in a pool, one result file per case under <out>/cases_<test>/ (the model's sit_model.json
-    hash in the name of the folder, so a rebuilt model starts afresh); cases with a file are not run again"""
+def inputs_key(out):
+    """the hash of everything a sim case reads: every file of the written model folder (the generated XML with every
+    placement transform, sit_model.json), the bytes of every mesh and XML asset the model loads (SM.assets), the sim
+    code (this file and the modules it imports for the run: sitlib.py, sit_model.py) and the MuJoCo and numpy
+    versions. The run parameters of each case go into its file name (case_name)."""
     import hashlib
-    h = hashlib.sha1(open(os.path.join(a.out, "sit", "sit_model.json"), "rb").read()).hexdigest()[:10]
-    d = os.path.join(a.out, "cases_%s_%s" % (test, h))
+    import mujoco
+    h = hashlib.sha256()
+    d = os.path.join(out, "sit")
+    for f in sorted(os.listdir(d)):
+        p = os.path.join(d, f)
+        if os.path.isfile(p):
+            h.update(b"model/" + f.encode() + b"\0" + open(p, "rb").read())
+    for k, v in sorted(SM.assets(d).items()):
+        h.update(b"asset/" + k.encode() + b"\0" + v)
+    for f in ("sit_sim.py", "sitlib.py", "sit_model.py"):
+        h.update(b"code/" + f.encode() + b"\0" + open(os.path.join(HERE, f), "rb").read())
+    h.update(("mujoco %s numpy %s" % (mujoco.__version__, np.__version__)).encode())
+    return h.hexdigest()[:16]
+
+
+def case_name(name, job):
+    """a case file name: the readable case name and the hash of every run parameter of the job"""
+    import hashlib
+    return "%s_%s" % (name, hashlib.sha256(json.dumps(job, sort_keys=True, default=str).encode()).hexdigest()[:10])
+
+
+def run_cached(a, test, J, fn, key):
+    """run the cases of a test in a pool, one result file per case under <out>/cases_<test>_<inputs_key>/: a changed
+    model, mesh, placement or sim code starts a fresh folder; a case whose file exists (same name and parameters) is
+    not run again"""
+    d = os.path.join(a.out, "cases_%s_%s" % (test, inputs_key(a.out)))
     os.makedirs(d, exist_ok=True)
-    todo = [(fn, os.path.join(d, key(j) + ".json"), j) for j in J if not os.path.exists(os.path.join(d, key(j) + ".json"))]
-    print("%s: %d cases, %d done before" % (test, len(J), len(J) - len(todo)), flush=True)
+    path = {key(j): os.path.join(d, case_name(key(j), j) + ".json") for j in J}
+    if len(path) != len(J):
+        raise SystemExit("%s: two cases share a name" % test)
+    todo = [(fn, path[key(j)], j) for j in J if not os.path.exists(path[key(j)])]
+    print("%s: %d cases, %d done before (%s)" % (test, len(J), len(J) - len(todo), os.path.basename(d)), flush=True)
     if todo:
         with Pool(a.jobs, initializer=_init, initargs=(a.out,)) as p:
             p.map(_cached_job, todo, chunksize=1)
-    return [json.load(open(os.path.join(d, key(j) + ".json"))) for j in J]
+    R = [json.load(open(path[key(j)])) for j in J]
+    return R
 
 
 def main():
@@ -524,7 +559,8 @@ def main():
         J = [(tag, d, s) for tag, d in dirs.items() if d for s in range(10)]
         with Pool(a.jobs, initializer=_init, initargs=(a.out,)) as p:
             R = p.map(walk_job, J, chunksize=1)
-    L.dump(dict(test=a.test, seconds=round(time.time() - t0), results=R), os.path.join(a.out, "sit_sim_%s.json" % a.test))
+    L.dump(dict(test=a.test, inputs_key=inputs_key(a.out), seconds=round(time.time() - t0), results=R),
+           os.path.join(a.out, "sit_sim_%s.json" % a.test))
     print("done", a.test, round(time.time() - t0), "s")
 
 
