@@ -627,6 +627,19 @@ def head_hook(S, log=print):
                 pcs = grid_pieces(m, (-120, -120, 120), (120, 120, 210), 10.0)     # columns: the floor's hole stays a hole
                 Ts = sweep_T(S, i["link"], HP, cfgs)
                 cut.append(L.swept_cut(pcs, Ts, CLR, cells=[(T,) for T in Ts], near=near))
+    # the trunk's front top (the body shell's roof and front, trunk_top) over the neck and head ranges together: the hook
+    # rides on the head and swings down in front when both pitch forward (the sit path's leaning waypoints)
+    tr_box = ((-20.0, -45.0, 80.0), (75.0, 45.0, 140.0))
+    tr_pcs = []
+    for key, m in link_meshes(S, TR, keys=("body_middle_top", "body_front", "trunk_top")).items():
+        tr_pcs += grid_pieces(m, tr_box[0], tr_box[1], 10.0)
+    necks = angles(-20.0, 25.0, 2.5)
+    heads = angles(hst, 45.0, 5.0)
+    cells = []
+    for nk_ in necks:
+        Ts = sweep_T(S, TR, HP, [{"neck_pitch": D(nk_), "head_pitch": D(h)} for h in heads])
+        cells += [(Ts[i], Ts[i + 1]) for i in range(len(Ts) - 1)]
+    cut.append(L.swept_cut(tr_pcs, None, CLR, cells=cells, near=near))
     R = R - L.union(cut)
     ko = L.hole_keepout(yoke)
     if ko is not None:

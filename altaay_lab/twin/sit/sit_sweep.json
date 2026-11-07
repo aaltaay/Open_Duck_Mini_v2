@@ -102,8 +102,8 @@
    "past": {
     "angle": 25.5,
     "new_overlap_mm3": {
-     "trunk_top|neck_left_sheet": 2.61,
-     "trunk_top|neck_right_sheet": 2.17
+     "neck_pad|neck_left_sheet": 19.98,
+     "neck_pad|neck_right_sheet": 15.96
     }
    }
   },
@@ -122,8 +122,7 @@
    "past": {
     "angle": -25.5,
     "new_overlap_mm3": {
-     "servo_mid|head_pitch_to_yaw": 0.03,
-     "servo_fill|head_pitch_to_yaw": 1.65
+     "neck_left_sheet|head_pad": 15.88
     }
    }
   }
@@ -260,11 +259,75 @@
  },
  "path": {
   "states": 204,
-  "new_overlaps": {}
+  "new_overlaps": {
+   "body_middle_top|head_pitch_to_yaw": {
+    "mm3": 9.01,
+    "state": "path",
+    "pose": [
+     -5.0,
+     40.0,
+     -29.0,
+     -19.0,
+     -22.0
+    ]
+   }
+  }
  },
  "walk": {
   "states": 32,
   "new_overlaps": {}
+ },
+ "getup": {
+  "states": 26,
+  "new_overlaps": {
+   "body_middle_top|head": {
+    "mm3": 1528.47,
+    "state": "getup_swing",
+    "pose": [
+     -60,
+     147,
+     -92,
+     22.0,
+     36.0,
+     79.0
+    ]
+   },
+   "body_middle_top|head_bot_sheet": {
+    "mm3": 1169.4,
+    "state": "getup_swing",
+    "pose": [
+     -60,
+     147,
+     -92,
+     22.0,
+     36.0,
+     -105.0
+    ]
+   },
+   "body_back|head": {
+    "mm3": 739.34,
+    "state": "getup_swing",
+    "pose": [
+     -60,
+     147,
+     -92,
+     22.0,
+     36.0,
+     -105.0
+    ]
+   },
+   "body_middle_top|head_pitch_to_yaw": {
+    "mm3": 9.01,
+    "state": "getup_tuck",
+    "pose": [
+     10,
+     135,
+     -92,
+     -19,
+     -22
+    ]
+   }
+  }
  },
  "path_waypoints_deg": [
   [

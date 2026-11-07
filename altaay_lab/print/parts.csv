@@ -14,7 +14,8 @@ foot_side.stl,2,PLA,light,,,,+y,1,0,2 walls 15 % (upstream default): no rule ask
 foot_top.stl,2,PLA,rings,,insert,insert,-y,1,0,2 walls 15 % plus a 2.0 mm solid ring round each of its 2 insert bores (the 1.5 mm bore wall of B16 prints solid either way): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings; D59: heel notch where the shin clamp passes down to the -95 deg ankle stop and a flat seat for the ankle pad; D59: the heel screw (F024/F026) and its insert moved 20 mm toward the toe, out of the heel notch; old holes closed (D39)
 head.stl,1,PLA,heavy,insert,,insert,-z,0,0,4 walls (insert) as before D22: 12 insert bores and a bearing seat (horizontal in this orientation); in the sim its mass is the forward counterweight (a light head costs one step of backward margin; MASS_STUDY.md option d)
 head_bot_sheet.stl,1,PLA,light,,,,+z,0,0,2 walls 15 % (upstream default): a 3 mm floor sheet
-head_pitch_to_yaw.stl,1,PLA,heavy,neck,,neck,+x,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thinnest part at head_pitch and head_yaw (G6); D59: the -25 deg head forward stop lug
+head_pad.stl,1,TPU,light,,,,+z,0,0,TPU 2 walls 40 % (the sole profile): the 12 x 6.1 x 6 mm head forward stop face in the hook's pocket on VHB 4950 (D59)
+head_pitch_to_yaw.stl,1,PLA,heavy,neck,,neck,+x,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thinnest part at head_pitch and head_yaw (G6); D59: the -25 deg head forward stop hook on the left arm (a TPU face in its pocket)
 head_roll_mount.stl,1,PLA,heavy,neck+fit,,neck+fit,+z,0,1,5 walls 40 % and fit (neck+fit) as before D22: neck chain (G5); servo pocket line to line (0.00 mm net)
 head_yaw_to_roll.stl,1,PLA,heavy,neck+fit,,neck+fit,+z,0,1,5 walls 40 % and fit (neck+fit) as before D22: neck chain (G5); servo pocket 0.10 mm undersize (C4)
 hip_pad.stl,2,TPU,light,,,,+z,1,0,TPU 2 walls 40 % (the sole profile): the 22 x 6 x 1.5 mm hip pitch -75 deg face on VHB 4950 (D59)
@@ -27,7 +28,9 @@ left_eye.stl,1,PLA,heavy,wall3,,,+x,0,0,3 walls (wall3) as before D22: 4 screw p
 left_roll_to_pitch.stl,1,PLA,heavy,wall3+fit,,fit,-z,1,0,3 walls and fit (wall3+fit) as before D22: D38 takes D26 option P1 for the structure twin's weakest part (twin/structure/STRUCTURE_TWIN.md P1; with STS3250 knees twin/knee/KNEE_TWIN.md section 5); servo pocket line to line (0.10 mm face overlap); G12 check; D59: the 8 deg outward hip roll stop lug
 leg_spacer.stl,2,PLA,rings,,insert,insert,-y,1,0,2 walls 15 % plus a 2.0 mm solid ring round each of its 4 insert bores (2 per end): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings; the thigh spacer only since D59 (the shins use shin_spacer.stl)
 neck_left_sheet.stl,1,PLA,heavy,neck,,neck,-y,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thin sheet at neck_pitch and head_pitch (G6); D59: the +25 deg neck back stop lug
+neck_pad.stl,2,TPU,light,,,,+z,0,0,TPU 2 walls 40 % (the sole profile): the 10 x 6 x 3 mm neck back stop faces in the block's pockets on VHB 4950; 1 per pillar (D59)
 neck_right_sheet.stl,1,PLA,heavy,neck,,neck,+y,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thin sheet at neck_pitch and head_pitch (G6); D59: the +25 deg neck back stop lug
+neck_stop.stl,1,PLA,heavy,neck,,neck,+z,0,0,5 walls 40 % (neck): the neck back stop block on trunk_top behind the neck (F127 and F129 M2x12); stands on its base (D59)
 right_antenna_holder.stl,1,PLA,heavy,wall3,,,vec:0.2631 0.9354 -0.2362,0,1,3 walls (wall3) as before D22: thinnest part (2.0 mm); first hit if the head swings (G6)
 right_cache.stl,1,PLA,light,,,,-z,0,0,2 walls 15 % (upstream default): a cover (PRINT_PLAN.md G6: not spared); D59: recessed where the joggled shin, the ankle servo and the foot pass
 right_eye.stl,1,PLA,heavy,wall3,,,+x,0,0,3 walls (wall3) as before D22: 4 screw pilots

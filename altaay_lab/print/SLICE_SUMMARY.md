@@ -18,7 +18,7 @@ V1 symmetry job, 2026-11-04 11:01 PM ET (D42): uniform screw patterns and surfac
 
 V1 holes job, 2026-11-05 (D39): every hole without a screw closed in 16 STLs (twin/holes/HOLES_TWIN.md); the 16 STLs and roll_motor_bottom re-sliced with `slice.py parts --only` (D22 light profile) before and after, same box: -6.38 g and -1.22 h for the robot set (x quantity), -4.2 g on the robot without supports. A closed hole drops its perimeter walls and, at insert and pilot bores, its solid ring (body_back 5 to 4 pilot rings, body_middle_top 8 to 6 and body_middle_bottom 7 to 4 insert rings). body_middle_bottom includes the 4 ear seats. The robot set totals above are not recomputed.
 
-V1 sit job, 2026-11-06 8:30 PM ET (D59; twin/sit/SIT.md): the 20 STLs it changed or added sliced with `slice.py parts --only` (D22 light profile; TPU parts on the sole profile, sit_seat and sit_bumper at 10 % infill, config/ovr_sparse.ini), same box, and their rows replaced or added (the 'before' columns of the new parts are empty: they have no pre-D22 version). Quantities follow print/parts.csv: knee_to_ankle_left_sheet, knee_to_ankle_right_sheet and leg_spacer are the thigh parts only now (2 each); the shins print shin_left_sheet, shin_right_sheet and shin_spacer. The totals table below is now the sum of the per-part rows (44 STLs, 62 parts, 1333.5 g, 117.5 h); before this job its rows added up to 1287.4 g against its 1293.8 g, as the D38 to D50 rows were updated without it. The plate tables and the D22 comparison are not re-run.
+V1 sit job, 2026-11-07 3:35 AM ET (D59; twin/sit/SIT.md): the 21 STLs it changed or added sliced with `slice.py parts --only` (D22 light profile; TPU parts on the sole profile, sit_seat and sit_bumper at 10 % infill, config/ovr_sparse.ini), same box, and their rows replaced or added (the 'before' columns of the new parts are empty: they have no pre-D22 version). Quantities follow print/parts.csv: knee_to_ankle_left_sheet, knee_to_ankle_right_sheet and leg_spacer are the thigh parts only now (2 each); the shins print shin_left_sheet, shin_right_sheet and shin_spacer. The totals table below is now the sum of the per-part rows (47 STLs, 66 parts, 1354.2 g, 119.8 h); before this job its rows added up to 1287.4 g against its 1293.8 g, as the D38 to D50 rows were updated without it. The plate tables and the D22 comparison are not re-run.
 
 ## What changed with D22
 
@@ -30,7 +30,7 @@ V1 sit job, 2026-11-06 8:30 PM ET (D59; twin/sit/SIT.md): the 20 STLs it changed
 - Coupon session: S1_PLA_coupons 46.8 g, 4.69 h; S2_TPU_coupons 17.6 g, 2.19 h.
 - The old PRINT_CHECK run (audit/slice_best.json, parts.csv quantities): 1339.0 g, 131.5 h.
 
-## Per part (robot set: 44 STLs, 62 parts)
+## Per part (robot set: 47 STLs, 66 parts)
 
 | STL | Qty | Material | Profile | g each | h each | support g each | g total | h total | before g each | before h each |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -45,28 +45,31 @@ V1 sit job, 2026-11-06 8:30 PM ET (D59; twin/sit/SIT.md): the 20 STLs it changed
 | flash_reflector_interface.stl | 1 | PLA | light (base) | 2.32 | 0.24 | 0.05 | 2.3 | 0.24 | 2.57 | 0.25 |
 | foot_bottom_pla.stl | 2 | PLA | rings (base + 2 insert rings) | 9.84 | 0.78 | 0.37 | 19.7 | 1.56 | 10.89 | 0.85 |
 | foot_bottom_tpu.stl | 2 | TPU | light (base) | 17.57 | 2.18 | 0.00 | 35.1 | 4.37 | 18.15 | 2.25 |
-| foot_side.stl | 2 | PLA | light (base) | 13.47 | 1.15 | 0.93 | 26.9 | 2.29 | 14.87 | 1.23 |
-| foot_top.stl | 2 | PLA | rings (base + 2 insert rings) | 23.41 | 2.05 | 1.19 | 46.8 | 4.11 | 31.63 | 2.69 |
+| foot_side.stl | 2 | PLA | light (base) | 13.47 | 1.14 | 0.93 | 26.9 | 2.29 | 14.87 | 1.23 |
+| foot_top.stl | 2 | PLA | rings (base + 2 insert rings) | 23.42 | 2.06 | 1.19 | 46.8 | 4.11 | 31.63 | 2.69 |
 | head.stl | 1 | PLA | heavy (insert) | 262.01 | 21.77 | 29.47 | 262.0 | 21.77 | 262.01 | 21.96 |
 | head_bot_sheet.stl | 1 | PLA | light (base) | 57.16 | 3.76 | 0.04 | 57.2 | 3.76 | 57.52 | 3.88 |
-| head_pitch_to_yaw.stl | 1 | PLA | heavy (neck) | 18.67 | 1.96 | 2.53 | 18.7 | 1.96 | 16.57 | 1.73 |
+| head_pad.stl | 1 | TPU | light (base) | 0.56 | 0.16 | 0.00 | 0.6 | 0.16 | - | - |
+| head_pitch_to_yaw.stl | 1 | PLA | heavy (neck) | 24.11 | 2.54 | 4.54 | 24.1 | 2.54 | 16.57 | 1.73 |
 | head_roll_mount.stl | 1 | PLA | heavy (neck+fit) | 15.74 | 1.42 | 0.40 | 15.7 | 1.42 | 15.74 | 1.42 |
 | head_yaw_to_roll.stl | 1 | PLA | heavy (neck+fit) | 29.05 | 2.81 | 1.83 | 29.1 | 2.81 | 29.04 | 2.81 |
 | hip_pad.stl | 2 | TPU | light (base) | 0.24 | 0.03 | 0.00 | 0.5 | 0.07 | - | - |
 | knee_bumper.stl | 2 | TPU | light (base) | 1.20 | 0.15 | 0.00 | 2.4 | 0.30 | - | - |
-| knee_to_ankle_left_sheet.stl | 2 | PLA | heavy (wall3+fit) | 6.72 | 0.63 | 0.20 | 13.4 | 1.26 | 6.98 | 0.64 |
+| knee_to_ankle_left_sheet.stl | 2 | PLA | heavy (wall3+fit) | 6.72 | 0.63 | 0.20 | 13.4 | 1.27 | 6.98 | 0.64 |
 | knee_to_ankle_right_sheet.stl | 2 | PLA | heavy (wall3+fit) | 6.07 | 0.59 | 0.18 | 12.1 | 1.18 | 6.32 | 0.60 |
 | left_antenna_holder.stl | 1 | PLA | heavy (wall3) | 3.57 | 0.28 | 0.05 | 3.6 | 0.28 | 3.57 | 0.28 |
-| left_cache.stl | 1 | PLA | light (base) | 49.41 | 4.34 | 2.27 | 49.4 | 4.34 | 77.34 | 5.97 |
+| left_cache.stl | 1 | PLA | light (base) | 49.55 | 4.38 | 2.40 | 49.5 | 4.38 | 77.34 | 5.97 |
 | left_eye.stl | 1 | PLA | heavy (wall3) | 1.82 | 0.17 | 0.00 | 1.8 | 0.17 | 1.80 | 0.18 |
-| left_roll_to_pitch.stl | 1 | PLA | heavy (wall3+fit), D38 | 25.67 | 2.40 | 1.45 | 25.7 | 2.40 | 24.82 | 2.31 |
+| left_roll_to_pitch.stl | 1 | PLA | heavy (wall3+fit), D38 | 25.67 | 2.39 | 1.45 | 25.7 | 2.39 | 24.82 | 2.31 |
 | leg_spacer.stl | 2 | PLA | rings (base + 4 insert rings) | 6.01 | 0.72 | 0.05 | 12.0 | 1.45 | 8.83 | 1.00 |
-| neck_left_sheet.stl | 1 | PLA | heavy (neck) | 8.03 | 0.77 | 0.18 | 8.0 | 0.77 | 7.49 | 0.70 |
-| neck_right_sheet.stl | 1 | PLA | heavy (neck) | 7.08 | 0.66 | 0.18 | 7.1 | 0.66 | 6.55 | 0.61 |
+| neck_left_sheet.stl | 1 | PLA | heavy (neck) | 7.49 | 0.70 | 0.17 | 7.5 | 0.70 | 7.49 | 0.70 |
+| neck_pad.stl | 2 | TPU | light (base) | 0.23 | 0.04 | 0.00 | 0.5 | 0.09 | - | - |
+| neck_right_sheet.stl | 1 | PLA | heavy (neck) | 6.68 | 0.62 | 0.18 | 6.7 | 0.62 | 6.55 | 0.61 |
+| neck_stop.stl | 1 | PLA | heavy (neck) | 14.95 | 1.52 | 0.11 | 14.9 | 1.52 | - | - |
 | right_antenna_holder.stl | 1 | PLA | heavy (wall3) | 3.57 | 0.28 | 0.05 | 3.6 | 0.28 | 3.57 | 0.28 |
-| right_cache.stl | 1 | PLA | light (base) | 49.42 | 4.33 | 2.26 | 49.4 | 4.33 | 77.32 | 6.03 |
+| right_cache.stl | 1 | PLA | light (base) | 49.56 | 4.37 | 2.39 | 49.6 | 4.37 | 77.32 | 6.03 |
 | right_eye.stl | 1 | PLA | heavy (wall3) | 4.50 | 0.36 | 0.00 | 4.5 | 0.36 | 4.56 | 0.38 |
-| right_roll_to_pitch.stl | 1 | PLA | heavy (wall3+fit), D38 | 25.65 | 2.42 | 1.44 | 25.6 | 2.42 | 24.82 | 2.33 |
+| right_roll_to_pitch.stl | 1 | PLA | heavy (wall3+fit), D38 | 25.65 | 2.41 | 1.44 | 25.6 | 2.41 | 24.82 | 2.33 |
 | roll_motor_bottom.stl | 2 | PLA | heavy (wall3) | 8.75 | 0.72 | 0.60 | 17.5 | 1.43 | 8.75 | 0.72 |
 | roll_motor_top.stl | 2 | PLA | light (fit) | 7.14 | 0.73 | 0.41 | 14.3 | 1.46 | 8.00 | 0.80 |
 | shin_left_sheet.stl | 2 | PLA | heavy (wall3+fit) | 11.58 | 1.09 | 1.18 | 23.2 | 2.18 | - | - |
@@ -81,9 +84,9 @@ V1 sit job, 2026-11-06 8:30 PM ET (D59; twin/sit/SIT.md): the 20 STLs it changed
 
 | Material | Parts | Grams | Hours | of which support g | Before grams | Before hours |
 |---|---|---|---|---|---|---|
-| PLA | 50 | 1260.0 | 108.5 | 99.5 | 1372.7 | 114.4 |
-| TPU | 12 | 73.5 | 9.0 | 0.0 | 36.3 | 4.5 |
-| Total | 62 | 1333.5 | 117.5 | 99.5 | 1409.0 | 118.9 |
+| PLA | 51 | 1279.7 | 110.5 | 101.9 | 1372.7 | 114.4 |
+| TPU | 15 | 74.5 | 9.2 | 0.0 | 36.3 | 4.5 |
+| Total | 66 | 1354.2 | 119.8 | 101.9 | 1409.0 | 118.9 |
 
 D38 (2026-11-05): left and right roll_to_pitch re-sliced with wall3+fit (slice.py parts --only). The plate rows below add each part's own change; the plates were not re-planned.
 
@@ -124,7 +127,7 @@ S1 gate fallback, 220 bed: if a light coupon fails, print these plates (same par
 | L1-2_PLA_base_rings | insert | 60.0 | 5.60 | yes | +11.7 | +1.02 |
 | P220-04_PLA_base_rings | insert | 176.7 | 15.19 | yes | +25.2 | +1.93 |
 | P220-05_PLA_base_rings | insert | 99.0 | 7.76 | yes | +24.5 | +1.15 |
-| Total | 62 | 1333.5 | 117.5 | 99.5 | +61.5 | +4.11 |
+| Total | 66 | 1354.2 | 119.8 | 101.9 | +61.5 | +4.11 |
 
 With the fallback the full print is 18 jobs, 1426.8 g and 122.7 h.
 
@@ -158,7 +161,7 @@ S1 gate fallback, 256 bed: if a light coupon fails, print these plates (same par
 | L1-2_PLA_base_rings | insert | 60.2 | 5.61 | yes | +11.8 | +1.04 |
 | P256-03_PLA_base_rings | insert | 176.3 | 15.06 | yes | +24.5 | +1.88 |
 | P256-04_PLA_base_rings | insert | 99.0 | 7.76 | yes | +24.5 | +1.15 |
-| Total | 62 | 1333.5 | 117.5 | 99.5 | +60.9 | +4.07 |
+| Total | 66 | 1354.2 | 119.8 | 101.9 | +60.9 | +4.07 |
 
 With the fallback the full print is 17 jobs, 1426.6 g and 122.8 h.
 
