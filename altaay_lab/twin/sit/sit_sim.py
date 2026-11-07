@@ -60,15 +60,27 @@ UP = [w[:3] for w in L.PATH_A1B[5:0:-1]] + [STAND]
 _MD = {}
 
 
-def model(out, mu=0.8):
+def model(out, mu=0.8, mass=None):
+    """the sit model with the floor at friction mu and, with mass {body: factor}, those bodies' mass and inertia
+    scaled: a model variant per (mu, mass), each compiled once. The mass edit comes before the collision edits and
+    mj_setConst refreshes the compiled constants (body_subtreemass, the solver's inverse weights) while the model is
+    still in its compiled collision state (after the collision edits mj_setConst refuses the model)."""
     import mujoco as m
-    k = (out, mu)
+    k = (out, mu, tuple(sorted((mass or {}).items())))
     if k in _MD:
         return _MD[k]
     d = os.path.join(out, "sit")
     md = SM.check(d) if os.path.exists(os.path.join(d, "sit_model.json")) else None
     if md is None:
         raise SystemExit("build the model first: sit_model.py --out %s" % out)
+    if mass:
+        for bn, f in mass.items():
+            b = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, bn)
+            if b < 0:
+                raise SystemExit("mass edit: no body %s" % bn)
+            md.body_mass[b] *= f
+            md.body_inertia[b] *= f
+        m.mj_setConst(md, m.MjData(md))
     for g in range(md.ngeom):
         nm = m.mj_id2name(md, m.mjtObj.mjOBJ_GEOM, g) or ""
         if nm == "floor":
@@ -409,20 +421,14 @@ def shove_job(a):
     name, opt = a
     import mujoco as m
     t0 = time.time()
-    md = model(OUT[0])
+    # the body held (a hand or a wall behind it): the trunk 1000 x heavier does not move, so the whole shove goes
+    # into the neck and head stops (the stop load case; free, a 12 N head shove tips the sit over). A model variant
+    # (model(mass=...)): the compiled constants follow the mass and the cached nominal model is not edited.
+    md = model(OUT[0], mass={"trunk_assembly": 1000.0} if opt.get("held") else None)
     dt0 = md.opt.timestep
     md.opt.timestep = opt.get("dt", dt0)
     dd, SF, pins, tr, cb = enter(md)
     trb = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, "trunk_assembly")
-    saved = (md.body_mass[trb], md.body_inertia[trb].copy())
-    if opt.get("held"):
-        # the body held (a hand or a wall behind it): the trunk 1000 x heavier does not move, so the whole shove goes
-        # into the neck and head stops (the stop load case; free, a 12 N head shove tips the sit over)
-        md.body_mass[trb] *= 1000.0
-        md.body_inertia[trb] *= 1000.0
-        # the compiled constants follow the new mass (body_subtreemass, the inverse weights the constraint solver
-        # scales the limits and contacts by); a scratch MjData: the settled state in dd is kept
-        m.mj_setConst(md, m.MjData(md))
     jn = {j: m.mj_id2name(md, m.mjtObj.mjOBJ_JOINT, j) for j in range(1, md.njnt)}
     if opt["torque"] == "off":
         torque(md, False)
@@ -447,9 +453,6 @@ def shove_job(a):
             q[n_] = [min(q.get(n_, [v, v])[0], v), max(q.get(n_, [v, v])[1], v)]
     torque(md, True)
     md.opt.timestep = dt0
-    md.body_mass[trb], md.body_inertia[trb] = saved
-    if opt.get("held"):
-        m.mj_setConst(md, m.MjData(md))
     return dict(name=name, opt=opt, start_deg=q0, range_deg=q, **stops.report(),
                 fell=bool(trunk_state(md, dd)["up"] < 0.8), secs=round(time.time() - t0, 1))
 

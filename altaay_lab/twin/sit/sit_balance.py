@@ -70,16 +70,8 @@ def settle_case(out, opt, T=10.0):
     import mujoco as m
     import sit_sim as SS
     SS.OUT[0] = out
-    md = SS.model(out, opt.get("mu", 0.8))
-    saved = (md.body_mass.copy(), md.body_inertia.copy(), md.actuator_ctrlrange.copy())
-    for bn, f in opt.get("mass", {}).items():
-        b = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, bn)
-        md.body_mass[b] *= f
-        md.body_inertia[b] *= f
-    if opt.get("mass"):
-        # the compiled constants follow the new masses (body_subtreemass, which subtree_com divides by, the inverse
-        # weights of the constraint solver): without this the CoM of a mass case is divided by the nominal mass
-        m.mj_setConst(md, m.MjData(md))
+    md = SS.model(out, opt.get("mu", 0.8), mass=opt.get("mass") or None)   # a model variant per mass case (sit_sim.model)
+    saved = md.actuator_ctrlrange.copy()
     off = None
     if "err" in opt:
         off = np.zeros(md.nu)
@@ -87,7 +79,7 @@ def settle_case(out, opt, T=10.0):
             nm = md.actuator(i).name
             s = -1.0 if (opt.get("mirror") and nm.startswith("right")) else 1.0
             off[i] = np.radians(opt["err"] * s)
-        md.actuator_ctrlrange[:] = saved[2] + off[:, None]
+        md.actuator_ctrlrange[:] = saved + off[:, None]
     try:
         dd, SF, pins, _, _ = SS.enter(md, off=off, pins_on=opt.get("pins", True))
         r = SS.hold(md, dd, SF, pins, F=0.0, dirs=[], T=T, t_first=T - 3.0, pins_on=opt.get("pins", True))
@@ -96,9 +88,7 @@ def settle_case(out, opt, T=10.0):
         if opt.get("push_sim"):
             res["sim_push_N"] = sim_push(md, dd, SF, pins, opt.get("pins", True))
     finally:
-        md.body_mass[:], md.body_inertia[:], md.actuator_ctrlrange[:] = saved
-        if opt.get("mass"):
-            m.mj_setConst(md, m.MjData(md))
+        md.actuator_ctrlrange[:] = saved
     return res
 
 
