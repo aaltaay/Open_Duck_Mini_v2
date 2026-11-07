@@ -1,8 +1,8 @@
 # PRINT_CHECK
 
-## Note 2026-11-06 8:17 PM ET: D59 alert sit parts
+## Note 2026-11-06 9:05 PM ET: D59 alert sit parts
 
-The A1b sit (DECISIONS.md D59, twin/sit/SIT.md; CAD check only) changes 11 STLs and adds 8. New rows here: ankle_pad, hip_pad, knee_bumper, shin_left_sheet, shin_right_sheet, shin_spacer, sit_bumper, sit_seat, measured on the oriented STLs of a `slice.py parts --only` run (D22 light profile; their grams and hours are that run's, not the 7:24 PM run of the other rows; TPU pads and blocks go on VHB 4950). Quantities follow print/parts.csv: the knee_to_ankle sheets and leg_spacer are the thigh parts only (2 each); the shins print shin_left_sheet, shin_right_sheet (joggled 9 mm, with the clamp block) and shin_spacer. The changed STLs keep their rows here (geometry columns of the stock part; their light-profile grams are in print/SLICE_SUMMARY.md): the thigh sheets lose about 0.4 cm3 at the front edge; foot_top and foot_side get the heel notch, the ankle pad seat and the heel screw moved 20 mm toward the toe (old holes closed, D39); left_cache and right_cache are cut by about 12.6 cm3 for the fold; roll_to_pitch, both neck sheets and head_pitch_to_yaw get a stop lug. Every hole of a changed STL is checked to be there as before (twin/sit/sit_cad.py). Robot set now 44 STLs, 62 parts; in the light profile 1336.4 g and 117.7 h (print/SLICE_SUMMARY.md).
+The A1b sit (DECISIONS.md D59, twin/sit/SIT.md; CAD check only) changes 11 STLs and adds 8. New rows here: ankle_pad, hip_pad, knee_bumper, shin_left_sheet, shin_right_sheet, shin_spacer, sit_bumper, sit_seat, measured on the oriented STLs of a `slice.py parts --only` run (D22 light profile; their grams and hours are that run's, not the 7:24 PM run of the other rows; TPU pads and blocks go on VHB 4950). Quantities follow print/parts.csv: the knee_to_ankle sheets and leg_spacer are the thigh parts only (2 each); the shins print shin_left_sheet, shin_right_sheet (joggled 9 mm, with the clamp block) and shin_spacer. The changed STLs keep their rows here (geometry columns of the stock part; their light-profile grams are in print/SLICE_SUMMARY.md): the thigh sheets lose about 0.4 cm3 at the front edge; foot_top and foot_side get the heel notch, the ankle pad seat and the heel screw moved 20 mm toward the toe (old holes closed, D39); left_cache and right_cache are cut by about 12.6 cm3 for the fold; roll_to_pitch, both neck sheets and head_pitch_to_yaw get a stop lug. Every hole of a changed STL is checked to be there as before (twin/sit/sit_cad.py). Robot set now 44 STLs, 62 parts; in the light profile 1333.5 g and 117.5 h (print/SLICE_SUMMARY.md).
 
 ## Note 2026-11-05 10:50 PM ET: D50 chest lead hole
 
@@ -82,8 +82,8 @@ Last updated: 2026-11-01 7:24 PM ET (print package, see the dated note). Every n
 | right_roll_to_pitch.stl | 1 | PLA 15% | -z up | 86.1x46.9 | 30.7 | 180:Y 220:Y 256:Y | 736 | 0.82/5.00 | 0 | - | 0/0 | yes, max pen 0.10 | 24.82 | 2.33 | 24.82 | 2.33 | outer wall first; G12 screw head |
 | roll_motor_bottom.stl | 2 | PLA 15% | +x up | 31.4x30.7 | 32.0 | 180:Y 220:Y 256:Y | 292 | 1.50/2.97 | 0 | - | 0/0 | yes, max pen -0.00 | 8.75 | 0.72 | 17.50 | 1.43 | spare (G6); G12 screw head |
 | roll_motor_top.stl | 2 | PLA 15% | -z up | 38.0x28.7 | 20.0 | 180:Y 220:Y 256:Y | 533 | 0.33/7.74 | 0 | - | 0/0 | yes, max pen 0.01 | 8.00 | 0.80 | 16.00 | 1.60 | outer wall first |
-| shin_left_sheet.stl | 2 | PLA 15%, wall3+fit | -y up | 70.6x30.7 | 17.6 | 180:Y 220:Y 256:Y | 1663 | 0.91/7.48 | 0 | - | 0/0 | yes, max pen 2.20 | 11.49 | 1.06 | 22.98 | 2.12 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run) |
-| shin_right_sheet.stl | 2 | PLA 15%, wall3+fit | +y up | 70.6x30.7 | 16.4 | 180:Y 220:Y 256:Y | 2882 | 0.47/3.85 | 0 | - | 0/0 | yes, max pen 3.30 | 12.44 | 1.17 | 24.88 | 2.33 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run) |
+| shin_left_sheet.stl | 2 | PLA 15%, wall3+fit | -y up | 70.6x30.7 | 17.5 | 180:Y 220:Y 256:Y | 522 | 0.71/6.21 | 0 | - | 0/0 | yes, max pen 2.20 | 11.58 | 1.09 | 23.16 | 2.18 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run) |
+| shin_right_sheet.stl | 2 | PLA 15%, wall3+fit | +y up | 70.6x30.7 | 16.2 | 180:Y 220:Y 256:Y | 484 | 0.93/4.61 | 0 | - | 0/0 | yes, max pen 3.30 | 11.09 | 1.07 | 22.18 | 2.15 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run) |
 | shin_spacer.stl | 2 | PLA 15%, rings | -y up | 19.0x17.7 | 54.8 | 180:Y 220:Y 256:Y | 25 | 0.61/10.93 | 4 | 1.55 | 0/0 | none | 7.28 | 0.94 | 14.56 | 1.88 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run) |
 | sit_bumper.stl | 1 | TPU 10% | -z up | 60.0x24.0 | 32.8 | 180:Y 220:Y 256:Y | 0 | 16.61/27.43 | 0 | - | 0/0 | none | 12.18 | 1.46 | 12.18 | 1.46 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run); on VHB 4950 (BOM 29) |
 | sit_seat.stl | 1 | TPU 10% | turned (-0.2873 0 -0.9578) up | 80.0x32.0 | 45.3 | 180:Y 220:Y 256:Y | 0 | 22.09/33.73 | 0 | - | 0/0 | none | 22.61 | 2.67 | 22.61 | 2.67 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run); on VHB 4950 (BOM 29) |
@@ -97,9 +97,9 @@ Last updated: 2026-11-01 7:24 PM ET (print package, see the dated note). Every n
 ## Totals
 | Material | Parts | Grams | Hours | 2:15 PM run grams | 2:15 PM run hours |
 |---|---|---|---|---|---|
-| PLA (15%, insert parts 4 walls, neck parts 40%) | 50 | 1390.9 | 116.3 | 1304.0 | 127.7 |
+| PLA (15%, insert parts 4 walls, neck parts 40%) | 50 | 1388.4 | 116.2 | 1304.0 | 127.7 |
 | TPU 40% | 12 | 74.6 | 9.2 | 35.0 | 3.9 |
-| Total | 62 | 1465.5 | 125.4 | 1339.0 | 131.6 |
+| Total | 62 | 1463.0 | 125.3 | 1339.0 | 131.6 |
 
 Support material is 90.4 g of the 1409.0 g. Spares (one set, flag 10): 10 PLA parts, 104.6 g, 9.8 h. Coupon session: 27.8 g PLA and 18.2 g TPU, 5.0 h (print/PRINT_PLAN.md).
 

@@ -57,7 +57,8 @@
    "generated_utc": "2026-11-02 07:01 UTC",
    "how": "route_cables.py --only SP1,SP2,SP3,SD1,SD2 into the scratch folder, merged by agent CAB (the five cable records and the cable ends JG20, JG10, JG30, Y.SD1); splice centres at the netlist cut minus 6.5 mm from the crimped end"
   },
-  "freeze": "2026-11-06 ET: D16 to D22 and the D13 refill by twin/freeze/routes_freeze.py (CAD check only)"
+  "freeze": "2026-11-06 ET: D16 to D22 and the D13 refill by twin/freeze/routes_freeze.py (CAD check only)",
+  "sit_d59": "twin/sit/sit_cables.py: the shin routes and ties moved 9 mm with the joggle; mounts on the changed parts re-checked on the new STLs; lengths, loops and rubs recomputed by check_cables.py"
  },
  "terminals": [
   {
@@ -21367,9 +21368,17 @@
     {
      "link": "knee_and_ankle_assembly_2",
      "p": [
+      2.06,
+      10.72,
+      53.05
+     ]
+    },
+    {
+     "link": "knee_and_ankle_assembly_2",
+     "p": [
       -1.9,
       -21.4,
-      44.05
+      53.05
      ]
     },
     {
@@ -21377,7 +21386,7 @@
      "p": [
       -5.86,
       -53.52,
-      44.05
+      53.05
      ]
     },
     {
@@ -21385,7 +21394,7 @@
      "p": [
       -6.94,
       -62.28,
-      44.05
+      53.05
      ]
     },
     {
@@ -21951,9 +21960,17 @@
       {
        "link": "knee_and_ankle_assembly_2",
        "p": [
+        2.06,
+        10.72,
+        53.05
+       ]
+      },
+      {
+       "link": "knee_and_ankle_assembly_2",
+       "p": [
         -1.9,
         -21.4,
-        44.05
+        53.05
        ]
       },
       {
@@ -21961,7 +21978,7 @@
        "p": [
         -5.86,
         -53.52,
-        44.05
+        53.05
        ]
       },
       {
@@ -21969,7 +21986,7 @@
        "p": [
         -6.94,
         -62.28,
-        44.05
+        53.05
        ]
       },
       {
@@ -25819,9 +25836,17 @@
     {
      "link": "knee_and_ankle_assembly_4",
      "p": [
+      3.06,
+      10.72,
+      52.85
+     ]
+    },
+    {
+     "link": "knee_and_ankle_assembly_4",
+     "p": [
       -1.34,
       -21.4,
-      43.85
+      52.85
      ]
     },
     {
@@ -25829,7 +25854,7 @@
      "p": [
       -5.74,
       -53.52,
-      43.85
+      52.85
      ]
     },
     {
@@ -25837,7 +25862,7 @@
      "p": [
       -6.94,
       -62.28,
-      43.85
+      52.85
      ]
     },
     {
@@ -26387,9 +26412,17 @@
       {
        "link": "knee_and_ankle_assembly_4",
        "p": [
+        3.06,
+        10.72,
+        52.85
+       ]
+      },
+      {
+       "link": "knee_and_ankle_assembly_4",
+       "p": [
         -1.34,
         -21.4,
-        43.85
+        52.85
        ]
       },
       {
@@ -26397,7 +26430,7 @@
        "p": [
         -5.74,
         -53.52,
-        43.85
+        52.85
        ]
       },
       {
@@ -26405,7 +26438,7 @@
        "p": [
         -6.94,
         -62.28,
-        43.85
+        52.85
        ]
       },
       {
@@ -51768,9 +51801,17 @@
     {
      "link": "knee_and_ankle_assembly_2",
      "p": [
+      -3.94,
+      4.72,
+      53.05
+     ]
+    },
+    {
+     "link": "knee_and_ankle_assembly_2",
+     "p": [
       0.06,
       -27.78,
-      44.05
+      53.05
      ]
     },
     {
@@ -51778,7 +51819,7 @@
      "p": [
       4.06,
       -60.28,
-      44.05
+      53.05
      ]
     },
     {
@@ -51786,7 +51827,7 @@
      "p": [
       6.06,
       -62.28,
-      42.05
+      51.05
      ]
     },
     {
@@ -51872,9 +51913,17 @@
       {
        "link": "knee_and_ankle_assembly_2",
        "p": [
+        -3.94,
+        4.72,
+        53.05
+       ]
+      },
+      {
+       "link": "knee_and_ankle_assembly_2",
+       "p": [
         0.06,
         -27.78,
-        44.05
+        53.05
        ]
       },
       {
@@ -51882,7 +51931,7 @@
        "p": [
         4.06,
         -60.28,
-        44.05
+        53.05
        ]
       },
       {
@@ -51890,7 +51939,7 @@
        "p": [
         6.06,
         -62.28,
-        42.05
+        51.05
        ]
       },
       {
@@ -55191,9 +55240,17 @@
     {
      "link": "knee_and_ankle_assembly_4",
      "p": [
+      -1.94,
+      9.72,
+      52.85
+     ]
+    },
+    {
+     "link": "knee_and_ankle_assembly_4",
+     "p": [
       0.81,
       -22.36,
-      43.85
+      52.85
      ]
     },
     {
@@ -55201,7 +55258,7 @@
      "p": [
       3.56,
       -54.44,
-      43.85
+      52.85
      ]
     },
     {
@@ -55209,7 +55266,7 @@
      "p": [
       4.06,
       -60.28,
-      43.85
+      52.85
      ]
     },
     {
@@ -55217,7 +55274,7 @@
      "p": [
       6.06,
       -62.28,
-      41.85
+      50.85
      ]
     },
     {
@@ -55295,9 +55352,17 @@
       {
        "link": "knee_and_ankle_assembly_4",
        "p": [
+        -1.94,
+        9.72,
+        52.85
+       ]
+      },
+      {
+       "link": "knee_and_ankle_assembly_4",
+       "p": [
         0.81,
         -22.36,
-        43.85
+        52.85
        ]
       },
       {
@@ -55305,7 +55370,7 @@
        "p": [
         3.56,
         -54.44,
-        43.85
+        52.85
        ]
       },
       {
@@ -55313,7 +55378,7 @@
        "p": [
         4.06,
         -60.28,
-        43.85
+        52.85
        ]
       },
       {
@@ -55321,7 +55386,7 @@
        "p": [
         6.06,
         -62.28,
-        41.85
+        50.85
        ]
       },
       {
@@ -58556,9 +58621,17 @@
     {
      "link": "knee_and_ankle_assembly_2",
      "p": [
+      2.06,
+      10.72,
+      53.05
+     ]
+    },
+    {
+     "link": "knee_and_ankle_assembly_2",
+     "p": [
       -0.93,
       -21.19,
-      44.26
+      53.26
      ]
     },
     {
@@ -58566,7 +58639,7 @@
      "p": [
       -3.91,
       -53.1,
-      44.47
+      53.47
      ]
     },
     {
@@ -58574,7 +58647,7 @@
      "p": [
       -5.0,
       -64.7,
-      44.55
+      53.55
      ]
     },
     {
@@ -58582,7 +58655,7 @@
      "p": [
       -5.0,
       -64.7,
-      41.88
+      50.88
      ]
     },
     {
@@ -58884,9 +58957,17 @@
       {
        "link": "knee_and_ankle_assembly_2",
        "p": [
+        2.06,
+        10.72,
+        53.05
+       ]
+      },
+      {
+       "link": "knee_and_ankle_assembly_2",
+       "p": [
         -0.93,
         -21.19,
-        44.26
+        53.26
        ]
       },
       {
@@ -58894,7 +58975,7 @@
        "p": [
         -3.91,
         -53.1,
-        44.47
+        53.47
        ]
       },
       {
@@ -58902,7 +58983,7 @@
        "p": [
         -5.0,
         -64.7,
-        44.55
+        53.55
        ]
       },
       {
@@ -58910,7 +58991,7 @@
        "p": [
         -5.0,
         -64.7,
-        41.88
+        50.88
        ]
       },
       {
@@ -60858,9 +60939,17 @@
     {
      "link": "knee_and_ankle_assembly_4",
      "p": [
+      3.06,
+      10.72,
+      52.85
+     ]
+    },
+    {
+     "link": "knee_and_ankle_assembly_4",
+     "p": [
       -0.02,
       -21.84,
-      43.85
+      52.85
      ]
     },
     {
@@ -60868,7 +60957,7 @@
      "p": [
       -3.1,
       -54.4,
-      43.85
+      52.85
      ]
     },
     {
@@ -60876,7 +60965,7 @@
      "p": [
       -3.94,
       -63.28,
-      43.85
+      52.85
      ]
     },
     {
@@ -60884,7 +60973,7 @@
      "p": [
       -5.0,
       -64.7,
-      44.55
+      53.55
      ]
     },
     {
@@ -60892,7 +60981,7 @@
      "p": [
       -5.0,
       -64.7,
-      41.88
+      50.88
      ]
     },
     {
@@ -61178,9 +61267,17 @@
       {
        "link": "knee_and_ankle_assembly_4",
        "p": [
+        3.06,
+        10.72,
+        52.85
+       ]
+      },
+      {
+       "link": "knee_and_ankle_assembly_4",
+       "p": [
         -0.02,
         -21.84,
-        43.85
+        52.85
        ]
       },
       {
@@ -61188,7 +61285,7 @@
        "p": [
         -3.1,
         -54.4,
-        43.85
+        52.85
        ]
       },
       {
@@ -61196,7 +61293,7 @@
        "p": [
         -3.94,
         -63.28,
-        43.85
+        52.85
        ]
       },
       {
@@ -61204,7 +61301,7 @@
        "p": [
         -5.0,
         -64.7,
-        44.55
+        53.55
        ]
       },
       {
@@ -61212,7 +61309,7 @@
        "p": [
         -5.0,
         -64.7,
-        41.88
+        50.88
        ]
       },
       {
@@ -65619,21 +65716,21 @@
     "joint crossing, left_roll_to_pitch_assembly side (end of the 29 mm free loop)",
     "joint crossing, left_roll_to_pitch_assembly side (end of the 30 mm free loop)"
    ],
-   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount MB3A (BOM 34) on a flat patch of left_roll_to_pitch, 15 mm from the cable line (exact rays); one anchor per spot: also holds D3, S4, SP4 from tie point T031, dressed 9 mm over to it (one tie round both bundles)",
+   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount MB3A (BOM 34) on a flat patch of left_roll_to_pitch, 15 mm from the cable line (exact rays); one anchor per spot: also holds D3, S4, SP4 from tie point T031, dressed 9 mm over to it (one tie round both bundles); D59: not flat (11.50 mm); ABM1M in place of MB3A at the old spot on the changed CAD; the mount placed again on left_roll_to_pitch, 6 mm from the old spot (cables3d seats_ties.py mount_patch)",
    "mount_fit": {
-    "type": "MB3A",
+    "type": "ABM1M",
     "part": "left_roll_to_pitch",
     "center_mm": [
-     -21.2,
-     62.4,
-     -1.9
+     -24.07,
+     62.38,
+     -6.7
     ],
     "normal": [
-     -0.0,
+     0.004,
      -1.0,
      0.0
     ],
-    "from_cable_mm": 15.3
+    "from_cable_mm": 10.1
    },
    "loop_end": true,
    "also_holds": [
@@ -65683,21 +65780,21 @@
    "why": [
     "joint crossing, knee_and_ankle_assembly side (end of the 30 mm free loop)"
    ],
-   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of knee_to_ankle_right_sheet, 10 mm from the cable line (exact rays)",
+   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of knee_to_ankle_right_sheet, 10 mm from the cable line (exact rays); D59: 7 of 25 rays miss the part at the old spot on the changed CAD; the mount placed again on knee_to_ankle_right_sheet, 8 mm from the old spot (cables3d seats_ties.py mount_patch)",
    "mount_fit": {
     "type": "ABM1M",
     "part": "knee_to_ankle_right_sheet",
     "center_mm": [
-     -29.5,
+     -36.88,
      68.2,
-     -32.6
+     -30.42
     ],
     "normal": [
      -0.0,
      -1.0,
      0.0
     ],
-    "from_cable_mm": 9.6
+    "from_cable_mm": 16.1
    },
    "loop_end": true
   },
@@ -65756,7 +65853,7 @@
     -0.312
    ],
    "link": "knee_and_ankle_assembly_2",
-   "part": "knee_to_ankle_right_sheet",
+   "part": "shin_right_sheet",
    "p": [
     5.0,
     13.95,
@@ -65788,7 +65885,7 @@
    "gap": true,
    "center_mm": [
     -37.8,
-    65.0,
+    56.0,
     -107.2
    ],
    "axis": [
@@ -65797,32 +65894,32 @@
     -0.992
    ],
    "link": "knee_and_ankle_assembly_2",
-   "part": "knee_to_ankle_right_sheet",
+   "part": "shin_right_sheet",
    "p": [
-    -2.78,
-    -28.52,
-    44.05
+    -2.74,
+    -28.476,
+    53.05
    ],
    "bundle_d_mm": 4.0,
    "tie": "nylon cable tie 2.5 x 100 mm",
    "why": [
     "support spacing <= 76.2 mm (lab rule)"
    ],
-   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount MB3A (BOM 34) on a flat patch of knee_to_ankle_right_sheet, 15 mm from the cable line (exact rays)",
+   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount MB3A (BOM 34) on a flat patch of knee_to_ankle_right_sheet, 15 mm from the cable line (exact rays); moved 9 mm with the shin joggle (D59, twin/sit/sit_cables.py); D59: 1 of 25 rays miss the part; ABM1M in place of MB3A at the old spot on the changed CAD; the mount placed again on shin_right_sheet, 16 mm from the old spot (cables3d seats_ties.py mount_patch)",
    "mount_fit": {
-    "type": "MB3A",
-    "part": "knee_to_ankle_right_sheet",
+    "type": "ABM1M",
+    "part": "shin_right_sheet",
     "center_mm": [
-     -31.4,
-     68.1,
-     -120.1
+     -33.34,
+     59.1,
+     -103.72
     ],
     "normal": [
      -0.0,
      -1.0,
-     0.0
+     -0.0
     ],
-    "from_cable_mm": 14.8
+    "from_cable_mm": 6.5
    },
    "loop_end": false
   },
@@ -65835,7 +65932,7 @@
    "gap": false,
    "center_mm": [
     -41.5,
-    65.0,
+    56.0,
     -137.4
    ],
    "axis": [
@@ -65844,18 +65941,18 @@
     -0.714
    ],
    "link": "knee_and_ankle_assembly_2",
-   "part": "knee_to_ankle_right_sheet",
+   "part": "shin_right_sheet",
    "p": [
-    -6.49,
-    -58.63,
-    44.05
+    -6.44,
+    -58.676,
+    53.05
    ],
    "bundle_d_mm": 4.0,
    "tie": "nylon cable tie 2.5 x 100 mm",
    "why": [
     "joint crossing, knee_and_ankle_assembly_2 side (end of the 24 mm free loop)"
    ],
-   "note": "the loop tie moved 18 mm further from the joint (the loop meets 3 x OD there too); cable tie through the hole 5.0 x 5.0 mm in knee_to_ankle_right_sheet (D25 iii)",
+   "note": "the loop tie moved 18 mm further from the joint (the loop meets 3 x OD there too); cable tie through the hole 5.0 x 5.0 mm in knee_to_ankle_right_sheet (D25 iii); moved 9 mm with the shin joggle (D59, twin/sit/sit_cables.py)",
    "mount_fit": null,
    "loop_end": true
   },
@@ -66182,21 +66279,21 @@
     "joint crossing, right_roll_to_pitch_assembly side (end of the 33 mm free loop)",
     "joint crossing, right_roll_to_pitch_assembly side (end of the 34 mm free loop)"
    ],
-   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount MB3A (BOM 34) on a flat patch of right_roll_to_pitch, 17 mm from the cable line (exact rays); one anchor per spot: also holds S8 from tie point T078, dressed 14 mm over to it (one tie round both bundles)",
+   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount MB3A (BOM 34) on a flat patch of right_roll_to_pitch, 17 mm from the cable line (exact rays); one anchor per spot: also holds S8 from tie point T078, dressed 14 mm over to it (one tie round both bundles); D59: not flat (9.70 mm); ABM1M in place of MB3A at the old spot on the changed CAD; the mount placed again on right_roll_to_pitch, 6 mm from the old spot (cables3d seats_ties.py mount_patch)",
    "mount_fit": {
-    "type": "MB3A",
+    "type": "ABM1M",
     "part": "right_roll_to_pitch",
     "center_mm": [
-     -20.9,
+     -24.91,
      -62.4,
-     -3.4
+     -7.43
     ],
     "normal": [
-     -0.0,
+     0.006,
      1.0,
-     0.0
+     0.001
     ],
-    "from_cable_mm": 17.4
+    "from_cable_mm": 12.5
    },
    "loop_end": true,
    "also_holds": [
@@ -66266,7 +66363,7 @@
     "S9",
     "SP5"
    ],
-   "kind": "adhesive tie mount",
+   "kind": "bundle tie, test fit",
    "gap": true,
    "center_mm": [
     -18.2,
@@ -66291,22 +66388,7 @@
     "joint crossing, knee_and_ankle_assembly_3 side (end of the 19 mm free loop)",
     "support spacing <= 76.2 mm (lab rule)"
    ],
-   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount MB3A (BOM 34) on a flat patch of knee_to_ankle_left_sheet, 19 mm from the cable line (exact rays)",
-   "mount_fit": {
-    "type": "MB3A",
-    "part": "knee_to_ankle_left_sheet",
-    "center_mm": [
-     -33.6,
-     -68.2,
-     -34.6
-    ],
-    "normal": [
-     0.0,
-     1.0,
-     0.0
-    ],
-    "from_cable_mm": 19.2
-   },
+   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount MB3A (BOM 34) on a flat patch of knee_to_ankle_left_sheet, 19 mm from the cable line (exact rays); D59: 4 of 25 rays miss the part on the changed knee_to_ankle_left_sheet and no flat patch in reach: bundle tie, test fit (D25)",
    "loop_end": true
   },
   {
@@ -66315,7 +66397,7 @@
     "D4",
     "SP5"
    ],
-   "kind": "adhesive tie mount",
+   "kind": "bundle tie, test fit",
    "gap": true,
    "center_mm": [
     -18.0,
@@ -66340,22 +66422,7 @@
     "joint crossing, knee_and_ankle_assembly_3 side (end of the 24 mm free loop)",
     "joint crossing, knee_and_ankle_assembly_3 side (end of the 25 mm free loop)"
    ],
-   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of knee_to_ankle_right_sheet; the loop tie moved 22 mm further from the joint (the loop meets 3 x OD there too); stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of right_cache, 16 mm from the cable line (D25 iii)",
-   "mount_fit": {
-    "type": "ABM1M",
-    "part": "right_cache",
-    "center_mm": [
-     -2.7,
-     -93.7,
-     -40.9
-    ],
-    "normal": [
-     -0.935,
-     0.0,
-     0.355
-    ],
-    "from_cable_mm": 16.0
-   },
+   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of knee_to_ankle_right_sheet; the loop tie moved 22 mm further from the joint (the loop meets 3 x OD there too); stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of right_cache, 16 mm from the cable line (D25 iii); D59: 25 of 25 rays miss the part on the changed right_cache and no flat patch in reach: bundle tie, test fit (D25)",
    "loop_end": true
   },
   {
@@ -66365,7 +66432,7 @@
     "S10",
     "SP5"
    ],
-   "kind": "adhesive tie mount",
+   "kind": "bundle tie, test fit",
    "gap": true,
    "center_mm": [
     -34.3,
@@ -66378,7 +66445,7 @@
     -0.577
    ],
    "link": "knee_and_ankle_assembly_4",
-   "part": "knee_to_ankle_right_sheet",
+   "part": "shin_right_sheet",
    "p": [
     0.78,
     -9.02,
@@ -66391,22 +66458,7 @@
     "joint crossing, knee_and_ankle_assembly_4 side (end of the 24 mm free loop)",
     "joint crossing, knee_and_ankle_assembly_4 side (end of the 25 mm free loop)"
    ],
-   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of knee_to_ankle_right_sheet; the loop tie moved 20 mm further from the joint (the loop meets 3 x OD there too); stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of knee_to_ankle_right_sheet, 16 mm from the cable line (D25 iii); one anchor per spot: also holds S10 from tie point T080, dressed 23 mm over to it (one tie round both bundles)",
-   "mount_fit": {
-    "type": "ABM1M",
-    "part": "knee_to_ankle_right_sheet",
-    "center_mm": [
-     -31.4,
-     -109.3,
-     -101.9
-    ],
-    "normal": [
-     0.0,
-     1.0,
-     0.0
-    ],
-    "from_cable_mm": 15.9
-   },
+   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of knee_to_ankle_right_sheet; the loop tie moved 20 mm further from the joint (the loop meets 3 x OD there too); stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of knee_to_ankle_right_sheet, 16 mm from the cable line (D25 iii); one anchor per spot: also holds S10 from tie point T080, dressed 23 mm over to it (one tie round both bundles); D59: not flat (8.95 mm) on the changed shin_right_sheet and no flat patch in reach: bundle tie, test fit (D25)",
    "loop_end": true,
    "also_holds": [
     {
@@ -66432,7 +66484,7 @@
    "gap": true,
    "center_mm": [
     -37.9,
-    -116.0,
+    -125.0,
     -111.3
    ],
    "axis": [
@@ -66441,32 +66493,32 @@
     -0.991
    ],
    "link": "knee_and_ankle_assembly_4",
-   "part": "knee_to_ankle_right_sheet",
+   "part": "shin_right_sheet",
    "p": [
-    -2.87,
-    -32.6,
-    43.85
+    -2.84,
+    -32.576,
+    52.85
    ],
    "bundle_d_mm": 4.0,
    "tie": "nylon cable tie 2.5 x 100 mm",
    "why": [
     "support spacing <= 76.2 mm (lab rule)"
    ],
-   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of knee_to_ankle_right_sheet, 3 mm from the cable line (exact rays)",
+   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of knee_to_ankle_right_sheet, 3 mm from the cable line (exact rays); moved 9 mm with the shin joggle (D59, twin/sit/sit_cables.py); D59: 1 of 25 rays miss the part at the old spot on the changed CAD; the mount placed again on shin_right_sheet, 9 mm from the old spot (cables3d seats_ties.py mount_patch)",
    "mount_fit": {
     "type": "ABM1M",
-    "part": "knee_to_ankle_right_sheet",
+    "part": "shin_right_sheet",
     "center_mm": [
-     -37.9,
-     -113.1,
-     -111.3
+     -29.31,
+     -122.1,
+     -111.66
     ],
     "normal": [
      -0.0,
      -1.0,
      -0.0
     ],
-    "from_cable_mm": 2.9
+    "from_cable_mm": 9.1
    },
    "loop_end": false
   },
@@ -66479,7 +66531,7 @@
    "gap": true,
    "center_mm": [
     -44.4,
-    -113.6,
+    -122.6,
     -143.4
    ],
    "axis": [
@@ -66488,24 +66540,24 @@
     -0.718
    ],
    "link": "knee_and_ankle_assembly_4",
-   "part": "knee_to_ankle_right_sheet",
+   "part": "shin_right_sheet",
    "p": [
-    -9.38,
-    -64.72,
-    41.41
+    -9.34,
+    -64.676,
+    50.45
    ],
    "bundle_d_mm": 4.0,
    "tie": "nylon cable tie 2.5 x 100 mm",
    "why": [
     "joint crossing, knee_and_ankle_assembly_4 side (end of the 24 mm free loop)"
    ],
-   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of knee_to_ankle_right_sheet; the loop tie moved 10 mm further from the joint (the loop meets 3 x OD there too); stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of knee_to_ankle_right_sheet, 16 mm from the cable line (D25 iii)",
+   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of knee_to_ankle_right_sheet; the loop tie moved 10 mm further from the joint (the loop meets 3 x OD there too); stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of knee_to_ankle_right_sheet, 16 mm from the cable line (D25 iii); moved 9 mm with the shin joggle (D59, twin/sit/sit_cables.py)",
    "mount_fit": {
     "type": "ABM1M",
-    "part": "knee_to_ankle_right_sheet",
+    "part": "shin_right_sheet",
     "center_mm": [
      -36.1,
-     -113.1,
+     -122.1,
      -129.7
     ],
     "normal": [
@@ -67321,7 +67373,7 @@
    "cables": [
     "S4"
    ],
-   "kind": "adhesive tie mount",
+   "kind": "bundle tie, test fit",
    "gap": true,
    "center_mm": [
     -19.0,
@@ -67345,22 +67397,7 @@
    "why": [
     "joint crossing, knee_and_ankle_assembly side (end of the 20 mm free loop)"
    ],
-   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount MB3A (BOM 34) on a flat patch of knee_to_ankle_right_sheet, 17 mm from the cable line (exact rays)",
-   "mount_fit": {
-    "type": "MB3A",
-    "part": "knee_to_ankle_right_sheet",
-    "center_mm": [
-     -33.5,
-     72.0,
-     -27.9
-    ],
-    "normal": [
-     0.0,
-     1.0,
-     -0.001
-    ],
-    "from_cable_mm": 17.1
-   },
+   "note": "GAP: no tie anchor in the CAD here; stick-on tie mount MB3A (BOM 34) on a flat patch of knee_to_ankle_right_sheet, 17 mm from the cable line (exact rays); D59: 3 of 25 rays miss the part on the changed knee_to_ankle_right_sheet and no flat patch in reach: bundle tie, test fit (D25)",
    "loop_end": true
   },
   {
@@ -67381,7 +67418,7 @@
     -0.993
    ],
    "link": "knee_and_ankle_assembly_2",
-   "part": "knee_to_ankle_right_sheet",
+   "part": "shin_right_sheet",
    "p": [
     -2.45,
     -7.39,
@@ -67396,7 +67433,7 @@
    "mount_fit": null,
    "loop_end": true,
    "tie_holes": {
-    "part": "knee_to_ankle_right_sheet",
+    "part": "shin_right_sheet",
     "link": "knee_and_ankle_assembly_2",
     "hole_d_mm": 4.0,
     "spacing_mm": 7.0,
@@ -67454,7 +67491,7 @@
    "gap": false,
    "center_mm": [
     -35.7,
-    64.8,
+    55.8,
     -120.2
    ],
    "axis": [
@@ -67463,18 +67500,18 @@
     -0.993
    ],
    "link": "knee_and_ankle_assembly_2",
-   "part": "knee_to_ankle_right_sheet",
+   "part": "shin_right_sheet",
    "p": [
     -0.64,
-    -41.46,
-    44.22
+    -41.476,
+    53.25
    ],
    "bundle_d_mm": 4.9,
    "tie": "nylon cable tie 2.5 x 100 mm",
    "why": [
     "first tie before the far connector (NASA Table 9-2)"
    ],
-   "note": "cable tie through the hole 5.0 x 5.0 mm in knee_to_ankle_right_sheet (13 mm from the cable)",
+   "note": "cable tie through the hole 5.0 x 5.0 mm in knee_to_ankle_right_sheet (13 mm from the cable); moved 9 mm with the shin joggle (D59, twin/sit/sit_cables.py)",
    "mount_fit": null,
    "loop_end": false
   },
@@ -67664,7 +67701,7 @@
    "gap": false,
    "center_mm": [
     -34.9,
-    -116.0,
+    -125.0,
     -120.3
    ],
    "axis": [
@@ -67673,18 +67710,18 @@
     -0.996
    ],
    "link": "knee_and_ankle_assembly_4",
-   "part": "knee_to_ankle_right_sheet",
+   "part": "shin_right_sheet",
    "p": [
-    0.17,
-    -41.62,
-    43.85
+    0.16,
+    -41.576,
+    52.85
    ],
    "bundle_d_mm": 4.9,
    "tie": "nylon cable tie 2.5 x 100 mm",
    "why": [
     "first tie before the far connector (NASA Table 9-2)"
    ],
-   "note": "cable tie through the hole 5.0 x 5.0 mm in knee_to_ankle_right_sheet (13 mm from the cable)",
+   "note": "cable tie through the hole 5.0 x 5.0 mm in knee_to_ankle_right_sheet (13 mm from the cable); moved 9 mm with the shin joggle (D59, twin/sit/sit_cables.py)",
    "mount_fit": null,
    "loop_end": false
   },

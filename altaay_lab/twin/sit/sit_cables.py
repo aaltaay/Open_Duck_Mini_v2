@@ -26,6 +26,8 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import sitlib as L  # noqa: E402
+sys.path.insert(0, os.path.join(L.LAB, "cables3d"))
+import seats_ties as ST  # noqa: E402
 
 CJ = os.path.join(L.LAB, "cables3d", "cables3d.json")
 SHIN = {"knee_and_ankle_assembly_2": 90.65, "knee_and_ankle_assembly_4": 90.65 - 181.2}   # leg centre plane y
@@ -34,7 +36,6 @@ R_MOVE = 16.0 - 0.5              # the plate moved from R_HORN; a route point th
 FACE_D = 21.5                    # |y - centre| at or beyond this: outside a sheet (stock outer faces at 22.3 and 22.55)
 ZONE_X, ZONE_Z = (-58.0, -12.0), (-150.0, -60.0)
 RENAME = {"knee_to_ankle_left_sheet": "shin_left_sheet", "knee_to_ankle_right_sheet": "shin_right_sheet", "leg_spacer": "shin_spacer"}
-FLAT_TOL = 0.3
 
 
 def world(S, link, p):
@@ -78,26 +79,31 @@ def move_points(S, pts, log, cid):
     return out
 
 
-def flat_patch(m, centre, normal, size, tol=FLAT_TOL):
-    """the mount footprint (size x size) on the mesh surface: every ray of a 1 mm grid from 3 mm outside along -normal
-    hits within tol of the plane through centre"""
+def flat_patch(m, centre, normal, size, axis, others=()):
+    """the cables3d test of a stick-on mount spot (seats_ties.py mount_patch, its constants): a 5 x 5 ray grid over the
+    base (size x size) from 2 mm out along -normal hits the part within FLAT_TOL of the plane, on faces within FLAT_DEG
+    of the normal, and nothing of the other parts within the mount height above it. Returns (ok, worst deviation, why)"""
     n = np.asarray(normal, float) / np.linalg.norm(normal)
-    u = np.cross(n, [0, 0, 1.0])
-    if np.linalg.norm(u) < 1e-6:
-        u = np.cross(n, [1.0, 0, 0])
+    u = np.asarray(axis, float) - np.dot(axis, n) * n
+    if np.linalg.norm(u) < 0.2:
+        u = np.cross(n, [0, 0, 1.0]) if abs(n[2]) < 0.9 else np.cross(n, [1.0, 0, 0])
     u /= np.linalg.norm(u)
     v = np.cross(n, u)
-    g = np.arange(-size / 2, size / 2 + 1e-9, 1.0)
-    O, Dd = [], []
-    for a in g:
-        for b in g:
-            O.append(np.asarray(centre) + a * u + b * v + 3.0 * n)
-            Dd.append(-n)
-    loc, ri, _ = m.ray.intersects_location(np.array(O), np.array(Dd), multiple_hits=False)
-    d = np.full(len(O), np.inf)
-    if len(ri):
-        d[ri] = (np.array(O)[ri] - loc) @ n - 3.0
-    return bool(np.all(np.abs(d) <= tol)), float(np.nanmax(np.abs(d[np.isfinite(d)])) if np.isfinite(d).any() else np.inf), int(np.sum(~np.isfinite(d)))
+    g1 = np.linspace(-size / 2, size / 2, 5)
+    pts = np.array([np.asarray(centre, float) + x * u + y * v for x in g1 for y in g1])
+    loc, ri, ti = m.ray.intersects_location(pts + n * 2.0, np.tile(-n, (len(pts), 1)), multiple_hits=False)
+    if len(ri) < len(pts):
+        return False, np.inf, "%d of %d rays miss the part" % (len(pts) - len(ri), len(pts))
+    dist = np.linalg.norm(loc - (pts + n * 2.0)[ri], axis=1)
+    dev = float(np.abs(dist - 2.0).max())
+    if dev > ST.FLAT_TOL or np.any(m.face_normals[ti] @ n < np.cos(np.radians(ST.FLAT_DEG))):
+        return False, dev, "not flat (%.2f mm)" % dev
+    foot = loc + n * 0.05
+    for mm in others:
+        l2, r2, _ = mm.ray.intersects_location(foot, np.tile(n, (len(foot), 1)), multiple_hits=False)
+        if len(r2) and np.any(np.linalg.norm(l2 - foot[r2], axis=1) < ST.MOUNT_H + 0.3):
+            return False, dev, "no room above (another part within %.1f mm)" % (ST.MOUNT_H + 0.3)
+    return True, dev, "flat"
 
 
 def main():
@@ -115,6 +121,16 @@ def main():
     changed = {"knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet", "shin_left_sheet", "shin_right_sheet", "shin_spacer",
                "left_cache", "right_cache", "foot_top", "foot_side", "left_roll_to_pitch", "right_roll_to_pitch",
                "neck_left_sheet", "neck_right_sheet", "head_pitch_to_yaw"}
+    placed = {}                                     # every stick-on mount as seats_ties keeps them (one mount per spot)
+    for t in data["retention"]:
+        mf = t.get("mount_fit")
+        if mf:
+            n = np.asarray(mf["normal"], float)
+            ax = np.asarray(t.get("axis") or [0, 0, 1.0], float)
+            u = ax - np.dot(ax, n) * n
+            u = u / np.linalg.norm(u) if np.linalg.norm(u) > 0.2 else (np.cross(n, [0, 0, 1.0]) if abs(n[2]) < 0.9 else np.cross(n, [1.0, 0, 0]))
+            u /= np.linalg.norm(u)
+            placed[t["id"]] = (np.asarray(mf["center_mm"], float), n, u, np.cross(n, u), (19.0 if mf.get("type") == "MB3A" else 12.7) / 2)
     for t in data["retention"]:
         link = t.get("link")
         if link in SHIN:
@@ -128,6 +144,8 @@ def main():
                 if t.get("mount_fit"):
                     mf = t["mount_fit"]
                     mf["center_mm"] = [round(float(x), 2) for x in (np.asarray(mf["center_mm"]) + [0, sh, 0])]
+                    if t["id"] in placed:
+                        placed[t["id"]] = (np.asarray(mf["center_mm"], float),) + placed[t["id"]][1:]
                     mf["part"] = RENAME.get(mf.get("part"), mf.get("part"))
                 if t.get("tie_holes"):
                     th = t["tie_holes"]
@@ -142,38 +160,48 @@ def main():
         # re-check stick-on mounts on changed parts, on the new mesh
         mf = t.get("mount_fit")
         if mf and mf.get("part") in changed:
-            m = parts_now.get((link, mf["part"])) or next((v for (ln, k), v in parts_now.items() if k == mf["part"] and ln == link), None)
+            m = parts_now.get((link, mf["part"]))
             size = 19.0 if mf.get("type") == "MB3A" else 12.7
             if m is None:
-                log["mounts"][t["id"]] = "part %s not on link %s: BLOCKER" % (mf["part"], link)
-                continue
-            ok, dev, miss = flat_patch(m, mf["center_mm"], mf["normal"], size)
-            if not ok:
-                # move along the cable (up or down the link) to the nearest flat patch
-                best = None
-                n = np.asarray(mf["normal"], float)
-                for dz in sorted(np.arange(-30, 30.1, 1.0), key=abs):
-                    for dx in (0.0, -2.0, 2.0, -4.0, 4.0):
-                        c2 = np.asarray(mf["center_mm"], float) + [dx, 0, dz]
-                        ok2, dev2, miss2 = flat_patch(m, c2, n, size)
-                        if ok2:
-                            best = c2
-                            break
-                    if best is not None:
-                        break
-                if best is None:
-                    log["mounts"][t["id"]] = "no flat patch within 30 mm on %s: BLOCKER (bundle tie at the test fit)" % mf["part"]
-                    t["kind"] = "bundle tie, test fit"
-                    t["note"] = (t.get("note") or "") + "; D59: the trim of %s took the mount patch, no flat patch within 30 mm: bundle tie, test fit" % mf["part"]
-                else:
-                    d = best - np.asarray(mf["center_mm"], float)
-                    mf["center_mm"] = [round(float(x), 2) for x in best]
-                    t["center_mm"] = [round(float(x), 2) for x in (np.asarray(t["center_mm"]) + d)]
-                    t["p"] = [round(float(x), 3) for x in local(S, link, np.asarray(t["center_mm"]))]
-                    t["note"] = (t.get("note") or "") + "; D59: the mount moved %.0f mm along the cable to a flat patch of the trimmed %s" % (np.linalg.norm(d), mf["part"])
-                    log["mounts"][t["id"]] = "moved %.1f mm to a flat patch (dev %.2f mm)" % (np.linalg.norm(d), dev)
-            else:
+                raise SystemExit("%s: part %s not on link %s" % (t["id"], mf["part"], link))
+            others = [v for (ln, k), v in parts_now.items() if (ln, k) != (link, mf["part"]) and
+                      not (np.any(v.bounds[0] - 30 > mf["center_mm"]) or np.any(v.bounds[1] + 30 < mf["center_mm"]))]
+            ax = t.get("axis") or [0, 0, 1.0]
+            ok, dev, why = flat_patch(m, mf["center_mm"], mf["normal"], size, ax, others)
+            if ok:
                 log["mounts"][t["id"]] = "flat (dev %.2f mm)" % dev
+                continue
+            # place it again the way cables3d placed it (seats_ties.py mount_patch: every face direction of the link's
+            # printed parts within REACH of the tie, in-plane shifts, dressed at most DRESS_MAX from the cable line,
+            # one mount per spot, room above), on the new CAD
+            ST.PLACED_MOUNTS[:] = [pm for tid, pm in placed.items() if tid != t["id"]]
+            ST.MESH_CACHE.clear()
+            got = None
+            for typ, sz in (("MB3A", 19.0), ("ABM1M", 12.7)):          # the big mount first, then the small one (BOM 34b)
+                if typ == "MB3A" and size < 19.0:
+                    continue
+                got = ST.mount_patch(S, link, np.asarray(t["center_mm"], float), np.asarray(ax, float), ST.REACH,
+                                     base=sz, max_dist=ST.DRESS_MAX_LOOP if t.get("loop_end") else ST.DRESS_MAX)
+                if got is not None:
+                    if typ != mf.get("type"):
+                        mf["type"] = typ
+                        why += "; %s in place of %s" % (typ, "MB3A")
+                    break
+            if got is None:
+                log["mounts"][t["id"]] = "%s at the old spot; no flat patch in reach on the new CAD: bundle tie at the test fit (D25)" % why
+                t["kind"] = "bundle tie, test fit"
+                t["note"] = (t.get("note") or "") + "; D59: %s on the changed %s and no flat patch in reach: bundle tie, test fit (D25)" % (why, mf["part"])
+                t.pop("mount_fit")
+                placed.pop(t["id"], None)
+            else:
+                old_c = np.asarray(mf["center_mm"], float)
+                mf.update(part=got["part"], center_mm=[round(float(x), 2) for x in got["center"]],
+                          normal=[round(float(x), 3) for x in got["normal"]], from_cable_mm=round(got["dist"], 1))
+                t["part"] = got["part"]
+                placed[t["id"]] = (np.asarray(got["center"], float), got["normal"], got["u"], got["v"], got["half"])
+                t["note"] = (t.get("note") or "") + "; D59: %s at the old spot on the changed CAD; the mount placed again on %s, %.0f mm from the old spot (cables3d seats_ties.py mount_patch)" % (
+                    why, got["part"], np.linalg.norm(np.asarray(got["center"]) - old_c))
+                log["mounts"][t["id"]] = "%s; placed again on %s, %.1f mm away" % (why, got["part"], np.linalg.norm(np.asarray(got["center"]) - old_c))
     data["meta"]["sit_d59"] = ("twin/sit/sit_cables.py: the shin routes and ties moved %.0f mm with the joggle; mounts on the "
                                "changed parts re-checked on the new STLs; lengths, loops and rubs recomputed by check_cables.py" % L.JOG)
     print(json.dumps(log, indent=1))
