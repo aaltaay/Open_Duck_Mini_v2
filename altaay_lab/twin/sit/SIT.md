@@ -70,24 +70,52 @@ a pair counts above 2 mm3 over its zero-pose overlap. Results in sit_sweep.json.
 
 ## 4. Strength (calc)
 
-**Stop loads (D59 review, 2026-11-07): compliant stops, sim pass only for the loads, calc for the stresses.** The raw
-hard limits of the Playground model (MuJoCo's default soft limit, timeconst 20 ms) gave one-step limit forces that were
-artefacts and stood in as design loads. Now every designed stop is a compliant contact with its stack stiffness:
-sitlib.STOP_STACK gives the stack (TPU face: E A / t with E 26 MPa, est; a stop with no TPU face: the printed lug in
-compression, E 3500 MPa, est; the printed parts in series taken as rigid, which is the stiffer and so the conservative
-case) at its contact radius, K = k r^2, and sit_model.py writes K into the joint limit (solreflimit, solimplimit from the
-joint's effective inertia, damping ratio 0.1). Knee 1973, ankle 928, hip pitch 3809, hip roll 17150, neck 9365, head 9947
-N m/rad. The loads are the limit torque at the designed end of each joint only (limit_torque_max, every step from the
-torque going off: the far ends are not designed stops and are reported apart), from the push cases run again at a
-0.5 ms step (sit_sim.py loads; at the model's own 2 ms step the stiff lug stops read up to 2.7 x higher). **Not
-converged, BLOCKER:** a 0.25 ms run of the 12 N case moves the head and neck peaks by 5 and 38 % and the knee peak from
-15.6 to 3.0 N m, and the 17-case envelope gives service torques of knee 15.8, ankle 8.6, hip roll 25, neck 15 and head
-9.6 N m, 5 to 16 x the 1.57 N m knee stand-up peak, from 3 to 12 N pushes of 0.2 s. These are not yet design loads:
-the stop model needs a converged step (all 17 cases at 0.25 ms and below) or a per-impact energy check before
-sit_stress.json can read all_ok true, so it reads all_ok false. The head and neck shove loads come from sit_sim.py
-shove: 12 N on the head's CoM, forward or back, 0.2 and 1.0 s, torque off and on, the body held (a hand or a wall
-behind it; free, the shove tips the sit over in 8 of 8 cases: section 5a). One lug or face carries each load (no
-sharing between the two neck lugs is counted). sit_stress.json: all_ok False (service and fall), stall_ok False, shove_ok False.
+**Stop loads (D59 review, 2026-11-07): the energy method, calc only; the compliant-stop sim as a cross-check.** The raw
+hard limits of the Playground model gave one-step limit forces that were artefacts (1427 N on the hip roll lug, 736 N
+on the neck lug are not loads a 2.75 kg robot makes), and a compliant-stop sim's own peak force does not converge with
+the step (a 0.25 ms run moved a knee peak from 15.6 to 3.0 N m). What does converge is the impact speed. So every stop
+(knee, ankle, hip roll, hip pitch, neck, head) now takes the energy method as its design load (sit_stress.py
+energy_peaks): the link's kinetic energy at the moment it meets the stop, 0.5 I omega^2, with omega the joint speed on
+the step before the limit engages (sit_sim.py Stops, recorded on every physics step of every push, stand-up, load and
+shove run), I the joint's effective inertia at the sit pose from the mass matrix, armature included (sit_model.json
+stops), absorbed by the stack compliance K of sitlib.STOP_STACK (a TPU face E A / t with E 26 MPa, est; a stop with no
+TPU face is the printed lug in compression, E 3500 MPa, est; the printed parts in series taken as rigid, which is the
+stiffer and so the conservative case; K = k r^2 at the contact radius, checked against the CAD within 1 mm): the peak
+torque is omega sqrt(I K) on top of the rest torque, F = T / r. Service takes the largest omega over the push cases past
+the ABUSE ones, fall 2 x service, abuse the ABUSE cases, stall the servo stall torque plus the rest torque, the shoves
+the omega over the head shove sims (12 N on the head's CoM, forward and back, 0.2 and 1.0 s, torque off and on, the
+body held: free, a 12 N head shove tips the sit over in 8 of 8 cases, section 5a). One lug or face carries each load.
+The same K goes into the sim's joint limits (sit_model.py compliant_stops: solreflimit and solimplimit from I and K,
+damping ratio 0.1), and the sim's own peak at 0.5 ms is kept beside each energy peak as sim_over_energy, the
+cross-check of the order of magnitude. Validation on single runs (model_f, 0.5 ms; calc from sit_model.json I and K): the 12 N push from 8 sides gives
+omega 0.50 rad/s at the knee (energy peak 4.4 N m against the sim's 12.9), 0.31 at the ankle (1.8 against 10.6), 0.23
+at the hip roll lug (5.6 against 17.0), 0.28 at the neck (4.7 against 10.0) and 0.28 at the head (4.9 against 9.6): the
+sim's limit impulses are 2 to 6 x the energy peaks on these impacts. The 12 N back shove with the torque on, body held,
+drives the neck onto its +25 stop at 1.07 rad/s: 17.9 N m by energy against 19.1 in the sim (within 7 %), which is the
+sizing case, and the reason the stop needs a TPU face: on a rigid printed lug (K 9365 N m/rad) that energy makes 870 N
+at r 20.5 mm; on a 10 x 10 x 3 mm TPU face at r 35 mm (K about 1060 N m/rad) it makes 6.0 N m, 170 N, which a 20 x 14
+mm pillar root carries at SF 2.6 (bending, across the layers; calc). **Status: the method is in the scripts (875e71c)
+and the omega record is validated on these runs; the full load, shove, push and stand-up runs on the new record format, the stress table on
+them and the stop redesign below are not done (hand-over, see the PR).**
+
+**Head and neck stop redesign (the design job; measured, not built).** Targets: SF 1.5 for the 12 N head shove forward
+and back, torque off and on, and at the neck stall; the structure margins elsewhere. The neck lug's root is the stock
+neck sheet's edge (38 mm2 at r 20.5 mm), so it cannot reach SF 1.5 at a stall; the head lug is at r 14 mm on the servo
+case. Measured room (CAD check only, zero pose and the stops): behind the neck, trunk_top's top face is at z 85.8 mm
+over x -43 to -21, |y| to 35; the neck sheets' back edges at +25 deg pass x -25 at z 116 (r 37 mm from the neck axis at
+x 1, z 90), x -13 at z 92; the sheets are at y 16.1 to 23.2 and -21.7 to -15.9; the hip yaw servo screws F127 and F129
+(M2x6) sit at x -27.3, y +-24.7 in trunk_top; the cables P13, D1, D13, SD1 cross the region at z 89 within y -11 to +5
+and S2 at y 33; the lowest head-side point over the region is z 120.8 (neck 25, head 39, any yaw). So: two printed
+pillars on trunk_top at y +-(15 to 25), x -40 to -26, z 85.8 to 118, the cable lane between them open, each with a
+TPU face on its +x side at z 108 to 118 that the sheet's back edge meets at +25 deg (r 35 mm or more, the sheet loaded
+in its plane), held by F127 and F129 lengthened (M2x6 to M2x12 through a 4 mm flange, the stock thread engagement
+kept; a uniform pattern, no empty hole) and VHB; the neck sheets go back to stock (their lugs removed). Head forward:
+head_pitch_to_yaw (ours) spans y -21.7 to 23.2 over the neck sheets, whose tops are at z 137 (x -14 to 16); the head
+pitch axis is at x 1, z 156: a tab down from each cheek's front edge meeting a TPU pad on the sheet's front top edge
+puts the stop at r 23 mm against 14, on parts of ours, with the F222 screw and its hex key clear (the slot of the
+present lug shows the keep-out). The hip roll lug gets a TPU face or a larger radius if it fails on the energy loads.
+Then: every hole kept, exact mirrors, the sweep, the neck cable loops with the pillars in the way, the records, the
+slice and print records, mass, BOM, and every sim again.
 
 | Head and neck stop case (one lug) | SF | Against 1.5 |
 |---|---|---|
