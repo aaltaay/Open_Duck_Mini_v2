@@ -13,8 +13,8 @@ Tags: [U] upstream file, [L] lab measurement or script in this repo, [I] interne
 | Kind | Count | Source |
 |---|---|---|
 | Screws to fit | 324 | [L] fasteners.json |
-| . of which to buy (BOM 17a to 17l) | 203 | [L] |
-| . of which servo bag (BOM 1) | 59 | [L] |
+| . of which to buy (BOM 17a to 17l) | 205 | [L] |
+| . of which servo bag (BOM 1) | 57 | [L] |
 | . of which factory (inside the servos) | 56 | [L] |
 | . of which SG90 bag (BOM 14) | 6 | [L] |
 | Screws left out on purpose | 37 | D18 hip roll screws 2; idle horn screws not fitted 11 |
@@ -42,9 +42,9 @@ Tags: [U] upstream file, [L] lab measurement or script in this repo, [I] interne
 | 17j | M3x6 button head | 10 | 10 | M3x6 ISO 7380 A2 button head 10 | yes |
 | 17k | M2.5x5 SHCS | 2 | 2 | M2.5x5 DIN 912 A2 2 | yes |
 | 17l | M2.5 flat washer, small series | 8 | 8 | M2.5 flat washer, 0.3 mm 8 | yes |
-| 17m | M2x12 self-tapping pan head | 2 | 0 |  | **no** |
+| 17m | M2x12 self-tapping pan head | 2 | 2 | M2x12 self-tapping pan head 2 | yes |
 
-Bag and factory screws (not on a buy line): M2x12 self-tapping pan head 2, M2x6 self-tapping pan head 40, M3x6 machine screw (Feetech rocker screw) 14, PA2.0 self-tapping (factory) 56, PA3.0x5 self-tapping, washer head (Feetech idle screw) 3, SG90 bag horn screw 2, SG90 bag mounting screw 4.
+Bag and factory screws (not on a buy line): M2x6 self-tapping pan head 40, M3x6 machine screw (Feetech rocker screw) 14, PA2.0 self-tapping (factory) 56, PA3.0x5 self-tapping, washer head (Feetech idle screw) 3, SG90 bag horn screw 2, SG90 bag mounting screw 4.
 
 ## 3. Findings that change the build
 
@@ -310,7 +310,6 @@ Hole stacks found on the printed STLs: 531. Used by a fastener or insert: 265. E
 
 ## 9. Proposed edits for files this folder does not own, and open BLOCKERs
 
-- BOM.md line 17m (M2x12 self-tapping pan head): Need 2 -> 0 (); raise Buy to Need plus 10 to 20 %.
 - MOUNTING.md row 'Eyes': replace 'pilot 3.0 mm long, open at the far end' and 'tip ends flush with the eye front face' with 'blind pilot 3.0 mm with a 1.5 mm front skin (ray cast, print/left_eye.stl, right_eye.stl); M2.5x8 plus two 0.3 mm washers: 2.4 mm engaged, 0.6 mm to the floor (fasteners/FASTENERS.md)'.
 - MOUNTING.md row 'Second board.stl copy': replace 'same 4 holes as the Pi Zero 2 W (58 x 23 mm)' with '4 holes on 28 x 37 mm, right side of the head; print/head.stl has no pilots under them (the URDF head mesh did), so nothing is fitted there'.
 - MOUNTING.md row 'Speaker': add 'speaker_interface screws to the 4 side pilots of speaker_stand: 4 x M2.5x5 (fasteners/)'.

@@ -261,6 +261,8 @@ def update_fasteners(D, T0, log, neck_stop_inst=None):
                                      proud=None, note="the head sits at the bottom of the block's counterbore, the driver comes down it")
             f["supply"] = ("M2x%d self-tapping pan head: not in the servo bag (M2x6) nor the 17h kit (M2x4 to x8): 2 to buy, BOM 17m (D59); "
                            "nothing bought" % nb["length_new"])
+            f["line"] = "17m"                                   # the BOM line the report counts it under (BOM.md 17m)
+            f["color_key"] = "M2 kit"
             f["notes"] = list(f.get("notes") or []) + [
                 "D59: holds the neck stop block (twin/sit/sit_cad.py neck_block): the seat is %.1f mm higher on the block's flange, "
                 "the screw %d mm longer, so the tip and the thread engagement in the servo case are the stock ones" % (dz, nb["length_new"] - nb["length_stock"])]
