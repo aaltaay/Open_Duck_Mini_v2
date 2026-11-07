@@ -34,8 +34,8 @@ part on both legs, and the reading does not depend on how the joint is held.
 | ankle | shin clamp block onto the TPU ankle pads on the foot plates | -95; -95 deg | 38.4 mm | 0.30 deg |
 | hip roll | printed lug on roll_to_pitch onto roll_motor_bottom (outward) | -8; +8 deg | 22.5 mm | 0.51 deg |
 | hip pitch | thigh cover onto the TPU hip pad on roll_to_pitch (back) | -75; +75 deg | 40.8 mm | 0.28 deg |
-| neck pitch | printed lugs on the neck sheets onto the trunk top (back) | +25 deg | 19.9 mm | 0.58 deg |
-| head pitch | printed lug on head_pitch_to_yaw onto the neck (forward) | -25 deg | 16.2 mm | 0.71 deg |
+| neck pitch | the stock neck sheets' back edges onto the TPU faces of the neck stop block on trunk_top (back) | +25 deg | 41.1 mm | 0.28 deg |
+| head pitch | the TPU face of the hook on head_pitch_to_yaw's left arm onto the left neck sheet's front edge (forward) | -25 deg | 29.3 mm | 0.39 deg |
 | hip yaw | no stop: the toe and heel gap method, step 4 | 0; 0 deg | | |
 
 Contact radii: calc from twin/sit/sit_cad.json (pad centre, or the lug region centre) and the joint axes of robot.urdf.
@@ -75,5 +75,5 @@ the bus powered from the bench supply (TEST_PLAN.md section 7 limits).
 - If a stop reads more than 1 deg off after a print, measure the part (its contact face against the STL) before
   changing the offset: a print error is fixed in the part, not hidden in the offset.
 
-Head joints (neck pitch, head pitch) use the same steps 2 and 3 with their lugs; head yaw and head roll keep the
+Head joints (neck pitch, head pitch) use the same steps 2 and 3 with their TPU faces (the neck pads on the block, the head pad on the hook; a TPU face gives under the press, so press to the same light touch each time); head yaw and head roll keep the
 upstream method (no D59 stop, no sit role).

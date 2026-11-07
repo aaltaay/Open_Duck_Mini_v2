@@ -21,8 +21,11 @@ rear belly and a TPU bumper under the front. On the feet-dock pads (D58) it char
 | ankle_pad (new, TPU) | 6 x 7.5 x 3 mm in a pocket on each foot plate, under the shin clamp block at -95 deg | 4 per robot |
 | left/right_roll_to_pitch | printed lug onto roll_motor_bottom at hip roll -8 deg (outward), carved so it touches only at the stop | 1.07 cm3 |
 | hip_pad (new, TPU) | 22 x 6 x 1.5 mm on roll_to_pitch where the thigh cover lands at hip pitch -75 deg | 2 per robot |
-| neck_left/right_sheet | printed lugs onto the trunk top at neck pitch +25 deg (kept off the F233/F234 horn screw recess) | 0.46 and 0.37 cm3 |
-| head_pitch_to_yaw | printed lug onto the neck at head pitch -25 deg, with a slot that keeps the F222 screw head and its hex key clear | 0.80 cm3 |
+| neck_stop (new, PLA) | the neck back stop at +25 deg (2026-11-07, in place of the first pass's lugs on the neck sheets): a block on trunk_top behind the neck, two pillars (x -42 to -23, y 15 to 23.4 and its mirror, z 85.8 to 126) joined by a bar over the cable lane (|y| under 15, z 100 to 108), a flange lobe round each hip yaw servo screw (F127, F129: M2x6 to M2x12, the head seat 6 mm higher on the flange, the same thread engagement in the servo case, a 4.6 mm counterbore open above for the driver, the stock trunk_top recess under it); each pillar's front face is 65 deg from the horizontal, 1.6 mm behind the stock sheet's back edge line at +25 deg, with a pocket 2.5 mm deep for the pad; carved by the neck link, the yoke and the head floor over the neck range at head -25, -5, 15 and 39 deg (0.8 mm clear), kept off the hip yaw servo cable windows and the S2 and S7 lane behind them and under the body shell's roof outside the neck opening; an exact mirror by construction | 13.3 cm3, 14.8 g (5 walls 40 %) |
+| neck_pad (new, TPU) | 10 x 6 x 3 mm in the pockets, its face on the sheet's back edge line from r 36 to 46 mm (centre r 41.1) at +25 deg: the sheet is loaded in its plane | 2 per robot, 0.23 g each |
+| neck_left/right_sheet | stock again: the first pass's lugs removed; print and URDF files byte for byte the base files (the builder restores them) | 7.5 and 6.7 g |
+| head_pitch_to_yaw | the head forward stop at -25 deg (2026-11-07, in place of the lug on the servo top at r 14 mm): a hook on the left arm, the side without the neck cables: a 4 mm doubler on the arm's outer face (y 23.2 to 27.2, z 146 to 170.5, the stock horn screw counterbores run through it), a drop outboard of the left neck sheet to z 128 and a foot forward under the head floor's swept path (z 128 to 147, x to 38) with the pad pocket; carved by the neck link over head -25 to 45 deg, by the head floor and shell over yaw -105 to 79 and roll +-27 deg, by the trunk's front top over the neck and head ranges together, and by the yoke's hole keep-outs; F222 and the horn screws untouched | 3.7 cm3 added, 24.0 g |
+| head_pad (new, TPU) | 12 x 6.1 x 6 mm (a 6 mm face: half the stiffness of 3 mm) in the hook's pocket, its face on the left sheet's front edge (x 16.4, z 125 to 137) at head -25 deg, r 29.3 mm | 1 per robot, 0.56 g |
 | sit_seat, sit_bumper (new, TPU, 10 % infill) | rounded blocks on VHB under the belly: seat at x -110 mm, lowest point z -66 mm, 80 mm wide; bumper at x +20 mm, lowest point z -69 mm, 60 mm wide | 22.6 and 12.2 g |
 
 Every hole of every changed stock part is checked to be there as before (audit/feat3d.py features of the base and the
@@ -42,8 +45,8 @@ software limits 3 deg inside every hard stop, which bench/set_angle_limits.py wr
 | hip roll | -25 to 25 | **-8** (roll lug, outward) to 25 | -5 to 22 | 1991 to 2298 |
 | hip pitch | -70 to 30 | **-75** (hip pad) to 13.5 (thigh spacer onto the hip servo, CAD contact) | -72 to 10.5 | 1229 to 2167 |
 | hip yaw | -30 to 30 | -24 (CAD contact) to 23.3 (F198 head onto body_middle_bottom first) | -21 to 20.3 | 1809 to 2279 |
-| neck pitch | -20 to 65 | -20 to **25** (neck lugs) | -17 to 22 | 1855 to 2298 |
-| head pitch | -45 to 45 | **-25** (head lug) to 39 (head onto body_middle_top) | -22 to 36 | 1798 to 2458 |
+| neck pitch | -20 to 65 | -20 to **25** (neck pads on the block) | -17 to 22 | 1855 to 2298 |
+| head pitch | -45 to 45 | **-25** (head pad on the hook) to 39 (head onto body_middle_top) | -22 to 36 | 1798 to 2458 |
 
 The knee's -90 to +150 deg span maps to raw 1024 to 3755: it does not cross the 0/4095 encoder wrap (340 steps, 30 deg,
 of margin), so no offset register is needed; set_angle_limits.py refuses a range that would wrap after the calibrated
@@ -275,11 +278,14 @@ not. Knee loop flex test to 150 deg: TEST_PLAN.md 19.7.
 ## 7. Print, mass, BOM
 
 - Sliced again (slice.py parts --only, D22 light profile, PrusaSlicer 2.7.2, this box): print/SLICE_SUMMARY.md and
-  PRINT_CHECK.md (sit_print.py). Robot set 44 STLs, 62 parts, 1333.5 g, 117.5 h; D59 adds 46.1 g of filament (TPU 38.4 g)
-  and 6.1 h.
-- Mass: 2788.1 g against 2749.0 g (+39.1 g; sim/MASS_BUDGET.md V1 sit section).
-- BOM: PLA need 1420 g (still 2 x 1 kg), TPU 73.5 g (1 x 1 kg), VHB 1.2 m (1 roll of 5 yd), stick-on mounts 27 MB3A and 24
-  ABM1M (buy unchanged), no new screws (the moved screws are the same sizes). MOUNTING.md V1 sit section.
+  PRINT_CHECK.md (sit_print.py). Robot set 47 STLs, 66 parts, 1354.0 g, 119.7 h (the first pass: 44 STLs, 62 parts,
+  1333.5 g, 117.5 h); D59 adds 73.7 g of filament (TPU 39.4 g) and 8.6 h to the base set. The neck stop block is 14.8 g
+  (5 walls 40 %, the neck profile), the hook adds 5.4 g to head_pitch_to_yaw (24.0 g), the three pads 1.0 g.
+- Mass: 2806.4 g against 2749.0 g (+57.4 g; the first pass 2788.1 g; sim/MASS_BUDGET.md V1 sit section). More than 5 g
+  moved, so the walk was run again (section 5).
+- BOM: PLA need about 1439 g (still 2 x 1 kg), TPU 74.5 g (1 x 1 kg), VHB 1.2 m (1 roll of 5 yd), stick-on mounts 27
+  MB3A and 24 ABM1M (buy unchanged); the two hip yaw servo screws that hold the block go from M2x6 to M2x12, which no bag
+  or kit has: BOM line 17m, 2 pieces, **nothing bought**, no listing read. MOUNTING.md V1 sit section.
 
 ## 8. BLOCKERs
 
