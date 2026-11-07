@@ -333,8 +333,10 @@ def rise(md, dd, cb, off=None, T=1.5, kp=KP):
     for _ in range(int(0.3 / md.opt.timestep)):
         m.mj_step(md, dd)
         cb(md, dd)
-    roll = np.degrees(q[aid(md, "left_hip_roll")])
-    yaw = np.degrees(q[aid(md, "left_hip_yaw")])
+    # the torque-off sit lets the legs splay onto the outward hip roll stops (-8 deg): the first ramp, while the seat
+    # still carries the trunk, brings roll and yaw back to the stance's 0 so the feet keep their place on the pads as the
+    # legs extend (keeping the splay slid the feet 20 mm apart, off the pads: SIT.md section 5)
+    roll = yaw = 0.0
     hp = np.degrees(q[aid(md, "left_hip_pitch")])
     n, hd = NH
     c = ramp(md, dd, c, targets(md, hp, 147, -92, n, hd, roll, yaw, off=off), 1.0, cb)
