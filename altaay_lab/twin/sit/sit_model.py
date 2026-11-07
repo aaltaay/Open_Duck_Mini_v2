@@ -198,6 +198,15 @@ def compliant_stops(d):
         mujoco.mj_mulM(md, dd, r, e)
         M[:, i] = r
     Mi = np.linalg.inv(M)
+    # the same with the base held (the trunk's free joint locked): the effective inertia the held-body head shoves
+    # of sit_sim.py meet (sit_stress.py uses it for those cases)
+    free = [j for j in range(md.njnt) if md.jnt_type[j] == mujoco.mjtJoint.mjJNT_FREE]
+    if len(free) != 1:
+        raise SystemExit("one free joint expected, %d found" % len(free))
+    base = set(range(md.jnt_dofadr[free[0]], md.jnt_dofadr[free[0]] + 6))
+    keep = [i for i in range(md.nv) if i not in base]
+    Mi_held = np.linalg.inv(M[np.ix_(keep, keep)])
+    row = {i: n for n, i in enumerate(keep)}
     dimp = L.STOP_SOLIMP[1]
     out = {}
     for key, st in L.STOP_STACK.items():
@@ -205,10 +214,12 @@ def compliant_stops(d):
         for jn in st["joints"]:
             jid = mujoco.mj_name2id(md, mujoco.mjtObj.mjOBJ_JOINT, jn)
             I = 1.0 / Mi[md.jnt_dofadr[jid], md.jnt_dofadr[jid]]
+            I_held = 1.0 / Mi_held[row[md.jnt_dofadr[jid]], row[md.jnt_dofadr[jid]]]
             tc = float(np.sqrt(I / (dimp * K)) / L.STOP_DAMPRATIO)
             if tc < 2 * md.opt.timestep:
                 raise SystemExit("%s: stop timeconst %.4f s is under 2 time steps: the sim cannot hold that stiffness" % (jn, tc))
-            out[jn] = dict(stop=key, K_Nm_rad=round(K, 1), I_eff=round(float(I), 5), timeconst=round(tc, 5), dampratio=L.STOP_DAMPRATIO)
+            out[jn] = dict(stop=key, K_Nm_rad=round(K, 1), I_eff=round(float(I), 5), I_eff_held=round(float(I_held), 5),
+                           timeconst=round(tc, 5), dampratio=L.STOP_DAMPRATIO)
     for rf in ROBOT_FILES:
         tree = ET.parse(os.path.join(d, rf))
         for j in tree.getroot().iter("joint"):

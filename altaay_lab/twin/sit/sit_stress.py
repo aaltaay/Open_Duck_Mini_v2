@@ -369,7 +369,9 @@ def main():
             w_ = max(r["limit_omega_max"].get(k_, 0.0) for r in cs)
             rest_ = max(r["limit_torque_rest"].get(k_, 0.0) for r in cs)
             sim_ = max(r["limit_torque_max"].get(k_, 0.0) for r in cs)
-            Tn = w_ * float(np.sqrt(stops_md[jn]["I_eff"] * stops_md[jn]["K_Nm_rad"])) + rest_
+            if "I_eff_held" not in stops_md[jn]:
+                raise SystemExit("sit_model.json has no I_eff_held (the body held): rerun sit_model.py")
+            Tn = w_ * float(np.sqrt(stops_md[jn]["I_eff_held"] * stops_md[jn]["K_Nm_rad"])) + rest_
             loads["shove %s %s torque %s" % (jn, direction, tq_)] = dict(omega_rad_s=round(w_, 3), energy_Nm=round(Tn, 3), sim_Nm=round(sim_, 3))
             F = Tn * 1000.0 / st["r_mm"]
             sig = F / g["root_area"] + F * g["arm"] / g["root_W"]
