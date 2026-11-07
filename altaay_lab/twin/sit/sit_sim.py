@@ -420,6 +420,9 @@ def shove_job(a):
         # into the neck and head stops (the stop load case; free, a 12 N head shove tips the sit over)
         md.body_mass[trb] *= 1000.0
         md.body_inertia[trb] *= 1000.0
+        # the compiled constants follow the new mass (body_subtreemass, the inverse weights the constraint solver
+        # scales the limits and contacts by); a scratch MjData: the settled state in dd is kept
+        m.mj_setConst(md, m.MjData(md))
     jn = {j: m.mj_id2name(md, m.mjtObj.mjOBJ_JOINT, j) for j in range(1, md.njnt)}
     if opt["torque"] == "off":
         torque(md, False)
@@ -445,6 +448,8 @@ def shove_job(a):
     torque(md, True)
     md.opt.timestep = dt0
     md.body_mass[trb], md.body_inertia[trb] = saved
+    if opt.get("held"):
+        m.mj_setConst(md, m.MjData(md))
     return dict(name=name, opt=opt, start_deg=q0, range_deg=q, **stops.report(),
                 fell=bool(trunk_state(md, dd)["up"] < 0.8), secs=round(time.time() - t0, 1))
 

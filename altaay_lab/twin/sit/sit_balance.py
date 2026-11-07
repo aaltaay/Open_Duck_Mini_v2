@@ -76,6 +76,10 @@ def settle_case(out, opt, T=10.0):
         b = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, bn)
         md.body_mass[b] *= f
         md.body_inertia[b] *= f
+    if opt.get("mass"):
+        # the compiled constants follow the new masses (body_subtreemass, which subtree_com divides by, the inverse
+        # weights of the constraint solver): without this the CoM of a mass case is divided by the nominal mass
+        m.mj_setConst(md, m.MjData(md))
     off = None
     if "err" in opt:
         off = np.zeros(md.nu)
@@ -93,6 +97,8 @@ def settle_case(out, opt, T=10.0):
             res["sim_push_N"] = sim_push(md, dd, SF, pins, opt.get("pins", True))
     finally:
         md.body_mass[:], md.body_inertia[:], md.actuator_ctrlrange[:] = saved
+        if opt.get("mass"):
+            m.mj_setConst(md, m.MjData(md))
     return res
 
 
