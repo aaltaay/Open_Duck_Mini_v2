@@ -4,14 +4,19 @@
   python3 altaay_lab/twin/sit/sit_stress.py [--sim <scratch>/sit_sim_push.json,<scratch>/sit_sim_up.json] [--write]
 Writes altaay_lab/twin/sit/sit_stress.json.
 
-Loads per stop (each the larger of the sources named):
-  service   the largest stop torque the sim saw (the joint limit force of sit_sim.py push and up runs, torque off on the
-            stops, sim pass only) and, for the knee, the 1.57 Nm stand-up peak of SIT_V2.md (the brief's number)
+Loads per stop, calc only by the energy method (energy_peaks): the link's kinetic energy at the moment it meets the stop,
+0.5 I omega^2 (omega from the sim on the step before the limit engages, which converges with the step unlike the peak
+force; I the joint's effective inertia at the sit pose, armature included), absorbed by the stack compliance K of
+sitlib.STOP_STACK (TPU face plus lug), gives the peak torque omega sqrt(I K) on top of the rest torque. The compliant
+stop sim's own peak is kept as a cross-check (sim_over_energy). Cases:
+  service   omega over the push cases (sit_sim.py loads: 3 to 12 N, torque off on the dock pads) past the ABUSE ones
   fall      2 x service (the brief's fall factor)
-  abuse     the peaks of the two push cases past the A1b tests (ABUSE: a 12 N shove from 8 sides, the sit sliding on a mat
-            at mu 0.4), checked at the fall margin and reported apart (abuse_ok), not part of all_ok
-  stall     the servo pressing into its stop at its stall torque: a calibration error the 3 deg software margin does not
-            cover. STS3250 knees 2.94 Nm at 7.2 V [F5], STS3215 1.91 Nm at 7.4 V [F1] (KNEE_TWIN.md section 2 table)
+  abuse     omega over the ABUSE push cases (a 12 N shove from 8 sides, the sit sliding on a mat at mu 0.4), at the fall
+            margin and reported apart (abuse_ok), not part of all_ok
+  stall     the servo pressing into its stop at its stall torque plus the rest torque: a calibration error the 3 deg
+            software margin does not cover. STS3250 knees 2.94 Nm at 7.2 V [F5], STS3215 1.91 Nm at 7.4 V [F1]
+  shove     omega at the head and neck stops over the head shove sims (sit_sim.py shove: 12 N on the head, forward and
+            back, torque off and on, 0.2 and 1.0 s, the body held), SF 1.5 asked; plus the neck stall at SF 1.5
 Allowables and margins: twin/structure/STRUCTURE_TWIN.md (D26 method): printed PLA in-plane 47.1 MPa (Overture TDS),
 across the layers 22 MPa (Ezeh and Susmel 2019); lab margins SF 2.0 for service loads and 1.2 for falls; heat-set insert
 sideways low value 618 N. Every stress here uses the 22 MPa interlayer value unless the stress lies in the layers, as
@@ -74,12 +79,13 @@ def designed_end_ok():
             raise SystemExit("DESIGNED_END of %s is not sitlib.STOPS' %s" % (st["joint"], st["side"]))
 
 
-def stop_torques(paths, abuse=False, key=None, far=False):
-    """largest joint limit torque per joint at its designed stop end (sit_sim.py limit_torque_max, every physics step
-    from the torque going off, with the compliant stops of sit_model.py); far=True gives the other ends instead (not
-    designed stops: reported, not checked). The ABUSE push cases are kept apart (abuse=True gives only them). Every
-    result file must carry the inputs_key of the model given (a result of another model or sim code is refused)."""
-    T = {}
+def stop_loads(paths, abuse=False, key=None):
+    """per joint at its designed stop end, over the runs given (sit_sim.py Stops report, every physics step from the
+    torque going off): the largest impact speed omega (rad/s), the largest limit torque the compliant-stop sim saw
+    (sim_Nm, a cross-check only: it depends on the step size) and the largest rest torque (the joint held on its stop
+    after the motion). The ABUSE push cases are kept apart (abuse=True gives only them). Every result file must carry
+    the inputs_key of the model given (a result of another model or sim code is refused)."""
+    out = {}
     for p in paths:
         if not p:
             continue
@@ -91,13 +97,34 @@ def stop_torques(paths, abuse=False, key=None, far=False):
         for r in J["results"]:
             if (r.get("name") in ABUSE) != abuse:
                 continue
-            if "limit_torque_max" not in r:
-                raise SystemExit("%s has no limit_torque_max (per stop end): rerun it" % os.path.basename(p))
-            for k, v in r["limit_torque_max"].items():
-                j, end = k.split(":")
-                if (DESIGNED_END.get(j) == end) != far:
-                    T[j] = max(T.get(j, 0.0), float(v))
-    return T
+            for fld in ("limit_torque_max", "limit_omega_max", "limit_torque_rest"):
+                if fld not in r:
+                    raise SystemExit("%s has no %s (per stop end): rerun it" % (os.path.basename(p), fld))
+            for fld, nm in (("limit_torque_max", "sim_Nm"), ("limit_omega_max", "omega"), ("limit_torque_rest", "rest_Nm")):
+                for k, v in r[fld].items():
+                    j, end = k.split(":")
+                    if DESIGNED_END.get(j) == end:
+                        d = out.setdefault(j, dict(omega=0.0, sim_Nm=0.0, rest_Nm=0.0))
+                        d[nm] = max(d[nm], float(v))
+    return out
+
+
+def energy_peaks(loads, stops):
+    """calc only: the link's kinetic energy at the moment it meets the stop, 0.5 I omega^2 (I the joint's effective
+    inertia at the sit pose, armature included: sit_model.json stops), absorbed by the stack compliance K (sitlib
+    STOP_STACK, N m/rad), gives the peak torque omega sqrt(I K) on top of the rest torque. The sim's own peak is the
+    cross-check (ratio)."""
+    out = {}
+    for j, d in loads.items():
+        st = stops.get(j)
+        if not st:
+            continue
+        T_dyn = d["omega"] * float(np.sqrt(st["I_eff"] * st["K_Nm_rad"]))
+        T = T_dyn + d["rest_Nm"]
+        out[j] = dict(omega_rad_s=round(d["omega"], 3), I_eff=st["I_eff"], K_Nm_rad=st["K_Nm_rad"], dyn_Nm=round(T_dyn, 3),
+                      rest_Nm=round(d["rest_Nm"], 3), energy_Nm=round(T, 3), sim_Nm=round(d["sim_Nm"], 3),
+                      sim_over_energy=round(d["sim_Nm"] / T, 2) if T > 1e-6 else None)
+    return out
 
 
 def stack_check(S, cad, tol=1.0):
@@ -218,10 +245,15 @@ def main():
     shove_paths = [p for p in paths if os.path.basename(p).startswith("sit_sim_shove")]
     if a.write and not shove_paths:
         raise SystemExit("--write needs the head shove results (sit_sim.py shove: sit_sim_shove.json) in --sim")
-    T = stop_torques(load_paths, key=inkey)
-    TA = stop_torques(load_paths, abuse=True, key=inkey)
-    TF = stop_torques(load_paths, key=inkey, far=True)
+    stops_md = json.load(open(os.path.join(a.model, "sit_model.json")))["stops"] if a.model else {}
+    EP = energy_peaks(stop_loads(load_paths, key=inkey), stops_md)
+    EA = energy_peaks(stop_loads(load_paths, abuse=True, key=inkey), stops_md)
+    T = {j: v["energy_Nm"] for j, v in EP.items()}
+    TA = {j: v["energy_Nm"] for j, v in EA.items()}
+    REST = {j: v["rest_Nm"] for j, v in EP.items()}
     rows, loads = [], {}
+    loads["energy_method"] = dict(label="calc only", service=EP, abuse=EA,
+                                  note="peak = omega sqrt(I K) + rest; sim_over_energy is the compliant-stop sim's own peak over it (0.5 ms step)")
     stack_check(S, cad)
 
     def tq(j, floor=0.0, src=None):
@@ -247,7 +279,7 @@ def main():
     t_dir = np.array([-n[2], n[0]])                           # bending axis in the section (x, z) plane
     A, I, c = section_props(poly, t_dir)
     Ls = sp["length"]
-    for load, Tn in (("service", t_srv), ("fall", 2 * t_srv), ("stall", STALL["knee"]), ("abuse", tqa("knee"))):
+    for load, Tn in (("service", t_srv), ("fall", 2 * t_srv), ("stall", STALL["knee"] + REST.get("left_knee", 0.0)), ("abuse", tqa("knee"))):
         F = Tn * 1000.0 / r_k                                  # N
         M = F * (Ls / 4 - 28.0 / 8)                            # N mm, simply supported, the load spread over the 28 mm pad
         sig = M / (I / c)
@@ -287,7 +319,7 @@ def main():
     t_a = tq("ankle")
     loads["ankle"] = dict(service_Nm=round(t_a, 3), lever_mm=round(r_a, 1))
     A_pad = 6.0 * 7.5
-    for load, Tn in (("service", t_a), ("fall", 2 * t_a), ("stall", STALL["other"]), ("abuse", tqa("ankle"))):
+    for load, Tn in (("service", t_a), ("fall", 2 * t_a), ("stall", STALL["other"] + REST.get("left_ankle", 0.0)), ("abuse", tqa("ankle"))):
         F = Tn * 1000.0 / max(r_a, 1e-6) / 2
         rows.append(check("ankle pad (bearing, per pad)", F / A_pad, 10.0, "fall" if load in ("fall", "abuse") else "service",
                           what="2 pads, %.1f N each over %.0f mm2" % (F, A_pad), label="calc, est"))
@@ -316,7 +348,8 @@ def main():
         jn = "left_" + joint if joint == "hip_roll" else joint
         p_, d_ = S.joint_world(jn)
         tn = tq(joint)
-        lug_rows("%s stop lug" % key, jn, (p_, d_), g["contact"], g["force_dir"], g["root_area"], g["root_W"], g["arm"], tn, STALL["other"], tqa(joint))
+        lug_rows("%s stop lug" % key, jn, (p_, d_), g["contact"], g["force_dir"], g["root_area"], g["root_W"], g["arm"], tn,
+                 STALL["other"] + REST.get(jn, 0.0), tqa(joint))
 
     # ---------------- shoves on the head and the neck stall (one lug or face carries it all: no load sharing is counted)
     SH = {}
@@ -332,14 +365,19 @@ def main():
             cs = [r for n_, r in SH.items() if r["opt"]["dir"] == direction and r["opt"]["torque"] == tq_ and r["opt"].get("held")]
             if not cs or not g:
                 continue
-            Tn = max(r["limit_torque_max"].get("%s:%s" % (jn, end), 0.0) for r in cs)
+            k_ = "%s:%s" % (jn, end)
+            w_ = max(r["limit_omega_max"].get(k_, 0.0) for r in cs)
+            rest_ = max(r["limit_torque_rest"].get(k_, 0.0) for r in cs)
+            sim_ = max(r["limit_torque_max"].get(k_, 0.0) for r in cs)
+            Tn = w_ * float(np.sqrt(stops_md[jn]["I_eff"] * stops_md[jn]["K_Nm_rad"])) + rest_
+            loads["shove %s %s torque %s" % (jn, direction, tq_)] = dict(omega_rad_s=round(w_, 3), energy_Nm=round(Tn, 3), sim_Nm=round(sim_, 3))
             F = Tn * 1000.0 / st["r_mm"]
             sig = F / g["root_area"] + F * g["arm"] / g["root_W"]
             rows.append(dict(part="%s stop, %d N shove %s on the head, torque %s" % (jn.split("_")[0], SHOVE_N, direction, tq_), load="shove",
                              case="shove", stress_MPa=round(sig, 2), allowable_MPa=Z_INTER, SF=round(Z_INTER / sig, 2), need=SF_SHOVE,
-                             ok=bool(Z_INTER / sig >= SF_SHOVE), label="sim pass only (load, compliant stop K %.0f N m/rad) and calc (stress)" % L.stop_K(st),
-                             what="%.2f N m at the %s stop (largest of %d sims, 0.2 and 1.0 s, body held) -> %.0f N at r %.1f mm on one lug, root %.0f mm2" % (
-                                 Tn, jn, len(cs), F, st["r_mm"], g["root_area"])))
+                             ok=bool(Z_INTER / sig >= SF_SHOVE), label="calc only (energy method, omega from the sim; stop K %.0f N m/rad)" % L.stop_K(st),
+                             what="omega %.2f rad/s at the %s stop (largest of %d sims, 0.2 and 1.0 s, body held): %.2f N m -> %.0f N at r %.1f mm on one lug, root %.0f mm2" % (
+                                 w_, jn, len(cs), Tn, F, st["r_mm"], g["root_area"])))
     if lugs.get("neck") and a.model:
         import mujoco as m
         import sit_model as SM
@@ -358,7 +396,6 @@ def main():
         rows.append(dict(part="neck stop at a servo stall (one lug)", load="stall", case="stall_shove", stress_MPa=round(sig, 2), allowable_MPa=Z_INTER,
                          SF=round(Z_INTER / sig, 2), need=SF_SHOVE, ok=bool(Z_INTER / sig >= SF_SHOVE), label="calc",
                          what="stall %.2f + head weight %.2f N m (sit pose) -> %.0f N at r %.1f mm" % (STALL["other"], T_g, F, nk["r_mm"])))
-    loads["far_end_peaks_Nm"] = {k: round(v, 2) for k, v in sorted(TF.items())}
     J = dict(generated_by="altaay_lab/twin/sit/sit_stress.py", label="calc", loads=loads, sim_inputs=[os.path.basename(p) for p in a.sim.split(",") if p], rows=rows,
              all_ok=all(r["ok"] for r in rows if r.get("case") not in ("stall", "abuse")),
              shove_ok=all(r["ok"] for r in rows if r.get("case") in ("shove", "stall_shove")) and any(r.get("case") == "shove" for r in rows),
