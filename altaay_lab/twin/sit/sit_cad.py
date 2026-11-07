@@ -99,8 +99,8 @@ POCKET = 2.5                                                 # a pad sits in a p
 # boxes: a doubler on the arm's outer face (y 23.2, x 4 to 12, z 146 to 170.5: the head yaw bracket sweeps z 170.9 up),
 # its drop outboard of the left neck sheet down to z 128, and a foot forward under z 147 (the head floor, rolled 27 deg,
 # sweeps z 148 up at x 13.4 and beyond) that carries the TPU face in front of the sheet's front edge
-HEAD_HOOK = dict(doubler=((4.0, 23.2, 146.0), (12.0, 27.2, 170.5)), drop=((4.0, 23.2, 128.0), (13.4, 27.2, 147.0)),
-                 foot=((12.0, 16.0, 128.0), (38.0, 27.2, 147.0)))
+HEAD_HOOK = dict(doubler=((4.0, 22.8, 146.0), (12.0, 27.2, 170.5)), drop=((4.0, 22.8, 128.0), (13.4, 27.2, 147.0)),
+                 foot=((12.0, 16.0, 128.0), (38.0, 27.2, 147.0)))       # the doubler bites 0.4 mm into the arm (y 23.2) so the union is one body
 HEAD_PAD_Z = (125.0, 137.0)                                  # the sheet's front edge band the pad meets (world z, neck zero pose)
 HEAD_PAD_T = 6.0                                             # a thicker TPU face: half the stack stiffness of 3 mm (the head stop sees the neck's forward slam)
 SEAT = dict(x=-110.0, z_low=-66.0, r=16.0, half_y=40.0)     # SIT_V2.md 3.3: lowest point 66 mm under the trunk origin
@@ -631,12 +631,14 @@ def head_hook(S, log=print):
     ko = L.hole_keepout(yoke)
     if ko is not None:
         R = R - ko
-    R = R - HPM
     comps = sorted(R.decompose(), key=lambda m: -m.volume())
-    keep = [cm for cm in comps if (L.dilate(cm, 0.2) ^ HPM).volume() > 0.5]
+    keep = [cm for cm in comps if (cm ^ HPM).volume() > 0.5]           # grown from the arm: it overlaps the yoke
     if len(keep) != 1:
         raise SystemExit("head hook: %d pieces grow from the yoke (one expected)" % len(keep))
-    hook = keep[0]
+    part = L.solid(HPM + keep[0])
+    hook = part - HPM                                                   # the new material only
+    if len(part.decompose()) != 1 or abs(part.volume() - HPM.volume() - hook.volume()) > 0.5:
+        raise SystemExit("head hook: the yoke and the hook did not join into one body")
     pm = L.to_man(pad_mesh(pad_dims)).transform(Tpad[:3, :4])
     if (pm ^ hook).volume() > 1e-3 or (pm ^ HPM).volume() > 1e-3:
         raise SystemExit("head hook: the pad overlaps the yoke or the hook")
@@ -650,7 +652,7 @@ def head_hook(S, log=print):
                 root_area_mm2=L.r(root.volume() / 0.5, 1), root_centre=None if rc is None else np.round(rc, 2).tolist(),
                 bbox=np.round(np.asarray(hook.bounding_box()), 1).tolist(), secs=round(time.time() - t0, 1))
     log("head hook %.1f s: %.0f mm3, pad r %.1f" % (time.time() - t0, hook.volume(), r_pad))
-    return L.solid(HPM + hook), Tpad, pad_dims, info
+    return part, Tpad, pad_dims, info
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -929,12 +931,16 @@ URDF_COPY = {"knee_to_ankle_left_sheet": "left_knee_to_ankle_left_sheet", "knee_
 
 
 def to_part(M, Tw):
-    """into the part frame first, then cleaned there (the STL stores the part-frame float32 coordinates)"""
+    """into the part frame first, then cleaned there (the STL stores the part-frame float32 coordinates); finalize keeps
+    the largest body, so a part that came out as two bodies (an added lug or hook not joined) is refused, never dropped"""
     if isinstance(M, trimesh.Trimesh):
         m = M.copy()
         m.apply_transform(np.linalg.inv(Tw))
         return m
-    return L.finalize(L.xform(M, np.linalg.inv(Tw)))
+    m = L.finalize(L.xform(M, np.linalg.inv(Tw)))
+    if abs(m.volume - M.volume()) > 2.0:
+        raise SystemExit("a part lost %.1f mm3 of %.1f in finalize (a body not joined to the rest)" % (M.volume() - m.volume, M.volume()))
+    return m
 
 
 def outputs(S, out):
@@ -1041,15 +1047,10 @@ def write(S, out, info):
     # parts an earlier pass edited and this one leaves stock: the base STL goes back (print and the URDF copy)
     restored = {}
     for stem in STOCK_AGAIN:
-        blob = L.git_blob("print/%s.stl" % stem)
-        for path, scale in ((os.path.join(L.PRINT, stem + ".stl"), 1.0), (os.path.join(L.URDF_DIR, stem + ".stl"), 0.001)):
-            if scale == 1.0:
-                open(path, "wb").write(blob)
-            else:
-                mm = L.base_mesh("print/%s.stl" % stem)
-                mm.apply_scale(scale)
-                mm.export(path)
-        restored[stem] = "stock again (print/%s.stl and its URDF copy are the %s files)" % (stem, L.BASE_REV)
+        for rel, path in (("print/%s.stl" % stem, os.path.join(L.PRINT, stem + ".stl")),
+                          ("mini_bdx/robots/open_duck_mini_v2/%s.stl" % stem, os.path.join(L.URDF_DIR, stem + ".stl"))):
+            open(path, "wb").write(L.git_blob(rel))
+        restored[stem] = "stock again (print/%s.stl and its URDF copy are the %s files, byte for byte)" % (stem, L.BASE_REV)
     info["stock_again"] = restored
     pl = {stem: [dict(link=ln, T_link_mm=np.round(T, 6).tolist()) for ln, T in v] for stem, v in place.items()}
     J = dict(generated_by="altaay_lab/twin/sit/sit_cad.py --write", base_rev=L.BASE_REV, units="mm", clearance_mm=CLR,
