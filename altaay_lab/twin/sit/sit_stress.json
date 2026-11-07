@@ -1,0 +1,575 @@
+{
+ "generated_by": "altaay_lab/twin/sit/sit_stress.py",
+ "label": "calc",
+ "loads": {
+  "knee": {
+   "service_Nm": 1.57,
+   "sim_stop_Nm": 0.859,
+   "lever_mm": 24.1
+  },
+  "ankle": {
+   "service_Nm": 0.391,
+   "lever_mm": 34.5
+  },
+  "lug_geometry": {
+   "roll": {
+    "contact": [
+     -11.02,
+     51.41,
+     6.0
+    ],
+    "force_dir": [
+     0.0,
+     0.343,
+     -0.939
+    ],
+    "root_area": 96.0,
+    "root_W": 156.8,
+    "arm": 10.3,
+    "lug_mm3": 1070.7,
+    "touch_mm3": 4.57
+   },
+   "neck": {
+    "contact": [
+     -19.43,
+     19.5,
+     91.31
+    ],
+    "force_dir": [
+     0.068,
+     0.0,
+     0.998
+    ],
+    "root_area": 38.2,
+    "root_W": 39.3,
+    "arm": 8.7,
+    "lug_mm3": 456.7,
+    "touch_mm3": 2.61
+   },
+   "head": {
+    "contact": [
+     6.13,
+     0.39,
+     169.03
+    ],
+    "force_dir": [
+     -0.932,
+     0.0,
+     0.362
+    ],
+    "root_area": 87.0,
+    "root_W": 135.3,
+    "arm": 3.9,
+    "lug_mm3": 797.9,
+    "touch_mm3": 0.05
+   }
+  },
+  "roll stop lug": {
+   "service_Nm": 0.955,
+   "lever_mm": 17.5,
+   "root_area_mm2": 96.0,
+   "root_W_mm3": 156.8,
+   "arm_mm": 10.3
+  },
+  "neck stop lug": {
+   "service_Nm": 0.645,
+   "lever_mm": 20.5,
+   "root_area_mm2": 38.2,
+   "root_W_mm3": 39.3,
+   "arm_mm": 8.7
+  },
+  "head stop lug": {
+   "service_Nm": 0.205,
+   "lever_mm": 14.0,
+   "root_area_mm2": 87.0,
+   "root_W_mm3": 135.3,
+   "arm_mm": 3.9
+  }
+ },
+ "sim_inputs": "/tmp/claude-0/-home-user/44fe65d1-0499-57ea-a6b6-5fd56643a22c/scratchpad/sitjob/model/sit_sim_push.json,/tmp/claude-0/-home-user/44fe65d1-0499-57ea-a6b6-5fd56643a22c/scratchpad/sitjob/model/sit_sim_up.json",
+ "rows": [
+  {
+   "part": "shin_spacer (beam between the sheets)",
+   "load": "service",
+   "stress_MPa": 2.39,
+   "allowable_MPa": 47.1,
+   "SF": 19.71,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "F 65.0 N at r 24.1 mm; M 663 N mm; W 278 mm3 (layers along the beam: in-plane)",
+   "case": "service"
+  },
+  {
+   "part": "knee bumper pad (bearing)",
+   "load": "service",
+   "stress_MPa": 0.17,
+   "allowable_MPa": 10.0,
+   "SF": 60.29,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc, est",
+   "what": "TPU 95A on VHB 4950, 0.17 MPa over 392 mm2; 10 MPa used as a TPU compressive working value (est)",
+   "case": "service"
+  },
+  {
+   "part": "spacer inserts (sideways)",
+   "load": "service",
+   "stress_MPa": null,
+   "allowable_MPa": 618.0,
+   "SF": 38.02,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "4 inserts per spacer, 16.3 N each against 618 N",
+   "force_N": 16.3,
+   "case": "service"
+  },
+  {
+   "part": "shin sheet horn zone at the joggle",
+   "load": "service",
+   "stress_MPa": 5.74,
+   "allowable_MPa": 47.1,
+   "SF": 8.21,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "R per sheet 39.4 N x 9.0 mm = 354 N mm on a 25 x 3.85 mm section (bending in the layers: the sheet prints flat)",
+   "case": "service"
+  },
+  {
+   "part": "shin_spacer (beam between the sheets)",
+   "load": "fall",
+   "stress_MPa": 4.78,
+   "allowable_MPa": 47.1,
+   "SF": 9.85,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "F 130.0 N at r 24.1 mm; M 1326 N mm; W 278 mm3 (layers along the beam: in-plane)",
+   "case": "fall"
+  },
+  {
+   "part": "knee bumper pad (bearing)",
+   "load": "fall",
+   "stress_MPa": 0.33,
+   "allowable_MPa": 10.0,
+   "SF": 30.15,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc, est",
+   "what": "TPU 95A on VHB 4950, 0.33 MPa over 392 mm2; 10 MPa used as a TPU compressive working value (est)",
+   "case": "fall"
+  },
+  {
+   "part": "spacer inserts (sideways)",
+   "load": "fall",
+   "stress_MPa": null,
+   "allowable_MPa": 618.0,
+   "SF": 19.01,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "4 inserts per spacer, 32.5 N each against 618 N",
+   "force_N": 32.5,
+   "case": "fall"
+  },
+  {
+   "part": "shin sheet horn zone at the joggle",
+   "load": "fall",
+   "stress_MPa": 10.48,
+   "allowable_MPa": 47.1,
+   "SF": 4.5,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "R per sheet 71.9 N x 9.0 mm = 647 N mm on a 25 x 3.85 mm section (bending in the layers: the sheet prints flat)",
+   "case": "fall"
+  },
+  {
+   "part": "shin_spacer (beam between the sheets)",
+   "load": "service",
+   "stress_MPa": 4.48,
+   "allowable_MPa": 47.1,
+   "SF": 10.52,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "F 121.8 N at r 24.1 mm; M 1242 N mm; W 278 mm3 (layers along the beam: in-plane)",
+   "case": "stall"
+  },
+  {
+   "part": "knee bumper pad (bearing)",
+   "load": "service",
+   "stress_MPa": 0.31,
+   "allowable_MPa": 10.0,
+   "SF": 32.2,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc, est",
+   "what": "TPU 95A on VHB 4950, 0.31 MPa over 392 mm2; 10 MPa used as a TPU compressive working value (est)",
+   "case": "stall"
+  },
+  {
+   "part": "spacer inserts (sideways)",
+   "load": "service",
+   "stress_MPa": null,
+   "allowable_MPa": 618.0,
+   "SF": 20.3,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "4 inserts per spacer, 30.4 N each against 618 N",
+   "force_N": 30.4,
+   "case": "stall"
+  },
+  {
+   "part": "shin sheet horn zone at the joggle",
+   "load": "service",
+   "stress_MPa": 9.87,
+   "allowable_MPa": 47.1,
+   "SF": 4.77,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "R per sheet 67.8 N x 9.0 mm = 610 N mm on a 25 x 3.85 mm section (bending in the layers: the sheet prints flat)",
+   "case": "stall"
+  },
+  {
+   "part": "shin_spacer (beam between the sheets)",
+   "load": "fall",
+   "stress_MPa": 9.51,
+   "allowable_MPa": 47.1,
+   "SF": 4.95,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "F 258.6 N at r 24.1 mm; M 2638 N mm; W 278 mm3 (layers along the beam: in-plane)",
+   "case": "abuse"
+  },
+  {
+   "part": "knee bumper pad (bearing)",
+   "load": "fall",
+   "stress_MPa": 0.66,
+   "allowable_MPa": 10.0,
+   "SF": 15.16,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc, est",
+   "what": "TPU 95A on VHB 4950, 0.66 MPa over 392 mm2; 10 MPa used as a TPU compressive working value (est)",
+   "case": "abuse"
+  },
+  {
+   "part": "spacer inserts (sideways)",
+   "load": "fall",
+   "stress_MPa": null,
+   "allowable_MPa": 618.0,
+   "SF": 9.56,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "4 inserts per spacer, 64.7 N each against 618 N",
+   "force_N": 64.7,
+   "case": "abuse"
+  },
+  {
+   "part": "shin sheet horn zone at the joggle",
+   "load": "fall",
+   "stress_MPa": 19.85,
+   "allowable_MPa": 47.1,
+   "SF": 2.37,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "R per sheet 136.2 N x 9.0 mm = 1226 N mm on a 25 x 3.85 mm section (bending in the layers: the sheet prints flat)",
+   "case": "abuse"
+  },
+  {
+   "part": "shin sheet neck, knee torque (FEA scale)",
+   "load": "service",
+   "stress_MPa": 7.85,
+   "allowable_MPa": 47.1,
+   "SF": 6.0,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc (FEA scale)",
+   "what": "5.0 MPa per N m (STRUCTURE_TWIN.md, sheetlocal levels 2 and 3) x 1.57 N m",
+   "case": "service"
+  },
+  {
+   "part": "shin sheet neck, knee torque (FEA scale)",
+   "load": "fall",
+   "stress_MPa": 15.7,
+   "allowable_MPa": 47.1,
+   "SF": 3.0,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc (FEA scale)",
+   "what": "5.0 MPa per N m (STRUCTURE_TWIN.md, sheetlocal levels 2 and 3) x 3.14 N m",
+   "case": "fall"
+  },
+  {
+   "part": "ankle pad (bearing, per pad)",
+   "load": "service",
+   "stress_MPa": 0.13,
+   "allowable_MPa": 10.0,
+   "SF": 79.35,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc, est",
+   "what": "2 pads, 5.7 N each over 45 mm2",
+   "case": "service"
+  },
+  {
+   "part": "foot plate pad seat (bearing)",
+   "load": "service",
+   "stress_MPa": 0.13,
+   "allowable_MPa": 22.0,
+   "SF": 174.56,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "PLA seat under the pad, across the layers (conservative)",
+   "case": "service"
+  },
+  {
+   "part": "ankle pad (bearing, per pad)",
+   "load": "fall",
+   "stress_MPa": 0.25,
+   "allowable_MPa": 10.0,
+   "SF": 39.67,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc, est",
+   "what": "2 pads, 11.3 N each over 45 mm2",
+   "case": "fall"
+  },
+  {
+   "part": "foot plate pad seat (bearing)",
+   "load": "fall",
+   "stress_MPa": 0.25,
+   "allowable_MPa": 22.0,
+   "SF": 87.28,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "PLA seat under the pad, across the layers (conservative)",
+   "case": "fall"
+  },
+  {
+   "part": "ankle pad (bearing, per pad)",
+   "load": "service",
+   "stress_MPa": 0.62,
+   "allowable_MPa": 10.0,
+   "SF": 16.24,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc, est",
+   "what": "2 pads, 27.7 N each over 45 mm2",
+   "case": "stall"
+  },
+  {
+   "part": "foot plate pad seat (bearing)",
+   "load": "service",
+   "stress_MPa": 0.62,
+   "allowable_MPa": 22.0,
+   "SF": 35.74,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "PLA seat under the pad, across the layers (conservative)",
+   "case": "stall"
+  },
+  {
+   "part": "ankle pad (bearing, per pad)",
+   "load": "fall",
+   "stress_MPa": 0.85,
+   "allowable_MPa": 10.0,
+   "SF": 11.79,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc, est",
+   "what": "2 pads, 38.2 N each over 45 mm2",
+   "case": "abuse"
+  },
+  {
+   "part": "foot plate pad seat (bearing)",
+   "load": "fall",
+   "stress_MPa": 0.85,
+   "allowable_MPa": 22.0,
+   "SF": 25.94,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "PLA seat under the pad, across the layers (conservative)",
+   "case": "abuse"
+  },
+  {
+   "part": "roll stop lug",
+   "load": "service",
+   "stress_MPa": 4.15,
+   "allowable_MPa": 22.0,
+   "SF": 5.3,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "F 54.6 N at r 17.5 mm; root 96 mm2, W 157 mm3, arm 10.3 mm (across the layers, conservative)",
+   "case": "service"
+  },
+  {
+   "part": "roll stop lug",
+   "load": "fall",
+   "stress_MPa": 8.31,
+   "allowable_MPa": 22.0,
+   "SF": 2.65,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "F 109.2 N at r 17.5 mm; root 96 mm2, W 157 mm3, arm 10.3 mm (across the layers, conservative)",
+   "case": "fall"
+  },
+  {
+   "part": "roll stop lug",
+   "load": "service",
+   "stress_MPa": 8.31,
+   "allowable_MPa": 22.0,
+   "SF": 2.65,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "F 109.2 N at r 17.5 mm; root 96 mm2, W 157 mm3, arm 10.3 mm (across the layers, conservative)",
+   "case": "stall"
+  },
+  {
+   "part": "roll stop lug",
+   "load": "fall",
+   "stress_MPa": 16.36,
+   "allowable_MPa": 22.0,
+   "SF": 1.34,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "F 215.0 N at r 17.5 mm; root 96 mm2, W 157 mm3, arm 10.3 mm (across the layers, conservative)",
+   "case": "abuse"
+  },
+  {
+   "part": "neck stop lug",
+   "load": "service",
+   "stress_MPa": 7.8,
+   "allowable_MPa": 22.0,
+   "SF": 2.82,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "F 31.5 N at r 20.5 mm; root 38 mm2, W 39 mm3, arm 8.7 mm (across the layers, conservative)",
+   "case": "service"
+  },
+  {
+   "part": "neck stop lug",
+   "load": "fall",
+   "stress_MPa": 15.6,
+   "allowable_MPa": 22.0,
+   "SF": 1.41,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "F 63.0 N at r 20.5 mm; root 38 mm2, W 39 mm3, arm 8.7 mm (across the layers, conservative)",
+   "case": "fall"
+  },
+  {
+   "part": "neck stop lug",
+   "load": "service",
+   "stress_MPa": 23.1,
+   "allowable_MPa": 22.0,
+   "SF": 0.95,
+   "need": 2.0,
+   "ok": false,
+   "label": "calc",
+   "what": "F 93.3 N at r 20.5 mm; root 38 mm2, W 39 mm3, arm 8.7 mm (across the layers, conservative)",
+   "case": "stall"
+  },
+  {
+   "part": "neck stop lug",
+   "load": "fall",
+   "stress_MPa": 11.15,
+   "allowable_MPa": 22.0,
+   "SF": 1.97,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "F 45.0 N at r 20.5 mm; root 38 mm2, W 39 mm3, arm 8.7 mm (across the layers, conservative)",
+   "case": "abuse"
+  },
+  {
+   "part": "head stop lug",
+   "load": "service",
+   "stress_MPa": 0.59,
+   "allowable_MPa": 22.0,
+   "SF": 37.27,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "F 14.6 N at r 14.0 mm; root 87 mm2, W 135 mm3, arm 3.9 mm (across the layers, conservative)",
+   "case": "service"
+  },
+  {
+   "part": "head stop lug",
+   "load": "fall",
+   "stress_MPa": 1.18,
+   "allowable_MPa": 22.0,
+   "SF": 18.64,
+   "need": 1.2,
+   "ok": true,
+   "label": "calc",
+   "what": "F 29.3 N at r 14.0 mm; root 87 mm2, W 135 mm3, arm 3.9 mm (across the layers, conservative)",
+   "case": "fall"
+  },
+  {
+   "part": "head stop lug",
+   "load": "service",
+   "stress_MPa": 5.5,
+   "allowable_MPa": 22.0,
+   "SF": 4.0,
+   "need": 2.0,
+   "ok": true,
+   "label": "calc",
+   "what": "F 136.4 N at r 14.0 mm; root 87 mm2, W 135 mm3, arm 3.9 mm (across the layers, conservative)",
+   "case": "stall"
+  },
+  {
+   "part": "head stop lug",
+   "load": "fall",
+   "stress_MPa": 39.37,
+   "allowable_MPa": 22.0,
+   "SF": 0.56,
+   "need": 1.2,
+   "ok": false,
+   "label": "calc",
+   "what": "F 976.5 N at r 14.0 mm; root 87 mm2, W 135 mm3, arm 3.9 mm (across the layers, conservative)",
+   "case": "abuse"
+  }
+ ],
+ "all_ok": true,
+ "abuse_ok": false,
+ "abuse_cases": [
+  "8dirs_F12",
+  "mat_mu0.4_F8"
+ ],
+ "abuse_peaks_Nm": {
+  "head_pitch": 13.67,
+  "head_roll": 0.07,
+  "head_yaw": 0.07,
+  "left_ankle": 1.74,
+  "left_hip_pitch": 1.51,
+  "left_hip_roll": 3.76,
+  "left_hip_yaw": 0.41,
+  "left_knee": 3.39,
+  "neck_pitch": 0.92,
+  "right_ankle": 2.63,
+  "right_hip_pitch": 2.6,
+  "right_hip_roll": 2.8,
+  "right_hip_yaw": 0.94,
+  "right_knee": 6.25
+ },
+ "stall_ok": false
+}

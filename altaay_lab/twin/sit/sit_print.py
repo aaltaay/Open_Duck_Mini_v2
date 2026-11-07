@@ -246,7 +246,7 @@ def update_print_check(txt, P, R, sdir, when, ss_tot):
     txt = txt.replace("all 36 STLs fit (this line said 38 before; print/ has 36 robot STLs, 52 parts, as the table shows)",
                       "all %d STLs fit (this line said 38, then 36 before D59; print/ has %d robot STLs, %d parts, as the table shows)" % (n_stl, n_stl, n_parts))
     note = ("## Note %s: D59 alert sit parts\n\n"
-            "The A1b sit (DECISIONS.md D59, twin/sit/SIT.md; CAD check only) changes 11 STLs and adds 8. New rows here: "
+            "The A1b sit (DECISIONS.md D59, twin/sit/SIT.md; CAD check only) changes 11 printed parts and adds 8 new ones. New rows here: "
             "%s, measured on the oriented STLs of a `slice.py parts --only` run (D22 light profile; their grams and hours are "
             "that run's, not the 7:24 PM run of the other rows; TPU pads and blocks go on VHB 4950). Quantities follow "
             "print/parts.csv: the knee_to_ankle sheets and leg_spacer are the thigh parts only (2 each); the shins print "

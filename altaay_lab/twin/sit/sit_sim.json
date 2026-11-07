@@ -1,0 +1,235 @@
+{
+ "generated_by": "altaay_lab/twin/sit/sit_sim.py summary",
+ "label": "sim pass only",
+ "model": {
+  "variant": "sit",
+  "playground": "/home/user/upstream/Open_Duck_Playground/playground/open_duck_mini_v2/xmls",
+  "mass_kg": 2.7881,
+  "repo_meshes": [
+   "ankle_pad",
+   "foot_side",
+   "foot_top",
+   "head_pitch_to_yaw",
+   "hip_pad",
+   "knee_bumper",
+   "left_cache",
+   "left_knee_to_ankle_left_sheet",
+   "left_knee_to_ankle_right_sheet",
+   "left_roll_to_pitch",
+   "neck_left_sheet",
+   "neck_right_sheet",
+   "right_cache",
+   "right_roll_to_pitch",
+   "shin_left_sheet",
+   "shin_right_sheet",
+   "shin_spacer",
+   "sit_bumper",
+   "sit_seat"
+  ],
+  "urdf_limits_deg": {
+   "left_ankle": [
+    -95.0,
+    90.0
+   ],
+   "left_knee": [
+    -90.0,
+    150.0
+   ],
+   "left_hip_pitch": [
+    -75.0,
+    30.0
+   ],
+   "left_hip_roll": [
+    -8.0,
+    25.0
+   ],
+   "left_hip_yaw": [
+    -30.0,
+    30.0
+   ],
+   "right_ankle": [
+    -95.0,
+    90.0
+   ],
+   "right_knee": [
+    -90.0,
+    150.0
+   ],
+   "right_hip_pitch": [
+    -30.0,
+    75.0
+   ],
+   "right_hip_roll": [
+    -25.0,
+    8.0
+   ],
+   "right_hip_yaw": [
+    -30.0,
+    30.0
+   ],
+   "left_antenna": [
+    -90.0,
+    90.0
+   ],
+   "right_antenna": [
+    -90.0,
+    90.0
+   ],
+   "head_roll": [
+    -30.0,
+    30.0
+   ],
+   "head_yaw": [
+    -160.0,
+    160.0
+   ],
+   "head_pitch": [
+    -25.0,
+    45.0
+   ],
+   "neck_pitch": [
+    -20.0,
+    25.0
+   ]
+  },
+  "soft_limits_deg": {
+   "left_hip_yaw": [
+    -21.0,
+    20.3
+   ],
+   "left_hip_roll": [
+    -5.0,
+    22.0
+   ],
+   "left_hip_pitch": [
+    -72.0,
+    10.5
+   ],
+   "left_knee": [
+    -25.5,
+    147.0
+   ],
+   "left_ankle": [
+    -92.0,
+    46.0
+   ],
+   "neck_pitch": [
+    -17.0,
+    22.0
+   ],
+   "head_pitch": [
+    -22.0,
+    36.0
+   ],
+   "head_yaw": [
+    -105.0,
+    79.0
+   ],
+   "head_roll": [
+    -27.0,
+    27.0
+   ],
+   "right_hip_yaw": [
+    -20.3,
+    21.0
+   ],
+   "right_hip_roll": [
+    -22.0,
+    5.0
+   ],
+   "right_hip_pitch": [
+    -10.5,
+    72.0
+   ],
+   "right_knee": [
+    -25.5,
+    147.0
+   ],
+   "right_ankle": [
+    -92.0,
+    46.0
+   ]
+  }
+ },
+ "push": {
+  "cases": 17,
+  "falls": 0,
+  "all4_pads_at_end": 16,
+  "all4_pads_throughout": 12,
+  "not_all4_at_end": [
+   "poweroff_damp0.05_F8"
+  ],
+  "lost_a_pad_on_the_way": [
+   "8dirs_F8",
+   "poweroff_damp0.05_F8",
+   "fric0.02_F5",
+   "mat_mu0.4_F8",
+   "8dirs_F12"
+  ],
+  "max_drift_mm": 16.6,
+  "pitch_deg": [
+   -0.7,
+   2.8
+  ]
+ },
+ "up": {
+  "0.0 deg, model limit": {
+   "seeds": 20,
+   "sat_with_4_pads": 20,
+   "fell_in_the_sit": 0,
+   "stood": 20,
+   "stood_and_4_pads": 20
+  },
+  "0.5 deg, model limit": {
+   "seeds": 20,
+   "sat_with_4_pads": 20,
+   "fell_in_the_sit": 0,
+   "stood": 18,
+   "stood_and_4_pads": 18
+  },
+  "1.0 deg, model limit": {
+   "seeds": 20,
+   "sat_with_4_pads": 16,
+   "fell_in_the_sit": 4,
+   "stood": 14,
+   "stood_and_4_pads": 14
+  },
+  "1.0 deg, sheet limit": {
+   "seeds": 20,
+   "sat_with_4_pads": 16,
+   "fell_in_the_sit": 4,
+   "stood": 14,
+   "stood_and_4_pads": 14
+  }
+ },
+ "up_peak_torque_Nm": {
+  "head_pitch": 2.1,
+  "head_roll": 0.04,
+  "head_yaw": 0.06,
+  "left_ankle": 0.9,
+  "left_hip_pitch": 0.97,
+  "left_hip_roll": 0.71,
+  "left_hip_yaw": 0.59,
+  "left_knee": 1.55,
+  "neck_pitch": 3.23,
+  "right_ankle": 0.79,
+  "right_hip_pitch": 1.02,
+  "right_hip_roll": 0.71,
+  "right_hip_yaw": 0.53,
+  "right_knee": 1.57
+ },
+ "walk": {
+  "sit": {
+   "seeds": 10,
+   "falls": 0,
+   "forward_m_s": 0.0998,
+   "turn_rad_s": 0.788
+  },
+  "before": {
+   "seeds": 10,
+   "falls": 0,
+   "forward_m_s": 0.1029,
+   "turn_rad_s": 0.798
+  }
+ }
+}

@@ -2,7 +2,7 @@
 """sit_sim.py: the A1b sit (D59) on the repo sim model (sit_model.py). sim pass only.
 
   python3 altaay_lab/twin/sit/sit_sim.py --out <scratch> push|up|walk|all [--jobs 3]
-Writes <scratch>/sit_sim_<test>.json and, with --summary, altaay_lab/twin/sit/sit_sim.json (the numbers SIT.md quotes).
+Writes <scratch>/sit_sim_<test>.json; `summary` (after the three) writes altaay_lab/twin/sit/sit_sim.json, the numbers SIT.md quotes.
 
 The tests are the SIT_V2.md tests, run on the repo model instead of the study's scratch copy:
   push   torque off for 60 s on the dock pads, 0.2 s pushes: 8 directions at 3, 5, 8 and 12 N, single 8 N pushes from 8
@@ -440,15 +440,50 @@ def walk_job(a):
     return dict(tag=tag, seed=seed, v=v, turn=turn, falls=res["falls"], fell=bool(res["falls"]))
 
 
+def summary(out):
+    """the aggregate numbers of the three runs in <out> (sim pass only)"""
+    from collections import defaultdict
+    J = {t: json.load(open(os.path.join(out, "sit_sim_%s.json" % t))) for t in ("push", "up", "walk")}
+    M = json.load(open(os.path.join(out, "sit", "sit_model.json")))
+    P = J["push"]["results"]
+    push = dict(cases=len(P), falls=sum(r["fell"] for r in P), all4_pads_at_end=sum(r["all4_final"] for r in P),
+                all4_pads_throughout=sum(r["all4_always"] for r in P),
+                not_all4_at_end=[r["name"] for r in P if not r["all4_final"]],
+                lost_a_pad_on_the_way=[r["name"] for r in P if not r["all4_always"]],
+                max_drift_mm=round(max(r["drift_mm"] for r in P), 1),
+                pitch_deg=[round(min(r["pitch"] for r in P), 1), round(max(r["pitch"] for r in P), 1)])
+    G = defaultdict(list)
+    for r in J["up"]["results"]:
+        G["%s deg, %s limit" % (r["sig"], r["lim"])].append(r)
+    up = {k: dict(seeds=len(v), sat_with_4_pads=sum(r["sit_all4"] for r in v), fell_in_the_sit=sum(r["sit_fell"] for r in v),
+                  stood=sum(r["stood"] for r in v), stood_and_4_pads=sum(r["success"] for r in v)) for k, v in G.items()}
+    pk = {}
+    for r in J["up"]["results"]:
+        for src in ("rise_tau", "entry_tau"):
+            for j_, t_ in (r.get(src) or {}).items():
+                pk[j_] = max(pk.get(j_, 0.0), t_)
+    W = defaultdict(list)
+    for r in J["walk"]["results"]:
+        W[r["tag"]].append(r)
+    walk = {k: dict(seeds=len(v), falls=sum(r["fell"] for r in v), forward_m_s=round(float(np.mean([r["v"] for r in v])), 4),
+                    turn_rad_s=round(float(np.mean([r["turn"] for r in v if r["turn"] is not None])), 3)) for k, v in W.items()}
+    return dict(generated_by="altaay_lab/twin/sit/sit_sim.py summary", label="sim pass only", model=M, push=push, up=up,
+                up_peak_torque_Nm={k: round(v, 2) for k, v in sorted(pk.items())}, walk=walk)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
-    ap.add_argument("test", choices=("push", "up", "walk"))
+    ap.add_argument("test", choices=("push", "up", "walk", "summary"))
     ap.add_argument("--jobs", type=int, default=3)
     ap.add_argument("--seeds", type=int, default=20)
     a = ap.parse_args()
     OUT[0] = a.out
     t0 = time.time()
+    if a.test == "summary":
+        L.dump(summary(a.out), os.path.join(HERE, "sit_sim.json"))
+        print("wrote altaay_lab/twin/sit/sit_sim.json")
+        return
     if a.test == "push":
         J = push_cases()
         with Pool(a.jobs, initializer=_init, initargs=(a.out,)) as p:

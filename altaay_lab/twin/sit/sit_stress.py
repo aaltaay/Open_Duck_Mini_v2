@@ -8,6 +8,8 @@ Loads per stop (each the larger of the sources named):
   service   the largest stop torque the sim saw (the joint limit force of sit_sim.py push and up runs, torque off on the
             stops, sim pass only) and, for the knee, the 1.57 Nm stand-up peak of SIT_V2.md (the brief's number)
   fall      2 x service (the brief's fall factor)
+  abuse     the peaks of the two push cases past the A1b tests (ABUSE: a 12 N shove from 8 sides, the sit sliding on a mat
+            at mu 0.4), checked at the fall margin and reported apart (abuse_ok), not part of all_ok
   stall     the servo pressing into its stop at its stall torque: a calibration error the 3 deg software margin does not
             cover. STS3250 knees 2.94 Nm at 7.2 V [F5], STS3215 1.91 Nm at 7.4 V [F1] (KNEE_TWIN.md section 2 table)
 Allowables and margins: twin/structure/STRUCTURE_TWIN.md (D26 method): printed PLA in-plane 47.1 MPa (Overture TDS),
@@ -56,14 +58,20 @@ def section_props(poly_xy, axis_dir):
     return A, I, float(np.abs(q).max())
 
 
-def stop_torques(paths):
-    """largest |joint limit force| per joint over the runs (sit_sim.py constraint_torque_max / stop_torque)"""
+ABUSE = ("8dirs_F12", "mat_mu0.4_F8")   # push cases past the A1b use: a 12 N shove from 8 sides, the sit sliding on a mat
+
+
+def stop_torques(paths, abuse=False):
+    """largest |constraint torque| per joint over the runs (sit_sim.py constraint_torque_max / stop_torque); the ABUSE
+    push cases are kept apart (abuse=True gives only them): their peaks are the limit impacts of a shove past the A1b tests"""
     T = {}
     for p in paths:
         if not p or not os.path.exists(p):
             continue
         J = json.load(open(p))
         for r in J["results"]:
+            if (r.get("name") in ABUSE) != abuse:
+                continue
             for k, v in (r.get("constraint_torque_max") or r.get("stop_torque") or {}).items():
                 T[k] = max(T.get(k, 0.0), float(v))
     return T
@@ -141,10 +149,15 @@ def main():
     S = L.scene(fresh=True)
     cad = json.load(open(os.path.join(HERE, "sit_cad.json")))
     T = stop_torques(a.sim.split(",") if a.sim else [])
+    TA = stop_torques(a.sim.split(",") if a.sim else [], abuse=True)
     rows, loads = [], {}
 
-    def tq(j, floor=0.0):
-        return max(floor, T.get("left_" + j, 0.0), T.get("right_" + j, 0.0)) if not j.startswith(("neck", "head")) else max(floor, T.get(j, 0.0))
+    def tq(j, floor=0.0, src=None):
+        src = T if src is None else src
+        return max(floor, src.get("left_" + j, 0.0), src.get("right_" + j, 0.0)) if not j.startswith(("neck", "head")) else max(floor, src.get(j, 0.0))
+
+    def tqa(j):
+        return tq(j, 0.0, TA)
 
     # ---------------- knee stop: pad on the shin spacer, the knee case face, the spacer beam, the inserts, the joggle
     sp = cad["build"]["shin_spacer"]
@@ -162,17 +175,17 @@ def main():
     t_dir = np.array([-n[2], n[0]])                           # bending axis in the section (x, z) plane
     A, I, c = section_props(poly, t_dir)
     Ls = sp["length"]
-    for load, Tn in (("service", t_srv), ("fall", 2 * t_srv), ("stall", STALL["knee"])):
+    for load, Tn in (("service", t_srv), ("fall", 2 * t_srv), ("stall", STALL["knee"]), ("abuse", tqa("knee"))):
         F = Tn * 1000.0 / r_k                                  # N
         M = F * (Ls / 4 - 28.0 / 8)                            # N mm, simply supported, the load spread over the 28 mm pad
         sig = M / (I / c)
-        rows.append(check("shin_spacer (beam between the sheets)", sig, X_INPLANE, "fall" if load == "fall" else "service",
+        rows.append(check("shin_spacer (beam between the sheets)", sig, X_INPLANE, "fall" if load in ("fall", "abuse") else "service",
                           what="F %.1f N at r %.1f mm; M %.0f N mm; W %.0f mm3 (layers along the beam: in-plane)" % (F, r_k, M, I / c)))
         rows[-1]["case"] = load
-        rows.append(check("knee bumper pad (bearing)", F / pad_A, 10.0, "fall" if load == "fall" else "service",
+        rows.append(check("knee bumper pad (bearing)", F / pad_A, 10.0, "fall" if load in ("fall", "abuse") else "service",
                           what="TPU 95A on VHB 4950, %.2f MPa over %.0f mm2; 10 MPa used as a TPU compressive working value (est)" % (F / pad_A, pad_A), label="calc, est"))
         rows[-1]["case"] = load
-        rows.append(check("spacer inserts (sideways)", F / 4.0, INSERT_SIDE, "fall" if load == "fall" else "service",
+        rows.append(check("spacer inserts (sideways)", F / 4.0, INSERT_SIDE, "fall" if load in ("fall", "abuse") else "service",
                           what="4 inserts per spacer, %.1f N each against %d N" % (F / 4, INSERT_SIDE)))
         rows[-1]["stress_MPa"] = None
         rows[-1]["force_N"] = round(F / 4.0, 1)
@@ -183,9 +196,9 @@ def main():
         Mj = R_sheet * L.JOG
         w_band = 25.0
         sig_j = 6 * Mj / (w_band * 3.85 ** 2)
-        rows.append(check("shin sheet horn zone at the joggle", sig_j, X_INPLANE, "fall" if load == "fall" else "service",
+        rows.append(check("shin sheet horn zone at the joggle", sig_j, X_INPLANE, "fall" if load in ("fall", "abuse") else "service",
                           what="R per sheet %.1f N x %.1f mm = %.0f N mm on a %.0f x 3.85 mm section (bending in the layers: the sheet prints flat)" % (
-                              R_sheet, L.JOG, Mj, w_band, sig_j * 0 + 3.85)))
+                              R_sheet, L.JOG, Mj, w_band)))
         rows[-1]["case"] = load
     # the knee torque through the horn zone (unchanged geometry): STRUCTURE_TWIN.md 2.4, 5.0 MPa per N m at the sheet neck
     for load, Tn in (("service", t_srv), ("fall", 2 * t_srv)):
@@ -202,23 +215,23 @@ def main():
     t_a = tq("ankle")
     loads["ankle"] = dict(service_Nm=round(t_a, 3), lever_mm=round(r_a, 1))
     A_pad = 6.0 * 7.5
-    for load, Tn in (("service", t_a), ("fall", 2 * t_a), ("stall", STALL["other"])):
+    for load, Tn in (("service", t_a), ("fall", 2 * t_a), ("stall", STALL["other"]), ("abuse", tqa("ankle"))):
         F = Tn * 1000.0 / max(r_a, 1e-6) / 2
-        rows.append(check("ankle pad (bearing, per pad)", F / A_pad, 10.0, "fall" if load == "fall" else "service",
+        rows.append(check("ankle pad (bearing, per pad)", F / A_pad, 10.0, "fall" if load in ("fall", "abuse") else "service",
                           what="2 pads, %.1f N each over %.0f mm2" % (F, A_pad), label="calc, est"))
         rows[-1]["case"] = load
-        rows.append(check("foot plate pad seat (bearing)", F / A_pad, Z_INTER, "fall" if load == "fall" else "service",
+        rows.append(check("foot plate pad seat (bearing)", F / A_pad, Z_INTER, "fall" if load in ("fall", "abuse") else "service",
                           what="PLA seat under the pad, across the layers (conservative)"))
         rows[-1]["case"] = load
 
     # ---------------- lugs: contact force on the lug face; root section measured on the STL
-    def lug_rows(name, joint, axis, contact, fdir, root_area, root_W, arm, tn, stall):
+    def lug_rows(name, joint, axis, contact, fdir, root_area, root_W, arm, tn, stall, ta):
         r_ = lever(axis[0], axis[1], contact, fdir)
         loads[name] = dict(service_Nm=round(tn, 3), lever_mm=round(r_, 1), root_area_mm2=round(root_area, 1), root_W_mm3=round(root_W, 1), arm_mm=round(arm, 1))
-        for load, Tn in (("service", tn), ("fall", 2 * tn), ("stall", stall)):
+        for load, Tn in (("service", tn), ("fall", 2 * tn), ("stall", stall), ("abuse", ta)):
             F = Tn * 1000.0 / max(r_, 1e-6)
             sig = F / root_area + F * arm / root_W
-            rows.append(check(name, sig, Z_INTER, "fall" if load == "fall" else "service",
+            rows.append(check(name, sig, Z_INTER, "fall" if load in ("fall", "abuse") else "service",
                               what="F %.1f N at r %.1f mm; root %.0f mm2, W %.0f mm3, arm %.1f mm (across the layers, conservative)" % (F, r_, root_area, root_W, arm)))
             rows[-1]["case"] = load
 
@@ -231,10 +244,12 @@ def main():
         jn = "left_" + joint if joint == "hip_roll" else joint
         p_, d_ = S.joint_world(jn)
         tn = tq(joint)
-        lug_rows("%s stop lug" % key, jn, (p_, d_), g["contact"], g["force_dir"], g["root_area"], g["root_W"], g["arm"], tn, STALL["other"])
+        lug_rows("%s stop lug" % key, jn, (p_, d_), g["contact"], g["force_dir"], g["root_area"], g["root_W"], g["arm"], tn, STALL["other"], tqa(joint))
 
     J = dict(generated_by="altaay_lab/twin/sit/sit_stress.py", label="calc", loads=loads, sim_inputs=a.sim, rows=rows,
-             all_ok=all(r["ok"] for r in rows if r.get("case") != "stall"),
+             all_ok=all(r["ok"] for r in rows if r.get("case") not in ("stall", "abuse")),
+             abuse_ok=all(r["ok"] for r in rows if r.get("case") == "abuse"), abuse_cases=list(ABUSE),
+             abuse_peaks_Nm={k: round(v, 2) for k, v in sorted(TA.items())},
              stall_ok=all(r["ok"] for r in rows if r.get("case") == "stall"))
     for r in rows:
         print("%-44s %-7s %s SF %s (need %.1f) %s" % (r["part"], r.get("case"), r["stress_MPa"] if r["stress_MPa"] is not None else r.get("force_N"),
