@@ -10,7 +10,13 @@ Changes, all from twin/sit/sit_cad.json (the CAD it describes) and sitlib.STOPS 
   shin links    knee_and_ankle_assembly_2 and _4 load shin_left_sheet, shin_right_sheet and shin_spacer in place of the
                 stock sheets and leg_spacer (same origins: the new parts keep the stock part frames).
   new parts     knee_bumper (shin links), ankle_pad (2 per foot), hip_pad (roll_to_pitch links), sit_seat and sit_bumper
-                (trunk): a visual and a collision each, at the placements sit_cad.py computed.
+                (trunk): a visual and a collision each, at the placements sit_cad.py computed. In the URDF each group is a
+                new link (sitlib.SIT_LINKS) on a fixed joint with an identity origin to the link it is stuck to, written
+                after every upstream link, so the upstream visuals keep their order: the instance indices of
+                audit/assembly.json, audit/sites.json and fasteners.json (URDF visuals 0 to 130) stay valid; the new
+                parts are instances 131 to 140 and the 8 head internals move from 131 to 141 (sit_records.py remaps
+                them). The new links carry the frames' 1e-9 kg inertial (as left_foot): the URDF inertials stay the
+                upstream (trained) ones, the sit parts' mass is in sim/mass_budget.py and the sit sim model.
 Edits are made on the text, so the upstream formatting stays; the script checks that every edit landed exactly once.
 """
 import argparse
@@ -69,13 +75,28 @@ def quat_of(R):
 
 
 def new_visuals(cad):
-    """[(link, stem, 4x4 link frame in m)] of the new local-frame parts"""
+    """[(link, stem, 4x4 link frame in m)] of the new local-frame parts (link: the upstream link they ride on)"""
     out = []
     for stem, rows in cad["placements"].items():
         for r in rows:
             T = np.array(r["T_link_mm"], float)
             T[:3, 3] /= 1000.0
             out.append((r["link"], stem, T))
+    return out
+
+
+def new_links(cad):
+    """[(new link, parent link, [(stem, T)])] in sitlib.SIT_LINKS order"""
+    nv = new_visuals(cad)
+    out = []
+    for nl, (parent, stem) in L.SIT_LINKS.items():
+        rows = [(s, T) for ln, s, T in nv if ln == parent and s == stem]
+        if not rows:
+            raise SystemExit("sit_cad.json has no %s on %s (for %s)" % (stem, parent, nl))
+        out.append((nl, parent, rows))
+    n = sum(len(r) for _, _, r in out)
+    if n != len(nv):
+        raise SystemExit("sitlib.SIT_LINKS covers %d of the %d new parts" % (n, len(nv)))
     return out
 
 
@@ -113,11 +134,19 @@ def edit_urdf(txt, cad):
             seg = seg.replace('name="%s_material"' % old, 'name="%s_material"' % new)
         txt = txt[:a] + seg + txt[b:]
         log.append("urdf %s: shin sheets and spacer swapped" % ln)
-    for ln, stem, T in new_visuals(cad):
-        a = txt.index('<link name="%s">' % ln)
-        b = txt.rfind("\n", 0, txt.index("</link>", a)) + 1
-        txt = txt[:b] + urdf_block(stem, T) + txt[b:]
-        log.append("urdf %s: + %s" % (ln, stem))
+    blocks = []
+    for nl, parent, rows in new_links(cad):
+        if '<link name="%s">' % nl in txt:
+            raise SystemExit("URDF already has a link %s" % nl)
+        blocks.append('    <link name="%s">\n%s        <inertial>\n            <origin xyz="0 0 0" rpy="0 0 0" />\n'
+                      '            <mass value="1e-9" />\n            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />\n'
+                      '        </inertial>\n    </link>\n'
+                      '    <joint name="%s_fixed" type="fixed">\n        <origin xyz="0 0 0" rpy="0 0 0" />\n'
+                      '        <parent link="%s" />\n        <child link="%s" />\n        <axis xyz="0 0 0"/>\n    </joint>\n'
+                      % (nl, "".join(urdf_block(st, T) for st, T in rows), nl, parent, nl))
+        log.append("urdf + link %s on %s (fixed): %s" % (nl, parent, ", ".join(st for st, _ in rows)))
+    b = txt.rindex("</robot>")
+    txt = txt[:b] + "".join(blocks) + txt[b:]
     return txt, log
 
 

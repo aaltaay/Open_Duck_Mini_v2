@@ -11,23 +11,18 @@
   "knee_fold": {
    "joint": "left_knee",
    "stop": 150.0,
-   "ok": false,
+   "ok": true,
    "inside": {
     "angle": 149.5,
-    "new_overlap_mm3": {
-     "left_cache|drive_palonier": 12.44
-    }
+    "new_overlap_mm3": {}
    },
    "at": {
     "angle": 150.0,
-    "new_overlap_mm3": {
-     "left_cache|drive_palonier": 8.83
-    }
+    "new_overlap_mm3": {}
    },
    "past": {
     "angle": 150.5,
     "new_overlap_mm3": {
-     "left_cache|drive_palonier": 5.58,
      "servo_mid|knee_bumper": 38.14,
      "servo_bottom|knee_bumper": 28.53,
      "servo_top|knee_bumper": 15.83
@@ -44,16 +39,13 @@
    },
    "at": {
     "angle": -95.0,
-    "new_overlap_mm3": {
-     "shin_right_sheet|ankle_pad": 7.2,
-     "shin_left_sheet|ankle_pad": 7.2
-    }
+    "new_overlap_mm3": {}
    },
    "past": {
     "angle": -95.5,
     "new_overlap_mm3": {
-     "shin_right_sheet|ankle_pad": 20.76,
-     "shin_left_sheet|ankle_pad": 20.76
+     "shin_right_sheet|ankle_pad": 13.56,
+     "shin_left_sheet|ankle_pad": 13.56
     }
    }
   },
@@ -118,25 +110,20 @@
   "head_fwd": {
    "joint": "head_pitch",
    "stop": -25.0,
-   "ok": false,
+   "ok": true,
    "inside": {
     "angle": -24.5,
-    "new_overlap_mm3": {
-     "servo_fill|head_pitch_to_yaw": 11.32
-    }
+    "new_overlap_mm3": {}
    },
    "at": {
     "angle": -25.0,
-    "new_overlap_mm3": {
-     "servo_fill|head_pitch_to_yaw": 11.87
-    }
+    "new_overlap_mm3": {}
    },
    "past": {
     "angle": -25.5,
     "new_overlap_mm3": {
-     "servo_mid|head_pitch_to_yaw": 0.48,
-     "servo_bottom|head_pitch_to_yaw": 0.17,
-     "servo_fill|head_pitch_to_yaw": 12.39
+     "servo_mid|head_pitch_to_yaw": 0.05,
+     "servo_fill|head_pitch_to_yaw": 2.44
     }
    }
   }
@@ -164,8 +151,7 @@
    "hi": 118.5
   },
   "left_ankle": {
-   "lo_by": "shin_left_sheet|ankle_pad",
-   "lo": -94.5,
+   "lo": null,
    "hi_by": "shin_right_sheet|foot_side",
    "hi": 49.0
   },
@@ -174,8 +160,7 @@
    "hi": null
   },
   "head_pitch": {
-   "lo_by": "servo_fill|head_pitch_to_yaw",
-   "lo": -0.5,
+   "lo": null,
    "hi_by": "body_middle_top|head",
    "hi": 39.0
   },
@@ -211,82 +196,74 @@
    "hi": 118.5
   },
   "right_ankle": {
-   "lo_by": "shin_left_sheet|ankle_pad",
-   "lo": -94.5,
+   "lo": null,
    "hi_by": "shin_right_sheet|foot_side",
    "hi": 49.0
   }
  },
+ "knee_ankle_coupling": {
+  "100": {
+   "ankle_free_max": 80.0,
+   "ankle_free_min": -95.0,
+   "n_free": 33
+  },
+  "105": {
+   "ankle_free_max": 80.0,
+   "ankle_free_min": -95.0,
+   "n_free": 29
+  },
+  "110": {
+   "ankle_free_max": 60.0,
+   "ankle_free_min": -95.0,
+   "n_free": 24
+  },
+  "115": {
+   "ankle_free_max": 5.0,
+   "ankle_free_min": -95.0,
+   "n_free": 21
+  },
+  "120": {
+   "ankle_free_max": -5.0,
+   "ankle_free_min": -95.0,
+   "n_free": 19
+  },
+  "125": {
+   "ankle_free_max": -10.0,
+   "ankle_free_min": -95.0,
+   "n_free": 18
+  },
+  "130": {
+   "ankle_free_max": -20.0,
+   "ankle_free_min": -95.0,
+   "n_free": 16
+  },
+  "135": {
+   "ankle_free_max": -30.0,
+   "ankle_free_min": -95.0,
+   "n_free": 14
+  },
+  "140": {
+   "ankle_free_max": -45.0,
+   "ankle_free_min": -95.0,
+   "n_free": 11
+  },
+  "145": {
+   "ankle_free_max": -60.0,
+   "ankle_free_min": -95.0,
+   "n_free": 8
+  },
+  "150": {
+   "ankle_free_max": -75.0,
+   "ankle_free_min": -95.0,
+   "n_free": 5
+  }
+ },
  "path": {
   "states": 204,
-  "new_overlaps": {
-   "left_cache|drive_palonier": {
-    "mm3": 21.9,
-    "state": "calibration",
-    "pose": [
-     -57,
-     147,
-     -89
-    ]
-   },
-   "servo_fill|head_pitch_to_yaw": {
-    "mm3": 20.11,
-    "state": "settle",
-    "pose": [
-     -60,
-     150,
-     -95,
-     25,
-     -25,
-     0.0,
-     -6.0
-    ]
-   },
-   "right_cache|passive_palonier": {
-    "mm3": 17.26,
-    "state": "calibration",
-    "pose": [
-     -57,
-     147,
-     -89
-    ]
-   },
-   "shin_right_sheet|ankle_pad": {
-    "mm3": 7.2,
-    "state": "settle",
-    "pose": [
-     -60,
-     150,
-     -95,
-     25,
-     -25,
-     0.0,
-     -6.0
-    ]
-   },
-   "shin_left_sheet|ankle_pad": {
-    "mm3": 7.2,
-    "state": "settle",
-    "pose": [
-     -60,
-     150,
-     -95,
-     25,
-     -25,
-     0.0,
-     -6.0
-    ]
-   }
-  }
+  "new_overlaps": {}
  },
  "walk": {
   "states": 32,
-  "new_overlaps": {
-   "servo_fill|head_pitch_to_yaw": {
-    "mm3": 14.07,
-    "state": "walk_grid",
-    "pose": null
-   }
-  }
+  "new_overlaps": {}
  }
 }

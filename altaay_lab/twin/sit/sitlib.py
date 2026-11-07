@@ -33,7 +33,7 @@ D = np.radians
 
 # ---------------------------------------------------------------------------------------------------------------
 # The joint stops of the A1b sit (D59). Left side, degrees; the right side mirrors hip roll and hip pitch (URDF signs).
-# 'stop' is the hard stop the part touches; the software limit is 3 deg inside every hard stop (servo.py).
+# 'stop' is the hard stop the part touches; the software limit is 3 deg inside every hard stop (servo_limits.py).
 # Sources: SIT_DESIGN.md (v1) changes 1 to 3 and 5, SIT_V2.md (A1b) changes 1 and 2; the angles are the approved ones.
 # ---------------------------------------------------------------------------------------------------------------
 STOPS = {
@@ -48,9 +48,23 @@ SOFT_MARGIN_DEG = 3.0          # software commands stay this far inside every ha
 JOG = 9.0                      # shin sheet joggle, mm away from the leg centre plane (SIT_DESIGN change 1)
 R_HORN = 16.0                  # the joggle starts this far from the knee axis (SIT_DESIGN change 1)
 SPACER_GROW = 18.0             # the shin spacer is this much longer (2 x JOG)
+# the new stuck-on parts in robot.urdf: one link each on a fixed joint (identity origin) to the link the part rides on,
+# written after every upstream link (sit_urdf.py), so the upstream instance order stays (audit/assembly.json indices)
+SIT_LINKS = {
+    "left_knee_bumper": ("knee_and_ankle_assembly_2", "knee_bumper"),
+    "right_knee_bumper": ("knee_and_ankle_assembly_4", "knee_bumper"),
+    "left_ankle_pads": ("foot_assembly", "ankle_pad"),
+    "right_ankle_pads": ("foot_assembly_2", "ankle_pad"),
+    "left_hip_pad": ("left_roll_to_pitch_assembly", "hip_pad"),
+    "right_hip_pad": ("right_roll_to_pitch_assembly", "hip_pad"),
+    "sit_seat": ("trunk_assembly", "sit_seat"),
+    "sit_bumper": ("trunk_assembly", "sit_bumper"),
+}
+SIT_PARENT = {k: v[0] for k, v in SIT_LINKS.items()}
+N_URDF_BASE = 131              # upstream URDF visuals (audit/assembly.json); the 10 sit parts follow, then the head internals
 
 # A1b sit and stand path (SIT_V2.md 3.2), left (hip pitch, knee, ankle, neck, head) in degrees, and what the software
-# commands with the 3 deg rule (servo.py): the head forward waypoint is clamped to the software limits.
+# commands with the 3 deg rule (servo_limits.py): the head forward waypoint is clamped to the software limits.
 PATH_A1B = [(-15, 5, 0, 0, 0), (-21, 40, -29, -22, -25), (-33, 75, -49, -22, -25), (-54, 110, -67, -22, -25),
             (-58, 130, -82, -22, -25), (-60, 147, -92, -22, -25), (-60, 147, -92, 25, -25)]
 SIT_TARGET = (-60, 147, -92, 25, -25)

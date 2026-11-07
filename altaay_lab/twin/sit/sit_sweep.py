@@ -62,7 +62,8 @@ class Model:
             m = S.world_mesh(i)
             M = L.to_man(m)
             nm = "%s#%d" % (i["key"], i["idx"])
-            self.parts.setdefault(i["link"], []).append((nm, M))
+            # a sit part on its own fixed link (sitlib.SIT_LINKS) moves with the link it is stuck to
+            self.parts.setdefault(L.SIT_PARENT.get(i["link"], i["link"]), []).append((nm, M))
             if i["key"] == "servo_bottom":
                 T = S.T0[i["link"]] @ i["T"]
                 (x0, x1), (y0, y1), (z0, z1) = L.c3d_lib.SERVO_INNER

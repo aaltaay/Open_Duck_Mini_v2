@@ -91,6 +91,10 @@ LINK_SUB = {
     "knee_and_ankle_assembly": "left_thigh", "knee_and_ankle_assembly_2": "left_shin", "foot_assembly": "left_foot",
     "hip_roll_assembly_2": "right_hip", "right_roll_to_pitch_assembly": "right_bracket",
     "knee_and_ankle_assembly_3": "right_thigh", "knee_and_ankle_assembly_4": "right_shin", "foot_assembly_2": "right_foot",
+    # D59 sit parts, each on its own fixed link to the link it is stuck to (twin/sit/sitlib.py SIT_LINKS)
+    "left_knee_bumper": "left_shin", "right_knee_bumper": "right_shin", "left_ankle_pads": "left_foot",
+    "right_ankle_pads": "right_foot", "left_hip_pad": "left_bracket", "right_hip_pad": "right_bracket",
+    "sit_seat": "trunk", "sit_bumper": "trunk",
 }
 SUBS = [  # id, label, group, level-1 explode vector (mm at full explode)
     ("head", "Head", "head_neck", (0, 0, 300)),
