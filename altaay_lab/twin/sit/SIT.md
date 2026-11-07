@@ -109,99 +109,179 @@ sim's limit impulses are 2 to 6 x the energy peaks on these impacts. The 12 N ba
 drives the neck onto its +25 stop at 1.07 rad/s: 17.9 N m by energy against 19.1 in the sim (within 7 %), which is the
 sizing case, and the reason the stop needs a TPU face: on a rigid printed lug (K 9365 N m/rad) that energy makes 870 N
 at r 20.5 mm; on a 10 x 10 x 3 mm TPU face at r 35 mm (K about 1060 N m/rad) it makes 6.0 N m, 170 N, which a 20 x 14
-mm pillar root carries at SF 2.6 (bending, across the layers; calc). **Status: the method is in the scripts (875e71c)
-and the omega record is validated on these runs; the full load, shove, push and stand-up runs on the new record format, the stress table on
-them and the stop redesign below are not done (hand-over, see the PR).**
+mm pillar root carries at SF 2.6 (bending, across the layers; calc). **Status (2026-11-07): the method is in the scripts, and the load, shove, push and stand-up runs on the final model
+(the neck stop block and the head hook built, section 1), the stress table on them and the stop results below are done.**
 
-**Head and neck stop redesign (the design job; measured, not built).** Targets: SF 1.5 for the 12 N head shove forward
-and back, torque off and on, and at the neck stall; the structure margins elsewhere. The neck lug's root is the stock
-neck sheet's edge (38 mm2 at r 20.5 mm), so it cannot reach SF 1.5 at a stall; the head lug is at r 14 mm on the servo
-case. Measured room (CAD check only, zero pose and the stops): behind the neck, trunk_top's top face is at z 85.8 mm
-over x -43 to -21, |y| to 35; the neck sheets' back edges at +25 deg pass x -25 at z 116 (r 37 mm from the neck axis at
-x 1, z 90), x -13 at z 92; the sheets are at y 16.1 to 23.2 and -21.7 to -15.9; the hip yaw servo screws F127 and F129
-(M2x6) sit at x -27.3, y +-24.7 in trunk_top; the cables P13, D1, D13, SD1 cross the region at z 89 within y -11 to +5
-and S2 at y 33; the lowest head-side point over the region is z 120.8 (neck 25, head 39, any yaw). So: two printed
-pillars on trunk_top at y +-(15 to 25), x -40 to -26, z 85.8 to 118, the cable lane between them open, each with a
-TPU face on its +x side at z 108 to 118 that the sheet's back edge meets at +25 deg (r 35 mm or more, the sheet loaded
-in its plane), held by F127 and F129 lengthened (M2x6 to M2x12 through a 4 mm flange, the stock thread engagement
-kept; a uniform pattern, no empty hole) and VHB; the neck sheets go back to stock (their lugs removed). Head forward:
-head_pitch_to_yaw (ours) spans y -21.7 to 23.2 over the neck sheets, whose tops are at z 137 (x -14 to 16); the head
-pitch axis is at x 1, z 156: a tab down from each cheek's front edge meeting a TPU pad on the sheet's front top edge
-puts the stop at r 23 mm against 14, on parts of ours, with the F222 screw and its hex key clear (the slot of the
-present lug shows the keep-out). The hip roll lug gets a TPU face or a larger radius if it fails on the energy loads.
-Then: every hole kept, exact mirrors, the sweep, the neck cable loops with the pillars in the way, the records, the
-slice and print records, mass, BOM, and every sim again.
+**Head and neck stop redesign (built 2026-11-07; section 1 has the parts).** Targets: SF 1.5 for the 12 N head shove
+forward and back, torque off and on, and at the neck stall; the structure margins elsewhere. The first pass's lugs
+(the neck lug's root the stock sheet's edge at r 20.5 mm, the head lug at r 14 mm on the servo case) are gone: the neck
+back stop is two TPU faces on a printed block on trunk_top (F127 and F129 lengthened to M2x12), the stock neck sheets'
+back edges on them at r 41.1 mm (the lever of the pad's normal 38.1 mm: the face is 65 deg from the horizontal, so
+0.37 of the pad force runs along the face into the pocket wall), K 1757 N m/rad; the head forward stop is a TPU face
+in a hook on the left arm of head_pitch_to_yaw, the left sheet's front edge on it at r 29.3 mm (lever 25.0 mm, slide
+0.52), K 272 N m/rad with the 6 mm face. The pad radii in sitlib.STOP_STACK are the builders' (sit_cad.json pad_r_mm,
+checked by sit_stress.py stack_check within 0.05 mm; the sim's K uses them, the stiffer and so the conservative choice;
+the stress rows turn the torque into the pad force on the normal's lever).
 
-| Head and neck stop case (one lug) | SF | Against 1.5 |
+Loads on the final model (sit_stress.json, calc from the sim's omega record): neck service 5.6 N m (omega 0.76 rad/s,
+I 0.030 kg m2; the sim's own limit peak 6.1), the 12 N back shove with the torque on 8.6 N m (omega 1.07; the sim 8.7),
+torque off 1.6 N m (the free head does not reach the back stop fast: the sustained load sizes it), the stall 2.0 N m;
+head service 0.97 N m (omega 0.30), the 12 N forward shove with the torque off **7.4 N m** (omega 2.49 rad/s: the free
+head whips onto the stop; the sim's compliant limit shows 3.1), torque on 0.71 N m, the stall 2.0 N m; hip roll service
+**13.0 N m** (omega 0.54 rad/s on a rigid PLA lug, K 17150 N m/rad; the sim 23.9).
+
+| Head and neck stop case (the weakest row) | SF | Against 1.5 |
 |---|---|---|
-| head stop, 12 N shove forward on the head, torque off | 0.21 | **below 1.5** |
-| head stop, 12 N shove forward on the head, torque on | 1.88 | pass |
-| neck stop, 12 N shove back on the head, torque off | 1.11 | **below 1.5** |
-| neck stop, 12 N shove back on the head, torque on | 0.09 | **below 1.5** |
-| neck stop at a servo stall (one lug) | 0.91 | **below 1.5** |
+| head stop, 12 N shove forward on the head, torque off | 0.34 (head hook root face on the arm (shear across the layers, est)) | **below 1.5** |
+| head stop, 12 N shove forward on the head, torque on | 3.60 (head hook root face on the arm (shear across the layers, est)) | pass |
+| neck stop, 12 N shove back on the head, torque off | 7.09 (neck block screw F127 or F129 (pull-out, one screw)) | pass |
+| neck stop, 12 N shove back on the head, torque on | 1.35 (neck block screw F127 or F129 (pull-out, one screw)) | **below 1.5** |
+| neck stop at a servo stall (one face) | 5.84 (neck block screw F127 or F129 (pull-out, one screw)) | pass |
+| roll stop lug, service (the legs fall onto the stops at the torque-off) | 0.39 (root bending across the layers, F 741 N) | **below 2.0** |
+| roll stop lug, fall / abuse / stall | 0.20 / 0.60 / 1.97 | **below 1.2 / 1.2 / 2.0** |
 
-**Head and neck stops: BLOCKER (CAD not changed in this pass).** The neck lug's root is the stock neck sheet's edge
-(38 mm2 at r 20.5 mm), so a stalled neck servo (1.91 N m plus the head's weight) cannot reach SF 1.5 there: the fix is a
-stop at a larger radius on a part of ours. Proposed, not built: a printed block on trunk_top behind the neck, held by
-the two hip yaw servo screws F127 and F129 (M2x6 to M2x12 through a 4 mm flange, the stock thread engagement kept), with
-TPU faces that the neck sheets' back edges meet at +25 deg at r 35 mm or more (the sheet then takes an in-plane edge
-load and goes back to stock; the head clears the block region above z 120 mm, measured over the head and neck range).
-The head forward stop likewise needs a TPU face on a printed block at a larger radius than the 14 mm lug on the servo
-case. Both need the sweep, the cable check of the neck loops, the records and a print; not done here.
+**Neck stop block: passes on the structure.** Service: pad bearing SF 4.1, the sheet's back edge 19, the pocket wall 6.0,
+the pillar base (M 4138 N mm on W 566 mm3, across the layers: the block prints standing) 2.9; the 12 N back shove with
+the torque on: pillar base 1.88, pad 2.65, pocket wall 3.9; the stall and the torque-off shove 5.8 or more. The one
+open row is the screw: 241 N pull on one M2x12 at service (SF 2.07 against the 500 N estimate), **482 N at the fall
+load (SF 1.04 against 1.2) and 370 N at the back shove with the torque on (SF 1.35 against 1.5)**, so the pull test of
+TEST_PLAN.md 19.8 has to show 580 N or more per screw, or the block gets a third screw or a longer flange (the tip
+pivot at x -42, the screw lever 14.7 mm). **BLOCKER until the pull test.**
 
-sit_stress.py (sit_stress.json), STRUCTURE_TWIN.md allowables (PLA 47.1 MPa in-plane, 22 MPa across the layers; SF 2.0
-service, 1.2 falls). Service is the largest stop torque at the designed end in the load runs (sit_sim.py loads: the 17 push cases
-with the compliant stops at 0.5 ms) and the 1.57 N m knee
-stand-up peak of the study; fall is 2 x service; stall is the servo pressing into its stop at stall torque (a calibration
-error past the 3 deg margin).
+**Head hook: BLOCKER on the free forward shove and the stall (calc).** With the torque on, every row passes (SF 126 at
+the shove). With the torque off, the 12 N forward shove puts 7.4 N m on the stop: the hook's root face on the arm (the
+doubler's 132 mm2 face, in shear across the layers, est; M 7727 N mm) is at **SF 0.34** and the arm with its doubler,
+level with the root (118 mm2 net, W 357 mm3, bending across the layers), at **SF 0.86** against 1.5; at the neck servo
+stall the root face is at SF 1.25 against 2.0. Fix, not built (a CAD change restarts the sweep, the cable check, the
+slice, the mass and every sim): a root over the arm's whole height with a fillet (area x2, polar modulus x4) and the
+face 6 to 10 mm thick (K 272 to 160 N m/rad, the impact torque x0.78), or a through-screw root; the free 12 N shove is
+the ABUSE case for this part (a torque-off head whipped by hand), so SF 1.2 on it would do if the lead accepts that.
+
+**Hip roll stop lug: BLOCKER on the energy loads (calc).** The first pass's lug (1.07 cm3 on roll_to_pitch, PLA on
+PLA, root 96 mm2, W 157 mm3, arm 10.3 mm) was sized on the hard-limit artefact and the old table had it at SF 0.2 by
+that; by the energy method the legs falling onto the stops at the torque-off (omega 0.54 rad/s) make 13.0 N m on a
+rigid stack, 741 N at r 17.5 mm: root bending SF 0.39 at service, 0.20 at the fall load, 0.60 abuse, 1.97 at the stall.
+Fix, not built: a 3 mm TPU face in a pocket on the lug (K to about 1100 N m/rad, the impact torque x0.25) and the root
+doubled (W 157 to 400 mm3), which the calc puts at SF 2 or more at service; or the stop on the trunk side at a larger
+radius. Until then the hip roll stop is a soft limit in software (the Runtime holds -8 deg) and the torque-off sit
+leans on it.
+
+sit_stress.py (sit_stress.json), STRUCTURE_TWIN.md allowables (PLA 47.1 MPa in-plane, 22 MPa across the layers, 12.7
+MPa shear across the layers; TPU 95A bearing 10 MPa est; SF 2.0 service, 1.2 falls and abuse, 1.5 the shove and stall
+targets of the head and neck stops). Service is the energy peak at the designed end over the load runs (the 17 push
+cases with the compliant stops at 0.5 ms) and the stand-up; fall is 2 x service; abuse the ABUSE push cases (8dirs_F12,
+mat_mu0.4_F8); stall the servo pressing into its stop at stall torque; the shove rows the 12 N head shoves. Every row:
 
 | Item | Case | Load | SF | Need |
 |---|---|---|---|---|
-| shin_spacer (beam between the sheets) | service | F 652.8 N at r 24.1 mm | 1.96 | 2.0 |
-| knee bumper pad (bearing) | service | TPU 95A on VHB 4950, 1.67 MPa over 392 mm2 | 6.0 | 2.0 |
-| spacer inserts (sideways) | service | 4 inserts per spacer, 163.2 N each against 618 N | 3.79 | 2.0 |
-| shin sheet horn zone at the joggle | service | R per sheet 333.3 N x 9.0 mm = 3000 N mm on a 25 x 3.85 mm s | 0.97 | 2.0 |
-| shin_spacer (beam between the sheets) | fall | F 1305.7 N at r 24.1 mm | 0.98 | 1.2 |
-| knee bumper pad (bearing) | fall | TPU 95A on VHB 4950, 3.33 MPa over 392 mm2 | 3.0 | 1.2 |
-| spacer inserts (sideways) | fall | 4 inserts per spacer, 326.4 N each against 618 N | 1.89 | 1.2 |
-| shin sheet horn zone at the joggle | fall | R per sheet 659.7 N x 9.0 mm = 5937 N mm on a 25 x 3.85 mm s | 0.49 | 1.2 |
-| shin_spacer (beam between the sheets) | stall | F 121.8 N at r 24.1 mm | 10.52 | 2.0 |
-| knee bumper pad (bearing) | stall | TPU 95A on VHB 4950, 0.31 MPa over 392 mm2 | 32.2 | 2.0 |
-| spacer inserts (sideways) | stall | 4 inserts per spacer, 30.4 N each against 618 N | 20.3 | 2.0 |
-| shin sheet horn zone at the joggle | stall | R per sheet 67.8 N x 9.0 mm = 610 N mm on a 25 x 3.85 mm sec | 4.77 | 2.0 |
-| shin_spacer (beam between the sheets) | abuse | F 877.5 N at r 24.1 mm | 1.46 | 1.2 |
-| knee bumper pad (bearing) | abuse | TPU 95A on VHB 4950, 2.24 MPa over 392 mm2 | 4.47 | 1.2 |
-| spacer inserts (sideways) | abuse | 4 inserts per spacer, 219.4 N each against 618 N | 2.82 | 1.2 |
-| shin sheet horn zone at the joggle | abuse | R per sheet 445.6 N x 9.0 mm = 4011 N mm on a 25 x 3.85 mm s | 0.73 | 1.2 |
-| shin sheet neck, knee torque (FEA scale) | service | 5.0 MPa per N m (STRUCTURE_TWIN.md, sheetlocal levels 2 and  | 0.6 | 2.0 |
-| shin sheet neck, knee torque (FEA scale) | fall | 5.0 MPa per N m (STRUCTURE_TWIN.md, sheetlocal levels 2 and  | 0.3 | 1.2 |
-| ankle pad (bearing, per pad) | service | 2 pads, 125.1 N each over 45 mm2 | 3.6 | 2.0 |
-| foot plate pad seat (bearing) | service | PLA seat under the pad, across the layers (conservative) | 7.91 | 2.0 |
-| ankle pad (bearing, per pad) | fall | 2 pads, 250.2 N each over 45 mm2 | 1.8 | 1.2 |
-| foot plate pad seat (bearing) | fall | PLA seat under the pad, across the layers (conservative) | 3.96 | 1.2 |
-| ankle pad (bearing, per pad) | stall | 2 pads, 27.7 N each over 45 mm2 | 16.24 | 2.0 |
-| foot plate pad seat (bearing) | stall | PLA seat under the pad, across the layers (conservative) | 35.74 | 2.0 |
-| ankle pad (bearing, per pad) | abuse | 2 pads, 158.4 N each over 45 mm2 | 2.84 | 1.2 |
-| foot plate pad seat (bearing) | abuse | PLA seat under the pad, across the layers (conservative) | 6.25 | 1.2 |
-| roll stop lug | service | F 1427.3 N at r 17.5 mm | 0.2 | 2.0 |
-| roll stop lug | fall | F 2854.6 N at r 17.5 mm | 0.1 | 1.2 |
-| roll stop lug | stall | F 109.2 N at r 17.5 mm | 2.65 | 2.0 |
-| roll stop lug | abuse | F 1906.7 N at r 17.5 mm | 0.15 | 1.2 |
-| neck stop lug | service | F 736.1 N at r 20.5 mm | 0.12 | 2.0 |
-| neck stop lug | fall | F 1472.2 N at r 20.5 mm | 0.06 | 1.2 |
-| neck stop lug | stall | F 93.3 N at r 20.5 mm | 0.95 | 2.0 |
-| neck stop lug | abuse | F 885.1 N at r 20.5 mm | 0.1 | 1.2 |
-| head stop lug | service | F 688.3 N at r 14.0 mm | 0.79 | 2.0 |
-| head stop lug | fall | F 1376.6 N at r 14.0 mm | 0.4 | 1.2 |
-| head stop lug | stall | F 136.4 N at r 14.0 mm | 4.0 | 2.0 |
-| head stop lug | abuse | F 683.7 N at r 14.0 mm | 0.8 | 1.2 |
+| shin_spacer (beam between the sheets) | service | F 146.0 N at r 24.1 mm; M 1489 N mm; W 278 mm3 (layers along the beam: in-plane) | 8.78 | 2.0 |
+| knee bumper pad (bearing) | service | TPU 95A on VHB 4950, 0.37 MPa over 392 mm2; 10 MPa used as a TPU compressive working value (est) | 26.85 | 2.0 |
+| spacer inserts (sideways) | service | 4 inserts per spacer, 36.5 N each against 618 N | 16.93 | 2.0 |
+| shin sheet horn zone at the joggle | service | R per sheet 79.9 N x 9.0 mm = 719 N mm on a 25 x 3.85 mm section (bending in the layers: the sheet prints flat) | 4.05 | 2.0 |
+| shin_spacer (beam between the sheets) | fall | F 292.0 N at r 24.1 mm; M 2978 N mm; W 278 mm3 (layers along the beam: in-plane) | 4.39 | 1.2 |
+| knee bumper pad (bearing) | fall | TPU 95A on VHB 4950, 0.74 MPa over 392 mm2; 10 MPa used as a TPU compressive working value (est) | 13.43 | 1.2 |
+| spacer inserts (sideways) | fall | 4 inserts per spacer, 73.0 N each against 618 N | 8.47 | 1.2 |
+| shin sheet horn zone at the joggle | fall | R per sheet 152.9 N x 9.0 mm = 1376 N mm on a 25 x 3.85 mm section (bending in the layers: the sheet prints flat) | 2.11 | 1.2 |
+| shin_spacer (beam between the sheets) | stall | F 152.0 N at r 24.1 mm; M 1550 N mm; W 278 mm3 (layers along the beam: in-plane) | 8.43 | 2.0 |
+| knee bumper pad (bearing) | stall | TPU 95A on VHB 4950, 0.39 MPa over 392 mm2; 10 MPa used as a TPU compressive working value (est) | 25.79 | 2.0 |
+| spacer inserts (sideways) | stall | 4 inserts per spacer, 38.0 N each against 618 N | 16.26 | 2.0 |
+| shin sheet horn zone at the joggle | stall | R per sheet 82.9 N x 9.0 mm = 746 N mm on a 25 x 3.85 mm section (bending in the layers: the sheet prints flat) | 3.90 | 2.0 |
+| shin_spacer (beam between the sheets) | abuse | F 188.5 N at r 24.1 mm; M 1923 N mm; W 278 mm3 (layers along the beam: in-plane) | 6.80 | 1.2 |
+| knee bumper pad (bearing) | abuse | TPU 95A on VHB 4950, 0.48 MPa over 392 mm2; 10 MPa used as a TPU compressive working value (est) | 20.79 | 1.2 |
+| spacer inserts (sideways) | abuse | 4 inserts per spacer, 47.1 N each against 618 N | 13.11 | 1.2 |
+| shin sheet horn zone at the joggle | abuse | R per sheet 101.1 N x 9.0 mm = 910 N mm on a 25 x 3.85 mm section (bending in the layers: the sheet prints flat) | 3.20 | 1.2 |
+| shin sheet neck, knee torque (FEA scale) | service | 5.0 MPa per N m (STRUCTURE_TWIN.md, sheetlocal levels 2 and 3) x 3.52 N m | 2.67 | 2.0 |
+| shin sheet neck, knee torque (FEA scale) | fall | 5.0 MPa per N m (STRUCTURE_TWIN.md, sheetlocal levels 2 and 3) x 7.05 N m | 1.34 | 1.2 |
+| ankle pad (bearing, per pad) | service | 2 pads, 42.1 N each over 45 mm2 | 10.70 | 2.0 |
+| foot plate pad seat (bearing) | service | PLA seat under the pad, across the layers (conservative) | 23.54 | 2.0 |
+| ankle pad (bearing, per pad) | fall | 2 pads, 84.1 N each over 45 mm2 | 5.35 | 1.2 |
+| foot plate pad seat (bearing) | fall | PLA seat under the pad, across the layers (conservative) | 11.77 | 1.2 |
+| ankle pad (bearing, per pad) | stall | 2 pads, 31.4 N each over 45 mm2 | 14.33 | 2.0 |
+| foot plate pad seat (bearing) | stall | PLA seat under the pad, across the layers (conservative) | 31.53 | 2.0 |
+| ankle pad (bearing, per pad) | abuse | 2 pads, 26.6 N each over 45 mm2 | 16.93 | 1.2 |
+| foot plate pad seat (bearing) | abuse | PLA seat under the pad, across the layers (conservative) | 37.26 | 1.2 |
+| roll stop lug | service | F 740.8 N at r 17.5 mm; root 96 mm2, W 157 mm3, arm 10.3 mm (across the layers, conservative) | 0.39 | 2.0 |
+| roll stop lug | fall | F 1481.7 N at r 17.5 mm; root 96 mm2, W 157 mm3, arm 10.3 mm (across the layers, conservative) | 0.20 | 1.2 |
+| roll stop lug | stall | F 146.8 N at r 17.5 mm; root 96 mm2, W 157 mm3, arm 10.3 mm (across the layers, conservative) | 1.97 | 2.0 |
+| roll stop lug | abuse | F 481.3 N at r 17.5 mm; root 96 mm2, W 157 mm3, arm 10.3 mm (across the layers, conservative) | 0.60 | 1.2 |
+| neck pad (TPU bearing) | service | F 147.7 N on the 38.1 mm lever of the pad's normal (pad centre r 41.1) over 60 mm2 (one face) | 4.06 | 2.0 |
+| neck sheet back edge (in-plane bearing) | service | the stock sheet's 6.0 mm back edge over the 10 mm pad, the load in the sheet's plane | 19.29 | 2.0 |
+| neck pad pocket wall (the slide, across the layers) | service | 0.37 of F along the face = 55.3 N on the 6.0 x 2.5 mm pocket wall | 5.97 | 2.0 |
+| neck pillar base (bending, across the layers) | service | M 4138 N mm on W 566 mm3 plus 62.4 N on 191 mm2 (the block prints standing: the base is a layer plane) | 2.88 | 2.0 |
+| neck block screw F127 or F129 (pull-out, one screw) | service | tip moment 3545 N mm about the pillar's back edge (x -42.0), screw lever 14.7 mm: 241.2 N against 500 N est | 2.07 | 2.0 |
+| neck pad (TPU bearing) | fall | F 295.5 N on the 38.1 mm lever of the pad's normal (pad centre r 41.1) over 60 mm2 (one face) | 2.03 | 1.2 |
+| neck sheet back edge (in-plane bearing) | fall | the stock sheet's 6.0 mm back edge over the 10 mm pad, the load in the sheet's plane | 9.64 | 1.2 |
+| neck pad pocket wall (the slide, across the layers) | fall | 0.37 of F along the face = 110.5 N on the 6.0 x 2.5 mm pocket wall | 2.99 | 1.2 |
+| neck pillar base (bending, across the layers) | fall | M 8276 N mm on W 566 mm3 plus 124.9 N on 191 mm2 (the block prints standing: the base is a layer plane) | 1.44 | 1.2 |
+| neck block screw F127 or F129 (pull-out, one screw) | fall | tip moment 7090 N mm about the pillar's back edge (x -42.0), screw lever 14.7 mm: 482.3 N against 500 N est | 1.04 | 1.2 |
+| neck pad (TPU bearing) | stall | F 53.5 N on the 38.1 mm lever of the pad's normal (pad centre r 41.1) over 60 mm2 (one face) | 11.22 | 2.0 |
+| neck sheet back edge (in-plane bearing) | stall | the stock sheet's 6.0 mm back edge over the 10 mm pad, the load in the sheet's plane | 53.31 | 2.0 |
+| neck pad pocket wall (the slide, across the layers) | stall | 0.37 of F along the face = 20.0 N on the 6.0 x 2.5 mm pocket wall | 16.50 | 2.0 |
+| neck pillar base (bending, across the layers) | stall | M 1497 N mm on W 566 mm3 plus 22.6 N on 191 mm2 (the block prints standing: the base is a layer plane) | 7.96 | 2.0 |
+| neck block screw F127 or F129 (pull-out, one screw) | stall | tip moment 1283 N mm about the pillar's back edge (x -42.0), screw lever 14.7 mm: 87.3 N against 500 N est | 5.73 | 2.0 |
+| neck pad (TPU bearing) | abuse | F 51.8 N on the 38.1 mm lever of the pad's normal (pad centre r 41.1) over 60 mm2 (one face) | 11.58 | 1.2 |
+| neck sheet back edge (in-plane bearing) | abuse | the stock sheet's 6.0 mm back edge over the 10 mm pad, the load in the sheet's plane | 55.01 | 1.2 |
+| neck pad pocket wall (the slide, across the layers) | abuse | 0.37 of F along the face = 19.4 N on the 6.0 x 2.5 mm pocket wall | 17.03 | 1.2 |
+| neck pillar base (bending, across the layers) | abuse | M 1451 N mm on W 566 mm3 plus 21.9 N on 191 mm2 (the block prints standing: the base is a layer plane) | 8.21 | 1.2 |
+| neck block screw F127 or F129 (pull-out, one screw) | abuse | tip moment 1243 N mm about the pillar's back edge (x -42.0), screw lever 14.7 mm: 84.6 N against 500 N est | 5.91 | 1.2 |
+| head pad (TPU bearing) | service | F 38.8 N at r 25.0 mm over 73 mm2 | 18.87 | 2.0 |
+| neck sheet front edge (in-plane bearing) | service | the stock left sheet's 6.3 mm front edge over the 12 mm pad, the load in the sheet's plane | 91.79 | 2.0 |
+| head pad pocket wall (the slide, across the layers) | service | 0.52 of F along the face = 20.3 N on the 6.1 x 2.5 mm pocket wall | 16.52 | 2.0 |
+| head hook root face on the arm (shear across the layers, est) | service | the doubler's face on the arm, 132 mm2, carries M 1012 N mm (lever 26.1 mm) in shear: Jp 4916 mm4, r 22.1 mm | 2.62 | 2.0 |
+| yoke left arm with the doubler, level with the root (bending across the layers) | service | the composite section at z 159.9: net 118 mm2, W 357 mm3, M 1086 N mm (lever 28.0 mm) | 6.53 | 2.0 |
+| head hook foot plate at x 13 (bending, in the plate) | service | the 4 mm plate outboard of the sheet: 94 mm2, W 240 mm3, M 277 N mm (lever 7.1 mm); the plate prints flat | 30.07 | 2.0 |
+| head pad (TPU bearing) | fall | F 77.6 N at r 25.0 mm over 73 mm2 | 9.44 | 1.2 |
+| neck sheet front edge (in-plane bearing) | fall | the stock left sheet's 6.3 mm front edge over the 12 mm pad, the load in the sheet's plane | 45.90 | 1.2 |
+| head pad pocket wall (the slide, across the layers) | fall | 0.52 of F along the face = 40.6 N on the 6.1 x 2.5 mm pocket wall | 8.26 | 1.2 |
+| head hook root face on the arm (shear across the layers, est) | fall | the doubler's face on the arm, 132 mm2, carries M 2024 N mm (lever 26.1 mm) in shear: Jp 4916 mm4, r 22.1 mm | 1.31 | 1.2 |
+| yoke left arm with the doubler, level with the root (bending across the layers) | fall | the composite section at z 159.9: net 118 mm2, W 357 mm3, M 2171 N mm (lever 28.0 mm) | 3.27 | 1.2 |
+| head hook foot plate at x 13 (bending, in the plate) | fall | the 4 mm plate outboard of the sheet: 94 mm2, W 240 mm3, M 554 N mm (lever 7.1 mm); the plate prints flat | 15.04 | 1.2 |
+| head pad (TPU bearing) | stall | F 81.2 N at r 25.0 mm over 73 mm2 | 9.01 | 2.0 |
+| neck sheet front edge (in-plane bearing) | stall | the stock left sheet's 6.3 mm front edge over the 12 mm pad, the load in the sheet's plane | 43.84 | 2.0 |
+| head pad pocket wall (the slide, across the layers) | stall | 0.52 of F along the face = 42.5 N on the 6.1 x 2.5 mm pocket wall | 7.89 | 2.0 |
+| head hook root face on the arm (shear across the layers, est) | stall | the doubler's face on the arm, 132 mm2, carries M 2119 N mm (lever 26.1 mm) in shear: Jp 4916 mm4, r 22.1 mm | 1.25 | 2.0 |
+| yoke left arm with the doubler, level with the root (bending across the layers) | stall | the composite section at z 159.9: net 118 mm2, W 357 mm3, M 2273 N mm (lever 28.0 mm) | 3.12 | 2.0 |
+| head hook foot plate at x 13 (bending, in the plate) | stall | the 4 mm plate outboard of the sheet: 94 mm2, W 240 mm3, M 580 N mm (lever 7.1 mm); the plate prints flat | 14.36 | 2.0 |
+| head pad (TPU bearing) | abuse | F 36.6 N at r 25.0 mm over 73 mm2 | 20.00 | 1.2 |
+| neck sheet front edge (in-plane bearing) | abuse | the stock left sheet's 6.3 mm front edge over the 12 mm pad, the load in the sheet's plane | 97.31 | 1.2 |
+| head pad pocket wall (the slide, across the layers) | abuse | 0.52 of F along the face = 19.2 N on the 6.1 x 2.5 mm pocket wall | 17.52 | 1.2 |
+| head hook root face on the arm (shear across the layers, est) | abuse | the doubler's face on the arm, 132 mm2, carries M 955 N mm (lever 26.1 mm) in shear: Jp 4916 mm4, r 22.1 mm | 2.78 | 1.2 |
+| yoke left arm with the doubler, level with the root (bending across the layers) | abuse | the composite section at z 159.9: net 118 mm2, W 357 mm3, M 1024 N mm (lever 28.0 mm) | 6.92 | 1.2 |
+| head hook foot plate at x 13 (bending, in the plate) | abuse | the 4 mm plate outboard of the sheet: 94 mm2, W 240 mm3, M 261 N mm (lever 7.1 mm); the plate prints flat | 31.88 | 1.2 |
+| head pad (TPU bearing) | shove | F 296.1 N at r 25.0 mm over 73 mm2 | 2.47 | 1.5 |
+| neck sheet front edge (in-plane bearing) | head stop, 12 N shove forward on the head, torque off | the stock left sheet's 6.3 mm front edge over the 12 mm pad, the load in the sheet's plane | 12.02 | 1.5 |
+| head pad pocket wall (the slide, across the layers) | head stop, 12 N shove forward on the head, torque off | 0.52 of F along the face = 155.0 N on the 6.1 x 2.5 mm pocket wall | 2.16 | 1.5 |
+| head hook root face on the arm (shear across the layers, est) | head stop, 12 N shove forward on the head, torque off | the doubler's face on the arm, 132 mm2, carries M 7727 N mm (lever 26.1 mm) in shear: Jp 4916 mm4, r 22.1 mm | 0.34 | 1.5 |
+| yoke left arm with the doubler, level with the root (bending across the layers) | head stop, 12 N shove forward on the head, torque off | the composite section at z 159.9: net 118 mm2, W 357 mm3, M 8288 N mm (lever 28.0 mm) | 0.86 | 1.5 |
+| head hook foot plate at x 13 (bending, in the plate) | head stop, 12 N shove forward on the head, torque off | the 4 mm plate outboard of the sheet: 94 mm2, W 240 mm3, M 2114 N mm (lever 7.1 mm); the plate prints flat | 3.94 | 1.5 |
+| head pad (TPU bearing) | shove | F 28.3 N at r 25.0 mm over 73 mm2 | 25.85 | 1.5 |
+| neck sheet front edge (in-plane bearing) | head stop, 12 N shove forward on the head, torque on | the stock left sheet's 6.3 mm front edge over the 12 mm pad, the load in the sheet's plane | 125.76 | 1.5 |
+| head pad pocket wall (the slide, across the layers) | head stop, 12 N shove forward on the head, torque on | 0.52 of F along the face = 14.8 N on the 6.1 x 2.5 mm pocket wall | 22.64 | 1.5 |
+| head hook root face on the arm (shear across the layers, est) | head stop, 12 N shove forward on the head, torque on | the doubler's face on the arm, 132 mm2, carries M 739 N mm (lever 26.1 mm) in shear: Jp 4916 mm4, r 22.1 mm | 3.60 | 1.5 |
+| yoke left arm with the doubler, level with the root (bending across the layers) | head stop, 12 N shove forward on the head, torque on | the composite section at z 159.9: net 118 mm2, W 357 mm3, M 792 N mm (lever 28.0 mm) | 8.95 | 1.5 |
+| head hook foot plate at x 13 (bending, in the plate) | head stop, 12 N shove forward on the head, torque on | the 4 mm plate outboard of the sheet: 94 mm2, W 240 mm3, M 202 N mm (lever 7.1 mm); the plate prints flat | 41.20 | 1.5 |
+| neck pad (TPU bearing) | neck stop, 12 N shove back on the head, torque off | F 43.2 N on the 38.1 mm lever of the pad's normal (pad centre r 41.1) over 60 mm2 (one face) | 13.89 | 1.5 |
+| neck sheet back edge (in-plane bearing) | neck stop, 12 N shove back on the head, torque off | the stock sheet's 6.0 mm back edge over the 10 mm pad, the load in the sheet's plane | 65.98 | 1.5 |
+| neck pad pocket wall (the slide, across the layers) | neck stop, 12 N shove back on the head, torque off | 0.37 of F along the face = 16.2 N on the 6.0 x 2.5 mm pocket wall | 20.43 | 1.5 |
+| neck pillar base (bending, across the layers) | neck stop, 12 N shove back on the head, torque off | M 1210 N mm on W 566 mm3 plus 18.3 N on 191 mm2 (the block prints standing: the base is a layer plane) | 9.85 | 1.5 |
+| neck block screw F127 or F129 (pull-out, one screw) | neck stop, 12 N shove back on the head, torque off | tip moment 1036 N mm about the pillar's back edge (x -42.0), screw lever 14.7 mm: 70.5 N against 500 N est | 7.09 | 1.5 |
+| neck pad (TPU bearing) | neck stop, 12 N shove back on the head, torque on | F 226.7 N on the 38.1 mm lever of the pad's normal (pad centre r 41.1) over 60 mm2 (one face) | 2.65 | 1.5 |
+| neck sheet back edge (in-plane bearing) | neck stop, 12 N shove back on the head, torque on | the stock sheet's 6.0 mm back edge over the 10 mm pad, the load in the sheet's plane | 12.57 | 1.5 |
+| neck pad pocket wall (the slide, across the layers) | neck stop, 12 N shove back on the head, torque on | 0.37 of F along the face = 84.8 N on the 6.0 x 2.5 mm pocket wall | 3.89 | 1.5 |
+| neck pillar base (bending, across the layers) | neck stop, 12 N shove back on the head, torque on | M 6350 N mm on W 566 mm3 plus 95.8 N on 191 mm2 (the block prints standing: the base is a layer plane) | 1.88 | 1.5 |
+| neck block screw F127 or F129 (pull-out, one screw) | neck stop, 12 N shove back on the head, torque on | tip moment 5440 N mm about the pillar's back edge (x -42.0), screw lever 14.7 mm: 370.1 N against 500 N est | 1.35 | 1.5 |
+| neck pad (TPU bearing) | neck stop at a servo stall (one face) | F 52.5 N on the 38.1 mm lever of the pad's normal (pad centre r 41.1) over 60 mm2 (one face) | 11.44 | 1.5 |
+| neck sheet back edge (in-plane bearing) | neck stop at a servo stall (one face) | the stock sheet's 6.0 mm back edge over the 10 mm pad, the load in the sheet's plane | 54.32 | 1.5 |
+| neck pad pocket wall (the slide, across the layers) | neck stop at a servo stall (one face) | 0.37 of F along the face = 19.6 N on the 6.0 x 2.5 mm pocket wall | 16.82 | 1.5 |
+| neck pillar base (bending, across the layers) | neck stop at a servo stall (one face) | M 1470 N mm on W 566 mm3 plus 22.2 N on 191 mm2 (the block prints standing: the base is a layer plane) | 8.11 | 1.5 |
+| neck block screw F127 or F129 (pull-out, one screw) | neck stop at a servo stall (one face) | tip moment 1259 N mm about the pillar's back edge (x -42.0), screw lever 14.7 mm: 85.6 N against 500 N est | 5.84 | 1.5 |
 
 The joggled sheet itself is **BLOCKER** until the printed coupon test (TEST_PLAN.md 19.6).
 
 ## 5. Sim (sim pass only)
 
 sit_sim.py on the repo model (sit_model.py: the Playground MJCF at b9be205, the masses of sim/mass_budget.py with the sit
-parts, 2.788 kg, the URDF ranges, the software limits as actuator ranges, the repo meshes; the seat and the bumper collide
+parts, 2.806 kg (2.788 kg in the first pass), the URDF ranges, the software limits as actuator ranges, the repo meshes; the seat and the bumper collide
 with the floor). The SIT_V2 study ran a scratch copy (2.767 kg, the seat and bumper as capsules). sit_sim.json holds the
 numbers.
 
@@ -226,16 +306,21 @@ carries the trunk. On the final model (compliant stops, section 4):
 |---|---|
 | Study (A1b, scratch model) | 20 / 20 / 19 |
 | Repo model at 058e070 (from scratch) | 20 / 18 / 14 (sheet limits 14) |
-| Tuning seeds 0 to 19, final path | 20 / 20 / 20 (sheet limits at 1.0 deg: 20) |
-| Held-out seeds 100 to 119 (never used for tuning) | 20 / 20 / 19 (sheet limits at 1.0 deg: 19) |
+| Tuning seeds 0 to 19, final path, first-pass model (2.788 kg) | 20 / 20 / 20 (sheet limits at 1.0 deg: 20) |
+| Held-out seeds 100 to 119 (never used for tuning), first-pass model | 20 / 20 / 19 (sheet limits at 1.0 deg: 19) |
+| Tuning seeds 0 to 19, final model with the neck stop block and the head hook (2.806 kg) | 20 / 20 / 20 (sheet limits at 1.0 deg: 20) |
+| Held-out seeds 100 to 119, final model | 20 / 20 / 19 (seed 113; sheet limits at 1.0 deg: 19, the same seed) |
 
 Nothing else of the test changed (the success rule, the seeds, the zero error model, the gain randomization). Peak
-torques in the sit and stand: knee 1.72, neck 0.93, head pitch 0.80 N m.
+torques in the sit and stand on the final model: knee 1.73, neck 0.93, head pitch 0.80 N m (the first pass 1.72 / 0.93
+/ 0.80). Every sim in this section and 5a was run again on the final model (sit_sim.json, sit_balance.json,
+inputs key 0d016c83312deae5); the first pass's numbers are kept where they differ.
 
 | Test | Study (A1b) | Repo model now |
 |---|---|---|
-| Push, torque off on the pads, 17 cases | 0 falls; 4 pads made at the end in 17 | **0 falls; 4 pads made at the end in 17** (not at the end: none); drift up to 13.0 mm; trunk pitch -0.7 to 2.8 deg |
-| Stock walk, 10 seeds, forward 0.15 m/s | 0.0956 against 0.1004 m/s before the sit, 0 falls | **0.0998 against 0.1029 m/s**, 0 and 0 falls |
+| Push, torque off on the pads, 17 cases | 0 falls; 4 pads made at the end in 17 | **0 falls; 4 pads made at the end in 16 of 17** (first pass 17 of 17, drift up to 13.0 mm): the 12 N push from 8 directions in turn (8dirs_F12, an ABUSE case) ends 8.1 mm off its start with the CHG+ pad on one contact (the rule wants two or more on every pad), the charge would wait for a re-seat, not a fall; 5 cases lift a pad on the way and make it again; drift up to 16.0 mm; trunk pitch -0.6 to 2.8 deg |
+| Head shove 12 N, 0.2 and 1.0 s, forward and back, torque off and on | - | the body held: 0 falls in 8; free: tips over in 8 of 8 (section 5a) |
+| Stock walk, 10 seeds, forward 0.15 m/s | 0.0956 against 0.1004 m/s before the sit, 0 falls | **0.1001 against 0.1029 m/s** (first pass 0.0998), 0 and 0 falls |
 
 **Sit pose and renders (2026-11-07).** The first sit renders drew the duck 14 deg nose up. Cause: the scratch render
 tool placed the robot at the commanded angles (knee 147, ankle -92, roll 0: 3 deg short of the stops) and rotated it
@@ -255,17 +340,21 @@ footprint of the touching soles, seat and bumper (vertices within 3 mm of the fl
 
 | | Nominal | Worst case |
 |---|---|---|
-| CoM inside the support, to the nearest edge | 76.0 mm (left sole - seat) | 74.9 mm (trunk mass +5 %) |
-| Tip angle forward / back / left / right | 32.2 / 30.4 / 30.4 / 30.6 deg | 31.9 / 29.7 / 29.7 / 29.9 deg |
-| Static push at head height that tips it (rigid robot, calc), 8 directions from forward | 8.3 / 11.7 / 10.9 / 7.8 / 7.8 / 7.8 / 11.2 / 11.8 N | 7.9 / 11.2 / 10.6 / 7.7 / 7.7 / 7.7 / 10.9 / 11.1 N |
-| Sim push at the head CoM, ramped 2 N/s, torque off (neck and head free) | 4.4 / 5.0 / 7.0 / 6.5 / 6.3 / 6.5 / 7.7 / 5.0 N | 4.3 / 4.8 / 6.0 / 6.0 / 6.2 / 6.0 / 6.2 / 4.9 N |
+| CoM inside the support, to the nearest edge | 75.9 mm (left sole - seat) | 75.5 mm (zero +1 deg left, -1 deg right) |
+| Tip angle forward / back / left / right | 31.8 / 30.3 / 30.3 / 30.5 deg | 31.7 / 30.1 / 30.1 / 30.3 deg |
+| Static push at head height that tips it (rigid robot, calc), 8 directions from forward | 8.2 / 11.7 / 10.9 / 7.8 / 7.9 / 7.9 / 11.2 / 11.6 N | 8.1 / 11.5 / 10.7 / 7.7 / 7.8 / 7.7 / 11.0 / 11.3 N |
+| Sim push at the head CoM, ramped 2 N/s, torque off (neck and head free) | 4.4 / 4.9 / 8.9 / 6.5 / 6.4 / 6.6 / 7.3 / 5.0 N | 4.3 / 4.8 / 6.2 / 6.1 / 6.3 / 5.8 / 6.3 / 4.9 N |
+
+(Final model, 2.806 kg, CoM 129.8 mm up at the sit; the first pass, 2.788 kg: nominal margin 76.0 mm, tips 32.2 / 30.4 /
+30.4 / 30.6 deg, worst 74.9 mm and 29.7 deg, sim push 4.3 N forward at worst: the block and the hook moved nothing
+that matters here.)
 
 The sit is well inside its footprint, but with the torque off a push on the head tips it at about 4.3 N forward in the
 sim (the rigid-robot calc says 7.7 N or more), and a 12 N head shove tips it in 8 of 8 free cases (sit_sim.py shove).
 The support edges are not marginal, so no seat or bumper change; the weak point is the free head with the torque off,
 which the learned skill below and a powered neck while people are near address.
 
-**A neck forward stop, evaluated and not built (2026-11-07, sim pass only).** The question was whether a stop at about
+**A neck forward stop, evaluated and not built (2026-11-07, sim pass only; on the first-pass model, 2.788 kg).** The question was whether a stop at about
 -5 deg (the walk uses neck -0.3 to +14.8 deg) would raise the tipping push by keeping the neck from folding forward.
 The same settle and ramped head push (sit_balance.py, nominal case) on the sit model with the neck's forward range cut
 from -20 to -5 deg (software -2): the tipping push is 4.26 N forward against 4.37 N as it is, and within 0.2 N in five
@@ -316,8 +405,15 @@ not. Knee loop flex test to 150 deg: TEST_PLAN.md 19.7.
 - The sit and stand sequence in the Runtime is not written; its design is sit_sim.py DOWN, SIT and rise (sitlib.PATH_A1B,
   the trunk leaned forward in the middle, hip roll back to 0 while seated).
 - The neck stop block hangs on two M2x12 self-tapping screws (F127, F129) whose pull-out strength in the STS3215 case is
-  not published: sit_stress.py takes 500 N (est) until the pull test of TEST_PLAN.md 19.8; the two screws are in no bag
-  or kit (BOM 17m; nothing bought).
+  not published: sit_stress.py takes 500 N (est) and the final model puts 482 N on one screw at the fall load (SF 1.04
+  against 1.2) and 370 N at the 12 N back shove with the torque on (SF 1.35 against 1.5): the pull test of TEST_PLAN.md
+  19.8 has to show 580 N or more, else a third screw or a longer flange; the two screws are in no bag or kit (BOM 17m;
+  nothing bought).
+- The head hook misses the 12 N forward shove with the torque off (7.4 N m by the energy method: root face SF 0.34, the
+  arm with its doubler 0.86 against 1.5) and the stall (root 1.25 against 2.0); the torque-on rows pass. Fix proposed in
+  section 4 (a taller root with a fillet, a 10 mm face, or a through-screw root), not built: calc only.
+- The hip roll stop lug misses the energy loads (13.0 N m, 741 N at r 17.5 mm: SF 0.39 service, 0.20 fall, 0.60 abuse):
+  it needs a TPU face and a doubled root, or a stop on the trunk side (section 4), not built: calc only.
 - The get-up through the sit (D60, getup/GETUP_VIA_SIT.md, sim pass only) holds the hip pitch servos at their torque
   limit through its sit-up (3.14 N m at 7.2 V, 2.62 N m at 6.0 V) and the rise holds the neck at its limit; the thermal
   and stall margins of those holds are not checked (TEST_PLAN.md 19.9).

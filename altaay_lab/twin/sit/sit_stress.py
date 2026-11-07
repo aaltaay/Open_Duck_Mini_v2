@@ -156,16 +156,22 @@ def stack_check(S, cad, tol=1.0):
     if g:
         meas["hip_roll_out"] = lever(*S.joint_world("left_hip_roll"), g["contact"], g["force_dir"])
     # the neck block and the head hook: the pad face centre and normal the builder recorded, checked against the scene
+    # the table's r for these two is the builder's pad_r_mm: the radial distance of the pad centre from the joint axis
+    # (K = k r^2 with that r, the stiffer and so the conservative case); the lever of the pad's normal about the axis,
+    # which turns the stop torque into the pad force (neck_rows, head_rows), is smaller where the face is not tangential
     nb, hh = cad["build"]["neck_stop"], cad["build"]["head_pitch_to_yaw"]
-    meas["neck_back"] = lever(*S.joint_world("neck_pitch"), nb["pad_face_centre"], nb["pad_normal"])
-    meas["head_fwd"] = lever(*S.joint_world("head_pitch"), hh["pad_face_centre"], hh["pad_normal"])
-    for k, rec in (("neck_back", nb), ("head_fwd", hh)):
+    levers = {}
+    for k, rec, jn in (("neck_back", nb, "neck_pitch"), ("head_fwd", hh, "head_pitch")):
+        ax_p, ax_d = S.joint_world(jn)
+        c = np.array(rec["pad_face_centre"], float)
+        meas[k] = float(np.linalg.norm(np.cross(c - np.asarray(ax_p, float), np.asarray(ax_d, float) / np.linalg.norm(ax_d))))
+        levers[k] = lever(ax_p, ax_d, c, rec["pad_normal"])
         if abs(meas[k] - rec["pad_r_mm"]) > 0.05:
             raise SystemExit("%s: the builder's pad radius %.2f is not the scene's %.2f" % (k, rec["pad_r_mm"], meas[k]))
     bad = {k: (round(v, 1), L.STOP_STACK[k]["r_mm"]) for k, v in meas.items() if abs(v - L.STOP_STACK[k]["r_mm"]) > tol}
     if bad:
         raise SystemExit("sitlib.STOP_STACK radii differ from the CAD (measured, table): %s" % bad)
-    return meas
+    return dict(radius_mm={k: round(v, 2) for k, v in meas.items()}, normal_lever_mm={k: round(v, 2) for k, v in levers.items()})
 
 
 _LUGS = {}
@@ -212,6 +218,29 @@ def _section_at_z(mesh_world, z, y_sel):
     return loops[0][:, :2]
 
 
+def _composite_at_z(mesh_world, z, y_sel):
+    """the section of a world mesh at z over the loops y_sel picks: the largest loop less the holes inside it (the screw
+    hole through the flange lobe), bending about y: area, I about the composite centroid, the extreme fibre, the x extent"""
+    from shapely.geometry import Polygon
+    sec = mesh_world.section(plane_origin=[0, 0, z], plane_normal=[0, 0, 1])
+    if sec is None:
+        raise SystemExit("no section at z %.1f" % z)
+    polys = [Polygon(np.asarray(l)[:, :2]) for l in sec.discrete if y_sel(np.asarray(l)[:, 1])]
+    if not polys:
+        raise SystemExit("section at z %.1f: no loop" % z)
+    outer = max(polys, key=lambda q: q.area)
+    holes = [q for q in polys if q is not outer and outer.contains(q)]
+    A = outer.area - sum(q.area for q in holes)
+    cx = (outer.centroid.x * outer.area - sum(q.centroid.x * q.area for q in holes)) / A
+
+    def Ix(q):
+        Ai, Ii, ci = section_props(np.asarray(q.exterior.coords), (0.0, 1.0))
+        return Ii + Ai * (q.centroid.x - cx) ** 2
+    I = Ix(outer) - sum(Ix(q) for q in holes)
+    x_min, x_max = outer.bounds[0], outer.bounds[2]
+    return float(A), float(I), float(max(abs(x_max - cx), abs(x_min - cx))), float(x_min), float(x_max)
+
+
 def neck_geometry(S, cad):
     """the neck block as built: the pad (centre, normal, radius, the edge's slide fraction), the left pillar's base section
     (bending about y, across the layers: the block prints standing), the screw lever (pivot at the pillar's back edge)"""
@@ -223,12 +252,22 @@ def neck_geometry(S, cad):
     pl = cad["placements"]["neck_stop"][0]
     m = trimesh.load(os.path.join(L.PRINT, "neck_stop.stl"), force="mesh")
     m.apply_transform(S.T0[pl["link"]] @ np.array(pl["T_link_mm"]))
-    z_base = float(m.bounds[0][2])
-    poly = _section_at_z(m, z_base + 0.5, lambda y: y.min() > 0)
-    A, I, cc = section_props(poly, (0.0, 1.0))
-    x_min, x_max = float(poly[:, 0].min()), float(poly[:, 0].max())
+    # the pillar's base: the lowest level where the right half's section is the pillar's footprint (100 mm2 or more), not
+    # the flange lobe's spigot in the trunk_top screw recess below it; the section there is the pillar with its screw
+    # lobe, less the screw hole
+    z_base = None
+    for z in np.arange(float(m.bounds[0][2]) + 0.5, float(m.bounds[0][2]) + 12.0, 0.5):
+        try:
+            A, I, cc, x_min, x_max = _composite_at_z(m, float(z), lambda y: y.min() > 0)
+        except SystemExit:
+            continue
+        if A >= 100.0:
+            z_base = float(z) - 0.5
+            break
+    if z_base is None:
+        raise SystemExit("neck block: no pillar footprint of 100 mm2 within 12 mm of the bottom")
     pad = L.STOP_STACK["neck_back"]["pads"][0]
-    return dict(centre=c, normal=n, r=float(nb["pad_r_mm"]), slide=slide, pad_area=pad[0] * pad[1], pad_len=pad[0], pad_w=pad[1],
+    return dict(centre=c, normal=n, r=lever(ax_p, ax_d, c, n), r_centre=float(nb["pad_r_mm"]), slide=slide, pad_area=pad[0] * pad[1], pad_len=pad[0], pad_w=pad[1],
                 edge_w=nb["sheet_back_edge_y"][1] - nb["sheet_back_edge_y"][0], base=dict(A=A, W=I / cc, x_min=x_min, x_max=x_max, z=z_base),
                 screw_x=SC.NECK_SCREWS[0][0], pocket=SC.POCKET, volume=nb["volume_mm3"])
 
@@ -242,7 +281,7 @@ def neck_rows(rows, G, Tn, case, need, label="calc"):
         r = check(name, sigma, allow, load, label=lab, what=what)
         r["need"], r["ok"], r["case"] = need, bool((allow / sigma if sigma > 1e-9 else 1e9) >= need), case
         rows.append(r)
-    add("neck pad (TPU bearing)", F / G["pad_area"], TPU_BEARING, "F %.1f N at r %.1f mm over %.0f mm2 (one face)" % (F, G["r"], G["pad_area"]), "calc, est")
+    add("neck pad (TPU bearing)", F / G["pad_area"], TPU_BEARING, "F %.1f N on the %.1f mm lever of the pad's normal (pad centre r %.1f) over %.0f mm2 (one face)" % (F, G["r"], G["r_centre"], G["pad_area"]), "calc, est")
     add("neck sheet back edge (in-plane bearing)", F / (G["edge_w"] * G["pad_len"]), X_INPLANE,
         "the stock sheet's %.1f mm back edge over the %.0f mm pad, the load in the sheet's plane" % (G["edge_w"], G["pad_len"]))
     add("neck pad pocket wall (the slide, across the layers)", F * G["slide"] / (G["pad_w"] * G["pocket"]), Z_INTER,
@@ -321,7 +360,7 @@ def head_geometry(S, cad):
     fc = np.array([13.0, Polygon(fp[:, [1, 2]]).centroid.x, Polygon(fp[:, [1, 2]]).centroid.y])
     foot = dict(A=Af, W=If / cf, lever=float(np.linalg.norm(np.cross(fc - c, fdir))))
     pad = L.STOP_STACK["head_fwd"]["pads"][0]
-    return dict(centre=c, normal=n, r=float(hh["pad_r_mm"]), slide=slide, pad_area=pad[0] * pad[1], pad_len=pad[0], pad_w=pad[1],
+    return dict(centre=c, normal=n, r=lever(ax_p, ax_d, c, n), r_centre=float(hh["pad_r_mm"]), slide=slide, pad_area=pad[0] * pad[1], pad_len=pad[0], pad_w=pad[1],
                 edge_w=hh["sheet_front_edge_y"][1] - hh["sheet_front_edge_y"][0], root=dict(A=A, Jp=Jp, r_max=r_max, arm=arm, centre=rc),
                 composite=comp, foot=foot, pocket=SC.POCKET, hook_mm3=hh["hook_mm3"], axis=(ax_p, ax_d))
 
@@ -349,6 +388,49 @@ def head_rows(rows, G, Tn, case, need, label="calc"):
     Mf = F * ft["lever"]
     add("head hook foot plate at x 13 (bending, in the plate)", Mf / ft["W"] + F / ft["A"], X_INPLANE,
         "the 4 mm plate outboard of the sheet: %.0f mm2, W %.0f mm3, M %.0f N mm (lever %.1f mm); the plate prints flat" % (ft["A"], ft["W"], Mf, ft["lever"]))
+
+
+def lug_geometry(S):
+    """lug = the printed part now minus the part at BASE_REV; contact = its overlap with the counterpart 0.5 deg past
+    the stop (centroid); force direction = the counterpart's motion there; root = the lug within 0.5 mm of the old part
+    (area = that volume / 0.5); W of a square root of that area; arm = the root centroid to the force line"""
+    out = {}
+    for key, (hl, stl, cl, jn, stop) in LUGS.items():
+        i = L.inst(S, hl, stl)
+        Tw = L.inst_world(S, i)
+        new = L.to_man(S.world_mesh(i))
+        old_m = L.base_mesh("print/%s.stl" % stl)
+        old_m.apply_transform(Tw)
+        old = L.to_man(old_m)
+        lug = new - old
+        root = lug ^ (L.dilate(old, 0.5) - old)
+        st = L.STOPS[stop]
+        past = st["stop"] + (0.5 if st["side"] == "hi" else -0.5)
+        T = L.rel_T(S, {jn: np.radians(past)}, cl, hl)
+        T2 = L.rel_T(S, {jn: np.radians(past + (0.5 if st["side"] == "hi" else -0.5))}, cl, hl)
+        ov = []
+        for j in S.inst:
+            if j["link"] != cl:
+                continue
+            X = L.xform(L.to_man(S.world_mesh(j)), T) ^ lug
+            if X.volume() > 1e-3:
+                m = L.from_man(X)
+                ov.append((X.volume(), m.center_mass))
+        if not ov or lug.volume() < 1.0:
+            out[key] = None
+            continue
+        v = np.array([o[0] for o in ov])
+        cpt = (np.array([o[1] for o in ov]) * v[:, None]).sum(0) / v.sum()
+        # motion of the counterpart at the contact point between the two poses: the force on the lug is along it
+        p1 = (T2 @ np.linalg.inv(T) @ np.r_[cpt, 1])[:3]
+        fdir = p1 - cpt
+        fdir = fdir / np.linalg.norm(fdir)
+        rc = L.from_man(root).center_mass if root.volume() > 1e-3 else L.from_man(lug).center_mass
+        A = max(root.volume() / 0.5, 1e-3)
+        arm = float(np.linalg.norm(np.cross(rc - cpt, fdir)))
+        out[key] = dict(contact=np.round(cpt, 2).tolist(), force_dir=np.round(fdir, 3).tolist(), root_area=round(A, 1),
+                        root_W=round(A ** 1.5 / 6.0, 1), arm=round(arm, 1), lug_mm3=round(lug.volume(), 1), touch_mm3=round(float(v.sum()), 2))
+    return out
 
 
 def check(name, sigma, allow, load, label="calc", what=""):
@@ -387,7 +469,7 @@ def main():
     rows, loads = [], {}
     loads["energy_method"] = dict(label="calc only", service=EP, abuse=EA,
                                   note="design = max(omega sqrt(I K) + rest, sustained 100 ms mean); sim_over_design is the compliant-stop sim's own peak over it (0.5 ms step)")
-    stack_check(S, cad)
+    radii = stack_check(S, cad)
 
     def tq(j, floor=0.0, src=None):
         src = T if src is None else src
@@ -474,6 +556,7 @@ def main():
 
     lugs = lug_geometry_cached(S)
     loads["lug_geometry"] = lugs
+    loads["stop_radii_mm"] = radii
     g = lugs.get("roll")
     if not g:
         raise SystemExit("no hip roll lug on left_roll_to_pitch")
@@ -482,11 +565,13 @@ def main():
              STALL["other"] + REST.get("left_hip_roll", 0.0), tqa("hip_roll"))
     # ---------------- the neck block and the head hook (TPU faces in pockets on parts of ours)
     GN, GH = neck_geometry(S, cad), head_geometry(S, cad)
-    loads["neck_stop"] = dict(service_Nm=round(tq("neck_pitch"), 3), lever_mm=round(GN["r"], 1), slide_fraction=round(GN["slide"], 3),
+    loads["neck_stop"] = dict(service_Nm=round(tq("neck_pitch"), 3), lever_mm=round(GN["r"], 1), pad_centre_r_mm=round(GN["r_centre"], 1), slide_fraction=round(GN["slide"], 3),
                               base_A_mm2=round(GN["base"]["A"], 1), base_W_mm3=round(GN["base"]["W"], 1), base_x=[round(GN["base"]["x_min"], 1), round(GN["base"]["x_max"], 1)])
-    loads["head_hook"] = dict(service_Nm=round(tq("head_pitch"), 3), lever_mm=round(GH["r"], 1), slide_fraction=round(GH["slide"], 3),
-                              root_area_mm2=round(GH["root"]["A"], 1), root_W_mm3=round(GH["root"]["W"], 1), root_arm_mm=round(GH["root"]["arm"], 1),
-                              arm_section_A_mm2=round(GH["arm_section"]["A"], 1), arm_section_W_mm3=round(GH["arm_section"]["W"], 1))
+    loads["head_hook"] = dict(service_Nm=round(tq("head_pitch"), 3), lever_mm=round(GH["r"], 1), pad_centre_r_mm=round(GH["r_centre"], 1),
+                              slide_fraction=round(GH["slide"], 3), hook_mm3=GH["hook_mm3"],
+                              root_area_mm2=round(GH["root"]["A"], 1), root_Jp_mm4=round(GH["root"]["Jp"], 0), root_arm_mm=round(GH["root"]["arm"], 1),
+                              composite_A_mm2=round(GH["composite"]["A"], 1), composite_W_mm3=round(GH["composite"]["W"], 1),
+                              foot_A_mm2=round(GH["foot"]["A"], 1), foot_W_mm3=round(GH["foot"]["W"], 1))
     for case, Tn, need in (("service", tq("neck_pitch"), SF_SERVICE), ("fall", 2 * tq("neck_pitch"), SF_FALL),
                            ("stall", STALL["other"] + REST.get("neck_pitch", 0.0), SF_SERVICE), ("abuse", tqa("neck_pitch"), SF_FALL)):
         neck_rows(rows, GN, Tn, case, need)
