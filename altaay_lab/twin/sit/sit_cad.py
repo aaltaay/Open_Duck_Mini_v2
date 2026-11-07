@@ -84,7 +84,8 @@ NECK_BLOCK = dict(x=(-42.0, -23.0), y=29.0, z_top=126.0)
 NECK_TUNNEL_Y, NECK_BAR_Z, NECK_BAR_X = 15.0, (100.0, 108.0), -32.0    # the bar joining the pillars over the cable run
 # the hip yaw servo cable windows in trunk_top (x -36.5 to -30, y 23.9 to 46 and its mirror, S2 and S7 come up through
 # them, cables3d.json): no block material over them (feat3d does not list them as holes, so the keep-out is written here)
-CABLE_WINDOW = ((-37.0, -29.5), (23.4, 47.0))
+CABLE_WINDOW = ((-43.0, -29.5), (23.4, 47.0))            # and nothing of the block outboard of the pillars behind them: S2 and S7 run
+                                                             # back from the windows at y 30 to 33, z 82 to 89 (C3 found a 1.2 mm rub)
 SHELL_CLR = 0.5                                              # the block to the body shell's roof (same link, a printed fit)
 ROOF_OPEN_Y, ROOF_Z = 25.0, 104.0                            # the shell's neck opening half width and its roof's underside (sections)
 NECK_SCREWS = ((-27.301, -24.749), (-27.301, 24.751))        # F127, F129 seat x, y (fasteners.json), axis -z
