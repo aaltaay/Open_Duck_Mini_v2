@@ -474,6 +474,31 @@ def summary(out):
                 up_peak_torque_Nm={k: round(v, 2) for k, v in sorted(pk.items())}, walk=walk)
 
 
+def _cached_job(args):
+    fn, path, job = args
+    r = fn(job)
+    tmp = path + ".tmp"
+    with open(tmp, "w") as fh:
+        json.dump(r, fh, default=float)
+    os.replace(tmp, path)                       # one file per case, written whole: a restart keeps every finished case
+    return r
+
+
+def run_cached(a, test, J, fn, key):
+    """run the cases of a test in a pool, one result file per case under <out>/cases_<test>/ (the model's sit_model.json
+    hash in the name of the folder, so a rebuilt model starts afresh); cases with a file are not run again"""
+    import hashlib
+    h = hashlib.sha1(open(os.path.join(a.out, "sit", "sit_model.json"), "rb").read()).hexdigest()[:10]
+    d = os.path.join(a.out, "cases_%s_%s" % (test, h))
+    os.makedirs(d, exist_ok=True)
+    todo = [(fn, os.path.join(d, key(j) + ".json"), j) for j in J if not os.path.exists(os.path.join(d, key(j) + ".json"))]
+    print("%s: %d cases, %d done before" % (test, len(J), len(J) - len(todo)), flush=True)
+    if todo:
+        with Pool(a.jobs, initializer=_init, initargs=(a.out,)) as p:
+            p.map(_cached_job, todo, chunksize=1)
+    return [json.load(open(os.path.join(d, key(j) + ".json"))) for j in J]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
@@ -488,13 +513,10 @@ def main():
         print("wrote altaay_lab/twin/sit/sit_sim.json")
         return
     if a.test == "push":
-        J = push_cases()
-        with Pool(a.jobs, initializer=_init, initargs=(a.out,)) as p:
-            R = p.map(push_job, J, chunksize=1)
+        R = run_cached(a, "push", push_cases(), push_job, lambda j: j[0])
     elif a.test == "up":
         J = [(s, sig, lim) for sig, lim in ((0.0, "model"), (0.5, "model"), (1.0, "model"), (1.0, "sheet")) for s in range(a.seeds)]
-        with Pool(a.jobs, initializer=_init, initargs=(a.out,)) as p:
-            R = p.map(up_job, J, chunksize=1)
+        R = run_cached(a, "up", J, up_job, lambda j: "s%d_sig%s_%s" % j)
     else:
         dirs = walk_model_dirs(a.out)
         if not dirs["before"] or not os.path.isdir(dirs["before"]):
