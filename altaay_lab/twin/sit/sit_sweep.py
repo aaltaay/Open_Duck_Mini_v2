@@ -294,6 +294,7 @@ def run(walk_json=None, quick=False, log=print):
                     worst[k] = (round(v, 2), tag, [round(x, 1) for x in p] if p else None)
         report[group] = dict(states=len(states), new_overlaps={k: dict(mm3=v[0], state=v[1], pose=v[2]) for k, v in sorted(worst.items(), key=lambda x: -x[1][0])})
         log("%s: %d states, %d pairs with new overlap (%.0f s)" % (group, len(states), len(worst), time.time() - t0))
+    report["path_waypoints_deg"] = [list(w) for w in L.PATH_A1B]      # what was swept (the sitlib path at run time)
     L.dump(report, os.path.join(HERE, "sit_sweep.json"))
     return report
 

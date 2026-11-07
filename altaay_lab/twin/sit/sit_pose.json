@@ -1,0 +1,66 @@
+{
+ "generated_by": "altaay_lab/twin/sit/sit_pose.py settle",
+ "label": "sim pass only",
+ "pitch_tol_deg": 2.0,
+ "trunk_T_mm": [
+  [
+   0.998744,
+   0.014652,
+   -0.047905,
+   -18.121586
+  ],
+  [
+   -0.014664,
+   0.999892,
+   8.8e-05,
+   -0.249134
+  ],
+  [
+   0.047901,
+   0.000614,
+   0.998852,
+   71.187573
+  ],
+  [
+   0.0,
+   0.0,
+   0.0,
+   1.0
+  ]
+ ],
+ "trunk_pitch_deg": 2.75,
+ "trunk_roll_deg": 0.04,
+ "trunk_z_mm": 71.2,
+ "joints_deg": {
+  "left_hip_yaw": -2.653,
+  "left_hip_roll": -8.0,
+  "left_hip_pitch": -57.336,
+  "left_knee": 150.001,
+  "left_ankle": -95.001,
+  "neck_pitch": 25.0,
+  "head_pitch": -24.999,
+  "head_yaw": -0.006,
+  "head_roll": -0.008,
+  "right_hip_yaw": 2.225,
+  "right_hip_roll": 7.999,
+  "right_hip_pitch": 56.845,
+  "right_knee": 150.001,
+  "right_ankle": -95.001
+ },
+ "pads": {
+  "CHG+": 4,
+  "SENSE": 6,
+  "SYS": 3,
+  "GND": 5
+ },
+ "head_elev_deg": 2.75,
+ "frame_mismatch_mm": 0.00487,
+ "inputs_key": "47af8752d2320b7c",
+ "render_pitch_deg": 2.75,
+ "render_lowest_z_mm": {
+  "sole_foot_assembly": -0.34,
+  "sole_foot_assembly_2": -0.28,
+  "sit_seat": -0.04,
+  "sit_bumper": 3.2
+ }
+}
