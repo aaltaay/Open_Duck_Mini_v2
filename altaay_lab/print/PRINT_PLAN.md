@@ -364,3 +364,9 @@ BOM line 27: need 1400 g sliced (1384 g before the T1 stack pieces, 1502 g befor
 ## V1 track 2 additions (2026-11-04)
 - D30 button plate: print altaay_lab/twin/assembly/button_plate_d30.stl (535 mm3, about 0.6 g) with the base profile, flange down. Fit check: the plug goes into the body_back switch cutout with about 0.25 mm a side, the NKK MB2011SS1W01 bushing through the 6.4 mm hole, nut on the outside (TEST_PLAN 13).
 - D29 was reverted (D33): the side lamp parts (flash_light_module, flash_reflector_interface) and the D24 lead hole stay exactly as above.
+
+## V1 sit additions (2026-11-06 ET, D59; twin/sit/SIT.md)
+- New STLs: shin_left_sheet and shin_right_sheet (3 walls and fit, as the knee_to_ankle sheets; one spare each), shin_spacer (insert rings, as leg_spacer), and the TPU parts knee_bumper (2), ankle_pad (4), hip_pad (2) on the sole profile, sit_seat and sit_bumper at 10 % infill (config/ovr_sparse.ini; the seat prints on its sloped glue face, parts.csv `up`). knee_to_ankle_left/right_sheet and leg_spacer are the thigh parts only now (2 each). Grams and hours: SLICE_SUMMARY.md D59 rows.
+- The plates of this plan were laid out before D59 and are not re-run: put the shin sheets with the thigh sheets (wall3+fit job), shin_spacer with the leg_spacer rings job, and the TPU parts with the soles (session S2 or after it).
+- Left-leg check 8 (before the right leg prints): TEST_PLAN.md 19.2 (the clamp block counterbores take the M2 screws and the driver, the moved heel screw, the knee bumper at 150, the ankle pads at -95, the lugs at their stops).
+- The spare shin_right_sheet is the coupon of TEST_PLAN.md 19.6 (joggled sheet strength): print it with the first leg.

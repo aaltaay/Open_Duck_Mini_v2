@@ -4,6 +4,10 @@ Last updated: 2026-11-04 about 5:40 PM ET (America/New_York) by the V1 electrica
 
 Phase: digital twin first. Ahmed, 2026-11-03: nothing is printed until the full digital twin is done (physics, heat, strength, the real robot code against the twin, falls, get-up and dock in sim). Nothing bought, nothing printed.
 
+## V1 sit (2026-11-06 ET, twin/sit/SIT.md; D58 and D59; CAD check only, calc, sim pass only)
+- The alert sit (A1b) is in the CAD: joggled shin sheets, shin spacer, stop lugs, TPU knee bumpers, ankle pads, hip pads, seat and belly bumper; the heel screw moved 20 mm; ranges knee 150, ankle -95, hip roll out 8, hip pitch back 75, neck +25, head -25 deg with software limits 3 deg inside (software/servo_limits.json) and a calibration procedure (software/CALIBRATION.md). Robot set 44 STLs, 62 parts; mass 2788.1 g.
+- The feet-contact dock is decided (D58); the wall and paddle dock's CAD stays until the feet-dock CAD job. BLOCKERs: unpowered servo friction, calibration repeatability, the joggled sheet coupon (TEST_PLAN.md 19).
+
 ## V1 freeze pass (2026-11-06 ET, twin/freeze/FREEZE.md; CAD check only, calc only, sim pass only)
 - Mic seats now in print/head.stl (the ear mount unchanged); C1, C3 and E4 FAILs cleared at their cause; test order total $228.49 confirmed; speaker stand pilots coaxial (the 20.7 deg was a fit artefact).
 - Added: touch (D51), speaker duct (D52), ears on hardware PWM (D53), cliff ToF (D54), being picked up (D55), one arbiter (D56), no colour eyes for now (D57). Wiring sheet 6 (touch and cliff). Nothing bought.
