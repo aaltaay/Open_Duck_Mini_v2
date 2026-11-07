@@ -70,6 +70,20 @@ a pair counts above 2 mm3 over its zero-pose overlap. Results in sit_sweep.json.
 
 ## 4. Strength (calc)
 
+**Status after the review fixes (2026-11-06 late, OPEN):** with the stop torques now taken on every physics step
+(Codex review), the sim's joint limit impulses enter the loads: one 2 ms step at the moment a joint reaches its stop
+(head pitch 13.7 N m from a 12 N shove at 0.30 rad/s; the neck pitch limit even higher in the sit entry). These are
+step-size artefacts of the soft joint limit, not service loads, and sit_stress.json now fails (all_ok false) on them.
+The stop loads need an impact model instead (energy: omega from the sim, peak = omega sqrt(I k) with the real stop
+stiffness), which sit_stress.py has for the head (head_shove: 12 N on the head, 3 deg gap, I 0.031 kg m2 with the 0.027
+armature, a TPU face gives 5.2 N m peak on the stock-size lug, SF 0.77; a lug region grown to 14 x 26 x 10 mm gave SF 3.1
+with the pad, but the pad could not be placed inside the lug or on the case without a clash, so that CAD is not in).
+The neck lug at a servo stall is SF 0.95 on one lug (about 1.9 sharing over both lugs, which both touch past +25); a
+12 N backward shove on the head with the torque off loads it more. **Open:** the head and neck stop design for a
+shoved toy (a TPU face on a larger lug, placed clear of the stock part), and the impact model in sit_stress.py. The
+table below is the decimated-sample run before the fix.
+
+
 sit_stress.py (sit_stress.json), STRUCTURE_TWIN.md allowables (PLA 47.1 MPa in-plane, 22 MPa across the layers; SF 2.0
 service, 1.2 falls). Service is the largest stop torque the sims saw (sit_sim.py push and up) and the 1.57 N m knee
 stand-up peak of the study; fall is 2 x service; stall is the servo pressing into its stop at stall torque (a calibration
@@ -102,6 +116,13 @@ sit_sim.py on the repo model (sit_model.py: the Playground MJCF at b9be205, the 
 parts, 2.788 kg, the URDF ranges, the software limits as actuator ranges, the repo meshes; the seat and the bumper collide
 with the floor). The SIT_V2 study ran a scratch copy (2.767 kg, the seat and bumper as capsules). sit_sim.json holds the
 numbers.
+
+**After the review fixes (gain kept through entry and stand-up, zero error moving the clamp, seat colliding with the
+floor only, one result file per case):** stand-up 20 / 18 / 14 of 20 at 0 / 0.5 / 1.0 deg (the same as before the fixes;
+at 1.0 deg 4 seeds fall back in the sit); push 0 falls, 4 pads at the end in 16 of 17. **Open:** the target of 20 at 0.5
+deg and 18 at 1.0 deg is not met and its cause is not isolated: not the gain (fixed), not the clamp (fixed), not the
+seat's self-contact (floor only now). Left to test: the printed seat and bumper shape against the study's capsules, the
+neck saturating at 3.23 N m while the head swings up (0.88 N m in the study), and the 21 g and joggled shins.
 
 | Test | Study (A1b) | Repo model now |
 |---|---|---|
