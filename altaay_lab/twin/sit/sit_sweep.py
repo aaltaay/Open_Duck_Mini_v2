@@ -182,6 +182,18 @@ def getup_states():
                         st.append(("getup_roll", c, (Lg[0], Lg[1], Lg[2], Rg[0], Rg[1], Rg[2], n, hp, yaw)))
                 h, k, a, n, hp, T = xv[20:26]
                 st.append(("getup_roll", cfg_full(h, k, a, n, hp), (h, k, a, n, hp)))
+                # the program as run: linear ramps between its keyframes (kf0 to kf1 to the end pose), 6 steps each, both
+                # sides, the yaw clipped: the states a real get-up passes through, not only the keyframes
+                kfs = [np.array(xv[0:9], float), np.array(xv[10:19], float), np.array([h, k, a, h, k, a, n, hp, 0.0], float)]
+                for q0, q1 in zip(kfs[:-1], kfs[1:]):
+                    for s_ in np.linspace(0.0, 1.0, 7)[1:-1]:
+                        hL, kL, aL, hR, kR, aR, n_, hp_, y_ = q0 + s_ * (q1 - q0)
+                        for sgn in (1.0, -1.0):
+                            Lg, Rg = ((hL, kL, aL), (hR, kR, aR)) if sgn > 0 else ((hR, kR, aR), (hL, kL, aL))
+                            yaw = float(np.clip(sgn * y_, SOFT_YAW[0], SOFT_YAW[1]))
+                            c = cfg_full(Lg[0], Lg[1], Lg[2], n_, hp_)
+                            c.update({"right_hip_pitch": -D(Rg[0]), "right_knee": D(Rg[1]), "right_ankle": D(Rg[2]), "head_yaw": D(yaw)})
+                            st.append(("getup_ramp", c, tuple(round(float(x_), 1) for x_ in (Lg[0], Lg[1], Lg[2], Rg[0], Rg[1], Rg[2], n_, hp_, yaw))))
     for yaw in SOFT_YAW:
         for n, hp in ((22.0, -22.0), (-17.0, -22.0), (22.0, 36.0), (-17.0, 36.0)):
             c = cfg_full(-60, 147, -92, n, hp)
@@ -220,7 +232,8 @@ def stop_checks(Mo):
     specs = {
         "knee_fold": ("left_knee", ("knee_and_ankle_assembly", "knee_and_ankle_assembly_2"), ("knee_bumper",), dict(left_hip_pitch=D(-60))),
         "ankle_sit": ("left_ankle", ("knee_and_ankle_assembly_2", "foot_assembly"), ("ankle_pad",), {}),
-        "hip_roll_out": ("left_hip_roll", ("hip_roll_assembly", "left_roll_to_pitch_assembly"), ("left_roll_to_pitch", "roll_motor_bottom"), {}),
+        # the roll pad (link left_roll_pad, on roll_to_pitch) meets roll_motor_bottom; the lug (left_roll_to_pitch) must not
+        "hip_roll_out": ("left_hip_roll", [("hip_roll_assembly", "left_roll_pad"), ("hip_roll_assembly", "left_roll_to_pitch_assembly")], ("roll_pad",), {}),
         "hip_pitch_back": ("left_hip_pitch", ("left_roll_to_pitch_assembly", "knee_and_ankle_assembly"), ("hip_pad",), {}),
         # the neck pads (link neck_pads, on the trunk) meet the stock sheets; the block (link neck_stop) and the yoke must not
         "neck_back": ("neck_pitch", [("neck_pads", "neck_pitch_assembly"), ("neck_stop", "neck_pitch_assembly"), (TR, "neck_pitch_assembly"),

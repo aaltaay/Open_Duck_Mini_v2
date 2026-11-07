@@ -52,19 +52,26 @@
   "hip_roll_out": {
    "joint": "left_hip_roll",
    "stop": -8.0,
-   "ok": true,
+   "ok": false,
    "inside": {
     "angle": -7.5,
-    "new_overlap_mm3": {}
+    "new_overlap_mm3": {
+     "roll_motor_bottom|left_roll_to_pitch": 0.3,
+     "roll_motor_bottom|roll_pad_left": 0.02
+    }
    },
    "at": {
     "angle": -8.0,
-    "new_overlap_mm3": {}
+    "new_overlap_mm3": {
+     "roll_motor_bottom|left_roll_to_pitch": 0.32,
+     "roll_motor_bottom|roll_pad_left": 0.03
+    }
    },
    "past": {
     "angle": -8.5,
     "new_overlap_mm3": {
-     "roll_motor_bottom|left_roll_to_pitch": 4.57
+     "roll_motor_bottom|left_roll_to_pitch": 0.32,
+     "roll_motor_bottom|roll_pad_left": 5.1
     }
    }
   },
@@ -97,13 +104,16 @@
    },
    "at": {
     "angle": 25.0,
-    "new_overlap_mm3": {}
+    "new_overlap_mm3": {
+     "neck_pad|neck_left_sheet": 0.16,
+     "neck_pad|neck_right_sheet": 0.12
+    }
    },
    "past": {
     "angle": 25.5,
     "new_overlap_mm3": {
-     "neck_pad|neck_left_sheet": 19.98,
-     "neck_pad|neck_right_sheet": 15.96
+     "neck_pad|neck_left_sheet": 13.62,
+     "neck_pad|neck_right_sheet": 10.65
     }
    }
   },
@@ -266,7 +276,7 @@
   "new_overlaps": {}
  },
  "getup": {
-  "states": 26,
+  "states": 66,
   "new_overlaps": {
    "body_middle_top|head": {
     "mm3": 1528.47,

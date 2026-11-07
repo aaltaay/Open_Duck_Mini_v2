@@ -137,7 +137,8 @@ def load_slice_summary():
         c = [x.strip() for x in line.strip().strip("|").split("|")]
         if on and len(c) == 11 and c[0].endswith(".stl") and c[1].isdigit():
             rows[c[0][:-4]] = dict(qty=int(c[1]), material=c[2], g_each=float(c[4]), support_each=float(c[6]))
-    assert len(rows) == 47, len(rows)      # 36 robot STLs, 44 with the D59 sit parts, 47 with the neck stop block, its pads and the head pad (twin/sit/sit_print.py)
+    assert len(rows) == 49, len(rows)      # 36 robot STLs, 44 with the D59 sit parts, 47 with the neck stop block, its pads and the head pad, 49 with the two
+                                           # conformal roll pads (twin/sit/sit_print.py)
     return rows
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -245,7 +246,8 @@ LINK_ALIAS = {"left_antenna_holder": "head_assembly", "right_antenna_holder": "h
               "left_knee_bumper": "knee_and_ankle_assembly_2", "right_knee_bumper": "knee_and_ankle_assembly_4",
               "left_ankle_pads": "foot_assembly", "right_ankle_pads": "foot_assembly_2", "left_hip_pad": "left_roll_to_pitch_assembly",
               "right_hip_pad": "right_roll_to_pitch_assembly", "sit_seat": "trunk_assembly", "sit_bumper": "trunk_assembly",
-              "neck_stop": "trunk_assembly", "neck_pads": "trunk_assembly", "head_pad": "head_pitch_to_yaw"}
+              "neck_stop": "trunk_assembly", "neck_pads": "trunk_assembly", "head_pad": "head_pitch_to_yaw",
+              "left_roll_pad": "left_roll_to_pitch_assembly", "right_roll_pad": "right_roll_to_pitch_assembly"}
 
 class Item:
     def __init__(self, name, cat, mass_g, source, link, mass_obj, in_model, note=""):

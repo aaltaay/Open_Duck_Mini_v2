@@ -1,8 +1,8 @@
 # PRINT_CHECK
 
-## Note 2026-11-07 4:05 AM ET: D59 alert sit parts
+## Note : D59 alert sit parts
 
-The A1b sit (DECISIONS.md D59, twin/sit/SIT.md; CAD check only) changes 11 printed parts and adds 8 new ones. New rows here: ankle_pad, head_pad, hip_pad, knee_bumper, neck_pad, neck_stop, shin_left_sheet, shin_right_sheet, shin_spacer, sit_bumper, sit_seat, measured on the oriented STLs of a `slice.py parts --only` run (D22 light profile; their grams and hours are that run's, not the 7:24 PM run of the other rows; TPU pads and blocks go on VHB 4950). Quantities follow print/parts.csv: the knee_to_ankle sheets and leg_spacer are the thigh parts only (2 each); the shins print shin_left_sheet, shin_right_sheet (joggled 9 mm, with the clamp block) and shin_spacer. The changed STLs keep their rows here (geometry columns of the stock part; their light-profile grams are in print/SLICE_SUMMARY.md): the thigh sheets lose about 0.4 cm3 at the front edge; foot_top and foot_side get the heel notch, the ankle pad seat and the heel screw moved 20 mm toward the toe (old holes closed, D39); left_cache and right_cache are cut by about 12.6 cm3 for the fold; roll_to_pitch, both neck sheets and head_pitch_to_yaw get a stop lug. Every hole of a changed STL is checked to be there as before (twin/sit/sit_cad.py). Robot set now 47 STLs, 66 parts; in the light profile 1354.0 g and 119.7 h (print/SLICE_SUMMARY.md).
+The A1b sit (DECISIONS.md D59, twin/sit/SIT.md; CAD check only) changes 11 printed parts and adds 8 new ones. New rows here: ankle_pad, head_pad, hip_pad, knee_bumper, neck_pad, neck_stop, roll_pad_left, roll_pad_right, shin_left_sheet, shin_right_sheet, shin_spacer, sit_bumper, sit_seat, measured on the oriented STLs of a `slice.py parts --only` run (D22 light profile; their grams and hours are that run's, not the 7:24 PM run of the other rows; TPU pads and blocks go on VHB 4950). Quantities follow print/parts.csv: the knee_to_ankle sheets and leg_spacer are the thigh parts only (2 each); the shins print shin_left_sheet, shin_right_sheet (joggled 9 mm, with the clamp block) and shin_spacer. The changed STLs keep their rows here (geometry columns of the stock part; their light-profile grams are in print/SLICE_SUMMARY.md): the thigh sheets lose about 0.4 cm3 at the front edge; foot_top and foot_side get the heel notch, the ankle pad seat and the heel screw moved 20 mm toward the toe (old holes closed, D39); left_cache and right_cache are cut by about 12.6 cm3 for the fold; roll_to_pitch, both neck sheets and head_pitch_to_yaw get a stop lug. Every hole of a changed STL is checked to be there as before (twin/sit/sit_cad.py). Robot set now 49 STLs, 68 parts; in the light profile 1355.5 g and 119.9 h (print/SLICE_SUMMARY.md).
 
 ## Note 2026-11-05 10:50 PM ET: D50 chest lead hole
 
@@ -62,7 +62,7 @@ Last updated: 2026-11-01 7:24 PM ET (print package, see the dated note). Every n
 | foot_top.stl | 2 | PLA 15%, 4 walls | -y up | 103.5x46.0 | 34.9 | 180:Y 220:Y 256:Y | 1126 | 0.95/7.71 | 2 | 1.5 | 0/0 | none | 31.63 | 2.69 | 63.26 | 5.39 | insert wall 1.5<1.6; 4 walls; coupon C2 |
 | head.stl | 1 | PLA 15%, 4 walls | -z up | 199.8x197.3 | 59.4 | 180:N 220:Y 256:Y | 12468 | 1.42/3.00 | 12 | 1.99 | 1/0 | none | 262.01 | 21.96 | 262.01 | 21.96 | no 180 bed; 4 walls |
 | head_bot_sheet.stl | 1 | PLA 15% | +z up | 193.8x191.6 | 3.0 | 180:N 220:Y 256:Y | 201 | 0.22/3.00 | 0 | - | 0/0 | none | 57.52 | 3.88 | 57.52 | 3.88 | no 180 bed |
-| head_pad.stl | 1 | TPU 40% | +z up | 6.1x6.0 | 12.0 | 180:Y 220:Y 256:Y | 0 | 6.00/6.10 | 0 | - | 0/0 | none | 0.56 | 0.16 | 0.56 | 0.16 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run); on VHB 4950 (BOM 29) |
+| head_pad.stl | 1 | TPU 40% | +z up | 10.0x6.1 | 12.0 | 180:Y 220:Y 256:Y | 0 | 6.10/10.00 | 0 | - | 0/0 | none | 0.93 | 0.18 | 0.93 | 0.18 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run); on VHB 4950 (BOM 29) |
 | head_pitch_to_yaw.stl | 1 | PLA 40%, 5 walls | +x up | 72.0x44.9 | 32.0 | 180:Y 220:Y 256:Y | 620 | 0.80/4.00 | 0 | - | 0/0 | none | 16.57 | 1.73 | 16.57 | 1.73 | neck override, spare (G5, G6) |
 | head_roll_mount.stl | 1 | PLA 40%, 5 walls | +z up | 64.7x40.0 | 15.1 | 180:Y 220:Y 256:Y | 1146 | 1.00/4.00 | 0 | - | 0/0 | yes, max pen 0.01 | 15.74 | 1.42 | 15.74 | 1.42 | outer wall first; neck override, spare (G5, G6) |
 | head_yaw_to_roll.stl | 1 | PLA 40%, 5 walls | +z up | 88.0x80.0 | 42.2 | 180:Y 220:Y 256:Y | 498 | 1.33/7.45 | 0 | - | 0/0 | yes, max pen 0.10 | 29.04 | 2.81 | 29.04 | 2.81 | outer wall first; neck override, spare (G5, G6); pocket -0.10, coupon C4 |
@@ -78,13 +78,15 @@ Last updated: 2026-11-01 7:24 PM ET (print package, see the dated note). Every n
 | neck_left_sheet.stl | 1 | PLA 40%, 5 walls | -y up | 58.0x30.7 | 7.1 | 180:Y 220:Y 256:Y | 197 | 0.50/7.05 | 0 | - | 0/0 | yes, max pen 0.00 | 7.49 | 0.70 | 7.49 | 0.70 | neck override, spare (G5, G6) |
 | neck_pad.stl | 2 | TPU 40% | +z up | 10.0x6.0 | 3.0 | 180:Y 220:Y 256:Y | 0 | 3.00/3.00 | 0 | - | 0/0 | none | 0.23 | 0.04 | 0.46 | 0.09 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run); on VHB 4950 (BOM 29) |
 | neck_right_sheet.stl | 1 | PLA 40%, 5 walls | +y up | 58.0x30.7 | 5.8 | 180:Y 220:Y 256:Y | 283 | 0.52/5.85 | 0 | - | 0/0 | yes, max pen 0.00 | 6.55 | 0.61 | 6.55 | 0.61 | neck override, spare (G5, G6) |
-| neck_stop.stl | 1 | PLA 15%, neck | +z up | 58.0x19.0 | 41.0 | 180:Y 220:Y 256:Y | 699 | 0.30/8.40 | 0 | - | 0/0 | none | 14.82 | 1.46 | 14.82 | 1.46 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run) |
+| neck_stop.stl | 1 | PLA 15%, neck | +z up | 58.0x38.0 | 31.0 | 180:Y 220:Y 256:Y | 929 | 0.25/8.40 | 0 | - | 0/0 | none | 14.70 | 1.38 | 14.70 | 1.38 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run) |
 | right_antenna_holder.stl | 1 | PLA 15% | +z up (aligned frame, flag 9) | 41.2x25.6 | 10.1 | 180:Y 220:Y 256:Y | 654 | 1.99/2.00 | 0 | - | 0/0 | none | 3.57 | 0.28 | 3.57 | 0.28 | spare (G6) |
 | right_cache.stl | 1 | PLA 15% | -z up | 90.0x40.0 | 152.6 | 180:Y 220:Y 256:Y | 759 | 0.45/3.50 | 0 | - | 0/0 | none | 77.32 | 6.03 | 77.32 | 6.03 | ok |
 | right_eye.stl | 1 | PLA 15% | +x up | 40.0x40.0 | 8.4 | 180:Y 220:Y 256:Y | 13 | 2.06/4.50 | 0 | - | 0/0 | none | 4.56 | 0.38 | 4.56 | 0.38 | ok |
 | right_roll_to_pitch.stl | 1 | PLA 15% | -z up | 86.1x46.9 | 30.7 | 180:Y 220:Y 256:Y | 736 | 0.82/5.00 | 0 | - | 0/0 | yes, max pen 0.10 | 24.82 | 2.33 | 24.82 | 2.33 | outer wall first; G12 screw head |
 | roll_motor_bottom.stl | 2 | PLA 15% | +x up | 31.4x30.7 | 32.0 | 180:Y 220:Y 256:Y | 292 | 1.50/2.97 | 0 | - | 0/0 | yes, max pen -0.00 | 8.75 | 0.72 | 17.50 | 1.43 | spare (G6); G12 screw head |
 | roll_motor_top.stl | 2 | PLA 15% | -z up | 38.0x28.7 | 20.0 | 180:Y 220:Y 256:Y | 533 | 0.33/7.74 | 0 | - | 0/0 | yes, max pen 0.01 | 8.00 | 0.80 | 16.00 | 1.60 | outer wall first |
+| roll_pad_left.stl | 1 | TPU 40% | +x up | 6.6x3.4 | 11.4 | 180:Y 220:Y 256:Y | 0 | 0.12/1.33 | 0 | - | 0/0 | none | 0.11 | 0.04 | 0.11 | 0.04 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run); on VHB 4950 (BOM 29) |
+| roll_pad_right.stl | 1 | TPU 40% | +x up | 6.6x3.4 | 11.4 | 180:Y 220:Y 256:Y | 0 | 0.12/1.32 | 0 | - | 0/0 | none | 0.11 | 0.04 | 0.11 | 0.04 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run); on VHB 4950 (BOM 29) |
 | shin_left_sheet.stl | 2 | PLA 15%, wall3+fit | -y up | 70.6x30.7 | 17.5 | 180:Y 220:Y 256:Y | 522 | 0.71/6.21 | 0 | - | 0/0 | yes, max pen 2.20 | 11.58 | 1.09 | 23.16 | 2.18 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run) |
 | shin_right_sheet.stl | 2 | PLA 15%, wall3+fit | +y up | 70.6x30.7 | 16.2 | 180:Y 220:Y 256:Y | 484 | 0.93/4.61 | 0 | - | 0/0 | yes, max pen 3.30 | 11.09 | 1.07 | 22.18 | 2.15 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run) |
 | shin_spacer.stl | 2 | PLA 15%, rings | -y up | 19.0x17.7 | 54.8 | 180:Y 220:Y 256:Y | 25 | 0.61/10.93 | 4 | 1.55 | 0/0 | none | 7.28 | 0.94 | 14.56 | 1.88 | D59 sit part, light profile numbers (the table's other rows are the 7:24 PM run) |
@@ -100,9 +102,9 @@ Last updated: 2026-11-01 7:24 PM ET (print package, see the dated note). Every n
 ## Totals
 | Material | Parts | Grams | Hours | 2:15 PM run grams | 2:15 PM run hours |
 |---|---|---|---|---|---|
-| PLA (15%, insert parts 4 walls, neck parts 40%) | 51 | 1403.2 | 117.6 | 1304.0 | 127.7 |
-| TPU 40% | 15 | 75.7 | 9.4 | 35.0 | 3.9 |
-| Total | 66 | 1478.9 | 127.0 | 1339.0 | 131.6 |
+| PLA (15%, insert parts 4 walls, neck parts 40%) | 51 | 1403.1 | 117.5 | 1304.0 | 127.7 |
+| TPU 40% | 17 | 76.3 | 9.5 | 35.0 | 3.9 |
+| Total | 68 | 1479.3 | 127.1 | 1339.0 | 131.6 |
 
 Support material is 90.4 g of the 1409.0 g. Spares (one set, flag 10): 10 PLA parts, 104.6 g, 9.8 h. Coupon session: 27.8 g PLA and 18.2 g TPU, 5.0 h (print/PRINT_PLAN.md).
 
@@ -110,7 +112,7 @@ Filament to buy: PLA needed with coupons and spares is 1502 g; plus 15% for fail
 
 ## Printer fit
 - 180x180 bed (for example Prusa Mini, Bambu A1 mini): fails head.stl (199.8x197.3; 202.3x196.8 with its supports and skirt) and head_bot_sheet.stl (193.8x191.6). Everything else fits (largest other print: body_middle_bottom, 159.6x111.2 with supports and skirt).
-- 220x220 and 256x256 beds: all 47 STLs fit (this line said 38, then 36 before D59; print/ has 47 robot STLs, 66 parts, as the table shows); every plate in print/PRINT_PLAN.md was sliced as one job and checked inside the bed.
+- 220x220 and 256x256 beds: all 49 STLs fit (this line said 38, then 36 before D59; print/ has 49 robot STLs, 68 parts, as the table shows); every plate in print/PRINT_PLAN.md was sliced as one job and checked inside the bed.
 
 ## Flags
 1. foot_top.stl: insert wall 1.5 mm, below the 1.6 mm minimum CNC Kitchen gives for M3 inserts. Use 4 perimeters on that part or accept and test pull-out. BLOCKER-lite: test one printed foot_top. 7:24 PM: done in the package: all 7 insert parts print with 4 walls (about 1.67 mm solid round each bore; the 1.5 mm wall is filled completely), and coupon C2 (2 bosses cut from foot_top) carries the pull test.

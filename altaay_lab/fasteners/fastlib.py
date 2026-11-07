@@ -44,6 +44,7 @@ LINK_SUB = {
     # D59 sit parts, each on its own fixed link to the link it is stuck to (twin/sit/sitlib.py SIT_LINKS)
     "left_knee_bumper": "left_shin", "right_knee_bumper": "right_shin", "left_ankle_pads": "left_foot",
     "right_ankle_pads": "right_foot", "left_hip_pad": "left_bracket", "right_hip_pad": "right_bracket",
+    "left_roll_pad": "left_bracket", "right_roll_pad": "right_bracket",
     "sit_seat": "trunk", "sit_bumper": "trunk",
 }
 SERVO_TOP, SERVO_MID, SERVO_BOT = ("wj-wk00-0122topcabinetcase_95", "wj-wk00-0123middlecase_56",

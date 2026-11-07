@@ -1,6 +1,6 @@
 {
  "assembly": {
-  "instances": 145,
+  "instances": 147,
   "swapped": [
    54,
    55,
@@ -16,6 +16,8 @@
    "knee_bumper.stl": 0,
    "neck_pad.stl": 0,
    "neck_stop.stl": 2,
+   "roll_pad_left.stl": 0,
+   "roll_pad_right.stl": 0,
    "shin_left_sheet.stl": 17,
    "shin_right_sheet.stl": 17,
    "shin_spacer.stl": 4,

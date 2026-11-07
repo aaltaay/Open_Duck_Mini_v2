@@ -76,11 +76,21 @@ KNEE = np.array([-35.06, -78.72])
 ANKLE = np.array([-35.06, -157.37])
 HORNS = ("drive_palonier", "passive_palonier")
 # lug regions (world zero pose, mm): the box a lug may fill; the sweep of the counterpart over the free range carves it
-ROLL_LUG = ((-16.0, 50.0, 2.0), (-6.0, 62.8, 11.6))         # on left_roll_to_pitch, front of the D3/SP4/S3 loop
+ROLL_LUG = ((-16.0, 50.0, 2.0), (-2.0, 62.8, 11.6))         # on left_roll_to_pitch, front of the D3/SP4/S3 loop; 14 mm wide in x
+                                                             # (the first cut was 10: the root grown for the energy loads, SIT.md 4)
+ROLL_PAD_DIMS = (12.0, 9.0, PAD_T)                           # the TPU face on the lug: the box round the touch (along the case's edge, across it), thick
+LUG_CLR = 0.4                                                # the lug as built stands this far behind the case's path: only the pad touches
+PAD_SET = 0.1                                                # the pad face this far behind the case's path at the stop (the STL's pinch fills stand up
+                                                             # to 0.2 mm proud, sitlib.finalize): the case meets the pad within 0.5 deg of the stop
 # the neck back stop block (world, mm): footprint on trunk_top (z 85.8 flat from x -59 to -21), the pillars outboard of
 # the cable run (|y| >= NECK_TUNNEL_Y under z NECK_TUNNEL_Z: the trunk-side neck loops lie on trunk_top at z 89, y -11 to
 # +13 over this x range, cables3d.json), the flange over the F127 and F129 seats
-NECK_BLOCK = dict(x=(-42.0, -23.0), y=29.0, z_top=126.0)
+NECK_BLOCK = dict(x=(-56.0, -18.0), y=29.0, z_top=116.0)
+NECK_FOOT = dict(x=-42.0, y=22.0)                            # behind x -42 the block is a FLANGE_T foot on trunk_top (flat to x -58 at
+                                                             # |y| 22; the F126/F128 recesses start at |y| 22.4): the tip pivot of the pad
+                                                             # load sits at its back edge, 28.7 mm behind the screws, and with the pad low
+                                                             # on the sheet's edge the load's line passes in front of it, so the screws
+                                                             # carry no pull-out at the stop (sit_stress.py neck rows)
 NECK_TUNNEL_Y, NECK_BAR_Z, NECK_BAR_X = 15.0, (100.0, 108.0), -32.0    # the bar joining the pillars over the cable run
 # the hip yaw servo cable windows in trunk_top (x -36.5 to -30, y 23.9 to 46 and its mirror, S2 and S7 come up through
 # them, cables3d.json): no block material over them (feat3d does not list them as holes, so the keep-out is written here)
@@ -92,18 +102,23 @@ NECK_SCREWS = ((-27.301, -24.749), (-27.301, 24.751))        # F127, F129 seat x
 NECK_SCREW_SEAT_Z = 83.791                                   # the stock seat (2.0 mm down in the trunk_top recess)
 FLANGE_T = 4.0                                               # the block flange over trunk_top: the new seat is z 85.8 + 4.0
 CB_D, SHANK_D = 4.6, 2.5                                     # counterbore over the M2 pan head (dk 4.0), shank hole as the stock 2.5
-NECK_R_MIN = 36.0                                            # the pad starts here along the sheet's back edge (from the neck axis): the
-                                                             # stock edge is straight from r 34 up (slanted 8 deg below), the top corner is at r 48.5
+NECK_R_MIN = 23.0                                            # the pad starts here along the sheet's back edge (from the neck axis): the
+                                                             # stock edge is straight from r 19 to 35 (32 deg off vertical) and again from
+                                                             # r 35 to the top corner at 48.5 (25 deg); the pad sits on the lower run (a
+                                                             # short pillar, a small tip moment), the line fit over the pad's own run
+NECK_FIT_R = 12.0                                            # the edge points fitted: r NECK_R_MIN to NECK_R_MIN + this
 NECK_PAD_DIMS = (10.0, 6.0, PAD_T)                           # along the edge, across the sheet (its back edge is 6.1 wide), thick
 POCKET = 2.5                                                 # a pad sits in a pocket this deep (the pocket walls take the slide)
 # the head forward stop hook on the left arm of head_pitch_to_yaw (world, yoke zero pose): the region it may fill, three
-# boxes: a doubler on the arm's outer face (y 23.2, x 4 to 12, z 146 to 170.5: the head yaw bracket sweeps z 170.9 up),
+# boxes: a doubler over the arm's whole outer face (y 23.2, x -12 to 12, z 146 to 170.5: the head yaw bracket sweeps z 170.9
+# up; the first cut was x 4 to 12, its root failed the free forward shove, SIT.md 4; the horn screw counterbores run through it),
 # its drop outboard of the left neck sheet down to z 128, and a foot forward under z 147 (the head floor, rolled 27 deg,
 # sweeps z 148 up at x 13.4 and beyond) that carries the TPU face in front of the sheet's front edge
-HEAD_HOOK = dict(doubler=((4.0, 22.8, 146.0), (12.0, 27.2, 170.5)), drop=((4.0, 22.8, 128.0), (13.4, 27.2, 147.0)),
+HEAD_HOOK = dict(doubler=((-12.0, 22.8, 146.0), (12.0, 27.2, 170.5)), drop=((4.0, 22.8, 128.0), (13.4, 27.2, 147.0)),
                  foot=((12.0, 16.0, 128.0), (38.0, 27.2, 147.0)))       # the doubler bites 0.4 mm into the arm (y 23.2) so the union is one body
 HEAD_PAD_Z = (125.0, 137.0)                                  # the sheet's front edge band the pad meets (world z, neck zero pose)
-HEAD_PAD_T = 6.0                                             # a thicker TPU face: half the stack stiffness of 3 mm (the head stop sees the neck's forward slam)
+HEAD_PAD_T = 10.0                                            # a thick TPU face: 0.3 of the stack stiffness of 3 mm (the head stop sees the free head's
+                                                             # forward whip; 6 mm in the first cut)
 SEAT = dict(x=-110.0, z_low=-66.0, r=16.0, half_y=40.0)     # SIT_V2.md 3.3: lowest point 66 mm under the trunk origin
 BUMPER = dict(x=20.0, z_low=-69.0, r=12.0, half_y=30.0)     # SIT_V2.md 3.3: 3 mm off the floor in the sit
 SIT_BODY_SPLIT_X = -115.0       # the seat is glued to body_middle_bottom only (body_back comes off for the battery)
@@ -282,16 +297,17 @@ def move_heel_screw(S, key, m_world):
 # ---------------------------------------------------------------------------------------------------------------
 # lugs by carving: a region on the host, minus everything the counterparts sweep over the free range
 # ---------------------------------------------------------------------------------------------------------------
-def carve_lug(S, host_link, host, region, counter, cfg_of, free, step=0.5):
+def carve_lug(S, host_link, host, region, counter, cfg_of, free, step=0.5, clr=0.0):
     """host: manifold (world zero pose of host_link); region: box lo, hi; counter: {link: {name: mesh}};
-    free: (a0, a1) the free range of the joint; returns the lug (new material only) and the touch report"""
+    free: (a0, a1) the free range of the joint; clr: clearance to everything that passes (0: the lug's face is the
+    counterpart's own envelope at the stop); returns the lug (new material only)"""
     R = L.to_man(L.box(*region))
-    near = (np.asarray(region[0]) - 2.0, np.asarray(region[1]) + 2.0)
+    near = (np.asarray(region[0]) - 2.0 - clr, np.asarray(region[1]) + 2.0 + clr)
     cutters = []
     angs = angles(free[0], free[1], step)
     for ln, ms in counter.items():
         Ts = sweep_T(S, ln, host_link, [cfg_of(a) for a in angs])
-        cutters.append(L.swept_cut(pieces_of(ms, 2.0), Ts, 0.0, near=near))
+        cutters.append(L.swept_cut(pieces_of(ms, 2.0), Ts, clr, near=near))
     lug = (R - L.union(cutters)) - host
     ko = L.hole_keepout(L.from_man(host))      # never over a hole, a recess or the driver's way to a screw
     if ko is not None:
@@ -300,6 +316,81 @@ def carve_lug(S, host_link, host, region, counter, cfg_of, free, step=0.5):
     # keep the pieces that touch the host (a lug must grow from it)
     keep = [cm for cm in comps if (L.dilate(cm, 0.2) ^ host).volume() > 0.5]
     return L.union(keep)
+
+
+def roll_pad(S, RPM, lug0, lugc, counter, rst):
+    """the TPU face on the hip roll lug, conformal: the carved lug's face at the stop is the case corner's own envelope
+    (zero clearance at the stop), and the pad is the case's path from the stop PAD_T deeper into the lug (the arc PAD_T
+    at the touch radius), the pocket its path PAD_T + VHB_T deeper, both within a local box round the touch. So the
+    whole corner region bears on the pad, as it did on the lug, and the pad's outer face is where the lug's was: the
+    stop stays where it was. Returns the lug, the pad (manifold, world), its frame (world 4x4) and the record."""
+    D = np.radians
+    lug = lug0
+    past = rst - 0.5
+    T = L.rel_T(S, {"left_hip_roll": D(past)}, HR, RP)
+    T2 = L.rel_T(S, {"left_hip_roll": D(past - 0.5)}, HR, RP)
+    ov = []
+    for ms in counter[HR].values():
+        X = L.xform(L.to_man(ms), T) ^ lug
+        if X.volume() > 1e-3:
+            ov.append((X.volume(), L.from_man(X).center_mass))
+    if not ov:
+        raise SystemExit("roll pad: the lug does not touch the hip roll link 0.5 deg past the stop")
+    v = np.array([o[0] for o in ov])
+    cpt = (np.array([o[1] for o in ov]) * v[:, None]).sum(0) / v.sum()
+    p1 = (T2 @ np.linalg.inv(T) @ np.r_[cpt, 1.0])[:3]
+    fdir = p1 - cpt
+    fdir = fdir / np.linalg.norm(fdir)                         # the case's motion at the touch: the force on the lug
+    n = -fdir                                                  # the pad's mean normal, toward the incoming case
+    ax_p, ax_d = S.joint_world("left_hip_roll")
+    r_pad = float(np.linalg.norm(np.cross(cpt - ax_p, ax_d)))
+    ex = np.array([1.0, 0.0, 0.0]) - n[0] * n                 # along the case's edge (x), in the mean face plane
+    ex = ex / np.linalg.norm(ex)
+    Tf = frame_T(cpt, ex, np.cross(-n, ex))                   # third axis = -n: into the lug (the pad's part frame)
+    if np.dot(Tf[:3, 2], -n) < 0.999:
+        raise SystemExit("roll pad: pad frame")
+    a, b = ROLL_PAD_DIMS[0], ROLL_PAD_DIMS[1]
+    deep = PAD_T + VHB_T + 2.0
+    local = L.to_man(L.box((-a / 2, -b / 2, -6.0), (a / 2, b / 2, deep))).transform(Tf[:3, :4])
+    local_pad = L.to_man(L.box((-a / 2 + 0.15, -b / 2 + 0.15, -6.0), (a / 2 - 0.15, b / 2 - 0.15, deep))).transform(Tf[:3, :4])
+    hr_pc = pieces_of(counter[HR], 2.0)
+    near = L.bbox_of(lug, 2.0 + deep)
+    t_ang, s_ang = np.degrees(PAD_T / r_pad), np.degrees((PAD_T + VHB_T) / r_pad)     # the arcs of the skin and the stack
+    d_ang = np.degrees(PAD_SET / r_pad)                                                # the pad face's set behind the stop
+
+    def path(a0, a1):
+        Ts = sweep_T(S, HR, RP, [L.cfg_left(roll=x_, both=False) for x_ in angles(a0, a1, 0.25)])
+        return L.swept_cut(hr_pc, Ts, 0.0, near=near)
+    pad = (path(rst - d_ang - t_ang, rst - d_ang) ^ lug0) ^ local_pad      # the case's path from PAD_SET behind the stop PAD_T deeper: the skin
+    stack = (path(rst - d_ang - s_ang, rst) ^ lug0) ^ local                # to PAD_T + VHB_T deeper: the pocket, open to the stop
+    if pad.volume() < 0.5 * a * b * PAD_T * 0.3:
+        raise SystemExit("roll pad: the skin is %.1f mm3 only" % pad.volume())
+    lug = lugc - stack                                        # the lug as built: LUG_CLR behind the case's path, the pocket cut
+    comps = sorted(lug.decompose(), key=lambda m: -m.volume())
+    keep = [cm for cm in comps if (L.dilate(cm, 0.2) ^ RPM).volume() > 0.5]
+    if not keep:
+        raise SystemExit("roll pad: nothing of the lug is left on roll_to_pitch")
+    lug = L.union(keep)
+    pcs = sorted(pad.decompose(), key=lambda m: -m.volume())
+    if len(pcs) != 1:
+        pad = pcs[0]
+    if (pad ^ lug).volume() > 1e-3 or (pad ^ RPM).volume() > 1e-3:
+        raise SystemExit("roll pad: the pad overlaps the lug or roll_to_pitch")
+    # the pad's bearing on the case: the case's overlap with the pad grows from 0.5 to 1.0 deg past the stop by area x r x 0.5 deg
+    def overlap_at(ang):
+        Ta = L.rel_T(S, {"left_hip_roll": D(ang)}, HR, RP)
+        return sum((L.xform(L.to_man(ms), Ta) ^ pad).volume() for ms in counter[HR].values())
+    v1, v2 = overlap_at(past), overlap_at(past - 0.5)
+    bearing = float((v2 - v1) / (r_pad * D(0.5)))
+    if bearing < 10.0:
+        raise SystemExit("roll pad: the case meets the pad on %.1f mm2 only" % bearing)
+    pb = np.asarray(pad.bounding_box())
+    info = dict(lug_mm3=L.r(lug.volume(), 1), pad_face_centre=np.round(cpt, 2).tolist(), pad_normal=np.round(n, 4).tolist(),
+                pad_r_mm=round(r_pad, 2), pad_box=list(ROLL_PAD_DIMS), pad_mm3=L.r(pad.volume(), 1), pad_bbox=np.round(pb, 1).tolist(),
+                skin_deg=round(float(t_ang), 2), stack_deg=round(float(s_ang), 2), bearing_mm2=round(bearing, 1), touch_mm3=round(float(v.sum()), 2),
+                case_motion=np.round(fdir, 3).tolist(), lug_clr_mm=LUG_CLR, pad_set_mm=PAD_SET, pad_set_deg=round(float(d_ang), 2),
+                kind="conformal: the case corner's path from %.1f mm behind the stop %.1f mm deeper, in a %.0f x %.0f box; the lug %.1f mm behind the path" % (PAD_SET, PAD_T, a, b, LUG_CLR))
+    return lug, pad, Tf, info
 
 
 def halfspace(point, normal, size=400.0):
@@ -405,6 +496,11 @@ def neck_block(S, log=print):
     rs = np.linalg.norm(np.cross(edge - ax_p, ax_d), axis=1)
     k = int(np.argmax(rs))                                   # the top back corner is the farthest point: above it the cut
     edge, ys = edge[:k + 1], ys[:k + 1]                      # runs along the top edge, not the back edge
+    rs = rs[:k + 1]
+    sel = rs <= NECK_R_MIN + NECK_FIT_R                      # the pad's own run of the edge (it kinks at r 35)
+    edge, ys = edge[sel], [y_ for y_, s_ in zip(ys, sel) if s_]
+    if len(edge) < 10:
+        raise SystemExit("neck block: too few back edge points between r %.0f and %.0f" % (NECK_R_MIN, NECK_R_MIN + NECK_FIT_R))
     # the edge line in the x z plane (the backmost section point sits at either end of the back face in y)
     exz = edge[:, [0, 2]]
     c0 = np.array([exz[:, 0].mean(), 0.0, exz[:, 1].mean()])
@@ -446,6 +542,10 @@ def neck_block(S, log=print):
         # outside the body shell's neck opening (|y| 25) the block stays under the shell's roof (z 104): the shell is
         # fitted over the block from above, so nothing of ours may stand above the roof there
         B = B - L.to_man(L.box((x0, min(sgn * (ROOF_OPEN_Y - CLR), sgn * 60.0), ROOF_Z - SHELL_CLR), (x1, max(sgn * (ROOF_OPEN_Y - CLR), sgn * 60.0), bx["z_top"] + 1)))
+    # behind NECK_FOOT x the block is a flange foot FLANGE_T thick, |y| to NECK_FOOT y: the tip pivot at its back edge
+    B = B - L.to_man(L.box((x0, -60.0, 85.8 + FLANGE_T), (NECK_FOOT["x"], 60.0, bx["z_top"] + 1)))
+    for sgn in (1.0, -1.0):
+        B = B - L.to_man(L.box((x0, min(sgn * NECK_FOOT["y"], sgn * 60.0), 80.0), (NECK_FOOT["x"], max(sgn * NECK_FOOT["y"], sgn * 60.0), bx["z_top"] + 1)))
     face_off = PAD_T + VHB_T - POCKET                          # the block's outer face behind the pad face
     B = B - halfspace(face_c - n * face_off, n)
     pads, pockets = [], []
@@ -554,7 +654,8 @@ def neck_block(S, log=print):
     info = dict(volume_mm3=L.r(B.volume(), 1), slivers_dropped_mm3=[L.r(k_.volume(), 1) for k_ in slivers],
                 pad_face_centre=np.round(face_c, 2).tolist(), pad_normal=np.round(n, 4).tolist(),
                 edge_dir=np.round(e, 4).tolist(), pad_r_mm=round(r_pad, 2), sheet_back_edge_y=[round(float(v), 2) for v in y_band],
-                edge_fit_resid_mm=round(float(resid), 3), screws=dict(ids=["F127", "F129"], seat_z_new=seat_z, seat_z_stock=NECK_SCREW_SEAT_Z,
+                edge_fit_resid_mm=round(float(resid), 3), foot=dict(x_back=NECK_FOOT["x"], half_y=NECK_FOOT["y"], t=FLANGE_T),
+                screws=dict(ids=["F127", "F129"], seat_z_new=seat_z, seat_z_stock=NECK_SCREW_SEAT_Z,
                                                                           length_new=12, length_stock=6, flange_mm=FLANGE_T, counterbore_d=CB_D,
                                                                           shank_d=SHANK_D, seats=seats),
                 bbox=np.round(np.asarray(B.bounding_box()), 1).tolist(), secs=round(time.time() - t0, 1))
@@ -659,8 +760,11 @@ def head_hook(S, log=print):
     # the root: the hook within 0.5 mm of the stock yoke (area = that volume / 0.5)
     root = hook ^ (L.dilate(HPM, 0.5) - HPM)
     rc = L.from_man(root).center_mass if root.volume() > 1e-3 else None
-    if hook.bounding_box()[5] > HEAD_HOOK["doubler"][1][2] + 0.01 or hook.bounding_box()[3] > HEAD_HOOK["foot"][1][0] + 0.01:
-        raise SystemExit("head hook: outside its region")
+    # the hook stays in its region: by volume, not by bounding box (a boolean leaves zero-volume slivers on the yoke's
+    # surface that stretch the box but hold nothing)
+    outside = hook - L.union([L.to_man(L.box(*HEAD_HOOK[k])) for k in ("doubler", "drop", "foot")])
+    if outside.volume() > 0.5:
+        raise SystemExit("head hook: %.1f mm3 outside its region (bbox %s)" % (outside.volume(), np.round(np.asarray(outside.bounding_box()), 1).tolist()))
     info = dict(hook_mm3=L.r(hook.volume(), 1), pad_dims=list(pad_dims), pad_face_centre=np.round(face0, 2).tolist(), pad_normal=np.round(n0, 4).tolist(),
                 pad_r_mm=round(r_pad, 2), sheet_front_x=round(float(x_front), 2), sheet_front_edge_y=[round(v, 2) for v in y_band],
                 root_area_mm2=L.r(root.volume() / 0.5, 1), root_centre=None if rc is None else np.round(rc, 2).tolist(),
@@ -797,10 +901,13 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
     hip_counter = {HR: link_meshes(S, HR), TR: link_meshes(S, TR, keys=("trunk_bottom", "body_middle_bottom", "servo_top", "servo_mid", "servo_bottom"))}
     rst = L.STOPS["hip_roll_out"]["stop"]
     if keep("roll"):
-        RPM, info["left_roll_to_pitch"] = pout["roll_to_pitch"], pinfo["left_roll_to_pitch"]
+        RPM, info["left_roll_to_pitch"], Trp, roll_pad_m = pout["roll_to_pitch"], pinfo["left_roll_to_pitch"], pout["roll_pad_T"], pout["roll_pad"]
     else:
-        lug = carve_lug(S, RP, RPM, ROLL_LUG, hip_counter, lambda a: L.cfg_left(roll=a, both=False), (rst, 25.0), step=0.5)
-        info["left_roll_to_pitch"] = dict(lug_mm3=L.r(lug.volume(), 1))
+        # the lug twice: at zero clearance (its face the case corner's own envelope at the stop: the pad is cut from it)
+        # and at LUG_CLR (the lug as built: it never touches, the pad does)
+        lug0 = carve_lug(S, RP, RPM, ROLL_LUG, hip_counter, lambda a: L.cfg_left(roll=a, both=False), (rst, 25.0), step=0.5)
+        lugc = carve_lug(S, RP, RPM, ROLL_LUG, hip_counter, lambda a: L.cfg_left(roll=a, both=False), (rst, 25.0), step=0.5, clr=LUG_CLR)
+        lug, roll_pad_m, Trp, info["left_roll_to_pitch"] = roll_pad(S, RPM, lug0, lugc, hip_counter, rst)
         RPM = L.solid(RPM + lug)
     log("roll lug %.1f s" % (time.time() - t0))
 
@@ -867,7 +974,7 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
         info.update(sinfo)
 
     out = dict(shin=shin, Tw_sheet=Tw_sheet, spacer=sp, knee_bumper_T=T_kb, knee_bumper_dims=kb_dims, thigh=thigh, foot=foot,
-               ankle_pad_T=pads, roll_to_pitch=RPM, hip_pad_T=Thp, hip_pad_dims=hp_dims, cache=cache, head=HPM,
+               ankle_pad_T=pads, roll_to_pitch=RPM, roll_pad_T=Trp, roll_pad=roll_pad_m, hip_pad_T=Thp, hip_pad_dims=hp_dims, cache=cache, head=HPM,
                neck_stop=neck_stop, neck_pad_T=neck_pad_T, head_pad_T=head_pad_T, head_pad_dims=head_pad_dims, seat=seat, bumper=bump)
     log("all %.1f s" % (time.time() - t0))
     return out, info
@@ -937,7 +1044,7 @@ def seat_and_bumper(S):
 MIRROR = np.diag([1.0, -1.0, 1.0, 1.0])
 # new parts and where the URDF places them: (stl stem, link, kind); local-frame parts carry their placement 4x4 per link
 NEW_PARTS = ["shin_left_sheet", "shin_right_sheet", "shin_spacer", "knee_bumper", "ankle_pad", "hip_pad", "sit_seat", "sit_bumper",
-             "neck_stop", "neck_pad", "head_pad"]
+             "neck_stop", "neck_pad", "head_pad", "roll_pad_left", "roll_pad_right"]
 EDITED_PARTS = ["knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet", "foot_top", "foot_side", "left_cache", "right_cache",
                 "left_roll_to_pitch", "right_roll_to_pitch", "head_pitch_to_yaw"]
 STOCK_AGAIN = ["neck_left_sheet", "neck_right_sheet"]       # edited by an earlier D59 pass, stock again: the builder restores the STLs
@@ -998,6 +1105,14 @@ def outputs(S, out):
     Thp = out["hip_pad_T"]
     place["hip_pad"] = [(RP, np.linalg.inv(S.T0[RP]) @ Thp),
                         ("right_roll_to_pitch_assembly", np.linalg.inv(S.T0["right_roll_to_pitch_assembly"]) @ (MIRROR @ Thp @ MIRROR))]
+    # the roll pads: conformal (the case corner's path), so the right one is the left one's mirror, its own file
+    Trp = out["roll_pad_T"]
+    P["roll_pad_left"] = to_part(out["roll_pad"], Trp)
+    P["roll_pad_right"] = L.mirror_y_part(P["roll_pad_left"])
+    if not L.stl_roundtrip_ok(P["roll_pad_right"])[0]:
+        raise SystemExit("roll_pad_right: the mirror of roll_pad_left is not watertight")
+    place["roll_pad_left"] = [(RP, np.linalg.inv(S.T0[RP]) @ Trp)]
+    place["roll_pad_right"] = [("right_roll_to_pitch_assembly", np.linalg.inv(S.T0["right_roll_to_pitch_assembly"]) @ (MIRROR @ Trp @ MIRROR))]
     for nm in ("sit_seat", "sit_bumper"):
         M = out["seat"] if nm == "sit_seat" else out["bumper"]
         b = np.asarray(M.bounding_box())

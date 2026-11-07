@@ -37,6 +37,8 @@ right_eye.stl,1,PLA,heavy,wall3,,,+x,0,0,3 walls (wall3) as before D22: 4 screw 
 right_roll_to_pitch.stl,1,PLA,heavy,wall3+fit,,fit,-z,0,0,3 walls and fit (wall3+fit) as before D22: D38 takes D26 option P1 for the structure twin's weakest part (twin/structure/STRUCTURE_TWIN.md P1; with STS3250 knees twin/knee/KNEE_TWIN.md section 5); servo pocket line to line (0.10 mm face overlap); G12 check; D59: the 8 deg outward hip roll stop lug
 roll_motor_bottom.stl,2,PLA,heavy,wall3,,,+x,1,1,3 walls (wall3) as before D22: thinnest hip part (2.97 mm median) at hip yaw and hip roll; G12 screw (G6)
 roll_motor_top.stl,2,PLA,light,fit,,fit,-z,1,0,2 walls 15 % with fit: servo pocket line to line (0.01 mm); no rule asks for more walls
+roll_pad_left.stl,1,TPU,light,,,,+x,1,0,TPU 2 walls 40 % (the sole profile): the hip roll -8 deg stop face in the left lug pocket on VHB 4950, conformal to the servo case corner, printed on its flat end (the faces are curved) (D59)
+roll_pad_right.stl,1,TPU,light,,,,+x,0,0,TPU 2 walls 40 % (the sole profile): the right lug face, the mirror of roll_pad_left, printed on its flat end (D59)
 shin_left_sheet.stl,2,PLA,heavy,wall3+fit,,fit,-y,1,1,3 walls and fit (wall3+fit) as the knee_to_ankle sheet it is made from (D59): the plate joggled 9 mm and the clamp block with its M2 counterbores (twin/sit/SIT.md); thinnest leg plate (G6)
 shin_right_sheet.stl,2,PLA,heavy,wall3+fit,,fit,+y,1,1,3 walls and fit (wall3+fit) as the knee_to_ankle sheet it is made from (D59); see shin_left_sheet
 shin_spacer.stl,2,PLA,rings,,insert,insert,-y,1,0,2 walls 15 % plus a 2.0 mm solid ring round each of its 4 insert bores as leg_spacer (D59: at the shin back edge; 54.8 mm long; carries the knee bumper); waits for the S1 gate like leg_spacer

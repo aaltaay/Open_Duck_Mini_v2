@@ -7,6 +7,8 @@
     <mesh name="knee_bumper" file="knee_bumper.stl"/>
     <mesh name="neck_pad" file="neck_pad.stl"/>
     <mesh name="neck_stop" file="neck_stop.stl"/>
+    <mesh name="roll_pad_left" file="roll_pad_left.stl"/>
+    <mesh name="roll_pad_right" file="roll_pad_right.stl"/>
     <mesh name="shin_left_sheet" file="shin_left_sheet.stl"/>
     <mesh name="shin_right_sheet" file="shin_right_sheet.stl"/>
     <mesh name="shin_spacer" file="shin_spacer.stl"/>
@@ -118,9 +120,9 @@
         
 <geom pos="-0.027301 0 0.0858" quat="1 0 0 0" type="mesh" rgba="0.55 0.6 0.65 1" mesh="neck_stop"/>
 
-<geom pos="-0.0303782 0.019125 0.117398" quat="0.5373 0 -0.843391 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="neck_pad"/>
+<geom pos="-0.0234884 0.0191747 0.10489" quat="0.478996 0 -0.877817 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="neck_pad"/>
 
-<geom pos="-0.0303782 -0.019125 0.117398" quat="0.5373 0 -0.843391 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="neck_pad"/>
+<geom pos="-0.0234884 -0.0191747 0.10489" quat="0.478996 0 -0.877817 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="neck_pad"/>
 
 <geom pos="-0.11 0 -0.0182091" quat="1 0 0 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="sit_seat"/>
 
@@ -149,6 +151,8 @@
             <geom pos="0.0676 0 0.00961" quat="0.5 0.5 0.5 -0.5" type="mesh" rgba="0.623529 0.666667 0.701961 1" mesh="passive_palonier"/>
             
 <geom pos="0.0615 -0.0172241 -0.00185" quat="0.5 0.5 0.5 -0.5" type="mesh" rgba="0.95 0.75 0.2 1" mesh="hip_pad"/>
+
+<geom pos="0.0164016 -0.00600683 0.0104779" quat="0.578748 -0.406265 0.578748 0.406265" type="mesh" rgba="0.95 0.75 0.2 1" mesh="roll_pad_left"/>
 <body name="knee_and_ankle_assembly" pos="0.07415 0 0.03511" quat="0 0.707107 0 -0.707107">
               <inertial pos="0.00253369 -0.0390636 0.0102776" quat="0.576793 0.413738 -0.51125 0.484515" mass="0.12407" diaginertia="0.000228502 0.000216625 7.02746e-05"/>
               <joint name="left_hip_pitch" pos="0 0 0" axis="0 0 1" range="-1.308997 0.523599" />
@@ -208,7 +212,7 @@
             <joint name="head_pitch" pos="0 0 0" axis="0 0 1" range="-0.436332 0.785398" />
             <geom pos="-0.02 -0.09111 0.01905" quat="0.707107 -0.707107 0 0" type="mesh" rgba="0.4 0.4 0.4 1" mesh="head_pitch_to_yaw"/>
             
-<geom pos="0.0272057 -0.0148993 -9.9707e-05" quat="0.690346 -0.690346 -0.153046 0.153046" type="mesh" rgba="0.95 0.75 0.2 1" mesh="head_pad"/>
+<geom pos="0.0290183 -0.014054 -9.9707e-05" quat="0.690346 -0.690346 -0.153046 0.153046" type="mesh" rgba="0.95 0.75 0.2 1" mesh="head_pad"/>
 <body name="neck_yaw_assembly" pos="0 0.057 0.01905" quat="0.707107 -0.707107 0 0">
               <inertial pos="0.00412907 3.95745e-06 -0.0222828" quat="-0.00110425 0.66693 -0.00105488 0.745118" mass="0.0918099" diaginertia="7.08927e-05 6.94935e-05 3.06805e-05"/>
               <joint name="head_yaw" pos="0 0 0" axis="0 0 1" range="-2.79253 2.79253" />
@@ -274,6 +278,8 @@
             <geom pos="-0.0676 0 0.00961" quat="0.5 -0.5 0.5 0.5" type="mesh" rgba="0.623529 0.666667 0.701961 1" mesh="passive_palonier"/>
             
 <geom pos="-0.0615 -0.0172241 -0.00185" quat="0.5 0.5 0.5 -0.5" type="mesh" rgba="0.95 0.75 0.2 1" mesh="hip_pad"/>
+
+<geom pos="-0.0164016 -0.00600683 0.0104779" quat="0.406265 -0.578748 0.406265 0.578748" type="mesh" rgba="0.95 0.75 0.2 1" mesh="roll_pad_right"/>
 <body name="knee_and_ankle_assembly_3" pos="-0.07415 0 0.03511" quat="0.707107 0 0.707107 0">
               <inertial pos="0.00253369 0.0390636 0.010809" quat="0.411107 0.577419 -0.487141 0.510169" mass="0.12407" diaginertia="0.000228782 0.00021758 7.09527e-05"/>
               <joint name="right_hip_pitch" pos="0 0 0" axis="0 0 1" range="-0.523599 1.308997" />

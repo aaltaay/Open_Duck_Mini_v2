@@ -21,7 +21,7 @@
    "joint": "left_hip_roll",
    "stop": -8.0,
    "side": "lo",
-   "kind": "printed lug on roll_to_pitch onto roll_motor_bottom"
+   "kind": "TPU face in a pocket of the printed lug on roll_to_pitch, onto roll_motor_bottom"
   },
   "hip_pitch_back": {
    "joint": "left_hip_pitch",
@@ -107,32 +107,32 @@
    "bytes": 1825784
   },
   "left_roll_to_pitch": {
-   "volume_mm3": 30706.0,
-   "faces": 8296,
+   "volume_mm3": 30867.1,
+   "faces": 15030,
    "print_file": "print/left_roll_to_pitch.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/left_roll_to_pitch.stl",
-   "bytes": 414884
+   "bytes": 751584
   },
   "right_roll_to_pitch": {
-   "volume_mm3": 30706.0,
-   "faces": 8296,
+   "volume_mm3": 30867.1,
+   "faces": 15030,
    "print_file": "print/right_roll_to_pitch.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/right_roll_to_pitch.stl",
-   "bytes": 414884
+   "bytes": 751584
   },
   "head_pitch_to_yaw": {
-   "volume_mm3": 17264.9,
-   "faces": 14214,
+   "volume_mm3": 17846.1,
+   "faces": 15228,
    "print_file": "print/head_pitch_to_yaw.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/head_pitch_to_yaw.stl",
-   "bytes": 710784
+   "bytes": 761484
   },
   "neck_stop": {
-   "volume_mm3": 13286.2,
-   "faces": 1520,
+   "volume_mm3": 14570.1,
+   "faces": 1544,
    "print_file": "print/neck_stop.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/neck_stop.stl",
-   "bytes": 76084
+   "bytes": 77284
   },
   "neck_pad": {
    "volume_mm3": 180.0,
@@ -142,7 +142,7 @@
    "bytes": 684
   },
   "head_pad": {
-   "volume_mm3": 439.2,
+   "volume_mm3": 732.0,
    "faces": 12,
    "print_file": "print/head_pad.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/head_pad.stl",
@@ -168,6 +168,20 @@
    "print_file": "print/hip_pad.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/hip_pad.stl",
    "bytes": 684
+  },
+  "roll_pad_left": {
+   "volume_mm3": 89.7,
+   "faces": 1870,
+   "print_file": "print/roll_pad_left.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/roll_pad_left.stl",
+   "bytes": 93584
+  },
+  "roll_pad_right": {
+   "volume_mm3": 89.7,
+   "faces": 1870,
+   "print_file": "print/roll_pad_right.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/roll_pad_right.stl",
+   "bytes": 93584
   },
   "sit_seat": {
    "volume_mm3": 88291.6,
@@ -221,22 +235,22 @@
     "link": "trunk_assembly",
     "T_link_mm": [
      [
-      -0.422618,
+      -0.541126,
       0.0,
-      -0.906308,
-      -30.37823
+      -0.840941,
+      -23.488387
      ],
      [
       0.0,
       1.0,
       0.0,
-      19.125001
+      19.174674
      ],
      [
-      0.906308,
+      0.840941,
       0.0,
-      -0.422618,
-      117.397612
+      -0.541126,
+      104.88986
      ],
      [
       0.0,
@@ -250,22 +264,22 @@
     "link": "trunk_assembly",
     "T_link_mm": [
      [
-      -0.422618,
+      -0.541126,
       0.0,
-      -0.906308,
-      -30.37823
+      -0.840941,
+      -23.488387
      ],
      [
       0.0,
       1.0,
       0.0,
-      -19.125001
+      -19.174674
      ],
      [
-      0.906308,
+      0.840941,
       0.0,
-      -0.422618,
-      117.397612
+      -0.541126,
+      104.88986
      ],
      [
       0.0,
@@ -284,13 +298,13 @@
       0.906308,
       -0.0,
       -0.422618,
-      27.205665
+      29.01828
      ],
      [
       0.422618,
       0.0,
       0.906308,
-      -14.899274
+      -14.054037
      ],
      [
       -0.0,
@@ -535,6 +549,68 @@
       0.0,
       0.0,
       -1.85
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "roll_pad_left": [
+   {
+    "link": "left_roll_to_pitch_assembly",
+    "T_link_mm": [
+     [
+      0.0,
+      -0.940499,
+      0.339796,
+      16.401587
+     ],
+     [
+      -0.0,
+      0.339796,
+      0.940499,
+      -6.006825
+     ],
+     [
+      -1.0,
+      -0.0,
+      -0.0,
+      10.477894
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "roll_pad_right": [
+   {
+    "link": "right_roll_to_pitch_assembly",
+    "T_link_mm": [
+     [
+      0.0,
+      -0.940499,
+      -0.339796,
+      -16.401587
+     ],
+     [
+      -0.0,
+      -0.339796,
+      0.940499,
+      -6.006825
+     ],
+     [
+      -1.0,
+      -0.0,
+      -0.0,
+      10.477894
      ],
      [
       0.0,
@@ -847,7 +923,42 @@
    }
   },
   "left_roll_to_pitch": {
-   "lug_mm3": 1070.7
+   "lug_mm3": 1230.0,
+   "pad_face_centre": [
+    -10.43,
+    51.4,
+    5.93
+   ],
+   "pad_normal": [
+    -0.0,
+    -0.3398,
+    0.9405
+   ],
+   "pad_r_mm": 17.47,
+   "pad_box": [
+    12.0,
+    9.0,
+    3.0
+   ],
+   "pad_mm3": 89.6,
+   "pad_bbox": [
+    -16.0,
+    50.9,
+    2.0,
+    -4.6,
+    53.1,
+    9.0
+   ],
+   "skin_deg": 9.84,
+   "stack_deg": 13.45,
+   "bearing_mm2": 32.1,
+   "touch_mm3": 5.1,
+   "case_motion": [
+    0.0,
+    0.34,
+    -0.94
+   ],
+   "kind": "conformal: the case corner's path from the stop 3.0 mm deeper, in a 12 x 9 box"
   },
   "cache": {
    "cut_by_leg": {
@@ -866,29 +977,34 @@
    "base_mm3": 64609.0
   },
   "neck_stop": {
-   "volume_mm3": 13286.2,
+   "volume_mm3": 14570.1,
    "slivers_dropped_mm3": [],
    "pad_face_centre": [
-    -29.02,
-    19.13,
-    118.03
+    -22.23,
+    19.17,
+    105.7
    ],
    "pad_normal": [
-    0.9063,
+    0.8409,
     0.0,
-    0.4226
+    0.5411
    ],
    "edge_dir": [
-    -0.4226,
+    -0.5411,
     0.0,
-    0.9063
+    0.8409
    ],
-   "pad_r_mm": 41.07,
+   "pad_r_mm": 28.04,
    "sheet_back_edge_y": [
     16.1,
-    22.15
+    22.25
    ],
-   "edge_fit_resid_mm": 0.0,
+   "edge_fit_resid_mm": 0.062,
+   "foot": {
+    "x_back": -42.0,
+    "half_y": 22.0,
+    "t": 4.0
+   },
    "screws": {
     "ids": [
      "F127",
@@ -913,19 +1029,19 @@
     }
    },
    "bbox": [
-    -42.0,
+    -56.0,
     -29.0,
     85.0,
-    -23.0,
+    -18.0,
     29.0,
-    126.0
+    116.0
    ],
-   "secs": 43.3
+   "secs": 41.7
   },
   "head_pitch_to_yaw": {
-   "hook_mm3": 3715.5,
+   "hook_mm3": 4296.9,
    "pad_dims": [
-    6.0,
+    10.0,
     6.1,
     12.0
    ],
@@ -945,21 +1061,21 @@
     16.1,
     22.4
    ],
-   "root_area_mm2": 131.8,
+   "root_area_mm2": 307.6,
    "root_centre": [
-    7.49,
-    23.35,
-    159.87
+    1.0,
+    23.36,
+    160.39
    ],
    "bbox": [
-    4.0,
+    -12.0,
     16.0,
     128.0,
     38.0,
     27.2,
-    170.5
+    174.9
    ],
-   "secs": 89.2
+   "secs": 95.6
   },
   "sit_seat": {
    "volume_mm3": 88291.6,

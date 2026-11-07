@@ -2550,7 +2550,7 @@
     </joint>
     <link name="neck_pads">
         <visual>
-            <origin xyz="-0.03037823 0.019125001 0.117397612" rpy="3.14159265 -1.13446452 3.14159265" />
+            <origin xyz="-0.023488387 0.019174674 0.10488986" rpy="3.14159265 -0.999019844 3.14159265" />
             <geometry>
                 <mesh filename="package:///neck_pad.stl"/>
             </geometry>
@@ -2559,13 +2559,13 @@
             </material>
         </visual>
         <collision>
-            <origin xyz="-0.03037823 0.019125001 0.117397612" rpy="3.14159265 -1.13446452 3.14159265" />
+            <origin xyz="-0.023488387 0.019174674 0.10488986" rpy="3.14159265 -0.999019844 3.14159265" />
             <geometry>
                 <mesh filename="package:///neck_pad.stl"/>
             </geometry>
         </collision>
         <visual>
-            <origin xyz="-0.03037823 -0.019125001 0.117397612" rpy="3.14159265 -1.13446452 3.14159265" />
+            <origin xyz="-0.023488387 -0.019174674 0.10488986" rpy="3.14159265 -0.999019844 3.14159265" />
             <geometry>
                 <mesh filename="package:///neck_pad.stl"/>
             </geometry>
@@ -2574,7 +2574,7 @@
             </material>
         </visual>
         <collision>
-            <origin xyz="-0.03037823 -0.019125001 0.117397612" rpy="3.14159265 -1.13446452 3.14159265" />
+            <origin xyz="-0.023488387 -0.019174674 0.10488986" rpy="3.14159265 -0.999019844 3.14159265" />
             <geometry>
                 <mesh filename="package:///neck_pad.stl"/>
             </geometry>
@@ -2593,7 +2593,7 @@
     </joint>
     <link name="head_pad">
         <visual>
-            <origin xyz="0.027205665 -0.014899274 -9.9707e-05" rpy="-1.57079633 0 0.436331986" />
+            <origin xyz="0.02901828 -0.014054037 -9.9707e-05" rpy="-1.57079633 0 0.436331986" />
             <geometry>
                 <mesh filename="package:///head_pad.stl"/>
             </geometry>
@@ -2602,7 +2602,7 @@
             </material>
         </visual>
         <collision>
-            <origin xyz="0.027205665 -0.014899274 -9.9707e-05" rpy="-1.57079633 0 0.436331986" />
+            <origin xyz="0.02901828 -0.014054037 -9.9707e-05" rpy="-1.57079633 0 0.436331986" />
             <geometry>
                 <mesh filename="package:///head_pad.stl"/>
             </geometry>
@@ -2617,6 +2617,62 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
         <parent link="head_pitch_to_yaw" />
         <child link="head_pad" />
+        <axis xyz="0 0 0"/>
+    </joint>
+    <link name="left_roll_pad">
+        <visual>
+            <origin xyz="0.016401587 -0.006006825 0.010477894" rpy="-1.22409629 1.57079633 0" />
+            <geometry>
+                <mesh filename="package:///roll_pad_left.stl"/>
+            </geometry>
+            <material name="roll_pad_left_material">
+                <color rgba="0.95 0.75 0.2 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.016401587 -0.006006825 0.010477894" rpy="-1.22409629 1.57079633 0" />
+            <geometry>
+                <mesh filename="package:///roll_pad_left.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1e-9" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <joint name="left_roll_pad_fixed" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="left_roll_to_pitch_assembly" />
+        <child link="left_roll_pad" />
+        <axis xyz="0 0 0"/>
+    </joint>
+    <link name="right_roll_pad">
+        <visual>
+            <origin xyz="-0.016401587 -0.006006825 0.010477894" rpy="-1.91749637 1.57079633 0" />
+            <geometry>
+                <mesh filename="package:///roll_pad_right.stl"/>
+            </geometry>
+            <material name="roll_pad_right_material">
+                <color rgba="0.95 0.75 0.2 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.016401587 -0.006006825 0.010477894" rpy="-1.91749637 1.57079633 0" />
+            <geometry>
+                <mesh filename="package:///roll_pad_right.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1e-9" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <joint name="right_roll_pad_fixed" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="right_roll_to_pitch_assembly" />
+        <child link="right_roll_pad" />
         <axis xyz="0 0 0"/>
     </joint>
 </robot>

@@ -39,7 +39,7 @@ D = np.radians
 STOPS = {
     "knee_fold": dict(joint="left_knee", stop=150.0, side="hi", kind="TPU knee bumper on the shin spacer, onto the thigh"),
     "ankle_sit": dict(joint="left_ankle", stop=-95.0, side="lo", kind="TPU pad on foot_top under the shin end"),
-    "hip_roll_out": dict(joint="left_hip_roll", stop=-8.0, side="lo", kind="printed lug on roll_to_pitch onto roll_motor_bottom"),
+    "hip_roll_out": dict(joint="left_hip_roll", stop=-8.0, side="lo", kind="TPU face in a pocket of the printed lug on roll_to_pitch, onto roll_motor_bottom"),
     "hip_pitch_back": dict(joint="left_hip_pitch", stop=-75.0, side="lo", kind="TPU face on the thigh cover top onto roll_to_pitch"),
     "neck_back": dict(joint="neck_pitch", stop=25.0, side="hi", kind="TPU faces on the printed neck stop block (trunk_top, F127 and F129) that the stock neck sheets' back edges meet"),
     "head_fwd": dict(joint="head_pitch", stop=-25.0, side="lo", kind="TPU face on the printed hook of head_pitch_to_yaw (left arm) that the left neck sheet's front edge meets"),
@@ -57,10 +57,11 @@ STOP_SOLIMP = (0.95, 0.95, 0.001, 0.5, 2.0)
 STOP_STACK = {
     "knee_fold": dict(joints=("left_knee", "right_knee"), r_mm=24.1, pads=[(28.0, 14.0, 3.0, 1)]),
     "ankle_sit": dict(joints=("left_ankle", "right_ankle"), r_mm=34.5, pads=[(6.0, 7.5, 3.0, 2)]),
-    "hip_roll_out": dict(joints=("left_hip_roll", "right_hip_roll"), r_mm=17.5, lug=dict(area_mm2=96.0, h_mm=6.0)),
+    "hip_roll_out": dict(joints=("left_hip_roll", "right_hip_roll"), r_mm=17.5, pads=[(32.1, 1.0, 3.0, 1)]),    # one conformal face on the lug: a x b is the case's
+                                                                                                                 # footprint on it (sit_cad.json bearing_mm2, pad_r_mm)
     "hip_pitch_back": dict(joints=("left_hip_pitch", "right_hip_pitch"), r_mm=40.8, pads=[(22.0, 6.0, 1.5, 1)]),
-    "neck_back": dict(joints=("neck_pitch",), r_mm=41.1, pads=[(10.0, 6.0, 3.0, 2)]),      # one face per sheet, in a pocket of the block (sit_cad.json pad_r_mm)
-    "head_fwd": dict(joints=("head_pitch",), r_mm=29.3, pads=[(12.0, 6.1, 6.0, 1)]),       # one 6 mm face on the hook, half the stiffness of 3 mm (sit_cad.json pad_r_mm, pad_dims)
+    "neck_back": dict(joints=("neck_pitch",), r_mm=28.0, pads=[(10.0, 6.0, 3.0, 2)]),      # one face per sheet, in a pocket of the block (sit_cad.json pad_r_mm)
+    "head_fwd": dict(joints=("head_pitch",), r_mm=29.3, pads=[(12.0, 6.1, 10.0, 1)]),      # one 10 mm face on the hook, 0.3 of the stiffness of 3 mm (sit_cad.json pad_r_mm, pad_dims)
 }
 
 
@@ -93,10 +94,12 @@ SIT_LINKS = {
     "neck_stop": ("trunk_assembly", "neck_stop"),
     "neck_pads": ("trunk_assembly", "neck_pad"),
     "head_pad": ("head_pitch_to_yaw", "head_pad"),
+    "left_roll_pad": ("left_roll_to_pitch_assembly", "roll_pad_left"),
+    "right_roll_pad": ("right_roll_to_pitch_assembly", "roll_pad_right"),
 }
 SIT_PARENT = {k: v[0] for k, v in SIT_LINKS.items()}
 N_URDF_BASE = 131              # upstream URDF visuals (audit/assembly.json); the sit parts follow (N_SIT_VISUALS), then the head internals
-N_SIT_VISUALS = 14             # knee_bumper 2, ankle_pad 4, hip_pad 2, sit_seat, sit_bumper, neck_stop, neck_pad 2, head_pad (sit_cad.json placements)
+N_SIT_VISUALS = 16             # knee_bumper 2, ankle_pad 4, hip_pad 2, sit_seat, sit_bumper, neck_stop, neck_pad 2, head_pad, roll_pad_left, roll_pad_right (sit_cad.json placements)
 
 # A1b sit and stand path, left (hip pitch, knee, ankle, neck, head) in degrees. SIT_V2.md 3.2 kept the trunk near its
 # standing pitch, which puts the CoM 14 to 27 mm in front of the heel edge of a 103 mm sole at every waypoint (the repo

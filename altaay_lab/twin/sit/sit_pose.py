@@ -33,7 +33,7 @@ POSE = os.path.join(HERE, "sit_pose.json")
 PITCH_TOL = 2.0                   # deg: a render or record of the sit pose may differ from the sim by this much
 FRAME_TOL_MM = 0.01
 SKIP = {"usb_c_charger", "power_switch", "bms", "bno055", "board", "cell", "holder", "raspberrypizerow"}
-TPU_KEYS = ("knee_bumper", "ankle_pad", "hip_pad", "sit_seat", "sit_bumper", "foot_bottom_tpu")
+TPU_KEYS = ("knee_bumper", "ankle_pad", "hip_pad", "roll_pad_left", "roll_pad_right", "sit_seat", "sit_bumper", "foot_bottom_tpu")
 
 
 def settle(out, T=20.0):
