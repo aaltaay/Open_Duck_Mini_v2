@@ -494,6 +494,8 @@ def main():
             R = p.map(up_job, J, chunksize=1)
     else:
         dirs = walk_model_dirs(a.out)
+        if not dirs["before"] or not os.path.isdir(dirs["before"]):
+            raise SystemExit("set ODM_BEFORE_MODEL to the C8 'ours' model folder of the commit before the sit (the walk compares both)")
         J = [(tag, d, s) for tag, d in dirs.items() if d for s in range(10)]
         with Pool(a.jobs, initializer=_init, initargs=(a.out,)) as p:
             R = p.map(walk_job, J, chunksize=1)

@@ -62,8 +62,15 @@ def table(limits, offsets, ids=None, zero_offsets=False):
 
 def write_bus(port, rows):
     sys.path.insert(0, HERE)
+    from odm_bench import bus
+    return write_rows(bus.open_pypot(port, sync_read=False), rows)
+
+
+def write_rows(io, rows):
+    """write and read back the limit registers of `rows` (table()) on an open bus (bench/first_servo_check.py uses it at
+    bring-up, after 7.1); True when every servo reads back its values"""
+    sys.path.insert(0, HERE)
     from odm_bench import bus, sts3215
-    io = bus.open_pypot(port, sync_read=False)
     ok = True
     for r in rows:
         sid = r["id"]

@@ -66,8 +66,10 @@ def stop_torques(paths, abuse=False):
     push cases are kept apart (abuse=True gives only them): their peaks are the limit impacts of a shove past the A1b tests"""
     T = {}
     for p in paths:
-        if not p or not os.path.exists(p):
+        if not p:
             continue
+        if not os.path.exists(p):
+            raise SystemExit("sim result %s not found: the loads would fall back to the floors" % p)
         J = json.load(open(p))
         for r in J["results"]:
             if (r.get("name") in ABUSE) != abuse:
@@ -148,6 +150,8 @@ def main():
     a = ap.parse_args()
     S = L.scene(fresh=True)
     cad = json.load(open(os.path.join(HERE, "sit_cad.json")))
+    if a.write and not a.sim:
+        raise SystemExit("--write needs --sim (the push and up results): without them the loads are only the floors")
     T = stop_torques(a.sim.split(",") if a.sim else [])
     TA = stop_torques(a.sim.split(",") if a.sim else [], abuse=True)
     rows, loads = [], {}
