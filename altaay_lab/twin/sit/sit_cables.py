@@ -8,6 +8,8 @@ Starts from cables3d.json at sitlib.BASE_REV (so a re-run gives the same file) a
     leaves the knee horn zone (the web of the joggle lies between); ties in the horn zone stay;
   - renames the parts the shin ties name (knee_to_ankle_* sheets on the shin links are now shin_* sheets, leg_spacer
     there is shin_spacer) and moves their tie holes and stick-on mount seats with them;
+  - grows the service loops the new ranges made too small (grow_loops: a loop tie with no anchor slides along the
+    cable until verify/c3_cables3d.py's own loop check passes);
   - re-checks every stick-on mount and drilled tie hole pair on a part this job changed, on the new STL (rays: the mount
     footprint flat within FLAT_TOL; both tie holes in plastic) and moves a mount the trim took away along its cable to
     the nearest flat patch.
@@ -28,6 +30,8 @@ sys.path.insert(0, HERE)
 import sitlib as L  # noqa: E402
 sys.path.insert(0, os.path.join(L.LAB, "cables3d"))
 import seats_ties as ST  # noqa: E402
+sys.path.insert(0, os.path.join(L.LAB, "verify"))
+import c3_cables3d as C3  # noqa: E402
 
 CJ = os.path.join(L.LAB, "cables3d", "cables3d.json")
 SHIN = {"knee_and_ankle_assembly_2": 90.65, "knee_and_ankle_assembly_4": 90.65 - 181.2}   # leg centre plane y
@@ -106,13 +110,99 @@ def flat_patch(m, centre, normal, size, axis, others=()):
     return True, dev, "flat"
 
 
+MOVABLE = ("cable tie", "bundle tie, test fit")   # ties round the bundle, no anchor: they can slide along the cable
+D59_JOINTS = ("knee", "ankle", "hip_roll", "hip_pitch", "neck_pitch", "head_pitch")
+GROW_STEP, LOOP_MARGIN = 1.0, 1.05
+
+
+def grow_loops(data, log):
+    """the service loops the D59 ranges made too small: slide a loop tie that has no anchor (MOVABLE) away from the
+    crossing, 1 mm at a time inside the loop's room, until C3's own recomputation (verify/c3_cables3d.py loop_check,
+    the URDF ranges now) gives bend R and length storage R of 3 x OD or more (5 % over). Every loop of every cable that
+    names the moved tie gets its new position (the tie's point projected onto that route)."""
+    kin = C3.Kin()
+    R = {t["id"]: t for t in data["retention"]}
+    runs = [(c, r) for c in data["cables"] for r in (c.get("runs") or [])]
+
+    def route(r):
+        P = np.array([(kin.T(p["link"], {}) @ np.r_[p["p"], 1.0])[:3] for p in r["points"]])
+        return P, np.r_[0, np.cumsum(np.linalg.norm(np.diff(P, axis=0), axis=1))]
+
+    def along(P, acc, a):
+        k = int(np.clip(np.searchsorted(acc, a) - 1, 0, len(P) - 2))
+        t = (a - acc[k]) / max(float(np.linalg.norm(P[k + 1] - P[k])), 1e-9)
+        return P[k] + (P[k + 1] - P[k]) * t, k
+
+    def ok(r, lp):
+        x = C3.loop_check(kin, r, lp, None)
+        need = 3.0 * lp["od_mm"] * LOOP_MARGIN
+        return min(x["bend"], x["storage"]) >= need, x
+    for c, r in runs:
+        for lp in r.get("service_loops", []):
+            if not any(k in j for j in lp["joints"] for k in D59_JOINTS) or not lp.get("ties_at_mm"):
+                continue
+            good, x = ok(r, lp)
+            if good:
+                continue
+            P, acc = route(r)
+            spans = lp.get("spans") or [lp["span"]]
+            i0, i9 = spans[0][0], spans[-1][1]
+            room = lp.get("room_mm") or [0.0, 0.0]
+            ids = lp.get("tie_ids") or []
+            moved = None
+            for side in (1, 0):                    # the far link side first, then the near one
+                if side >= len(ids) or ids[side] not in R or R[ids[side]]["kind"] not in MOVABLE:
+                    continue
+                t = R[ids[side]]
+                lim = acc[i9] + room[1] if side == 1 else acc[i0] - room[0]
+                a = a_orig = lp["ties_at_mm"][side]
+                while not good:
+                    a2 = a + GROW_STEP if side == 1 else a - GROW_STEP
+                    if (side == 1 and a2 > min(lim, acc[-1])) or (side == 0 and a2 < max(lim, 0.0)):
+                        break
+                    w, k = along(P, acc, a2)
+                    if r["points"][k]["link"] != t["link"] and r["points"][min(k + 1, len(P) - 1)]["link"] != t["link"]:
+                        break                      # the tie stays on its link
+                    a = a2
+                    lp["ties_at_mm"][side] = round(float(a), 1)
+                    good, x = ok(r, lp)
+                if a != a_orig:
+                    moved = (t, a, side)
+                if good:
+                    break
+            key = "%s %s %s" % (c["id"], r["name"], "+".join(lp["joints"]))
+            if moved:
+                t, a, side = moved
+                w, _ = along(P, acc, a)
+                old = np.asarray(t["center_mm"], float)
+                t["center_mm"] = [round(float(v), 2) for v in w]
+                t["p"] = [round(float(v), 3) for v in (np.linalg.inv(kin.T(t["link"], {})) @ np.r_[w, 1.0])[:3]]
+                t["note"] = (t.get("note") or "") + "; D59: slid %.0f mm along the cable to grow the %s loop for the new range" % (
+                    np.linalg.norm(w - old), "+".join(lp["joints"]))
+                lp["free_mm"] = round(float(lp["ties_at_mm"][1] - lp["ties_at_mm"][0]), 1)
+                # the same tie on the other cables it holds: its new point projected onto their routes
+                for c2, r2 in runs:
+                    for lp2 in r2.get("service_loops", []):
+                        if lp2 is lp or t["id"] not in (lp2.get("tie_ids") or []):
+                            continue
+                        P2, acc2 = route(r2)
+                        k2 = int(np.argmin(np.linalg.norm(P2 - w, axis=1)))
+                        j = lp2["tie_ids"].index(t["id"])
+                        lp2["ties_at_mm"][j] = round(float(acc2[k2]), 1)
+                        lp2["free_mm"] = round(float(lp2["ties_at_mm"][1] - lp2["ties_at_mm"][0]), 1)
+            meets = min(x["bend"], x["storage"]) >= 3.0 * lp["od_mm"]
+            log["loops"][key] = ("%s%s: free %.0f mm, bend R %.1f, storage R %.1f, needs %.1f mm" % (
+                "grown, " if moved else "", "meets 3 x OD" if meets else "under 3 x OD (its ties are anchored or out of room): test fit",
+                x["free"], x["bend"], x["storage"], 3.0 * lp["od_mm"]))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
     a = ap.parse_args()
     S = L.scene(fresh=True)                       # the new CAD and URDF (the shin links carry the shin sheets now)
     data = json.loads(L.git_blob("altaay_lab/cables3d/cables3d.json").decode())
-    log = dict(moved_points={}, ties={}, mounts={})
+    log = dict(moved_points={}, ties={}, mounts={}, loops={})
     for c in data["cables"]:
         c["points"] = move_points(S, c["points"], log, c["id"])
         for r in c.get("runs") or []:
@@ -202,6 +292,7 @@ def main():
                 t["note"] = (t.get("note") or "") + "; D59: %s at the old spot on the changed CAD; the mount placed again on %s, %.0f mm from the old spot (cables3d seats_ties.py mount_patch)" % (
                     why, got["part"], np.linalg.norm(np.asarray(got["center"]) - old_c))
                 log["mounts"][t["id"]] = "%s; placed again on %s, %.1f mm away" % (why, got["part"], np.linalg.norm(np.asarray(got["center"]) - old_c))
+    grow_loops(data, log)
     data["meta"]["sit_d59"] = ("twin/sit/sit_cables.py: the shin routes and ties moved %.0f mm with the joggle; mounts on the "
                                "changed parts re-checked on the new STLs; lengths, loops and rubs recomputed by check_cables.py" % L.JOG)
     print(json.dumps(log, indent=1))

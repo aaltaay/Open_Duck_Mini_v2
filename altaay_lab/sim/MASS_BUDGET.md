@@ -444,3 +444,10 @@ Scope: the pieces the model did not count or counted by an older list. The model
 | 55 adhesive tie mounts (BOM 34, 34b) | not counted | BLOCKER: no published mass; weigh 10 of each on arrival |
 
 New total: 2654.7 g counted for sure (+1.9 g), up to 2686.2 g with the tie upper bound (+33.4 g, +1.26 %), plus the tie mounts. Over 1 % only at the tie bound; if the weighing confirms it, every result run at 2652.8 g moves: the stock policy at our mass (sim/ADDED_MASS_SIM.md), the structure twin loads, the track 1 and 1b shove currents (B47), the thermal twin, and the RunPod training mass (STATE.md open question 1). D29 (two LEDs per eye) was reverted (D33), so the LEDs, the side lamp prints and E5 stay as modelled.
+
+## V1 sit (2026-11-06 ET, D59; sim/mass_budget.py on the D59 repo, sim pass only)
+The tables above are from before the sit. `ODM_PLAYGROUND=<Playground b9be205> ODM_OUT=<scratch> python3 altaay_lab/sim/mass_budget.py` on this repo gives **2788.1 g** against 2749.0 g on the commit before it (d6179ae, same box): **+39.1 g**. The robot set is 44 STLs and 62 parts now (print/SLICE_SUMMARY.md, D59 rows).
+- TPU sit parts: seat 22.61 g, belly bumper 12.18 g, 2 knee bumpers 2.40 g, 4 ankle pads 0.68 g, 2 hip pads 0.48 g: 38.35 g.
+- PLA: the joggled shin sheets and the longer shin spacer replace the shin pair of knee_to_ankle sheets and leg_spacer (+55.2 g against -38.9 g); the cache cuts take 16.2 g, the foot notches 2.6 g; the stop lugs add 3.3 g: +0.8 g on the robot (supports off).
+- Whole robot centre of mass at the home pose, trunk frame: [-29.1, 0.4, 48.7] mm against [-28.6, 0.4, 50.2] mm before (the seat and bumper sit low under the belly).
+- Mass per link (MJCF body, our build): trunk +34.8 g (the seat and the bumper); shins +9.9 and +9.8 g; thighs -8.7 and -8.6 g (the cache cut and the trimmed sheets); feet -0.9 g each; hip pitch links +0.9 and +1.0 g (roll lug, hip pad); neck pitch link +0.9 g and head pitch link +1.0 g (the lugs); the other links unchanged.

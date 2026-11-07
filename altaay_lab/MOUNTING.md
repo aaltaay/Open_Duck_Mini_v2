@@ -87,3 +87,14 @@ pass the bundle. The hole carries the leads, so D39 does not close it. The 0.8 m
 | Touch boards, Adafruit MPR121 1982 (BOM E9, D51), 33.0 x 19.1 mm | TCHH: VHB 4950 on the inner roof of the head at (-35, 35, 223) mm, parts down, 12.5 deg tilt; TCHB: VHB on the left inner side wall of body_middle_top at (-88, 52, 74) mm, parts facing in | 13.1 and 9.5 mm from every other part, 8.4 and 31.5 mm from the pad guard rings (touch_pads.json) |
 | Touch pads, copper foil Adafruit 1127 (BOM E10, D51) | stuck on the inner shell, no air gap (AN3863): PH1 head top 30 x 30 mm, PH2 back of the head 20 x 30 mm, PB1 inner roof of body_middle_top behind the neck 17 x 34 mm; a 3 mm guard ring 3 mm outside each, to GND | wall 3.0 mm under each; 4.1 mm or more from every cable, 3 mm or more from every part |
 | Speaker duct (D52) | one piece with print/speaker_interface.stl: bore 33.0 mm, wall 1.9 mm, 12.0 mm long, 1.0 mm short of the inner head wall, a ring of BOM 29 foam on its end with one liner left on | 2.0 mm from the fitted interface screw heads (hex key reaches them), 0.62 mm from speaker_stand (screwed to it), 30.8 mm from the right mic board, 53 mm from the ear servo; the 36 outer grille holes closed flush in print/head.stl |
+
+## V1 sit (2026-11-06 ET, D59, twin/sit/SIT.md; CAD check only, calc only)
+Every sit part is TPU 95A on VHB 4950 (BOM 29, 1.1 mm; no screws, no new holes). VHB design value 82.7 kPa (3M, as above); fall shock 196 g (the head value of twin/structure/STRUCTURE_TWIN.md, the larger one, used for every part here). Stop and sitting loads press the pads onto their faces (compression); only a fall loads the tape in shear.
+
+| Part | Mount | Check |
+|---|---|---|
+| Seat, print/sit_seat.stl (22.6 g, 1 per robot) | VHB on its 1670 mm2 top face, under body_middle_bottom's rear belly (sitlib/sit_cad.py SEAT: x -110 mm, lowest point z -66 mm at the zero pose), printed on that face | fall shear 43.5 N, 26 kPa, SF 3.2; sitting load in compression |
+| Belly bumper, print/sit_bumper.stl (12.2 g, 1) | VHB on its 1440 mm2 top face, under the front belly (x +20 mm, lowest point z -69 mm, 3 mm off the floor in the sit) | fall shear 23.4 N, 16 kPa, SF 5.1 |
+| Knee bumper, print/knee_bumper.stl (1.2 g, 2) | VHB on the front face of shin_spacer (392 mm2), facing the knee servo case at the 150 deg fold | fall shear 2.3 N, 5.9 kPa; the stop load is compression (twin/sit/sit_stress.json) |
+| Ankle pads, print/ankle_pad.stl (0.17 g, 4) | VHB in a pocket 0.3 mm larger than the pad on the pad seats of foot_top and foot_side (45 mm2 each) | the pocket walls take any shear; the -95 deg stop load is compression |
+| Hip pads, print/hip_pad.stl (0.24 g, 2) | VHB on the top face of roll_to_pitch (132 mm2) where the thigh cover lands at hip pitch -75 deg | compression at the stop; fall shear 0.5 N |

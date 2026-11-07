@@ -42,6 +42,9 @@ ACTUATED = ["left_hip_yaw", "left_hip_roll", "left_hip_pitch", "left_knee", "lef
             "head_roll", "right_hip_yaw", "right_hip_roll", "right_hip_pitch", "right_knee", "right_ankle"]
 
 
+FLOOR_CONTACT = ("sit_seat", "sit_bumper")
+
+
 def urdf_info():
     """joint limits (rad) and the visuals of every link, from robot.urdf"""
     r = ET.parse(L.URDF).getroot()
@@ -60,6 +63,16 @@ def urdf_info():
             xyz = [float(x) for x in (o.get("xyz") if o is not None else "0 0 0").split()]
             rpy = [float(x) for x in (o.get("rpy") if o is not None else "0 0 0").split()]
             vis.setdefault(ln.get("name"), []).append((os.path.basename(g.get("filename"))[:-4], xyz, rpy))
+    # the sit parts ride on their own fixed links (sitlib.SIT_LINKS, identity origin): the MJCF has no such bodies, so
+    # their visuals go on the body of the link they are fixed to
+    for nl, parent in L.SIT_PARENT.items():
+        j = [x for x in r.findall("joint") if x.find("child") is not None and x.find("child").get("link") == nl]
+        if len(j) != 1 or j[0].get("type") != "fixed" or j[0].find("parent").get("link") != parent:
+            raise SystemExit("robot.urdf: %s is not on a fixed joint to %s" % (nl, parent))
+        o = j[0].find("origin")
+        if o is not None and any(abs(float(x)) > 1e-12 for x in (o.get("xyz", "0 0 0") + " " + o.get("rpy", "0 0 0")).split()):
+            raise SystemExit("robot.urdf: the fixed joint of %s has an origin; sit_model.py takes it as identity" % nl)
+        vis.setdefault(parent, []).extend(vis.pop(nl, []))
     return lim, vis
 
 
@@ -113,17 +126,27 @@ def write(out, variant="sit"):
                 for g in body.findall("geom"):
                     if g.get("mesh") in SHIN_SWAP:
                         g.set("mesh", SHIN_SWAP[g.get("mesh")])
+            seen = {}
             for stem, xyz, rpy in vis.get(nm, []):
                 if stem in SIT_NEW:
+                    seen[stem] = seen.get(stem, 0) + 1
                     q = quat_rpy(rpy)
                     g = ET.SubElement(body, "geom")
                     g.set("type", "mesh")
                     g.set("class", "visual")
-                    g.set("name", "%s_%s" % (stem, nm))
+                    g.set("name", "%s_%s_%d" % (stem, nm, seen[stem]))
                     g.set("mesh", stem)
                     g.set("pos", " ".join("%.9g" % v for v in xyz))
                     g.set("quat", " ".join("%.9g" % v for v in q))
                     g.set("rgba", "0.95 0.75 0.2 1")
+                    if stem in FLOOR_CONTACT:
+                        # the seat and the belly bumper touch the floor: a collision geom like the soles (the Playground
+                        # model collides only through its soles; the joint stops are the joint ranges)
+                        c = ET.SubElement(body, "geom")
+                        for k_, v_ in g.attrib.items():
+                            c.set(k_, v_)
+                        c.set("class", "collision")
+                        c.set("name", "%s_%s_%d_collision" % (stem, nm, seen[stem]))
         if variant == "sit":
             asset = root.find("asset")
             have = {m.get("name") for m in asset.findall("mesh")}
@@ -184,9 +207,14 @@ def check(d):
                 bad.append("%s range %s, URDF %s" % (jn, md.jnt_range[jid], lim[jn]))
         names = {mujoco.mj_id2name(md, mujoco.mjtObj.mjOBJ_GEOM, g) or "" for g in range(md.ngeom)}
         for ln, vv in vis.items():
+            seen = {}
             for stem, _, _ in vv:
-                if stem in SIT_NEW and "%s_%s" % (stem, ln) not in names:
-                    bad.append("geom %s_%s missing" % (stem, ln))
+                if stem in SIT_NEW:
+                    seen[stem] = seen.get(stem, 0) + 1
+                    if "%s_%s_%d" % (stem, ln, seen[stem]) not in names:
+                        bad.append("geom %s_%s_%d missing" % (stem, ln, seen[stem]))
+                    if stem in FLOOR_CONTACT and "%s_%s_%d_collision" % (stem, ln, seen[stem]) not in names:
+                        bad.append("collision geom of %s on %s missing" % (stem, ln))
         if set(J["repo_meshes"]) != set(changed_stems()):
             bad.append("model meshes differ from sit_cad.json")
     if bad:

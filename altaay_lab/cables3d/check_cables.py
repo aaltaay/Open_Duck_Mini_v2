@@ -377,10 +377,12 @@ def main():
                 bend_min = (rmin, "corner", r["name"])
             # connector room at both terminal ends
             for side, key in (("from", 0), ("to", -1)):
-                tid = r[side]
-                if tid not in ends:
+                tid = r.get(side)
+                if tid not in ends:              # no named end (a run that starts or stops at a splice)
                     continue
                 e = ends[tid]
+                if not e.get("dir_world0"):
+                    continue          # an end placed without an exit direction (the dock ends of D50): no room check
                 p = np.array(e["p_world0"])
                 d = np.array(e["dir_world0"])
                 need = BEND_MIN * r["d_mm"] + r["d_mm"] / 2.0
