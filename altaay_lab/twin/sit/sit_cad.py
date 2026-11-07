@@ -79,8 +79,19 @@ SIT_BODY_SPLIT_X = -115.0       # the seat is glued to body_middle_bottom only (
 # helpers
 # ---------------------------------------------------------------------------------------------------------------
 def link_meshes(S, link, skip_prefix=HORNS, keys=None):
-    return {"%s#%d" % (i["key"], i["idx"]): S.world_mesh(i) for i in S.inst
-            if i["link"] == link and not i["key"].startswith(skip_prefix) and (keys is None or i["key"] in keys)}
+    """the parts of a link (world zero pose); every servo case comes with its inside filled (c3d_lib.SERVO_INNER, the
+    servo body inside the cups), as the sweep and the v1 study model it"""
+    out = {}
+    for i in S.inst:
+        if i["link"] != link or i["key"].startswith(skip_prefix) or (keys is not None and i["key"] not in keys):
+            continue
+        out["%s#%d" % (i["key"], i["idx"])] = S.world_mesh(i)
+        if i["key"] == "servo_bottom":
+            (x0, x1), (y0, y1), (z0, z1) = L.c3d_lib.SERVO_INNER
+            b = L.box((x0, y0, z0), (x1, y1, z1))
+            b.apply_transform(S.T0[i["link"]] @ i["T"])
+            out["servo_fill#%d" % i["idx"]] = b
+    return out
 
 
 def pieces_of(meshes, slab=3.0):
@@ -257,6 +268,9 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
     shin_parts_pc = sum(shin_pc.values(), []) + L.convex_pieces(sp, 3.0) + L.convex_pieces(kb, 3.0)
     case_sh = link_meshes(S, SH, keys=("servo_top", "servo_mid", "servo_bottom"))
     shin_parts_pc += pieces_of(case_sh, 3.0)
+    # the ankle horns (on the shin link in the URDF, discs on the ankle axis): they pass the thigh and the cover with the
+    # shin, but the foot plates are screwed to them, so the foot notch leaves them out
+    shin_parts_pc_h = shin_parts_pc + pieces_of(link_meshes(S, SH, skip_prefix=(), keys=HORNS), 3.0)
     log("shin parts %.1f s" % (time.time() - t0))
 
     # thigh spacer relief on the shin clamp front corner (knee 130 to 150)
@@ -274,7 +288,7 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
         i = L.inst(S, TH, key)
         m = L.base_mesh("print/%s.stl" % key)
         m.apply_transform(L.inst_world(S, i))
-        thigh[key], v = cut_by(L.to_man(m), shin_parts_pc, Ts, CLR)
+        thigh[key], v = cut_by(L.to_man(m), shin_parts_pc_h, Ts, CLR)
         info[key] = dict(trim_mm3=L.r(v, 1), knee_range=[100, 150.5])
     if keep("thigh"):
         for key in ("knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet"):
@@ -301,7 +315,9 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
         # x = BACK_X of the left shin zero pose; at the stop it is a plane of the foot frame; the pad top is that plane.
         T_st = L.rel_T(S, L.cfg_left(a=ast, both=False), SH, FT)
         nrm = T_st[:3, :3] @ np.array([-1.0, 0, 0])                # outward normal of the back face, foot frame
-        back_x = -50.25
+        # the clamp blocks' back face: the least x of both shin sheets below the clamp line (the mesh, not a constant)
+        back_x = min(float(np.asarray(L.from_man(shin[nm] ^ L.to_man(L.box((-400, -400, -400), (400, 400, Z_CLAMP)))).vertices)[:, 0].min())
+                     for nm in ("shin_left_sheet", "shin_right_sheet"))
         pads = {}
         for key, ylo, yhi in (("foot_top", 105.5, 113.0), ("foot_side", 67.4, 74.9)):
             # face centre: the clamp block's back face centre (x back_x, z mid of the clamp) at the stop
@@ -352,37 +368,39 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
     Thp[:3, 3] = (1.9, 96.5, 15.3 + VHB_T + hp_dims[2] / 2)
     hip_pad = L.to_man(pad_mesh(hp_dims)).transform(Thp[:3, :4])
 
-    # ---- cache: everything that moves past it ----
+    # ---- cache: everything that moves past it, on both legs. Both legs' sweeps cut the left cover (the right leg's
+    # mapped through the y mirror of the part frame), and the right cover is the mirror of the result: exact mirrors.
     cache = dict(pout["cache"]) if keep("cache") else {}
     if keep("cache"):
-        info["cache_L"], info["cache_R"] = pinfo["cache_L"], pinfo["cache_R"]
-    for side, link_c, key_c, link_sh, link_ft, link_rp in (() if keep("cache") else (("L", TH, "left_cache", SH, FT, RP),
-                                                          ("R", "knee_and_ankle_assembly_3", "right_cache", "knee_and_ankle_assembly_4", "foot_assembly_2", "right_roll_to_pitch_assembly"))):
-        i = L.inst(S, link_c, key_c)
-        m = L.base_mesh("print/%s.stl" % key_c)
-        m.apply_transform(L.inst_world(S, i))
+        info["cache"] = pinfo["cache"]
+    else:
+        iL = L.inst(S, TH, "left_cache")
+        iR = L.inst(S, "knee_and_ankle_assembly_3", "right_cache")
+        TwL, TwR = L.inst_world(S, iL), L.inst_world(S, iR)
+        m = L.base_mesh("print/left_cache.stl")
+        m.apply_transform(TwL)
         CM = L.to_man(m)
-        dy = 0.0 if side == "L" else -181.2                  # the right leg is the left leg moved in y (checked)
-        shift = np.eye(4)
-        shift[1, 3] = dy
-        if side == "L":
-            shin_side = shin_parts_pc
-        else:                                                  # right leg: the same parts, moved
-            shin_side = [P + np.array([0, dy, 0]) for P in shin_parts_pc]
-        knee_cfg = (lambda k: L.cfg_left(k=k)) if True else None
-        Ts_k = [L.rel_T(S, knee_cfg(k), link_sh, link_c) for k in angles(-25, 150.5, 2.0)]
-        CM, v1 = cut_by(CM, shin_side, Ts_k, CLR)
-        # the foot over the sit and stand band of (knee, ankle): the path +/-3 deg and the stop corner
-        foot_pc = pieces_of(link_meshes(S, link_ft), 3.0)
-        cells = sit_cells(S, link_ft, link_c)
-        CM, v2 = cut_by(CM, foot_pc, None, CLR, cells=cells)
-        # the hip pad (on roll_to_pitch) over hip pitch -75 to +30: contact at the stop, nothing before it
-        hp_side = hip_pad if side == "L" else L.xform(hip_pad, np.diag([1.0, -1.0, 1.0, 1.0]))
-        hp_pc = [np.asarray(hp_side.to_mesh().vert_properties, float)[:, :3]]
-        Ts_h = [L.rel_T(S, L.cfg_left(h=h), link_rp, link_c) for h in angles(hst, 30.0, 0.5)]
-        CM, v3 = cut_by(CM, hp_pc, Ts_h, 0.0)
-        cache[side] = CM
-        info["cache_" + side] = dict(by_shin_mm3=L.r(v1, 1), by_foot_mm3=L.r(v2, 1), by_hip_pad_mm3=L.r(v3, 1))
+        Tmap = TwL @ MIRROR @ np.linalg.inv(TwR)              # right cover world -> left cover world
+        vol = {}
+        for side, link_c, link_sh, link_ft, link_rp in (("L", TH, SH, FT, RP),
+                                                       ("R", "knee_and_ankle_assembly_3", "knee_and_ankle_assembly_4", "foot_assembly_2", "right_roll_to_pitch_assembly")):
+            to_left = np.eye(4) if side == "L" else Tmap
+            dy = 0.0 if side == "L" else -181.2              # the right leg is the left leg moved in y (checked)
+            shin_side = shin_parts_pc_h if side == "L" else [P + np.array([0, dy, 0]) for P in shin_parts_pc_h]
+            Ts_k = [to_left @ L.rel_T(S, L.cfg_left(k=k), link_sh, link_c) for k in angles(-25, 150.5, 2.0)]
+            CM, v1 = cut_by(CM, shin_side, Ts_k, CLR)
+            # the foot over the sit and stand band of (knee, ankle): the path +/-3 deg and the stop corner
+            foot_pc = pieces_of(link_meshes(S, link_ft), 3.0)
+            cells = [tuple(to_left @ T for T in cell) for cell in sit_cells(S, link_ft, link_c)]
+            CM, v2 = cut_by(CM, foot_pc, None, CLR, cells=cells)
+            # the hip pad (on roll_to_pitch) over hip pitch -75 to +30: contact at the stop, nothing before it
+            hp_side = hip_pad if side == "L" else L.xform(hip_pad, MIRROR)
+            hp_pc = [np.asarray(hp_side.to_mesh().vert_properties, float)[:, :3]]
+            Ts_h = [to_left @ L.rel_T(S, L.cfg_left(h=h), link_rp, link_c) for h in angles(hst, 30.0, 0.5)]
+            CM, v3 = cut_by(CM, hp_pc, Ts_h, 0.0)
+            vol[side] = dict(by_shin_mm3=L.r(v1, 1), by_foot_mm3=L.r(v2, 1), by_hip_pad_mm3=L.r(v3, 1))
+        cache["L"] = L.solid(CM)
+        info["cache"] = dict(cut_by_leg=vol, removed_mm3=L.r(m.volume - cache["L"].volume(), 1), base_mm3=L.r(m.volume, 1))
     log("caches %.1f s" % (time.time() - t0))
 
     # ---- neck back stop lugs (both sheets) ----
@@ -521,16 +539,11 @@ def outputs(S, out):
         P[key] = to_part(out["thigh"][key], L.inst_world(S, L.inst(S, TH, key)))
     for key in ("foot_top", "foot_side"):
         P[key] = to_part(out["foot"][key], L.inst_world(S, L.inst(S, FT, key)))
-    # cache: left and right as exact y mirrors, each cut by both legs' sweeps
-    TwL = L.inst_world(S, L.inst(S, TH, "left_cache"))
-    TwR = L.inst_world(S, L.inst(S, "knee_and_ankle_assembly_3", "right_cache"))
-    cl = L.to_man(to_part(out["cache"]["L"], TwL))
-    cr_m = L.to_man(to_part(out["cache"]["R"], TwR))
-    left = cl ^ L.xform(cr_m, MIRROR)
-    P["left_cache"] = L.finalize(left)
-    if not L.stl_roundtrip_ok(L.mirror_y_part(P["left_cache"]))[0]:
-        raise SystemExit("right_cache: the mirror of left_cache is not watertight")
+    # cache: the left cover carries both legs' cuts; the right cover is its exact y mirror (MIRROR in the part frame)
+    P["left_cache"] = to_part(out["cache"]["L"], L.inst_world(S, L.inst(S, TH, "left_cache")))
     P["right_cache"] = L.mirror_y_part(P["left_cache"])
+    if not L.stl_roundtrip_ok(P["right_cache"])[0]:
+        raise SystemExit("right_cache: the mirror of left_cache is not watertight")
     P["left_roll_to_pitch"] = to_part(out["roll_to_pitch"], L.inst_world(S, L.inst(S, RP, "left_roll_to_pitch")))
     P["right_roll_to_pitch"] = L.mirror_y_part(P["left_roll_to_pitch"])
     for key in ("neck_left_sheet", "neck_right_sheet"):
@@ -618,7 +631,7 @@ if __name__ == "__main__":
     ap.add_argument("--redo", default=None, help="with --cache: steps to recompute (%s)" % ",".join(STEPS_ALL))
     ap.add_argument("--cache", help="pickle of the build outside the repo (reused when it exists: delete it after a design change)")
     a = ap.parse_args()
-    S = L.scene()
+    S = L.scene_base()
     import json
     import pickle
     if a.cache and os.path.exists(a.cache):

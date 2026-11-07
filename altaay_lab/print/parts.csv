@@ -1,4 +1,5 @@
 stl,qty,material,profile,overrides,rings,heavy,up,leg1,spare,why
+ankle_pad.stl,4,TPU,light,,,,+z,2,0,TPU 2 walls 40 % (the sole profile): the 6 x 7.5 x 3 mm ankle stop pads on VHB 4950; 2 per foot (D59)
 battery_pack_lid.stl,1,PLA,light,,,,-x,0,0,2 walls 15 % (upstream default): a lid whose screws thread into body_back; no rule asks for more
 body_back.stl,1,PLA,rings,,pilot,,-x,0,0,2 walls 15 % plus a 1.5 mm solid ring round each of its 5 screw pilots (4 lid and 1 charger; D42 reopened the F027 lid pilot that D39 closed): the pilot rule at each hole instead of 3 walls on the whole shell; no coupon
 body_front.stl,1,PLA,light,,,,-x,0,0,2 walls 15 % (upstream default): no rule asks for more; front face on the bed since D54 (the cliff ToF seat grows from the inner face)
@@ -9,28 +10,35 @@ flash_light_module.stl,1,PLA,light,,,,+x,0,0,2 walls 15 % (upstream default); it
 flash_reflector_interface.stl,1,PLA,light,,,,+x,0,0,2 walls 15 % (upstream default): no rule asks for more
 foot_bottom_pla.stl,2,PLA,rings,,insert,insert,-z,1,0,2 walls 15 % plus a 2.0 mm solid ring round each of its 2 blind insert bores 5.8 mm (C3): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings
 foot_bottom_tpu.stl,2,TPU,light,,,,-z,1,0,TPU 2 walls 40 % (upstream infill; B26): no strength rule for the sole; coupon T2 is the left leg sole and checks fit
-foot_side.stl,2,PLA,light,,,,+y,1,0,2 walls 15 % (upstream default): no rule asks for more
-foot_top.stl,2,PLA,rings,,insert,insert,-y,1,0,2 walls 15 % plus a 2.0 mm solid ring round each of its 2 insert bores (the 1.5 mm bore wall of B16 prints solid either way): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings
+foot_side.stl,2,PLA,light,,,,+y,1,0,2 walls 15 % (upstream default): no rule asks for more; D59: heel notch where the shin clamp passes down to the -95 deg ankle stop and a flat seat for the ankle pad
+foot_top.stl,2,PLA,rings,,insert,insert,-y,1,0,2 walls 15 % plus a 2.0 mm solid ring round each of its 2 insert bores (the 1.5 mm bore wall of B16 prints solid either way): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings; D59: heel notch where the shin clamp passes down to the -95 deg ankle stop and a flat seat for the ankle pad
 head.stl,1,PLA,heavy,insert,,insert,-z,0,0,4 walls (insert) as before D22: 12 insert bores and a bearing seat (horizontal in this orientation); in the sim its mass is the forward counterweight (a light head costs one step of backward margin; MASS_STUDY.md option d)
 head_bot_sheet.stl,1,PLA,light,,,,+z,0,0,2 walls 15 % (upstream default): a 3 mm floor sheet
-head_pitch_to_yaw.stl,1,PLA,heavy,neck,,neck,+x,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thinnest part at head_pitch and head_yaw (G6)
+head_pitch_to_yaw.stl,1,PLA,heavy,neck,,neck,+x,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thinnest part at head_pitch and head_yaw (G6); D59: the -25 deg head forward stop lug
 head_roll_mount.stl,1,PLA,heavy,neck+fit,,neck+fit,+z,0,1,5 walls 40 % and fit (neck+fit) as before D22: neck chain (G5); servo pocket line to line (0.00 mm net)
 head_yaw_to_roll.stl,1,PLA,heavy,neck+fit,,neck+fit,+z,0,1,5 walls 40 % and fit (neck+fit) as before D22: neck chain (G5); servo pocket 0.10 mm undersize (C4)
-knee_to_ankle_left_sheet.stl,4,PLA,heavy,wall3+fit,,fit,-y,2,1,3 walls and fit (wall3+fit) as before D22: thinnest leg plate (G6); servo tabs line to line (0.01 mm)
-knee_to_ankle_right_sheet.stl,4,PLA,heavy,wall3+fit,,fit,+y,2,1,3 walls and fit (wall3+fit) as before D22: thinnest leg plate (G6); servo tabs line to line (0.01 mm)
+hip_pad.stl,2,TPU,light,,,,+z,1,0,TPU 2 walls 40 % (the sole profile): the 22 x 6 x 1.5 mm hip pitch -75 deg face on VHB 4950 (D59)
+knee_bumper.stl,2,TPU,light,,,,+z,1,0,TPU 2 walls 40 % (the sole profile): the 28 x 14 x 3 mm knee stop pad on VHB 4950 (D59)
+knee_to_ankle_left_sheet.stl,2,PLA,heavy,wall3+fit,,fit,-y,1,1,3 walls and fit (wall3+fit) as before D22: thinnest leg plate (G6); servo tabs line to line (0.01 mm); the thigh pair only since D59 (the shins print shin_left_sheet and shin_right_sheet); front edge trimmed where the shin clamp passes at the knee fold (twin/sit/SIT.md)
+knee_to_ankle_right_sheet.stl,2,PLA,heavy,wall3+fit,,fit,+y,1,1,3 walls and fit (wall3+fit) as before D22: thinnest leg plate (G6); servo tabs line to line (0.01 mm); the thigh pair only since D59 (the shins print shin_left_sheet and shin_right_sheet); front edge trimmed where the shin clamp passes at the knee fold (twin/sit/SIT.md)
 left_antenna_holder.stl,1,PLA,heavy,wall3,,,vec:0.2631 -0.9354 -0.2362,0,1,3 walls (wall3) as before D22: thinnest part (2.0 mm); first hit if the head swings (G6)
-left_cache.stl,1,PLA,light,,,,-z,1,0,2 walls 15 % (upstream default): a cover (PRINT_PLAN.md G6: not spared)
+left_cache.stl,1,PLA,light,,,,-z,1,0,2 walls 15 % (upstream default): a cover (PRINT_PLAN.md G6: not spared); D59: recessed where the joggled shin, the ankle servo and the foot pass
 left_eye.stl,1,PLA,heavy,wall3,,,+x,0,0,3 walls (wall3) as before D22: 4 screw pilots; whole-part test print T1 (B14) in this profile
-left_roll_to_pitch.stl,1,PLA,heavy,wall3+fit,,fit,-z,1,0,3 walls and fit (wall3+fit) as before D22: D38 takes D26 option P1 for the structure twin's weakest part (twin/structure/STRUCTURE_TWIN.md P1; with STS3250 knees twin/knee/KNEE_TWIN.md section 5); servo pocket line to line (0.10 mm face overlap); G12 check
-leg_spacer.stl,4,PLA,rings,,insert,insert,-y,2,0,2 walls 15 % plus a 2.0 mm solid ring round each of its 4 insert bores (2 per end): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings
-neck_left_sheet.stl,1,PLA,heavy,neck,,neck,-y,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thin sheet at neck_pitch and head_pitch (G6)
-neck_right_sheet.stl,1,PLA,heavy,neck,,neck,+y,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thin sheet at neck_pitch and head_pitch (G6)
+left_roll_to_pitch.stl,1,PLA,heavy,wall3+fit,,fit,-z,1,0,3 walls and fit (wall3+fit) as before D22: D38 takes D26 option P1 for the structure twin's weakest part (twin/structure/STRUCTURE_TWIN.md P1; with STS3250 knees twin/knee/KNEE_TWIN.md section 5); servo pocket line to line (0.10 mm face overlap); G12 check; D59: the 8 deg outward hip roll stop lug
+leg_spacer.stl,2,PLA,rings,,insert,insert,-y,1,0,2 walls 15 % plus a 2.0 mm solid ring round each of its 4 insert bores (2 per end): the insert rule at each bore; waits for the S1 gate (C2aL C2bL C3L): if a light coupon fails it prints with 4 walls (insert) and no rings; the thigh spacer only since D59 (the shins use shin_spacer.stl)
+neck_left_sheet.stl,1,PLA,heavy,neck,,neck,-y,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thin sheet at neck_pitch and head_pitch (G6); D59: the +25 deg neck back stop lug
+neck_right_sheet.stl,1,PLA,heavy,neck,,neck,+y,0,1,5 walls 40 % (neck) as before D22: neck chain (G5); thin sheet at neck_pitch and head_pitch (G6); D59: the +25 deg neck back stop lug
 right_antenna_holder.stl,1,PLA,heavy,wall3,,,vec:0.2631 0.9354 -0.2362,0,1,3 walls (wall3) as before D22: thinnest part (2.0 mm); first hit if the head swings (G6)
-right_cache.stl,1,PLA,light,,,,-z,0,0,2 walls 15 % (upstream default): a cover (PRINT_PLAN.md G6: not spared)
+right_cache.stl,1,PLA,light,,,,-z,0,0,2 walls 15 % (upstream default): a cover (PRINT_PLAN.md G6: not spared); D59: recessed where the joggled shin, the ankle servo and the foot pass
 right_eye.stl,1,PLA,heavy,wall3,,,+x,0,0,3 walls (wall3) as before D22: 4 screw pilots
-right_roll_to_pitch.stl,1,PLA,heavy,wall3+fit,,fit,-z,0,0,3 walls and fit (wall3+fit) as before D22: D38 takes D26 option P1 for the structure twin's weakest part (twin/structure/STRUCTURE_TWIN.md P1; with STS3250 knees twin/knee/KNEE_TWIN.md section 5); servo pocket line to line (0.10 mm face overlap); G12 check
+right_roll_to_pitch.stl,1,PLA,heavy,wall3+fit,,fit,-z,0,0,3 walls and fit (wall3+fit) as before D22: D38 takes D26 option P1 for the structure twin's weakest part (twin/structure/STRUCTURE_TWIN.md P1; with STS3250 knees twin/knee/KNEE_TWIN.md section 5); servo pocket line to line (0.10 mm face overlap); G12 check; D59: the 8 deg outward hip roll stop lug
 roll_motor_bottom.stl,2,PLA,heavy,wall3,,,+x,1,1,3 walls (wall3) as before D22: thinnest hip part (2.97 mm median) at hip yaw and hip roll; G12 screw (G6)
 roll_motor_top.stl,2,PLA,light,fit,,fit,-z,1,0,2 walls 15 % with fit: servo pocket line to line (0.01 mm); no rule asks for more walls
+shin_left_sheet.stl,2,PLA,heavy,wall3+fit,,wall3+fit,-y,1,1,3 walls and fit (wall3+fit) as the knee_to_ankle sheet it is made from (D59): the plate joggled 9 mm and the clamp block with its M2 counterbores (twin/sit/SIT.md); thinnest leg plate (G6)
+shin_right_sheet.stl,2,PLA,heavy,wall3+fit,,wall3+fit,+y,1,1,3 walls and fit (wall3+fit) as the knee_to_ankle sheet it is made from (D59); see shin_left_sheet
+shin_spacer.stl,2,PLA,rings,,insert,insert,-y,1,0,2 walls 15 % plus a 2.0 mm solid ring round each of its 4 insert bores as leg_spacer (D59: at the shin back edge; 54.8 mm long; carries the knee bumper); waits for the S1 gate like leg_spacer
+sit_bumper.stl,1,TPU,light,sparse,,sparse,-z,0,0,TPU 2 walls and 10 % infill (sparse): the belly bumper under the front on VHB 4950; printed on its flat glue face (D59)
+sit_seat.stl,1,TPU,light,sparse,,sparse,vec:-0.2873 0 -0.9578,0,0,TPU 2 walls and 10 % infill (sparse): the seat under the rear belly on VHB 4950; printed on its sloped glue face (D59)
 speaker_interface.stl,1,PLA,light,,,,vec:-0.2631 -0.9354 0.2362,0,0,2 walls 15 % (upstream default); laid flat (PRINT_CHECK had it on a 48 mm2 edge)
 speaker_stand.stl,1,PLA,heavy,wall3,,,-z,0,0,3 walls (wall3) as before D22: 2 screw pilots
 trunk_bottom.stl,1,PLA,heavy,insert+fit,,insert+fit,+z,0,0,4 walls and fit (insert+fit) as before D22: frame part; both legs hang from its 2 hip yaw 6804 seats 32.19 mm (C1); 6 insert bores

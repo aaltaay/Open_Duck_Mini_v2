@@ -1107,7 +1107,7 @@
             <inertia ixx="1.8748234895611842787e-05" ixy="1.5883913417291485579e-06"  ixz="-6.5235393392554439271e-09" iyy="6.7442711017631486138e-05" iyz="5.6739084804828818974e-08" izz="6.0609999941114232999e-05" />
         </inertial>
         <visual>
-            <origin xyz="-0.032888248 -0.019631102 -0.0003" rpy="-1.57079633 -0 -3.05432596" />
+            <origin xyz="-0.032874303 -0.019790493 -0.0003" rpy="-1.57079633 -0 -3.05432596" />
             <geometry>
                 <mesh filename="package:///ankle_pad.stl"/>
             </geometry>
@@ -1116,13 +1116,13 @@
             </material>
         </visual>
         <collision>
-            <origin xyz="-0.032888248 -0.019631102 -0.0003" rpy="-1.57079633 -0 -3.05432596" />
+            <origin xyz="-0.032874303 -0.019790493 -0.0003" rpy="-1.57079633 -0 -3.05432596" />
             <geometry>
                 <mesh filename="package:///ankle_pad.stl"/>
             </geometry>
         </collision>
         <visual>
-            <origin xyz="-0.032888248 -0.019631102 0.0378" rpy="-1.57079633 -0 -3.05432596" />
+            <origin xyz="-0.032874303 -0.019790493 0.0378" rpy="-1.57079633 -0 -3.05432596" />
             <geometry>
                 <mesh filename="package:///ankle_pad.stl"/>
             </geometry>
@@ -1131,7 +1131,7 @@
             </material>
         </visual>
         <collision>
-            <origin xyz="-0.032888248 -0.019631102 0.0378" rpy="-1.57079633 -0 -3.05432596" />
+            <origin xyz="-0.032874303 -0.019790493 0.0378" rpy="-1.57079633 -0 -3.05432596" />
             <geometry>
                 <mesh filename="package:///ankle_pad.stl"/>
             </geometry>
@@ -1765,7 +1765,7 @@
             <inertia ixx="1.8748234895611886832e-05" ixy="1.5883913417292040386e-06"  ixz="-6.5235393392663494763e-09" iyy="6.7442711017631513243e-05" iyz="5.6739084804884087874e-08" izz="6.0609999941114287209e-05" />
         </inertial>
         <visual>
-            <origin xyz="-0.032888248 -0.019631102 -0.0003" rpy="-1.57079633 -0 -3.05432596" />
+            <origin xyz="-0.032874303 -0.019790493 -0.0003" rpy="-1.57079633 -0 -3.05432596" />
             <geometry>
                 <mesh filename="package:///ankle_pad.stl"/>
             </geometry>
@@ -1774,13 +1774,13 @@
             </material>
         </visual>
         <collision>
-            <origin xyz="-0.032888248 -0.019631102 -0.0003" rpy="-1.57079633 -0 -3.05432596" />
+            <origin xyz="-0.032874303 -0.019790493 -0.0003" rpy="-1.57079633 -0 -3.05432596" />
             <geometry>
                 <mesh filename="package:///ankle_pad.stl"/>
             </geometry>
         </collision>
         <visual>
-            <origin xyz="-0.032888248 -0.019631102 0.0378" rpy="-1.57079633 -0 -3.05432596" />
+            <origin xyz="-0.032874303 -0.019790493 0.0378" rpy="-1.57079633 -0 -3.05432596" />
             <geometry>
                 <mesh filename="package:///ankle_pad.stl"/>
             </geometry>
@@ -1789,7 +1789,7 @@
             </material>
         </visual>
         <collision>
-            <origin xyz="-0.032888248 -0.019631102 0.0378" rpy="-1.57079633 -0 -3.05432596" />
+            <origin xyz="-0.032874303 -0.019790493 0.0378" rpy="-1.57079633 -0 -3.05432596" />
             <geometry>
                 <mesh filename="package:///ankle_pad.stl"/>
             </geometry>

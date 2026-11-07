@@ -65,7 +65,7 @@
    "bytes": 51884
   },
   "knee_to_ankle_left_sheet": {
-   "volume_mm3": 7839.9,
+   "volume_mm3": 7840.0,
    "faces": 4716,
    "print_file": "print/knee_to_ankle_left_sheet.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/left_knee_to_ankle_left_sheet.stl",
@@ -73,38 +73,38 @@
   },
   "knee_to_ankle_right_sheet": {
    "volume_mm3": 6120.8,
-   "faces": 4760,
+   "faces": 4756,
    "print_file": "print/knee_to_ankle_right_sheet.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/left_knee_to_ankle_right_sheet.stl",
-   "bytes": 238084
+   "bytes": 237884
   },
   "foot_top": {
-   "volume_mm3": 37998.7,
-   "faces": 4068,
+   "volume_mm3": 37839.8,
+   "faces": 4182,
    "print_file": "print/foot_top.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/foot_top.stl",
-   "bytes": 203484
+   "bytes": 209184
   },
   "foot_side": {
-   "volume_mm3": 20147.1,
-   "faces": 5694,
+   "volume_mm3": 20113.7,
+   "faces": 5940,
    "print_file": "print/foot_side.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/foot_side.stl",
-   "bytes": 284784
+   "bytes": 297084
   },
   "left_cache": {
-   "volume_mm3": 51997.6,
-   "faces": 7434,
+   "volume_mm3": 51979.5,
+   "faces": 43500,
    "print_file": "print/left_cache.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/left_cache.stl",
-   "bytes": 371784
+   "bytes": 2175084
   },
   "right_cache": {
-   "volume_mm3": 51997.6,
-   "faces": 7434,
+   "volume_mm3": 51979.5,
+   "faces": 43500,
    "print_file": "print/right_cache.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/right_cache.stl",
-   "bytes": 371784
+   "bytes": 2175084
   },
   "left_roll_to_pitch": {
    "volume_mm3": 30706.0,
@@ -122,10 +122,10 @@
   },
   "neck_left_sheet": {
    "volume_mm3": 8579.9,
-   "faces": 3518,
+   "faces": 3520,
    "print_file": "print/neck_left_sheet.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/neck_left_sheet.stl",
-   "bytes": 175984
+   "bytes": 176084
   },
   "neck_right_sheet": {
    "volume_mm3": 6665.2,
@@ -135,11 +135,11 @@
    "bytes": 207884
   },
   "head_pitch_to_yaw": {
-   "volume_mm3": 14567.4,
-   "faces": 11258,
+   "volume_mm3": 14451.5,
+   "faces": 10962,
    "print_file": "print/head_pitch_to_yaw.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/head_pitch_to_yaw.stl",
-   "bytes": 562984
+   "bytes": 548184
   },
   "knee_bumper": {
    "volume_mm3": 1176.0,
@@ -246,13 +246,13 @@
       -0.996195,
       -0.0,
       0.087156,
-      -32.888248
+      -32.874303
      ],
      [
       -0.087156,
       0.0,
       -0.996195,
-      -19.631102
+      -19.790493
      ],
      [
       0.0,
@@ -275,13 +275,13 @@
       -0.996195,
       -0.0,
       0.087156,
-      -32.888248
+      -32.874303
      ],
      [
       -0.087156,
       0.0,
       -0.996195,
-      -19.631102
+      -19.790493
      ],
      [
       0.0,
@@ -304,13 +304,13 @@
       -0.996195,
       -0.0,
       0.087156,
-      -32.888248
+      -32.874303
      ],
      [
       -0.087156,
       -0.0,
       -0.996195,
-      -19.631102
+      -19.790493
      ],
      [
       0.0,
@@ -333,13 +333,13 @@
       -0.996195,
       -0.0,
       0.087156,
-      -32.888248
+      -32.874303
      ],
      [
       -0.087156,
       -0.0,
       -0.996195,
-      -19.631102
+      -19.790493
      ],
      [
       0.0,
@@ -610,16 +610,16 @@
    ]
   },
   "foot_top": {
-   "notch_mm3": 1505.6,
+   "notch_mm3": 1656.0,
    "ankle_range": [
     -95.5,
     -40.0
    ],
    "pad": {
     "centre": [
-     -67.95,
+     -67.93,
      109.25,
-     -177.01
+     -177.16
     ],
     "normal_out": [
      0.087,
@@ -634,16 +634,16 @@
    }
   },
   "foot_side": {
-   "notch_mm3": 1163.4,
+   "notch_mm3": 1187.8,
    "ankle_range": [
     -95.5,
     -40.0
    ],
    "pad": {
     "centre": [
-     -67.95,
+     -67.93,
      71.15,
-     -177.01
+     -177.16
     ],
     "normal_out": [
      0.087,
@@ -660,15 +660,21 @@
   "left_roll_to_pitch": {
    "lug_mm3": 1070.7
   },
-  "cache_L": {
-   "by_shin_mm3": 10370.5,
-   "by_foot_mm3": 1511.7,
-   "by_hip_pad_mm3": 229.9
-  },
-  "cache_R": {
-   "by_shin_mm3": 10865.0,
-   "by_foot_mm3": 1337.1,
-   "by_hip_pad_mm3": 229.9
+  "cache": {
+   "cut_by_leg": {
+    "L": {
+     "by_shin_mm3": 10664.0,
+     "by_foot_mm3": 1380.5,
+     "by_hip_pad_mm3": 229.9
+    },
+    "R": {
+     "by_shin_mm3": 276.4,
+     "by_foot_mm3": 82.4,
+     "by_hip_pad_mm3": 0.5
+    }
+   },
+   "removed_mm3": 12633.7,
+   "base_mm3": 64609.0
   },
   "neck_left_sheet": {
    "lug_mm3": 519.9
@@ -677,7 +683,7 @@
    "lug_mm3": 404.8
   },
   "head_pitch_to_yaw": {
-   "lug_mm3": 1019.8
+   "lug_mm3": 903.9
   },
   "sit_seat": {
    "volume_mm3": 88291.6,

@@ -66,8 +66,10 @@ def build():
             if jn in designed and side in designed[jn]:
                 cands.append((designed[jn][side][0], "designed stop %s (D59)" % designed[jn][side][1]))
             cc = c.get(side)
-            if cc is not None:
-                cands.append((cc, "CAD contact (sit_sweep.py hard_stops)"))
+            # a designed stop is the hard stop of its end; a CAD contact found with the other joints at zero is used for
+            # the ends without one (a designed end's earlier contact is a coupled one: knee_ankle_coupling)
+            if cc is not None and not (jn in designed and side in designed[jn]):
+                cands.append((cc, "CAD contact (sit_sweep.py hard_stops, %s)" % c.get(side + "_by", "")))
             pick = max(cands, key=lambda x: x[0]) if side == "lo" else min(cands, key=lambda x: x[0])
             ends[side] = pick
         soft_lo = ends["lo"][0] + L.SOFT_MARGIN_DEG

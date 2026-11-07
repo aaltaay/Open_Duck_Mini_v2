@@ -252,6 +252,23 @@ def hard_stops(Mo, log=print):
     return out
 
 
+def coupling(Mo, log=print):
+    """the knee and ankle limit each other on the thigh cover (the foot meets it): for each knee angle from 100 deg, the
+    ankle angles (5 deg grid) at which the foot and the shin clear the thigh link. The sit and stand path stays inside
+    this band (path states above); the software sequence must too"""
+    pairs = [(a, b) for a, b in PAIRS if set((a, b)) & {"knee_and_ankle_assembly"} and set((a, b)) & {"foot_assembly"}]
+    out = {}
+    for k in np.arange(100.0, 150.1, 5.0):
+        free = []
+        for a in np.arange(-95.0, 90.1, 5.0):
+            if not Mo.new_hits({"left_knee": np.radians(k), "left_ankle": np.radians(a)}, pairs):
+                free.append(float(a))
+        out["%.0f" % k] = dict(ankle_free_max=max(free) if free else None, ankle_free_min=min(free) if free else None,
+                               n_free=len(free))
+        log("coupling knee %.0f: ankle free %s .. %s" % (k, out["%.0f" % k]["ankle_free_min"], out["%.0f" % k]["ankle_free_max"]))
+    return out
+
+
 def run(walk_json=None, quick=False, log=print):
     t0 = time.time()
     Mo = Model()
@@ -263,6 +280,8 @@ def run(walk_json=None, quick=False, log=print):
     log("stops %.0f s" % (time.time() - t0))
     report["hard_stops"] = hard_stops(Mo, log)
     log("hard stops %.0f s" % (time.time() - t0))
+    report["knee_ankle_coupling"] = coupling(Mo, log)
+    log("coupling %.0f s" % (time.time() - t0))
     for group, states in (("path", path_states()), ("walk", walk_states(walk_json))):
         if quick:
             states = states[::4]

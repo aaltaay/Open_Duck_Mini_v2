@@ -70,6 +70,38 @@ def scene(fresh=False):
     return _S
 
 
+_SB = None
+
+
+def scene_base():
+    """the scene as it was at BASE_REV: robot.urdf and every print/ STL from git, the other URDF meshes (servo cases,
+    horns, boards: unchanged by this job) from the working tree. The CAD builder starts from this, so a re-run after
+    sit_urdf.py --write (which renames the shin meshes) builds the same parts."""
+    global _SB
+    if _SB is not None:
+        return _SB
+    tmp = tempfile.mkdtemp(prefix="sit_base_")
+    ud, pd = os.path.join(tmp, "urdf"), os.path.join(tmp, "print")
+    os.makedirs(ud)
+    os.makedirs(pd)
+    open(os.path.join(ud, "robot.urdf"), "wb").write(git_blob("mini_bdx/robots/open_duck_mini_v2/robot.urdf"))
+    for f in os.listdir(URDF_DIR):
+        if f.endswith(".stl"):
+            os.symlink(os.path.join(URDF_DIR, f), os.path.join(ud, f))
+    names = subprocess.run(["git", "-C", REPO, "ls-tree", "--name-only", BASE_REV, "print/"], check=True,
+                           capture_output=True, text=True).stdout.split()
+    for n in names:
+        if n.endswith(".stl"):
+            open(os.path.join(pd, os.path.basename(n)), "wb").write(git_blob(n))
+    old = (c3d_lib.URDF_DIR, c3d_lib.PRINT_DIR)
+    c3d_lib.URDF_DIR, c3d_lib.PRINT_DIR = ud, pd
+    try:
+        _SB = c3d_lib.Scene()
+    finally:
+        c3d_lib.URDF_DIR, c3d_lib.PRINT_DIR = old
+    return _SB
+
+
 def inst(S, link, key):
     r = [i for i in S.inst if i["link"] == link and i["key"] == key]
     if len(r) != 1:

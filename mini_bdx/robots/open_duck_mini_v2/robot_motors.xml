@@ -537,9 +537,9 @@ IN THE ACTUATORS AND ALSO IN THE TREE -->
                                         mesh="foot_top"
                                     />
                                     
-<geom pos="-0.0328882 -0.0196311 -0.0003" quat="0.0308436 -0.0308436 0.706434 -0.706434" type="mesh" rgba="0.95 0.75 0.2 1" mesh="ankle_pad"/>
+<geom pos="-0.0328743 -0.0197905 -0.0003" quat="0.0308436 -0.0308436 0.706434 -0.706434" type="mesh" rgba="0.95 0.75 0.2 1" mesh="ankle_pad"/>
 
-<geom pos="-0.0328882 -0.0196311 0.0378" quat="0.0308436 -0.0308436 0.706434 -0.706434" type="mesh" rgba="0.95 0.75 0.2 1" mesh="ankle_pad"/>
+<geom pos="-0.0328743 -0.0197905 0.0378" quat="0.0308436 -0.0308436 0.706434 -0.706434" type="mesh" rgba="0.95 0.75 0.2 1" mesh="ankle_pad"/>
 <body
                                         name="left_foot"
                                         pos="0.0005 -0.036225 0.01955"
@@ -1075,9 +1075,9 @@ IN THE ACTUATORS AND ALSO IN THE TREE -->
                                         mesh="foot_top"
                                     />
                                     
-<geom pos="-0.0328882 -0.0196311 -0.0003" quat="0.0308436 -0.0308436 0.706434 -0.706434" type="mesh" rgba="0.95 0.75 0.2 1" mesh="ankle_pad"/>
+<geom pos="-0.0328743 -0.0197905 -0.0003" quat="0.0308436 -0.0308436 0.706434 -0.706434" type="mesh" rgba="0.95 0.75 0.2 1" mesh="ankle_pad"/>
 
-<geom pos="-0.0328882 -0.0196311 0.0378" quat="0.0308436 -0.0308436 0.706434 -0.706434" type="mesh" rgba="0.95 0.75 0.2 1" mesh="ankle_pad"/>
+<geom pos="-0.0328743 -0.0197905 0.0378" quat="0.0308436 -0.0308436 0.706434 -0.706434" type="mesh" rgba="0.95 0.75 0.2 1" mesh="ankle_pad"/>
 <body
                                         name="right_foot"
                                         pos="0.0005 -0.036225 0.01955"
