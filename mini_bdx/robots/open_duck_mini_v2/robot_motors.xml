@@ -4,8 +4,11 @@ IN THE ACTUATORS AND ALSO IN THE TREE -->
     <compiler angle="radian" />
     <asset>
     <mesh name="ankle_pad" file="ankle_pad.stl"/>
+    <mesh name="head_pad" file="head_pad.stl"/>
     <mesh name="hip_pad" file="hip_pad.stl"/>
     <mesh name="knee_bumper" file="knee_bumper.stl"/>
+    <mesh name="neck_pad" file="neck_pad.stl"/>
+    <mesh name="neck_stop" file="neck_stop.stl"/>
     <mesh name="shin_left_sheet" file="shin_left_sheet.stl"/>
     <mesh name="shin_right_sheet" file="shin_right_sheet.stl"/>
     <mesh name="shin_spacer" file="shin_spacer.stl"/>
@@ -284,6 +287,12 @@ IN THE ACTUATORS AND ALSO IN THE TREE -->
                     mesh="passive_palonier"
                 />
                 
+<geom pos="-0.027301 0 0.0858" quat="1 0 0 0" type="mesh" rgba="0.55 0.6 0.65 1" mesh="neck_stop"/>
+
+<geom pos="-0.0303782 0.019125 0.117398" quat="0.5373 0 -0.843391 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="neck_pad"/>
+
+<geom pos="-0.0303782 -0.019125 0.117398" quat="0.5373 0 -0.843391 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="neck_pad"/>
+
 <geom pos="-0.11 0 -0.0182091" quat="1 0 0 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="sit_seat"/>
 
 <geom pos="0.02 0 -0.0362091" quat="1 0 0 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="sit_bumper"/>
@@ -620,7 +629,9 @@ IN THE ACTUATORS AND ALSO IN THE TREE -->
                             rgba="0.4 0.4 0.4 1"
                             mesh="head_pitch_to_yaw"
                         />
-                        <body
+                        
+<geom pos="0.0272057 -0.0148993 -9.9707e-05" quat="0.690346 -0.690346 -0.153046 0.153046" type="mesh" rgba="0.95 0.75 0.2 1" mesh="head_pad"/>
+<body
                             name="neck_yaw_assembly"
                             pos="0 0.057 0.01905"
                             quat="0.707107 -0.707107 0 0"

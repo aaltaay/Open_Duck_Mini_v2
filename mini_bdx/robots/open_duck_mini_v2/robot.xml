@@ -2,8 +2,11 @@
   <compiler angle="radian"/>
   <asset>
     <mesh name="ankle_pad" file="ankle_pad.stl"/>
+    <mesh name="head_pad" file="head_pad.stl"/>
     <mesh name="hip_pad" file="hip_pad.stl"/>
     <mesh name="knee_bumper" file="knee_bumper.stl"/>
+    <mesh name="neck_pad" file="neck_pad.stl"/>
+    <mesh name="neck_stop" file="neck_stop.stl"/>
     <mesh name="shin_left_sheet" file="shin_left_sheet.stl"/>
     <mesh name="shin_right_sheet" file="shin_right_sheet.stl"/>
     <mesh name="shin_spacer" file="shin_spacer.stl"/>
@@ -113,6 +116,12 @@
         <geom pos="-0.0445 0.035 0.0553909" quat="0 0 0.707107 -0.707107" type="mesh" rgba="0.247059 0.243137 0.243137 1" mesh="wj-wk00-0122topcabinetcase_95"/>
         <geom pos="-0.0445 0.035 0.0524909" quat="0 0 0.707107 -0.707107" type="mesh" rgba="0.623529 0.666667 0.701961 1" mesh="passive_palonier"/>
         
+<geom pos="-0.027301 0 0.0858" quat="1 0 0 0" type="mesh" rgba="0.55 0.6 0.65 1" mesh="neck_stop"/>
+
+<geom pos="-0.0303782 0.019125 0.117398" quat="0.5373 0 -0.843391 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="neck_pad"/>
+
+<geom pos="-0.0303782 -0.019125 0.117398" quat="0.5373 0 -0.843391 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="neck_pad"/>
+
 <geom pos="-0.11 0 -0.0182091" quat="1 0 0 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="sit_seat"/>
 
 <geom pos="0.02 0 -0.0362091" quat="1 0 0 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="sit_bumper"/>
@@ -198,7 +207,9 @@
             <inertial pos="-0.00766247 0.026015 0.0186681" quat="0.692632 0.709794 0.0901532 0.091239" mass="0.0169378" diaginertia="9.7861e-06 8.03124e-06 4.28979e-06"/>
             <joint name="head_pitch" pos="0 0 0" axis="0 0 1" range="-0.436332 0.785398" />
             <geom pos="-0.02 -0.09111 0.01905" quat="0.707107 -0.707107 0 0" type="mesh" rgba="0.4 0.4 0.4 1" mesh="head_pitch_to_yaw"/>
-            <body name="neck_yaw_assembly" pos="0 0.057 0.01905" quat="0.707107 -0.707107 0 0">
+            
+<geom pos="0.0272057 -0.0148993 -9.9707e-05" quat="0.690346 -0.690346 -0.153046 0.153046" type="mesh" rgba="0.95 0.75 0.2 1" mesh="head_pad"/>
+<body name="neck_yaw_assembly" pos="0 0.057 0.01905" quat="0.707107 -0.707107 0 0">
               <inertial pos="0.00412907 3.95745e-06 -0.0222828" quat="-0.00110425 0.66693 -0.00105488 0.745118" mass="0.0918099" diaginertia="7.08927e-05 6.94935e-05 3.06805e-05"/>
               <joint name="head_yaw" pos="0 0 0" axis="0 0 1" range="-2.79253 2.79253" />
               <geom pos="-0.02 0 -0.14821" quat="1 0 0 0" type="mesh" rgba="0.647059 0.647059 0.647059 1" mesh="head_yaw_to_roll"/>

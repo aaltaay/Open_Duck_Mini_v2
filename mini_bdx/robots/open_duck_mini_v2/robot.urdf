@@ -2520,4 +2520,103 @@
         <child link="sit_bumper" />
         <axis xyz="0 0 0"/>
     </joint>
+    <link name="neck_stop">
+        <visual>
+            <origin xyz="-0.027301 0 0.0858" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package:///neck_stop.stl"/>
+            </geometry>
+            <material name="neck_stop_material">
+                <color rgba="0.55 0.6 0.65 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.027301 0 0.0858" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package:///neck_stop.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1e-9" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <joint name="neck_stop_fixed" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="trunk_assembly" />
+        <child link="neck_stop" />
+        <axis xyz="0 0 0"/>
+    </joint>
+    <link name="neck_pads">
+        <visual>
+            <origin xyz="-0.03037823 0.019125001 0.117397612" rpy="3.14159265 -1.13446452 3.14159265" />
+            <geometry>
+                <mesh filename="package:///neck_pad.stl"/>
+            </geometry>
+            <material name="neck_pad_material">
+                <color rgba="0.95 0.75 0.2 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.03037823 0.019125001 0.117397612" rpy="3.14159265 -1.13446452 3.14159265" />
+            <geometry>
+                <mesh filename="package:///neck_pad.stl"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="-0.03037823 -0.019125001 0.117397612" rpy="3.14159265 -1.13446452 3.14159265" />
+            <geometry>
+                <mesh filename="package:///neck_pad.stl"/>
+            </geometry>
+            <material name="neck_pad_material">
+                <color rgba="0.95 0.75 0.2 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.03037823 -0.019125001 0.117397612" rpy="3.14159265 -1.13446452 3.14159265" />
+            <geometry>
+                <mesh filename="package:///neck_pad.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1e-9" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <joint name="neck_pads_fixed" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="trunk_assembly" />
+        <child link="neck_pads" />
+        <axis xyz="0 0 0"/>
+    </joint>
+    <link name="head_pad">
+        <visual>
+            <origin xyz="0.027205665 -0.014899274 -9.9707e-05" rpy="-1.57079633 0 0.436331986" />
+            <geometry>
+                <mesh filename="package:///head_pad.stl"/>
+            </geometry>
+            <material name="head_pad_material">
+                <color rgba="0.95 0.75 0.2 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.027205665 -0.014899274 -9.9707e-05" rpy="-1.57079633 0 0.436331986" />
+            <geometry>
+                <mesh filename="package:///head_pad.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1e-9" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <joint name="head_pad_fixed" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="head_pitch_to_yaw" />
+        <child link="head_pad" />
+        <axis xyz="0 0 0"/>
+    </joint>
 </robot>

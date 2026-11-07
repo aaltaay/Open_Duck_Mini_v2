@@ -1,6 +1,6 @@
 {
  "assembly": {
-  "instances": 141,
+  "instances": 145,
   "swapped": [
    54,
    55,
@@ -11,8 +11,11 @@
   ],
   "new_meshes": {
    "ankle_pad.stl": 0,
+   "head_pad.stl": 0,
    "hip_pad.stl": 0,
    "knee_bumper.stl": 0,
+   "neck_pad.stl": 0,
+   "neck_stop.stl": 2,
    "shin_left_sheet.stl": 17,
    "shin_right_sheet.stl": 17,
    "shin_spacer.stl": 4,
@@ -162,14 +165,12 @@
   },
   "left_roll_to_pitch": "same 27 holes",
   "right_roll_to_pitch": "same 27 holes",
-  "neck_left_sheet": "same 12 holes",
-  "neck_right_sheet": "same 12 holes",
   "head_pitch_to_yaw": "same 36 holes",
   "knee_to_ankle_left_sheet": "same 17 holes",
   "knee_to_ankle_right_sheet": "same 17 holes"
  },
  "sites": {
-  "features": 128,
+  "features": 130,
   "new_sites": 10,
   "emptied": [
    2,
@@ -206,7 +207,9 @@
   "F024",
   "F026",
   "I34",
-  "I46"
+  "I46",
+  "F127",
+  "F129"
  ],
  "fasteners_renamed": [
   "F005",
@@ -255,5 +258,9 @@
   194,
   197,
   198
- ]
+ ],
+ "stock_again": {
+  "neck_left_sheet": "same 12 holes, stock STL",
+  "neck_right_sheet": "same 12 holes, stock STL"
+ }
 }
