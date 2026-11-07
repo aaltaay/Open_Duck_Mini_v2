@@ -75,10 +75,13 @@ a pair counts above 2 mm3 over its zero-pose overlap. Results in sit_sweep.json.
   +36 deg put the stock head shell and floor into body_middle_top and body_back (0.7 to 1.5 cm3): a stock-part
   interference at a corner of the software limits that no get-up keyframe visits (the roll keyframes hold the head at
   -14 deg); reported, not a sit change.
-- Fasteners: sweep_fasteners.py over the new ranges (fasteners.json, FASTENERS.md): the screw-limited hits are the same 5
-  screws as before (2 left out by D18, F198 and F211 from hip yaw 23.3 deg, F333 not fitted); the new ranges add "parts
-  collide first" rows only. 20 records moved with the parts (sit_records.py: the 16 spacer screws and inserts, the 4
-  heel screw and insert rows); the shin rows name the shin parts; the M2 clamp screws keep their seat.
+- Fasteners: sweep_fasteners.py over the new ranges (fasteners.json, FASTENERS.md), run again on the final CAD: 361
+  heads and 108 tips, the screw-limited hits are the same 5 screws as before (2 left out by D18, F198 and F211 from hip
+  yaw 23.3 deg, F333 not fitted); the new ranges add "parts collide first" rows only. 22 records moved with the parts
+  (sit_records.py: the 16 spacer screws and inserts, the 4 heel screw and insert rows, and F127 and F129, the hip yaw
+  servo screws that hold the neck stop block: M2x6 to M2x12, the seat 6 mm higher on the block's flange, counted under
+  BOM line 17m); the shin rows name the shin parts; the M2 clamp screws keep their seat; the neck sheets' rows are the
+  stock ones again. The 14 sit parts are URDF instances 131 to 144, the head internals 145 to 152.
 
 ## 4. Strength (calc)
 
