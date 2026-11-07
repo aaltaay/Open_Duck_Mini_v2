@@ -97,33 +97,41 @@ def stop_loads(paths, abuse=False, key=None):
         for r in J["results"]:
             if (r.get("name") in ABUSE) != abuse:
                 continue
-            for fld in ("limit_torque_max", "limit_omega_max", "limit_torque_rest"):
+            for fld in ("limit_torque_max", "limit_omega_max", "limit_torque_rest", "limit_torque_sustained", "limit_torque_loaded"):
                 if fld not in r:
                     raise SystemExit("%s has no %s (per stop end): rerun it" % (os.path.basename(p), fld))
-            for fld, nm in (("limit_torque_max", "sim_Nm"), ("limit_omega_max", "omega"), ("limit_torque_rest", "rest_Nm")):
+            for fld, nm in (("limit_torque_max", "sim_Nm"), ("limit_omega_max", "omega"), ("limit_torque_rest", "rest_Nm"),
+                            ("limit_torque_sustained", "sustained_Nm"), ("limit_torque_loaded", "loaded_Nm")):
                 for k, v in r[fld].items():
                     j, end = k.split(":")
                     if DESIGNED_END.get(j) == end:
-                        d = out.setdefault(j, dict(omega=0.0, sim_Nm=0.0, rest_Nm=0.0))
+                        d = out.setdefault(j, dict(omega=0.0, sim_Nm=0.0, rest_Nm=0.0, sustained_Nm=0.0, loaded_Nm=0.0))
                         d[nm] = max(d[nm], float(v))
     return out
 
 
-def energy_peaks(loads, stops):
+def energy_peaks(loads, stops, held=False):
     """calc only: the link's kinetic energy at the moment it meets the stop, 0.5 I omega^2 (I the joint's effective
-    inertia at the sit pose, armature included: sit_model.json stops), absorbed by the stack compliance K (sitlib
-    STOP_STACK, N m/rad), gives the peak torque omega sqrt(I K) on top of the rest torque. The sim's own peak is the
-    cross-check (ratio)."""
+    inertia at the sit pose, armature included: sit_model.json stops; the held-base value when the body is held),
+    absorbed by the stack compliance K (sitlib STOP_STACK, N m/rad), gives the impact peak omega sqrt(I K) on top of
+    the rest torque. A stop that is already engaged when the push arrives (the torque-off sit rests on its stops) sees
+    the push as a sustained reaction instead: the largest 100 ms mean of the limit torque in the sim (converged, the
+    ring-down averaged out). The design load is the larger of the two. The sim's own peak is the cross-check (ratio)."""
     out = {}
+    key = "I_eff_held" if held else "I_eff"
     for j, d in loads.items():
         st = stops.get(j)
         if not st:
             continue
-        T_dyn = d["omega"] * float(np.sqrt(st["I_eff"] * st["K_Nm_rad"]))
-        T = T_dyn + d["rest_Nm"]
-        out[j] = dict(omega_rad_s=round(d["omega"], 3), I_eff=st["I_eff"], K_Nm_rad=st["K_Nm_rad"], dyn_Nm=round(T_dyn, 3),
-                      rest_Nm=round(d["rest_Nm"], 3), energy_Nm=round(T, 3), sim_Nm=round(d["sim_Nm"], 3),
-                      sim_over_energy=round(d["sim_Nm"] / T, 2) if T > 1e-6 else None)
+        if key not in st:
+            raise SystemExit("sit_model.json has no %s: rerun sit_model.py" % key)
+        T_dyn = d["omega"] * float(np.sqrt(st[key] * st["K_Nm_rad"]))
+        T_e = T_dyn + d["rest_Nm"]
+        T = max(T_e, d["sustained_Nm"])
+        out[j] = dict(omega_rad_s=round(d["omega"], 3), I_eff=st[key], K_Nm_rad=st["K_Nm_rad"], dyn_Nm=round(T_dyn, 3),
+                      rest_Nm=round(d["rest_Nm"], 3), energy_Nm=round(T_e, 3), sustained_Nm=round(d["sustained_Nm"], 3),
+                      loaded_raw_Nm=round(d["loaded_Nm"], 3), design_Nm=round(T, 3), sizing="sustained" if d["sustained_Nm"] > T_e else "impact",
+                      sim_Nm=round(d["sim_Nm"], 3), sim_over_design=round(d["sim_Nm"] / T, 2) if T > 1e-6 else None)
     return out
 
 
@@ -248,12 +256,12 @@ def main():
     stops_md = json.load(open(os.path.join(a.model, "sit_model.json")))["stops"] if a.model else {}
     EP = energy_peaks(stop_loads(load_paths, key=inkey), stops_md)
     EA = energy_peaks(stop_loads(load_paths, abuse=True, key=inkey), stops_md)
-    T = {j: v["energy_Nm"] for j, v in EP.items()}
-    TA = {j: v["energy_Nm"] for j, v in EA.items()}
+    T = {j: v["design_Nm"] for j, v in EP.items()}
+    TA = {j: v["design_Nm"] for j, v in EA.items()}
     REST = {j: v["rest_Nm"] for j, v in EP.items()}
     rows, loads = [], {}
     loads["energy_method"] = dict(label="calc only", service=EP, abuse=EA,
-                                  note="peak = omega sqrt(I K) + rest; sim_over_energy is the compliant-stop sim's own peak over it (0.5 ms step)")
+                                  note="design = max(omega sqrt(I K) + rest, sustained 100 ms mean); sim_over_design is the compliant-stop sim's own peak over it (0.5 ms step)")
     stack_check(S, cad)
 
     def tq(j, floor=0.0, src=None):

@@ -301,6 +301,7 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
             n = jn[j]
             if f > lim.get(n, 0.0):
                 lim[n] = float(f)
+        stops.is_loaded = bool(np.any(dd.xfrc_applied[tr, :3]))
         stops(dd)
         if t >= t_first - 0.1:
             # every physics step once it has settled: the least pins per pad, the pitch and head ranges at rest
@@ -323,16 +324,28 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
 
 
 class Stops:
-    """per joint end ("<joint>:lo" / "<joint>:hi"): the largest joint limit constraint torque so far (force, a stop
-    load belongs to the end it acts at: the designed stop is one end only), the largest impact speed (|qvel| on the
-    step before the limit constraint first becomes active in an event: the energy method's omega, which converges
-    with the step unlike the peak force), and the limit torque on the last step (rest). Call after every mj_step."""
+    """per joint end ("<joint>:lo" / "<joint>:hi"), called after every mj_step:
+      force      the largest joint limit constraint torque so far (a stop load belongs to the end it acts at: the designed
+                 stop is one end only); the sim's own peak, which does not converge with the step (a cross-check)
+      omega      the largest impact speed: |qvel| on the step before the limit constraint first becomes active in an
+                 event (the energy method's input; it converges with the step)
+      sustained  the largest mean of the limit torque over a WINDOW_S moving window: the quasi-static reaction of a stop
+                 that is already engaged when a push or a shove arrives (the torque-off sit rests on its stops), with the
+                 impact ring-down averaged out (the stack's natural period is 12 to 55 ms, the window 100 ms); converged
+      loaded     the largest limit torque while the caller flags the external force as applied (is_loaded), raw
+      rest       the limit torque on the last step"""
+
+    WINDOW_S = 0.1
 
     def __init__(self, md, jn):
+        import collections
         self.md, self.jn = md, jn
-        self.force, self.omega, self.rest = {}, {}, {}
+        self.force, self.omega, self.rest, self.sustained, self.loaded = {}, {}, {}, {}, {}
         self.active = set()
         self.qvel_prev = None
+        self.n_win = max(1, int(round(self.WINDOW_S / md.opt.timestep)))
+        self.hist, self.sum = collections.defaultdict(collections.deque), {}
+        self.is_loaded = False
 
     def __call__(self, dd):
         import mujoco as m
@@ -347,11 +360,24 @@ class Stops:
         for k, f in now.items():
             if f > self.force.get(k, 0.0):
                 self.force[k] = f
+            if self.is_loaded and f > self.loaded.get(k, 0.0):
+                self.loaded[k] = f
             if k not in self.active and self.qvel_prev is not None:
                 j = m.mj_name2id(md, m.mjtObj.mjOBJ_JOINT, k.split(":")[0])
                 w = abs(float(self.qvel_prev[md.jnt_dofadr[j]]))
                 if w > self.omega.get(k, 0.0):
                     self.omega[k] = w
+        for k in set(self.hist) | set(now):
+            f = now.get(k, 0.0)
+            dq = self.hist[k]
+            dq.append(f)
+            self.sum[k] = self.sum.get(k, 0.0) + f
+            if len(dq) > self.n_win:
+                self.sum[k] -= dq.popleft()
+            if len(dq) == self.n_win:
+                mean = self.sum[k] / self.n_win
+                if mean > self.sustained.get(k, 0.0):
+                    self.sustained[k] = mean
         self.active = set(now)
         self.rest = now
         self.qvel_prev = dd.qvel.copy()
@@ -359,7 +385,8 @@ class Stops:
     def report(self):
         r3 = lambda d: {k: round(v, 3) for k, v in sorted(d.items()) if v > 0.01}  # noqa: E731
         return dict(limit_torque_max=r3(self.force), limit_omega_max={k: round(v, 4) for k, v in sorted(self.omega.items())},
-                    limit_torque_rest=r3(self.rest))
+                    limit_torque_rest=r3(self.rest), limit_torque_sustained=r3(self.sustained), limit_torque_loaded=r3(self.loaded),
+                    sustained_window_s=self.WINDOW_S)
 
 
 def rise(md, dd, cb, off=None, T=1.5, kp=KP):
@@ -444,7 +471,8 @@ def shove_job(a):
     q0 = {n: float(np.degrees(dd.qpos[md.jnt_qposadr[j]])) for n, j in (("neck", nk), ("head", hp))}
     for i in range(int(2.0 / md.opt.timestep)):
         pin_eval(md, dd, SF, pins, apply=True)
-        if i * md.opt.timestep < opt["dur"]:
+        stops.is_loaded = i * md.opt.timestep < opt["dur"]
+        if stops.is_loaded:
             m.mj_applyFT(md, dd, f, np.zeros(3), dd.xipos[hd].copy(), hd, dd.qfrc_applied)
         m.mj_step(md, dd)
         stops(dd)
@@ -522,7 +550,8 @@ def up_job(a):
                 success=bool(stood and min(pads.values()) >= 2), pads_after=pads,
                 rise_tau={md.actuator(i).name: float(tr.tmax[i]) for i in range(md.nu)},
                 entry_tau={md.actuator(i).name: float(tr_in.tmax[i]) for i in range(md.nu)}, stop_torque=r["constraint_torque_max"], limit_torque_max=r["limit_torque_max"],
-                limit_omega_max=r["limit_omega_max"], limit_torque_rest=r["limit_torque_rest"])
+                limit_omega_max=r["limit_omega_max"], limit_torque_rest=r["limit_torque_rest"],
+                limit_torque_sustained=r["limit_torque_sustained"], limit_torque_loaded=r["limit_torque_loaded"])
 
 
 def walk_model_dirs(out):

@@ -29,8 +29,16 @@ What changes (SIT_DESIGN.md changes 1, 2, 3 and 5; SIT_V2.md 3.3 changes 1 to 4;
   left_roll_to_pitch, right_roll_to_pitch: the outward hip roll stop lug (8 deg) against roll_motor_bottom; a seat for
       the hip pad on the top face.
   hip_pad (new, TPU, 2): the hip pitch stop at -75 against the cover top.
-  neck_left_sheet, neck_right_sheet: the neck back stop lug (+25 deg) against trunk_top.
-  head_pitch_to_yaw: the head forward stop lug (-25 deg) against the head pitch servo case.
+  neck_stop (new, PLA, 1) and neck_pad (new, TPU, 2): the neck back stop at +25. A printed block on trunk_top behind the
+      neck, one pillar each side joined by a bar over the cable run, held by the hip yaw servo screws F127 and F129
+      (M2x6 to M2x12 through a FLANGE_T flange, the same thread engagement); each pillar carries a TPU face in a pocket
+      that the stock neck sheet's back edge meets at +25 at NECK_R_MIN or more from the neck axis (the sheet is loaded
+      in its plane). The neck sheets are the stock parts again (the D59 lugs are gone; the builder puts the stock STLs
+      back).
+  head_pad (new, TPU, 1) and head_pitch_to_yaw: the head forward stop at -25. A printed hook on the left arm of the yoke
+      (the side without the neck cables) reaching down in front of the left neck sheet, with a TPU face in a pocket that
+      the sheet's front edge meets at -25 (in-plane again), at twice the radius of the old lug; the old lug on the servo
+      top is gone. F222 and the horn screws are nowhere near it.
   sit_seat (new, TPU, 1) and sit_bumper (new, TPU, 1): under the rear and the front of body_middle_bottom on VHB.
 """
 import argparse
@@ -69,8 +77,25 @@ ANKLE = np.array([-35.06, -157.37])
 HORNS = ("drive_palonier", "passive_palonier")
 # lug regions (world zero pose, mm): the box a lug may fill; the sweep of the counterpart over the free range carves it
 ROLL_LUG = ((-16.0, 50.0, 2.0), (-6.0, 62.8, 11.6))         # on left_roll_to_pitch, front of the D3/SP4/S3 loop
-NECK_LUG = ((-26.0, None, 88.0), (-10.0, None, 104.0))      # on each neck sheet, behind its back edge, y = the sheet; x to -10 keeps it off the F233/F234 horn screw recess (x -6, r 3.25)
-HEAD_LUG = ((6.0, -9.0, 165.0), (15.5, 9.0, 173.0))          # on head_pitch_to_yaw, over the head pitch servo top
+# the neck back stop block (world, mm): footprint on trunk_top (z 85.8 flat from x -59 to -21), the pillars outboard of
+# the cable run (|y| >= NECK_TUNNEL_Y under z NECK_TUNNEL_Z: the trunk-side neck loops lie on trunk_top at z 89, y -11 to
+# +13 over this x range, cables3d.json), the flange over the F127 and F129 seats
+NECK_BLOCK = dict(x=(-42.0, -23.0), y=29.0, z_top=126.0)
+NECK_TUNNEL_Y, NECK_BAR_Z, NECK_BAR_X = 15.0, (100.0, 108.0), -32.0    # the bar joining the pillars over the cable run
+# the hip yaw servo cable windows in trunk_top (x -36.5 to -30, y 23.9 to 46 and its mirror, S2 and S7 come up through
+# them, cables3d.json): no block material over them (feat3d does not list them as holes, so the keep-out is written here)
+CABLE_WINDOW = ((-37.0, -29.5), (23.4, 47.0))
+NECK_SCREWS = ((-27.301, -24.749), (-27.301, 24.751))        # F127, F129 seat x, y (fasteners.json), axis -z
+NECK_SCREW_SEAT_Z = 83.791                                   # the stock seat (2.0 mm down in the trunk_top recess)
+FLANGE_T = 4.0                                               # the block flange over trunk_top: the new seat is z 85.8 + 4.0
+CB_D, SHANK_D = 4.6, 2.5                                     # counterbore over the M2 pan head (dk 4.0), shank hole as the stock 2.5
+NECK_R_MIN = 35.0                                            # the pad starts here along the sheet's back edge (from the neck axis)
+NECK_PAD_DIMS = (10.0, 6.0, PAD_T)                           # along the edge, across the sheet (its back edge is 6.1 wide), thick
+POCKET = 2.5                                                 # a pad sits in a pocket this deep (the pocket walls take the slide)
+# the head forward stop hook on the left arm of head_pitch_to_yaw (world, yoke zero pose): the region it may fill
+HEAD_HOOK = dict(x=(4.0, 36.0), y=(19.2, 29.2), z=(130.0, 178.0))
+HEAD_PAD_Z = (125.0, 137.0)                                  # the sheet's front edge band the pad meets (world z, neck zero pose)
+HEAD_PAD_T = 6.0                                             # a thicker TPU face: half the stack stiffness of 3 mm (the head stop sees the neck's forward slam)
 SEAT = dict(x=-110.0, z_low=-66.0, r=16.0, half_y=40.0)     # SIT_V2.md 3.3: lowest point 66 mm under the trunk origin
 BUMPER = dict(x=20.0, z_low=-69.0, r=12.0, half_y=30.0)     # SIT_V2.md 3.3: 3 mm off the floor in the sit
 SIT_BODY_SPLIT_X = -115.0       # the seat is glued to body_middle_bottom only (body_back comes off for the battery)
@@ -269,6 +294,290 @@ def carve_lug(S, host_link, host, region, counter, cfg_of, free, step=0.5):
     return L.union(keep)
 
 
+def halfspace(point, normal, size=400.0):
+    """manifold box of the half space {p: normal . (p - point) >= 0}"""
+    n = np.asarray(normal, float) / np.linalg.norm(normal)
+    a = np.array([0.0, 1.0, 0.0]) if abs(n[1]) < 0.9 else np.array([1.0, 0.0, 0.0])
+    e1 = np.cross(n, a); e1 /= np.linalg.norm(e1)
+    e2 = np.cross(n, e1)
+    T = np.eye(4)
+    T[:3, :3] = np.c_[e1, e2, n]
+    T[:3, 3] = np.asarray(point, float) + n * (size / 2)
+    return L.to_man(L.box((-size / 2, -size / 2, -size / 2), (size / 2, size / 2, size / 2), T))
+
+
+def frame_T(origin, ex, ey):
+    """4x4 with columns ex, ey, ex x ey (unit), at origin"""
+    ex = np.asarray(ex, float) / np.linalg.norm(ex)
+    ey = np.asarray(ey, float) - np.dot(ey, ex) * ex
+    ey /= np.linalg.norm(ey)
+    T = np.eye(4)
+    T[:3, :3] = np.c_[ex, ey, np.cross(ex, ey)]
+    T[:3, 3] = origin
+    return T
+
+
+def downstream_links(S, link):
+    sub = {link}
+    grow = True
+    while grow:
+        grow = False
+        for j in S.u.robot.joints:
+            if j.parent in sub and j.child not in sub:
+                sub.add(j.child)
+                grow = True
+    sub.discard(link)
+    return sub
+
+
+def stock_sheets(S):
+    """the stock neck sheets (world zero pose, from BASE_REV: the repo files may still carry the old lugs)"""
+    out = {}
+    for key in ("neck_left_sheet", "neck_right_sheet"):
+        m = L.base_mesh("print/%s.stl" % key)
+        m.apply_transform(L.inst_world(S, L.inst(S, NK, key)))
+        out[key] = m
+    return out
+
+
+def neck_counter(S, sheets):
+    """the neck link as the sweeps see it: the stock sheets and the head pitch servo case (filled), horns left out"""
+    c = dict(link_meshes(S, NK, keys=("servo_top", "servo_mid", "servo_bottom")))
+    c.update({k: v for k, v in sheets.items()})
+    return c
+
+
+def neck_block(S, log=print):
+    """the neck back stop: block, pad placements (world 4x4, left then right), info. CAD check only."""
+    t0 = time.time()
+    D = np.radians
+    nst = L.STOPS["neck_back"]["stop"]
+    ax_p, ax_d = S.joint_world("neck_pitch")
+    sheets = stock_sheets(S)
+    # the left sheet's back edge at the stop: the backmost points per z bin, the ones NECK_R_MIN or more from the axis
+    T25 = L.rel_T(S, {"neck_pitch": D(nst)}, NK, TR)
+    sh = sheets["neck_left_sheet"].copy()
+    sh.apply_transform(T25)
+    V = sh.vertices
+    band = (V[:, 1] > 16.0) & (V[:, 1] < 22.5)
+    edge = []
+    for z0 in np.arange(100.0, 128.0, 0.5):
+        sel = band & (V[:, 2] >= z0) & (V[:, 2] < z0 + 0.5)
+        if sel.any():
+            i = np.argmin(V[sel][:, 0])
+            q = V[sel][i]
+            rr = np.linalg.norm(np.cross(q - ax_p, ax_d))
+            if rr >= NECK_R_MIN:
+                edge.append(q)
+    edge = np.array(edge)
+    if len(edge) < 10:
+        raise SystemExit("neck block: too few back edge points past r %.0f" % NECK_R_MIN)
+    c0 = edge.mean(0)
+    u, sv, vt = np.linalg.svd(edge - c0)
+    e = vt[0] / np.linalg.norm(vt[0])
+    if e[2] < 0:
+        e = -e
+    resid = np.abs(np.cross(edge - c0, e)).max()
+    if resid > 0.25 or abs(e[1]) > 0.02:
+        raise SystemExit("neck block: the sheet's back edge at +%.0f is not a straight line in the x z plane (resid %.2f, ey %.3f)" % (nst, resid, e[1]))
+    n = np.array([e[2], 0.0, -e[0]])                        # normal to the edge in the x z plane, pointing forward and up
+    if n[0] < 0:
+        n = -n
+    # the pad along the edge from its lowest point (r >= NECK_R_MIN) up
+    tpar = (edge - c0) @ e
+    lo_pt = c0 + e * tpar.min()
+    if tpar.max() - tpar.min() < NECK_PAD_DIMS[0] - 0.5:
+        raise SystemExit("neck block: the edge past r %.0f is %.1f mm, the pad %.1f" % (NECK_R_MIN, tpar.max() - tpar.min(), NECK_PAD_DIMS[0]))
+    y_band = (V[band & (V[:, 2] > 108)][:, 1].min(), V[band & (V[:, 2] > 108)][:, 1].max())
+    yc = 0.5 * (y_band[0] + y_band[1])
+    face_c = lo_pt + e * (NECK_PAD_DIMS[0] / 2)             # the pad face centre, on the edge line
+    face_c[1] = yc
+    r_pad = float(np.linalg.norm(np.cross(face_c - ax_p, ax_d)))
+    Tpad_L = frame_T(face_c - n * (NECK_PAD_DIMS[2] / 2), e, [0, 1, 0])   # third axis = e x y = -n (into the block)
+    if np.dot(Tpad_L[:3, 2], -n) < 0.999:
+        raise SystemExit("neck block: pad frame")
+    # the block: box, the cable tunnel, the face plane (POCKET - PAD_T - VHB_T behind the pad face), the pockets
+    bx = NECK_BLOCK
+    B = L.to_man(L.box((bx["x"][0], -bx["y"], 85.0), (bx["x"][1], bx["y"], bx["z_top"])))
+    x0, x1 = bx["x"][0] - 1, bx["x"][1] + 1
+    B = B - L.to_man(L.box((x0, -NECK_TUNNEL_Y, 80.0), (x1, NECK_TUNNEL_Y, NECK_BAR_Z[0])))       # the cable lane
+    B = B - L.to_man(L.box((x0, -NECK_TUNNEL_Y, NECK_BAR_Z[1]), (x1, NECK_TUNNEL_Y, bx["z_top"] + 1)))
+    B = B - L.to_man(L.box((NECK_BAR_X, -NECK_TUNNEL_Y, 80.0), (x1, NECK_TUNNEL_Y, bx["z_top"] + 1)))
+    for sgn in (1.0, -1.0):                                       # the servo cable windows
+        (wx0, wx1), (wy0, wy1) = CABLE_WINDOW
+        B = B - L.to_man(L.box((wx0, min(sgn * wy0, sgn * wy1), 80.0), (wx1, max(sgn * wy0, sgn * wy1), bx["z_top"] + 1)))
+    face_off = PAD_T + VHB_T - POCKET                          # the block's outer face behind the pad face
+    B = B - halfspace(face_c - n * face_off, n)
+    pads, pockets = [], []
+    for Tp in (Tpad_L, MIRROR @ Tpad_L @ MIRROR):
+        pk = L.to_man(L.box((-NECK_PAD_DIMS[0] / 2 - 0.2, -NECK_PAD_DIMS[1] / 2 - 0.2, face_off - 0.01),
+                            (NECK_PAD_DIMS[0] / 2 + 0.2, NECK_PAD_DIMS[1] / 2 + 0.2, PAD_T + VHB_T + 0.01)))
+        Tf = Tp.copy()
+        Tf[:3, 3] = Tp[:3, 3] - Tp[:3, 2] * (NECK_PAD_DIMS[2] / 2)   # back to the face plane
+        pockets.append(pk.transform(Tf[:3, :4]))
+        pads.append(Tp)
+    B = B - L.union(pockets)
+    # screw passages: counterbore from the flange seat up (open above: the driver comes in from the top), shank hole below
+    seat_z = 85.8 + FLANGE_T
+    for sx, sy in NECK_SCREWS:
+        B = B - L.to_man(L.cyl((sx, sy, seat_z), (sx, sy, bx["z_top"] + 5), CB_D / 2, 48))
+        B = B - L.to_man(L.cyl((sx, sy, 80.0), (sx, sy, seat_z + 0.01), SHANK_D / 2, 48))
+    # everything that moves past it: the neck link (stock sheets, servo) over the neck range, the yoke and the head floor
+    # at head angles over the neck range; CLR clearance (the pads are the only contact, at +25 only)
+    near = L.bbox_of(B, 2.0 + CLR)
+    nk_pc = pieces_of(neck_counter(S, sheets), 2.0)
+    angs = angles(-20.0, nst, 0.5)
+    cut = [L.swept_cut(nk_pc, sweep_T(S, NK, TR, [{"neck_pitch": D(a)} for a in angs]), CLR, near=near)]
+    yoke = L.base_mesh("print/head_pitch_to_yaw.stl")
+    yoke.apply_transform(L.inst_world(S, L.inst(S, HP, "head_pitch_to_yaw")))
+    hd_links = downstream_links(S, HP)
+    hd_low = {}
+    for i in S.inst:
+        if i["link"] in hd_links:
+            m = S.world_mesh(i)
+            if m.bounds[0][2] < 200.0:
+                hd_low["%s#%d" % (i["key"], i["idx"])] = m
+    yk_pc = L.convex_pieces(yoke, 2.0)
+    for h in (-25.0, -5.0, 15.0, 39.0):
+        cfgs = [{"neck_pitch": D(a), "head_pitch": D(h)} for a in angs]
+        cut.append(L.swept_cut(yk_pc, sweep_T(S, HP, TR, cfgs), CLR, near=near))
+        for key, m in hd_low.items():
+            ln = [i["link"] for i in S.inst if "%s#%d" % (i["key"], i["idx"]) == key][0]
+            cut.append(L.swept_cut(L.convex_pieces(m, 4.0), sweep_T(S, ln, TR, cfgs), CLR, near=near))
+    others = L.union(cut[1:])                                     # the yoke and the head over the neck range
+    for Tp in pads:
+        pm = L.to_man(pad_mesh(NECK_PAD_DIMS)).transform(Tp[:3, :4])
+        if (pm ^ others).volume() > 1e-3:
+            raise SystemExit("neck block: a pad meets the yoke or the head over the range (%.1f mm3)" % (pm ^ others).volume())
+    B = B - L.union(cut)
+    # the host: every trunk part; never over a hole of trunk_top but our two screws
+    tt = [i for i in S.inst if i["link"] == TR and i["key"] == "trunk_top"][0]
+    tt_m = S.world_mesh(tt)
+    cyls = []
+    for f in L.hole_features(tt_m):
+        p0, p1 = np.asarray(f["p0"], float), np.asarray(f["p1"], float)
+        if any(np.hypot(p0[0] - sx, p0[1] - sy) < 3.0 for sx, sy in NECK_SCREWS):
+            continue
+        a = p1 - p0
+        if np.linalg.norm(a) < 1e-6:
+            continue
+        a = a / np.linalg.norm(a)
+        cyls.append(L.to_man(L.cyl(p0 - a * 12.0, p1 + a * 12.0, f["d"] / 2 + 0.4, 48)))
+    if cyls:
+        B = B - L.union(cyls)
+    host = L.union([L.to_man(m) for m in link_meshes(S, TR).values()])
+    B = B - host
+    B = B ^ L.xform(B, MIRROR)                               # an exact mirror: clear of everything on either side
+    comps = sorted(B.decompose(), key=lambda m: -m.volume())
+    keep = [cm for cm in comps if (L.dilate(cm, 0.2) ^ host).volume() > 0.5]
+    if len(keep) != 1:
+        raise SystemExit("neck block: %d pieces touch trunk_top (one expected)" % len(keep))
+    B = keep[0]
+    # checks: the flange holds both screws with 1.5 mm of wall, the pads do not meet the counterbores, the pad face is
+    # NECK_R_MIN or more from the axis, nothing of ours is in front of the sheet's +25 edge line
+    for sx, sy in NECK_SCREWS:
+        ring = L.to_man(L.cyl((sx, sy, seat_z), (sx, sy, seat_z + 1.0), CB_D / 2 + 1.5, 48)) - L.to_man(L.cyl((sx, sy, seat_z - 1), (sx, sy, seat_z + 2), CB_D / 2, 48))
+        if (ring ^ B).volume() < 0.9 * ring.volume():
+            raise SystemExit("neck block: the flange round the screw at y %.1f is not 1.5 mm all round" % sy)
+    for Tp in pads:
+        pm = L.to_man(pad_mesh(NECK_PAD_DIMS)).transform(Tp[:3, :4])
+        if (pm ^ B).volume() > 1e-3:
+            raise SystemExit("neck block: a pad overlaps the block")
+        for sx, sy in NECK_SCREWS:
+            if (pm ^ L.to_man(L.cyl((sx, sy, 80), (sx, sy, 140), CB_D / 2, 48))).volume() > 1e-3:
+                raise SystemExit("neck block: a pad crosses a counterbore")
+    if r_pad < NECK_R_MIN:
+        raise SystemExit("neck block: pad centre at r %.1f" % r_pad)
+    info = dict(volume_mm3=L.r(B.volume(), 1), pad_face_centre=np.round(face_c, 2).tolist(), pad_normal=np.round(n, 4).tolist(),
+                edge_dir=np.round(e, 4).tolist(), pad_r_mm=round(r_pad, 2), sheet_back_edge_y=[round(float(v), 2) for v in y_band],
+                edge_fit_resid_mm=round(float(resid), 3), screws=dict(ids=["F127", "F129"], seat_z_new=seat_z, seat_z_stock=NECK_SCREW_SEAT_Z,
+                                                                          length_new=12, length_stock=6, flange_mm=FLANGE_T, counterbore_d=CB_D),
+                bbox=np.round(np.asarray(B.bounding_box()), 1).tolist(), secs=round(time.time() - t0, 1))
+    log("neck block %.1f s: %.0f mm3, pad r %.1f" % (time.time() - t0, B.volume(), r_pad))
+    return B, pads, info
+
+
+def head_hook(S, log=print):
+    """the head forward stop: the yoke with its hook (world zero pose), the pad placement (world 4x4), info."""
+    t0 = time.time()
+    D = np.radians
+    hst = L.STOPS["head_fwd"]["stop"]
+    ax_p, ax_d = S.joint_world("head_pitch")
+    sheets = stock_sheets(S)
+    yoke = L.base_mesh("print/head_pitch_to_yaw.stl")
+    yoke.apply_transform(L.inst_world(S, L.inst(S, HP, "head_pitch_to_yaw")))
+    HPM = L.to_man(yoke)
+    # the left sheet's front edge over HEAD_PAD_Z (neck zero pose): a vertical line x = x_front, its y band
+    V = sheets["neck_left_sheet"].vertices
+    sel = (V[:, 2] > HEAD_PAD_Z[0] - 0.5) & (V[:, 2] < HEAD_PAD_Z[1] + 0.5)
+    x_front = V[sel][:, 0].max()
+    fr = V[sel & (V[:, 0] > x_front - 0.3)]
+    if np.ptp(fr[:, 0]) > 0.3 or len(fr) < 4:
+        raise SystemExit("head hook: the sheet's front edge is not a vertical line over z %s" % (HEAD_PAD_Z,))
+    y_band = (float(fr[:, 1].min()), float(fr[:, 1].max()))
+    if y_band[1] - y_band[0] < 5.0:
+        raise SystemExit("head hook: the sheet's front edge band is %.1f mm" % (y_band[1] - y_band[0]))
+    yc = 0.5 * (y_band[0] + y_band[1])
+    pad_w = min(7.0, round(y_band[1] - y_band[0] - 0.2, 1))
+    pad_dims = (HEAD_PAD_T, pad_w, HEAD_PAD_Z[1] - HEAD_PAD_Z[0])     # x (thick), y, z in the stop pose
+    # at head -25 (neck zero): the pad face on the plane x = x_front, normal -x (toward the sheet); into the yoke's zero pose
+    Tm = L.rel_T(S, {"head_pitch": D(hst)}, HP, NK)
+    Ti = np.linalg.inv(Tm)
+    zc = 0.5 * (HEAD_PAD_Z[0] + HEAD_PAD_Z[1])
+    Tpad_m = np.eye(4)
+    Tpad_m[:3, 3] = (x_front + HEAD_PAD_T / 2, yc, zc)
+    Tpad = Ti @ Tpad_m
+    face_m = np.array([x_front, yc, zc])
+    n_m = np.array([-1.0, 0.0, 0.0])                             # the pad face normal at the stop (toward the sheet)
+    face0 = (Ti @ np.r_[face_m, 1.0])[:3]
+    n0 = Ti[:3, :3] @ n_m
+    r_pad = float(np.linalg.norm(np.cross(face0 - ax_p, ax_d)))
+    # the hook region, its outer face behind the pad face, the pocket
+    hk = HEAD_HOOK
+    R = L.to_man(L.box((hk["x"][0], hk["y"][0], hk["z"][0]), (hk["x"][1], hk["y"][1], hk["z"][1])))
+    face_off = HEAD_PAD_T + VHB_T - POCKET
+    R = R - halfspace(face0 - n0 * face_off, n0)
+    pk = L.to_man(L.box((x_front + face_off - 0.01, yc - pad_w / 2 - 0.2, HEAD_PAD_Z[0] - 0.2),
+                        (x_front + HEAD_PAD_T + VHB_T + 0.01, yc + pad_w / 2 + 0.2, HEAD_PAD_Z[1] + 0.2))).transform(Ti[:3, :4])
+    R = R - pk
+    # the neck link over the head range (the sheet's front edge meets the pad only), the head parts over yaw and roll
+    near = L.bbox_of(R, 2.0 + CLR)
+    nk_pc = pieces_of(neck_counter(S, sheets), 2.0)
+    angs = angles(hst, 45.0, 0.5)
+    cut = [L.swept_cut(nk_pc, sweep_T(S, NK, HP, [{"head_pitch": D(a)} for a in angs]), CLR, near=near)]
+    hd_links = downstream_links(S, HP)
+    yaws, rolls = (-105.0, -52.0, 0.0, 52.0, 79.0), (-27.0, 0.0, 27.0)
+    cfgs = [{"head_yaw": D(y_), "head_roll": D(r_)} for y_ in yaws for r_ in rolls]
+    for i in S.inst:
+        if i["link"] in hd_links:
+            m = S.world_mesh(i)
+            if m.bounds[0][2] < 200.0:
+                cut.append(L.swept_cut(L.convex_pieces(m, 4.0), sweep_T(S, i["link"], HP, cfgs), CLR,
+                                       cells=[(T,) for T in sweep_T(S, i["link"], HP, cfgs)], near=near))
+    R = R - L.union(cut)
+    ko = L.hole_keepout(yoke)
+    if ko is not None:
+        R = R - ko
+    R = R - HPM
+    comps = sorted(R.decompose(), key=lambda m: -m.volume())
+    keep = [cm for cm in comps if (L.dilate(cm, 0.2) ^ HPM).volume() > 0.5]
+    if len(keep) != 1:
+        raise SystemExit("head hook: %d pieces grow from the yoke (one expected)" % len(keep))
+    hook = keep[0]
+    pm = L.to_man(pad_mesh(pad_dims)).transform(Tpad[:3, :4])
+    if (pm ^ hook).volume() > 1e-3 or (pm ^ HPM).volume() > 1e-3:
+        raise SystemExit("head hook: the pad overlaps the yoke or the hook")
+    # the root: the hook within 0.5 mm of the stock yoke (area = that volume / 0.5)
+    root = hook ^ (L.dilate(HPM, 0.5) - HPM)
+    rc = L.from_man(root).center_mass if root.volume() > 1e-3 else None
+    info = dict(hook_mm3=L.r(hook.volume(), 1), pad_dims=list(pad_dims), pad_face_centre=np.round(face0, 2).tolist(), pad_normal=np.round(n0, 4).tolist(),
+                pad_r_mm=round(r_pad, 2), sheet_front_x=round(float(x_front), 2), sheet_front_edge_y=[round(v, 2) for v in y_band],
+                root_area_mm2=L.r(root.volume() / 0.5, 1), root_centre=None if rc is None else np.round(rc, 2).tolist(),
+                bbox=np.round(np.asarray(hook.bounding_box()), 1).tolist(), secs=round(time.time() - t0, 1))
+    log("head hook %.1f s: %.0f mm3, pad r %.1f" % (time.time() - t0, hook.volume(), r_pad))
+    return L.solid(HPM + hook), Tpad, pad_dims, info
+
+
 # ---------------------------------------------------------------------------------------------------------------
 # the build
 # ---------------------------------------------------------------------------------------------------------------
@@ -446,37 +755,17 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
         info["cache"] = dict(cut_by_leg=vol, removed_mm3=L.r(m.volume - cache["L"].volume(), 1), base_mm3=L.r(m.volume, 1))
     log("caches %.1f s" % (time.time() - t0))
 
-    # ---- neck back stop lugs (both sheets) ----
-    nst = L.STOPS["neck_back"]["stop"]
-    neck = dict(pout["neck"]) if keep("neck") else {}
-    tr_counter = {TR: link_meshes(S, TR, keys=("trunk_top", "body_middle_top", "body_back", "body_front", "servo_top", "servo_mid", "servo_bottom"))}
-    for key in (("neck_left_sheet", "neck_right_sheet") if keep("neck") else ()):
-        info[key] = pinfo[key]
-    for key in (() if keep("neck") else ("neck_left_sheet", "neck_right_sheet")):
-        i = L.inst(S, NK, key)
-        m = L.base_mesh("print/%s.stl" % key)
-        m.apply_transform(L.inst_world(S, i))
-        NM = L.to_man(m)
-        b = m.bounds
-        # the lug's side faces stay off the sheet's steps (16.1, 19.15, 21.15, 22.15 and their mirrors): a shared face pinches
-        reg = ((NECK_LUG[0][0], b[0][1] + 0.27, NECK_LUG[0][2]), (NECK_LUG[1][0], b[1][1] - 0.38, NECK_LUG[1][2]))
-        lug = carve_lug(S, NK, NM, reg, tr_counter, lambda a: {"neck_pitch": D(a)}, (-20.0, nst), step=0.5)
-        neck[key] = L.solid(NM + lug)
-        info[key] = dict(lug_mm3=L.r(lug.volume(), 1))
-    # ---- head forward stop lug ----
-    hst2 = L.STOPS["head_fwd"]["stop"]
+    # ---- neck back stop: the block on trunk_top with its two TPU faces (the neck sheets are stock again) ----
+    if keep("neck"):
+        neck_stop, neck_pad_T, info["neck_stop"] = pout["neck_stop"], pout["neck_pad_T"], pinfo["neck_stop"]
+    else:
+        neck_stop, neck_pad_T, info["neck_stop"] = neck_block(S, log)
+    # ---- head forward stop: the hook on the yoke's left arm with its TPU face ----
     if keep("head"):
-        HPM, info["head_pitch_to_yaw"] = pout["head"], pinfo["head_pitch_to_yaw"]
-    i = L.inst(S, HP, "head_pitch_to_yaw")
-    m = L.base_mesh("print/head_pitch_to_yaw.stl")
-    m.apply_transform(L.inst_world(S, i))
-    if not keep("head"):
-        HPM = L.to_man(m)
-        nk_counter = {NK: link_meshes(S, NK)}
-        lug = carve_lug(S, HP, HPM, HEAD_LUG, nk_counter, lambda a: {"head_pitch": D(a)}, (hst2, 45.0), step=0.5)
-        info["head_pitch_to_yaw"] = dict(lug_mm3=L.r(lug.volume(), 1))
-        HPM = L.solid(HPM + lug)
-    log("neck and head lugs %.1f s" % (time.time() - t0))
+        HPM, head_pad_T, head_pad_dims, info["head_pitch_to_yaw"] = pout["head"], pout["head_pad_T"], pout["head_pad_dims"], pinfo["head_pitch_to_yaw"]
+    else:
+        HPM, head_pad_T, head_pad_dims, info["head_pitch_to_yaw"] = head_hook(S, log)
+    log("neck block and head hook %.1f s" % (time.time() - t0))
 
     # ---- seat and belly bumper ----
     if keep("seat"):
@@ -487,8 +776,8 @@ def build(S, log=print, prev=None, redo=STEPS_ALL):
         info.update(sinfo)
 
     out = dict(shin=shin, Tw_sheet=Tw_sheet, spacer=sp, knee_bumper_T=T_kb, knee_bumper_dims=kb_dims, thigh=thigh, foot=foot,
-               ankle_pad_T=pads, roll_to_pitch=RPM, hip_pad_T=Thp, hip_pad_dims=hp_dims, cache=cache, neck=neck, head=HPM,
-               seat=seat, bumper=bump)
+               ankle_pad_T=pads, roll_to_pitch=RPM, hip_pad_T=Thp, hip_pad_dims=hp_dims, cache=cache, head=HPM,
+               neck_stop=neck_stop, neck_pad_T=neck_pad_T, head_pad_T=head_pad_T, head_pad_dims=head_pad_dims, seat=seat, bumper=bump)
     log("all %.1f s" % (time.time() - t0))
     return out, info
 
@@ -556,9 +845,11 @@ def seat_and_bumper(S):
 # ---------------------------------------------------------------------------------------------------------------
 MIRROR = np.diag([1.0, -1.0, 1.0, 1.0])
 # new parts and where the URDF places them: (stl stem, link, kind); local-frame parts carry their placement 4x4 per link
-NEW_PARTS = ["shin_left_sheet", "shin_right_sheet", "shin_spacer", "knee_bumper", "ankle_pad", "hip_pad", "sit_seat", "sit_bumper"]
+NEW_PARTS = ["shin_left_sheet", "shin_right_sheet", "shin_spacer", "knee_bumper", "ankle_pad", "hip_pad", "sit_seat", "sit_bumper",
+             "neck_stop", "neck_pad", "head_pad"]
 EDITED_PARTS = ["knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet", "foot_top", "foot_side", "left_cache", "right_cache",
-                "left_roll_to_pitch", "right_roll_to_pitch", "neck_left_sheet", "neck_right_sheet", "head_pitch_to_yaw"]
+                "left_roll_to_pitch", "right_roll_to_pitch", "head_pitch_to_yaw"]
+STOCK_AGAIN = ["neck_left_sheet", "neck_right_sheet"]       # edited by an earlier D59 pass, stock again: the builder restores the STLs
 URDF_COPY = {"knee_to_ankle_left_sheet": "left_knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet": "left_knee_to_ankle_right_sheet"}
 
 
@@ -589,9 +880,16 @@ def outputs(S, out):
         raise SystemExit("right_cache: the mirror of left_cache is not watertight")
     P["left_roll_to_pitch"] = to_part(out["roll_to_pitch"], L.inst_world(S, L.inst(S, RP, "left_roll_to_pitch")))
     P["right_roll_to_pitch"] = L.mirror_y_part(P["left_roll_to_pitch"])
-    for key in ("neck_left_sheet", "neck_right_sheet"):
-        P[key] = to_part(out["neck"][key], L.inst_world(S, L.inst(S, NK, key)))
     P["head_pitch_to_yaw"] = to_part(out["head"], L.inst_world(S, L.inst(S, HP, "head_pitch_to_yaw")))
+    # the neck block: part origin on the trunk_top surface under the screws' x, on the centre plane (prints standing)
+    Tn = np.eye(4)
+    Tn[:3, 3] = [NECK_SCREWS[0][0], 0.0, 85.8]
+    P["neck_stop"] = to_part(out["neck_stop"], Tn)
+    place["neck_stop"] = [(TR, np.linalg.inv(S.T0[TR]) @ Tn)]
+    P["neck_pad"] = pad_mesh(NECK_PAD_DIMS)
+    place["neck_pad"] = [(TR, np.linalg.inv(S.T0[TR]) @ T) for T in out["neck_pad_T"]]
+    P["head_pad"] = pad_mesh(out["head_pad_dims"])
+    place["head_pad"] = [(HP, np.linalg.inv(S.T0[HP]) @ out["head_pad_T"])]
     # local-frame parts: centred meshes and their placements in the link frames
     P["knee_bumper"] = pad_mesh(out["knee_bumper_dims"])
     place["knee_bumper"] = [(SH, np.linalg.inv(S.T0[SH]) @ out["knee_bumper_T"]),
@@ -623,7 +921,7 @@ def _shift_y(T, dy):
 
 # stock parts this job changes: every hole feature of the base print STL must be there, the same (audit/feat3d.py)
 HOLES_KEPT = ("knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet", "foot_top", "foot_side", "left_cache", "right_cache",
-              "left_roll_to_pitch", "right_roll_to_pitch", "neck_left_sheet", "neck_right_sheet", "head_pitch_to_yaw")
+              "left_roll_to_pitch", "right_roll_to_pitch", "head_pitch_to_yaw")
 
 
 def write(S, out, info):
@@ -665,6 +963,19 @@ def write(S, out, info):
         rep[stem] = dict(volume_mm3=L.r(vol, 1), faces=len(m.faces), print_file="print/%s.stl" % stem,
                          urdf_copy="mini_bdx/robots/open_duck_mini_v2/%s.stl" % URDF_COPY.get(stem, stem),
                          bytes=os.path.getsize(os.path.join(L.PRINT, stem + ".stl")))
+    # parts an earlier pass edited and this one leaves stock: the base STL goes back (print and the URDF copy)
+    restored = {}
+    for stem in STOCK_AGAIN:
+        blob = L.git_blob("print/%s.stl" % stem)
+        for path, scale in ((os.path.join(L.PRINT, stem + ".stl"), 1.0), (os.path.join(L.URDF_DIR, stem + ".stl"), 0.001)):
+            if scale == 1.0:
+                open(path, "wb").write(blob)
+            else:
+                mm = L.base_mesh("print/%s.stl" % stem)
+                mm.apply_scale(scale)
+                mm.export(path)
+        restored[stem] = "stock again (print/%s.stl and its URDF copy are the %s files)" % (stem, L.BASE_REV)
+    info["stock_again"] = restored
     pl = {stem: [dict(link=ln, T_link_mm=np.round(T, 6).tolist()) for ln, T in v] for stem, v in place.items()}
     J = dict(generated_by="altaay_lab/twin/sit/sit_cad.py --write", base_rev=L.BASE_REV, units="mm", clearance_mm=CLR,
              frame="part frames as print/ (the URDF mesh frame x1000); placements of the local-frame parts in the URDF link frames",
