@@ -269,8 +269,9 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
     ref = None
     minpads = {}
     pr, hr = [99, -99], [99, -99]
-    lim, side = {}, {}
+    lim = {}
     jn = {j: m.mj_id2name(md, m.mjtObj.mjOBJ_JOINT, j) for j in range(1, md.njnt)}
+    stops = Stops(md, jn)
     for i in range(int(T / md.opt.timestep)):
         t = dd.time - t0
         dd.xfrc_applied[:] = 0
@@ -288,7 +289,7 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
             n = jn[j]
             if f > lim.get(n, 0.0):
                 lim[n] = float(f)
-        limit_forces(md, dd, jn, side)
+        stops(dd)
         if t >= t_first - 0.1:
             # every physics step once it has settled: the least pins per pad, the pitch and head ranges at rest
             p = pin_eval(md, dd, SF, pins)
@@ -304,23 +305,49 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
                 pitch_range=pr, head_elev=head_elev(md, dd), head_range=hr, z_mm=ts_["z"] * 1000, fell=bool(ts_["up"] < 0.8),
                 pads_final=pads, pads_min=minpads, all4_final=bool(min(pads.values()) >= 2), all4_always=bool(min(minpads.values()) >= 2),
                 constraint_torque_max={k: round(v, 3) for k, v in lim.items() if v > 0.01},
-                limit_torque_max={k: round(v, 3) for k, v in sorted(side.items()) if v > 0.01},
+                **stops.report(),
                 joints={n: round(float(np.degrees(dd.qpos[md.jnt_qposadr[j]])), 1) for j in range(1, md.njnt)
                         for n in [m.mj_id2name(md, m.mjtObj.mjOBJ_JOINT, j)]})
 
 
-def limit_forces(md, dd, jn, side):
-    """the joint limit constraint force of every joint at its lower ("<joint>:lo") and upper ("<joint>:hi") end,
-    largest so far, into side (a stop load belongs to the end it acts at: the designed stop is one end only)"""
-    import mujoco as m
-    for i in range(dd.nefc):
-        if dd.efc_type[i] == m.mjtConstraint.mjCNSTR_LIMIT_JOINT:
-            j = dd.efc_id[i]
-            lo, hi = md.jnt_range[j]
-            k = "%s:%s" % (jn[j], "lo" if dd.qpos[md.jnt_qposadr[j]] < 0.5 * (lo + hi) else "hi")
-            f = abs(float(dd.efc_force[i]))
-            if f > side.get(k, 0.0):
-                side[k] = f
+class Stops:
+    """per joint end ("<joint>:lo" / "<joint>:hi"): the largest joint limit constraint torque so far (force, a stop
+    load belongs to the end it acts at: the designed stop is one end only), the largest impact speed (|qvel| on the
+    step before the limit constraint first becomes active in an event: the energy method's omega, which converges
+    with the step unlike the peak force), and the limit torque on the last step (rest). Call after every mj_step."""
+
+    def __init__(self, md, jn):
+        self.md, self.jn = md, jn
+        self.force, self.omega, self.rest = {}, {}, {}
+        self.active = set()
+        self.qvel_prev = None
+
+    def __call__(self, dd):
+        import mujoco as m
+        md = self.md
+        now = {}
+        for i in range(dd.nefc):
+            if dd.efc_type[i] == m.mjtConstraint.mjCNSTR_LIMIT_JOINT:
+                j = dd.efc_id[i]
+                lo, hi = md.jnt_range[j]
+                k = "%s:%s" % (self.jn[j], "lo" if dd.qpos[md.jnt_qposadr[j]] < 0.5 * (lo + hi) else "hi")
+                now[k] = now.get(k, 0.0) + abs(float(dd.efc_force[i]))
+        for k, f in now.items():
+            if f > self.force.get(k, 0.0):
+                self.force[k] = f
+            if k not in self.active and self.qvel_prev is not None:
+                j = m.mj_name2id(md, m.mjtObj.mjOBJ_JOINT, k.split(":")[0])
+                w = abs(float(self.qvel_prev[md.jnt_dofadr[j]]))
+                if w > self.omega.get(k, 0.0):
+                    self.omega[k] = w
+        self.active = set(now)
+        self.rest = now
+        self.qvel_prev = dd.qvel.copy()
+
+    def report(self):
+        r3 = lambda d: {k: round(v, 3) for k, v in sorted(d.items()) if v > 0.01}  # noqa: E731
+        return dict(limit_torque_max=r3(self.force), limit_omega_max={k: round(v, 4) for k, v in sorted(self.omega.items())},
+                    limit_torque_rest=r3(self.rest))
 
 
 def rise(md, dd, cb, off=None, T=1.5, kp=KP):
@@ -402,7 +429,8 @@ def shove_job(a):
     hd = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, "head_assembly")
     R = dd.xmat[trb].reshape(3, 3)
     f = np.r_[R[:2, 0] / np.linalg.norm(R[:2, 0]), 0.0] * (SHOVE_N if opt["dir"] == "forward" else -SHOVE_N)
-    side, q = {}, {}
+    q = {}
+    stops = Stops(md, jn)
     nk, hp = (m.mj_name2id(md, m.mjtObj.mjOBJ_JOINT, n) for n in ("neck_pitch", "head_pitch"))
     q0 = {n: float(np.degrees(dd.qpos[md.jnt_qposadr[j]])) for n, j in (("neck", nk), ("head", hp))}
     for i in range(int(2.0 / md.opt.timestep)):
@@ -410,14 +438,14 @@ def shove_job(a):
         if i * md.opt.timestep < opt["dur"]:
             m.mj_applyFT(md, dd, f, np.zeros(3), dd.xipos[hd].copy(), hd, dd.qfrc_applied)
         m.mj_step(md, dd)
-        limit_forces(md, dd, jn, side)
+        stops(dd)
         for n_, j in (("neck", nk), ("head", hp)):
             v = float(np.degrees(dd.qpos[md.jnt_qposadr[j]]))
             q[n_] = [min(q.get(n_, [v, v])[0], v), max(q.get(n_, [v, v])[1], v)]
     torque(md, True)
     md.opt.timestep = dt0
     md.body_mass[trb], md.body_inertia[trb] = saved
-    return dict(name=name, opt=opt, start_deg=q0, range_deg=q, limit_torque_max={k: round(v, 3) for k, v in sorted(side.items()) if v > 0.01},
+    return dict(name=name, opt=opt, start_deg=q0, range_deg=q, **stops.report(),
                 fell=bool(trunk_state(md, dd)["up"] < 0.8), secs=round(time.time() - t0, 1))
 
 
@@ -485,7 +513,8 @@ def up_job(a):
     return dict(seed=seed, sig=sig, lim=lim, sit_pads=r["pads_final"], sit_all4=r["all4_final"], sit_fell=r["fell"], stood=stood,
                 success=bool(stood and min(pads.values()) >= 2), pads_after=pads,
                 rise_tau={md.actuator(i).name: float(tr.tmax[i]) for i in range(md.nu)},
-                entry_tau={md.actuator(i).name: float(tr_in.tmax[i]) for i in range(md.nu)}, stop_torque=r["constraint_torque_max"], limit_torque_max=r["limit_torque_max"])
+                entry_tau={md.actuator(i).name: float(tr_in.tmax[i]) for i in range(md.nu)}, stop_torque=r["constraint_torque_max"], limit_torque_max=r["limit_torque_max"],
+                limit_omega_max=r["limit_omega_max"], limit_torque_rest=r["limit_torque_rest"])
 
 
 def walk_model_dirs(out):
