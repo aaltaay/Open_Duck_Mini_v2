@@ -178,10 +178,10 @@ def _render(items, az, el, dist, look, out, title, w=1000, h=900):
     words, line, y = title.split(" "), "", 8
     for wd in words:                      # wrap the caption to the image width
         if len(line) + len(wd) > 150:
-            dr.text((10, y), line, fill=(0, 0, 0))
+            dr.text((10, y), line, fill=(255, 255, 255))
             line, y = "", y + 14
         line += wd + " "
-    dr.text((10, y), line, fill=(0, 0, 0))
+    dr.text((10, y), line, fill=(255, 255, 255))
     im.save(out)
 
 

@@ -7,15 +7,16 @@ Writes altaay_lab/twin/sit/sit_balance.json; exits non-zero when the gate fails.
 
 Each case: the repo sim model (sit_model.py) sits down the scripted path with torque on (sit_sim.enter) and rests 10 s
 with the torque off on the dock pads (sit_sim.hold, no push). At the end:
-  support    the floor contacts of the soles, the seat and the belly bumper (MuJoCo contacts with the floor); the
-             polygon is their convex hull; the CoM is the whole robot's (MuJoCo subtree CoM of the root)
+  support    the footprint of every sole, seat and belly bumper collision mesh that touches the floor: its vertices
+             within 1 mm of the floor (MuJoCo reports a few contact points per mesh, not the area); the polygon is
+             their convex hull; the CoM is the whole robot's (MuJoCo subtree CoM of the root)
   margin     the distance from the CoM's floor projection to the nearest polygon edge (mm) and which contacts make it
   tip angle  per direction (forward, back, left, right in the trunk's heading): the rotation about the support edge
              that direction that brings the CoM over it, atan(d / h), h the CoM height above the floor
   push       the smallest horizontal force at head height (the head's CoM) that tips it, 8 directions: about each
              polygon edge F H (u . n) >= W d (W the weight, H the head CoM height, n the edge's outward normal);
              with friction mu it slides first when mu W is lower (reported, a slide is not a tip)
-  sim push   (nominal case only) a force at the head's CoM ramped up at 2 N/s in each of the 8 directions until the
+  sim push   (every case) a force at the head's CoM ramped up at 2 N/s in each of the 8 directions until the
              trunk turns 10 deg (tips) or the robot slides 20 mm; the force then (sim pass only)
 Cases (the worst case of every number is the gate): nominal (mu 0.8); zero errors of +1 and -1 deg on every joint and
 +1/-1 deg mirrored left and right; the head and the trunk mass +5 % and -5 %; floor friction at the low end (mu 0.4, the
@@ -37,6 +38,7 @@ import sitlib as L  # noqa: E402
 MARGIN_MIN_MM = 10.0      # >= 5 x the CoM shift of a 1 deg tilt at the sit CoM height (about 1.7 mm per deg)
 TIP_MIN_DEG = 8.0         # a 1 deg zero error, the 0.7 to 2.8 deg pitch scatter of the push tests and 4 deg to spare
 G = 9.81
+FOOT_TOL = 0.001          # m: a vertex this close to the floor is in the footprint
 CASES = [("nominal", {}), ("zero +1 deg", dict(err=+1.0)), ("zero -1 deg", dict(err=-1.0)),
          ("zero +1 L / -1 R", dict(err=+1.0, mirror=True)), ("zero -1 L / +1 R", dict(err=-1.0, mirror=True)),
          ("head mass +5 %", dict(mass={"head_assembly": 1.05})), ("head mass -5 %", dict(mass={"head_assembly": 0.95})),
@@ -98,15 +100,24 @@ def measure(md, dd):
     floor = m.mj_name2id(md, m.mjtObj.mjOBJ_GEOM, "floor")
     tr = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, "trunk_assembly")
     hd = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, "head_assembly")
-    pts, who = [], []
+    # the footprint: MuJoCo gives a few contact points per mesh pair, not the area, so the support is every vertex of a
+    # touching sole, seat or bumper collision mesh within FOOT_TOL of the floor (a geom counts when it has a contact)
+    touching = set()
     for i in range(dd.ncon):
         c = dd.contact[i]
         if floor in (c.geom1, c.geom2) and c.dist < 1e-3:
-            g = c.geom2 if c.geom1 == floor else c.geom1
-            nm = m.mj_id2name(md, m.mjtObj.mjOBJ_GEOM, g) or ""
-            lab = "left sole" if nm.startswith("left_foot") else "right sole" if nm.startswith("right_foot") else \
-                "seat" if nm.startswith("sit_seat") else "bumper" if nm.startswith("sit_bumper") else nm
-            pts.append(c.pos[:2].copy())
+            touching.add(c.geom2 if c.geom1 == floor else c.geom1)
+    pts, who = [], []
+    for g in sorted(touching):
+        nm = m.mj_id2name(md, m.mjtObj.mjOBJ_GEOM, g) or ""
+        lab = "left sole" if nm.startswith("left_foot") else "right sole" if nm.startswith("right_foot") else \
+            "seat" if nm.startswith("sit_seat") else "bumper" if nm.startswith("sit_bumper") else nm
+        if md.geom_type[g] != m.mjtGeom.mjGEOM_MESH:
+            continue
+        mid = md.geom_dataid[g]
+        V = md.mesh_vert[md.mesh_vertadr[mid]:md.mesh_vertadr[mid] + md.mesh_vertnum[mid]] @ dd.geom_xmat[g].reshape(3, 3).T + dd.geom_xpos[g]
+        for v in V[V[:, 2] < FOOT_TOL]:
+            pts.append(v[:2].copy())
             who.append(lab)
     com = dd.subtree_com[tr].copy()
     W = float(sum(md.body_mass)) * G
@@ -204,17 +215,18 @@ def main():
     import sit_sim as SS
     R = {}
     for name, opt in CASES:
-        o = dict(opt)
-        if name == "nominal":
-            o["push_sim"] = True
+        o = dict(opt, push_sim=True)
         R[name] = settle_case(a.out, o)
         r = R[name]
-        print("%-18s margin %5.1f mm (%s) tip %s push min %.1f N" % (name, r["margin_mm"], r["nearest_edge"],
-              {k: v["deg"] if v else None for k, v in r["tip_deg"].items()}, min(r["push_tip_N"].values())), flush=True)
+        print("%-18s margin %5.1f mm (%s) tip %s push min %.1f N, sim %s" % (name, r["margin_mm"], r["nearest_edge"],
+              {k: v["deg"] if v else None for k, v in r["tip_deg"].items()}, min(r["push_tip_N"].values()),
+              {k: v["N"] for k, v in r["sim_push_N"].items()}), flush=True)
     worst = dict(margin_mm=min(r["margin_mm"] for r in R.values()),
                  margin_case=min(R, key=lambda k: R[k]["margin_mm"]),
                  tip_deg={d: min(r["tip_deg"][d]["deg"] for r in R.values() if r["tip_deg"][d]) for d in ("forward", "back", "left", "right")},
                  push_tip_N={d: min(r["push_tip_N"][d] for r in R.values()) for d in map(str, DIRS8)},
+                 sim_push_N={d: min((r["sim_push_N"][d]["N"] for r in R.values() if r["sim_push_N"][d]["N"] is not None), default=None)
+                             for d in map(str, DIRS8)},
                  slide_N_at_mu_0_4=round(0.4 * min(r["weight_N"] for r in R.values()), 2))
     ok = bool(all(r["inside"] and not r["fell"] for r in R.values()) and worst["margin_mm"] >= MARGIN_MIN_MM
               and min(worst["tip_deg"].values()) >= TIP_MIN_DEG)
