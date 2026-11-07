@@ -209,18 +209,18 @@ def main():
     if a.write and (not a.sim or not a.model):
         raise SystemExit("--write needs --sim (the push and up results) and --model (the head shove inertia)")
     designed_end_ok()
-    key = None
+    inkey = None
     if a.model:
         import sit_sim as SS
-        key = SS.inputs_key(os.path.dirname(os.path.normpath(a.model)))
+        inkey = SS.inputs_key(os.path.dirname(os.path.normpath(a.model)))
     paths = [p for p in a.sim.split(",") if p]
     load_paths = [p for p in paths if not os.path.basename(p).startswith("sit_sim_shove")]
     shove_paths = [p for p in paths if os.path.basename(p).startswith("sit_sim_shove")]
     if a.write and not shove_paths:
         raise SystemExit("--write needs the head shove results (sit_sim.py shove: sit_sim_shove.json) in --sim")
-    T = stop_torques(load_paths, key=key)
-    TA = stop_torques(load_paths, abuse=True, key=key)
-    TF = stop_torques(load_paths, key=key, far=True)
+    T = stop_torques(load_paths, key=inkey)
+    TA = stop_torques(load_paths, abuse=True, key=inkey)
+    TF = stop_torques(load_paths, key=inkey, far=True)
     rows, loads = [], {}
     stack_check(S, cad)
 
@@ -322,7 +322,7 @@ def main():
     SH = {}
     for p in shove_paths:
         J_ = json.load(open(p))
-        if key is not None and J_.get("inputs_key") != key:
+        if inkey is not None and J_.get("inputs_key") != inkey:
             raise SystemExit("%s was run on another model or sim code" % os.path.basename(p))
         for r in J_["results"]:
             SH[r["name"]] = r

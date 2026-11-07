@@ -8,7 +8,7 @@ Writes altaay_lab/twin/sit/sit_balance.json; exits non-zero when the gate fails.
 Each case: the repo sim model (sit_model.py) sits down the scripted path with torque on (sit_sim.enter) and rests 10 s
 with the torque off on the dock pads (sit_sim.hold, no push). At the end:
   support    the footprint of every sole, seat and belly bumper collision mesh that touches the floor: its vertices
-             within 1 mm of the floor (MuJoCo reports a few contact points per mesh, not the area); the polygon is
+             within FOOT_TOL (3 mm) of the floor (MuJoCo reports a few contact points per mesh, not the area); the polygon is
              their convex hull; the CoM is the whole robot's (MuJoCo subtree CoM of the root)
   margin     the distance from the CoM's floor projection to the nearest polygon edge (mm) and which contacts make it
   tip angle  per direction (forward, back, left, right in the trunk's heading): the rotation about the support edge
@@ -38,7 +38,8 @@ import sitlib as L  # noqa: E402
 MARGIN_MIN_MM = 10.0      # >= 5 x the CoM shift of a 1 deg tilt at the sit CoM height (about 1.7 mm per deg)
 TIP_MIN_DEG = 8.0         # a 1 deg zero error, the 0.7 to 2.8 deg pitch scatter of the push tests and 4 deg to spare
 G = 9.81
-FOOT_TOL = 0.001          # m: a vertex this close to the floor is in the footprint
+FOOT_TOL = 0.003          # m: a vertex this close to the floor is in the footprint: the soles rest on TPU and the dock's
+                          # spring pins lift the toes up to 1 to 3 mm (sim); a toe that close lands after < 2 deg of tip
 CASES = [("nominal", {}), ("zero +1 deg", dict(err=+1.0)), ("zero -1 deg", dict(err=-1.0)),
          ("zero +1 L / -1 R", dict(err=+1.0, mirror=True)), ("zero -1 L / +1 R", dict(err=-1.0, mirror=True)),
          ("head mass +5 %", dict(mass={"head_assembly": 1.05})), ("head mass -5 %", dict(mass={"head_assembly": 0.95})),

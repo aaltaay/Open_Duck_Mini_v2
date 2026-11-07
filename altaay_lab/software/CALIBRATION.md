@@ -1,8 +1,8 @@
 # Joint zero calibration (D59)
 
-The A1b sit and stand needs every leg joint zero right to 0.5 deg or better, and the two legs matched to 0.5 deg. In the
-sim the stand-up from the sit worked 20 of 20 times with no zero error and with 0.5 deg (1 sigma) per leg joint, and
-19 of 20 with 1.0 deg (sim pass only; twin/sit/SIT.md section 5 has this repo model's numbers). Commanding into a stop
+The A1b sit and stand needs every leg joint zero right to 0.5 deg or better, and the two legs matched to 0.5 deg. On the repo
+sim model with the final sit and stand path the stand-up worked 20 / 20 / 20 of 20 times at 0 / 0.5 / 1.0 deg (1 sigma per leg
+joint), and 20 / 20 / 19 of 20 on 20 held-out seeds (sim pass only; twin/sit/SIT.md section 5). Commanding into a stop
 with a 1 deg error drove the knees to 2.9 to 3.2 N m in the study, which is why the software stays 3 deg inside every
 hard stop (software/servo_limits.json).
 

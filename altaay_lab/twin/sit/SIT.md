@@ -70,43 +70,88 @@ a pair counts above 2 mm3 over its zero-pose overlap. Results in sit_sweep.json.
 
 ## 4. Strength (calc)
 
-**Status after the review fixes (2026-11-06 late, OPEN):** with the stop torques now taken on every physics step
-(Codex review), the sim's joint limit impulses enter the loads: one 2 ms step at the moment a joint reaches its stop
-(head pitch 13.7 N m from a 12 N shove at 0.30 rad/s; the neck pitch limit even higher in the sit entry). These are
-step-size artefacts of the soft joint limit, not service loads, and sit_stress.json now fails (all_ok false) on them.
-The stop loads need an impact model instead (energy: omega from the sim, peak = omega sqrt(I k) with the real stop
-stiffness), which sit_stress.py has for the head (head_shove: 12 N on the head, 3 deg gap, I 0.031 kg m2 with the 0.027
-armature, a TPU face gives 5.2 N m peak on the stock-size lug, SF 0.77; a lug region grown to 14 x 26 x 10 mm gave SF 3.1
-with the pad, but the pad could not be placed inside the lug or on the case without a clash, so that CAD is not in).
-The neck lug at a servo stall is SF 0.95 on one lug (about 1.9 sharing over both lugs, which both touch past +25); a
-12 N backward shove on the head with the torque off loads it more. **Open:** the head and neck stop design for a
-shoved toy (a TPU face on a larger lug, placed clear of the stock part), and the impact model in sit_stress.py. The
-table below is the decimated-sample run before the fix.
+**Stop loads (D59 review, 2026-11-07): compliant stops, sim pass only for the loads, calc for the stresses.** The raw
+hard limits of the Playground model (MuJoCo's default soft limit, timeconst 20 ms) gave one-step limit forces that were
+artefacts and stood in as design loads. Now every designed stop is a compliant contact with its stack stiffness:
+sitlib.STOP_STACK gives the stack (TPU face: E A / t with E 26 MPa, est; a stop with no TPU face: the printed lug in
+compression, E 3500 MPa, est; the printed parts in series taken as rigid, which is the stiffer and so the conservative
+case) at its contact radius, K = k r^2, and sit_model.py writes K into the joint limit (solreflimit, solimplimit from the
+joint's effective inertia, damping ratio 0.1). Knee 1973, ankle 928, hip pitch 3809, hip roll 17150, neck 9365, head 9947
+N m/rad. The loads are the limit torque at the designed end of each joint only (limit_torque_max, every step from the
+torque going off: the far ends are not designed stops and are reported apart), from the push cases run again at a
+0.5 ms step (sit_sim.py loads; at the model's own 2 ms step the stiff lug stops read up to 2.7 x higher). **Not
+converged, BLOCKER:** a 0.25 ms run of the 12 N case moves the head and neck peaks by 5 and 38 % and the knee peak from
+15.6 to 3.0 N m, and the 17-case envelope gives service torques of knee 15.8, ankle 8.6, hip roll 25, neck 15 and head
+9.6 N m, 5 to 16 x the 1.57 N m knee stand-up peak, from 3 to 12 N pushes of 0.2 s. These are not yet design loads:
+the stop model needs a converged step (all 17 cases at 0.25 ms and below) or a per-impact energy check before
+sit_stress.json can read all_ok true, so it reads all_ok false. The head and neck shove loads come from sit_sim.py
+shove: 12 N on the head's CoM, forward or back, 0.2 and 1.0 s, torque off and on, the body held (a hand or a wall
+behind it; free, the shove tips the sit over in 8 of 8 cases: section 5a). One lug or face carries each load (no
+sharing between the two neck lugs is counted). sit_stress.json: all_ok False (service and fall), stall_ok False, shove_ok False.
 
+| Head and neck stop case (one lug) | SF | Against 1.5 |
+|---|---|---|
+| head stop, 12 N shove forward on the head, torque off | 0.21 | **below 1.5** |
+| head stop, 12 N shove forward on the head, torque on | 1.88 | pass |
+| neck stop, 12 N shove back on the head, torque off | 1.11 | **below 1.5** |
+| neck stop, 12 N shove back on the head, torque on | 0.09 | **below 1.5** |
+| neck stop at a servo stall (one lug) | 0.91 | **below 1.5** |
+
+**Head and neck stops: BLOCKER (CAD not changed in this pass).** The neck lug's root is the stock neck sheet's edge
+(38 mm2 at r 20.5 mm), so a stalled neck servo (1.91 N m plus the head's weight) cannot reach SF 1.5 there: the fix is a
+stop at a larger radius on a part of ours. Proposed, not built: a printed block on trunk_top behind the neck, held by
+the two hip yaw servo screws F127 and F129 (M2x6 to M2x12 through a 4 mm flange, the stock thread engagement kept), with
+TPU faces that the neck sheets' back edges meet at +25 deg at r 35 mm or more (the sheet then takes an in-plane edge
+load and goes back to stock; the head clears the block region above z 120 mm, measured over the head and neck range).
+The head forward stop likewise needs a TPU face on a printed block at a larger radius than the 14 mm lug on the servo
+case. Both need the sweep, the cable check of the neck loops, the records and a print; not done here.
 
 sit_stress.py (sit_stress.json), STRUCTURE_TWIN.md allowables (PLA 47.1 MPa in-plane, 22 MPa across the layers; SF 2.0
-service, 1.2 falls). Service is the largest stop torque the sims saw (sit_sim.py push and up) and the 1.57 N m knee
+service, 1.2 falls). Service is the largest stop torque at the designed end in the load runs (sit_sim.py loads: the 17 push cases
+with the compliant stops at 0.5 ms) and the 1.57 N m knee
 stand-up peak of the study; fall is 2 x service; stall is the servo pressing into its stop at stall torque (a calibration
 error past the 3 deg margin).
 
-| Item | Service SF | Fall SF | Stall SF |
-|---|---|---|---|
-| shin_spacer beam (knee bumper load, 1.57 N m at 24.1 mm) | 19.7 | 9.9 | 10.5 |
-| shin sheet horn zone at the joggle (bending, 9 mm offset) | 8.2 | 4.5 | 4.8 |
-| shin sheet neck, knee torque (STRUCTURE_TWIN FEA scale) | 6.0 | 3.0 | |
-| spacer inserts sideways | 38 | 19 | 20 |
-| ankle pads and their seats (bearing) | 79 | 40 | 16 |
-| roll stop lug (0.96 N m) | 5.3 | 2.7 | 2.7 |
-| neck stop lug (0.65 N m) | 2.8 | 1.4 | **0.95** |
-| head stop lug (0.21 N m) | 37 | 19 | 4.0 |
-
-Every service and fall case passes. Two findings:
-- The neck lug cannot hold a stalled neck servo (SF 0.95 at 1.91 N m): the 3 deg software limit must hold, so the neck
-  zero must be right to well under 3 deg (CALIBRATION.md); the lug's root is the neck sheet's edge (38 mm2) and cannot
-  grow there without reaching the horn screw recess.
-- Two push cases past the A1b tests (a 12 N shove from 8 sides; the sit sliding on a mat at mu 0.4) give limit impacts in
-  the sim of 13.7 N m at the head pitch stop and 6.3 N m at a knee: the head lug's SF there is 0.56 (sim pass only and
-  calc). A hard shove at the sitting duck can crack the head lug; a TPU face on it is the fix if the bench shows it.
+| Item | Case | Load | SF | Need |
+|---|---|---|---|---|
+| shin_spacer (beam between the sheets) | service | F 652.8 N at r 24.1 mm | 1.96 | 2.0 |
+| knee bumper pad (bearing) | service | TPU 95A on VHB 4950, 1.67 MPa over 392 mm2 | 6.0 | 2.0 |
+| spacer inserts (sideways) | service | 4 inserts per spacer, 163.2 N each against 618 N | 3.79 | 2.0 |
+| shin sheet horn zone at the joggle | service | R per sheet 333.3 N x 9.0 mm = 3000 N mm on a 25 x 3.85 mm s | 0.97 | 2.0 |
+| shin_spacer (beam between the sheets) | fall | F 1305.7 N at r 24.1 mm | 0.98 | 1.2 |
+| knee bumper pad (bearing) | fall | TPU 95A on VHB 4950, 3.33 MPa over 392 mm2 | 3.0 | 1.2 |
+| spacer inserts (sideways) | fall | 4 inserts per spacer, 326.4 N each against 618 N | 1.89 | 1.2 |
+| shin sheet horn zone at the joggle | fall | R per sheet 659.7 N x 9.0 mm = 5937 N mm on a 25 x 3.85 mm s | 0.49 | 1.2 |
+| shin_spacer (beam between the sheets) | stall | F 121.8 N at r 24.1 mm | 10.52 | 2.0 |
+| knee bumper pad (bearing) | stall | TPU 95A on VHB 4950, 0.31 MPa over 392 mm2 | 32.2 | 2.0 |
+| spacer inserts (sideways) | stall | 4 inserts per spacer, 30.4 N each against 618 N | 20.3 | 2.0 |
+| shin sheet horn zone at the joggle | stall | R per sheet 67.8 N x 9.0 mm = 610 N mm on a 25 x 3.85 mm sec | 4.77 | 2.0 |
+| shin_spacer (beam between the sheets) | abuse | F 877.5 N at r 24.1 mm | 1.46 | 1.2 |
+| knee bumper pad (bearing) | abuse | TPU 95A on VHB 4950, 2.24 MPa over 392 mm2 | 4.47 | 1.2 |
+| spacer inserts (sideways) | abuse | 4 inserts per spacer, 219.4 N each against 618 N | 2.82 | 1.2 |
+| shin sheet horn zone at the joggle | abuse | R per sheet 445.6 N x 9.0 mm = 4011 N mm on a 25 x 3.85 mm s | 0.73 | 1.2 |
+| shin sheet neck, knee torque (FEA scale) | service | 5.0 MPa per N m (STRUCTURE_TWIN.md, sheetlocal levels 2 and  | 0.6 | 2.0 |
+| shin sheet neck, knee torque (FEA scale) | fall | 5.0 MPa per N m (STRUCTURE_TWIN.md, sheetlocal levels 2 and  | 0.3 | 1.2 |
+| ankle pad (bearing, per pad) | service | 2 pads, 125.1 N each over 45 mm2 | 3.6 | 2.0 |
+| foot plate pad seat (bearing) | service | PLA seat under the pad, across the layers (conservative) | 7.91 | 2.0 |
+| ankle pad (bearing, per pad) | fall | 2 pads, 250.2 N each over 45 mm2 | 1.8 | 1.2 |
+| foot plate pad seat (bearing) | fall | PLA seat under the pad, across the layers (conservative) | 3.96 | 1.2 |
+| ankle pad (bearing, per pad) | stall | 2 pads, 27.7 N each over 45 mm2 | 16.24 | 2.0 |
+| foot plate pad seat (bearing) | stall | PLA seat under the pad, across the layers (conservative) | 35.74 | 2.0 |
+| ankle pad (bearing, per pad) | abuse | 2 pads, 158.4 N each over 45 mm2 | 2.84 | 1.2 |
+| foot plate pad seat (bearing) | abuse | PLA seat under the pad, across the layers (conservative) | 6.25 | 1.2 |
+| roll stop lug | service | F 1427.3 N at r 17.5 mm | 0.2 | 2.0 |
+| roll stop lug | fall | F 2854.6 N at r 17.5 mm | 0.1 | 1.2 |
+| roll stop lug | stall | F 109.2 N at r 17.5 mm | 2.65 | 2.0 |
+| roll stop lug | abuse | F 1906.7 N at r 17.5 mm | 0.15 | 1.2 |
+| neck stop lug | service | F 736.1 N at r 20.5 mm | 0.12 | 2.0 |
+| neck stop lug | fall | F 1472.2 N at r 20.5 mm | 0.06 | 1.2 |
+| neck stop lug | stall | F 93.3 N at r 20.5 mm | 0.95 | 2.0 |
+| neck stop lug | abuse | F 885.1 N at r 20.5 mm | 0.1 | 1.2 |
+| head stop lug | service | F 688.3 N at r 14.0 mm | 0.79 | 2.0 |
+| head stop lug | fall | F 1376.6 N at r 14.0 mm | 0.4 | 1.2 |
+| head stop lug | stall | F 136.4 N at r 14.0 mm | 4.0 | 2.0 |
+| head stop lug | abuse | F 683.7 N at r 14.0 mm | 0.8 | 1.2 |
 
 The joggled sheet itself is **BLOCKER** until the printed coupon test (TEST_PLAN.md 19.6).
 
@@ -117,27 +162,65 @@ parts, 2.788 kg, the URDF ranges, the software limits as actuator ranges, the re
 with the floor). The SIT_V2 study ran a scratch copy (2.767 kg, the seat and bumper as capsules). sit_sim.json holds the
 numbers.
 
-**After the review fixes (gain kept through entry and stand-up, zero error moving the clamp, seat colliding with the
-floor only, one result file per case):** stand-up 20 / 18 / 14 of 20 at 0 / 0.5 / 1.0 deg (the same as before the fixes;
-at 1.0 deg 4 seeds fall back in the sit); push 0 falls, 4 pads at the end in 16 of 17. **Open:** the target of 20 at 0.5
-deg and 18 at 1.0 deg is not met and its cause is not isolated: not the gain (fixed), not the clamp (fixed), not the
-seat's self-contact (floor only now). Left to test: the printed seat and bumper shape against the study's capsules, the
-neck saturating at 3.23 N m while the head swings up (0.88 N m in the study), and the 21 g and joggled shins.
+**Stand-up, 2026-11-07 (sim pass only).** First the from-scratch rerun the cache fix asked for: on the 058e070 model
+20 / 18 / 14 of 20 at 0 / 0.5 / 1.0 deg, the same as reported (every case file of that run was written after the gain
+and clamp fixes, so it was not a cache hit). Every failing case, classified from per-step logs (torque, joint, contact,
+CoM and sole edge; scratch, not in the repo): **tip back** in all 8. Four tipped back during the sit-down at knee 40 to
+75 deg (seeds 3, 5, 8, 17 at 1.0 deg: "fell in the sit"), four at the end of the stand-up at knee 40 to 5 deg (seeds 3
+and 17 at 0.5 deg, 6 and 18 at 1.0 deg). No joint saturated before a fall (the 3.23 N m neck peak comes after it, when
+the head strikes), no foot slid before a fall, and the model has no self-contact (the stops are joint limits; the seat
+and the bumper touch the floor only). Cause: along the study path the CoM sits 14 to 27 mm in front of the heel edge
+of a 103 mm sole (feet flat, calc on the model); a 1 deg zero error moves it about 3.5 mm. Leads checked: (a) the neck
+peak is the fall, not the rise; (b) the rock forward onto the bumper works in every case, the falls come later; (c) the
+repo and the study models put the CoM within 0.5 mm of each other at every waypoint, so not the 39 g or the shins.
+Fix (the sequence design for the Runtime): the trunk leans forward at the four middle waypoints (hip pitch +15 or +16
+deg: sitlib.PATH_A1B), which puts the CoM 42 to 48 mm from the heel; the sit and stand ends are unchanged. That left
+3 seeds standing with their feet 20 mm apart, off the pads: the torque-off sit splays the legs onto the -8 deg hip roll
+stops and the rise kept that roll. The first stand-up ramp now brings hip roll and yaw back to 0 while the seat still
+carries the trunk. On the final model (compliant stops, section 4):
+
+| Stand-up from the torque-off sit, 20 seeds each | 0 / 0.5 / 1.0 deg zero error |
+|---|---|
+| Study (A1b, scratch model) | 20 / 20 / 19 |
+| Repo model at 058e070 (from scratch) | 20 / 18 / 14 (sheet limits 14) |
+| Tuning seeds 0 to 19, final path | 20 / 20 / 20 (sheet limits at 1.0 deg: 20) |
+| Held-out seeds 100 to 119 (never used for tuning) | 20 / 20 / 19 (sheet limits at 1.0 deg: 19) |
+
+Nothing else of the test changed (the success rule, the seeds, the zero error model, the gain randomization). Peak
+torques in the sit and stand: knee 1.72, neck 0.93, head pitch 0.80 N m.
 
 | Test | Study (A1b) | Repo model now |
 |---|---|---|
-| Push, torque off on the pads, 17 cases | 0 falls; 4 pads made at the end in 17 | **0 falls; 4 pads made at the end in 16** (the power-off damping 0.05 case ends with CHG+ and SYS on 1 pin each); a pad lost on the way in 5 (8 and 12 N from 8 sides, damping 0.05, friction 0.02, mat mu 0.4); drift up to 16.6 mm (12 N); trunk pitch -0.7 to +2.8 deg |
-| Stand up, 20 seeds: zero error 0 / 0.5 / 1.0 deg | 20 / 20 / 19 | **20 / 18 / 14** (at 1.0 deg 4 seeds fall back in the sit itself); the same 14 on the sheet torque limits |
-| Peak torque in the sit and stand | knee 1.57, neck 0.88 N m | knee 1.57, neck 3.23 (the model limit, while the head swings up), head pitch 2.1 N m |
-| Stock walk, 10 seeds, forward 0.15 m/s | 0.0956 against 0.1004 m/s before the sit, 0 falls | **0.0998 against 0.1029 m/s** (-3 %), turn 0.788 against 0.798 rad/s, 0 falls |
+| Push, torque off on the pads, 17 cases | 0 falls; 4 pads made at the end in 17 | **0 falls; 4 pads made at the end in 17** (not at the end: none); drift up to 13.0 mm; trunk pitch -0.7 to 2.8 deg |
+| Stock walk, 10 seeds, forward 0.15 m/s | 0.0956 against 0.1004 m/s before the sit, 0 falls | **0.0998 against 0.1029 m/s**, 0 and 0 falls |
 
-The push and walk results match the study's within a pad case and a few percent. The stand-up is more sensitive to zero
-errors here than in the study: 18 of 20 at 0.5 deg (study 20) and 14 of 20 at 1.0 deg (study 19). Differences that
-plausibly cause it (not separated by a run each): the printed seat and bumper are rounder at the back than the study's
-capsules, the repo model is 21 g heavier and carries the joggled shins' mass further out, and the neck saturates at its
-3.23 N m limit while the head swings up (0.88 N m in the study), which the head-forward waypoint feels. What follows:
-the 0.5 deg calibration target of the brief is the least that works; aim at 0.25 deg (CALIBRATION.md step 3 spread), and
-slow the neck in the last waypoint (Runtime sequence, not written yet).
+**Sit pose and renders (2026-11-07).** The first sit renders drew the duck 14 deg nose up. Cause: the scratch render
+tool placed the robot at the commanded angles (knee 147, ankle -92, roll 0: 3 deg short of the stops) and rotated it
+until the lowest points of the seat and the soles were level; at those angles that only happens 14 deg nose up, on the
+heel edge. No check, record or sim start used that placement: the stand-up starts from physics (stance, then the
+sit-down), the stop sweep uses joint angles only, the docked viewer scene uses twin/dock/docked_pose.json from the shared lab
+gym (overlay gym/overlays/duck) sim, and the pad checks run in the sim. Now sit_pose.py takes the pose from the sim's settled torque-off sit (trunk pitch
++2.75 deg nose up, trunk z 71.2 mm; sit_pose.json) and the renders pose robot.urdf by it; render and check fail when a
+render or record differs from the sim by more than 2 deg or the seat and soles are off the floor by more than 2 mm.
+
+### 5a. Balance gate (sim pass only for the poses and the pushes, calc only for the margins)
+
+sit_balance.py (sit_balance.json), at the sim's settled torque-off sit, in 11 cases: nominal; zero errors +1 and -1 deg
+on every joint and mirrored left and right; head and trunk mass +5 and -5 %; floor mu 0.4; off the dock. Support: the
+footprint of the touching soles, seat and bumper (vertices within 3 mm of the floor: the dock's spring pins lift the toes
+1 to 3 mm). Gate (CoM inside by 10 mm or more, every tip angle 8 deg or more, in every case): **PASS**.
+
+| | Nominal | Worst case |
+|---|---|---|
+| CoM inside the support, to the nearest edge | 76.0 mm (left sole - seat) | 74.9 mm (trunk mass +5 %) |
+| Tip angle forward / back / left / right | 32.2 / 30.4 / 30.4 / 30.6 deg | 31.9 / 29.7 / 29.7 / 29.9 deg |
+| Static push at head height that tips it (rigid robot, calc), 8 directions from forward | 8.3 / 11.7 / 10.9 / 7.8 / 7.8 / 7.8 / 11.2 / 11.8 N | 7.9 / 11.2 / 10.6 / 7.7 / 7.7 / 7.7 / 10.9 / 11.1 N |
+| Sim push at the head CoM, ramped 2 N/s, torque off (neck and head free) | 4.4 / 5.0 / 7.0 / 6.5 / 6.3 / 6.5 / 7.7 / 5.0 N | 4.3 / 4.8 / 6.0 / 6.0 / 6.2 / 6.0 / 6.2 / 4.9 N |
+
+The sit is well inside its footprint, but with the torque off the neck folds forward under a push on the head: about
+4.3 N forward at the head tips it in the sim (the rigid-robot calc says 7.7 N or more), and a 12 N head shove tips it in
+8 of 8 free cases (sit_sim.py shove). The support edges are not marginal, so no seat or bumper change; the weak point is
+the free neck with the torque off, which the learned skill below and a powered neck while people are near address.
 
 ## 6. Cables (CAD check only)
 
@@ -167,9 +250,25 @@ not. Knee loop flex test to 150 deg: TEST_PLAN.md 19.7.
   sure (software/CALIBRATION.md, TEST_PLAN.md 19.3).
 - Joggled sheet strength: the printed coupon test (TEST_PLAN.md 19.6); the hand checks pass but the web of a 3D print
   is not a beam.
-- The sit and stand sequence in the Runtime is not written (the paths are in sitlib.PATH_A1B; the neck should move
-  slower in the last waypoint, section 5).
-- The neck lug cannot take a stalled servo (section 4); a hard shove at the sitting duck can crack the head lug.
+- The sit and stand sequence in the Runtime is not written; its design is sit_sim.py DOWN, SIT and rise (sitlib.PATH_A1B,
+  the trunk leaned forward in the middle, hip roll back to 0 while seated).
+- The neck back and head forward stops are below SF 1.5 for a 12 N head shove and a stalled neck servo (section 4):
+  the redesign (a stop of ours at a larger radius with a TPU face) is not built.
+- Fall get-up on the real geometry (read-only retest, 2026-11-07, sim pass only; getup/GETUP_SIT.md and tables.md): the
+  stored get-up programs raise the sit model in 0 of 296 cases (the base model, run the same way, 254 of 296). The base
+  cannot do it on its own CAD either: with its CAD contacts as limits (knee -28.5, ankle +49.5, head yaw -108/+82, neck
+  +37.5 deg) it gets 0 of 296; the programs need knee -88, ankle +80.7, neck +61 and head -43, and their earlier successes
+  rest on the sim model's +-90 deg knee and ankle ranges. The sit's own new limits are the neck +25 and head -25 stops
+  (the back program's head push and throw need neck +61 and head -43). The seat, the bumper, the mass and the hip roll
+  stop cause no failure. Decided (D60, 2026-11-07): the sit stays as designed; get-up will roll onto the belly, tuck
+  into the sit and use its stand-up, found by a search first, else trained in the walk retrain (track 10).
+
+## Next
+
+Sit-down and stand-up are scripted keyframes today. The plan is to train them as a learned skill in the walk retrain
+(track 10, the shared lab gym (overlay gym/overlays/duck)), with calibration error, gain variation, pushes and head jerks
+in training, as the Microduck team did after a seated head-jerk tip-back on their robot. The scripted sequence stays as
+the fallback and as the CAD check path. No training or GPU spend in this PR.
 
 ## 9. Commands (scratch folders outside the repo)
 
@@ -182,4 +281,7 @@ not. Knee loop flex test to 150 deg: TEST_PLAN.md 19.7.
     python3 altaay_lab/print/slice.py parts --out <S>/slice --only <the 20 STLs>; python3 altaay_lab/twin/sit/sit_print.py --slice <S>/slice --write
     python3 altaay_lab/twin/sit/sit_cables.py --write; python3 altaay_lab/cables3d/route_cables.py --scratch <S>/c3d --grid-only; python3 altaay_lab/cables3d/check_cables.py --scratch <S>/c3d
     python3 altaay_lab/twin/sit/sit_model.py --out <S>/model; ODM_BEFORE_MODEL=<C8 'ours' model of the base> python3 altaay_lab/twin/sit/sit_sim.py --out <S>/model push|up|walk|summary
-    python3 altaay_lab/twin/sit/sit_stress.py --sim <S>/model/sit_sim_push.json,<S>/model/sit_sim_up.json --write
+    python3 altaay_lab/twin/sit/sit_sim.py --out <S>/model up --seed0 100; ... shove; ... loads   held-out seeds, head shoves, stop loads
+    python3 altaay_lab/twin/sit/sit_stress.py --sim <S>/model/sit_sim_loads.json,<S>/model/sit_sim_shove.json --model <S>/model/sit --write
+    python3 altaay_lab/twin/sit/sit_pose.py --out <S>/model settle|check; python3 altaay_lab/twin/sit/sit_pose.py render --img <folder>
+    python3 altaay_lab/twin/sit/sit_balance.py --out <S>/model --write                 the balance gate
