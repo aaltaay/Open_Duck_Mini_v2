@@ -61,11 +61,20 @@ a pair counts above 2 mm3 over its zero-pose overlap. Results in sit_sweep.json.
 
 - Every designed stop: clear 0.5 deg inside, touches 0.5 deg past on its named parts only: knee 150 (bumper onto the knee
   servo case), ankle -95 (pads onto the shin clamp blocks), hip roll -8 (lug onto roll_motor_bottom), hip pitch -75
-  (hip pad onto the cache), neck +25 (lugs onto trunk_top), head -25 (lug onto the neck servo): 6 of 6.
+  (hip pad onto the cache), neck +25 (the neck pads onto the stock sheets' back edges; the block itself and the yoke
+  touch nothing), head -25 (the head pad onto the left sheet's front edge; the hook touches nothing): 6 of 6 on the
+  final CAD (2026-11-07).
 - The A1b sit and stand path at 1 deg steps, both legs, the torque-off settle onto the stops and the calibration band
   (every leg joint +/-3 deg at the sit): 204 states, no new overlap.
 - The stock walk envelope (VERIFICATION.md E9 'ours' ranges, corners with the inward roll and yaw): 32 states, no new
   overlap.
+- The get-up through the sit (D60; getup/GETUP_VIA_SIT.md, its programs copied to getup/programs/): 26 states, the
+  tuck keyframes (4), the roll keyframes with their asymmetric legs and head yaw swing, both sides (14), and an envelope
+  of the side swing (the head yaw at both software limits with the neck and head at the corners of their sit ranges,
+  8). None of the new parts touches anything in them. The envelope's two corners with the neck at +22 and the head at
+  +36 deg put the stock head shell and floor into body_middle_top and body_back (0.7 to 1.5 cm3): a stock-part
+  interference at a corner of the software limits that no get-up keyframe visits (the roll keyframes hold the head at
+  -14 deg); reported, not a sit change.
 - Fasteners: sweep_fasteners.py over the new ranges (fasteners.json, FASTENERS.md): the screw-limited hits are the same 5
   screws as before (2 left out by D18, F198 and F211 from hip yaw 23.3 deg, F333 not fitted); the new ranges add "parts
   collide first" rows only. 20 records moved with the parts (sit_records.py: the 16 spacer screws and inserts, the 4
