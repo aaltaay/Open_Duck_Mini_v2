@@ -1,0 +1,370 @@
+{
+ "generated_by": "altaay_lab/twin/sit/sit_sweep.py",
+ "label": "CAD check only",
+ "base_tol_mm3": 2.0,
+ "inputs": {
+  "urdf": "mini_bdx/robots/open_duck_mini_v2/robot.urdf",
+  "stls": "print/*.stl",
+  "walk": "E9 ours grid"
+ },
+ "stops": {
+  "knee_fold": {
+   "joint": "left_knee",
+   "stop": 150.0,
+   "ok": true,
+   "inside": {
+    "angle": 149.5,
+    "new_overlap_mm3": {}
+   },
+   "at": {
+    "angle": 150.0,
+    "new_overlap_mm3": {}
+   },
+   "past": {
+    "angle": 150.5,
+    "new_overlap_mm3": {
+     "servo_mid|knee_bumper": 38.14,
+     "servo_bottom|knee_bumper": 28.53,
+     "servo_top|knee_bumper": 15.83
+    }
+   }
+  },
+  "ankle_sit": {
+   "joint": "left_ankle",
+   "stop": -95.0,
+   "ok": true,
+   "inside": {
+    "angle": -94.5,
+    "new_overlap_mm3": {}
+   },
+   "at": {
+    "angle": -95.0,
+    "new_overlap_mm3": {}
+   },
+   "past": {
+    "angle": -95.5,
+    "new_overlap_mm3": {
+     "shin_right_sheet|ankle_pad": 12.7,
+     "shin_left_sheet|ankle_pad": 12.7
+    }
+   }
+  },
+  "hip_roll_out": {
+   "joint": "left_hip_roll",
+   "stop": -8.0,
+   "ok": false,
+   "inside": {
+    "angle": -7.5,
+    "new_overlap_mm3": {
+     "roll_motor_bottom|left_roll_to_pitch": 0.3,
+     "roll_motor_bottom|roll_pad_left": 0.02
+    }
+   },
+   "at": {
+    "angle": -8.0,
+    "new_overlap_mm3": {
+     "roll_motor_bottom|left_roll_to_pitch": 0.32,
+     "roll_motor_bottom|roll_pad_left": 0.03
+    }
+   },
+   "past": {
+    "angle": -8.5,
+    "new_overlap_mm3": {
+     "roll_motor_bottom|left_roll_to_pitch": 0.32,
+     "roll_motor_bottom|roll_pad_left": 5.1
+    }
+   }
+  },
+  "hip_pitch_back": {
+   "joint": "left_hip_pitch",
+   "stop": -75.0,
+   "ok": true,
+   "inside": {
+    "angle": -74.5,
+    "new_overlap_mm3": {}
+   },
+   "at": {
+    "angle": -75.0,
+    "new_overlap_mm3": {}
+   },
+   "past": {
+    "angle": -75.5,
+    "new_overlap_mm3": {
+     "hip_pad|left_cache": 43.04
+    }
+   }
+  },
+  "neck_back": {
+   "joint": "neck_pitch",
+   "stop": 25.0,
+   "ok": true,
+   "inside": {
+    "angle": 24.5,
+    "new_overlap_mm3": {}
+   },
+   "at": {
+    "angle": 25.0,
+    "new_overlap_mm3": {
+     "neck_pad|neck_left_sheet": 0.16,
+     "neck_pad|neck_right_sheet": 0.12
+    }
+   },
+   "past": {
+    "angle": 25.5,
+    "new_overlap_mm3": {
+     "neck_pad|neck_left_sheet": 13.62,
+     "neck_pad|neck_right_sheet": 10.65
+    }
+   }
+  },
+  "head_fwd": {
+   "joint": "head_pitch",
+   "stop": -25.0,
+   "ok": true,
+   "inside": {
+    "angle": -24.5,
+    "new_overlap_mm3": {}
+   },
+   "at": {
+    "angle": -25.0,
+    "new_overlap_mm3": {}
+   },
+   "past": {
+    "angle": -25.5,
+    "new_overlap_mm3": {
+     "neck_left_sheet|head_pad": 15.88
+    }
+   }
+  }
+ },
+ "hard_stops": {
+  "left_hip_yaw": {
+   "lo_by": "body_middle_bottom|left_roll_to_pitch",
+   "lo": -24.0,
+   "hi_by": "body_middle_bottom|knee_to_ankle_right_sheet",
+   "hi": 24.5
+  },
+  "left_hip_roll": {
+   "lo": null,
+   "hi": null
+  },
+  "left_hip_pitch": {
+   "lo": null,
+   "hi_by": "servo_mid|leg_spacer",
+   "hi": 13.5
+  },
+  "left_knee": {
+   "lo_by": "left_cache|shin_left_sheet",
+   "lo": -28.5,
+   "hi_by": "left_cache|foot_top",
+   "hi": 118.5
+  },
+  "left_ankle": {
+   "lo": null,
+   "hi_by": "shin_right_sheet|foot_side",
+   "hi": 49.0
+  },
+  "neck_pitch": {
+   "lo": null,
+   "hi": null
+  },
+  "head_pitch": {
+   "lo": null,
+   "hi_by": "body_middle_top|head",
+   "hi": 39.0
+  },
+  "head_yaw": {
+   "lo_by": "head_pitch_to_yaw|servo_bottom",
+   "lo": -108.0,
+   "hi_by": "head_pitch_to_yaw|servo_bottom",
+   "hi": 82.0
+  },
+  "head_roll": {
+   "lo": null,
+   "hi": null
+  },
+  "right_hip_yaw": {
+   "lo_by": "body_middle_bottom|knee_to_ankle_left_sheet",
+   "lo": -24.5,
+   "hi_by": "body_middle_bottom|right_roll_to_pitch",
+   "hi": 24.0
+  },
+  "right_hip_roll": {
+   "lo": null,
+   "hi": null
+  },
+  "right_hip_pitch": {
+   "lo_by": "servo_mid|leg_spacer",
+   "lo": -13.5,
+   "hi": null
+  },
+  "right_knee": {
+   "lo_by": "right_cache|shin_right_sheet",
+   "lo": -28.5,
+   "hi_by": "right_cache|foot_top",
+   "hi": 118.5
+  },
+  "right_ankle": {
+   "lo": null,
+   "hi_by": "shin_right_sheet|foot_side",
+   "hi": 49.0
+  }
+ },
+ "knee_ankle_coupling": {
+  "100": {
+   "ankle_free_max": 80.0,
+   "ankle_free_min": -95.0,
+   "n_free": 33
+  },
+  "105": {
+   "ankle_free_max": 80.0,
+   "ankle_free_min": -95.0,
+   "n_free": 29
+  },
+  "110": {
+   "ankle_free_max": 60.0,
+   "ankle_free_min": -95.0,
+   "n_free": 24
+  },
+  "115": {
+   "ankle_free_max": 5.0,
+   "ankle_free_min": -95.0,
+   "n_free": 21
+  },
+  "120": {
+   "ankle_free_max": -5.0,
+   "ankle_free_min": -95.0,
+   "n_free": 19
+  },
+  "125": {
+   "ankle_free_max": -10.0,
+   "ankle_free_min": -95.0,
+   "n_free": 18
+  },
+  "130": {
+   "ankle_free_max": -20.0,
+   "ankle_free_min": -95.0,
+   "n_free": 16
+  },
+  "135": {
+   "ankle_free_max": -30.0,
+   "ankle_free_min": -95.0,
+   "n_free": 14
+  },
+  "140": {
+   "ankle_free_max": -45.0,
+   "ankle_free_min": -95.0,
+   "n_free": 11
+  },
+  "145": {
+   "ankle_free_max": -60.0,
+   "ankle_free_min": -95.0,
+   "n_free": 8
+  },
+  "150": {
+   "ankle_free_max": -75.0,
+   "ankle_free_min": -95.0,
+   "n_free": 5
+  }
+ },
+ "path": {
+  "states": 204,
+  "new_overlaps": {}
+ },
+ "walk": {
+  "states": 32,
+  "new_overlaps": {}
+ },
+ "getup": {
+  "states": 66,
+  "new_overlaps": {
+   "body_middle_top|head": {
+    "mm3": 1528.47,
+    "state": "getup_swing",
+    "pose": [
+     -60,
+     147,
+     -92,
+     22.0,
+     36.0,
+     79.0
+    ]
+   },
+   "body_middle_top|head_bot_sheet": {
+    "mm3": 1169.4,
+    "state": "getup_swing",
+    "pose": [
+     -60,
+     147,
+     -92,
+     22.0,
+     36.0,
+     -105.0
+    ]
+   },
+   "body_back|head": {
+    "mm3": 739.34,
+    "state": "getup_swing",
+    "pose": [
+     -60,
+     147,
+     -92,
+     22.0,
+     36.0,
+     -105.0
+    ]
+   }
+  }
+ },
+ "path_waypoints_deg": [
+  [
+   -15,
+   5,
+   0,
+   0,
+   0
+  ],
+  [
+   -5,
+   40,
+   -29,
+   -22,
+   -25
+  ],
+  [
+   -18,
+   75,
+   -49,
+   -22,
+   -25
+  ],
+  [
+   -39,
+   110,
+   -67,
+   -22,
+   -25
+  ],
+  [
+   -43,
+   130,
+   -82,
+   -22,
+   -25
+  ],
+  [
+   -60,
+   147,
+   -92,
+   -22,
+   -25
+  ],
+  [
+   -60,
+   147,
+   -92,
+   25,
+   -25
+  ]
+ ]
+}

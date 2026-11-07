@@ -1,0 +1,268 @@
+{
+ "assembly": {
+  "instances": 147,
+  "swapped": [
+   54,
+   55,
+   56,
+   88,
+   89,
+   90
+  ],
+  "new_meshes": {
+   "ankle_pad.stl": 0,
+   "head_pad.stl": 0,
+   "hip_pad.stl": 0,
+   "knee_bumper.stl": 0,
+   "neck_pad.stl": 0,
+   "neck_stop.stl": 2,
+   "roll_pad_left.stl": 0,
+   "roll_pad_right.stl": 0,
+   "shin_left_sheet.stl": 17,
+   "shin_right_sheet.stl": 17,
+   "shin_spacer.stl": 4,
+   "sit_bumper.stl": 0,
+   "sit_seat.stl": 0
+  },
+  "heel_screw_features_moved": {
+   "instances": [
+    62,
+    96,
+    65,
+    99
+   ],
+   "dx_mm": 20.0
+  }
+ },
+ "holes_of_parts_changed_elsewhere": {
+  "left_cache": "same 4 holes",
+  "right_cache": "same 4 holes",
+  "foot_top": {
+   "base": 13,
+   "new": 13,
+   "gone": [
+    {
+     "kind": "circle",
+     "d": 4.0,
+     "p0": [
+      -43.2,
+      79.2,
+      -241.6
+     ],
+     "p1": [
+      -43.2,
+      85.0,
+      -241.6
+     ]
+    },
+    {
+     "kind": "circle",
+     "d": 2.0,
+     "p0": [
+      -43.3,
+      85.0,
+      -241.6
+     ],
+     "p1": [
+      -43.3,
+      100.2,
+      -241.6
+     ]
+    }
+   ],
+   "added": [
+    {
+     "kind": "circle",
+     "d": 4.0,
+     "p0": [
+      -23.2,
+      79.2,
+      -241.6
+     ],
+     "p1": [
+      -23.2,
+      85.0,
+      -241.6
+     ]
+    },
+    {
+     "kind": "circle",
+     "d": 2.0,
+     "p0": [
+      -23.3,
+      85.0,
+      -241.6
+     ],
+     "p1": [
+      -23.3,
+      100.2,
+      -241.6
+     ]
+    }
+   ]
+  },
+  "foot_side": {
+   "base": 13,
+   "new": 13,
+   "gone": [
+    {
+     "kind": "circle",
+     "d": 6.5,
+     "p0": [
+      -43.3,
+      67.1,
+      -241.6
+     ],
+     "p1": [
+      -43.3,
+      73.1,
+      -241.6
+     ]
+    },
+    {
+     "kind": "circle",
+     "d": 3.5,
+     "p0": [
+      -43.3,
+      73.1,
+      -241.6
+     ],
+     "p1": [
+      -43.3,
+      79.1,
+      -241.6
+     ]
+    }
+   ],
+   "added": [
+    {
+     "kind": "circle",
+     "d": 6.49,
+     "p0": [
+      -23.2,
+      67.1,
+      -241.6
+     ],
+     "p1": [
+      -23.2,
+      73.1,
+      -241.6
+     ]
+    },
+    {
+     "kind": "circle",
+     "d": 3.5,
+     "p0": [
+      -23.3,
+      73.1,
+      -241.6
+     ],
+     "p1": [
+      -23.3,
+      79.1,
+      -241.6
+     ]
+    }
+   ]
+  },
+  "left_roll_to_pitch": "same 27 holes",
+  "right_roll_to_pitch": "same 27 holes",
+  "head_pitch_to_yaw": "same 36 holes",
+  "knee_to_ankle_left_sheet": "same 17 holes",
+  "knee_to_ankle_right_sheet": "same 17 holes"
+ },
+ "sites": {
+  "features": 130,
+  "new_sites": 10,
+  "emptied": [
+   2,
+   3,
+   6,
+   7,
+   15,
+   17,
+   194,
+   195,
+   198,
+   199
+  ],
+  "total": 393
+ },
+ "head_internal_refs_moved": 28,
+ "fasteners_moved": [
+  "F005",
+  "F006",
+  "F007",
+  "F008",
+  "F013",
+  "F014",
+  "F015",
+  "F016",
+  "I27",
+  "I28",
+  "I29",
+  "I30",
+  "I39",
+  "I40",
+  "I41",
+  "I42",
+  "F024",
+  "F026",
+  "I34",
+  "I46",
+  "F127",
+  "F129"
+ ],
+ "fasteners_renamed": [
+  "F005",
+  "F006",
+  "F007",
+  "F008",
+  "F013",
+  "F014",
+  "F015",
+  "F016",
+  "F043",
+  "F044",
+  "F047",
+  "F048",
+  "F101",
+  "F102",
+  "F105",
+  "F106",
+  "F202",
+  "F203",
+  "F204",
+  "F205",
+  "F206",
+  "F207",
+  "F214",
+  "F215",
+  "F216",
+  "F217",
+  "F218",
+  "F219",
+  "F249",
+  "F250",
+  "F255",
+  "F256",
+  "I27",
+  "I28",
+  "I29",
+  "I30",
+  "I39",
+  "I40",
+  "I41",
+  "I42"
+ ],
+ "empty_holes_superseded": [
+  193,
+  194,
+  197,
+  198
+ ],
+ "stock_again": {
+  "neck_left_sheet": "same 12 holes, stock STL",
+  "neck_right_sheet": "same 12 holes, stock STL"
+ }
+}

@@ -19,6 +19,8 @@ REG = {
     "id": (5, 1),
     "baudrate": (6, 1),
     "return_delay": (7, 1),
+    "min_angle_limit": (9, 2),         # [U] rustypot feetech_sts3215.rs min_angle_limit 9 u16; pypot "min angle limit" 9, 2
+    "max_angle_limit": (11, 2),        # [U] rustypot max_angle_limit 11 u16; pypot "max angle limit" 11, 2
     "max_temperature_limit": (13, 1),
     "max_voltage_limit": (14, 1),
     "min_voltage_limit": (15, 1),
@@ -27,6 +29,7 @@ REG = {
     "d_coefficient": (22, 1),
     "i_coefficient": (23, 1),
     "protection_current": (28, 2),
+    "offset": (31, 2),                 # [U] rustypot offset 31 i16; pypot "offset" 31, 2 (the lab keeps it 0: Runtime offsets)
     "mode": (33, 1),
     "protective_torque": (34, 1),
     "protection_time": (35, 1),

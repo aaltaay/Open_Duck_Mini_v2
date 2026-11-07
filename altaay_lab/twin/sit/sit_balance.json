@@ -1,0 +1,1528 @@
+{
+ "generated_by": "altaay_lab/twin/sit/sit_balance.py",
+ "label": "sim pass only (settled poses, sim push); calc only (margins, tip angles, static push)",
+ "inputs_key": "0d016c83312deae5",
+ "gate": {
+  "margin_min_mm": 10.0,
+  "tip_min_deg": 8.0
+ },
+ "ok": true,
+ "worst": {
+  "margin_mm": 75.5,
+  "margin_case": "zero +1 L / -1 R",
+  "tip_deg": {
+   "forward": 31.7,
+   "back": 30.1,
+   "left": 30.1,
+   "right": 30.3
+  },
+  "push_tip_N": {
+   "0": 8.07,
+   "45": 11.53,
+   "90": 10.73,
+   "135": 7.65,
+   "180": 7.75,
+   "225": 7.73,
+   "270": 10.95,
+   "315": 11.29
+  },
+  "sim_push_N": {
+   "0": 4.28,
+   "45": 4.84,
+   "90": 6.21,
+   "135": 6.05,
+   "180": 6.28,
+   "225": 5.8,
+   "270": 6.28,
+   "315": 4.88
+  },
+  "slide_N_at_mu_0_4": 10.8
+ },
+ "cases": {
+  "nominal": {
+   "contacts": [
+    "left sole",
+    "right sole",
+    "seat"
+   ],
+   "n_contacts": 119,
+   "com_mm": [
+    -57.6,
+    0.8,
+    129.8
+   ],
+   "com_h_mm": 129.8,
+   "head_h_mm": 269.2,
+   "weight_N": 27.53,
+   "inside": true,
+   "margin_mm": 75.9,
+   "nearest_edge": "left sole - seat",
+   "tip_deg": {
+    "forward": {
+     "deg": 31.8,
+     "edge": "right sole - left sole"
+    },
+    "back": {
+     "deg": 30.3,
+     "edge": "left sole - seat"
+    },
+    "left": {
+     "deg": 30.3,
+     "edge": "left sole - seat"
+    },
+    "right": {
+     "deg": 30.5,
+     "edge": "seat - right sole"
+    }
+   },
+   "push_tip_N": {
+    "0": 8.23,
+    "45": 11.72,
+    "90": 10.91,
+    "135": 7.79,
+    "180": 7.85,
+    "225": 7.85,
+    "270": 11.17,
+    "315": 11.56
+   },
+   "trunk_pitch_deg": 2.78,
+   "polygon_mm": [
+    [
+     -134.3,
+     24.5
+    ],
+    [
+     -134.3,
+     -23.5
+    ],
+    [
+     -132.6,
+     -28.4
+    ],
+    [
+     -65.4,
+     -109.7
+    ],
+    [
+     -7.6,
+     -100.8
+    ],
+    [
+     22.3,
+     -90.2
+    ],
+    [
+     23.5,
+     87.6
+    ],
+    [
+     19.8,
+     91.1
+    ],
+    [
+     -7.3,
+     100.4
+    ],
+    [
+     -65.9,
+     108.7
+    ],
+    [
+     -132.6,
+     29.5
+    ]
+   ],
+   "pads": {
+    "CHG+": 5,
+    "SENSE": 6,
+    "SYS": 3,
+    "GND": 5
+   },
+   "fell": false,
+   "sim_push_N": {
+    "0": {
+     "N": 4.39,
+     "how": "tips"
+    },
+    "45": {
+     "N": 4.94,
+     "how": "tips"
+    },
+    "90": {
+     "N": 8.86,
+     "how": "tips"
+    },
+    "135": {
+     "N": 6.53,
+     "how": "tips"
+    },
+    "180": {
+     "N": 6.36,
+     "how": "tips"
+    },
+    "225": {
+     "N": 6.55,
+     "how": "tips"
+    },
+    "270": {
+     "N": 7.28,
+     "how": "tips"
+    },
+    "315": {
+     "N": 5.0,
+     "how": "tips"
+    }
+   }
+  },
+  "zero +1 deg": {
+   "contacts": [
+    "left sole",
+    "right sole",
+    "seat"
+   ],
+   "n_contacts": 120,
+   "com_mm": [
+    -58.0,
+    0.5,
+    129.8
+   ],
+   "com_h_mm": 129.8,
+   "head_h_mm": 269.2,
+   "weight_N": 27.53,
+   "inside": true,
+   "margin_mm": 76.2,
+   "nearest_edge": "seat - right sole",
+   "tip_deg": {
+    "forward": {
+     "deg": 32.1,
+     "edge": "right sole - left sole"
+    },
+    "back": {
+     "deg": 30.4,
+     "edge": "seat - right sole"
+    },
+    "left": {
+     "deg": 30.5,
+     "edge": "left sole - seat"
+    },
+    "right": {
+     "deg": 30.4,
+     "edge": "seat - right sole"
+    }
+   },
+   "push_tip_N": {
+    "0": 8.32,
+    "45": 11.54,
+    "90": 10.85,
+    "135": 7.84,
+    "180": 7.86,
+    "225": 7.83,
+    "270": 11.33,
+    "315": 12.02
+   },
+   "trunk_pitch_deg": 2.72,
+   "polygon_mm": [
+    [
+     -135.2,
+     -22.2
+    ],
+    [
+     -133.6,
+     -27.2
+    ],
+    [
+     -66.8,
+     -110.2
+    ],
+    [
+     18.3,
+     -109.7
+    ],
+    [
+     23.7,
+     -86.7
+    ],
+    [
+     23.1,
+     87.8
+    ],
+    [
+     19.3,
+     91.2
+    ],
+    [
+     -7.9,
+     100.2
+    ],
+    [
+     -66.6,
+     107.9
+    ],
+    [
+     -132.6,
+     30.7
+    ],
+    [
+     -134.4,
+     25.8
+    ]
+   ],
+   "pads": {
+    "CHG+": 4,
+    "SENSE": 6,
+    "SYS": 4,
+    "GND": 6
+   },
+   "fell": false,
+   "sim_push_N": {
+    "0": {
+     "N": 4.43,
+     "how": "tips"
+    },
+    "45": {
+     "N": 4.98,
+     "how": "tips"
+    },
+    "90": {
+     "N": 6.21,
+     "how": "tips"
+    },
+    "135": {
+     "N": 6.48,
+     "how": "tips"
+    },
+    "180": {
+     "N": 6.35,
+     "how": "tips"
+    },
+    "225": {
+     "N": 6.47,
+     "how": "tips"
+    },
+    "270": {
+     "N": 6.5,
+     "how": "tips"
+    },
+    "315": {
+     "N": 5.02,
+     "how": "tips"
+    }
+   }
+  },
+  "zero -1 deg": {
+   "contacts": [
+    "left sole",
+    "right sole",
+    "seat"
+   ],
+   "n_contacts": 121,
+   "com_mm": [
+    -56.1,
+    1.0,
+    129.8
+   ],
+   "com_h_mm": 129.8,
+   "head_h_mm": 269.2,
+   "weight_N": 27.53,
+   "inside": true,
+   "margin_mm": 75.6,
+   "nearest_edge": "left sole - seat",
+   "tip_deg": {
+    "forward": {
+     "deg": 32.0,
+     "edge": "right sole - left sole"
+    },
+    "back": {
+     "deg": 30.2,
+     "edge": "left sole - seat"
+    },
+    "left": {
+     "deg": 30.2,
+     "edge": "left sole - seat"
+    },
+    "right": {
+     "deg": 30.6,
+     "edge": "seat - right sole"
+    }
+   },
+   "push_tip_N": {
+    "0": 8.3,
+    "45": 11.83,
+    "90": 10.96,
+    "135": 7.76,
+    "180": 7.84,
+    "225": 7.9,
+    "270": 11.23,
+    "315": 11.65
+   },
+   "trunk_pitch_deg": 2.75,
+   "polygon_mm": [
+    [
+     -132.9,
+     24.3
+    ],
+    [
+     -132.7,
+     -23.7
+    ],
+    [
+     -130.9,
+     -28.7
+    ],
+    [
+     -66.4,
+     -108.5
+    ],
+    [
+     18.6,
+     -110.8
+    ],
+    [
+     24.8,
+     -88.0
+    ],
+    [
+     25.3,
+     87.3
+    ],
+    [
+     21.6,
+     90.8
+    ],
+    [
+     -5.4,
+     100.3
+    ],
+    [
+     -63.9,
+     109.3
+    ],
+    [
+     -131.2,
+     29.2
+    ]
+   ],
+   "pads": {
+    "CHG+": 6,
+    "SENSE": 6,
+    "SYS": 4,
+    "GND": 4
+   },
+   "fell": false,
+   "sim_push_N": {
+    "0": {
+     "N": 4.42,
+     "how": "tips"
+    },
+    "45": {
+     "N": 4.99,
+     "how": "tips"
+    },
+    "90": {
+     "N": 7.86,
+     "how": "tips"
+    },
+    "135": {
+     "N": 6.49,
+     "how": "tips"
+    },
+    "180": {
+     "N": 6.39,
+     "how": "tips"
+    },
+    "225": {
+     "N": 6.52,
+     "how": "tips"
+    },
+    "270": {
+     "N": 8.81,
+     "how": "tips"
+    },
+    "315": {
+     "N": 4.95,
+     "how": "tips"
+    }
+   }
+  },
+  "zero +1 L / -1 R": {
+   "contacts": [
+    "left sole",
+    "right sole",
+    "seat"
+   ],
+   "n_contacts": 122,
+   "com_mm": [
+    -57.7,
+    1.6,
+    129.9
+   ],
+   "com_h_mm": 129.9,
+   "head_h_mm": 269.3,
+   "weight_N": 27.53,
+   "inside": true,
+   "margin_mm": 75.5,
+   "nearest_edge": "left sole - seat",
+   "tip_deg": {
+    "forward": {
+     "deg": 32.0,
+     "edge": "right sole - left sole"
+    },
+    "back": {
+     "deg": 30.2,
+     "edge": "left sole - seat"
+    },
+    "left": {
+     "deg": 30.2,
+     "edge": "left sole - seat"
+    },
+    "right": {
+     "deg": 30.5,
+     "edge": "seat - right sole"
+    }
+   },
+   "push_tip_N": {
+    "0": 8.29,
+    "45": 11.72,
+    "90": 10.86,
+    "135": 7.75,
+    "180": 7.81,
+    "225": 7.86,
+    "270": 11.23,
+    "315": 11.74
+   },
+   "trunk_pitch_deg": 2.83,
+   "polygon_mm": [
+    [
+     -134.2,
+     -24.2
+    ],
+    [
+     -132.2,
+     -27.8
+    ],
+    [
+     -67.6,
+     -108.0
+    ],
+    [
+     17.5,
+     -110.3
+    ],
+    [
+     23.6,
+     -87.4
+    ],
+    [
+     23.3,
+     89.0
+    ],
+    [
+     19.5,
+     92.5
+    ],
+    [
+     -7.7,
+     101.4
+    ],
+    [
+     -66.4,
+     109.0
+    ],
+    [
+     -132.3,
+     30.1
+    ],
+    [
+     -134.0,
+     25.1
+    ]
+   ],
+   "pads": {
+    "CHG+": 4,
+    "SENSE": 6,
+    "SYS": 4,
+    "GND": 4
+   },
+   "fell": false,
+   "sim_push_N": {
+    "0": {
+     "N": 4.37,
+     "how": "tips"
+    },
+    "45": {
+     "N": 4.97,
+     "how": "tips"
+    },
+    "90": {
+     "N": 8.97,
+     "how": "tips"
+    },
+    "135": {
+     "N": 6.51,
+     "how": "tips"
+    },
+    "180": {
+     "N": 6.37,
+     "how": "tips"
+    },
+    "225": {
+     "N": 6.56,
+     "how": "tips"
+    },
+    "270": {
+     "N": 8.74,
+     "how": "tips"
+    },
+    "315": {
+     "N": 4.99,
+     "how": "tips"
+    }
+   }
+  },
+  "zero -1 L / +1 R": {
+   "contacts": [
+    "left sole",
+    "right sole",
+    "seat"
+   ],
+   "n_contacts": 120,
+   "com_mm": [
+    -57.9,
+    0.2,
+    129.8
+   ],
+   "com_h_mm": 129.8,
+   "head_h_mm": 269.2,
+   "weight_N": 27.53,
+   "inside": true,
+   "margin_mm": 76.1,
+   "nearest_edge": "left sole - seat",
+   "tip_deg": {
+    "forward": {
+     "deg": 32.6,
+     "edge": "right sole - left sole"
+    },
+    "back": {
+     "deg": 30.4,
+     "edge": "left sole - seat"
+    },
+    "left": {
+     "deg": 30.4,
+     "edge": "left sole - seat"
+    },
+    "right": {
+     "deg": 30.5,
+     "edge": "seat - right sole"
+    }
+   },
+   "push_tip_N": {
+    "0": 8.49,
+    "45": 11.97,
+    "90": 11.05,
+    "135": 7.8,
+    "180": 7.92,
+    "225": 7.86,
+    "270": 11.34,
+    "315": 12.03
+   },
+   "trunk_pitch_deg": 2.73,
+   "polygon_mm": [
+    [
+     -135.4,
+     23.8
+    ],
+    [
+     -135.1,
+     -24.2
+    ],
+    [
+     -133.4,
+     -29.1
+    ],
+    [
+     -64.0,
+     -110.8
+    ],
+    [
+     21.1,
+     -107.9
+    ],
+    [
+     25.8,
+     -84.7
+    ],
+    [
+     24.5,
+     85.9
+    ],
+    [
+     20.9,
+     89.5
+    ],
+    [
+     -6.0,
+     99.5
+    ],
+    [
+     -64.4,
+     109.3
+    ],
+    [
+     -133.7,
+     28.8
+    ]
+   ],
+   "pads": {
+    "CHG+": 3,
+    "SENSE": 6,
+    "SYS": 4,
+    "GND": 6
+   },
+   "fell": false,
+   "sim_push_N": {
+    "0": {
+     "N": 4.36,
+     "how": "tips"
+    },
+    "45": {
+     "N": 5.02,
+     "how": "tips"
+    },
+    "90": {
+     "N": 6.54,
+     "how": "tips"
+    },
+    "135": {
+     "N": 6.52,
+     "how": "tips"
+    },
+    "180": {
+     "N": 6.42,
+     "how": "tips"
+    },
+    "225": {
+     "N": 6.6,
+     "how": "tips"
+    },
+    "270": {
+     "N": 6.28,
+     "how": "tips"
+    },
+    "315": {
+     "N": 4.98,
+     "how": "tips"
+    }
+   }
+  },
+  "head mass +5 %": {
+   "contacts": [
+    "left sole",
+    "right sole",
+    "seat"
+   ],
+   "n_contacts": 121,
+   "com_mm": [
+    -58.0,
+    0.5,
+    131.2
+   ],
+   "com_h_mm": 131.2,
+   "head_h_mm": 269.2,
+   "weight_N": 27.81,
+   "inside": true,
+   "margin_mm": 76.1,
+   "nearest_edge": "left sole - seat",
+   "tip_deg": {
+    "forward": {
+     "deg": 31.8,
+     "edge": "right sole - left sole"
+    },
+    "back": {
+     "deg": 30.1,
+     "edge": "left sole - seat"
+    },
+    "left": {
+     "deg": 30.1,
+     "edge": "left sole - seat"
+    },
+    "right": {
+     "deg": 30.3,
+     "edge": "seat - right sole"
+    }
+   },
+   "push_tip_N": {
+    "0": 8.42,
+    "45": 11.82,
+    "90": 11.03,
+    "135": 7.89,
+    "180": 7.96,
+    "225": 7.96,
+    "270": 11.41,
+    "315": 11.98
+   },
+   "trunk_pitch_deg": 2.75,
+   "polygon_mm": [
+    [
+     -135.1,
+     24.2
+    ],
+    [
+     -135.0,
+     -23.8
+    ],
+    [
+     -133.3,
+     -28.8
+    ],
+    [
+     -66.3,
+     -110.0
+    ],
+    [
+     18.8,
+     -109.6
+    ],
+    [
+     24.2,
+     -86.5
+    ],
+    [
+     22.8,
+     87.4
+    ],
+    [
+     19.1,
+     90.9
+    ],
+    [
+     -8.0,
+     100.1
+    ],
+    [
+     -66.6,
+     108.5
+    ],
+    [
+     -133.4,
+     29.1
+    ]
+   ],
+   "pads": {
+    "CHG+": 4,
+    "SENSE": 6,
+    "SYS": 4,
+    "GND": 5
+   },
+   "fell": false,
+   "sim_push_N": {
+    "0": {
+     "N": 4.4,
+     "how": "tips"
+    },
+    "45": {
+     "N": 4.98,
+     "how": "tips"
+    },
+    "90": {
+     "N": 7.8,
+     "how": "tips"
+    },
+    "135": {
+     "N": 6.58,
+     "how": "tips"
+    },
+    "180": {
+     "N": 6.43,
+     "how": "tips"
+    },
+    "225": {
+     "N": 6.63,
+     "how": "tips"
+    },
+    "270": {
+     "N": 7.44,
+     "how": "tips"
+    },
+    "315": {
+     "N": 5.04,
+     "how": "tips"
+    }
+   }
+  },
+  "head mass -5 %": {
+   "contacts": [
+    "left sole",
+    "right sole",
+    "seat"
+   ],
+   "n_contacts": 121,
+   "com_mm": [
+    -57.6,
+    0.7,
+    128.4
+   ],
+   "com_h_mm": 128.4,
+   "head_h_mm": 269.2,
+   "weight_N": 27.25,
+   "inside": true,
+   "margin_mm": 75.8,
+   "nearest_edge": "left sole - seat",
+   "tip_deg": {
+    "forward": {
+     "deg": 32.5,
+     "edge": "right sole - left sole"
+    },
+    "back": {
+     "deg": 30.6,
+     "edge": "left sole - seat"
+    },
+    "left": {
+     "deg": 30.6,
+     "edge": "left sole - seat"
+    },
+    "right": {
+     "deg": 30.7,
+     "edge": "seat - right sole"
+    }
+   },
+   "push_tip_N": {
+    "0": 8.29,
+    "45": 11.63,
+    "90": 10.81,
+    "135": 7.7,
+    "180": 7.76,
+    "225": 7.76,
+    "270": 11.18,
+    "315": 11.83
+   },
+   "trunk_pitch_deg": 2.74,
+   "polygon_mm": [
+    [
+     -134.4,
+     -23.2
+    ],
+    [
+     -132.7,
+     -28.1
+    ],
+    [
+     -66.0,
+     -109.7
+    ],
+    [
+     19.1,
+     -109.9
+    ],
+    [
+     24.6,
+     -86.9
+    ],
+    [
+     23.9,
+     87.2
+    ],
+    [
+     20.2,
+     90.7
+    ],
+    [
+     -6.9,
+     100.1
+    ],
+    [
+     -65.4,
+     108.7
+    ],
+    [
+     -132.4,
+     29.7
+    ],
+    [
+     -134.2,
+     24.8
+    ]
+   ],
+   "pads": {
+    "CHG+": 5,
+    "SENSE": 6,
+    "SYS": 4,
+    "GND": 5
+   },
+   "fell": false,
+   "sim_push_N": {
+    "0": {
+     "N": 4.43,
+     "how": "tips"
+    },
+    "45": {
+     "N": 4.96,
+     "how": "tips"
+    },
+    "90": {
+     "N": 6.28,
+     "how": "tips"
+    },
+    "135": {
+     "N": 6.46,
+     "how": "tips"
+    },
+    "180": {
+     "N": 6.28,
+     "how": "tips"
+    },
+    "225": {
+     "N": 6.5,
+     "how": "tips"
+    },
+    "270": {
+     "N": 7.59,
+     "how": "tips"
+    },
+    "315": {
+     "N": 5.06,
+     "how": "tips"
+    }
+   }
+  },
+  "trunk mass +5 %": {
+   "contacts": [
+    "left sole",
+    "right sole",
+    "seat"
+   ],
+   "n_contacts": 121,
+   "com_mm": [
+    -58.2,
+    0.7,
+    129.3
+   ],
+   "com_h_mm": 129.3,
+   "head_h_mm": 269.2,
+   "weight_N": 28.05,
+   "inside": true,
+   "margin_mm": 75.6,
+   "nearest_edge": "left sole - seat",
+   "tip_deg": {
+    "forward": {
+     "deg": 32.4,
+     "edge": "right sole - left sole"
+    },
+    "back": {
+     "deg": 30.3,
+     "edge": "left sole - seat"
+    },
+    "left": {
+     "deg": 30.3,
+     "edge": "left sole - seat"
+    },
+    "right": {
+     "deg": 30.5,
+     "edge": "seat - right sole"
+    }
+   },
+   "push_tip_N": {
+    "0": 8.56,
+    "45": 12.0,
+    "90": 11.13,
+    "135": 7.91,
+    "180": 7.97,
+    "225": 7.98,
+    "270": 11.51,
+    "315": 12.22
+   },
+   "trunk_pitch_deg": 2.78,
+   "polygon_mm": [
+    [
+     -134.7,
+     -23.3
+    ],
+    [
+     -133.0,
+     -28.2
+    ],
+    [
+     -66.0,
+     -109.7
+    ],
+    [
+     19.0,
+     -109.7
+    ],
+    [
+     24.5,
+     -86.7
+    ],
+    [
+     23.5,
+     87.2
+    ],
+    [
+     19.8,
+     90.8
+    ],
+    [
+     -7.2,
+     100.1
+    ],
+    [
+     -65.8,
+     108.7
+    ],
+    [
+     -132.8,
+     29.7
+    ],
+    [
+     -134.5,
+     24.7
+    ]
+   ],
+   "pads": {
+    "CHG+": 5,
+    "SENSE": 6,
+    "SYS": 4,
+    "GND": 5
+   },
+   "fell": false,
+   "sim_push_N": {
+    "0": {
+     "N": 4.48,
+     "how": "tips"
+    },
+    "45": {
+     "N": 5.03,
+     "how": "tips"
+    },
+    "90": {
+     "N": 8.12,
+     "how": "tips"
+    },
+    "135": {
+     "N": 6.62,
+     "how": "tips"
+    },
+    "180": {
+     "N": 6.44,
+     "how": "tips"
+    },
+    "225": {
+     "N": 6.63,
+     "how": "tips"
+    },
+    "270": {
+     "N": 7.45,
+     "how": "tips"
+    },
+    "315": {
+     "N": 5.1,
+     "how": "tips"
+    }
+   }
+  },
+  "trunk mass -5 %": {
+   "contacts": [
+    "left sole",
+    "right sole",
+    "seat"
+   ],
+   "n_contacts": 120,
+   "com_mm": [
+    -57.7,
+    1.2,
+    130.4
+   ],
+   "com_h_mm": 130.4,
+   "head_h_mm": 269.3,
+   "weight_N": 27.01,
+   "inside": true,
+   "margin_mm": 76.0,
+   "nearest_edge": "left sole - seat",
+   "tip_deg": {
+    "forward": {
+     "deg": 31.7,
+     "edge": "right sole - left sole"
+    },
+    "back": {
+     "deg": 30.2,
+     "edge": "left sole - seat"
+    },
+    "left": {
+     "deg": 30.2,
+     "edge": "left sole - seat"
+    },
+    "right": {
+     "deg": 30.5,
+     "edge": "seat - right sole"
+    }
+   },
+   "push_tip_N": {
+    "0": 8.07,
+    "45": 11.53,
+    "90": 10.73,
+    "135": 7.65,
+    "180": 7.75,
+    "225": 7.73,
+    "270": 10.95,
+    "315": 11.29
+   },
+   "trunk_pitch_deg": 2.82,
+   "polygon_mm": [
+    [
+     -135.0,
+     24.4
+    ],
+    [
+     -134.9,
+     -24.9
+    ],
+    [
+     -132.9,
+     -28.5
+    ],
+    [
+     -65.3,
+     -109.3
+    ],
+    [
+     -7.5,
+     -100.1
+    ],
+    [
+     22.4,
+     -89.4
+    ],
+    [
+     23.0,
+     88.0
+    ],
+    [
+     19.3,
+     91.5
+    ],
+    [
+     -7.8,
+     100.8
+    ],
+    [
+     -66.4,
+     109.4
+    ],
+    [
+     -133.3,
+     29.3
+    ]
+   ],
+   "pads": {
+    "CHG+": 4,
+    "SENSE": 6,
+    "SYS": 3,
+    "GND": 5
+   },
+   "fell": false,
+   "sim_push_N": {
+    "0": {
+     "N": 4.28,
+     "how": "tips"
+    },
+    "45": {
+     "N": 4.84,
+     "how": "tips"
+    },
+    "90": {
+     "N": 7.89,
+     "how": "tips"
+    },
+    "135": {
+     "N": 6.42,
+     "how": "tips"
+    },
+    "180": {
+     "N": 6.33,
+     "how": "tips"
+    },
+    "225": {
+     "N": 6.47,
+     "how": "tips"
+    },
+    "270": {
+     "N": 6.39,
+     "how": "tips"
+    },
+    "315": {
+     "N": 4.88,
+     "how": "tips"
+    }
+   }
+  },
+  "friction mu 0.4": {
+   "contacts": [
+    "left sole",
+    "right sole",
+    "seat"
+   ],
+   "n_contacts": 120,
+   "com_mm": [
+    -59.3,
+    -0.1,
+    129.9
+   ],
+   "com_h_mm": 129.9,
+   "head_h_mm": 269.4,
+   "weight_N": 27.53,
+   "inside": true,
+   "margin_mm": 76.0,
+   "nearest_edge": "left sole - seat",
+   "tip_deg": {
+    "forward": {
+     "deg": 32.0,
+     "edge": "right sole - left sole"
+    },
+    "back": {
+     "deg": 30.3,
+     "edge": "left sole - seat"
+    },
+    "left": {
+     "deg": 30.3,
+     "edge": "left sole - seat"
+    },
+    "right": {
+     "deg": 30.4,
+     "edge": "seat - right sole"
+    }
+   },
+   "push_tip_N": {
+    "0": 8.3,
+    "45": 11.61,
+    "90": 10.87,
+    "135": 7.8,
+    "180": 7.81,
+    "225": 7.83,
+    "270": 11.27,
+    "315": 11.86
+   },
+   "trunk_pitch_deg": 2.84,
+   "polygon_mm": [
+    [
+     -136.1,
+     22.8
+    ],
+    [
+     -135.4,
+     -25.2
+    ],
+    [
+     -133.6,
+     -30.1
+    ],
+    [
+     -66.3,
+     -110.5
+    ],
+    [
+     18.7,
+     -109.2
+    ],
+    [
+     23.9,
+     -86.1
+    ],
+    [
+     19.8,
+     89.0
+    ],
+    [
+     16.0,
+     92.4
+    ],
+    [
+     -11.4,
+     100.8
+    ],
+    [
+     -70.3,
+     107.3
+    ],
+    [
+     -134.4,
+     27.8
+    ]
+   ],
+   "pads": {
+    "CHG+": 4,
+    "SENSE": 6,
+    "SYS": 4,
+    "GND": 6
+   },
+   "fell": false,
+   "sim_push_N": {
+    "0": {
+     "N": 4.45,
+     "how": "tips"
+    },
+    "45": {
+     "N": 5.01,
+     "how": "tips"
+    },
+    "90": {
+     "N": 6.32,
+     "how": "tips"
+    },
+    "135": {
+     "N": 6.05,
+     "how": "tips"
+    },
+    "180": {
+     "N": 6.34,
+     "how": "tips"
+    },
+    "225": {
+     "N": 5.8,
+     "how": "tips"
+    },
+    "270": {
+     "N": 6.61,
+     "how": "tips"
+    },
+    "315": {
+     "N": 4.92,
+     "how": "tips"
+    }
+   }
+  },
+  "off the dock (no pins)": {
+   "contacts": [
+    "left sole",
+    "right sole",
+    "seat"
+   ],
+   "n_contacts": 121,
+   "com_mm": [
+    -58.7,
+    1.5,
+    129.6
+   ],
+   "com_h_mm": 129.6,
+   "head_h_mm": 269.0,
+   "weight_N": 27.53,
+   "inside": true,
+   "margin_mm": 76.3,
+   "nearest_edge": "left sole - seat",
+   "tip_deg": {
+    "forward": {
+     "deg": 32.1,
+     "edge": "right sole - left sole"
+    },
+    "back": {
+     "deg": 30.5,
+     "edge": "left sole - seat"
+    },
+    "left": {
+     "deg": 30.5,
+     "edge": "left sole - seat"
+    },
+    "right": {
+     "deg": 30.6,
+     "edge": "seat - right sole"
+    }
+   },
+   "push_tip_N": {
+    "0": 8.33,
+    "45": 11.7,
+    "90": 10.95,
+    "135": 7.83,
+    "180": 7.91,
+    "225": 7.9,
+    "270": 11.31,
+    "315": 11.86
+   },
+   "trunk_pitch_deg": 2.61,
+   "polygon_mm": [
+    [
+     -136.1,
+     -22.2
+    ],
+    [
+     -134.4,
+     -27.1
+    ],
+    [
+     -67.8,
+     -109.1
+    ],
+    [
+     17.3,
+     -108.8
+    ],
+    [
+     22.7,
+     -85.8
+    ],
+    [
+     22.7,
+     87.6
+    ],
+    [
+     19.0,
+     91.2
+    ],
+    [
+     -8.0,
+     100.7
+    ],
+    [
+     -66.5,
+     109.7
+    ],
+    [
+     -134.0,
+     30.8
+    ],
+    [
+     -135.8,
+     25.8
+    ]
+   ],
+   "pads": {
+    "CHG+": 6,
+    "SENSE": 6,
+    "SYS": 4,
+    "GND": 6
+   },
+   "fell": false,
+   "sim_push_N": {
+    "0": {
+     "N": 4.95,
+     "how": "tips"
+    },
+    "45": {
+     "N": 5.59,
+     "how": "tips"
+    },
+    "90": {
+     "N": 9.63,
+     "how": "tips"
+    },
+    "135": {
+     "N": 7.25,
+     "how": "tips"
+    },
+    "180": {
+     "N": 6.95,
+     "how": "tips"
+    },
+    "225": {
+     "N": 7.39,
+     "how": "tips"
+    },
+    "270": {
+     "N": 9.95,
+     "how": "tips"
+    },
+    "315": {
+     "N": 5.63,
+     "how": "tips"
+    }
+   }
+  }
+ }
+}

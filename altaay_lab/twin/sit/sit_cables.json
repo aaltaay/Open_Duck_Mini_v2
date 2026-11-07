@@ -1,0 +1,54 @@
+{
+ "moved_points": {
+  "D3": 3,
+  "D3:main": 3,
+  "D4": 3,
+  "D4:main": 3,
+  "S5": 3,
+  "S5:main": 3,
+  "S10": 4,
+  "S10:main": 4,
+  "SP4": 4,
+  "SP4:main": 4,
+  "SP5": 5,
+  "SP5:main": 5
+ },
+ "ties": {
+  "T035": "moved -9 mm in y",
+  "T036": "moved -9 mm in y",
+  "T049": "moved -9 mm in y",
+  "T050": "moved -9 mm in y",
+  "T073": "moved -9 mm in y",
+  "T081": "moved -9 mm in y"
+ },
+ "mounts": {
+  "T030": "not flat (11.50 mm); ABM1M in place of MB3A; placed again on left_roll_to_pitch, 5.6 mm away",
+  "T032": "7 of 25 rays miss the part; placed again on knee_to_ankle_right_sheet, 7.7 mm away",
+  "T035": "1 of 25 rays miss the part; ABM1M in place of MB3A; placed again on shin_right_sheet, 16.5 mm away",
+  "T043": "flat (dev 0.12 mm)",
+  "T044": "not flat (9.70 mm); ABM1M in place of MB3A; placed again on right_roll_to_pitch, 5.7 mm away",
+  "T046": "4 of 25 rays miss the part at the old spot; no flat patch in reach on the new CAD: bundle tie at the test fit (D25)",
+  "T047": "25 of 25 rays miss the part at the old spot; no flat patch in reach on the new CAD: bundle tie at the test fit (D25)",
+  "T048": "not flat (8.95 mm) at the old spot; no flat patch in reach on the new CAD: bundle tie at the test fit (D25)",
+  "T049": "1 of 25 rays miss the part; placed again on shin_right_sheet, 8.6 mm away",
+  "T050": "flat (dev 0.00 mm)",
+  "T070": "flat (dev 0.11 mm)",
+  "T071": "3 of 25 rays miss the part at the old spot; no flat patch in reach on the new CAD: bundle tie at the test fit (D25)"
+ },
+ "loops": {
+  "P13 main neck_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 27 mm, bend R 61.4, storage R 10.7, needs 10.8 mm",
+  "P13 main head_pitch+head_yaw": "grown, meets 3 x OD: free 41 mm, bend R 11.6, storage R 17.8, needs 10.8 mm",
+  "D1 main neck_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 26 mm, bend R 58.9, storage R 10.2, needs 10.5 mm",
+  "D1 main head_pitch+head_yaw": "grown, meets 3 x OD: free 40 mm, bend R 11.3, storage R 17.3, needs 10.5 mm",
+  "D2 main neck_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 26 mm, bend R 58.9, storage R 10.1, needs 10.4 mm",
+  "D3 main neck_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 26 mm, bend R 59.1, storage R 9.9, needs 10.4 mm",
+  "D3 main left_hip_pitch": "meets 3 x OD: free 30 mm, bend R 22.7, storage R 10.6, needs 10.4 mm",
+  "D3 main left_knee": "grown, meets 3 x OD: free 29 mm, bend R 11.0, storage R 12.7, needs 10.4 mm",
+  "D4 main right_hip_pitch": "grown, meets 3 x OD: free 36 mm, bend R 27.3, storage R 11.0, needs 10.4 mm",
+  "S9 main right_hip_pitch": "grown, meets 3 x OD: free 20 mm, bend R 15.3, storage R 8.5, needs 7.8 mm",
+  "S10 main right_knee": "grown, meets 3 x OD: free 22 mm, bend R 8.5, storage R 11.0, needs 7.8 mm",
+  "S11 main neck_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 19 mm, bend R 42.6, storage R 6.8, needs 7.8 mm",
+  "SP4 main left_hip_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 30 mm, bend R 22.6, storage R 5.8, needs 10.2 mm",
+  "SP5 main right_hip_yaw+right_hip_roll": "grown, meets 3 x OD: free 33 mm, bend R 34.1, storage R 10.8, needs 10.2 mm"
+ }
+}

@@ -162,6 +162,14 @@ def read_block(io, sid, addr, length):
     return data
 
 
+def write_block(io, sid, addr, data):
+    """One WRITE (instruction 0x03) of the bytes `data` at `addr`, via pypot's packet and send path (the way its
+    setters write: _send_packet(..., wait_for_status_packet=False), abstract_io.py line 471). Read the registers back
+    to check: a write is not confirmed by itself."""
+    wp = io._protocol.DxlWriteDataPacket(sid, addr, list(bytes(data)))
+    io._send_packet(wp, wait_for_status_packet=False)
+
+
 def read_reg(io, sid, name):
     addr, size = sts3215.REG[name]
     return sts3215.le(read_block(io, sid, addr, size), 0, size)

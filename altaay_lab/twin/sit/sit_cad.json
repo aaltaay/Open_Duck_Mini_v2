@@ -1,0 +1,1124 @@
+{
+ "generated_by": "altaay_lab/twin/sit/sit_cad.py --write",
+ "base_rev": "d6179ae",
+ "units": "mm",
+ "clearance_mm": 0.8,
+ "frame": "part frames as print/ (the URDF mesh frame x1000); placements of the local-frame parts in the URDF link frames",
+ "stops": {
+  "knee_fold": {
+   "joint": "left_knee",
+   "stop": 150.0,
+   "side": "hi",
+   "kind": "TPU knee bumper on the shin spacer, onto the thigh"
+  },
+  "ankle_sit": {
+   "joint": "left_ankle",
+   "stop": -95.0,
+   "side": "lo",
+   "kind": "TPU pad on foot_top under the shin end"
+  },
+  "hip_roll_out": {
+   "joint": "left_hip_roll",
+   "stop": -8.0,
+   "side": "lo",
+   "kind": "TPU face in a pocket of the printed lug on roll_to_pitch, onto roll_motor_bottom"
+  },
+  "hip_pitch_back": {
+   "joint": "left_hip_pitch",
+   "stop": -75.0,
+   "side": "lo",
+   "kind": "TPU face on the thigh cover top onto roll_to_pitch"
+  },
+  "neck_back": {
+   "joint": "neck_pitch",
+   "stop": 25.0,
+   "side": "hi",
+   "kind": "TPU faces on the printed neck stop block (trunk_top, F127 and F129) that the stock neck sheets' back edges meet"
+  },
+  "head_fwd": {
+   "joint": "head_pitch",
+   "stop": -25.0,
+   "side": "lo",
+   "kind": "TPU face on the printed hook of head_pitch_to_yaw (left arm) that the left neck sheet's front edge meets"
+  }
+ },
+ "parts": {
+  "shin_left_sheet": {
+   "volume_mm3": 13895.2,
+   "faces": 6562,
+   "print_file": "print/shin_left_sheet.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/shin_left_sheet.stl",
+   "bytes": 328184
+  },
+  "shin_right_sheet": {
+   "volume_mm3": 12174.3,
+   "faces": 6716,
+   "print_file": "print/shin_right_sheet.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/shin_right_sheet.stl",
+   "bytes": 335884
+  },
+  "shin_spacer": {
+   "volume_mm3": 11431.5,
+   "faces": 1036,
+   "print_file": "print/shin_spacer.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/shin_spacer.stl",
+   "bytes": 51884
+  },
+  "knee_to_ankle_left_sheet": {
+   "volume_mm3": 7840.0,
+   "faces": 7174,
+   "print_file": "print/knee_to_ankle_left_sheet.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/left_knee_to_ankle_left_sheet.stl",
+   "bytes": 358784
+  },
+  "knee_to_ankle_right_sheet": {
+   "volume_mm3": 6120.8,
+   "faces": 5324,
+   "print_file": "print/knee_to_ankle_right_sheet.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/left_knee_to_ankle_right_sheet.stl",
+   "bytes": 266284
+  },
+  "foot_top": {
+   "volume_mm3": 37847.7,
+   "faces": 5816,
+   "print_file": "print/foot_top.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/foot_top.stl",
+   "bytes": 290884
+  },
+  "foot_side": {
+   "volume_mm3": 20049.4,
+   "faces": 5150,
+   "print_file": "print/foot_side.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/foot_side.stl",
+   "bytes": 257584
+  },
+  "left_cache": {
+   "volume_mm3": 51925.3,
+   "faces": 36514,
+   "print_file": "print/left_cache.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/left_cache.stl",
+   "bytes": 1825784
+  },
+  "right_cache": {
+   "volume_mm3": 51925.3,
+   "faces": 36514,
+   "print_file": "print/right_cache.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/right_cache.stl",
+   "bytes": 1825784
+  },
+  "left_roll_to_pitch": {
+   "volume_mm3": 30867.1,
+   "faces": 15030,
+   "print_file": "print/left_roll_to_pitch.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/left_roll_to_pitch.stl",
+   "bytes": 751584
+  },
+  "right_roll_to_pitch": {
+   "volume_mm3": 30867.1,
+   "faces": 15030,
+   "print_file": "print/right_roll_to_pitch.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/right_roll_to_pitch.stl",
+   "bytes": 751584
+  },
+  "head_pitch_to_yaw": {
+   "volume_mm3": 17846.1,
+   "faces": 15228,
+   "print_file": "print/head_pitch_to_yaw.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/head_pitch_to_yaw.stl",
+   "bytes": 761484
+  },
+  "neck_stop": {
+   "volume_mm3": 14570.1,
+   "faces": 1544,
+   "print_file": "print/neck_stop.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/neck_stop.stl",
+   "bytes": 77284
+  },
+  "neck_pad": {
+   "volume_mm3": 180.0,
+   "faces": 12,
+   "print_file": "print/neck_pad.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/neck_pad.stl",
+   "bytes": 684
+  },
+  "head_pad": {
+   "volume_mm3": 732.0,
+   "faces": 12,
+   "print_file": "print/head_pad.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/head_pad.stl",
+   "bytes": 684
+  },
+  "knee_bumper": {
+   "volume_mm3": 1176.0,
+   "faces": 12,
+   "print_file": "print/knee_bumper.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/knee_bumper.stl",
+   "bytes": 684
+  },
+  "ankle_pad": {
+   "volume_mm3": 135.0,
+   "faces": 12,
+   "print_file": "print/ankle_pad.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/ankle_pad.stl",
+   "bytes": 684
+  },
+  "hip_pad": {
+   "volume_mm3": 198.0,
+   "faces": 12,
+   "print_file": "print/hip_pad.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/hip_pad.stl",
+   "bytes": 684
+  },
+  "roll_pad_left": {
+   "volume_mm3": 89.7,
+   "faces": 1870,
+   "print_file": "print/roll_pad_left.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/roll_pad_left.stl",
+   "bytes": 93584
+  },
+  "roll_pad_right": {
+   "volume_mm3": 89.7,
+   "faces": 1870,
+   "print_file": "print/roll_pad_right.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/roll_pad_right.stl",
+   "bytes": 93584
+  },
+  "sit_seat": {
+   "volume_mm3": 88291.6,
+   "faces": 928,
+   "print_file": "print/sit_seat.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/sit_seat.stl",
+   "bytes": 46484
+  },
+  "sit_bumper": {
+   "volume_mm3": 40885.2,
+   "faces": 824,
+   "print_file": "print/sit_bumper.stl",
+   "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/sit_bumper.stl",
+   "bytes": 41284
+  }
+ },
+ "placements": {
+  "neck_stop": [
+   {
+    "link": "trunk_assembly",
+    "T_link_mm": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      -27.301
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      85.8
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "neck_pad": [
+   {
+    "link": "trunk_assembly",
+    "T_link_mm": [
+     [
+      -0.541126,
+      0.0,
+      -0.840941,
+      -23.488387
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      19.174674
+     ],
+     [
+      0.840941,
+      0.0,
+      -0.541126,
+      104.88986
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   },
+   {
+    "link": "trunk_assembly",
+    "T_link_mm": [
+     [
+      -0.541126,
+      0.0,
+      -0.840941,
+      -23.488387
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      -19.174674
+     ],
+     [
+      0.840941,
+      0.0,
+      -0.541126,
+      104.88986
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "head_pad": [
+   {
+    "link": "head_pitch_to_yaw",
+    "T_link_mm": [
+     [
+      0.906308,
+      -0.0,
+      -0.422618,
+      29.01828
+     ],
+     [
+      0.422618,
+      0.0,
+      0.906308,
+      -14.054037
+     ],
+     [
+      -0.0,
+      -1.0,
+      0.0,
+      -0.099707
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "knee_bumper": [
+   {
+    "link": "knee_and_ankle_assembly_2",
+    "T_link_mm": [
+     [
+      0.5,
+      -0.0,
+      0.866025,
+      0.070413
+     ],
+     [
+      -0.866025,
+      0.0,
+      0.5,
+      -27.841964
+     ],
+     [
+      -0.0,
+      -1.0,
+      -0.0,
+      19.2
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   },
+   {
+    "link": "knee_and_ankle_assembly_4",
+    "T_link_mm": [
+     [
+      0.5,
+      -0.0,
+      0.866025,
+      0.070413
+     ],
+     [
+      -0.866025,
+      -0.0,
+      0.5,
+      -27.841964
+     ],
+     [
+      -0.0,
+      -1.0,
+      -0.0,
+      19.2
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "ankle_pad": [
+   {
+    "link": "foot_assembly",
+    "T_link_mm": [
+     [
+      -0.996195,
+      -0.0,
+      0.087156,
+      -32.874303
+     ],
+     [
+      -0.087156,
+      0.0,
+      -0.996195,
+      -19.790493
+     ],
+     [
+      0.0,
+      -1.0,
+      0.0,
+      -0.3
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   },
+   {
+    "link": "foot_assembly",
+    "T_link_mm": [
+     [
+      -0.996195,
+      -0.0,
+      0.087156,
+      -32.874303
+     ],
+     [
+      -0.087156,
+      0.0,
+      -0.996195,
+      -19.790493
+     ],
+     [
+      0.0,
+      -1.0,
+      0.0,
+      37.8
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   },
+   {
+    "link": "foot_assembly_2",
+    "T_link_mm": [
+     [
+      -0.996195,
+      -0.0,
+      0.087156,
+      -32.874303
+     ],
+     [
+      -0.087156,
+      -0.0,
+      -0.996195,
+      -19.790493
+     ],
+     [
+      0.0,
+      -1.0,
+      0.0,
+      -0.3
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   },
+   {
+    "link": "foot_assembly_2",
+    "T_link_mm": [
+     [
+      -0.996195,
+      -0.0,
+      0.087156,
+      -32.874303
+     ],
+     [
+      -0.087156,
+      -0.0,
+      -0.996195,
+      -19.790493
+     ],
+     [
+      0.0,
+      -1.0,
+      0.0,
+      37.8
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "hip_pad": [
+   {
+    "link": "left_roll_to_pitch_assembly",
+    "T_link_mm": [
+     [
+      0.0,
+      1.0,
+      -0.0,
+      61.5
+     ],
+     [
+      0.0,
+      -0.0,
+      -1.0,
+      -17.224061
+     ],
+     [
+      -1.0,
+      0.0,
+      -0.0,
+      -1.85
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   },
+   {
+    "link": "right_roll_to_pitch_assembly",
+    "T_link_mm": [
+     [
+      0.0,
+      1.0,
+      0.0,
+      -61.5
+     ],
+     [
+      -0.0,
+      0.0,
+      -1.0,
+      -17.224061
+     ],
+     [
+      -1.0,
+      0.0,
+      0.0,
+      -1.85
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "roll_pad_left": [
+   {
+    "link": "left_roll_to_pitch_assembly",
+    "T_link_mm": [
+     [
+      0.0,
+      -0.940499,
+      0.339796,
+      16.401587
+     ],
+     [
+      -0.0,
+      0.339796,
+      0.940499,
+      -6.006825
+     ],
+     [
+      -1.0,
+      -0.0,
+      -0.0,
+      10.477894
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "roll_pad_right": [
+   {
+    "link": "right_roll_to_pitch_assembly",
+    "T_link_mm": [
+     [
+      0.0,
+      -0.940499,
+      -0.339796,
+      -16.401587
+     ],
+     [
+      -0.0,
+      -0.339796,
+      0.940499,
+      -6.006825
+     ],
+     [
+      -1.0,
+      -0.0,
+      -0.0,
+      10.477894
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "sit_seat": [
+   {
+    "link": "trunk_assembly",
+    "T_link_mm": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      -110.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      -18.209061
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "sit_bumper": [
+   {
+    "link": "trunk_assembly",
+    "T_link_mm": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      20.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      -36.209061
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ]
+ },
+ "build": {
+  "shin_left_sheet": {
+   "spacer_holes": [
+    {
+     "x": -44.0,
+     "z": -104.0,
+     "y_outer_face": 121.95,
+     "recess_floor": 119.95
+    },
+    {
+     "x": -39.5,
+     "z": -112.9,
+     "y_outer_face": 121.95,
+     "recess_floor": 119.95
+    }
+   ],
+   "counterbores": [
+    {
+     "x": -24.8,
+     "z": -128.4,
+     "recess_d": 5.0,
+     "from_y": 112.95,
+     "depth_added": 9.0
+    },
+    {
+     "x": -45.3,
+     "z": -128.4,
+     "recess_d": 5.0,
+     "from_y": 112.95,
+     "depth_added": 9.0
+    }
+   ],
+   "plate_faces_y": [
+    118.05,
+    121.95
+   ],
+   "thigh_spacer_relief_mm3": 29.8
+  },
+  "shin_right_sheet": {
+   "spacer_holes": [
+    {
+     "x": -44.0,
+     "z": -104.0,
+     "y_outer_face": 59.1,
+     "recess_floor": 61.1
+    },
+    {
+     "x": -39.5,
+     "z": -112.9,
+     "y_outer_face": 59.1,
+     "recess_floor": 61.1
+    }
+   ],
+   "counterbores": [
+    {
+     "x": -24.8,
+     "z": -124.6,
+     "recess_d": 5.0,
+     "from_y": 68.1,
+     "depth_added": 9.0
+    },
+    {
+     "x": -45.3,
+     "z": -124.6,
+     "recess_d": 5.0,
+     "from_y": 68.1,
+     "depth_added": 9.0
+    }
+   ],
+   "plate_faces_y": [
+    59.1,
+    62.95
+   ],
+   "thigh_spacer_relief_mm3": 22.8
+  },
+  "shin_spacer": {
+   "case_face_normal_xz": [
+    -0.866,
+    -0.5
+   ],
+   "case_face_offset_at_150": 82.085,
+   "spacer_face_offset": 86.185,
+   "section_xz": [
+    [
+     -48.0,
+     -97.5
+    ],
+    [
+     -43.23,
+     -97.5
+    ],
+    [
+     -32.26,
+     -116.5
+    ],
+    [
+     -50.0,
+     -116.5
+    ]
+   ],
+   "y": [
+    63.05,
+    117.85
+   ],
+   "length": 54.8,
+   "inserts": [
+    {
+     "x": -44.0,
+     "z": -104.0,
+     "bore": 4.0,
+     "depth": 5.8
+    },
+    {
+     "x": -39.5,
+     "z": -112.9,
+     "bore": 4.0,
+     "depth": 5.8
+    }
+   ]
+  },
+  "knee_to_ankle_left_sheet": {
+   "trim_mm3": 420.5,
+   "knee_range": [
+    100,
+    150.5
+   ]
+  },
+  "knee_to_ankle_right_sheet": {
+   "trim_mm3": 421.0,
+   "knee_range": [
+    100,
+    150.5
+   ]
+  },
+  "foot_top": {
+   "notch_mm3": 1274.1,
+   "case_relief_mm3": 374.2,
+   "case_band": [
+    -97.5,
+    -94.0
+   ],
+   "ankle_range": [
+    -95.5,
+    -40.0
+   ],
+   "heel_screw": {
+    "moved_x_mm": 20.0,
+    "from_xz": [
+     -62.25,
+     -176.7
+    ],
+    "stack": [
+     {
+      "d": 4.0,
+      "y": [
+       79.05,
+       84.85
+      ]
+     },
+     {
+      "d": 2.0,
+      "y": [
+       84.85,
+       100.05
+      ]
+     }
+    ]
+   },
+   "pad": {
+    "centre": [
+     -67.93,
+     109.25,
+     -177.16
+    ],
+    "normal_out": [
+     0.087,
+     -0.0,
+     -0.996
+    ],
+    "dims": [
+     6.0,
+     7.5,
+     3.0
+    ]
+   }
+  },
+  "foot_side": {
+   "notch_mm3": 1192.9,
+   "case_relief_mm3": 48.6,
+   "case_band": [
+    -97.5,
+    -94.0
+   ],
+   "ankle_range": [
+    -95.5,
+    -40.0
+   ],
+   "heel_screw": {
+    "moved_x_mm": 20.0,
+    "from_xz": [
+     -62.25,
+     -176.7
+    ],
+    "stack": [
+     {
+      "d": 6.5,
+      "y": [
+       67.05,
+       73.05
+      ]
+     },
+     {
+      "d": 3.5,
+      "y": [
+       73.05,
+       79.05
+      ]
+     }
+    ]
+   },
+   "pad": {
+    "centre": [
+     -67.93,
+     71.15,
+     -177.16
+    ],
+    "normal_out": [
+     0.087,
+     -0.0,
+     -0.996
+    ],
+    "dims": [
+     6.0,
+     7.5,
+     3.0
+    ]
+   }
+  },
+  "left_roll_to_pitch": {
+   "lug_mm3": 1230.0,
+   "pad_face_centre": [
+    -10.43,
+    51.4,
+    5.93
+   ],
+   "pad_normal": [
+    -0.0,
+    -0.3398,
+    0.9405
+   ],
+   "pad_r_mm": 17.47,
+   "pad_box": [
+    12.0,
+    9.0,
+    3.0
+   ],
+   "pad_mm3": 89.6,
+   "pad_bbox": [
+    -16.0,
+    50.9,
+    2.0,
+    -4.6,
+    53.1,
+    9.0
+   ],
+   "skin_deg": 9.84,
+   "stack_deg": 13.45,
+   "bearing_mm2": 32.1,
+   "touch_mm3": 5.1,
+   "case_motion": [
+    0.0,
+    0.34,
+    -0.94
+   ],
+   "kind": "conformal: the case corner's path from the stop 3.0 mm deeper, in a 12 x 9 box"
+  },
+  "cache": {
+   "cut_by_leg": {
+    "L": {
+     "by_shin_mm3": 10716.3,
+     "by_foot_mm3": 1380.5,
+     "by_hip_pad_mm3": 229.9
+    },
+    "R": {
+     "by_shin_mm3": 275.5,
+     "by_foot_mm3": 82.4,
+     "by_hip_pad_mm3": 0.5
+    }
+   },
+   "removed_mm3": 12685.1,
+   "base_mm3": 64609.0
+  },
+  "neck_stop": {
+   "volume_mm3": 14570.1,
+   "slivers_dropped_mm3": [],
+   "pad_face_centre": [
+    -22.23,
+    19.17,
+    105.7
+   ],
+   "pad_normal": [
+    0.8409,
+    0.0,
+    0.5411
+   ],
+   "edge_dir": [
+    -0.5411,
+    0.0,
+    0.8409
+   ],
+   "pad_r_mm": 28.04,
+   "sheet_back_edge_y": [
+    16.1,
+    22.25
+   ],
+   "edge_fit_resid_mm": 0.062,
+   "foot": {
+    "x_back": -42.0,
+    "half_y": 22.0,
+    "t": 4.0
+   },
+   "screws": {
+    "ids": [
+     "F127",
+     "F129"
+    ],
+    "seat_z_new": 89.8,
+    "seat_z_stock": 83.791,
+    "length_new": 12,
+    "length_stock": 6,
+    "flange_mm": 4.0,
+    "counterbore_d": 4.6,
+    "shank_d": 2.5,
+    "seats": {
+     "y-24.7": {
+      "seat_fraction": 0.992,
+      "wall_fraction": 0.811
+     },
+     "y+24.8": {
+      "seat_fraction": 0.992,
+      "wall_fraction": 0.811
+     }
+    }
+   },
+   "bbox": [
+    -56.0,
+    -29.0,
+    85.0,
+    -18.0,
+    29.0,
+    116.0
+   ],
+   "secs": 41.7
+  },
+  "head_pitch_to_yaw": {
+   "hook_mm3": 4296.9,
+   "pad_dims": [
+    10.0,
+    6.1,
+    12.0
+   ],
+   "pad_face_centre": [
+    25.49,
+    19.25,
+    139.83
+   ],
+   "pad_normal": [
+    -0.9063,
+    -0.0,
+    -0.4226
+   ],
+   "pad_r_mm": 29.34,
+   "sheet_front_x": 16.36,
+   "sheet_front_edge_y": [
+    16.1,
+    22.4
+   ],
+   "root_area_mm2": 307.6,
+   "root_centre": [
+    1.0,
+    23.36,
+    160.39
+   ],
+   "bbox": [
+    -12.0,
+    16.0,
+    128.0,
+    38.0,
+    27.2,
+    174.9
+   ],
+   "secs": 95.6
+  },
+  "sit_seat": {
+   "volume_mm3": 88291.6,
+   "bbox": [
+    -126.0,
+    -40.0,
+    -66.0,
+    -94.0,
+    40.0,
+    -18.2
+   ],
+   "lowest_z": -66.0,
+   "height_mm": 44.8,
+   "width_y": 80.0
+  },
+  "sit_bumper": {
+   "volume_mm3": 40885.2,
+   "bbox": [
+    8.0,
+    -30.0,
+    -69.0,
+    32.0,
+    30.0,
+    -36.2
+   ],
+   "lowest_z": -69.0,
+   "height_mm": 32.8,
+   "width_y": 60.0
+  },
+  "holes_kept": {
+   "knee_to_ankle_left_sheet": "the same 17 hole features as the base STL",
+   "knee_to_ankle_right_sheet": "the same 17 hole features as the base STL",
+   "foot_top": "the same 13 hole features as the base STL, the heel screw stack (2) moved 20 mm in x",
+   "foot_side": "the same 13 hole features as the base STL, the heel screw stack (2) moved 20 mm in x",
+   "left_cache": "the same 4 hole features as the base STL",
+   "right_cache": "the same 4 hole features as the base STL",
+   "left_roll_to_pitch": "the same 27 hole features as the base STL",
+   "right_roll_to_pitch": "the same 27 hole features as the base STL",
+   "head_pitch_to_yaw": "the same 36 hole features as the base STL"
+  },
+  "stock_again": {
+   "neck_left_sheet": "stock again (print/neck_left_sheet.stl and its URDF copy are the d6179ae files, byte for byte)",
+   "neck_right_sheet": "stock again (print/neck_right_sheet.stl and its URDF copy are the d6179ae files, byte for byte)"
+  }
+ }
+}
