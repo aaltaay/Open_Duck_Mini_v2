@@ -1,0 +1,4 @@
+{"name": "hand_I_squat_situp", "tuck": {"x": [10,135,-92,-19,-22,0.8, 10,135,-92,-19,-22,0.3, -55,135,-92,-19,-22,1.0, -55,135,-92,-19,-22,0.3, 0.6], "nk": 4,
+ "names": ["h1","k1","a1","n1","hp1","T1","h2","k2","a2","n2","hp2","T2","h3","k3","a3","n3","hp3","T3","h4","k4","a4","n4","hp4","T4","Tin"]},
+ "roll_side": null, "roll_back": null,
+ "note": "squat on the feet (hip +10, knee 135, ankle at its -92 limit: the foot flat), sit-up to hip -55 with the knee and ankle held (the trunk rises on the fixed leg block), then the sit entry (-60, 147, -92) over 0.6 s and hold 0.8 s; neck -19 head -22 throughout (the rise's NH)"}

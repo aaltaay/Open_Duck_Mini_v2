@@ -59,8 +59,8 @@ STOP_STACK = {
     "ankle_sit": dict(joints=("left_ankle", "right_ankle"), r_mm=34.5, pads=[(6.0, 7.5, 3.0, 2)]),
     "hip_roll_out": dict(joints=("left_hip_roll", "right_hip_roll"), r_mm=17.5, lug=dict(area_mm2=96.0, h_mm=6.0)),
     "hip_pitch_back": dict(joints=("left_hip_pitch", "right_hip_pitch"), r_mm=40.8, pads=[(22.0, 6.0, 1.5, 1)]),
-    "neck_back": dict(joints=("neck_pitch",), r_mm=40.5, pads=[(10.0, 6.0, 3.0, 2)]),      # one face per sheet, in a pocket of the block
-    "head_fwd": dict(joints=("head_pitch",), r_mm=29.8, pads=[(12.0, 7.0, 6.0, 1)]),       # one 6 mm face on the hook (half the stiffness of 3 mm)
+    "neck_back": dict(joints=("neck_pitch",), r_mm=41.1, pads=[(10.0, 6.0, 3.0, 2)]),      # one face per sheet, in a pocket of the block (sit_cad.json pad_r_mm)
+    "head_fwd": dict(joints=("head_pitch",), r_mm=29.3, pads=[(12.0, 6.1, 6.0, 1)]),       # one 6 mm face on the hook, half the stiffness of 3 mm (sit_cad.json pad_r_mm, pad_dims)
 }
 
 

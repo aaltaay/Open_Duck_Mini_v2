@@ -192,6 +192,7 @@ TPU_BEARING = 10.0               # MPa, TPU 95A compressive working value (est),
 SCREW_PULLOUT_N = 500.0          # est: an M2 thread-forming screw 3.2 mm into the STS3215 case (PA+GF), tau 50 MPa x pi d e x 0.5
                                  # thread form; no pull-out datasheet or test: BLOCKER (TEST_PLAN 19.8) until measured
 VHB_SHEAR = 0.6                  # MPa, VHB 4950 static shear working value (est; the pads sit in pockets, so the pocket wall takes the slide)
+INTER_SHEAR = Z_INTER / np.sqrt(3.0)   # MPa, shear across the layers taken as the interlayer tensile value over root 3 (est)
 
 
 def _edge_motion(ax_p, ax_d, point):
@@ -265,8 +266,9 @@ def neck_rows(rows, G, Tn, case, need, label="calc"):
 
 
 def head_geometry(S, cad):
-    """the head hook as built: the pad, the hook's root on the stock yoke (area, W, arm to the force line), the stock
-    arm's section through the horn screw hole just under the root (in-plane of the arm plate, cut across the layers)"""
+    """the head hook as built: the pad; the hook's root on the stock yoke (the doubler glued to the left arm's outer face:
+    its face area and polar modulus, for the in-plane moment the face carries in shear); the composite section (arm plus
+    doubler) cut level with the root centroid, which carries that moment across the layers; the foot plate's section"""
     hh = cad["build"]["head_pitch_to_yaw"]
     ax_p, ax_d = S.joint_world("head_pitch")
     c, n = np.array(hh["pad_face_centre"]), np.array(hh["pad_normal"])
@@ -274,7 +276,8 @@ def head_geometry(S, cad):
     slide = float(np.sqrt(max(0.0, 1.0 - float(v @ n) ** 2)))
     i = L.inst(S, "head_pitch_to_yaw", "head_pitch_to_yaw")
     Tw = L.inst_world(S, i)
-    new = L.to_man(S.world_mesh(i))
+    new_m = S.world_mesh(i)
+    new = L.to_man(new_m)
     old_m = L.base_mesh("print/head_pitch_to_yaw.stl")
     old_m.apply_transform(Tw)
     old = L.to_man(old_m)
@@ -283,30 +286,44 @@ def head_geometry(S, cad):
     if hook.volume() < 1.0 or root.volume() < 0.5:
         raise SystemExit("head hook: no hook on head_pitch_to_yaw (%.1f mm3, root %.1f)" % (hook.volume(), root.volume()))
     A = root.volume() / 0.5
-    rc = L.from_man(root).center_mass
-    arm = float(np.linalg.norm(np.cross(rc - c, n)))                   # the force line through the pad centre along n
-    # the stock arm just under the root: the section through the (1, 163) horn screw hole, left arm (y > 12)
-    sec = old_m.section(plane_origin=[0, 0, 163.0], plane_normal=[0, 0, 1])
+    rm = L.from_man(root)
+    rc = rm.center_mass
+    # the root face lies in the x z plane (the arm's outer face): its polar modulus about the centroid for a moment about y
+    P = np.asarray(rm.vertices)[:, [0, 2]]
+    Jp = float(((P - P.mean(0)) ** 2).sum(1).mean()) * A
+    r_max = float(np.sqrt(((P - P.mean(0)) ** 2).sum(1)).max())
+    fdir = -n                                                           # the force on the hook, from the sheet
+    arm = float(np.linalg.norm(np.cross(rc - c, fdir)))                # lever of the force line about the root centroid
+    # the composite section (arm plus doubler) level with the root centroid, left arm (y > 12): bending about y
+    from shapely.geometry import Polygon
+    sec = new_m.section(plane_origin=[0, 0, float(rc[2])], plane_normal=[0, 0, 1])
     loops = [np.asarray(l)[:, :2] for l in sec.discrete if np.asarray(l)[:, 1].min() > 12.0]
     if not loops:
-        raise SystemExit("head hook: no left arm section at z 163")
-    # the loops of one section (strips either side of the hole): combined I about the common centroid
-    pts = np.vstack(loops)
-    from shapely.geometry import Polygon
-    from shapely.ops import unary_union
-    P = unary_union([Polygon(l) for l in loops])
-    cx = P.centroid.x
-    Ia, Aa, cmax = 0.0, 0.0, 0.0
-    for l in loops:
-        Ai, Ii, ci = section_props(l, (0.0, 1.0))
-        xi = Polygon(l).centroid.x
-        Ia += Ii + Ai * (xi - cx) ** 2
-        Aa += Ai
-        cmax = max(cmax, abs(l[:, 0].max() - cx), abs(l[:, 0].min() - cx))
+        raise SystemExit("head hook: no left arm section at z %.1f" % rc[2])
+    polys = [Polygon(l) for l in loops]
+    outer = max(polys, key=lambda q: q.area)
+    holes = [q for q in polys if q is not outer and outer.contains(q)]
+    Aa = outer.area - sum(q.area for q in holes)
+    cx = (outer.centroid.x * outer.area - sum(q.centroid.x * q.area for q in holes)) / Aa
+    def Ix(q):
+        Ai, Ii, ci = section_props(np.asarray(q.exterior.coords), (0.0, 1.0))
+        return Ii + Ai * (q.centroid.x - cx) ** 2
+    Ia = Ix(outer) - sum(Ix(q) for q in holes)
+    cmax = max(abs(outer.bounds[2] - cx), abs(outer.bounds[0] - cx))
+    comp = dict(A=Aa, W=Ia / cmax, z=float(rc[2]), lever=float(np.linalg.norm(np.cross(np.array([cx, rc[1], rc[2]]) - c, fdir))))
+    # the foot plate: a vertical cut at x 13 (between the drop and the foot), y > 12
+    sec = new_m.section(plane_origin=[13.0, 0, 0], plane_normal=[1, 0, 0])
+    loops = [np.asarray(l) for l in sec.discrete if np.asarray(l)[:, 1].min() > 12.0 and np.asarray(l)[:, 2].max() < 150.0]
+    if not loops:
+        raise SystemExit("head hook: no foot section at x 13")
+    fp = max(loops, key=lambda l: Polygon(l[:, [1, 2]]).area)
+    Af, If, cf = section_props(fp[:, [1, 2]], (1.0, 0.0))                # bending about y: the extreme fibre along z
+    fc = np.array([13.0, Polygon(fp[:, [1, 2]]).centroid.x, Polygon(fp[:, [1, 2]]).centroid.y])
+    foot = dict(A=Af, W=If / cf, lever=float(np.linalg.norm(np.cross(fc - c, fdir))))
     pad = L.STOP_STACK["head_fwd"]["pads"][0]
     return dict(centre=c, normal=n, r=float(hh["pad_r_mm"]), slide=slide, pad_area=pad[0] * pad[1], pad_len=pad[0], pad_w=pad[1],
-                edge_w=hh["sheet_front_edge_y"][1] - hh["sheet_front_edge_y"][0], root=dict(A=A, W=A ** 1.5 / 6.0, arm=arm, centre=rc),
-                arm_section=dict(A=Aa, W=Ia / cmax, z=163.0, lever=abs(rc[2] - ax_p[2])), pocket=SC.POCKET, hook_mm3=hh["hook_mm3"], axis=(ax_p, ax_d))
+                edge_w=hh["sheet_front_edge_y"][1] - hh["sheet_front_edge_y"][0], root=dict(A=A, Jp=Jp, r_max=r_max, arm=arm, centre=rc),
+                composite=comp, foot=foot, pocket=SC.POCKET, hook_mm3=hh["hook_mm3"], axis=(ax_p, ax_d))
 
 
 def head_rows(rows, G, Tn, case, need, label="calc"):
@@ -322,57 +339,16 @@ def head_rows(rows, G, Tn, case, need, label="calc"):
         "the stock left sheet's %.1f mm front edge over the %.0f mm pad, the load in the sheet's plane" % (G["edge_w"], G["pad_len"]))
     add("head pad pocket wall (the slide, across the layers)", F * G["slide"] / (G["pad_w"] * G["pocket"]), Z_INTER,
         "%.2f of F along the face = %.1f N on the %.1f x %.1f mm pocket wall" % (G["slide"], F * G["slide"], G["pad_w"], G["pocket"]))
-    rt = G["root"]
-    add("head hook root on the yoke (across the layers, conservative)", F / rt["A"] + F * rt["arm"] / rt["W"], Z_INTER,
-        "root %.0f mm2, W %.0f mm3, arm %.1f mm from the root centroid to the force line" % (rt["A"], rt["W"], rt["arm"]))
-    a = G["arm_section"]
-    M = F * a["lever"]
-    add("yoke left arm at the z 163 horn screw hole (stock part, across the layers)", M / a["W"] + F / a["A"], Z_INTER,
-        "the pad reaction F at the horn axis, %.1f mm under the root: M %.0f N mm on W %.0f mm3, net %.0f mm2" % (a["lever"], M, a["W"], a["A"]))
-
-
-
-def lug_geometry(S):
-    """lug = the printed part now minus the part at BASE_REV; contact = its overlap with the counterpart 0.5 deg past
-    the stop (centroid); force direction = the counterpart's motion there; root = the lug within 0.5 mm of the old part
-    (area = that volume / 0.5); W of a square root of that area; arm = the root centroid to the force line"""
-    out = {}
-    for key, (hl, stl, cl, jn, stop) in LUGS.items():
-        i = L.inst(S, hl, stl)
-        Tw = L.inst_world(S, i)
-        new = L.to_man(S.world_mesh(i))
-        old_m = L.base_mesh("print/%s.stl" % stl)
-        old_m.apply_transform(Tw)
-        old = L.to_man(old_m)
-        lug = new - old
-        root = lug ^ (L.dilate(old, 0.5) - old)
-        st = L.STOPS[stop]
-        past = st["stop"] + (0.5 if st["side"] == "hi" else -0.5)
-        T = L.rel_T(S, {jn: np.radians(past)}, cl, hl)
-        T2 = L.rel_T(S, {jn: np.radians(past + (0.5 if st["side"] == "hi" else -0.5))}, cl, hl)
-        ov = []
-        for j in S.inst:
-            if j["link"] != cl:
-                continue
-            X = L.xform(L.to_man(S.world_mesh(j)), T) ^ lug
-            if X.volume() > 1e-3:
-                m = L.from_man(X)
-                ov.append((X.volume(), m.center_mass))
-        if not ov or lug.volume() < 1.0:
-            out[key] = None
-            continue
-        v = np.array([o[0] for o in ov])
-        cpt = (np.array([o[1] for o in ov]) * v[:, None]).sum(0) / v.sum()
-        # motion of the counterpart at the contact point between the two poses: the force on the lug is along it
-        p1 = (T2 @ np.linalg.inv(T) @ np.r_[cpt, 1])[:3]
-        fdir = p1 - cpt
-        fdir = fdir / np.linalg.norm(fdir)
-        rc = L.from_man(root).center_mass if root.volume() > 1e-3 else L.from_man(lug).center_mass
-        A = max(root.volume() / 0.5, 1e-3)
-        arm = float(np.linalg.norm(np.cross(rc - cpt, fdir)))
-        out[key] = dict(contact=np.round(cpt, 2).tolist(), force_dir=np.round(fdir, 3).tolist(), root_area=round(A, 1),
-                        root_W=round(A ** 1.5 / 6.0, 1), arm=round(arm, 1), lug_mm3=round(lug.volume(), 1), touch_mm3=round(float(v.sum()), 2))
-    return out
+    rt, cp, ft = G["root"], G["composite"], G["foot"]
+    M = F * rt["arm"]
+    add("head hook root face on the arm (shear across the layers, est)", M * rt["r_max"] / rt["Jp"] + F / rt["A"], INTER_SHEAR,
+        "the doubler's face on the arm, %.0f mm2, carries M %.0f N mm (lever %.1f mm) in shear: Jp %.0f mm4, r %.1f mm" % (rt["A"], M, rt["arm"], rt["Jp"], rt["r_max"]), "calc, est")
+    Mc = F * cp["lever"]
+    add("yoke left arm with the doubler, level with the root (bending across the layers)", Mc / cp["W"] + F / cp["A"], Z_INTER,
+        "the composite section at z %.1f: net %.0f mm2, W %.0f mm3, M %.0f N mm (lever %.1f mm)" % (cp["z"], cp["A"], cp["W"], Mc, cp["lever"]))
+    Mf = F * ft["lever"]
+    add("head hook foot plate at x 13 (bending, in the plate)", Mf / ft["W"] + F / ft["A"], X_INPLANE,
+        "the 4 mm plate outboard of the sheet: %.0f mm2, W %.0f mm3, M %.0f N mm (lever %.1f mm); the plate prints flat" % (ft["A"], ft["W"], Mf, ft["lever"]))
 
 
 def check(name, sigma, allow, load, label="calc", what=""):

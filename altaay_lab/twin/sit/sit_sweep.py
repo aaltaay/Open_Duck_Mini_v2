@@ -146,6 +146,50 @@ def path_states():
     return st
 
 
+GETUP_PROGRAMS = ("chain_v3r.json", "hand_I.json")        # twin/sit/getup/programs: the get-up search's programs (D60)
+SOFT_YAW = (-105.0, 79.0)                                 # head yaw software limits (software/servo_limits.json)
+
+
+def getup_states():
+    """the get-up through the sit (D60, getup/GETUP_VIA_SIT.md): its tuck keyframes (both legs alike) and its roll
+    keyframes (an asymmetric leg scissor with a head yaw swing, and the same with the legs swapped and the yaw mirrored,
+    as the program runs it on either side), plus the side swing's head yaw at both software limits with the neck and
+    head at the sit stops: where parts behind the neck could meet the yawed head"""
+    D = np.radians
+    st = []
+    for fn in GETUP_PROGRAMS:
+        P = json.load(open(os.path.join(HERE, "getup", "programs", fn)))
+        tk = P["tuck"]
+        x, names = tk["x"], tk["names"]
+        for i in range(tk["nk"]):
+            h, k, a, n, hp = (x[names.index("%s%d" % (nm, i + 1))] for nm in ("h", "k", "a", "n", "hp"))
+            st.append(("getup_tuck", cfg_full(h, k, a, n, hp), (h, k, a, n, hp)))
+        for key in ("roll_back", "roll_side"):
+            spec = P.get(key)
+            if not spec:
+                continue
+            for sp in (spec["stages"] if "stages" in spec else [spec]):
+                if not sp.get("x"):
+                    continue                              # the side swing's head yaw variant is covered below
+                xv = sp["x"]
+                for i in (0, 10):
+                    hL, kL, aL, hR, kR, aR, n, hp, y, T = xv[i:i + 10]
+                    for sgn in (1.0, -1.0):
+                        Lg, Rg = ((hL, kL, aL), (hR, kR, aR)) if sgn > 0 else ((hR, kR, aR), (hL, kL, aL))
+                        yaw = float(np.clip(sgn * y, SOFT_YAW[0], SOFT_YAW[1]))
+                        c = cfg_full(Lg[0], Lg[1], Lg[2], n, hp)
+                        c.update({"right_hip_pitch": -D(Rg[0]), "right_knee": D(Rg[1]), "right_ankle": D(Rg[2]), "head_yaw": D(yaw)})
+                        st.append(("getup_roll", c, (Lg[0], Lg[1], Lg[2], Rg[0], Rg[1], Rg[2], n, hp, yaw)))
+                h, k, a, n, hp, T = xv[20:26]
+                st.append(("getup_roll", cfg_full(h, k, a, n, hp), (h, k, a, n, hp)))
+    for yaw in SOFT_YAW:
+        for n, hp in ((22.0, -22.0), (-17.0, -22.0), (22.0, 36.0), (-17.0, 36.0)):
+            c = cfg_full(-60, 147, -92, n, hp)
+            c["head_yaw"] = D(yaw)
+            st.append(("getup_swing", c, (-60, 147, -92, n, hp, yaw)))
+    return st
+
+
 def walk_states(walk_json=None):
     if walk_json:
         W = json.load(open(walk_json))
@@ -284,7 +328,7 @@ def run(walk_json=None, quick=False, log=print):
     log("hard stops %.0f s" % (time.time() - t0))
     report["knee_ankle_coupling"] = coupling(Mo, log)
     log("coupling %.0f s" % (time.time() - t0))
-    for group, states in (("path", path_states()), ("walk", walk_states(walk_json))):
+    for group, states in (("path", path_states()), ("walk", walk_states(walk_json)), ("getup", getup_states())):
         if quick:
             states = states[::4]
         worst = {}
@@ -307,5 +351,5 @@ if __name__ == "__main__":
     a = ap.parse_args()
     R = run(a.walk, a.quick)
     print(json.dumps({k: R[k] for k in ("stops",)}, indent=1)[:4000])
-    for g in ("path", "walk"):
+    for g in ("path", "walk", "getup"):
         print(g, json.dumps(R[g]["new_overlaps"], indent=0)[:3000])
