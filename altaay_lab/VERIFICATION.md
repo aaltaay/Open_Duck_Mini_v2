@@ -1,11 +1,11 @@
 # VERIFICATION: every check that runs without the robot
 
-Generated 2026-11-06 9:09 PM ET by altaay_lab/verify/report.py from one run of `bash altaay_lab/verify/run_all.sh` (results kept outside the repo). Written by agent Q (verification) for Ahmed's Open Duck Mini v2 build. Every simulation result here is sim pass only. Nothing was bought, built or printed; no lab file was edited by these checks (each script that writes files was run on a copy or into the results folder).
+Generated 2026-11-07 1:34 AM ET by altaay_lab/verify/report.py from one run of `bash altaay_lab/verify/run_all.sh` (results kept outside the repo). Written by agent Q (verification) for Ahmed's Open Duck Mini v2 build. Every simulation result here is sim pass only. Nothing was bought, built or printed; no lab file was edited by these checks (each script that writes files was run on a copy or into the results folder).
 
 ## Summary
 23 checks: **21 PASS, 2 FAIL, 0 NOT RUN**. 2 FAIL findings and 42 WARN findings in all (below). PASS means no FAIL finding; a PASS row can still carry WARN findings (risks, test fits, notes).
 
-How to run (from the repo root): `bash altaay_lab/verify/run_all.sh` runs everything (this run: 5 minutes of check time on the shared 4-CPU box, sims under nice -n 10); `--quick` skips the MuJoCo, ngspice and CAD sweep runs and reuses earlier results in the same folder. Settings: VERIFY_OUT (results folder outside the repo), ODM_RUNTIME (Open_Duck_Mini_Runtime at 376de65), ODM_PLAYGROUND (Open_Duck_Playground at b9be205), ODM_TEST_PYTHON (a Python with rustypot and pypot for the bench tests). Each check also runs alone: the command is in the matrix.
+How to run (from the repo root): `bash altaay_lab/verify/run_all.sh` runs everything (this run: 6 minutes of check time on the shared 4-CPU box, sims under nice -n 10); `--quick` skips the MuJoCo, ngspice and CAD sweep runs and reuses earlier results in the same folder. Settings: VERIFY_OUT (results folder outside the repo), ODM_RUNTIME (Open_Duck_Mini_Runtime at 376de65), ODM_PLAYGROUND (Open_Duck_Playground at b9be205), ODM_TEST_PYTHON (a Python with rustypot and pypot for the bench tests). Each check also runs alone: the command is in the matrix.
 
 Run notes:
 
@@ -47,7 +47,7 @@ Passing checks that still carry risks to measure on the bench (WARN):
 | E6 | Power path to every servo as wired now: D15 star plus the D23 ankle feeds SP4 and SP5, lengths and gauges from wiring/netlist.yaml (sim/power_path_sim.py as_built, ngspice, sim pass only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/e6_power_path.py` | **FAIL (1 FAIL, 1 WARN)** | as built, nominal pack, worse of trained mass (E5) and our build (C8): lowest servo 5.57 V typical (left knee), 4.87 V high-side (head roll); servo under 6 V 11.2 % typical, 35.2 % high-side, counted in time (gate 10 %); no servo under 4.5 V at full or nominal in either corner: True (details below) | As-built network (P1 to P14 pack side, BEC, P11, SP1 to SP5, 11 kit hops, data-lead grounds) read from the netlist; full, nominal and low pack x typical and high-side resistances, fall after a push; trained mass (E5) and our build (C8); TEST_PLAN.md section 9 gates counted in time; lowest servo per chain; the as-built table of POWER_PATH_SIM.md reproduced | Real hop and contact resistance (TEST_PLAN.md section 5), BEC dropout (section 4.1), bus capacitance, regenerative braking, the servo electronics' brown-out point; the 5 V branch in detail |
 | E6b | TEST_PLAN.md section 5 hop gate is enough for the section 9 gates, wiring as built (D15 plus the D23 feeds, netlist lengths; power path sim sweep, sim pass only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/e6b_hop_sweep.py` | **FAIL (1 FAIL, 2 WARN)** | as built (SP4 and SP5 in the netlist): ankle under 6 V at a nominal pack, worse trace: 17.6 mOhm 6.4%, 27.6 mOhm 7.8%, 28.0 mOhm 7.9%, 40.0 mOhm 9.4%, 57.6 mOhm 11.0%, 77.6 mOhm 12.5%; at the 28 mOhm pass gate the ankle 7.9 % (our build (C8)), worst servo of any kind right knee 11.3 %, lowest servo 5.57 V; at the 40 mOhm warn limit knees 10.8 / 14.0 %, ankle 9.4 % (our build (C8)), lowest servo 5.46 V (details below) | As-built network (sim/power_fix.py option ab = 3b with the netlist lengths and gauges and the data-lead grounds); nominal pack, typical source resistances; hop = kit cable conductor + 2 contacts + servo board; both section 9 gates (4.5 V at any time, time under 6 V counted in time) per hop value, at the section 5 pass gate and at its warn limit; trained mass and our build traces; the section 5 'holds to about N mOhm' figure | Real BEC dropout (TEST_PLAN.md section 4), real hop resistance (section 5), the high-side pack side (sections 3.2 and 4.1 gate it), regenerative braking, bus capacitance |
 | E7 | Hip roll servo screw head vs roll_to_pitch over the hip roll range (print/check_hip_roll_screw.py) | `VERIFY_OUT=<out> python3 altaay_lab/verify/e7_hip_roll.py` | **PASS (0 FAIL, 2 WARN)** | outer screw overlaps the arm by 1.3 and 1.3 mm at every hip roll angle on both legs (as D18); the inner screw that stays clears it by 0.16 and 0.24 mm (details below) | Both legs, 2 screws each, 41 angles over the URDF hip roll range, M2 pan head 4.0 x 1.6 mm modelled | Real head size of the Feetech bag screw (B2), print tolerance, the other screws (C4) |
-| E8 | Bench scripts on a simulated servo bus (pytest altaay_lab/bench/tests) | `VERIFY_OUT=<out> ODM_TEST_PYTHON=<python with rustypot, pypot> python3 altaay_lab/verify/e8_bench_pytest.py` | **PASS (0 FAIL, 1 WARN)** | pytest: 32 passed, 36 skipped in 28.71s (details below) | The bench agent's tests: STS3215 protocol, first-servo check, battery guard, power log, feet, IMU, thermal guard and the Runtime cross-check, against a fake STS3215 bus on a pty and fake Blinka pins | Real servos, real USB adapter timing, real GPIO (TEST_PLAN.md sections 6 to 12) |
+| E8 | Bench scripts on a simulated servo bus (pytest altaay_lab/bench/tests) | `VERIFY_OUT=<out> ODM_TEST_PYTHON=<python with rustypot, pypot> python3 altaay_lab/verify/e8_bench_pytest.py` | **PASS (0 FAIL, 1 WARN)** | pytest: 32 passed, 36 skipped in 28.51s (details below) | The bench agent's tests: STS3215 protocol, first-servo check, battery guard, power log, feet, IMU, thermal guard and the Runtime cross-check, against a fake STS3215 bus on a pty and fake Blinka pins | Real servos, real USB adapter timing, real GPIO (TEST_PLAN.md sections 6 to 12) |
 | E9 | Joint angles the stock policy uses in the sim walk, trained mass and our build (sim pass only) | `VERIFY_OUT=<out> python3 altaay_lab/verify/e9_joint_envelope.py` | **PASS** | in the walk (trained mass): hip yaw -5.8 to +10.3 deg (range +/-30), hip pitch -49.3 to +49.6, knee up to +90.8 (limit +90); largest policy action 0.97 (details below) | 7 current_budget.py cases on the trained model and on our build's model (C8): min and max of every joint angle, the largest policy action and motor target, after the 2 s settle and before a fall; MJCF ranges | Falls, get-up, manual moves and find_soft_offsets.py (they can reach the full joint range); real servo tracking |
 | C1 | Every netlist part maps to a BOM line, and every BOM_FULL quantity matches its source (CAD, netlist, fasteners) | `VERIFY_OUT=<out> python3 altaay_lab/verify/c1_bom_coverage.py` | **PASS** | 58 netlist parts map to BOM lines with matching part numbers (17 splices are made); BOM_FULL 242 rows vs sources: 0 FAIL (see list); heat shrink 42 pieces by the rule (42 joints in the netlist), 42 drawn (details below) | Netlist components to BOM lines (part numbers checked in the line text), netlist BOM references, counts per line vs Need; BOM_FULL rows vs CAD nodes, print/parts.csv, netlist, fasteners.json (screws, washers), wire cut sums, heat shrink by the BOM_FULL rule (this check's own count, the 3D sleeves, BOM 26); the committed BOM_FULL.md vs a fresh build from today's sources; rows with no purchase line | Whether a bought part is the right one (datasheets), prices, the spares rule, the heat shrink size at each joint |
 | C2 | Connectors: every wired pin has a mating part or end treatment; crimps fit the Molex 08-70-1040 | `VERIFY_OUT=<out> python3 altaay_lab/verify/c2_connectors.py` | **PASS (0 FAIL, 3 WARN)** | 342 wire ends match their connector class; housings 7 and terminals 17 agree with BOM 21/22, CABLE_MAP, WIRING.md; 22 AWG OD 1.7 +/- 0.1 mm vs Molex 08-70-1040 insulation max 1.9 mm, gauges 22, 24, 26, 28 AWG, 3.0 A at 22 AWG (Molex catalog) (details below) | Every end of the wires on active cables vs its pin group's connector class; housing positions (one wire each, adapter V empty); housing and terminal counts vs BOM 21/22, CABLE_MAP, WIRING.md; kit cables used vs shipped; crimp insulation diameter; connector pins left open | Pin order inside each housing vs the servo port (TEST_PLAN.md section 2 polarity), crimp quality (section 1), the real part labels marked [I] in the netlist |
@@ -119,15 +119,15 @@ Each line: what is wrong, with the numbers, then the proposed fix and the file i
 
 ### C9
 - sim/MASS_BUDGET.md models 274 screws, fasteners.json fits 324 (the screw mass, 175 g, is from the older count) Proposed: re-run sim/mass_budget.py on fasteners.json when it is final
-- DECISIONS.md line 3 says 'D1 to D25', DECISIONS.md goes to D59: the work in that file did not look at D26 to D59 Proposed: DECISIONS.md: check D26 to D59 against it, then write 'D1 to D59' (or date the statement)
-- GAPS.md line 67 says 'D1 to D12', DECISIONS.md goes to D59 (dated section)
-- START_HERE.md line 4 says 'D1 to D25', DECISIONS.md goes to D59: the work in that file did not look at D26 to D59 Proposed: START_HERE.md: check D26 to D59 against it, then write 'D1 to D59' (or date the statement)
-- START_HERE.md line 17 says 'D1 to D25', DECISIONS.md goes to D59: the work in that file did not look at D26 to D59 Proposed: START_HERE.md: check D26 to D59 against it, then write 'D1 to D59' (or date the statement)
-- START_HERE.md line 57 says 'D1 to D25', DECISIONS.md goes to D59: the work in that file did not look at D26 to D59 Proposed: START_HERE.md: check D26 to D59 against it, then write 'D1 to D59' (or date the statement)
-- START_HERE.md line 120 says 'D1 to D25', DECISIONS.md goes to D59: the work in that file did not look at D26 to D59 Proposed: START_HERE.md: check D26 to D59 against it, then write 'D1 to D59' (or date the statement)
-- STATE.md line 50 says 'D1 to D25', DECISIONS.md goes to D59: the work in that file did not look at D26 to D59 Proposed: STATE.md: check D26 to D59 against it, then write 'D1 to D59' (or date the statement)
-- UPSTREAM_ISSUES.md line 7 says 'D1 to D12', DECISIONS.md goes to D59: the work in that file did not look at D13 to D59 Proposed: UPSTREAM_ISSUES.md: check D13 to D59 against it, then write 'D1 to D59' (or date the statement)
-- UPSTREAM_ISSUES.md line 364 says 'D1 to D12', DECISIONS.md goes to D59: the work in that file did not look at D13 to D59 Proposed: UPSTREAM_ISSUES.md: check D13 to D59 against it, then write 'D1 to D59' (or date the statement)
+- DECISIONS.md line 3 says 'D1 to D25', DECISIONS.md goes to D60: the work in that file did not look at D26 to D60 Proposed: DECISIONS.md: check D26 to D60 against it, then write 'D1 to D60' (or date the statement)
+- GAPS.md line 68 says 'D1 to D12', DECISIONS.md goes to D60 (dated section)
+- START_HERE.md line 4 says 'D1 to D25', DECISIONS.md goes to D60: the work in that file did not look at D26 to D60 Proposed: START_HERE.md: check D26 to D60 against it, then write 'D1 to D60' (or date the statement)
+- START_HERE.md line 17 says 'D1 to D25', DECISIONS.md goes to D60: the work in that file did not look at D26 to D60 Proposed: START_HERE.md: check D26 to D60 against it, then write 'D1 to D60' (or date the statement)
+- START_HERE.md line 57 says 'D1 to D25', DECISIONS.md goes to D60: the work in that file did not look at D26 to D60 Proposed: START_HERE.md: check D26 to D60 against it, then write 'D1 to D60' (or date the statement)
+- START_HERE.md line 120 says 'D1 to D25', DECISIONS.md goes to D60: the work in that file did not look at D26 to D60 Proposed: START_HERE.md: check D26 to D60 against it, then write 'D1 to D60' (or date the statement)
+- STATE.md line 52 says 'D1 to D25', DECISIONS.md goes to D60: the work in that file did not look at D26 to D60 Proposed: STATE.md: check D26 to D60 against it, then write 'D1 to D60' (or date the statement)
+- UPSTREAM_ISSUES.md line 7 says 'D1 to D12', DECISIONS.md goes to D60: the work in that file did not look at D13 to D60 Proposed: UPSTREAM_ISSUES.md: check D13 to D60 against it, then write 'D1 to D60' (or date the statement)
+- UPSTREAM_ISSUES.md line 364 says 'D1 to D12', DECISIONS.md goes to D60: the work in that file did not look at D13 to D60 Proposed: UPSTREAM_ISSUES.md: check D13 to D60 against it, then write 'D1 to D60' (or date the statement)
 - README.md line 3 gives the robot mass as 2.1 kg (sim mass, trained model); the build is 2.79 kg by sim/MASS_BUDGET.md Proposed: README.md line 3: after '2.1 kg (sim mass)' add ' (the lab build is about 2.79 kg by the mass budget, sim/MASS_BUDGET.md, not weighed)'
 - START_HERE.md line 9 gives the robot mass as 2.11 kg (sim mass, trained model); the build is 2.79 kg by sim/MASS_BUDGET.md Proposed: START_HERE.md line 9: after 'about 2.11 kg (sim mass)' add ' (the lab build is about 2.79 kg by the mass budget, sim/MASS_BUDGET.md, not weighed)'
 
@@ -168,7 +168,7 @@ No check above replaces these; each needs the parts or the robot. Order and pass
 ## Details per check
 
 ### E1 Electrical rule check of the netlist (audit/erc.py) plus mutation test: PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e1_erc.py`. Finished 2026-11-07 02:02 UTC, 5 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e1_erc.py`. Finished 2026-11-07 06:29 UTC, 5 s.
 - erc.py on wiring/netlist.yaml: 0 ERROR, 0 WARN, 8 INFO (exit 0)
 - Components 75, pins 297, cables 65 (4 removed), wires 171.
 - committed audit/ERC_REPORT.md current: True; audit/continuity_checklist.csv current: True
@@ -186,18 +186,18 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e1_erc.py`. Finished 2026-1
 - INFO: M10 caught: wire left on removed cable S14 (expected ERROR in 'references'; got {'ERROR': 1, 'WARN': 0, 'INFO': 0})
 
 ### E2 BOM.md subtotals, totals and test order total (audit/bom_totals.py on a copy): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e2_bom_scripts.py`. Finished 2026-11-07 02:09 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e2_bom_scripts.py`. Finished 2026-11-07 06:29 UTC, 0 s.
 - bom_totals.py: {Robot: 848.14, Fasteners and mechanical: 73.75, Cables, connectors, wire: 282.84, Print material: 53.97, Expression (optional upstream): 129.14, Tools (one-time): 271.66} build 1258.7 with expression 1387.84 with tools 1659.5 test order 228.49
 - BOM.md copy unchanged after the recompute: every subtotal and total in BOM.md matches its lines
 - Buy >= Need checked on 89 countable lines (Need and Buy in the same unit)
 
 ### E3 bom.json rebuilt from BOM.md (audit/bom_md_to_json.py on a copy): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e2_bom_scripts.py`. Finished 2026-11-07 02:09 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e2_bom_scripts.py`. Finished 2026-11-07 06:29 UTC, 0 s.
 - bom_md_to_json.py: 105 rows written to bom.json; committed bom.json 105 rows, rebuilt 105 rows
 - rebuilt bom.json is identical to the committed one
 
 ### E4 Exploded-view data build and its CAD count checks (viewer/make_viewer_data.py): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e4_viewer.py`. Finished 2026-11-07 02:02 UTC, 30 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e4_viewer.py`. Finished 2026-11-07 06:29 UTC, 28 s.
 - printed parts 62 / 62 over 44 STLs; servos 14 / 14; inserts 48 / 48; bearings 3 / 3
 - BOM lines 105 (cad 12, placeholder 19, filament 2, not modelled 72); count mismatches none
 - STL vs URDF frame check: 37 parts, worst 0.012 mm; assembly.json match True; unmapped meshes none
@@ -207,7 +207,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e4_viewer.py`. Finished 202
 - GLB 4.71 MB, 739 nodes (output kept in the scratch folder, not in git)
 
 ### E5 Servo current budget from the stock walk (sim/current_budget.py, sim pass only): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e5_current_budget.py`. Finished 2026-11-07 02:03 UTC, 7 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e5_current_budget.py`. Finished 2026-11-07 06:29 UTC, 8 s.
 - Stand, zero command: falls none; mean 0.19, 100 ms 0.23, 20 ms 0.24, 2 ms 0.24 A
 - Walk forward 0.15 m/s: falls none; mean 2.22, 100 ms 3.08, 20 ms 4.02, 2 ms 4.97 A
 - Turn 1.0 rad/s: falls none; mean 2.38, 100 ms 3.21, 20 ms 5.39, 2 ms 6.40 A
@@ -218,7 +218,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e5_current_budget.py`. Fini
 - worst single servo, backlash walk: left_knee 3.33 A peak; highest RMS right_knee 1.46 A (doc: 3.35 A peak knee, 1.45 A RMS)
 
 ### E6 Power path to every servo as wired now: D15 star plus the D23 ankle feeds SP4 and SP5, lengths and gauges from wiring/netlist.yaml (sim/power_path_sim.py as_built, ngspice, sim pass only): FAIL
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e6_power_path.py`. Finished 2026-11-07 02:04 UTC, 44 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e6_power_path.py`. Finished 2026-11-07 06:31 UTC, 46 s.
 - netlist read by the model: altaay_lab/wiring/netlist.yaml sha256 293658e198, modified 2026-11-06 22:48 UTC
 - netlist values used: P1 16 AWG 120 mm; P2 16 AWG 120 mm; P6 16 AWG 150 mm; P7 16 AWG 310 mm (30 + 90 + 90 + 40 + 60); P8 16 AWG 150 mm; P14 16 AWG 140 mm; P9 16 AWG 90 mm; P10 16 AWG 150 mm; P11 16 AWG 100 mm plus the BEC leads (as shipped); P13 20 AWG 550 mm; SP1 V 22 AWG 160 mm, G 22 AWG 140 mm + tail 22 AWG 30 mm; SP2 V 22 AWG 150 mm, G 22 AWG 130 mm + tail 22 AWG 30 mm; SP3 V 22 AWG 180 mm, G 22 AWG 160 mm + tail 22 AWG 30 mm; SP4 to left ankle BUS1: V 22 AWG 420 mm, G 22 AWG 420 mm; SP5 to right ankle BUS1: V 22 AWG 450 mm, G 22 AWG 450 mm; kit hops S2 150, S3 150, S4 150, S5 150, S7 150, S8 150, S9 150, S10 150, S11 150, S12 150, S13 150 mm; SD1 G stem 22 AWG 45 mm, a 22 AWG 120 mm, b 22 AWG 140 mm; SD2 G 22 AWG 140 mm
 - active netlist cables on SERVO_7V2/VSW/PACK_P/PACK_F/CELL_N: DC1, P1, P10, P11, P13, P2, P4, P6, P7, P9, S10, S11, S12, S13, S2, S3, S4, S5, S7, S8, S9, SP1, SP2, SP3, SP4, SP5; in the model: 25; outside the servo path: P4 (charger, carries current only while charging)
@@ -242,7 +242,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e6_power_path.py`. Finished
 - documented as-built row, nominal, high-side, trained mass: lowest servo 4.87 V, ankle 20.0 % (doc) vs 4.87 V, 20.0 % (run)
 
 ### E6b TEST_PLAN.md section 5 hop gate is enough for the section 9 gates, wiring as built (D15 plus the D23 feeds, netlist lengths; power path sim sweep, sim pass only): FAIL
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e6b_hop_sweep.py`. Finished 2026-11-07 02:05 UTC, 42 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e6b_hop_sweep.py`. Finished 2026-11-07 06:32 UTC, 42 s.
 - TEST_PLAN.md section 5 pass gate: 28 mOhm per conductor, warn band to 40 mOhm (fail over it); section 9 gates: no servo under 4.5 V, every servo under 6.0 V at most 10 % of the time; model: sim/power_fix.py option ab (as built), netlist altaay_lab/wiring/netlist.yaml sha256 293658e198, second feeds in the netlist: SP4, SP5
 - as built, trained mass (E5), hop 17.6 mOhm per conductor (no contact resistance): ankle min 5.72 V, under 6 V 3.9 % of the time (50 Hz by phase 0.0 to 13.0 %); lowest servo left knee 5.65 V; knees 4.1 / 5.6 %, head roll 3.4 % under 6 V
 - as built, our build (C8), hop 17.6 mOhm per conductor (no contact resistance): ankle min 5.75 V, under 6 V 6.4 % of the time (50 Hz by phase 0.0 to 18.7 %); lowest servo left knee 5.68 V; knees 5.6 / 8.3 %, head roll 4.5 % under 6 V
@@ -260,19 +260,19 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e6b_hop_sweep.py`. Finished
 - hop resistance at which the worst servo of any kind (knee or head roll, worse trace) reaches 10 % under 6 V: about 23 mOhm per conductor (linear between 17.6 and 27.6)
 
 ### E7 Hip roll servo screw head vs roll_to_pitch over the hip roll range (print/check_hip_roll_screw.py): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e7_hip_roll.py`. Finished 2026-11-07 02:07 UTC, 91 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e7_hip_roll.py`. Finished 2026-11-07 06:33 UTC, 79 s.
 - left: range -8.0..25.0 deg; screw at y +45.2: worst -1.30 mm at -8.0 deg, overlap over 41 of 41 angles; screw at y +24.7: worst 0.24 mm at -7.2 deg, overlap over 0 of 41 angles
 - left: the colliding screw is the outer one, as D18 says (overlap 1.30 mm)
 - right: range -25.0..8.0 deg; screw at y -24.8: worst 0.16 mm at -11.0 deg, overlap over 0 of 41 angles; screw at y -45.3: worst -1.30 mm at -25.0 deg, overlap over 41 of 41 angles
 - right: the colliding screw is the outer one, as D18 says (overlap 1.30 mm)
 
 ### E8 Bench scripts on a simulated servo bus (pytest altaay_lab/bench/tests): PASS
-Command: `VERIFY_OUT=<out> ODM_TEST_PYTHON=<python with rustypot, pypot> python3 altaay_lab/verify/e8_bench_pytest.py`. Finished 2026-11-07 02:08 UTC, 30 s.
+Command: `VERIFY_OUT=<out> ODM_TEST_PYTHON=<python with rustypot, pypot> python3 altaay_lab/verify/e8_bench_pytest.py`. Finished 2026-11-07 06:34 UTC, 29 s.
 - test python /usr/local/bin/python3: rustypot, pypot, onnxruntime, pytest importable: False
-- pytest: 32 passed, 36 skipped in 28.71s (exit 0)
+- pytest: 32 passed, 36 skipped in 28.51s (exit 0)
 
 ### E9 Joint angles the stock policy uses in the sim walk, trained mass and our build (sim pass only): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e9_joint_envelope.py`. Finished 2026-11-07 02:07 UTC, 10 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e9_joint_envelope.py`. Finished 2026-11-07 06:33 UTC, 8 s.
 - stock model, cases walk_forward_0.15, turn_1.0, walk_side_0.2, walk_backlash, walk_pushes
 - stock left_hip_yaw: -5.3 to +10.3 deg (MJCF range -30.0 to +30.0)
 - stock left_hip_roll: -6.0 to +11.2 deg (MJCF range -25.0 to +25.0)
@@ -305,7 +305,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e9_joint_envelope.py`. Fini
 - ours right_ankle: -46.3 to -26.9 deg (MJCF range -90.0 to +90.0)
 
 ### C1 Every netlist part maps to a BOM line, and every BOM_FULL quantity matches its source (CAD, netlist, fasteners): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c1_bom_coverage.py`. Finished 2026-11-07 02:02 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c1_bom_coverage.py`. Finished 2026-11-07 06:29 UTC, 0 s.
 - inline parts on cables: XT30U on P13 (line 12)
 - netlist: 75 components, 17 splices (made from wire and heat shrink, BOM 26), 58 mapped to BOM lines, unmapped none
 - 'BOM xx' references in the netlist text: 32, to missing lines: none
@@ -319,13 +319,13 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c1_bom_coverage.py`. Finish
 - wire per gauge and colour: 16 BOM_FULL rows checked against the netlist cut sums, 0 differ
 - washers in fasteners.json: 8 under 4 fitted screws; fresh BOM_FULL line 17l row: F21 8 pcs
 - fitted screws in fasteners.json: 324; BOM_FULL screw rows 12 (section Fasteners)
-- committed BOM_FULL.md vs a fresh build from today's sources (E4, 2026-11-07 02:02 UTC): 0 quantities differ, 0 rows gone, 0 new
+- committed BOM_FULL.md vs a fresh build from today's sources (E4, 2026-11-07 06:29 UTC): 0 quantities differ, 0 rows gone, 0 new
 - heat shrink: the rule gives 42 sleeves (4 XT30 cups, 2 caps, 19 lead joints, 17 splices; the 58 splice ends sit in those splices); fresh BOM_FULL 42 pieces; the 3D view draws 42 sleeve nodes for 42 joints; BOM 26 buys 1 x 180 = 180 pieces
 - purchase status from the fresh build (E4): {'printed': 45, 'bought': 99, 'in kit': 24, 'made': 48, 'tool': 26}
 - BOM.md lines used by a BOM_FULL row: 105 of 105 (unused: none)
 
 ### C2 Connectors: every wired pin has a mating part or end treatment; crimps fit the Molex 08-70-1040: PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c2_connectors.py`. Finished 2026-11-07 02:02 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c2_connectors.py`. Finished 2026-11-07 06:29 UTC, 0 s.
 - 171 wires on active cables, 342 wire ends, every end treatment checked against its pin group (23 classes)
 - made-lead housings (Molex 50-37-5033): 7, SV10 bus2 3 pos, SV14 bus1 2 pos, SV20 bus2 3 pos, SV24 bus1 2 pos, SV30 bus2 3 pos, U2 h3 2 pos, U2 h5 2 pos; crimp terminals (08-70-1040): 17
 - housings: netlist 7, BOM 21 Need 7 (Buy 10), CABLE_MAP 7, WIRING.md 7
@@ -339,7 +339,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c2_connectors.py`. Finished
 - connector pins not wired and not marked nc: none
 
 ### C3 Every active cable has a 3D route whose worst length plus slack fits its cut, a service loop at every joint, and a hold at every tie point: PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c3_cables3d.py`. Finished 2026-11-07 02:07 UTC, 6 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c3_cables3d.py`. Finished 2026-11-07 06:33 UTC, 5 s.
 - cables3d.json 2026-11-02 04:50 UTC (checked 2026-11-07 01:48 UTC): 61 cables, 143 cable ends, 75 retention items; netlist 61 active cables
 - series pieces summed: P7 XT30.M+ -> F1.IN = XT30-JFI 30 + JFI-F1 90 = 120 mm (inline splice JFI, not routed in 3D); P7 F1.OUT -> DK7.VIN = F1-JFO 90 + JFO-DK7 40 = 130 mm (inline splice JFO, not routed in 3D)
 - floating splices (judged by chain): G, J5, JFI, JFO, JG, JG10, JG20, JG30, JGD, JSN, VSW, YD3, YG3; fixed: JBN the BEC output leads end there (lead length not published); JBP the BEC output leads end there (lead length not published); SPG seated on the belly (MOUNTING.md, servo power splices: cable tie or foam tape); SPV seated on the belly (MOUNTING.md, servo power splices: cable tie or foam tape)
@@ -357,7 +357,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c3_cables3d.py`. Finished 2
 - cables3d's own check field: {'pass with notes': 43, 'pass': 15, 'test fit': 3}
 
 ### C4a Every fitted screw has a BOM line, a length that line buys, and a count it covers (fasteners.json vs BOM.md): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 2026-11-07 02:07 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 2026-11-07 06:33 UTC, 0 s.
 - fasteners.json: 419 records, 361 screws, 324 fitted (left out: {'LEAVE OUT (D38 screw cut)': 19, 'LEAVE OUT (D42 uniform pattern)': 2, 'LEAVE OUT (D39 screw cut)': 3, 'LEAVE OUT (D18)': 2, 'NOT FITTED': 11}), 58 inserts
 - line 1 (STS3215 servo bag (18 screws per servo, B2)): 115 screws, {'M2x6 self-tapping pan head': 42, 'PA2.0 self-tapping (factory)': 56, 'M3x6 machine screw (Feetech rocker screw)': 14, 'PA3.0x5 self-tapping, washer head (Feetech idle screw)': 3}
 - line 14 (SG90 bag): 6 screws, {'SG90 bag horn screw': 2, 'SG90 bag mounting screw': 4}
@@ -376,7 +376,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 
 - inserts: 48 in fasteners.json, BOM 16 Need 48
 
 ### C4b No screw head or tip collision over the joint ranges, except known, decided ones (fasteners sweep vs D18 and D19): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 2026-11-07 02:07 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 2026-11-07 06:33 UTC, 0 s.
 - sweep: 37 steps per joint, 13 joint pairs, 489 hit rows; fitted screws by status {'NEAR': 81, 'PARTS COLLIDE FIRST': 85, 'CONTACT': 117, 'HIT': 29, 'CLEAR': 12}
 - screws named in a DECIDED entry of DECISIONS.md: F002 (D19), F010 (D19), F196 (D19), F198 (D19), F200 (D19), F209 (D19), F211 (D19), F213 (D19), F247 (D19), F254 (D19)
 - hit rows on fitted screws by class: {'parts collide first': 272, 'static contact': 162, 'static overlap': 27, 'screw': 2}
@@ -386,7 +386,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c4_fasteners.py`. Finished 
 - D18 screws marked in fasteners.json: 2 (F124, F136)
 
 ### C5 Servo IDs agree everywhere (netlist, WIRING.md, CABLE_MAP, viewer, BOM_FULL, Runtime code and config, bench, sim, policy order): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c5_servo_ids.py`. Finished 2026-11-07 02:02 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c5_servo_ids.py`. Finished 2026-11-07 06:29 UTC, 1 s.
 - Runtime at 376de65 (pin 376de65): left_hip_yaw 20, left_hip_roll 21, left_hip_pitch 22, left_knee 23, left_ankle 24, neck_pitch 30, head_pitch 31, head_yaw 32, head_roll 33, right_hip_yaw 10, right_hip_roll 11, right_hip_pitch 12, right_knee 13, right_ankle 14
 - netlist: 14 of 14 joints match
 - WIRING.md: 8 of 14 joints named, all match (the others appear only as IDs in the chain list)
@@ -403,7 +403,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c5_servo_ids.py`. Finished 
 - software/duck_config.altaay.json: 14 joint offsets, names match the Runtime
 
 ### C6 GPIO pins agree (netlist, WIRING.md section 3, CABLE_MAP, HARNESS_BUILD, D9, Runtime code at 376de65): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c6_gpio.py`. Finished 2026-11-07 02:02 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c6_gpio.py`. Finished 2026-11-07 06:29 UTC, 0 s.
 - Runtime 376de65 / Pi hardware: left foot GPIO22, right foot GPIO27, left eye GPIO24, right eye GPIO23, projector GPIO25, left antenna GPIO13, right antenna GPIO12, I2C SDA GPIO2, I2C SCL GPIO3, I2S BCLK GPIO18, I2S LRC GPIO19, I2S DIN GPIO21
 - netlist: 12 of 12 functions on the Runtime GPIO and the right header pin
 - WIRING.md: 12 of 12 functions on the Runtime GPIO and the right header pin
@@ -413,7 +413,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c6_gpio.py`. Finished 2026-
 - netlist header pins used for signals: 3 I2C SDA, 5 I2C SCL, 12 I2S BCLK, 13 right foot, 15 left foot, 16 right eye, 18 left eye, 22 projector, 32 right antenna, 33 left antenna, 35 I2S LRC, 40 I2S DIN
 
 ### C7 Current ratings: every wire, contact and part on the servo power path as wired now (D15 plus the D23 feeds SP4 and SP5) vs the simulated currents (sim pass only): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c7_current_ratings.py`. Finished 2026-11-07 02:04 UTC, 1 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c7_current_ratings.py`. Finished 2026-11-07 06:31 UTC, 1 s.
 - traces: walk_backlash, walk_rough_backlash, walk_pushes, walk_side_0.2, turn_1.0 (E5 run); servo supply current = positive electrical power / 6.0 V + 0.05 A quiescent (an upper estimate; on the 7.4 V basis of CURRENT_BUDGET.md the currents are 0.81 x these); split over the as-built network (sim/power_fix.py option ab, netlist altaay_lab/wiring/netlist.yaml sha256 293658e198), both corners, the worse counts
 - P11 (BEC splice JB+ to SPV, 16 AWG; the BEC leads are in part D) (16 AWG): mean 4.70 A, worst 100 ms 6.52 A, 20 ms 9.05 A, 2 ms 10.93 A; limit 22.0 A (16 AWG); worst 100 ms in walk_backlash, typical corner
 - SP1 (22 AWG): mean 0.85 A, worst 100 ms 1.65 A, 20 ms 2.61 A, 2 ms 3.36 A; limit 7.0 A (22 AWG); worst 100 ms in walk_pushes, typical corner
@@ -478,7 +478,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c7_current_ratings.py`. Fin
 - cross-check, E6 ngspice worst 100 ms (actual bus voltage) vs this split (6.0 V currents): SP1 1.54 vs 1.65 A, SP4 1.56 vs 1.97 A, SP2 1.13 vs 2.23 A, SP5 1.58 vs 2.10 A, SP3 1.55 vs 1.52 A
 
 ### C8 The stock policy walks the robot we will build (2.79 kg, sim/MASS_BUDGET.md) on flat ground (sim/added_mass_sim.py, sim pass only): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c8_policy_mass.py`. Finished 2026-11-07 02:09 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c8_policy_mass.py`. Finished 2026-11-07 06:30 UTC, 60 s.
 - model mass: stock 2.1071 kg (trained 2.107 kg), ours 2.7881 kg (MASS_BUDGET.md 2.79 kg)
 - stock copy reproduces the CURRENT_BUDGET.md bus means in 7 of 7 cases
 - ours, Stand, zero command: falls none; tracking - (doc -); seeds fell not run (stand)
@@ -490,7 +490,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c8_policy_mass.py`. Finishe
 - rough terrain, start raised 23 mm: stock falls [9.14], ours falls [4.88] (not a flat-ground case; ADDED_MASS_SIM.md finding 4)
 
 ### C9 Docs agree: numbers that appear in several docs are the same everywhere: PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c9_docs.py`. Finished 2026-11-07 02:09 UTC, 1 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c9_docs.py`. Finished 2026-11-07 06:29 UTC, 1 s.
 - HARDWARE_AUDIT.md section 6: 73 blockers; cleared or decided 30; test print 7; open 29 (22 assembly or bench, 7 waiting on parts: B8, B33, B38, B42, B43, B53, B72)
 - blocker count mentions checked: 12
 - 'Bnn cleared' mentions outside HARDWARE_AUDIT.md: 9
@@ -499,20 +499,20 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c9_docs.py`. Finished 2026-
 - part counts (viewer run E4): printed parts 62/62, servos 14/14, inserts 48/48, bearings 3/3
 - print/ STL files: 44
 - screws: HARDWARE_AUDIT B1 ?; BOM.md screw lines 17a/b/c/d/e/f/g/i/h/j/k Need 203; fasteners.json 203 to buy (17x lines and no line) of 324 fitted; MASS_BUDGET.md model 274
-- decisions: DECISIONS.md last is D59
+- decisions: DECISIONS.md last is D60
 - upstream items: UPSTREAM_ISSUES.md total 137
 - WIRING.md section 4 currents vs netlist: 42 values compared
 - STATE.md print numbers (46.8, 17.6, 1360.4, 17.6, 119.9, 1407.2, 35.1, 126.9) found in print/PRINT_PLAN.md, SLICE_SUMMARY.md or PRINT_CHECK.md: 8 of 8
 - print/PRINT_PLAN.md PLA: coupon session 46.8 g + full print (220 bed) 1360.4 g = 1407.2 g (table total 1407.2 g); BOM 27 need 1407 g
 
 ### C10 Wiring sheets cover every wire of the netlist (wiring/sheets, run on a copy): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c10_sheets.py`. Finished 2026-11-07 02:07 UTC, 15 s.
-- make_sheets.py on a copy: exit 0; sheet 1: 1_power.png 929109 bytes, svg 596508 bytes, full 53, stubs 0, crossings 49; sheet 2: 2_servo_bus.png 840085 bytes, svg 526249 bytes, full 48, stubs 7, crossings 2; sheet 3: 3_pi_sensors.png 800599 bytes, svg 468379 bytes, full 17, stubs 16, crossings 1; sheet 4: 4_head_expression.png 698826 bytes, svg 463514 bytes, full 37, stubs 0, crossings 72; sheet 5: 5_harness.png 931970 bytes, svg 618335 bytes, full 0, stubs 0, crossings 10; sheet 6: 6_touch_cliff.png 562241 bytes, svg 359093 bytes, full 19, stubs 0, crossings 25
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c10_sheets.py`. Finished 2026-11-07 06:34 UTC, 13 s.
+- make_sheets.py on a copy: exit 0; sheet 1: 1_power.png 929311 bytes, svg 596508 bytes, full 53, stubs 0, crossings 49; sheet 2: 2_servo_bus.png 840173 bytes, svg 526249 bytes, full 48, stubs 7, crossings 2; sheet 3: 3_pi_sensors.png 800726 bytes, svg 468379 bytes, full 17, stubs 16, crossings 1; sheet 4: 4_head_expression.png 698965 bytes, svg 463514 bytes, full 37, stubs 0, crossings 72; sheet 5: 5_harness.png 931970 bytes, svg 618335 bytes, full 0, stubs 0, crossings 10; sheet 6: 6_touch_cliff.png 562300 bytes, svg 359093 bytes, full 19, stubs 0, crossings 25
 - sheets built: 1 1_power (full 53, stubs 0), 2 2_servo_bus (full 48, stubs 7), 3 3_pi_sensors (full 17, stubs 16), 4 4_head_expression (full 37, stubs 0), 5 5_harness (full 0, stubs 0), 6 6_touch_cliff (full 19, stubs 0); active wires drawn in full: 171 of 171
 - committed sheet SVGs: 7, older than netlist.yaml: none
 
 ### C11 Hip yaw the stock policy uses (walk and turn) stays under the F198/F211 collision onset (21.7 deg): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py`. Finished 2026-11-07 02:07 UTC, 0 s.
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py`. Finished 2026-11-07 06:33 UTC, 0 s.
 - collision onset: FASTENERS.md 23.3, 23.3 deg; fasteners.json sweep F198 left_hip_yaw from 23.3 deg, F211 right_hip_yaw from 23.3 deg; used 23.3 deg
 - ours, turn_1.0: largest |hip yaw| 10.3 deg (largest |target| 8.9 deg; largest |action| 0.61 left, 0.50 right)
 - ours, walk_backlash: largest |hip yaw| 5.6 deg (largest |target| 4.5 deg; largest |action| 0.30 left, 0.33 right)
@@ -531,8 +531,8 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c11_hip_yaw_envelope.py`. F
 - Runtime 376de65: motor target = init_pos + action x action_scale at line 290; live clip of the targets: none; commented-out clip at lines [292]; servo angle limit registers set by configure_motor.py or the HWI: False
 
 ### C12 The charging dock: parts, fits, screws, wiring, routes, BOM against the model (twin/dock, CAD check only): PASS
-Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026-11-07 02:07 UTC, 13 s.
-- fail-closed tests (test_dock_checks.py): 3 passed in 1.05s
+Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026-11-07 06:34 UTC, 12 s.
+- fail-closed tests (test_dock_checks.py): 3 passed in 0.96s
 - printed kinds 18, prints 21; not watertight or off the bed: none
 - components 96 (dock), 96 (docked); interferences 0; paddle motion poses with a hit 0 of 9
 - fasteners: 41 screws, 18 nuts, 20 inserts; not OK: none
@@ -547,7 +547,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026
 - wire to wire (centre lines at least the sum of the radii apart, outside shared terminal zones): no overlap
 - route check per state: rest (push 0.0 mm, yaw 0.0 deg) PASS, docked (push 12.43 mm, yaw -3.18 deg) PASS, full_travel (push 40.0 mm, yaw 0.0 deg) PASS, full_travel_yaw_plus (push 40.0 mm, yaw 10.0 deg) PASS, full_travel_yaw_minus (push 40.0 mm, yaw -10.0 deg) PASS, rest_yaw_plus (push 0.0 mm, yaw 10.0 deg) PASS, rest_yaw_minus (push 0.0 mm, yaw -10.0 deg) PASS
 - wires 18, routed 18, self-check PASS; cuts short of the rule: none
-- sheet 7: sheet 7: 7_dock.png 566915 bytes, svg 356487 bytes, full 18 of 18, crossings 23
+- sheet 7: sheet 7: 7_dock.png 566898 bytes, svg 356487 bytes, full 18 of 18, crossings 23
 - dock_bom.py: CHECK PASS
 - viewer dock scene not built in this output folder (make_viewer_data.py --scene dock --out VERIFY_OUT/viewer_dock): not compared
 
@@ -559,8 +559,8 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026
 | altaay_lab/BOM.md | 219e25c3fe | 2026-11-07 02:09 UTC |
 | altaay_lab/BOM_FULL.md | b5a50bc34a | 2026-11-07 01:51 UTC |
 | altaay_lab/CABLE_MAP.md | 7fea207424 | 2026-11-06 22:47 UTC |
-| altaay_lab/DECISIONS.md | 9cb8646e92 | 2026-11-07 01:24 UTC |
-| altaay_lab/GAPS.md | 452dc537d6 | 2026-11-06 22:47 UTC |
+| altaay_lab/DECISIONS.md | be59fc9570 | 2026-11-07 06:28 UTC |
+| altaay_lab/GAPS.md | 485b6a0b2d | 2026-11-07 06:16 UTC |
 | altaay_lab/HARDWARE_AUDIT.md | 2990727628 | 2026-11-06 22:47 UTC |
 | altaay_lab/HARNESS_BUILD.md | 4dca489a43 | 2026-11-06 22:47 UTC |
 | altaay_lab/MOUNTING.md | 438eb4972c | 2026-11-07 01:41 UTC |
@@ -572,19 +572,19 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026
 | altaay_lab/SERVO_UPGRADE_OPTIONS.md | ad7a2b18bc | 2026-11-06 22:47 UTC |
 | altaay_lab/SOURCING_2026-11-02.md | 49aca9c97a | 2026-11-06 22:47 UTC |
 | altaay_lab/START_HERE.md | 800ccc6b36 | 2026-11-07 02:09 UTC |
-| altaay_lab/STATE.md | b27c8ed5c5 | 2026-11-07 02:02 UTC |
-| altaay_lab/TEST_PLAN.md | 9509403f1f | 2026-11-07 02:03 UTC |
+| altaay_lab/STATE.md | 4891924e8f | 2026-11-07 06:28 UTC |
+| altaay_lab/TEST_PLAN.md | 658b6ef3c6 | 2026-11-07 06:28 UTC |
 | altaay_lab/UPSTREAM_ISSUES.md | 684a28bb66 | 2026-11-06 22:47 UTC |
 | altaay_lab/V1_PLAN.md | de78d52e82 | 2026-11-06 22:47 UTC |
 | altaay_lab/WIRING.md | bbcbc910db | 2026-11-06 22:47 UTC |
 | altaay_lab/audit/ERC_REPORT.md | cebb6e855f | 2026-11-06 22:47 UTC |
-| altaay_lab/audit/assembly.json | 04cf4dc484 | 2026-11-07 01:29 UTC |
+| altaay_lab/audit/assembly.json | 04cf4dc484 | 2026-11-07 02:41 UTC |
 | altaay_lab/audit/bom_md_to_json.py | 5eacb7950e | 2026-11-06 22:47 UTC |
 | altaay_lab/audit/bom_totals.py | 6421478207 | 2026-11-06 22:47 UTC |
 | altaay_lab/audit/continuity_checklist.csv | 17be8bf47d | 2026-11-06 22:47 UTC |
 | altaay_lab/audit/erc.py | 4a1406f408 | 2026-11-06 22:47 UTC |
 | altaay_lab/audit/placements.json | 3c3a4774dc | 2026-11-06 22:47 UTC |
-| altaay_lab/audit/sites.json | 9d275f3609 | 2026-11-07 01:29 UTC |
+| altaay_lab/audit/sites.json | 9d275f3609 | 2026-11-07 02:28 UTC |
 | altaay_lab/bench/odm_bench/joints.py | 266c4a84c3 | 2026-11-06 22:47 UTC |
 | altaay_lab/bench/tests/conftest.py | b536072a74 | 2026-11-06 22:47 UTC |
 | altaay_lab/bench/tests/fake_sts3215.py | 1b9afd70eb | 2026-11-06 22:47 UTC |
@@ -603,12 +603,12 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026
 | altaay_lab/cables3d/cables3d.json | 4299251b8c | 2026-11-07 01:48 UTC |
 | altaay_lab/fasteners/FASTENERS.md | 37551dea29 | 2026-11-07 01:34 UTC |
 | altaay_lab/fasteners/VIEWER_NOTE.md | af30b4f52d | 2026-11-06 22:47 UTC |
-| altaay_lab/fasteners/fasteners.json | bc7e1f8599 | 2026-11-07 01:34 UTC |
+| altaay_lab/fasteners/fasteners.json | bc7e1f8599 | 2026-11-07 02:41 UTC |
 | altaay_lab/print/MASS_STUDY.md | 124f3a7700 | 2026-11-07 02:09 UTC |
 | altaay_lab/print/PRINT_PLAN.md | 053137566d | 2026-11-07 02:09 UTC |
 | altaay_lab/print/SLICE_SUMMARY.md | a079c3872d | 2026-11-07 02:09 UTC |
 | altaay_lab/print/check_hip_roll_screw.py | c299d6623a | 2026-11-06 22:48 UTC |
-| altaay_lab/print/parts.csv | b81eb93bcd | 2026-11-07 01:18 UTC |
+| altaay_lab/print/parts.csv | b81eb93bcd | 2026-11-07 02:41 UTC |
 | altaay_lab/sim/ADDED_MASS_SIM.md | a53b14d97c | 2026-11-06 22:48 UTC |
 | altaay_lab/sim/CURRENT_BUDGET.md | ebe9bdcd0f | 2026-11-06 22:48 UTC |
 | altaay_lab/sim/MASS_BUDGET.md | 92555b4182 | 2026-11-07 02:09 UTC |
@@ -618,10 +618,10 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026
 | altaay_lab/sim/SIM_WALK.md | b83d1a4a3c | 2026-11-06 22:48 UTC |
 | altaay_lab/sim/added_mass_sim.py | a5667b4b87 | 2026-11-06 22:48 UTC |
 | altaay_lab/sim/current_budget.py | cebc433639 | 2026-11-06 22:48 UTC |
-| altaay_lab/sim/mass_budget.py | ad28b7adb1 | 2026-11-07 01:24 UTC |
+| altaay_lab/sim/mass_budget.py | ad28b7adb1 | 2026-11-07 02:41 UTC |
 | altaay_lab/sim/power_fix.py | f0efa7c757 | 2026-11-06 22:48 UTC |
 | altaay_lab/sim/power_path_sim.py | 5b3e2cf515 | 2026-11-06 22:48 UTC |
-| altaay_lab/software/CALIBRATION.md | eaa400a741 | 2026-11-07 01:23 UTC |
+| altaay_lab/software/CALIBRATION.md | 239a0f3b9a | 2026-11-07 06:28 UTC |
 | altaay_lab/software/PI_SETUP.md | 1bf944b894 | 2026-11-06 22:48 UTC |
 | altaay_lab/software/SOFTWARE.md | d92bbb5f81 | 2026-11-06 22:48 UTC |
 | altaay_lab/software/duck_config.altaay.json | 249171e913 | 2026-11-06 22:48 UTC |
@@ -633,8 +633,8 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/c12_dock.py`. Finished 2026
 | altaay_lab/twin/dock/dock_routes.py | 12dee20372 | 2026-11-06 22:48 UTC |
 | altaay_lab/viewer/MISSING_3D.md | 6b3241dde5 | 2026-11-06 22:48 UTC |
 | altaay_lab/viewer/README.md | f44d43d1e9 | 2026-11-06 22:48 UTC |
-| altaay_lab/viewer/make_viewer_data.py | 81a75d4615 | 2026-11-07 00:55 UTC |
+| altaay_lab/viewer/make_viewer_data.py | 81a75d4615 | 2026-11-07 02:41 UTC |
 | altaay_lab/wiring/netlist.yaml | 293658e198 | 2026-11-06 22:48 UTC |
 | altaay_lab/wiring/sheets/make_sheets.py | 0675dcd0a3 | 2026-11-06 22:48 UTC |
 | altaay_lab/wiring/sheets/sheetlib.py | 603ae4ea42 | 2026-11-06 22:48 UTC |
-| mini_bdx/robots/open_duck_mini_v2/robot.urdf | bd3186bc85 | 2026-11-07 01:28 UTC |
+| mini_bdx/robots/open_duck_mini_v2/robot.urdf | bd3186bc85 | 2026-11-07 02:41 UTC |
