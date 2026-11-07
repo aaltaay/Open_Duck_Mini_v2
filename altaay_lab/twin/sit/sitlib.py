@@ -94,10 +94,16 @@ SIT_LINKS = {
 SIT_PARENT = {k: v[0] for k, v in SIT_LINKS.items()}
 N_URDF_BASE = 131              # upstream URDF visuals (audit/assembly.json); the 10 sit parts follow, then the head internals
 
-# A1b sit and stand path (SIT_V2.md 3.2), left (hip pitch, knee, ankle, neck, head) in degrees, and what the software
-# commands with the 3 deg rule (servo_limits.py): the head forward waypoint is clamped to the software limits.
-PATH_A1B = [(-15, 5, 0, 0, 0), (-21, 40, -29, -22, -25), (-33, 75, -49, -22, -25), (-54, 110, -67, -22, -25),
-            (-58, 130, -82, -22, -25), (-60, 147, -92, -22, -25), (-60, 147, -92, 25, -25)]
+# A1b sit and stand path, left (hip pitch, knee, ankle, neck, head) in degrees. SIT_V2.md 3.2 kept the trunk near its
+# standing pitch, which puts the CoM 14 to 27 mm in front of the heel edge of a 103 mm sole at every waypoint (the repo
+# model, feet flat): zero errors of 1 deg tipped it back in the sit-down and at the end of the stand-up (sit_sim.py up,
+# SIT.md section 5). LEAN tips the trunk forward at the four middle waypoints (hip pitch toward 0), which centres the CoM
+# over the soles (42 to 48 mm from the heel, head forward). The sit and the stand ends are the approved ones. The
+# software clamps the head forward waypoint to the software limits.
+PATH_A1B_STUDY = [(-15, 5, 0, 0, 0), (-21, 40, -29, -22, -25), (-33, 75, -49, -22, -25), (-54, 110, -67, -22, -25),
+                  (-58, 130, -82, -22, -25), (-60, 147, -92, -22, -25), (-60, 147, -92, 25, -25)]
+LEAN = (0, 16, 15, 15, 15, 0, 0)
+PATH_A1B = [(h + d, k, a, n, hd) for (h, k, a, n, hd), d in zip(PATH_A1B_STUDY, LEAN)]
 SIT_TARGET = (-60, 147, -92, 25, -25)
 
 

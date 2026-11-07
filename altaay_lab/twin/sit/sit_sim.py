@@ -45,11 +45,13 @@ PADS = [("L", "toe", "CHG+", 0, +0.026), ("L", "heel", "SENSE", 0, -0.026), ("R"
 PIN_F0, PIN_F1, PIN_REACH = 0.30, 0.58, 0.0012
 DIRS = [0, 45, 90, 135, 180, 225, 270, 315]
 STAND = (-15.0, 5.0, 0.0)
-# the A1b path (SIT_V2.md 3.2) with every waypoint inside the software limits (servo_limits.json)
-DOWN = [((-21, 40, -29, -19, -22), 1.5), ((-33, 75, -49, -19, -22), 1.5), ((-54, 110, -67, -19, -22), 1.5),
-        ((-58, 130, -82, -19, -22), 1.2), ((-60, 147, -92, -19, -22), 1.2)]
+# the A1b path (sitlib.PATH_A1B: the study path with the trunk leaned forward in the middle, SIT.md section 5) with the
+# head forward waypoints inside the software limits (servo_limits.json); the ramp times are the study's
+NH = (-19, -22)
+_W = [w[:3] for w in L.PATH_A1B[1:6]]
+DOWN = [((*w, *NH), T) for w, T in zip(_W, (1.5, 1.5, 1.5, 1.2, 1.2))]
 SIT = (-60, 147, -92, 22, -22)
-UP = [(-60, 147, -92), (-58, 130, -82), (-54, 110, -67), (-33, 75, -49), (-21, 40, -29), (-15, 5, 0)]
+UP = [w[:3] for w in L.PATH_A1B[5:0:-1]] + [STAND]
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -334,7 +336,7 @@ def rise(md, dd, cb, off=None, T=1.5, kp=KP):
     roll = np.degrees(q[aid(md, "left_hip_roll")])
     yaw = np.degrees(q[aid(md, "left_hip_yaw")])
     hp = np.degrees(q[aid(md, "left_hip_pitch")])
-    n, hd = -19.0, -22.0
+    n, hd = NH
     c = ramp(md, dd, c, targets(md, hp, 147, -92, n, hd, roll, yaw, off=off), 1.0, cb)
     for w in UP:
         c = ramp(md, dd, c, targets(md, *w, n, hd, roll, yaw, off=off), T, cb)
@@ -382,13 +384,19 @@ def shove_job(a):
     dt0 = md.opt.timestep
     md.opt.timestep = opt.get("dt", dt0)
     dd, SF, pins, tr, cb = enter(md)
+    trb = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, "trunk_assembly")
+    saved = (md.body_mass[trb], md.body_inertia[trb].copy())
+    if opt.get("held"):
+        # the body held (a hand or a wall behind it): the trunk 1000 x heavier does not move, so the whole shove goes
+        # into the neck and head stops (the stop load case; free, a 12 N head shove tips the sit over)
+        md.body_mass[trb] *= 1000.0
+        md.body_inertia[trb] *= 1000.0
     jn = {j: m.mj_id2name(md, m.mjtObj.mjOBJ_JOINT, j) for j in range(1, md.njnt)}
     if opt["torque"] == "off":
         torque(md, False)
     for _ in range(int(3.0 / md.opt.timestep)):
         pin_eval(md, dd, SF, pins, apply=True)
         m.mj_step(md, dd)
-    trb = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, "trunk_assembly")
     hd = m.mj_name2id(md, m.mjtObj.mjOBJ_BODY, "head_assembly")
     R = dd.xmat[trb].reshape(3, 3)
     f = np.r_[R[:2, 0] / np.linalg.norm(R[:2, 0]), 0.0] * (SHOVE_N if opt["dir"] == "forward" else -SHOVE_N)
@@ -406,6 +414,7 @@ def shove_job(a):
             q[n_] = [min(q.get(n_, [v, v])[0], v), max(q.get(n_, [v, v])[1], v)]
     torque(md, True)
     md.opt.timestep = dt0
+    md.body_mass[trb], md.body_inertia[trb] = saved
     return dict(name=name, opt=opt, start_deg=q0, range_deg=q, limit_torque_max={k: round(v, 3) for k, v in sorted(side.items()) if v > 0.01},
                 fell=bool(trunk_state(md, dd)["up"] < 0.8), secs=round(time.time() - t0, 1))
 
@@ -415,8 +424,8 @@ LOAD_DT = 0.0005                 # s: the stop loads converge here (the 12 N pus
 
 
 def shove_cases(dt=LOAD_DT):
-    return [("head_%s_torque_%s_%.1fs" % (d, t, u), dict(dir=d, torque=t, dur=u, dt=dt)) for d in ("forward", "back")
-            for t in ("off", "on") for u in (0.2, 1.0)]
+    return [("head_%s_torque_%s_%.1fs%s" % (d, t, u, "_held" if h else ""), dict(dir=d, torque=t, dur=u, dt=dt, held=h))
+            for d in ("forward", "back") for t in ("off", "on") for u in (0.2, 1.0) for h in (True, False)]
 
 
 def load_cases(dt=LOAD_DT):
@@ -533,22 +542,43 @@ def summary(out):
                 lost_a_pad_on_the_way=[r["name"] for r in P if not r["all4_always"]],
                 max_drift_mm=round(max(r["drift_mm"] for r in P), 1),
                 pitch_deg=[round(min(r["pitch"] for r in P), 1), round(max(r["pitch"] for r in P), 1)])
-    G = defaultdict(list)
-    for r in J["up"]["results"]:
-        G["%s deg, %s limit" % (r["sig"], r["lim"])].append(r)
-    up = {k: dict(seeds=len(v), sat_with_4_pads=sum(r["sit_all4"] for r in v), fell_in_the_sit=sum(r["sit_fell"] for r in v),
-                  stood=sum(r["stood"] for r in v), stood_and_4_pads=sum(r["success"] for r in v)) for k, v in G.items()}
+    def up_table(res):
+        G = defaultdict(list)
+        for r in res:
+            G["%s deg, %s limit" % (r["sig"], r["lim"])].append(r)
+        return {k: dict(seeds="%d to %d" % (min(r["seed"] for r in v), max(r["seed"] for r in v)), n=len(v),
+                        sat_with_4_pads=sum(r["sit_all4"] for r in v), fell_in_the_sit=sum(r["sit_fell"] for r in v),
+                        stood=sum(r["stood"] for r in v), stood_and_4_pads=sum(r["success"] for r in v),
+                        failed_seeds=[r["seed"] for r in v if not r["success"]]) for k, v in G.items()}
+    up = up_table(J["up"]["results"])
+    up_held = None
+    ph = os.path.join(out, "sit_sim_up_heldout.json")
+    if os.path.exists(ph):
+        H = json.load(open(ph))
+        if H.get("inputs_key") != key:
+            raise SystemExit("sit_sim_up_heldout.json was run on another model or sim code: run it again")
+        up_held = up_table(H["results"])
     pk = {}
     for r in J["up"]["results"]:
         for src in ("rise_tau", "entry_tau"):
             for j_, t_ in (r.get(src) or {}).items():
                 pk[j_] = max(pk.get(j_, 0.0), t_)
+    shove = None
+    ps = os.path.join(out, "sit_sim_shove.json")
+    if os.path.exists(ps):
+        H = json.load(open(ps))
+        if H.get("inputs_key") != key:
+            raise SystemExit("sit_sim_shove.json was run on another model or sim code: run it again")
+        shove = {r["name"]: dict(fell=r["fell"], neck_deg=r["range_deg"]["neck"], head_deg=r["range_deg"]["head"],
+                                 stop_Nm={k: v for k, v in r["limit_torque_max"].items() if k in ("neck_pitch:hi", "head_pitch:lo")})
+                 for r in H["results"]}
     W = defaultdict(list)
     for r in J["walk"]["results"]:
         W[r["tag"]].append(r)
     walk = {k: dict(seeds=len(v), falls=sum(r["fell"] for r in v), forward_m_s=round(float(np.mean([r["v"] for r in v])), 4),
                     turn_rad_s=round(float(np.mean([r["turn"] for r in v if r["turn"] is not None])), 3)) for k, v in W.items()}
     return dict(generated_by="altaay_lab/twin/sit/sit_sim.py summary", label="sim pass only", inputs_key=key, model=M, push=push, up=up,
+                up_heldout_seeds=up_held, head_shove_12N=shove,
                 up_peak_torque_Nm={k: round(v, 2) for k, v in sorted(pk.items())}, walk=walk)
 
 

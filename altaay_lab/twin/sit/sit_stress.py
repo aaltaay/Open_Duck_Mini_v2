@@ -329,7 +329,7 @@ def main():
     hd, nk = L.STOP_STACK["head_fwd"], L.STOP_STACK["neck_back"]
     for jn, end, st, g, direction in (("head_pitch", "lo", hd, lugs.get("head"), "forward"), ("neck_pitch", "hi", nk, lugs.get("neck"), "back")):
         for tq_ in ("off", "on"):
-            cs = [r for n_, r in SH.items() if r["opt"]["dir"] == direction and r["opt"]["torque"] == tq_]
+            cs = [r for n_, r in SH.items() if r["opt"]["dir"] == direction and r["opt"]["torque"] == tq_ and r["opt"].get("held")]
             if not cs or not g:
                 continue
             Tn = max(r["limit_torque_max"].get("%s:%s" % (jn, end), 0.0) for r in cs)
@@ -338,7 +338,7 @@ def main():
             rows.append(dict(part="%s stop, %d N shove %s on the head, torque %s" % (jn.split("_")[0], SHOVE_N, direction, tq_), load="shove",
                              case="shove", stress_MPa=round(sig, 2), allowable_MPa=Z_INTER, SF=round(Z_INTER / sig, 2), need=SF_SHOVE,
                              ok=bool(Z_INTER / sig >= SF_SHOVE), label="sim pass only (load, compliant stop K %.0f N m/rad) and calc (stress)" % L.stop_K(st),
-                             what="%.2f N m at the %s stop (largest of %d sims, 0.2 and 1.0 s) -> %.0f N at r %.1f mm on one lug, root %.0f mm2" % (
+                             what="%.2f N m at the %s stop (largest of %d sims, 0.2 and 1.0 s, body held) -> %.0f N at r %.1f mm on one lug, root %.0f mm2" % (
                                  Tn, jn, len(cs), F, st["r_mm"], g["root_area"])))
     if lugs.get("neck") and a.model:
         import mujoco as m
