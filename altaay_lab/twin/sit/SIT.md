@@ -280,6 +280,13 @@ own loop check passes at 150 deg (D3 and SP4: free 22 to 29 mm, bend R 11.0 mm a
 way: S10 at the right knee, D4 and S9 at the right hip pitch, SP5 at the right hip yaw and roll, D1 and P13 at the head. Stick-on mounts on changed parts checked with the cables3d test (seats_ties.py: 5 x 5 rays, 0.4 mm,
 15 deg, room above) and placed again with its search where the cuts or the lugs took the patch: T030, T035 and T044 take
 the small ABM1M mount; T046, T047, T048 and T071 a tie round the bundle at the test fit (D25). check_cables.py and C3: PASS (0 FAIL).
+Run again on the final CAD (2026-11-07): 58 cables pass, 43 with notes, every rub note the base already had (P13, D1 and
+D2 touch head_pitch_to_yaw under head yaw at the full URDF range, -2.2 mm, on the right arm, the side without the hook;
+SP3, D3, D4 and the dock cables as before). The neck stop block's first cut rubbed S2 and S7 by 1.2 mm where they come
+up through the hip yaw servo cable windows in trunk_top and run back at y 30 to 33, z 82 to 89: the block now stops at
+|y| 23.4 behind the windows (only the screw lobes reach y 29, in front of them), and no cable touches the block, the
+neck pads, the hook or the head pad through the full URDF range. The trunk-side neck loops (P13, D1, D13, SD1) lie on
+trunk_top at z 89 in the lane between the pillars (|y| under 15, the bar over them at z 100 to 108).
 Still under 3 x OD: SP4 at hip pitch (as before the sit), and the neck loops (D1, D2, D3, P13, S11) by storage radius
 only: the neck range is smaller now (+65 to +25 deg), so C3's loop length at the farthest pose is shorter; the cable is
 not. Knee loop flex test to 150 deg: TEST_PLAN.md 19.7.
