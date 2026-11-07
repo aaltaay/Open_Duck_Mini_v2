@@ -86,7 +86,10 @@
    "arm_mm": 3.9
   }
  },
- "sim_inputs": "/tmp/claude-0/-home-user/44fe65d1-0499-57ea-a6b6-5fd56643a22c/scratchpad/sitjob/model/sit_sim_push.json,/tmp/claude-0/-home-user/44fe65d1-0499-57ea-a6b6-5fd56643a22c/scratchpad/sitjob/model/sit_sim_up.json",
+ "sim_inputs": [
+  "sit_sim_push.json",
+  "sit_sim_up.json"
+ ],
  "rows": [
   {
    "part": "shin_spacer (beam between the sheets)",

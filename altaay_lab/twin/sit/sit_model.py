@@ -30,7 +30,9 @@ sys.path.insert(0, HERE)
 import sitlib as L  # noqa: E402
 
 SIM = os.path.join(L.LAB, "sim")
-PG = os.environ.get("ODM_PLAYGROUND", "/home/user/upstream/Open_Duck_Playground")
+sys.path.insert(0, SIM)
+import mass_budget as _MB  # noqa: E402
+PG = _MB.PG                   # ODM_PLAYGROUND, the Playground checkout at b9be205 (sim/mass_budget.py)
 SRC_XML = os.path.join(PG, "playground", "open_duck_mini_v2", "xmls")
 ROBOT_FILES = ("open_duck_mini_v2.xml", "open_duck_mini_v2_backlash.xml")
 LIMITS = os.path.join(L.LAB, "software", "servo_limits.json")
@@ -167,7 +169,7 @@ def write(out, variant="sit"):
                     a.set("ctrlrange", "%.9g %.9g" % soft[n])
         tree.write(os.path.join(d, rf))
     # the meshes: Playground assets, with the repo URDF copies of every changed and new part over them
-    J = dict(variant=variant, playground=SRC_XML, mass_kg=round(sum(v.m for v in links.values()), 4),
+    J = dict(variant=variant, playground="Open_Duck_Playground b9be205: playground/open_duck_mini_v2/xmls (ODM_PLAYGROUND)", mass_kg=round(sum(v.m for v in links.values()), 4),
              repo_meshes=stems if variant == "sit" else [], urdf_limits_deg={k: [round(np.degrees(a), 3) for a in v] for k, v in lim.items()},
              soft_limits_deg={k: [round(np.degrees(a), 3) for a in v] for k, v in soft.items()} if variant == "sit" else {})
     L.dump(J, os.path.join(d, "sit_model.json"))

@@ -3,7 +3,7 @@
  "label": "sim pass only",
  "model": {
   "variant": "sit",
-  "playground": "/home/user/upstream/Open_Duck_Playground/playground/open_duck_mini_v2/xmls",
+  "playground": "Open_Duck_Playground b9be205: playground/open_duck_mini_v2/xmls (ODM_PLAYGROUND)",
   "mass_kg": 2.7881,
   "repo_meshes": [
    "ankle_pad",

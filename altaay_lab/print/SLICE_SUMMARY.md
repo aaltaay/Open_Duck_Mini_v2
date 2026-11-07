@@ -22,7 +22,7 @@ V1 sit job, 2026-11-06 8:30 PM ET (D59; twin/sit/SIT.md): the 20 STLs it changed
 
 ## What changed with D22
 
-- Robot set (36 STLs, 52 parts): 1280.3 g and 111.1 h, against 1409.0 g and 118.9 h before (-128.8 g, -7.8 h). On the robot: 1190.4 g against 1318.6 g (-128.2 g).
+- Robot set at D22 (36 STLs then; 52 parts): 1280.3 g and 111.1 h, against 1409.0 g and 118.9 h before (-128.8 g, -7.8 h). On the robot: 1190.4 g against 1318.6 g (-128.2 g).
 - Lighter: 19 STLs. Unchanged (within 0.01 g and 1 s, the run to run noise): 17 STLs (head, head_pitch_to_yaw, head_roll_mount, head_yaw_to_roll, knee_to_ankle_left_sheet, knee_to_ankle_right_sheet, left_antenna_holder, left_eye, neck_left_sheet, neck_right_sheet, right_antenna_holder, right_eye, roll_motor_bottom, speaker_interface, speaker_stand, trunk_bottom, trunk_top).
 - S1 gate fallback (light coupon fails): +62.0 g filament, +61.7 g on the robot, +3.99 h on the 10 insert ring parts.
 - Plates, 220 bed: 18 jobs, 1365.4 g, 119.5 h; before 15 jobs, 1492.7 g, 126.5 h.

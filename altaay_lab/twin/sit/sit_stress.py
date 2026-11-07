@@ -250,7 +250,7 @@ def main():
         tn = tq(joint)
         lug_rows("%s stop lug" % key, jn, (p_, d_), g["contact"], g["force_dir"], g["root_area"], g["root_W"], g["arm"], tn, STALL["other"], tqa(joint))
 
-    J = dict(generated_by="altaay_lab/twin/sit/sit_stress.py", label="calc", loads=loads, sim_inputs=a.sim, rows=rows,
+    J = dict(generated_by="altaay_lab/twin/sit/sit_stress.py", label="calc", loads=loads, sim_inputs=[os.path.basename(p) for p in a.sim.split(",") if p], rows=rows,
              all_ok=all(r["ok"] for r in rows if r.get("case") not in ("stall", "abuse")),
              abuse_ok=all(r["ok"] for r in rows if r.get("case") == "abuse"), abuse_cases=list(ABUSE),
              abuse_peaks_Nm={k: round(v, 2) for k, v in sorted(TA.items())},

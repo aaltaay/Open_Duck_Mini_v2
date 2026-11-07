@@ -114,6 +114,8 @@ def update_slice_summary(txt, P, R, when):
             "shin_spacer. The totals table below is now the sum of the per-part rows (%d STLs, %d parts, %.1f g, %.1f h); "
             "before this job its rows added up to 1287.4 g against its 1293.8 g, as the D38 to D50 rows were updated "
             "without it. The plate tables and the D22 comparison are not re-run." % (when, len(NEW) + len(CHANGED), n_stl, n_parts, tg, th))
+    # the D22 section keeps its numbers of then; its set size is no claim about the set now (verify/c9_docs.py)
+    txt = txt.replace("- Robot set (36 STLs, 52 parts): 1280.3 g", "- Robot set at D22 (36 STLs then; 52 parts): 1280.3 g")
     anchor = "## What changed with D22"
     txt = txt.replace(anchor, para + "\n\n" + anchor, 1)
     return txt, dict(stls=n_stl, parts=n_parts, grams=round(tg, 1), hours=round(th, 1),
