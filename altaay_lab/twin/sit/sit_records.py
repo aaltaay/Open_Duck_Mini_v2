@@ -49,8 +49,10 @@ SPACER_ROWS = {   # stock screw/insert rows of the shin spacer -> index of the n
     -27.06: 0, -43.06: 1}
 HEEL_ROWS = ("F024", "I34", "F026", "I46")   # the heel screw and its insert, both feet (sit_cad.py HEEL_OLD, HEEL_DX)
 CHANGED_ELSEWHERE = ["left_cache", "right_cache", "foot_top", "foot_side", "left_roll_to_pitch", "right_roll_to_pitch",
-                     "neck_left_sheet", "neck_right_sheet", "head_pitch_to_yaw", "knee_to_ankle_left_sheet",
-                     "knee_to_ankle_right_sheet"]
+                     "head_pitch_to_yaw", "knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet"]
+STOCK_AGAIN = ["neck_left_sheet", "neck_right_sheet"]       # edited by an earlier D59 pass, stock again (sit_cad.py STOCK_AGAIN)
+NECK_SCREWS = ("F127", "F129")                              # the hip yaw servo screws that hold the neck stop block (M2x6 to M2x12)
+N_SIT = L.N_SIT_VISUALS
 
 
 def git_json(rel):
@@ -162,22 +164,22 @@ def link_pose(T0, link, seat, axis_world, R_old_link):
     return p, a, P
 
 
-def update_fasteners(D, T0, log):
+def update_fasteners(D, T0, log, neck_stop_inst=None):
     D = copy.deepcopy(D)
     n_head = 0
     for f in D["fasteners"]:
         for k in ("part_inst", "into_inst"):
             if f.get(k) is not None and f[k] >= L.N_URDF_BASE:
-                f[k] += 10
+                f[k] += N_SIT
                 n_head += 1
         sw = f.get("sweep") or {}
         for v in sw.values():
             if isinstance(v, dict) and v.get("part_inst") is not None and v["part_inst"] >= L.N_URDF_BASE:
-                v["part_inst"] += 10
+                v["part_inst"] += N_SIT
     for h in (D.get("sweep") or {}).get("hits", []):
         for k in ("against_inst", "part_inst"):
             if h.get(k) is not None and h[k] >= L.N_URDF_BASE:
-                h[k] += 10
+                h[k] += N_SIT
     log["head_internal_refs_moved"] = n_head
     moved, renamed = [], []
     for f in D["fasteners"]:
@@ -229,6 +231,43 @@ def update_fasteners(D, T0, log):
                 "corner needs past -88 deg (twin/sit/sit_cad.py HEEL_DX); same stack, same screw; the old holes are "
                 "plugged (D39)" % SC.HEEL_DX]
             moved.append(f["id"])
+    # the neck stop block (D59): F127 and F129 go from M2x6 to M2x12 through its FLANGE_T flange; the head seats on the
+    # block (a counterbore CB_D, open above for the driver), the stock trunk_top recess stays under it; the tip is where
+    # it was (the same engagement in the servo case)
+    cadj = json.load(open(os.path.join(HERE, "sit_cad.json")))
+    nb = cadj["build"]["neck_stop"]["screws"]
+    dz = nb["seat_z_new"] - nb["seat_z_stock"]
+    if abs(dz - (nb["length_new"] - nb["length_stock"])) > 0.05:
+        raise SystemExit("neck stop screws: the seat moved %.2f mm but the screw grows %d mm" % (dz, nb["length_new"] - nb["length_stock"]))
+    n_neck = 0
+    for f in D["fasteners"]:
+        if f["id"] in NECK_SCREWS:
+            if f.get("spec") != "M2x%d self-tapping pan head" % nb["length_stock"] or abs(f["seat_world"][2] - nb["seat_z_stock"]) > 0.05:
+                raise SystemExit("%s is not the stock M2x%d at z %.2f: %s %s" % (f["id"], nb["length_stock"], nb["seat_z_stock"], f.get("spec"), f["seat_world"]))
+            seat = np.array(f["seat_world"], float) + [0.0, 0.0, dz]
+            p, a, P = link_pose(T0, f["link"], seat, f["axis_world"], np.array(f["pose_link"])[:3, :3])
+            f["spec"] = "M2x%d self-tapping pan head" % nb["length_new"]
+            f["length_mm"] = nb["length_new"]
+            f["draw_length_mm"] = float(nb["length_new"])
+            f["seat_world"] = [round(float(v), 3) for v in seat]
+            f["seat_link"] = [round(float(v), 3) for v in p]
+            f["pose_link"] = [[round(float(v), 4) for v in row] for row in P]
+            f["part"] = "neck_stop"
+            if neck_stop_inst is not None:
+                f["part_inst"] = neck_stop_inst
+            f["site"] = None
+            f["seat_type"] = "counterbore d%.1f in neck_stop (D59), %.0f mm flange over the stock trunk_top recess" % (nb["counterbore_d"], nb["flange_mm"])
+            f["recess_check"] = dict(recess=nb["counterbore_d"], head=4.0, margin=round(nb["counterbore_d"] - 4.0, 2), status="OK",
+                                     proud=None, note="the head sits at the bottom of the block's counterbore, the driver comes down it")
+            f["supply"] = ("M2x%d self-tapping pan head: not in the servo bag (M2x6) nor the 17h kit (M2x4 to x8): 2 to buy, BOM 17m (D59); "
+                           "nothing bought" % nb["length_new"])
+            f["notes"] = list(f.get("notes") or []) + [
+                "D59: holds the neck stop block (twin/sit/sit_cad.py neck_block): the seat is %.1f mm higher on the block's flange, "
+                "the screw %d mm longer, so the tip and the thread engagement in the servo case are the stock ones" % (dz, nb["length_new"] - nb["length_stock"])]
+            moved.append(f["id"])
+            n_neck += 1
+    if n_neck != 2:
+        raise SystemExit("neck stop screws: %d of F127, F129 found" % n_neck)
     log["fasteners_moved"] = moved
     log["fasteners_renamed"] = sorted(set(renamed))
     sup = []
@@ -239,10 +278,11 @@ def update_fasteners(D, T0, log):
             sup.append(e["site"])
     log["empty_holes_superseded"] = sup
     sc = D["meta"]["scene"]
-    sc["urdf_instances"] = sc["urdf_instances"] + 10
-    sc["instances"] = sc["instances"] + 10
-    sc["d59"] = ("robot.urdf carries the 10 sit parts as instances 131 to 140 (new fixed links); head internals are 141 "
-                 "to 148; shin rows moved by twin/sit/sit_records.py")
+    sc["urdf_instances"] = sc["urdf_instances"] + N_SIT
+    sc["instances"] = sc["instances"] + N_SIT
+    sc["d59"] = ("robot.urdf carries the %d sit parts as instances %d to %d (new fixed links); head internals are %d "
+                 "to %d; shin rows and the neck stop screws moved by twin/sit/sit_records.py" % (
+                     N_SIT, L.N_URDF_BASE, L.N_URDF_BASE + N_SIT - 1, L.N_URDF_BASE + N_SIT, L.N_URDF_BASE + N_SIT + 7))
     return D
 
 
@@ -255,8 +295,11 @@ def main():
     S0 = git_json("altaay_lab/audit/sites.json")
     F0 = git_json("altaay_lab/fasteners/fasteners.json")
     u, inst = urdf_inst()
-    if len(inst) != L.N_URDF_BASE + 10:
-        raise SystemExit("robot.urdf has %d visuals, expected %d (run sit_urdf.py --write)" % (len(inst), L.N_URDF_BASE + 10))
+    cadp = json.load(open(os.path.join(HERE, "sit_cad.json")))["placements"]
+    if sum(len(v) for v in cadp.values()) != N_SIT:
+        raise SystemExit("sit_cad.json places %d new parts, sitlib.N_SIT_VISUALS says %d" % (sum(len(v) for v in cadp.values()), N_SIT))
+    if len(inst) != L.N_URDF_BASE + N_SIT:
+        raise SystemExit("robot.urdf has %d visuals, expected %d (run sit_urdf.py --write)" % (len(inst), L.N_URDF_BASE + N_SIT))
     changed_inst = []
     for k, (a0, a1) in enumerate(zip(A0["inst"], inst)):
         if a0["link"] != a1["link"] or not np.allclose(np.array(a0["T"]), np.array(a1["T"]), atol=1e-6):
@@ -295,9 +338,15 @@ def main():
     # the foot plates' heel screw move is checked feature by feature in sit_cad.py write() (HEEL_DX); nothing else may change
     bad = {s: v for s, v in hc.items() if (v["gone"] or v["added"]) and s not in ("foot_top", "foot_side")}
     A1 = dict(inst=inst, feats=feats)
-    S1 = update_sites(S0, inst, feats, changed_inst + foot_inst + list(range(L.N_URDF_BASE, L.N_URDF_BASE + 10)), log)
+    S1 = update_sites(S0, inst, feats, changed_inst + foot_inst + list(range(L.N_URDF_BASE, L.N_URDF_BASE + N_SIT)), log)
     T0 = {ln: L.c3d_lib.mm(u.get_transform(ln)) for ln in u.link_map}
-    F1 = update_fasteners(F0, T0, log)
+    ns = [k for k, i in enumerate(inst) if i["mesh"] == "neck_stop.stl"]
+    if len(ns) != 1:
+        raise SystemExit("robot.urdf carries neck_stop.stl %d times (one expected)" % len(ns))
+    F1 = update_fasteners(F0, T0, log, neck_stop_inst=ns[0])
+    hc_stock = {s_: holes_changed(s_) for s_ in STOCK_AGAIN}
+    log["stock_again"] = {s_: ("same %d holes, stock STL" % v["base"]) if not v["gone"] and not v["added"] else v for s_, v in hc_stock.items()}
+    bad.update({s_: v for s_, v in hc_stock.items() if v["gone"] or v["added"]})
     print(json.dumps(log, indent=1, default=str))
     if bad:
         raise SystemExit("holes changed on parts outside the shin: %s (sit_cad.py must keep them)" % sorted(bad))

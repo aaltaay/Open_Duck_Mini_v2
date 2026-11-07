@@ -210,7 +210,7 @@ def main():
     parts_now = {(i["link"], i["key"]): S.world_mesh(i) for i in S.inst}
     changed = {"knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet", "shin_left_sheet", "shin_right_sheet", "shin_spacer",
                "left_cache", "right_cache", "foot_top", "foot_side", "left_roll_to_pitch", "right_roll_to_pitch",
-               "neck_left_sheet", "neck_right_sheet", "head_pitch_to_yaw"}
+               "head_pitch_to_yaw", "neck_stop", "neck_pad", "head_pad"}       # the neck sheets are stock again
     placed = {}                                     # every stick-on mount as seats_ties keeps them (one mount per spot)
     for t in data["retention"]:
         mf = t.get("mount_fit")

@@ -89,7 +89,8 @@ NECK_SCREWS = ((-27.301, -24.749), (-27.301, 24.751))        # F127, F129 seat x
 NECK_SCREW_SEAT_Z = 83.791                                   # the stock seat (2.0 mm down in the trunk_top recess)
 FLANGE_T = 4.0                                               # the block flange over trunk_top: the new seat is z 85.8 + 4.0
 CB_D, SHANK_D = 4.6, 2.5                                     # counterbore over the M2 pan head (dk 4.0), shank hole as the stock 2.5
-NECK_R_MIN = 35.0                                            # the pad starts here along the sheet's back edge (from the neck axis)
+NECK_R_MIN = 36.0                                            # the pad starts here along the sheet's back edge (from the neck axis): the
+                                                             # stock edge is straight from r 34 up (slanted 8 deg below), the top corner is at r 48.5
 NECK_PAD_DIMS = (10.0, 6.0, PAD_T)                           # along the edge, across the sheet (its back edge is 6.1 wide), thick
 POCKET = 2.5                                                 # a pad sits in a pocket this deep (the pocket walls take the slide)
 # the head forward stop hook on the left arm of head_pitch_to_yaw (world, yoke zero pose): the region it may fill
@@ -358,28 +359,38 @@ def neck_block(S, log=print):
     T25 = L.rel_T(S, {"neck_pitch": D(nst)}, NK, TR)
     sh = sheets["neck_left_sheet"].copy()
     sh.apply_transform(T25)
-    V = sh.vertices
-    band = (V[:, 1] > 16.0) & (V[:, 1] < 22.5)
-    edge = []
+    # sections of the posed sheet (an STL has vertices at corners only): the backmost point of each cut in the band
+    edge, ys = [], []
     for z0 in np.arange(100.0, 128.0, 0.5):
-        sel = band & (V[:, 2] >= z0) & (V[:, 2] < z0 + 0.5)
-        if sel.any():
-            i = np.argmin(V[sel][:, 0])
-            q = V[sel][i]
-            rr = np.linalg.norm(np.cross(q - ax_p, ax_d))
-            if rr >= NECK_R_MIN:
-                edge.append(q)
+        sec = sh.section(plane_origin=[0, 0, z0], plane_normal=[0, 0, 1])
+        if sec is None:
+            continue
+        pts = np.vstack([np.asarray(l) for l in sec.discrete])
+        pts = pts[(pts[:, 1] > 16.0) & (pts[:, 1] < 22.25)]     # the back face spans y 16.1 to 22.2; the outer skin steps forward
+        if not len(pts):
+            continue
+        q = pts[np.argmin(pts[:, 0])]
+        rr = np.linalg.norm(np.cross(q - ax_p, ax_d))
+        if rr >= NECK_R_MIN:
+            edge.append(q)
+            ys.append(pts[pts[:, 0] < q[0] + 0.15][:, 1])
     edge = np.array(edge)
     if len(edge) < 10:
         raise SystemExit("neck block: too few back edge points past r %.0f" % NECK_R_MIN)
-    c0 = edge.mean(0)
-    u, sv, vt = np.linalg.svd(edge - c0)
-    e = vt[0] / np.linalg.norm(vt[0])
+    rs = np.linalg.norm(np.cross(edge - ax_p, ax_d), axis=1)
+    k = int(np.argmax(rs))                                   # the top back corner is the farthest point: above it the cut
+    edge, ys = edge[:k + 1], ys[:k + 1]                      # runs along the top edge, not the back edge
+    # the edge line in the x z plane (the backmost section point sits at either end of the back face in y)
+    exz = edge[:, [0, 2]]
+    c0 = np.array([exz[:, 0].mean(), 0.0, exz[:, 1].mean()])
+    u, sv, vt = np.linalg.svd(exz - exz.mean(0))
+    e2 = vt[0] / np.linalg.norm(vt[0])
+    e = np.array([e2[0], 0.0, e2[1]])
     if e[2] < 0:
         e = -e
-    resid = np.abs(np.cross(edge - c0, e)).max()
-    if resid > 0.25 or abs(e[1]) > 0.02:
-        raise SystemExit("neck block: the sheet's back edge at +%.0f is not a straight line in the x z plane (resid %.2f, ey %.3f)" % (nst, resid, e[1]))
+    resid = np.abs(np.cross(edge - c0, e)[:, 1]).max()
+    if resid > 0.25:
+        raise SystemExit("neck block: the sheet's back edge at +%.0f is not a straight line in the x z plane (resid %.2f)" % (nst, resid))
     n = np.array([e[2], 0.0, -e[0]])                        # normal to the edge in the x z plane, pointing forward and up
     if n[0] < 0:
         n = -n
@@ -388,7 +399,8 @@ def neck_block(S, log=print):
     lo_pt = c0 + e * tpar.min()
     if tpar.max() - tpar.min() < NECK_PAD_DIMS[0] - 0.5:
         raise SystemExit("neck block: the edge past r %.0f is %.1f mm, the pad %.1f" % (NECK_R_MIN, tpar.max() - tpar.min(), NECK_PAD_DIMS[0]))
-    y_band = (V[band & (V[:, 2] > 108)][:, 1].min(), V[band & (V[:, 2] > 108)][:, 1].max())
+    yy = np.concatenate(ys)
+    y_band = (float(yy.min()), float(yy.max()))
     yc = 0.5 * (y_band[0] + y_band[1])
     face_c = lo_pt + e * (NECK_PAD_DIMS[0] / 2)             # the pad face centre, on the edge line
     face_c[1] = yc
@@ -471,7 +483,9 @@ def neck_block(S, log=print):
     comps = sorted(B.decompose(), key=lambda m: -m.volume())
     keep = [cm for cm in comps if (L.dilate(cm, 0.2) ^ host).volume() > 0.5]
     if len(keep) != 1:
-        raise SystemExit("neck block: %d pieces touch trunk_top (one expected)" % len(keep))
+        raise SystemExit("neck block: %d pieces touch trunk_top (one expected): %s; loose pieces %s" % (
+            len(keep), [np.round(np.asarray(k_.bounding_box()), 1).tolist() + [round(k_.volume())] for k_ in keep],
+            [np.round(np.asarray(k_.bounding_box()), 1).tolist() + [round(k_.volume())] for k_ in comps if k_ not in keep][:6]))
     B = keep[0]
     # checks: the flange holds both screws with 1.5 mm of wall, the pads do not meet the counterbores, the pad face is
     # NECK_R_MIN or more from the axis, nothing of ours is in front of the sheet's +25 edge line
@@ -508,12 +522,18 @@ def head_hook(S, log=print):
     yoke.apply_transform(L.inst_world(S, L.inst(S, HP, "head_pitch_to_yaw")))
     HPM = L.to_man(yoke)
     # the left sheet's front edge over HEAD_PAD_Z (neck zero pose): a vertical line x = x_front, its y band
-    V = sheets["neck_left_sheet"].vertices
-    sel = (V[:, 2] > HEAD_PAD_Z[0] - 0.5) & (V[:, 2] < HEAD_PAD_Z[1] + 0.5)
-    x_front = V[sel][:, 0].max()
-    fr = V[sel & (V[:, 0] > x_front - 0.3)]
-    if np.ptp(fr[:, 0]) > 0.3 or len(fr) < 4:
-        raise SystemExit("head hook: the sheet's front edge is not a vertical line over z %s" % (HEAD_PAD_Z,))
+    fr = []
+    for z0 in np.arange(HEAD_PAD_Z[0], HEAD_PAD_Z[1] + 0.5, 1.0):
+        sec = sheets["neck_left_sheet"].section(plane_origin=[0, 0, z0], plane_normal=[0, 0, 1])
+        if sec is None:
+            raise SystemExit("head hook: no sheet section at z %.1f" % z0)
+        pts = np.vstack([np.asarray(l) for l in sec.discrete])
+        xm = pts[:, 0].max()
+        fr.append(pts[pts[:, 0] > xm - 0.3])
+    fr = np.vstack(fr)
+    x_front = float(fr[:, 0].max())
+    if np.ptp(fr[:, 0]) > 0.3:
+        raise SystemExit("head hook: the sheet's front edge is not a vertical line over z %s (x spread %.2f)" % (HEAD_PAD_Z, np.ptp(fr[:, 0])))
     y_band = (float(fr[:, 1].min()), float(fr[:, 1].max()))
     if y_band[1] - y_band[0] < 5.0:
         raise SystemExit("head hook: the sheet's front edge band is %.1f mm" % (y_band[1] - y_band[0]))

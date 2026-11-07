@@ -178,20 +178,21 @@ def stop_checks(Mo):
         "ankle_sit": ("left_ankle", ("knee_and_ankle_assembly_2", "foot_assembly"), ("ankle_pad",), {}),
         "hip_roll_out": ("left_hip_roll", ("hip_roll_assembly", "left_roll_to_pitch_assembly"), ("left_roll_to_pitch", "roll_motor_bottom"), {}),
         "hip_pitch_back": ("left_hip_pitch", ("left_roll_to_pitch_assembly", "knee_and_ankle_assembly"), ("hip_pad",), {}),
-        "neck_back": ("neck_pitch", (TR, "neck_pitch_assembly"), ("neck_left_sheet", "neck_right_sheet"), {}),
-        "head_fwd": ("head_pitch", ("neck_pitch_assembly", "head_pitch_to_yaw"), ("head_pitch_to_yaw",), {}),
+        # the neck pads (link neck_pads, on the trunk) meet the stock sheets; the block (link neck_stop) and the yoke must not
+        "neck_back": ("neck_pitch", [("neck_pads", "neck_pitch_assembly"), ("neck_stop", "neck_pitch_assembly"), (TR, "neck_pitch_assembly"),
+                                     ("neck_stop", "head_pitch_to_yaw"), ("neck_pads", "head_pitch_to_yaw")], ("neck_pad",), {}),
+        # the head pad (link head_pad, on the yoke) meets the left sheet; the hook (head_pitch_to_yaw) must not
+        "head_fwd": ("head_pitch", [("neck_pitch_assembly", "head_pad"), ("neck_pitch_assembly", "head_pitch_to_yaw")], ("head_pad",), {}),
     }
     for name, (jn, pair, makers, extra) in specs.items():
+        pairs = pair if isinstance(pair, list) else [pair]
         st = L.STOPS[name]["stop"]
         sgn = 1.0 if L.STOPS[name]["side"] == "hi" else -1.0
         res = {}
         for tag, a in (("inside", st - sgn * 0.5), ("at", st), ("past", st + sgn * 0.5)):
             c = dict(extra)
             c[jn] = D(a)
-            hits = Mo.new_hits(c, [pair])
-            hits_any = {"%s|%s" % (stem(x), stem(y)): round(v, 2) for (x, y), v in Mo.overlaps(c, [pair]).items()
-                        if v[0] > Mo.baseline().get((x, y), 0.0) + 0.05 for v in [v]} if False else None
-            ov = Mo.overlaps(c, [pair])
+            ov = Mo.overlaps(c, pairs)
             b = Mo.baseline()
             new = {"%s|%s" % (stem(x), stem(y)): round(v - b.get((x, y), 0.0), 2) for (x, y), (v, g) in ov.items()
                    if v - b.get((x, y), 0.0) > 0.02}

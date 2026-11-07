@@ -41,8 +41,8 @@ STOPS = {
     "ankle_sit": dict(joint="left_ankle", stop=-95.0, side="lo", kind="TPU pad on foot_top under the shin end"),
     "hip_roll_out": dict(joint="left_hip_roll", stop=-8.0, side="lo", kind="printed lug on roll_to_pitch onto roll_motor_bottom"),
     "hip_pitch_back": dict(joint="left_hip_pitch", stop=-75.0, side="lo", kind="TPU face on the thigh cover top onto roll_to_pitch"),
-    "neck_back": dict(joint="neck_pitch", stop=25.0, side="hi", kind="printed lug on the neck sheets onto the trunk top"),
-    "head_fwd": dict(joint="head_pitch", stop=-25.0, side="lo", kind="printed lug on head_pitch_to_yaw onto the neck"),
+    "neck_back": dict(joint="neck_pitch", stop=25.0, side="hi", kind="TPU faces on the printed neck stop block (trunk_top, F127 and F129) that the stock neck sheets' back edges meet"),
+    "head_fwd": dict(joint="head_pitch", stop=-25.0, side="lo", kind="TPU face on the printed hook of head_pitch_to_yaw (left arm) that the left neck sheet's front edge meets"),
 }
 
 # Compliant stops (D59 review): each designed stop is modelled as the stack that takes the impact, a TPU face in series
@@ -59,8 +59,8 @@ STOP_STACK = {
     "ankle_sit": dict(joints=("left_ankle", "right_ankle"), r_mm=34.5, pads=[(6.0, 7.5, 3.0, 2)]),
     "hip_roll_out": dict(joints=("left_hip_roll", "right_hip_roll"), r_mm=17.5, lug=dict(area_mm2=96.0, h_mm=6.0)),
     "hip_pitch_back": dict(joints=("left_hip_pitch", "right_hip_pitch"), r_mm=40.8, pads=[(22.0, 6.0, 1.5, 1)]),
-    "neck_back": dict(joints=("neck_pitch",), r_mm=20.5, lug=dict(area_mm2=38.2, h_mm=6.0)),
-    "head_fwd": dict(joints=("head_pitch",), r_mm=14.0, lug=dict(area_mm2=87.0, h_mm=6.0)),
+    "neck_back": dict(joints=("neck_pitch",), r_mm=40.5, pads=[(10.0, 6.0, 3.0, 2)]),      # one face per sheet, in a pocket of the block
+    "head_fwd": dict(joints=("head_pitch",), r_mm=29.8, pads=[(12.0, 7.0, 6.0, 1)]),       # one 6 mm face on the hook (half the stiffness of 3 mm)
 }
 
 
@@ -90,9 +90,13 @@ SIT_LINKS = {
     "right_hip_pad": ("right_roll_to_pitch_assembly", "hip_pad"),
     "sit_seat": ("trunk_assembly", "sit_seat"),
     "sit_bumper": ("trunk_assembly", "sit_bumper"),
+    "neck_stop": ("trunk_assembly", "neck_stop"),
+    "neck_pads": ("trunk_assembly", "neck_pad"),
+    "head_pad": ("head_pitch_to_yaw", "head_pad"),
 }
 SIT_PARENT = {k: v[0] for k, v in SIT_LINKS.items()}
-N_URDF_BASE = 131              # upstream URDF visuals (audit/assembly.json); the 10 sit parts follow, then the head internals
+N_URDF_BASE = 131              # upstream URDF visuals (audit/assembly.json); the sit parts follow (N_SIT_VISUALS), then the head internals
+N_SIT_VISUALS = 14             # knee_bumper 2, ankle_pad 4, hip_pad 2, sit_seat, sit_bumper, neck_stop, neck_pad 2, head_pad (sit_cad.json placements)
 
 # A1b sit and stand path, left (hip pitch, knee, ankle, neck, head) in degrees. SIT_V2.md 3.2 kept the trunk near its
 # standing pitch, which puts the CoM 14 to 27 mm in front of the heel edge of a 103 mm sole at every waypoint (the repo

@@ -31,9 +31,10 @@ import sitlib as L  # noqa: E402
 
 SS = os.path.join(L.LAB, "print", "SLICE_SUMMARY.md")
 PC = os.path.join(L.LAB, "PRINT_CHECK.md")
-NEW = ["ankle_pad", "hip_pad", "knee_bumper", "shin_left_sheet", "shin_right_sheet", "shin_spacer", "sit_bumper", "sit_seat"]
+NEW = ["ankle_pad", "head_pad", "hip_pad", "knee_bumper", "neck_pad", "neck_stop", "shin_left_sheet", "shin_right_sheet", "shin_spacer",
+       "sit_bumper", "sit_seat"]
 CHANGED = ["foot_side", "foot_top", "head_pitch_to_yaw", "knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet", "left_cache",
-           "right_cache", "left_roll_to_pitch", "right_roll_to_pitch", "neck_left_sheet", "neck_right_sheet", "leg_spacer"]
+           "right_cache", "left_roll_to_pitch", "right_roll_to_pitch", "leg_spacer"]      # the neck sheets are stock again
 PROFILE = {"light": "light (base)", "sparse": "light (sparse)"}
 
 

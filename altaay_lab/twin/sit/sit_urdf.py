@@ -51,6 +51,8 @@ SHIN_SWAP = {"left_knee_to_ankle_left_sheet": "shin_left_sheet", "left_knee_to_a
              "leg_spacer": "shin_spacer"}
 SHIN_LINKS = ("knee_and_ankle_assembly_2", "knee_and_ankle_assembly_4")
 TPU_RGBA = "0.95 0.75 0.2 1"
+PLA_RGBA = "0.55 0.6 0.65 1"
+PLA_PARTS = ("neck_stop",)                                   # the new parts that are PLA (the rest are TPU pads and blocks)
 
 
 def rpy_of(R):
@@ -105,7 +107,7 @@ def urdf_block(stem, T, collision=True):
     o = '<origin xyz="%.9g %.9g %.9g" rpy="%.9g %.9g %.9g" />' % (T[0, 3], T[1, 3], T[2, 3], r, p, y)
     s = ('        <visual>\n            %s\n            <geometry>\n                <mesh filename="package:///%s.stl"/>\n'
          '            </geometry>\n            <material name="%s_material">\n                <color rgba="%s"/>\n'
-         '            </material>\n        </visual>\n' % (o, stem, stem, TPU_RGBA))
+         '            </material>\n        </visual>\n' % (o, stem, stem, PLA_RGBA if stem in PLA_PARTS else TPU_RGBA))
     if collision:
         s += ('        <collision>\n            %s\n            <geometry>\n                <mesh filename="package:///%s.stl"/>\n'
               '            </geometry>\n        </collision>\n' % (o, stem))
@@ -188,7 +190,7 @@ def edit_mjcf(txt, cad, name):
         s, e = body_segment(txt, ln)
         q = quat_of(T[:3, :3])
         g = ('\n<geom pos="%.6g %.6g %.6g" quat="%.6g %.6g %.6g %.6g" type="mesh" rgba="%s" mesh="%s"/>' %
-             (T[0, 3], T[1, 3], T[2, 3], q[0], q[1], q[2], q[3], TPU_RGBA, stem))
+             (T[0, 3], T[1, 3], T[2, 3], q[0], q[1], q[2], q[3], PLA_RGBA if stem in PLA_PARTS else TPU_RGBA, stem))
         txt = txt[:e] + g + "\n" + txt[e:]
         log.append("%s %s: + %s" % (name, ln, stem))
     return txt, log

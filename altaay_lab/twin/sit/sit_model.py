@@ -36,7 +36,7 @@ PG = _MB.PG                   # ODM_PLAYGROUND, the Playground checkout at b9be2
 SRC_XML = os.path.join(PG, "playground", "open_duck_mini_v2", "xmls")
 ROBOT_FILES = ("open_duck_mini_v2.xml", "open_duck_mini_v2_backlash.xml")
 LIMITS = os.path.join(L.LAB, "software", "servo_limits.json")
-SIT_NEW = ("knee_bumper", "ankle_pad", "hip_pad", "sit_seat", "sit_bumper")
+SIT_NEW = ("knee_bumper", "ankle_pad", "hip_pad", "sit_seat", "sit_bumper", "neck_stop", "neck_pad", "head_pad")
 SHIN_SWAP = {"left_knee_to_ankle_left_sheet": "shin_left_sheet", "left_knee_to_ankle_right_sheet": "shin_right_sheet",
              "leg_spacer": "shin_spacer"}
 SHIN_LINKS = ("knee_and_ankle_assembly_2", "knee_and_ankle_assembly_4")
