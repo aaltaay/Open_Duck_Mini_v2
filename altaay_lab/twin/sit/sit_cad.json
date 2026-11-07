@@ -121,18 +121,18 @@
    "bytes": 414884
   },
   "head_pitch_to_yaw": {
-   "volume_mm3": 17353.8,
-   "faces": 14198,
+   "volume_mm3": 17264.9,
+   "faces": 14214,
    "print_file": "print/head_pitch_to_yaw.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/head_pitch_to_yaw.stl",
-   "bytes": 709984
+   "bytes": 710784
   },
   "neck_stop": {
-   "volume_mm3": 14458.0,
-   "faces": 1586,
+   "volume_mm3": 13286.2,
+   "faces": 1520,
    "print_file": "print/neck_stop.stl",
    "urdf_copy": "mini_bdx/robots/open_duck_mini_v2/neck_stop.stl",
-   "bytes": 79384
+   "bytes": 76084
   },
   "neck_pad": {
    "volume_mm3": 180.0,
@@ -866,7 +866,7 @@
    "base_mm3": 64609.0
   },
   "neck_stop": {
-   "volume_mm3": 14457.9,
+   "volume_mm3": 13286.2,
    "slivers_dropped_mm3": [],
    "pad_face_centre": [
     -29.02,
@@ -920,10 +920,10 @@
     29.0,
     126.0
    ],
-   "secs": 41.3
+   "secs": 43.3
   },
   "head_pitch_to_yaw": {
-   "hook_mm3": 3804.4,
+   "hook_mm3": 3715.5,
    "pad_dims": [
     6.0,
     6.1,
@@ -959,7 +959,7 @@
     27.2,
     170.5
    ],
-   "secs": 93.6
+   "secs": 89.2
   },
   "sit_seat": {
    "volume_mm3": 88291.6,

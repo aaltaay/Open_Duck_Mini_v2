@@ -245,10 +245,20 @@ footprint of the touching soles, seat and bumper (vertices within 3 mm of the fl
 | Static push at head height that tips it (rigid robot, calc), 8 directions from forward | 8.3 / 11.7 / 10.9 / 7.8 / 7.8 / 7.8 / 11.2 / 11.8 N | 7.9 / 11.2 / 10.6 / 7.7 / 7.7 / 7.7 / 10.9 / 11.1 N |
 | Sim push at the head CoM, ramped 2 N/s, torque off (neck and head free) | 4.4 / 5.0 / 7.0 / 6.5 / 6.3 / 6.5 / 7.7 / 5.0 N | 4.3 / 4.8 / 6.0 / 6.0 / 6.2 / 6.0 / 6.2 / 4.9 N |
 
-The sit is well inside its footprint, but with the torque off the neck folds forward under a push on the head: about
-4.3 N forward at the head tips it in the sim (the rigid-robot calc says 7.7 N or more), and a 12 N head shove tips it in
-8 of 8 free cases (sit_sim.py shove). The support edges are not marginal, so no seat or bumper change; the weak point is
-the free neck with the torque off, which the learned skill below and a powered neck while people are near address.
+The sit is well inside its footprint, but with the torque off a push on the head tips it at about 4.3 N forward in the
+sim (the rigid-robot calc says 7.7 N or more), and a 12 N head shove tips it in 8 of 8 free cases (sit_sim.py shove).
+The support edges are not marginal, so no seat or bumper change; the weak point is the free head with the torque off,
+which the learned skill below and a powered neck while people are near address.
+
+**A neck forward stop, evaluated and not built (2026-11-07, sim pass only).** The question was whether a stop at about
+-5 deg (the walk uses neck -0.3 to +14.8 deg) would raise the tipping push by keeping the neck from folding forward.
+The same settle and ramped head push (sit_balance.py, nominal case) on the sit model with the neck's forward range cut
+from -20 to -5 deg (software -2): the tipping push is 4.26 N forward against 4.37 N as it is, and within 0.2 N in five
+of the other seven directions (90 deg 7.56 to 7.78 N, 270 deg 6.40 to 7.29 N); the CoM margin 75.9 to 75.7 mm. So the
+neck's forward fold is not what tips the sit (the push at head height does, on a 2.8 kg robot sitting 71 mm high), and
+the stop would touch the sit and stand path (neck -22 deg at its four middle waypoints, sitlib.PATH_A1B, clamped to
+-19 by the software limit) and the get-up through the sit (D60: its tuck keyframes hold the neck at -19). Not built;
+no part, no mass. The walk envelope would have cleared it by 1.7 deg (-0.3 against a -2 deg software limit).
 
 ## 6. Cables (CAD check only)
 
@@ -280,8 +290,12 @@ not. Knee loop flex test to 150 deg: TEST_PLAN.md 19.7.
   is not a beam.
 - The sit and stand sequence in the Runtime is not written; its design is sit_sim.py DOWN, SIT and rise (sitlib.PATH_A1B,
   the trunk leaned forward in the middle, hip roll back to 0 while seated).
-- The neck back and head forward stops are below SF 1.5 for a 12 N head shove and a stalled neck servo (section 4):
-  the redesign (a stop of ours at a larger radius with a TPU face) is not built.
+- The neck stop block hangs on two M2x12 self-tapping screws (F127, F129) whose pull-out strength in the STS3215 case is
+  not published: sit_stress.py takes 500 N (est) until the pull test of TEST_PLAN.md 19.8; the two screws are in no bag
+  or kit (BOM 17m; nothing bought).
+- The get-up through the sit (D60, getup/GETUP_VIA_SIT.md, sim pass only) holds the hip pitch servos at their torque
+  limit through its sit-up (3.14 N m at 7.2 V, 2.62 N m at 6.0 V) and the rise holds the neck at its limit; the thermal
+  and stall margins of those holds are not checked (TEST_PLAN.md 19.9).
 - Fall get-up on the real geometry (read-only retest, 2026-11-07, sim pass only; getup/GETUP_SIT.md and tables.md): the
   stored get-up programs raise the sit model in 0 of 296 cases (the base model, run the same way, 254 of 296). The base
   cannot do it on its own CAD either: with its CAD contacts as limits (knee -28.5, ankle +49.5, head yaw -108/+82, neck
