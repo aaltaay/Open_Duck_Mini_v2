@@ -129,10 +129,12 @@ def box(lo, hi, T=None):
 
 
 def mirror_y_part(m):
-    """the y mirror in the part frame (right part from the left part), normals kept outward"""
+    """the y mirror in the part frame (right part from the left part); trimesh flips the winding of a reflection itself,
+    so the normals stay outward (checked: the volume stays positive)"""
     r = m.copy()
     r.apply_transform(np.diag([1.0, -1.0, 1.0, 1.0]))
-    r.invert()
+    if r.volume < 0:
+        r.invert()
     return r
 
 
@@ -198,15 +200,30 @@ def swept(M, Ts):
     return union([xform(M, T) for T in Ts])
 
 
-def finalize(M, tol=1e-3):
-    """remove slivers that would pinch on an STL round trip (float32 vertices): simplify with a growing tolerance until
-    the STL round trip is watertight; returns a trimesh (raises if no tolerance up to 0.05 mm works)"""
-    M = solid(M)
-    for t in (tol, 3e-3, 1e-2, 2e-2, 5e-2):
-        m = from_man(M.simplify(t))
-        if stl_roundtrip_ok(m)[0]:
+def pinch_edges(m):
+    """edges an STL round trip makes non-manifold (vertices merged by position): their midpoints"""
+    from collections import Counter
+    with tempfile.NamedTemporaryFile(suffix=".stl") as fh:
+        m.export(fh.name)
+        t = trimesh.load(fh.name, force="mesh")
+    e = Counter(map(tuple, np.sort(t.edges, axis=1)))
+    bad = [k for k, v in e.items() if v != 2]
+    return [t.vertices[list(k)].mean(0) for k in bad]
+
+
+def finalize(M, tol=1e-3, keep_largest=True):
+    """a clean printable trimesh: the largest body only (cut-off crumbs dropped, keep_largest) or the bodies over
+    1 mm3; slivers simplified away; a pinch (two faces of the solid touching along an edge, which an STL round trip turns
+    non-manifold) is filled with a 0.4 mm cube so the solid joins properly there. Raises if it cannot be cleaned."""
+    comps = sorted(M.decompose(), key=lambda c: -c.volume())
+    M = comps[0] if keep_largest else solid(M)
+    for _ in range(6):
+        m = from_man(M.simplify(tol))
+        bad = pinch_edges(m)
+        if not bad:
             return m
-    raise RuntimeError("no clean STL within a 0.05 mm simplify tolerance")
+        M = union([M] + [to_man(box(np.asarray(p) - 0.2, np.asarray(p) + 0.2)) for p in bad])
+    raise RuntimeError("no clean STL after 6 pinch fills")
 
 
 def solid(M, min_vol=1.0):

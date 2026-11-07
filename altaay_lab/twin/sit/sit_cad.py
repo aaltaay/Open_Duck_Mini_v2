@@ -578,6 +578,8 @@ def write(S, out, info):
         mm.export(os.path.join(L.URDF_DIR, URDF_COPY.get(stem, stem) + ".stl"))
         if stem in URDF_COPY:            # the right leg reuses the same file name in the URDF (left_ prefix as upstream)
             pass
+        if vol <= 0:
+            raise SystemExit("%s: inside out (volume %.1f)" % (stem, vol))
         rep[stem] = dict(volume_mm3=L.r(vol, 1), faces=len(m.faces), print_file="print/%s.stl" % stem,
                          urdf_copy="mini_bdx/robots/open_duck_mini_v2/%s.stl" % URDF_COPY.get(stem, stem),
                          bytes=os.path.getsize(os.path.join(L.PRINT, stem + ".stl")))
