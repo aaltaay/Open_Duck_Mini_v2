@@ -58,6 +58,10 @@ def section_props(poly_xy, axis_dir):
     return A, I, float(np.abs(q).max())
 
 
+SHOVE_N = 12.0                   # a shove on the head (D59 review: a toy gets shoved; 12 N, the largest push of the sim)
+GAP_DEG = 3.0                    # the head starts this far off its stop (the software limit) when the shove comes
+E_TPU = 26.0                     # MPa, TPU 95A tensile modulus, est (typical data sheet value for 95A grades; not measured)
+SF_SHOVE = 1.5                   # the margin asked for the shove (D59 review)
 ABUSE = ("8dirs_F12", "mat_mu0.4_F8")   # push cases past the A1b use: a 12 N shove from 8 sides, the sit sliding on a mat
 
 
@@ -143,15 +147,74 @@ def check(name, sigma, allow, load, label="calc", what=""):
                 need=need, ok=bool(sf >= need), label=label, what=what)
 
 
+def axis_inertia(md, dd, jname):
+    """inertia about a hinge of everything it carries (the subtree) plus the servo armature, at the pose in dd"""
+    import mujoco as m
+    j = m.mj_name2id(md, m.mjtObj.mjOBJ_JOINT, jname)
+    b0 = md.jnt_bodyid[j]
+    a = dd.xaxis[j] / np.linalg.norm(dd.xaxis[j])
+    p = dd.xanchor[j]
+    I = float(md.dof_armature[md.jnt_dofadr[j]])
+    for b in range(md.nbody):
+        k = b
+        while k != 0 and k != b0:
+            k = md.body_parentid[k]
+        if k != b0:
+            continue
+        R = dd.ximat[b].reshape(3, 3)
+        d = dd.xipos[b] - p
+        r2 = float(d @ d - (d @ a) ** 2)
+        I += float(a @ (R @ np.diag(md.body_inertia[b]) @ R.T) @ a) + float(md.body_mass[b]) * r2
+    return I, a, p
+
+
+def head_shove(S, model_dir, lug, pad_dims, pad_r_mm):
+    """a SHOVE_N shove on the head with the torque off, the head GAP_DEG off its forward stop: it swings onto the stop
+    and the TPU pad takes the impact. Work-energy: omega = sqrt(2 T theta / I); a linear pad k = E A / t at radius r gives
+    a peak of omega sqrt(I k_rot) on top of the push (VHB in series is softer still: left out, conservative)"""
+    import mujoco as m
+    sys.path.insert(0, HERE)
+    import sit_model as SM
+    md = SM.load(model_dir)
+    dd = m.MjData(md)
+    dd.qpos[:] = md.key_qpos[0] if md.nkey else dd.qpos
+    for jn, v in (("neck_pitch", 22.0), ("head_pitch", -22.0)):
+        dd.qpos[md.jnt_qposadr[m.mj_name2id(md, m.mjtObj.mjOBJ_JOINT, jn)]] = np.radians(v)
+    m.mj_kinematics(md, dd)
+    I, a, p = axis_inertia(md, dd, "head_pitch")
+    # lever: the head's farthest point from the head pitch axis, the shove square to it (the largest torque 12 N can give)
+    hp, hd = S.joint_world("head_pitch")
+    lev = 0.0
+    for i in S.inst:
+        if i["link"] in ("head_assembly", "neck_yaw_assembly", "head_pitch_to_yaw") and i["key"] in ("head", "head_bot_sheet"):
+            V = np.asarray(S.world_mesh(i).vertices)
+            dv = V - hp
+            lev = max(lev, float(np.sqrt((dv ** 2).sum(1) - (dv @ hd) ** 2).max()))
+    T_push = SHOVE_N * lev / 1000.0
+    th = np.radians(GAP_DEG)
+    w = float(np.sqrt(2 * T_push * th / I))
+    A = pad_dims[0] * pad_dims[1]
+    k_lin = E_TPU * A / pad_dims[2] * 1000.0                      # N/m (MPa x mm2 / mm = N/mm)
+    k_rot = k_lin * (pad_r_mm / 1000.0) ** 2
+    T_pk = w * float(np.sqrt(I * k_rot)) + T_push
+    F = T_pk * 1000.0 / pad_r_mm
+    sig = F / lug["root_area"] + F * lug["arm"] / lug["root_W"]
+    return dict(I_axis_kg_m2=round(I, 5), lever_mm=round(lev, 1), push_Nm=round(T_push, 3), gap_deg=GAP_DEG, omega_rad_s=round(w, 3),
+                pad_k_N_mm=round(k_lin / 1000, 1), pad_r_mm=round(pad_r_mm, 1), peak_Nm=round(T_pk, 3), F_N=round(F, 1),
+                pad_MPa=round(F / A, 2), pad_strain=round(F / (E_TPU * A), 3), lug_MPa=round(sig, 2), SF=round(Z_INTER / sig, 2),
+                ok=bool(Z_INTER / sig >= SF_SHOVE))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sim", default="")
     ap.add_argument("--write", action="store_true")
+    ap.add_argument("--model", default="", help="the sit model folder (sit_model.py --out <S>/model: <S>/model/sit), for the head shove")
     a = ap.parse_args()
     S = L.scene(fresh=True)
     cad = json.load(open(os.path.join(HERE, "sit_cad.json")))
-    if a.write and not a.sim:
-        raise SystemExit("--write needs --sim (the push and up results): without them the loads are only the floors")
+    if a.write and (not a.sim or not a.model):
+        raise SystemExit("--write needs --sim (the push and up results) and --model (the head shove inertia)")
     T = stop_torques(a.sim.split(",") if a.sim else [])
     TA = stop_torques(a.sim.split(",") if a.sim else [], abuse=True)
     rows, loads = [], {}
@@ -250,8 +313,40 @@ def main():
         tn = tq(joint)
         lug_rows("%s stop lug" % key, jn, (p_, d_), g["contact"], g["force_dir"], g["root_area"], g["root_W"], g["arm"], tn, STALL["other"], tqa(joint))
 
+    # ---------------- a shove on the head: the head lug lands on its TPU pad (sit_cad.py head_pad)
+    hpad = cad["build"]["head_pitch_to_yaw"].get("pad")
+    if a.model and hpad and lugs.get("head"):
+        hp_, hd_ = S.joint_world("head_pitch")
+        c_ = np.array(hpad["centre"]) - hp_
+        r_pad = float(np.sqrt(c_ @ c_ - (c_ @ hd_) ** 2))
+        sh = head_shove(S, a.model, lugs["head"], hpad["dims"], r_pad)
+        loads["head shove"] = sh
+        rows.append(dict(part="head stop lug, %d N shove on the head (TPU pad)" % SHOVE_N, load="shove", case="shove", stress_MPa=sh["lug_MPa"],
+                         allowable_MPa=Z_INTER, SF=sh["SF"], need=SF_SHOVE, ok=sh["ok"], label="calc",
+                         what="omega %.2f rad/s after %.0f deg, I %.4f kg m2, pad k %.0f N/mm at r %.1f mm: peak %.2f N m, %.0f N" % (
+                             sh["omega_rad_s"], GAP_DEG, sh["I_axis_kg_m2"], sh["pad_k_N_mm"], sh["pad_r_mm"], sh["peak_Nm"], sh["F_N"])))
+    # ---------------- a shove backward on the head with the torque off: the neck lug already carries the head (its service
+    # torque) and takes the shove on top, statically (it rests on its stop)
+    if lugs.get("neck"):
+        npnt, nd = S.joint_world("neck_pitch")
+        lev = 0.0
+        for i in S.inst:
+            if i["key"] in ("head", "head_bot_sheet"):
+                dv = np.asarray(S.world_mesh(i).vertices) - npnt
+                lev = max(lev, float(np.sqrt((dv ** 2).sum(1) - (dv @ nd) ** 2).max()))
+        g = lugs["neck"]
+        Tn = tq("neck_pitch") + SHOVE_N * lev / 1000.0
+        r_ = lever(npnt, nd, g["contact"], g["force_dir"])
+        F = Tn * 1000.0 / r_ / 2                                  # two neck sheets, one lug each
+        sig = F / g["root_area"] + F * g["arm"] / g["root_W"]
+        loads["neck shove"] = dict(lever_mm=round(lev, 1), torque_Nm=round(Tn, 3), F_per_lug_N=round(F, 1))
+        rows.append(dict(part="neck stop lug, %d N shove back on the head (static, torque off)" % SHOVE_N, load="shove", case="shove",
+                         stress_MPa=round(sig, 2), allowable_MPa=Z_INTER, SF=round(Z_INTER / sig, 2), need=SF_SHOVE,
+                         ok=bool(Z_INTER / sig >= SF_SHOVE), label="calc",
+                         what="%.2f N m (sim service %.2f + %d N at %.0f mm) over 2 lugs at r %.1f mm" % (Tn, tq("neck_pitch"), SHOVE_N, lev, r_)))
     J = dict(generated_by="altaay_lab/twin/sit/sit_stress.py", label="calc", loads=loads, sim_inputs=[os.path.basename(p) for p in a.sim.split(",") if p], rows=rows,
              all_ok=all(r["ok"] for r in rows if r.get("case") not in ("stall", "abuse")),
+             shove_ok=all(r["ok"] for r in rows if r.get("case") == "shove") and any(r.get("case") == "shove" for r in rows),
              abuse_ok=all(r["ok"] for r in rows if r.get("case") == "abuse"), abuse_cases=list(ABUSE),
              abuse_peaks_Nm={k: round(v, 2) for k, v in sorted(TA.items())},
              stall_ok=all(r["ok"] for r in rows if r.get("case") == "stall"))

@@ -149,6 +149,9 @@ def write(out, variant="sit"):
                             c.set(k_, v_)
                         c.set("class", "collision")
                         c.set("name", "%s_%s_%d_collision" % (stem, nm, seen[stem]))
+                        c.set("contype", "0")              # the floor only, as the study's seat capsules
+                        c.set("conaffinity", "1")
+                        c.set("friction", "0.8 0.02 0.002")
         if variant == "sit":
             asset = root.find("asset")
             have = {m.get("name") for m in asset.findall("mesh")}

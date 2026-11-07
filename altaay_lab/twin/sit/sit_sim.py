@@ -188,10 +188,10 @@ def head_elev(md, dd):
     return float(np.degrees(np.arcsin(np.clip(f[2], -1, 1))))
 
 
-def stance_start(md):
+def stance_start(md, kp=KP):
     import mujoco as m
     dd = m.MjData(md)
-    torque(md, True)
+    torque(md, True, kp)
     q = md.key_qpos[0].copy()
     c0 = targets(md, *STAND)
     for i in range(md.nu):
@@ -236,9 +236,10 @@ class Track:
         self.tmax = np.maximum(self.tmax, abs(dd.actuator_force))
 
 
-def enter(md, off=None, pins_on=True):
+def enter(md, off=None, pins_on=True, kp=KP):
+    """stand, then the A1b path down with torque on at gain kp (the caller's randomized gain is kept throughout)"""
     import mujoco as m
-    dd, c0 = stance_start(md)
+    dd, c0 = stance_start(md, kp)
     SF = sole_frames(md, dd)
     pins = make_pins(dd, SF)
     tr = Track(md)
@@ -267,6 +268,7 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
     minpads = {}
     pr, hr = [99, -99], [99, -99]
     lim = {}
+    jn = {j: m.mj_id2name(md, m.mjtObj.mjOBJ_JOINT, j) for j in range(1, md.njnt)}
     for i in range(int(T / md.opt.timestep)):
         t = dd.time - t0
         dd.xfrc_applied[:] = 0
@@ -277,7 +279,9 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
         m.mj_step(md, dd)
         if ref is None and t >= t_first - 0.1:
             ref = dd.qpos[0:3].copy()
-        if i % 50 == 0 and t >= t_first - 0.1:
+        if t >= t_first - 0.1:
+            # every physics step: the least pins per pad, the pitch and head ranges and the largest constraint torque
+            # on each joint (an impact lasts a few steps; a decimated sample would miss its peak)
             p = pin_eval(md, dd, SF, pins)
             for k, v in p.items():
                 minpads[k] = min(minpads.get(k, 99), v)
@@ -285,11 +289,11 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
             pr = [min(pr[0], ts_["pitch"]), max(pr[1], ts_["pitch"])]
             he = head_elev(md, dd)
             hr = [min(hr[0], he), max(hr[1], he)]
-            # stop torques: the constraint force on each limited joint dof
             for j in range(1, md.njnt):
                 f = abs(dd.qfrc_constraint[md.jnt_dofadr[j]])
-                n = m.mj_id2name(md, m.mjtObj.mjOBJ_JOINT, j)
-                lim[n] = max(lim.get(n, 0.0), float(f))
+                n = jn[j]
+                if f > lim.get(n, 0.0):
+                    lim[n] = float(f)
     ts_ = trunk_state(md, dd)
     pads = pin_eval(md, dd, SF, pins)
     return dict(F=F, dirs=list(dirs), drift_mm=float(np.linalg.norm(dd.qpos[0:2] - ref[0:2]) * 1000), pitch=ts_["pitch"],
@@ -300,13 +304,13 @@ def hold(md, dd, SF, pins, F=3.0, dirs=DIRS, T=60.0, t_first=5.0, gap=6.0, dur=0
                         for n in [m.mj_id2name(md, m.mjtObj.mjOBJ_JOINT, j)]})
 
 
-def rise(md, dd, cb, off=None, T=1.5):
+def rise(md, dd, cb, off=None, T=1.5, kp=KP):
     import mujoco as m
     q = np.array([dd.qpos[md.jnt_qposadr[md.actuator_trnid[i, 0]]] for i in range(md.nu)])
     lo, hi = md.actuator_ctrlrange[:, 0], md.actuator_ctrlrange[:, 1]
     c = np.clip(q, lo, hi)
     dd.ctrl[:] = c
-    torque(md, True)
+    torque(md, True, kp)
     for _ in range(int(0.3 / md.opt.timestep)):
         m.mj_step(md, dd)
         cb(md, dd)
@@ -333,7 +337,6 @@ def push_job(a):
     name, opt = a
     t = time.time()
     md = model(OUT[0], opt.get("mu", 0.8))
-    torque(md, True)
     saved = (md.dof_frictionloss.copy(), md.dof_damping.copy())
     if "fric" in opt:
         md.dof_frictionloss[6:] = opt["fric"]
@@ -375,25 +378,25 @@ def up_job(a):
     for i in range(md.nu):
         if any(s in md.actuator(i).name for s in ("hip", "knee", "ankle")):
             off[i] = D(rng.normal(0, sig))
-    torque(md, True, kp)
-    dd, SF, pins, tr_in, cb = enter(md, off=off)
+    # a zero error moves the servo's own angle limit registers with it (they are written from the calibrated offset,
+    # bench/set_angle_limits.py): the clamp shifts with the commands, so the control range moves by the same error
+    saved_cr = md.actuator_ctrlrange.copy()
+    md.actuator_ctrlrange[:] = saved_cr + off[:, None]
+    dd, SF, pins, tr_in, cb = enter(md, off=off, kp=kp)
     dirs = list(rng.choice(DIRS, 3))
     F = float(rng.uniform(3, 8))
     r = hold(md, dd, SF, pins, F=F, dirs=dirs, T=20, t_first=3, gap=5)
-    if seed % 2:
-        md.dof_damping[6:] = 0.05
-    md.dof_damping[6:] = saved[1][6:]
     tr = Track(md)
 
     def cb2(md, dd):
         pin_eval(md, dd, SF, pins, apply=True)
         tr(md, dd)
-    torque(md, True, kp)
-    rise(md, dd, cb2, off=off)
+    rise(md, dd, cb2, off=off, kp=kp)
     ts = trunk_state(md, dd)
     pads = pin_eval(md, dd, SF, pins)
     stood = bool(ts["up"] > 0.95 and ts["z"] > 0.17)
     md.actuator_forcerange[:], md.dof_damping[:] = saved
+    md.actuator_ctrlrange[:] = saved_cr
     return dict(seed=seed, sig=sig, lim=lim, sit_pads=r["pads_final"], sit_all4=r["all4_final"], sit_fell=r["fell"], stood=stood,
                 success=bool(stood and min(pads.values()) >= 2), pads_after=pads,
                 rise_tau={md.actuator(i).name: float(tr.tmax[i]) for i in range(md.nu)},
