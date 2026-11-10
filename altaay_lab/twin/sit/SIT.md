@@ -69,7 +69,8 @@ a pair counts above 2 mm3 over its zero-pose overlap. Results in sit_sweep.json.
   (every leg joint +/-3 deg at the sit): 204 states, no new overlap.
 - The stock walk envelope (VERIFICATION.md E9 'ours' ranges, corners with the inward roll and yaw): 32 states, no new
   overlap.
-- The get-up through the sit (D60; getup/GETUP_VIA_SIT.md, its programs copied to getup/programs/): 26 states, the
+- The get-up through the sit (D60; getup/GETUP_VIA_SIT.md, its programs in getup/programs/, the merged-model eval in
+  getup/VIA_SIT_EVAL.md): 26 states, the
   tuck keyframes (4), the roll keyframes with their asymmetric legs and head yaw swing, both sides (14), and an envelope
   of the side swing (the head yaw at both software limits with the neck and head at the corners of their sit ranges,
   8). None of the new parts touches anything in them. The envelope's two corners with the neck at +22 and the head at
@@ -461,7 +462,12 @@ not. Knee loop flex test to 150 deg: TEST_PLAN.md 19.7.
   length, now taken again from its points).
 - The get-up through the sit (D60, getup/GETUP_VIA_SIT.md, sim pass only) holds the hip pitch servos at their torque
   limit through its sit-up (3.14 N m at 7.2 V, 2.62 N m at 6.0 V) and the rise holds the neck at its limit; the thermal
-  and stall margins of those holds are not checked (TEST_PLAN.md 19.9).
+  and stall margins of those holds are not checked (TEST_PLAN.md 19.9). Re-run on the merged model (aad3a9a, round-2
+  stops, 2026-11-10; getup/VIA_SIT_EVAL.md, sim pass only): 248 of 296 again (back 156 of 156, side 68 of 68, front 24 of
+  72; the 48 down-ramp front rests fail at the tuck), case by case the same as the search; the hip pitch at its limit for
+  up to 1.08 s, no servo over a Feetech protection line for the 2 s it needs (longest 1.14 s over 80 % duty, calc only);
+  no joint more than 0.30 deg past a hard stop, and the head rule of section 3 holds in every case (the head at most
+  +16.9 deg while the neck is above +15).
 - Fall get-up on the real geometry (read-only retest, 2026-11-07, sim pass only; getup/GETUP_SIT.md and tables.md): the
   stored get-up programs raise the sit model in 0 of 296 cases (the base model, run the same way, 254 of 296). The base
   cannot do it on its own CAD either: with its CAD contacts as limits (knee -28.5, ankle +49.5, head yaw -108/+82, neck
