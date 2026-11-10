@@ -267,7 +267,7 @@ def update_print_check(txt, P, R, sdir, when, ss_tot):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--slice", required=True, help="the slice.py parts --out folder of the D59 STLs")
-    ap.add_argument("--when", default="", help="ET time of the slice run, for the notes")
+    ap.add_argument("--when", required=True, help="ET date and time of the slice run, for the notes (an empty one left a blank in both notes)")
     ap.add_argument("--write", action="store_true")
     a = ap.parse_args()
     R = json.load(open(os.path.join(a.slice, "parts.json")))

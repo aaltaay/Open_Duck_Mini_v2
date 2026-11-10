@@ -1,6 +1,6 @@
 # PRINT_CHECK
 
-## Note : D59 alert sit parts
+## Note 2026-11-07 ET: D59 alert sit parts
 
 The A1b sit (DECISIONS.md D59, twin/sit/SIT.md; CAD check only) changes 11 printed parts and adds 8 new ones. New rows here: ankle_pad, head_pad, hip_pad, knee_bumper, neck_pad, neck_stop, roll_pad_left, roll_pad_right, shin_left_sheet, shin_right_sheet, shin_spacer, sit_bumper, sit_seat, measured on the oriented STLs of a `slice.py parts --only` run (D22 light profile; their grams and hours are that run's, not the 7:24 PM run of the other rows; TPU pads and blocks go on VHB 4950). Quantities follow print/parts.csv: the knee_to_ankle sheets and leg_spacer are the thigh parts only (2 each); the shins print shin_left_sheet, shin_right_sheet (joggled 9 mm, with the clamp block) and shin_spacer. The changed STLs keep their rows here (geometry columns of the stock part; their light-profile grams are in print/SLICE_SUMMARY.md): the thigh sheets lose about 0.4 cm3 at the front edge; foot_top and foot_side get the heel notch, the ankle pad seat and the heel screw moved 20 mm toward the toe (old holes closed, D39); left_cache and right_cache are cut by about 12.6 cm3 for the fold; roll_to_pitch, both neck sheets and head_pitch_to_yaw get a stop lug. Every hole of a changed STL is checked to be there as before (twin/sit/sit_cad.py). Robot set now 49 STLs, 68 parts; in the light profile 1355.5 g and 119.9 h (print/SLICE_SUMMARY.md).
 
