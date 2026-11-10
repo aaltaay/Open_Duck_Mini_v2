@@ -79,7 +79,9 @@ HORNS = ("drive_palonier", "passive_palonier")
 ROLL_LUG = ((-16.0, 50.0, 2.0), (-2.0, 62.8, 11.6))         # on left_roll_to_pitch, front of the D3/SP4/S3 loop; 14 mm wide in x
                                                              # (the first cut was 10: the root grown for the energy loads, SIT.md 4)
 ROLL_PAD_DIMS = (12.0, 9.0, PAD_T)                           # the TPU face on the lug: the box round the touch (along the case's edge, across it), thick
-LUG_CLR = 0.4                                                # the lug as built stands this far behind the case's path: only the pad touches
+LUG_CLR = 0.8                                                # the lug as built stands this far behind the case's path: only the pad touches
+                                                             # (0.4 grazed the case 0.5 deg past the stop: sitlib.dilate covers 0.82 of it and
+                                                             # the STL's pinch fills stand 0.2 mm proud)
 PAD_SET = 0.1                                                # the pad face this far behind the case's path at the stop (the STL's pinch fills stand up
                                                              # to 0.2 mm proud, sitlib.finalize): the case meets the pad within 0.5 deg of the stop
 # the neck back stop block (world, mm): footprint on trunk_top (z 85.8 flat from x -59 to -21), the pillars outboard of

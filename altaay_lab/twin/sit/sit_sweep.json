@@ -52,26 +52,19 @@
   "hip_roll_out": {
    "joint": "left_hip_roll",
    "stop": -8.0,
-   "ok": false,
+   "ok": true,
    "inside": {
     "angle": -7.5,
-    "new_overlap_mm3": {
-     "roll_motor_bottom|left_roll_to_pitch": 0.3,
-     "roll_motor_bottom|roll_pad_left": 0.02
-    }
+    "new_overlap_mm3": {}
    },
    "at": {
     "angle": -8.0,
-    "new_overlap_mm3": {
-     "roll_motor_bottom|left_roll_to_pitch": 0.32,
-     "roll_motor_bottom|roll_pad_left": 0.03
-    }
+    "new_overlap_mm3": {}
    },
    "past": {
     "angle": -8.5,
     "new_overlap_mm3": {
-     "roll_motor_bottom|left_roll_to_pitch": 0.32,
-     "roll_motor_bottom|roll_pad_left": 5.1
+     "roll_motor_bottom|roll_pad_left": 5.08
     }
    }
   },

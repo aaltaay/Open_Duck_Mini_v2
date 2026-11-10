@@ -60,7 +60,7 @@ V1 sit job,  (D59; twin/sit/SIT.md): the 23 STLs it changed or added sliced with
 | left_antenna_holder.stl | 1 | PLA | heavy (wall3) | 3.57 | 0.28 | 0.05 | 3.6 | 0.28 | 3.57 | 0.28 |
 | left_cache.stl | 1 | PLA | light (base) | 49.55 | 4.38 | 2.40 | 49.5 | 4.38 | 77.34 | 5.97 |
 | left_eye.stl | 1 | PLA | heavy (wall3) | 1.82 | 0.17 | 0.00 | 1.8 | 0.17 | 1.80 | 0.18 |
-| left_roll_to_pitch.stl | 1 | PLA | heavy (wall3+fit), D38 | 25.82 | 2.42 | 1.53 | 25.8 | 2.42 | 24.82 | 2.31 |
+| left_roll_to_pitch.stl | 1 | PLA | heavy (wall3+fit), D38 | 25.83 | 2.42 | 1.53 | 25.8 | 2.42 | 24.82 | 2.31 |
 | leg_spacer.stl | 2 | PLA | rings (base + 4 insert rings) | 6.01 | 0.72 | 0.05 | 12.0 | 1.45 | 8.83 | 1.00 |
 | neck_left_sheet.stl | 1 | PLA | heavy (neck) | 7.49 | 0.70 | 0.17 | 7.5 | 0.70 | 7.49 | 0.70 |
 | neck_pad.stl | 2 | TPU | light (base) | 0.23 | 0.04 | 0.00 | 0.5 | 0.09 | - | - |
