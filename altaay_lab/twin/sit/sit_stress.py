@@ -46,6 +46,53 @@ KNEE_PEAK = 1.57                 # SIT_V2.md 3.2, A1b stand-up peak (STS3250 kne
 WEIGHT_N = 27.5                  # SIT_V2.md 3.2 total weight (the repo model's own mass is in sit_sim.json)
 
 
+def _ring_moments(xy):
+    """signed A, first moments (Sx, Sy) and second moments (Ixx = int y^2, Iyy = int x^2) about the origin of a closed
+    ring by Green's theorem (counter-clockwise positive)"""
+    x, y = np.asarray(xy, float)[:, 0], np.asarray(xy, float)[:, 1]
+    x1, y1 = np.roll(x, -1), np.roll(y, -1)
+    cr = x * y1 - x1 * y
+    A = cr.sum() / 2.0
+    Sx = ((x + x1) * cr).sum() / 6.0
+    Sy = ((y + y1) * cr).sum() / 6.0
+    Iyy = ((x * x + x * x1 + x1 * x1) * cr).sum() / 12.0
+    Ixx = ((y * y + y * y1 + y1 * y1) * cr).sum() / 12.0
+    return A, Sx, Sy, Ixx, Iyy
+
+
+def area_polar(geom):
+    """exact area, area centroid, polar second moment about that centroid (Ixx + Iyy) and the farthest boundary point
+    from it, of a shapely Polygon or MultiPolygon with holes (the holes are subtracted)"""
+    from shapely.geometry.polygon import orient
+    polys = list(geom.geoms) if hasattr(geom, "geoms") else [geom]
+    tot = np.zeros(5)
+    pts = []
+    for q in polys:
+        q = orient(q, 1.0)                     # exterior counter-clockwise, holes clockwise: the holes come out negative
+        for ring in [q.exterior] + list(q.interiors):
+            xy = np.asarray(ring.coords)[:-1]
+            tot += np.array(_ring_moments(xy))
+            pts.append(xy)
+    A, Sx, Sy, Ixx, Iyy = tot
+    cx, cy = Sx / A, Sy / A
+    Jc = (Ixx - A * cy * cy) + (Iyy - A * cx * cx)
+    P = np.vstack(pts)
+    r_max = float(np.sqrt(((P - [cx, cy]) ** 2).sum(1)).max())
+    return float(A), (float(cx), float(cy)), float(Jc), r_max
+
+
+def face_region(m, axis, tol=0.9):
+    """the region a thin shell covers seen along a coordinate axis: the union of its facets that face that axis
+    (|n . axis| > tol), projected onto the other two coordinates"""
+    from shapely.geometry import Polygon
+    from shapely.ops import unary_union
+    k = [i for i in range(3) if i != axis]
+    keep = np.abs(m.face_normals[:, axis]) > tol
+    tris = [Polygon(t[:, k]) for t in m.triangles[keep]]
+    tris = [t for t in tris if t.is_valid and t.area > 1e-9]
+    return unary_union(tris).buffer(0)
+
+
 def section_props(poly_xy, axis_dir):
     """I about the centroidal axis along axis_dir (2D unit vector in the section plane) and the extreme fibre c"""
     from shapely.geometry import Polygon
@@ -333,10 +380,13 @@ def head_geometry(S, cad):
     A = root.volume() / 0.5
     rm = L.from_man(root)
     rc = rm.center_mass
-    # the root face lies in the x z plane (the arm's outer face): its polar modulus about the centroid for a moment about y
-    P = np.asarray(rm.vertices)[:, [0, 2]]
-    Jp = float(((P - P.mean(0)) ** 2).sum(1).mean()) * A
-    r_max = float(np.sqrt(((P - P.mean(0)) ** 2).sum(1)).max())
+    # the root face lies in the x z plane (the arm's outer face): its area, polar moment about its area centroid and
+    # farthest fibre, integrated over the face region with its holes (the horn screw counterbores), for a moment about y
+    face = face_region(rm, 1)
+    A_face, _, Jp, r_max = area_polar(face)
+    if abs(A_face - A) > 0.15 * A:
+        raise SystemExit("head hook: the root face region (%.0f mm2) and the root shell (%.0f mm2) disagree" % (A_face, A))
+    A = A_face
     fdir = -n                                                           # the force on the hook, from the sheet
     arm = float(np.linalg.norm(np.cross(rc - c, fdir)))                # lever of the force line about the root centroid
     # the composite section (arm plus doubler) level with the root centroid, left arm (y > 12): bending about y
