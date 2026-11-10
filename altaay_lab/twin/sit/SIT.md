@@ -141,14 +141,15 @@ Loads on the round-2 model (sit_stress.json, calc from the sim's omega record): 
 I 0.030 kg m2; the sim's own limit peak 8.5), the 12 N back shove with the torque on 5.9 N m (omega 1.07; the sim
 6.1), torque off 1.6 N m (sustained: the free head does not reach the back stop fast), the stall 1.9 N m; head service
 0.76 N m (omega 0.29), the 12 N forward shove with the torque off 5.8 N m (omega 2.49 rad/s; the sim's compliant limit
-2.3), torque on 0.55 N m; hip roll service 1.42 and 1.46 N m (left and right; the sim 5.2 and 3.3). All 112 rows pass
+2.3), torque on 0.70 N m (the 12 N shove held on the 48.7 mm arm from the head's CoM down to the
+head pitch axis, by hand: it sizes this case); hip roll service 1.42 and 1.46 N m (left and right; the sim 5.2 and 3.3). All 112 rows pass
 (sit_stress.json all_ok, shove_ok, abuse_ok and stall_ok true); the closest to its target is the shin sheet neck at
 the fall load, SF 1.20 against 1.2 (the FEA scale on 7.83 N m of knee torque; 1.34 in the first round).
 
 | Head and neck stop case (the weakest row) | SF | Against |
 |---|---|---|
 | head stop, 12 N shove forward on the head, torque off | 1.84 (yoke left arm with the doubler, level with the root) | 1.5: pass |
-| head stop, 12 N shove forward on the head, torque on | 19.46 (the same row) | 1.5: pass |
+| head stop, 12 N shove forward on the head, torque on | 15.21 (the same row) | 1.5: pass |
 | neck stop, 12 N shove back on the head, torque off | 9.39 (neck pad, TPU bearing) | 1.5: pass |
 | neck stop, 12 N shove back on the head, torque on | 2.63 (neck pad, TPU bearing) | 1.5: pass |
 | neck stop at a servo stall (one face) | 7.74 (neck pad, TPU bearing) | 1.5: pass |
@@ -259,12 +260,12 @@ mat_mu0.4_F8); stall the servo pressing into its stop at stall torque; the shove
 | head hook root face on the arm (shear across the layers, est) | head stop, 12 N shove forward on the head, torque off | the doubler's face on the arm, 308 mm2, carries M 6793 N mm (lever 29.3 mm) in shear: Jp 28973 mm4, r 23.6 mm | 2.02 | 1.5 |
 | yoke left arm with the doubler, level with the root (bending across the layers) | head stop, 12 N shove forward on the head, torque off | the composite section at z 160.4: net 166 mm2, W 649 mm3, M 6854 N mm (lever 29.5 mm) | 1.84 | 1.5 |
 | head hook foot plate at x 13 (bending, in the plate) | head stop, 12 N shove forward on the head, torque off | the 4 mm plate outboard of the sheet: 94 mm2, W 241 mm3, M 1656 N mm (lever 7.1 mm); the plate prints flat | 5.05 | 1.5 |
-| head pad (TPU bearing) | head stop, 12 N shove forward on the head, torque on | F 21.9 N at r 25.0 mm over 73 mm2 | 33.37 | 1.5 |
-| neck sheet front edge (in-plane bearing) | head stop, 12 N shove forward on the head, torque on | the stock left sheet's 6.3 mm front edge over the 12 mm pad, the load in the sheet's plane | 162.35 | 1.5 |
-| head pad pocket wall (the slide, across the layers) | head stop, 12 N shove forward on the head, torque on | 0.52 of F along the face = 11.5 N on the 6.1 x 2.5 mm pocket wall | 29.22 | 1.5 |
-| head hook root face on the arm (shear across the layers, est) | head stop, 12 N shove forward on the head, torque on | the doubler's face on the arm, 308 mm2, carries M 642 N mm (lever 29.3 mm) in shear: Jp 28973 mm4, r 23.6 mm | 21.34 | 1.5 |
-| yoke left arm with the doubler, level with the root (bending across the layers) | head stop, 12 N shove forward on the head, torque on | the composite section at z 160.4: net 166 mm2, W 649 mm3, M 648 N mm (lever 29.5 mm) | 19.46 | 1.5 |
-| head hook foot plate at x 13 (bending, in the plate) | head stop, 12 N shove forward on the head, torque on | the 4 mm plate outboard of the sheet: 94 mm2, W 241 mm3, M 157 N mm (lever 7.1 mm); the plate prints flat | 53.41 | 1.5 |
+| head pad (TPU bearing) | head stop, 12 N shove forward on the head, torque on | F 28.1 N at r 25.0 mm over 73 mm2 | 26.08 | 1.5 |
+| neck sheet front edge (in-plane bearing) | head stop, 12 N shove forward on the head, torque on | the stock left sheet's 6.3 mm front edge over the 12 mm pad, the load in the sheet's plane | 126.89 | 1.5 |
+| head pad pocket wall (the slide, across the layers) | head stop, 12 N shove forward on the head, torque on | 0.52 of F along the face = 14.7 N on the 6.1 x 2.5 mm pocket wall | 22.84 | 1.5 |
+| head hook root face on the arm (shear across the layers, est) | head stop, 12 N shove forward on the head, torque on | the doubler's face on the arm, 308 mm2, carries M 821 N mm (lever 29.3 mm) in shear: Jp 28973 mm4, r 23.6 mm | 16.68 | 1.5 |
+| yoke left arm with the doubler, level with the root (bending across the layers) | head stop, 12 N shove forward on the head, torque on | the composite section at z 160.4: net 166 mm2, W 649 mm3, M 829 N mm (lever 29.5 mm) | 15.21 | 1.5 |
+| head hook foot plate at x 13 (bending, in the plate) | head stop, 12 N shove forward on the head, torque on | the 4 mm plate outboard of the sheet: 94 mm2, W 241 mm3, M 200 N mm (lever 7.1 mm); the plate prints flat | 41.74 | 1.5 |
 | neck pad (TPU bearing) | neck stop, 12 N shove back on the head, torque off | F 63.9 N on the 25.8 mm lever of the pad's normal (pad centre r 28.0) over 60 mm2 (one face) | 9.39 | 1.5 |
 | neck sheet back edge (in-plane bearing) | neck stop, 12 N shove back on the head, torque off | the stock sheet's 6.1 mm back edge over the 10 mm pad, the load in the sheet's plane | 45.35 | 1.5 |
 | neck pad pocket wall (the slide, across the layers) | neck stop, 12 N shove back on the head, torque off | 0.39 of F along the face = 25.2 N on the 6.0 x 2.5 mm pocket wall | 13.12 | 1.5 |

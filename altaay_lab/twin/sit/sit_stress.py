@@ -624,7 +624,7 @@ def main():
         """gravity torque at the joint in the sit pose, and the arm of a horizontal shove at the head's CoM about it"""
         j = m.mj_name2id(md, m.mjtObj.mjOBJ_JOINT, jn)
         T_g = abs(float(dd.qfrc_bias[md.jnt_dofadr[j]]))
-        arm = abs(float(dd.xipos[hd_b][2] - dd.xanchor[j][2]))            # a horizontal force: the arm is the height difference
+        arm = abs(float(dd.xipos[hd_b][2] - dd.xanchor[j][2]))            # a horizontal force: the arm is the height difference (m)
         return T_g, arm
     for jn, end, G, rowfn, direction, name in (("head_pitch", "lo", GH, head_rows, "forward", "head"), ("neck_pitch", "hi", GN, neck_rows, "back", "neck")):
         T_g, arm = axis_static(jn)
@@ -647,11 +647,11 @@ def main():
             raw_ = max(r["limit_torque_loaded"].get(k_, 0.0) for r in cs)
             sim_ = max(r["limit_torque_max"].get(k_, 0.0) for r in cs)
             T_e = w_ * float(np.sqrt(stops_md[jn]["I_eff_held"] * stops_md[jn]["K_Nm_rad"])) + rest_
-            T_calc = SHOVE_N * arm / 1000.0 + T_g                           # the sustained shove, by hand
+            T_calc = SHOVE_N * arm + T_g                                    # the sustained shove, by hand (arm in m: MuJoCo)
             Tn = max(T_e, sus_, T_calc)
             loads["shove %s %s torque %s" % (jn, direction, tq_)] = dict(
                 omega_rad_s=round(w_, 3), energy_Nm=round(T_e, 3), sustained_sim_Nm=round(sus_, 3), loaded_raw_Nm=round(raw_, 3),
-                sustained_calc_Nm=round(T_calc, 3), calc=dict(shove_N=SHOVE_N, arm_mm=round(arm, 1), gravity_Nm=round(T_g, 3)),
+                sustained_calc_Nm=round(T_calc, 3), calc=dict(shove_N=SHOVE_N, arm_mm=round(arm * 1000.0, 1), gravity_Nm=round(T_g, 3)),
                 design_Nm=round(Tn, 3), sizing="impact" if Tn == T_e else ("sustained (sim)" if Tn == sus_ else "sustained (calc)"),
                 sim_Nm=round(sim_, 3), sim_over_design=round(sim_ / Tn, 2) if Tn > 1e-6 else None, cases=[r["name"] for r in cs])
             rowfn(rows, G, Tn, "shove", SF_SHOVE, label="calc only (energy and sustained, omega and the 100 ms mean from the sim; stop K %.0f N m/rad)" % stops_md[jn]["K_Nm_rad"])
