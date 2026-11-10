@@ -616,6 +616,20 @@
 "sec": "Fasteners and mechanical"
 },
 {
+"i": "17m",
+"item": "M2x12 self-tapping pan head",
+"spec": "304 SS pan head thread-forming screw, M2 x 12 mm (dk 4.0, k 1.6 as the servo bag M2x6): F127 and F129, the hip yaw servo screws that also hold the neck back stop block (D59; twin/sit/SIT.md section 1, fasteners.json); the stock M2x6 cannot reach the case through the block's 4 mm flange, and neither the servo bag nor line 17h (M2x4 to M2x8) has an M2x12",
+"need": "2",
+"buy": "2",
+"pack": "each",
+"line": "0.00",
+"sup": "BLOCKER",
+"link": "BLOCKER: price not read (no listing read for an M2 x 12 thread-forming pan head in this session); nothing bought",
+"ships": "-",
+"ver": "BLOCKER: no listing read; a commodity size (M2 x 12 thread-forming pan head, 304 SS), to be read live and bought with the next order; nothing bought in this pass",
+"sec": "Fasteners and mechanical"
+},
+{
 "i": "18",
 "item": "Ball bearing",
 "spec": "6804ZZ 20x32x7 (CAD model measured 19.99/32.19/7.0), Motoforti 10-pack",
@@ -912,7 +926,7 @@
 {
 "i": "27",
 "item": "PLA",
-"spec": "Overture Easy PLA 1.75 mm 1 kg, black (need 1407 g sliced with the light profile of DECISIONS.md D22: robot set 1258 g (roll_to_pitch at 3 walls since D38) plus the coupon session and 10 spares, print/PRINT_PLAN.md; about 593 g left for failed prints; 1450 g if the D22 coupon gate fails. D59 sit: the robot set +7.7 g of PLA (joggled shin sheets and the longer shin spacer in place of the shin knee_to_ankle pair and leg_spacer, the cache cuts, the foot notches, the stop lugs; print/SLICE_SUMMARY.md D59 rows) and one spare of each shin sheet +22.7 g, so about 1420 g, still 2 x 1 kg)",
+"spec": "Overture Easy PLA 1.75 mm 1 kg, black (need 1407 g sliced with the light profile of DECISIONS.md D22: robot set 1258 g (roll_to_pitch at 3 walls since D38) plus the coupon session and 10 spares, print/PRINT_PLAN.md; about 593 g left for failed prints; 1450 g if the D22 coupon gate fails. D59 sit: the robot set +28.5 g of PLA (joggled shin sheets and the longer shin spacer in place of the shin knee_to_ankle pair and leg_spacer, the cache cuts, the foot notches, the hip roll lugs, the neck stop block 14.7 g, the head hook +8.2 g of filament on head_pitch_to_yaw (24.8 g with its support), the roll lugs 25.8 g each; print/SLICE_SUMMARY.md D59 rows: robot set 1355.5 g) and one spare of each shin sheet +22.7 g, so about 1440 g, still 2 x 1 kg)",
 "need": "1420 g",
 "buy": "2",
 "pack": "1 kg",
@@ -926,8 +940,8 @@
 {
 "i": "28",
 "item": "TPU",
-"spec": "Overture TPU 95A 1.75 mm 1 kg, black (need 73.5 g sliced with the D22 profile: two soles, one of them in coupon session S2, print/PRINT_PLAN.md, 35.1 g; the D59 sit parts 38.4 g: seat 22.6 g, belly bumper 12.2 g, 2 knee bumpers, 4 ankle pads, 2 hip pads; hardness not stated upstream)",
-"need": "73.5 g",
+"spec": "Overture TPU 95A 1.75 mm 1 kg, black (need 75.1 g sliced with the D22 profile: two soles, one of them in coupon session S2, print/PRINT_PLAN.md, 35.1 g; the D59 sit parts 40.0 g: seat 22.6 g, belly bumper 12.2 g, 2 knee bumpers, 4 ankle pads, 2 hip pads, 2 neck pads 0.5 g, 1 head pad 0.9 g, 2 roll pads 0.2 g; hardness not stated upstream)",
+"need": "75.1 g",
 "buy": "1",
 "pack": "1 kg",
 "line": "23.99",
