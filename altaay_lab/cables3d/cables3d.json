@@ -40,7 +40,7 @@
    "slack_mm": 40.0,
    "bend_rule": "NASA-STD-8739.4A Table 7-1: minimum 3 x OD, optimum 10 x OD",
    "rub_warn_mm": 2.0,
-   "generated_utc": "2026-11-10 15:09 UTC"
+   "generated_utc": "2026-11-10 15:57 UTC"
   },
   "notes": [
    "cut_mm synced from wiring/netlist.yaml rev 2026-11-02 on 2026-11-02 1:00 AM ET by agent NL2 without re-routing (routes, seats and ties unchanged); P7: the holder lead and its extension joined at JFI and JFO are summed into the routed conductor",
@@ -14766,13 +14766,13 @@
      "service_loops": [
       {
        "span": [
-        13,
-        14
+        14,
+        15
        ],
        "spans": [
         [
-         13,
-         14
+         14,
+         15
         ]
        ],
        "joints": [
@@ -14782,7 +14782,7 @@
        "angle_runtime_rad": 1.134,
        "od_mm": 3.6,
        "free_needed_mm": 12.3,
-       "free_mm": 26.7,
+       "free_mm": 26.8,
        "radius_mm": 11.1,
        "radius_runtime_mm": 11.1,
        "radius_bend_mm": 23.6,
@@ -14800,8 +14800,8 @@
         62.1
        ],
        "ties_at_mm": [
-        165.6,
-        192.4
+        167.6,
+        194.4
        ],
        "tie_ids": [
         "T013",
@@ -14810,17 +14810,17 @@
       },
       {
        "span": [
-        29,
-        32
+        30,
+        33
        ],
        "spans": [
         [
-         29,
-         30
+         30,
+         31
         ],
         [
-         31,
-         32
+         32,
+         33
         ]
        ],
        "joints": [
@@ -14849,8 +14849,8 @@
         18.9
        ],
        "ties_at_mm": [
-        260.6,
-        302.0
+        262.6,
+        304.0
        ],
        "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 2.8 mm of route between them",
        "tie_ids": [
@@ -14860,13 +14860,13 @@
       },
       {
        "span": [
-        36,
-        37
+        37,
+        38
        ],
        "spans": [
         [
-         36,
-         37
+         37,
+         38
         ]
        ],
        "joints": [
@@ -14894,8 +14894,8 @@
         21.5
        ],
        "ties_at_mm": [
-        336.9,
-        359.9
+        338.9,
+        361.9
        ],
        "tie_ids": [
         "T017",
@@ -15581,13 +15581,13 @@
     {
      "run": "main",
      "span": [
-      13,
-      14
+      14,
+      15
      ],
      "spans": [
       [
-       13,
-       14
+       14,
+       15
       ]
      ],
      "joints": [
@@ -15597,7 +15597,7 @@
      "angle_runtime_rad": 1.134,
      "od_mm": 3.6,
      "free_needed_mm": 12.3,
-     "free_mm": 26.7,
+     "free_mm": 26.8,
      "radius_mm": 11.1,
      "radius_runtime_mm": 11.1,
      "radius_bend_mm": 23.6,
@@ -15615,8 +15615,8 @@
       62.1
      ],
      "ties_at_mm": [
-      165.6,
-      192.4
+      167.6,
+      194.4
      ],
      "tie_ids": [
       "T013",
@@ -15626,17 +15626,17 @@
     {
      "run": "main",
      "span": [
-      29,
-      32
+      30,
+      33
      ],
      "spans": [
       [
-       29,
-       30
+       30,
+       31
       ],
       [
-       31,
-       32
+       32,
+       33
       ]
      ],
      "joints": [
@@ -15665,8 +15665,8 @@
       18.9
      ],
      "ties_at_mm": [
-      260.6,
-      302.0
+      262.6,
+      304.0
      ],
      "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 2.8 mm of route between them",
      "tie_ids": [
@@ -15677,13 +15677,13 @@
     {
      "run": "main",
      "span": [
-      36,
-      37
+      37,
+      38
      ],
      "spans": [
       [
-       36,
-       37
+       37,
+       38
       ]
      ],
      "joints": [
@@ -15711,8 +15711,8 @@
       21.5
      ],
      "ties_at_mm": [
-      336.9,
-      359.9
+      338.9,
+      361.9
      ],
      "tie_ids": [
       "T017",
@@ -17664,13 +17664,13 @@
      "service_loops": [
       {
        "span": [
-        20,
-        21
+        22,
+        23
        ],
        "spans": [
         [
-         20,
-         21
+         22,
+         23
         ]
        ],
        "joints": [
@@ -17698,8 +17698,8 @@
         62.1
        ],
        "ties_at_mm": [
-        254.8,
-        280.5
+        263.1,
+        288.8
        ],
        "tie_ids": [
         "T013",
@@ -17708,17 +17708,17 @@
       },
       {
        "span": [
-        36,
-        38
+        38,
+        40
        ],
        "spans": [
         [
-         36,
-         37
+         38,
+         39
         ],
         [
-         37,
-         38
+         39,
+         40
         ]
        ],
        "joints": [
@@ -17729,7 +17729,7 @@
        "angle_runtime_rad": 1.28,
        "od_mm": 3.5,
        "free_needed_mm": 37.6,
-       "free_mm": 29.0,
+       "free_mm": 40.3,
        "radius_mm": 10.7,
        "radius_runtime_mm": 17.2,
        "radius_bend_mm": 10.7,
@@ -17747,8 +17747,8 @@
         30.8
        ],
        "ties_at_mm": [
-        389.1,
-        418.1
+        384.1,
+        424.4
        ],
        "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 0.0 mm of route between them",
        "tie_ids": [
@@ -17758,13 +17758,13 @@
       },
       {
        "span": [
-        45,
-        46
+        47,
+        48
        ],
        "spans": [
         [
-         45,
-         46
+         47,
+         48
         ]
        ],
        "joints": [
@@ -17774,7 +17774,7 @@
        "angle_runtime_rad": 0.5,
        "od_mm": 3.5,
        "free_needed_mm": 5.5,
-       "free_mm": 40.0,
+       "free_mm": 27.5,
        "radius_mm": 10.7,
        "radius_runtime_mm": 10.8,
        "radius_bend_mm": 52.5,
@@ -17792,8 +17792,8 @@
         1.0
        ],
        "ties_at_mm": [
-        410.2,
-        450.2
+        431.0,
+        458.5
        ],
        "anchor_b": "connector (no tie needed)",
        "tie_ids": [
@@ -18418,13 +18418,13 @@
     {
      "run": "main",
      "span": [
-      20,
-      21
+      22,
+      23
      ],
      "spans": [
       [
-       20,
-       21
+       22,
+       23
       ]
      ],
      "joints": [
@@ -18452,8 +18452,8 @@
       62.1
      ],
      "ties_at_mm": [
-      254.8,
-      280.5
+      263.1,
+      288.8
      ],
      "tie_ids": [
       "T013",
@@ -18463,17 +18463,17 @@
     {
      "run": "main",
      "span": [
-      36,
-      38
+      38,
+      40
      ],
      "spans": [
       [
-       36,
-       37
+       38,
+       39
       ],
       [
-       37,
-       38
+       39,
+       40
       ]
      ],
      "joints": [
@@ -18484,7 +18484,7 @@
      "angle_runtime_rad": 1.28,
      "od_mm": 3.5,
      "free_needed_mm": 37.6,
-     "free_mm": 29.0,
+     "free_mm": 40.3,
      "radius_mm": 10.7,
      "radius_runtime_mm": 17.2,
      "radius_bend_mm": 10.7,
@@ -18502,8 +18502,8 @@
       30.8
      ],
      "ties_at_mm": [
-      389.1,
-      418.1
+      384.1,
+      424.4
      ],
      "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 0.0 mm of route between them",
      "tie_ids": [
@@ -18514,13 +18514,13 @@
     {
      "run": "main",
      "span": [
-      45,
-      46
+      47,
+      48
      ],
      "spans": [
       [
-       45,
-       46
+       47,
+       48
       ]
      ],
      "joints": [
@@ -18530,7 +18530,7 @@
      "angle_runtime_rad": 0.5,
      "od_mm": 3.5,
      "free_needed_mm": 5.5,
-     "free_mm": 40.0,
+     "free_mm": 27.5,
      "radius_mm": 10.7,
      "radius_runtime_mm": 10.8,
      "radius_bend_mm": 52.5,
@@ -18548,8 +18548,8 @@
       1.0
      ],
      "ties_at_mm": [
-      410.2,
-      450.2
+      431.0,
+      458.5
      ],
      "anchor_b": "connector (no tie needed)",
      "tie_ids": [
@@ -19919,7 +19919,7 @@
        "angle_runtime_rad": 1.28,
        "od_mm": 3.46,
        "free_needed_mm": 37.1,
-       "free_mm": 40.0,
+       "free_mm": 41.7,
        "radius_mm": 10.4,
        "radius_runtime_mm": 16.5,
        "radius_bend_mm": 10.4,
@@ -19938,7 +19938,7 @@
        ],
        "ties_at_mm": [
         238.9,
-        278.9
+        280.6
        ],
        "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 0.0 mm of route between them",
        "tie_ids": [
@@ -20794,7 +20794,7 @@
      "angle_runtime_rad": 1.28,
      "od_mm": 3.46,
      "free_needed_mm": 37.1,
-     "free_mm": 40.0,
+     "free_mm": 41.7,
      "radius_mm": 10.4,
      "radius_runtime_mm": 16.5,
      "radius_bend_mm": 10.4,
@@ -20813,7 +20813,7 @@
      ],
      "ties_at_mm": [
       238.9,
-      278.9
+      280.6
      ],
      "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 0.0 mm of route between them",
      "tie_ids": [
@@ -23215,7 +23215,7 @@
        "angle_runtime_rad": 1.28,
        "od_mm": 3.46,
        "free_needed_mm": 37.1,
-       "free_mm": 38.1,
+       "free_mm": 46.2,
        "radius_mm": 10.6,
        "radius_runtime_mm": 18.3,
        "radius_bend_mm": 10.6,
@@ -23234,7 +23234,7 @@
        ],
        "ties_at_mm": [
         46.4,
-        84.5
+        92.6
        ],
        "merged": "one loop across head_yaw and head_pitch: the link head_pitch_to_yaw carries 2.7 mm of route between them",
        "tie_ids": [
@@ -23464,13 +23464,13 @@
       },
       {
        "span": [
-        69,
-        70
+        70,
+        71
        ],
        "spans": [
         [
-         69,
-         70
+         70,
+         71
         ]
        ],
        "joints": [
@@ -23480,7 +23480,7 @@
        "angle_runtime_rad": 1.571,
        "od_mm": 3.46,
        "free_needed_mm": 16.3,
-       "free_mm": 41.7,
+       "free_mm": 48.3,
        "radius_mm": 15.1,
        "radius_runtime_mm": 15.1,
        "radius_bend_mm": 26.5,
@@ -23498,8 +23498,8 @@
         1.0
        ],
        "ties_at_mm": [
-        578.2,
-        619.9
+        587.2,
+        635.5
        ],
        "anchor_b": "connector (no tie needed)",
        "tie_ids": [
@@ -25051,7 +25051,7 @@
      "angle_runtime_rad": 1.28,
      "od_mm": 3.46,
      "free_needed_mm": 37.1,
-     "free_mm": 38.1,
+     "free_mm": 46.2,
      "radius_mm": 10.6,
      "radius_runtime_mm": 18.3,
      "radius_bend_mm": 10.6,
@@ -25070,7 +25070,7 @@
      ],
      "ties_at_mm": [
       46.4,
-      84.5
+      92.6
      ],
      "merged": "one loop across head_yaw and head_pitch: the link head_pitch_to_yaw carries 2.7 mm of route between them",
      "tie_ids": [
@@ -25306,13 +25306,13 @@
     {
      "run": "main",
      "span": [
-      69,
-      70
+      70,
+      71
      ],
      "spans": [
       [
-       69,
-       70
+       70,
+       71
       ]
      ],
      "joints": [
@@ -25322,7 +25322,7 @@
      "angle_runtime_rad": 1.571,
      "od_mm": 3.46,
      "free_needed_mm": 16.3,
-     "free_mm": 41.7,
+     "free_mm": 48.3,
      "radius_mm": 15.1,
      "radius_runtime_mm": 15.1,
      "radius_bend_mm": 26.5,
@@ -25340,8 +25340,8 @@
       1.0
      ],
      "ties_at_mm": [
-      578.2,
-      619.9
+      587.2,
+      635.5
      ],
      "anchor_b": "connector (no tie needed)",
      "tie_ids": [
@@ -27562,7 +27562,7 @@
        "angle_runtime_rad": 1.28,
        "od_mm": 3.46,
        "free_needed_mm": 37.1,
-       "free_mm": 39.1,
+       "free_mm": 46.1,
        "radius_mm": 10.6,
        "radius_runtime_mm": 18.3,
        "radius_bend_mm": 10.6,
@@ -27581,7 +27581,7 @@
        ],
        "ties_at_mm": [
         47.0,
-        86.1
+        93.1
        ],
        "merged": "one loop across head_yaw and head_pitch: the link head_pitch_to_yaw carries 2.7 mm of route between them",
        "tie_ids": [
@@ -27785,7 +27785,7 @@
        "angle_runtime_rad": 1.571,
        "od_mm": 3.46,
        "free_needed_mm": 16.3,
-       "free_mm": 56.2,
+       "free_mm": 72.1,
        "radius_mm": 23.1,
        "radius_runtime_mm": 23.1,
        "radius_bend_mm": 42.5,
@@ -27804,7 +27804,7 @@
        ],
        "ties_at_mm": [
         463.5,
-        519.7
+        535.6
        ],
        "tie_ids": [
         "T047",
@@ -27814,13 +27814,13 @@
       },
       {
        "span": [
-        67,
-        68
+        68,
+        69
        ],
        "spans": [
         [
-         67,
-         68
+         68,
+         69
         ]
        ],
        "joints": [
@@ -27830,7 +27830,7 @@
        "angle_runtime_rad": 1.571,
        "od_mm": 3.46,
        "free_needed_mm": 16.3,
-       "free_mm": 33.7,
+       "free_mm": 38.2,
        "radius_mm": 13.3,
        "radius_runtime_mm": 13.3,
        "radius_bend_mm": 21.4,
@@ -27848,8 +27848,8 @@
         1.0
        ],
        "ties_at_mm": [
-        588.6,
-        622.2
+        599.6,
+        637.8
        ],
        "anchor_b": "connector (no tie needed)",
        "tie_ids": [
@@ -29295,7 +29295,7 @@
      "angle_runtime_rad": 1.28,
      "od_mm": 3.46,
      "free_needed_mm": 37.1,
-     "free_mm": 39.1,
+     "free_mm": 46.1,
      "radius_mm": 10.6,
      "radius_runtime_mm": 18.3,
      "radius_bend_mm": 10.6,
@@ -29314,7 +29314,7 @@
      ],
      "ties_at_mm": [
       47.0,
-      86.1
+      93.1
      ],
      "merged": "one loop across head_yaw and head_pitch: the link head_pitch_to_yaw carries 2.7 mm of route between them",
      "tie_ids": [
@@ -29523,7 +29523,7 @@
      "angle_runtime_rad": 1.571,
      "od_mm": 3.46,
      "free_needed_mm": 16.3,
-     "free_mm": 56.2,
+     "free_mm": 72.1,
      "radius_mm": 23.1,
      "radius_runtime_mm": 23.1,
      "radius_bend_mm": 42.5,
@@ -29542,7 +29542,7 @@
      ],
      "ties_at_mm": [
       463.5,
-      519.7
+      535.6
      ],
      "tie_ids": [
       "T047",
@@ -29553,13 +29553,13 @@
     {
      "run": "main",
      "span": [
-      67,
-      68
+      68,
+      69
      ],
      "spans": [
       [
-       67,
-       68
+       68,
+       69
       ]
      ],
      "joints": [
@@ -29569,7 +29569,7 @@
      "angle_runtime_rad": 1.571,
      "od_mm": 3.46,
      "free_needed_mm": 16.3,
-     "free_mm": 33.7,
+     "free_mm": 38.2,
      "radius_mm": 13.3,
      "radius_runtime_mm": 13.3,
      "radius_bend_mm": 21.4,
@@ -29587,8 +29587,8 @@
       1.0
      ],
      "ties_at_mm": [
-      588.6,
-      622.2
+      599.6,
+      637.8
      ],
      "anchor_b": "connector (no tie needed)",
      "tie_ids": [
@@ -32296,8 +32296,8 @@
       "min": 4.5,
       "optimum": 15.0
      },
-     "length_max_runtime_mm": 19.5,
-     "spans": []
+     "spans": [],
+     "length_max_runtime_mm": 19.5
     },
     {
      "name": "fan_PI.12",
@@ -32348,8 +32348,8 @@
       "min": 4.5,
       "optimum": 15.0
      },
-     "length_max_runtime_mm": 13.0,
-     "spans": []
+     "spans": [],
+     "length_max_runtime_mm": 13.0
     },
     {
      "name": "fan_PI.40",
@@ -32400,8 +32400,8 @@
       "min": 4.5,
       "optimum": 15.0
      },
-     "length_max_runtime_mm": 24.7,
-     "spans": []
+     "spans": [],
+     "length_max_runtime_mm": 24.7
     },
     {
      "name": "fan_J5",
@@ -32452,8 +32452,8 @@
       "min": 4.5,
       "optimum": 15.0
      },
-     "length_max_runtime_mm": 23.6,
-     "spans": []
+     "spans": [],
+     "length_max_runtime_mm": 23.6
     },
     {
      "name": "fan_JG",
@@ -32504,8 +32504,8 @@
       "min": 4.5,
       "optimum": 15.0
      },
-     "length_max_runtime_mm": 12.2,
-     "spans": []
+     "spans": [],
+     "length_max_runtime_mm": 12.2
     }
    ],
    "wires": [
@@ -43554,13 +43554,13 @@
      "service_loops": [
       {
        "span": [
-        14,
-        15
+        15,
+        16
        ],
        "spans": [
         [
-         14,
-         15
+         15,
+         16
         ]
        ],
        "joints": [
@@ -43570,7 +43570,7 @@
        "angle_runtime_rad": 1.134,
        "od_mm": 1.5,
        "free_needed_mm": 12.3,
-       "free_mm": 26.7,
+       "free_mm": 26.8,
        "radius_mm": 11.1,
        "radius_runtime_mm": 11.1,
        "radius_bend_mm": 23.6,
@@ -43588,8 +43588,8 @@
         62.1
        ],
        "ties_at_mm": [
-        186.5,
-        213.3
+        188.5,
+        215.3
        ],
        "tie_ids": [
         "T013",
@@ -43599,17 +43599,17 @@
       },
       {
        "span": [
-        30,
-        33
+        31,
+        34
        ],
        "spans": [
         [
-         30,
-         31
+         31,
+         32
         ],
         [
-         32,
-         33
+         33,
+         34
         ]
        ],
        "joints": [
@@ -43620,7 +43620,7 @@
        "angle_runtime_rad": 1.28,
        "od_mm": 1.5,
        "free_needed_mm": 38.6,
-       "free_mm": 41.4,
+       "free_mm": 41.0,
        "radius_mm": 11.0,
        "radius_runtime_mm": 17.3,
        "radius_bend_mm": 11.0,
@@ -43638,8 +43638,8 @@
         18.9
        ],
        "ties_at_mm": [
-        281.5,
-        322.9
+        283.5,
+        324.5
        ],
        "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 2.8 mm of route between them",
        "tie_ids": [
@@ -43650,13 +43650,13 @@
       },
       {
        "span": [
-        37,
-        38
+        38,
+        39
        ],
        "spans": [
         [
-         37,
-         38
+         38,
+         39
         ]
        ],
        "joints": [
@@ -43684,8 +43684,8 @@
         21.5
        ],
        "ties_at_mm": [
-        357.8,
-        380.8
+        359.8,
+        382.8
        ],
        "tie_ids": [
         "T017",
@@ -43782,13 +43782,13 @@
     {
      "run": "main",
      "span": [
-      14,
-      15
+      15,
+      16
      ],
      "spans": [
       [
-       14,
-       15
+       15,
+       16
       ]
      ],
      "joints": [
@@ -43798,7 +43798,7 @@
      "angle_runtime_rad": 1.134,
      "od_mm": 1.5,
      "free_needed_mm": 12.3,
-     "free_mm": 26.7,
+     "free_mm": 26.8,
      "radius_mm": 11.1,
      "radius_runtime_mm": 11.1,
      "radius_bend_mm": 23.6,
@@ -43816,8 +43816,8 @@
       62.1
      ],
      "ties_at_mm": [
-      186.5,
-      213.3
+      188.5,
+      215.3
      ],
      "tie_ids": [
       "T013",
@@ -43828,17 +43828,17 @@
     {
      "run": "main",
      "span": [
-      30,
-      33
+      31,
+      34
      ],
      "spans": [
       [
-       30,
-       31
+       31,
+       32
       ],
       [
-       32,
-       33
+       33,
+       34
       ]
      ],
      "joints": [
@@ -43849,7 +43849,7 @@
      "angle_runtime_rad": 1.28,
      "od_mm": 1.5,
      "free_needed_mm": 38.6,
-     "free_mm": 41.4,
+     "free_mm": 41.0,
      "radius_mm": 11.0,
      "radius_runtime_mm": 17.3,
      "radius_bend_mm": 11.0,
@@ -43867,8 +43867,8 @@
       18.9
      ],
      "ties_at_mm": [
-      281.5,
-      322.9
+      283.5,
+      324.5
      ],
      "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 2.8 mm of route between them",
      "tie_ids": [
@@ -43880,13 +43880,13 @@
     {
      "run": "main",
      "span": [
-      37,
-      38
+      38,
+      39
      ],
      "spans": [
       [
-       37,
-       38
+       38,
+       39
       ]
      ],
      "joints": [
@@ -43914,8 +43914,8 @@
       21.5
      ],
      "ties_at_mm": [
-      357.8,
-      380.8
+      359.8,
+      382.8
      ],
      "tie_ids": [
       "T017",
@@ -44110,11 +44110,11 @@
      "swept_joints": [
       "head_roll"
      ],
+     "spans": [],
      "length_zero_mm": 78.3,
      "length_min_mm": 78.3,
      "length_max_mm": 78.3,
      "length_max_runtime_mm": 78.3,
-     "spans": [],
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": 9.3,
@@ -44487,11 +44487,11 @@
       "head_roll",
       "head_yaw"
      ],
+     "spans": [],
      "length_zero_mm": 148.4,
      "length_min_mm": 148.4,
      "length_max_mm": 148.4,
      "length_max_runtime_mm": 148.4,
-     "spans": [],
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": -2.2,
@@ -47765,7 +47765,7 @@
        "angle_runtime_rad": 1.28,
        "od_mm": 1.5,
        "free_needed_mm": 37.1,
-       "free_mm": 40.1,
+       "free_mm": 41.7,
        "radius_mm": 10.4,
        "radius_runtime_mm": 16.5,
        "radius_bend_mm": 10.4,
@@ -47784,7 +47784,7 @@
        ],
        "ties_at_mm": [
         446.4,
-        486.5
+        488.1
        ],
        "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 0.0 mm of route between them",
        "tie_ids": [
@@ -48008,7 +48008,7 @@
      "angle_runtime_rad": 1.28,
      "od_mm": 1.5,
      "free_needed_mm": 37.1,
-     "free_mm": 40.1,
+     "free_mm": 41.7,
      "radius_mm": 10.4,
      "radius_runtime_mm": 16.5,
      "radius_bend_mm": 10.4,
@@ -48027,7 +48027,7 @@
      ],
      "ties_at_mm": [
       446.4,
-      486.5
+      488.1
      ],
      "merged": "one loop across head_pitch and head_yaw: the link head_pitch_to_yaw carries 0.0 mm of route between them",
      "tie_ids": [
@@ -51543,7 +51543,7 @@
        "min_mm": 2.3,
        "max_mm": 6.8,
        "at_max": {
-        "left_hip_roll": -0.436
+        "left_hip_roll": 0.436
        }
       }
      ],
@@ -53498,7 +53498,7 @@
        "angle_runtime_rad": 1.571,
        "od_mm": 2.6,
        "free_needed_mm": 12.3,
-       "free_mm": 26.0,
+       "free_mm": 29.4,
        "radius_mm": 9.8,
        "radius_runtime_mm": 9.8,
        "radius_bend_mm": 16.6,
@@ -53517,7 +53517,7 @@
        ],
        "ties_at_mm": [
         0.0,
-        26.0
+        29.4
        ],
        "anchor_a": "connector (no tie needed)",
        "tie_ids": [
@@ -53874,7 +53874,7 @@
      "angle_runtime_rad": 1.571,
      "od_mm": 2.6,
      "free_needed_mm": 12.3,
-     "free_mm": 26.0,
+     "free_mm": 29.4,
      "radius_mm": 9.8,
      "radius_runtime_mm": 9.8,
      "radius_bend_mm": 16.6,
@@ -53893,7 +53893,7 @@
      ],
      "ties_at_mm": [
       0.0,
-      26.0
+      29.4
      ],
      "anchor_a": "connector (no tie needed)",
      "tie_ids": [
@@ -54179,8 +54179,8 @@
        "joints": [
         "right_hip_yaw"
        ],
-       "zero_mm": 3.0,
-       "min_mm": 3.0,
+       "zero_mm": 2.9,
+       "min_mm": 2.9,
        "max_mm": 16.9,
        "at_max": {
         "right_hip_yaw": 0.524
@@ -56938,7 +56938,7 @@
        "angle_runtime_rad": 1.571,
        "od_mm": 2.6,
        "free_needed_mm": 12.3,
-       "free_mm": 22.3,
+       "free_mm": 23.5,
        "radius_mm": 9.0,
        "radius_runtime_mm": 9.0,
        "radius_bend_mm": 13.0,
@@ -56957,7 +56957,7 @@
        ],
        "ties_at_mm": [
         1.0,
-        23.3
+        24.5
        ],
        "anchor_a": "connector (no tie needed)",
        "tie_ids": [
@@ -57288,7 +57288,7 @@
      "plug_gap_part": "foot_side (foot_assembly_2)"
     }
    ],
-   "free_stretch_mm": 64.4,
+   "free_stretch_mm": 73.4,
    "free_stretch_run": "main",
    "service_loops": [
     {
@@ -57310,7 +57310,7 @@
      "angle_runtime_rad": 1.571,
      "od_mm": 2.6,
      "free_needed_mm": 12.3,
-     "free_mm": 22.3,
+     "free_mm": 23.5,
      "radius_mm": 9.0,
      "radius_runtime_mm": 9.0,
      "radius_bend_mm": 13.0,
@@ -57329,7 +57329,7 @@
      ],
      "ties_at_mm": [
       1.0,
-      23.3
+      24.5
      ],
      "anchor_a": "connector (no tie needed)",
      "tie_ids": [
@@ -59215,7 +59215,7 @@
        "joints": [
         "head_roll"
        ],
-       "zero_mm": 2.8,
+       "zero_mm": 2.9,
        "min_mm": 2.8,
        "max_mm": 9.9,
        "at_max": {
@@ -60934,13 +60934,13 @@
      "service_loops": [
       {
        "span": [
-        2,
-        3
+        3,
+        4
        ],
        "spans": [
         [
-         2,
-         3
+         3,
+         4
         ]
        ],
        "joints": [
@@ -60978,13 +60978,13 @@
       },
       {
        "span": [
-        11,
-        12
+        12,
+        13
        ],
        "spans": [
         [
-         11,
-         12
+         12,
+         13
         ]
        ],
        "joints": [
@@ -61022,13 +61022,13 @@
       },
       {
        "span": [
-        18,
-        19
+        19,
+        20
        ],
        "spans": [
         [
-         18,
-         19
+         19,
+         20
         ]
        ],
        "joints": [
@@ -61066,13 +61066,13 @@
       },
       {
        "span": [
-        29,
-        30
+        30,
+        31
        ],
        "spans": [
         [
-         29,
-         30
+         30,
+         31
         ]
        ],
        "joints": [
@@ -61781,13 +61781,13 @@
     {
      "run": "main",
      "span": [
-      2,
-      3
+      3,
+      4
      ],
      "spans": [
       [
-       2,
-       3
+       3,
+       4
       ]
      ],
      "joints": [
@@ -61826,13 +61826,13 @@
     {
      "run": "main",
      "span": [
-      11,
-      12
+      12,
+      13
      ],
      "spans": [
       [
-       11,
-       12
+       12,
+       13
       ]
      ],
      "joints": [
@@ -61871,13 +61871,13 @@
     {
      "run": "main",
      "span": [
-      18,
-      19
+      19,
+      20
      ],
      "spans": [
       [
-       18,
-       19
+       19,
+       20
       ]
      ],
      "joints": [
@@ -61916,13 +61916,13 @@
     {
      "run": "main",
      "span": [
-      29,
-      30
+      30,
+      31
      ],
      "spans": [
       [
-       29,
-       30
+       30,
+       31
       ]
      ],
      "joints": [
@@ -63213,17 +63213,17 @@
      "service_loops": [
       {
        "span": [
-        2,
-        5
+        3,
+        6
        ],
        "spans": [
         [
-         2,
-         3
+         3,
+         4
         ],
         [
-         4,
-         5
+         5,
+         6
         ]
        ],
        "joints": [
@@ -63234,7 +63234,7 @@
        "angle_runtime_rad": 0.96,
        "od_mm": 3.4,
        "free_needed_mm": 9.8,
-       "free_mm": 32.7,
+       "free_mm": 23.7,
        "radius_mm": 11.6,
        "radius_runtime_mm": 11.6,
        "radius_bend_mm": 24.7,
@@ -63252,7 +63252,7 @@
         46.1
        ],
        "ties_at_mm": [
-        2.5,
+        11.5,
         35.2
        ],
        "merged": "one loop across right_hip_yaw and right_hip_roll: the link hip_roll_assembly_2 carries 5.8 mm of route between them",
@@ -63264,13 +63264,13 @@
       },
       {
        "span": [
-        16,
-        17
+        17,
+        18
        ],
        "spans": [
         [
-         16,
-         17
+         17,
+         18
         ]
        ],
        "joints": [
@@ -63308,13 +63308,13 @@
       },
       {
        "span": [
-        27,
-        28
+        28,
+        29
        ],
        "spans": [
         [
-         27,
-         28
+         28,
+         29
         ]
        ],
        "joints": [
@@ -63324,7 +63324,7 @@
        "angle_runtime_rad": 1.571,
        "od_mm": 3.4,
        "free_needed_mm": 16.0,
-       "free_mm": 71.1,
+       "free_mm": 67.5,
        "radius_mm": 22.4,
        "radius_runtime_mm": 22.4,
        "radius_bend_mm": 42.2,
@@ -63343,7 +63343,7 @@
        ],
        "ties_at_mm": [
         189.0,
-        260.1
+        256.5
        ],
        "tie_ids": [
         "T047",
@@ -63978,23 +63978,23 @@
      "plug_gap_part": "foot_side (foot_assembly_2)"
     }
    ],
-   "free_stretch_mm": 35.5,
+   "free_stretch_mm": 45.2,
    "free_stretch_run": "main",
    "service_loops": [
     {
      "run": "main",
      "span": [
-      2,
-      5
+      3,
+      6
      ],
      "spans": [
       [
-       2,
-       3
+       3,
+       4
       ],
       [
-       4,
-       5
+       5,
+       6
       ]
      ],
      "joints": [
@@ -64005,7 +64005,7 @@
      "angle_runtime_rad": 0.96,
      "od_mm": 3.4,
      "free_needed_mm": 9.8,
-     "free_mm": 32.7,
+     "free_mm": 23.7,
      "radius_mm": 11.6,
      "radius_runtime_mm": 11.6,
      "radius_bend_mm": 24.7,
@@ -64023,7 +64023,7 @@
       46.1
      ],
      "ties_at_mm": [
-      2.5,
+      11.5,
       35.2
      ],
      "merged": "one loop across right_hip_yaw and right_hip_roll: the link hip_roll_assembly_2 carries 5.8 mm of route between them",
@@ -64036,13 +64036,13 @@
     {
      "run": "main",
      "span": [
-      16,
-      17
+      17,
+      18
      ],
      "spans": [
       [
-       16,
-       17
+       17,
+       18
       ]
      ],
      "joints": [
@@ -64081,13 +64081,13 @@
     {
      "run": "main",
      "span": [
-      27,
-      28
+      28,
+      29
      ],
      "spans": [
       [
-       27,
-       28
+       28,
+       29
       ]
      ],
      "joints": [
@@ -64097,7 +64097,7 @@
      "angle_runtime_rad": 1.571,
      "od_mm": 3.4,
      "free_needed_mm": 16.0,
-     "free_mm": 71.1,
+     "free_mm": 67.5,
      "radius_mm": 22.4,
      "radius_runtime_mm": 22.4,
      "radius_bend_mm": 42.2,
@@ -64116,7 +64116,7 @@
      ],
      "ties_at_mm": [
       189.0,
-      260.1
+      256.5
      ],
      "tie_ids": [
       "T047",
@@ -64248,8 +64248,8 @@
      "length_zero_mm": 11.1,
      "length_min_mm": 11.1,
      "length_max_mm": 11.1,
-     "length_max_runtime_mm": 11.1,
      "spans": [],
+     "length_max_runtime_mm": 11.1,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": null,
@@ -64315,8 +64315,8 @@
      "length_zero_mm": 12.0,
      "length_min_mm": 12.0,
      "length_max_mm": 12.0,
-     "length_max_runtime_mm": 12.0,
      "spans": [],
+     "length_max_runtime_mm": 12.0,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": null,
@@ -64417,8 +64417,8 @@
      "length_zero_mm": 135.7,
      "length_min_mm": 135.7,
      "length_max_mm": 135.7,
-     "length_max_runtime_mm": 135.7,
      "spans": [],
+     "length_max_runtime_mm": 135.7,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": -1.4,
@@ -64508,8 +64508,8 @@
      "length_zero_mm": 64.4,
      "length_min_mm": 64.4,
      "length_max_mm": 64.4,
-     "length_max_runtime_mm": 64.4,
      "spans": [],
+     "length_max_runtime_mm": 64.4,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": 18.3,
@@ -64807,8 +64807,8 @@
      "length_zero_mm": 11.3,
      "length_min_mm": 11.3,
      "length_max_mm": 11.3,
-     "length_max_runtime_mm": 11.3,
      "spans": [],
+     "length_max_runtime_mm": 11.3,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": null,
@@ -64901,8 +64901,8 @@
      "length_zero_mm": 160.1,
      "length_min_mm": 160.1,
      "length_max_mm": 160.1,
-     "length_max_runtime_mm": 160.1,
      "spans": [],
+     "length_max_runtime_mm": 160.1,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": -1.4,
@@ -65145,8 +65145,8 @@
      "length_zero_mm": 11.3,
      "length_min_mm": 11.3,
      "length_max_mm": 11.3,
-     "length_max_runtime_mm": 11.3,
      "spans": [],
+     "length_max_runtime_mm": 11.3,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": null,
@@ -65255,8 +65255,8 @@
      "length_zero_mm": 179.4,
      "length_min_mm": 179.4,
      "length_max_mm": 179.4,
-     "length_max_runtime_mm": 179.4,
      "spans": [],
+     "length_max_runtime_mm": 179.4,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": -1.1,
@@ -65370,8 +65370,8 @@
      "length_zero_mm": 71.8,
      "length_min_mm": 71.8,
      "length_max_mm": 71.8,
-     "length_max_runtime_mm": 71.8,
      "spans": [],
+     "length_max_runtime_mm": 71.8,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": null,
@@ -65448,8 +65448,8 @@
      "length_zero_mm": 139.9,
      "length_min_mm": 139.9,
      "length_max_mm": 139.9,
-     "length_max_runtime_mm": 139.9,
      "spans": [],
+     "length_max_runtime_mm": 139.9,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": -1.1,
@@ -65507,8 +65507,8 @@
      "length_zero_mm": 0.0,
      "length_min_mm": 0.0,
      "length_max_mm": 0.0,
-     "length_max_runtime_mm": 0.0,
      "spans": [],
+     "length_max_runtime_mm": 0.0,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": null,
@@ -65913,8 +65913,8 @@
      "length_zero_mm": 149.5,
      "length_min_mm": 149.5,
      "length_max_mm": 149.5,
-     "length_max_runtime_mm": 149.5,
      "spans": [],
+     "length_max_runtime_mm": 149.5,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": -1.4,
@@ -65998,8 +65998,8 @@
      "length_zero_mm": 21.9,
      "length_min_mm": 21.9,
      "length_max_mm": 21.9,
-     "length_max_runtime_mm": 21.9,
      "spans": [],
+     "length_max_runtime_mm": 21.9,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": null,
@@ -66073,8 +66073,8 @@
      "length_zero_mm": 33.9,
      "length_min_mm": 33.9,
      "length_max_mm": 33.9,
-     "length_max_runtime_mm": 33.9,
      "spans": [],
+     "length_max_runtime_mm": 33.9,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": null,
@@ -66148,8 +66148,8 @@
      "length_zero_mm": 16.7,
      "length_min_mm": 16.7,
      "length_max_mm": 16.7,
-     "length_max_runtime_mm": 16.7,
      "spans": [],
+     "length_max_runtime_mm": 16.7,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": null,
@@ -66223,8 +66223,8 @@
      "length_zero_mm": 26.4,
      "length_min_mm": 26.4,
      "length_max_mm": 26.4,
-     "length_max_runtime_mm": 26.4,
      "spans": [],
+     "length_max_runtime_mm": 26.4,
      "span_taut_min_gap_mm": null,
      "span_taut_at": null,
      "rub_min_gap_runtime_mm": null,
@@ -67236,9 +67236,9 @@
    "kind": "cable tie",
    "gap": true,
    "center_mm": [
-    16.0,
-    4.0,
-    175.0
+    14.95,
+    5.49,
+    175.52
    ],
    "axis": [
     -0.0,
@@ -67248,9 +67248,9 @@
    "link": "neck_yaw_assembly",
    "part": "head_yaw_to_roll",
    "p": [
-    14.997,
-    3.903,
-    -37.999
+    13.952,
+    5.386,
+    -37.477
    ],
    "bundle_d_mm": 5.7,
    "tie": "nylon cable tie 2.5 x 100 mm",
@@ -67258,7 +67258,7 @@
     "joint crossing, neck_yaw_assembly side (end of the 37 mm free loop)",
     "joint crossing, neck_yaw_assembly side (end of the 39 mm free loop)"
    ],
-   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of head_yaw_to_roll; no anchored neighbour cable within 4 mm, no tie-hole pair that passes the checks, and the loop tie cannot move further (room or link ends): bundle tie, test fit (nearest printed part head_yaw_to_roll, 13 mm away; tie-hole candidates within 25 mm rejected for: edge distance (less than 1.6 mm of plastic round a hole) (481); face not flat round the holes (7)); D59: slid 1 mm along the cable to grow the head_pitch+head_yaw loop for the new range",
+   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of head_yaw_to_roll; no anchored neighbour cable within 4 mm, no tie-hole pair that passes the checks, and the loop tie cannot move further (room or link ends): bundle tie, test fit (nearest printed part head_yaw_to_roll, 13 mm away; tie-hole candidates within 25 mm rejected for: edge distance (less than 1.6 mm of plastic round a hole) (481); face not flat round the holes (7)); D59: slid 3 mm along the cable to grow the head_pitch+head_yaw loop for the new range",
    "mount_fit": null,
    "loop_end": true,
    "open": false,
@@ -67469,9 +67469,9 @@
    "kind": "cable tie",
    "gap": true,
    "center_mm": [
-    15.54,
-    -0.59,
-    168.48
+    16.0,
+    -5.19,
+    165.81
    ],
    "axis": [
     0.0,
@@ -67481,16 +67481,16 @@
    "link": "neck_pitch_assembly",
    "part": null,
    "p": [
-    14.537,
-    78.475,
-    19.74
+    15.0,
+    75.807,
+    24.343
    ],
    "bundle_d_mm": 6.9,
    "tie": "nylon cable tie 2.5 x 100 mm",
    "why": [
     "joint crossing, neck_pitch_assembly side (end of the 38 mm free loop)"
    ],
-   "note": "GAP: free air, no printed part within 15 mm on this link; no anchored neighbour cable within 4 mm, no tie-hole pair that passes the checks, and the loop tie cannot move further (room or link ends): bundle tie, test fit (nearest printed part neck_right_sheet, 35 mm away; tie-hole candidates within 25 mm rejected for: no printed face of this link within 25 mm); D59: slid 1 mm along the cable to grow the head_yaw+head_pitch loop for the new range; D59: slid 0 mm along the cable to grow the head_yaw+head_pitch loop for the new range",
+   "note": "GAP: free air, no printed part within 15 mm on this link; no anchored neighbour cable within 4 mm, no tie-hole pair that passes the checks, and the loop tie cannot move further (room or link ends): bundle tie, test fit (nearest printed part neck_right_sheet, 35 mm away; tie-hole candidates within 25 mm rejected for: no printed face of this link within 25 mm); D59: slid 5 mm along the cable to grow the head_pitch+head_yaw loop for the new range",
    "mount_fit": null,
    "loop_end": true,
    "open": false,
@@ -67507,9 +67507,9 @@
    "kind": "cable tie",
    "gap": true,
    "center_mm": [
-    19.03,
+    20.3,
     15.0,
-    184.86
+    194.4
    ],
    "axis": [
     0.13,
@@ -67519,9 +67519,9 @@
    "link": "neck_yaw_assembly",
    "part": null,
    "p": [
-    18.034,
+    19.29,
     14.9,
-    -28.138
+    -18.6
    ],
    "bundle_d_mm": 5.7,
    "tie": "nylon cable tie 2.5 x 100 mm",
@@ -67529,7 +67529,7 @@
     "joint crossing, neck_yaw_assembly side (end of the 28 mm free loop)",
     "joint crossing, neck_yaw_assembly side (end of the 38 mm free loop)"
    ],
-   "note": "GAP: free air, no printed part within 15 mm on this link; no anchored neighbour cable within 4 mm, no tie-hole pair that passes the checks, and the loop tie cannot move further (room or link ends): bundle tie, test fit (nearest printed part head_yaw_to_roll, 16 mm away; tie-hole candidates within 25 mm rejected for: edge distance (less than 1.6 mm of plastic round a hole) (417); face not flat round the holes (3); another part (servo or bracket) in the drilled path or right behind it (1)); D59: slid 10 mm along the cable to grow the head_pitch+head_yaw loop for the new range",
+   "note": "GAP: free air, no printed part within 15 mm on this link; no anchored neighbour cable within 4 mm, no tie-hole pair that passes the checks, and the loop tie cannot move further (room or link ends): bundle tie, test fit (nearest printed part head_yaw_to_roll, 16 mm away; tie-hole candidates within 25 mm rejected for: edge distance (less than 1.6 mm of plastic round a hole) (417); face not flat round the holes (3); another part (servo or bracket) in the drilled path or right behind it (1))",
    "mount_fit": null,
    "loop_end": true,
    "open": false,
@@ -68528,9 +68528,9 @@
    "kind": "bundle tie, test fit",
    "gap": true,
    "center_mm": [
-    -36.62,
-    -125.0,
-    -73.47
+    -34.3,
+    -116.0,
+    -87.7
    ],
    "axis": [
     -0.577,
@@ -68540,9 +68540,9 @@
    "link": "knee_and_ankle_assembly_4",
    "part": "shin_right_sheet",
    "p": [
-    -1.557,
-    5.25,
-    52.85
+    0.78,
+    -9.02,
+    43.85
    ],
    "bundle_d_mm": 6.4,
    "tie": "nylon cable tie 2.5 x 100 mm",
@@ -68551,7 +68551,7 @@
     "joint crossing, knee_and_ankle_assembly_4 side (end of the 24 mm free loop)",
     "joint crossing, knee_and_ankle_assembly_4 side (end of the 25 mm free loop)"
    ],
-   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of knee_to_ankle_right_sheet; the loop tie moved 20 mm further from the joint (the loop meets 3 x OD there too); stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of knee_to_ankle_right_sheet, 16 mm from the cable line (D25 iii); one anchor per spot: also holds S10 from tie point T080, dressed 23 mm over to it (one tie round both bundles); D59: not flat (8.95 mm) on the changed shin_right_sheet and no flat patch in reach: bundle tie, test fit (D25); D59: slid 17 mm along the cable to grow the right_knee loop for the new range",
+   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of knee_to_ankle_right_sheet; the loop tie moved 20 mm further from the joint (the loop meets 3 x OD there too); stick-on tie mount Panduit ABM1M-AT-C 12.7 x 12.7 mm (BOM 34b) on a flat patch of knee_to_ankle_right_sheet, 16 mm from the cable line (D25 iii); one anchor per spot: also holds S10 from tie point T080, dressed 23 mm over to it (one tie round both bundles); D59: not flat (8.95 mm) on the changed shin_right_sheet and no flat patch in reach: bundle tie, test fit (D25)",
    "loop_end": true,
    "also_holds": [
     {
@@ -70158,9 +70158,9 @@
    "kind": "cable tie",
    "gap": true,
    "center_mm": [
-    -62.0,
-    -2.5,
-    39.0
+    -57.5,
+    -23.5,
+    32.7
    ],
    "axis": [
     0.476,
@@ -70170,16 +70170,16 @@
    "link": "trunk_assembly",
    "part": "trunk_top",
    "p": [
-    -62.0,
-    -2.5,
-    39.0
+    -57.46,
+    -23.52,
+    32.69
    ],
    "bundle_d_mm": 3.9,
    "tie": "nylon cable tie 2.5 x 100 mm",
    "why": [
     "joint crossing, trunk_assembly side (end of the 20 mm free loop)"
    ],
-   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of trunk_top; no anchored neighbour cable within 4 mm, no tie-hole pair that passes the checks, and the loop tie cannot move further (room or link ends): bundle tie, test fit (nearest printed part trunk_top, 12 mm away; tie-hole candidates within 25 mm rejected for: edge distance (less than 1.6 mm of plastic round a hole) (293); face not flat round the holes (103); a mount or another tie hole already there (50)); D59: slid 22 mm along the cable to grow the right_hip_yaw+right_hip_roll loop for the new range",
+   "note": "GAP: no flat patch for a 19 x 19 mm (MB3A) or 12.7 x 12.7 mm (ABM1M) stick-on mount within 15 mm of trunk_top; no anchored neighbour cable within 4 mm, no tie-hole pair that passes the checks, and the loop tie cannot move further (room or link ends): bundle tie, test fit (nearest printed part trunk_top, 12 mm away; tie-hole candidates within 25 mm rejected for: edge distance (less than 1.6 mm of plastic round a hole) (293); face not flat round the holes (103); a mount or another tie hole already there (50))",
    "mount_fit": null,
    "loop_end": true,
    "open": false,

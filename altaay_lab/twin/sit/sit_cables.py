@@ -10,6 +10,8 @@ Starts from cables3d.json at sitlib.BASE_REV (so a re-run gives the same file) a
     there is shin_spacer) and moves their tie holes and stick-on mount seats with them;
   - grows the service loops the new ranges made too small (grow_loops: a loop tie with no anchor slides along the
     cable until verify/c3_cables3d.py's own loop check passes);
+  - keeps every service loop's span on its joint crossing when points are inserted (remap_loops: the jog points, the
+    neck lane), before the loops are grown;
   - takes the trunk-side neck loops round the neck stop block (NECK_LANE: the block covers the diagonal they took across
     trunk_top), moves the ties on those segments onto the new line and checks every trunk segment of every cable clear
     of the block (exact mesh, LANE_GAP);
@@ -85,6 +87,89 @@ def move_points(S, pts, log, cid):
         out.append(q)
         prev_shift, prev_w = sh, w
     return out
+
+
+def _arc(S, pts):
+    P = np.array([world(S, q["link"], q["p"]) for q in pts])
+    return np.r_[0.0, np.cumsum(np.linalg.norm(np.diff(P, axis=0), axis=1))]
+
+
+def tag_points(data, S):
+    """every run point carries its base index (_i) through the edits, so the service loops can follow insertions;
+    each run keeps its base arc lengths (zero pose) for the loop ties' positions along it"""
+    for c in data["cables"]:
+        for r in c.get("runs") or []:
+            for k, q in enumerate(r["points"]):
+                q["_i"] = k
+            r["_acc"] = _arc(S, r["points"]).tolist()
+
+
+def _arc_map(a, acc0, acc1, new_of):
+    """a position a (mm) along the base route to the new route: the same fraction of the same base segment"""
+    n0 = len(acc0) - 1
+    if a <= 0.0:
+        return a
+    if a >= acc0[-1]:
+        return acc1[-1] + (a - acc0[-1])
+    k = int(np.clip(np.searchsorted(acc0, a) - 1, 0, n0 - 1))
+    t = (a - acc0[k]) / max(acc0[k + 1] - acc0[k], 1e-9)
+    s0, s1 = acc1[new_of[k]], acc1[new_of[k + 1]]
+    return s0 + t * (s1 - s0)
+
+
+LOOP_SEEK = 3          # route points a base loop span may sit off its own crossing (base data edited after routing)
+
+
+def remap_loops(data, par, S, log=None):
+    """after points were inserted (the jog points of move_points, the neck lane): each service loop's crossing pairs
+    [a, a + 1] move to the base point a's new index and the point after it. That pair must cross joints of the loop;
+    where it does not (the base already had SP4 and SP5 loops one point off their crossings, its routes edited after
+    the loops were placed), the nearest pair within LOOP_SEEK points that does is taken and logged. The union of the
+    pairs must be the loop's joints, else SystemExit. The tags are dropped. Returns the number of loops moved"""
+    import route_cables as RC
+    moved = 0
+    for c in data["cables"]:
+        for r in c.get("runs") or []:
+            pts = r["points"]
+            new_of = {q["_i"]: k for k, q in enumerate(pts) if "_i" in q}
+            acc0, acc1 = r.pop("_acc"), _arc(S, pts)
+
+            def crosses(k):
+                return RC.chain(par, pts[k]["link"], pts[k + 1]["link"])[1] if 0 <= k < len(pts) - 1 else []
+            for lp in r.get("service_loops", []):
+                old = [list(x) for x in (lp.get("spans") or [lp["span"]])]
+                new, got = [], []
+                for a, b in old:
+                    if b != a + 1 or a not in new_of:
+                        raise SystemExit("%s %s: loop span %s is not a base crossing pair" % (c["id"], r["name"], [a, b]))
+                    a2 = new_of[a]
+                    ok = lambda k: bool(crosses(k)) and set(crosses(k)) <= set(lp["joints"])
+                    if not ok(a2):
+                        near = [k for d in range(1, LOOP_SEEK + 1) for k in (a2 + d, a2 - d) if ok(k)]
+                        if not near:
+                            raise SystemExit("%s %s: loop %s span %s has no crossing of %s within %d points" % (
+                                c["id"], r["name"], lp.get("tie_ids"), [a, b], lp["joints"], LOOP_SEEK))
+                        if log is not None:
+                            log.setdefault("loop_spans_fixed", {})["%s:%s:%s" % (c["id"], r["name"], "+".join(lp["joints"]))] = (
+                                "base span %s was not on its crossing; now %s" % ([a, b], [near[0], near[0] + 1]))
+                        a2 = near[0]
+                    new.append([a2, a2 + 1])
+                    got += crosses(a2)
+                if set(got) != set(lp["joints"]):
+                    raise SystemExit("%s %s: loop %s spans %s cross %s, not %s" % (c["id"], r["name"], lp.get("tie_ids"), new, sorted(set(got)), lp["joints"]))
+                if lp.get("ties_at_mm"):              # the ties stay where they were on the cable; the route grew round them
+                    ta = [round(float(_arc_map(x, acc0, acc1, new_of)), 1) for x in lp["ties_at_mm"]]
+                    if ta != lp["ties_at_mm"]:
+                        lp["ties_at_mm"] = ta
+                        lp["free_mm"] = round(ta[1] - ta[0], 1)
+                if new != old:
+                    moved += 1
+                lp["span"] = [new[0][0], new[-1][1]]
+                if "spans" in lp:
+                    lp["spans"] = new
+            for q in pts:
+                q.pop("_i", None)
+    return moved
 
 
 def flat_patch(m, centre, normal, size, axis, others=()):
@@ -301,11 +386,18 @@ def main():
     S = L.scene(fresh=True)                       # the new CAD and URDF (the shin links carry the shin sheets now)
     data = json.loads(L.git_blob("altaay_lab/cables3d/cables3d.json").decode())
     log = dict(moved_points={}, ties={}, mounts={}, loops={}, neck_lane={})
+    tag_points(data, S)
     for c in data["cables"]:
         c["points"] = move_points(S, c["points"], log, c["id"])
         for r in c.get("runs") or []:
             r["points"] = move_points(S, r["points"], log, c["id"] + ":" + r.get("name", ""))
     neck_lane(S, data, log)
+    import route_cables as RC
+    s_rc = RC.make_scene()
+    for jn, j in s_rc.joints.items():
+        RC.REV[jn] = (j["lo"], j["hi"])
+    log["loop_spans_moved"] = remap_loops(data, RC.tree(s_rc), S, log)
+    say("loop spans remapped after the insertions: %d loops moved" % log["loop_spans_moved"])
     parts_now = {(i["link"], i["key"]): S.world_mesh(i) for i in S.inst}
     changed = {"knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet", "shin_left_sheet", "shin_right_sheet", "shin_spacer",
                "left_cache", "right_cache", "foot_top", "foot_side", "left_roll_to_pitch", "right_roll_to_pitch",

@@ -69,20 +69,19 @@
   "T088": "flat (dev 0.01 mm)"
  },
  "loops": {
-  "P13 main head_pitch+head_yaw": "grown, meets 3 x OD: free 41 mm, bend R 11.6, storage R 20.0, needs 10.8 mm",
-  "D1 main head_pitch+head_yaw": "grown, meets 3 x OD: free 40 mm, bend R 11.3, storage R 20.6, needs 10.5 mm",
+  "P13 main neck_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 27 mm, bend R 61.4, storage R 10.7, needs 10.8 mm",
+  "P13 main head_pitch+head_yaw": "grown, meets 3 x OD: free 41 mm, bend R 11.6, storage R 17.8, needs 10.8 mm",
+  "D1 main neck_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 26 mm, bend R 58.9, storage R 10.1, needs 10.5 mm",
+  "D1 main head_pitch+head_yaw": "grown, meets 3 x OD: free 40 mm, bend R 11.3, storage R 17.3, needs 10.5 mm",
   "D2 main neck_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 26 mm, bend R 58.9, storage R 10.1, needs 10.4 mm",
-  "D3 main head_yaw+head_pitch": "grown, meets 3 x OD: free 39 mm, bend R 10.9, storage R 18.3, needs 10.4 mm",
   "D3 main neck_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 26 mm, bend R 59.1, storage R 9.9, needs 10.4 mm",
   "D3 main left_hip_pitch": "meets 3 x OD: free 30 mm, bend R 22.7, storage R 10.6, needs 10.4 mm",
   "D3 main left_knee": "grown, meets 3 x OD: free 29 mm, bend R 11.0, storage R 12.7, needs 10.4 mm",
-  "D4 main head_yaw+head_pitch": "grown, meets 3 x OD: free 39 mm, bend R 10.9, storage R 18.3, needs 10.4 mm",
   "D4 main right_hip_pitch": "grown, meets 3 x OD: free 36 mm, bend R 27.3, storage R 11.0, needs 10.4 mm",
   "S9 main right_hip_pitch": "grown, meets 3 x OD: free 20 mm, bend R 15.3, storage R 8.5, needs 7.8 mm",
-  "S10 main right_knee": "grown, meets 3 x OD: free 22 mm, bend R 8.5, storage R 11.0, needs 7.8 mm",
   "S11 main neck_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 19 mm, bend R 42.6, storage R 6.8, needs 7.8 mm",
-  "SP4 main left_hip_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 30 mm, bend R 22.6, storage R 5.8, needs 10.2 mm",
-  "SP5 main right_hip_yaw+right_hip_roll": "grown, meets 3 x OD: free 33 mm, bend R 34.1, storage R 10.8, needs 10.2 mm"
+  "SP4 main left_hip_roll": "meets 3 x OD: free 29 mm, bend R 66.0, storage R 10.7, needs 10.2 mm",
+  "SP4 main left_hip_pitch": "under 3 x OD (its ties are anchored or out of room): test fit: free 30 mm, bend R 22.6, storage R 8.5, needs 10.2 mm"
  },
  "neck_lane": {
   "P13:points": 1,
@@ -98,5 +97,15 @@
    1.02,
    "D1:main"
   ]
- }
+ },
+ "loop_spans_fixed": {
+  "SP4:main:left_hip_yaw": "base span [2, 3] was not on its crossing; now [3, 4]",
+  "SP4:main:left_hip_roll": "base span [11, 12] was not on its crossing; now [12, 13]",
+  "SP4:main:left_hip_pitch": "base span [18, 19] was not on its crossing; now [19, 20]",
+  "SP4:main:left_knee": "base span [29, 30] was not on its crossing; now [30, 31]",
+  "SP5:main:right_hip_yaw+right_hip_roll": "base span [4, 5] was not on its crossing; now [5, 6]",
+  "SP5:main:right_hip_pitch": "base span [16, 17] was not on its crossing; now [17, 18]",
+  "SP5:main:right_knee": "base span [27, 28] was not on its crossing; now [28, 29]"
+ },
+ "loop_spans_moved": 18
 }

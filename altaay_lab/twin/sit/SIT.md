@@ -380,8 +380,9 @@ no part, no mass. The walk envelope would have cleared it by 1.7 deg (-0.3 again
 
 sit_cables.py from cables3d.json at the base: the route points and ties on the shin plates moved 9 mm with the joggle (6
 ties, 6 cables); the knee loops grown by sliding the shin-side loop tie T034 along the cable until verify/c3_cables3d.py's
-own loop check passes at 150 deg (D3 and SP4: free 22 to 29 mm, bend R 11.0 mm against 10.4); 6 more loops grown the same
-way: S10 at the right knee, D4 and S9 at the right hip pitch, SP5 at the right hip yaw and roll, D1 and P13 at the head. Stick-on mounts on changed parts checked with the cables3d test (seats_ties.py: 5 x 5 rays, 0.4 mm,
+own loop check passes at 150 deg (D3: free 29 mm, bend R 11.0 mm against 10.4; SP4, S5 and S10 pass as routed); 4 more
+loops grown the same way: D4 and S9 at the right hip pitch, D1 and P13 at the head (the round-2 run; the earlier list
+had S10 and SP5 too, from loop checks on the wrong segment, see below). Stick-on mounts on changed parts checked with the cables3d test (seats_ties.py: 5 x 5 rays, 0.4 mm,
 15 deg, room above) and placed again with its search where the cuts or the lugs took the patch: T030, T035 and T044 take
 the small ABM1M mount; T046, T047, T048 and T071 a tie round the bundle at the test fit (D25). check_cables.py and C3: PASS (0 FAIL).
 Run again on the round-2 CAD (2026-11-10, CAD check only), with three fixes found on the way:
@@ -400,6 +401,13 @@ Run again on the round-2 CAD (2026-11-10, CAD check only), with three fixes foun
   (knee 150, neck +25, head -25, hip roll -8) left them stale, and C3 and check_cables.py read them. check_cables.py now
   takes every run's zero, min, max and Runtime length again from its points over the URDF ranges (route_cables.py
   sweep) and carries the change into the wires and cables; 43 runs changed.
+- The service loops' point indices stayed behind when points were inserted (the joggle's jog points, the neck lane),
+  so C3's loop check and the loop growth looked at a stationary segment (P13's neck crossing at points 14 and 15, its
+  loop still at 13 and 14); the base had 7 loops of SP4 and SP5 one point off already. sit_cables.py now carries every
+  loop's crossing pairs and tie positions along with the insertions (remap_loops; an off base span is moved to the
+  nearest crossing of its joints within 3 points, logged), and check_cables.py stops when a loop span does not cross
+  the joints it names (unit tests: twin/sit/test_sit_cables.py). With the loops on their crossings S10's knee loop and
+  SP5's hip loop pass as routed; the neck loops of P13 and D1 are under 3 x OD by storage radius (below).
 Result: 61 cables, 15 pass, 38 pass with notes, 8 at the test fit, 0 FAIL. At the test fit: S2 and S7 (as before the
 sit), DC3 (no cut length, as before), and four the stale lengths hid: the knee kit leads S5 and S10 are short by 25 and
 24 mm against the 40 mm slack rule (150 mm kit cables; they fit taut with 15 and 16 mm to spare; the joggle adds 18 mm
