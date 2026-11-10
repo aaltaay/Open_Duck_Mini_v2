@@ -1,6 +1,6 @@
 # GETUP_VIA_SIT: a get-up through the sit, inside the real joint limits (PR 28)
 
-_Copied into the repo from the get-up search job (2026-11-07 ET, sim pass only), local paths removed. The code, runs, CMA logs and traces it names stayed in the scratch results folder; the programs are in programs/ (chain_v3r.json, hand_I.json, roll_back3.json). The port into the shared lab gym (overlay gym/overlays/duck) and the re-evaluation on the merged sit model (aad3a9a) are in VIA_SIT_EVAL.md: 248 of 296 again, case by case the same._
+_Copied into the repo from the get-up search job (2026-11-07 ET, sim pass only), local paths removed. The code, runs, CMA logs and traces it names stayed in the scratch results folder; the programs are in programs/ (chain_v3r.json, hand_I.json, roll_back3.json). The port into the shared lab gym (overlay gym/overlays/duck) and the re-evaluation on the merged sit model (aad3a9a) are in VIA_SIT_EVAL.md: 248 of 296 again, case by case the same. This search judged success with the gym get-up library's earlier rule (the 2 s still window could start before the program ended); VIA_SIT_EVAL.md counts it only after the program ends, with any break resetting it, and no case changes._
 
 Date 2026-11-07 (UTC on the box, about 06:00 to 07:54). Written by a Claude Code sub-agent for the duck lead. Read-only search
 job on the gym side: nothing committed or pushed to either repo; the two worktrees made for it were removed at the end.

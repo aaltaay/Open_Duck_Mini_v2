@@ -8,7 +8,7 @@ The programs of GETUP_VIA_SIT.md (searched on the sit branch at b56ea56) are now
 twin/sit/sit_model.py at run time (the gym copies nothing of this repo) and pins it by the hashes of the model files; the
 stand-up waypoints are read from twin/sit/sitlib.py (PATH_A1B with LEAN). This file is the re-run of the full 296 cases on
 the merged model: this repo at **aad3a9a** (PR 28 merged: the round-2 stops, the TPU stop compliance, 2.8078 kg), STS3250
-knees (D32), every target clipped to software/servo_limits.json, the GETUP success rule. One result file per case (a
+knees (D32), every target clipped to software/servo_limits.json, the GETUP success rule judged after the program ends (below). One result file per case (a
 restart loses nothing); the per-case summary is via_sit_runs.jsonl here. Programs: programs/chain_v3r.json (the whole
 program), hand_I.json (the tuck), roll_back3.json (the roll's search best: its parameters and a one-line training summary).
 
@@ -38,9 +38,13 @@ front rest on a down ramp, all at the tuck, as before: the trunk stays 74.7 to 7
 | front, flat (6) | 6 of 6 | 6 of 6 | 6 of 6 | 6 of 6 |
 | front, ramps down (12) | 0 of 12 | 0 of 12 | 0 of 12 | 0 of 12 |
 
-By terrain: flat 88 of 88, obstacles 64 of 64, ramps up 72 of 72, ramps down 0 of 48. Upright and still 13.7 to 21.9 s after
-the program starts (median 20.4 s). After the roll every side and back case lies on its front at 85.6 to 87.2 deg; the IMU
+By terrain: flat 88 of 88, obstacles 64 of 64, ramps up 72 of 72, ramps down 0 of 48. The 2 s upright and still window
+starts at the program end: 18.1 s after the program starts for the front cases, 24.8 s (median, at most 26.2 s) with a roll
+and its retry stage; the duck is first upright and still for 2 s earlier, at 13.7 to 13.8 s (front) and 20.3 to 21.9 s (rolls),
+in the stand before the home key. After the roll every side and back case lies on its front at 85.6 to 87.2 deg; the IMU
 retry rolled again in 7 of the 224 side and back cases and held in the other 217.
+
+**The success rule (2026-11-10, after review):** upright (tilt under 15 deg, height at least 0.85 of the stance), still and on the soles alone for 2 s, counted only after the program has ended (the walk's home key reached; 2.5 s of hold follow) and reset by any break of any condition, so a duck that leaves the pose in the hold is not up; no joint more than 1 deg past its range. The search's evaluator used the get-up library's earlier rule (the 2 s window may start before the program ends, and once found only a tilt over 30 deg clears it), which could count a duck that came up during the rise and then lost the pose in the move to the home key. Both rules are reported per case (success, success_legacy_rule): on both models every case gives the same result under both, 248 of 296, so the search's count did not rest on the flaw. The gym library's own rule is unchanged for its other results.
 
 ## Servo torque margins (sim pass only; current and duty calc only)
 
