@@ -217,7 +217,7 @@ Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e4_viewer.py`. Finished 202
 
 ### E5 Servo current budget from the stock walk (sim/current_budget.py, sim pass only): PASS
 Command: `VERIFY_OUT=<out> python3 altaay_lab/verify/e5_current_budget.py`. Finished 2026-11-10 15:24 UTC, 0 s.
-- reused /tmp/claude-0/-home-user/44fe65d1-0499-57ea-a6b6-5fd56643a22c/scratchpad/job4/verify_head/e5_current/current_budget.json from an earlier run in this output folder (VERIFY_REUSE=1)
+- reused <out>/e5_current/current_budget.json from an earlier run in this output folder (VERIFY_REUSE=1)
 - Stand, zero command: falls none; mean 0.19, 100 ms 0.23, 20 ms 0.24, 2 ms 0.24 A
 - Walk forward 0.15 m/s: falls none; mean 2.22, 100 ms 3.08, 20 ms 4.02, 2 ms 4.97 A
 - Turn 1.0 rad/s: falls none; mean 2.38, 100 ms 3.21, 20 ms 5.39, 2 ms 6.40 A
