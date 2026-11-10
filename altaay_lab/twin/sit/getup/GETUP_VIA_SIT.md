@@ -278,8 +278,8 @@ Failures by class and first failing stage (this job's runs):
 - front: tuck: 48
 
 **248 of 296** (sim pass only) against the base model's 254 of 296 with the stored programs (Playground ranges, knee at -88)
-and the sit model's 0 of 296 with them. Back 156 of 156, side 68 of 68, front 24 of 72. By terrain: flat 88 of 88 (the base
-83), obstacles 64 of 64 (base 63), ramps up 72 of 72 (base 69), ramps down 0 of 48 (base 12). Without the retry stage
+and the sit model's 0 of 296 with them. Back 156 of 156, side 68 of 68, front 24 of 72. By terrain: flat 112 of 112 (the base
+110; corrected 2026-11-10, the first copy counted duck/arena only), obstacles 64 of 64 (base 63), ramps up 72 of 72 (base 69), ramps down 0 of 48 (base 12). Without the retry stage
 (chain_v3, tables_chain_v3_noretry.md, runs.jsonl set sideback224_chain_v3): 244 of 296, the 4 misses all at the roll at mu
 0.6 (ramp_5_up stock s3 at both voltages and duck/edge_3mm ours s2 end on the back, stand_push_left stock s1 on its side);
 the retry (the back roll again when the IMU reads back, the stored swing then the back roll when it reads side, a hold when

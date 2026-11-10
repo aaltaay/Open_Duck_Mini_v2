@@ -38,7 +38,7 @@ front rest on a down ramp, all at the tuck, as before: the trunk stays 74.7 to 7
 | front, flat (6) | 6 of 6 | 6 of 6 | 6 of 6 | 6 of 6 |
 | front, ramps down (12) | 0 of 12 | 0 of 12 | 0 of 12 | 0 of 12 |
 
-By terrain: flat 88 of 88, obstacles 64 of 64, ramps up 72 of 72, ramps down 0 of 48. The 2 s upright and still window
+By terrain: flat 112 of 112, obstacles 64 of 64, ramps up 72 of 72, ramps down 0 of 48. The 2 s upright and still window
 starts at the program end: 18.1 s after the program starts for the front cases, 24.8 s (median, at most 26.2 s) with a roll
 and its retry stage; the duck is first upright and still for 2 s earlier, at 13.7 to 13.8 s (front) and 20.3 to 21.9 s (rolls),
 in the stand before the home key. After the roll every side and back case lies on its front at 85.6 to 87.2 deg; the IMU
