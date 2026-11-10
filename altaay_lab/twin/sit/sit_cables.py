@@ -10,9 +10,13 @@ Starts from cables3d.json at sitlib.BASE_REV (so a re-run gives the same file) a
     there is shin_spacer) and moves their tie holes and stick-on mount seats with them;
   - grows the service loops the new ranges made too small (grow_loops: a loop tie with no anchor slides along the
     cable until verify/c3_cables3d.py's own loop check passes);
-  - re-checks every stick-on mount and drilled tie hole pair on a part this job changed, on the new STL (rays: the mount
-    footprint flat within FLAT_TOL; both tie holes in plastic) and moves a mount the trim took away along its cable to
-    the nearest flat patch.
+  - takes the trunk-side neck loops round the neck stop block (NECK_LANE: the block covers the diagonal they took across
+    trunk_top), moves the ties on those segments onto the new line and checks every trunk segment of every cable clear
+    of the block (exact mesh, LANE_GAP);
+  - re-checks every stick-on mount and drilled tie hole pair on a part this job changed or next to one (within 30 mm: a
+    new part can cover a mount on an unchanged one), on the new STL (rays: the mount footprint flat within FLAT_TOL, room
+    above; both tie holes in plastic) and moves a mount the trim or a new part took away along its cable to the nearest
+    flat patch.
 Then cables3d/route_cables.py --grid-only and cables3d/check_cables.py recompute every length, loop and rub on the new
 CAD and the new joint ranges (robot.urdf), and write them into cables3d.json (run them after this script; the sit
 job's commands are in SIT.md).
@@ -113,6 +117,15 @@ def flat_patch(m, centre, normal, size, axis, others=()):
 MOVABLE = ("cable tie", "bundle tie, test fit")   # ties round the bundle, no anchor: they can slide along the cable
 D59_JOINTS = ("knee", "ankle", "hip_roll", "hip_pitch", "neck_pitch", "head_pitch")
 GROW_STEP, LOOP_MARGIN = 1.0, 1.05
+# round 2 (2026-11-10): the neck stop block covers x -56 to -18, |y| 15 to 29 on trunk_top from z 85 (its foot and
+# pillars). The trunk-side neck loops crossed that ground diagonally at z 89 and dropped forward past the right pillar's
+# front corner. Each pair of consecutive trunk route points (matched within 0.2 mm) gets a point between them: behind
+# the foot and inside the lane (|y| under 15), or forward of the pillar's front face before the drop.
+NECK_LANE = (((-60.0, 28.0, 89.0), (-36.84, 5.42, 89.0), (-58.5, 12.0, 89.0)),     # D1
+             ((-60.0, 20.0, 89.0), (-34.12, -0.06, 89.0), (-58.5, 11.0, 89.0)),    # SD1 b
+             ((-20.0, -11.0, 89.0), (-12.0, -19.0, 81.0), (-15.0, -11.5, 88.0)))   # P13, D1, D13, SD1 b
+NECK_LANE_N = 12                 # the pairs these must find (points and runs lists): P13 2, D1 4, D13 2, SD1 4
+LANE_GAP = 0.3                   # every trunk segment's tube this far or more from the block (mm)
 
 
 def say(msg):
@@ -204,21 +217,99 @@ def grow_loops(data, log):
                 x["free"], x["bend"], x["storage"], 3.0 * lp["od_mm"]))
 
 
+def _seg_dist(p, a, b):
+    ab = b - a
+    t = float(np.clip(np.dot(p - a, ab) / max(np.dot(ab, ab), 1e-12), 0.0, 1.0))
+    return float(np.linalg.norm(p - (a + t * ab))), a + t * ab, ab
+
+
+def neck_lane(S, data, log):
+    """the trunk-side neck loops round the neck stop block (NECK_LANE), the ties on the moved segments onto the new line,
+    then every trunk segment of every cable checked clear of the block (exact mesh); raises when a pair is missing or
+    a segment is too close"""
+    import trimesh
+    tr = "trunk_assembly"
+    hit, moved = 0, {}                                  # cable id -> [(old a, old b, new point)] in world mm
+    for c in data["cables"]:
+        for nm, pts in [("points", c["points"])] + [(r.get("name", ""), r["points"]) for r in c.get("runs") or []]:
+            i = 0
+            while i < len(pts) - 1:
+                a, b = pts[i], pts[i + 1]
+                if a["link"] == tr and b["link"] == tr:
+                    for pa, pb, w in NECK_LANE:
+                        if np.abs(np.subtract(a["p"], pa)).max() < 0.2 and np.abs(np.subtract(b["p"], pb)).max() < 0.2:
+                            pts.insert(i + 1, {"link": tr, "p": [round(float(x), 3) for x in local(S, tr, w)]})
+                            hit += 1
+                            moved.setdefault(c["id"], []).append((world(S, tr, a["p"]), world(S, tr, b["p"]), np.asarray(w, float)))
+                            log["neck_lane"]["%s:%s" % (c["id"], nm)] = log["neck_lane"].get("%s:%s" % (c["id"], nm), 0) + 1
+                            i += 1
+                            break
+                i += 1
+    if hit != NECK_LANE_N:
+        raise SystemExit("neck lane: %d segment pairs found, %d expected (the base routes changed?)" % (hit, NECK_LANE_N))
+    for t in data["retention"]:                         # a tie on a moved segment goes to the nearest point of the new line
+        if t.get("link") != tr or not t.get("center_mm"):
+            continue
+        cen = np.asarray(t["center_mm"], float)
+        for cid in t.get("cables") or []:
+            best = None
+            for a, b, w in moved.get(cid, []):
+                d0, _, _ = _seg_dist(cen, a, b)
+                if d0 > 3.0:
+                    continue
+                for s0, s1 in ((a, w), (w, b)):
+                    d1, q, ab = _seg_dist(cen, s0, s1)
+                    if best is None or d1 < best[0]:
+                        best = (d1, q, ab / np.linalg.norm(ab))
+            if best is not None:
+                dq = best[1] - cen
+                t["center_mm"] = [round(float(x), 2) for x in best[1]]
+                t["p"] = [round(float(x), 3) for x in local(S, tr, best[1])]
+                t["axis"] = [round(float(x), 4) for x in best[2]]
+                if t.get("mount_fit"):
+                    t["mount_fit"]["center_mm"] = [round(float(x), 2) for x in np.asarray(t["mount_fit"]["center_mm"], float) + dq]
+                log["neck_lane"][t["id"]] = "tie moved %.1f mm onto the new line of %s" % (float(np.linalg.norm(dq)), cid)
+                break
+    block = trimesh.util.concatenate([S.world_mesh(i) for i in S.inst if i["key"] == "neck_stop"])
+    pq = trimesh.proximity.ProximityQuery(block)
+    lo, hi = block.bounds[0] - 15, block.bounds[1] + 15
+    worst = (99.0, None)
+    for c in data["cables"]:
+        for r in c.get("runs") or [{"name": "", "points": c["points"], "d_mm": c.get("d_mm")}]:
+            pts, rad = r["points"], float(r.get("d_mm") or c.get("d_mm") or 0) / 2
+            for a, b in zip(pts[:-1], pts[1:]):
+                if a["link"] != tr or b["link"] != tr:
+                    continue
+                A, B = world(S, tr, a["p"]), world(S, tr, b["p"])
+                if np.any(np.maximum(A, B) < lo) or np.any(np.minimum(A, B) > hi):
+                    continue
+                P = A + np.linspace(0, 1, max(2, int(np.ceil(np.linalg.norm(B - A) / 0.25)) + 1))[:, None] * (B - A)
+                g = float(-pq.signed_distance(P).max()) - rad
+                if g < worst[0]:
+                    worst = (g, "%s:%s" % (c["id"], r.get("name", "")))
+                if g < LANE_GAP:
+                    raise SystemExit("neck lane: %s run %s passes %.2f mm from the neck stop block (need %.1f)" % (
+                        c["id"], r.get("name", ""), g, LANE_GAP))
+    log["neck_lane"]["worst_gap_mm"] = [round(worst[0], 2), worst[1]]
+    say("neck lane: %d pairs, worst trunk segment %.2f mm from the block (%s)" % (hit, worst[0], worst[1]))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
     a = ap.parse_args()
     S = L.scene(fresh=True)                       # the new CAD and URDF (the shin links carry the shin sheets now)
     data = json.loads(L.git_blob("altaay_lab/cables3d/cables3d.json").decode())
-    log = dict(moved_points={}, ties={}, mounts={}, loops={})
+    log = dict(moved_points={}, ties={}, mounts={}, loops={}, neck_lane={})
     for c in data["cables"]:
         c["points"] = move_points(S, c["points"], log, c["id"])
         for r in c.get("runs") or []:
             r["points"] = move_points(S, r["points"], log, c["id"] + ":" + r.get("name", ""))
+    neck_lane(S, data, log)
     parts_now = {(i["link"], i["key"]): S.world_mesh(i) for i in S.inst}
     changed = {"knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet", "shin_left_sheet", "shin_right_sheet", "shin_spacer",
                "left_cache", "right_cache", "foot_top", "foot_side", "left_roll_to_pitch", "right_roll_to_pitch",
-               "head_pitch_to_yaw", "neck_stop", "neck_pad", "head_pad"}       # the neck sheets are stock again
+               "head_pitch_to_yaw", "neck_stop", "neck_pad", "head_pad", "roll_pad_left", "roll_pad_right"}   # the neck sheets are stock again
     placed = {}                                     # every stick-on mount as seats_ties keeps them (one mount per spot)
     for t in data["retention"]:
         mf = t.get("mount_fit")
@@ -257,12 +348,17 @@ def main():
                 t["tie_holes"]["part"] = RENAME.get(t["tie_holes"]["part"], t["tie_holes"]["part"])
         # re-check stick-on mounts on changed parts, on the new mesh
         mf = t.get("mount_fit")
-        if mf and mf.get("part") in changed:
+        near_new = mf and any(k in changed and not (np.any(v.bounds[0] - 30 > mf["center_mm"]) or np.any(v.bounds[1] + 30 < mf["center_mm"]))
+                              for (ln, k), v in parts_now.items())     # a new or changed part can cover a mount on a stock one
+        if mf and (mf.get("part") in changed or near_new):
             m = parts_now.get((link, mf["part"]))
             size = 19.0 if mf.get("type") == "MB3A" else 12.7
             if m is None:
                 raise SystemExit("%s: part %s not on link %s" % (t["id"], mf["part"], link))
+            # a mount on a stock part is checked against the changed and new parts only (did this job cover it?); a mount
+            # on a changed part against every part near it, as before
             others = [v for (ln, k), v in parts_now.items() if (ln, k) != (link, mf["part"]) and
+                      (mf.get("part") in changed or k in changed) and
                       not (np.any(v.bounds[0] - 30 > mf["center_mm"]) or np.any(v.bounds[1] + 30 < mf["center_mm"]))]
             ax = t.get("axis") or [0, 0, 1.0]
             ok, dev, why = flat_patch(m, mf["center_mm"], mf["normal"], size, ax, others)

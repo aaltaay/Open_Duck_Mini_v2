@@ -1649,7 +1649,8 @@ def main():
             man_nodes[nid]["fitted"] = False
             continue
         screw_rows.append(dict(spec=spec, line=s["line"], link=host["link"], sub=host["sub"], node=nid,
-                               supplied=("in kit" if re.search(r"servo|kit|bag|comes", str(s["supplied"]), re.I) else "bought"),
+                               supplied=("in kit" if re.search(r"servo|kit|bag|comes", str(s["supplied"]), re.I)
+                                         and not re.search(r"\bto buy\b|\bnot in\b", str(s["supplied"]), re.I) else "bought"),
                                desc="%s, %s head" % (s["anchor"] or "", s["head"]), note=s["note"] or "", washer=s.get("washer")))
     print(screw_note)
 

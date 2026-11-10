@@ -259,6 +259,47 @@ def loop_radius(c, a):
     return R
 
 
+LEN_KEYS = ("length_zero_mm", "length_min_mm", "length_max_mm", "length_max_runtime_mm")
+LEN_TOL = 0.15        # mm: the 0.01 mm rounding of the stored points moves a sweep less than this
+
+
+def refresh_lengths(s, poser, par, data):
+    """the stored run lengths follow the points: a job that edits route points (twin/sit/sit_cables.py) or the joint
+    ranges left them stale. Every run's zero, min, max and Runtime max length is taken again from its points over the
+    URDF ranges (route_cables.py sweep). A wire and its cable take the change of their runs as a delta (some wires carry
+    hand-set offsets from other jobs, kept as they are). Returns the changed runs as cable:run."""
+    changed = []
+    for c in data["cables"]:
+        runs = {r["name"]: r for r in c.get("runs") or []}
+        delta = {}
+        for r in runs.values():
+            links = [q["link"] for q in r["points"]]
+            W0 = [(s.T0[l] @ np.r_[np.asarray(q["p"], float), 1.0])[:3] for q, l in zip(r["points"], links)]
+            z0, mn, mx, spans = RC.sweep(s, poser, W0, links, par)
+            _, _, mx_rt, _ = RC.sweep(s, poser, W0, links, par, RC.RUNTIME)
+            new = dict(zip(LEN_KEYS, (round(z0, 1), round(mn, 1), round(mx, 1), round(mx_rt, 1))))
+            if any(r.get(k) is None or abs(new[k] - r[k]) > LEN_TOL for k in LEN_KEYS):
+                delta[r["name"]] = {k: new[k] - r.get(k, r.get("length_max_mm", new[k])) if r.get(k) is not None else 0.0
+                                    for k in LEN_KEYS}
+                r.update(new, spans=spans)
+                changed.append("%s:%s" % (c["id"], r["name"]))
+        if not delta:
+            continue
+        wd = {k: [0.0] for k in LEN_KEYS}
+        for w in c.get("wires") or []:
+            if not w.get("runs"):
+                continue
+            for k in LEN_KEYS:
+                d = sum(delta.get(n, {}).get(k, 0.0) for n in w["runs"])
+                if w.get(k) is not None:
+                    w[k] = round(w[k] + d, 1)
+                wd[k].append(d)
+        for k in ("length_zero_mm", "length_min_mm", "length_max_mm"):
+            if c.get(k) is not None:
+                c[k] = round(c[k] + max(wd[k], key=abs), 1)
+    return changed
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--scratch", required=True)
@@ -279,6 +320,8 @@ def main():
     par = RC.tree(s)
     ends = {e["id"]: e for e in data["cable_ends"]}
     global CHAINS
+    relen = refresh_lengths(s, poser, par, data)
+    print("lengths taken again from the points: %d runs changed %s" % (len(relen), relen), flush=True)
     CHAINS = chains(data["cables"])
     TWIST.update(twist_factors())
     print("twist take-up on the chain lengths: %s" % {k: v[0] for k, v in sorted(TWIST.items())}, flush=True)
