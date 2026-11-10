@@ -27,7 +27,7 @@ if not os.path.isdir(os.path.join(V.PLAYGROUND, "playground", "open_duck_mini_v2
     sys.exit(0)
 js = os.path.join(od, "current_budget.json")
 if os.environ.get("VERIFY_REUSE") == "1" and os.path.exists(js):
-    R.ev("reused %s from an earlier run in this output folder (VERIFY_REUSE=1)" % js)
+    R.ev("reused <out>/%s from an earlier run in this output folder (VERIFY_REUSE=1)" % os.path.relpath(js, V.out_dir()))
 else:
     env = dict(os.environ, ODM_PLAYGROUND=V.PLAYGROUND, ODM_ONNX=onnx, ODM_OUT=od, ODM_SAVE_TRACES="1")
     p = subprocess.run(["nice", "-n", "10", sys.executable, V.lab("sim", "current_budget.py")], env=env,

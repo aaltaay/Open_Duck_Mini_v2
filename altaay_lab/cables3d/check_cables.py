@@ -259,6 +259,69 @@ def loop_radius(c, a):
     return R
 
 
+LEN_KEYS = ("length_zero_mm", "length_min_mm", "length_max_mm", "length_max_runtime_mm")
+LEN_TOL = 0.15        # mm: the 0.01 mm rounding of the stored points moves a sweep less than this
+
+
+def refresh_lengths(s, poser, par, data):
+    """the stored run lengths follow the points: a job that edits route points (twin/sit/sit_cables.py) or the joint
+    ranges left them stale. Every run's zero, min, max and Runtime max length is taken again from its points over the
+    URDF ranges (route_cables.py sweep). A wire and its cable take the change of their runs as a delta (some wires carry
+    hand-set offsets from other jobs, kept as they are). Returns the changed runs as cable:run."""
+    changed = []
+    for c in data["cables"]:
+        runs = {r["name"]: r for r in c.get("runs") or []}
+        delta = {}
+        for r in runs.values():
+            links = [q["link"] for q in r["points"]]
+            W0 = [(s.T0[l] @ np.r_[np.asarray(q["p"], float), 1.0])[:3] for q, l in zip(r["points"], links)]
+            z0, mn, mx, spans = RC.sweep(s, poser, W0, links, par)
+            _, _, mx_rt, _ = RC.sweep(s, poser, W0, links, par, RC.RUNTIME)
+            new = dict(zip(LEN_KEYS, (round(z0, 1), round(mn, 1), round(mx, 1), round(mx_rt, 1))))
+            r["spans"] = spans                      # the joint crossings of the points as they are now
+            if any(r.get(k) is None or abs(new[k] - r[k]) > LEN_TOL for k in LEN_KEYS):
+                delta[r["name"]] = {k: new[k] - r.get(k, r.get("length_max_mm", new[k])) if r.get(k) is not None else 0.0
+                                    for k in LEN_KEYS}
+                r.update(new)
+                changed.append("%s:%s" % (c["id"], r["name"]))
+        if not delta:
+            continue
+        wd = {k: [0.0] for k in LEN_KEYS}
+        for w in c.get("wires") or []:
+            if not w.get("runs"):
+                continue
+            for k in LEN_KEYS:
+                d = sum(delta.get(n, {}).get(k, 0.0) for n in w["runs"])
+                if w.get(k) is not None:
+                    w[k] = round(w[k] + d, 1)
+                wd[k].append(d)
+        for k in ("length_zero_mm", "length_min_mm", "length_max_mm"):
+            if c.get(k) is not None:
+                c[k] = round(c[k] + max(wd[k], key=abs), 1)
+    return changed
+
+
+def check_loop_spans(par, data):
+    """every service loop span pair [a, a + 1] must cross exactly the joints the loop names (a route edit that inserts
+    points and leaves the loop indices behind would put a loop on a stationary segment). Returns the problems"""
+    bad = []
+    for c in data["cables"]:
+        for r in c.get("runs") or []:
+            pts = r["points"]
+            for lp in r.get("service_loops", []):
+                spans = lp.get("spans") or [lp["span"]]
+                got = []
+                for a, b in spans:
+                    if b != a + 1 or b >= len(pts):
+                        bad.append("%s %s: loop span %s is not a pair of route points" % (c["id"], r["name"], [a, b]))
+                        continue
+                    got += RC.chain(par, pts[a]["link"], pts[b]["link"])[1]
+                if sorted(set(got)) != sorted(set(lp["joints"])):
+                    bad.append("%s %s: loop %s spans %s cross %s, the loop names %s" % (
+                        c["id"], r["name"], lp.get("tie_ids"), spans, sorted(set(got)), lp["joints"]))
+    return bad
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--scratch", required=True)
@@ -279,6 +342,11 @@ def main():
     par = RC.tree(s)
     ends = {e["id"]: e for e in data["cable_ends"]}
     global CHAINS
+    bad = check_loop_spans(par, data)
+    if bad:
+        raise SystemExit("service loop spans off their joints:\n  " + "\n  ".join(bad))
+    relen = refresh_lengths(s, poser, par, data)
+    print("lengths taken again from the points: %d runs changed %s" % (len(relen), relen), flush=True)
     CHAINS = chains(data["cables"])
     TWIST.update(twist_factors())
     print("twist take-up on the chain lengths: %s" % {k: v[0] for k, v in sorted(TWIST.items())}, flush=True)
@@ -377,10 +445,12 @@ def main():
                 bend_min = (rmin, "corner", r["name"])
             # connector room at both terminal ends
             for side, key in (("from", 0), ("to", -1)):
-                tid = r[side]
-                if tid not in ends:
+                tid = r.get(side)
+                if tid not in ends:              # no named end (a run that starts or stops at a splice)
                     continue
                 e = ends[tid]
+                if not e.get("dir_world0"):
+                    continue          # an end placed without an exit direction (the dock ends of D50): no room check
                 p = np.array(e["p_world0"])
                 d = np.array(e["dir_world0"])
                 need = BEND_MIN * r["d_mm"] + r["d_mm"] / 2.0

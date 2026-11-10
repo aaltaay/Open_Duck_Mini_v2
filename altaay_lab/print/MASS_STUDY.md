@@ -8,7 +8,7 @@ Tags: [L] lab file, script or slicer output on this box; [U] upstream file; [I] 
 
 ## Answer
 
-| Robot set, 36 STLs, 52 parts | Filament g | On the robot g | Print hours | Whole robot g (sim pass only) | Over the trained 2107.1 g |
+| Robot set at D22 (36 STLs then; 52 parts) | Filament g | On the robot g | Print hours | Whole robot g (sim pass only) | Over the trained 2107.1 g |
 |---|---|---|---|---|---|
 | (a) upstream defaults | 1178.1 | 1090.5 | 102.0 | 2538.7 | +20.5 % |
 | (b) current settings | 1409.0 | 1318.7 | 118.9 | 2766.9 | +31.3 % |

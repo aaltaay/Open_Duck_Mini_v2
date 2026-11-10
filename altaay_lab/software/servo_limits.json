@@ -1,0 +1,327 @@
+{
+ "generated_by": "altaay_lab/twin/sit/servo_limits.py",
+ "label": "calc",
+ "rule": "software limit = hard stop moved 3.0 deg toward zero (D59)",
+ "encoder": "raw = 2048 + (q + offset) x 4096 / 360 (rustypot; STS3215 and STS3250 4096 steps, KNEE_TWIN.md section 2)",
+ "registers": "min angle limit 9 (u16), max angle limit 11 (u16), lock 55 [U] rustypot c8b8223 src/device/feetech_sts3215.rs, pypot f6d305e sts3215_io.py; factory 0 and 4095 (bench/tests/fake_sts3215.py, the REGISTER_REFERENCE.md read)",
+ "knee_span": {
+  "deg": 178.5,
+  "raw": [
+   1724,
+   3755
+  ],
+  "wrap_margin_steps": 340,
+  "wrap_margin_deg": 29.9,
+  "note": "the knee's -90 to +150 deg span maps to raw 1024 to 3755 at a zero offset: it does not cross the 0/4095 wrap, so no offset register (31) is needed; a horn indexed more than the margin off zero would need one (set_angle_limits.py refuses a wrapping range)"
+ },
+ "joints": {
+  "left_hip_yaw": {
+   "id": 20,
+   "urdf_deg": [
+    -30.0,
+    30.0
+   ],
+   "hard_lo_deg": -24.0,
+   "hard_lo_source": "CAD contact (sit_sweep.py hard_stops, body_middle_bottom|left_roll_to_pitch)",
+   "hard_hi_deg": 23.3,
+   "hard_hi_source": "screw first (fasteners.json sweep, F198 head vs body_middle_bottom)",
+   "soft_lo_deg": -21.0,
+   "soft_hi_deg": 20.3,
+   "raw_soft": [
+    1809,
+    2279
+   ],
+   "raw_hard": [
+    1775,
+    2313
+   ],
+   "wrap_margin_steps": 1775
+  },
+  "left_hip_roll": {
+   "id": 21,
+   "urdf_deg": [
+    -8.0,
+    25.0
+   ],
+   "hard_lo_deg": -8.0,
+   "hard_lo_source": "URDF limit",
+   "hard_hi_deg": 25.0,
+   "hard_hi_source": "URDF limit",
+   "soft_lo_deg": -5.0,
+   "soft_hi_deg": 22.0,
+   "raw_soft": [
+    1991,
+    2298
+   ],
+   "raw_hard": [
+    1957,
+    2332
+   ],
+   "wrap_margin_steps": 1763
+  },
+  "left_hip_pitch": {
+   "id": 22,
+   "urdf_deg": [
+    -75.0,
+    30.0
+   ],
+   "hard_lo_deg": -75.0,
+   "hard_lo_source": "URDF limit",
+   "hard_hi_deg": 13.5,
+   "hard_hi_source": "CAD contact (sit_sweep.py hard_stops, servo_mid|leg_spacer)",
+   "soft_lo_deg": -72.0,
+   "soft_hi_deg": 10.5,
+   "raw_soft": [
+    1229,
+    2167
+   ],
+   "raw_hard": [
+    1195,
+    2202
+   ],
+   "wrap_margin_steps": 1195
+  },
+  "left_knee": {
+   "id": 23,
+   "urdf_deg": [
+    -90.0,
+    150.0
+   ],
+   "hard_lo_deg": -28.5,
+   "hard_lo_source": "CAD contact (sit_sweep.py hard_stops, left_cache|shin_left_sheet)",
+   "hard_hi_deg": 150.0,
+   "hard_hi_source": "URDF limit",
+   "soft_lo_deg": -25.5,
+   "soft_hi_deg": 147.0,
+   "raw_soft": [
+    1758,
+    3721
+   ],
+   "raw_hard": [
+    1724,
+    3755
+   ],
+   "wrap_margin_steps": 340
+  },
+  "left_ankle": {
+   "id": 24,
+   "urdf_deg": [
+    -95.0,
+    90.0
+   ],
+   "hard_lo_deg": -95.0,
+   "hard_lo_source": "URDF limit",
+   "hard_hi_deg": 49.0,
+   "hard_hi_source": "CAD contact (sit_sweep.py hard_stops, shin_right_sheet|foot_side)",
+   "soft_lo_deg": -92.0,
+   "soft_hi_deg": 46.0,
+   "raw_soft": [
+    1001,
+    2571
+   ],
+   "raw_hard": [
+    967,
+    2606
+   ],
+   "wrap_margin_steps": 967
+  },
+  "neck_pitch": {
+   "id": 30,
+   "urdf_deg": [
+    -20.0,
+    25.0
+   ],
+   "hard_lo_deg": -20.0,
+   "hard_lo_source": "URDF limit",
+   "hard_hi_deg": 25.0,
+   "hard_hi_source": "URDF limit",
+   "soft_lo_deg": -17.0,
+   "soft_hi_deg": 22.0,
+   "raw_soft": [
+    1855,
+    2298
+   ],
+   "raw_hard": [
+    1820,
+    2332
+   ],
+   "wrap_margin_steps": 1763
+  },
+  "head_pitch": {
+   "id": 31,
+   "urdf_deg": [
+    -25.0,
+    45.0
+   ],
+   "hard_lo_deg": -25.0,
+   "hard_lo_source": "URDF limit",
+   "hard_hi_deg": 39.0,
+   "hard_hi_source": "CAD contact (sit_sweep.py hard_stops, body_middle_top|head)",
+   "soft_lo_deg": -22.0,
+   "soft_hi_deg": 36.0,
+   "raw_soft": [
+    1798,
+    2458
+   ],
+   "raw_hard": [
+    1764,
+    2492
+   ],
+   "wrap_margin_steps": 1603
+  },
+  "head_yaw": {
+   "id": 32,
+   "urdf_deg": [
+    -160.0,
+    160.0
+   ],
+   "hard_lo_deg": -108.0,
+   "hard_lo_source": "CAD contact (sit_sweep.py hard_stops, head_pitch_to_yaw|servo_bottom)",
+   "hard_hi_deg": 82.0,
+   "hard_hi_source": "CAD contact (sit_sweep.py hard_stops, head_pitch_to_yaw|servo_bottom)",
+   "soft_lo_deg": -105.0,
+   "soft_hi_deg": 79.0,
+   "raw_soft": [
+    853,
+    2947
+   ],
+   "raw_hard": [
+    819,
+    2981
+   ],
+   "wrap_margin_steps": 819
+  },
+  "head_roll": {
+   "id": 33,
+   "urdf_deg": [
+    -30.0,
+    30.0
+   ],
+   "hard_lo_deg": -30.0,
+   "hard_lo_source": "URDF limit",
+   "hard_hi_deg": 30.0,
+   "hard_hi_source": "URDF limit",
+   "soft_lo_deg": -27.0,
+   "soft_hi_deg": 27.0,
+   "raw_soft": [
+    1741,
+    2355
+   ],
+   "raw_hard": [
+    1707,
+    2389
+   ],
+   "wrap_margin_steps": 1706
+  },
+  "right_hip_yaw": {
+   "id": 10,
+   "urdf_deg": [
+    -30.0,
+    30.0
+   ],
+   "hard_lo_deg": -23.3,
+   "hard_lo_source": "screw first (fasteners.json sweep, F211 head vs body_middle_bottom)",
+   "hard_hi_deg": 24.0,
+   "hard_hi_source": "CAD contact (sit_sweep.py hard_stops, body_middle_bottom|right_roll_to_pitch)",
+   "soft_lo_deg": -20.3,
+   "soft_hi_deg": 21.0,
+   "raw_soft": [
+    1817,
+    2287
+   ],
+   "raw_hard": [
+    1783,
+    2321
+   ],
+   "wrap_margin_steps": 1774
+  },
+  "right_hip_roll": {
+   "id": 11,
+   "urdf_deg": [
+    -25.0,
+    8.0
+   ],
+   "hard_lo_deg": -25.0,
+   "hard_lo_source": "URDF limit",
+   "hard_hi_deg": 8.0,
+   "hard_hi_source": "URDF limit",
+   "soft_lo_deg": -22.0,
+   "soft_hi_deg": 5.0,
+   "raw_soft": [
+    1798,
+    2105
+   ],
+   "raw_hard": [
+    1764,
+    2139
+   ],
+   "wrap_margin_steps": 1764
+  },
+  "right_hip_pitch": {
+   "id": 12,
+   "urdf_deg": [
+    -30.0,
+    75.0
+   ],
+   "hard_lo_deg": -13.5,
+   "hard_lo_source": "CAD contact (sit_sweep.py hard_stops, servo_mid|leg_spacer)",
+   "hard_hi_deg": 75.0,
+   "hard_hi_source": "URDF limit",
+   "soft_lo_deg": -10.5,
+   "soft_hi_deg": 72.0,
+   "raw_soft": [
+    1929,
+    2867
+   ],
+   "raw_hard": [
+    1894,
+    2901
+   ],
+   "wrap_margin_steps": 1194
+  },
+  "right_knee": {
+   "id": 13,
+   "urdf_deg": [
+    -90.0,
+    150.0
+   ],
+   "hard_lo_deg": -28.5,
+   "hard_lo_source": "CAD contact (sit_sweep.py hard_stops, right_cache|shin_right_sheet)",
+   "hard_hi_deg": 150.0,
+   "hard_hi_source": "URDF limit",
+   "soft_lo_deg": -25.5,
+   "soft_hi_deg": 147.0,
+   "raw_soft": [
+    1758,
+    3721
+   ],
+   "raw_hard": [
+    1724,
+    3755
+   ],
+   "wrap_margin_steps": 340
+  },
+  "right_ankle": {
+   "id": 14,
+   "urdf_deg": [
+    -95.0,
+    90.0
+   ],
+   "hard_lo_deg": -95.0,
+   "hard_lo_source": "URDF limit",
+   "hard_hi_deg": 49.0,
+   "hard_hi_source": "CAD contact (sit_sweep.py hard_stops, shin_right_sheet|foot_side)",
+   "soft_lo_deg": -92.0,
+   "soft_hi_deg": 46.0,
+   "raw_soft": [
+    1001,
+    2571
+   ],
+   "raw_hard": [
+    967,
+    2606
+   ],
+   "wrap_margin_steps": 967
+  }
+ }
+}

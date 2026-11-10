@@ -292,6 +292,8 @@ def main(argv=None):
     ap.add_argument("--port", default="/dev/ttyACM0")
     ap.add_argument("--configure", type=int, help="run the Runtime configure_motor.py with this ID (7.1)")
     ap.add_argument("--id", type=int, help="test this ID (default: the one servo the scan finds)")
+    ap.add_argument("--angle-limits", action="store_true",
+                    help="after the other steps, write the D59 angle limits of this ID (software/servo_limits.json, zero offset) and read them back")
     ap.add_argument("--fix-config", action="store_true",
                     help="if the read-back after configuring is wrong, write configure_motor.py's values again "
                          "(same pypot setters) and verify each one")
@@ -340,6 +342,17 @@ def main(argv=None):
             step73(a, rep, io, sid)
         else:
             rep.add("7.3", "thermal hold not run (no confirmation)", "INCOMPLETE")
+    if a.angle_limits and sid is not None:
+        # D59: the angle limit registers to the software limits (zero offset until the joint is calibrated, TEST_PLAN 19.1),
+        # written last: 7.2 and 7.3 need the servo's whole range for their steps and sine
+        import set_angle_limits as SAL
+        rows = SAL.table(SAL.load_limits(), {}, ids=[sid], zero_offsets=True)
+        if not rows:
+            rep.add("7.1.limits", "angle limits: ID %d is not a joint in software/servo_limits.json" % sid, "FAIL")
+        else:
+            ok = SAL.write_rows(io, rows)
+            rep.gate("7.1.limits", "angle limit registers 9 and 11 read back the software limits (D59, zero offset)", ok,
+                     "%s" % rows[0].get("read_back"), "%s" % [rows[0]["min_raw"], rows[0]["max_raw"]], "D59")
     rep.add("7.4", "servo cuts torque after more than 2 A for 2 s by default: protection, not a fault", "MANUAL",
             None, None, "TEST_PLAN 7.4")
     try:
