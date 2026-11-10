@@ -24,7 +24,7 @@
  "mounts": {
   "T030": "not flat (11.50 mm); ABM1M in place of MB3A; placed again on left_roll_to_pitch, 5.6 mm away",
   "T032": "7 of 25 rays miss the part; placed again on knee_to_ankle_right_sheet, 7.7 mm away",
-  "T035": "1 of 25 rays miss the part; ABM1M in place of MB3A; placed again on shin_right_sheet, 16.5 mm away",
+  "T035": "1 of 25 rays miss the part at the old spot; no flat patch in reach on the new CAD: bundle tie at the test fit (D25)",
   "T043": "flat (dev 0.12 mm)",
   "T044": "not flat (9.70 mm); ABM1M in place of MB3A; placed again on right_roll_to_pitch, 5.7 mm away",
   "T046": "4 of 25 rays miss the part at the old spot; no flat patch in reach on the new CAD: bundle tie at the test fit (D25)",

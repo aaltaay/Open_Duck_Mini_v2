@@ -4,22 +4,22 @@
  "pitch_tol_deg": 2.0,
  "trunk_T_mm": [
   [
-   0.998806,
-   0.006315,
-   -0.048434,
-   -17.026418
+   0.998797,
+   0.005283,
+   -0.048745,
+   -17.23652
   ],
   [
-   -0.006325,
-   0.99998,
-   -5e-05,
-   0.846273
+   -0.00538,
+   0.999984,
+   -0.001852,
+   -1.22809
   ],
   [
-   0.048433,
-   0.000356,
-   0.998826,
-   71.237362
+   0.048734,
+   0.002112,
+   0.99881,
+   71.336994
   ],
   [
    0.0,
@@ -28,39 +28,39 @@
    1.0
   ]
  ],
- "trunk_pitch_deg": 2.78,
- "trunk_roll_deg": 0.02,
- "trunk_z_mm": 71.2,
+ "trunk_pitch_deg": 2.79,
+ "trunk_roll_deg": 0.12,
+ "trunk_z_mm": 71.3,
  "joints_deg": {
-  "left_hip_yaw": -2.228,
-  "left_hip_roll": -8.0,
-  "left_hip_pitch": -57.369,
+  "left_hip_yaw": -0.346,
+  "left_hip_roll": -8.017,
+  "left_hip_pitch": -56.805,
   "left_knee": 150.001,
   "left_ankle": -95.001,
-  "neck_pitch": 25.002,
-  "head_pitch": -25.001,
-  "head_yaw": -0.006,
-  "head_roll": 0.019,
-  "right_hip_yaw": 1.593,
-  "right_hip_roll": 8.001,
-  "right_hip_pitch": 56.855,
+  "neck_pitch": 25.0,
+  "head_pitch": -25.002,
+  "head_yaw": -0.007,
+  "head_roll": -0.003,
+  "right_hip_yaw": 0.217,
+  "right_hip_roll": 8.017,
+  "right_hip_pitch": 57.342,
   "right_knee": 150.001,
   "right_ankle": -95.001
  },
  "pads": {
-  "CHG+": 5,
-  "SENSE": 5,
-  "SYS": 2,
-  "GND": 5
+  "CHG+": 3,
+  "SENSE": 6,
+  "SYS": 4,
+  "GND": 6
  },
- "head_elev_deg": 2.78,
- "frame_mismatch_mm": 0.00412,
- "inputs_key": "0d016c83312deae5",
- "render_pitch_deg": 2.78,
+ "head_elev_deg": 2.79,
+ "frame_mismatch_mm": 0.00029,
+ "inputs_key": "8b6e8c92845763bd",
+ "render_pitch_deg": 2.79,
  "render_lowest_z_mm": {
-  "sole_foot_assembly": -0.36,
-  "sole_foot_assembly_2": -0.26,
-  "sit_seat": -0.04,
-  "sit_bumper": 3.27
+  "sole_foot_assembly": -0.31,
+  "sole_foot_assembly_2": -0.28,
+  "sit_seat": -0.01,
+  "sit_bumper": 3.34
  }
 }

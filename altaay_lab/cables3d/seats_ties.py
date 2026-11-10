@@ -420,15 +420,31 @@ def mount_patch(s, link, c, axis, reach, parts=None, base=None, height=None, max
         if np.any(m.bounds[0] - reach > c) or np.any(m.bounds[1] + reach < c):
             continue
         idx = np.where(np.linalg.norm(m.triangles_center - c, axis=1) <= reach + base)[0]
+        idx = idx[m.area_faces[idx] > 1e-6]                 # a zero-area facet has no normal: it would never leave `left`
         if not len(idx):
             continue
-        left = idx[np.argsort(-m.area_faces[idx])]
+        FN, AF = m.face_normals, m.area_faces             # once: each property access re-validates the mesh cache
+        left = idx[np.argsort(-AF[idx])]
         while len(left):
-            n0 = m.face_normals[left[0]]
-            sel = m.face_normals[left] @ n0 >= cos_t      # faces facing the same way as the largest one left
+            n0 = FN[left[0]]
+            sel = FN[left] @ n0 >= cos_t                 # faces facing the same way as the largest one left
+            if not sel[0]:
+                left = left[1:]
+                continue
             grp, left = left[sel], left[~sel]
             if m.area_faces[grp].sum() < 0.5 * base * base:
                 continue
+            # a curved band of facets within 15 deg (a conformal pocket, a fillet) cannot hold a flat patch: keep the
+            # faces whose centres lie within 3 x FLAT_TOL of the group's mean plane and ask those for the area (the
+            # exact 25-ray test below decides the spot; this only spares it the thousands of curved candidates)
+            nbar = (m.face_normals[grp] * m.area_faces[grp][:, None]).sum(0)
+            nbar = nbar / np.linalg.norm(nbar)
+            cen = m.triangles_center[grp]
+            dev = (cen - (cen * m.area_faces[grp][:, None]).sum(0) / m.area_faces[grp].sum()) @ nbar
+            flat = np.abs(dev) <= 3.0 * FLAT_TOL
+            if m.area_faces[grp][flat].sum() < 0.5 * base * base:
+                continue
+            grp = grp[flat]
             sub = m.submesh([grp], append=True)
             q, d, _ = trimesh.proximity.closest_point(sub, [c])
             if d[0] <= reach:

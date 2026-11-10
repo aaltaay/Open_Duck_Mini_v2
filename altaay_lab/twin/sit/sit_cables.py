@@ -115,6 +115,13 @@ D59_JOINTS = ("knee", "ankle", "hip_roll", "hip_pitch", "neck_pitch", "head_pitc
 GROW_STEP, LOOP_MARGIN = 1.0, 1.05
 
 
+def say(msg):
+    """progress on stderr, flushed (the json log comes at the end)"""
+    import sys
+    import time as _t
+    print("[%s] %s" % (_t.strftime("%H:%M:%S"), msg), file=sys.stderr, flush=True)
+
+
 def grow_loops(data, log):
     """the service loops the D59 ranges made too small: slide a loop tie that has no anchor (MOVABLE) away from the
     crossing, 1 mm at a time inside the loop's room, until C3's own recomputation (verify/c3_cables3d.py loop_check,
@@ -144,6 +151,7 @@ def grow_loops(data, log):
             good, x = ok(r, lp)
             if good:
                 continue
+            say("grow loop %s %s %s" % (c["id"], r["name"], "+".join(lp["joints"])))
             P, acc = route(r)
             spans = lp.get("spans") or [lp["span"]]
             i0, i9 = spans[0][0], spans[-1][1]
@@ -264,6 +272,7 @@ def main():
             # place it again the way cables3d placed it (seats_ties.py mount_patch: every face direction of the link's
             # printed parts within REACH of the tie, in-plane shifts, dressed at most DRESS_MAX from the cable line,
             # one mount per spot, room above), on the new CAD
+            say("mount %s on %s: placing again" % (t["id"], mf.get("part")))
             ST.PLACED_MOUNTS[:] = [pm for tid, pm in placed.items() if tid != t["id"]]
             ST.MESH_CACHE.clear()
             got = None
@@ -292,7 +301,9 @@ def main():
                 t["note"] = (t.get("note") or "") + "; D59: %s at the old spot on the changed CAD; the mount placed again on %s, %.0f mm from the old spot (cables3d seats_ties.py mount_patch)" % (
                     why, got["part"], np.linalg.norm(np.asarray(got["center"]) - old_c))
                 log["mounts"][t["id"]] = "%s; placed again on %s, %.1f mm away" % (why, got["part"], np.linalg.norm(np.asarray(got["center"]) - old_c))
+    say("loops")
     grow_loops(data, log)
+    say("loops done")
     data["meta"]["sit_d59"] = ("twin/sit/sit_cables.py: the shin routes and ties moved %.0f mm with the joggle; mounts on the "
                                "changed parts re-checked on the new STLs; lengths, loops and rubs recomputed by check_cables.py" % L.JOG)
     print(json.dumps(log, indent=1))
