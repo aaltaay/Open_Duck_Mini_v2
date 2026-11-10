@@ -50,13 +50,13 @@ retry rolled again in 7 of the 224 side and back cases and held in the other 217
 
 Over the 248 successes. Torque limit at the supply voltage: 3.14 N m at 7.2 V, 2.62 N m at 6.0 V (STS3215); the STS3250
 knees 4.97 and 4.14 N m. Current and duty by the gym get-up library's servo law (applied volts from the torque, motor
-current from the volts and speed; the STS3250 knees with their own model); the Feetech protections need 2 s over the
+current from the volts and speed; the STS3250 knees with their own model: torque per amp for the volts, back-EMF constant for the speed term); the Feetech protections need 2 s over the
 line (over-current 2.0 A, the STS3250 knees 3.8 A; overload 80 % duty).
 
 | joint | peak torque / limit | longest at the limit (0.98 or more), s | peak current, A | longest over the over-current line, s | longest over 80 % duty, s | max 2 s mean current, A |
 |---|---|---|---|---|---|---|
 | hip pitch | 1.00 | 1.08 at 6.0 V (0.32 at 7.2 V) | 2.46 | 0.77 | 1.14 | 1.47 |
-| knee | 0.89 | 0 | 1.49 | 0 | 0.02 | 0.77 |
+| knee | 0.89 | 0 | 1.43 | 0 | 0.02 | 0.81 |
 | ankle | 1.00 | 0.12 | 2.21 | 0.005 | 0.22 | 0.61 |
 | neck pitch | 1.00 | 0.36 | 2.44 | 0.16 | 0.45 | 0.91 |
 | head pitch | 1.00 | 0.02 | 2.17 | 0.02 | 0.24 | 0.91 |
