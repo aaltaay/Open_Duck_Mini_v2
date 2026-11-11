@@ -98,7 +98,7 @@ Each line set: **On** (how the duck gets on), **Needs / forgives**, **Power** (w
 - Duck: 4 pins, 2 small holes in the belly floor, the charger board moved inside; about +15 to 20 g, all in the trunk (est). No leg wires, plain soles.
 - Safe: gated; about 10 V at most; the plus disc is 10 cm across and under the tail while charging; a coin cannot span the 32 mm felt gap (US quarter 24.3 mm, https://usmint.gov/learn/coin-specifications, index).
 - Look: a felt pet bed with a sun on it. Cloth, not striped metal.
-- Cost: pins about $0.67 to $0.78 each (DOCK_RESEARCH [W6]); charger board $33.58 already in the BOM; step-down $25.95 (https://www.pololu.com/product/4875, index); felt, cloth, rim: BLOCKER.
+- Cost: pins (price: BLOCKER, not recorded here; DOCK_RESEARCH [W6]); charger board already in the BOM; step-down (https://www.pololu.com/product/4875, index; price: BLOCKER, not recorded here); felt, cloth, rim: BLOCKER.
 - Unknown: pin on cloth contact resistance and wear.
 
 **2. Pond rug (runner-up).** Flat two-tone rug along the wall: sand band near the wall, blue band toward the room.
@@ -121,7 +121,7 @@ Each line set: **On** (how the duck gets on), **Needs / forgives**, **Power** (w
 - Power: coil in a new belly pad between seat block and bumper, 2 to 3 mm above the felt.
 - Duck: pad, coil, receiver board, a charger with power path inside; about +40 to 60 g (est).
 - Safe: no metal. A Qi sender has foreign object detection.
-- Look: the best: nothing to see. Cost: sender board US$11.78 (https://abra-electronics.com/wireless/wireless-charging-modules/wl-371-15w-type-c-wireless-charger-transmitter-module.html, index); 15 W receiver board about EUR 28 to 30 in one listing that may not be a receiver (https://www.desertcart.sn/products/359601335-15w-qi-wireless-charger-pcba-circuit-board-with-coil-pad, index); BLOCKER.
+- Look: the best: nothing to see. Cost: sender board (https://abra-electronics.com/wireless/wireless-charging-modules/wl-371-15w-type-c-wireless-charger-transmitter-module.html, index; price: BLOCKER, not recorded here); 15 W receiver board, one listing that may not be a receiver (price: BLOCKER, not recorded here; https://www.desertcart.sn/products/359601335-15w-qi-wireless-charger-pcba-circuit-board-with-coil-pad, index); BLOCKER.
 - Unknown: landing within 1 cm.
 
 **5. Plain nest with a hidden wide coil (wireless, custom).** As 4 but with a 160 mm sender coil.
@@ -129,7 +129,7 @@ Each line set: **On** (how the duck gets on), **Needs / forgives**, **Power** (w
 - Safe: hobby drivers have no foreign object detection (BLOCKER); a metal toy on the nest could heat.
 - Cost: custom coil and driver, BLOCKER. Unknown: everything electrical; the coil pad is 3 to 6 mm thick, which trips the stock walk.
 
-**6. Shop-bought multi-coil phone pad under felt.** For example the Zens Liberty: 16 overlapping coils, 2 x 15 W, a phone charges "anywhere on the pad", EUR 149.99 at launch (https://9to5mac.com/2020/01/03/zens-liberty/ ; https://www.androidpolice.com/2019/08/23/this-140-wireless-charging-pad-has-16-coils-and-can-fast-charge-two-phones-at-once/, index).
+**6. Shop-bought multi-coil phone pad under felt.** For example the Zens Liberty: 16 overlapping coils, 2 x 15 W, a phone charges "anywhere on the pad" (price: BLOCKER, not recorded here; https://9to5mac.com/2020/01/03/zens-liberty/ ; https://www.androidpolice.com/2019/08/23/this-140-wireless-charging-pad-has-16-coils-and-can-fast-charge-two-phones-at-once/, index).
 - Needs / forgives: the pad's surface; its size is BLOCKER (not in the index).
 - Safe: a certified product with foreign object detection. Duck: as 4.
 - Unknown: 15 W cannot run and charge the duck at the peak; the pad is thick, so the duck must step up onto it; whether it accepts a non-phone receiver.
@@ -189,7 +189,7 @@ Each line set: **On** (how the duck gets on), **Needs / forgives**, **Power** (w
 | Alignment tighter than the walk | **Still true, and now measured:** about 10 mm for phone-size coils against the 45 mm the nest with a sun forgives |
 | Foreign objects heat up | Still true for hobby pairs (no detection found, BLOCKER). Qi senders have it |
 | Magnets near the IMU | Not needed if there are no alignment magnets |
-| Cost about $338 in evaluation boards | Changed: module-level parts are tens of dollars (prices mostly BLOCKER) |
+| Cost of evaluation boards (price: BLOCKER, not recorded here) | Changed: module-level parts cost much less (prices BLOCKER) |
 | No shipping self-docking robot uses it | Still true in this search (EMO is placed by hand) |
 
 ### 4.2 Power: what "awake while docked" (D50) needs (calc only)
@@ -197,7 +197,7 @@ Each line set: **On** (how the duck gets on), **Needs / forgives**, **Power** (w
 - Running the duck: 5.2 W in the twin's docked load (0.62 A), 9.0 W typical and 16.2 W peak in DOCK_INTERFACE.
 - Total: **13.6 to 17.4 W typical, 24.6 W peak.**
 - A 15 W phone-class receiver covers the typical case with no margin and not the peak. **What bends:** D50's "the dock runs the duck and the pack only charges" becomes "the pack helps at peaks", which needs a charger with a power path inside the duck. Candidate: TI BQ25883, 2-cell, 2 A, power path, 93.4 % at 1 A (https://www.ti.com/product/BQ25883, index); price and input limits BLOCKER.
-- A 36 W hobby pair covers the peak. Example: DFRobot FIT0703, 24 V in, 12 V 3 A out, coil 82 mm outer and 30 mm inner, discontinued (https://www.digikey.de/en/products/detail/dfrobot/FIT0703/13166305, index). Similar XKT801 boards: 12 V 3 A, about $17 to $19 each at 50 pieces (https://electronics.alibaba.com/product/xkt-335, index). No data sheet, no foreign object detection found: BLOCKER.
+- A 36 W hobby pair covers the peak. Example: DFRobot FIT0703, 24 V in, 12 V 3 A out, coil 82 mm outer and 30 mm inner, discontinued (https://www.digikey.de/en/products/detail/dfrobot/FIT0703/13166305, index). Similar XKT801 boards: 12 V 3 A (price: BLOCKER, not recorded here; https://electronics.alibaba.com/product/xkt-335, index). No data sheet, no foreign object detection found: BLOCKER.
 - Or charge only at night with the duck off: about 8.4 W, any 15 W part does it. **That bends D50 itself** (awake while docked).
 
 ### 4.3 Coil size, gap and sideways tolerance (calc only, `coverage.py`, air-core model)
@@ -372,7 +372,7 @@ What is unproven:
 ### Cheapest next test
 **Sim N3, no hardware, in the shared lab gym (overlay gym/overlays/duck):** a 2 mm felt-friction disc with the sun drawn on it. The duck starts 1 m out with +/-40 mm and +/-6 deg of start error, walks to the turn spot with the camera stand-in (truth plus 4 mm and 1 deg noise, as DEEP_ANALYSIS 2.1), turns left until the IMU says 180 deg, stops, sits with torque off. Log where the seat buttons and bumper buttons land. 20 seeds on 3 floors. Pass: 95 % inside the 45 mm ring at the first sit. Repeat with a 90 deg side entry on the pond rug bands. Everything needed is already in `turn_probe.py`, `sit_contacts.py` and the walk-on harness of `feet/deep/`.
 
-Then **bench P1** (BLOCKER 2): one printed TPU seat block, two spring pins, two coupons. A few dollars of parts when buying is allowed.
+Then **bench P1** (BLOCKER 2): one printed TPU seat block, two spring pins, two coupons. Few parts, to be bought only when buying is allowed (price: BLOCKER, not recorded here).
 
 ---
 

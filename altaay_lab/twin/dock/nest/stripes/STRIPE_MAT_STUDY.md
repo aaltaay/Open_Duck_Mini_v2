@@ -126,7 +126,7 @@ Unchanged in principle (Fig 3). The rectified mat voltage (BUS) feeds two things
 - BUS to the MCP73213 to DK2 to the 5 A fuse to the pack: the pack only charges, and the charger's CC/CV, end of charge and timer see the pack alone.
 
 Three things the missing SENSE net used to do move into the duck:
-- **Cell temperature window (5 to 45 C).** The MCP73213 has no thermistor input (DOCK_TWIN 6.1). A window comparator on the existing cell NTC opens the charger's PROG pin; PROG floating puts the chip in standby (datasheet copies, index: https://elcodis.com/parts/5982149/MCP73213_p19.html). Parts as the dock gate uses now: LM393 $0.49, TL431 $0.24 (DOCK_TWIN section 7, K4a and K4c).
+- **Cell temperature window (5 to 45 C).** The MCP73213 has no thermistor input (DOCK_TWIN 6.1). A window comparator on the existing cell NTC opens the charger's PROG pin; PROG floating puts the chip in standby (datasheet copies, index: https://elcodis.com/parts/5982149/MCP73213_p19.html). Parts as the dock gate uses now: LM393, TL431 (DOCK_TWIN section 7, K4a and K4c).
 - **Wake when full.** The charger's STAT pin is now inside the duck and can drive the 2813 ON pad directly. The 555 pulse on SENSE goes away.
 - **The 100 k pack-sense resistor** is no longer needed (the mat does not read the pack).
 
@@ -134,7 +134,7 @@ Three things the missing SENSE net used to do move into the duck:
 
 ### 2.3 Rectifier (striped mat only)
 - Every contact can land on + or -, so each of the 10 contacts needs 2 diodes: **20 Schottky diodes**, 10 on a small board in each foot. Then only 2 wires go up each leg; with the diodes in the trunk it would be 5 wires per leg through the 150 deg knee fold.
-- Part: onsemi MBRS540T3G, 40 V 5 A, forward voltage 0.50 V max at 5 A, $0.56 each, $0.373 at 10 (DigiKey, index: https://www.digikey.sg/en/products/detail/onsemi/MBRS540T3G/918011). Forward voltage at 2 to 3 A: BLOCKER (curve not read); 0.50 V is used as the bound.
+- Part: onsemi MBRS540T3G, 40 V 5 A, forward voltage 0.50 V max at 5 A (DigiKey, index: https://www.digikey.sg/en/products/detail/onsemi/MBRS540T3G/918011; price: BLOCKER, not recorded here). Forward voltage at 2 to 3 A: BLOCKER (curve not read); 0.50 V is used as the bound.
 - An "ideal diode bridge" chip would cut the loss, but those serve 2 input wires, not 10 independent contacts: BLOCKER (no part found for 10 inputs; 20 MOSFET ideal diodes is not a serious option).
 - Drop: two diodes in series, **up to 1.0 V**.
 - Heat (calc only, bound): **2.0 W at 2.0 A, 2.8 W at the 2.8 A peak, 1.0 W all night once the pack is full.** Worst single diode 1.4 W if one contact carries everything. The heat is in the feet, away from the cells. PLA near a 1.4 W diode: BLOCKER (thermal check of the foot board).
@@ -144,7 +144,7 @@ Three things the missing SENSE net used to do move into the duck:
 - Path drops at the end of charge (1.1 A): diodes up to 1.0 V, leg wires 2 x 0.45 m of 24 AWG at 0.084 ohm/m = 0.08 V, two contacts at the 50 milliohm pass mark = 0.11 V. Total about 1.2 V (calc only).
 - The charger needs BUS above 8.40 V plus its dropout. Dropout of the MCP73213: BLOCKER (not readable in the index).
 - **So a 9 V mat cannot finish a charge through diodes:** 8.82 V (adapter low) minus 1.2 V is 7.6 V at the charger, 0.8 V short of 8.40 V.
-- **Mat voltage must rise to about 10.5 V** (calc only: 8.4 + 1.2 + dropout and margin). Source: a 12 V adapter and a Pololu D30V30MAS fine-adjust step-down, 4.2 to 15 V out, 3 A, $25.95 (https://www.pololu.com/product/4875, index). 12 V adapter part and price: BLOCKER.
+- **Mat voltage must rise to about 10.5 V** (calc only: 8.4 + 1.2 + dropout and margin). Source: a 12 V adapter and a Pololu D30V30MAS fine-adjust step-down, 4.2 to 15 V out, 3 A (https://www.pololu.com/product/4875, index; price: BLOCKER, not recorded here). 12 V adapter part and price: BLOCKER.
 - BUS then sits near 9.2 to 10.2 V depending on load. The netlist's PACK_OR domain tops out at 9.2 V. The 2813, U3 and BEC are rated above that (DOCK_TWIN 11.8; BEC 2S to 4S), and the servos are behind the 7.2 V BEC (`wiring/netlist.yaml` SERVO_7V2), but every part on VSW must be re-checked for 10.2 V: BLOCKER.
 - With the two-zone hybrid (no diodes) the drop is about 0.2 V, and a mat at about 9.5 V would do (dropout BLOCKER as above).
 
@@ -160,17 +160,17 @@ The MCP73213 throttles itself at a 110 C die temperature (datasheet copies, inde
 ### 2.6 Parts and mass added to the duck (nothing bought)
 | Part | Qty | Mass | Price read | Source |
 |---|---|---|---|---|
-| Schottky MBRS540T3G (striped mat only) | 20 | package mass BLOCKER; about 0.2 g each est | $7.46 at the 10-off price | DigiKey index, link above |
+| Schottky MBRS540T3G (striped mat only) | 20 | package mass BLOCKER; about 0.2 g each est | price: BLOCKER, not recorded here | DigiKey index, link above |
 | Foot diode board, about 60 x 12 x 0.8 mm FR4 (striped only) | 2 | 1.1 g each (calc, 1.85 g/cm3) | BLOCKER (custom board) | none |
 | Sole edge contacts, sprung, stainless or plated | 10 (striped) or 2 strips (hybrid) | about 0.3 g each est | BLOCKER (no part chosen) | none |
-| MCP73213 EV board, moved from the dock | 1 | BLOCKER (board mass not read; about 10 g est) | $33.58, already in the dock BOM (K1) | https://www.digikey.com/en/products/detail/microchip-technology/MCP73213EV-2SOVP/2170203 (index) |
-| NTC window: LM393, TL431, resistors, small FET | 1 set | about 2 g est | $0.49 + $0.24, FET BLOCKER | DOCK_TWIN section 7 K4a, K4c |
+| MCP73213 EV board, moved from the dock | 1 | BLOCKER (board mass not read; about 10 g est) | already in the dock BOM (K1) | https://www.digikey.com/en/products/detail/microchip-technology/MCP73213EV-2SOVP/2170203 (index) |
+| NTC window: LM393, TL431, resistors, small FET | 1 set | about 2 g est | in the dock BOM (K4a, K4c); FET BLOCKER | DOCK_TWIN section 7 K4a, K4c |
 | Signature part (section 3) | 1 | under 1 g est | BLOCKER | none |
 | Leg wires, 2 x 24 AWG x 0.45 m per leg | 2 legs | 3.1 g per leg (FEET_DOCK 2.5 figure) | robot BOM surplus | FEET_DOCK 2.5 |
 
 - **Per foot, striped: about +5.1 g** (5 contacts 1.5 g, 10 diodes 2.0 g, board 1.1 g, solder and leads 0.5 g; est). **Per foot, hybrid: about +1.5 g** (one edge strip; est). The 4-pad design is +6.9 g per foot, and the foot-mass sim at +7 g per foot gave -1.1 % walking speed and 0 falls in 10 seeds (DEEP_ANALYSIS section 8, `res_footmass.json`; sim pass only). Both options stay inside what was simulated.
 - **Robot, striped: about +28 g; hybrid: about +21 g** (est; charger board mass is the BLOCKER). The 4-pad design was about +19 g.
-- **Mat side:** step-down $25.95; current-limit switch, for example TI TPS25940 (2.7 to 18 V, limit adjustable 0.6 to 5.3 A; https://www.ti.com/product/TPS25940, index), price and trip time BLOCKER; probe circuit and stripes BLOCKER.
+- **Mat side:** step-down (price: BLOCKER, not recorded here); current-limit switch, for example TI TPS25940 (2.7 to 18 V, limit adjustable 0.6 to 5.3 A; https://www.ti.com/product/TPS25940, index), price and trip time BLOCKER; probe circuit and stripes BLOCKER.
 
 ---
 
@@ -284,7 +284,7 @@ If Ahmed wants stripes anyway: **S2, stripes along the wall, 20 mm wide, 5 mm ga
 | Parts added to the duck | 4 pads, 2 small parts | same | 10 sprung contacts, 20 diodes, 2 boards, charger moved in, NTC window, signature | 2 edge strips, charger moved in, NTC window, signature |
 | Grams per foot | +6.9 | more | about +5.1 (est) | about +1.5 (est) |
 | Extra heat in the duck while charging | 0.11 W | 0.11 W | about 3.9 W, up to about 6 W | about 1.9 to 3.2 W |
-| Cost read so far | in the BOM | n/a | $7.46 diodes + $25.95 step-down; rest BLOCKER | $25.95 step-down; rest BLOCKER |
+| Cost read so far | in the BOM | n/a | price: BLOCKER, not recorded here | price: BLOCKER, not recorded here |
 | Mat thickness | 7 mm (trips the walk in sim) | 7 mm | about 2 mm | about 2 mm |
 | Risk | walk cannot hit the window | not buildable | contacts, heat, safety case | sideways drift on the turn |
 | Unproven | pad contact, flex wires, pads do not fit the real flat face | all | sprung contacts, signature, heat, contact resistance, camera-only approach | signature, heat, contact resistance, turn drift, camera-only approach |
