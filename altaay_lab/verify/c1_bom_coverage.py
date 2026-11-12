@@ -378,6 +378,25 @@ def main():
         hs = next((r for r in M["bom_full"] if r["item"].startswith("Heat shrink")), None)
         hs_txt = "; heat shrink %s pieces by the rule (%d joints in the netlist), %d drawn" % (
             hs["qty"] if hs else "no row", len(sleeve_count(net)[0]), sum(1 for n in M["nodes"].values() if n.get("sleeve")))
+    # ---------------------------------------------------------------- e. part numbers the order pass proposed, still not on BOM.md
+    # BOM.md is not edited by the parts pass. PROPOSED_BOM_CHANGES.md is the list the nest install agent applies.
+    prop_path = V.lab("PROPOSED_BOM_CHANGES.md")
+    audit_path = V.lab("PARTS_AUDIT.md")
+    if os.path.exists(prop_path) and os.path.exists(audit_path):
+        prop = open(prop_path, encoding="utf-8").read()
+        audit = open(audit_path, encoding="utf-8").read()
+        named = ["100-PRP4030S", "100-SDN250S", "0022012027", "1181 X 1/2", "1401101S80"]
+        missing = [t for t in named if t not in prop or t not in audit]
+        R.ev("proposed part numbers present in PARTS_AUDIT.md and PROPOSED_BOM_CHANGES.md: %s" % (
+            "all of " + ", ".join(named) if not missing else "missing " + ", ".join(missing)))
+        for t in missing:
+            R.find("WARN", "part number %s is not in both PARTS_AUDIT.md and PROPOSED_BOM_CHANGES.md" % t,
+                   fix="keep the number in both files, or remove it from both", where="altaay_lab/PROPOSED_BOM_CHANGES.md")
+        bom_text = open(V.lab("BOM.md"), encoding="utf-8").read()
+        for t in ("100-PRP4030S", "100-SDN250S"):
+            if t not in bom_text:
+                R.find("WARN", "%s is proposed and is not a BOM.md line yet" % t,
+                       fix="the nest install agent adds it when the tip geometry is accepted", where="altaay_lab/BOM.md")
     R.key("%d netlist parts map to BOM lines with matching part numbers (%d splices are made); BOM_FULL %d rows vs sources: "
           "%d FAIL (see list)%s" % (len(net["components"]) - nspl - len(unmapped), nspl, len(rows), nf, hs_txt))
     R.write()
