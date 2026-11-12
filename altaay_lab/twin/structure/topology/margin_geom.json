@@ -1,0 +1,151 @@
+[
+ {
+  "part": "left_roll_to_pitch",
+  "link": "left_roll_to_pitch_assembly",
+  "tag": "ear wall thickened in x, both faces, no rib along the layer direction",
+  "stl": "twin/structure/topology/stl/left_roll_to_pitch.stl",
+  "vol_before_mm3": 30839.9,
+  "vol_after_mm3": 33714.2,
+  "faces": 24550,
+  "bytes": 1227584,
+  "ok_clearance": true,
+  "clearance": [
+   {
+    "against": "hip pitch servo",
+    "min_mm": 2.75
+   },
+   {
+    "against": "thigh sheets, full pitch range",
+    "min_mm": 2.62
+   }
+  ],
+  "added_points": 5441
+ },
+ {
+  "part": "right_roll_to_pitch",
+  "link": "right_roll_to_pitch_assembly",
+  "tag": "ear wall thickened in x, both faces, no rib along the layer direction",
+  "stl": "twin/structure/topology/stl/right_roll_to_pitch.stl",
+  "vol_before_mm3": 30839.9,
+  "vol_after_mm3": 33660.4,
+  "faces": 25356,
+  "bytes": 1267884,
+  "ok_clearance": true,
+  "clearance": [
+   {
+    "against": "hip pitch servo",
+    "min_mm": 2.66
+   },
+   {
+    "against": "thigh sheets, full pitch range",
+    "min_mm": 2.61
+   }
+  ],
+  "added_points": 5316
+ },
+ {
+  "part": "knee_to_ankle_left_sheet",
+  "link": "knee_and_ankle_assembly",
+  "tag": "horn eye collar, head side, outside the screw heads",
+  "stl": "twin/structure/topology/stl/knee_to_ankle_left_sheet.stl",
+  "vol_before_mm3": 7840.0,
+  "vol_after_mm3": 13547.7,
+  "faces": 14512,
+  "bytes": 725684,
+  "ok_clearance": true,
+  "clearance": [
+   {
+    "against": "servo case",
+    "min_mm": 13.93
+   }
+  ],
+  "added_points": 5486
+ },
+ {
+  "part": "knee_to_ankle_right_sheet",
+  "link": "knee_and_ankle_assembly_3",
+  "tag": "horn eye collar, head side, outside the screw heads",
+  "stl": "twin/structure/topology/stl/knee_to_ankle_right_sheet.stl",
+  "vol_before_mm3": 6120.8,
+  "vol_after_mm3": 11816.2,
+  "faces": 12498,
+  "bytes": 624984,
+  "ok_clearance": true,
+  "clearance": [
+   {
+    "against": "servo case",
+    "min_mm": 14.53
+   }
+  ],
+  "added_points": 5487
+ },
+ {
+  "part": "shin_left_sheet",
+  "link": "knee_and_ankle_assembly_2",
+  "tag": "horn eye collar, head side, outside the screw heads",
+  "stl": "twin/structure/topology/stl/shin_left_sheet.stl",
+  "vol_before_mm3": 13895.2,
+  "vol_after_mm3": 19846.1,
+  "faces": 14034,
+  "bytes": 701784,
+  "ok_clearance": true,
+  "clearance": [
+   {
+    "against": "servo case",
+    "min_mm": 19.21
+   }
+  ],
+  "added_points": 5613
+ },
+ {
+  "part": "shin_right_sheet",
+  "ok": false,
+  "why": "no drive eye"
+ },
+ {
+  "part": "neck_left_sheet",
+  "link": "neck_pitch_assembly",
+  "tag": "neck sheet thickened 8 mm, direction [0.0, 0.0, -1.0]",
+  "stl": "twin/structure/topology/stl/neck_left_sheet.stl",
+  "vol_before_mm3": 8060.1,
+  "vol_after_mm3": 19280.4,
+  "faces": 10760,
+  "bytes": 538084,
+  "ok_clearance": true,
+  "clearance": [
+   {
+    "against": "head pitch servo",
+    "min_mm": 3.45
+   }
+  ],
+  "added_points": 0,
+  "direction": [
+   0.0,
+   0.0,
+   -1.0
+  ]
+ },
+ {
+  "part": "neck_right_sheet",
+  "link": "neck_pitch_assembly",
+  "tag": "neck sheet thickened 8 mm, direction [0.0, 0.0, 1.0]",
+  "stl": "twin/structure/topology/stl/neck_right_sheet.stl",
+  "vol_before_mm3": 6260.3,
+  "vol_after_mm3": 17722.9,
+  "faces": 13328,
+  "bytes": 666484,
+  "ok_clearance": true,
+  "clearance": [
+   {
+    "against": "head pitch servo",
+    "min_mm": 2.14
+   }
+  ],
+  "added_points": 0,
+  "direction": [
+   0.0,
+   0.0,
+   1.0
+  ]
+ }
+]
