@@ -1,0 +1,2484 @@
+[
+ {
+  "case": "stock",
+  "material": "PLA",
+  "E_solve": 2641.0,
+  "X": 47.1,
+  "Z": 22.0,
+  "S": 22.0,
+  "pitch_mm": 0.8,
+  "nodes": 89101,
+  "tets": 438750,
+  "walk": {
+   "SF": 0.58,
+   "FI": 1.7226,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    12.5,
+    -13.9,
+    -3.7
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 36.64,
+   "szz": 37.81,
+   "tz": 2.64
+  },
+  "push": {
+   "SF": 0.53,
+   "FI": 1.8975,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    12.5,
+    -13.9,
+    -3.7
+   ],
+   "sample": "walk_pushes_s3",
+   "vm": 40.26,
+   "szz": 41.68,
+   "tz": 2.4
+  },
+  "fall": {
+   "SF": 0.54,
+   "FI": 1.8534,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -3.9
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 87.29,
+   "szz": -20.37,
+   "tz": 19.89,
+   "soft_worst": 0.54,
+   "n_under_1_2": 5,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 1.6,
+    "rough_seed2_tc0.0158_dr0.2": 1.35,
+    "rough_seed3_tc0.0158_dr0.2": 0.54,
+    "rough_seed6_tc0.0158_dr0.2": 1.33,
+    "stand_push_back_tc0.0158_dr0.2": 0.95,
+    "stand_push_forward_tc0.0158_dr0.2": 0.83,
+    "stand_push_left_tc0.0158_dr0.2": 0.56,
+    "stand_push_right_tc0.0158_dr0.2": 0.84,
+    "stand_torque_off_tc0.0158_dr0.2": 3.79
+   }
+  }
+ },
+ {
+  "case": "collar",
+  "material": "PLA",
+  "E_solve": 2641.0,
+  "X": 47.1,
+  "Z": 22.0,
+  "S": 22.0,
+  "pitch_mm": 0.8,
+  "nodes": 101706,
+  "tets": 506340,
+  "walk": {
+   "SF": 0.97,
+   "FI": 1.0286,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 48.45,
+   "szz": 9.15,
+   "tz": 6.52
+  },
+  "push": {
+   "SF": 0.77,
+   "FI": 1.2925,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 42.5,
+   "szz": 23.45,
+   "tz": 16.09
+  },
+  "fall": {
+   "SF": 0.61,
+   "FI": 1.6395,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.5,
+    -40.7,
+    -8.7
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 53.65,
+   "szz": 31.68,
+   "tz": 17.25,
+   "soft_worst": 0.61,
+   "n_under_1_2": 3,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.83,
+    "rough_seed2_tc0.0158_dr0.2": 1.23,
+    "rough_seed3_tc0.0158_dr0.2": 0.67,
+    "rough_seed6_tc0.0158_dr0.2": 1.64,
+    "stand_push_back_tc0.0158_dr0.2": 1.58,
+    "stand_push_forward_tc0.0158_dr0.2": 1.53,
+    "stand_push_left_tc0.0158_dr0.2": 0.61,
+    "stand_push_right_tc0.0158_dr0.2": 0.8,
+    "stand_torque_off_tc0.0158_dr0.2": 4.1
+   }
+  }
+ },
+ {
+  "case": "collar",
+  "material": "PETG",
+  "E_solve": 2641.0,
+  "X": 34.0,
+  "Z": 23.0,
+  "S": 23.0,
+  "pitch_mm": 0.8,
+  "nodes": 101706,
+  "tets": 506340,
+  "walk": {
+   "SF": 0.7,
+   "FI": 1.4249,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 48.45,
+   "szz": 9.15,
+   "tz": 6.52
+  },
+  "push": {
+   "SF": 0.56,
+   "FI": 1.7729,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 60.28,
+   "szz": 12.25,
+   "tz": 9.19
+  },
+  "fall": {
+   "SF": 0.47,
+   "FI": 2.1305,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -39.5,
+    -9.3
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 72.44,
+   "szz": 18.16,
+   "tz": 9.56,
+   "soft_worst": 0.47,
+   "n_under_1_2": 5,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.29,
+    "rough_seed2_tc0.0158_dr0.2": 1.04,
+    "rough_seed3_tc0.0158_dr0.2": 0.48,
+    "rough_seed6_tc0.0158_dr0.2": 1.4,
+    "stand_push_back_tc0.0158_dr0.2": 1.28,
+    "stand_push_forward_tc0.0158_dr0.2": 1.1,
+    "stand_push_left_tc0.0158_dr0.2": 0.47,
+    "stand_push_right_tc0.0158_dr0.2": 0.66,
+    "stand_torque_off_tc0.0158_dr0.2": 2.96
+   }
+  }
+ },
+ {
+  "case": "collar",
+  "material": "PLA-CF",
+  "E_solve": 2641.0,
+  "X": 38.0,
+  "Z": 26.0,
+  "S": 26.0,
+  "pitch_mm": 0.8,
+  "nodes": 101706,
+  "tets": 506340,
+  "walk": {
+   "SF": 0.78,
+   "FI": 1.2749,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 48.45,
+   "szz": 9.15,
+   "tz": 6.52
+  },
+  "push": {
+   "SF": 0.63,
+   "FI": 1.5862,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 60.28,
+   "szz": 12.25,
+   "tz": 9.19
+  },
+  "fall": {
+   "SF": 0.52,
+   "FI": 1.9063,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -39.5,
+    -9.3
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 72.44,
+   "szz": 18.16,
+   "tz": 9.56,
+   "soft_worst": 0.52,
+   "n_under_1_2": 4,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.56,
+    "rough_seed2_tc0.0158_dr0.2": 1.17,
+    "rough_seed3_tc0.0158_dr0.2": 0.54,
+    "rough_seed6_tc0.0158_dr0.2": 1.57,
+    "stand_push_back_tc0.0158_dr0.2": 1.43,
+    "stand_push_forward_tc0.0158_dr0.2": 1.23,
+    "stand_push_left_tc0.0158_dr0.2": 0.52,
+    "stand_push_right_tc0.0158_dr0.2": 0.73,
+    "stand_torque_off_tc0.0158_dr0.2": 3.3
+   }
+  }
+ },
+ {
+  "case": "collar",
+  "material": "ASA",
+  "E_solve": 2641.0,
+  "X": 37.0,
+  "Z": 31.0,
+  "S": 31.0,
+  "pitch_mm": 0.8,
+  "nodes": 101706,
+  "tets": 506340,
+  "walk": {
+   "SF": 0.76,
+   "FI": 1.3093,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 48.45,
+   "szz": 9.15,
+   "tz": 6.52
+  },
+  "push": {
+   "SF": 0.61,
+   "FI": 1.6291,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 60.28,
+   "szz": 12.25,
+   "tz": 9.19
+  },
+  "fall": {
+   "SF": 0.51,
+   "FI": 1.9578,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -39.5,
+    -9.3
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 72.44,
+   "szz": 18.16,
+   "tz": 9.56,
+   "soft_worst": 0.51,
+   "n_under_1_2": 5,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.49,
+    "rough_seed2_tc0.0158_dr0.2": 1.14,
+    "rough_seed3_tc0.0158_dr0.2": 0.53,
+    "rough_seed6_tc0.0158_dr0.2": 1.53,
+    "stand_push_back_tc0.0158_dr0.2": 1.4,
+    "stand_push_forward_tc0.0158_dr0.2": 1.2,
+    "stand_push_left_tc0.0158_dr0.2": 0.51,
+    "stand_push_right_tc0.0158_dr0.2": 0.71,
+    "stand_torque_off_tc0.0158_dr0.2": 3.22
+   }
+  }
+ },
+ {
+  "case": "collar",
+  "material": "PA6-CF",
+  "E_solve": 2641.0,
+  "X": 102.0,
+  "Z": 48.0,
+  "S": 48.0,
+  "pitch_mm": 0.8,
+  "nodes": 101706,
+  "tets": 506340,
+  "walk": {
+   "SF": 2.11,
+   "FI": 0.475,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 48.45,
+   "szz": 9.15,
+   "tz": 6.52
+  },
+  "push": {
+   "SF": 1.69,
+   "FI": 0.5924,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 42.5,
+   "szz": 23.45,
+   "tz": 16.09
+  },
+  "fall": {
+   "SF": 1.33,
+   "FI": 0.7515,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.5,
+    -40.7,
+    -8.7
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 53.65,
+   "szz": 31.68,
+   "tz": 17.25,
+   "soft_worst": 1.33,
+   "n_under_1_2": 0,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 6.17,
+    "rough_seed2_tc0.0158_dr0.2": 2.67,
+    "rough_seed3_tc0.0158_dr0.2": 1.45,
+    "rough_seed6_tc0.0158_dr0.2": 3.57,
+    "stand_push_back_tc0.0158_dr0.2": 3.44,
+    "stand_push_forward_tc0.0158_dr0.2": 3.31,
+    "stand_push_left_tc0.0158_dr0.2": 1.33,
+    "stand_push_right_tc0.0158_dr0.2": 1.74,
+    "stand_torque_off_tc0.0158_dr0.2": 8.87
+   }
+  }
+ },
+ {
+  "case": "taper",
+  "material": "PLA",
+  "E_solve": 2641.0,
+  "X": 47.1,
+  "Z": 22.0,
+  "S": 22.0,
+  "pitch_mm": 0.8,
+  "nodes": 104512,
+  "tets": 522360,
+  "walk": {
+   "SF": 1.1,
+   "FI": 0.9102,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 29.24,
+   "szz": 16.36,
+   "tz": 11.55
+  },
+  "push": {
+   "SF": 0.81,
+   "FI": 1.235,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 36.25,
+   "szz": 22.95,
+   "tz": 14.54
+  },
+  "fall": {
+   "SF": 0.6,
+   "FI": 1.6594,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -40.7,
+    -8.9
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 49.28,
+   "szz": 33.15,
+   "tz": 15.3,
+   "soft_worst": 0.6,
+   "n_under_1_2": 3,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.75,
+    "rough_seed2_tc0.0158_dr0.2": 1.3,
+    "rough_seed3_tc0.0158_dr0.2": 0.77,
+    "rough_seed6_tc0.0158_dr0.2": 1.77,
+    "stand_push_back_tc0.0158_dr0.2": 1.54,
+    "stand_push_forward_tc0.0158_dr0.2": 1.53,
+    "stand_push_left_tc0.0158_dr0.2": 0.6,
+    "stand_push_right_tc0.0158_dr0.2": 0.82,
+    "stand_torque_off_tc0.0158_dr0.2": 4.15
+   }
+  }
+ },
+ {
+  "case": "taper",
+  "material": "PETG",
+  "E_solve": 2641.0,
+  "X": 34.0,
+  "Z": 23.0,
+  "S": 23.0,
+  "pitch_mm": 0.8,
+  "nodes": 104512,
+  "tets": 522360,
+  "walk": {
+   "SF": 0.87,
+   "FI": 1.151,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 39.13,
+   "szz": 8.53,
+   "tz": 6.92
+  },
+  "push": {
+   "SF": 0.71,
+   "FI": 1.4002,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 47.61,
+   "szz": 11.26,
+   "tz": 9.38
+  },
+  "fall": {
+   "SF": 0.55,
+   "FI": 1.8042,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 61.34,
+   "szz": 10.4,
+   "tz": 8.35,
+   "soft_worst": 0.55,
+   "n_under_1_2": 4,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.83,
+    "rough_seed2_tc0.0158_dr0.2": 1.36,
+    "rough_seed3_tc0.0158_dr0.2": 0.55,
+    "rough_seed6_tc0.0158_dr0.2": 1.78,
+    "stand_push_back_tc0.0158_dr0.2": 1.59,
+    "stand_push_forward_tc0.0158_dr0.2": 1.1,
+    "stand_push_left_tc0.0158_dr0.2": 0.57,
+    "stand_push_right_tc0.0158_dr0.2": 0.85,
+    "stand_torque_off_tc0.0158_dr0.2": 3.49
+   }
+  }
+ },
+ {
+  "case": "taper",
+  "material": "PLA-CF",
+  "E_solve": 2641.0,
+  "X": 38.0,
+  "Z": 26.0,
+  "S": 26.0,
+  "pitch_mm": 0.8,
+  "nodes": 104512,
+  "tets": 522360,
+  "walk": {
+   "SF": 0.97,
+   "FI": 1.0298,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 39.13,
+   "szz": 8.53,
+   "tz": 6.92
+  },
+  "push": {
+   "SF": 0.8,
+   "FI": 1.2528,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 47.61,
+   "szz": 11.26,
+   "tz": 9.38
+  },
+  "fall": {
+   "SF": 0.62,
+   "FI": 1.6143,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 61.34,
+   "szz": 10.4,
+   "tz": 8.35,
+   "soft_worst": 0.62,
+   "n_under_1_2": 3,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 3.17,
+    "rough_seed2_tc0.0158_dr0.2": 1.53,
+    "rough_seed3_tc0.0158_dr0.2": 0.62,
+    "rough_seed6_tc0.0158_dr0.2": 1.99,
+    "stand_push_back_tc0.0158_dr0.2": 1.78,
+    "stand_push_forward_tc0.0158_dr0.2": 1.23,
+    "stand_push_left_tc0.0158_dr0.2": 0.64,
+    "stand_push_right_tc0.0158_dr0.2": 0.96,
+    "stand_torque_off_tc0.0158_dr0.2": 3.9
+   }
+  }
+ },
+ {
+  "case": "taper",
+  "material": "ASA",
+  "E_solve": 2641.0,
+  "X": 37.0,
+  "Z": 31.0,
+  "S": 31.0,
+  "pitch_mm": 0.8,
+  "nodes": 104512,
+  "tets": 522360,
+  "walk": {
+   "SF": 0.95,
+   "FI": 1.0577,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 39.13,
+   "szz": 8.53,
+   "tz": 6.92
+  },
+  "push": {
+   "SF": 0.78,
+   "FI": 1.2867,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 47.61,
+   "szz": 11.26,
+   "tz": 9.38
+  },
+  "fall": {
+   "SF": 0.6,
+   "FI": 1.6579,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 61.34,
+   "szz": 10.4,
+   "tz": 8.35,
+   "soft_worst": 0.6,
+   "n_under_1_2": 4,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 3.08,
+    "rough_seed2_tc0.0158_dr0.2": 1.49,
+    "rough_seed3_tc0.0158_dr0.2": 0.6,
+    "rough_seed6_tc0.0158_dr0.2": 1.94,
+    "stand_push_back_tc0.0158_dr0.2": 1.73,
+    "stand_push_forward_tc0.0158_dr0.2": 1.2,
+    "stand_push_left_tc0.0158_dr0.2": 0.62,
+    "stand_push_right_tc0.0158_dr0.2": 0.94,
+    "stand_torque_off_tc0.0158_dr0.2": 3.8
+   }
+  }
+ },
+ {
+  "case": "taper",
+  "material": "PA6-CF",
+  "E_solve": 2641.0,
+  "X": 102.0,
+  "Z": 48.0,
+  "S": 48.0,
+  "pitch_mm": 0.8,
+  "nodes": 104512,
+  "tets": 522360,
+  "walk": {
+   "SF": 2.4,
+   "FI": 0.4172,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 29.24,
+   "szz": 16.36,
+   "tz": 11.55
+  },
+  "push": {
+   "SF": 1.77,
+   "FI": 0.566,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 36.25,
+   "szz": 22.95,
+   "tz": 14.54
+  },
+  "fall": {
+   "SF": 1.31,
+   "FI": 0.7605,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -40.7,
+    -8.9
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 49.28,
+   "szz": 33.15,
+   "tz": 15.3,
+   "soft_worst": 1.31,
+   "n_under_1_2": 0,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 6.01,
+    "rough_seed2_tc0.0158_dr0.2": 2.84,
+    "rough_seed3_tc0.0158_dr0.2": 1.66,
+    "rough_seed6_tc0.0158_dr0.2": 3.86,
+    "stand_push_back_tc0.0158_dr0.2": 3.36,
+    "stand_push_forward_tc0.0158_dr0.2": 3.31,
+    "stand_push_left_tc0.0158_dr0.2": 1.31,
+    "stand_push_right_tc0.0158_dr0.2": 1.78,
+    "stand_torque_off_tc0.0158_dr0.2": 9.06
+   }
+  }
+ },
+ {
+  "case": "taper_cbore",
+  "material": "PLA",
+  "E_solve": 2641.0,
+  "X": 47.1,
+  "Z": 22.0,
+  "S": 22.0,
+  "pitch_mm": 0.8,
+  "nodes": 103780,
+  "tets": 517398,
+  "walk": {
+   "SF": 1.1,
+   "FI": 0.9083,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 29.21,
+   "szz": 16.34,
+   "tz": 11.5
+  },
+  "push": {
+   "SF": 0.81,
+   "FI": 1.2336,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 36.2,
+   "szz": 22.95,
+   "tz": 14.49
+  },
+  "fall": {
+   "SF": 0.6,
+   "FI": 1.6608,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -40.7,
+    -8.9
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 49.06,
+   "szz": 33.16,
+   "tz": 15.34,
+   "soft_worst": 0.6,
+   "n_under_1_2": 3,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.93,
+    "rough_seed2_tc0.0158_dr0.2": 1.3,
+    "rough_seed3_tc0.0158_dr0.2": 0.77,
+    "rough_seed6_tc0.0158_dr0.2": 1.77,
+    "stand_push_back_tc0.0158_dr0.2": 1.63,
+    "stand_push_forward_tc0.0158_dr0.2": 1.53,
+    "stand_push_left_tc0.0158_dr0.2": 0.6,
+    "stand_push_right_tc0.0158_dr0.2": 0.81,
+    "stand_torque_off_tc0.0158_dr0.2": 4.22
+   }
+  }
+ },
+ {
+  "case": "taper_w5i40",
+  "material": "PLA",
+  "E_solve": 2641.0,
+  "X": 47.1,
+  "Z": 22.0,
+  "S": 22.0,
+  "pitch_mm": 0.8,
+  "nodes": 104512,
+  "tets": 522360,
+  "walk": {
+   "SF": 1.7,
+   "FI": 0.5889,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    14.7,
+    -41.1,
+    49.5
+   ],
+   "sample": "walk_side_0.2_s3",
+   "vm": 27.74,
+   "szz": -0.44,
+   "tz": 1.83
+  },
+  "push": {
+   "SF": 1.5,
+   "FI": 0.6668,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    -10.7,
+    -25.7,
+    45.9
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 31.41,
+   "szz": -2.22,
+   "tz": 0.8
+  },
+  "fall": {
+   "SF": 0.79,
+   "FI": 1.2591,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    14.7,
+    -41.1,
+    49.5
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 59.31,
+   "szz": -1.01,
+   "tz": 1.47,
+   "soft_worst": 0.79,
+   "n_under_1_2": 2,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 4.54,
+    "rough_seed2_tc0.0158_dr0.2": 2.88,
+    "rough_seed3_tc0.0158_dr0.2": 0.79,
+    "rough_seed6_tc0.0158_dr0.2": 3.55,
+    "stand_push_back_tc0.0158_dr0.2": 2.54,
+    "stand_push_forward_tc0.0158_dr0.2": 1.53,
+    "stand_push_left_tc0.0158_dr0.2": 1.14,
+    "stand_push_right_tc0.0158_dr0.2": 1.31,
+    "stand_torque_off_tc0.0158_dr0.2": 6.05
+   }
+  }
+ },
+ {
+  "case": "taper_solid",
+  "material": "PLA",
+  "E_solve": 2641.0,
+  "X": 47.1,
+  "Z": 22.0,
+  "S": 22.0,
+  "pitch_mm": 0.8,
+  "nodes": 104512,
+  "tets": 522360,
+  "walk": {
+   "SF": 1.7,
+   "FI": 0.5878,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    14.7,
+    -41.1,
+    49.5
+   ],
+   "sample": "walk_side_0.2_s3",
+   "vm": 27.69,
+   "szz": -0.45,
+   "tz": 1.82
+  },
+  "push": {
+   "SF": 1.5,
+   "FI": 0.6667,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    -10.7,
+    -25.7,
+    45.9
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 31.4,
+   "szz": -2.22,
+   "tz": 0.81
+  },
+  "fall": {
+   "SF": 0.8,
+   "FI": 1.2558,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    14.7,
+    -41.1,
+    49.5
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 59.15,
+   "szz": -1.03,
+   "tz": 1.48,
+   "soft_worst": 0.8,
+   "n_under_1_2": 1,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 4.71,
+    "rough_seed2_tc0.0158_dr0.2": 3.58,
+    "rough_seed3_tc0.0158_dr0.2": 0.8,
+    "rough_seed6_tc0.0158_dr0.2": 4.89,
+    "stand_push_back_tc0.0158_dr0.2": 3.95,
+    "stand_push_forward_tc0.0158_dr0.2": 1.52,
+    "stand_push_left_tc0.0158_dr0.2": 1.22,
+    "stand_push_right_tc0.0158_dr0.2": 1.3,
+    "stand_torque_off_tc0.0158_dr0.2": 6.0
+   }
+  }
+ },
+ {
+  "case": "taper_upx",
+  "material": "PLA",
+  "E_solve": 2641.0,
+  "X": 47.1,
+  "Z": 22.0,
+  "S": 22.0,
+  "pitch_mm": 0.8,
+  "nodes": 104512,
+  "tets": 522360,
+  "walk": {
+   "SF": 1.31,
+   "FI": 0.761,
+   "mode": "in-plane",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 35.84,
+   "szz": 3.28,
+   "tz": 4.07
+  },
+  "push": {
+   "SF": 1.08,
+   "FI": 0.9231,
+   "mode": "in-plane",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_pushes_s3",
+   "vm": 43.48,
+   "szz": 4.13,
+   "tz": 4.46
+  },
+  "fall": {
+   "SF": 0.81,
+   "FI": 1.2412,
+   "mode": "in-plane",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 58.46,
+   "szz": 5.2,
+   "tz": 8.16,
+   "soft_worst": 0.81,
+   "n_under_1_2": 2,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 4.25,
+    "rough_seed2_tc0.0158_dr0.2": 2.15,
+    "rough_seed3_tc0.0158_dr0.2": 0.81,
+    "rough_seed6_tc0.0158_dr0.2": 2.72,
+    "stand_push_back_tc0.0158_dr0.2": 2.4,
+    "stand_push_forward_tc0.0158_dr0.2": 1.53,
+    "stand_push_left_tc0.0158_dr0.2": 0.88,
+    "stand_push_right_tc0.0158_dr0.2": 1.3,
+    "stand_torque_off_tc0.0158_dr0.2": 5.35
+   }
+  }
+ },
+ {
+  "case": "collar_pacf_E",
+  "material": "PA6-CF",
+  "E_solve": 4430.0,
+  "X": 102.0,
+  "Z": 48.0,
+  "S": 48.0,
+  "pitch_mm": 0.8,
+  "nodes": 101706,
+  "tets": 506340,
+  "walk": {
+   "SF": 2.11,
+   "FI": 0.4731,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 48.26,
+   "szz": 9.1,
+   "tz": 6.41
+  },
+  "push": {
+   "SF": 1.7,
+   "FI": 0.5892,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 42.26,
+   "szz": 23.33,
+   "tz": 15.98
+  },
+  "fall": {
+   "SF": 1.33,
+   "FI": 0.7528,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.5,
+    -40.7,
+    -8.7
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 53.7,
+   "szz": 31.73,
+   "tz": 17.29,
+   "soft_worst": 1.33,
+   "n_under_1_2": 0,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 6.21,
+    "rough_seed2_tc0.0158_dr0.2": 2.69,
+    "rough_seed3_tc0.0158_dr0.2": 1.45,
+    "rough_seed6_tc0.0158_dr0.2": 3.59,
+    "stand_push_back_tc0.0158_dr0.2": 3.45,
+    "stand_push_forward_tc0.0158_dr0.2": 3.3,
+    "stand_push_left_tc0.0158_dr0.2": 1.33,
+    "stand_push_right_tc0.0158_dr0.2": 1.75,
+    "stand_torque_off_tc0.0158_dr0.2": 8.86
+   }
+  }
+ },
+ {
+  "case": "taper_pacf_E",
+  "material": "PA6-CF",
+  "E_solve": 4430.0,
+  "X": 102.0,
+  "Z": 48.0,
+  "S": 48.0,
+  "pitch_mm": 0.8,
+  "nodes": 104512,
+  "tets": 522360,
+  "walk": {
+   "SF": 2.4,
+   "FI": 0.4163,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 29.27,
+   "szz": 16.31,
+   "tz": 11.55
+  },
+  "push": {
+   "SF": 1.77,
+   "FI": 0.5652,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 36.27,
+   "szz": 22.9,
+   "tz": 14.55
+  },
+  "fall": {
+   "SF": 1.32,
+   "FI": 0.7586,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -40.7,
+    -8.9
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 49.11,
+   "szz": 33.05,
+   "tz": 15.28,
+   "soft_worst": 1.32,
+   "n_under_1_2": 0,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 6.05,
+    "rough_seed2_tc0.0158_dr0.2": 2.84,
+    "rough_seed3_tc0.0158_dr0.2": 1.66,
+    "rough_seed6_tc0.0158_dr0.2": 3.86,
+    "stand_push_back_tc0.0158_dr0.2": 3.38,
+    "stand_push_forward_tc0.0158_dr0.2": 3.31,
+    "stand_push_left_tc0.0158_dr0.2": 1.32,
+    "stand_push_right_tc0.0158_dr0.2": 1.78,
+    "stand_torque_off_tc0.0158_dr0.2": 9.07
+   }
+  }
+ },
+ {
+  "case": "taper_petg_E",
+  "material": "PETG",
+  "E_solve": 1810.0,
+  "X": 34.0,
+  "Z": 23.0,
+  "S": 23.0,
+  "pitch_mm": 0.8,
+  "nodes": 104512,
+  "tets": 522360,
+  "walk": {
+   "SF": 0.86,
+   "FI": 1.1589,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 39.4,
+   "szz": 8.57,
+   "tz": 6.93
+  },
+  "push": {
+   "SF": 0.71,
+   "FI": 1.4099,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 47.94,
+   "szz": 11.31,
+   "tz": 9.4
+  },
+  "fall": {
+   "SF": 0.55,
+   "FI": 1.8156,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 61.73,
+   "szz": 10.44,
+   "tz": 8.37,
+   "soft_worst": 0.55,
+   "n_under_1_2": 4,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.81,
+    "rough_seed2_tc0.0158_dr0.2": 1.36,
+    "rough_seed3_tc0.0158_dr0.2": 0.55,
+    "rough_seed6_tc0.0158_dr0.2": 1.77,
+    "stand_push_back_tc0.0158_dr0.2": 1.58,
+    "stand_push_forward_tc0.0158_dr0.2": 1.11,
+    "stand_push_left_tc0.0158_dr0.2": 0.57,
+    "stand_push_right_tc0.0158_dr0.2": 0.85,
+    "stand_torque_off_tc0.0158_dr0.2": 3.46
+   }
+  }
+ },
+ {
+  "case": "collar_cbore",
+  "material": "PLA",
+  "E_solve": 2641.0,
+  "X": 47.1,
+  "Z": 22.0,
+  "S": 22.0,
+  "pitch_mm": 0.8,
+  "nodes": 100974,
+  "tets": 501378,
+  "walk": {
+   "SF": 0.98,
+   "FI": 1.0212,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 48.1,
+   "szz": 9.03,
+   "tz": 6.45
+  },
+  "push": {
+   "SF": 0.78,
+   "FI": 1.2764,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 42.09,
+   "szz": 23.13,
+   "tz": 15.92
+  },
+  "fall": {
+   "SF": 0.63,
+   "FI": 1.598,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.5,
+    -40.7,
+    -8.7
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 54.51,
+   "szz": 30.93,
+   "tz": 16.71,
+   "soft_worst": 0.63,
+   "n_under_1_2": 3,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.99,
+    "rough_seed2_tc0.0158_dr0.2": 1.24,
+    "rough_seed3_tc0.0158_dr0.2": 0.67,
+    "rough_seed6_tc0.0158_dr0.2": 1.65,
+    "stand_push_back_tc0.0158_dr0.2": 1.65,
+    "stand_push_forward_tc0.0158_dr0.2": 1.52,
+    "stand_push_left_tc0.0158_dr0.2": 0.63,
+    "stand_push_right_tc0.0158_dr0.2": 0.81,
+    "stand_torque_off_tc0.0158_dr0.2": 4.07
+   }
+  }
+ },
+ {
+  "case": "collar_cbore",
+  "material": "PA6-CF",
+  "E_solve": 2641.0,
+  "X": 102.0,
+  "Z": 48.0,
+  "S": 48.0,
+  "pitch_mm": 0.8,
+  "nodes": 100974,
+  "tets": 501378,
+  "walk": {
+   "SF": 2.12,
+   "FI": 0.4715,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 48.1,
+   "szz": 9.03,
+   "tz": 6.45
+  },
+  "push": {
+   "SF": 1.71,
+   "FI": 0.5865,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -14.9,
+    -39.5,
+    -9.3
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 59.82,
+   "szz": 12.11,
+   "tz": 9.1
+  },
+  "fall": {
+   "SF": 1.37,
+   "FI": 0.7324,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.5,
+    -40.7,
+    -8.7
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 54.51,
+   "szz": 30.93,
+   "tz": 16.71,
+   "soft_worst": 1.37,
+   "n_under_1_2": 0,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 6.52,
+    "rough_seed2_tc0.0158_dr0.2": 2.7,
+    "rough_seed3_tc0.0158_dr0.2": 1.46,
+    "rough_seed6_tc0.0158_dr0.2": 3.61,
+    "stand_push_back_tc0.0158_dr0.2": 3.6,
+    "stand_push_forward_tc0.0158_dr0.2": 3.29,
+    "stand_push_left_tc0.0158_dr0.2": 1.37,
+    "stand_push_right_tc0.0158_dr0.2": 1.76,
+    "stand_torque_off_tc0.0158_dr0.2": 8.82
+   }
+  }
+ },
+ {
+  "case": "web",
+  "material": "PLA",
+  "E_solve": 2641.0,
+  "X": 47.1,
+  "Z": 22.0,
+  "S": 22.0,
+  "pitch_mm": 0.8,
+  "nodes": 109676,
+  "tets": 552270,
+  "walk": {
+   "SF": 1.28,
+   "FI": 0.7831,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -10.5
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 36.88,
+   "szz": -8.32,
+   "tz": 10.23
+  },
+  "push": {
+   "SF": 0.96,
+   "FI": 1.0397,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 26.84,
+   "szz": 19.96,
+   "tz": 11.18
+  },
+  "fall": {
+   "SF": 0.74,
+   "FI": 1.3521,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -40.7,
+    -8.9
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 34.71,
+   "szz": 27.17,
+   "tz": 12.12,
+   "soft_worst": 0.74,
+   "n_under_1_2": 3,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.71,
+    "rough_seed2_tc0.0158_dr0.2": 1.56,
+    "rough_seed3_tc0.0158_dr0.2": 0.82,
+    "rough_seed6_tc0.0158_dr0.2": 2.08,
+    "stand_push_back_tc0.0158_dr0.2": 1.52,
+    "stand_push_forward_tc0.0158_dr0.2": 1.52,
+    "stand_push_left_tc0.0158_dr0.2": 0.74,
+    "stand_push_right_tc0.0158_dr0.2": 0.83,
+    "stand_torque_off_tc0.0158_dr0.2": 4.12
+   }
+  }
+ },
+ {
+  "case": "web",
+  "material": "PETG",
+  "E_solve": 2641.0,
+  "X": 34.0,
+  "Z": 23.0,
+  "S": 23.0,
+  "pitch_mm": 0.8,
+  "nodes": 109676,
+  "tets": 552270,
+  "walk": {
+   "SF": 0.92,
+   "FI": 1.0848,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -10.5
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 36.88,
+   "szz": -8.32,
+   "tz": 10.23
+  },
+  "push": {
+   "SF": 0.83,
+   "FI": 1.2085,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -10.5
+   ],
+   "sample": "walk_pushes_s3",
+   "vm": 41.09,
+   "szz": -9.83,
+   "tz": 11.97
+  },
+  "fall": {
+   "SF": 0.59,
+   "FI": 1.6872,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    14.7,
+    -41.1,
+    49.5
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 57.36,
+   "szz": -1.25,
+   "tz": 1.37,
+   "soft_worst": 0.59,
+   "n_under_1_2": 4,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.83,
+    "rough_seed2_tc0.0158_dr0.2": 1.62,
+    "rough_seed3_tc0.0158_dr0.2": 0.59,
+    "rough_seed6_tc0.0158_dr0.2": 1.88,
+    "stand_push_back_tc0.0158_dr0.2": 1.59,
+    "stand_push_forward_tc0.0158_dr0.2": 1.1,
+    "stand_push_left_tc0.0158_dr0.2": 0.67,
+    "stand_push_right_tc0.0158_dr0.2": 0.87,
+    "stand_torque_off_tc0.0158_dr0.2": 3.95
+   }
+  }
+ },
+ {
+  "case": "web",
+  "material": "PLA-CF",
+  "E_solve": 2641.0,
+  "X": 38.0,
+  "Z": 26.0,
+  "S": 26.0,
+  "pitch_mm": 0.8,
+  "nodes": 109676,
+  "tets": 552270,
+  "walk": {
+   "SF": 1.03,
+   "FI": 0.9706,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -10.5
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 36.88,
+   "szz": -8.32,
+   "tz": 10.23
+  },
+  "push": {
+   "SF": 0.92,
+   "FI": 1.0813,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -10.5
+   ],
+   "sample": "walk_pushes_s3",
+   "vm": 41.09,
+   "szz": -9.83,
+   "tz": 11.97
+  },
+  "fall": {
+   "SF": 0.66,
+   "FI": 1.5096,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    14.7,
+    -41.1,
+    49.5
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 57.36,
+   "szz": -1.25,
+   "tz": 1.37,
+   "soft_worst": 0.66,
+   "n_under_1_2": 3,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 3.2,
+    "rough_seed2_tc0.0158_dr0.2": 1.81,
+    "rough_seed3_tc0.0158_dr0.2": 0.66,
+    "rough_seed6_tc0.0158_dr0.2": 2.1,
+    "stand_push_back_tc0.0158_dr0.2": 1.79,
+    "stand_push_forward_tc0.0158_dr0.2": 1.23,
+    "stand_push_left_tc0.0158_dr0.2": 0.74,
+    "stand_push_right_tc0.0158_dr0.2": 0.98,
+    "stand_torque_off_tc0.0158_dr0.2": 4.42
+   }
+  }
+ },
+ {
+  "case": "web",
+  "material": "ASA",
+  "E_solve": 2641.0,
+  "X": 37.0,
+  "Z": 31.0,
+  "S": 31.0,
+  "pitch_mm": 0.8,
+  "nodes": 109676,
+  "tets": 552270,
+  "walk": {
+   "SF": 1.0,
+   "FI": 0.9968,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -10.5
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 36.88,
+   "szz": -8.32,
+   "tz": 10.23
+  },
+  "push": {
+   "SF": 0.9,
+   "FI": 1.1105,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -10.5
+   ],
+   "sample": "walk_pushes_s3",
+   "vm": 41.09,
+   "szz": -9.83,
+   "tz": 11.97
+  },
+  "fall": {
+   "SF": 0.65,
+   "FI": 1.5504,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    14.7,
+    -41.1,
+    49.5
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 57.36,
+   "szz": -1.25,
+   "tz": 1.37,
+   "soft_worst": 0.65,
+   "n_under_1_2": 4,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 3.14,
+    "rough_seed2_tc0.0158_dr0.2": 1.76,
+    "rough_seed3_tc0.0158_dr0.2": 0.65,
+    "rough_seed6_tc0.0158_dr0.2": 2.05,
+    "stand_push_back_tc0.0158_dr0.2": 1.96,
+    "stand_push_forward_tc0.0158_dr0.2": 1.2,
+    "stand_push_left_tc0.0158_dr0.2": 0.72,
+    "stand_push_right_tc0.0158_dr0.2": 1.02,
+    "stand_torque_off_tc0.0158_dr0.2": 4.3
+   }
+  }
+ },
+ {
+  "case": "web",
+  "material": "PA6-CF",
+  "E_solve": 2641.0,
+  "X": 102.0,
+  "Z": 48.0,
+  "S": 48.0,
+  "pitch_mm": 0.8,
+  "nodes": 109676,
+  "tets": 552270,
+  "walk": {
+   "SF": 2.77,
+   "FI": 0.3616,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -10.5
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 36.88,
+   "szz": -8.32,
+   "tz": 10.23
+  },
+  "push": {
+   "SF": 2.1,
+   "FI": 0.4765,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 26.84,
+   "szz": 19.96,
+   "tz": 11.18
+  },
+  "fall": {
+   "SF": 1.61,
+   "FI": 0.6197,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -40.7,
+    -8.9
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 34.71,
+   "szz": 27.17,
+   "tz": 12.12,
+   "soft_worst": 1.61,
+   "n_under_1_2": 0,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 5.92,
+    "rough_seed2_tc0.0158_dr0.2": 3.41,
+    "rough_seed3_tc0.0158_dr0.2": 1.78,
+    "rough_seed6_tc0.0158_dr0.2": 4.53,
+    "stand_push_back_tc0.0158_dr0.2": 3.31,
+    "stand_push_forward_tc0.0158_dr0.2": 3.3,
+    "stand_push_left_tc0.0158_dr0.2": 1.61,
+    "stand_push_right_tc0.0158_dr0.2": 1.81,
+    "stand_torque_off_tc0.0158_dr0.2": 8.99
+   }
+  }
+ },
+ {
+  "case": "web_pacf_E",
+  "material": "PA6-CF",
+  "E_solve": 4430.0,
+  "X": 102.0,
+  "Z": 48.0,
+  "S": 48.0,
+  "pitch_mm": 0.8,
+  "nodes": 109676,
+  "tets": 552270,
+  "walk": {
+   "SF": 2.74,
+   "FI": 0.3644,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -10.5
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 37.17,
+   "szz": -8.41,
+   "tz": 10.3
+  },
+  "push": {
+   "SF": 2.1,
+   "FI": 0.4756,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 26.81,
+   "szz": 19.92,
+   "tz": 11.16
+  },
+  "fall": {
+   "SF": 1.63,
+   "FI": 0.615,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -40.7,
+    -8.9
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 35.29,
+   "szz": 27.09,
+   "tz": 11.74,
+   "soft_worst": 1.63,
+   "n_under_1_2": 0,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 5.87,
+    "rough_seed2_tc0.0158_dr0.2": 3.41,
+    "rough_seed3_tc0.0158_dr0.2": 1.72,
+    "rough_seed6_tc0.0158_dr0.2": 4.54,
+    "stand_push_back_tc0.0158_dr0.2": 3.28,
+    "stand_push_forward_tc0.0158_dr0.2": 3.29,
+    "stand_push_left_tc0.0158_dr0.2": 1.63,
+    "stand_push_right_tc0.0158_dr0.2": 1.82,
+    "stand_torque_off_tc0.0158_dr0.2": 8.95
+   }
+  }
+ },
+ {
+  "case": "web_solid",
+  "material": "PLA",
+  "E_solve": 2641.0,
+  "X": 47.1,
+  "Z": 22.0,
+  "S": 22.0,
+  "pitch_mm": 0.8,
+  "nodes": 109676,
+  "tets": 552270,
+  "walk": {
+   "SF": 1.7,
+   "FI": 0.5881,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    14.7,
+    -41.1,
+    49.5
+   ],
+   "sample": "walk_side_0.2_s3",
+   "vm": 27.7,
+   "szz": -0.47,
+   "tz": 1.83
+  },
+  "push": {
+   "SF": 1.5,
+   "FI": 0.6671,
+   "mode": "in-plane",
+   "zone": "top skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    -10.7,
+    -25.7,
+    45.9
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 31.42,
+   "szz": -2.2,
+   "tz": 0.81
+  },
+  "fall": {
+   "SF": 0.8,
+   "FI": 1.2574,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_right_sheet",
+   "where_link": [
+    14.7,
+    -41.1,
+    49.5
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 59.22,
+   "szz": -1.05,
+   "tz": 1.47,
+   "soft_worst": 0.8,
+   "n_under_1_2": 1,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 4.7,
+    "rough_seed2_tc0.0158_dr0.2": 3.58,
+    "rough_seed3_tc0.0158_dr0.2": 0.8,
+    "rough_seed6_tc0.0158_dr0.2": 4.42,
+    "stand_push_back_tc0.0158_dr0.2": 3.92,
+    "stand_push_forward_tc0.0158_dr0.2": 1.53,
+    "stand_push_left_tc0.0158_dr0.2": 1.22,
+    "stand_push_right_tc0.0158_dr0.2": 1.31,
+    "stand_torque_off_tc0.0158_dr0.2": 6.04
+   }
+  }
+ },
+ {
+  "case": "stock",
+  "material": "PETG",
+  "E_solve": 2641.0,
+  "X": 34.0,
+  "Z": 23.0,
+  "S": 23.0,
+  "pitch_mm": 0.8,
+  "nodes": 89101,
+  "tets": 438750,
+  "walk": {
+   "SF": 0.56,
+   "FI": 1.7814,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -3.9
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 60.57,
+   "szz": -14.28,
+   "tz": 13.88
+  },
+  "push": {
+   "SF": 0.51,
+   "FI": 1.9465,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -3.9
+   ],
+   "sample": "walk_pushes_s3",
+   "vm": 66.18,
+   "szz": -15.83,
+   "tz": 15.55
+  },
+  "fall": {
+   "SF": 0.39,
+   "FI": 2.5715,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -3.9
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 87.43,
+   "szz": -20.51,
+   "tz": 20.43,
+   "soft_worst": 0.39,
+   "n_under_1_2": 7,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 1.66,
+    "rough_seed2_tc0.0158_dr0.2": 0.97,
+    "rough_seed3_tc0.0158_dr0.2": 0.39,
+    "rough_seed6_tc0.0158_dr0.2": 1.13,
+    "stand_push_back_tc0.0158_dr0.2": 0.98,
+    "stand_push_forward_tc0.0158_dr0.2": 0.76,
+    "stand_push_left_tc0.0158_dr0.2": 0.47,
+    "stand_push_right_tc0.0158_dr0.2": 0.72,
+    "stand_torque_off_tc0.0158_dr0.2": 2.8
+   }
+  }
+ },
+ {
+  "case": "stock",
+  "material": "PLA-CF",
+  "E_solve": 2641.0,
+  "X": 38.0,
+  "Z": 26.0,
+  "S": 26.0,
+  "pitch_mm": 0.8,
+  "nodes": 89101,
+  "tets": 438750,
+  "walk": {
+   "SF": 0.63,
+   "FI": 1.5939,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -3.9
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 60.57,
+   "szz": -14.28,
+   "tz": 13.88
+  },
+  "push": {
+   "SF": 0.57,
+   "FI": 1.7416,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -3.9
+   ],
+   "sample": "walk_pushes_s3",
+   "vm": 66.18,
+   "szz": -15.83,
+   "tz": 15.55
+  },
+  "fall": {
+   "SF": 0.43,
+   "FI": 2.3008,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -3.9
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 87.43,
+   "szz": -20.51,
+   "tz": 20.43,
+   "soft_worst": 0.43,
+   "n_under_1_2": 6,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 1.87,
+    "rough_seed2_tc0.0158_dr0.2": 1.09,
+    "rough_seed3_tc0.0158_dr0.2": 0.43,
+    "rough_seed6_tc0.0158_dr0.2": 1.26,
+    "stand_push_back_tc0.0158_dr0.2": 1.11,
+    "stand_push_forward_tc0.0158_dr0.2": 0.85,
+    "stand_push_left_tc0.0158_dr0.2": 0.53,
+    "stand_push_right_tc0.0158_dr0.2": 0.8,
+    "stand_torque_off_tc0.0158_dr0.2": 3.13
+   }
+  }
+ },
+ {
+  "case": "stock",
+  "material": "ASA",
+  "E_solve": 2641.0,
+  "X": 37.0,
+  "Z": 31.0,
+  "S": 31.0,
+  "pitch_mm": 0.8,
+  "nodes": 89101,
+  "tets": 438750,
+  "walk": {
+   "SF": 0.61,
+   "FI": 1.637,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -3.9
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 60.57,
+   "szz": -14.28,
+   "tz": 13.88
+  },
+  "push": {
+   "SF": 0.56,
+   "FI": 1.7887,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -3.9
+   ],
+   "sample": "walk_pushes_s3",
+   "vm": 66.18,
+   "szz": -15.83,
+   "tz": 15.55
+  },
+  "fall": {
+   "SF": 0.42,
+   "FI": 2.363,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -3.9
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 87.43,
+   "szz": -20.51,
+   "tz": 20.43,
+   "soft_worst": 0.42,
+   "n_under_1_2": 5,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 1.9,
+    "rough_seed2_tc0.0158_dr0.2": 1.06,
+    "rough_seed3_tc0.0158_dr0.2": 0.42,
+    "rough_seed6_tc0.0158_dr0.2": 1.23,
+    "stand_push_back_tc0.0158_dr0.2": 1.25,
+    "stand_push_forward_tc0.0158_dr0.2": 0.82,
+    "stand_push_left_tc0.0158_dr0.2": 0.51,
+    "stand_push_right_tc0.0158_dr0.2": 0.78,
+    "stand_torque_off_tc0.0158_dr0.2": 3.05
+   }
+  }
+ },
+ {
+  "case": "stock",
+  "material": "PA6-CF",
+  "E_solve": 2641.0,
+  "X": 102.0,
+  "Z": 48.0,
+  "S": 48.0,
+  "pitch_mm": 0.8,
+  "nodes": 89101,
+  "tets": 438750,
+  "walk": {
+   "SF": 1.26,
+   "FI": 0.7942,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    12.5,
+    -13.9,
+    -3.7
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 36.85,
+   "szz": 38.03,
+   "tz": 2.61
+  },
+  "push": {
+   "SF": 1.14,
+   "FI": 0.8749,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    12.5,
+    -13.9,
+    -3.7
+   ],
+   "sample": "walk_pushes_s3",
+   "vm": 40.5,
+   "szz": 41.93,
+   "tz": 2.35
+  },
+  "fall": {
+   "SF": 1.17,
+   "FI": 0.8572,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -3.9
+   ],
+   "sample": "rough_seed3_tc0.0158_dr0.2",
+   "vm": 87.43,
+   "szz": -20.51,
+   "tz": 20.43,
+   "soft_worst": 0.92,
+   "n_under_1_2": 2,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 3.45,
+    "rough_seed2_tc0.0158_dr0.2": 2.91,
+    "rough_seed3_tc0.0158_dr0.2": 0.92,
+    "rough_seed6_tc0.0158_dr0.2": 2.87,
+    "stand_push_back_tc0.0158_dr0.2": 2.05,
+    "stand_push_forward_tc0.0158_dr0.2": 1.78,
+    "stand_push_left_tc0.0158_dr0.2": 1.2,
+    "stand_push_right_tc0.0158_dr0.2": 1.82,
+    "stand_torque_off_tc0.0158_dr0.2": 8.21
+   }
+  }
+ },
+ {
+  "case": "web_cbore",
+  "material": "PLA",
+  "E_solve": 2641.0,
+  "X": 47.1,
+  "Z": 22.0,
+  "S": 22.0,
+  "pitch_mm": 0.8,
+  "nodes": 108944,
+  "tets": 547308,
+  "walk": {
+   "SF": 1.29,
+   "FI": 0.7771,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_side_0.2_s1",
+   "vm": 21.71,
+   "szz": 14.51,
+   "tz": 9.05
+  },
+  "push": {
+   "SF": 0.96,
+   "FI": 1.0429,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 26.92,
+   "szz": 20.02,
+   "tz": 11.21
+  },
+  "fall": {
+   "SF": 0.74,
+   "FI": 1.3424,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -40.7,
+    -8.9
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 35.37,
+   "szz": 27.09,
+   "tz": 11.76,
+   "soft_worst": 0.74,
+   "n_under_1_2": 3,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 2.82,
+    "rough_seed2_tc0.0158_dr0.2": 1.56,
+    "rough_seed3_tc0.0158_dr0.2": 0.8,
+    "rough_seed6_tc0.0158_dr0.2": 2.07,
+    "stand_push_back_tc0.0158_dr0.2": 1.57,
+    "stand_push_forward_tc0.0158_dr0.2": 1.53,
+    "stand_push_left_tc0.0158_dr0.2": 0.74,
+    "stand_push_right_tc0.0158_dr0.2": 0.85,
+    "stand_torque_off_tc0.0158_dr0.2": 4.14
+   }
+  }
+ },
+ {
+  "case": "web_cbore",
+  "material": "PA6-CF",
+  "E_solve": 2641.0,
+  "X": 102.0,
+  "Z": 48.0,
+  "S": 48.0,
+  "pitch_mm": 0.8,
+  "nodes": 108944,
+  "tets": 547308,
+  "walk": {
+   "SF": 2.8,
+   "FI": 0.3574,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -10.5
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 36.46,
+   "szz": -8.22,
+   "tz": 10.3
+  },
+  "push": {
+   "SF": 2.09,
+   "FI": 0.478,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 26.92,
+   "szz": 20.02,
+   "tz": 11.21
+  },
+  "fall": {
+   "SF": 1.63,
+   "FI": 0.6152,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -40.7,
+    -8.9
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 35.37,
+   "szz": 27.09,
+   "tz": 11.76,
+   "soft_worst": 1.63,
+   "n_under_1_2": 0,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 6.15,
+    "rough_seed2_tc0.0158_dr0.2": 3.4,
+    "rough_seed3_tc0.0158_dr0.2": 1.72,
+    "rough_seed6_tc0.0158_dr0.2": 4.52,
+    "stand_push_back_tc0.0158_dr0.2": 3.42,
+    "stand_push_forward_tc0.0158_dr0.2": 3.32,
+    "stand_push_left_tc0.0158_dr0.2": 1.63,
+    "stand_push_right_tc0.0158_dr0.2": 1.85,
+    "stand_torque_off_tc0.0158_dr0.2": 9.02
+   }
+  }
+ },
+ {
+  "case": "web_cbore_E",
+  "material": "PA6-CF",
+  "E_solve": 4430.0,
+  "X": 102.0,
+  "Z": 48.0,
+  "S": 48.0,
+  "pitch_mm": 0.8,
+  "nodes": 108944,
+  "tets": 547308,
+  "walk": {
+   "SF": 2.81,
+   "FI": 0.3557,
+   "mode": "in-plane",
+   "zone": "bottom skin",
+   "member": "shin_left_sheet",
+   "where_link": [
+    11.5,
+    -9.5,
+    -10.5
+   ],
+   "sample": "walk_side_0.2_s0",
+   "vm": 36.28,
+   "szz": -8.14,
+   "tz": 10.37
+  },
+  "push": {
+   "SF": 2.1,
+   "FI": 0.4773,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    -15.1,
+    -40.7,
+    -8.7
+   ],
+   "sample": "walk_pushes_s1",
+   "vm": 26.83,
+   "szz": 20.01,
+   "tz": 11.17
+  },
+  "fall": {
+   "SF": 1.61,
+   "FI": 0.6201,
+   "mode": "interlayer",
+   "zone": "wall",
+   "member": "shin_left_sheet",
+   "where_link": [
+    14.7,
+    -40.7,
+    -8.9
+   ],
+   "sample": "stand_push_left_tc0.0158_dr0.2",
+   "vm": 35.11,
+   "szz": 27.27,
+   "tz": 11.94,
+   "soft_worst": 1.61,
+   "n_under_1_2": 0,
+   "n": 9,
+   "per": {
+    "rough_seed1_tc0.0158_dr0.2": 6.15,
+    "rough_seed2_tc0.0158_dr0.2": 3.4,
+    "rough_seed3_tc0.0158_dr0.2": 1.78,
+    "rough_seed6_tc0.0158_dr0.2": 4.53,
+    "stand_push_back_tc0.0158_dr0.2": 3.42,
+    "stand_push_forward_tc0.0158_dr0.2": 3.32,
+    "stand_push_left_tc0.0158_dr0.2": 1.61,
+    "stand_push_right_tc0.0158_dr0.2": 1.83,
+    "stand_torque_off_tc0.0158_dr0.2": 9.05
+   }
+  }
+ }
+]

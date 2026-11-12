@@ -1,0 +1,256 @@
+[
+ {
+  "part": "shin_left_sheet",
+  "tag": "taper past the collar, head side",
+  "bytes": 847884,
+  "faces": 16956,
+  "vol_mm3": 21445.8,
+  "watertight": true,
+  "components": 1,
+  "stl": "twin/structure/shin_eye/stl/shin_left_sheet_taper.stl",
+  "ok_clearance": true,
+  "clearance": [
+   {
+    "against": "knee servo",
+    "min_mm": 5.1
+   },
+   {
+    "against": "ankle servo",
+    "min_mm": 15.46
+   },
+   {
+    "against": "shin_right_sheet",
+    "min_mm": 40.2
+   },
+   {
+    "against": "shin_spacer",
+    "min_mm": 3.1
+   }
+  ],
+  "added_points": 14452,
+  "holes": [
+   {
+    "id": "F203",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F205",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F207",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F250",
+    "solid_samples": 0,
+    "n": 12
+   }
+  ],
+  "bands": [
+   {
+    "proud_mm": 6.6,
+    "radius_mm": 32.0
+   },
+   {
+    "proud_mm": 4.4,
+    "radius_mm": 40.0
+   },
+   {
+    "proud_mm": 2.2,
+    "radius_mm": 48.0
+   }
+  ],
+  "screw_centre": [
+   0.0,
+   0.0,
+   -2.85
+  ],
+  "axis": [
+   0.0,
+   0.0,
+   1.0
+  ]
+ },
+ {
+  "part": "shin_left_sheet",
+  "tag": "taper plus a web on the thin run of plate",
+  "bytes": 1072184,
+  "faces": 21442,
+  "vol_mm3": 23888.4,
+  "watertight": true,
+  "components": 1,
+  "stl": "twin/structure/shin_eye/stl/shin_left_sheet_web.stl",
+  "ok_clearance": true,
+  "clearance": [
+   {
+    "against": "knee servo",
+    "min_mm": 29.01
+   },
+   {
+    "against": "ankle servo",
+    "min_mm": 2.25
+   },
+   {
+    "against": "shin_right_sheet",
+    "min_mm": 33.09
+   },
+   {
+    "against": "shin_spacer",
+    "min_mm": 6.3
+   }
+  ],
+  "holes": [
+   {
+    "id": "F203",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F205",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F207",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F250",
+    "solid_samples": 0,
+    "n": 12
+   }
+  ]
+ },
+ {
+  "part": "shin_left_sheet",
+  "tag": "taper plus M3 head recess on the original seat",
+  "bytes": 816384,
+  "faces": 16326,
+  "vol_mm3": 20967.7,
+  "watertight": true,
+  "components": 1,
+  "stl": "twin/structure/shin_eye/stl/shin_left_sheet_taper_cbore.stl",
+  "ok_clearance": true,
+  "clearance": [
+   {
+    "against": "knee servo",
+    "min_mm": 5.08
+   },
+   {
+    "against": "ankle servo",
+    "min_mm": 15.55
+   },
+   {
+    "against": "shin_right_sheet",
+    "min_mm": 40.2
+   },
+   {
+    "against": "shin_spacer",
+    "min_mm": 3.1
+   }
+  ],
+  "holes": [
+   {
+    "id": "F203",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F205",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F207",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F250",
+    "solid_samples": 0,
+    "n": 12
+   }
+  ],
+  "head_d_mm": 5.8
+ },
+ {
+  "part": "shin_left_sheet",
+  "tag": "web plus the M3 head recess",
+  "bytes": 1040684,
+  "faces": 20812,
+  "vol_mm3": 23410.3,
+  "watertight": true,
+  "components": 1,
+  "stl": "twin/structure/shin_eye/stl/shin_left_sheet_web_cbore.stl",
+  "holes": [
+   {
+    "id": "F203",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F205",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F207",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F250",
+    "solid_samples": 0,
+    "n": 12
+   }
+  ],
+  "head_d_mm": 5.8
+ },
+ {
+  "tag": "servo-facing face",
+  "min_mm": 2.02,
+  "at": [
+   5.28,
+   9.65,
+   -0.0
+  ]
+ },
+ {
+  "part": "shin_left_sheet",
+  "tag": "published collar plus the M3 head recess",
+  "bytes": 669384,
+  "faces": 13386,
+  "vol_mm3": 19368.0,
+  "watertight": true,
+  "components": 1,
+  "stl": "twin/structure/shin_eye/stl/shin_left_sheet_collar_cbore.stl",
+  "holes": [
+   {
+    "id": "F203",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F205",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F207",
+    "solid_samples": 0,
+    "n": 12
+   },
+   {
+    "id": "F250",
+    "solid_samples": 0,
+    "n": 12
+   }
+  ],
+  "head_d_mm": 5.8
+ }
+]

@@ -1,6 +1,6 @@
 # TWIN CHECKLIST: gate 0
 
-Written 2026-11-11 ET. Updated 2026-11-12 ET after PRs 34 to 43 merged. The pass line of each row is unchanged. A row below is the reading of the merged files on that date. The 2026-11-11 wording is in the history file for this update.
+Written 2026-11-11 ET. Updated 2026-11-12 ET after PRs 34 to 43 merged, and again the same day for the structure row (history/2026-11-12_0906_shin_eye_margin.md). The pass line of each row is unchanged. A row below is the reading of the merged files on that date. The 2026-11-11 wording is in the history file for this update.
 
 Gate 0 passes only when every row below is PASS and the rows describe one duck. A sim pass only, a calc only,
 or a CAD check only result is evidence. It is not a PASS of the row. An FEA pass only result is the same kind of evidence.
@@ -24,7 +24,7 @@ Status words, only these:
 
 | Twin | Status | In one line |
 |---|---|---|
-| Structure | FAIL | Shin drive eye walk safety factor 1.30 against 2. Soft falls stay under 1.2. That geometry is not in print/. |
+| Structure | FAIL | Recessed web in PA6-CF: walk 2.81, soft worst 1.61 (FEA pass only). Not in print/. Hot and wet tensile are BLOCKER. |
 | Thermal | FAIL | A docked charge stays inside the cell, servo, and PLA windows. A continuous walk still leaves 60 C. |
 | Electromechanical | FAIL | The P45B pack is in the loop. The sheet-stall servo falls. Later merges did not re-run this loop. |
 | Electrical and wiring | FAIL | Walk current is the P45B loop. Fall traces are not in this repo. The charger sheet is open and is not in the netlist. |
@@ -51,9 +51,9 @@ Status words, only these:
 
 - Pass: every printed part that carries a walking, push, or fall load holds the lab margin (2 walking, 1.2 in a fall), with the nest's extra mass and the sit stops included, and the material numbers come from a datasheet or a coupon.
 - Status: FAIL.
-- Result: what changed is the 2026-11-12 voxel pass in twin/structure/TOPOLOGY.md. It does not replace the 2026-11-03 tetgen numbers, and it does not install anything into print/. FEA pass only, room temperature, on a new load set. The instrumented build in that run is 2.808 kg (sim pass only, not weighed). Walking margin of 2 on the kept geometry, which is not the print set: roll_to_pitch 2.41, neck 11.85, head 52.49, foot 3.86, hip roll stage 16.74. Not met on the shin drive eye, 1.30, or the thigh sheets, 1.71. On the current print STLs, before that geometry, the same loads give roll_to_pitch 1.43 and the shin eye 0.79 (FEA pass only). Soft-fall margin of 1.2 on the kept geometry: not met on roll_to_pitch (worst 0.78, 3 of 11), the shin (0.87, 3 of 11), the thigh (0.94, 2 of 11), the neck (0.99, 6 of 11), or the head (1.03, 2 of 11). Foot and hip roll meet both margins. The older tetgen line (roll 1.48 to 1.63, knee sheet eye 1.63, soft falls under 1.2 on roll_to_pitch in 7 of 10) stays in STRUCTURE_TWIN.md as the 2026-11-03 run. Hot PLA is not a new FEA. Calc only, using the 0.62 strength factor that file already cites at 50 C: 2.41 times 0.62 is 1.49, under 2. The foot interior carve holds its margin (walk 7.50, soft worst 5.80, 0 of 11 under 1.2, FEA pass only) and the slicer total in TOPOLOGY.md is heavier, not lighter. No print mass was saved. Nest mass is not in this model. D26 is still open.
-- Guess: contact stiffness is a range, not a measurement. Hot strength above the 0.62 factor is BLOCKER. The kept STLs are a proposal. They are not the duck in print/.
-- Next: do not copy the topology STLs into print/ while the shin eye is at 1.30 and soft falls are under 1.2. Do not treat the carve as a mass saving. Re-run after the nest mass is in the same model, and only after D26 is decided.
+- Result: what changed is twin/structure/shin_eye/SHIN_EYE.md. It does not replace the topology pass and it does not install anything into print/. On this session's load set (build 2.808 kg, sim pass only, not weighed; MuJoCo 4.0.1; 9 soft-fall files because two rough seeds did not hit a printed part) the stock drive eye is walk 0.58 and soft worst 0.54 (FEA pass only). The topology file's 1.30 is that other session. PETG, PLA-CF, and ASA miss on every shape (cited allowables, FEA pass only). PA6-CF on the stock eye is 1.26 and 0.92. A head-side web with a 5.8 mm head recess, so the existing M3x6 still fits, in PA6-CF with the drive sheet at 4430 MPa: walk 2.81, push 2.10, soft worst 1.61, 0 of 9 under 1.2 (FEA pass only). The idle sheet in PLA is 1.70 and 0.80, so it has to be PA6-CF too (3.69 and 1.73 on the stock idle geometry, FEA pass only). The spacer does not govern. Bunting FFM003006010 does not fit the eye (CAD check only). A heat-set insert cannot take the horn screw. No new screw (D39, D42 unchanged). Slicer: the recessed web is 15.43 g and 1.74 h per part against 10.38 g and 1.09 h. Hot PLA tensile at 55 to 63 C is BLOCKER (Grasso 2018 did not report 50 C or 60 C tensile). PA6-CF tensile at that band, and wet tensile, are BLOCKER. The topology margins for the other parts are unchanged: roll_to_pitch walk 2.41, neck 11.85, head 52.49, foot 3.86, hip roll stage 16.74, thigh 1.71, and the soft falls under 1.2 on roll, shin, thigh, neck, and head in that file. Nest mass is not in this model. D26 is still open.
+- Guess: contact stiffness is a range, not a measurement. Hot tensile and wet tensile of PA6-CF are BLOCKER. The web STL is a proposal. It is not the duck in print/.
+- Next: do not copy the web STL into print/ while hot and wet tensile are BLOCKER. A dry coupon of this sheet at about 60 C has to replace those two. Do not leave the idle sheet in PLA. Do not treat the foot carve as a mass saving. Re-run after the nest mass is in the same model, and only after D26 is decided.
 
 ## Thermal (twin/thermal)
 

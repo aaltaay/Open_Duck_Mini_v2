@@ -1,0 +1,12 @@
+[
+ {"tag": "stock drive sheet", "stl": "shin_left_sheet.stl", "qty": 2, "g_model": 10.38, "h": 1.09, "g_support": 1.18, "robot_g_pla": 20.76, "robot_h": 2.18},
+ {"tag": "collar", "qty": 2, "g_model": 14.12, "h": 1.6, "g_support": 2.2, "robot_g_pla": 28.24, "robot_h": 3.2},
+ {"tag": "taper", "qty": 2, "g_model": 14.83, "h": 1.66, "g_support": 2.14, "robot_g_pla": 29.66, "robot_h": 3.32},
+ {"tag": "taper head recess", "qty": 2, "g_model": 14.53, "h": 1.69, "g_support": 2.35, "robot_g_pla": 29.06, "robot_h": 3.38},
+ {"tag": "web", "qty": 2, "g_model": 15.74, "h": 1.71, "g_support": 1.72, "robot_g_pla": 31.48, "robot_h": 3.42},
+ {"tag": "web 5 walls 40 percent", "qty": 2, "g_model": 21.62, "h": 2.38, "g_support": 1.85, "robot_g_pla": 43.24, "robot_h": 4.76},
+ {"tag": "web rectilinear 100 percent", "qty": 2, "g_model": 29.22, "h": 2.51, "g_support": 1.86, "robot_g_pla": 58.44, "robot_h": 5.02},
+ {"tag": "collar head recess", "qty": 2, "g_model": 13.82, "h": 1.63, "g_support": 2.41, "robot_g_pla": 27.64, "robot_h": 3.26},
+ {"tag": "web head recess", "qty": 2, "g_model": 15.43, "h": 1.74, "g_support": 1.93, "robot_g_pla": 30.86, "robot_h": 3.48, "robot_g_pa6cf": 28.03},
+ {"tag": "stock idle sheet", "stl": "shin_right_sheet.stl", "qty": 2, "g_model": 9.89, "h": 1.07, "g_support": 1.18, "robot_g_pla": 19.78, "robot_h": 2.14, "robot_g_pa6cf": 17.96}
+]
