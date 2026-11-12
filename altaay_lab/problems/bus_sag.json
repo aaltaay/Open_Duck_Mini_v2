@@ -21,7 +21,7 @@
   },
   "cap_F": 0.00047,
   "cap_tau_s_at_0p5_ohm": 0.000235,
-  "cap_note": "470 uF is the per-servo figure assumed in ELECTRICAL_TWIN.md (14 x 470 uF). ESR is 0 here, a bound.",
+  "cap_note": "470 uF at each knee port, ESR 0. Backward Euler: i = (C/dt)*(v - v_prev). The first step stores the port voltage and draws nothing. The 0.235 ms figure is R C at 0.5 ohm, not the model.",
   "inj_knee_mm": {
    "L": 420.0,
    "R": 420.0
@@ -196,7 +196,7 @@
     "bec_in_min": 6.474,
     "bec_out_pct_below_6V": 0.0
    },
-   "wall_s": 0.7
+   "wall_s": 0.9
   },
   {
    "name": "hops 22 AWG",
@@ -234,7 +234,7 @@
     "bec_in_min": 6.078,
     "bec_out_pct_below_6V": 1.04
    },
-   "wall_s": 1.0
+   "wall_s": 0.6
   },
   {
    "name": "feeds at route worst",
@@ -272,7 +272,7 @@
     "bec_in_min": 6.465,
     "bec_out_pct_below_6V": 0.0
    },
-   "wall_s": 0.9
+   "wall_s": 0.8
   },
   {
    "name": "feeds at route worst",
@@ -348,7 +348,7 @@
     "bec_in_min": 6.63,
     "bec_out_pct_below_6V": 0.0
    },
-   "wall_s": 0.6
+   "wall_s": 1.0
   },
   {
    "name": "16 AWG feed plus 22 AWG tail",
@@ -386,7 +386,7 @@
     "bec_in_min": 6.201,
     "bec_out_pct_below_6V": 1.1
    },
-   "wall_s": 0.7
+   "wall_s": 0.8
   },
   {
    "name": "star feed to the knee",
@@ -424,7 +424,7 @@
     "bec_in_min": 6.558,
     "bec_out_pct_below_6V": 0.0
    },
-   "wall_s": 0.7
+   "wall_s": 0.8
   },
   {
    "name": "star feed to the knee",
@@ -462,83 +462,83 @@
     "bec_in_min": 6.16,
     "bec_out_pct_below_6V": 1.33
    },
-   "wall_s": 0.7
+   "wall_s": 0.8
   },
   {
    "name": "470 uF at each knee",
    "corner": "typical",
    "label": "sim pass only",
    "falls_s": [
-    3.54
+    3.56
    ],
-   "dur_s": 3.54,
+   "dur_s": 3.56,
    "track_lin": null,
    "vx_m_s": null,
    "knees": {
     "left_knee": {
-     "V_min": 5.871,
-     "V_mean": 6.949,
-     "sat_mean": 0.202
+     "V_min": 5.745,
+     "V_mean": 6.947,
+     "sat_mean": 0.217
     },
     "right_knee": {
-     "V_min": 5.857,
-     "V_mean": 6.96,
-     "sat_mean": 0.2
+     "V_min": 5.843,
+     "V_mean": 6.954,
+     "sat_mean": 0.221
     }
    },
    "pack": {
-    "i_mean": 5.728,
-    "i_rms": 7.1,
-    "i_max": 17.631,
-    "i_max_100ms": 15.351,
-    "v_term_mean": 8.166,
-    "v_term_min": 7.859,
-    "bus_mean": 7.764,
-    "bus_min": 6.621,
-    "bec_out_mean": 7.097,
-    "bec_out_min": 6.256,
-    "bec_in_min": 6.556,
+    "i_mean": 5.767,
+    "i_rms": 7.158,
+    "i_max": 18.253,
+    "i_max_100ms": 15.405,
+    "v_term_mean": 8.165,
+    "v_term_min": 7.843,
+    "bus_mean": 7.76,
+    "bus_min": 6.561,
+    "bec_out_mean": 7.095,
+    "bec_out_min": 6.194,
+    "bec_in_min": 6.494,
     "bec_out_pct_below_6V": 0.0
    },
-   "wall_s": 1.0
+   "wall_s": 1.1
   },
   {
    "name": "470 uF at each knee",
    "corner": "high-side",
    "label": "sim pass only",
    "falls_s": [
-    3.4
+    3.42
    ],
-   "dur_s": 3.4,
+   "dur_s": 3.42,
    "track_lin": null,
    "vx_m_s": null,
    "knees": {
     "left_knee": {
-     "V_min": 5.362,
+     "V_min": 5.142,
      "V_mean": 6.767,
-     "sat_mean": 0.228
+     "sat_mean": 0.234
     },
     "right_knee": {
-     "V_min": 5.552,
-     "V_mean": 6.802,
+     "V_min": 5.297,
+     "V_mean": 6.804,
      "sat_mean": 0.199
     }
    },
    "pack": {
-    "i_mean": 5.733,
-    "i_rms": 7.108,
-    "i_max": 15.856,
-    "i_max_100ms": 14.792,
+    "i_mean": 5.73,
+    "i_rms": 7.109,
+    "i_max": 17.752,
+    "i_max_100ms": 14.828,
     "v_term_mean": 8.166,
-    "v_term_min": 7.902,
+    "v_term_min": 7.855,
     "bus_mean": 7.649,
-    "bus_min": 6.473,
-    "bec_out_mean": 7.024,
-    "bec_out_min": 6.115,
-    "bec_in_min": 6.415,
-    "bec_out_pct_below_6V": 0.0
+    "bus_min": 6.254,
+    "bec_out_mean": 7.026,
+    "bec_out_min": 5.888,
+    "bec_in_min": 6.188,
+    "bec_out_pct_below_6V": 0.53
    },
-   "wall_s": 1.1
+   "wall_s": 0.9
   },
   {
    "name": "cell AC 7 mOhm",
@@ -576,7 +576,7 @@
     "bec_in_min": 6.741,
     "bec_out_pct_below_6V": 0.0
    },
-   "wall_s": 1.0
+   "wall_s": 1.1
   },
   {
    "name": "cell AC 7 mOhm",
@@ -652,7 +652,7 @@
     "bec_in_min": 5.297,
     "bec_out_pct_below_6V": 97.32
    },
-   "wall_s": 0.3
+   "wall_s": 0.8
   },
   {
    "name": "end of discharge",
@@ -690,7 +690,7 @@
     "bec_in_min": 5.089,
     "bec_out_pct_below_6V": 98.31
    },
-   "wall_s": 0.6
+   "wall_s": 0.7
   },
   {
    "name": "hops 22 plus short 16 AWG knee star",
@@ -728,7 +728,7 @@
     "bec_in_min": 6.606,
     "bec_out_pct_below_6V": 0.0
    },
-   "wall_s": 0.9
+   "wall_s": 0.8
   },
   {
    "name": "hops 22 plus short 16 AWG knee star",
@@ -766,7 +766,7 @@
     "bec_in_min": 6.125,
     "bec_out_pct_below_6V": 0.69
    },
-   "wall_s": 1.2
+   "wall_s": 0.7
   }
  ]
 }
