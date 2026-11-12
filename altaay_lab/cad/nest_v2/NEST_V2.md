@@ -73,7 +73,7 @@ Nest frame, as the nest CAD: sun at the origin, x toward the wall, wall face at 
 
 - Lower felt, 1 mm, from x = -267 mm, 20 mm past the upper sheet on the front and the sides.
 - Upper felt, 1 mm, from x = -247 mm to x = 184 mm (6 mm short of the wall). Walking surface 2.00 mm (CAD check only).
-- 23 foil stripes, 20 mm, with 5 mm felt gaps, flush with the felt (z max 2.000 mm, CAD check only). Even periods are plus, odd periods are minus, the same rule as the flush study. 11 plus, 12 minus.
+- 23 foil stripes, 20 mm, with 5 mm felt gaps, flush with the felt (z max 2.000 mm, CAD check only). Even periods are plus, odd periods are minus, the same rule as the flush study. 11 plus, 12 minus. Both poles run from x = -180 mm to x = 180 mm, so a well at the back of the window still lands on foil (CAD check only). The hidden bus link does not end a stripe early.
 - Two foil buses between the felt layers at the wall end. Plus and minus do not share a volume (the polarity check passed, CAD check only).
 - Cord pocket off the field, at the left end, clear 78 mm by 32 mm by 21 mm, which holds the 70 mm by 26 mm by 14 mm board the older nest CAD kept room for (CAD check only). One 8 mm hole, the jack exit. No screws. D39: the hole has a job. D42: there is no screw pattern to break.
 - 40 mm card, 1 mm thick, on the wall, centre 350 mm up. This is the mark from the close-up study. It is still a mark. Ahmed has not approved it. The mat scores 380 of 540 without it.

@@ -110,8 +110,10 @@ def build_parts():
         pockets.append(box(-FIELD_HX, FIELD_HX, y0, y1, FOIL_Z0, 2 * FELT_T + 0.2))
         tab = PLUS_TAB if plus else MINUS_TAB
         pockets.append(box(tab[0], tab[1], y0, y1, RAIL_Z[0], 2 * FELT_T + 0.2))
-        foil = box(-FIELD_HX, tab[0], y0, y1, FOIL_Z0, 2 * FELT_T)
-        drop = box(tab[0], tab[1], y0, y1, RAIL_Z[0], 2 * FELT_T)
+        # The surface foil covers the whole field in x. The drop is only the
+        # hidden link down to that pole's bus. It must not end the stripe early.
+        foil = box(-FIELD_HX, FIELD_HX, y0, y1, FOIL_Z0, 2 * FELT_T)
+        drop = box(tab[0], min(tab[1], FIELD_HX), y0, y1, RAIL_Z[0], FOIL_Z0 + 0.02)
         (plus_bits if plus else minus_bits).append(foil + drop)
     # Rails tie one polarity. They sit in a pocket so they do not fuse into the felt.
     pockets.append(box(PLUS_RAIL[0], PLUS_RAIL[1], -FIELD_HY, FIELD_HY, RAIL_Z[0], RAIL_Z[1]))
@@ -141,7 +143,12 @@ def build_parts():
     hole = hole.rotate([90, 0, 0]).translate((
         (p["x0"] + p["x1"]) / 2, p["y1"], (p["z0"] + p["z1"]) / 2))
     pocket = outer - inner - hole
-    cap = box(p["x0"] + 1.0, p["x1"] - 1.0, p["y0"] + 1.0, p["y1"] - 1.0, p["z1"] - 2.0, p["z1"])
+    # 0.4 mm clear of the inner opening on every side, so the cap does not
+    # intersect the 3 mm walls. It sits in the top of the opening.
+    fit = 0.4
+    cap = box(p["x0"] + p["wall"] + fit, p["x1"] - p["wall"] - fit,
+              p["y0"] + p["wall"] + fit, p["y1"] - p["wall"] - fit,
+              p["z1"] - 2.0, p["z1"])
 
     c = CARD
     card = box(WALL_X - c["thick"], WALL_X, -c["size"] / 2, c["size"] / 2, c["z"] - c["size"] / 2, c["z"] + c["size"] / 2)
@@ -233,6 +240,23 @@ def checks(parts, spans, rec):
     add("plus and minus alternate, matching the flush band rule",
         _polarity_ok(spans, plus, minus),
         "%d stripes" % len(spans))
+    add("both poles cover the field through x = 180 mm",
+        plus.bounds[1][0] >= FIELD_HX - 0.05 and minus.bounds[1][0] >= FIELD_HX - 0.05
+        and plus.bounds[0][0] <= -FIELD_HX + 0.05 and minus.bounds[0][0] <= -FIELD_HX + 0.05,
+        "plus x %.1f to %.1f, minus x %.1f to %.1f" % (
+            plus.bounds[0][0], plus.bounds[1][0], minus.bounds[0][0], minus.bounds[1][0]))
+    # The review example: seat at (161, 13.3), heading 46 deg toward +x.
+    # The minus well centre is near x = 178. It must hit minus foil.
+    add("a back-corner well at 46 deg still hits minus foil",
+        _corner_well_hits_minus(minus, plus),
+        "seat (161, 13.3) mm, heading 46 deg")
+    capb = parts["cord_cap"].bounds
+    ix0, ix1 = POCKET["x0"] + POCKET["wall"], POCKET["x1"] - POCKET["wall"]
+    iy0, iy1 = POCKET["y0"] + POCKET["wall"], POCKET["y1"] - POCKET["wall"]
+    add("cord cap sits inside the opening, clear of the walls",
+        capb[0][0] > ix0 and capb[1][0] < ix1 and capb[0][1] > iy0 and capb[1][1] < iy1
+        and capb[0][2] >= POCKET["wall"] and capb[1][2] <= POCKET["z1"] + 0.01,
+        "cap x %.1f to %.1f, opening x %.1f to %.1f" % (capb[0][0], capb[1][0], ix0, ix1))
     p = POCKET
     clear_x = (p["x1"] - p["wall"]) - (p["x0"] + p["wall"])
     clear_y = (p["y1"] - p["wall"]) - (p["y0"] + p["wall"])
@@ -258,6 +282,32 @@ def checks(parts, spans, rec):
         "+/-%.0f mm along the wall, +/-%.0f mm deep" % (WIN_Y, WIN_X))
     failed = [c for c in out if not c["ok"]]
     return out, failed
+
+
+def _on_surface(mesh, origin, direction):
+    """True when the ray meets the flush foil, not a bus buried under the felt."""
+    loc, _, _ = mesh.ray.intersects_location(origin, direction)
+    return len(loc) > 0 and float(np.max(loc[:, 2])) > 1.70
+
+
+def _corner_well_hits_minus(minus, plus):
+    """The cited back-corner well must land on minus foil and not on plus."""
+    heading = np.deg2rad(46.0)
+    seat_x, seat_y = 161.0, 13.3
+    direction = np.array([[0.0, 0.0, -1.0]])
+    hit_m = hit_p = False
+    for y in WELLS_Y:
+        x = seat_x + y * np.sin(heading)
+        yy = seat_y + y * np.cos(heading)
+        origin = np.array([[x, yy, 5.0]])
+        on_m = _on_surface(minus, origin, direction)
+        on_p = _on_surface(plus, origin, direction)
+        # A well that bridges both poles on the surface is a short.
+        if on_m and on_p:
+            return False
+        hit_m = hit_m or on_m
+        hit_p = hit_p or on_p
+    return hit_m and hit_p
 
 
 def _polarity_ok(spans, plus, minus):

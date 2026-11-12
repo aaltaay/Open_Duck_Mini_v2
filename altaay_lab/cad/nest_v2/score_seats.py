@@ -44,15 +44,24 @@ def band(y):
     return "P" if int(np.floor(y / PERIOD)) % 2 == 0 else "M"
 
 
-def stripe_ok(heading_deg, phase):
-    """The flush study's classify(), fixed phase. A well on the gap is a miss, not a fail.
-    Fail means a well bridges plus and minus, or one polarity is missing.
-    Phase is the seat centre's y, which is where this CAD's stripes sit.
+# Both poles of this CAD run from x = -180 to x = 180. A well whose disc
+# leaves that range is not on foil, even if its y phase is right.
+FOIL_X = 180.0
+
+
+def stripe_ok(heading_deg, phase, seat_x=0.0):
+    """The flush study's classify(), fixed phase, plus the real foil x range.
+    A well on the gap is a miss, not a fail. Fail means a well bridges plus
+    and minus, a disc leaves the foil in x, or one polarity is missing.
+    Phase is the seat centre's y.
     """
     th = np.deg2rad(heading_deg)
     wy = WELLS_Y * np.cos(th) + phase
+    wx = WELLS_Y * np.sin(th) + seat_x
     hits = []
-    for y in wy:
+    for x, y in zip(wx, wy):
+        if abs(x) + WELL_R > FOIL_X:
+            return False
         labs = [band(y - WELL_R), band(y), band(y + WELL_R)]
         if labs[0] == labs[1] == labs[2] and labs[0] in ("P", "M"):
             hits.append(labs[0])
@@ -109,7 +118,7 @@ def score_runs(runs):
         h = heading_deg(s.get("heading"))
         rad = math.hypot(x, y)
         box = in_box(x, y)
-        phase = stripe_ok(h, y) if h is not None else None
+        phase = stripe_ok(h, y, x) if h is not None else None
         rows.append(dict(x=x, y=y, h=h, rad=rad, box=box, phase=phase,
                          old=bool(s.get("ok") if "ok" in s else (s.get("nest") or {}).get("ok")),
                          fell=bool(s.get("fell"))))
@@ -123,7 +132,7 @@ def score_runs(runs):
             if in_box(x, y):
                 hit_b = True
                 h = heading_deg(s.get("heading"))
-                if h is not None and stripe_ok(h, y):
+                if h is not None and stripe_ok(h, y, x):
                     hit_p = True
         any_box += hit_b
         any_phase += hit_p

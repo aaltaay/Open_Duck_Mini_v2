@@ -24,22 +24,22 @@
   "stripe_plus": {
    "stl": "stl/stripe_plus.stl",
    "step": "step/stripe_plus.step",
-   "stl_bytes": 26384,
-   "step_bytes": 341910,
-   "volume_mm3": 11130.4,
-   "step_volume_mm3": 11130.4,
+   "stl_bytes": 25184,
+   "step_bytes": 341872,
+   "volume_mm3": 10602.4,
+   "step_volume_mm3": 10602.4,
    "watertight": true,
-   "faces": 526
+   "faces": 502
   },
   "stripe_minus": {
    "stl": "stl/stripe_minus.stl",
    "step": "step/stripe_minus.step",
-   "stl_bytes": 24284,
-   "step_bytes": 372537,
-   "volume_mm3": 12135.6,
-   "step_volume_mm3": 12135.6,
+   "stl_bytes": 26684,
+   "step_bytes": 461987,
+   "volume_mm3": 12314.0,
+   "step_volume_mm3": 12314.0,
    "watertight": true,
-   "faces": 484
+   "faces": 532
   },
   "cord_pocket": {
    "stl": "stl/cord_pocket.stl",
@@ -55,9 +55,9 @@
    "stl": "stl/cord_cap.stl",
    "step": "step/cord_cap.step",
    "stl_bytes": 684,
-   "step_bytes": 16189,
-   "volume_mm3": 5904.0,
-   "step_volume_mm3": 5904.0,
+   "step_bytes": 16718,
+   "volume_mm3": 4817.3,
+   "step_volume_mm3": 4817.3,
    "watertight": true,
    "faces": 12
   },
@@ -112,6 +112,21 @@
    "name": "plus and minus alternate, matching the flush band rule",
    "ok": true,
    "detail": "23 stripes"
+  },
+  {
+   "name": "both poles cover the field through x = 180 mm",
+   "ok": true,
+   "detail": "plus x -180.0 to 184.0, minus x -180.0 to 180.0"
+  },
+  {
+   "name": "a back-corner well at 46 deg still hits minus foil",
+   "ok": true,
+   "detail": "seat (161, 13.3) mm, heading 46 deg"
+  },
+  {
+   "name": "cord cap sits inside the opening, clear of the walls",
+   "ok": true,
+   "detail": "cap x 149.4 to 180.6, opening x 149.0 to 181.0"
   },
   {
    "name": "cord pocket clears the 70 x 26 x 14 mm board",

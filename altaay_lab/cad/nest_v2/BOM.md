@@ -41,7 +41,7 @@ The picked mat uses no Mill-Max pins.
 | Foil stripe, 20 mm | 23 | 11 plus, 12 minus, on 2 buses |
 | Gold well, 3 mm | 5 | in the seat, flush |
 | Cord pocket, printed | 1 | no screws |
-| Felt cap | 1 | press fit |
+| Felt cap | 1 | sits in the pocket opening, 0.4 mm clear a side |
 | Wall card, 40 mm | 1 | optional, Ahmed has not approved it |
 | Charger board | 0 new | already drawn, in the duck |
 
