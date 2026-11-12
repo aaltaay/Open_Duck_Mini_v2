@@ -39,6 +39,12 @@ Status words, only these:
 | Pin contact | NOT RUN | Catalog stroke and force were read. Contact resistance on cloth was not. |
 | Servo angle limits vs CAD | FAIL | Sit stops are in the limit file. The old sim ranges still do not match the printed contacts. |
 | One-click bill vs the twin | FAIL | The bill is not orderable today and does not list the nest. |
+| Lights | GAP | Eyes and the projector are GPIO lamps in the netlist. There is no lamp part number and no light model. |
+| Field of view | GAP | The cliff sensor has a cone. The head camera's cone is not on the duck. |
+| Communications | GAP | Servo, I2C, I2S, and USB are written down. Wi-Fi and Bluetooth have no latency model. |
+| Circuitry | GAP | The walking power tree is in the netlist. The in-duck charger and its decoupling are not. |
+| Software | GAP | Walk, guards, and the old dock port exist. Nest vision, charge control, and updates do not. |
+| Training | NOT RUN | Presets and a CPU smoke exist. No GPU policy run has been executed. |
 
 ## Structure (twin/structure)
 
@@ -168,6 +174,54 @@ Status words, only these:
 - Guess: any row in PARTS_AUDIT.md marked UNVERIFIED/BLOCKER or STOCK NOT REOPENED. That is most of the bill.
 - Next: do not place the order. Close the missing part numbers in PARTS_AUDIT.md, delete nothing from the bill until a decision says so, and add the nest lines only when the tip and the charger are real parts. Then diff the bill against the twin until every line matches.
 
+## Lights (missing as a model)
+
+- Pass: every lamp that will be built has a manufacturer part, a driver, a power wire, and a colour, and the same parts are on the bill and in the netlist.
+- Status: GAP.
+- Result: the eyes and the projector are in the netlist and on the GPIO map (D9, D13, wiring/netlist.yaml, software/SOFTWARE.md section 2). D13 keeps the upstream path: each eye GPIO through 100 ohm, about 3 mA, and the projector LED gets a 100 ohm resistor too (DECISIONS.md D13). D57 keeps the eyes as one dim warm white bead each. The optional RGBW eye is not added. BOM line E3 has no manufacturer part number (PARTS_AUDIT.md, NOT ORDERABLE). No file gives candela, beam angle, or a driver other than the resistor.
+- Guess: how bright the beads are in a room, and whether a person can see which eye is on.
+- Next: do not add colour eyes. Give line E3 a real part or keep the lamp as a named gap. A light check belongs on the bench with the existing eye GPIO, not in a new lamp design.
+
+## Field of view (missing for the head camera)
+
+- Pass: the head camera cone, from the lens brief of the module on the bill, is placed on the camera seat, and a file says what that cone includes of the nest mat, the floor, and a person at the distances the dock and the home use need.
+- Status: GAP.
+- Result: no camera cone is in the twin. The bill names Camera Module 3, standard, with the IR cut (PARTS_AUDIT.md line E6). The product brief gives that variant 75 degrees diagonal, 66 degrees horizontal, and 41 degrees vertical (cited source, https://pip-assets.raspberrypi.com/categories/786-raspberry-pi-camera-module-3/documents/RP-008151-DS-1-camera-module-3-product-brief.pdf, opened 2026-11-11). The seat is measured (twin/complete3d/COMPLETE3D.md, CAD check only) and the nest sims still use true pose plus noise (sim pass only). The cliff sensor is a different cone and already has one: 52 degrees down, 18 degree window, floor spot 93 to 178 mm ahead of the toe, no foot in that cone while walking (twin/freeze/FREEZE.md, CAD check only, sim pass only).
+- Guess: where the head is pointed during a dock, and whether 66 degrees horizontal sees the sun disc from the approach.
+- Next: put the brief's cone on the existing camera seat and score it the way TEST_PLAN.md 20.9 will score the real duck. Until that file exists this row stays GAP.
+
+## Communications (missing as one model)
+
+- Pass: every bus on the duck has its wires, its rate, its protocol, and a latency number from a measurement or from the byte timing, and Wi-Fi and Bluetooth are either used with a stated latency or recorded as unused.
+- Status: GAP.
+- Result: the servo bus is 1 Mbaud, 8N1, half duplex, port /dev/ttyACM0 (software/SOFTWARE.md section 2, cited from the Runtime). The electrical twin compares the data-net length with the stock robot at that rate (twin/electrical/ELECTRICAL_TWIN.md, calc only). The walk loop's byte times are in SOFTWARE.md section 6 (calc only, simulated bus). I2C for the IMU stays at 100 kHz (software/PI_SETUP.md). I2S mics and the speaker amp, the CSI camera ribbon, and USB to the adapter are domains in wiring/netlist.yaml. The Pi UART is unused (pins 8 and 10). SPI is not on the walking netlist (D57). The Pi brief gives 2.4 GHz Wi-Fi and Bluetooth 4.2 (PARTS_AUDIT.md). Docking does not use them (DECISIONS.md D46). No file gives Wi-Fi or Bluetooth latency. The servo turnaround time is unpublished (ELECTRICAL_TWIN.md, BLOCKER).
+- Guess: USB round trip, Pi CPU time, and any home-server round trip.
+- Next: one table in software/SOFTWARE.md that points at these files. Leave unpublished times as BLOCKER. Do not start a second protocol stack.
+
+## Circuitry (missing for the charger)
+
+- Pass: one schematic, generated from the netlist, shows the power tree, every regulator, the charger, protection, fusing, and decoupling for the duck that will be built, including the charger inside the body.
+- Status: GAP.
+- Result: the walking power tree is the netlist (rev 2026-11-06) and the sheets generated from it (wiring/sheets/). Fuse, BMS, switch, BEC, and the 5 V regulator are in that tree. The electrical twin's completeness pass found a source, a fuse, and a connector on every powered net of that duck, and it did not add a bulk capacitor (twin/electrical/ELECTRICAL_TWIN.md, sim pass only, calc only). The nest two-net change and the in-duck charger are not in the netlist (TWIN_CHECKLIST.md electrical row). The MCP73213 sheet was not opened (PARTS_AUDIT.md, BLOCKER). Old dock decoupling capacitors are on twin/dock/DOCK_BOM_FULL.md and are not the nest.
+- Guess: charger dropout, the 6 hour timer, and the capacitors the charger board needs.
+- Next: open the charger sheet, then add the two nets to wiring/netlist.yaml and re-run the existing electrical rule check. Do not draw a second schematic by hand.
+
+## Software (missing programs)
+
+- Pass: every program that will run on the duck is in this repo or named at its pinned upstream commit, and the same code has been run against the twin, including nest finding, charging, the joint limits, and the safety stops.
+- Status: GAP.
+- Result: the walk loop, the ONNX policy, the IMU reader, and the eye blink are the pinned Runtime (software/SOFTWARE.md section 1). Lab hooks add the battery guard and the temperature guard: warn at the servo limit minus 15 C (55 C when the limit is the factory 70 C), stop at the limit minus 8 C, then torque off (software/SOFTWARE.md section 5, simulated bus). The sit rest is a separate torque-off on the printed stops (DECISIONS.md D59). Joint limits for that sit are software/servo_limits.json. The old dock behaviour port is software/dock/ and targets the earlier dock, not the camera nest. V1 track 3, the Runtime against the twin, is not started (V1_PLAN.md). No nest-vision program, no in-duck charge program, and no update program beyond the install commands in software/PI_SETUP.md.
+- Guess: there is no draft of the nest-vision program, the charge program, or an update program to measure.
+- Next: extend software/SOFTWARE.md when the camera and the charger exist. Keep the Runtime unmodified (D6). Do not treat the simulated-bus tests as a run on the duck.
+
+## Training (not run)
+
+- Pass: the policies the duck will ship have been trained for the mass, the knees, the gains, and the nest edge the twin uses, and an eval in the shared lab gym (overlay gym/overlays/duck) records the result.
+- Status: NOT RUN.
+- Result: no GPU training run has been executed. A CPU smoke of the STS3250 preset ran 480 env steps in 612 s on 8 envs (twin/knee/KNEE_TWIN.md, sim pass only). That smoke is not a policy. Stage 0 of a walk at the build mass is described as ready on CPU and not run. The stock policy falls on the STS3250 model in sim (knee row). Get-up still misses the down-ramp front rests (sit row). The nest sims ask for a walk that lifts the toes over a 2 mm edge and can side-step right (twin/dock/nest/sim/v2/NEST_SIM_V2.md, sim pass only).
+- Guess: how many GPU hours those runs take. A published note for the upstream 150 to 300 million step command says 1.5 to 3 hours on an RTX 4090. That note is not a lab log. See COMPLETE_DUCK_AUDIT.md.
+- Next: do not start a paid run from this row. The scope and the cost range are in COMPLETE_DUCK_AUDIT.md and need an OK before any GPU is rented.
+
 ## What blocks gate 0, in order
 
 1. There is no single model. The print set, the netlist, and the viewer are the walking duck. The nest is an archive beside them. Until those are one duck, gate 0 cannot pass.
@@ -179,3 +233,4 @@ Status words, only these:
 7. Structure is under the lab margin on roll_to_pitch and the knee sheet eye (FEA pass only). D26 is open. Hot PLA makes that worse in the same file.
 8. Get-up misses 48 down-ramp front rests (sim pass only). The stock policy falls on the STS3250 knee model in sim. Neither is a shipping behavior.
 9. The nest sims still fall on the mat edge (29 of 540 steering, 13 of 540 straight, sim pass only). A walk change needs a decision and, if it is a retrain, a spend approval. It is not a substitute for items 1 to 3.
+10. Lights, the head-camera field of view, one communications table, the in-duck charger schematic, the unwritten programs, and training are open rows above. Training is NOT RUN. The others are GAP.
