@@ -1,0 +1,10 @@
+Id	Description	Qty	Unit	Designators
+1	Cable, 1 x 16 AWG	0.1	m	P11
+2	Cable, 1 x 22 AWG	1.36	m	SP1, SP2, SP3, SP4, SP5
+3	Connector, WAGO 221-413 servo plus, 3 pins	1		Small
+4	Connector, WAGO 221-415 servo plus, 5 pins	1		Big
+5	Connector, servo 10 BUS 2, 1 pins	1		ID10
+6	Connector, servo 14 BUS 1, 1 pins	1		ID14
+7	Connector, servo 20 BUS 2, 1 pins	1		ID20
+8	Connector, servo 24 BUS 1, 1 pins	1		ID24
+9	Connector, servo 30 BUS 2, 1 pins	1		ID30

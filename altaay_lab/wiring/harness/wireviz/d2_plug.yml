@@ -1,0 +1,19 @@
+connectors:
+  BNO:
+    type: Adafruit BNO055 2472
+    pinlabels: [VIN, SDA, SCL, GND]
+  D2plug:
+    type: KK 254 housing 0022012057
+    pinlabels: [pin 1 3V3, pin 3 SDA, pin 5 SCL, pin 7 empty, pin 9 GND]
+cables:
+  D2:
+    wirecount: 4
+    length: 0.55
+    gauge: 26 AWG
+    colors: [RD, BU, YE, BK]
+    notes: netlist cut 550 mm
+connections:
+  -
+    - BNO: [1, 2, 3, 4]
+    - D2: [1, 2, 3, 4]
+    - D2plug: [1, 2, 3, 5]
