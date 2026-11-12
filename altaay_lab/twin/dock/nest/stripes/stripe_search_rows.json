@@ -1,0 +1,966 @@
+{
+ "label": "calc only",
+ "note": "uneven contact rows: random 4- and 5-contact rows inside the 76 mm span (ends fixed, neighbours 8 mm or more\napart), right foot = the same row reversed heel to toe, on parallel stripes w 20 to 30, g 5. Score: the widest\nheading band with 100 % redundant power at the worst of 3 sit widths, then the all-heading mean.",
+ "rows": [
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -24.7,
+    1.7,
+    25.0,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 75,
+   "redundant_mean_180": 0.95254
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -24.7,
+    1.7,
+    25.0,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 75,
+   "redundant_mean_180": 0.95254
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -25.4,
+    -0.1,
+    24.0,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 75,
+   "redundant_mean_180": 0.95222
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -25.4,
+    -0.1,
+    24.0,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 75,
+   "redundant_mean_180": 0.95222
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -22.3,
+    -1.2,
+    25.0,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 75,
+   "redundant_mean_180": 0.95095
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -22.3,
+    -1.2,
+    25.0,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 75,
+   "redundant_mean_180": 0.95095
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -23.6,
+    -1.2,
+    22.6,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 75,
+   "redundant_mean_180": 0.95032
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -23.6,
+    -1.2,
+    22.6,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 75,
+   "redundant_mean_180": 0.95032
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -22.5,
+    1.9,
+    19.2,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 75,
+   "redundant_mean_180": 0.94873
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -22.5,
+    1.9,
+    19.2,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 75,
+   "redundant_mean_180": 0.94873
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -17.4,
+    -4.4,
+    21.7,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 72,
+   "redundant_mean_180": 0.94683
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -17.4,
+    -4.4,
+    21.7,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 72,
+   "redundant_mean_180": 0.94683
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -16.8,
+    -7.0,
+    16.4,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 72,
+   "redundant_mean_180": 0.94397
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -16.8,
+    -7.0,
+    16.4,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 72,
+   "redundant_mean_180": 0.94397
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -25.0,
+    -10.7,
+    9.5,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.80018
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -25.0,
+    -10.7,
+    9.5,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79982
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -26.0,
+    -5.9,
+    8.3,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79875
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -9.4,
+    7.1,
+    24.1,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79839
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -9.4,
+    7.1,
+    24.1,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79803
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -15.9,
+    -2.2,
+    18.0,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79767
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -15.9,
+    -2.2,
+    18.0,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79767
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -10.4,
+    8.1,
+    22.2,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79624
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -10.4,
+    8.1,
+    22.2,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79624
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -8.7,
+    9.4,
+    23.6,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79588
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -12.1,
+    10.3,
+    19.8,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79588
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -12.1,
+    10.3,
+    19.8,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79588
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -8.7,
+    9.4,
+    23.6,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79552
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -14.6,
+    -0.7,
+    16.8,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79516
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -14.6,
+    -0.7,
+    16.8,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79516
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -18.7,
+    -2.9,
+    11.3,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79337
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -18.7,
+    -2.9,
+    11.3,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79337
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -16.5,
+    -3.2,
+    13.6,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79301
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -16.5,
+    -3.2,
+    13.6,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.79301
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -14.2,
+    0.5,
+    12.5,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.78907
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -14.2,
+    0.5,
+    12.5,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 63,
+   "redundant_mean_180": 0.78907
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -12.8,
+    6.3,
+    29.4,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.81935
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -12.8,
+    6.3,
+    29.4,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.81935
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -14.4,
+    5.0,
+    27.1,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.81782
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -14.4,
+    5.0,
+    27.1,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.81782
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -22.9,
+    -3.0,
+    15.0,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.81398
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -22.9,
+    -3.0,
+    15.0,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.81398
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -26.6,
+    -4.3,
+    9.6,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.8136
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -26.6,
+    -4.3,
+    9.6,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.8136
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -22.1,
+    -1.5,
+    12.7,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80977
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -22.1,
+    -1.5,
+    12.7,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80977
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -19.4,
+    -2.9,
+    17.2,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80939
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -19.4,
+    -2.9,
+    17.2,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80939
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -18.0,
+    -3.4,
+    12.7,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80556
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -18.0,
+    -3.4,
+    12.7,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80556
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -18.3,
+    -1.7,
+    11.9,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80517
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -18.3,
+    -1.7,
+    11.9,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80517
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -14.6,
+    -5.7,
+    15.3,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80479
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -14.6,
+    -5.7,
+    15.3,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80479
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -10.6,
+    4.3,
+    15.1,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80249
+  },
+  {
+   "w": 24,
+   "g": 5,
+   "row": [
+    -38.0,
+    -10.6,
+    4.3,
+    15.1,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 63,
+   "powered_mean_180": 0.86916,
+   "full_band_deg_redundant": 60,
+   "redundant_mean_180": 0.80249
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -28.0,
+    -12.1,
+    11.0,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 57,
+   "redundant_mean_180": 0.80484
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -28.0,
+    -12.1,
+    11.0,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 57,
+   "redundant_mean_180": 0.80448
+  },
+  {
+   "w": 26,
+   "g": 5,
+   "row": [
+    -38.0,
+    -9.2,
+    14.2,
+    26.2,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 66,
+   "powered_mean_180": 0.85179,
+   "full_band_deg_redundant": 57,
+   "redundant_mean_180": 0.79982
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -16.1,
+    -0.4,
+    26.5,
+    38.0
+   ],
+   "reversed_right": false,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 54,
+   "redundant_mean_180": 0.94841
+  },
+  {
+   "w": 30,
+   "g": 5,
+   "row": [
+    -38.0,
+    -16.1,
+    -0.4,
+    26.5,
+    38.0
+   ],
+   "reversed_right": true,
+   "full_band_deg_powered": 75,
+   "powered_mean_180": 0.96397,
+   "full_band_deg_redundant": 54,
+   "redundant_mean_180": 0.94841
+  }
+ ]
+}

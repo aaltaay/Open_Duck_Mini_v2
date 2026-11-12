@@ -1,0 +1,395 @@
+{
+ "generated_by": "nest_parts.py",
+ "label": "CAD check only (geometry); calc only (areas)",
+ "frame": "nest frame: sun centre on the floor is the origin, x toward the wall (wall at x = 190), y along the wall, z up; mm",
+ "wall_x": 190.0,
+ "sun_r": 50.0,
+ "ring_r": [
+  82.0,
+  235.0
+ ],
+ "ring_back_from_wall": 56.0,
+ "felt_layers_mm": [
+  1.0,
+  1.0
+ ],
+ "top_r": 247.0,
+ "base_r": 267.0,
+ "tread_mm": 20.0,
+ "stack_mm": {
+  "felt": 2.0,
+  "at_ring": 2.1,
+  "at_sun": 2.17
+ },
+ "areas_mm2": {
+  "base": 201747.0,
+  "top": 177336.0,
+  "sun": 7850.0,
+  "sun_foil": 6357.0,
+  "ring": 123892.0
+ },
+ "rim": {
+  "depth": 50.0,
+  "height": 30.0,
+  "half_len": 227.0,
+  "r_top": 13.0
+ },
+ "box": {
+  "x": [
+   144.0,
+   188.9
+  ],
+  "z": [
+   2.0,
+   25.5
+  ],
+  "half_len": 90.0,
+  "z_split": 23.5,
+  "z_post": 11.0,
+  "inner_clear": {
+   "x": 40.9,
+   "y": 176.0,
+   "z": 19.5
+  }
+ },
+ "terminals": {
+  "plus": [
+   154.0,
+   -25.0
+  ],
+  "minus": [
+   154.0,
+   25.0
+  ]
+ },
+ "lid_posts": [
+  [
+   158.0,
+   84.0
+  ],
+  [
+   158.0,
+   -84.0
+  ],
+  [
+   182.9,
+   84.0
+  ],
+  [
+   182.9,
+   -84.0
+  ]
+ ],
+ "jack": {
+  "y": 90.0,
+  "x": 166.0,
+  "z": 15.0
+ },
+ "standins": {
+  "jack": {
+   "size": [
+    14.0,
+    20.0,
+    12.0
+   ],
+   "c": [
+    166.0,
+    78.0,
+    15.0
+   ],
+   "note": "Same Sky PJ-005A panel jack (dock BOM K6b), body est"
+  },
+  "fuse_holder": {
+   "size": [
+    17.2,
+    50.0,
+    17.2
+   ],
+   "c": [
+    177.8,
+    40.0,
+    12.6
+   ],
+   "note": "Littelfuse FHAC0001ZXJ (BOM DK3 class), body 50 x 17.2 x 17.2 (repo)"
+  },
+  "gate_board": {
+   "size": [
+    26.0,
+    70.0,
+    14.0
+   ],
+   "c": [
+    173.4,
+    -43.0,
+    13.0
+   ],
+   "note": "gate and current limit board: NOT DESIGNED (BLOCKER); 70 x 26 x 14 mm is the space kept for it, clear of the terminal posts"
+  }
+ },
+ "parts": {
+  "nest_felt_base": {
+   "stl": "stl/nest_felt_base.stl",
+   "faces": 536,
+   "watertight": true,
+   "volume_mm3": 201747.3,
+   "bbox_mm": [
+    [
+     -267.0,
+     -267.0,
+     0.0
+    ],
+    [
+     184.0,
+     267.0,
+     1.0
+    ]
+   ],
+   "bytes": 26884,
+   "material": "wool or polyester felt, 1 mm (cut)",
+   "step": "step/nest_felt_base.step",
+   "step_bytes": 539984,
+   "step_faces": 137,
+   "step_volume_mm3": 201747.3
+  },
+  "nest_felt_top": {
+   "stl": "stl/nest_felt_top.stl",
+   "faces": 600,
+   "watertight": true,
+   "volume_mm3": 177336.3,
+   "bbox_mm": [
+    [
+     -247.0,
+     -247.0,
+     1.0
+    ],
+    [
+     184.0,
+     247.0,
+     2.0
+    ]
+   ],
+   "bytes": 30084,
+   "material": "wool or polyester felt, 1 mm (cut)",
+   "step": "step/nest_felt_top.step",
+   "step_bytes": 595907,
+   "step_faces": 151,
+   "step_volume_mm3": 177336.3
+  },
+  "nest_sun_foil": {
+   "stl": "stl/nest_sun_foil.stl",
+   "faces": 380,
+   "watertight": true,
+   "volume_mm3": 445.0,
+   "bbox_mm": [
+    [
+     -45.0,
+     -45.0,
+     2.0
+    ],
+    [
+     45.0,
+     45.0,
+     2.07
+    ]
+   ],
+   "bytes": 19084,
+   "material": "copper foil tape with conductive adhesive, 0.07 mm (cut)",
+   "step": "step/nest_sun_foil.step",
+   "step_bytes": 385430,
+   "step_faces": 98,
+   "step_volume_mm3": 445.0
+  },
+  "nest_sun": {
+   "stl": "stl/nest_sun.stl",
+   "faces": 476,
+   "watertight": true,
+   "volume_mm3": 785.0,
+   "bbox_mm": [
+    [
+     -50.0,
+     -50.0,
+     2.07
+    ],
+    [
+     50.0,
+     50.0,
+     2.17
+    ]
+   ],
+   "bytes": 23884,
+   "material": "gold conductive cloth, about 0.1 mm (cut)",
+   "step": "step/nest_sun.step",
+   "step_bytes": 480796,
+   "step_faces": 122,
+   "step_volume_mm3": 785.0
+  },
+  "nest_ring": {
+   "stl": "stl/nest_ring.stl",
+   "faces": 1024,
+   "watertight": true,
+   "volume_mm3": 12417.5,
+   "bbox_mm": [
+    [
+     -235.0,
+     -235.0,
+     2.0
+    ],
+    [
+     159.0,
+     235.0,
+     11.1
+    ]
+   ],
+   "bytes": 51284,
+   "material": "pale gold conductive cloth, about 0.1 mm (cut)",
+   "step": "step/nest_ring.step",
+   "step_bytes": 1053657,
+   "step_faces": 258,
+   "step_volume_mm3": 12417.5
+  },
+  "nest_feed": {
+   "stl": "stl/nest_feed.stl",
+   "faces": 88,
+   "watertight": true,
+   "volume_mm3": 121.4,
+   "bbox_mm": [
+    [
+     30.0,
+     -31.0,
+     0.93
+    ],
+    [
+     159.0,
+     6.0,
+     11.07
+    ]
+   ],
+   "bytes": 4484,
+   "material": "12 mm copper foil tape in polyimide tape (cut)",
+   "step": "step/nest_feed.step",
+   "step_bytes": 84365,
+   "step_faces": 24,
+   "step_volume_mm3": 121.4
+  },
+  "nest_box_tray": {
+   "stl": "stl/nest_box_tray.stl",
+   "faces": 1354,
+   "watertight": true,
+   "volume_mm3": 38893.9,
+   "bbox_mm": [
+    [
+     144.0,
+     -90.0,
+     2.0
+    ],
+    [
+     188.9,
+     90.0,
+     23.5
+    ]
+   ],
+   "bytes": 67784,
+   "material": "PLA, printed",
+   "step": "step/nest_box_tray.step",
+   "step_bytes": 1339921,
+   "step_faces": 341,
+   "step_volume_mm3": 38893.9
+  },
+  "nest_box_lid": {
+   "stl": "stl/nest_box_lid.stl",
+   "faces": 412,
+   "watertight": true,
+   "volume_mm3": 13572.2,
+   "bbox_mm": [
+    [
+     150.0,
+     -90.0,
+     23.5
+    ],
+    [
+     188.9,
+     90.0,
+     25.5
+    ]
+   ],
+   "bytes": 20684,
+   "material": "PLA, printed",
+   "step": "step/nest_box_lid.step",
+   "step_bytes": 395252,
+   "step_faces": 102,
+   "step_volume_mm3": 13572.2
+  },
+  "nest_rim_cover": {
+   "stl": "stl/nest_rim_cover.stl",
+   "faces": 392,
+   "watertight": true,
+   "volume_mm3": 69143.2,
+   "bbox_mm": [
+    [
+     140.0,
+     -227.0,
+     0.0
+    ],
+    [
+     190.0,
+     227.0,
+     30.0
+    ]
+   ],
+   "bytes": 19684,
+   "material": "felt, 2 mm, sewn sleeve (envelope)",
+   "step": "step/nest_rim_cover.step",
+   "step_bytes": 673445,
+   "step_faces": 261,
+   "step_volume_mm3": 69143.2
+  },
+  "nest_bolster_left": {
+   "stl": "stl/nest_bolster_left.stl",
+   "faces": 184,
+   "watertight": true,
+   "volume_mm3": 126363.5,
+   "bbox_mm": [
+    [
+     142.0,
+     90.5,
+     2.0
+    ],
+    [
+     190.0,
+     225.0,
+     28.0
+    ]
+   ],
+   "bytes": 9284,
+   "material": "soft foam, cut",
+   "step": "step/nest_bolster_left.step",
+   "step_bytes": 243502,
+   "step_faces": 87,
+   "step_volume_mm3": 126363.5
+  },
+  "nest_bolster_right": {
+   "stl": "stl/nest_bolster_right.stl",
+   "faces": 124,
+   "watertight": true,
+   "volume_mm3": 162321.5,
+   "bbox_mm": [
+    [
+     142.0,
+     -225.0,
+     2.0
+    ],
+    [
+     190.0,
+     -90.5,
+     28.0
+    ]
+   ],
+   "bytes": 6284,
+   "material": "soft foam, cut",
+   "step": "step/nest_bolster_right.step",
+   "step_bytes": 199593,
+   "step_faces": 76,
+   "step_volume_mm3": 162321.5
+  }
+ }
+}

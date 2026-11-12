@@ -1,0 +1,1190 @@
+{
+ "label": "sim pass only",
+ "model": "twin/sit/sit_model.py round-2 model, no dock pins under the feet",
+ "cases": [
+  {
+   "name": "nominal mu0.8",
+   "mu": 0.8,
+   "err_deg": 0.0,
+   "mirror": false,
+   "fric": null,
+   "stand": {
+    "soles": [
+     {
+      "centre_mm": [
+       -36.84,
+       90.35
+      ],
+      "centre_z_mm": 0.18,
+      "z_min_mm": -0.21,
+      "z_max_mm": -0.12,
+      "roll_deg": 0.51,
+      "pitch_deg": 0.06,
+      "yaw_deg": 0.05,
+      "yaw_rel_trunk_deg": 0.09,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.29
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.06,
+       0.15
+      ]
+     },
+     {
+      "centre_mm": [
+       -37.15,
+       -94.42
+      ],
+      "centre_z_mm": 0.19,
+      "z_min_mm": -0.23,
+      "z_max_mm": 0.04,
+      "roll_deg": -0.55,
+      "pitch_deg": -0.11,
+      "yaw_deg": -0.16,
+      "yaw_rel_trunk_deg": -0.12,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.04
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.35,
+       0.19
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -0.38,
+     -0.12
+    ],
+    "trunk_heading_deg": -0.04,
+    "stance_width_mm": 184.8,
+    "stagger_mm": 0.2,
+    "sole_centre_fwd_of_trunk_mm": [
+     -36.5,
+     -36.7
+    ],
+    "contact_N": {
+     "left_foot_bottom_tpu": 14.22,
+     "right_foot_bottom_tpu": 13.33
+    }
+   },
+   "sit": {
+    "soles": [
+     {
+      "centre_mm": [
+       -33.99,
+       99.3
+      ],
+      "centre_z_mm": 1.08,
+      "z_min_mm": -0.41,
+      "z_max_mm": 1.81,
+      "roll_deg": 8.12,
+      "pitch_deg": 0.29,
+      "yaw_deg": 0.06,
+      "yaw_rel_trunk_deg": 0.15,
+      "left_edge_z_heel_toe_mm": [
+       1.98,
+       2.42
+      ],
+      "right_edge_z_heel_toe_mm": [
+       -0.25,
+       0.18
+      ]
+     },
+     {
+      "centre_mm": [
+       -34.88,
+       -102.43
+      ],
+      "centre_z_mm": 1.15,
+      "z_min_mm": -0.39,
+      "z_max_mm": 1.89,
+      "roll_deg": -7.91,
+      "pitch_deg": 0.02,
+      "yaw_deg": -0.43,
+      "yaw_rel_trunk_deg": -0.34,
+      "left_edge_z_heel_toe_mm": [
+       0.05,
+       0.08
+      ],
+      "right_edge_z_heel_toe_mm": [
+       2.23,
+       2.26
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -18.69,
+     0.15
+    ],
+    "trunk_heading_deg": -0.1,
+    "stance_width_mm": 201.7,
+    "stagger_mm": 0.6,
+    "sole_centre_fwd_of_trunk_mm": [
+     -15.5,
+     -16.0
+    ],
+    "contact_N": {
+     "sit_seat_trunk_assembly_1_collision": 0.88,
+     "left_foot_bottom_tpu": 13.6,
+     "right_foot_bottom_tpu": 13.06
+    },
+    "speed_m_s": 2e-05,
+    "footprint_trunk_frame": {
+     "back_mm": -156.5,
+     "front_mm": 65.4,
+     "right_mm": -130.6,
+     "left_mm": 131.1
+    },
+    "trunk": {
+     "z": 0.071,
+     "pitch": 2.594,
+     "roll": 0.1,
+     "up": 0.999
+    }
+   },
+   "sole_move_stand_to_sit_mm": [
+    9.4,
+    8.3
+   ],
+   "weight_N": 27.54
+  },
+  {
+   "name": "mu 0.4",
+   "mu": 0.4,
+   "err_deg": 0.0,
+   "mirror": false,
+   "fric": null,
+   "stand": {
+    "soles": [
+     {
+      "centre_mm": [
+       -36.91,
+       90.37
+      ],
+      "centre_z_mm": 0.33,
+      "z_min_mm": -0.04,
+      "z_max_mm": 0.04,
+      "roll_deg": 0.45,
+      "pitch_deg": 0.05,
+      "yaw_deg": 0.01,
+      "yaw_rel_trunk_deg": 0.09,
+      "left_edge_z_heel_toe_mm": [
+       0.36,
+       0.43
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.23,
+       0.3
+      ]
+     },
+     {
+      "centre_mm": [
+       -37.17,
+       -93.98
+      ],
+      "centre_z_mm": 0.35,
+      "z_min_mm": -0.04,
+      "z_max_mm": 0.15,
+      "roll_deg": -0.48,
+      "pitch_deg": -0.04,
+      "yaw_deg": -0.19,
+      "yaw_rel_trunk_deg": -0.11,
+      "left_edge_z_heel_toe_mm": [
+       0.31,
+       0.25
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.44,
+       0.39
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -1.25,
+     0.08
+    ],
+    "trunk_heading_deg": -0.08,
+    "stance_width_mm": 184.4,
+    "stagger_mm": -0.0,
+    "sole_centre_fwd_of_trunk_mm": [
+     -35.8,
+     -35.8
+    ],
+    "contact_N": {
+     "left_foot_bottom_tpu": 14.18,
+     "right_foot_bottom_tpu": 13.36
+    }
+   },
+   "sit": {
+    "soles": [
+     {
+      "centre_mm": [
+       -34.68,
+       99.33
+      ],
+      "centre_z_mm": 1.3,
+      "z_min_mm": -0.09,
+      "z_max_mm": 2.13,
+      "roll_deg": 8.13,
+      "pitch_deg": 0.12,
+      "yaw_deg": 0.2,
+      "yaw_rel_trunk_deg": 0.08,
+      "left_edge_z_heel_toe_mm": [
+       2.33,
+       2.51
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.09,
+       0.28
+      ]
+     },
+     {
+      "centre_mm": [
+       -34.69,
+       -102.44
+      ],
+      "centre_z_mm": 1.37,
+      "z_min_mm": -0.08,
+      "z_max_mm": 2.18,
+      "roll_deg": -7.92,
+      "pitch_deg": -0.14,
+      "yaw_deg": -0.07,
+      "yaw_rel_trunk_deg": -0.19,
+      "left_edge_z_heel_toe_mm": [
+       0.38,
+       0.18
+      ],
+      "right_edge_z_heel_toe_mm": [
+       2.56,
+       2.36
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -18.89,
+     0.22
+    ],
+    "trunk_heading_deg": 0.13,
+    "stance_width_mm": 201.8,
+    "stagger_mm": 0.5,
+    "sole_centre_fwd_of_trunk_mm": [
+     -15.6,
+     -16.0
+    ],
+    "contact_N": {
+     "sit_seat_trunk_assembly_1_collision": 1.03,
+     "left_foot_bottom_tpu": 13.54,
+     "right_foot_bottom_tpu": 12.97
+    },
+    "speed_m_s": 2e-05,
+    "footprint_trunk_frame": {
+     "back_mm": -156.6,
+     "front_mm": 64.8,
+     "right_mm": -130.8,
+     "left_mm": 131.2
+    },
+    "trunk": {
+     "z": 0.071,
+     "pitch": 2.797,
+     "roll": 0.103,
+     "up": 0.999
+    }
+   },
+   "sole_move_stand_to_sit_mm": [
+    9.2,
+    8.8
+   ],
+   "weight_N": 27.54
+  },
+  {
+   "name": "zero +1 deg",
+   "mu": 0.8,
+   "err_deg": 1.0,
+   "mirror": false,
+   "fric": null,
+   "stand": {
+    "soles": [
+     {
+      "centre_mm": [
+       -36.84,
+       90.35
+      ],
+      "centre_z_mm": 0.18,
+      "z_min_mm": -0.21,
+      "z_max_mm": -0.12,
+      "roll_deg": 0.51,
+      "pitch_deg": 0.06,
+      "yaw_deg": 0.05,
+      "yaw_rel_trunk_deg": 0.09,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.29
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.06,
+       0.15
+      ]
+     },
+     {
+      "centre_mm": [
+       -37.15,
+       -94.42
+      ],
+      "centre_z_mm": 0.19,
+      "z_min_mm": -0.23,
+      "z_max_mm": 0.04,
+      "roll_deg": -0.55,
+      "pitch_deg": -0.11,
+      "yaw_deg": -0.16,
+      "yaw_rel_trunk_deg": -0.12,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.04
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.35,
+       0.19
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -0.38,
+     -0.12
+    ],
+    "trunk_heading_deg": -0.04,
+    "stance_width_mm": 184.8,
+    "stagger_mm": 0.2,
+    "sole_centre_fwd_of_trunk_mm": [
+     -36.5,
+     -36.7
+    ],
+    "contact_N": {
+     "left_foot_bottom_tpu": 14.22,
+     "right_foot_bottom_tpu": 13.33
+    }
+   },
+   "sit": {
+    "soles": [
+     {
+      "centre_mm": [
+       -34.62,
+       99.61
+      ],
+      "centre_z_mm": 1.08,
+      "z_min_mm": -0.41,
+      "z_max_mm": 1.8,
+      "roll_deg": 8.1,
+      "pitch_deg": 0.3,
+      "yaw_deg": 0.53,
+      "yaw_rel_trunk_deg": 1.16,
+      "left_edge_z_heel_toe_mm": [
+       1.97,
+       2.41
+      ],
+      "right_edge_z_heel_toe_mm": [
+       -0.25,
+       0.18
+      ]
+     },
+     {
+      "centre_mm": [
+       -34.8,
+       -102.12
+      ],
+      "centre_z_mm": 1.16,
+      "z_min_mm": -0.39,
+      "z_max_mm": 1.9,
+      "roll_deg": -7.94,
+      "pitch_deg": 0.02,
+      "yaw_deg": 0.26,
+      "yaw_rel_trunk_deg": 0.88,
+      "left_edge_z_heel_toe_mm": [
+       0.05,
+       0.08
+      ],
+      "right_edge_z_heel_toe_mm": [
+       2.23,
+       2.26
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -19.11,
+     0.28
+    ],
+    "trunk_heading_deg": -0.62,
+    "stance_width_mm": 201.7,
+    "stagger_mm": -2.0,
+    "sole_centre_fwd_of_trunk_mm": [
+     -16.6,
+     -14.6
+    ],
+    "contact_N": {
+     "sit_seat_trunk_assembly_1_collision": 0.9,
+     "left_foot_bottom_tpu": 13.64,
+     "right_foot_bottom_tpu": 13.0
+    },
+    "speed_m_s": 2e-05,
+    "footprint_trunk_frame": {
+     "back_mm": -156.5,
+     "front_mm": 67.0,
+     "right_mm": -132.4,
+     "left_mm": 129.5
+    },
+    "trunk": {
+     "z": 0.071,
+     "pitch": 2.581,
+     "roll": 0.13,
+     "up": 0.999
+    }
+   },
+   "sole_move_stand_to_sit_mm": [
+    9.5,
+    8.1
+   ],
+   "weight_N": 27.54
+  },
+  {
+   "name": "zero -1 deg",
+   "mu": 0.8,
+   "err_deg": -1.0,
+   "mirror": false,
+   "fric": null,
+   "stand": {
+    "soles": [
+     {
+      "centre_mm": [
+       -36.84,
+       90.35
+      ],
+      "centre_z_mm": 0.18,
+      "z_min_mm": -0.21,
+      "z_max_mm": -0.12,
+      "roll_deg": 0.51,
+      "pitch_deg": 0.06,
+      "yaw_deg": 0.05,
+      "yaw_rel_trunk_deg": 0.09,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.29
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.06,
+       0.15
+      ]
+     },
+     {
+      "centre_mm": [
+       -37.15,
+       -94.42
+      ],
+      "centre_z_mm": 0.19,
+      "z_min_mm": -0.23,
+      "z_max_mm": 0.04,
+      "roll_deg": -0.55,
+      "pitch_deg": -0.11,
+      "yaw_deg": -0.16,
+      "yaw_rel_trunk_deg": -0.12,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.04
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.35,
+       0.19
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -0.38,
+     -0.12
+    ],
+    "trunk_heading_deg": -0.04,
+    "stance_width_mm": 184.8,
+    "stagger_mm": 0.2,
+    "sole_centre_fwd_of_trunk_mm": [
+     -36.5,
+     -36.7
+    ],
+    "contact_N": {
+     "left_foot_bottom_tpu": 14.22,
+     "right_foot_bottom_tpu": 13.33
+    }
+   },
+   "sit": {
+    "soles": [
+     {
+      "centre_mm": [
+       -33.37,
+       97.58
+      ],
+      "centre_z_mm": 1.09,
+      "z_min_mm": -0.4,
+      "z_max_mm": 1.82,
+      "roll_deg": 8.14,
+      "pitch_deg": 0.28,
+      "yaw_deg": -0.78,
+      "yaw_rel_trunk_deg": -0.93,
+      "left_edge_z_heel_toe_mm": [
+       2.0,
+       2.41
+      ],
+      "right_edge_z_heel_toe_mm": [
+       -0.24,
+       0.18
+      ]
+     },
+     {
+      "centre_mm": [
+       -36.02,
+       -104.13
+      ],
+      "centre_z_mm": 1.14,
+      "z_min_mm": -0.39,
+      "z_max_mm": 1.86,
+      "roll_deg": -7.89,
+      "pitch_deg": -0.0,
+      "yaw_deg": -1.37,
+      "yaw_rel_trunk_deg": -1.51,
+      "left_edge_z_heel_toe_mm": [
+       0.06,
+       0.05
+      ],
+      "right_edge_z_heel_toe_mm": [
+       2.22,
+       2.22
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -18.85,
+     -1.45
+    ],
+    "trunk_heading_deg": 0.14,
+    "stance_width_mm": 201.7,
+    "stagger_mm": 3.2,
+    "sole_centre_fwd_of_trunk_mm": [
+     -14.3,
+     -17.4
+    ],
+    "contact_N": {
+     "sit_seat_trunk_assembly_1_collision": 1.27,
+     "left_foot_bottom_tpu": 13.46,
+     "right_foot_bottom_tpu": 13.8
+    },
+    "speed_m_s": 0.00031,
+    "footprint_trunk_frame": {
+     "back_mm": -156.5,
+     "front_mm": 66.9,
+     "right_mm": -128.8,
+     "left_mm": 132.7
+    },
+    "trunk": {
+     "z": 0.071,
+     "pitch": 2.607,
+     "roll": 0.071,
+     "up": 0.999
+    }
+   },
+   "sole_move_stand_to_sit_mm": [
+    8.0,
+    9.8
+   ],
+   "weight_N": 27.54
+  },
+  {
+   "name": "zero +1 L / -1 R",
+   "mu": 0.8,
+   "err_deg": 1.0,
+   "mirror": true,
+   "fric": null,
+   "stand": {
+    "soles": [
+     {
+      "centre_mm": [
+       -36.84,
+       90.35
+      ],
+      "centre_z_mm": 0.18,
+      "z_min_mm": -0.21,
+      "z_max_mm": -0.12,
+      "roll_deg": 0.51,
+      "pitch_deg": 0.06,
+      "yaw_deg": 0.05,
+      "yaw_rel_trunk_deg": 0.09,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.29
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.06,
+       0.15
+      ]
+     },
+     {
+      "centre_mm": [
+       -37.15,
+       -94.42
+      ],
+      "centre_z_mm": 0.19,
+      "z_min_mm": -0.23,
+      "z_max_mm": 0.04,
+      "roll_deg": -0.55,
+      "pitch_deg": -0.11,
+      "yaw_deg": -0.16,
+      "yaw_rel_trunk_deg": -0.12,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.04
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.35,
+       0.19
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -0.38,
+     -0.12
+    ],
+    "trunk_heading_deg": -0.04,
+    "stance_width_mm": 184.8,
+    "stagger_mm": 0.2,
+    "sole_centre_fwd_of_trunk_mm": [
+     -36.5,
+     -36.7
+    ],
+    "contact_N": {
+     "left_foot_bottom_tpu": 14.22,
+     "right_foot_bottom_tpu": 13.33
+    }
+   },
+   "sit": {
+    "soles": [
+     {
+      "centre_mm": [
+       -34.31,
+       98.93
+      ],
+      "centre_z_mm": 1.07,
+      "z_min_mm": -0.41,
+      "z_max_mm": 1.79,
+      "roll_deg": 8.06,
+      "pitch_deg": 0.3,
+      "yaw_deg": 1.14,
+      "yaw_rel_trunk_deg": 1.22,
+      "left_edge_z_heel_toe_mm": [
+       1.96,
+       2.4
+      ],
+      "right_edge_z_heel_toe_mm": [
+       -0.25,
+       0.18
+      ]
+     },
+     {
+      "centre_mm": [
+       -35.83,
+       -102.76
+      ],
+      "centre_z_mm": 1.14,
+      "z_min_mm": -0.4,
+      "z_max_mm": 1.87,
+      "roll_deg": -7.85,
+      "pitch_deg": 0.02,
+      "yaw_deg": -2.02,
+      "yaw_rel_trunk_deg": -1.94,
+      "left_edge_z_heel_toe_mm": [
+       0.05,
+       0.08
+      ],
+      "right_edge_z_heel_toe_mm": [
+       2.2,
+       2.23
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -17.79,
+     -0.19
+    ],
+    "trunk_heading_deg": -0.07,
+    "stance_width_mm": 201.7,
+    "stagger_mm": 1.3,
+    "sole_centre_fwd_of_trunk_mm": [
+     -16.6,
+     -17.9
+    ],
+    "contact_N": {
+     "sit_seat_trunk_assembly_1_collision": 0.56,
+     "left_foot_bottom_tpu": 13.73,
+     "right_foot_bottom_tpu": 13.25
+    },
+    "speed_m_s": 2e-05,
+    "footprint_trunk_frame": {
+     "back_mm": -156.5,
+     "front_mm": 66.8,
+     "right_mm": -128.3,
+     "left_mm": 129.4
+    },
+    "trunk": {
+     "z": 0.071,
+     "pitch": 2.64,
+     "roll": 0.092,
+     "up": 0.999
+    }
+   },
+   "sole_move_stand_to_sit_mm": [
+    8.9,
+    8.4
+   ],
+   "weight_N": 27.54
+  },
+  {
+   "name": "zero -1 L / +1 R",
+   "mu": 0.8,
+   "err_deg": -1.0,
+   "mirror": true,
+   "fric": null,
+   "stand": {
+    "soles": [
+     {
+      "centre_mm": [
+       -36.84,
+       90.35
+      ],
+      "centre_z_mm": 0.18,
+      "z_min_mm": -0.21,
+      "z_max_mm": -0.12,
+      "roll_deg": 0.51,
+      "pitch_deg": 0.06,
+      "yaw_deg": 0.05,
+      "yaw_rel_trunk_deg": 0.09,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.29
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.06,
+       0.15
+      ]
+     },
+     {
+      "centre_mm": [
+       -37.15,
+       -94.42
+      ],
+      "centre_z_mm": 0.19,
+      "z_min_mm": -0.23,
+      "z_max_mm": 0.04,
+      "roll_deg": -0.55,
+      "pitch_deg": -0.11,
+      "yaw_deg": -0.16,
+      "yaw_rel_trunk_deg": -0.12,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.04
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.35,
+       0.19
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -0.38,
+     -0.12
+    ],
+    "trunk_heading_deg": -0.04,
+    "stance_width_mm": 184.8,
+    "stagger_mm": 0.2,
+    "sole_centre_fwd_of_trunk_mm": [
+     -36.5,
+     -36.7
+    ],
+    "contact_N": {
+     "left_foot_bottom_tpu": 14.22,
+     "right_foot_bottom_tpu": 13.33
+    }
+   },
+   "sit": {
+    "soles": [
+     {
+      "centre_mm": [
+       -33.7,
+       98.69
+      ],
+      "centre_z_mm": 1.09,
+      "z_min_mm": -0.4,
+      "z_max_mm": 1.83,
+      "roll_deg": 8.17,
+      "pitch_deg": 0.29,
+      "yaw_deg": -0.87,
+      "yaw_rel_trunk_deg": -0.97,
+      "left_edge_z_heel_toe_mm": [
+       2.0,
+       2.43
+      ],
+      "right_edge_z_heel_toe_mm": [
+       -0.25,
+       0.19
+      ]
+     },
+     {
+      "centre_mm": [
+       -33.77,
+       -103.01
+      ],
+      "centre_z_mm": 1.17,
+      "z_min_mm": -0.39,
+      "z_max_mm": 1.91,
+      "roll_deg": -7.96,
+      "pitch_deg": 0.02,
+      "yaw_deg": 0.94,
+      "yaw_rel_trunk_deg": 0.83,
+      "left_edge_z_heel_toe_mm": [
+       0.06,
+       0.09
+      ],
+      "right_edge_z_heel_toe_mm": [
+       2.24,
+       2.27
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -19.32,
+     -0.38
+    ],
+    "trunk_heading_deg": 0.1,
+    "stance_width_mm": 201.7,
+    "stagger_mm": 0.4,
+    "sole_centre_fwd_of_trunk_mm": [
+     -14.2,
+     -14.6
+    ],
+    "contact_N": {
+     "sit_seat_trunk_assembly_1_collision": 1.16,
+     "left_foot_bottom_tpu": 13.48,
+     "right_foot_bottom_tpu": 12.9
+    },
+    "speed_m_s": 2e-05,
+    "footprint_trunk_frame": {
+     "back_mm": -156.4,
+     "front_mm": 67.1,
+     "right_mm": -132.4,
+     "left_mm": 132.8
+    },
+    "trunk": {
+     "z": 0.071,
+     "pitch": 2.557,
+     "roll": 0.1,
+     "up": 0.999
+    }
+   },
+   "sole_move_stand_to_sit_mm": [
+    8.9,
+    9.2
+   ],
+   "weight_N": 27.54
+  },
+  {
+   "name": "joint friction 0.2",
+   "mu": 0.8,
+   "err_deg": 0.0,
+   "mirror": false,
+   "fric": 0.2,
+   "stand": {
+    "soles": [
+     {
+      "centre_mm": [
+       -36.91,
+       89.95
+      ],
+      "centre_z_mm": 0.17,
+      "z_min_mm": -0.2,
+      "z_max_mm": -0.15,
+      "roll_deg": 0.39,
+      "pitch_deg": 0.06,
+      "yaw_deg": 0.06,
+      "yaw_rel_trunk_deg": 0.04,
+      "left_edge_z_heel_toe_mm": [
+       0.17,
+       0.26
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.07,
+       0.16
+      ]
+     },
+     {
+      "centre_mm": [
+       -37.07,
+       -93.89
+      ],
+      "centre_z_mm": 0.18,
+      "z_min_mm": -0.23,
+      "z_max_mm": 0.01,
+      "roll_deg": -0.39,
+      "pitch_deg": -0.1,
+      "yaw_deg": -0.02,
+      "yaw_rel_trunk_deg": -0.05,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.06
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.31,
+       0.16
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -0.48,
+     -0.07
+    ],
+    "trunk_heading_deg": 0.02,
+    "stance_width_mm": 183.8,
+    "stagger_mm": 0.2,
+    "sole_centre_fwd_of_trunk_mm": [
+     -36.4,
+     -36.6
+    ],
+    "contact_N": {
+     "left_foot_bottom_tpu": 14.21,
+     "right_foot_bottom_tpu": 13.33
+    }
+   },
+   "sit": {
+    "soles": [
+     {
+      "centre_mm": [
+       -34.42,
+       99.82
+      ],
+      "centre_z_mm": 1.08,
+      "z_min_mm": -0.41,
+      "z_max_mm": 1.81,
+      "roll_deg": 8.12,
+      "pitch_deg": 0.3,
+      "yaw_deg": -0.12,
+      "yaw_rel_trunk_deg": 0.06,
+      "left_edge_z_heel_toe_mm": [
+       1.98,
+       2.42
+      ],
+      "right_edge_z_heel_toe_mm": [
+       -0.25,
+       0.18
+      ]
+     },
+     {
+      "centre_mm": [
+       -35.44,
+       -101.91
+      ],
+      "centre_z_mm": 1.15,
+      "z_min_mm": -0.4,
+      "z_max_mm": 1.89,
+      "roll_deg": -7.92,
+      "pitch_deg": 0.02,
+      "yaw_deg": -0.3,
+      "yaw_rel_trunk_deg": -0.12,
+      "left_edge_z_heel_toe_mm": [
+       0.05,
+       0.08
+      ],
+      "right_edge_z_heel_toe_mm": [
+       2.23,
+       2.26
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -19.37,
+     0.65
+    ],
+    "trunk_heading_deg": -0.18,
+    "stance_width_mm": 201.7,
+    "stagger_mm": 0.4,
+    "sole_centre_fwd_of_trunk_mm": [
+     -15.4,
+     -15.8
+    ],
+    "contact_N": {
+     "sit_seat_trunk_assembly_1_collision": 0.72,
+     "left_foot_bottom_tpu": 13.66,
+     "right_foot_bottom_tpu": 13.16
+    },
+    "speed_m_s": 2e-05,
+    "footprint_trunk_frame": {
+     "back_mm": -156.5,
+     "front_mm": 66.6,
+     "right_mm": -130.9,
+     "left_mm": 131.2
+    },
+    "trunk": {
+     "z": 0.071,
+     "pitch": 2.586,
+     "roll": 0.102,
+     "up": 0.999
+    }
+   },
+   "sole_move_stand_to_sit_mm": [
+    10.2,
+    8.2
+   ],
+   "weight_N": 27.54
+  },
+  {
+   "name": "joint friction 0.02",
+   "mu": 0.8,
+   "err_deg": 0.0,
+   "mirror": false,
+   "fric": 0.02,
+   "stand": {
+    "soles": [
+     {
+      "centre_mm": [
+       -36.84,
+       90.58
+      ],
+      "centre_z_mm": 0.18,
+      "z_min_mm": -0.21,
+      "z_max_mm": -0.1,
+      "roll_deg": 0.58,
+      "pitch_deg": 0.06,
+      "yaw_deg": 0.1,
+      "yaw_rel_trunk_deg": 0.17,
+      "left_edge_z_heel_toe_mm": [
+       0.22,
+       0.31
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.06,
+       0.15
+      ]
+     },
+     {
+      "centre_mm": [
+       -37.15,
+       -94.62
+      ],
+      "centre_z_mm": 0.2,
+      "z_min_mm": -0.23,
+      "z_max_mm": 0.06,
+      "roll_deg": -0.61,
+      "pitch_deg": -0.11,
+      "yaw_deg": -0.27,
+      "yaw_rel_trunk_deg": -0.21,
+      "left_edge_z_heel_toe_mm": [
+       0.2,
+       0.03
+      ],
+      "right_edge_z_heel_toe_mm": [
+       0.37,
+       0.2
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -0.27,
+     -0.12
+    ],
+    "trunk_heading_deg": -0.07,
+    "stance_width_mm": 185.2,
+    "stagger_mm": 0.1,
+    "sole_centre_fwd_of_trunk_mm": [
+     -36.7,
+     -36.8
+    ],
+    "contact_N": {
+     "left_foot_bottom_tpu": 14.22,
+     "right_foot_bottom_tpu": 13.33
+    }
+   },
+   "sit": {
+    "soles": [
+     {
+      "centre_mm": [
+       -34.97,
+       99.17
+      ],
+      "centre_z_mm": 1.08,
+      "z_min_mm": -0.41,
+      "z_max_mm": 1.8,
+      "roll_deg": 8.09,
+      "pitch_deg": 0.29,
+      "yaw_deg": 0.81,
+      "yaw_rel_trunk_deg": 0.67,
+      "left_edge_z_heel_toe_mm": [
+       1.97,
+       2.41
+      ],
+      "right_edge_z_heel_toe_mm": [
+       -0.25,
+       0.18
+      ]
+     },
+     {
+      "centre_mm": [
+       -35.79,
+       -102.55
+      ],
+      "centre_z_mm": 1.15,
+      "z_min_mm": -0.4,
+      "z_max_mm": 1.88,
+      "roll_deg": -7.87,
+      "pitch_deg": 0.02,
+      "yaw_deg": -1.32,
+      "yaw_rel_trunk_deg": -1.46,
+      "left_edge_z_heel_toe_mm": [
+       0.05,
+       0.08
+      ],
+      "right_edge_z_heel_toe_mm": [
+       2.21,
+       2.24
+      ]
+     }
+    ],
+    "trunk_xy_mm": [
+     -18.7,
+     0.1
+    ],
+    "trunk_heading_deg": 0.13,
+    "stance_width_mm": 201.7,
+    "stagger_mm": 1.3,
+    "sole_centre_fwd_of_trunk_mm": [
+     -16.0,
+     -17.3
+    ],
+    "contact_N": {
+     "sit_seat_trunk_assembly_1_collision": 0.72,
+     "left_foot_bottom_tpu": 13.65,
+     "right_foot_bottom_tpu": 13.17
+    },
+    "speed_m_s": 5e-05,
+    "footprint_trunk_frame": {
+     "back_mm": -156.5,
+     "front_mm": 65.3,
+     "right_mm": -128.9,
+     "left_mm": 130.3
+    },
+    "trunk": {
+     "z": 0.071,
+     "pitch": 2.624,
+     "roll": 0.091,
+     "up": 0.999
+    }
+   },
+   "sole_move_stand_to_sit_mm": [
+    8.8,
+    8.0
+   ],
+   "weight_N": 27.54
+  }
+ ]
+}

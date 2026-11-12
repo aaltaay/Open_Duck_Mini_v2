@@ -1,0 +1,39 @@
+{
+ "label": "sim pass only",
+ "clips": {
+  "good": {
+   "file": "run_good.mp4",
+   "cfg": {
+    "noise": "mid",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 6,
+    "seed": 110006,
+    "trace": false
+   },
+   "sits_ok": [
+    true
+   ],
+   "fell": false,
+   "fall_stage": null,
+   "sim_seconds": 51.46,
+   "size_MB": 0.2
+  },
+  "failed": {
+   "file": "run_failed.mp4",
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 1.0,
+    "k": 2,
+    "seed": 12002,
+    "trace": false
+   },
+   "sits_ok": [],
+   "fell": true,
+   "fall_stage": "walk_on",
+   "sim_seconds": 9.16,
+   "size_MB": 0.06
+  }
+ }
+}

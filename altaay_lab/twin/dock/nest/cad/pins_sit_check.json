@@ -1,0 +1,1182 @@
+{
+ "label": "sim pass only",
+ "note": "[mean, min, max] over the sits (3 mat frictions x 4 seeds, start artefacts dropped); harness sim/nestlib.py, only the pin model replaced",
+ "pin_model": {
+  "F_first_touch_N": 0.42,
+  "N_per_mm": 0.1441,
+  "proud_mm": {
+   "seat": 3.0,
+   "bump": 7.5
+  }
+ },
+ "summary": {
+  "chosen pins, mat as a plane": {
+   "n": 11,
+   "start_artefacts_dropped": 1,
+   "falls": 0,
+   "stood_up": 11,
+   "seat_block_N": [
+    0.85,
+    0.26,
+    0.91
+   ],
+   "soles_N": [
+    22.85,
+    22.71,
+    23.55
+   ],
+   "seat_pin_N": [
+    0.85,
+    0.82,
+    0.85
+   ],
+   "bump_pin_N": [
+    1.08,
+    1.04,
+    1.11
+   ],
+   "total_pin_N": [
+    3.85,
+    3.73,
+    3.93
+   ],
+   "seat_pin_comp_mm": [
+    2.98,
+    2.76,
+    3.0
+   ],
+   "bump_pin_comp_mm": [
+    4.55,
+    4.27,
+    4.81
+   ],
+   "seat_block_lift_mm": [
+    0.02,
+    -0.01,
+    0.24
+   ],
+   "bumper_gap_mm": [
+    2.95,
+    2.69,
+    3.23
+   ],
+   "min_bump_pin_comp_mm": 4.27,
+   "max_bump_pin_comp_mm": 4.81,
+   "pitch_deg": [
+    2.53,
+    1.71,
+    2.74
+   ],
+   "joints_on_stops": [
+    8.0,
+    8.0,
+    8.0
+   ],
+   "all_4_pins_touch": 11
+  },
+  "chosen pins, mat as height field": {
+   "n": 11,
+   "start_artefacts_dropped": 1,
+   "falls": 0,
+   "stood_up": 11,
+   "seat_block_N": [
+    2.11,
+    0.0,
+    4.83
+   ],
+   "soles_N": [
+    22.14,
+    19.45,
+    24.26
+   ],
+   "seat_pin_N": [
+    0.85,
+    0.82,
+    0.85
+   ],
+   "bump_pin_N": [
+    0.87,
+    0.7,
+    1.05
+   ],
+   "total_pin_N": [
+    3.44,
+    3.08,
+    3.73
+   ],
+   "seat_pin_comp_mm": [
+    2.96,
+    2.76,
+    3.0
+   ],
+   "bump_pin_comp_mm": [
+    3.14,
+    1.94,
+    4.37
+   ],
+   "seat_block_lift_mm": [
+    0.03,
+    -0.05,
+    0.24
+   ],
+   "bumper_gap_mm": [
+    4.36,
+    3.13,
+    5.57
+   ],
+   "min_bump_pin_comp_mm": 1.85,
+   "max_bump_pin_comp_mm": 4.47,
+   "pitch_deg": [
+    3.14,
+    1.71,
+    3.72
+   ],
+   "joints_on_stops": [
+    7.36,
+    6.0,
+    8.0
+   ],
+   "all_4_pins_touch": 11
+  }
+ },
+ "runs": [
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 0.6,
+   "seed": 0,
+   "start_artefact": true
+  },
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 0.6,
+   "seed": 1,
+   "surface": "plane",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.912,
+    "left_foot_bottom_tpu": 11.686,
+    "right_foot_bottom_tpu": 11.169
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.0
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.0
+    },
+    "bump_L": {
+     "F": 1.036,
+     "comp_mm": 4.28,
+     "gap_mm": 3.22
+    },
+    "bump_R": {
+     "F": 1.036,
+     "comp_mm": 4.28,
+     "gap_mm": 3.22
+    }
+   },
+   "trunk_z_above_mat_mm": 71.23,
+   "pitch_deg": 2.74,
+   "stops": {
+    "left_hip_roll": 0.427,
+    "left_knee": 0.597,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.125,
+    "head_pitch": 0.102,
+    "right_hip_roll": 0.419,
+    "right_knee": 0.566,
+    "right_ankle": 0.193
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 0.6,
+   "seed": 2,
+   "surface": "plane",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.909,
+    "left_foot_bottom_tpu": 11.687,
+    "right_foot_bottom_tpu": 11.171
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.0
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.0
+    },
+    "bump_L": {
+     "F": 1.036,
+     "comp_mm": 4.27,
+     "gap_mm": 3.23
+    },
+    "bump_R": {
+     "F": 1.036,
+     "comp_mm": 4.27,
+     "gap_mm": 3.23
+    }
+   },
+   "trunk_z_above_mat_mm": 71.23,
+   "pitch_deg": 2.74,
+   "stops": {
+    "left_hip_roll": 0.427,
+    "left_knee": 0.597,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.125,
+    "head_pitch": 0.102,
+    "right_hip_roll": 0.419,
+    "right_knee": 0.566,
+    "right_ankle": 0.193
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 0.6,
+   "seed": 3,
+   "surface": "plane",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.911,
+    "left_foot_bottom_tpu": 11.687,
+    "right_foot_bottom_tpu": 11.169
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.0
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.0
+    },
+    "bump_L": {
+     "F": 1.036,
+     "comp_mm": 4.27,
+     "gap_mm": 3.23
+    },
+    "bump_R": {
+     "F": 1.036,
+     "comp_mm": 4.28,
+     "gap_mm": 3.22
+    }
+   },
+   "trunk_z_above_mat_mm": 71.23,
+   "pitch_deg": 2.74,
+   "stops": {
+    "left_hip_roll": 0.427,
+    "left_knee": 0.597,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.125,
+    "head_pitch": 0.102,
+    "right_hip_roll": 0.419,
+    "right_knee": 0.566,
+    "right_ankle": 0.193
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 0.8,
+   "seed": 0,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.259,
+    "left_foot_bottom_tpu": 11.789,
+    "right_foot_bottom_tpu": 11.761
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.803,
+     "comp_mm": 2.66,
+     "gap_mm": 0.34
+    },
+    "seat_R": {
+     "F": 0.832,
+     "comp_mm": 2.86,
+     "gap_mm": 0.14
+    },
+    "bump_L": {
+     "F": 1.035,
+     "comp_mm": 4.27,
+     "gap_mm": 3.23
+    },
+    "bump_R": {
+     "F": 1.064,
+     "comp_mm": 4.47,
+     "gap_mm": 3.03
+    }
+   },
+   "trunk_z_above_mat_mm": 69.53,
+   "pitch_deg": 1.71,
+   "stops": {
+    "left_hip_roll": 0.434,
+    "left_knee": 0.615,
+    "left_ankle": 0.193,
+    "neck_pitch": 0.111,
+    "head_pitch": 0.108,
+    "right_hip_roll": 0.442,
+    "right_knee": 0.605,
+    "right_ankle": 0.202
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 0.8,
+   "seed": 1,
+   "surface": "plane",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.902,
+    "left_foot_bottom_tpu": 11.653,
+    "right_foot_bottom_tpu": 11.139
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "bump_L": {
+     "F": 1.073,
+     "comp_mm": 4.53,
+     "gap_mm": 2.97
+    },
+    "bump_R": {
+     "F": 1.073,
+     "comp_mm": 4.53,
+     "gap_mm": 2.97
+    }
+   },
+   "trunk_z_above_mat_mm": 71.02,
+   "pitch_deg": 2.63,
+   "stops": {
+    "left_hip_roll": 0.425,
+    "left_knee": 0.594,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.123,
+    "head_pitch": 0.103,
+    "right_hip_roll": 0.417,
+    "right_knee": 0.563,
+    "right_ankle": 0.194
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 0.8,
+   "seed": 2,
+   "surface": "plane",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.897,
+    "left_foot_bottom_tpu": 11.655,
+    "right_foot_bottom_tpu": 11.142
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "bump_L": {
+     "F": 1.073,
+     "comp_mm": 4.53,
+     "gap_mm": 2.97
+    },
+    "bump_R": {
+     "F": 1.073,
+     "comp_mm": 4.53,
+     "gap_mm": 2.97
+    }
+   },
+   "trunk_z_above_mat_mm": 71.02,
+   "pitch_deg": 2.63,
+   "stops": {
+    "left_hip_roll": 0.425,
+    "left_knee": 0.594,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.123,
+    "head_pitch": 0.103,
+    "right_hip_roll": 0.418,
+    "right_knee": 0.563,
+    "right_ankle": 0.194
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 0.8,
+   "seed": 3,
+   "surface": "plane",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.901,
+    "left_foot_bottom_tpu": 11.653,
+    "right_foot_bottom_tpu": 11.139
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "bump_L": {
+     "F": 1.073,
+     "comp_mm": 4.53,
+     "gap_mm": 2.97
+    },
+    "bump_R": {
+     "F": 1.073,
+     "comp_mm": 4.53,
+     "gap_mm": 2.97
+    }
+   },
+   "trunk_z_above_mat_mm": 71.02,
+   "pitch_deg": 2.63,
+   "stops": {
+    "left_hip_roll": 0.425,
+    "left_knee": 0.594,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.123,
+    "head_pitch": 0.103,
+    "right_hip_roll": 0.417,
+    "right_knee": 0.563,
+    "right_ankle": 0.194
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 1.0,
+   "seed": 0,
+   "surface": "plane",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.906,
+    "left_foot_bottom_tpu": 11.611,
+    "right_foot_bottom_tpu": 11.095
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "bump_L": {
+     "F": 1.114,
+     "comp_mm": 4.81,
+     "gap_mm": 2.69
+    },
+    "bump_R": {
+     "F": 1.114,
+     "comp_mm": 4.81,
+     "gap_mm": 2.69
+    }
+   },
+   "trunk_z_above_mat_mm": 70.79,
+   "pitch_deg": 2.51,
+   "stops": {
+    "left_hip_roll": 0.423,
+    "left_knee": 0.59,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.121,
+    "head_pitch": 0.103,
+    "right_hip_roll": 0.415,
+    "right_knee": 0.56,
+    "right_ankle": 0.193
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 1.0,
+   "seed": 1,
+   "surface": "plane",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.905,
+    "left_foot_bottom_tpu": 11.611,
+    "right_foot_bottom_tpu": 11.096
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "bump_L": {
+     "F": 1.114,
+     "comp_mm": 4.81,
+     "gap_mm": 2.69
+    },
+    "bump_R": {
+     "F": 1.114,
+     "comp_mm": 4.81,
+     "gap_mm": 2.69
+    }
+   },
+   "trunk_z_above_mat_mm": 70.79,
+   "pitch_deg": 2.51,
+   "stops": {
+    "left_hip_roll": 0.423,
+    "left_knee": 0.59,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.121,
+    "head_pitch": 0.103,
+    "right_hip_roll": 0.415,
+    "right_knee": 0.56,
+    "right_ankle": 0.193
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 1.0,
+   "seed": 2,
+   "surface": "plane",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.906,
+    "left_foot_bottom_tpu": 11.611,
+    "right_foot_bottom_tpu": 11.095
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "bump_L": {
+     "F": 1.114,
+     "comp_mm": 4.81,
+     "gap_mm": 2.69
+    },
+    "bump_R": {
+     "F": 1.114,
+     "comp_mm": 4.81,
+     "gap_mm": 2.69
+    }
+   },
+   "trunk_z_above_mat_mm": 70.79,
+   "pitch_deg": 2.51,
+   "stops": {
+    "left_hip_roll": 0.423,
+    "left_knee": 0.59,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.121,
+    "head_pitch": 0.103,
+    "right_hip_roll": 0.415,
+    "right_knee": 0.56,
+    "right_ankle": 0.193
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as a plane",
+   "mu": 1.0,
+   "seed": 3,
+   "surface": "plane",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.905,
+    "left_foot_bottom_tpu": 11.611,
+    "right_foot_bottom_tpu": 11.096
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "bump_L": {
+     "F": 1.114,
+     "comp_mm": 4.81,
+     "gap_mm": 2.69
+    },
+    "bump_R": {
+     "F": 1.114,
+     "comp_mm": 4.81,
+     "gap_mm": 2.69
+    }
+   },
+   "trunk_z_above_mat_mm": 70.79,
+   "pitch_deg": 2.51,
+   "stops": {
+    "left_hip_roll": 0.423,
+    "left_knee": 0.59,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.121,
+    "head_pitch": 0.103,
+    "right_hip_roll": 0.415,
+    "right_knee": 0.56,
+    "right_ankle": 0.193
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 0.6,
+   "seed": 0,
+   "start_artefact": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 0.6,
+   "seed": 1,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.288,
+    "left_foot_bottom_tpu": 12.012,
+    "right_foot_bottom_tpu": 11.69
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "bump_L": {
+     "F": 0.927,
+     "comp_mm": 3.52,
+     "gap_mm": 3.98
+    },
+    "bump_R": {
+     "F": 0.926,
+     "comp_mm": 3.51,
+     "gap_mm": 3.99
+    }
+   },
+   "trunk_z_above_mat_mm": 71.86,
+   "pitch_deg": 3.07,
+   "stops": {
+    "left_hip_roll": 0.441,
+    "left_knee": 0.635,
+    "left_ankle": 0.196,
+    "neck_pitch": 0.129,
+    "head_pitch": 0.1,
+    "right_hip_roll": 0.447,
+    "right_knee": 0.618,
+    "right_ankle": 0.193
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 0.6,
+   "seed": 2,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.056,
+    "left_foot_bottom_tpu": 12.095,
+    "right_foot_bottom_tpu": 11.829
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.0
+    },
+    "bump_L": {
+     "F": 0.932,
+     "comp_mm": 3.56,
+     "gap_mm": 3.94
+    },
+    "bump_R": {
+     "F": 0.931,
+     "comp_mm": 3.55,
+     "gap_mm": 3.95
+    }
+   },
+   "trunk_z_above_mat_mm": 71.83,
+   "pitch_deg": 3.06,
+   "stops": {
+    "left_hip_roll": 0.442,
+    "left_knee": 0.632,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.129,
+    "head_pitch": 0.1,
+    "right_hip_roll": 0.449,
+    "right_knee": 0.617,
+    "right_ankle": 0.197
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 0.6,
+   "seed": 3,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "left_foot_bottom_tpu": 12.179,
+    "right_foot_bottom_tpu": 11.81
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.847,
+     "comp_mm": 2.97,
+     "gap_mm": 0.03
+    },
+    "seat_R": {
+     "F": 0.849,
+     "comp_mm": 2.98,
+     "gap_mm": 0.02
+    },
+    "bump_L": {
+     "F": 0.932,
+     "comp_mm": 3.55,
+     "gap_mm": 3.95
+    },
+    "bump_R": {
+     "F": 0.934,
+     "comp_mm": 3.56,
+     "gap_mm": 3.94
+    }
+   },
+   "trunk_z_above_mat_mm": 71.83,
+   "pitch_deg": 3.04,
+   "stops": {
+    "left_hip_roll": 0.441,
+    "left_knee": 0.636,
+    "left_ankle": 0.202,
+    "neck_pitch": 0.128,
+    "head_pitch": 0.1,
+    "right_hip_roll": 0.443,
+    "right_knee": 0.616,
+    "right_ankle": 0.195
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 0.8,
+   "seed": 0,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.259,
+    "left_foot_bottom_tpu": 11.789,
+    "right_foot_bottom_tpu": 11.761
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.803,
+     "comp_mm": 2.66,
+     "gap_mm": 0.34
+    },
+    "seat_R": {
+     "F": 0.832,
+     "comp_mm": 2.86,
+     "gap_mm": 0.14
+    },
+    "bump_L": {
+     "F": 1.035,
+     "comp_mm": 4.27,
+     "gap_mm": 3.23
+    },
+    "bump_R": {
+     "F": 1.064,
+     "comp_mm": 4.47,
+     "gap_mm": 3.03
+    }
+   },
+   "trunk_z_above_mat_mm": 69.53,
+   "pitch_deg": 1.71,
+   "stops": {
+    "left_hip_roll": 0.434,
+    "left_knee": 0.615,
+    "left_ankle": 0.193,
+    "neck_pitch": 0.111,
+    "head_pitch": 0.108,
+    "right_hip_roll": 0.442,
+    "right_knee": 0.605,
+    "right_ankle": 0.202
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 0.8,
+   "seed": 1,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 3.475,
+    "left_foot_bottom_tpu": 10.81,
+    "right_foot_bottom_tpu": 9.911
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.845,
+     "comp_mm": 2.95,
+     "gap_mm": 0.05
+    },
+    "seat_R": {
+     "F": 0.851,
+     "comp_mm": 2.99,
+     "gap_mm": 0.01
+    },
+    "bump_L": {
+     "F": 0.86,
+     "comp_mm": 3.05,
+     "gap_mm": 4.45
+    },
+    "bump_R": {
+     "F": 0.865,
+     "comp_mm": 3.09,
+     "gap_mm": 4.41
+    }
+   },
+   "trunk_z_above_mat_mm": 72.23,
+   "pitch_deg": 3.25,
+   "stops": {
+    "left_knee": 0.723,
+    "left_ankle": 0.059,
+    "neck_pitch": 0.131,
+    "head_pitch": 0.099,
+    "right_hip_roll": 0.137,
+    "right_knee": 0.576,
+    "right_ankle": 0.108
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 0.8,
+   "seed": 2,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 0.993,
+    "left_foot_bottom_tpu": 12.7,
+    "right_foot_bottom_tpu": 11.564
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.0
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.0
+    },
+    "bump_L": {
+     "F": 0.925,
+     "comp_mm": 3.5,
+     "gap_mm": 4.0
+    },
+    "bump_R": {
+     "F": 0.925,
+     "comp_mm": 3.5,
+     "gap_mm": 4.0
+    }
+   },
+   "trunk_z_above_mat_mm": 71.87,
+   "pitch_deg": 3.08,
+   "stops": {
+    "left_hip_roll": 0.438,
+    "left_knee": 0.796,
+    "left_ankle": 0.197,
+    "neck_pitch": 0.127,
+    "head_pitch": 0.103,
+    "right_hip_roll": 0.434,
+    "right_knee": 0.619,
+    "right_ankle": 0.171
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 0.8,
+   "seed": 3,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 2.085,
+    "left_foot_bottom_tpu": 11.346,
+    "right_foot_bottom_tpu": 10.6
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.01
+    },
+    "bump_L": {
+     "F": 0.911,
+     "comp_mm": 3.4,
+     "gap_mm": 4.1
+    },
+    "bump_R": {
+     "F": 0.91,
+     "comp_mm": 3.4,
+     "gap_mm": 4.1
+    }
+   },
+   "trunk_z_above_mat_mm": 71.95,
+   "pitch_deg": 3.13,
+   "stops": {
+    "left_hip_roll": 0.42,
+    "left_knee": 0.645,
+    "left_ankle": 0.162,
+    "neck_pitch": 0.13,
+    "head_pitch": 0.1,
+    "right_hip_roll": 0.413,
+    "right_knee": 0.622,
+    "right_ankle": 0.147
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 1.0,
+   "seed": 0,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 2.832,
+    "left_foot_bottom_tpu": 10.834,
+    "right_foot_bottom_tpu": 10.957
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": 0.0
+    },
+    "seat_R": {
+     "F": 0.826,
+     "comp_mm": 2.82,
+     "gap_mm": 0.18
+    },
+    "bump_L": {
+     "F": 0.711,
+     "comp_mm": 2.02,
+     "gap_mm": 5.48
+    },
+    "bump_R": {
+     "F": 0.686,
+     "comp_mm": 1.85,
+     "gap_mm": 5.65
+    }
+   },
+   "trunk_z_above_mat_mm": 73.17,
+   "pitch_deg": 3.72,
+   "stops": {
+    "left_hip_roll": 0.15,
+    "left_knee": 0.608,
+    "left_ankle": 0.145,
+    "neck_pitch": 0.137,
+    "head_pitch": 0.097,
+    "right_knee": 0.714,
+    "right_ankle": 0.072
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 1.0,
+   "seed": 1,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 4.833,
+    "left_foot_bottom_tpu": 9.759,
+    "right_foot_bottom_tpu": 9.695
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.06
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.03
+    },
+    "bump_L": {
+     "F": 0.784,
+     "comp_mm": 2.53,
+     "gap_mm": 4.97
+    },
+    "bump_R": {
+     "F": 0.779,
+     "comp_mm": 2.49,
+     "gap_mm": 5.01
+    }
+   },
+   "trunk_z_above_mat_mm": 72.68,
+   "pitch_deg": 3.53,
+   "stops": {
+    "left_knee": 0.625,
+    "left_ankle": 0.061,
+    "neck_pitch": 0.135,
+    "head_pitch": 0.097,
+    "right_knee": 0.658,
+    "right_ankle": 0.039
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 1.0,
+   "seed": 2,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 3.948,
+    "left_foot_bottom_tpu": 10.598,
+    "right_foot_bottom_tpu": 9.675
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.845,
+     "comp_mm": 2.95,
+     "gap_mm": 0.05
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": 0.0
+    },
+    "bump_L": {
+     "F": 0.847,
+     "comp_mm": 2.96,
+     "gap_mm": 4.54
+    },
+    "bump_R": {
+     "F": 0.854,
+     "comp_mm": 3.01,
+     "gap_mm": 4.49
+    }
+   },
+   "trunk_z_above_mat_mm": 72.3,
+   "pitch_deg": 3.29,
+   "stops": {
+    "left_knee": 0.721,
+    "left_ankle": 0.053,
+    "neck_pitch": 0.132,
+    "head_pitch": 0.099,
+    "right_hip_roll": 0.148,
+    "right_knee": 0.564,
+    "right_ankle": 0.106
+   },
+   "stood": true
+  },
+  {
+   "case": "chosen pins, mat as height field",
+   "mu": 1.0,
+   "seed": 3,
+   "surface": "field",
+   "fell": false,
+   "contacts_N": {
+    "sit_seat_trunk_assembly_1_collision": 4.486,
+    "left_foot_bottom_tpu": 9.836,
+    "right_foot_bottom_tpu": 10.126
+   },
+   "pins": {
+    "seat_L": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.07
+    },
+    "seat_R": {
+     "F": 0.852,
+     "comp_mm": 3.0,
+     "gap_mm": -0.02
+    },
+    "bump_L": {
+     "F": 0.734,
+     "comp_mm": 2.18,
+     "gap_mm": 5.32
+    },
+    "bump_R": {
+     "F": 0.727,
+     "comp_mm": 2.13,
+     "gap_mm": 5.37
+    }
+   },
+   "trunk_z_above_mat_mm": 72.97,
+   "pitch_deg": 3.69,
+   "stops": {
+    "left_knee": 0.627,
+    "left_ankle": 0.072,
+    "neck_pitch": 0.137,
+    "head_pitch": 0.097,
+    "right_knee": 0.668,
+    "right_ankle": 0.057
+   },
+   "stood": true
+  }
+ ]
+}

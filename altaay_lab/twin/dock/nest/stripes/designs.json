@@ -1,0 +1,175 @@
+{
+ "designs": [
+  {
+   "id": "S1",
+   "pattern": "stripes_parallel_to_wall",
+   "w": 30,
+   "g": 5,
+   "n": [
+    -38,
+    -25,
+    0,
+    25,
+    38
+   ],
+   "half_offset": false,
+   "note": "alternative: 30 mm stripes, 5 mm gaps, 5 contacts per foot at -38, -25, 0, 25, 38 mm"
+  },
+  {
+   "id": "S2",
+   "pattern": "stripes_parallel_to_wall",
+   "w": 20,
+   "g": 5,
+   "n": 5,
+   "half_offset": false,
+   "note": "PICK: 20 mm stripes, 5 mm gaps, 5 contacts per foot 19 mm apart",
+   "save_map": true
+  },
+  {
+   "id": "S2b",
+   "pattern": "stripes_parallel_to_wall",
+   "w": 20,
+   "g": 5,
+   "n": 4,
+   "half_offset": false,
+   "note": "as S2 with 4 even contacts per foot"
+  },
+  {
+   "id": "S2c",
+   "pattern": "stripes_parallel_to_wall",
+   "w": 20,
+   "g": 5,
+   "n": 6,
+   "half_offset": false,
+   "note": "as S2 with 6 even contacts per foot"
+  },
+  {
+   "id": "S3",
+   "pattern": "stripes_parallel_to_wall",
+   "w": 30,
+   "g": 5,
+   "n": [
+    -38,
+    -15.2,
+    11.2,
+    38
+   ],
+   "half_offset": false,
+   "note": "as S1 with 4 contacts per foot"
+  },
+  {
+   "id": "S4",
+   "pattern": "stripes_parallel_to_wall",
+   "w": 30,
+   "g": 5,
+   "n": 3,
+   "half_offset": false,
+   "note": "as S1 with 3 contacts per foot"
+  },
+  {
+   "id": "S5",
+   "pattern": "stripes_parallel_to_wall",
+   "w": 30,
+   "g": 8,
+   "n": [
+    -38,
+    -25,
+    0,
+    25,
+    38
+   ],
+   "half_offset": false,
+   "note": "as S1 with 8 mm gaps"
+  },
+  {
+   "id": "P1",
+   "pattern": "stripes_perpendicular_to_wall",
+   "w": 30,
+   "g": 5,
+   "n": [
+    -38,
+    -25,
+    0,
+    25,
+    38
+   ],
+   "half_offset": false,
+   "note": "S1 turned 90 deg: the wrong way round"
+  },
+  {
+   "id": "C1",
+   "pattern": "checkerboard",
+   "w": 30,
+   "g": 5,
+   "n": [
+    -38,
+    -25,
+    0,
+    25,
+    38
+   ],
+   "half_offset": false,
+   "note": "30 mm squares"
+  },
+  {
+   "id": "C2",
+   "pattern": "checkerboard",
+   "w": 20,
+   "g": 5,
+   "n": [
+    -38,
+    -25,
+    0,
+    25,
+    38
+   ],
+   "half_offset": false,
+   "note": "20 mm squares"
+  },
+  {
+   "id": "H1",
+   "pattern": "hex_rows",
+   "w": 30,
+   "g": 5,
+   "n": [
+    -38,
+    -25,
+    0,
+    25,
+    38
+   ],
+   "half_offset": false,
+   "note": "30 mm hexagons, polarity by row"
+  },
+  {
+   "id": "H2",
+   "pattern": "hex_rows",
+   "w": 20,
+   "g": 5,
+   "n": [
+    -38,
+    -25,
+    0,
+    25,
+    38
+   ],
+   "half_offset": false,
+   "note": "20 mm hexagons, polarity by row"
+  },
+  {
+   "id": "R1",
+   "pattern": "concentric_rings",
+   "w": 30,
+   "g": 5,
+   "n": [
+    -38,
+    -25,
+    0,
+    25,
+    38
+   ],
+   "half_offset": false,
+   "note": "rings about the wall mid point, 30 mm"
+  }
+ ]
+}

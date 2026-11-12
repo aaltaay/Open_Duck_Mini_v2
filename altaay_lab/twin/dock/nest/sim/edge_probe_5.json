@@ -1,0 +1,1257 @@
+{
+ "label": "sim pass only",
+ "cell_m": 0.005,
+ "edge": "2 mm rise over one cell",
+ "summary": [
+  {
+   "way": "in",
+   "volt": 6.0,
+   "n": 20,
+   "crossed": 7,
+   "falls": 0,
+   "cross_160mm_s": [
+    4.54,
+    5.36
+   ],
+   "edge_touches_mean": 2.0
+  },
+  {
+   "way": "in",
+   "volt": 7.2,
+   "n": 20,
+   "crossed": 20,
+   "falls": 0,
+   "cross_160mm_s": [
+    2.18,
+    2.36
+   ],
+   "edge_touches_mean": 1.4
+  },
+  {
+   "way": "out",
+   "volt": 6.0,
+   "n": 17,
+   "crossed": 17,
+   "falls": 0,
+   "cross_160mm_s": [
+    2.95,
+    3.24
+   ],
+   "edge_touches_mean": 2.1
+  },
+  {
+   "way": "out",
+   "volt": 7.2,
+   "n": 17,
+   "crossed": 17,
+   "falls": 0,
+   "cross_160mm_s": [
+    1.58,
+    1.7
+   ],
+   "edge_touches_mean": 1.5
+  }
+ ],
+ "runs": [
+  {
+   "way": "in",
+   "seed": 0,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.21827772366815237,
+    0.10146593123708192
+   ],
+   "edge_touches": 4
+  },
+  {
+   "way": "in",
+   "seed": 1,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 4.32,
+   "end": [
+    -0.07469062528287061,
+    0.014831372148890954
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 2,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.2150559717521597,
+    0.10606930151683945
+   ],
+   "edge_touches": 4
+  },
+  {
+   "way": "in",
+   "seed": 3,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.2401821046133042,
+    0.009263627596258874
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 4,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.22283295484683965,
+    0.09718904542946927
+   ],
+   "edge_touches": 4
+  },
+  {
+   "way": "in",
+   "seed": 5,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.06646662416783153,
+    0.16506533043583557
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 6,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 4.58,
+   "end": [
+    -0.08615429719204273,
+    0.019053287413321962
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 7,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.07656646908081563,
+    0.16475697162766736
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 8,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 4.52,
+   "end": [
+    -0.06159197946197668,
+    0.10849249145448955
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 9,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 3.94,
+   "end": [
+    -0.05743378537719181,
+    -0.041410036847564884
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "in",
+   "seed": 0,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.21812027837255746,
+    0.09860278083958503
+   ],
+   "edge_touches": 5
+  },
+  {
+   "way": "in",
+   "seed": 1,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 5.36,
+   "end": [
+    -0.13704075341234426,
+    0.06225506975541965
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 2,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.21909250972876557,
+    0.1027494788233484
+   ],
+   "edge_touches": 4
+  },
+  {
+   "way": "in",
+   "seed": 3,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.24232830182019308,
+    -0.006157285610779545
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 4,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.22227718357657922,
+    0.0897802134877541
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "in",
+   "seed": 5,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.21735673115361745,
+    0.09841510989370346
+   ],
+   "edge_touches": 4
+  },
+  {
+   "way": "in",
+   "seed": 6,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.2409111145447221,
+    -0.03222688298634712
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 7,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.0979072404328985,
+    0.15327117509047075
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 8,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 4.5,
+   "end": [
+    -0.07278657576350155,
+    0.09165688572908046
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 9,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 4.58,
+   "end": [
+    -0.08709853959995648,
+    -0.03251795720336607
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 0,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.28,
+   "end": [
+    0.45491171827252436,
+    0.20676221964254446
+   ],
+   "edge_touches": 3
+  },
+  {
+   "way": "in",
+   "seed": 1,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.14,
+   "end": [
+    0.42932960565723843,
+    0.03024398857273895
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 2,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.04,
+   "end": [
+    0.4947756562299357,
+    0.2249788449835181
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 3,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.36,
+   "end": [
+    0.42185192749725775,
+    0.02187212006138626
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 4,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.24,
+   "end": [
+    0.4821909711933183,
+    0.21414193154783173
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "in",
+   "seed": 5,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.34,
+   "end": [
+    0.4494675542031192,
+    0.27309508656066933
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 6,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.12,
+   "end": [
+    0.45610311934680564,
+    -0.048332515671947206
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 7,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.2,
+   "end": [
+    0.4500491185849076,
+    0.227583639971379
+   ],
+   "edge_touches": 3
+  },
+  {
+   "way": "in",
+   "seed": 8,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.26,
+   "end": [
+    0.466271942046807,
+    0.19917918551489625
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 9,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.08,
+   "end": [
+    0.4920048150819261,
+    0.047244057762599975
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 0,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.2,
+   "end": [
+    0.4540878134141481,
+    0.22559247953441236
+   ],
+   "edge_touches": 3
+  },
+  {
+   "way": "in",
+   "seed": 1,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.14,
+   "end": [
+    0.4622299745882012,
+    0.03223277628363082
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 2,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.02,
+   "end": [
+    0.4884066570317736,
+    0.22979723498042634
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 3,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.22,
+   "end": [
+    0.43788041689065027,
+    0.026956413254095864
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 4,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.22,
+   "end": [
+    0.4750086000534104,
+    0.19360967763034184
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 5,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.24,
+   "end": [
+    0.46402942516226175,
+    0.22180431913879461
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 6,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.28,
+   "end": [
+    0.45139754701067325,
+    0.011180800439090465
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "in",
+   "seed": 7,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.1,
+   "end": [
+    0.4637208866178762,
+    0.19811930715649545
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 8,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.06,
+   "end": [
+    0.4740458787968493,
+    0.19174839327171223
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "in",
+   "seed": 9,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.06,
+   "end": [
+    0.4703683559732911,
+    -0.023822067357211495
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 0,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": true,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.2921679832174954,
+    -0.03946644515133616
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 1,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.82,
+   "end": [
+    -0.47808304349760045,
+    -0.020938396204475646
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 2,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.8,
+   "end": [
+    -0.47948121330912213,
+    -0.04761432147002584
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 3,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 3.16,
+   "end": [
+    -0.4562189798036842,
+    0.059566847213307156
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 4,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.92,
+   "end": [
+    -0.4867120312523997,
+    -0.03272609542138902
+   ],
+   "edge_touches": 3
+  },
+  {
+   "way": "out",
+   "seed": 5,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": true,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.2309190692443336,
+    -0.029010870318791245
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 6,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 3.16,
+   "end": [
+    -0.45868787375982106,
+    0.02139429809152723
+   ],
+   "edge_touches": 3
+  },
+  {
+   "way": "out",
+   "seed": 7,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": true,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.21586389250695986,
+    0.017213807330820535
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 8,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.68,
+   "end": [
+    -0.43248168465608844,
+    -0.39265523487439546
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 9,
+   "volt": 6.0,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 3.24,
+   "end": [
+    -0.47425972274395484,
+    -0.03768759596417326
+   ],
+   "edge_touches": 3
+  },
+  {
+   "way": "out",
+   "seed": 0,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.76,
+   "end": [
+    -0.4875338046656492,
+    -0.13659457886482
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 1,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.9,
+   "end": [
+    -0.4588907440472052,
+    0.02177690266374436
+   ],
+   "edge_touches": 3
+  },
+  {
+   "way": "out",
+   "seed": 2,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.92,
+   "end": [
+    -0.48901563942482057,
+    -0.0701859243361532
+   ],
+   "edge_touches": 3
+  },
+  {
+   "way": "out",
+   "seed": 3,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 3.04,
+   "end": [
+    -0.45646973809607916,
+    0.04464680217901049
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 4,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 3.12,
+   "end": [
+    -0.4763372780112946,
+    -0.01985680269457575
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 5,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 3.16,
+   "end": [
+    -0.5163953084002016,
+    -0.3498051367534695
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 6,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.96,
+   "end": [
+    -0.4644353893077666,
+    0.06405600512736057
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 7,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.96,
+   "end": [
+    -0.5007859630754556,
+    0.07635892897647567
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 8,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.74,
+   "end": [
+    -0.4898604543722027,
+    -0.1211938880582423
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 9,
+   "volt": 6.0,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 2.82,
+   "end": [
+    -0.4640716717703632,
+    -0.01489617240106508
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 0,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": true,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.27550653006296083,
+    -0.05584311898017798
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 1,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.6,
+   "end": [
+    -0.9049635380237546,
+    -0.04958124195269726
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 2,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.48,
+   "end": [
+    -0.9056508216870414,
+    -0.14121890162412956
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 3,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.58,
+   "end": [
+    -0.9185095242211235,
+    0.056113537920263155
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 4,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.46,
+   "end": [
+    -0.9497315096256731,
+    -0.02379421633568653
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 5,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": true,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.23582567922540512,
+    -0.02294414793683406
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 6,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.58,
+   "end": [
+    -0.8985851677338554,
+    0.14518109021790843
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 7,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": true,
+   "fell": false,
+   "crossed": false,
+   "cross_s": null,
+   "end": [
+    -0.24269204569923605,
+    -0.017247711077541646
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 8,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.32,
+   "end": [
+    -0.9003002814016621,
+    -0.5004312045867585
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 9,
+   "volt": 7.2,
+   "mu": 0.6,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.54,
+   "end": [
+    -0.9216860636994795,
+    -0.024880660857995465
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 0,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.56,
+   "end": [
+    -0.8940588636025781,
+    -0.16216260201405772
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 1,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.62,
+   "end": [
+    -0.8979283012652148,
+    -0.015711656130083164
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 2,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.58,
+   "end": [
+    -0.9008138083293649,
+    -0.14227142328455966
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 3,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.7,
+   "end": [
+    -0.8932423891484441,
+    0.0748223938738104
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 4,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.64,
+   "end": [
+    -0.9059622694873916,
+    -0.006858530044874668
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 5,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.62,
+   "end": [
+    -0.9423336620761898,
+    -0.38687348802304716
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 6,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.7,
+   "end": [
+    -0.8860543294865978,
+    0.11430578528459193
+   ],
+   "edge_touches": 2
+  },
+  {
+   "way": "out",
+   "seed": 7,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.64,
+   "end": [
+    -0.9351910263088088,
+    0.13837998315184893
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 8,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.56,
+   "end": [
+    -0.8949970979755866,
+    -0.09166268356830941
+   ],
+   "edge_touches": 1
+  },
+  {
+   "way": "out",
+   "seed": 9,
+   "volt": 7.2,
+   "mu": 1.0,
+   "start_artefact": false,
+   "fell": false,
+   "crossed": true,
+   "cross_s": 1.62,
+   "end": [
+    -0.8923023770821037,
+    0.03942650258339462
+   ],
+   "edge_touches": 2
+  }
+ ]
+}
