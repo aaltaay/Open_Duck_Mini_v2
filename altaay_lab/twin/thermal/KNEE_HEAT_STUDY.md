@@ -1,6 +1,6 @@
 # Knee heat study: is 3.3 minutes and 94.7 C real?
 
-Written 2026-11-11 9:58 PM ET. Calc only, except numbers marked sim pass only (they come from logs already in the repo) or CAD check only. Nothing was bought. No policy was trained. The walking policy was not re-run: that needs the public playground pin, and a new gait would also need a retrain (paid GPU, Ahmed's OK). The shared lab gym (overlay gym/overlays/duck) was not used.
+Written 2026-11-11 9:58 PM ET. Calc only, except numbers marked sim pass only (they come from logs already in the repo) or CAD check only. No policy was trained. The walking policy was not re-run: that needs the public playground pin, and a new gait would also need a retrain (paid GPU, Ahmed's OK). The shared lab gym (overlay gym/overlays/duck) was not used.
 
 ## Plain words
 
