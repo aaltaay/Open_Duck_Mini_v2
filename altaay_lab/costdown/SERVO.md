@@ -53,16 +53,18 @@ The reproduction of the P45B backlash log, central corner, torque-off left off s
 | 25 C | 3.33 | 4.5 | 94.67 C |
 | 32 C | 2.5 | 3.5 | 101.63 C |
 
-That body temperature is the cut-off-disabled run, the same warning as PR 34 and KNEE_HEAT_STUDY.md. It is not a measured knee. With the 70 C cut left on, a C001 held at the sheet stall (2.5 A, 2.5 ohm, 15.6 W, calc only, not a walk) reaches a 60 C reading in 0.83 minutes and the cut stops the reading at 68.7 C. The rated 0.65 A point settles at 39.7 C (calc only), next to the "near 40 C" line already in the knee heat study.
+That body temperature is the cut-off-disabled run, the same warning as PR 34 and KNEE_HEAT_STUDY.md. It is not a measured knee. The cut-on cases below use the integrator peak (max_Ts) and the cut time (t_cut), not a 10 s sample. A 10 s sample can miss the step that crosses 70 C and then falls after torque-off. With the 70 C cut left on, a C001 held at the sheet stall (2.5 A, 2.5 ohm, 15.6 W, calc only, not a walk) reaches a 60 C reading in 0.75 minutes and the cut fires at 0.93 minutes. The reading on that step is 70.03 C. The body on that step is 57.9 C. The rated 0.65 A point settles at 39.7 C (calc only), next to the "near 40 C" line already in the knee heat study.
 
 STS3250 copper at the sim knee RMS of 2.19 Nm, only because 2.19 is under the 2.94 Nm scaled stall. Speed term left out (calc only). The two sheet resistances still disagree (1.2 ohm published, 12 V / 4.2 A = 2.86 ohm).
 
 | Resistance used | Current | Copper | 25 C room, cut on | 32 C room, cut on |
 |---|---|---|---|---|
-| 1.2 ohm, published Kt | 2.03 A | 4.95 W | 60 C at 3.83 min, reading stops at 69.5 C | 60 C at 2.83 min, reading stops at 69.9 C |
-| Stall-line R and Kt | 1.88 A | 10.05 W | 60 C at 1.33 min, reading stops at 69.4 C | 60 C at 1.17 min, reading stops at 68.7 C |
+| 1.2 ohm, published Kt | 2.03 A | 4.95 W | 60 C at 3.70 min, cut at 5.26 min, peak 70.03 C | 60 C at 2.72 min, cut at 4.02 min, peak 70.05 C |
+| Stall-line R and Kt | 1.88 A | 10.05 W | 60 C at 1.32 min, cut at 1.69 min, peak 70.04 C | 60 C at 1.03 min, cut at 1.39 min, peak 70.02 C |
 
-So a knee that actually holds 2.19 Nm still leaves the 60 C operating line in a few minutes, and the guard then cuts torque. The cooler knee-twin currents (0.71 to 0.88 A, sim pass only) are the stock policy, which walks badly. At those currents and 32 C, the same model stays under 60 C except the high current with the stall-line resistance, which reaches 60 C at 13.8 minutes and peaks at 62.6 C (calc only). That is not the heat of a walk that makes the sim torque.
+The peak is the integrator step that crosses 70 C. Torque comes off on the next step, so the reading does not sit there. The body on that step is 63.9 C and 64.3 C for the 1.2 ohm rows, and 60.2 C and 61.1 C for the stall-line rows (calc only).
+
+So a knee that actually holds 2.19 Nm still leaves the 60 C operating line in a few minutes, and the guard then cuts torque. The cooler knee-twin currents (0.71 to 0.88 A, sim pass only) are the stock policy, which walks badly. At those currents and 32 C, the same model stays under 60 C except the high current with the stall-line resistance, which reaches 60 C at 13.75 minutes and peaks at 62.6 C, with no 70 C cut (calc only). That is not the heat of a walk that makes the sim torque.
 
 The aluminium case has no published thermal resistance. This rerun keeps the C001 thermal mass. It does not invent a cooler case.
 

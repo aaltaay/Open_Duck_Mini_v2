@@ -42,7 +42,12 @@ def cross(t, y, thr):
 def constant_knee(p_cu, ta, minutes, cut_c, p_board=0.0):
     """One right knee at a fixed copper wattage. Other servos idle. Central corner.
     The knee is outside the trunk, so trunk watts are left at 0. Friction is omitted,
-    the same omission KNEE_HEAT_STUDY.md already states."""
+    the same omission KNEE_HEAT_STUDY.md already states.
+
+    Maxima come from the integrator (max_Ts, max_Tb, max_Tw), not from the stored
+    samples. The 70 C time is t_cut when that is the configured cut. The 60 C time
+    is taken from a record at the integration step, so a cut between samples cannot
+    hide the crossing."""
     TT.PARAMS["T_cut"] = cut_c
     z = np.zeros(14)
     j = TT.NAMES.index("right_knee")
@@ -54,14 +59,19 @@ def constant_knee(p_cu, ta, minutes, cut_c, p_board=0.0):
     trunk = {k: 0.0 for k in (
         "cells", "holder", "bms", "fuse", "xt30", "switch", "wires", "bec", "bec_leads", "logic")}
     heats = {"walk": dict(servo=servo, trunk=trunk, head=0.0)}
+    dt = 0.5
     r = TT.simulate(lambda t: "walk", heats, None, TT.CORNERS["central"], ta,
-                    t_end=minutes * 60.0, dt=0.5, record=10.0)
-    ts = r["Ts"][:, j]
-    return dict(reading_max_C=round(float(ts.max()), 2),
-                body_max_C=round(float(r["Tb"][:, j].max()), 2),
-                winding_max_C=round(float(r["Tw"][:, j].max()), 2),
-                minutes_to_60C=cross(r["t"], ts, 60.0),
-                minutes_to_70C=cross(r["t"], ts, 70.0),
+                    t_end=minutes * 60.0, dt=dt, record=dt)
+    t_cut = float(r["t_cut"][j])
+    if cut_c <= 70.0 and np.isfinite(t_cut):
+        minutes_70 = round(t_cut / 60.0, 2)
+    else:
+        minutes_70 = cross(r["t"], r["Ts"][:, j], 70.0)
+    return dict(reading_max_C=round(float(r["max_Ts"][j]), 2),
+                body_max_C=round(float(r["max_Tb"][j]), 2),
+                winding_max_C=round(float(r["max_Tw"][j]), 2),
+                minutes_to_60C=cross(r["t"], r["Ts"][:, j], 60.0),
+                minutes_to_70C=minutes_70,
                 cut_C=cut_c, room_C=ta, P_cu_W=round(p_cu, 3))
 
 
