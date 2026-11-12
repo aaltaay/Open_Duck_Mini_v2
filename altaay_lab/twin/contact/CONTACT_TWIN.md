@@ -29,7 +29,7 @@ Cited from that catalog:
 
 Footnote 1 says the current rating depends on the spring and the lubrication, and points at an application note. That note was not opened. A derate below 10.2 A is **BLOCKER**. The highest contact current in section 3 is 2.8 A, which is under the printed 10.2 A.
 
-Tip 30 round is named on the same page. This text extract did not recover its diameter, so every pressure below uses tip 40. The 2.3 mm head drawn in the nest CAD is not on this page (already recorded in PARTS_AUDIT.md). The orderable string is still open: tube letter, tip code, spring letter, options. The pieces read here are tube P, tip 40, spring S, and socket 100-SDN250S.
+Tip 30 round is named on the same page. This text extract did not recover its diameter, so the pressure in section 5 uses tip 40, the smaller face. PARTS_AUDIT.md, brought in with altaay-lab, proposes 100-PRP4030S: tube P, tip 30 at 1.40 mm (catalog page 33, as that audit read it), spring S. At 0.85 N that larger face is 80 psi, 3.8 times the F-1 10 % pressure (**calc only**). The dent is still more than 0.2 mm, and the unload arithmetic below does not depend on which of these two round tips is fitted. The 2.3 mm head drawn in the nest CAD is not on the catalog page.
 
 The 500,000 cycles are the probe in its socket at 8.05 mm. They are not cloth life. TEST_PLAN.md 20.4 already says that.
 

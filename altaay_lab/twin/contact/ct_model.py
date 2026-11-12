@@ -33,6 +33,8 @@ TUBE_P_CURRENT_A = 10.2  # at 120 C; the spring-material note was not opened
 TIP40_D_MM = 0.91
 TIP40_R_MM = 0.46
 TIP_A_MM = TIP40_D_MM / 2.0
+# Parts audit, catalog page 33. This session's 100-40 text extract did not recover it.
+TIP30_D_MM = 1.40
 
 # Gold-flashed PdNi on itself, fresh, at 1 N. Not cloth. Fretting paper, normal load 1 N.
 # https://centralesupelec.hal.science/hal-03329833/document
@@ -157,9 +159,10 @@ def sheet_r_ohm(distance_mm, a_mm=TIP_A_MM, rs=RS_OHM_SQ):
     return (rs / (2.0 * math.pi)) * math.log(distance_mm / a_mm)
 
 
-def tip_pressure(force_n):
-    """Mean pressure on the tip 40 face. The real spot is smaller. Calc only."""
-    area_mm2 = math.pi * TIP_A_MM ** 2
+def tip_pressure(force_n, diameter_mm=TIP40_D_MM):
+    """Mean pressure on a round tip face. The real spot is smaller. Calc only."""
+    radius = diameter_mm / 2.0
+    area_mm2 = math.pi * radius ** 2
     mpa = force_n / area_mm2  # N/mm2 == MPa
     psi = mpa * 145.0377
     return {"area_mm2": area_mm2, "mpa": mpa, "psi": psi}
@@ -408,6 +411,7 @@ def stroke_after_dent(comp_mm, dent_mm):
 def felt_block():
     f = spring_n(PROUD["seat"])
     p = tip_pressure(f)
+    p30 = tip_pressure(f, TIP30_D_MM)
     ratios = felt_ratios(p["psi"])
     # more than 10% is known; the depth is not. The cap is the stack thickness.
     dent_lo = round(0.10 * FELT_T_MM, 3)
@@ -436,6 +440,9 @@ def felt_block():
         "pressure_psi": round(p["psi"], 2),
         "pressure_mpa": round(p["mpa"], 3),
         "area_mm2": round(p["area_mm2"], 4),
+        "tip30_diameter_mm": TIP30_D_MM,
+        "tip30_pressure_psi": round(p30["psi"], 2),
+        "tip30_times_f1": round(p30["psi"] / FELT_10PCT_PSI["F-1"], 2),
         "times_10pct_pressure": {k: round(v, 2) for k, v in ratios.items()},
         "defl_if_only_10pct_mm": dent_lo,
         "thickness_cap_mm": dent_hi,

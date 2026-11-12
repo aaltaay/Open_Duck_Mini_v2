@@ -338,6 +338,9 @@
   "pressure_psi": 189.53,
   "pressure_mpa": 1.307,
   "area_mm2": 0.6504,
+  "tip30_diameter_mm": 1.4,
+  "tip30_pressure_psi": 80.08,
+  "tip30_times_f1": 3.81,
   "times_10pct_pressure": {
    "F-1": 9.03,
    "F-2": 9.03,
