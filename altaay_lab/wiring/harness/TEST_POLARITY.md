@@ -13,8 +13,8 @@ The Klein meter numbers in TEST_PLAN section 2 stay the ones cited there. They a
 
 ## 2. XT30
 
-1. Pack socket plus cup to the pad B+: under 1 ohm.
-2. Pack socket minus cup to the pad B-: under 1 ohm.
+1. Pack socket plus cup to the pad printed P+: under 1 ohm. Cable P6 lands on P+.
+2. Pack socket minus cup to the pad printed P-: under 1 ohm. Cable P8 lands on P-. Do not use B- for this pass. B- is the cell pad. The protection switch between B- and P- is open when the board is off, so a good socket can fail a B- check, and a socket wired straight to B- would skip the protection.
 3. Plus cup to minus cup: over 1 Mohm.
 4. Neck XT30 on cable P13: the body half plus reads to the switched plus lever, the head half plus reads to the regulator pad printed VIN. They read to each other only when the XT30 is mated. Unplug it and they must not read through.
 
