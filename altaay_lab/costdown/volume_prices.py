@@ -108,12 +108,16 @@ def main():
             return buy  # one or more packs, not one price per piece
         return buy
 
-    def duck(vol_key, use_waveshare=False):
-        """Per-duck repeat parts. Tools excluded. A missing price is a blocker, not a zero."""
+    def duck(vol_key, use_waveshare=False, in_stock_only=False):
+        """Per-duck repeat parts. Tools excluded. A missing price is a blocker, not a zero.
+        in_stock_only drops rows whose ORDER.csv stock says out of stock. Those rows keep a
+        price in VOLUME.csv. They are not part of the in-stock subtotal."""
         known = 0.0
         blockers = []
         for row in out:
             if row["tool"] == "yes":
+                continue
+            if in_stock_only and "out of stock" in row["stock"]:
                 continue
             if row["line_id"] == "servo" and use_waveshare:
                 continue
@@ -129,10 +133,11 @@ def main():
 
     print("lines", len(out))
     for n, key in ((1, "usd_1"), (100, "usd_100"), (1000, "usd_1000")):
-        known, blockers = duck(key, False)
-        print("order", n, "known_repeat", known, "blocker_lines", len(blockers))
-        known_w, blockers_w = duck(key, True)
-        print("waveshare_swap", n, "known_repeat", known_w, "blocker_lines", len(blockers_w))
+        for label, stock_only in (("all_priced", False), ("in_stock", True)):
+            known, blockers = duck(key, False, stock_only)
+            print("order", n, label, "known_repeat", known, "blocker_lines", len(blockers))
+            known_w, blockers_w = duck(key, True, stock_only)
+            print("waveshare_swap", n, label, "known_repeat", known_w, "blocker_lines", len(blockers_w))
 
 
 if __name__ == "__main__":

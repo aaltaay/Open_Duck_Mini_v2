@@ -10,11 +10,11 @@ Tools (soldering iron, tips, the 5 A cable) are one set, not one per duck. They 
 
 | Ducks | What is known | Repeat parts per duck | Lines with no price at that volume |
 |---|---|---|---|
-| 1 | In stock, this pass. The Pi kit is the reopened CanaKit figure, 2.00 under the ORDER.csv figure for the same kit | 730.36 including no tools. 781.29 with the one tool set (calc only) | 81 repeat lines |
-| 100 | Only the three DigiKey ladders that print a 100 row, plus, on the alternate servo, the Waveshare 4-or-more tier | 2.19 on the order's own servo line. 230.53 if the 14 servos use the Waveshare tier (calc only) | 106, or 105 with that swap |
-| 1,000 | No order line has a printed 1,000 price. The Waveshare page's last tier is 4 or more, with no ceiling, so 1,000 uses that tier and is not a new discount | 0.00 on the order as written. 228.34 for 14 Waveshare servos and nothing else (calc only) | 109, or 108 with that swap |
+| 1 | In stock, this pass. The Pi kit is the reopened CanaKit figure, 2.00 under the ORDER.csv figure for the same kit | 730.36 including no tools. 781.29 with the one tool set (calc only). All priced, including three out-of-stock lines, is 750.51 | 81 repeat lines |
+| 100 | Only the three DigiKey ladders that print a 100 row, plus, on the alternate servo, the Waveshare 4-or-more tier | 2.19 on the order's own servo line. 230.53 if the 14 servos use the Waveshare tier (calc only) | 103 in stock, or 102 with that swap. All priced is 106 and 105 |
+| 1,000 | No order line has a printed 1,000 price. The Waveshare page's last tier is 4 or more, with no ceiling, so 1,000 uses that tier and is not a new discount | 0.00 on the order as written. 228.34 for 14 Waveshare servos and nothing else (calc only) | 106 in stock, or 105 with that swap. All priced is 109 and 108 |
 
-The 2.19, the 230.53, and the 228.34 are not the cost of a duck. They are the lines that had a printed break. The rest are BLOCKER.
+The 2.19, the 230.53, and the 228.34 are not the cost of a duck. They are the lines that had a printed break. The rest are BLOCKER. The in-stock sum drops the amplifier, the polyimide tape, and the solder, which ORDER.csv marks out of stock. Those three are 20.15 of the 750.51 all-priced figure (calc only). volume_prices.py prints both.
 
 ## Does 1,000 ducks get under 380
 
