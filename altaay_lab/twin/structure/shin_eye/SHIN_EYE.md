@@ -6,9 +6,25 @@ Labels: FEA pass only is the linear tetrahedron solver in st_fea.py. CAD check o
 
 ## The limit
 
-The servo-facing face of the drive eye is 2.02 mm from the knee servo case (CAD check only), at [5.28, 9.65, 0.0] mm in the shin link. Thickening toward the servo is not available. The topology collar already grew the other way, the head side, by about 6.6 mm inside a 32 mm radius. On this load set that collar raises the walking safety factor from 0.58 to 0.97 (FEA pass only) and leaves the soft-fall worst at 0.61.
+The servo-facing face of the drive eye is 2.02 mm from the knee servo case (CAD check only), at [5.28, 9.65, 0.0] mm in the shin link. Thickening toward the servo is not available. The topology collar already grew the other way, the head side, by about 6.6 mm inside a 32 mm radius.
 
-The topology file's 1.30 is a different session (that file, FEA pass only). This session's instrumented build is 2.808 kg (sim pass only, not weighed), the same mass that file recorded. The solver, the 1 mm average, and the failure index are the ones in st_fea.py. Voxel pitch is 0.8 mm. MuJoCo in this session is 4.0.1. Two of the rough-terrain seeds did not hit a printed part, so the soft-fall set is 9 files, not 11. The safety factors below are this session. They are not a replay of the 1.30.
+## Which number is the stock eye
+
+Three published walking safety factors sit on this part. They are not three answers for one mesh.
+
+| Number | What it is | Mesh | Loads and supports |
+|---|---|---|---|
+| 1.56 to 1.63 | 2026-11-03 structure twin, level 1 and level 2 | TetGen tetrahedra on knee_to_ankle_left_sheet, the shin plate before D59 | Build 2.653 kg. Ten soft falls. Supports and the failure index are the ones in st_fea.py |
+| 0.79, then 1.30 | Topology pass, stock print STL, then the collar | Voxel grid, pitch in the band 0.75 to 0.8 mm. TetGen does not recover these STLs | Same shin_segment study: drive sheet, idle sheet, spacer, ankle case fixed, knee horn screws loaded. Build 2.808 kg. Eleven soft falls |
+| 0.58, then 0.97 | This file's first pass, stock, then the collar | Same voxel code, pitch fixed at 0.8 mm | Same study, same scripts. Walk knee peaks match a re-run under MuJoCo 3.17.0 (the version in the structure twin) and under 4.0.1. Nine soft falls: two rough seeds did not hit a printed part |
+
+The solver, the 1 mm average, the failure index, and the shin supports were not edited between the topology pass and this one. The only later edit in st_fea.py is the STL path helper, and the stock shin is read from print/ either way.
+
+Re-run of the stock eye and of the topology collar, same scripts, voxel pitch 0.75 mm (FEA pass only): stock walk 0.80, soft worst 0.47, 7 of 9 under 1.2. Collar walk 1.30, soft worst 0.70, 3 of 9 under 1.2. The stock walk 0.80 and the collar walk 1.30 are the topology numbers (0.79 and 1.30). The stock soft worst 0.47 is their 0.46. The collar soft worst did not come back (0.70 here, 0.87 in that file): this session has 9 soft-fall files, not 11.
+
+The 0.58 is the same part at 0.8 mm. The peak moves, from in-plane at the eye to an interlayer wall element, and the safety factor drops. It is a real result of the coarser pitch. It is the wrong number to set beside 0.79. The number that matches the topology pass is the 0.75 mm re-run: stock walk 0.80, collar walk 1.30.
+
+The 2026-11-03 value is not 0.79. That study is TetGen, on the older shin plate, on a lighter build. Voxel and TetGen are not the same mesh, and those two safety factors are not a disagreement about one model.
 
 Soft falls are time constant 0.0158 s and damping ratio 0.2, the same level as the topology pass. Walk and push are the cases in st_loads.py.
 
@@ -30,11 +46,15 @@ The knee case is in the 55 to 63 C band. The heat study's torque-off leaves the 
 
 Hot PLA tensile at that band is BLOCKER. Grasso and others (2018) did not report a tensile strength at 50 C or 60 C, because those bars did not separate. The 0.62 factor at 50 C in the structure twin is a compression result (Slavkovic and others, 2024), not a 60 C tensile. PLA-CF heat deflection, 54 C and 55 C, sits at the bottom of the knee band. PETG heat deflection at 1.8 MPa is 62 C, inside the band, and its room-temperature strength is lower than this PLA. ASA holds its heat deflection above the band, and its room-temperature strength is also lower than this PLA.
 
-PA6-CF heat deflection is far above the band, at a test stress of 0.45 MPa and 1.8 MPa. The eye stress on the recommended shape is about 36 MPa (102 / 2.81, calc only from the FEA safety factor). Heat deflection does not prove the 102 MPa at 63 C. Tensile strength of PA6-CF at 55 to 63 C is BLOCKER. The sheet's humid bending strength drops from 151 MPa dry to 95 MPa (cited, Bambu comparison, flexural, not tensile). Wet tensile is BLOCKER. A sensitivity that scales the FEA safety factor by 95 / 151 is calc only and is not a result: walking 2.81 becomes 1.76, and the soft worst 1.61 becomes 1.01. Both would miss. That sensitivity is why a dry annealed coupon at about 60 C is still required.
+PA6-CF heat deflection is far above the band, at a test stress of 0.45 MPa and 1.8 MPa. The eye stress on the recommended shape is about 36 MPa (102 / 2.81, calc only from the FEA safety factor). Heat deflection does not prove the 102 MPa at 63 C. Tensile strength of PA6-CF at 55 to 63 C is BLOCKER. The sheet's humid bending strength drops from 151 MPa dry to 95 MPa (cited, Bambu comparison, flexural, not tensile). Wet tensile is BLOCKER. A sensitivity that scales the 0.75 mm safety factor by 95 / 151 is calc only and is not a result: walking 2.85 becomes 1.79, and the soft worst 1.61 becomes 1.01. Both would miss. That sensitivity is why a dry annealed coupon at about 60 C is still required.
+
+## Printer
+
+The PA6-CF sheet (cited) says: dry the spool at 80 C for 8 to 12 h in a blast oven, or on the printer bed at 90 to 100 C for 12 h; keep it under 20 percent relative humidity; nozzle 260 to 290 C; nozzle size 0.4 mm, 0.6 mm recommended, or 0.8 mm; chamber 45 to 60 C. The sheet does not name the nozzle metal. Carbon fiber wears a brass nozzle, so a hardened nozzle is part of printing this filament. The lab printer file is a generic 0.4 mm profile for estimates, and it says the real printer is not known (print/PRINT_PLAN.md, print/config/printer_generic.ini). Whether that printer has a hardened nozzle and a chamber that holds 45 to 60 C is BLOCKER.
 
 ## What was run
 
-Same segment as st_fea_run.py shin_segment: drive sheet, idle sheet, spacer. Proposed shapes are under twin/structure/shin_eye/stl/. The servo-facing face is not moved.
+Same segment as st_fea_run.py shin_segment: drive sheet, idle sheet, spacer. Proposed shapes are under twin/structure/shin_eye/stl/. The servo-facing face is not moved. This table is the 0.8 mm pass. The 0.75 mm re-run that matches the topology stock and collar walks is in the section above, and the recommendation uses that pitch.
 
 | Option | Walk | Push | Soft worst | Soft under 1.2 | What it is |
 |---|---|---|---|---|---|
@@ -95,7 +115,7 @@ There is no PA6-CF profile in print/config/. The time above is the PLA profile. 
 
 Print the drive sheet from twin/structure/shin_eye/stl/shin_left_sheet_web_cbore.stl, in Bambu PA6-CF, dried and annealed the way the tensile bars were. Print the idle sheet, shin_right_sheet, in the same PA6-CF, stock geometry. Leave the spacer in PLA. Keep the M3x6 horn screws.
 
-On this load set, with the drive sheet at the PA6-CF modulus, the segment safety factors are 2.81 walking, 2.10 push, and 1.61 soft worst, 0 of 9 under 1.2 (FEA pass only). The idle sheet on its own, with the cited PA6-CF allowables, is 3.69 walking and 1.73 soft (FEA pass only).
+On the 0.75 mm mesh, the one that reproduces the topology stock and collar walks, with the drive sheet at the PA6-CF modulus, the segment safety factors are 2.85 walking, 2.48 push, and 1.61 soft worst, 0 of 9 under 1.2 (FEA pass only). The same shape at 0.8 mm was 2.81, 2.10, and 1.61. The idle sheet on its own, with the cited PA6-CF allowables, is 3.69 walking and 1.73 soft (FEA pass only, the 0.8 mm field).
 
 Nothing else that was run meets both 2 and 1.2. PLA, PETG, PLA-CF, and ASA miss on every shape. PA6-CF on the stock eye misses (1.26 and 0.92). The collar in PA6-CF meets walking and the soft fall (2.12 and 1.37) and misses push (1.71).
 
