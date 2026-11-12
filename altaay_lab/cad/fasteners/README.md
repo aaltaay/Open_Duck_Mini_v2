@@ -23,24 +23,23 @@ Files:
 | `ASSEMBLY.md` | The existing build order, the lines that are wrong, the nest steps. |
 | `PROPOSED_EDITS.md` | Exact edits for files this folder does not own. Not applied. |
 | `audit.py` | The measurements. Run it again to refresh the JSON. |
+| `lid_check.py` | Nest lid profile check. Does not write the nest STL. |
+| `lid_proposal.png` | Drawn posts, the rejected BX0+6 axis, and the proposed posts. |
 | `nest_lid_screws.png` | The nest lid as drawn. Calc only. |
 | `installed_screw_checks.png` | Counts from `fasteners.json` and `BUILD_ORDER.md`. CAD check only. |
 | `findings.json` | The same measurements, including the head-recess rows. |
 
 Labels: **cad** is a measurement on a mesh or on `fasteners.json`. **calc** is arithmetic on those numbers. **cited** is a page. A sim is not in this folder. None of these numbers are a hardware test.
 
-## Problems found
+## Follow-up
 
-1. `BUILD_ORDER.md` still says M2x6 for F127 and F129. `fasteners.json` says M2x12 (cad). D59 already lengthened them for the neck stop.
-2. `BUILD_ORDER.md` still says M2x4 for the camera. The fitted screws F344 and F347 are M2x5 (cad, D34).
-3. `BUILD_ORDER.md` still drives screws that are left out: adapter F120 and F121, Pi F112 and F113, right eye F177 and F180, camera F345 and F346, speaker interface F352 and F355, speaker stand F107 and F110 (cad).
-4. Six fitted screws are not in that order: mic F356 to F359, cliff F360 and F361 (cad).
-5. Nest lid screws sit 4.0 mm off the tray centre. Mirror error about that centre is 8.0 mm (calc). D42 asks for the part centre. The file's own comment says 6 mm; the code says 14 mm on the room side.
-6. Nest lid M3x6 engages 4.0 mm. The insert rule already used on the robot is 4.5 mm. M3x8 bottoms in the 5.8 mm bore (calc). No stock length meets the rule. The nest file already chose M3x6.
-7. The chest hole is open in `print/body_front.stl` (cad). Its wires go away with the wall dock (`NEST_CAD.md`).
-8. Topology knee, shin, and neck pads, and the shin taper and web without a recess, put solid material where the existing screw heads sit (cad). The stock `print/` STLs are open on the control screws. The shin counterbore STLs are open again. Roll-to-pitch pads miss the screw heads.
-9. At the zero pose, F255 overlaps cable S10 by 0.59 mm and F249 overlaps cable D3 by 0.09 mm, on the head-cylinder model (cad). Not a sweep.
-10. The 24 head-recess clashes and the 89 short engagements are already in `FASTENERS.md`. Still true. No new length is proposed.
+`BUILD_ORDER.md` now uses M2x12 for F127 and F129, M2x5 for F344 and F347, drops the 12 left-out screws from the drive counts, and adds F356 to F361. A re-run finds no missing fitted screw and no length mismatch (cad).
+
+The nest lid change is a proposal, not applied (`PROPOSED_EDITS.md`). BX0+6 has 0.0 mm of lid (cad). Proposed posts are (158, 62), (158, -62), (174.9, 62), (174.9, -62). Mirror error 0.0 mm (calc). A longer insert does not raise the 4.0 mm engagement. M3x8 into a bore deepened to 6.3 mm engages 5.7 mm and stays 0.3 mm off the floor (calc), using BOM 17a and BOM 16.
+
+Wire gaps now use cable segments and finite cylinders (cad). F249 clears D3 by 0.13 mm. F027 overlaps P1 by 0.90 mm. No wire was moved.
+
+![Proposed lid posts](lid_proposal.png)
 
 ## Open items
 

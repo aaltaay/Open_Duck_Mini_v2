@@ -1,89 +1,43 @@
-# Proposed edits
+# Proposed nest-lid edit
 
-This folder does not own the files below, so none of these edits are applied. Each one uses a screw, an insert, a tool, or a recess that is already in the repo. No new part is specified.
+Not applied. `twin/dock/nest/cad/nest_parts.py` is not edited. The check is `lid_check.py` on the profile that file already builds. CAD check only. Nothing is bought.
 
-## `twin/assembly/BUILD_ORDER.md`
+`BUILD_ORDER.md` was corrected in this branch. The lines that used to live here are in that file now.
 
-Step 73, replace the whole line with:
+## Pattern
 
-`73. 4 x M2 self-tapping pan head: trunk_top into wj-wk00-0124bottomcase_45, PH0 (F057, F058, F125 are M2x6; F127 is M2x12 through the neck stop block, D59)`
+Do not use `BX0 + 6`. At that x the lid thickness is 0.0 mm, because the room-side chamfer (8 mm in `box_profile`) meets the lid split at z 23.5 (cad).
 
-Step 75, replace the whole line with:
+Keep the room-side x at `BX0 + 14` (158.0 mm). Lid thickness there is 2.0 mm, and an ISO 7380 M3 head (dk 5.70) has 3.15 mm of flat top inboard of the chamfer (cad).
 
-`75. 4 x M2 self-tapping pan head: trunk_top into wj-wk00-0124bottomcase_45, PH0 (F059, F060, F131 are M2x6; F129 is M2x12 through the neck stop block, D59)`
+Set the wall-side x to 174.9 mm, which is the mirror of 158.0 about the tray centre 166.45. Mirror error of the four posts is 0.0 mm (calc).
 
-Step 80, replace the whole line with:
+Set y to +62 and -62, not +84. The jack stand-in already in `STANDINS` occupies y 68 to 88 and x 159 to 173. A post of radius 4 mm at y 84 and x 158 enters that box by 3.0 mm (cad). y 62 leaves about 2 mm (cad). Both sides use the same y so the pattern still mirrors.
 
-`80. JOIN 2 x M2.5x6 DIN 912 A2: board into trunk_top, hex2.0 (F119, F122; F120 and F121 out)`
+Proposed `LID_POSTS`, for the nest owner to apply and then regenerate with the existing script:
 
-Step 99, replace the whole line with:
+`LID_POSTS = [(BX0 + 14.0, 62.0), (BX0 + 14.0, -62.0), (174.9, 62.0), (174.9, -62.0)]`
 
-`99. JOIN 2 x M2.5x6 DIN 912 A2: raspberrypizerow into head, hex2.0 (F111, F114; F112 and F113 out)`
+174.9 is `2 * ((BX0 + BX1) / 2) - (BX0 + 14)`. Writing it that way keeps it tied to the box constants. Nearest terminal after this move is 37.22 mm (calc).
 
-Step 100, replace the whole line with:
+## Engagement
 
-`100. JOIN 2 x M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers: bulb into right_eye, hex2.0 (F176, F181; F177 and F180 out)`
+The rule already used on the robot is 4.5 mm into a brass insert, and the tip stays 0.3 mm off the floor (`fasteners.json` margin).
 
-Step 102, replace the whole line with:
+| Option | Engaged | Bottoms | Meets 4.5 mm |
+|---|---|---|---|
+| M3x6, bore 5.8 mm, as drawn | 4.0 mm | no | no |
+| M3x6, deeper bore 6.3 mm | 4.0 mm | no | no |
+| M3x6, longer insert | 4.0 mm | no | no |
+| M3x8, bore 5.8 mm | 5.7 mm | yes | no |
+| M3x8, bore 6.3 mm | 5.7 mm | no | yes |
 
-`102. JOIN 2 x M2x5 self-tapping pan head: camera PCB into head, PH0 (F344, F347; F345 and F346 out; D34 length is M2x5)`
+A longer insert does not help. The M3x6 only reaches 4.0 mm past the 2.0 mm lid, and BOM 16 is already a 5.7 mm insert. A deeper bore with the same M3x6 does not help either.
 
-Step 105, replace the whole line with:
+The option that meets the rule with parts already on the bill: change the four lid screws from M3x6 button (BOM 17j) to M3x8 socket head (BOM 17a), and deepen only the four lid-post bores from 5.8 mm to 6.3 mm. The insert stays BOM 16. Engagement 5.7 mm, tip gap 0.3 mm (calc). The post still has solid below that bore: the bore ends at z 17.2 and the post starts at z 2.5 (calc, from `rim_parts`).
 
-`105. JOIN 2 x M2.5x5 DIN 912 A2: speaker_interface into speaker_stand, hex2.0 (F353, F354; F352 and F355 out)`
+The socket head is 3.00 mm tall and the button is 1.65 mm (cited, DIN 912 and ISO 7380, the sizes `FASTENERS.md` already uses). `NEST_CAD.md` says 2.85 mm of felt over the button heads. If the sleeve stays put, the socket head leaves 1.50 mm (calc). That 2.85 mm was not re-measured on the sleeve mesh.
 
-Step 106, replace the whole line with:
+## Still open, not in this edit
 
-`106. JOIN 2 x M2.5x6 DIN 912 A2: speaker_stand into head, hex2.0 (F108, F109; F107 and F110 out)`
-
-Insert before step 77:
-
-`76b. JOIN 2 x M2.5x6 DIN 912 A2: tof_cliff into body_front, hex2.0, from the back of the board (F360, F361). Drive these while body_front is in the hand.`
-
-Insert after step 99:
-
-`99b. JOIN 4 x M2x6 self-tapping pan head: mic boards into head, PH0 (F356, F357, F358, F359). Drive these before head_bot_sheet.`
-
-## `twin/dock/nest/cad/nest_parts.py`
-
-The comment on `LID_POSTS` says 6 mm inside the corners. The room-side numbers are `BX0 + 14.0`. The wall-side numbers are already `BX1 - 6.0`. Measured: the pattern centre is 4.0 mm toward the wall of the tray centre, and the mirror error about the tray centre is 8.0 mm (calc).
-
-Replace:
-
-`LID_POSTS = [(BX0 + 14.0, 84.0), (BX0 + 14.0, -84.0), (BX1 - 6.0, 84.0), (BX1 - 6.0, -84.0)]      # 6 mm inside the lid's four corners`
-
-with:
-
-`LID_POSTS = [(BX0 + 6.0, 84.0), (BX0 + 6.0, -84.0), (BX1 - 6.0, 84.0), (BX1 - 6.0, -84.0)]      # 6 mm inside the lid's four corners`
-
-Then regenerate the tray and the lid with the existing `nest_parts.py`. Do not hand-edit the STL. The terminal posts stay at y +25 and -25 mm. A lid post at y 84 mm is 59 mm away from a terminal in y (calc), so this one-number change does not land on a terminal. This audit did not regenerate the mesh.
-
-## Topology and shin STLs
-
-Do not copy these into `print/`:
-
-- `twin/structure/topology/stl/knee_to_ankle_left_sheet.stl`
-- `twin/structure/topology/stl/knee_to_ankle_right_sheet.stl`
-- `twin/structure/topology/stl/shin_left_sheet.stl`
-- `twin/structure/topology/stl/neck_left_sheet.stl`
-- `twin/structure/topology/stl/neck_right_sheet.stl`
-- `twin/structure/shin_eye/stl/shin_left_sheet_taper.stl`
-- `twin/structure/shin_eye/stl/shin_left_sheet_web.stl`
-
-On those files the existing horn-screw heads are inside solid material (cad, `CHECKS.md`). The shank holes are open.
-
-The recess that clears the shin drive screws is already in `twin/structure/shin_eye/eye_geom.py` (`HEAD_D = 5.8`) and in the `*_cbore.stl` files. Measured: F203, F205, F207, and F250 are open on those counterbored meshes (cad). For the knee and neck STLs, the same function is the one to run before anyone copies them. This audit does not add a new recess diameter. The roll-to-pitch pads do not cover a screw head, so they do not need that cut for the screws.
-
-## `print/body_front.stl`
-
-The 6.0 mm chest hole from `twin/dock/chest_hole.py` is open in the current STL (cad). `NEST_CAD.md` section 5 already says to close it when the wall dock's wires are gone. Fill that hole. Do not add a screw there. This audit does not edit the STL.
-
-## Not proposed
-
-- No charger-board mount and no charger screw. `CHARGER_BOARD.md` has no outline and no hole pattern. Picking a hole pattern would be a new design.
-- No wall-card screw or clip. `CLOSEUP.md` does not name one.
-- No flush-well cut into the nest seat. The flush study is a different layout and it adds no screw.
-- No new screw length for the 89 BELOW RULE rows. `FASTENERS.md` already says the bore is too shallow for a longer stock screw.
-- No torque value. The cited table does not apply (`SCHEDULE.md`).
-- No catalog ring lug. `NEST_CAD.md` names an M3 ring lug and the BOM has no line for it. This audit does not choose one.
-- No nest rows added to `fasteners.json` until that nest is the installed model. Until then, `schedule.json` in this folder is the record.
+Topology STLs that bury screw heads stay out of `print/`. The chest hole in `print/body_front.stl` stays open until its owner fills it. No charger mount. No wall-card fastener. No flush-well cut.

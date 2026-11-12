@@ -122,6 +122,32 @@ def seg_point_dist(a, b, p):
     return float(np.linalg.norm(p - (a + t * ab))), t
 
 
+def cylinder_gap(points, a, b, radius):
+    """Gap from points to a finite cylinder. Negative is inside. Ends are flat disks."""
+    points = np.asarray(points, float)
+    ab = np.asarray(b, float) - np.asarray(a, float)
+    length = float(np.linalg.norm(ab))
+    if length < 1e-9 or len(points) == 0:
+        return np.full(len(points), 1e9)
+    axis = ab / length
+    rel = points - np.asarray(a, float)
+    along = rel @ axis
+    radial = np.linalg.norm(rel - along[:, None] * axis, axis=1)
+    gap = np.empty(len(points))
+    mid = (along >= 0.0) & (along <= length)
+    gap[mid] = radial[mid] - radius
+    for mask, axial in ((along < 0.0, -along), (along > length, along - length)):
+        if not np.any(mask):
+            continue
+        rad = radial[mask]
+        ax = axial[mask]
+        out = np.hypot(np.maximum(rad - radius, 0.0), ax)
+        # Inside the end disk's radius the gap is just the axial distance.
+        out = np.where(rad <= radius, ax, out)
+        gap[mask] = out
+    return gap
+
+
 def ring_basis(axis):
     a = unit(axis)
     tmp = np.array([1.0, 0.0, 0.0]) if abs(a[0]) < 0.9 else np.array([0.0, 1.0, 0.0])
@@ -179,16 +205,30 @@ def main():
 
     # Wires, zero pose, same URDF transforms the fastener file uses.
     cables = json.load(open(CABLES))
-    wire_pts = []  # (xyz, radius, cable id)
+    # Sample each run along the segments, not only at the stored vertices.
+    wire_xyz, wire_rad, wire_id = [], [], []
     for c in cables["cables"]:
         for run in c.get("runs") or []:
             rad = float(run.get("d_mm") or c.get("d_mm") or 1.0) / 2.0
+            pts = []
             for p in run.get("points") or []:
                 Tw = Tlink[p["link"]]
-                w = Tw[:3, :3] @ np.array(p["p"], float) + Tw[:3, 3]
-                wire_pts.append((w, rad, c["id"]))
-    W = np.stack([p[0] for p in wire_pts]) if wire_pts else np.zeros((0, 3))
-    WR = np.array([p[1] for p in wire_pts]) if wire_pts else np.zeros(0)
+                pts.append(Tw[:3, :3] @ np.array(p["p"], float) + Tw[:3, 3])
+            if not pts:
+                continue
+            sampled = [pts[0]]
+            for i in range(1, len(pts)):
+                step = pts[i] - pts[i - 1]
+                dist = float(np.linalg.norm(step))
+                n = int(np.ceil(dist / 0.25)) if dist > 1e-6 else 1
+                for k in range(1, n + 1):
+                    sampled.append(pts[i - 1] + step * (k / n))
+            for w in sampled:
+                wire_xyz.append(w)
+                wire_rad.append(rad)
+                wire_id.append(c["id"])
+    W = np.stack(wire_xyz) if wire_xyz else np.zeros((0, 3))
+    WR = np.array(wire_rad) if wire_rad else np.zeros(0)
 
     schedule = []
     wire_close = []
@@ -197,32 +237,22 @@ def main():
         axis = unit(r["axis_world"])
         length = float(r.get("length_mm") or 0)
         k = float((r.get("head") or {}).get("k") or 0)
-        # Centreline from the top of the head to the tip.
-        a = seat - axis * k
-        b = seat + axis * length
+        dk = float((r.get("head") or {}).get("dk") or r.get("d") or 0)
+        shank_r = float(r.get("d") or 0) / 2.0
         gap = None
         cable = None
         if len(W):
-            # Coarse box reject, then the segment distance.
-            mid = 0.5 * (a + b)
-            reach = 0.5 * np.linalg.norm(b - a) + 25.0
-            sel = np.where(np.linalg.norm(W - mid, axis=1) < reach)[0]
-            best = 1e9
-            best_i = None
-            for i in sel:
-                dist, _t = seg_point_dist(a, b, W[i])
-                g = dist - float(WR[i])
-                if g < best:
-                    best, best_i = g, int(i)
-            if best_i is not None:
-                # Subtract the larger of the head radius and the shank radius
-                # only as a reported clearance to the metal, labeled cad.
-                dk = float((r.get("head") or {}).get("dk") or r.get("d") or 0)
-                gap = round(best - dk / 2.0, 2)
-                cable = wire_pts[best_i][2]
-                if fitted(r) and gap < 2.0:
-                    wire_close.append({"id": r["id"], "gap_mm": gap, "cable": cable,
-                                       "label": "cad", "pose": "zero"})
+            # Finite head cylinder and finite shank cylinder. Flat ends, not a sphere.
+            head_gap = cylinder_gap(W, seat, seat - axis * k, dk / 2.0) - WR
+            shank_gap = cylinder_gap(W, seat, seat + axis * max(length, 0.1), shank_r) - WR
+            both = np.minimum(head_gap, shank_gap)
+            i = int(np.argmin(both))
+            gap = round(float(both[i]), 2)
+            cable = wire_id[i]
+            if fitted(r) and gap < 2.0:
+                wire_close.append({"id": r["id"], "gap_mm": gap, "cable": cable,
+                                   "label": "cad", "pose": "zero", "sample_mm": 0.25,
+                                   "model": "finite head and shank cylinders, cable segments"})
         spec = r.get("spec") or ""
         size = r.get("size")
         button = "7380" in spec or "button" in spec.lower()
@@ -642,7 +672,7 @@ def write_figures(nest, findings):
         vals.append(v)
     labels.append("driven screws missing from BUILD_ORDER")
     vals.append(len(findings["build_order_missing_fitted"]))
-    labels.append("BUILD_ORDER names a left-out screw")
+    labels.append("left-out id mentioned, not driven")
     vals.append(len(findings["build_order_names_left_out"]))
     fig, ax = plt.subplots(figsize=(8.0, 4.8))
     ypos = np.arange(len(labels))
