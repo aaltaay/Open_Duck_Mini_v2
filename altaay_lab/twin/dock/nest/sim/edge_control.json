@@ -1,0 +1,445 @@
+{
+ "label": "sim pass only",
+ "summary": {
+  "runs_that_fell_with_the_mat": 29,
+  "fell_again_without_the_mat": 0,
+  "reached_the_sit_without_the_mat": 29
+ },
+ "runs": [
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 11,
+    "seed": 10011,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 21,
+    "seed": 10021,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 28,
+    "seed": 10028,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 0.8,
+    "k": 1,
+    "seed": 11001,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 0.8,
+    "k": 4,
+    "seed": 11004,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 0.8,
+    "k": 9,
+    "seed": 11009,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 0.8,
+    "k": 10,
+    "seed": 11010,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 0.8,
+    "k": 22,
+    "seed": 11022,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 0.8,
+    "k": 26,
+    "seed": 11026,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 0.8,
+    "k": 27,
+    "seed": 11027,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 1.0,
+    "k": 2,
+    "seed": 12002,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 1.0,
+    "k": 5,
+    "seed": 12005,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 1.0,
+    "k": 11,
+    "seed": 12011,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 1.0,
+    "k": 19,
+    "seed": 12019,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "low",
+    "volt": 7.2,
+    "mu": 1.0,
+    "k": 20,
+    "seed": 12020,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "mid",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 0,
+    "seed": 110000,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "mid",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 19,
+    "seed": 110019,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "mid",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 21,
+    "seed": 110021,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "mid",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 27,
+    "seed": 110027,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "mid",
+    "volt": 7.2,
+    "mu": 0.8,
+    "k": 22,
+    "seed": 111022,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "mid",
+    "volt": 7.2,
+    "mu": 0.8,
+    "k": 24,
+    "seed": 111024,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "mid",
+    "volt": 7.2,
+    "mu": 1.0,
+    "k": 11,
+    "seed": 112011,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "high",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 7,
+    "seed": 210007,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "high",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 11,
+    "seed": 210011,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "high",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 19,
+    "seed": 210019,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "high",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 22,
+    "seed": 210022,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "high",
+    "volt": 7.2,
+    "mu": 0.6,
+    "k": 24,
+    "seed": 210024,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "high",
+    "volt": 7.2,
+    "mu": 0.8,
+    "k": 10,
+    "seed": 211010,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  },
+  {
+   "cfg": {
+    "noise": "high",
+    "volt": 7.2,
+    "mu": 0.8,
+    "k": 16,
+    "seed": 211016,
+    "trace": false,
+    "mat": false
+   },
+   "fell": false,
+   "fall_stage": null,
+   "reached_sit": true,
+   "error": null
+  }
+ ]
+}

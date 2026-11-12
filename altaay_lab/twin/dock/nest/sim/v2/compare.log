@@ -1,0 +1,253 @@
+| sim pass only | Old: all | Old: 6.0 V | Old: 7.2 V | New: all | New: 6.0 V | New: 7.2 V |
+| --- | --- | --- | --- | --- | --- | --- |
+| Runs | 540 | 270 | 270 | 540 | 270 | 270 |
+| Falls, whole run | 29 | 0 | 29 | 13 | 3 | 10 |
+| Falls in the walk-in (floor, edge, mat) | 29 | 0 | 29 | 13 | 3 | 10 |
+| Falls by stage | walk_on 29 | none | walk_on 29 | cross 13 | cross 3 | cross 10 |
+| Stalls: 160 mm edge window slower than 6 s | 36 | 36 | 0 | 4 | 4 | 0 |
+| Edge window time, mean / 95th / worst (s) | 3.54 / 7.19 / 27.46 | 4.72 / 10.2 / 27.46 | 2.22 / 2.56 / 2.94 | 3.12 / 4.5 / 17.86 | 3.58 / 5.21 / 17.86 | 2.64 / 3.08 / 3.78 |
+| Never reached the sit, no fall (gave up) | 0 | 0 | 0 | 1 | 1 | 0 |
+| Reached the first sit | 511 | 270 | 241 | 526 | 266 | 260 |
+| Charge at the first sit | 93.1 % (503 of 540) | 97.4 % (263 of 270) | 88.9 % (240 of 270) | 84.3 % (455 of 540) | 79.6 % (215 of 270) | 88.9 % (240 of 270) |
+| 95 % range of that | 90.7 to 95.0 | 94.7 to 98.7 | 84.6 to 92.1 | 80.9 to 87.1 | 74.4 to 84.0 | 84.6 to 92.1 |
+| Charge within 3 sits | 94.1 % (508 of 540) | 98.9 % (267 of 270) | 89.3 % (241 of 270) | 91.3 % (493 of 540) | 86.7 % (234 of 270) | 95.9 % (259 of 270) |
+| Charge at the first sit, given the sit was reached | 98.4 % (503 of 511) | 97.4 % (263 of 270) | 99.6 % (240 of 241) | 86.5 % (455 of 526) | 80.8 % (215 of 266) | 92.3 % (240 of 260) |
+| Charge within 3 sits, given the sit was reached | 99.4 % (508 of 511) | 98.9 % (267 of 270) | 100.0 % (241 of 241) | 93.7 % (493 of 526) | 88.0 % (234 of 266) | 99.6 % (259 of 260) |
+| Seat pins after torque off, x mean / sigma (mm) | 2.2 / 14.3 | -2.3 / 14.1 | 7.3 / 12.9 | 5.8 / 15.6 | 3.8 / 17.6 | 7.8 / 13.0 |
+| Seat pins after torque off, y mean / sigma (mm) | 3.0 / 22.3 | 4.2 / 27.9 | 1.6 / 13.4 | 6.7 / 36.1 | -1.4 / 43.7 | 14.9 / 23.4 |
+| Radial miss mean / median / 95th / worst (mm) | 19.5 / 17.0 / 37.3 / 249.8 | 21.2 / 17.4 / 40.4 / 249.8 | 17.7 / 16.6 / 35.8 / 49.7 | 30.5 / 22.8 / 82.8 / 158.9 | 34.3 / 22.1 / 105.4 / 158.9 | 26.6 / 23.8 / 59.2 / 87.4 |
+| Inside 45 mm | 97.1 % | 95.2 % | 99.2 % | 81.0 % | 75.9 % | 86.2 % |
+| Landings more than 100 mm out | 3 | 3 | 0 | 15 | 15 | 0 |
+| Error at the turn spot before the turn, x mean / sigma (mm) | -0.2 / 10.0 | -0.7 / 10.5 | 0.3 / 9.4 | 2.5 / 13.1 | 4.1 / 15.1 | 0.7 / 10.3 |
+| Error at the turn spot before the turn, y mean / sigma (mm) | 7.5 / 18.8 | 6.8 / 23.9 | 8.3 / 10.3 | 14.3 / 34.7 | 6.5 / 42.6 | 22.3 / 21.4 |
+| Error at the turn spot, RMS (mm) | 22.5 | 27.0 | 16.2 | 39.8 | 45.8 | 32.6 |
+| Heading before the turn, mean / sigma / worst (deg) | 1.1 / 4.2 / 30.1 | 1.2 / 4.3 / 30.1 | 1.1 / 4.1 / 11.1 | 2.7 / 4.5 / 23.6 | 3.9 / 4.1 / 23.6 | 1.5 / 4.5 / 14.9 |
+| Fine-move rounds on the mat, mean | 1.72 | 2.14 | 1.25 | 2.28 | 3.12 | 1.42 |
+| Time to torque off at the first sit, mean / 95th / worst (s) | 42.9 / 56.2 / 78.7 | 48.8 / 58.3 / 78.7 | 36.2 / 45.5 / 49.4 | 46.5 / 60.3 / 76.7 | 52.3 / 63.0 / 76.7 | 40.6 / 49.6 / 56.1 |
+| Closest to the wall: worst / 5th percentile / mean (mm) | 23.5 / 46.9 / 76.1 | 51.7 / 70.7 / 89.3 | 23.5 / 42.6 / 61.3 | -3.8 / 37.7 / 70.5 | -3.8 / 26.6 / 78.9 | 8.4 / 42.9 / 62.0 |
+| Closest to the rim: worst / 5th percentile / mean (mm) | 9.5 / 39.8 / 65.9 | 37.7 / 56.4 / 77.2 | 9.5 / 34.7 / 53.2 | -3.0 / 34.4 / 62.2 | -3.0 / 35.5 / 70.9 | -0.1 / 32.2 / 53.2 |
+| Wall or rim touched | 0 | 0 | 0 | 6 | 5 | 1 |
+
+same seed outcomes: {
+ "charged first sit -> charged first sit": 426,
+ "charged later -> charged later": 2,
+ "charged first sit -> never charged": 31,
+ "charged first sit -> charged later": 34,
+ "never charged -> never charged": 2,
+ "charged first sit -> fell": 11,
+ "charged later -> fell": 2,
+ "charged first sit -> no sit": 1,
+ "fell -> charged later": 2,
+ "fell -> charged first sit": 27,
+ "never charged -> charged first sit": 1,
+ "charged later -> charged first sit": 1
+}
+
+v2 records: {
+ "all": {
+  "runs_with_a_turn_or_side_command_while_a_sole_was_on_the_edge": 12,
+  "those_by_stage": {
+   "fine": 2,
+   "shuffle": 11
+  },
+  "stage_turn_moves": {
+   "mean": 1.1,
+   "none": 303,
+   "max": 5
+  },
+  "stage_toe_to_edge_mm": {
+   "min": 24.0,
+   "mean": 59.0,
+   "max": 117.4
+  },
+  "stage_heading_error_left_deg": [
+   -1.0,
+   2.7
+  ],
+  "cross_not_done": 14,
+  "cross_retries_runs": 0,
+  "cross_retries": 0,
+  "cross_stage_s": {
+   "mean": 4.85,
+   "max": 40.0
+  },
+  "heel_inside_when_steering_resumed_mm": {
+   "min": -19.7,
+   "mean": 49.9
+  },
+  "feet_not_both_on_when_steering_resumed": 4,
+  "stage_time_s": {
+   "approach": 11.4,
+   "stage": 3.0,
+   "cross": 4.9,
+   "walk_on": 0.2,
+   "fine": 5.9
+  }
+ },
+ "6.0 V": {
+  "runs_with_a_turn_or_side_command_while_a_sole_was_on_the_edge": 11,
+  "those_by_stage": {
+   "fine": 2,
+   "shuffle": 10
+  },
+  "stage_turn_moves": {
+   "mean": 0.89,
+   "none": 175,
+   "max": 5
+  },
+  "stage_toe_to_edge_mm": {
+   "min": 35.8,
+   "mean": 66.2,
+   "max": 117.4
+  },
+  "stage_heading_error_left_deg": [
+   -0.8,
+   2.6
+  ],
+  "cross_not_done": 4,
+  "cross_retries_runs": 0,
+  "cross_retries": 0,
+  "cross_stage_s": {
+   "mean": 5.9,
+   "max": 40.0
+  },
+  "heel_inside_when_steering_resumed_mm": {
+   "min": -19.7,
+   "mean": 43.6
+  },
+  "feet_not_both_on_when_steering_resumed": 4,
+  "stage_time_s": {
+   "approach": 14.2,
+   "stage": 2.6,
+   "cross": 5.9,
+   "walk_on": 0.0,
+   "fine": 7.8
+  }
+ },
+ "7.2 V": {
+  "runs_with_a_turn_or_side_command_while_a_sole_was_on_the_edge": 1,
+  "those_by_stage": {
+   "shuffle": 1
+  },
+  "stage_turn_moves": {
+   "mean": 1.31,
+   "none": 128,
+   "max": 5
+  },
+  "stage_toe_to_edge_mm": {
+   "min": 24.0,
+   "mean": 51.7,
+   "max": 99.7
+  },
+  "stage_heading_error_left_deg": [
+   -1.3,
+   2.9
+  ],
+  "cross_not_done": 10,
+  "cross_retries_runs": 0,
+  "cross_retries": 0,
+  "cross_stage_s": {
+   "mean": 3.8,
+   "max": 5.2
+  },
+  "heel_inside_when_steering_resumed_mm": {
+   "min": 6.7,
+   "mean": 56.2
+  },
+  "feet_not_both_on_when_steering_resumed": 0,
+  "stage_time_s": {
+   "approach": 8.5,
+   "stage": 3.5,
+   "cross": 3.8,
+   "walk_on": 0.4,
+   "fine": 3.9
+  }
+ }
+}
+creep moves old {'fwd': 513, 'back': 154, 'yaw-': 126, 'left': 78, 'yaw+': 60} new {'fwd': 424, 'yaw+': 186, 'back': 526, 'left': 228, 'yaw-': 731}
+crashed 0
+{'seed': 2, 'noise': 'low', 'volt': 6.0, 'mu': 0.6, 'old': 'charged later', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-2.2, 97.7], 'cross': 5.76, 'retries': 0, 'n_sits': 2}
+{'seed': 4, 'noise': 'low', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [32.1, -83.5], 'cross': 6.98, 'retries': 0, 'n_sits': 3}
+{'seed': 5, 'noise': 'low', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [30.5, -58.6], 'cross': 6.06, 'retries': 0, 'n_sits': 3}
+{'seed': 8, 'noise': 'low', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [23.3, -78.4], 'cross': 6.18, 'retries': 0, 'n_sits': 3}
+{'seed': 13, 'noise': 'low', 'volt': 6.0, 'mu': 0.6, 'old': 'never charged', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [44.8, -80.6], 'cross': 6.6, 'retries': 0, 'n_sits': 3}
+{'seed': 17, 'noise': 'low', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 11.34, 'retries': 0, 'n_sits': 0}
+{'seed': 22, 'noise': 'low', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [33.8, -66.2], 'cross': 6.3, 'retries': 0, 'n_sits': 2}
+{'seed': 27, 'noise': 'low', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 12.44, 'retries': 0, 'n_sits': 0}
+{'seed': 1003, 'noise': 'low', 'volt': 6.0, 'mu': 0.8, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [53.3, -104.1], 'cross': 6.74, 'retries': 0, 'n_sits': 3}
+{'seed': 1015, 'noise': 'low', 'volt': 6.0, 'mu': 0.8, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-14.5, 104.0], 'cross': 6.08, 'retries': 0, 'n_sits': 2}
+{'seed': 1020, 'noise': 'low', 'volt': 6.0, 'mu': 0.8, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [44.3, -88.1], 'cross': 6.66, 'retries': 0, 'n_sits': 3}
+{'seed': 1023, 'noise': 'low', 'volt': 6.0, 'mu': 0.8, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-8.0, 72.5], 'cross': 5.68, 'retries': 0, 'n_sits': 2}
+{'seed': 1027, 'noise': 'low', 'volt': 6.0, 'mu': 0.8, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [19.7, -69.0], 'cross': 7.44, 'retries': 0, 'n_sits': 3}
+{'seed': 1029, 'noise': 'low', 'volt': 6.0, 'mu': 0.8, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-14.6, 69.4], 'cross': 5.9, 'retries': 0, 'n_sits': 2}
+{'seed': 2002, 'noise': 'low', 'volt': 6.0, 'mu': 1.0, 'old': 'charged later', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 15.92, 'retries': 0, 'n_sits': 0}
+{'seed': 2008, 'noise': 'low', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'no sit', 'fall_stage': None, 'seat_mm': None, 'cross': 40.0, 'retries': 0, 'n_sits': 0}
+{'seed': 2009, 'noise': 'low', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [23.3, -73.9], 'cross': 6.72, 'retries': 0, 'n_sits': 3}
+{'seed': 2017, 'noise': 'low', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-19.6, 68.4], 'cross': 6.42, 'retries': 0, 'n_sits': 2}
+{'seed': 2025, 'noise': 'low', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [56.0, -122.1], 'cross': 7.36, 'retries': 0, 'n_sits': 3}
+{'seed': 10009, 'noise': 'low', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 3.52, 'retries': 0, 'n_sits': 0}
+{'seed': 10011, 'noise': 'low', 'volt': 7.2, 'mu': 0.6, 'old': 'fell', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [32.2, 47.8], 'cross': 3.68, 'retries': 0, 'n_sits': 2}
+{'seed': 10014, 'noise': 'low', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 3.22, 'retries': 0, 'n_sits': 0}
+{'seed': 10020, 'noise': 'low', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 3.84, 'retries': 0, 'n_sits': 0}
+{'seed': 10022, 'noise': 'low', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [25.2, 83.7], 'cross': 5.02, 'retries': 0, 'n_sits': 2}
+{'seed': 11006, 'noise': 'low', 'volt': 7.2, 'mu': 0.8, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-6.1, 57.5], 'cross': 3.78, 'retries': 0, 'n_sits': 2}
+{'seed': 100006, 'noise': 'mid', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [45.7, -82.7], 'cross': 7.14, 'retries': 0, 'n_sits': 3}
+{'seed': 100013, 'noise': 'mid', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [82.6, -122.7], 'cross': 8.02, 'retries': 0, 'n_sits': 3}
+{'seed': 100014, 'noise': 'mid', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [26.2, 108.7], 'cross': 7.68, 'retries': 0, 'n_sits': 3}
+{'seed': 100016, 'noise': 'mid', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [24.1, -68.9], 'cross': 7.04, 'retries': 0, 'n_sits': 2}
+{'seed': 101021, 'noise': 'mid', 'volt': 6.0, 'mu': 0.8, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-48.7, 85.9], 'cross': 7.14, 'retries': 0, 'n_sits': 3}
+{'seed': 101023, 'noise': 'mid', 'volt': 6.0, 'mu': 0.8, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [42.2, -117.3], 'cross': 7.28, 'retries': 0, 'n_sits': 3}
+{'seed': 102002, 'noise': 'mid', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [25.2, -124.3], 'cross': 7.86, 'retries': 0, 'n_sits': 3}
+{'seed': 102006, 'noise': 'mid', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [28.5, -86.0], 'cross': 7.14, 'retries': 0, 'n_sits': 3}
+{'seed': 102010, 'noise': 'mid', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-27.5, 68.1], 'cross': 7.22, 'retries': 0, 'n_sits': 3}
+{'seed': 102014, 'noise': 'mid', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-4.7, 122.5], 'cross': 8.82, 'retries': 0, 'n_sits': 3}
+{'seed': 102019, 'noise': 'mid', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [0.2, -105.5], 'cross': 7.92, 'retries': 0, 'n_sits': 3}
+{'seed': 102020, 'noise': 'mid', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [26.5, -112.5], 'cross': 8.26, 'retries': 0, 'n_sits': 3}
+{'seed': 102023, 'noise': 'mid', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [36.1, -87.0], 'cross': 6.7, 'retries': 0, 'n_sits': 3}
+{'seed': 102027, 'noise': 'mid', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [-2.2, -85.5], 'cross': 6.84, 'retries': 0, 'n_sits': 3}
+{'seed': 110001, 'noise': 'mid', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [14.2, 65.7], 'cross': 4.1, 'retries': 0, 'n_sits': 2}
+{'seed': 110003, 'noise': 'mid', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [23.0, 54.3], 'cross': 4.06, 'retries': 0, 'n_sits': 2}
+{'seed': 110004, 'noise': 'mid', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-0.8, 74.6], 'cross': 3.78, 'retries': 0, 'n_sits': 2}
+{'seed': 110010, 'noise': 'mid', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [25.9, 60.3], 'cross': 4.14, 'retries': 0, 'n_sits': 2}
+{'seed': 110014, 'noise': 'mid', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [17.3, 60.4], 'cross': 4.02, 'retries': 0, 'n_sits': 2}
+{'seed': 110026, 'noise': 'mid', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 3.74, 'retries': 0, 'n_sits': 0}
+{'seed': 111018, 'noise': 'mid', 'volt': 7.2, 'mu': 0.8, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-8.4, 75.4], 'cross': 4.02, 'retries': 0, 'n_sits': 3}
+{'seed': 111021, 'noise': 'mid', 'volt': 7.2, 'mu': 0.8, 'old': 'charged first sit', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 3.42, 'retries': 0, 'n_sits': 0}
+{'seed': 112009, 'noise': 'mid', 'volt': 7.2, 'mu': 1.0, 'old': 'charged first sit', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 3.2, 'retries': 0, 'n_sits': 0}
+{'seed': 112021, 'noise': 'mid', 'volt': 7.2, 'mu': 1.0, 'old': 'charged first sit', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 3.92, 'retries': 0, 'n_sits': 0}
+{'seed': 200000, 'noise': 'high', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [11.2, -69.5], 'cross': 6.48, 'retries': 0, 'n_sits': 3}
+{'seed': 200005, 'noise': 'high', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [7.3, 158.7], 'cross': 6.64, 'retries': 0, 'n_sits': 3}
+{'seed': 200009, 'noise': 'high', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [46.2, -55.3], 'cross': 7.0, 'retries': 0, 'n_sits': 3}
+{'seed': 200014, 'noise': 'high', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [13.4, 69.4], 'cross': 5.68, 'retries': 0, 'n_sits': 2}
+{'seed': 200015, 'noise': 'high', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [-34.3, 151.8], 'cross': 6.88, 'retries': 0, 'n_sits': 3}
+{'seed': 200018, 'noise': 'high', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [25.5, 61.9], 'cross': 5.96, 'retries': 0, 'n_sits': 2}
+{'seed': 200020, 'noise': 'high', 'volt': 6.0, 'mu': 0.6, 'old': 'charged later', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [12.1, 82.1], 'cross': 6.76, 'retries': 0, 'n_sits': 2}
+{'seed': 200022, 'noise': 'high', 'volt': 6.0, 'mu': 0.6, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [42.3, -100.9], 'cross': 8.08, 'retries': 0, 'n_sits': 3}
+{'seed': 201015, 'noise': 'high', 'volt': 6.0, 'mu': 0.8, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [6.6, 67.8], 'cross': 5.18, 'retries': 0, 'n_sits': 2}
+{'seed': 201019, 'noise': 'high', 'volt': 6.0, 'mu': 0.8, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [19.3, -80.0], 'cross': 7.08, 'retries': 0, 'n_sits': 3}
+{'seed': 201027, 'noise': 'high', 'volt': 6.0, 'mu': 0.8, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [57.7, -140.9], 'cross': 7.66, 'retries': 0, 'n_sits': 3}
+{'seed': 202002, 'noise': 'high', 'volt': 6.0, 'mu': 1.0, 'old': 'never charged', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [42.2, -104.4], 'cross': 8.96, 'retries': 0, 'n_sits': 3}
+{'seed': 202009, 'noise': 'high', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [5.9, -68.4], 'cross': 7.6, 'retries': 0, 'n_sits': 3}
+{'seed': 202010, 'noise': 'high', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-15.6, 61.1], 'cross': 8.04, 'retries': 0, 'n_sits': 2}
+{'seed': 202011, 'noise': 'high', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [-0.2, -78.2], 'cross': 8.58, 'retries': 0, 'n_sits': 3}
+{'seed': 202012, 'noise': 'high', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [-4.1, 74.0], 'cross': 6.16, 'retries': 0, 'n_sits': 3}
+{'seed': 202016, 'noise': 'high', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [23.2, -74.3], 'cross': 7.92, 'retries': 0, 'n_sits': 3}
+{'seed': 202021, 'noise': 'high', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [-16.0, -55.6], 'cross': 20.76, 'retries': 0, 'n_sits': 3}
+{'seed': 202023, 'noise': 'high', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [3.1, -73.8], 'cross': 6.76, 'retries': 0, 'n_sits': 3}
+{'seed': 202024, 'noise': 'high', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [10.8, -56.9], 'cross': 5.72, 'retries': 0, 'n_sits': 2}
+{'seed': 202027, 'noise': 'high', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [12.0, -69.1], 'cross': 7.02, 'retries': 0, 'n_sits': 3}
+{'seed': 202028, 'noise': 'high', 'volt': 6.0, 'mu': 1.0, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [-13.4, 96.3], 'cross': 6.28, 'retries': 0, 'n_sits': 3}
+{'seed': 210000, 'noise': 'high', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 3.58, 'retries': 0, 'n_sits': 0}
+{'seed': 210004, 'noise': 'high', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [9.1, 57.1], 'cross': 3.46, 'retries': 0, 'n_sits': 2}
+{'seed': 210006, 'noise': 'high', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [43.1, 61.2], 'cross': 3.72, 'retries': 0, 'n_sits': 2}
+{'seed': 210010, 'noise': 'high', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [57.1, 1.5], 'cross': 3.86, 'retries': 0, 'n_sits': 2}
+{'seed': 210011, 'noise': 'high', 'volt': 7.2, 'mu': 0.6, 'old': 'fell', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [43.5, 69.5], 'cross': 4.04, 'retries': 0, 'n_sits': 3}
+{'seed': 210013, 'noise': 'high', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [21.7, 71.4], 'cross': 4.5, 'retries': 0, 'n_sits': 2}
+{'seed': 210025, 'noise': 'high', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [12.8, 66.9], 'cross': 4.34, 'retries': 0, 'n_sits': 3}
+{'seed': 210026, 'noise': 'high', 'volt': 7.2, 'mu': 0.6, 'old': 'charged later', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 4.22, 'retries': 0, 'n_sits': 0}
+{'seed': 210027, 'noise': 'high', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'fell', 'fall_stage': 'cross', 'seat_mm': None, 'cross': 3.1, 'retries': 0, 'n_sits': 0}
+{'seed': 210029, 'noise': 'high', 'volt': 7.2, 'mu': 0.6, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [14.0, 61.4], 'cross': 4.02, 'retries': 0, 'n_sits': 2}
+{'seed': 211009, 'noise': 'high', 'volt': 7.2, 'mu': 0.8, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [48.0, 1.1], 'cross': 5.2, 'retries': 0, 'n_sits': 2}
+{'seed': 211021, 'noise': 'high', 'volt': 7.2, 'mu': 0.8, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [33.7, 63.5], 'cross': 3.92, 'retries': 0, 'n_sits': 2}
+{'seed': 211029, 'noise': 'high', 'volt': 7.2, 'mu': 0.8, 'old': 'charged first sit', 'new': 'never charged', 'fall_stage': None, 'seat_mm': [9.0, 57.9], 'cross': 3.56, 'retries': 0, 'n_sits': 3}
+{'seed': 212020, 'noise': 'high', 'volt': 7.2, 'mu': 1.0, 'old': 'charged first sit', 'new': 'charged later', 'fall_stage': None, 'seat_mm': [-0.8, 72.8], 'cross': 3.94, 'retries': 0, 'n_sits': 2}

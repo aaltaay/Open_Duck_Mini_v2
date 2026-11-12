@@ -1,0 +1,120 @@
+{
+ "label": "calc only",
+ "note": "the hybrid: one + zone under the left foot and one - zone under the right foot, a dead gap between them along\nthe mat's centre line (running away from the wall). All contacts of a foot are one net (an edge strip). OK when the\nleft strip has 10 mm or more on + and none on -, and the right strip the mirror. Fore-aft position does not matter.\nGrid: lateral offset 1 mm, heading 1 deg, the sit widths 198.7, 201.7, 204.7 mm (worst kept), stagger 0.",
+ "cases": [
+  {
+   "gap_mm": 30.0,
+   "lateral_window_at_yaw0_mm": [
+    -74.0,
+    74.0
+   ],
+   "yaw_window_centred_deg": [
+    -75.0,
+    75.0
+   ],
+   "boxes": [
+    {
+     "yaw_pm_deg": 10,
+     "lateral_pm_mm": 74
+    },
+    {
+     "yaw_pm_deg": 20,
+     "lateral_pm_mm": 74
+    },
+    {
+     "yaw_pm_deg": 30,
+     "lateral_pm_mm": 73
+    },
+    {
+     "yaw_pm_deg": 40,
+     "lateral_pm_mm": 59
+    },
+    {
+     "yaw_pm_deg": 50,
+     "lateral_pm_mm": 43
+    },
+    {
+     "yaw_pm_deg": 60,
+     "lateral_pm_mm": 26
+    }
+   ],
+   "foot_bridges_both_zones_possible": true
+  },
+  {
+   "gap_mm": 40.0,
+   "lateral_window_at_yaw0_mm": [
+    -69.0,
+    69.0
+   ],
+   "yaw_window_centred_deg": [
+    -78.0,
+    78.0
+   ],
+   "boxes": [
+    {
+     "yaw_pm_deg": 10,
+     "lateral_pm_mm": 69
+    },
+    {
+     "yaw_pm_deg": 20,
+     "lateral_pm_mm": 69
+    },
+    {
+     "yaw_pm_deg": 30,
+     "lateral_pm_mm": 69
+    },
+    {
+     "yaw_pm_deg": 40,
+     "lateral_pm_mm": 64
+    },
+    {
+     "yaw_pm_deg": 50,
+     "lateral_pm_mm": 48
+    },
+    {
+     "yaw_pm_deg": 60,
+     "lateral_pm_mm": 31
+    }
+   ],
+   "foot_bridges_both_zones_possible": true
+  },
+  {
+   "gap_mm": 50.0,
+   "lateral_window_at_yaw0_mm": [
+    -64.0,
+    64.0
+   ],
+   "yaw_window_centred_deg": [
+    -81.0,
+    81.0
+   ],
+   "boxes": [
+    {
+     "yaw_pm_deg": 10,
+     "lateral_pm_mm": 64
+    },
+    {
+     "yaw_pm_deg": 20,
+     "lateral_pm_mm": 64
+    },
+    {
+     "yaw_pm_deg": 30,
+     "lateral_pm_mm": 64
+    },
+    {
+     "yaw_pm_deg": 40,
+     "lateral_pm_mm": 62
+    },
+    {
+     "yaw_pm_deg": 50,
+     "lateral_pm_mm": 53
+    },
+    {
+     "yaw_pm_deg": 60,
+     "lateral_pm_mm": 36
+    }
+   ],
+   "foot_bridges_both_zones_possible": true
+  }
+ ]
+}

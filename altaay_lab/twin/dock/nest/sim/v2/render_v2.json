@@ -1,0 +1,33 @@
+{
+ "label": "sim pass only",
+ "clip": {
+  "file": "run_v2_pass.mp4",
+  "cfg": {
+   "noise": "low",
+   "volt": 7.2,
+   "mu": 1.0,
+   "k": 2,
+   "seed": 12002,
+   "trace": false
+  },
+  "frames": 340,
+  "sits_ok": [
+   true
+  ],
+  "fell": false,
+  "fall_stage": null,
+  "sim_seconds_to_first_sit": 34.32,
+  "size_MB": 0.76,
+  "frame_px": [
+   640,
+   480
+  ],
+  "camera": "follows the duck at 0.95 m (old clips: fixed at 2.2 m, 480 x 360)",
+  "old_controller_same_seed": {
+   "fell": true,
+   "fall_stage": "walk_on",
+   "fall_t_s": 9.159999999999728
+  },
+  "same_as_matrix_run": true
+ }
+}

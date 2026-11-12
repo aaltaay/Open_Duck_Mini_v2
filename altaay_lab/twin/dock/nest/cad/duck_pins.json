@@ -1,0 +1,594 @@
+{
+ "generated_by": "duck_pins.py",
+ "label": "CAD check only (geometry); calc only (forces, masses); pin dimensions marked est are UNVERIFIED",
+ "frame": "trunk frame: robot.urdf base frame at the zero pose, mm",
+ "pin": {
+  "part": "QA Technology 100-40 series probe, standard spring force, in a 100-SDN250S solder cup socket",
+  "full_stroke": 10.16,
+  "rated_stroke": 8.05,
+  "preload_n": 0.42,
+  "rated_n": 1.58,
+  "life_cycles": 500000,
+  "tube_d": 1.367,
+  "socket_d": 1.68,
+  "mount_hole": 1.75,
+  "exposed": 12.5,
+  "socket_len": 31.5,
+  "tail_len": 5.0,
+  "press_ring": 10.0,
+  "tip_d": 2.3,
+  "probe_g": 0.3,
+  "socket_g": 0.3
+ },
+ "proud_mm": {
+  "seat": 3.0,
+  "bump": 7.5
+ },
+ "pin_axis_trunk": [
+  -0.045296,
+  -0.0,
+  -0.998974
+ ],
+ "sit_pitch_deg": 2.596,
+ "pins": {
+  "seat_L": {
+   "tip_free_trunk_mm": [
+    -110.861,
+    10.0,
+    -68.98
+   ],
+   "block_face_trunk_mm": [
+    -110.725,
+    10.0,
+    -65.984
+   ],
+   "proud_mm": 3.0,
+   "pole": "plus"
+  },
+  "seat_R": {
+   "tip_free_trunk_mm": [
+    -110.861,
+    -10.0,
+    -68.98
+   ],
+   "block_face_trunk_mm": [
+    -110.725,
+    -10.0,
+    -65.984
+   ],
+   "proud_mm": 3.0,
+   "pole": "plus"
+  },
+  "bump_L": {
+   "tip_free_trunk_mm": [
+    19.117,
+    10.0,
+    -76.48
+   ],
+   "block_face_trunk_mm": [
+    19.456,
+    10.0,
+    -68.988
+   ],
+   "proud_mm": 7.5,
+   "pole": "minus"
+  },
+  "bump_R": {
+   "tip_free_trunk_mm": [
+    19.117,
+    -10.0,
+    -76.48
+   ],
+   "block_face_trunk_mm": [
+    19.456,
+    -10.0,
+    -68.988
+   ],
+   "proud_mm": 7.5,
+   "pole": "minus"
+  }
+ },
+ "pair_spacing_along_floor_mm": 130.18,
+ "parts": {
+  "sit_seat": {
+   "stl": "stl/sit_seat.stl",
+   "faces": 1530,
+   "watertight": true,
+   "volume_mm3": 82950.5,
+   "bbox_mm": [
+    [
+     -16.0,
+     -40.0,
+     -47.79
+    ],
+    [
+     16.0,
+     40.0,
+     0.0
+    ]
+   ],
+   "bytes": 76584,
+   "material": "TPU 95A (BOM 28)",
+   "step": "step/sit_seat.step",
+   "step_bytes": 2880523,
+   "step_faces": 1073,
+   "step_volume_mm3": 82950.5,
+   "volume_before_mm3": 88291.6
+  },
+  "pin_carrier_seat": {
+   "stl": "stl/pin_carrier_seat.stl",
+   "faces": 576,
+   "watertight": true,
+   "volume_mm3": 4169.3,
+   "bbox_mm": [
+    [
+     -11.84,
+     -14.5,
+     -0.0
+    ],
+    [
+     4.12,
+     14.5,
+     34.47
+    ]
+   ],
+   "bytes": 28884,
+   "material": "PLA (BOM 27 class), 100 % infill",
+   "step": "step/pin_carrier_seat.step",
+   "step_bytes": 668303,
+   "step_faces": 187,
+   "step_volume_mm3": 4169.3,
+   "pin_frame_T": [
+    [
+     0.998974,
+     0.0,
+     0.045296,
+     -110.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     -0.045296,
+     0.0,
+     0.998974,
+     -50.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "underside_fit_residual_mm": 0.0,
+   "carrier_top_u_mm": 30.23,
+   "carrier_height_mm": 34.73,
+   "tpu_under_carrier_mm": 11.5,
+   "body_wall_u_mm": {
+    "L": [
+     31.3,
+     34.39
+    ],
+    "R": [
+     31.3,
+     34.39
+    ]
+   },
+   "body_wall_thickness_mm": 3.09,
+   "tip_trunk_mm": {
+    "L": [
+     -110.86,
+     10.0,
+     -68.98
+    ],
+    "R": [
+     -110.86,
+     -10.0,
+     -68.98
+    ]
+   },
+   "face_trunk_mm": {
+    "L": [
+     -110.72,
+     10.0,
+     -65.98
+    ],
+    "R": [
+     -110.72,
+     -10.0,
+     -65.98
+    ]
+   },
+   "tail_end_trunk_mm": {
+    "L": [
+     -108.64,
+     10.0,
+     -20.03
+    ],
+    "R": [
+     -108.64,
+     -10.0,
+     -20.03
+    ]
+   },
+   "socket_mouth_below_carrier_mm": 2.0,
+   "socket_mouth_above_block_face_mm": 9.5,
+   "press_ring_u_mm": 3.5,
+   "pocket_open_area_mm2": 255.0
+  },
+  "sit_bumper": {
+   "stl": "stl/sit_bumper.stl",
+   "faces": 1426,
+   "watertight": true,
+   "volume_mm3": 36920.6,
+   "bbox_mm": [
+    [
+     -12.0,
+     -30.0,
+     -32.79
+    ],
+    [
+     12.0,
+     30.0,
+     0.0
+    ]
+   ],
+   "bytes": 71384,
+   "material": "TPU 95A (BOM 28)",
+   "step": "step/sit_bumper.step",
+   "step_bytes": 2586815,
+   "step_faces": 944,
+   "step_volume_mm3": 36920.6,
+   "volume_before_mm3": 40885.2
+  },
+  "pin_carrier_bumper": {
+   "stl": "stl/pin_carrier_bumper.stl",
+   "faces": 576,
+   "watertight": true,
+   "volume_mm3": 3116.2,
+   "bbox_mm": [
+    [
+     -4.0,
+     -14.5,
+     -0.0
+    ],
+    [
+     4.64,
+     14.5,
+     25.44
+    ]
+   ],
+   "bytes": 28884,
+   "material": "PLA (BOM 27 class), 100 % infill",
+   "step": "step/pin_carrier_bumper.step",
+   "step_bytes": 600808,
+   "step_faces": 149,
+   "step_volume_mm3": 3116.2,
+   "pin_frame_T": [
+    [
+     0.998974,
+     0.0,
+     0.045296,
+     20.0
+    ],
+    [
+     0.0,
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     -0.045296,
+     0.0,
+     0.998974,
+     -57.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "underside_fit_residual_mm": 0.0,
+   "carrier_top_u_mm": 20.81,
+   "carrier_height_mm": 25.31,
+   "tpu_under_carrier_mm": 7.5,
+   "body_wall_u_mm": {
+    "L": [
+     21.91,
+     33.15
+    ],
+    "R": [
+     21.91,
+     33.15
+    ]
+   },
+   "body_wall_thickness_mm": 11.24,
+   "tip_trunk_mm": {
+    "L": [
+     19.12,
+     10.0,
+     -76.48
+    ],
+    "R": [
+     19.12,
+     -10.0,
+     -76.48
+    ]
+   },
+   "face_trunk_mm": {
+    "L": [
+     19.46,
+     10.0,
+     -68.99
+    ],
+    "R": [
+     19.46,
+     -10.0,
+     -68.99
+    ]
+   },
+   "tail_end_trunk_mm": {
+    "L": [
+     21.34,
+     10.0,
+     -27.53
+    ],
+    "R": [
+     21.34,
+     -10.0,
+     -27.53
+    ]
+   },
+   "socket_mouth_below_carrier_mm": 2.5,
+   "socket_mouth_above_block_face_mm": 5.0,
+   "press_ring_u_mm": 3.0,
+   "pocket_open_area_mm2": 255.0
+  },
+  "body_middle_bottom": {
+   "stl": "stl/body_middle_bottom.stl",
+   "faces": 53444,
+   "watertight": false,
+   "volume_mm3": 151248.9,
+   "bbox_mm": [
+    [
+     -97.0,
+     -55.0,
+     -100.0
+    ],
+    [
+     55.0,
+     55.0,
+     -13.43
+    ]
+   ],
+   "bytes": 2672284,
+   "material": "PLA",
+   "volume_before_mm3": 151525.2,
+   "bodies": 67,
+   "bodies_before": 67,
+   "watertight_before": true,
+   "step_note": "no STEP of the whole part: a faceted STEP of its 52,000 triangles is 59 MB (limit 5 MB); the change is in step/body_middle_bottom_feedthroughs.step (the four cut volumes, trunk frame)"
+  },
+  "body_middle_bottom_feedthroughs": {
+   "stl": "stl/body_middle_bottom_feedthroughs.stl",
+   "step": "step/body_middle_bottom_feedthroughs.step",
+   "what": "the four cut volumes (3.4 mm holes with a 0.8 mm 45 deg mouth inside), trunk frame; not a part",
+   "volume_mm3": 400.1,
+   "step_bytes": 1877880
+  },
+  "pin_gauge": {
+   "stl": "stl/pin_gauge.stl",
+   "faces": 68,
+   "watertight": true,
+   "volume_mm3": 4956.0,
+   "bbox_mm": [
+    [
+     0.0,
+     0.0,
+     0.0
+    ],
+    [
+     60.0,
+     14.0,
+     9.5
+    ]
+   ],
+   "bytes": 3484,
+   "material": "PLA, a tool (not on the robot)",
+   "step": "step/pin_gauge.step",
+   "step_bytes": 59014,
+   "step_faces": 20,
+   "step_volume_mm3": 4956.0
+  },
+  "spring_pin_ref": {
+   "stl": "stl/spring_pin_ref.stl",
+   "faces": 176,
+   "watertight": true,
+   "volume_mm3": 91.3,
+   "bbox_mm": [
+    [
+     -0.84,
+     -0.84,
+     0.0
+    ],
+    [
+     0.84,
+     0.84,
+     49.0
+    ]
+   ],
+   "bytes": 8884,
+   "material": "bought part stand-in (dimensions est, UNVERIFIED)",
+   "step": "step/spring_pin_ref.step",
+   "step_bytes": 175128,
+   "step_faces": 48,
+   "step_volume_mm3": 91.3
+  }
+ },
+ "placements": {
+  "sit_seat": [
+   {
+    "link": "sit_seat",
+    "T_link_mm": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      -110.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      -18.209061
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "note": "unchanged (robot.urdf)"
+   }
+  ],
+  "pin_carrier_seat": [
+   {
+    "link": "trunk_assembly",
+    "T_link_mm": [
+     [
+      -0.957826,
+      -0.0,
+      -0.287348,
+      -108.633702
+     ],
+     [
+      0.0,
+      1.0,
+      -0.0,
+      0.0
+     ],
+     [
+      0.287348,
+      -0.0,
+      -0.957826,
+      -19.867384
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "sit_bumper": [
+   {
+    "link": "sit_bumper",
+    "T_link_mm": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      20.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      -36.209061
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "note": "unchanged (robot.urdf)"
+   }
+  ],
+  "pin_carrier_bumper": [
+   {
+    "link": "trunk_assembly",
+    "T_link_mm": [
+     [
+      -1.0,
+      0.0,
+      0.0,
+      20.94272
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      0.0
+     ],
+     [
+      0.0,
+      0.0,
+      -1.0,
+      -36.209061
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ]
+   }
+  ],
+  "body_middle_bottom": [
+   {
+    "link": "trunk_assembly",
+    "T_link_mm": [
+     [
+      1.0,
+      0.0,
+      0.0,
+      -19.0
+     ],
+     [
+      0.0,
+      1.0,
+      0.0,
+      -0.0
+     ],
+     [
+      0.0,
+      0.0,
+      1.0,
+      64.890939
+     ],
+     [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+     ]
+    ],
+    "note": "unchanged (robot.urdf)"
+   }
+  ]
+ }
+}
