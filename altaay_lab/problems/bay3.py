@@ -67,7 +67,9 @@ def main():
         extents=(dx, 2 * RC, Z[1] - Z[0]),
         transform=trimesh.transformations.translation_matrix((XC - dx / 2, y3, (Z[0] + Z[1]) / 2)),
     ))
-    outer = man(cyl(x3, y3, RC + WALL))
+    # Caps sit WALL past the cut, so the blister is closed above and below where it
+    # sticks out past the original shell. The cut itself stays on Z.
+    outer = man(cyl(x3, y3, RC + WALL, z=(Z[0] - WALL, Z[1] + WALL)))
     edited = man(src) + outer - inner - tunnel
     mesh = tm(edited)
     mesh.export(os.path.join(OUT, "body_back_3s.stl"))
@@ -103,9 +105,19 @@ def main():
             near.append(dict(id=f["id"], spec=f.get("spec"), dist_mm=round(d, 2)))
     # ray out the back of the blister
     rmi = trimesh.ray.ray_triangle.RayMeshIntersector(mesh)
-    origin = np.array([x3 - RC, y3, 31.5])
-    loc, _, _ = rmi.intersects_location([origin], [np.array([-1.0, 0, 0])], multiple_hits=False)
-    wall = None if len(loc) == 0 else round(float(np.linalg.norm(loc[0] - origin)), 2)
+    def thickness(origin, direction):
+        """Distance from the first hit to the second, which is the wall the ray exits through."""
+        loc, _, _ = rmi.intersects_location([np.array(origin, float)], [np.array(direction, float)], multiple_hits=True)
+        if len(loc) < 2:
+            return None
+        d = np.sort(np.linalg.norm(loc - np.array(origin, float), axis=1))
+        return round(float(d[1] - d[0]), 2)
+
+    # x=-160 is behind the original shell (back face -154), so these rays
+    # measure the new caps, not the old bay ceiling.
+    wall = thickness((x3, y3, 31.5), (-1.0, 0, 0))
+    cap_up = thickness((-160.0, y3, 31.5), (0, 0, 1))
+    cap_down = thickness((-160.0, y3, 31.5), (0, 0, -1))
     rep = dict(
         label="CAD check only",
         rear_axis_mm=dict(x=round(x3, 2), y=round(y3, 2), z=list(Z)),
@@ -122,6 +134,8 @@ def main():
         other_part_overlap_mm3=others,
         fasteners_within_30mm=sorted(near, key=lambda r: r["dist_mm"]),
         back_wall_ray_mm=wall,
+        cap_up_ray_mm=cap_up,
+        cap_down_ray_mm=cap_down,
         mesh_outside_repo=os.path.join(OUT, "body_back_3s.stl"),
         print_stl_unchanged=True,
     )
