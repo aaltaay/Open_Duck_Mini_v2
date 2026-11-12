@@ -1,0 +1,116 @@
+line,item,maker,screened_as,in_duck,ofac_sdn,bis_entity_list,bis_meu_list,fcc_covered_entity,ndaa_889,uflpa_entity,list_record,notes
+1,Smart serial bus servo STS3215,Feetech,feetech,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Legal name not opened. Seller is Seeed. Chinese part on the bill.
+1b,Knee servo STS3250,Feetech,feetech,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Same brand screen as line 1. Bill says the seller ships from China. That is not an origin ruling.
+2,Servo bus adapter,Waveshare,waveshare,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Legal name not opened. Bill says ships from China or Hong Kong.
+3,"Compute, Pi Zero 2 W",Raspberry Pi,raspberry pi,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Brief opened this session names the radio and modular compliance. FCC grant not opened. Chip on that brief: Broadcom BCM2710A1, screened as broadcom."
+3-chip,Pi processor BCM2710A1,Broadcom,broadcom,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Named on the Pi Zero 2 W brief opened this session.
+4,microSD,SanDisk,sandisk,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Also screened western digital. Origin not opened.
+5,IMU breakout,Bosch Sensortec,bosch,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Chip is BNO055. Board seller is Adafruit, screened as adafruit."
+5b,Cliff time-of-flight,STMicroelectronics,stmicroelectronics,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Chip is VL53L4CD. Board seller is Adafruit.
+6,Li-ion cell INR21700-P45B,Molicel,molicel,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Also screened moli energy. Sheet version 1.2 prints a Taiwan facility. Invoice origin not opened. UFLPA material trace is still open. See COMPLIANCE.md.
+7,2S pack build,not named,not screened,yes,not_screened,not_screened,not_screened,not_screened,not_screened,not_screened,none,"BLOCKER: strip, sleeve, and weld shop are not chosen, so there is no maker to screen."
+8,2S protection board,Tenergy,tenergy,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,US seller on the bill. Origin of the board not opened.
+9,5 V regulator,Pololu,pololu,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"DC-DC buck, not the Covered List power-inverter definition opened in DA 26-786."
+10,Main power switch,Pololu,pololu,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Switch board. Not a radio.
+10r,Replaced slide switch,Pololu,pololu,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Quantity zero on the bill. Screened anyway.
+10b,Control button,NKK Switches,nkk switches,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Word match. A different SDN record, AO NKK, is a Russian custodial company and is not this maker."
+10b-old,Replaced panel slide switch,not named,not screened,no,not_screened,not_screened,not_screened,not_screened,not_screened,not_screened,none,BLOCKER: the bill says the datasheet part is still being sourced. Quantity zero.
+11,USB-C 2S charge board,Adeept,adeept,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Legal name not opened. The nest note names a different charger. This line is still on the bill.
+12,XT30 pair,Amass,amass,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Word match. Russian Arzamas records contain the letters a-m-a-s-s and are not this connector brand.
+13,Foot contact switch,Omron,omron,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Bill also says Aratas, formerly Omron Components. Aratas was not a separate hit. Origin not opened."
+13b,Foot switch pull-up,not a branded chip,not screened,yes,not_screened,not_screened,not_screened,not_screened,not_screened,not_screened,none,"Commodity resistor sold by Adafruit. Adafruit screened, no hit. Resistor maker not named."
+14,Antenna servo,Miuzei,miuzei,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Legal name not opened. SG90-class servo.
+15,Game controller,Microsoft,microsoft,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Stays outside the duck. Its radio is not the duck's radio. Screened microsoft.
+L1,Servo buck regulator,Castle Creations,castle creations,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,DC-DC regulator. Not the Covered List inverter definition.
+L3,Inline fuse holder,Littelfuse,littelfuse,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Same part as DK3.
+L4,Fuse,Littelfuse,littelfuse,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,
+DK1,Chest contact pad,OSH Park,osh park,bill_not_nest,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,On the current bill. PARTS_AUDIT says the nest design does not use this pad. US board shop on the bill.
+DK2,Charge ideal diode,Pololu,pololu,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Board uses a Texas Instruments ideal-diode chip. TI screened as texas instruments.
+DK2-chip,Ideal diode chip LM74700-Q1,Texas Instruments,texas instruments,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Named on the bill for the Pololu ideal-diode boards.
+DK3,Charge fuse holder,Littelfuse,littelfuse,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,
+DK4,Charge fuse,Littelfuse,littelfuse,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,
+DK5,NTC and wake parts,onsemi,onsemi,bill_not_nest,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Zener is onsemi 1N5228B. NTC seller is Adafruit. PARTS_AUDIT says the nest design drops the old sense wire. onsemi screened, no hit."
+DK6,Dock supply ideal diode,Pololu,pololu,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Same TI chip family as DK2.
+DK7,Pack side ideal diode,Pololu,pololu,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Same TI chip family as DK2.
+16,M3 heat-set insert,CNC Kitchen,cnc kitchen,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Origin not opened.
+17a,M3x8 screw,Bolt Depot,bolt depot,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Commodity stainless. Mill not named.
+17b,M3x10 screw,Bolt Depot,bolt depot,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Commodity. Mill not named.
+17c,M3x12 screw,Bolt Depot,bolt depot,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Commodity. Mill not named.
+17d,M3x6 screw,Bolt Depot,bolt depot,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Commodity. Mill not named.
+17e,M3x5 screw,Bolt Depot,bolt depot,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Commodity. Mill not named.
+17f,M2.5x6 screw,Bolt Depot,bolt depot,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Commodity. Mill not named.
+17g,M2.5x8 screw,Bolt Depot,bolt depot,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Commodity. Mill not named.
+17h,M2 self-tapping kit,METALLIXITY,metallixity,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Legal name not opened.
+17i,M2.5x10 screw,Bolt Depot,bolt depot,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Commodity. Mill not named.
+17j,M3x6 button head,BelMetric,belmetric,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,US stocked seller on the bill. Mill not named.
+17k,M2.5x5 screw,BelMetric,belmetric,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Mill not named.
+17l,M2.5 washer,BelMetric,belmetric,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Mill not named.
+17m,M2x12 screw,not named,not screened,yes,not_screened,not_screened,not_screened,not_screened,not_screened,not_screened,none,"BLOCKER: no listing, so no maker to screen."
+18,Ball bearing 6804ZZ,Motoforti,motoforti,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Bearing mill not named. Legal name not opened.
+19,Threadlocker,Henkel,henkel,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Loctite brand. Also screened loctite.
+29,Foam tape,3M,3m,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Screened as 3m company and 3m co. Origin not opened.
+20,USB data cable,Adafruit,adafruit,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Cable maker behind the Adafruit part number not opened.
+21,Mini-SPOX housing,Molex,molex,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,
+22,Mini-SPOX terminal,Molex,molex,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,
+22b,KK 254 terminal,Molex,molex,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,
+22c,KK 254 housings,Molex,molex,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,BLOCKER on the bill for price and exact housing numbers. Maker is the Molex family named on the line.
+L5,16 AWG wire,BNTECHGO,bntechgo,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Legal name not opened.
+23,20 AWG wire,BNTECHGO,bntechgo,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only.
+24,22 AWG wire,BNTECHGO,bntechgo,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only.
+25,26 AWG wire,BNTECHGO,bntechgo,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only.
+26,Heat shrink,Wirefy,wirefy,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Legal name not opened.
+26b,Lever splices,WAGO,wago,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,
+30,Solder,Adafruit,adafruit,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Bill says tin-lead. Lead is a Prop 65 issue for the finished duck, not a restricted-party hit. A lead-free spool is named on the same bill line."
+31,Flux pen,Chip Quik,chip quik,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Screened chip quik. Seller is Adafruit. No hit.
+32,Cable ties,Commercial Electric,commercial electric,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,House brand. Nylon maker not named.
+33,Polyimide tape,Adafruit,adafruit,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Film maker not named on the bill. DuPont, the Kapton mark holder, screened as dupont. No hit."
+34,Adhesive tie mount,HellermannTyton,hellermann,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,
+34b,Small adhesive tie mount,Panduit,panduit,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Bill says country of origin US on the seller page that was read earlier. Not re-opened here.
+35,Isopropyl alcohol,Techspray,techspray,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,
+27,PLA filament,Overture,overture,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Legal name not opened.
+28,TPU filament,Overture,overture,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only.
+E1,Speaker,Same Sky,same sky,optional,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Also screened cui devices and cui inc.
+E2,I2S amplifier board,Analog Devices,analog devices,optional,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Chip is MAX98357A. Board seller is Adafruit. Also screened maxim integrated.
+E3,LED beads,uxcell,uxcell,optional,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Legal name not opened.
+E3b,LED resistor,not a branded chip,not screened,optional,not_screened,not_screened,not_screened,not_screened,not_screened,not_screened,none,"Commodity resistor. Seller is SparkFun, screened as sparkfun."
+E4,Eye glass discs,FINGERINSPIRE,fingerinspire,optional,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Legal name not opened.
+E5,Projector reflector,Aurorad,aurorad,optional,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Brand string only. Legal name not opened.
+E6,Camera Module 3,Raspberry Pi,raspberry pi,optional,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Brief opened this session: Part 15 Subpart B Class B for the camera, not a radio grant."
+E7,Camera cable,Raspberry Pi,raspberry pi,optional,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Seller X-On Electronics screened as x-on electronics. No hit. Cable is a Raspberry Pi part.
+E7r,Replaced camera cable,Adafruit,adafruit,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Quantity zero.
+E8,I2S microphones,Knowles,knowles,optional,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Chip is SPH0645LM4H. Board seller is Adafruit. Screened knowles corporation and knowles electronics. A person named Samuel Knowles on the SDN list is not this company.
+E9,Touch boards,NXP,nxp,optional,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Chip is MPR121. Board seller is Adafruit.
+E10,Copper foil tape,Adafruit,adafruit,optional,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Foil mill not named.
+T1,Soldering iron,Pine64,pine64,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Tool, not sold in the duck. Also screened pine store."
+T2,Insert tips,Pine64,pine64,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+T3,Crimper,Engineer,engineer inc,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Tool, not in the duck. Screened engineer inc. The bare word engineer was not used. No hit."
+T4,Hex keys,Bondhus,bondhus,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+T5,Wire stripper,Klein Tools,klein tools,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+L2,BEC programmer,Castle Creations,castle creations,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+T6,USB-C supply for the iron,Amazon Basics,amazon.com inc,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Tool supply, not in the duck. Screened amazon.com inc. No hit. Bill does not say this supply has a radio."
+T6b,USB-C cable,Adafruit,adafruit,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool cable.
+T7,5 V wall adapter,Amazon Basics,amazon.com inc,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Wall adapter, not a part inside the duck. Screened amazon.com inc. No hit. Bill does not say it has a radio, so it is not the covered inverter on the definition opened."
+T7b,USB-A to USB-C cable,Amazon Basics,amazon.com inc,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool cable. Screened amazon.com inc. No hit.
+T8,microSD reader,Adafruit,adafruit,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+T9,Wire stripper,Klein Tools,klein tools,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+T10,Heat gun,Wagner,wagner spray,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Tool, not in the duck. Screened wagner spray and spraytech. No hit."
+T11,Drill bit,Qualtech,qualtech,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+T12,Drill bit,Qualtech,qualtech,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+T13,Tap wrench,Qualtech,qualtech,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+T14,Drill bit,Qualtech,qualtech,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+T15,Drill bit,Qualtech,qualtech,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+T16,Screwdriver,Wera,wera,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Tool. An SDN alias LA WERA is a person, not this tool maker. Rejected."
+T17,Screwdriver,Wera,wera,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Same as T16.
+T18,Driver bit,Wera,wera,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Same as T16.
+T19,Drill bit,Hyper Tough,hyper tough,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Tool.
+TE1,Multimeter,Klein Tools,klein tools,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Test gear, not in the duck."
+TE2,Bench supply,Siglent,siglent,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Test gear. Brand string only. Not in the duck.
+TE3,Calipers,iGaging,igaging,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Test gear. The listing names a coin cell in the tool. That cell is not in the duck. Reese's Law note is in COMPLIANCE.md.
+TE4,Electronic load,Siglent,siglent,no,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Test gear. Not in the duck.
+N1,Nest spring probe,QA Technology,qa technology,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"Not on the bill. Family 100-PR. Full part number not chosen. Screened, no hit."
+N2,Nest probe socket,QA Technology,qa technology,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,Catalog number 100-SDN250S in PARTS_AUDIT. Not on the bill.
+N3,Conductive cloth,not named,not screened,yes,not_screened,not_screened,not_screened,not_screened,not_screened,not_screened,none,BLOCKER: no maker. PARTS_AUDIT.
+N4,Felt mat,not named,not screened,yes,not_screened,not_screened,not_screened,not_screened,not_screened,not_screened,none,"BLOCKER: no maker. If the felt is cotton, the UFLPA cotton entities matter. Trace not opened."
+N5,Foil under the contact,"3M, not confirmed",3m,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,PARTS_AUDIT says a 3M class tape was a guess and was not checked. 3M the company was screened.
+N6,In-duck charger chip,Microchip Technology,microchip technology,yes,no_hit,no_hit,no_hit,no_hit,no_hit,no_hit,none,"MCP73213 named in the nest note. Datasheet not opened. A Russian firm, Design Partner Microchip LLC, is on the SDN list and is not this company."
+N7,Nest gate board,not designed,not screened,yes,not_screened,not_screened,not_screened,not_screened,not_screened,not_screened,none,"BLOCKER: no parts, so nothing to screen."
