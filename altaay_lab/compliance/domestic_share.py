@@ -32,12 +32,12 @@ PROCESS = {"flux", "alcohol"}
 # Stays outside the body. PARTS_CHECK.csv line 15.
 OUTSIDE = {"controller"}
 # Nest article, not a component of the walking duck.
+# wells and well-route stay components. FLUSH_CONTACTS.md section 6 puts the
+# gold inlays in sit_seat and the ideal-diode paths in the trunk. No price yet.
 NEST = {
     "adapter", "felt1", "felt2", "foam", "gate", "jack", "nestpla",
-    "ring", "sun", "wall", "wells", "pin", "feed",
+    "ring", "sun", "wall", "pin", "feed",
 }
-# Named, but not a part yet.
-NOT_YET = {"well-route"}
 
 # num/den of the purchased unit that is incorporated in the duck.
 # Spares and nest-only pieces are left out.
@@ -150,8 +150,6 @@ def role_of(line_id):
         return "not_component", "stays outside the duck"
     if line_id in NEST:
         return "not_component", "nest article, not a component of the walking duck"
-    if line_id in NOT_YET:
-        return "not_component", "part is not chosen"
     return "component", "incorporated in the walking duck"
 
 

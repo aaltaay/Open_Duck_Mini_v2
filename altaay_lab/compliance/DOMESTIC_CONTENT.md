@@ -102,7 +102,7 @@ Priced components of the walking duck:
 
 A delivery in 2026 uses the 65 percent test. Domestic cost has to exceed 65 percent of $779.39, which is $506.60 (calc only, 0.65 times $779.39). The sheet is short by $459.27 (calc only). A delivery in 2029 uses 75 percent. That gap is $537.21 (calc only).
 
-Lines with no incorporated price are not in the $779.39. They are solder, threadlocker, the unwelded pack materials, the charger-board passives and the board fab, the KK 254 housings, and the M2x12 screw. If those lines are foreign, the gap is wider. If they are domestic, they help only to the extent of their incorporated cost, which is BLOCKER.
+Lines with no incorporated price are not in the $779.39. They are solder, threadlocker, the unwelded pack materials, the charger-board passives and the board fab, the KK 254 housings, the M2x12 screw, the five gold seat wells, and the duck-side ideal-diode path for each well. The wells sit in the seat and the diode paths sit in the trunk (FLUSH_CONTACTS.md section 6). Neither has a part or a price. If those lines are foreign, the gap is wider. If they are domestic, they help only to the extent of their incorporated cost, which is BLOCKER.
 
 On a reading that refuses the unknown-origin sentence, every priced line that is not the servo and not the Pi would be treated as domestic. That reading is not the one this worksheet uses. On the same $779.39 it would be domestic $479.79 and foreign $299.60, which is 61.56 percent (calc only). That reading is still short of 65 percent by $26.81 (calc only). The servo line alone is larger than $26.81. The Pi line alone, $19.60, is not.
 
@@ -144,7 +144,7 @@ The first prong is still open. None of these swaps, by themselves, show that the
 - Whether the iron or steel branch applies. No steel estimate was opened.
 - Where the finished duck would be manufactured.
 - Freight and duty on top of the item prices.
-- Incorporated cost of the solder, the threadlocker, the pack build, the charger passives, the charger board, the KK housings, and the M2x12 screw.
+- Incorporated cost of the solder, the threadlocker, the pack build, the charger passives, the charger board, the KK housings, the M2x12 screw, the five seat wells, and the duck-side ideal-diode paths.
 - Whether a US-built module that contains the seven lines is a domestic component, or only end-product assembly.
 - A printed price, a fit, and a bus match for a motor made in the United States, if the path is a bought actuator instead of a subassembly.
 - The nest, if the lawyer treats the nest and the duck as one article.
