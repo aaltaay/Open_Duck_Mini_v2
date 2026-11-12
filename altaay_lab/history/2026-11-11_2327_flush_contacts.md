@@ -1,0 +1,9 @@
+# 2026-11-11 11:27 PM ET: flush contacts graded against the five-line bar
+
+Labels: calc only (the seat-field window in twin/dock/flush/draw_flush.py), CAD check only and sim pass only where the study cites the nest, the sit, or the camera twin. Nothing ran on hardware.
+
+- Ahmed will keep charging in the sit, and he will not have spring pins standing out of the body. He is open to the belly or the feet, whichever is actually clean. A later note added five lines: nothing proud on or off the mat, a window that covers the blind sit, no charge wire through a joint if it can be avoided, no live metal and no short on a sheet, and wear over thousands of docks.
+- The camera twin is merged (PR 38). A level head loses the disc and the ring inside 0.50 m, sees them from 0.75 m, and the recorded sit sees neither. The feet are never in the field (CAD check only, altaay_lab/twin/camera/CAMERA_TWIN.md).
+- Neither belly-as-drawn nor feet meets all five lines. Feet add one 22 AWG per leg through the hip, the knee, and the ankle, on the walk's flex count (about 6,700 per walking hour, calc only, from the earlier feet note), and the two soles short on a metal floor. The bumper hangs 2.9 mm up, so it cannot be a flush contact.
+- The layout to build toward is five flush gold wells in the seat patch, on a felt field 560 by 360 mm whose pins stay level with the felt and stay unpowered until the seat covers them. The geometric window is an inscribed radius of 161 mm, heading through 46 deg (calc only). That holds the nest sim's 95th-percentile misses. It does not prove the blind walk, which has not been run. Dirt on the gold is unmeasured. A metal sheet can still touch the gold; trunk diodes are what block pack current.
+- New files only, under twin/dock/flush/, plus this history entry. The nest folder, STATE.md, DECISIONS.md, the BOM, and the netlist were not edited. Figures: twin/dock/flush/figs/F1_belly_field.png and F2_feet_zones.png.
