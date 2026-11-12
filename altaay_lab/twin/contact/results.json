@@ -333,6 +333,7 @@
  },
  "felt": {
   "tip": "40 round, 0.91 mm, catalog",
+  "sign": "local dent subtracts from spring compression",
   "force_N": 0.8499,
   "pressure_psi": 189.53,
   "pressure_mpa": 1.307,
@@ -354,9 +355,116 @@
   "recovery_cited": 0.99,
   "set_if_crushed_full_thickness_mm": 0.02,
   "set_if_only_10pct_mm": 0.002,
-  "extra_stroke_cap_mm": 2.0,
-  "flush_plus_cap_mm": 9.5,
-  "still_under_full_stroke": true
+  "retention": {
+   "seat_design": {
+    "rigid_mm": 3.0,
+    "after_0_2mm": {
+     "stroke_mm": 2.8,
+     "force_N": 0.8213,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 1.0,
+     "force_N": 0.5633,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   },
+   "seat_plane_mean": {
+    "rigid_mm": 2.98,
+    "after_0_2mm": {
+     "stroke_mm": 2.78,
+     "force_N": 0.8184,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 0.98,
+     "force_N": 0.5604,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   },
+   "bump_plane_mean": {
+    "rigid_mm": 4.55,
+    "after_0_2mm": {
+     "stroke_mm": 4.35,
+     "force_N": 1.0434,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 2.55,
+     "force_N": 0.7854,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   },
+   "bump_plane_min_mean": {
+    "rigid_mm": 4.27,
+    "after_0_2mm": {
+     "stroke_mm": 4.07,
+     "force_N": 1.0033,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 2.27,
+     "force_N": 0.7453,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   },
+   "bump_height_mean": {
+    "rigid_mm": 3.14,
+    "after_0_2mm": {
+     "stroke_mm": 2.94,
+     "force_N": 0.8413,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 1.14,
+     "force_N": 0.5834,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   },
+   "bump_height_least": {
+    "rigid_mm": 1.85,
+    "after_0_2mm": {
+     "stroke_mm": 1.65,
+     "force_N": 0.6565,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 0.0,
+     "force_N": 0.0,
+     "touching": false,
+     "short_mm": 0.15
+    }
+   },
+   "bump_flush": {
+    "rigid_mm": 7.5,
+    "after_0_2mm": {
+     "stroke_mm": 7.3,
+     "force_N": 1.4661,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 5.5,
+     "force_N": 1.2082,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   }
+  },
+  "least_pin_holds_at_0_2mm": true,
+  "least_pin_holds_at_2_0mm": false,
+  "least_pin_contact": "BLOCKER"
  },
  "safety": {
   "paschen_V": 327.0,

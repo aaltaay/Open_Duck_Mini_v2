@@ -59,7 +59,18 @@ class ContactTwin(unittest.TestCase):
     def test_tip_pressure_is_many_times_the_f1_ten_percent(self):
         felt = m.felt_block()
         self.assertGreater(felt["times_10pct_pressure"]["F-1"], 5.0)
-        self.assertLess(felt["flush_plus_cap_mm"], m.FULL_STROKE_MM)
+
+    def test_local_dent_unloads_the_spring(self):
+        # A lower contact surface increases s in comp = Lp - s, so the dent subtracts.
+        held = m.stroke_after_dent(1.85, 0.2)
+        lost = m.stroke_after_dent(1.85, 2.0)
+        self.assertTrue(held["touching"])
+        self.assertAlmostEqual(held["stroke_mm"], 1.65, places=2)
+        self.assertFalse(lost["touching"])
+        seat = m.stroke_after_dent(3.0, 2.0)
+        self.assertTrue(seat["touching"])
+        self.assertAlmostEqual(seat["stroke_mm"], 1.0, places=2)
+        self.assertGreater(m.spring_n(seat["stroke_mm"]), 0.42)
 
     def test_voltage_is_far_under_paschen(self):
         self.assertLess(m.V_MAT / m.PASCHEN_V, 0.05)

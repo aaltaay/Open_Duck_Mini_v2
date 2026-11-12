@@ -390,26 +390,62 @@ def resistance_block():
     }
 
 
+def stroke_after_dent(comp_mm, dent_mm):
+    """Local dent under the tip. Compression falls by the dent. Calc only.
+
+    pins_sit_check.py sets comp = Lp - s, and s grows when the contact surface
+    drops. The soles and the seat hold the body, so the tip extends into the
+    dent instead of the spring taking a longer stroke.
+    """
+    left = comp_mm - dent_mm
+    if left <= 0:
+        return {"stroke_mm": 0.0, "force_N": 0.0, "touching": False,
+                "short_mm": round(-left, 4)}
+    return {"stroke_mm": round(left, 4), "force_N": round(spring_n(left), 4),
+            "touching": True, "short_mm": 0.0}
+
+
 def felt_block():
     f = spring_n(PROUD["seat"])
     p = tip_pressure(f)
     ratios = felt_ratios(p["psi"])
-    # more than 10% is known; the depth is not
+    # more than 10% is known; the depth is not. The cap is the stack thickness.
+    dent_lo = round(0.10 * FELT_T_MM, 3)
+    dent_hi = FELT_T_MM
+    cases = {
+        "seat_design": PROUD["seat"],
+        "seat_plane_mean": PLANE["seat_comp_mm"][0],
+        "bump_plane_mean": PLANE["bump_comp_mm"][0],
+        "bump_plane_min_mean": PLANE["bump_comp_mm"][1],
+        "bump_height_mean": HEIGHT["bump_comp_mm"][0],
+        "bump_height_least": HEIGHT["least_bump_pin_mm"],
+        "bump_flush": PROUD["bump"],
+    }
+    retention = {}
+    for name, comp in cases.items():
+        retention[name] = {
+            "rigid_mm": comp,
+            "after_0_2mm": stroke_after_dent(comp, dent_lo),
+            "after_2_0mm": stroke_after_dent(comp, dent_hi),
+        }
+    least = retention["bump_height_least"]
     return {
         "tip": "40 round, 0.91 mm, catalog",
+        "sign": "local dent subtracts from spring compression",
         "force_N": round(f, 4),
         "pressure_psi": round(p["psi"], 2),
         "pressure_mpa": round(p["mpa"], 3),
         "area_mm2": round(p["area_mm2"], 4),
         "times_10pct_pressure": {k: round(v, 2) for k, v in ratios.items()},
-        "defl_if_only_10pct_mm": round(0.10 * FELT_T_MM, 3),
-        "thickness_cap_mm": FELT_T_MM,
+        "defl_if_only_10pct_mm": dent_lo,
+        "thickness_cap_mm": dent_hi,
         "recovery_cited": FELT_RECOVERY,
         "set_if_crushed_full_thickness_mm": round((1.0 - FELT_RECOVERY) * FELT_T_MM, 4),
         "set_if_only_10pct_mm": round((1.0 - FELT_RECOVERY) * 0.10 * FELT_T_MM, 4),
-        "extra_stroke_cap_mm": FELT_T_MM,
-        "flush_plus_cap_mm": round(PROUD["bump"] + FELT_T_MM, 3),
-        "still_under_full_stroke": PROUD["bump"] + FELT_T_MM < FULL_STROKE_MM,
+        "retention": retention,
+        "least_pin_holds_at_0_2mm": least["after_0_2mm"]["touching"],
+        "least_pin_holds_at_2_0mm": least["after_2_0mm"]["touching"],
+        "least_pin_contact": "BLOCKER",
     }
 
 
