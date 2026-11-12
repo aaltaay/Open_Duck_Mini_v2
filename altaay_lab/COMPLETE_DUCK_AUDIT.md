@@ -4,6 +4,19 @@ Written 2026-11-11 10:24 PM ET. Audit and plan only. This file reads the repo. I
 
 Labels: sim pass only, calc only, CAD check only, a cited source, or BLOCKER. A sim in the files below is not a result on hardware.
 
+## Note 2026-11-12 4:23 AM ET
+
+The sections below were written on 2026-11-11 and are left as written. These later pull requests have since covered part of the gaps. None of them installs the nest into print/, the netlist, or the bill.
+
+- PR 36, parts. PARTS_AUDIT.md and PROPOSED_BOM_CHANGES.md name the probe as QA Technology 100-PRP4030S, tip 30, 1.40 mm, from the opened catalog. The one-click order is still not ready. Felt, the gold cloth, the weld, and several other lines still have no orderable part number.
+- PR 37, software and communications. software/SOFTWARE.md lists the programs and a link table for the servo bus, I2C, I2S, CSI, USB, Wi-Fi, and Bluetooth. Line E3 stays NOT ORDERABLE. twin/thermal/EFFICIENCY.md records the efficiency figures already in the sims. software/knee_heat.py warns and stops the walk on two readings at or above 55 C, and turns torque off when idle or sitting (simulated tests only).
+- PR 38, camera. twin/camera/CAMERA_TWIN.md and twin/complete3d/camera_cone.py place the module brief's field on the measured head seat (CAD check only). TEST_PLAN.md 20.9 has not been run.
+- PR 39, contact twin. twin/contact/CONTACT_TWIN.md. Pin force and the cloth loop are calc only. Felt grade, dent depth, cloth life, and sole friction stay BLOCKER.
+- PR 40, charger board. altaay_lab/circuitry/CHARGER_BOARD.md and charger_board.yaml are a schematic from the opened MCP73213 sheet. The robot netlist and the bill are unchanged.
+- PR 41, flush contacts. Still open. The direction on that pull request is five flush gold wells in the seat. That study is not on altaay-lab.
+- PR 42, nest sim. twin/dock/nest/sim/v3/NEST_SIM_V3.md. A mixed walk-in on two 1 mm steps, sim pass only. The sun distance in the CAD stays 190 mm.
+- PR 43, structure. twin/structure/TOPOLOGY.md. In that FEA pass, roll_to_pitch meets the walking margin of 2 and the shin eye stays under 2 (FEA pass only). Soft falls stay under 1.2 on several parts. print/ is unchanged, and the interior carve did not save print mass.
+
 ## What the files show
 
 The walking duck already has one installed model. The print set, the cable routes, the fastener schedule, the netlist, and the viewer describe that duck, and the verify scripts check those files against each other. The nest (mat, gold disc, pale gold ring, spring pins, charger in the body) is drawn under twin/dock/nest/ and is not in that model. twin/dock/nest/cad/NEST_CAD.md says the CAD is not installed in print/, the URDF, the netlist, the bill, or the viewer. That part of the picture is right.
