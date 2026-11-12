@@ -36,6 +36,7 @@ repeated and no other result file was made again.
 | (this folder) | The concept study, its sketches, its scripts and data | D61 evidence |
 | sim/ | The first sequence sim: 540 runs with the steering walk-on | D61 evidence |
 | sim/v2/ | The re-run with "line up, then cross the edge straight". Finished after D61 was written | new; it contradicts D61's first fix |
+| sim/v3/ | Mixed controller, the CAD's two 1 mm steps, a taper, a 20 mm aim, and a 215 mm wall study | sim pass only; 190 mm is still the approved distance |
 | cad/ | The nest CAD: duck pins, mat, rim, checks, renders, STL, STEP, GLB | drawn, checks pass, NOT installed, look NOT yet approved by the owner |
 | stripes/ | The striped mat study (why the feet and stripe route was dropped) | D61 evidence |
 | superseded_feet_dock_d58/ | The feet-contact dock study behind D58, and the first concept sketches | SUPERSEDED by D61, record only |
@@ -85,6 +86,24 @@ repeated and no other result file was made again.
 | cross_probe.py, cross_probe.json, cross_probe.log, cross_probe2.log, cross_probe3.log, cross_probe4.log | Straight edge crossings: forward commands and retries | sim pass only |
 | sweep.py, sweep_print.py, sweep_stage.json, sweep_stage2.json, sweep_cross6.json, sweep_cross7.json, sweep_final.json and their logs | The small sweeps of the walk-in settings | sim pass only |
 | render_v2.py, render_v2.json, run_v2_pass.mp4 | Clip of one 7.2 V run that fell before and docks now | sim pass only |
+
+## Files: sim/v3/ (mixed controller, stepped edge, wall study)
+
+Added 2026-11-11 ET. Read NEST_SIM_V3.md, plain summary first. The approved sun distance is still 190 mm.
+The 215 mm run is a study only.
+
+| File | What | Label |
+|---|---|---|
+| NEST_SIM_V3.md | The report | sim pass only, calc only as marked |
+| V3_edge_profile.png, V3_compare.png, V3_clearance.png | The edge shapes, charge and falls, wall and rim gaps | sim pass only |
+| nest_run_v3.py | Mixed walk-in (steering at 6.0 V, straight crossing at 7.2 V) and the study switches | sim pass only |
+| summarize.py, figs.py | Tables and figures from the run files | sim pass only |
+| nest_runs_mix.json, summary_mix.json | 540 runs, mixed controller, the archived 2 mm step | sim pass only |
+| nest_runs_steps.json, summary_steps.json | 540 runs, mixed controller, two 1 mm steps | sim pass only |
+| nest_runs_taper.json, summary_taper.json | 540 runs, mixed controller, 20 mm ramp | sim pass only |
+| nest_runs_aim10.json, nest_runs_aim20.json | 45 runs each at 7.2 V, aim 10 mm and 20 mm right, two steps | sim pass only |
+| nest_runs_aim20full.json, summary_aim20full.json | All 270 runs at 7.2 V, aim 20 mm, two steps | sim pass only |
+| nest_runs_wall215.json, summary_wall215.json | 540 runs, two steps, aim 20 mm at 7.2 V, sun 215 mm from the wall | sim pass only; study only |
 
 ## Files: cad/ (drawn, not installed)
 
@@ -145,6 +164,16 @@ the whole body_middle_bottom was never made (NEST_CAD.md BLOCKER 12).
   (calc only; cad/NEST_CAD.md section 2.2).
 - CAD: all checks A to H pass; 14.4 g added to the duck (calc only; cad/NEST_CAD.md section 4).
 - The pose in the sims is a stand-in (true pose plus noise), not a camera.
+- v3, mixed controller on the archived 2 mm step (sim pass only; sim/v3/NEST_SIM_V3.md): first sit 93.1 % (503 of 540),
+  within 3 sits 97.4 % (526 of 540), 10 falls. Same seeds as the two tables it is built from. The calc-only guess was
+  about 503 and about 522.
+- v3, two 1 mm steps with that controller (sim pass only): first sit 97.0 % (524 of 540), within 3 sits 99.3 %
+  (536 of 540), 0 falls. A 20 mm ramp was close and a little worse on the first sit (519 of 540).
+- v3, aim 20 mm right at 7.2 V on the two steps (sim pass only): 7.2 V first sit 263 of 270 and within 3 sits 270 of 270,
+  0 falls. Worst head-to-wall gap on that combo, counting the 6.0 V stepped runs with it, 9.6 mm.
+- v3, same combo with the sun 215 mm from the wall (sim pass only; study only, 190 mm stays the approved distance):
+  first sit 531 of 540, within 3 sits 538 of 540, 0 falls, worst head-to-wall 47.4 mm, worst foot-to-rim 34.9 mm,
+  0 runs inside the wall plane or the rim.
 
 ## How to re-run the 540-run matrix
 

@@ -186,3 +186,36 @@ share the pin positions), then D, then E.
 3. While waiting, the cheapest useful sim work is the mixed controller and the two 1 mm stepped edge (problem 2). Both
    need only the scripts in sim/ and sim/v2/ and about 1 hour on 4 cores per 540-run matrix (sim/v2/NEST_SIM_V2.md
    section 7). Re-run recipe: README.md.
+
+## 9. Sim follow-up, 2026-11-11 ET (does not replace sections 1 to 6)
+
+The mixed controller, the CAD edge, a taper, a rightward aim, and a 215 mm wall were run. Full write-up:
+sim/v3/NEST_SIM_V3.md. All of this is sim pass only unless a line says calc only. Nothing was built or bought.
+The approved sun distance is still 190 mm. The 215 mm run is a study only. D61 was not edited.
+
+Short version, same 540 seeds:
+
+| sim pass only | First sit | Within 3 sits | Falls | Worst head to wall, all runs |
+|---|---|---|---|---|
+| Old steering (section 3) | 503 of 540 | 508 of 540 | 29 | 23.5 mm |
+| Straight crossing (section 3) | 455 of 540 | 493 of 540 | 13 | -300.3 mm |
+| Mixed: steering at 6.0 V, straight at 7.2 V | 503 of 540 | 526 of 540 | 10 | 8.4 mm |
+| Mixed, two 1 mm steps | 524 of 540 | 536 of 540 | 0 | 33.4 mm |
+| Mixed, 20 mm ramp | 519 of 540 | 539 of 540 | 0 | 24.3 mm |
+| Two steps, and aim 20 mm right at 7.2 V | 531 of 540 | 540 of 540 | 0 | 9.6 mm |
+| That combo, sun 215 mm from the wall (study) | 531 of 540 | 538 of 540 | 0 | 47.4 mm |
+
+The calc-only guess for the mix was about 503 and about 522. The re-run gave 503 and 526. The 522 added the 6.0 V
+first-sit count (263) to the 7.2 V within-3 count (259). The within-3 column at 6.0 V is 267, and 267 + 259 = 526
+(calc only on the two archived tables; the re-run matched those tables seed by seed).
+
+What helped: the two 1 mm steps. Falls went from 10 to 0 and the first sit from 503 to 524. Aiming 20 mm right at
+7.2 V then took that 7.2 V first sit from 256 to 263 of 270, and every 7.2 V run charged within 3 sits, at the cost
+of the worst head gap (33.4 mm down to 9.6 mm). Putting the sun 215 mm from the wall, on that combo, put the worst
+head gap at 47.4 mm and the worst foot-to-rim gap at 34.9 mm, with 0 runs inside either, and the first-sit count
+stayed 531 of 540.
+
+What did not help: the mix does not beat the old controller on the first sit (both 503). Aiming 10 mm right did not
+change the charge count on a 45-run 7.2 V sweep. The ramp is a little worse than the two steps on the first sit
+(519 against 524). Moving the wall did not buy more first sits, and 2 runs that had charged within 3 sits at 190 mm
+did not at 215 mm.
