@@ -41,7 +41,8 @@ MI = CB.MI
 D = np.radians
 
 # ---------------------------------------------------------------- geometry (NATURAL_DOCK_IDEAS.md section 6 A and B, figs.py)
-WALL_X = 0.190            # sun centre 190 mm from the wall
+WALL_X = float(os.environ.get("NEST_WALL_X", "0.190"))   # sun centre, m from the wall. Default 0.190 (the approved concept).
+# NEST_WALL_X is a study override only. It does not change the approved 190 mm in any design record.
 MAT_H = 0.002             # 2 mm felt
 MAT_R = 0.247             # nest about 49 cm across
 MAT_BACK = 0.022          # the felt starts 22 mm from the wall (figs.py)
@@ -64,20 +65,70 @@ def on_mat(x, y):
 
 
 HF_HALF, HF_CELL, HF_DROP = 0.26, float(os.environ.get("NEST_CELL", "0.005")), 0.001
+# The archived field covers +/-260 mm, which holds the 247 mm upper felt. The lower felt is 267 mm, so the stepped
+# and tapered edges need a wider field. The default ("one") stays at 260 mm, cell for cell, with the archived runs.
+
+
+def field_half():
+    if edge_mode() == "one":
+        return HF_HALF
+    return HF_HALF + TREAD + HF_CELL          # 267 mm tread plus one cell, still on the 5 mm grid
+
+
+# NEST_EDGE selects the room-side edge. "one" is the archived field (one 2 mm rise). "steps" is the CAD edge:
+# two 1 mm rises, 20 mm apart (lower felt radius 267 mm, upper 247 mm; cad/nestcad_lib.py BASE_R, TOP_R, FELT_T).
+# "taper" is a straight ramp from the floor to 2 mm across that same 20 mm band. The back cut stays WALL_X - MAT_BACK.
+EDGE_MODES = ("one", "steps", "taper")
+TREAD = 0.020                 # m, the lower felt sticks out past the upper felt
+
+
+def edge_mode():
+    m = os.environ.get("NEST_EDGE", "one")
+    if m not in EDGE_MODES:
+        raise SystemExit("NEST_EDGE must be one, steps or taper, got %r" % m)
+    return m
+
+
+def _sample_for_height(z):
+    """hfield sample (0 to 1) whose top is z metres above the floor.
+    The geom sits at -HF_DROP and the field rises MAT_H + HF_DROP, so sample 1 is MAT_H above the floor and sample 0
+    is HF_DROP below it (the floor plane carries the duck there)."""
+    return (z + HF_DROP) / (MAT_H + HF_DROP)
 
 
 def hfield_data():
-    """the mat as a height field (cells HF_CELL): 1 inside the nest outline, 0 outside. The geom sits HF_DROP below the
-    floor plane, so off the mat the plane carries the duck and on the mat the field does, MAT_H above the floor. The 2 mm
-    edge is one cell wide (2 mm over 5 mm: a steep chamfer, not a knife edge)."""
-    n = int(round(2 * HF_HALF / HF_CELL)) + 1
-    g = np.linspace(-HF_HALF, HF_HALF, n)
+    """the mat as a height field (cells HF_CELL). Sample 1 is on the mat, MAT_H above the floor. Sample 0 is outside.
+    Default (NEST_EDGE=one, or unset): 1 inside the nest outline, 0 outside. The 2 mm edge is one cell wide
+    (2 mm over 5 mm: a steep chamfer, not a knife edge). That default is the field the archived runs used.
+    NEST_EDGE=steps: 1 mm on the 20 mm tread, 2 mm inside the upper felt. Each rise is still one cell.
+    NEST_EDGE=taper: a linear ramp from the floor at the outer radius to 2 mm at the upper-felt radius.
+    The ramp fraction is a physical height (fraction times MAT_H), then converted with _sample_for_height, because
+    sample 0 is HF_DROP below the floor and sample 1 is MAT_H above it."""
+    half = field_half()
+    n = int(round(2 * half / HF_CELL)) + 1
+    g = np.linspace(-half, half, n)
     X, Y = np.meshgrid(g, g)                      # row = y, column = x
-    return n, on_mat(X, Y).astype(np.float32)
+    mode = edge_mode()
+    if mode == "one":
+        return n, on_mat(X, Y).astype(np.float32)
+    r = np.hypot(X, Y)
+    back = X < WALL_X - MAT_BACK
+    inner = (r < MAT_R) & back
+    outer = (r < MAT_R + TREAD) & back
+    if mode == "steps":
+        h1 = _sample_for_height(0.001)            # 1 mm above the floor
+        h = np.where(inner, 1.0, np.where(outer, h1, 0.0))
+    else:
+        # fraction 0 at the outer radius, 1 at the upper felt. That fraction is the share of the 2 mm felt, not the
+        # height-field sample: sample 0 sits HF_DROP below the floor.
+        frac = np.clip((MAT_R + TREAD - r) / TREAD, 0.0, 1.0)
+        h = np.where(outer, _sample_for_height(frac * MAT_H), 0.0)
+    return n, h.astype(np.float32)
 
 
 def scene_xml(mat=True, wall=True):
     n, _ = hfield_data()
+    half = field_half()
     rim = ('<geom name="rim" type="box" pos="%.4f 0 %.4f" size="%.4f %.4f %.4f" rgba="0.72 0.80 0.64 1" contype="2" conaffinity="0"/>'
            % (WALL_X - 0.5 * RIM_D1, RIM_H / 2, 0.5 * RIM_D1, RIM_HALF, RIM_H / 2))       # filled back to the wall: a solid block
     wl = ('<geom name="wall" type="box" pos="%.4f 0 0.3" size="0.02 1.2 0.3" rgba="0.91 0.89 0.85 1" contype="2" conaffinity="0"/>' % (WALL_X + 0.02))
@@ -85,7 +136,7 @@ def scene_xml(mat=True, wall=True):
           % (-HF_DROP))
     return f'''<mujoco model="scene"><include file="open_duck_mini_v2.xml"/>
 <visual><headlight diffuse="0.7 0.7 0.7" ambient="0.4 0.4 0.4" specular="0 0 0"/><global offwidth="640" offheight="480"/></visual>
-<asset>{'<hfield name="mat" nrow="%d" ncol="%d" size="%.3f %.3f %.4f 0.004"/>' % (n, n, HF_HALF, HF_HALF, MAT_H + HF_DROP) if mat else ''}
+<asset>{'<hfield name="mat" nrow="%d" ncol="%d" size="%.3f %.3f %.4f 0.004"/>' % (n, n, half, half, MAT_H + HF_DROP) if mat else ''}
 <texture type="skybox" builtin="gradient" rgb1="0.98 0.98 0.96" rgb2="0.98 0.98 0.96" width="64" height="64"/></asset>
 <worldbody><light pos="-0.5 0 2.5" dir="0.2 0 -1" directional="true"/>
 <body name="floor"><geom name="floor" size="0 0 0.01" type="plane" contype="1" conaffinity="0" priority="1" friction="0.6" condim="3" rgba="0.86 0.83 0.77 1"/>
