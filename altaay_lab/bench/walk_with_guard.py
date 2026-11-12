@@ -28,14 +28,16 @@ What it adds around the Runtime loop (details in odm_bench/walkhooks.py):
   9. With --knee-heat (software/knee_heat.py, the boot service): a servo at 55 C on 2 reads
      warns and stops the walk, torque goes off, and goal writes stop so a write cannot turn
      torque back on. Idle (the pad pause) and a caller that says the duck is sitting are torque
-     off even when cool. The walk may start again only after 2 readings whose hottest servo is
-     below 45 C. This path does not exit. The older thermal stop (limit minus 8 C) still exits.
+     off even when cool. The walk may start again only after every joint id has 2 of its own
+     readings under 45 C. A failed turn_off raises WalkStop("knee_torque_off") so main() runs
+     hard_stop (exit 11). The older thermal stop (limit minus 8 C) still exits.
   Ctrl-C behaves like upstream (servos keep their last targets) unless --torque-off-on-exit.
 Logs: <out>/walk_guard/guard_<time>.csv (every guard tick), thermal_<time>.csv (hottest servo
 every second) and a JSON report with the TEST_PLAN 11 items.
 Exit codes: 0 normal end, 1 failed check, 3 bus failure, 4 battery too low to start, 5 no servo
 answered, 6 battery hard stop (power off requested), 7 thermal warn stop, 8 thermal stop,
-9 too hot to start, 10 torque off not confirmed after a stop (takes the place of 3, 6, 7 or 8).
+9 too hot to start, 10 torque off not confirmed after a stop (takes the place of 3, 6, 7, 8 or 11),
+11 knee-heat turn_off failed and the hard stop ran.
 """
 import argparse
 import os
@@ -96,9 +98,14 @@ class GuardHook:
         if self.knee is not None:
             # Pad pause is idle. A sit program passes posture "sitting" to KneeHeatGuard
             # itself; this walk only sees walking and the pad pause.
+            import knee_heat
             posture = "idle" if paused else "walking"
             decision = self.knee.update(t, temps, posture)
-            self.gate.apply(walk.hwi, decision)
+            try:
+                self.gate.apply(walk.hwi, decision)
+            except knee_heat.TorqueOffFailed as err:
+                raise walkhooks.WalkStop(
+                    "knee_torque_off", "torque off failed during the heat rest: %s" % err) from err
             events += decision.events
         if self.guard.last_median is not None and volts:
             self.medians.append(self.guard.last_median)
@@ -221,7 +228,7 @@ def main(argv=None):
     gate = None
     if a.knee_heat:
         knee_mod = _load_knee_heat()
-        knee = knee_mod.KneeHeatGuard()
+        knee = knee_mod.KneeHeatGuard(watched=joints.IDS)
         gate = knee_mod.TorqueGate()
 
     # 1. pypot first (before rustypot takes the port exclusively), then the start checks
@@ -274,6 +281,11 @@ def main(argv=None):
             done = walk.hard_stop(pyio, low_gain_s=0.5)
             rep.add("T.stop", f"thermal stop: {e.reason}", "INFO", "; ".join(done))
             code = 8
+        elif e.kind == "knee_torque_off":
+            done = walk.hard_stop(pyio, low_gain_s=0.5)
+            rep.add("K.torque_off_failed", f"heat rest could not turn torque off: {e.reason}", "FAIL",
+                    "; ".join(done))
+            code = 11
         else:
             rep.add("11.exit", f"walk ended: {e.reason}", "INFO")
             if a.torque_off_on_exit:

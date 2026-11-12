@@ -228,7 +228,7 @@ class Gate(unittest.TestCase):
         self.assertEqual(gate.skipped, 1)
         self.assertEqual(gate.writes, 2)
 
-    def test_turn_off_failure_is_counted(self):
+    def test_turn_off_failure_is_not_swallowed(self):
         class Hwi:
             def turn_off(self):
                 raise RuntimeError("bus")
@@ -236,9 +236,44 @@ class Gate(unittest.TestCase):
         gate = K.TorqueGate()
         g = K.KneeHeatGuard()
         d = g.update(0.0, {13: 30.0}, "sitting")
-        gate.apply(Hwi(), d)
+        with self.assertRaises(K.TorqueOffFailed):
+            gate.apply(Hwi(), d)
         self.assertEqual(gate.failures, 1)
         self.assertTrue(gate.hold_off)
+
+
+class Coverage(unittest.TestCase):
+    def test_a_cool_group_does_not_clear_a_hot_knee(self):
+        g = K.KneeHeatGuard(watched=(13, 23, 33))
+        g.update(0.0, {13: 55.0}, "walking")
+        d = g.update(0.5, {13: 55.0}, "walking")
+        self.assertEqual(d.events[0]["event"], "warn_stop")
+        g.update(1.0, {23: 30.0, 33: 30.0}, "walking")
+        d = g.update(1.5, {23: 30.0, 33: 30.0}, "walking")
+        self.assertTrue(g.latched)
+        self.assertEqual(d.torque, "off")
+        self.assertNotIn("resume", [e["event"] for e in g.events])
+
+    def test_missing_knee_replies_do_not_restart(self):
+        g = K.KneeHeatGuard(watched=(13, 23))
+        g.update(0.0, {13: 55.0}, "walking")
+        g.update(0.5, {13: 55.0}, "walking")
+        g.update(1.0, {23: 30.0}, "walking")
+        d = g.update(1.5, {23: 30.0}, "walking")
+        self.assertTrue(g.latched)
+        self.assertEqual(d.torque, "off")
+
+    def test_each_servo_must_cool_twice_after_the_stop(self):
+        g = K.KneeHeatGuard(watched=(13, 23))
+        g.update(0.0, {13: 55.0}, "walking")
+        g.update(0.5, {13: 55.0}, "walking")
+        g.update(1.0, {23: 30.0}, "walking")
+        g.update(1.5, {23: 30.0}, "walking")
+        g.update(2.0, {13: 40.0}, "walking")
+        d = g.update(2.5, {13: 40.0}, "walking")
+        self.assertFalse(g.latched)
+        self.assertEqual(d.torque, "allow")
+        self.assertEqual(d.events[-1]["event"], "resume")
 
     def test_restart_must_be_below_the_stop(self):
         with self.assertRaises(ValueError):
