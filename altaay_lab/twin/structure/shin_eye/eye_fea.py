@@ -85,6 +85,11 @@ def prepare(stl, prof, solid, E_left):
 
 def one(P, S, sig, which, strengths):
     hist, names = FR.history(S, which)
+    if which == "fall" and len(names):
+        # st_fea_run.history also loads the default, mid, and hard contact files.
+        # The margin in this study is the soft level only.
+        keep = np.array([str(n).endswith("_tc0.0158_dr0.2") for n in names])
+        hist, names = hist[keep], names[keep]
     if not len(hist):
         return None
     r = FR.evaluate(P, S, sig, hist, names, strengths=strengths[:3])[0]

@@ -1,12 +1,163 @@
 [
- {"tag": "stock drive sheet", "stl": "shin_left_sheet.stl", "qty": 2, "g_model": 10.38, "h": 1.09, "g_support": 1.18, "robot_g_pla": 20.76, "robot_h": 2.18},
- {"tag": "collar", "qty": 2, "g_model": 14.12, "h": 1.6, "g_support": 2.2, "robot_g_pla": 28.24, "robot_h": 3.2},
- {"tag": "taper", "qty": 2, "g_model": 14.83, "h": 1.66, "g_support": 2.14, "robot_g_pla": 29.66, "robot_h": 3.32},
- {"tag": "taper head recess", "qty": 2, "g_model": 14.53, "h": 1.69, "g_support": 2.35, "robot_g_pla": 29.06, "robot_h": 3.38},
- {"tag": "web", "qty": 2, "g_model": 15.74, "h": 1.71, "g_support": 1.72, "robot_g_pla": 31.48, "robot_h": 3.42},
- {"tag": "web 5 walls 40 percent", "qty": 2, "g_model": 21.62, "h": 2.38, "g_support": 1.85, "robot_g_pla": 43.24, "robot_h": 4.76},
- {"tag": "web rectilinear 100 percent", "qty": 2, "g_model": 29.22, "h": 2.51, "g_support": 1.86, "robot_g_pla": 58.44, "robot_h": 5.02},
- {"tag": "collar head recess", "qty": 2, "g_model": 13.82, "h": 1.63, "g_support": 2.41, "robot_g_pla": 27.64, "robot_h": 3.26},
- {"tag": "web head recess", "qty": 2, "g_model": 15.43, "h": 1.74, "g_support": 1.93, "robot_g_pla": 30.86, "robot_h": 3.48, "robot_g_pa6cf": 28.03},
- {"tag": "stock idle sheet", "stl": "shin_right_sheet.stl", "qty": 2, "g_model": 9.89, "h": 1.07, "g_support": 1.18, "robot_g_pla": 19.78, "robot_h": 2.14, "robot_g_pa6cf": 17.96}
+ {
+  "tag": "stock",
+  "qty": 2,
+  "g_model": 10.38,
+  "h": 1.09,
+  "g_support": 1.18,
+  "robot_g": 20.76,
+  "robot_h": 2.18,
+  "by_material_g": {
+   "PLA": 20.76,
+   "PETG": 22.14,
+   "PLA-CF": 21.11,
+   "ASA": 18.17,
+   "PA6-CF": 18.86
+  }
+ },
+ {
+  "tag": "collar",
+  "qty": 2,
+  "g_model": 14.12,
+  "h": 1.6,
+  "g_support": 2.2,
+  "robot_g": 28.24,
+  "robot_h": 3.2,
+  "by_material_g": {
+   "PLA": 28.24,
+   "PETG": 30.12,
+   "PLA-CF": 28.71,
+   "ASA": 24.71,
+   "PA6-CF": 25.65
+  }
+ },
+ {
+  "tag": "taper",
+  "qty": 2,
+  "g_model": 14.83,
+  "h": 1.66,
+  "g_support": 2.14,
+  "robot_g": 29.66,
+  "robot_h": 3.32,
+  "by_material_g": {
+   "PLA": 29.66,
+   "PETG": 31.64,
+   "PLA-CF": 30.15,
+   "ASA": 25.95,
+   "PA6-CF": 26.94
+  }
+ },
+ {
+  "tag": "taper_cbore",
+  "qty": 2,
+  "g_model": 14.53,
+  "h": 1.69,
+  "g_support": 2.35,
+  "robot_g": 29.06,
+  "robot_h": 3.38,
+  "by_material_g": {
+   "PLA": 29.06,
+   "PETG": 31.0,
+   "PLA-CF": 29.54,
+   "ASA": 25.43,
+   "PA6-CF": 26.4
+  }
+ },
+ {
+  "tag": "web",
+  "qty": 2,
+  "g_model": 15.74,
+  "h": 1.71,
+  "g_support": 1.72,
+  "robot_g": 31.48,
+  "robot_h": 3.42,
+  "by_material_g": {
+   "PLA": 31.48,
+   "PETG": 33.58,
+   "PLA-CF": 32.0,
+   "ASA": 27.55,
+   "PA6-CF": 28.59
+  }
+ },
+ {
+  "tag": "collar_cbore",
+  "qty": 2,
+  "g_model": 13.82,
+  "h": 1.63,
+  "g_support": 2.41,
+  "robot_g": 27.64,
+  "robot_h": 3.26,
+  "by_material_g": {
+   "PLA": 27.64,
+   "PETG": 29.48,
+   "PLA-CF": 28.1,
+   "ASA": 24.19,
+   "PA6-CF": 25.11
+  }
+ },
+ {
+  "tag": "web_cbore",
+  "qty": 2,
+  "g_model": 15.43,
+  "h": 1.74,
+  "g_support": 1.93,
+  "robot_g": 30.86,
+  "robot_h": 3.48,
+  "by_material_g": {
+   "PLA": 30.86,
+   "PETG": 32.92,
+   "PLA-CF": 31.37,
+   "ASA": 27.0,
+   "PA6-CF": 28.03
+  }
+ },
+ {
+  "tag": "web_w5i40",
+  "qty": 2,
+  "g_model": 21.62,
+  "h": 2.38,
+  "g_support": 1.85,
+  "robot_g": 43.24,
+  "robot_h": 4.76,
+  "by_material_g": {
+   "PLA": 43.24,
+   "PETG": 46.12,
+   "PLA-CF": 43.96,
+   "ASA": 37.84,
+   "PA6-CF": 39.28
+  }
+ },
+ {
+  "tag": "web_solid",
+  "qty": 2,
+  "g_model": 29.22,
+  "h": 2.51,
+  "g_support": 1.86,
+  "robot_g": 58.44,
+  "robot_h": 5.02,
+  "by_material_g": {
+   "PLA": 58.44,
+   "PETG": 62.34,
+   "PLA-CF": 59.41,
+   "ASA": 51.14,
+   "PA6-CF": 53.08
+  }
+ },
+ {
+  "tag": "stock_idle",
+  "stl": "shin_right_sheet.stl",
+  "qty": 2,
+  "g_model": 9.89,
+  "h": 1.07,
+  "g_support": 1.18,
+  "robot_g": 19.78,
+  "robot_h": 2.15,
+  "by_material_g": {
+   "PLA": 19.78,
+   "PETG": 21.1,
+   "PLA-CF": 20.11,
+   "ASA": 17.31,
+   "PA6-CF": 17.97
+  }
+ }
 ]

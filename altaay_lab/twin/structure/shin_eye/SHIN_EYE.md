@@ -109,7 +109,7 @@ PrusaSlicer 2.7.2 through print/slice.py, the parts.csv stack for these sheets (
 | Web, 5 walls 40 % | 21.62 | 2.38 | +22.48 | +2.58 |
 | Web, rectilinear 100 % | 29.22 | 2.51 | +37.68 | +2.84 |
 
-There is no PA6-CF profile in print/config/. The time above is the PLA profile. PA6-CF grams scale the toolpath by 1.09 / 1.20 (cited densities): the recessed web is 14.02 g per part, 28.03 g for the pair, which is +7.27 g against the PLA stock pair. The idle sheet, stock STL, is 9.89 g and 1.07 h in PLA (slicer). In PA6-CF that is 8.98 g per part, 17.96 g for the pair, which is 1.82 g under the PLA pair. Net for the four sheets, PA6-CF against today's PLA: +5.45 g (calc only on the two idle sheets, slicer on the drive sheets). Idle-sheet time does not change.
+There is no PA6-CF profile in print/config/. The time above is the PLA profile. PA6-CF grams scale the toolpath by 1.09 / 1.20 (cited densities): the recessed web is 14.02 g per part, 28.03 g for the pair, which is +7.27 g against the PLA stock pair. The idle sheet, stock STL, is 9.89 g and 1.07 h in PLA (slicer). In PA6-CF that is 8.98 g per part, 17.97 g for the pair, which is 1.81 g under the PLA pair. Net for the four sheets, PA6-CF against today's PLA: +5.46 g (calc only on the two idle sheets, slicer on the drive sheets). Idle-sheet time does not change.
 
 ## Recommendation
 

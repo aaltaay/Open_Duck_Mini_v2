@@ -10,7 +10,6 @@ Usage: PRUSA_SLICER=<binary> ODM_SCRATCH=<scratch> python3 eye_slice.py
 import os
 import sys
 import json
-import shutil
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 STRUCT = os.path.abspath(os.path.join(HERE, ".."))
@@ -27,17 +26,19 @@ SRC = {
     "taper": os.path.join(HERE, "stl", "shin_left_sheet_taper.stl"),
     "taper_cbore": os.path.join(HERE, "stl", "shin_left_sheet_taper_cbore.stl"),
     "web": os.path.join(HERE, "stl", "shin_left_sheet_web.stl"),
+    "collar_cbore": os.path.join(HERE, "stl", "shin_left_sheet_collar_cbore.stl"),
+    "web_cbore": os.path.join(HERE, "stl", "shin_left_sheet_web_cbore.stl"),
 }
 
 
-def one(tag, src, extra=None):
-    r = SP.ROWS["shin_left_sheet.stl"]
+def one(tag, src, extra=None, stl_name="shin_left_sheet.stl"):
+    r = SP.ROWS[stl_name]
     work = os.path.join(SP.OUT, "shin_eye", tag)
     os.makedirs(work, exist_ok=True)
     m = __import__("trimesh").load(src, force="mesh")
     m.apply_transform(SLC.rot_up(r["up"]))
     m.apply_translation(-m.bounds[0])
-    path = os.path.join(work, "shin_left_sheet.stl")
+    path = os.path.join(work, stl_name)
     m.export(path)
     cfgs = SLC.config_stack(r["material"], r["overrides"])
     if extra:
@@ -70,5 +71,13 @@ if __name__ == "__main__":
     rows.append(one("web_w5i40", SRC["web"], {"perimeters": "5", "fill_density": "40%"}))
     # gyroid (the lab infill) is rejected at 100%. Rectilinear is the solid fill.
     rows.append(one("web_solid", SRC["web"], {"fill_pattern": "rectilinear", "perimeters": "6", "fill_density": "100%"}))
+    idle = SP.slice_one("shin_right_sheet.stl", {}, "shin_right_base")
+    iq = int(SP.ROWS["shin_right_sheet.stl"]["qty"])
+    rows.append(dict(tag="stock_idle", stl="shin_right_sheet.stl", qty=iq,
+                     g_model=round(idle["g_model"], 2), h=round(idle["s"] / 3600.0, 2),
+                     g_support=round(idle.get("g_support") or 0, 2),
+                     robot_g=round(idle["g_model"] * iq, 2), robot_h=round(idle["s"] / 3600.0 * iq, 2),
+                     by_material_g={k: round(idle["g_model"] * iq * (d / 1.20), 2) for k, d in DENS.items()}))
+    print(rows[-1], flush=True)
     json.dump(rows, open(os.path.join(HERE, "slice.json"), "w"), indent=1)
     print("wrote slice.json")
