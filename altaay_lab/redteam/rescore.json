@@ -1,0 +1,149 @@
+{
+ "label": "calc only on seats from sim pass only runs",
+ "reused": [
+  "altaay_lab/twin/dock/nest/sim/nestlib.py score_nest",
+  "altaay_lab/twin/dock/blind/score.py flush window",
+  "altaay_lab/twin/dock/blind/blind_runs_b190.json",
+  "altaay_lab/twin/dock/closeup/close_marker.json"
+ ],
+ "blind_190mm": {
+  "n": 540,
+  "falls": 0,
+  "reached_a_sit": 528,
+  "stored_old_pins_first": 35,
+  "stored_old_pins_within_3": 43,
+  "flush_box_first": 380,
+  "flush_box_within_3": 383,
+  "rule_mismatches_on_first_sit": 0,
+  "min_wall_clear_negative": 131,
+  "negative_wall_and_flush_first": 119,
+  "negative_wall_and_old_pins_first": 0,
+  "first_seat_radius_mm": {
+   "n": 528,
+   "p50": 129.7,
+   "p95": 311.1
+  },
+  "by_volt_mu": [
+   {
+    "volt": 6.0,
+    "mu": 0.6,
+    "n": 90,
+    "old": 0,
+    "box": 64,
+    "falls": 0
+   },
+   {
+    "volt": 6.0,
+    "mu": 0.8,
+    "n": 90,
+    "old": 4,
+    "box": 62,
+    "falls": 0
+   },
+   {
+    "volt": 6.0,
+    "mu": 1.0,
+    "n": 90,
+    "old": 4,
+    "box": 57,
+    "falls": 0
+   },
+   {
+    "volt": 7.2,
+    "mu": 0.6,
+    "n": 90,
+    "old": 4,
+    "box": 62,
+    "falls": 0
+   },
+   {
+    "volt": 7.2,
+    "mu": 0.8,
+    "n": 90,
+    "old": 10,
+    "box": 66,
+    "falls": 0
+   },
+   {
+    "volt": 7.2,
+    "mu": 1.0,
+    "n": 90,
+    "old": 13,
+    "box": 69,
+    "falls": 0
+   }
+  ],
+  "nest_moved": {
+   "unmoved": {
+    "first_old_pins": 35,
+    "first_flush_box": 380,
+    "of": 540
+   },
+   "along_wall_50mm": {
+    "first_old_pins": 65,
+    "first_flush_box": 389,
+    "of": 540
+   },
+   "along_wall_100mm": {
+    "first_old_pins": 65,
+    "first_flush_box": 387,
+    "of": 540
+   },
+   "along_wall_150mm": {
+    "first_old_pins": 27,
+    "first_flush_box": 381,
+    "of": 540
+   },
+   "into_room_50mm": {
+    "first_old_pins": 19,
+    "first_flush_box": 416,
+    "of": 540
+   },
+   "into_room_100mm": {
+    "first_old_pins": 2,
+    "first_flush_box": 382,
+    "of": 540
+   },
+   "toward_wall_50mm": {
+    "first_old_pins": 74,
+    "first_flush_box": 350,
+    "of": 540
+   }
+  }
+ },
+ "wall_card": {
+  "n": 540,
+  "falls": 1,
+  "note": "seat centre only; the four pin tips are not in this file",
+  "unmoved": {
+   "first_flush_box": 533,
+   "seat_centre_inside_47mm": 494,
+   "stored_pin_ok_first": 501,
+   "of": 540
+  },
+  "along_wall_50mm": {
+   "first_flush_box": 533,
+   "seat_centre_inside_47mm": 257,
+   "stored_pin_ok_first": null,
+   "of": 540
+  },
+  "along_wall_100mm": {
+   "first_flush_box": 533,
+   "seat_centre_inside_47mm": 6,
+   "stored_pin_ok_first": null,
+   "of": 540
+  },
+  "into_room_100mm": {
+   "first_flush_box": 527,
+   "seat_centre_inside_47mm": 2,
+   "stored_pin_ok_first": null,
+   "of": 540
+  },
+  "toward_wall_50mm": {
+   "first_flush_box": 533,
+   "seat_centre_inside_47mm": 178,
+   "stored_pin_ok_first": null,
+   "of": 540
+  }
+ }
+}
