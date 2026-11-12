@@ -31,13 +31,70 @@ from scipy.spatial import cKDTree
 HERE = os.path.dirname(os.path.abspath(__file__))
 LAB = os.path.abspath(os.path.join(HERE, "../.."))
 REPO = os.path.abspath(os.path.join(LAB, ".."))
-PRINT = os.path.join(REPO, "print")
+PRINT = os.environ.get("ST_PRINT", os.path.join(REPO, "print"))
+
+def stl_path(name):
+    """STL for a study member or a support mesh. ST_PRINT wins when the file is there; otherwise the print set."""
+    p = os.path.join(PRINT, name + ".stl")
+    if os.path.exists(p):
+        return p
+    return os.path.join(REPO, "print", name + ".stl")
 
 E_SOLID = 2641.0
 NU_SOLID = 0.35
 GYROID_N = 2.12
 WALL_MM = {2: 0.86, 3: 1.27, 4: 1.67, 5: 2.09, 6: 2.50}   # 0.45 + (n - 1) x 0.41 mm
 TOP_MM, BOT_MM = 1.0, 0.8
+# 6-tet split of a cube. Every cube uses the same diagonal, so neighboring cubes share faces.
+_CUBE_TETS = np.array([[0, 1, 3, 7], [0, 3, 2, 7], [0, 2, 6, 7], [0, 6, 4, 7], [0, 4, 5, 7], [0, 5, 1, 7]], np.int32)
+_CUBE_OFF = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1]], np.int32)
+
+
+def voxel_tets(mesh, pitch, holes=()):
+    """Linear tets from a regular grid of the solid (FEA pass only).
+
+    TetGen's recoversubfaces step fails on the current print STLs (edges shorter than 0.05 mm).
+    This keeps the same element, the same assembler and the same solver. A voxel is solid when its
+    centre is inside the STL. holes is a list of (centre, unit axis, radius, half length) cylinders
+    that stay open (screw holes and horn hubs). Pitch is in mm.
+    """
+    b0 = np.asarray(mesh.bounds[0], float) - pitch
+    b1 = np.asarray(mesh.bounds[1], float) + pitch
+    xs = np.arange(b0[0], b1[0] + pitch * 0.5, pitch)
+    ys = np.arange(b0[1], b1[1] + pitch * 0.5, pitch)
+    zs = np.arange(b0[2], b1[2] + pitch * 0.5, pitch)
+    xc, yc, zc = xs[:-1] + pitch / 2, ys[:-1] + pitch / 2, zs[:-1] + pitch / 2
+    IX, IY, IZ = np.meshgrid(np.arange(len(xc)), np.arange(len(yc)), np.arange(len(zc)), indexing="ij")
+    pts = np.stack([xc[IX].ravel(), yc[IY].ravel(), zc[IZ].ravel()], 1)
+    inside = np.asarray(mesh.contains(pts), bool)
+    for c, a, r, h in holes:
+        d = pts - np.asarray(c, float)
+        ax = d @ np.asarray(a, float)
+        rad = np.linalg.norm(d - np.outer(ax, a), axis=1)
+        inside &= ~((rad < r) & (np.abs(ax) < h))
+    ijk = np.stack([IX.ravel()[inside], IY.ravel()[inside], IZ.ravel()[inside]], 1)
+    if not len(ijk):
+        raise RuntimeError("voxel mesh is empty")
+    corners = ijk[:, None, :] + _CUBE_OFF[None, :, :]
+    flat = corners.reshape(-1, 3)
+    nx, ny = len(xs), len(ys)
+    key = flat[:, 0] + nx * (flat[:, 1] + ny * flat[:, 2])
+    uniq, inv = np.unique(key, return_inverse=True)
+    kz = uniq // (nx * ny)
+    rem = uniq % (nx * ny)
+    ky = rem // nx
+    kx = rem % nx
+    X = np.stack([xs[kx], ys[ky], zs[kz]], 1)
+    T = inv.reshape(-1, 8)[:, _CUBE_TETS].reshape(-1, 4).astype(np.int32)
+    a = X[T[:, 1]] - X[T[:, 0]]
+    b = X[T[:, 2]] - X[T[:, 0]]
+    d = X[T[:, 3]] - X[T[:, 0]]
+    signed = np.einsum("ij,ij->i", np.cross(a, b), d)
+    neg = signed < 0
+    if neg.any():
+        T = T.copy()
+        T[neg, 1], T[neg, 2] = T[neg, 2], T[neg, 1].copy()
+    return X, T
 
 def up_rotation(up):
     """rotation R taking STL coordinates to the print frame where 'up' is +z"""
@@ -66,14 +123,15 @@ class Part:
     LEVELS = {1: dict(minratio=2.0, mindihedral=10, maxvol=5.0), 2: dict(minratio=1.6, mindihedral=15, maxvol=1.0),
               3: dict(minratio=1.4, mindihedral=18, maxvol=0.3)}
 
-    def __init__(self, members, level=1, rings=(), grow=None, tie_mm=0.45, k_tie=2.0e4, prof_over=None, simplify=None):
+    def __init__(self, members, level=1, rings=(), grow=None, tie_mm=0.45, k_tie=2.0e4, prof_over=None, simplify=None, voxel_mm=None, holes=()):
         """members: list of (part_name, T_link 4x4 STL mm -> link mm); rings: list of (centre_link, axis_link, r, half_len).
         Each member is meshed on its own; members that touch are tied by stiff springs between surface nodes closer than
-        tie_mm (bonded screwed joint, ASSUMPTION; k_tie N/mm per node pair, about 15 x the local element stiffness E h)"""
-        self.members = []; L = Part.LEVELS[level]; self.level = level
+        tie_mm (bonded screwed joint, ASSUMPTION; k_tie N/mm per node pair, about 15 x the local element stiffness E h).
+        voxel_mm: build the tets on a grid of that pitch instead of TetGen (see voxel_tets). holes: cylinders kept open."""
+        self.members = []; L = Part.LEVELS[level]; self.level = level; self.voxel_mm = voxel_mm
         Xs, Ts, mem = [], [], []; off = 0; t = time.time()
         for k, (name, T) in enumerate(members):
-            m = trimesh.load(os.path.join(PRINT, name + ".stl"), force="mesh")
+            m = trimesh.load(stl_path(name), force="mesh")
             if simplify and name in simplify:            # collapse STL edges shorter than simplify[name] mm (manifold3d), so that
                 import manifold3d as m3                   # TetGen does not refine a cascade of tiny tets at needle triangles
                 me = m3.Manifold(m3.Mesh(vert_properties=np.asarray(m.vertices, np.float32), tri_verts=np.asarray(m.faces, np.uint32))).simplify(simplify[name]).to_mesh()
@@ -84,8 +142,11 @@ class Part:
             if prof_over and name in prof_over: prof = dict(prof, **prof_over[name])     # proposal studies: other walls or infill
             Rp = up_rotation(prof["up"]); R_lp = Rp @ T[:3, :3].T
             self.members.append(dict(name=name, T=T, prof=prof, R=R_lp, mesh=m))
-            tg = tetgen.TetGen(np.asarray(m.vertices, float), np.asarray(m.faces, int))
-            n_, e_ = tg.tetrahedralize(order=1, mindihedral=L["mindihedral"], minratio=L["minratio"], maxvolume=L["maxvol"], fixedvolume=True, quiet=True)[:2]
+            if voxel_mm:
+                n_, e_ = voxel_tets(m, float(voxel_mm), holes)
+            else:
+                tg = tetgen.TetGen(np.asarray(m.vertices, float), np.asarray(m.faces, int))
+                n_, e_ = tg.tetrahedralize(order=1, mindihedral=L["mindihedral"], minratio=L["minratio"], maxvolume=L["maxvol"], fixedvolume=True, quiet=True)[:2]
             Xs.append(np.asarray(n_, float)); Ts.append(np.asarray(e_, int) + off); mem.append(np.full(len(e_), k)); off += len(n_)
         self.X = np.vstack(Xs); self.T = np.vstack(Ts); self.mem = np.concatenate(mem); self.mesh_s = time.time() - t
         self.node_mem = np.concatenate([np.full(len(x), k) for k, x in enumerate(Xs)])

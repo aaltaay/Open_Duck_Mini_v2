@@ -1,0 +1,717 @@
+{
+ "labels": "cited numbers are named in CONTACT_TWIN.md; forces and ohms below are calc only unless the key says sim",
+ "force": {
+  "label_force": "calc only, from the catalog ounce table",
+  "label_sit": "sim pass only, pins_sit_check.json, 11 sits",
+  "strokes": {
+   "seat_design_proud": {
+    "stroke_mm": 3.0,
+    "catalog_table_N": 0.8499,
+    "two_point_line_N": 0.8523,
+    "metal_floor_mOhm": 3.363,
+    "stroke_left_mm": 7.16
+   },
+   "seat_plane_mean": {
+    "stroke_mm": 2.98,
+    "catalog_table_N": 0.8471,
+    "two_point_line_N": 0.8494,
+    "metal_floor_mOhm": 3.368,
+    "stroke_left_mm": 7.18
+   },
+   "bump_plane_mean": {
+    "stroke_mm": 4.55,
+    "catalog_table_N": 1.072,
+    "two_point_line_N": 1.0757,
+    "metal_floor_mOhm": 2.994,
+    "stroke_left_mm": 5.61
+   },
+   "bump_plane_min": {
+    "stroke_mm": 4.27,
+    "catalog_table_N": 1.0319,
+    "two_point_line_N": 1.0353,
+    "metal_floor_mOhm": 3.052,
+    "stroke_left_mm": 5.89
+   },
+   "bump_height_mean": {
+    "stroke_mm": 3.14,
+    "catalog_table_N": 0.87,
+    "two_point_line_N": 0.8725,
+    "metal_floor_mOhm": 3.324,
+    "stroke_left_mm": 7.02
+   },
+   "bump_height_least_pin": {
+    "stroke_mm": 1.85,
+    "catalog_table_N": 0.6851,
+    "two_point_line_N": 0.6866,
+    "metal_floor_mOhm": 3.745,
+    "stroke_left_mm": 8.31
+   },
+   "bump_flush": {
+    "stroke_mm": 7.5,
+    "catalog_table_N": 1.4948,
+    "two_point_line_N": 1.5007,
+    "metal_floor_mOhm": 2.536,
+    "stroke_left_mm": 2.66
+   }
+  },
+  "weight_N": 27.545,
+  "plane_support_sum_N": 27.55,
+  "plane_support_minus_weight_N": 0.005,
+  "two_seat_pins_at_3mm_N": 1.7,
+  "plane_seat_block_still_N": 0.85,
+  "pins_share_of_weight": 0.1398,
+  "soles_share_of_weight": 0.8296
+ },
+ "resistance": {
+  "rs_ohm_sq": 0.07,
+  "rs_note": "Laird 3035-535 prints < 0.07 ohm/sq. Used as 0.07, an upper bound on resistivity, not on path resistance.",
+  "probe_ohm": 0.02,
+  "sheet_ohm_at_mm": {
+   "50": 0.0524,
+   "100": 0.0601,
+   "200": 0.0678
+  },
+  "sheet_used_mm": 100.0,
+  "sheet_used_ohm": 0.0601,
+  "sun_no_foil_to_rim_ohm": 0.0524,
+  "sun_foil_through_ohm": null,
+  "sun_foil_note": "BLOCKER. The Laird sheet gives surface resistivity, not through-thickness. Foil adhesive was not opened.",
+  "patterns": {
+   "four_pins": {
+    "charge_1A": {
+     "closed": true,
+     "r_ohm": 0.05004,
+     "v_drop": 0.05004,
+     "p_w": 0.05004,
+     "i_plus_each": 0.5,
+     "i_minus_each": 0.5,
+     "p_hot_pin_w": 0.005,
+     "p_cloth_w": 0.03004
+    },
+    "typical_2A": {
+     "closed": true,
+     "r_ohm": 0.05004,
+     "v_drop": 0.10008,
+     "p_w": 0.20016,
+     "i_plus_each": 1.0,
+     "i_minus_each": 1.0,
+     "p_hot_pin_w": 0.02,
+     "p_cloth_w": 0.12016
+    },
+    "peak_2_8A": {
+     "closed": true,
+     "r_ohm": 0.05004,
+     "v_drop": 0.14011,
+     "p_w": 0.39231,
+     "i_plus_each": 1.4,
+     "i_minus_each": 1.4,
+     "p_hot_pin_w": 0.0392,
+     "p_cloth_w": 0.23551
+    }
+   },
+   "one_plus_misses": {
+    "charge_1A": {
+     "closed": true,
+     "r_ohm": 0.06004,
+     "v_drop": 0.06004,
+     "p_w": 0.06004,
+     "i_plus_each": 1.0,
+     "i_minus_each": 0.5,
+     "p_hot_pin_w": 0.02,
+     "p_cloth_w": 0.03004
+    },
+    "typical_2A": {
+     "closed": true,
+     "r_ohm": 0.06004,
+     "v_drop": 0.12008,
+     "p_w": 0.24016,
+     "i_plus_each": 2.0,
+     "i_minus_each": 1.0,
+     "p_hot_pin_w": 0.08,
+     "p_cloth_w": 0.12016
+    },
+    "peak_2_8A": {
+     "closed": true,
+     "r_ohm": 0.06004,
+     "v_drop": 0.16811,
+     "p_w": 0.47071,
+     "i_plus_each": 2.8,
+     "i_minus_each": 1.4,
+     "p_hot_pin_w": 0.1568,
+     "p_cloth_w": 0.23551
+    }
+   },
+   "one_minus_misses": {
+    "charge_1A": {
+     "closed": true,
+     "r_ohm": 0.09008,
+     "v_drop": 0.09008,
+     "p_w": 0.09008,
+     "i_plus_each": 0.5,
+     "i_minus_each": 1.0,
+     "p_hot_pin_w": 0.02,
+     "p_cloth_w": 0.06008
+    },
+    "typical_2A": {
+     "closed": true,
+     "r_ohm": 0.09008,
+     "v_drop": 0.18016,
+     "p_w": 0.36031,
+     "i_plus_each": 1.0,
+     "i_minus_each": 2.0,
+     "p_hot_pin_w": 0.08,
+     "p_cloth_w": 0.24031
+    },
+    "peak_2_8A": {
+     "closed": true,
+     "r_ohm": 0.09008,
+     "v_drop": 0.25222,
+     "p_w": 0.70621,
+     "i_plus_each": 1.4,
+     "i_minus_each": 2.8,
+     "p_hot_pin_w": 0.1568,
+     "p_cloth_w": 0.47101
+    }
+   },
+   "one_of_each_misses": {
+    "charge_1A": {
+     "closed": true,
+     "r_ohm": 0.10008,
+     "v_drop": 0.10008,
+     "p_w": 0.10008,
+     "i_plus_each": 1.0,
+     "i_minus_each": 1.0,
+     "p_hot_pin_w": 0.02,
+     "p_cloth_w": 0.06008
+    },
+    "typical_2A": {
+     "closed": true,
+     "r_ohm": 0.10008,
+     "v_drop": 0.20016,
+     "p_w": 0.40031,
+     "i_plus_each": 2.0,
+     "i_minus_each": 2.0,
+     "p_hot_pin_w": 0.08,
+     "p_cloth_w": 0.24031
+    },
+    "peak_2_8A": {
+     "closed": true,
+     "r_ohm": 0.10008,
+     "v_drop": 0.28022,
+     "p_w": 0.78461,
+     "i_plus_each": 2.8,
+     "i_minus_each": 2.8,
+     "p_hot_pin_w": 0.1568,
+     "p_cloth_w": 0.47101
+    }
+   },
+   "both_plus_miss": {
+    "charge_1A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    },
+    "typical_2A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    },
+    "peak_2_8A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    }
+   },
+   "both_minus_miss": {
+    "charge_1A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    },
+    "typical_2A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    },
+    "peak_2_8A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    }
+   },
+   "three_miss_one_plus_left": {
+    "charge_1A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    },
+    "typical_2A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    },
+    "peak_2_8A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    }
+   },
+   "three_miss_one_minus_left": {
+    "charge_1A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    },
+    "typical_2A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    },
+    "peak_2_8A": {
+     "closed": false,
+     "r_ohm": null,
+     "v_drop": null,
+     "p_w": null,
+     "i_plus_each": null,
+     "i_minus_each": null,
+     "p_hot_pin_w": null
+    }
+   }
+  },
+  "metal_vs_force_mOhm": {
+   "0.70N": 3.705,
+   "0.85N": 3.363,
+   "1.00N": 3.1,
+   "1.07N": 2.994,
+   "1.50N": 2.531
+  },
+  "holm": "BLOCKER. Pure gold resistivity is cited (22.14 nOhm m at 20 C). Plating hardness was not opened, so a Holm spot resistance is not computed."
+ },
+ "felt": {
+  "tip": "40 round, 0.91 mm, catalog",
+  "sign": "local dent subtracts from spring compression",
+  "force_N": 0.8499,
+  "pressure_psi": 189.53,
+  "pressure_mpa": 1.307,
+  "area_mm2": 0.6504,
+  "tip30_diameter_mm": 1.4,
+  "tip30_pressure_psi": 80.08,
+  "tip30_times_f1": 3.81,
+  "times_10pct_pressure": {
+   "F-1": 9.03,
+   "F-2": 9.03,
+   "F-3": 14.58,
+   "F-5": 31.59,
+   "F-7": 31.59,
+   "F-10": 47.38,
+   "F-11": 47.38,
+   "F-13": 63.18,
+   "F-15": 63.18,
+   "F-26": 189.53
+  },
+  "defl_if_only_10pct_mm": 0.2,
+  "thickness_cap_mm": 2.0,
+  "recovery_cited": 0.99,
+  "set_if_crushed_full_thickness_mm": 0.02,
+  "set_if_only_10pct_mm": 0.002,
+  "retention": {
+   "seat_design": {
+    "rigid_mm": 3.0,
+    "after_0_2mm": {
+     "stroke_mm": 2.8,
+     "force_N": 0.8213,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 1.0,
+     "force_N": 0.5633,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   },
+   "seat_plane_mean": {
+    "rigid_mm": 2.98,
+    "after_0_2mm": {
+     "stroke_mm": 2.78,
+     "force_N": 0.8184,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 0.98,
+     "force_N": 0.5604,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   },
+   "bump_plane_mean": {
+    "rigid_mm": 4.55,
+    "after_0_2mm": {
+     "stroke_mm": 4.35,
+     "force_N": 1.0434,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 2.55,
+     "force_N": 0.7854,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   },
+   "bump_plane_min_mean": {
+    "rigid_mm": 4.27,
+    "after_0_2mm": {
+     "stroke_mm": 4.07,
+     "force_N": 1.0033,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 2.27,
+     "force_N": 0.7453,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   },
+   "bump_height_mean": {
+    "rigid_mm": 3.14,
+    "after_0_2mm": {
+     "stroke_mm": 2.94,
+     "force_N": 0.8413,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 1.14,
+     "force_N": 0.5834,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   },
+   "bump_height_least": {
+    "rigid_mm": 1.85,
+    "after_0_2mm": {
+     "stroke_mm": 1.65,
+     "force_N": 0.6565,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 0.0,
+     "force_N": 0.0,
+     "touching": false,
+     "short_mm": 0.15
+    }
+   },
+   "bump_flush": {
+    "rigid_mm": 7.5,
+    "after_0_2mm": {
+     "stroke_mm": 7.3,
+     "force_N": 1.4661,
+     "touching": true,
+     "short_mm": 0.0
+    },
+    "after_2_0mm": {
+     "stroke_mm": 5.5,
+     "force_N": 1.2082,
+     "touching": true,
+     "short_mm": 0.0
+    }
+   }
+  },
+  "least_pin_holds_at_0_2mm": true,
+  "least_pin_holds_at_2_0mm": false,
+  "least_pin_contact": "BLOCKER"
+ },
+ "safety": {
+  "paschen_V": 327.0,
+  "paschen_gap_um": 7.5,
+  "pack_over_paschen": 0.0257,
+  "mat_over_paschen": 0.0291,
+  "air_arc_sustained": false,
+  "why": "Both voltages are a few percent of the 327 V minimum. No gap in air at 1 atm breaks down below that minimum.",
+  "inrush_J": null,
+  "inrush_note": "BLOCKER. Input capacitance of the unseated charger was not opened, so 0.5 C V^2 is not computed.",
+  "walk_clearance_mm": 77.4,
+  "walk_clearance_label": "CAD check only, NEST_CAD.md check D"
+ },
+ "geometry": {
+  "metal_span_mm": 19.09,
+  "gap_mm": 32.0,
+  "pair_cannot_bridge": true,
+  "window_heading0": {
+   "lateral_mm": 57.0,
+   "toward_wall_mm": 45.0,
+   "away_from_wall_mm": 45.0,
+   "psi_max_deg": 0.0,
+   "margin_mm": 3.0
+  },
+  "at_center": {
+   "n_hit": 4,
+   "n_miss": 0,
+   "n_plus": 2,
+   "n_minus": 2,
+   "charges": true,
+   "pair_can_bridge_gap": false,
+   "metal_span_mm": 19.09
+  },
+  "lateral_40mm": {
+   "n_hit": 3,
+   "n_miss": 1,
+   "n_plus": 1,
+   "n_minus": 2,
+   "charges": true,
+   "pair_can_bridge_gap": false,
+   "metal_span_mm": 19.09
+  },
+  "lateral_60mm": {
+   "n_hit": 2,
+   "n_miss": 2,
+   "n_plus": 0,
+   "n_minus": 2,
+   "charges": false,
+   "pair_can_bridge_gap": false,
+   "metal_span_mm": 19.09
+  },
+  "lateral_table": [
+   {
+    "oy_mm": 0,
+    "n_miss": 0,
+    "n_plus": 2,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 5,
+    "n_miss": 0,
+    "n_plus": 2,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 10,
+    "n_miss": 0,
+    "n_plus": 2,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 15,
+    "n_miss": 0,
+    "n_plus": 2,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 20,
+    "n_miss": 0,
+    "n_plus": 2,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 25,
+    "n_miss": 0,
+    "n_plus": 2,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 30,
+    "n_miss": 0,
+    "n_plus": 2,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 35,
+    "n_miss": 0,
+    "n_plus": 2,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 40,
+    "n_miss": 1,
+    "n_plus": 1,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 45,
+    "n_miss": 1,
+    "n_plus": 1,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 50,
+    "n_miss": 1,
+    "n_plus": 1,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 55,
+    "n_miss": 1,
+    "n_plus": 1,
+    "n_minus": 2,
+    "charges": true
+   },
+   {
+    "oy_mm": 60,
+    "n_miss": 2,
+    "n_plus": 0,
+    "n_minus": 2,
+    "charges": false
+   },
+   {
+    "oy_mm": 65,
+    "n_miss": 2,
+    "n_plus": 0,
+    "n_minus": 2,
+    "charges": false
+   },
+   {
+    "oy_mm": 70,
+    "n_miss": 2,
+    "n_plus": 0,
+    "n_minus": 2,
+    "charges": false
+   },
+   {
+    "oy_mm": 75,
+    "n_miss": 2,
+    "n_plus": 0,
+    "n_minus": 2,
+    "charges": false
+   },
+   {
+    "oy_mm": 80,
+    "n_miss": 2,
+    "n_plus": 0,
+    "n_minus": 2,
+    "charges": false
+   }
+  ],
+  "census": {
+   "cells": 26136,
+   "by_miss": {
+    "0": 4832,
+    "1": 3528,
+    "2": 13394,
+    "3": 976,
+    "4": 3406
+   },
+   "charging_by_miss": {
+    "0": 4832,
+    "1": 3528,
+    "2": 56,
+    "3": 0,
+    "4": 0
+   },
+   "example": {
+    "2": {
+     "ox": -80.0,
+     "oy": -80.0,
+     "psi_deg": -180.0,
+     "n_plus": 0,
+     "n_minus": 2,
+     "charges": false
+    },
+    "4": {
+     "ox": -80.0,
+     "oy": -80.0,
+     "psi_deg": -75.0,
+     "n_plus": 0,
+     "n_minus": 0,
+     "charges": false
+    },
+    "3": {
+     "ox": -80.0,
+     "oy": -75.0,
+     "psi_deg": -180.0,
+     "n_plus": 0,
+     "n_minus": 1,
+     "charges": false
+    },
+    "1": {
+     "ox": -55.0,
+     "oy": -10.0,
+     "psi_deg": -120.0,
+     "n_plus": 1,
+     "n_minus": 2,
+     "charges": true
+    },
+    "0": {
+     "ox": -45.0,
+     "oy": 0.0,
+     "psi_deg": -180.0,
+     "n_plus": 2,
+     "n_minus": 2,
+     "charges": true
+    }
+   }
+  },
+  "full_annulus_note": "No wall cut and no notch. The nest CAD coverage, which has both, reported wrong-pole share 0. This script does not replace that."
+ },
+ "scatter_sim_pass_only": {
+  "old_all_y_sigma_mm": 22.3,
+  "new_all_y_sigma_mm": 36.1,
+  "old_inside_45mm": 0.971,
+  "new_inside_45mm": 0.81,
+  "old_95th_radial_mm": 37.3,
+  "new_95th_radial_mm": 82.8,
+  "new_6v_95th_radial_mm": 105.4,
+  "steer_first_miss": "8 of 511",
+  "steer_why": "5 seat off the sun, 2 on the wrong zone, 1 bumper pin not touching",
+  "straight_first_miss": "71",
+  "straight_why": "52 a pin on the wrong zone, 19 seat pins off the sun"
+ }
+}
