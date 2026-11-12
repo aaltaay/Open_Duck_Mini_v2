@@ -114,7 +114,9 @@
  "wall_card": {
   "n": 540,
   "falls": 1,
-  "note": "seat centre only; the four pin tips are not in this file",
+  "note": "seat centre only, a proxy. Not a pin hit and not a bound on a charge. seat_xy is the midpoint of the two seat pins.",
+  "pin_ok_with_centre_outside_47mm": 7,
+  "pin_ok_centre_outside_47mm_max_mm": 53.82,
   "unmoved": {
    "first_flush_box": 533,
    "seat_centre_inside_47mm": 494,

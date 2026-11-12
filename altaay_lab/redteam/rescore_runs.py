@@ -26,7 +26,7 @@ RING_BACK = 0.074
 TIP_M = 0.003
 # blind/score.py, the flush study section 6 box.
 Y_MM, X_MM = 254.0, 161.0
-SUN_R_MM = (RC - TIP_M) * 1000.0  # 47 mm, the seat-pin test
+SUN_R_MM = (RC - TIP_M) * 1000.0  # 47 mm. Card files use this on the seat centre only. Not a pin hit.
 
 
 def score_nest(pins, dx=0.0, dy=0.0, wall_x=WALL_X):
@@ -159,10 +159,22 @@ def blind_block(runs):
 
 def card_block(runs):
     """The card file stores the seat centre and the stored pin flag, not the four pin tips.
-    A moved sun is scored on the seat centre only. A centre past 47 mm cannot be a seat pin
-    on the sun. That is a bound, not nestlib.score_nest.
+
+    nest_run.py sets seat_xy to the midpoint of the two seat pins. nestlib.score_nest
+    needs only one of those pins on the sun, plus a bumper pin on the ring and no bridge.
+    A centre outside 47 mm does not rule a pin miss in or out. The shifted counts are
+    centre-distance proxies, not charge counts.
     """
     n = len(runs)
+    outside = []
+    for r in runs:
+        sits = r.get("sits") or []
+        if not sits:
+            continue
+        s0 = sits[0]
+        rad = math.hypot(*s0["seat_xy"]) * 1000.0
+        if s0.get("ok") and not s0.get("fell") and rad > SUN_R_MM:
+            outside.append(rad)
 
     def one(dx, dy):
         box = 0
@@ -187,7 +199,10 @@ def card_block(runs):
     return dict(
         n=n,
         falls=sum(int(bool(r.get("fell"))) for r in runs),
-        note="seat centre only; the four pin tips are not in this file",
+        note=("seat centre only, a proxy. Not a pin hit and not a bound on a charge. "
+              "seat_xy is the midpoint of the two seat pins."),
+        pin_ok_with_centre_outside_47mm=len(outside),
+        pin_ok_centre_outside_47mm_max_mm=None if not outside else round(max(outside), 2),
         unmoved=one(0, 0),
         along_wall_50mm=one(0, 0.050),
         along_wall_100mm=one(0, 0.100),

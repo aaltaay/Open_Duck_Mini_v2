@@ -2,7 +2,7 @@
 
 2026-11-12 ET. A hostile read of the lab files, PRs 34 to 47, and one rescore of seats those sims already stored. Nothing was printed, bought, or run on a servo. A sim pass only number is not a duck. A calc only number is not a new physics run.
 
-This pass reused `twin/dock/nest/sim/nestlib.py` (`score_nest` and its zone constants), `twin/dock/blind/score.py` (the flush box), `twin/dock/blind/blind_runs_b190.json`, and `twin/dock/closeup/close_marker.json`. The script is `altaay_lab/redteam/rescore_runs.py`. It matched the published blind counts (35 and 380 of 540, 0 falls) with 0 mismatches against the stored pin flag. The moved-nest counts below are that same rule on those seats (calc only).
+This pass reused `twin/dock/nest/sim/nestlib.py` (`score_nest` and its zone constants), `twin/dock/blind/score.py` (the flush box), `twin/dock/blind/blind_runs_b190.json`, and `twin/dock/closeup/close_marker.json`. The script is `altaay_lab/redteam/rescore_runs.py`. It matched the published blind counts (35 and 380 of 540, 0 falls) with 0 mismatches against the stored pin flag. The blind moved-nest counts use that same pin rule (calc only). The card column is the seat centre only. It is a proxy, not a pin hit and not a bound on a charge.
 
 The checklist already marks the twins FAIL or GAP. This file does not re-try those rows. It asks which quoted number still looks like a pass, and what a house does to it.
 
@@ -59,7 +59,7 @@ The card is still the true pose plus the nest noise schedule, and only while a s
 
 Moved cloth, same stored seats, duck not told (calc only, `rescore.json`):
 
-| Shift of the sun | Blind, old pins | Blind, flush box | Card, seat centre inside 47 mm | Card, flush box |
+| Shift of the sun | Blind, old pins | Blind, flush box | Card centre inside 47 mm (proxy) | Card, flush box |
 |---|---|---|---|---|
 | None | 35 of 540 | 380 of 540 | 494 of 540 | 533 of 540 |
 | 50 mm along the wall | 65 | 389 | 257 | 533 |
@@ -67,7 +67,7 @@ Moved cloth, same stored seats, duck not told (calc only, `rescore.json`):
 | 100 mm into the room | 2 | 382 | 2 | 527 |
 | 50 mm toward the wall | 74 | 350 | 178 | 533 |
 
-The card file does not store the four pin tips. The 47 mm test is the seat centre. Unmoved, that centre test is 494 against the stored pin flag of 501, so it is a bound, not a second pin rule. A 100 mm slide of the cloth, with the card left on the wall, leaves 6 centres on the sun and does not move the flush headline. The blind pin count moves between 2 and 74 because the misses are a 130 mm cloud: a wrong sun can catch a different slice. None of those slices is a dock. The flush box stays between 350 and 416 in every shift this pass tried. It does not notice a moved nest.
+The card file does not store the four pin tips. `seat_xy` in `twin/dock/nest/sim/nest_run.py` is the midpoint of the two seat pins. `score_nest` needs only one of those pins on the sun, plus a bumper pin on the ring and no bridge. The 47 mm column is the seat centre. It is a proxy. It is not a pin hit, and a centre outside 47 mm does not rule a miss in or out. Unmoved, 494 centres sit inside 47 mm, against 501 stored pin hits. The other 7 pin hits have centres from 47.36 mm to 53.82 mm (calc only, this rescore). A centre inside 47 mm also does not prove the bumper is on the ring. A 100 mm slide of the cloth leaves 6 centres inside 47 mm and does not move the flush headline. That 6 is not a charge count. The pin counts that do use `score_nest` are the blind column, because that file stores the four tips. Those move between 2 and 74 of 540 because the misses are a 130 mm cloud: a wrong sun can catch a different slice. None of those slices is a dock. The flush box stays between 350 and 416 in every shift this pass tried. It does not notice a moved nest.
 
 The sim's own low corner, which is not a measured carpet: at 6.0 V and friction 0.6 the old pin rule is 0 of 90, and the flush box is 64 of 90 (calc only on the stored sits). The best cell, 7.2 V and friction 1.0, is 13 of 90 on the pins.
 
