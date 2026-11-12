@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import re
 
-from mock_llm import MockCloudLLM
+from .mock_llm import MockCloudLLM
 
 # Existing dock state machine (software/dock). Walk on, turn, sit.
 # Not a new policy.
