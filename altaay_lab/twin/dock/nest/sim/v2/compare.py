@@ -57,11 +57,13 @@ def extra(rr):
                turn_spot_err_beyond_60mm=int((np.hypot(e[:, 0], e[:, 1]) > 60).sum()) if len(e) else None,
                heading_before_turn_deg=f(yaw) if len(yaw) else None, heading_before_turn_abs_max_deg=round(float(np.abs(yaw).max()), 1) if len(yaw) else None,
                fine_rounds_mean=round(float(np.mean([r["fine_rounds"] for r in pt])), 2) if pt else None, creep_moves=mv)
-    wc = np.array([r["min_wall_clear_mm"][0] for r in sat])
-    rc = np.array([r["min_rim_clear_mm"][0] for r in sat])
-    if len(wc):
-        out["wall_mm"] = dict(min=round(float(wc.min()), 1), p5=round(float(np.percentile(wc, 5)), 1), mean=round(float(wc.mean()), 1), touched=int((wc < 0).sum()))
-        out["rim_mm"] = dict(min=round(float(rc.min()), 1), p5=round(float(np.percentile(rc, 5)), 1), mean=round(float(rc.mean()), 1), touched=int((rc < 0).sum()))
+    # clearances over ALL runs and split by outcome (corrected 2026-11-11 ET: this used to count only the runs that reached a sit)
+    C = A.clearance_stats(rr)
+    if "wall_clearance_mm" in C:
+        out["wall_mm"] = dict(C["wall_clearance_mm"], touched=C["wall_clearance_mm"]["collisions"])
+        out["rim_mm"] = dict(C["rim_clearance_mm"], touched=C["rim_clearance_mm"]["collisions"])
+        out["runs_inside_wall_or_rim"] = C["runs_inside_wall_or_rim"]
+    out["clearance_by_outcome"] = C["clearance_by_outcome"]
     # v2-only records
     if any("stage" in r for r in rr):
         st = [r["stage"] for r in rr if "stage" in r]
@@ -127,9 +129,15 @@ def table(O, Nw):
     add("Heading before the turn, mean / sigma / worst (deg)", lambda S: "%s / %s / %s" % (*S["heading_before_turn_deg"], S["heading_before_turn_abs_max_deg"]))
     add("Fine-move rounds on the mat, mean", lambda S: S["fine_rounds_mean"])
     add("Time to torque off at the first sit, mean / 95th / worst (s)", lambda S: "%(mean)s / %(p95)s / %(max)s" % S["time_to_first_sit_s"])
-    add("Closest to the wall: worst / 5th percentile / mean (mm)", lambda S: "%(min)s / %(p5)s / %(mean)s" % S["wall_mm"])
-    add("Closest to the rim: worst / 5th percentile / mean (mm)", lambda S: "%(min)s / %(p5)s / %(mean)s" % S["rim_mm"])
-    add("Wall or rim touched", lambda S: S["wall_mm"]["touched"] + S["rim_mm"]["touched"])
+    cl = lambda S, g, k: "none" if not S["clearance_by_outcome"][g]["n"] else "%(min)s / %(p5)s / %(mean)s" % S["clearance_by_outcome"][g][k]  # noqa: E731
+    ins = lambda S, g: "0 of 0" if not S["clearance_by_outcome"][g]["n"] else "%d of %d" % (S["clearance_by_outcome"][g]["runs_inside_wall_or_rim"], S["clearance_by_outcome"][g]["n"])  # noqa: E731
+    add("Closest to the wall, all runs: worst / 5th percentile / mean (mm)", lambda S: "%(min)s / %(p5)s / %(mean)s" % S["wall_mm"])
+    add("Closest to the rim, all runs: worst / 5th percentile / mean (mm)", lambda S: "%(min)s / %(p5)s / %(mean)s" % S["rim_mm"])
+    add("Runs with a part inside the wall plane or the rim, all runs", lambda S: S["runs_inside_wall_or_rim"])
+    for g, nm in (("reached_a_sit", "reached a sit"), ("fell", "fell"), ("never_sat_no_fall", "never sat, no fall")):
+        add("Runs that %s: inside the wall plane or the rim" % nm, lambda S, g=g: ins(S, g))
+        add("Runs that %s: closest to the wall, worst / 5th / mean (mm)" % nm, lambda S, g=g: cl(S, g, "wall_clearance_mm"))
+        add("Runs that %s: closest to the rim, worst / 5th / mean (mm)" % nm, lambda S, g=g: cl(S, g, "rim_clearance_mm"))
     hd = ["sim pass only", "Old: all", "Old: 6.0 V", "Old: 7.2 V", "New: all", "New: 6.0 V", "New: 7.2 V"]
     return "\n".join([A.row(hd), A.row(["---"] * 7)] + [A.row(r) for r in rows])
 

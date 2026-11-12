@@ -19,6 +19,12 @@ Labels: sim pass only (MuJoCo, the repo's sit model and the stock walk), calc on
   (455 of 540) against 93.1 % (503); within 3 sits 91.3 % (493) against 94.1 % (508); falls 13 against 29. At 6.0 V
   it is worse (215 against 263 of 270 at the first sit, 3 falls against 0). At 7.2 V the first sit is the same
   (240 of 270) and 3 sits is better (259 against 241). The 10 falls left at 7.2 V happen while walking straight.
+- Wall and rim (sim pass only; corrected in this pull request after a review finding, before merge): over all 540
+  runs the straight crossing had 9 runs with a part inside the wall plane or the rim (5 that reached a sit, 3 fallen
+  ducks, 1 that never sat and did not fall), against 0 of 540 with the steering walk-on (worst 23.5 mm to the wall,
+  9.5 mm to the rim). The first summaries counted only the runs that reached a sit. sim/analyze.py and
+  sim/v2/compare.py are fixed; their summaries were made again from the archived run files, no MuJoCo run repeated.
+  D61's "23.5 mm, 9.5 mm" covered only the 511 runs that reached a sit; the all-run worst values are the same.
 - What that means: the mat edge trips are not only a steering matter. The report points to a walk retrain (toe lift
   over a small edge, a right side-step), which needs GPU spend and Ahmed's OK. Neither is given.
 - D61 is partly contradicted by this (it names the straight crossing as the fix to try first, and quotes 80 of 80

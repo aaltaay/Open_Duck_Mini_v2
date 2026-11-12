@@ -407,21 +407,60 @@
     "min": 1.0,
     "max": 51.0
    },
+   "clearance_scope": "all non-error runs (n=180); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 165,
+     "wall_clearance_mm": {
+      "min": 44.6,
+      "p5": 52.5,
+      "mean": 76.5,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 32.7,
+      "p5": 43.4,
+      "mean": 65.6,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 15,
+     "wall_clearance_mm": {
+      "min": 278.0,
+      "p5": 279.8,
+      "mean": 287.6,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 228.2,
+      "p5": 230.6,
+      "mean": 244.1,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 44.6,
-    "p5": 52.5,
-    "mean": 76.5,
+    "p5": 52.6,
+    "mean": 94.1,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 32.7,
-    "p5": 43.4,
-    "mean": 65.6,
+    "p5": 43.9,
+    "mean": 80.5,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -878,10 +917,48 @@
     "min": 1.0,
     "max": 10.0
    },
+   "clearance_scope": "all non-error runs (n=180); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 173,
+     "wall_clearance_mm": {
+      "min": 41.5,
+      "p5": 47.9,
+      "mean": 76.8,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 32.9,
+      "p5": 42.2,
+      "mean": 66.9,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 7,
+     "wall_clearance_mm": {
+      "min": 277.3,
+      "p5": 278.9,
+      "mean": 286.7,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 227.9,
+      "p5": 229.8,
+      "mean": 241.8,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 41.5,
-    "p5": 47.9,
-    "mean": 76.8,
+    "p5": 48.0,
+    "mean": 84.9,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
@@ -889,10 +966,11 @@
    "rim_clearance_mm": {
     "min": 32.9,
     "p5": 42.2,
-    "mean": 66.9,
+    "mean": 73.7,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -1342,21 +1420,60 @@
     "min": 1.0,
     "max": 62.0
    },
+   "clearance_scope": "all non-error runs (n=180); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 173,
+     "wall_clearance_mm": {
+      "min": 23.5,
+      "p5": 41.2,
+      "mean": 75.0,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 9.5,
+      "p5": 32.9,
+      "mean": 65.1,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 7,
+     "wall_clearance_mm": {
+      "min": 273.7,
+      "p5": 277.6,
+      "mean": 292.5,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 202.7,
+      "p5": 213.2,
+      "mean": 242.5,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 23.5,
-    "p5": 41.2,
-    "mean": 75.0,
+    "p5": 41.5,
+    "mean": 83.5,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 9.5,
-    "p5": 32.9,
-    "mean": 65.1,
+    "p5": 34.5,
+    "mean": 72.0,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -1819,6 +1936,31 @@
     "min": 2.0,
     "max": 51.0
    },
+   "clearance_scope": "all non-error runs (n=90); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 90,
+     "wall_clearance_mm": {
+      "min": 70.5,
+      "p5": 75.6,
+      "mean": 87.6,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 50.3,
+      "p5": 57.7,
+      "mean": 75.4,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 70.5,
     "p5": 75.6,
@@ -1834,6 +1976,7 @@
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -2289,21 +2432,60 @@
     "min": 1.0,
     "max": 10.0
    },
+   "clearance_scope": "all non-error runs (n=90); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 75,
+     "wall_clearance_mm": {
+      "min": 44.6,
+      "p5": 50.0,
+      "mean": 63.2,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 32.7,
+      "p5": 40.9,
+      "mean": 53.9,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 15,
+     "wall_clearance_mm": {
+      "min": 278.0,
+      "p5": 279.8,
+      "mean": 287.6,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 228.2,
+      "p5": 230.6,
+      "mean": 244.1,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 44.6,
-    "p5": 50.0,
-    "mean": 63.2,
+    "p5": 50.9,
+    "mean": 100.6,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 32.7,
-    "p5": 40.9,
-    "mean": 53.9,
+    "p5": 41.3,
+    "mean": 85.6,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -2746,6 +2928,31 @@
     "min": 2.0,
     "max": 10.0
    },
+   "clearance_scope": "all non-error runs (n=90); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 90,
+     "wall_clearance_mm": {
+      "min": 67.2,
+      "p5": 74.1,
+      "mean": 89.6,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 41.6,
+      "p5": 59.3,
+      "mean": 77.8,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 67.2,
     "p5": 74.1,
@@ -2761,6 +2968,7 @@
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -3205,21 +3413,60 @@
     "min": 1.0,
     "max": 9.0
    },
+   "clearance_scope": "all non-error runs (n=90); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 83,
+     "wall_clearance_mm": {
+      "min": 41.5,
+      "p5": 45.9,
+      "mean": 62.9,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 32.9,
+      "p5": 37.1,
+      "mean": 55.1,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 7,
+     "wall_clearance_mm": {
+      "min": 277.3,
+      "p5": 278.9,
+      "mean": 286.7,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 227.9,
+      "p5": 229.8,
+      "mean": 241.8,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 41.5,
-    "p5": 45.9,
-    "mean": 62.9,
+    "p5": 46.4,
+    "mean": 80.3,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 32.9,
-    "p5": 37.1,
-    "mean": 55.1,
+    "p5": 37.3,
+    "mean": 69.6,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -3667,6 +3914,31 @@
     "min": 2.0,
     "max": 62.0
    },
+   "clearance_scope": "all non-error runs (n=90); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 90,
+     "wall_clearance_mm": {
+      "min": 51.7,
+      "p5": 65.8,
+      "mean": 90.7,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 37.7,
+      "p5": 49.8,
+      "mean": 78.4,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 51.7,
     "p5": 65.8,
@@ -3682,6 +3954,7 @@
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -4142,21 +4415,60 @@
     "min": 1.0,
     "max": 13.0
    },
+   "clearance_scope": "all non-error runs (n=90); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 83,
+     "wall_clearance_mm": {
+      "min": 23.5,
+      "p5": 35.1,
+      "mean": 58.0,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 9.5,
+      "p5": 25.4,
+      "mean": 50.8,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 7,
+     "wall_clearance_mm": {
+      "min": 273.7,
+      "p5": 277.6,
+      "mean": 292.5,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 202.7,
+      "p5": 213.2,
+      "mean": 242.5,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 23.5,
-    "p5": 35.1,
-    "mean": 58.0,
+    "p5": 35.3,
+    "mean": 76.2,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 9.5,
-    "p5": 25.4,
-    "mean": 50.8,
+    "p5": 25.5,
+    "mean": 65.7,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -4620,21 +4932,60 @@
     "min": 1.0,
     "max": 51.0
    },
+   "clearance_scope": "all non-error runs (n=60); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 57,
+     "wall_clearance_mm": {
+      "min": 44.6,
+      "p5": 49.9,
+      "mean": 71.3,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 32.7,
+      "p5": 40.2,
+      "mean": 57.1,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 3,
+     "wall_clearance_mm": {
+      "min": 284.2,
+      "p5": 284.6,
+      "mean": 287.2,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 242.6,
+      "p5": 243.2,
+      "mean": 246.7,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 44.6,
-    "p5": 49.9,
-    "mean": 71.3,
+    "p5": 50.2,
+    "mean": 82.1,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 32.7,
-    "p5": 40.2,
-    "mean": 57.1,
+    "p5": 40.3,
+    "mean": 66.5,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -5091,21 +5442,60 @@
     "min": 1.0,
     "max": 9.0
    },
+   "clearance_scope": "all non-error runs (n=60); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 53,
+     "wall_clearance_mm": {
+      "min": 49.2,
+      "p5": 55.9,
+      "mean": 77.9,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 41.2,
+      "p5": 46.1,
+      "mean": 67.4,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 7,
+     "wall_clearance_mm": {
+      "min": 280.5,
+      "p5": 281.9,
+      "mean": 287.9,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 233.5,
+      "p5": 236.9,
+      "mean": 246.2,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 49.2,
-    "p5": 55.9,
-    "mean": 77.9,
+    "p5": 56.9,
+    "mean": 102.4,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 41.2,
-    "p5": 46.1,
-    "mean": 67.4,
+    "p5": 46.7,
+    "mean": 88.3,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -5554,21 +5944,60 @@
     "min": 1.0,
     "max": 9.0
    },
+   "clearance_scope": "all non-error runs (n=60); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 55,
+     "wall_clearance_mm": {
+      "min": 51.9,
+      "p5": 58.3,
+      "mean": 80.4,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 45.6,
+      "p5": 50.6,
+      "mean": 72.8,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 5,
+     "wall_clearance_mm": {
+      "min": 278.0,
+      "p5": 279.2,
+      "mean": 287.4,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 228.2,
+      "p5": 228.9,
+      "mean": 239.8,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 51.9,
-    "p5": 58.3,
-    "mean": 80.4,
+    "p5": 59.1,
+    "mean": 97.7,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 45.6,
-    "p5": 50.6,
-    "mean": 72.8,
+    "p5": 51.1,
+    "mean": 86.7,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -6024,21 +6453,60 @@
     "min": 1.0,
     "max": 10.0
    },
+   "clearance_scope": "all non-error runs (n=60); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 56,
+     "wall_clearance_mm": {
+      "min": 45.3,
+      "p5": 47.6,
+      "mean": 75.6,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 32.9,
+      "p5": 36.5,
+      "mean": 60.3,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 4,
+     "wall_clearance_mm": {
+      "min": 286.4,
+      "p5": 286.7,
+      "mean": 290.0,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 234.4,
+      "p5": 236.1,
+      "mean": 245.2,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 45.3,
-    "p5": 47.6,
-    "mean": 75.6,
+    "p5": 47.8,
+    "mean": 89.9,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 32.9,
-    "p5": 36.5,
-    "mean": 60.3,
+    "p5": 36.9,
+    "mean": 72.6,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -6483,21 +6951,60 @@
     "min": 1.0,
     "max": 8.0
    },
+   "clearance_scope": "all non-error runs (n=60); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 58,
+     "wall_clearance_mm": {
+      "min": 41.5,
+      "p5": 48.5,
+      "mean": 75.1,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 36.3,
+      "p5": 44.8,
+      "mean": 65.9,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 2,
+     "wall_clearance_mm": {
+      "min": 282.8,
+      "p5": 283.0,
+      "mean": 285.0,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 241.1,
+      "p5": 241.2,
+      "mean": 241.9,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 41.5,
-    "p5": 48.5,
-    "mean": 75.1,
+    "p5": 48.6,
+    "mean": 82.1,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 36.3,
-    "p5": 44.8,
-    "mean": 65.9,
+    "p5": 45.1,
+    "mean": 71.8,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -6942,10 +7449,48 @@
     "min": 1.0,
     "max": 7.0
    },
+   "clearance_scope": "all non-error runs (n=60); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 59,
+     "wall_clearance_mm": {
+      "min": 45.7,
+      "p5": 50.9,
+      "mean": 79.5,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 43.4,
+      "p5": 51.7,
+      "mean": 74.0,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 1,
+     "wall_clearance_mm": {
+      "min": 277.3,
+      "p5": 277.3,
+      "mean": 277.3,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 227.9,
+      "p5": 227.9,
+      "mean": 227.9,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 45.7,
     "p5": 50.9,
-    "mean": 79.5,
+    "mean": 82.8,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
@@ -6953,10 +7498,11 @@
    "rim_clearance_mm": {
     "min": 43.4,
     "p5": 51.7,
-    "mean": 74.0,
+    "mean": 76.6,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -7406,21 +7952,60 @@
     "min": 1.0,
     "max": 62.0
    },
+   "clearance_scope": "all non-error runs (n=60); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 55,
+     "wall_clearance_mm": {
+      "min": 23.5,
+      "p5": 35.7,
+      "mean": 71.6,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 9.5,
+      "p5": 24.6,
+      "mean": 57.1,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 5,
+     "wall_clearance_mm": {
+      "min": 293.8,
+      "p5": 293.9,
+      "mean": 297.4,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 237.6,
+      "p5": 239.4,
+      "mean": 248.6,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 23.5,
-    "p5": 35.7,
-    "mean": 71.6,
+    "p5": 35.8,
+    "mean": 90.4,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 9.5,
-    "p5": 24.6,
-    "mean": 57.1,
+    "p5": 25.4,
+    "mean": 73.1,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -7881,21 +8466,60 @@
     "min": 1.0,
     "max": 12.0
    },
+   "clearance_scope": "all non-error runs (n=60); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 58,
+     "wall_clearance_mm": {
+      "min": 32.0,
+      "p5": 39.7,
+      "mean": 77.1,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 25.2,
+      "p5": 34.9,
+      "mean": 67.7,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 2,
+     "wall_clearance_mm": {
+      "min": 273.7,
+      "p5": 274.3,
+      "mean": 280.2,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 202.7,
+      "p5": 205.1,
+      "mean": 227.1,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 32.0,
-    "p5": 39.7,
-    "mean": 77.1,
+    "p5": 40.2,
+    "mean": 83.9,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 25.2,
-    "p5": 34.9,
-    "mean": 67.7,
+    "p5": 35.4,
+    "mean": 73.0,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -8354,6 +8978,31 @@
     "min": 2.0,
     "max": 53.0
    },
+   "clearance_scope": "all non-error runs (n=60); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 60,
+     "wall_clearance_mm": {
+      "min": 41.6,
+      "p5": 43.7,
+      "mean": 76.0,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 34.7,
+      "p5": 41.2,
+      "mean": 70.0,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 41.6,
     "p5": 43.7,
@@ -8369,6 +9018,7 @@
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -8831,6 +9481,31 @@
     "min": 2.0,
     "max": 62.0
    },
+   "clearance_scope": "all non-error runs (n=270); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 270,
+     "wall_clearance_mm": {
+      "min": 51.7,
+      "p5": 70.7,
+      "mean": 89.3,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 37.7,
+      "p5": 56.4,
+      "mean": 77.2,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 51.7,
     "p5": 70.7,
@@ -8846,6 +9521,7 @@
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -9306,21 +9982,60 @@
     "min": 1.0,
     "max": 13.0
    },
+   "clearance_scope": "all non-error runs (n=270); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 241,
+     "wall_clearance_mm": {
+      "min": 23.5,
+      "p5": 42.6,
+      "mean": 61.3,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 9.5,
+      "p5": 34.7,
+      "mean": 53.2,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 29,
+     "wall_clearance_mm": {
+      "min": 273.7,
+      "p5": 277.6,
+      "mean": 288.6,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 202.7,
+      "p5": 228.0,
+      "mean": 243.2,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 23.5,
-    "p5": 42.6,
-    "mean": 61.3,
+    "p5": 43.5,
+    "mean": 85.7,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 9.5,
-    "p5": 34.7,
-    "mean": 53.2,
+    "p5": 35.3,
+    "mean": 73.6,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -9785,21 +10500,60 @@
     "min": 1.0,
     "max": 62.0
    },
+   "clearance_scope": "all non-error runs (n=180); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 168,
+     "wall_clearance_mm": {
+      "min": 23.5,
+      "p5": 46.0,
+      "mean": 72.8,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 9.5,
+      "p5": 34.6,
+      "mean": 58.2,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 12,
+     "wall_clearance_mm": {
+      "min": 284.2,
+      "p5": 285.4,
+      "mean": 292.4,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 234.4,
+      "p5": 236.2,
+      "mean": 247.0,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 23.5,
-    "p5": 46.0,
-    "mean": 72.8,
+    "p5": 46.5,
+    "mean": 87.5,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 9.5,
-    "p5": 34.6,
-    "mean": 58.2,
+    "p5": 34.9,
+    "mean": 70.8,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -10260,21 +11014,60 @@
     "min": 1.0,
     "max": 12.0
    },
+   "clearance_scope": "all non-error runs (n=180); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 169,
+     "wall_clearance_mm": {
+      "min": 32.0,
+      "p5": 46.8,
+      "mean": 76.7,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 25.2,
+      "p5": 41.5,
+      "mean": 67.0,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 11,
+     "wall_clearance_mm": {
+      "min": 273.7,
+      "p5": 277.1,
+      "mean": 286.0,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 202.7,
+      "p5": 218.1,
+      "mean": 241.9,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 32.0,
-    "p5": 46.8,
-    "mean": 76.7,
+    "p5": 47.5,
+    "mean": 89.5,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 25.2,
-    "p5": 41.5,
-    "mean": 67.0,
+    "p5": 41.9,
+    "mean": 77.7,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -10735,21 +11528,60 @@
     "min": 1.0,
     "max": 53.0
    },
+   "clearance_scope": "all non-error runs (n=180); split in clearance_by_outcome",
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 174,
+     "wall_clearance_mm": {
+      "min": 41.6,
+      "p5": 49.2,
+      "mean": 78.6,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 34.7,
+      "p5": 47.6,
+      "mean": 72.2,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 6,
+     "wall_clearance_mm": {
+      "min": 277.3,
+      "p5": 277.5,
+      "mean": 285.7,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 227.9,
+      "p5": 228.0,
+      "mean": 237.8,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
    "wall_clearance_mm": {
     "min": 41.6,
-    "p5": 49.2,
-    "mean": 78.6,
+    "p5": 49.5,
+    "mean": 85.5,
     "collisions": 0,
     "closest_part": "head_assembly",
     "closest_stage": "turn"
    },
    "rim_clearance_mm": {
     "min": 34.7,
-    "p5": 47.6,
-    "mean": 72.2,
+    "p5": 48.0,
+    "mean": 77.8,
     "collisions": 0,
     "closest_part": "foot_assembly_2"
    },
+   "runs_inside_wall_or_rim": 0,
    "rim_contacts_physics": 0,
    "wall_contacts_physics": 0,
    "currents_A": {
@@ -11213,21 +12045,60 @@
    "min": 1.0,
    "max": 62.0
   },
+  "clearance_scope": "all non-error runs (n=540); split in clearance_by_outcome",
+  "clearance_by_outcome": {
+   "reached_a_sit": {
+    "n": 511,
+    "wall_clearance_mm": {
+     "min": 23.5,
+     "p5": 46.9,
+     "mean": 76.1,
+     "collisions": 0
+    },
+    "rim_clearance_mm": {
+     "min": 9.5,
+     "p5": 39.8,
+     "mean": 65.9,
+     "collisions": 0
+    },
+    "runs_inside_wall_or_rim": 0
+   },
+   "fell": {
+    "n": 29,
+    "wall_clearance_mm": {
+     "min": 273.7,
+     "p5": 277.6,
+     "mean": 288.6,
+     "collisions": 0
+    },
+    "rim_clearance_mm": {
+     "min": 202.7,
+     "p5": 228.0,
+     "mean": 243.2,
+     "collisions": 0
+    },
+    "runs_inside_wall_or_rim": 0
+   },
+   "never_sat_no_fall": {
+    "n": 0
+   }
+  },
   "wall_clearance_mm": {
    "min": 23.5,
-   "p5": 46.9,
-   "mean": 76.1,
+   "p5": 47.2,
+   "mean": 87.5,
    "collisions": 0,
    "closest_part": "head_assembly",
    "closest_stage": "turn"
   },
   "rim_clearance_mm": {
    "min": 9.5,
-   "p5": 39.8,
-   "mean": 65.9,
+   "p5": 40.0,
+   "mean": 75.4,
    "collisions": 0,
    "closest_part": "foot_assembly_2"
   },
+  "runs_inside_wall_or_rim": 0,
   "rim_contacts_physics": 0,
   "wall_contacts_physics": 0,
   "currents_A": {

@@ -57,6 +57,39 @@ def is_trip(r):
     return abs(float(np.hypot(x, y)) - MAT_R) < 0.15
 
 
+def clearance_stats(rr):
+    """Wall and rim clearance over all non-error runs, and split three ways by outcome. sim pass only.
+    Geometry check only: a negative number means a part was beyond the wall plane or inside the rim block (the head is not
+    pushed back by the wall in this sim). A run that fell can end lying through the wall plane, so the split keeps a fallen
+    duck apart from a walking one. Corrected 2026-11-11 ET: this used to count only the runs that reached a sit."""
+    rr = [r for r in rr if "error" not in r and "min_wall_clear_mm" in r and "min_rim_clear_mm" in r]
+
+    def mode(v):
+        return max(set(v), key=v.count)
+
+    def one(q, parts=False):
+        if not q:
+            return dict(n=0)
+        wc = np.array([r["min_wall_clear_mm"][0] for r in q])
+        rc = np.array([r["min_rim_clear_mm"][0] for r in q])
+        w = dict(min=round(float(wc.min()), 1), p5=round(float(np.percentile(wc, 5)), 1), mean=round(float(wc.mean()), 1), collisions=int((wc < 0).sum()))
+        m = dict(min=round(float(rc.min()), 1), p5=round(float(np.percentile(rc, 5)), 1), mean=round(float(rc.mean()), 1), collisions=int((rc < 0).sum()))
+        if parts:
+            w.update(closest_part=mode([r["min_wall_clear_mm"][1] for r in q]), closest_stage=mode([r["min_wall_clear_mm"][2] for r in q]))
+            m.update(closest_part=mode([r["min_rim_clear_mm"][1] for r in q]))
+        return dict(n=len(q), wall_clearance_mm=w, rim_clearance_mm=m, runs_inside_wall_or_rim=int(((wc < 0) | (rc < 0)).sum()))
+
+    fell = [r for r in rr if r.get("fell")]
+    sat = [r for r in rr if r.get("sits") and not r.get("fell")]
+    never = [r for r in rr if not r.get("sits") and not r.get("fell")]
+    a = one(rr, parts=True)
+    out = dict(clearance_scope="all non-error runs (n=%d); split in clearance_by_outcome" % len(rr),
+               clearance_by_outcome=dict(reached_a_sit=one(sat), fell=one(fell), never_sat_no_fall=one(never)))
+    if rr:
+        out.update(wall_clearance_mm=a["wall_clearance_mm"], rim_clearance_mm=a["rim_clearance_mm"], runs_inside_wall_or_rim=a["runs_inside_wall_or_rim"])
+    return out
+
+
 def summarize(rr, meta):
     n = len(rr)
     sit_shift = np.array(meta["sit_shift"])
@@ -165,15 +198,8 @@ def summarize(rr, meta):
     S["stage_time_s_mean_when_run"] = {k: round(float(np.mean(v)), 1) for k, v in st.items()}
     S["edge_cross_160mm_s"] = ms([r["edge_cross_s"] for r in rr if "edge_cross_s" in r], 1, 2)
     S["mat_edge_touches_per_run"] = ms([len(r["events"]["edge"]) for r in rr])
-    # clearances
-    wc = np.array([r["min_wall_clear_mm"][0] for r in sat])
-    rc = np.array([r["min_rim_clear_mm"][0] for r in sat])
-    if len(wc):
-        S["wall_clearance_mm"] = dict(min=round(float(wc.min()), 1), p5=round(float(np.percentile(wc, 5)), 1), mean=round(float(wc.mean()), 1), collisions=int((wc < 0).sum()),
-                                      closest_part=max(set(r["min_wall_clear_mm"][1] for r in sat), key=[r["min_wall_clear_mm"][1] for r in sat].count),
-                                      closest_stage=max(set(r["min_wall_clear_mm"][2] for r in sat), key=[r["min_wall_clear_mm"][2] for r in sat].count))
-        S["rim_clearance_mm"] = dict(min=round(float(rc.min()), 1), p5=round(float(np.percentile(rc, 5)), 1), mean=round(float(rc.mean()), 1), collisions=int((rc < 0).sum()),
-                                     closest_part=max(set(r["min_rim_clear_mm"][1] for r in sat), key=[r["min_rim_clear_mm"][1] for r in sat].count))
+    # clearances: over ALL runs (not only the runs that reached a sit), and split by outcome
+    S.update(clearance_stats(rr))
     S["rim_contacts_physics"] = sum(len(r["events"]["rim"]) > 0 for r in rr)
     S["wall_contacts_physics"] = sum(len(r["events"]["wall"]) > 0 for r in rr)
     # currents
@@ -265,6 +291,6 @@ if __name__ == "__main__":
     print("\n### other (all runs)\n")
     S = OUT["all"]
     for k in ("falls_total", "falls_by_stage", "trips_at_mat_edge", "approach_timeouts", "n_sits_hist", "sits_not_wholly_on_mat", "first_sit_failure_reasons", "retries", "walk_off", "time_s",
-              "stage_time_s_mean_when_run", "edge_cross_160mm_s", "mat_edge_touches_per_run", "wall_clearance_mm", "rim_clearance_mm", "rim_contacts_physics", "wall_contacts_physics",
+              "stage_time_s_mean_when_run", "edge_cross_160mm_s", "mat_edge_touches_per_run", "clearance_scope", "wall_clearance_mm", "rim_clearance_mm", "runs_inside_wall_or_rim", "clearance_by_outcome", "rim_contacts_physics", "wall_contacts_physics",
               "currents_A", "pins_first_sit", "seat_block_force_N", "soles_force_N", "joints_on_stops_count", "falls_in_sit", "fine_rounds", "creep_moves_used", "crashed"):
         print("- %s: %s" % (k, json.dumps(S.get(k))))

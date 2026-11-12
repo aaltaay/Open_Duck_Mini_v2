@@ -11,7 +11,7 @@ Repo copy note (2026-11-11 ET): this is the report as written, copied into the r
 3. The edge stalls at 6.0 V dropped from 36 to 4 of 270 (with a forward command of 0.18 instead of 0.15). One run never got over the edge in 40 s and gave up.
 4. The price is accuracy. With no steering allowed across the edge the duck arrives up to 100 mm and more to the side, and it cannot side-step right to repair that. Sideways landing scatter went from 22 mm to 36 mm (1 sigma). 71 first sits missed (old: 8). At 6.0 V 32 runs never charged in 3 sits (old: 3).
 5. The whole gain and the whole loss cancel at 7.2 V: 240 of 270 charge at the first sit, the same count as before. After re-sits 7.2 V is better (259 against 241 of 270). At 6.0 V the new controller is clearly worse (215 against 263 of 270).
-6. Margins to the wall and the rim got worse: 5 runs touched the wall plane or the rim (old: 0).
+6. Margins to the wall and the rim got worse: 9 of 540 runs had a part inside the wall plane or the rim (old: 0 of 540). 5 of them reached a sit, 3 are fallen ducks, 1 never sat and did not fall. Corrected 2026-11-11 ET: this line first said 5, which counted only the runs that reached a sit.
 7. What I would keep: the 6.0 V finding that 0.18 gets over the edge where 0.15 stalls, and the staging idea for 7.2 V only if the sideways error can be repaired (it cannot with the stock walk). The real fix is still on the walk retrain list: lift the foot over a 2 mm edge, and side-step right.
 
 ![compare](V2_compare.png)
@@ -125,12 +125,23 @@ Same 540 seeds, start poses, voltages, mat frictions, pose noise, rate and laten
 | Error at the turn spot, RMS (mm) | 22.5 | 27.0 | 16.2 | 39.8 | 45.8 | 32.6 |
 | Fine-move rounds on the mat, mean | 1.72 | 2.14 | 1.25 | 2.28 | 3.12 | 1.42 |
 | Time to torque off at the first sit, mean / 95th / worst (s) | 42.9 / 56.2 / 78.7 | 48.8 / 58.3 / 78.7 | 36.2 / 45.5 / 49.4 | 46.5 / 60.3 / 76.7 | 52.3 / 63.0 / 76.7 | 40.6 / 49.6 / 56.1 |
-| Closest to the wall: worst / 5th percentile / mean (mm) | 23.5 / 46.9 / 76.1 | 51.7 / 70.7 / 89.3 | 23.5 / 42.6 / 61.3 | -3.8 / 37.7 / 70.5 | -3.8 / 26.6 / 78.9 | 8.4 / 42.9 / 62.0 |
-| Closest to the rim: worst / 5th percentile / mean (mm) | 9.5 / 39.8 / 65.9 | 37.7 / 56.4 / 77.2 | 9.5 / 34.7 / 53.2 | -3.0 / 34.4 / 62.2 | -3.0 / 35.5 / 70.9 | -0.1 / 32.2 / 53.2 |
-| Runs that touched the wall plane or the rim | 0 | 0 | 0 | 5 | 4 | 1 |
+| Closest to the wall, all runs: worst / 5th percentile / mean (mm) | 23.5 / 47.2 / 87.5 | 51.7 / 70.7 / 89.3 | 23.5 / 43.5 / 85.7 | -300.3 / 33.1 / 72.3 | -300.3 / 20.6 / 74.0 | 8.4 / 42.9 / 70.6 |
+| Closest to the rim, all runs: worst / 5th percentile / mean (mm) | 9.5 / 40.0 / 75.4 | 37.7 / 56.4 / 77.2 | 9.5 / 35.3 / 73.6 | -55.2 / 32.3 / 64.9 | -55.2 / 32.6 / 69.4 | -0.1 / 33.4 / 60.4 |
+| Runs with a part inside the wall plane or the rim, all runs | 0 | 0 | 0 | 9 | 8 | 1 |
+| Runs that reached a sit: inside the wall plane or the rim | 0 of 511 | 0 of 270 | 0 of 241 | 5 of 526 | 4 of 266 | 1 of 260 |
+| Runs that reached a sit: closest to the wall, worst / 5th / mean (mm) | 23.5 / 46.9 / 76.1 | 51.7 / 70.7 / 89.3 | 23.5 / 42.6 / 61.3 | -3.8 / 37.7 / 70.5 | -3.8 / 26.6 / 78.9 | 8.4 / 42.9 / 62.0 |
+| Runs that reached a sit: closest to the rim, worst / 5th / mean (mm) | 9.5 / 39.8 / 65.9 | 37.7 / 56.4 / 77.2 | 9.5 / 34.7 / 53.2 | -3.0 / 34.4 / 62.2 | -3.0 / 35.5 / 70.9 | -0.1 / 32.2 / 53.2 |
+| Runs that fell: inside the wall plane or the rim | 0 of 29 | 0 of 0 | 0 of 29 | 3 of 13 | 3 of 3 | 0 of 10 |
+| Runs that fell: closest to the wall, worst / 5th / mean (mm) | 273.7 / 277.6 / 288.6 | none | 273.7 / 277.6 / 288.6 | -300.3 / -297.2 / 157.0 | -300.3 / -299.8 / -294.9 | 287.3 / 288.1 / 292.6 |
+| Runs that fell: closest to the rim, worst / 5th / mean (mm) | 202.7 / 228.0 / 243.2 | none | 202.7 / 228.0 / 243.2 | -55.2 / -54.1 / 178.2 | -55.2 / -55.0 / -51.5 | 221.0 / 229.6 / 247.2 |
+| Runs that never sat, no fall: inside the wall plane or the rim | 0 of 0 | 0 of 0 | 0 of 0 | 1 of 1 | 1 of 1 | 0 of 0 |
+| Runs that never sat, no fall: closest to the wall, worst / 5th / mean (mm) | none | none | none | -105.9 / -105.9 / -105.9 | -105.9 / -105.9 / -105.9 | none |
+| Runs that never sat, no fall: closest to the rim, worst / 5th / mean (mm) | none | none | none | 39.5 / 39.5 / 39.5 | 39.5 / 39.5 / 39.5 | none |
 | Walk-off after the sit: falls | 0 of 511 | | | 0 of 526 | | |
 
 A negative clearance means the part was inside the wall plane or the rim block. The head against the wall is checked by geometry only (as in the original), so the sim did not push the duck back.
+
+Correction 2026-11-11 ET (a review finding on the pull request, checked against `nest_runs_v2.json` and `../nest_runs_main.json`): the wall and rim rows first covered only the runs that reached a sit, so fallen runs and the one run that never sat were left out. The rows above now cover all 540 runs of each controller and are split three ways (reached a sit / fell / never sat, no fall), so a fallen duck lying through the wall plane is not mixed up with a walking one. `compare.py` and `../analyze.py` are fixed; `compare.json`, `compare_table.md`, `compare.log` and `../nest_results.json` were made again from the archived run files (no MuJoCo run was repeated; every other number in them is unchanged). Old controller, all 540 runs: worst 23.5 mm to the wall and 9.5 mm to the rim, 0 runs inside (the same worst values as before, because its 29 fallen runs lie 273.7 mm or more from the wall). New controller, all 540 runs: 9 runs inside the wall plane or the rim (8 at 6.0 V, 1 at 7.2 V). sim pass only.
 
 By pose noise, charge at the first sit, old / new: low 90.0 / 86.1 %, mid 96.1 / 86.7 %, high 93.3 / 80.0 %. By mat friction: 0.6: 90.6 / 77.2 %, 0.8: 93.3 / 90.6 %, 1.0: 95.6 / 85.0 %. sim pass only, 180 runs each.
 
@@ -148,7 +159,7 @@ Same seed, old outcome to new outcome: 426 charged at the first sit both times. 
 2. **First-sit misses: 71 (old: 8).** 52 have a pin on the wrong zone, 19 have the seat pins off the sun. Re-sits fix 38 of them (29 at the second sit, 9 at the third). At 7.2 V the re-sit almost always works (259 of 260). At 6.0 V 32 runs never charge.
 3. **Falls at 6.0 V: 3 (old: 0).** All in the straight crossing at command 0.18, after 11 to 16 s on the edge.
 4. **One run gives up** at the edge (6.0 V, 40 s limit).
-5. **Wall and rim.** 4 runs at 6.0 V put the head 0 to 4 mm through the wall plane during the fine moves or the turn, 2 runs had a foot at or in the rim (one ran both). The old worst cases were 23.5 and 9.5 mm clear. Cause: the duck stands askew and off to the side after a bad crossing.
+5. **Wall and rim.** 9 of 540 runs had a part inside the wall plane or the rim (old: 0 of 540). Of the 526 runs that reached a sit, 5: 4 runs at 6.0 V put the head 0 to 4 mm through the wall plane during the fine moves or the turn, 2 runs had a foot at or in the rim (one ran both). Of the 13 runs that fell, 3 (all at 6.0 V, fallen in the crossing): the fallen duck ended with the head 289.4 to 300.3 mm beyond the wall plane and a foot 46.0 to 55.2 mm inside the rim block. The 1 run that never sat and did not fall (seed 2008, 6.0 V, the run that gave up at the edge) had the head 105.9 mm beyond the wall plane during the crossing, on its feet. The old worst cases were 23.5 and 9.5 mm clear over all 540 runs. Cause: the duck stands askew and off to the side after a bad crossing. (Corrected 2026-11-11 ET: this item first listed only the 5 runs that reached a sit.)
 6. **More creep moves on the mat and at the staging point:** 731 right-turn bursts against 126, 526 back steps against 154. The right-turn burst is the irregular one and carries the trunk 8 to 13 mm.
 7. **Slower:** 46.5 s against 42.9 s to torque off (the staging stop costs about 3 s, the extra fine moves about 1 s).
 8. **The re-sit shuffle now sometimes works at the mat edge** (11 runs with a turn or side command while a sole was on the edge). No fall came of it in these runs.
@@ -160,7 +171,7 @@ Same seed, old outcome to new outcome: 426 charged at the first sit both times. 
 | Trips on the 2 mm edge at 7.2 V, also when walking straight | 10 of 270 | A walk that lifts its toes over a 2 mm edge (retrain), or a tapered edge on the bench. Not a controller matter |
 | Stalls and pivots on the edge at 6.0 V | 4 slow, 1 gave up, 3 falls of 270 | The same. 0.18 helps but sits next to a cliff at 0.20 |
 | Sideways error that cannot be repaired | 71 first-sit misses, 33 never charge | A right side-step (retrain). Or allow steering again once the first foot is on the mat |
-| Wall and rim margins | 5 touches | Move the sun out 20 to 30 mm (already BLOCKER 8 of the first report) |
+| Wall and rim margins | 9 of 540 runs inside the wall plane or the rim (5 that reached a sit, 3 fallen, 1 that never sat) | Move the sun out 20 to 30 mm (already BLOCKER 8 of the first report) |
 
 Controller ideas I did not have time to test, most promising first:
 1. A mix: steer as the old controller does at 6.0 V (it had 0 falls and all 270 across there) and line up and go straight only at 7.2 V. From the two tables that would give about 263 + 240 = 503 of 540 at the first sit, no better than the old controller, and about 263 + 259 = 522 of 540 within 3 sits against 508. calc only, not run.

@@ -13,7 +13,10 @@ DECISIONS.md D61. It replaces D58 (the feet-contact dock).
 **The scripts were moved here from a working folder outside the repo and were NOT re-run after the move.** Their
 hard-coded local paths were replaced by paths relative to each script (or the environment variables below). Every
 script passes `python -m py_compile` (56 of 56, syntax only), and three shared modules were imported once to confirm
-the new paths resolve (ducklib.py, sim/nestlib.py, cad/nestcad_lib.py). No result file was made again.
+the new paths resolve (ducklib.py, sim/nestlib.py, cad/nestcad_lib.py). One exception, 2026-11-11 ET: after a review
+finding, sim/analyze.py and sim/v2/compare.py were fixed and run once on the archived run files to make their
+summaries again (sim/nest_results.json, sim/v2/compare.json, compare_table.md, compare.log). No MuJoCo run was
+repeated and no other result file was made again.
 
 ## The concept in short
 
@@ -133,6 +136,11 @@ the whole body_middle_bottom was never made (NEST_CAD.md BLOCKER 12).
 - Re-run, line up and cross straight (sim pass only; sim/v2/NEST_SIM_V2.md section 3): the first sit ends charging in
   84.3 % of 540 runs (455); 91.3 % (493) within 3 sits. 13 falls (3 at 6.0 V, 10 at 7.2 V), all while walking
   straight over the edge. **The fix did not work overall.** HANDOVER.md has the detail.
+- Wall and rim, over all 540 runs of each controller (sim pass only; sim/v2/NEST_SIM_V2.md section 3, corrected
+  2026-11-11 ET): steering walk-on, worst 23.5 mm to the wall and 9.5 mm to the rim, 0 runs inside. Straight
+  crossing, 9 runs with a part inside the wall plane or the rim (5 that reached a sit, 3 fallen ducks, 1 that never
+  sat). The first versions of sim/analyze.py and sim/v2/compare.py counted only the runs that reached a sit; both are
+  fixed and their summaries were made again from the archived run files (no MuJoCo run repeated).
 - The seat pins may land within 45 mm of the sun centre at any heading up to 134 deg either side of facing the room
   (calc only; cad/NEST_CAD.md section 2.2).
 - CAD: all checks A to H pass; 14.4 g added to the duck (calc only; cad/NEST_CAD.md section 4).

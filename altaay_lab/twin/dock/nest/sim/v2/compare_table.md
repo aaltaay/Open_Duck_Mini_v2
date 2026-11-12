@@ -24,6 +24,15 @@
 | Heading before the turn, mean / sigma / worst (deg) | 1.1 / 4.2 / 30.1 | 1.2 / 4.3 / 30.1 | 1.1 / 4.1 / 11.1 | 2.7 / 4.5 / 23.6 | 3.9 / 4.1 / 23.6 | 1.5 / 4.5 / 14.9 |
 | Fine-move rounds on the mat, mean | 1.72 | 2.14 | 1.25 | 2.28 | 3.12 | 1.42 |
 | Time to torque off at the first sit, mean / 95th / worst (s) | 42.9 / 56.2 / 78.7 | 48.8 / 58.3 / 78.7 | 36.2 / 45.5 / 49.4 | 46.5 / 60.3 / 76.7 | 52.3 / 63.0 / 76.7 | 40.6 / 49.6 / 56.1 |
-| Closest to the wall: worst / 5th percentile / mean (mm) | 23.5 / 46.9 / 76.1 | 51.7 / 70.7 / 89.3 | 23.5 / 42.6 / 61.3 | -3.8 / 37.7 / 70.5 | -3.8 / 26.6 / 78.9 | 8.4 / 42.9 / 62.0 |
-| Closest to the rim: worst / 5th percentile / mean (mm) | 9.5 / 39.8 / 65.9 | 37.7 / 56.4 / 77.2 | 9.5 / 34.7 / 53.2 | -3.0 / 34.4 / 62.2 | -3.0 / 35.5 / 70.9 | -0.1 / 32.2 / 53.2 |
-| Wall or rim touched | 0 | 0 | 0 | 6 | 5 | 1 |
+| Closest to the wall, all runs: worst / 5th percentile / mean (mm) | 23.5 / 47.2 / 87.5 | 51.7 / 70.7 / 89.3 | 23.5 / 43.5 / 85.7 | -300.3 / 33.1 / 72.3 | -300.3 / 20.6 / 74.0 | 8.4 / 42.9 / 70.6 |
+| Closest to the rim, all runs: worst / 5th percentile / mean (mm) | 9.5 / 40.0 / 75.4 | 37.7 / 56.4 / 77.2 | 9.5 / 35.3 / 73.6 | -55.2 / 32.3 / 64.9 | -55.2 / 32.6 / 69.4 | -0.1 / 33.4 / 60.4 |
+| Runs with a part inside the wall plane or the rim, all runs | 0 | 0 | 0 | 9 | 8 | 1 |
+| Runs that reached a sit: inside the wall plane or the rim | 0 of 511 | 0 of 270 | 0 of 241 | 5 of 526 | 4 of 266 | 1 of 260 |
+| Runs that reached a sit: closest to the wall, worst / 5th / mean (mm) | 23.5 / 46.9 / 76.1 | 51.7 / 70.7 / 89.3 | 23.5 / 42.6 / 61.3 | -3.8 / 37.7 / 70.5 | -3.8 / 26.6 / 78.9 | 8.4 / 42.9 / 62.0 |
+| Runs that reached a sit: closest to the rim, worst / 5th / mean (mm) | 9.5 / 39.8 / 65.9 | 37.7 / 56.4 / 77.2 | 9.5 / 34.7 / 53.2 | -3.0 / 34.4 / 62.2 | -3.0 / 35.5 / 70.9 | -0.1 / 32.2 / 53.2 |
+| Runs that fell: inside the wall plane or the rim | 0 of 29 | 0 of 0 | 0 of 29 | 3 of 13 | 3 of 3 | 0 of 10 |
+| Runs that fell: closest to the wall, worst / 5th / mean (mm) | 273.7 / 277.6 / 288.6 | none | 273.7 / 277.6 / 288.6 | -300.3 / -297.2 / 157.0 | -300.3 / -299.8 / -294.9 | 287.3 / 288.1 / 292.6 |
+| Runs that fell: closest to the rim, worst / 5th / mean (mm) | 202.7 / 228.0 / 243.2 | none | 202.7 / 228.0 / 243.2 | -55.2 / -54.1 / 178.2 | -55.2 / -55.0 / -51.5 | 221.0 / 229.6 / 247.2 |
+| Runs that never sat, no fall: inside the wall plane or the rim | 0 of 0 | 0 of 0 | 0 of 0 | 1 of 1 | 1 of 1 | 0 of 0 |
+| Runs that never sat, no fall: closest to the wall, worst / 5th / mean (mm) | none | none | none | -105.9 / -105.9 / -105.9 | -105.9 / -105.9 / -105.9 | none |
+| Runs that never sat, no fall: closest to the rim, worst / 5th / mean (mm) | none | none | none | 39.5 / 39.5 / 39.5 | 39.5 / 39.5 / 39.5 | none |

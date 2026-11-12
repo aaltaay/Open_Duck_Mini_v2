@@ -51,7 +51,10 @@ sim/v2/NEST_SIM_V2.md section 3 (same 540 seeds, old against new).
 | Within 3 sits at 6.0 V, of 270 | 98.9 % (267) | 86.7 % (234) |
 | Within 3 sits at 7.2 V, of 270 | 89.3 % (241) | 95.9 % (259) |
 | First-sit misses | 8 | 71 |
-| Runs that touched the wall plane or the rim | 0 | 5 |
+| Runs with a part inside the wall plane or the rim, all 540 runs | 0 | 9 |
+| of those: reached a sit / fell / never sat, no fall | 0 / 0 / 0 | 5 / 3 / 1 |
+| Closest to the wall, all 540 runs, worst (negative: beyond the wall plane) | 23.5 mm | -300.3 mm (a fallen duck); -105.9 mm on its feet |
+| Closest to the rim, all 540 runs, worst | 9.5 mm | -55.2 mm (a fallen duck); -3.0 mm on its feet |
 
 In words:
 - **6.0 V got worse**: 215 against 263 of 270 at the first sit, and 3 falls where there were none (sim pass only).
@@ -73,6 +76,11 @@ In words:
   did not work overall.
 - D61 quotes "straight crossings with no steering at 7.2 V: 80 of 80". The larger samples give 5 falls in 180 walks
   (probe) and 10 in 270 runs (matrix) (sim pass only; NEST_SIM_V2.md sections 2.4 and 3).
+- D61's "head 23.5 mm from the wall, a foot 9.5 mm from the rim" and "No part touched the wall or the rim in 511
+  runs" covered only the 511 runs that reached a sit. Counted over all 540 runs of that controller the worst values
+  are the same, 23.5 mm and 9.5 mm, with 0 runs inside the wall plane or the rim (its 29 fallen runs lie 273.7 mm or
+  more from the wall). With the straight crossing the all-run count is 9 of 540 (sim pass only; corrected
+  2026-11-11 ET after a review finding; sim/v2/NEST_SIM_V2.md section 3 and sim/nest_results.json).
 - D61 says "no CAD yet". The CAD now exists (section 4), not installed.
 - The sim behind D61 used a rim 72 mm deep; the CAD rim is 50 mm deep and 30 mm high (CAD check only;
   cad/NEST_CAD.md sections 2.3 and 4.4). D61 says the nest is about 49 cm across; the CAD felt is 451 x 534 mm
@@ -145,8 +153,10 @@ share the pin positions), then D, then E.
 5. **Electrical redo.** The charger board into the duck (part, seat, heat), the two-net "is it the duck" safety gate
    board in the rim (the box keeps 70 x 26 x 14 mm, CAD check only), and a heat re-check: about 1.9 to 3.2 W of new
    heat in the trunk while charging (calc only; D61) with the thermal twin not re-run.
-6. **Head-to-wall margin.** Worst run 23.5 mm with the old controller (sim pass only), and the v2 run put the head
-   through the wall plane in 4 runs (sim pass only). Moving the sun from 190 to 215 mm from the wall would give
+6. **Head-to-wall margin.** Worst run 23.5 mm with the old controller over all 540 runs (sim pass only). The v2 run
+   put the head beyond the wall plane in 8 of 540 runs: 4 that reached a sit (0 to 4 mm), 1 that never sat (105.9 mm,
+   on its feet) and 3 fallen ducks (sim pass only). The wall check is geometry only: the sim does not push the head
+   back. Moving the sun from 190 to 215 mm from the wall would give
    48.5 mm (calc only, needs a re-run; cad/NEST_CAD.md section 4.4). One number to change: `WALL_X` in
    cad/nestcad_lib.py. The 190 mm is in the owner-approved concept, so ask.
 7. **Landing the CAD** into print/, the URDF, the netlist and the BOM, and swapping the old wall dock for the nest in
