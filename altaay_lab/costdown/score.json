@@ -1,0 +1,111 @@
+{
+ "weights": {
+  "safety": 25,
+  "peak": 20,
+  "runtime": 15,
+  "mass": 10,
+  "cycle": 10,
+  "cost": 10,
+  "ship": 5
+ },
+ "peak_A": 20.6,
+ "peak_source": "BATTERY_STUDY.md section 8, their shove figure",
+ "rule": "A cell with a BLOCKER, or under the peak bar, does not win. A lead under 5 points is not a clear win.",
+ "cells": [
+  {
+   "id": "P45B",
+   "points": {
+    "safety": 25,
+    "peak": 20.0,
+    "runtime": 13.35,
+    "mass": 10,
+    "cycle": 0,
+    "cost": 7.87,
+    "ship": 5
+   },
+   "total": 81.22,
+   "gate": true,
+   "cycle_known": false
+  },
+  {
+   "id": "P50B",
+   "points": {
+    "safety": 25,
+    "peak": 20.0,
+    "runtime": 14.84,
+    "mass": 9.86,
+    "cycle": 0,
+    "cost": 7.29,
+    "ship": 5
+   },
+   "total": 81.99,
+   "gate": true,
+   "cycle_known": false
+  },
+  {
+   "id": "50S",
+   "points": {
+    "safety": 25,
+    "peak": 12.14,
+    "runtime": 14.84,
+    "mass": 9.72,
+    "cycle": 0,
+    "cost": 8.75,
+    "ship": 5
+   },
+   "total": 75.45,
+   "gate": true,
+   "cycle_known": false
+  },
+  {
+   "id": "40T",
+   "points": {
+    "safety": 25,
+    "peak": 16.99,
+    "runtime": 11.87,
+    "mass": 0,
+    "cycle": 0,
+    "cost": 10.0,
+    "ship": 5
+   },
+   "total": 68.86,
+   "gate": false,
+   "cycle_known": false
+  },
+  {
+   "id": "VTC6",
+   "points": {
+    "safety": 25,
+    "peak": 7.28,
+    "runtime": 9.26,
+    "mass": 10,
+    "cycle": 0,
+    "cost": 6.82,
+    "ship": 5
+   },
+   "total": 63.36,
+   "gate": false,
+   "cycle_known": false
+  },
+  {
+   "id": "M50",
+   "points": {
+    "safety": 25,
+    "peak": 3.53,
+    "runtime": 15.0,
+    "mass": 10,
+    "cycle": 10,
+    "cost": 0,
+    "ship": 5
+   },
+   "total": 68.53,
+   "gate": false,
+   "cycle_known": true
+  }
+ ],
+ "mold_bound": {
+  "print_files": 49,
+  "ducks_to_match_filament_if_plastic_free": 1221.7,
+  "note": "Calc only. 49 files under print/ times the mold start, divided by two spools. Plastic piece price was not quoted. 49 files are not 49 tools. Not a saving."
+ }
+}
