@@ -168,7 +168,9 @@ the whole body_middle_bottom was never made (NEST_CAD.md BLOCKER 12).
   within 3 sits 97.4 % (526 of 540), 10 falls. Same seeds as the two tables it is built from. The calc-only guess was
   about 503 and about 522.
 - v3, two 1 mm steps with that controller (sim pass only): first sit 97.0 % (524 of 540), within 3 sits 99.3 %
-  (536 of 540), 0 falls. A 20 mm ramp was close and a little worse on the first sit (519 of 540).
+  (536 of 540), 0 falls. A 20 mm ramp was close and one run worse on the first sit (523 of 540). The ramp was
+  re-run after a review finding: the first file had stored the ramp fraction as a height-field sample, so its outer
+  third was under the floor.
 - v3, aim 20 mm right at 7.2 V on the two steps (sim pass only): 7.2 V first sit 263 of 270 and within 3 sits 270 of 270,
   0 falls. Worst head-to-wall gap on that combo, counting the 6.0 V stepped runs with it, 9.6 mm.
 - v3, same combo with the sun 215 mm from the wall (sim pass only; study only, 190 mm stays the approved distance):

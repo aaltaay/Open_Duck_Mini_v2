@@ -22,8 +22,10 @@ b9be205. Same 540 seeds as the earlier matrices (3 pose noise levels, 2 voltages
 2. **The two 1 mm steps help.** With the mixed controller, falls go to 0 of 540. First sit 524 of 540. Within 3 sits
    536 of 540. Worst head-to-wall gap 33.4 mm, worst foot-to-rim gap 24.8 mm, 0 runs inside either. This is the
    change that removes the trips.
-3. **A 20 mm ramp also removes the trips, and it is a little worse on the first sit.** 0 falls, 519 of 540 at the
-   first sit, 539 of 540 within 3 sits. Worst head gap 24.3 mm.
+3. **A 20 mm ramp also removes the trips, and it is one run worse on the first sit.** 0 falls, 523 of 540 at the
+   first sit, 539 of 540 within 3 sits. Worst head gap 26.2 mm. The ramp is a real 0 to 2 mm rise over 20 mm. An
+   earlier pass stored the ramp fraction as a height-field sample, so its outer third was under the floor. Those
+   numbers are replaced by this re-run.
 4. **Aiming 20 mm right at 7.2 V, on the two steps, raises the 7.2 V charge and spends some of the wall gap.**
    First sit at 7.2 V goes from 256 to 263 of 270. Within 3 sits goes from 266 to 270 of 270. Falls stay 0.
    Worst head gap on that combo is 9.6 mm (it was 33.4 mm with no extra aim). Aiming 10 mm, on 45 runs, did not
@@ -67,7 +69,8 @@ of both voltages.
 - `steps`: lower felt 1 mm out to 267 mm from the sun, upper felt another 1 mm inside 247 mm. Same radii as
   `cad/nestcad_lib.py` `BASE_R` and `TOP_R` (CAD check only on those radii). Each rise is still one 5 mm cell.
   The field is widened so the 267 mm radius is on the grid. The back cut stays where the sim mat already cut it.
-- `taper`: height rises linearly from the floor at 267 mm to 2 mm at 247 mm. No step.
+- `taper`: height rises linearly from the floor at 267 mm to 2 mm at 247 mm. No step. The ramp fraction is a
+  physical height, then turned into a height-field sample, because sample 0 sits 1 mm under the floor.
 
 The foot still stands on the floor plane wherever the field is below the floor. The sit, when it is wholly on the
 mat, still uses the flat 2 mm plane, as before.
@@ -83,7 +86,7 @@ every run, including falls. A negative gap is inside.
 | Straight crossing | 455 of 540 | 493 of 540 | 3 / 10 | -300.3 | -55.2 | 9 |
 | Mixed, one 2 mm step | 503 of 540 | 526 of 540 | 0 / 10 | 8.4 | -0.1 | 1 |
 | Mixed, two 1 mm steps | 524 of 540 | 536 of 540 | 0 / 0 | 33.4 | 24.8 | 0 |
-| Mixed, 20 mm ramp | 519 of 540 | 539 of 540 | 0 / 0 | 24.3 | 12.1 | 0 |
+| Mixed, 20 mm ramp | 523 of 540 | 539 of 540 | 0 / 0 | 26.2 | 18.0 | 0 |
 | Two steps, aim 20 mm at 7.2 V | 531 of 540 | 540 of 540 | 0 / 0 | 9.6 | 10.6 | 0 |
 | That combo, wall at 215 mm | 531 of 540 | 538 of 540 | 0 / 0 | 47.4 | 34.9 | 0 |
 
@@ -95,7 +98,7 @@ By voltage, first sit and within 3 sits (of 270). sim pass only.
 | Straight crossing | 215 | 234 | 240 | 259 |
 | Mixed, one step | 263 | 267 | 240 | 259 |
 | Two steps | 268 | 270 | 256 | 266 |
-| Ramp | 269 | 270 | 250 | 269 |
+| Ramp | 270 | 270 | 253 | 269 |
 | Aim 20 mm at 7.2 V | 268 (not re-run) | 270 (not re-run) | 263 | 270 |
 | Wall at 215 mm | 269 | 270 | 262 | 268 |
 
@@ -121,10 +124,11 @@ Worst gaps, both on runs that did not fall: head 33.4 mm (seed 210022, during th
 
 ### 3.3 The ramp
 
-0 falls. First sit is 5 runs below the two steps (519 against 524). Within 3 sits is 3 runs above (539 against 536).
-One run never charges (7.2 V, high noise, mat friction 0.6, three sits). Worst head gap 24.3 mm and worst rim gap
-12.1 mm, both during the turn, both on a run that did not fall. Kept as a comparison. The two steps are the better
-first-sit edge.
+0 falls. First sit is 1 run below the two steps (523 against 524). Within 3 sits is 3 runs above (539 against 536).
+At 6.0 V every run charges at the first sit (270 of 270). At 7.2 V, 253 of 270 charge at the first sit and 269 of
+270 within 3 sits. One run never charges (seed 212020, 7.2 V, high pose noise, mat friction 1.0, three sits, no
+fall). Worst head gap 26.2 mm and worst rim gap 18.0 mm, both seed 210019 during the turn, no fall. The two steps
+remain the better first-sit edge, by that one run.
 
 ### 3.4 Aiming right at 7.2 V
 
@@ -183,7 +187,7 @@ Did not help, or helped less:
   the falls drop from 29 to 10 and the within-3 count rises from 508 to 526, and because 6.0 V stays on the
   controller that does not fall.
 - Aiming 10 mm, on the 45-run sweep. Same first-sit count as no aim.
-- The ramp, if the goal is the first sit. 519 against 524. It does win within 3 sits by 3 runs (539 against 536)
+- The ramp, if the goal is the first sit. 523 against 524. It does win within 3 sits by 3 runs (539 against 536)
   and it also has 0 falls.
 - Moving the wall, if the goal is more ducks charging. The first-sit count did not rise, and 2 runs lost the
   within-3 charge.

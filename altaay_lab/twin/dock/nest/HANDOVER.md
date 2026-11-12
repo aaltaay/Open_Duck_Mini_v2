@@ -201,7 +201,7 @@ Short version, same 540 seeds:
 | Straight crossing (section 3) | 455 of 540 | 493 of 540 | 13 | -300.3 mm |
 | Mixed: steering at 6.0 V, straight at 7.2 V | 503 of 540 | 526 of 540 | 10 | 8.4 mm |
 | Mixed, two 1 mm steps | 524 of 540 | 536 of 540 | 0 | 33.4 mm |
-| Mixed, 20 mm ramp | 519 of 540 | 539 of 540 | 0 | 24.3 mm |
+| Mixed, 20 mm ramp | 523 of 540 | 539 of 540 | 0 | 26.2 mm |
 | Two steps, and aim 20 mm right at 7.2 V | 531 of 540 | 540 of 540 | 0 | 9.6 mm |
 | That combo, sun 215 mm from the wall (study) | 531 of 540 | 538 of 540 | 0 | 47.4 mm |
 
@@ -216,6 +216,8 @@ head gap at 47.4 mm and the worst foot-to-rim gap at 34.9 mm, with 0 runs inside
 stayed 531 of 540.
 
 What did not help: the mix does not beat the old controller on the first sit (both 503). Aiming 10 mm right did not
-change the charge count on a 45-run 7.2 V sweep. The ramp is a little worse than the two steps on the first sit
-(519 against 524). Moving the wall did not buy more first sits, and 2 runs that had charged within 3 sits at 190 mm
-did not at 215 mm.
+change the charge count on a 45-run 7.2 V sweep. The ramp is one run worse than the two steps on the first sit
+(523 against 524). The first ramp file used a height-field sample that put the outer third of the ramp under the
+floor. That file was re-run after the sample was converted to a real height. The numbers in this section are the
+re-run (sim pass only). Moving the wall did not buy more first sits, and 2 runs that had charged within 3 sits at
+190 mm did not at 215 mm.

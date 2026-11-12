@@ -101,7 +101,9 @@ def hfield_data():
     Default (NEST_EDGE=one, or unset): 1 inside the nest outline, 0 outside. The 2 mm edge is one cell wide
     (2 mm over 5 mm: a steep chamfer, not a knife edge). That default is the field the archived runs used.
     NEST_EDGE=steps: 1 mm on the 20 mm tread, 2 mm inside the upper felt. Each rise is still one cell.
-    NEST_EDGE=taper: a linear ramp from 0 at the outer radius to 2 mm at the upper-felt radius."""
+    NEST_EDGE=taper: a linear ramp from the floor at the outer radius to 2 mm at the upper-felt radius.
+    The ramp fraction is a physical height (fraction times MAT_H), then converted with _sample_for_height, because
+    sample 0 is HF_DROP below the floor and sample 1 is MAT_H above it."""
     half = field_half()
     n = int(round(2 * half / HF_CELL)) + 1
     g = np.linspace(-half, half, n)
@@ -117,9 +119,10 @@ def hfield_data():
         h1 = _sample_for_height(0.001)            # 1 mm above the floor
         h = np.where(inner, 1.0, np.where(outer, h1, 0.0))
     else:
-        # 0 at the outer radius, 1 (2 mm) at the upper felt, flat inside
-        h = np.clip((MAT_R + TREAD - r) / TREAD, 0.0, 1.0)
-        h = np.where(outer, h, 0.0)
+        # fraction 0 at the outer radius, 1 at the upper felt. That fraction is the share of the 2 mm felt, not the
+        # height-field sample: sample 0 sits HF_DROP below the floor.
+        frac = np.clip((MAT_R + TREAD - r) / TREAD, 0.0, 1.0)
+        h = np.where(outer, _sample_for_height(frac * MAT_H), 0.0)
     return n, h.astype(np.float32)
 
 
