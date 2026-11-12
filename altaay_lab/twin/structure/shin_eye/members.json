@@ -1,0 +1,49 @@
+[
+ {
+  "member": "shin_left_sheet",
+  "material": "PLA",
+  "walk": 1.29,
+  "walk_mode": "in-plane",
+  "walk_at": [11.5, -9.5, -10.5],
+  "soft": 0.74,
+  "soft_under": 3,
+  "n": 9,
+  "note": "FEA pass only, web with the head recess"
+ },
+ {
+  "member": "shin_left_sheet",
+  "material": "PA6-CF",
+  "walk": 2.79,
+  "walk_mode": "in-plane",
+  "soft": 1.62,
+  "soft_under": 0,
+  "n": 9,
+  "note": "FEA pass only, same stress field, cited allowables"
+ },
+ {
+  "member": "shin_right_sheet",
+  "material": "PLA",
+  "walk": 1.7,
+  "walk_mode": "in-plane",
+  "walk_at": [14.7, -41.1, 49.5],
+  "soft": 0.8,
+  "soft_under": 1,
+  "n": 9,
+  "note": "FEA pass only. Stock geometry. This is why the idle sheet cannot stay PLA."
+ },
+ {
+  "member": "shin_right_sheet",
+  "material": "PA6-CF",
+  "walk": 3.69,
+  "walk_mode": "in-plane",
+  "soft": 1.73,
+  "soft_under": 0,
+  "n": 9,
+  "note": "FEA pass only, same stress field, cited allowables"
+ },
+ {
+  "member": "shin_spacer",
+  "material": "PLA",
+  "note": "The failure index on the spacer stayed at the numerical floor of the search. It is not the weak member. No safety factor is quoted."
+ }
+]
