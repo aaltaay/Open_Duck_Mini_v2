@@ -1,0 +1,2245 @@
+{
+ "seat_world_max_error_mm": 0.001,
+ "seat_world_label": "cad",
+ "screws": 361,
+ "fitted": 324,
+ "left_out": 37,
+ "inserts": 58,
+ "inserts_fitted": 48,
+ "status": {
+  "BELOW RULE": 89,
+  "OK": 168,
+  "LEAVE OUT (D38 screw cut)": 19,
+  "LEAVE OUT (D42 uniform pattern)": 2,
+  "LEAVE OUT (D39 screw cut)": 3,
+  "LEAVE OUT (D18)": 2,
+  "UNVERIFIED": 6,
+  "FACTORY": 56,
+  "NOT FITTED": 11,
+  "FIT": 3,
+  "BELOW RULE, NEW LENGTH": 2
+ },
+ "fitted_length_status": {
+  "BELOW RULE": 89,
+  "OK": 154,
+  "None": 79,
+  "BELOW RULE, NEW LENGTH": 2
+ },
+ "fitted_recess": {
+  "OK": 157,
+  "None": 121,
+  "TIGHT": 22,
+  "INTERFERENCE": 24
+ },
+ "fitted_hole": {
+  "OK": 234,
+  "TIGHT": 4,
+  "None": 86
+ },
+ "sym_not_uniform_existing": [
+  "part foot_side 62",
+  "part foot_side 96",
+  "part right_roll_to_pitch 73",
+  "part left_roll_to_pitch 39",
+  "part trunk_top 11",
+  "part roll_motor_bottom 32",
+  "part roll_motor_bottom 66"
+ ],
+ "d42_parts_not_uniform": [
+  {
+   "part": "foot_side",
+   "inst": 62,
+   "n": 6,
+   "max_mm": 2.68,
+   "pattern": "not uniform"
+  },
+  {
+   "part": "foot_side",
+   "inst": 96,
+   "n": 6,
+   "max_mm": 2.68,
+   "pattern": "not uniform"
+  },
+  {
+   "part": "left_roll_to_pitch",
+   "inst": 39,
+   "n": 13,
+   "max_mm": 12.57,
+   "pattern": "not uniform"
+  },
+  {
+   "part": "right_roll_to_pitch",
+   "inst": 73,
+   "n": 13,
+   "max_mm": 12.57,
+   "pattern": "not uniform"
+  },
+  {
+   "part": "shin_left_sheet",
+   "inst": 56,
+   "n": 8,
+   "max_mm": 11.03,
+   "pattern": "not uniform"
+  },
+  {
+   "part": "shin_left_sheet",
+   "inst": 90,
+   "n": 8,
+   "max_mm": 11.03,
+   "pattern": "not uniform"
+  },
+  {
+   "part": "shin_right_sheet",
+   "inst": 55,
+   "n": 8,
+   "max_mm": 11.22,
+   "pattern": "not uniform"
+  },
+  {
+   "part": "shin_right_sheet",
+   "inst": 89,
+   "n": 8,
+   "max_mm": 11.22,
+   "pattern": "not uniform"
+  },
+  {
+   "part": "trunk_top",
+   "inst": 11,
+   "n": 20,
+   "max_mm": 3.4,
+   "pattern": "not uniform"
+  }
+ ],
+ "d42_joints_not_uniform": [
+  {
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "n": 8,
+   "uniform": false,
+   "pattern": "not uniform",
+   "max_mm": 17.58,
+   "ids": [
+    "F049",
+    "F050",
+    "F057",
+    "F058",
+    "F059",
+    "F060",
+    "F125",
+    "F131"
+   ],
+   "label": "cad"
+  },
+  {
+   "into": "wj-wk00-0122topcabinetcase_95",
+   "anchor": "servo pilot",
+   "n": 10,
+   "uniform": false,
+   "pattern": "not uniform",
+   "max_mm": 11.37,
+   "ids": [
+    "F126",
+    "F128",
+    "F130",
+    "F132",
+    "F138",
+    "F139",
+    "F140",
+    "F141",
+    "F142",
+    "F143"
+   ],
+   "label": "cad"
+  }
+ ],
+ "d18_pair": [
+  {
+   "id": "F133",
+   "y": 24.749,
+   "part": "roll_motor_bottom"
+  },
+  {
+   "id": "F135",
+   "y": -24.751,
+   "part": "roll_motor_bottom"
+  }
+ ],
+ "empty_hole_why": {
+  "UNUSED: no part in the CAD or the BOM screws into this hole": 1,
+  "bearing seat (6804, BOM 18)": 3,
+  "CLOSED (D39): UNUSED: speaker_stand top pilot 2.05 x 5.0 (2 in the stand, 12.75 mm apart); no part in the CAD or the BOM uses them": 2,
+  "STS3215 mounting pilot with nothing mounted on it (servo face is free here)": 18,
+  "CLOSED (D39): UNUSED: 6.0 x 4.8 mm hole across leg_spacer (2 per spacer), no part screws into it (cable or lightening hole)": 8,
+  "eye light path (bulb, head wall and eye glass seat), not a fastener": 2,
+  "CLOSED (D39): UNUSED: head_bot_sheet through hole (cable pass-through), not a fastener": 2,
+  "grille or vent hole: one of the 2.06 mm through holes in the head shell, not a fastener": 127,
+  "antenna rod holes (antenna.stl, no BOM line, no fastener)": 2,
+  "charger 2nd hole: no pilot under it (MOUNTING.md)": 1,
+  "CLOSED (D39): UNUSED: no part in the CAD or the BOM screws into this hole": 2,
+  "PCB pad or via hole, not a fastener hole": 82,
+  "speaker opening in speaker_interface, not a fastener": 1,
+  "CLOSED (D39): UNUSED: flash_light_module screw hole (2.79 clearance, 5.67 counterbore) with no pilot in head.stl or the reflector: the projector is not screwed in the CAD (B8)": 8,
+  "board.stl copy in the head: print/head.stl (730c14b) has no pilots under it (the older URDF head mesh did); nothing is fitted here": 4,
+  "camera lens opening in the head front wall": 1,
+  "panel switch screw holes: the switch is held by the body_back cutout (MOUNTING.md)": 2
+ },
+ "build_order_missing_fitted": [
+  "F356",
+  "F357",
+  "F358",
+  "F359",
+  "F360",
+  "F361"
+ ],
+ "factory_screws_not_in_build_order": 56,
+ "build_order_names_left_out": [
+  "F065",
+  "F066",
+  "F069",
+  "F070",
+  "F075",
+  "F076",
+  "F085",
+  "F088",
+  "F107",
+  "F110",
+  "F112",
+  "F113",
+  "F120",
+  "F121",
+  "F177",
+  "F178",
+  "F180",
+  "F183",
+  "F345",
+  "F346",
+  "F352",
+  "F355"
+ ],
+ "build_order_length_mismatch": [
+  {
+   "id": "F127",
+   "json": "M2x12 self-tapping pan head",
+   "order": "M2x6 self-tapping pan head",
+   "label": "cad"
+  },
+  {
+   "id": "F129",
+   "json": "M2x12 self-tapping pan head",
+   "order": "M2x6 self-tapping pan head",
+   "label": "cad"
+  },
+  {
+   "id": "F344",
+   "json": "M2x5 self-tapping pan head",
+   "order": "M2x4 self-tapping pan head",
+   "label": "cad"
+  },
+  {
+   "id": "F347",
+   "json": "M2x5 self-tapping pan head",
+   "order": "M2x4 self-tapping pan head",
+   "label": "cad"
+  }
+ ],
+ "wire_gap_under_2mm": [
+  {
+   "id": "F255",
+   "gap_mm": -0.59,
+   "cable": "S10",
+   "label": "cad",
+   "pose": "zero"
+  },
+  {
+   "id": "F249",
+   "gap_mm": -0.09,
+   "cable": "D3",
+   "label": "cad",
+   "pose": "zero"
+  },
+  {
+   "id": "F027",
+   "gap_mm": 0.51,
+   "cable": "P1",
+   "label": "cad",
+   "pose": "zero"
+  },
+  {
+   "id": "F181",
+   "gap_mm": 0.75,
+   "cable": "D12",
+   "label": "cad",
+   "pose": "zero"
+  },
+  {
+   "id": "F118",
+   "gap_mm": 1.32,
+   "cable": "D19",
+   "label": "cad",
+   "pose": "zero"
+  },
+  {
+   "id": "F204",
+   "gap_mm": 1.68,
+   "cable": "S5",
+   "label": "cad",
+   "pose": "zero"
+  }
+ ],
+ "wire_overlap": [
+  {
+   "id": "F249",
+   "gap_mm": -0.09,
+   "cable": "D3",
+   "label": "cad",
+   "pose": "zero"
+  },
+  {
+   "id": "F255",
+   "gap_mm": -0.59,
+   "cable": "S10",
+   "label": "cad",
+   "pose": "zero"
+  }
+ ],
+ "chest": {
+  "centre_solid": false,
+  "wall_beside_solid": true,
+  "hole_open": true,
+  "watertight": true,
+  "label": "cad",
+  "source": "twin/dock/chest_hole.py wall coordinates on print/body_front.stl"
+ },
+ "print_head_control": [
+  {
+   "part": "shin_left_sheet",
+   "id": "F203",
+   "shank_solid": 0,
+   "shank_n": 8,
+   "head_solid_from_mm": null,
+   "head_solid_to_mm": null,
+   "label": "cad",
+   "stl": "print/shin_left_sheet.stl"
+  },
+  {
+   "part": "knee_to_ankle_left_sheet",
+   "id": "F197",
+   "shank_solid": 0,
+   "shank_n": 8,
+   "head_solid_from_mm": null,
+   "head_solid_to_mm": null,
+   "label": "cad",
+   "stl": "print/knee_to_ankle_left_sheet.stl"
+  },
+  {
+   "part": "neck_left_sheet",
+   "id": "F228",
+   "shank_solid": 0,
+   "shank_n": 8,
+   "head_solid_from_mm": null,
+   "head_solid_to_mm": null,
+   "label": "cad",
+   "stl": "print/neck_left_sheet.stl"
+  },
+  {
+   "part": "left_roll_to_pitch",
+   "id": "F187",
+   "shank_solid": 0,
+   "shank_n": 8,
+   "head_solid_from_mm": null,
+   "head_solid_to_mm": null,
+   "label": "cad",
+   "stl": "print/left_roll_to_pitch.stl"
+  }
+ ],
+ "nest": {
+  "label": "calc",
+  "source": "twin/dock/nest/cad/nest_parts.py and nestcad_lib.py",
+  "lid_screws": {
+   "ids": [
+    "NL1",
+    "NL2",
+    "NL3",
+    "NL4"
+   ],
+   "spec": "M3x6 ISO 7380 A2 button head",
+   "bom": "17j",
+   "insert": "M3 heat-set, BOM 16, bore 4.0 mm, depth 5.8 mm",
+   "washer": null,
+   "nut": null,
+   "qty": 4,
+   "hole_mm": 3.4,
+   "e_mm": 4.0,
+   "e_rule_mm": 4.5,
+   "e_if_M3x8_mm": 6.0,
+   "bottoms_if_M3x8": true,
+   "insert_depth_mm": 5.8,
+   "posts_match_source": true,
+   "part_centre_mm": [
+    166.45,
+    0.0
+   ],
+   "pattern_centre_mm": [
+    170.45,
+    0.0
+   ],
+   "shift_from_part_centre_mm": 4.0,
+   "mirror_error_about_part_centre_mm": 8.0,
+   "mirror_error_about_pattern_centre_mm": 0.0,
+   "posts_xy": [
+    [
+     158.0,
+     84.0
+    ],
+    [
+     158.0,
+     -84.0
+    ],
+    [
+     182.9,
+     84.0
+    ],
+    [
+     182.9,
+     -84.0
+    ]
+   ],
+   "box_x_mm": [
+    144.0,
+    188.9
+   ]
+  },
+  "terminals": {
+   "ids": [
+    "NT1",
+    "NT2"
+   ],
+   "spec": "M3x8 DIN 912 A2",
+   "bom": "17a",
+   "insert": "M3 heat-set, BOM 16",
+   "qty": 2,
+   "hole_mm": 3.4,
+   "mirror_error_about_part_centre_mm": 24.9,
+   "posts_xy": [
+    [
+     154.0,
+     25.0
+    ],
+    [
+     154.0,
+     -25.0
+    ]
+   ],
+   "clamped_stack": "M3 ring lug named in NEST_CAD.md, thickness not in the CAD"
+  },
+  "jack": {
+   "part": "Same Sky PJ-005A, dock line K6b, nut and washer come with the jack",
+   "hole_mm": 8.0,
+   "wrench": "not in the repo"
+  },
+  "duck_screws_added": 0
+ },
+ "proposals": [
+  {
+   "stl": "altaay_lab/twin/structure/topology/stl/knee_to_ankle_left_sheet.stl",
+   "part": "knee_to_ankle_left_sheet",
+   "link": "knee_and_ankle_assembly",
+   "kind": "topology",
+   "watertight": false,
+   "screws": [
+    {
+     "id": "F099",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F100",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F197",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F199",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F201",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F248",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.1,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/topology/stl/knee_to_ankle_left_sheet.stl",
+   "part": "knee_to_ankle_left_sheet",
+   "link": "knee_and_ankle_assembly_3",
+   "kind": "topology",
+   "watertight": false,
+   "screws": [
+    {
+     "id": "F010",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 ISO 7380 A2 button head",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F012",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F103",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F104",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F209",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 ISO 7380 A2 button head",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F211",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 ISO 7380 A2 button head",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F213",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 ISO 7380 A2 button head",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F254",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.1,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 ISO 7380 A2 button head",
+     "e_mm": 2.2,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/topology/stl/knee_to_ankle_right_sheet.stl",
+   "part": "knee_to_ankle_right_sheet",
+   "link": "knee_and_ankle_assembly",
+   "kind": "topology",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F002",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 ISO 7380 A2 button head",
+     "e_mm": 4.15,
+     "label": "cad"
+    },
+    {
+     "id": "F004",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 4.15,
+     "label": "cad"
+    },
+    {
+     "id": "F041",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 4.0,
+     "label": "cad"
+    },
+    {
+     "id": "F042",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 4.0,
+     "label": "cad"
+    },
+    {
+     "id": "F196",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 ISO 7380 A2 button head",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F198",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 ISO 7380 A2 button head",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F200",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 ISO 7380 A2 button head",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F247",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.1,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 ISO 7380 A2 button head",
+     "e_mm": 2.2,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/topology/stl/knee_to_ankle_right_sheet.stl",
+   "part": "knee_to_ankle_right_sheet",
+   "link": "knee_and_ankle_assembly_3",
+   "kind": "topology",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F045",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 4.0,
+     "label": "cad"
+    },
+    {
+     "id": "F046",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 4.0,
+     "label": "cad"
+    },
+    {
+     "id": "F208",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F210",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F212",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F253",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.1,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/topology/stl/left_roll_to_pitch.stl",
+   "part": "left_roll_to_pitch",
+   "link": "left_roll_to_pitch_assembly",
+   "kind": "topology",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F031",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 2.94,
+     "label": "cad"
+    },
+    {
+     "id": "F032",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 2.94,
+     "label": "cad"
+    },
+    {
+     "id": "F134",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.06,
+     "label": "cad"
+    },
+    {
+     "id": "F144",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.06,
+     "label": "cad"
+    },
+    {
+     "id": "F145",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.06,
+     "label": "cad"
+    },
+    {
+     "id": "F186",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F187",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F188",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F189",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F194",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F195",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F243",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F244",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/topology/stl/neck_left_sheet.stl",
+   "part": "neck_left_sheet",
+   "link": "neck_pitch_assembly",
+   "kind": "topology",
+   "watertight": false,
+   "screws": [
+    {
+     "id": "F148",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 7.9,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F149",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 7.9,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F228",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 7.9,
+     "spec": "M3x5 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F231",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 7.9,
+     "spec": "M3x5 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F233",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 7.9,
+     "spec": "M3x5 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F259",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.9,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x5 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/topology/stl/neck_right_sheet.stl",
+   "part": "neck_right_sheet",
+   "link": "neck_pitch_assembly",
+   "kind": "topology",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F055",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 7.9,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 4.15,
+     "label": "cad"
+    },
+    {
+     "id": "F056",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 7.9,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 4.15,
+     "label": "cad"
+    },
+    {
+     "id": "F229",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 7.9,
+     "spec": "M3x5 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F230",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.5,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x5 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F232",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 7.9,
+     "spec": "M3x5 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F234",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 7.9,
+     "spec": "M3x5 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/topology/stl/right_roll_to_pitch.stl",
+   "part": "right_roll_to_pitch",
+   "link": "right_roll_to_pitch_assembly",
+   "kind": "topology",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F029",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F030",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x6 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F137",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F146",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F147",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F184",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F185",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F190",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F191",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F192",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F193",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F245",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.2,
+     "label": "cad"
+    },
+    {
+     "id": "F246",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/topology/stl/shin_left_sheet.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_2",
+   "kind": "topology",
+   "watertight": false,
+   "screws": [
+    {
+     "id": "F006",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F008",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F101",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F102",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F203",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F205",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F207",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F250",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.1,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/topology/stl/shin_left_sheet.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_4",
+   "kind": "topology",
+   "watertight": false,
+   "screws": [
+    {
+     "id": "F014",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F016",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F105",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F106",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F215",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F217",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F219",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F256",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.1,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/shin_eye/stl/shin_left_sheet_collar_cbore.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_2",
+   "kind": "shin_eye",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F006",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F008",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F101",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F102",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F203",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F205",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F207",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F250",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/shin_eye/stl/shin_left_sheet_collar_cbore.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_4",
+   "kind": "shin_eye",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F014",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F016",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F105",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F106",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F215",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F217",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F219",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F256",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/shin_eye/stl/shin_left_sheet_taper.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_2",
+   "kind": "shin_eye",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F006",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F008",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F101",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F102",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F203",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F205",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F207",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F250",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.1,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/shin_eye/stl/shin_left_sheet_taper.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_4",
+   "kind": "shin_eye",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F014",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F016",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F105",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F106",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F215",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F217",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F219",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F256",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.1,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/shin_eye/stl/shin_left_sheet_taper_cbore.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_2",
+   "kind": "shin_eye",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F006",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F008",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F101",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F102",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F203",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F205",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F207",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F250",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/shin_eye/stl/shin_left_sheet_taper_cbore.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_4",
+   "kind": "shin_eye",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F014",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F016",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F105",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F106",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F215",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F217",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F219",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F256",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/shin_eye/stl/shin_left_sheet_web.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_2",
+   "kind": "shin_eye",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F006",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F008",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F101",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F102",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F203",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F205",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F207",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F250",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.1,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/shin_eye/stl/shin_left_sheet_web.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_4",
+   "kind": "shin_eye",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F014",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F016",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F105",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F106",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F215",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F217",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F219",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.3,
+     "head_solid_to_mm": 6.3,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F256",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 1.1,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/shin_eye/stl/shin_left_sheet_web_cbore.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_2",
+   "kind": "shin_eye",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F006",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F008",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F101",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F102",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F203",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F205",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F207",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F250",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  },
+  {
+   "stl": "altaay_lab/twin/structure/shin_eye/stl/shin_left_sheet_web_cbore.stl",
+   "part": "shin_left_sheet",
+   "link": "knee_and_ankle_assembly_4",
+   "kind": "shin_eye",
+   "watertight": true,
+   "screws": [
+    {
+     "id": "F014",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F016",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": 0.7,
+     "head_solid_to_mm": 1.9,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 3.85,
+     "label": "cad"
+    },
+    {
+     "id": "F105",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F106",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M2x5 self-tapping pan head",
+     "e_mm": 3.0,
+     "label": "cad"
+    },
+    {
+     "id": "F215",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F217",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F219",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    },
+    {
+     "id": "F256",
+     "shank_solid": 0,
+     "shank_n": 8,
+     "head_solid_from_mm": null,
+     "head_solid_to_mm": null,
+     "spec": "M3x6 DIN 912 A2",
+     "e_mm": 2.4,
+     "label": "cad"
+    }
+   ]
+  }
+ ],
+ "torque_src": "cited, RLS TTD01_03 issue 03 (6 Dec 2023), DIN 912 / ISO 4762 and ISO 7380, A2/A4/70"
+}
