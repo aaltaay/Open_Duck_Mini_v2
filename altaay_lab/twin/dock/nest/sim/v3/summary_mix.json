@@ -1,0 +1,1653 @@
+{
+ "file": "nest_runs_mix.json",
+ "meta": {
+  "label": "sim pass only",
+  "controller": "mixed: old steering at 6.0 V, straight crossing at 7.2 V",
+  "note": "Study only. The approved sun-to-wall distance stays 190 mm. Nothing here is a hardware result.",
+  "edge": "one",
+  "wall_x_m": 0.19,
+  "aim_mm_right_at_7v2": 0.0,
+  "only_volt": null,
+  "cell_m": 0.005,
+  "tread_m": 0.0
+ },
+ "crashed": 0,
+ "errors": [],
+ "slices": {
+  "all": {
+   "n": 540,
+   "falls_all": 10,
+   "falls_walk_in": 10,
+   "falls_by_stage": {
+    "cross": 10
+   },
+   "never_reached_the_sit_no_fall": 0,
+   "reached_first_sit": 530,
+   "edge_window_slower_than_6s": 36,
+   "edge_window_s": {
+    "n": 530,
+    "mean": 3.7,
+    "p95": 7.11,
+    "max": 27.46
+   },
+   "charge_first_sit": {
+    "k": 503,
+    "n": 540,
+    "pct": 93.1,
+    "ci95": [
+     90.7,
+     95.0
+    ]
+   },
+   "charge_within_3": {
+    "k": 526,
+    "n": 540,
+    "pct": 97.4,
+    "ci95": [
+     95.7,
+     98.4
+    ]
+   },
+   "charge_first_sit_given_sit": {
+    "k": 503,
+    "n": 530,
+    "pct": 94.9,
+    "ci95": [
+     92.7,
+     96.5
+    ]
+   },
+   "charge_within_3_given_sit": {
+    "k": 526,
+    "n": 530,
+    "pct": 99.2
+   },
+   "seat_x_mm": [
+    2.7,
+    14.5
+   ],
+   "seat_y_mm": [
+    9.5,
+    26.3
+   ],
+   "seat_radial_mm": {
+    "mean": 23.9,
+    "p50": 19.9,
+    "p95": 54.4,
+    "max": 249.8,
+    "inside_45mm_pct": 90.8,
+    "beyond_100mm": 3
+   },
+   "time_to_first_sit_s": {
+    "mean": 44.8,
+    "p95": 56.2,
+    "min": 32.3,
+    "max": 78.7
+   },
+   "turn_spot_err_x_mm": [
+    -0.0,
+    10.4
+   ],
+   "turn_spot_err_y_mm": [
+    14.4,
+    24.0
+   ],
+   "turn_spot_err_rms_mm": 29.9,
+   "turn_spot_err_beyond_60mm": 23,
+   "heading_before_turn_deg": [
+    1.4,
+    4.4
+   ],
+   "heading_before_turn_abs_max_deg": 30.1,
+   "fine_rounds_mean": 1.78,
+   "creep_moves": {
+    "fwd": 558,
+    "back": 290,
+    "yaw-": 372,
+    "left": 113,
+    "yaw+": 116
+   },
+   "wall_mm": {
+    "min": 8.4,
+    "p5": 49.3,
+    "mean": 79.9,
+    "collisions": 0,
+    "closest_part": "head_assembly",
+    "closest_stage": "turn",
+    "touched": 0
+   },
+   "rim_mm": {
+    "min": -0.1,
+    "p5": 38.7,
+    "mean": 68.8,
+    "collisions": 1,
+    "closest_part": "foot_assembly_2",
+    "touched": 1
+   },
+   "runs_inside_wall_or_rim": 1,
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 530,
+     "wall_clearance_mm": {
+      "min": 8.4,
+      "p5": 49.2,
+      "mean": 75.9,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": -0.1,
+      "p5": 38.7,
+      "mean": 65.4,
+      "collisions": 1
+     },
+     "runs_inside_wall_or_rim": 1
+    },
+    "fell": {
+     "n": 10,
+     "wall_clearance_mm": {
+      "min": 287.3,
+      "p5": 288.1,
+      "mean": 292.6,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 221.0,
+      "p5": 229.6,
+      "mean": 247.2,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
+   "v2": {
+    "runs_with_a_turn_or_side_command_while_a_sole_was_on_the_edge": 1,
+    "those_by_stage": {
+     "shuffle": 1
+    },
+    "stage_turn_moves": {
+     "mean": 1.31,
+     "none": 128,
+     "max": 5
+    },
+    "stage_toe_to_edge_mm": {
+     "min": 24.0,
+     "mean": 51.7,
+     "max": 99.7
+    },
+    "stage_heading_error_left_deg": [
+     -1.3,
+     2.9
+    ],
+    "cross_not_done": 10,
+    "cross_retries_runs": 0,
+    "cross_retries": 0,
+    "cross_stage_s": {
+     "mean": 3.8,
+     "max": 5.2
+    },
+    "heel_inside_when_steering_resumed_mm": {
+     "min": 6.7,
+     "mean": 56.2
+    },
+    "feet_not_both_on_when_steering_resumed": 0,
+    "stage_time_s": {
+     "approach": 9.4,
+     "stage": 3.5,
+     "cross": 3.8,
+     "walk_on": 5.5,
+     "fine": 5.0
+    }
+   }
+  },
+  "6.0 V": {
+   "n": 270,
+   "falls_all": 0,
+   "falls_walk_in": 0,
+   "falls_by_stage": {},
+   "never_reached_the_sit_no_fall": 0,
+   "reached_first_sit": 270,
+   "edge_window_slower_than_6s": 36,
+   "edge_window_s": {
+    "n": 270,
+    "mean": 4.72,
+    "p95": 10.2,
+    "max": 27.46
+   },
+   "charge_first_sit": {
+    "k": 263,
+    "n": 270,
+    "pct": 97.4,
+    "ci95": [
+     94.7,
+     98.7
+    ]
+   },
+   "charge_within_3": {
+    "k": 267,
+    "n": 270,
+    "pct": 98.9,
+    "ci95": [
+     96.8,
+     99.6
+    ]
+   },
+   "charge_first_sit_given_sit": {
+    "k": 263,
+    "n": 270,
+    "pct": 97.4,
+    "ci95": [
+     94.7,
+     98.7
+    ]
+   },
+   "charge_within_3_given_sit": {
+    "k": 267,
+    "n": 270,
+    "pct": 98.9
+   },
+   "seat_x_mm": [
+    -2.3,
+    14.1
+   ],
+   "seat_y_mm": [
+    4.2,
+    27.9
+   ],
+   "seat_radial_mm": {
+    "mean": 21.2,
+    "p50": 17.4,
+    "p95": 40.4,
+    "max": 249.8,
+    "inside_45mm_pct": 95.2,
+    "beyond_100mm": 3
+   },
+   "time_to_first_sit_s": {
+    "mean": 48.8,
+    "p95": 58.3,
+    "min": 38.3,
+    "max": 78.7
+   },
+   "turn_spot_err_x_mm": [
+    -0.7,
+    10.5
+   ],
+   "turn_spot_err_y_mm": [
+    6.8,
+    23.9
+   ],
+   "turn_spot_err_rms_mm": 27.0,
+   "turn_spot_err_beyond_60mm": 5,
+   "heading_before_turn_deg": [
+    1.2,
+    4.3
+   ],
+   "heading_before_turn_abs_max_deg": 30.1,
+   "fine_rounds_mean": 2.14,
+   "creep_moves": {
+    "fwd": 377,
+    "back": 92,
+    "yaw-": 67,
+    "left": 58,
+    "yaw+": 34
+   },
+   "wall_mm": {
+    "min": 51.7,
+    "p5": 70.7,
+    "mean": 89.3,
+    "collisions": 0,
+    "closest_part": "head_assembly",
+    "closest_stage": "turn",
+    "touched": 0
+   },
+   "rim_mm": {
+    "min": 37.7,
+    "p5": 56.4,
+    "mean": 77.2,
+    "collisions": 0,
+    "closest_part": "foot_assembly_2",
+    "touched": 0
+   },
+   "runs_inside_wall_or_rim": 0,
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 270,
+     "wall_clearance_mm": {
+      "min": 51.7,
+      "p5": 70.7,
+      "mean": 89.3,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 37.7,
+      "p5": 56.4,
+      "mean": 77.2,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
+   "stage_time_s": {
+    "approach": 10.4,
+    "walk_on": 10.4,
+    "fine": 5.9
+   }
+  },
+  "7.2 V": {
+   "n": 270,
+   "falls_all": 10,
+   "falls_walk_in": 10,
+   "falls_by_stage": {
+    "cross": 10
+   },
+   "never_reached_the_sit_no_fall": 0,
+   "reached_first_sit": 260,
+   "edge_window_slower_than_6s": 0,
+   "edge_window_s": {
+    "n": 260,
+    "mean": 2.64,
+    "p95": 3.08,
+    "max": 3.78
+   },
+   "charge_first_sit": {
+    "k": 240,
+    "n": 270,
+    "pct": 88.9,
+    "ci95": [
+     84.6,
+     92.1
+    ]
+   },
+   "charge_within_3": {
+    "k": 259,
+    "n": 270,
+    "pct": 95.9,
+    "ci95": [
+     92.9,
+     97.7
+    ]
+   },
+   "charge_first_sit_given_sit": {
+    "k": 240,
+    "n": 260,
+    "pct": 92.3,
+    "ci95": [
+     88.4,
+     95.0
+    ]
+   },
+   "charge_within_3_given_sit": {
+    "k": 259,
+    "n": 260,
+    "pct": 99.6
+   },
+   "seat_x_mm": [
+    7.8,
+    13.0
+   ],
+   "seat_y_mm": [
+    14.9,
+    23.4
+   ],
+   "seat_radial_mm": {
+    "mean": 26.6,
+    "p50": 23.8,
+    "p95": 59.2,
+    "max": 87.4,
+    "inside_45mm_pct": 86.2,
+    "beyond_100mm": 0
+   },
+   "time_to_first_sit_s": {
+    "mean": 40.6,
+    "p95": 49.6,
+    "min": 32.3,
+    "max": 56.1
+   },
+   "turn_spot_err_x_mm": [
+    0.7,
+    10.3
+   ],
+   "turn_spot_err_y_mm": [
+    22.3,
+    21.4
+   ],
+   "turn_spot_err_rms_mm": 32.6,
+   "turn_spot_err_beyond_60mm": 18,
+   "heading_before_turn_deg": [
+    1.5,
+    4.5
+   ],
+   "heading_before_turn_abs_max_deg": 14.9,
+   "fine_rounds_mean": 1.42,
+   "creep_moves": {
+    "fwd": 181,
+    "yaw-": 305,
+    "back": 198,
+    "left": 55,
+    "yaw+": 82
+   },
+   "wall_mm": {
+    "min": 8.4,
+    "p5": 42.9,
+    "mean": 70.6,
+    "collisions": 0,
+    "closest_part": "head_assembly",
+    "closest_stage": "turn",
+    "touched": 0
+   },
+   "rim_mm": {
+    "min": -0.1,
+    "p5": 33.4,
+    "mean": 60.4,
+    "collisions": 1,
+    "closest_part": "foot_assembly_2",
+    "touched": 1
+   },
+   "runs_inside_wall_or_rim": 1,
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 260,
+     "wall_clearance_mm": {
+      "min": 8.4,
+      "p5": 42.9,
+      "mean": 62.0,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": -0.1,
+      "p5": 32.2,
+      "mean": 53.2,
+      "collisions": 1
+     },
+     "runs_inside_wall_or_rim": 1
+    },
+    "fell": {
+     "n": 10,
+     "wall_clearance_mm": {
+      "min": 287.3,
+      "p5": 288.1,
+      "mean": 292.6,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 221.0,
+      "p5": 229.6,
+      "mean": 247.2,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
+   "v2": {
+    "runs_with_a_turn_or_side_command_while_a_sole_was_on_the_edge": 1,
+    "those_by_stage": {
+     "shuffle": 1
+    },
+    "stage_turn_moves": {
+     "mean": 1.31,
+     "none": 128,
+     "max": 5
+    },
+    "stage_toe_to_edge_mm": {
+     "min": 24.0,
+     "mean": 51.7,
+     "max": 99.7
+    },
+    "stage_heading_error_left_deg": [
+     -1.3,
+     2.9
+    ],
+    "cross_not_done": 10,
+    "cross_retries_runs": 0,
+    "cross_retries": 0,
+    "cross_stage_s": {
+     "mean": 3.8,
+     "max": 5.2
+    },
+    "heel_inside_when_steering_resumed_mm": {
+     "min": 6.7,
+     "mean": 56.2
+    },
+    "feet_not_both_on_when_steering_resumed": 0,
+    "stage_time_s": {
+     "approach": 8.5,
+     "stage": 3.5,
+     "cross": 3.8,
+     "walk_on": 0.4,
+     "fine": 3.9
+    }
+   }
+  },
+  "noise low": {
+   "n": 180,
+   "falls_all": 3,
+   "falls_walk_in": 3,
+   "falls_by_stage": {
+    "cross": 3
+   },
+   "never_reached_the_sit_no_fall": 0,
+   "reached_first_sit": 177,
+   "edge_window_slower_than_6s": 18,
+   "edge_window_s": {
+    "n": 177,
+    "mean": 3.89,
+    "p95": 8.45,
+    "max": 19.92
+   },
+   "charge_first_sit": {
+    "k": 171,
+    "n": 180,
+    "pct": 95.0,
+    "ci95": [
+     90.8,
+     97.3
+    ]
+   },
+   "charge_within_3": {
+    "k": 176,
+    "n": 180,
+    "pct": 97.8,
+    "ci95": [
+     94.4,
+     99.1
+    ]
+   },
+   "charge_first_sit_given_sit": {
+    "k": 171,
+    "n": 177,
+    "pct": 96.6,
+    "ci95": [
+     92.8,
+     98.4
+    ]
+   },
+   "charge_within_3_given_sit": {
+    "k": 176,
+    "n": 177,
+    "pct": 99.4
+   },
+   "seat_x_mm": [
+    3.1,
+    11.4
+   ],
+   "seat_y_mm": [
+    7.8,
+    24.0
+   ],
+   "seat_radial_mm": {
+    "mean": 22.0,
+    "p50": 18.8,
+    "p95": 46.1,
+    "max": 175.5,
+    "inside_45mm_pct": 94.4,
+    "beyond_100mm": 1
+   },
+   "time_to_first_sit_s": {
+    "mean": 43.2,
+    "p95": 54.1,
+    "min": 32.3,
+    "max": 59.7
+   },
+   "turn_spot_err_x_mm": [
+    0.6,
+    6.8
+   ],
+   "turn_spot_err_y_mm": [
+    12.0,
+    20.1
+   ],
+   "turn_spot_err_rms_mm": 24.4,
+   "turn_spot_err_beyond_60mm": 5,
+   "heading_before_turn_deg": [
+    0.4,
+    3.9
+   ],
+   "heading_before_turn_abs_max_deg": 9.0,
+   "fine_rounds_mean": 1.25,
+   "creep_moves": {
+    "fwd": 151,
+    "back": 38,
+    "yaw-": 99,
+    "left": 27,
+    "yaw+": 14
+   },
+   "wall_mm": {
+    "min": 47.1,
+    "p5": 54.1,
+    "mean": 79.4,
+    "collisions": 0,
+    "closest_part": "head_assembly",
+    "closest_stage": "turn",
+    "touched": 0
+   },
+   "rim_mm": {
+    "min": 36.1,
+    "p5": 44.6,
+    "mean": 67.9,
+    "collisions": 0,
+    "closest_part": "foot_assembly_2",
+    "touched": 0
+   },
+   "runs_inside_wall_or_rim": 0,
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 177,
+     "wall_clearance_mm": {
+      "min": 47.1,
+      "p5": 54.0,
+      "mean": 75.8,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 36.1,
+      "p5": 44.4,
+      "mean": 64.8,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 3,
+     "wall_clearance_mm": {
+      "min": 291.0,
+      "p5": 291.2,
+      "mean": 293.3,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 243.2,
+      "p5": 244.1,
+      "mean": 250.2,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
+   "v2": {
+    "runs_with_a_turn_or_side_command_while_a_sole_was_on_the_edge": 0,
+    "those_by_stage": {},
+    "stage_turn_moves": {
+     "mean": 0.89,
+     "none": 57,
+     "max": 5
+    },
+    "stage_toe_to_edge_mm": {
+     "min": 32.5,
+     "mean": 47.8,
+     "max": 63.1
+    },
+    "stage_heading_error_left_deg": [
+     -1.3,
+     1.8
+    ],
+    "cross_not_done": 3,
+    "cross_retries_runs": 0,
+    "cross_retries": 0,
+    "cross_stage_s": {
+     "mean": 3.77,
+     "max": 5.02
+    },
+    "heel_inside_when_steering_resumed_mm": {
+     "min": 35.3,
+     "mean": 58.1
+    },
+    "feet_not_both_on_when_steering_resumed": 0,
+    "stage_time_s": {
+     "approach": 9.2,
+     "stage": 2.7,
+     "cross": 3.8,
+     "walk_on": 5.7,
+     "fine": 3.8
+    }
+   }
+  },
+  "noise mid": {
+   "n": 180,
+   "falls_all": 4,
+   "falls_walk_in": 4,
+   "falls_by_stage": {
+    "cross": 4
+   },
+   "never_reached_the_sit_no_fall": 0,
+   "reached_first_sit": 176,
+   "edge_window_slower_than_6s": 8,
+   "edge_window_s": {
+    "n": 176,
+    "mean": 3.58,
+    "p95": 5.69,
+    "max": 19.82
+   },
+   "charge_first_sit": {
+    "k": 170,
+    "n": 180,
+    "pct": 94.4,
+    "ci95": [
+     90.1,
+     97.0
+    ]
+   },
+   "charge_within_3": {
+    "k": 176,
+    "n": 180,
+    "pct": 97.8,
+    "ci95": [
+     94.4,
+     99.1
+    ]
+   },
+   "charge_first_sit_given_sit": {
+    "k": 170,
+    "n": 176,
+    "pct": 96.6,
+    "ci95": [
+     92.8,
+     98.4
+    ]
+   },
+   "charge_within_3_given_sit": {
+    "k": 176,
+    "n": 176,
+    "pct": 100.0
+   },
+   "seat_x_mm": [
+    1.9,
+    12.4
+   ],
+   "seat_y_mm": [
+    8.1,
+    21.1
+   ],
+   "seat_radial_mm": {
+    "mean": 21.2,
+    "p50": 17.7,
+    "p95": 52.4,
+    "max": 75.8,
+    "inside_45mm_pct": 92.0,
+    "beyond_100mm": 0
+   },
+   "time_to_first_sit_s": {
+    "mean": 44.0,
+    "p95": 54.1,
+    "min": 33.3,
+    "max": 65.2
+   },
+   "turn_spot_err_x_mm": [
+    -1.0,
+    8.0
+   ],
+   "turn_spot_err_y_mm": [
+    12.7,
+    20.1
+   ],
+   "turn_spot_err_rms_mm": 25.1,
+   "turn_spot_err_beyond_60mm": 7,
+   "heading_before_turn_deg": [
+    1.3,
+    3.9
+   ],
+   "heading_before_turn_abs_max_deg": 10.7,
+   "fine_rounds_mean": 1.44,
+   "creep_moves": {
+    "fwd": 166,
+    "back": 73,
+    "yaw+": 34,
+    "left": 34,
+    "yaw-": 83
+   },
+   "wall_mm": {
+    "min": 40.5,
+    "p5": 51.8,
+    "mean": 81.8,
+    "collisions": 0,
+    "closest_part": "head_assembly",
+    "closest_stage": "turn",
+    "touched": 0
+   },
+   "rim_mm": {
+    "min": 30.6,
+    "p5": 41.6,
+    "mean": 70.6,
+    "collisions": 0,
+    "closest_part": "foot_assembly_2",
+    "touched": 0
+   },
+   "runs_inside_wall_or_rim": 0,
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 176,
+     "wall_clearance_mm": {
+      "min": 40.5,
+      "p5": 51.7,
+      "mean": 77.1,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 30.6,
+      "p5": 41.5,
+      "mean": 66.5,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 4,
+     "wall_clearance_mm": {
+      "min": 287.3,
+      "p5": 287.6,
+      "mean": 290.5,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 240.0,
+      "p5": 241.2,
+      "mean": 249.0,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
+   "v2": {
+    "runs_with_a_turn_or_side_command_while_a_sole_was_on_the_edge": 1,
+    "those_by_stage": {
+     "shuffle": 1
+    },
+    "stage_turn_moves": {
+     "mean": 1.22,
+     "none": 41,
+     "max": 5
+    },
+    "stage_toe_to_edge_mm": {
+     "min": 24.0,
+     "mean": 49.9,
+     "max": 85.9
+    },
+    "stage_heading_error_left_deg": [
+     -0.9,
+     2.6
+    ],
+    "cross_not_done": 4,
+    "cross_retries_runs": 0,
+    "cross_retries": 0,
+    "cross_stage_s": {
+     "mean": 3.81,
+     "max": 4.56
+    },
+    "heel_inside_when_steering_resumed_mm": {
+     "min": 24.5,
+     "mean": 58.1
+    },
+    "feet_not_both_on_when_steering_resumed": 0,
+    "stage_time_s": {
+     "approach": 9.6,
+     "stage": 3.3,
+     "cross": 3.8,
+     "walk_on": 5.3,
+     "fine": 4.3
+    }
+   }
+  },
+  "noise high": {
+   "n": 180,
+   "falls_all": 3,
+   "falls_walk_in": 3,
+   "falls_by_stage": {
+    "cross": 3
+   },
+   "never_reached_the_sit_no_fall": 0,
+   "reached_first_sit": 177,
+   "edge_window_slower_than_6s": 10,
+   "edge_window_s": {
+    "n": 177,
+    "mean": 3.62,
+    "p95": 6.18,
+    "max": 27.46
+   },
+   "charge_first_sit": {
+    "k": 162,
+    "n": 180,
+    "pct": 90.0,
+    "ci95": [
+     84.7,
+     93.6
+    ]
+   },
+   "charge_within_3": {
+    "k": 174,
+    "n": 180,
+    "pct": 96.7,
+    "ci95": [
+     92.9,
+     98.5
+    ]
+   },
+   "charge_first_sit_given_sit": {
+    "k": 162,
+    "n": 177,
+    "pct": 91.5,
+    "ci95": [
+     86.5,
+     94.8
+    ]
+   },
+   "charge_within_3_given_sit": {
+    "k": 174,
+    "n": 177,
+    "pct": 98.3
+   },
+   "seat_x_mm": [
+    3.0,
+    18.5
+   ],
+   "seat_y_mm": [
+    12.5,
+    32.2
+   ],
+   "seat_radial_mm": {
+    "mean": 28.3,
+    "p50": 22.3,
+    "p95": 59.5,
+    "max": 249.8,
+    "inside_45mm_pct": 85.9,
+    "beyond_100mm": 2
+   },
+   "time_to_first_sit_s": {
+    "mean": 47.1,
+    "p95": 58.2,
+    "min": 34.4,
+    "max": 78.7
+   },
+   "turn_spot_err_x_mm": [
+    0.4,
+    14.6
+   ],
+   "turn_spot_err_y_mm": [
+    18.5,
+    29.9
+   ],
+   "turn_spot_err_rms_mm": 38.1,
+   "turn_spot_err_beyond_60mm": 11,
+   "heading_before_turn_deg": [
+    2.4,
+    5.0
+   ],
+   "heading_before_turn_abs_max_deg": 30.1,
+   "fine_rounds_mean": 2.66,
+   "creep_moves": {
+    "fwd": 241,
+    "left": 52,
+    "yaw+": 68,
+    "yaw-": 190,
+    "back": 179
+   },
+   "wall_mm": {
+    "min": 8.4,
+    "p5": 41.4,
+    "mean": 78.5,
+    "collisions": 0,
+    "closest_part": "head_assembly",
+    "closest_stage": "turn",
+    "touched": 0
+   },
+   "rim_mm": {
+    "min": -0.1,
+    "p5": 31.2,
+    "mean": 67.9,
+    "collisions": 1,
+    "closest_part": "foot_assembly_2",
+    "touched": 1
+   },
+   "runs_inside_wall_or_rim": 1,
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 177,
+     "wall_clearance_mm": {
+      "min": 8.4,
+      "p5": 41.3,
+      "mean": 74.8,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": -0.1,
+      "p5": 31.1,
+      "mean": 64.9,
+      "collisions": 1
+     },
+     "runs_inside_wall_or_rim": 1
+    },
+    "fell": {
+     "n": 3,
+     "wall_clearance_mm": {
+      "min": 293.0,
+      "p5": 293.1,
+      "mean": 294.7,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 221.0,
+      "p5": 224.1,
+      "mean": 241.7,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
+   "v2": {
+    "runs_with_a_turn_or_side_command_while_a_sole_was_on_the_edge": 0,
+    "those_by_stage": {},
+    "stage_turn_moves": {
+     "mean": 1.81,
+     "none": 30,
+     "max": 5
+    },
+    "stage_toe_to_edge_mm": {
+     "min": 25.4,
+     "mean": 57.5,
+     "max": 99.7
+    },
+    "stage_heading_error_left_deg": [
+     -1.6,
+     3.9
+    ],
+    "cross_not_done": 3,
+    "cross_retries_runs": 0,
+    "cross_retries": 0,
+    "cross_stage_s": {
+     "mean": 3.83,
+     "max": 5.2
+    },
+    "heel_inside_when_steering_resumed_mm": {
+     "min": 6.7,
+     "mean": 52.6
+    },
+    "feet_not_both_on_when_steering_resumed": 0,
+    "stage_time_s": {
+     "approach": 9.6,
+     "stage": 4.4,
+     "cross": 3.8,
+     "walk_on": 5.4,
+     "fine": 6.7
+    }
+   }
+  },
+  "mat mu 0.6": {
+   "n": 180,
+   "falls_all": 7,
+   "falls_walk_in": 7,
+   "falls_by_stage": {
+    "cross": 7
+   },
+   "never_reached_the_sit_no_fall": 0,
+   "reached_first_sit": 173,
+   "edge_window_slower_than_6s": 12,
+   "edge_window_s": {
+    "n": 173,
+    "mean": 3.94,
+    "p95": 8.26,
+    "max": 27.46
+   },
+   "charge_first_sit": {
+    "k": 155,
+    "n": 180,
+    "pct": 86.1,
+    "ci95": [
+     80.3,
+     90.4
+    ]
+   },
+   "charge_within_3": {
+    "k": 171,
+    "n": 180,
+    "pct": 95.0,
+    "ci95": [
+     90.8,
+     97.3
+    ]
+   },
+   "charge_first_sit_given_sit": {
+    "k": 155,
+    "n": 173,
+    "pct": 89.6,
+    "ci95": [
+     84.2,
+     93.3
+    ]
+   },
+   "charge_within_3_given_sit": {
+    "k": 171,
+    "n": 173,
+    "pct": 98.8
+   },
+   "seat_x_mm": [
+    8.9,
+    15.0
+   ],
+   "seat_y_mm": [
+    20.1,
+    28.1
+   ],
+   "seat_radial_mm": {
+    "mean": 29.0,
+    "p50": 22.3,
+    "p95": 66.2,
+    "max": 222.7,
+    "inside_45mm_pct": 82.7,
+    "beyond_100mm": 2
+   },
+   "time_to_first_sit_s": {
+    "mean": 45.2,
+    "p95": 58.3,
+    "min": 32.9,
+    "max": 78.7
+   },
+   "turn_spot_err_x_mm": [
+    1.5,
+    11.4
+   ],
+   "turn_spot_err_y_mm": [
+    16.7,
+    28.1
+   ],
+   "turn_spot_err_rms_mm": 34.7,
+   "turn_spot_err_beyond_60mm": 14,
+   "heading_before_turn_deg": [
+    0.8,
+    4.6
+   ],
+   "heading_before_turn_abs_max_deg": 30.1,
+   "fine_rounds_mean": 1.88,
+   "creep_moves": {
+    "fwd": 182,
+    "back": 111,
+    "yaw-": 126,
+    "left": 58,
+    "yaw+": 40
+   },
+   "wall_mm": {
+    "min": 8.4,
+    "p5": 44.7,
+    "mean": 80.8,
+    "collisions": 0,
+    "closest_part": "head_assembly",
+    "closest_stage": "turn",
+    "touched": 0
+   },
+   "rim_mm": {
+    "min": -0.1,
+    "p5": 32.2,
+    "mean": 65.0,
+    "collisions": 1,
+    "closest_part": "foot_assembly_2",
+    "touched": 1
+   },
+   "runs_inside_wall_or_rim": 1,
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 173,
+     "wall_clearance_mm": {
+      "min": 8.4,
+      "p5": 44.2,
+      "mean": 72.2,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": -0.1,
+      "p5": 32.1,
+      "mean": 57.6,
+      "collisions": 1
+     },
+     "runs_inside_wall_or_rim": 1
+    },
+    "fell": {
+     "n": 7,
+     "wall_clearance_mm": {
+      "min": 287.3,
+      "p5": 288.4,
+      "mean": 293.1,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 221.0,
+      "p5": 227.7,
+      "mean": 247.4,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
+   "v2": {
+    "runs_with_a_turn_or_side_command_while_a_sole_was_on_the_edge": 0,
+    "those_by_stage": {},
+    "stage_turn_moves": {
+     "mean": 1.08,
+     "none": 49,
+     "max": 5
+    },
+    "stage_toe_to_edge_mm": {
+     "min": 24.0,
+     "mean": 51.2,
+     "max": 86.7
+    },
+    "stage_heading_error_left_deg": [
+     -1.3,
+     3.2
+    ],
+    "cross_not_done": 7,
+    "cross_retries_runs": 0,
+    "cross_retries": 0,
+    "cross_stage_s": {
+     "mean": 3.88,
+     "max": 5.02
+    },
+    "heel_inside_when_steering_resumed_mm": {
+     "min": 6.7,
+     "mean": 56.7
+    },
+    "feet_not_both_on_when_steering_resumed": 0,
+    "stage_time_s": {
+     "approach": 9.5,
+     "stage": 3.1,
+     "cross": 3.9,
+     "walk_on": 5.8,
+     "fine": 5.1
+    }
+   }
+  },
+  "mat mu 0.8": {
+   "n": 180,
+   "falls_all": 1,
+   "falls_walk_in": 1,
+   "falls_by_stage": {
+    "cross": 1
+   },
+   "never_reached_the_sit_no_fall": 0,
+   "reached_first_sit": 179,
+   "edge_window_slower_than_6s": 13,
+   "edge_window_s": {
+    "n": 179,
+    "mean": 3.66,
+    "p95": 7.03,
+    "max": 15.62
+   },
+   "charge_first_sit": {
+    "k": 173,
+    "n": 180,
+    "pct": 96.1,
+    "ci95": [
+     92.2,
+     98.1
+    ]
+   },
+   "charge_within_3": {
+    "k": 178,
+    "n": 180,
+    "pct": 98.9,
+    "ci95": [
+     96.0,
+     99.7
+    ]
+   },
+   "charge_first_sit_given_sit": {
+    "k": 173,
+    "n": 179,
+    "pct": 96.6,
+    "ci95": [
+     92.9,
+     98.5
+    ]
+   },
+   "charge_within_3_given_sit": {
+    "k": 178,
+    "n": 179,
+    "pct": 99.4
+   },
+   "seat_x_mm": [
+    0.7,
+    13.8
+   ],
+   "seat_y_mm": [
+    7.6,
+    18.8
+   ],
+   "seat_radial_mm": {
+    "mean": 20.6,
+    "p50": 17.1,
+    "p95": 46.0,
+    "max": 75.8,
+    "inside_45mm_pct": 94.4,
+    "beyond_100mm": 0
+   },
+   "time_to_first_sit_s": {
+    "mean": 44.5,
+    "p95": 55.5,
+    "min": 32.3,
+    "max": 69.2
+   },
+   "turn_spot_err_x_mm": [
+    -0.7,
+    10.1
+   ],
+   "turn_spot_err_y_mm": [
+    12.0,
+    17.8
+   ],
+   "turn_spot_err_rms_mm": 23.7,
+   "turn_spot_err_beyond_60mm": 4,
+   "heading_before_turn_deg": [
+    1.1,
+    4.2
+   ],
+   "heading_before_turn_abs_max_deg": 12.0,
+   "fine_rounds_mean": 1.65,
+   "creep_moves": {
+    "fwd": 189,
+    "yaw+": 39,
+    "left": 30,
+    "back": 94,
+    "yaw-": 104
+   },
+   "wall_mm": {
+    "min": 29.9,
+    "p5": 50.0,
+    "mean": 78.4,
+    "collisions": 0,
+    "closest_part": "head_assembly",
+    "closest_stage": "turn",
+    "touched": 0
+   },
+   "rim_mm": {
+    "min": 21.6,
+    "p5": 41.7,
+    "mean": 68.3,
+    "collisions": 0,
+    "closest_part": "foot_assembly_2",
+    "touched": 0
+   },
+   "runs_inside_wall_or_rim": 0,
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 179,
+     "wall_clearance_mm": {
+      "min": 29.9,
+      "p5": 50.0,
+      "mean": 77.2,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 21.6,
+      "p5": 41.7,
+      "mean": 67.3,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 1,
+     "wall_clearance_mm": {
+      "min": 293.2,
+      "p5": 293.2,
+      "mean": 293.2,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 248.1,
+      "p5": 248.1,
+      "mean": 248.1,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
+   "v2": {
+    "runs_with_a_turn_or_side_command_while_a_sole_was_on_the_edge": 1,
+    "those_by_stage": {
+     "shuffle": 1
+    },
+    "stage_turn_moves": {
+     "mean": 1.37,
+     "none": 42,
+     "max": 5
+    },
+    "stage_toe_to_edge_mm": {
+     "min": 28.3,
+     "mean": 52.0,
+     "max": 99.7
+    },
+    "stage_heading_error_left_deg": [
+     -1.1,
+     2.8
+    ],
+    "cross_not_done": 1,
+    "cross_retries_runs": 0,
+    "cross_retries": 0,
+    "cross_stage_s": {
+     "mean": 3.81,
+     "max": 5.2
+    },
+    "heel_inside_when_steering_resumed_mm": {
+     "min": 12.0,
+     "mean": 56.6
+    },
+    "feet_not_both_on_when_steering_resumed": 0,
+    "stage_time_s": {
+     "approach": 9.4,
+     "stage": 3.6,
+     "cross": 3.8,
+     "walk_on": 5.4,
+     "fine": 4.8
+    }
+   }
+  },
+  "mat mu 1.0": {
+   "n": 180,
+   "falls_all": 2,
+   "falls_walk_in": 2,
+   "falls_by_stage": {
+    "cross": 2
+   },
+   "never_reached_the_sit_no_fall": 0,
+   "reached_first_sit": 178,
+   "edge_window_slower_than_6s": 11,
+   "edge_window_s": {
+    "n": 178,
+    "mean": 3.5,
+    "p95": 6.71,
+    "max": 11.54
+   },
+   "charge_first_sit": {
+    "k": 175,
+    "n": 180,
+    "pct": 97.2,
+    "ci95": [
+     93.7,
+     98.8
+    ]
+   },
+   "charge_within_3": {
+    "k": 177,
+    "n": 180,
+    "pct": 98.3,
+    "ci95": [
+     95.2,
+     99.4
+    ]
+   },
+   "charge_first_sit_given_sit": {
+    "k": 175,
+    "n": 178,
+    "pct": 98.3,
+    "ci95": [
+     95.2,
+     99.4
+    ]
+   },
+   "charge_within_3_given_sit": {
+    "k": 177,
+    "n": 178,
+    "pct": 99.4
+   },
+   "seat_x_mm": [
+    -1.4,
+    12.4
+   ],
+   "seat_y_mm": [
+    1.0,
+    27.5
+   ],
+   "seat_radial_mm": {
+    "mean": 22.1,
+    "p50": 19.7,
+    "p95": 43.5,
+    "max": 249.8,
+    "inside_45mm_pct": 94.9,
+    "beyond_100mm": 1
+   },
+   "time_to_first_sit_s": {
+    "mean": 44.6,
+    "p95": 55.8,
+    "min": 33.2,
+    "max": 58.3
+   },
+   "turn_spot_err_x_mm": [
+    -0.8,
+    9.5
+   ],
+   "turn_spot_err_y_mm": [
+    14.6,
+    24.8
+   ],
+   "turn_spot_err_rms_mm": 30.3,
+   "turn_spot_err_beyond_60mm": 5,
+   "heading_before_turn_deg": [
+    2.1,
+    4.2
+   ],
+   "heading_before_turn_abs_max_deg": 14.9,
+   "fine_rounds_mean": 1.82,
+   "creep_moves": {
+    "yaw+": 37,
+    "fwd": 187,
+    "yaw-": 142,
+    "back": 85,
+    "left": 25
+   },
+   "wall_mm": {
+    "min": 37.6,
+    "p5": 51.7,
+    "mean": 80.6,
+    "collisions": 0,
+    "closest_part": "head_assembly",
+    "closest_stage": "turn",
+    "touched": 0
+   },
+   "rim_mm": {
+    "min": 27.5,
+    "p5": 46.0,
+    "mean": 73.1,
+    "collisions": 0,
+    "closest_part": "foot_assembly_2",
+    "touched": 0
+   },
+   "runs_inside_wall_or_rim": 0,
+   "clearance_by_outcome": {
+    "reached_a_sit": {
+     "n": 178,
+     "wall_clearance_mm": {
+      "min": 37.6,
+      "p5": 51.6,
+      "mean": 78.2,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 27.5,
+      "p5": 45.9,
+      "mean": 71.1,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "fell": {
+     "n": 2,
+     "wall_clearance_mm": {
+      "min": 289.0,
+      "p5": 289.2,
+      "mean": 290.8,
+      "collisions": 0
+     },
+     "rim_clearance_mm": {
+      "min": 240.0,
+      "p5": 240.6,
+      "mean": 245.9,
+      "collisions": 0
+     },
+     "runs_inside_wall_or_rim": 0
+    },
+    "never_sat_no_fall": {
+     "n": 0
+    }
+   },
+   "v2": {
+    "runs_with_a_turn_or_side_command_while_a_sole_was_on_the_edge": 0,
+    "those_by_stage": {},
+    "stage_turn_moves": {
+     "mean": 1.48,
+     "none": 37,
+     "max": 5
+    },
+    "stage_toe_to_edge_mm": {
+     "min": 25.4,
+     "mean": 51.9,
+     "max": 86.2
+    },
+    "stage_heading_error_left_deg": [
+     -1.4,
+     2.7
+    ],
+    "cross_not_done": 2,
+    "cross_retries_runs": 0,
+    "cross_retries": 0,
+    "cross_stage_s": {
+     "mean": 3.73,
+     "max": 4.56
+    },
+    "heel_inside_when_steering_resumed_mm": {
+     "min": 16.6,
+     "mean": 55.5
+    },
+    "feet_not_both_on_when_steering_resumed": 0,
+    "stage_time_s": {
+     "approach": 9.5,
+     "stage": 3.8,
+     "cross": 3.7,
+     "walk_on": 5.3,
+     "fine": 5.0
+    }
+   }
+  }
+ }
+}
