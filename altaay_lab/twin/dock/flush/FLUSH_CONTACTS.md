@@ -1,6 +1,6 @@
 # Flush contacts: a design that has to clear five lines
 
-2026-11-11. Design study only. Nothing in here is installed: print/, the URDF, the netlist, the BOM, and the nest CAD are unchanged. The nest folder was read and not edited. The contact twin on PR 39 is open and not merged, so none of its resistance numbers are used here. No charger-board branch is merged.
+2026-11-11. Design study only. Nothing in here is installed: print/, the URDF, the netlist, the BOM, and the nest CAD are unchanged. The nest folder was read and not edited. The contact twin (PR 39) is merged. It studies the proud nest pins on cloth, and those resistance numbers are not inputs to the flush grades below. The in-body charger board (PR 40) is merged too. It is the board the nest pins would feed, not the per-pin mat switch in section 6.
 
 Every number is marked **calc only**, **CAD check only**, **sim pass only**, **cited**, or **BLOCKER**. A sim is not hardware. The camera work cited below is geometry, not a photograph.
 
@@ -128,7 +128,7 @@ Five gold wells in the seat patch, flush, 3 mm across, at y = -24, -12, 0, +12, 
 
 The mat is felt, 560 mm along the wall and 360 mm deep, with stripes parallel to the depth axis: 20 mm of conductor, 5 mm of bare felt, repeating. Polarity alternates. A 3 mm well cannot bridge a 5 mm gap (the disc is smaller than the gap), so one well never joins plus to minus (calc only, same rule as STRIPE_MAT_STUDY.md section 1.3).
 
-Under the felt, in pockets, one Mill-Max 0906 per landing the seat might use, tip level with the felt. The duck walks on felt, not on pin heads. High current is connected to a pin only while that pin is compressed and the signature says the thing on the mat is the duck. A coin, a hand, or a pet does not get the 2.8 A. The reed in section 4 can be the sense, not the power switch. The power switch is a transistor on a board that is not designed. No charger-board branch is merged. BLOCKER for that board.
+Under the felt, in pockets, one Mill-Max 0906 per landing the seat might use, tip level with the felt. The duck walks on felt, not on pin heads. High current is connected to a pin only while that pin is compressed and the signature says the thing on the mat is the duck. A coin, a hand, or a pet does not get the 2.8 A. The reed in section 4 can be the sense, not the power switch. The power switch is a transistor on a board that is not designed. The merged charger board (PR 40) is the pack charger, not this per-pin mat switch. BLOCKER for the mat switch.
 
 Window, from draw_flush.py, calc only. Every stripe phase was tried in 0.25 mm steps:
 
@@ -172,4 +172,4 @@ CAD, not drawn into print/ and not into the nest folder:
 - Pin-on-gold at 0.25 N with dust is not measured.
 - The ideal-diode board is not designed. Dropout of the charger chip is BLOCKER.
 - Felt compression under 0.88 N is not measured, so a pin set even 0.2 mm below the felt might never meet the seat. The drawing sets the tip level with the felt for that reason.
-- PR 39 (contact twin, branch cursor/nest-contact-twin-e7e8) is open. It was not merged, and its numbers are not inputs here.
+- PR 39 (contact twin) is merged. Its numbers are for the proud nest pins on cloth. They are not inputs to the flush grades above. The charger board (PR 40) is merged and is not the mat switch.
