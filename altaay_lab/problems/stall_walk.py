@@ -52,29 +52,57 @@ SV.ServoBank.scales = _scales
 
 
 def knee_window(r):
-    """Knee volts and how often the torque sits on the cap, up to the fall. sim pass only."""
+    """Knee volts and how often the torque sits on the cap, up to the fall. sim pass only.
+
+    V_min is the lowest sample in each 100 ms bin (the twin's V_min bins).
+    V_mean is the mean of the bin means. The lowest bin mean is not the dip.
+    """
     names = list(r["names"])
     ik = [names.index(n) for n in ("left_knee", "right_knee") if n in names]
     bins = r.get("_bins") or {}
-    V = bins.get("V_mean")
+    Vmean = bins.get("V_mean")
+    Vmin = bins.get("V_min")
     sat = bins.get("sat_frac")
     t_end = (r.get("_binsp") or {}).get("t_end")
-    if V is None or t_end is None or len(t_end) == 0:
+    if Vmean is None or Vmin is None or t_end is None or len(t_end) == 0:
         return {}
     fall = r["falls"][0] if r["falls"] else 1e9
-    use = t_end <= fall + 0.05
+    use = np.asarray(t_end) <= fall + 0.05
     if not np.any(use):
         use = np.ones(len(t_end), bool)
     out = {}
     for i, n in zip(ik, ("left_knee", "right_knee")):
-        vv = V[use, i]
         ss = sat[use, i] if sat is not None else None
         out[n] = dict(
-            V_min=round(float(vv.min()), 3),
-            V_mean=round(float(vv.mean()), 3),
+            V_min=round(float(Vmin[use, i].min()), 3),
+            V_mean=round(float(Vmean[use, i].mean()), 3),
             sat_mean=None if ss is None else round(float(ss.mean()), 3),
         )
     return out
+
+
+_DUTY = SV.ServoBank.duty_of
+
+
+def _duty(self, data):
+    """Same duty as the servo file, except the trained-gain case.
+
+    Mode sheet scales the gain with the stall, and duty_of uses that same scale.
+    When the experiment leaves the gain at the trained value, the torque at 7.4 V
+    is kp times the error, still clipped to the sheet cap. The duty has to be that
+    torque over the sheet cap, or the bus solve understates the current.
+    """
+    if not getattr(self, "_trained_gain", False):
+        return _DUTY(self, data)
+    ctrl = np.where(self.ctrllimited, np.clip(data.ctrl, self.ctrlrange[:, 0], self.ctrlrange[:, 1]), data.ctrl)
+    q = data.qpos[self.qadr]
+    f74 = self.kp0 * (ctrl - q)
+    lo = self.fr0[:, 0] * self.torque_scale
+    hi = self.fr0[:, 1] * self.torque_scale
+    return np.clip(f74, lo, hi) / hi
+
+
+SV.ServoBank.duty_of = _duty
 
 
 def one(name, trained_gain=False, **kw):
@@ -89,6 +117,7 @@ def one(name, trained_gain=False, **kw):
     kw.setdefault("stop_on_fall", True)
     kw.setdefault("guard", None)
     kw.setdefault("keep_full", False)
+    kw.setdefault("t_stats", 0.0)
     kw.setdefault("cell", "p45b")
     kw.setdefault("q0", 0.0)
     kw.setdefault("servo_mode", "sheet")
@@ -108,6 +137,7 @@ def one(name, trained_gain=False, **kw):
         dur_s=r["dur_s"],
         wall_s=r["wall_s"],
         track_lin=None if r["gait"].get("track_lin") is None else round(r["gait"]["track_lin"], 3),
+        vx_m_s=None if r["gait"].get("vx") is None else round(r["gait"]["vx"], 4),
         pitch_mean_deg=None if r["gait"].get("pitch_mean_deg") is None else round(r["gait"]["pitch_mean_deg"], 2),
         pack=r.get("pack"),
         knees=knee_window(r),
@@ -121,7 +151,7 @@ def one(name, trained_gain=False, **kw):
         row["tau_limit_mean_Nm"] = {
             n: r["servo"]["tau_limit_mean_Nm"][names.index(n)] for n in ("left_knee", "right_knee") if n in names
         }
-    print("  falls", row["falls"], "track", row["track_lin"], "knees", row["knees"], "wall", row["wall_s"], flush=True)
+    print("  falls", row["falls"], "track", row["track_lin"], "vx", row["vx_m_s"], "knees", row["knees"], "wall", row["wall_s"], flush=True)
     return row
 
 
@@ -133,15 +163,20 @@ def main():
     rows.append(one("sheet net backlash typical", **base))
     rows.append(one("sheet net backlash high-side", supply="net", corner="high-side", walk="backlash"))
     rows.append(one("sheet net plain typical", supply="net", corner="typical", walk="plain"))
-    rows.append(one("sheet fixed 7.4 backlash", supply="fixed", fixed_v=7.4, corner="typical", walk="backlash", dur=12.0))
-    for spd in (0.10, 0.08, 0.05):
+    rows.append(one("sheet fixed 7.4 backlash", supply="fixed", fixed_v=7.4, corner="typical", walk="backlash", dur=20.0))
+    # Every speed the report quotes, for 20 s, including the high-side 0.07 m/s case.
+    for spd, corner in (
+        (0.10, "typical"), (0.09, "typical"), (0.08, "typical"),
+        (0.07, "typical"), (0.07, "high-side"),
+        (0.06, "typical"), (0.05, "typical"),
+    ):
         rows.append(one(
-            "sheet net cmd %.2f" % spd,
-            supply="net", corner="typical", walk="backlash", cmd=(spd, 0.0, 0.0), dur=12.0,
+            "sheet net cmd %.2f %s" % (spd, corner),
+            supply="net", corner=corner, walk="backlash", cmd=(spd, 0.0, 0.0), dur=20.0,
         ))
     rows.append(one(
         "sheet torque cap, trained gain",
-        trained_gain=True, supply="net", corner="typical", walk="backlash", dur=12.0,
+        trained_gain=True, supply="net", corner="typical", walk="backlash", dur=20.0,
     ))
     doc = dict(
         label="sim pass only",

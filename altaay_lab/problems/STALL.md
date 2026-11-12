@@ -25,12 +25,12 @@ Stored file twin/electromech/out/p45b_sheet/sheet_20s.json: backlash typical 3.5
 
 | Case | Fall | Knee volts, min / mean | Knee time on the cap |
 |---|---|---|---|
-| Backlash, typical, command 0.15 m/s | 3.56 s | 6.21 V / 6.95 V and 6.25 V / 6.96 V | 0.22 and 0.22 |
-| Backlash, high-side, command 0.15 m/s | 3.42 s | 5.51 V / 6.76 V and 5.58 V / 6.80 V | 0.23 and 0.20 |
-| Plain, typical, command 0.15 m/s | 3.56 s | 6.41 V / 7.01 V and 6.45 V / 7.02 V | 0.16 and 0.16 |
-| Backlash, every servo held at 7.4 V, 12 s | none | 7.40 V | 0.26 and 0.38 |
+| Backlash, typical, command 0.15 m/s | 3.56 s | 5.79 V / 6.95 V and 5.89 V / 6.96 V | 0.22 and 0.22 |
+| Backlash, high-side, command 0.15 m/s | 3.42 s | 5.27 V / 6.76 V and 5.24 V / 6.80 V | 0.23 and 0.20 |
+| Plain, typical, command 0.15 m/s | 3.56 s | 6.00 V / 7.01 V and 6.13 V / 7.02 V | 0.16 and 0.16 |
+| Backlash, every servo held at 7.4 V, 20 s | none | 7.40 V | 0.33 and 0.41 |
 
-The command starts at 2.0 s. The fall is the first steps. At 6.21 V the sheet cap is 1.912 times 6.21 / 7.4 = 1.60 Nm (calc only). At a flat 7.4 V the cap is still hit, more often, and the duck walks (track 0.645 of the 0.15 m/s command, sim pass only). The trained 3.23 Nm actuator on this same bus does not fall (the electromechanical twin, already published). The fall needs both: the sheet cap, and the sag that pulls the knees to about 6.2 V on the typical corner and about 5.5 V on the high-side corner.
+The knee minimum is the lowest sample in the twin's 100 ms V_min bins, up to the fall. It is not the lowest bin average. The command starts at 2.0 s. The fall is the first steps. At 5.79 V the sheet cap is 1.912 times 5.785 / 7.4 = 1.49 Nm (calc only). At a flat 7.4 V the cap is still hit, more often, and the duck walks for 20 s (track 0.67, forward speed 0.100 m/s, sim pass only). The stored file's 0.64 is the 4 s to 20 s window of that same no-fall run. The trained 3.23 Nm actuator on this same bus does not fall (the electromechanical twin, already published). The fall needs both: the sheet cap, and the sag that pulls the knees to 5.79 V on the typical corner and 5.24 V on the high-side corner.
 
 ## What was tried
 
@@ -38,11 +38,11 @@ Same policy. No new gait file and no new servo.
 
 | Change | Result | Label |
 |---|---|---|
-| Sheet torque cap, trained gain left unscaled | Falls at 7.6 s. Knees on the cap 0.49 and 0.52 of the time. | sim pass only |
-| Command 0.10 m/s, typical | Falls at 5.16 s | sim pass only |
+| Sheet torque cap, trained gain, duty matched to that gain | Falls at 4.0 s. Knee dips 5.33 V and 5.31 V. On the cap 0.35 and 0.34 of the time. | sim pass only |
+| Command 0.10 m/s, typical, 20 s budget | Falls at 5.16 s. Left knee dip 5.596 V. | sim pass only |
 | Command 0.09 m/s, typical, 20 s budget | Falls at 7.56 s | sim pass only |
-| Command 0.08 m/s, typical, 20 s budget | Falls at 18.14 s | sim pass only |
-| Command 0.07 m/s, typical | No fall in 20 s. Forward speed 0.035 m/s. Track 0.499. | sim pass only |
+| Command 0.08 m/s, typical, 20 s budget | Falls at 18.16 s | sim pass only |
+| Command 0.07 m/s, typical | No fall in 20 s. Forward speed 0.035 m/s. Track 0.501. | sim pass only |
 | Command 0.07 m/s, high-side | Falls at 5.24 s | sim pass only |
 | Command 0.06 m/s, typical | No fall in 20 s. Forward speed 0.019 m/s. | sim pass only |
 | Command 0.05 m/s, typical | No fall in 20 s. Forward speed 0.0007 m/s. That is not a walk. | sim pass only |
