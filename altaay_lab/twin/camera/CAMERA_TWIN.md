@@ -80,16 +80,16 @@ In every row the body blocks 0 floor cells that are already inside the field (CA
 
 The sun is the 100 mm gold disc. The ring is pale gold from radius 82 mm to 235 mm, cut on the wall side (56 mm from the wall, wall 190 mm past the sun). Those sizes are the nest CAD (twin/dock/nest/cad/NEST_CAD.md, CAD check only). The duck faces the sun. Range is the horizontal distance from the lens opening to the sun centre. "Seen" means the sample is inside the 66 by 41 rectangle, the body is not in the way, and the slant is past the 10 cm focus limit. The disc has 13 samples (centre and 12 on the rim). The ring has 27 samples after the wall cut.
 
-Level head, on the centre line (CAD check only). Pixel counts are calc only, from the brief's angles and 4608 by 2592. "Across" is the left-right axis (2592 pixels). "Near to far" is the up-down axis (4608 pixels), foreshortened because the disc lies on the floor.
+Level head, on the centre line (CAD check only). Pixel counts are calc only. The sensor is rectilinear: a point's place on an axis is its camera-frame ratio along that axis, times the pixel count over twice the tangent of the half angle. Equal degrees are not equal pixels. "Across" is the left-right axis (2592 pixels, 41 degrees). "Near to far" is the up-down axis (4608 pixels, 66 degrees). The floor tilts that second axis, so the near edge and the far edge do not share a pixel scale.
 
 | Range | Toe to sun | Disc | Ring | Across, still, px | Near to far, still, px | Across if 1080p keeps the full field, px |
 |---|---|---|---|---|---|---|
-| 0.30 m | 370 mm | 0 of 13, below the field | 0 of 27 | 1196, not on the sensor | 634, not on the sensor | 499, not on the sensor |
-| 0.50 m | 570 mm | 0 of 13, below the field | 0 of 27 | 722, not on the sensor | 394, not on the sensor | 301, not on the sensor |
-| 0.75 m | 820 mm | 13 of 13 | 22 of 27 | 482 | 226 | 201 |
-| 1.0 m | 1070 mm | 13 of 13 | 27 of 27 | 362 | 142 | 151 |
-| 1.5 m | 1570 mm | 13 of 13 | 27 of 27 | 241 | 69 | 101 |
-| 2.0 m | 2070 mm | 13 of 13 | 27 of 27 | 181 | 40 | 75 |
+| 0.30 m | 370 mm | 0 of 13, below the field | 0 of 27 | 1155, not on the sensor | 1679, not on the sensor | 481, not on the sensor |
+| 0.50 m | 570 mm | 0 of 13, below the field | 0 of 27 | 693, not on the sensor | 594, not on the sensor | 289, not on the sensor |
+| 0.75 m | 820 mm | 13 of 13 | 22 of 27 | 462 | 262 | 193 |
+| 1.0 m | 1070 mm | 13 of 13 | 27 of 27 | 347 | 147 | 144 |
+| 1.5 m | 1570 mm | 13 of 13 | 27 of 27 | 231 | 65 | 96 |
+| 2.0 m | 2070 mm | 13 of 13 | 27 of 27 | 173 | 37 | 72 |
 
 The level-head disc centre crosses into the field at 0.64 m in front of the lens, 0.71 m in front of the toe (calc only from the 414.1 mm height and 33 degrees). At 0.75 m the near outer ring is still partly below the field, which is why 5 of 27 ring samples miss. From 1.0 m the whole disc and the whole ring are in, and nothing on the duck hides them.
 
@@ -97,9 +97,9 @@ Head at the -25 degree stop, on the centre line (CAD check only):
 
 | Range | Toe to sun | Disc | Ring | Across, still, px | Near to far, still, px |
 |---|---|---|---|---|---|
-| 0.30 m | 387 mm | 13 of 13 | 13 of 27 | 845 | 655 |
-| 0.50 m | 587 mm | 13 of 13 | 23 of 27 | 594 | 383 |
-| 0.75 m to 2.0 m | 837 mm to 2087 mm | 13 of 13 | 27 of 27 | 433 down to 184 | 211 down to 36 |
+| 0.30 m | 387 mm | 13 of 13 | 13 of 27 | 812 | 722 |
+| 0.50 m | 587 mm | 13 of 13 | 23 of 27 | 570 | 354 |
+| 0.75 m to 2.0 m | 837 mm to 2087 mm | 13 of 13 | 27 of 27 | 415 down to 176 | 187 down to 34 |
 
 At 0.30 m with the head down, the disc is in the field and the ring is not. The ring is 470 mm across, and the left-right field is only 41 degrees. The sides of the ring fall outside. Every slant in both tables is past 100 mm, so the 10 cm focus limit is not what hides the close disc. The angle is.
 
@@ -127,7 +127,7 @@ Section 20.9 asks for 10 of 10 at about 1 m and about 2 m, lights on and lights 
 | about 1 m, lights dim, low pack | the same | the brief has no light model. Same geometry as the row above | NOT RUN. Light is BLOCKER |
 | about 1 m, lights on, full pack | the same | pack voltage is not in this field | NOT RUN |
 | about 1 m, lights dim, full pack | the same | light and pack are both absent | NOT RUN |
-| about 2 m, lights on, low pack | the same | disc and ring are inside the field on the same terms as 1 m, and the disc covers 181 by 40 pixels in the still (calc only) | NOT RUN |
+| about 2 m, lights on, low pack | the same | disc and ring are inside the field on the same terms as 1 m. The disc covers 173 pixels across and 37 pixels from near edge to far edge in the still (calc only) | NOT RUN |
 | about 2 m, lights dim, low pack | the same | no light model | NOT RUN. Light is BLOCKER |
 | about 2 m, lights on, full pack | the same | no pack | NOT RUN |
 | about 2 m, lights dim, full pack | the same | no light, no pack | NOT RUN |

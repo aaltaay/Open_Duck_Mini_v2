@@ -319,12 +319,13 @@
       },
       "pixels": {
        "slant_mm": 331.9,
-       "lateral_px_still": 20814.6,
-       "depth_px_still": 1039.4,
-       "face_on_lateral_px": 1091.2,
-       "face_on_depth_px": 1205.1,
-       "lateral_px_1080_scale": 8672.7,
-       "depth_px_1080_scale": 433.1
+       "lateral_px_still": null,
+       "depth_px_still": null,
+       "face_on_lateral_px": null,
+       "face_on_depth_px": null,
+       "lateral_px_1080_scale": null,
+       "depth_px_1080_scale": null,
+       "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
       },
       "sun_centre": {
        "name": "sun_centre",
@@ -358,12 +359,13 @@
       },
       "pixels": {
        "slant_mm": 356.8,
-       "lateral_px_still": 21186.6,
-       "depth_px_still": 901.7,
-       "face_on_lateral_px": 1015.1,
-       "face_on_depth_px": 1121.0,
-       "lateral_px_1080_scale": 8827.8,
-       "depth_px_1080_scale": 375.7
+       "lateral_px_still": null,
+       "depth_px_still": null,
+       "face_on_lateral_px": null,
+       "face_on_depth_px": null,
+       "lateral_px_1080_scale": null,
+       "depth_px_1080_scale": null,
+       "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
       },
       "sun_centre": {
        "name": "sun_centre",
@@ -397,12 +399,13 @@
       },
       "pixels": {
        "slant_mm": 311.6,
-       "lateral_px_still": 20221.2,
-       "depth_px_still": 1175.6,
-       "face_on_lateral_px": 1162.5,
-       "face_on_depth_px": 1283.8,
-       "lateral_px_1080_scale": 8425.5,
-       "depth_px_1080_scale": 489.8
+       "lateral_px_still": null,
+       "depth_px_still": null,
+       "face_on_lateral_px": null,
+       "face_on_depth_px": null,
+       "lateral_px_1080_scale": null,
+       "depth_px_1080_scale": null,
+       "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
       },
       "sun_centre": {
        "name": "sun_centre",
@@ -446,12 +449,13 @@
     },
     "pixels": {
      "slant_mm": 511.3,
-     "lateral_px_still": 1196.4,
-     "depth_px_still": 634.3,
-     "face_on_lateral_px": 708.4,
-     "face_on_depth_px": 782.3,
-     "lateral_px_1080_scale": 498.5,
-     "depth_px_1080_scale": 264.3
+     "lateral_px_still": 1155.4,
+     "depth_px_still": 1679.0,
+     "face_on_lateral_px": 1155.4,
+     "face_on_depth_px": 1182.6,
+     "lateral_px_1080_scale": 481.4,
+     "depth_px_1080_scale": 699.6,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -489,12 +493,13 @@
     },
     "pixels": {
      "slant_mm": 649.2,
-     "lateral_px_still": 722.0,
-     "depth_px_still": 394.1,
-     "face_on_lateral_px": 557.9,
-     "face_on_depth_px": 616.2,
-     "lateral_px_1080_scale": 300.9,
-     "depth_px_1080_scale": 164.2
+     "lateral_px_still": 693.3,
+     "depth_px_still": 593.6,
+     "face_on_lateral_px": 693.3,
+     "face_on_depth_px": 709.6,
+     "lateral_px_1080_scale": 288.9,
+     "depth_px_1080_scale": 247.3,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -532,12 +537,13 @@
     },
     "pixels": {
      "slant_mm": 856.7,
-     "lateral_px_still": 482.2,
-     "depth_px_still": 226.2,
-     "face_on_lateral_px": 422.8,
-     "face_on_depth_px": 466.9,
-     "lateral_px_1080_scale": 200.9,
-     "depth_px_1080_scale": 94.3
+     "lateral_px_still": 462.2,
+     "depth_px_still": 262.4,
+     "face_on_lateral_px": 462.2,
+     "face_on_depth_px": 473.0,
+     "lateral_px_1080_scale": 192.6,
+     "depth_px_1080_scale": 109.3,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -575,12 +581,13 @@
     },
     "pixels": {
      "slant_mm": 1082.3,
-     "lateral_px_still": 361.9,
-     "depth_px_still": 141.6,
-     "face_on_lateral_px": 334.7,
-     "face_on_depth_px": 369.6,
-     "lateral_px_1080_scale": 150.8,
-     "depth_px_1080_scale": 59.0
+     "lateral_px_still": 346.6,
+     "depth_px_still": 147.3,
+     "face_on_lateral_px": 346.6,
+     "face_on_depth_px": 354.8,
+     "lateral_px_1080_scale": 144.4,
+     "depth_px_1080_scale": 61.4,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -618,12 +625,13 @@
     },
     "pixels": {
      "slant_mm": 1556.1,
-     "lateral_px_still": 241.4,
-     "depth_px_still": 68.5,
-     "face_on_lateral_px": 232.8,
-     "face_on_depth_px": 257.1,
-     "lateral_px_1080_scale": 100.6,
-     "depth_px_1080_scale": 28.5
+     "lateral_px_still": 231.1,
+     "depth_px_still": 65.4,
+     "face_on_lateral_px": 231.1,
+     "face_on_depth_px": 236.5,
+     "lateral_px_1080_scale": 96.3,
+     "depth_px_1080_scale": 27.2,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -661,12 +669,13 @@
     },
     "pixels": {
      "slant_mm": 2042.4,
-     "lateral_px_still": 181.1,
-     "depth_px_still": 39.7,
-     "face_on_lateral_px": 177.3,
-     "face_on_depth_px": 195.9,
-     "lateral_px_1080_scale": 75.4,
-     "depth_px_1080_scale": 16.6
+     "lateral_px_still": 173.3,
+     "depth_px_still": 36.8,
+     "face_on_lateral_px": 173.3,
+     "face_on_depth_px": 177.4,
+     "lateral_px_1080_scale": 72.2,
+     "depth_px_1080_scale": 15.3,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -706,12 +715,13 @@
     },
     "pixels": {
      "slant_mm": 569.2,
-     "lateral_px_still": 715.0,
-     "depth_px_still": 634.3,
-     "face_on_lateral_px": 636.4,
-     "face_on_depth_px": 702.8,
-     "lateral_px_1080_scale": 297.9,
-     "depth_px_1080_scale": 264.3
+     "lateral_px_still": 1155.4,
+     "depth_px_still": 1679.0,
+     "face_on_lateral_px": 1155.4,
+     "face_on_depth_px": 1182.6,
+     "lateral_px_1080_scale": 481.4,
+     "depth_px_1080_scale": 699.6,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -749,12 +759,13 @@
     },
     "pixels": {
      "slant_mm": 695.7,
-     "lateral_px_still": 579.2,
-     "depth_px_still": 394.1,
-     "face_on_lateral_px": 520.7,
-     "face_on_depth_px": 575.0,
-     "lateral_px_1080_scale": 241.3,
-     "depth_px_1080_scale": 164.2
+     "lateral_px_still": 693.3,
+     "depth_px_still": 593.6,
+     "face_on_lateral_px": 693.3,
+     "face_on_depth_px": 709.6,
+     "lateral_px_1080_scale": 288.9,
+     "depth_px_1080_scale": 247.3,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -792,12 +803,13 @@
     },
     "pixels": {
      "slant_mm": 1110.8,
-     "lateral_px_still": 340.7,
-     "depth_px_still": 141.6,
-     "face_on_lateral_px": 326.1,
-     "face_on_depth_px": 360.1,
-     "lateral_px_1080_scale": 142.0,
-     "depth_px_1080_scale": 59.0
+     "lateral_px_still": 346.6,
+     "depth_px_still": 147.3,
+     "face_on_lateral_px": 346.6,
+     "face_on_depth_px": 354.8,
+     "lateral_px_1080_scale": 144.4,
+     "depth_px_1080_scale": 61.4,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -835,12 +847,13 @@
     },
     "pixels": {
      "slant_mm": 2057.7,
-     "lateral_px_still": 178.3,
-     "depth_px_still": 39.7,
-     "face_on_lateral_px": 176.0,
-     "face_on_depth_px": 194.4,
-     "lateral_px_1080_scale": 74.3,
-     "depth_px_1080_scale": 16.6
+     "lateral_px_still": 173.3,
+     "depth_px_still": 36.8,
+     "face_on_lateral_px": 173.3,
+     "face_on_depth_px": 177.4,
+     "lateral_px_1080_scale": 72.2,
+     "depth_px_1080_scale": 15.3,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -880,12 +893,13 @@
     },
     "pixels": {
      "slant_mm": 473.9,
-     "lateral_px_still": 844.6,
-     "depth_px_still": 654.9,
-     "face_on_lateral_px": 764.3,
-     "face_on_depth_px": 844.1,
-     "lateral_px_1080_scale": 351.9,
-     "depth_px_1080_scale": 272.9
+     "lateral_px_still": 811.9,
+     "depth_px_still": 722.2,
+     "face_on_lateral_px": 811.9,
+     "face_on_depth_px": 831.0,
+     "lateral_px_1080_scale": 338.3,
+     "depth_px_1080_scale": 300.9,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -923,12 +937,13 @@
     },
     "pixels": {
      "slant_mm": 620.2,
-     "lateral_px_still": 594.2,
-     "depth_px_still": 382.9,
-     "face_on_lateral_px": 584.1,
-     "face_on_depth_px": 645.0,
-     "lateral_px_1080_scale": 247.6,
-     "depth_px_1080_scale": 159.6
+     "lateral_px_still": 569.9,
+     "depth_px_still": 353.8,
+     "face_on_lateral_px": 569.9,
+     "face_on_depth_px": 583.3,
+     "lateral_px_1080_scale": 237.5,
+     "depth_px_1080_scale": 147.4,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -966,12 +981,13 @@
     },
     "pixels": {
      "slant_mm": 834.9,
-     "lateral_px_still": 433.4,
-     "depth_px_still": 211.1,
-     "face_on_lateral_px": 433.8,
-     "face_on_depth_px": 479.1,
-     "lateral_px_1080_scale": 180.6,
-     "depth_px_1080_scale": 88.0
+     "lateral_px_still": 415.2,
+     "depth_px_still": 187.3,
+     "face_on_lateral_px": 415.2,
+     "face_on_depth_px": 425.0,
+     "lateral_px_1080_scale": 173.0,
+     "depth_px_1080_scale": 78.1,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -1009,12 +1025,13 @@
     },
     "pixels": {
      "slant_mm": 1065.2,
-     "lateral_px_still": 341.0,
-     "depth_px_still": 129.6,
-     "face_on_lateral_px": 340.1,
-     "face_on_depth_px": 375.6,
-     "lateral_px_1080_scale": 142.1,
-     "depth_px_1080_scale": 54.0
+     "lateral_px_still": 326.6,
+     "depth_px_still": 115.8,
+     "face_on_lateral_px": 326.6,
+     "face_on_depth_px": 334.3,
+     "lateral_px_1080_scale": 136.1,
+     "depth_px_1080_scale": 48.2,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -1052,12 +1069,13 @@
     },
     "pixels": {
      "slant_mm": 1544.2,
-     "lateral_px_still": 239.1,
-     "depth_px_still": 61.6,
-     "face_on_lateral_px": 234.6,
-     "face_on_depth_px": 259.0,
-     "lateral_px_1080_scale": 99.6,
-     "depth_px_1080_scale": 25.7
+     "lateral_px_still": 228.9,
+     "depth_px_still": 56.8,
+     "face_on_lateral_px": 228.9,
+     "face_on_depth_px": 234.3,
+     "lateral_px_1080_scale": 95.4,
+     "depth_px_1080_scale": 23.7,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -1095,12 +1113,13 @@
     },
     "pixels": {
      "slant_mm": 2033.4,
-     "lateral_px_still": 184.0,
-     "depth_px_still": 35.5,
-     "face_on_lateral_px": 178.1,
-     "face_on_depth_px": 196.7,
-     "lateral_px_1080_scale": 76.7,
-     "depth_px_1080_scale": 14.8
+     "lateral_px_still": 176.2,
+     "depth_px_still": 33.6,
+     "face_on_lateral_px": 176.2,
+     "face_on_depth_px": 180.3,
+     "lateral_px_1080_scale": 73.4,
+     "depth_px_1080_scale": 14.0,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -1140,12 +1159,13 @@
     },
     "pixels": {
      "slant_mm": 535.8,
-     "lateral_px_still": 631.8,
-     "depth_px_still": 654.9,
-     "face_on_lateral_px": 676.0,
-     "face_on_depth_px": 746.6,
-     "lateral_px_1080_scale": 263.3,
-     "depth_px_1080_scale": 272.9
+     "lateral_px_still": 811.9,
+     "depth_px_still": 722.2,
+     "face_on_lateral_px": 811.9,
+     "face_on_depth_px": 831.0,
+     "lateral_px_1080_scale": 338.3,
+     "depth_px_1080_scale": 300.9,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -1183,12 +1203,13 @@
     },
     "pixels": {
      "slant_mm": 668.7,
-     "lateral_px_still": 509.1,
-     "depth_px_still": 382.9,
-     "face_on_lateral_px": 541.7,
-     "face_on_depth_px": 598.3,
-     "lateral_px_1080_scale": 212.1,
-     "depth_px_1080_scale": 159.6
+     "lateral_px_still": 569.9,
+     "depth_px_still": 353.8,
+     "face_on_lateral_px": 569.9,
+     "face_on_depth_px": 583.3,
+     "lateral_px_1080_scale": 237.5,
+     "depth_px_1080_scale": 147.4,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -1226,12 +1247,13 @@
     },
     "pixels": {
      "slant_mm": 1094.1,
-     "lateral_px_still": 323.2,
-     "depth_px_still": 129.6,
-     "face_on_lateral_px": 331.1,
-     "face_on_depth_px": 365.6,
-     "lateral_px_1080_scale": 134.7,
-     "depth_px_1080_scale": 54.0
+     "lateral_px_still": 326.6,
+     "depth_px_still": 115.8,
+     "face_on_lateral_px": 326.6,
+     "face_on_depth_px": 334.3,
+     "lateral_px_1080_scale": 136.1,
+     "depth_px_1080_scale": 48.2,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",
@@ -1269,12 +1291,13 @@
     },
     "pixels": {
      "slant_mm": 2048.7,
-     "lateral_px_still": 181.1,
-     "depth_px_still": 35.5,
-     "face_on_lateral_px": 176.8,
-     "face_on_depth_px": 195.3,
-     "lateral_px_1080_scale": 75.5,
-     "depth_px_1080_scale": 14.8
+     "lateral_px_still": 176.2,
+     "depth_px_still": 33.6,
+     "face_on_lateral_px": 176.2,
+     "face_on_depth_px": 180.3,
+     "lateral_px_1080_scale": 73.4,
+     "depth_px_1080_scale": 14.0,
+     "projection": "rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)"
     },
     "sun_centre": {
      "name": "sun_centre",

@@ -275,35 +275,46 @@ def summarise(rows, kind):
 
 
 def pixel_pair(origin, R, sun):
-    """pixels across the 100 mm disc: lateral on the 2592 axis, near-to-far on the 4608 axis."""
+    """pixels across the 100 mm disc on a rectilinear sensor.
+
+    The rectangular field is a pinhole: image position is c[axis] / c[2], and the
+    half-width of the sensor is tan of the half angle. Lateral is the 2592 axis
+    (41 deg, left-right). Near-to-far is the 4608 axis (66 deg, up-down).
+    """
     left = sun + np.array([0.0, SUN_R_MM, 0.0])
     right = sun + np.array([0.0, -SUN_R_MM, 0.0])
     near = sun + np.array([-SUN_R_MM, 0.0, 0.0])   # toward the duck when the duck looks along +x and the sun is ahead
     far = sun + np.array([SUN_R_MM, 0.0, 0.0])
-    # if the sun is behind the camera, near/far along +x is not "near the duck"; use the closer and farther points
-    def ang(a, b, axis):
-        da, db = a - origin, b - origin
-        # angle between the two rays, projected on the camera axis (the sensor axis)
-        def comp(d):
-            c = R.T @ d
-            return np.arctan2(c[axis], c[2])
-        return abs(comp(da) - comp(db))
 
-    lat = ang(left, right, 1)     # camera Y, 41 deg, 2592 px
-    dep = ang(near, far, 0)       # camera X, 66 deg, 4608 px
+    def span(a, b, axis, n_pix, half):
+        def u(p):
+            c = R.T @ (np.asarray(p, float) - origin)
+            if c[2] <= 1e-9:
+                return None
+            return c[axis] / c[2]
+        ua, ub = u(a), u(b)
+        if ua is None or ub is None:
+            return None
+        return abs(ua - ub) * (n_pix / (2.0 * np.tan(half)))
+
+    px_lat = span(left, right, 1, PIX_HV[1], HY)
+    px_dep = span(near, far, 0, PIX_HV[0], HX)
     slant = float(np.linalg.norm(sun - origin))
-    # facing-camera upper bound: the full diameter perpendicular to the ray, on each axis
-    face_lat = 2 * SUN_R_MM / slant / (2 * HY / PIX_HV[1]) if slant else None
-    face_dep = 2 * SUN_R_MM / slant / (2 * HX / PIX_HV[0]) if slant else None
-    px_lat = lat / (2 * HY / PIX_HV[1])
-    px_dep = dep / (2 * HX / PIX_HV[0])
+    # a disc of this diameter in a plane facing the camera, at the sun's camera-z (calc only, an upper bound)
+    cz = float((R.T @ (sun - origin))[2])
+    face_lat = (2 * SUN_R_MM / cz) * (PIX_HV[1] / (2.0 * np.tan(HY))) if cz > 1e-9 else None
+    face_dep = (2 * SUN_R_MM / cz) * (PIX_HV[0] / (2.0 * np.tan(HX))) if cz > 1e-9 else None
+    def rnd(v):
+        return None if v is None else round(float(v), 1)
+
     return dict(slant_mm=round(slant, 1),
-                lateral_px_still=round(float(px_lat), 1),
-                depth_px_still=round(float(px_dep), 1),
-                face_on_lateral_px=round(float(face_lat), 1),
-                face_on_depth_px=round(float(face_dep), 1),
-                lateral_px_1080_scale=round(float(px_lat * 1080 / PIX_HV[1]), 1),
-                depth_px_1080_scale=round(float(px_dep * 1920 / PIX_HV[0]), 1))
+                lateral_px_still=rnd(px_lat),
+                depth_px_still=rnd(px_dep),
+                face_on_lateral_px=rnd(face_lat),
+                face_on_depth_px=rnd(face_dep),
+                lateral_px_1080_scale=rnd(None if px_lat is None else px_lat * 1080 / PIX_HV[1]),
+                depth_px_1080_scale=rnd(None if px_dep is None else px_dep * 1920 / PIX_HV[0]),
+                projection="rectilinear, c[axis]/c[2] times pixels over 2 tan(half angle)")
 
 
 def approach(origin, R, mesh, toe, ranges, side_mm=0.0):
@@ -486,12 +497,12 @@ def save_figs(pack):
     ax.plot(rr, [r["pixels"]["lateral_px_1080_scale"] for r in pack["approach_centre"]], "o--", color="#5dade2",
             label="across the disc if 1080p keeps the full field")
     ax.axvline(0.64, color="#922b21", lw=1, ls=":")
-    ax.text(0.66, 1050, "level head:\ndisc enters\nthe field", fontsize=7, color="#922b21")
+    ax.text(0.66, 1450, "level head:\ndisc enters\nthe field", fontsize=7, color="#922b21")
     ax.set_xlabel("horizontal range, lens to sun centre, m")
     ax.set_ylabel("pixels the disc would cover")
     ax.set_title("100 mm disc, head pitch 0. Left of the dotted line it is below the field. Calc only.")
     ax.legend(fontsize=7, loc="upper right")
-    ax.set_ylim(0, 1300)
+    ax.set_ylim(0, 1850)
     fig.tight_layout()
     finish(fig, "pixels_range.png")
     return paths
