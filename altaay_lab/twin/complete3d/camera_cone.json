@@ -1,0 +1,1329 @@
+{
+ "meta": {
+  "script": "altaay_lab/twin/complete3d/camera_cone.py",
+  "seat": "altaay_lab/twin/complete3d/camera_seat.json",
+  "brief": "https://datasheets.raspberrypi.com/camera/camera-module-3-product-brief.pdf",
+  "brief_id": "RP-008151-DS-1, June 2024",
+  "module": "Raspberry Pi Camera Module 3 standard, BOM E6, Adafruit 5657",
+  "labels": "FOV and sensor: cited from the brief. Pose: CAD check only, except the sit joints which are sim pass only. Pixels and the pinhole check: calc only. A real frame was not taken."
+ },
+ "brief": {
+  "sensor": "Sony IMX708",
+  "sensor_diagonal_mm": 7.4,
+  "pixel_um": 1.4,
+  "pixels_hv": [
+   4608,
+   2592
+  ],
+  "active_mm": [
+   6.45,
+   3.63
+  ],
+  "active_diagonal_mm": 7.4,
+  "focal_mm": 4.74,
+  "hfov_deg": 66.0,
+  "vfov_deg": 41.0,
+  "dfov_deg": 75.0,
+  "f_number": 1.8,
+  "focus_cm": [
+   10,
+   "infinity"
+  ],
+  "ir_cut": true,
+  "board_mm": [
+   25.0,
+   23.86,
+   11.5
+  ],
+  "lens_diameter_mm": 5.75,
+  "pcb_side_view_mm": 1.12,
+  "pinhole_hvd_deg": [
+   68.47,
+   41.89,
+   75.96
+  ],
+  "rectangle_diagonal_deg": 73.69
+ },
+ "install": {
+  "axis": {
+   "cam_X_world": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "cam_Y_world": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "cam_Z_world": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "brief_66_on": "camera X, the 25 mm board edge",
+   "brief_41_on": "camera Y, the 23.862 mm board edge"
+  },
+  "opening_d_mm": 7.74,
+  "wall_t_mm": 2.5,
+  "pcb_front_to_inner_wall_mm": 3.2,
+  "hole_half_angle_from_pcb_front_deg": 50.4,
+  "lens_proud_of_outer_wall_mm": 4.68,
+  "zero_sole_z_mm": -196.2,
+  "note": "66 deg is up-down on this head. 41 deg is left-right. The pupil used for the rays is the measured lens opening centre. The brief does not mark the entrance pupil (BLOCKER for that point, a few millimetres)."
+ },
+ "pitches_deg": {
+  "command_0": 0.0,
+  "soft_down": -22.0,
+  "hard_down": -25.0,
+  "runtime_up": 17.19,
+  "soft_up": 36.0
+ },
+ "runtime_command_lo_deg": -44.69,
+ "runtime_lo_unreachable": "the gamepad asks for -44.7 deg. The printed forward stop is -25 deg.",
+ "poses": {
+  "stand_command_0": {
+   "joints_deg": {
+    "head_pitch": 0.0
+   },
+   "look": {
+    "pupil_mm": [
+     99.0,
+     0.1,
+     414.1
+    ],
+    "forward": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "elev_deg": 0.0,
+    "height_mm": 414.1
+   },
+   "floor": {
+    "x_mm": 736.7,
+    "ahead_of_pupil_mm": 637.7,
+    "visible": true,
+    "blocked_mm": null
+   },
+   "feet": {
+    "cells": 570,
+    "in_field": 0,
+    "visible": 0,
+    "visible_ahead_of_toe": 0,
+    "ahead_of_toe": 494,
+    "nearest_visible_x_mm": null,
+    "toe_x_mm": 29.3
+   },
+   "toe_x_mm": 29.3
+  },
+  "stand_soft_down": {
+   "joints_deg": {
+    "head_pitch": -22.0
+   },
+   "look": {
+    "pupil_mm": [
+     115.05,
+     0.1,
+     372.88
+    ],
+    "forward": [
+     0.93,
+     -0.0,
+     -0.37
+    ],
+    "elev_deg": -22.0,
+    "height_mm": 372.88
+   },
+   "floor": {
+    "x_mm": 376.1,
+    "ahead_of_pupil_mm": 261.1,
+    "visible": true,
+    "blocked_mm": null
+   },
+   "feet": {
+    "cells": 570,
+    "in_field": 0,
+    "visible": 0,
+    "visible_ahead_of_toe": 0,
+    "ahead_of_toe": 494,
+    "nearest_visible_x_mm": null,
+    "toe_x_mm": 29.3
+   },
+   "toe_x_mm": 29.3
+  },
+  "stand_hard_down": {
+   "joints_deg": {
+    "head_pitch": -25.0
+   },
+   "look": {
+    "pupil_mm": [
+     115.98,
+     0.1,
+     366.88
+    ],
+    "forward": [
+     0.91,
+     -0.0,
+     -0.42
+    ],
+    "elev_deg": -25.0,
+    "height_mm": 366.88
+   },
+   "floor": {
+    "x_mm": 345.2,
+    "ahead_of_pupil_mm": 229.3,
+    "visible": true,
+    "blocked_mm": null
+   },
+   "feet": {
+    "cells": 570,
+    "in_field": 0,
+    "visible": 0,
+    "visible_ahead_of_toe": 0,
+    "ahead_of_toe": 494,
+    "nearest_visible_x_mm": null,
+    "toe_x_mm": 29.3
+   },
+   "toe_x_mm": 29.3
+  },
+  "stand_runtime_up": {
+   "joints_deg": {
+    "head_pitch": 17.19
+   },
+   "look": {
+    "pupil_mm": [
+     76.33,
+     0.1,
+     440.3
+    ],
+    "forward": [
+     0.96,
+     0.0,
+     0.3
+    ],
+    "elev_deg": 17.19,
+    "height_mm": 440.3
+   },
+   "floor": {
+    "x_mm": 1631.1,
+    "ahead_of_pupil_mm": 1554.8,
+    "visible": true,
+    "blocked_mm": null
+   },
+   "feet": {
+    "cells": 570,
+    "in_field": 0,
+    "visible": 0,
+    "visible_ahead_of_toe": 0,
+    "ahead_of_toe": 494,
+    "nearest_visible_x_mm": null,
+    "toe_x_mm": 29.3
+   },
+   "toe_x_mm": 29.3
+  },
+  "stand_soft_up": {
+   "joints_deg": {
+    "head_pitch": 36.0
+   },
+   "look": {
+    "pupil_mm": [
+     43.9,
+     0.1,
+     459.88
+    ],
+    "forward": [
+     0.81,
+     0.0,
+     0.59
+    ],
+    "elev_deg": 36.0,
+    "height_mm": 459.88
+   },
+   "floor": null,
+   "feet": {
+    "cells": 570,
+    "in_field": 0,
+    "visible": 0,
+    "visible_ahead_of_toe": 0,
+    "ahead_of_toe": 494,
+    "nearest_visible_x_mm": null,
+    "toe_x_mm": 29.3
+   },
+   "toe_x_mm": 29.3
+  },
+  "sit": {
+   "label_pose": "sim pass only (sit_pose.json)",
+   "joints_deg": {
+    "neck_pitch": 25.0,
+    "head_pitch": -25.0,
+    "head_yaw": -0.01,
+    "head_roll": -0.0
+   },
+   "trunk_pitch_deg": 2.79,
+   "look": {
+    "pupil_mm": [
+     43.47,
+     -1.92,
+     286.26
+    ],
+    "forward": [
+     1.0,
+     -0.01,
+     0.05
+    ],
+    "elev_deg": 2.79,
+    "height_mm": 286.26
+   },
+   "floor": {
+    "x_mm": 535.1,
+    "ahead_of_pupil_mm": 491.7,
+    "visible": true,
+    "blocked_mm": null
+   },
+   "feet": {
+    "cells": 570,
+    "in_field": 0,
+    "visible": 0,
+    "visible_ahead_of_toe": 0,
+    "ahead_of_toe": 494,
+    "nearest_visible_x_mm": null,
+    "toe_x_mm": 27.8
+   },
+   "toe_x_mm": 27.8,
+   "nest": {
+    "seat_contact_mm": [
+     -124.6,
+     -0.8,
+     0.0
+    ],
+    "places": [
+     {
+      "place": "under_seat",
+      "sun_mm": [
+       -124.6,
+       -0.8,
+       0.0
+      ],
+      "sun": {
+       "samples": 13,
+       "in_field": 0,
+       "seen": 0,
+       "seen_frac": 0.0
+      },
+      "ring": {
+       "samples": 27,
+       "in_field": 0,
+       "seen": 0,
+       "seen_frac": 0.0
+      },
+      "pixels": {
+       "slant_mm": 331.9,
+       "lateral_px_still": 20814.6,
+       "depth_px_still": 1039.4,
+       "face_on_lateral_px": 1091.2,
+       "face_on_depth_px": 1205.1,
+       "lateral_px_1080_scale": 8672.7,
+       "depth_px_1080_scale": 433.1
+      },
+      "sun_centre": {
+       "name": "sun_centre",
+       "kind": "sun",
+       "in_field": false,
+       "occluded": true,
+       "slant_mm": 331.9,
+       "in_focus": true,
+       "tx_deg": null,
+       "ty_deg": null
+      }
+     },
+     {
+      "place": "window_45",
+      "sun_mm": [
+       -169.6,
+       -0.5,
+       0.0
+      ],
+      "sun": {
+       "samples": 13,
+       "in_field": 0,
+       "seen": 0,
+       "seen_frac": 0.0
+      },
+      "ring": {
+       "samples": 27,
+       "in_field": 0,
+       "seen": 0,
+       "seen_frac": 0.0
+      },
+      "pixels": {
+       "slant_mm": 356.8,
+       "lateral_px_still": 21186.6,
+       "depth_px_still": 901.7,
+       "face_on_lateral_px": 1015.1,
+       "face_on_depth_px": 1121.0,
+       "lateral_px_1080_scale": 8827.8,
+       "depth_px_1080_scale": 375.7
+      },
+      "sun_centre": {
+       "name": "sun_centre",
+       "kind": "sun",
+       "in_field": false,
+       "occluded": true,
+       "slant_mm": 356.8,
+       "in_focus": true,
+       "tx_deg": null,
+       "ty_deg": null
+      }
+     },
+     {
+      "place": "window_ahead",
+      "sun_mm": [
+       -79.6,
+       -1.0,
+       0.0
+      ],
+      "sun": {
+       "samples": 13,
+       "in_field": 0,
+       "seen": 0,
+       "seen_frac": 0.0
+      },
+      "ring": {
+       "samples": 27,
+       "in_field": 0,
+       "seen": 0,
+       "seen_frac": 0.0
+      },
+      "pixels": {
+       "slant_mm": 311.6,
+       "lateral_px_still": 20221.2,
+       "depth_px_still": 1175.6,
+       "face_on_lateral_px": 1162.5,
+       "face_on_depth_px": 1283.8,
+       "lateral_px_1080_scale": 8425.5,
+       "depth_px_1080_scale": 489.8
+      },
+      "sun_centre": {
+       "name": "sun_centre",
+       "kind": "sun",
+       "in_field": false,
+       "occluded": true,
+       "slant_mm": 311.6,
+       "in_focus": true,
+       "tx_deg": null,
+       "ty_deg": null
+      }
+     }
+    ]
+   }
+  }
+ },
+ "approach": {
+  "stand_command_0": [
+   {
+    "range_m": 0.3,
+    "side_mm": 0.0,
+    "sun_x_mm": 399.0,
+    "toe_to_sun_mm": 369.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "pixels": {
+     "slant_mm": 511.3,
+     "lateral_px_still": 1196.4,
+     "depth_px_still": 634.3,
+     "face_on_lateral_px": 708.4,
+     "face_on_depth_px": 782.3,
+     "lateral_px_1080_scale": 498.5,
+     "depth_px_1080_scale": 264.3
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": false,
+     "occluded": false,
+     "slant_mm": 511.3,
+     "in_focus": true,
+     "tx_deg": 54.08,
+     "ty_deg": 0.0
+    }
+   },
+   {
+    "range_m": 0.5,
+    "side_mm": 0.0,
+    "sun_x_mm": 599.0,
+    "toe_to_sun_mm": 569.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "pixels": {
+     "slant_mm": 649.2,
+     "lateral_px_still": 722.0,
+     "depth_px_still": 394.1,
+     "face_on_lateral_px": 557.9,
+     "face_on_depth_px": 616.2,
+     "lateral_px_1080_scale": 300.9,
+     "depth_px_1080_scale": 164.2
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": false,
+     "occluded": false,
+     "slant_mm": 649.2,
+     "in_focus": true,
+     "tx_deg": 39.63,
+     "ty_deg": 0.0
+    }
+   },
+   {
+    "range_m": 0.75,
+    "side_mm": 0.0,
+    "sun_x_mm": 849.0,
+    "toe_to_sun_mm": 819.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 22,
+     "seen": 22,
+     "seen_frac": 0.81
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 0.72
+    },
+    "pixels": {
+     "slant_mm": 856.7,
+     "lateral_px_still": 482.2,
+     "depth_px_still": 226.2,
+     "face_on_lateral_px": 422.8,
+     "face_on_depth_px": 466.9,
+     "lateral_px_1080_scale": 200.9,
+     "depth_px_1080_scale": 94.3
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 856.7,
+     "in_focus": true,
+     "tx_deg": 28.9,
+     "ty_deg": 0.0
+    }
+   },
+   {
+    "range_m": 1.0,
+    "side_mm": 0.0,
+    "sun_x_mm": 1099.0,
+    "toe_to_sun_mm": 1069.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 27,
+     "seen": 27,
+     "seen_frac": 1.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 18,
+     "seen": 18,
+     "seen_frac": 1.0
+    },
+    "pixels": {
+     "slant_mm": 1082.3,
+     "lateral_px_still": 361.9,
+     "depth_px_still": 141.6,
+     "face_on_lateral_px": 334.7,
+     "face_on_depth_px": 369.6,
+     "lateral_px_1080_scale": 150.8,
+     "depth_px_1080_scale": 59.0
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 1082.3,
+     "in_focus": true,
+     "tx_deg": 22.49,
+     "ty_deg": 0.0
+    }
+   },
+   {
+    "range_m": 1.5,
+    "side_mm": 0.0,
+    "sun_x_mm": 1599.0,
+    "toe_to_sun_mm": 1569.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 27,
+     "seen": 27,
+     "seen_frac": 1.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 18,
+     "seen": 18,
+     "seen_frac": 1.0
+    },
+    "pixels": {
+     "slant_mm": 1556.1,
+     "lateral_px_still": 241.4,
+     "depth_px_still": 68.5,
+     "face_on_lateral_px": 232.8,
+     "face_on_depth_px": 257.1,
+     "lateral_px_1080_scale": 100.6,
+     "depth_px_1080_scale": 28.5
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 1556.1,
+     "in_focus": true,
+     "tx_deg": 15.43,
+     "ty_deg": 0.0
+    }
+   },
+   {
+    "range_m": 2.0,
+    "side_mm": 0.0,
+    "sun_x_mm": 2099.0,
+    "toe_to_sun_mm": 2069.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 27,
+     "seen": 27,
+     "seen_frac": 1.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 18,
+     "seen": 18,
+     "seen_frac": 1.0
+    },
+    "pixels": {
+     "slant_mm": 2042.4,
+     "lateral_px_still": 181.1,
+     "depth_px_still": 39.7,
+     "face_on_lateral_px": 177.3,
+     "face_on_depth_px": 195.9,
+     "lateral_px_1080_scale": 75.4,
+     "depth_px_1080_scale": 16.6
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 2042.4,
+     "in_focus": true,
+     "tx_deg": 11.7,
+     "ty_deg": 0.0
+    }
+   }
+  ],
+  "stand_command_0_side": [
+   {
+    "range_m": 0.3,
+    "side_mm": 250.0,
+    "sun_x_mm": 399.0,
+    "toe_to_sun_mm": 369.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "pixels": {
+     "slant_mm": 569.2,
+     "lateral_px_still": 715.0,
+     "depth_px_still": 634.3,
+     "face_on_lateral_px": 636.4,
+     "face_on_depth_px": 702.8,
+     "lateral_px_1080_scale": 297.9,
+     "depth_px_1080_scale": 264.3
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": false,
+     "occluded": false,
+     "slant_mm": 569.2,
+     "in_focus": true,
+     "tx_deg": 54.08,
+     "ty_deg": 39.81
+    }
+   },
+   {
+    "range_m": 0.5,
+    "side_mm": 250.0,
+    "sun_x_mm": 599.0,
+    "toe_to_sun_mm": 569.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "pixels": {
+     "slant_mm": 695.7,
+     "lateral_px_still": 579.2,
+     "depth_px_still": 394.1,
+     "face_on_lateral_px": 520.7,
+     "face_on_depth_px": 575.0,
+     "lateral_px_1080_scale": 241.3,
+     "depth_px_1080_scale": 164.2
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": false,
+     "occluded": false,
+     "slant_mm": 695.7,
+     "in_focus": true,
+     "tx_deg": 39.63,
+     "ty_deg": 26.57
+    }
+   },
+   {
+    "range_m": 1.0,
+    "side_mm": 250.0,
+    "sun_x_mm": 1099.0,
+    "toe_to_sun_mm": 1069.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 22,
+     "seen": 22,
+     "seen_frac": 0.81
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 14,
+     "seen": 14,
+     "seen_frac": 0.78
+    },
+    "pixels": {
+     "slant_mm": 1110.8,
+     "lateral_px_still": 340.7,
+     "depth_px_still": 141.6,
+     "face_on_lateral_px": 326.1,
+     "face_on_depth_px": 360.1,
+     "lateral_px_1080_scale": 142.0,
+     "depth_px_1080_scale": 59.0
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 1110.8,
+     "in_focus": true,
+     "tx_deg": 22.49,
+     "ty_deg": 14.04
+    }
+   },
+   {
+    "range_m": 2.0,
+    "side_mm": 250.0,
+    "sun_x_mm": 2099.0,
+    "toe_to_sun_mm": 2069.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 27,
+     "seen": 27,
+     "seen_frac": 1.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 18,
+     "seen": 18,
+     "seen_frac": 1.0
+    },
+    "pixels": {
+     "slant_mm": 2057.7,
+     "lateral_px_still": 178.3,
+     "depth_px_still": 39.7,
+     "face_on_lateral_px": 176.0,
+     "face_on_depth_px": 194.4,
+     "lateral_px_1080_scale": 74.3,
+     "depth_px_1080_scale": 16.6
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 2057.7,
+     "in_focus": true,
+     "tx_deg": 11.7,
+     "ty_deg": 7.13
+    }
+   }
+  ],
+  "stand_hard_down": [
+   {
+    "range_m": 0.3,
+    "side_mm": 0.0,
+    "sun_x_mm": 416.0,
+    "toe_to_sun_mm": 386.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 0.48
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 6,
+     "seen": 6,
+     "seen_frac": 0.33
+    },
+    "pixels": {
+     "slant_mm": 473.9,
+     "lateral_px_still": 844.6,
+     "depth_px_still": 654.9,
+     "face_on_lateral_px": 764.3,
+     "face_on_depth_px": 844.1,
+     "lateral_px_1080_scale": 351.9,
+     "depth_px_1080_scale": 272.9
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 473.9,
+     "in_focus": true,
+     "tx_deg": 25.73,
+     "ty_deg": 0.0
+    }
+   },
+   {
+    "range_m": 0.5,
+    "side_mm": 0.0,
+    "sun_x_mm": 616.0,
+    "toe_to_sun_mm": 586.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 23,
+     "seen": 23,
+     "seen_frac": 0.85
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 14,
+     "seen": 14,
+     "seen_frac": 0.78
+    },
+    "pixels": {
+     "slant_mm": 620.2,
+     "lateral_px_still": 594.2,
+     "depth_px_still": 382.9,
+     "face_on_lateral_px": 584.1,
+     "face_on_depth_px": 645.0,
+     "lateral_px_1080_scale": 247.6,
+     "depth_px_1080_scale": 159.6
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 620.2,
+     "in_focus": true,
+     "tx_deg": 11.27,
+     "ty_deg": 0.0
+    }
+   },
+   {
+    "range_m": 0.75,
+    "side_mm": 0.0,
+    "sun_x_mm": 866.0,
+    "toe_to_sun_mm": 836.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 27,
+     "seen": 27,
+     "seen_frac": 1.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 18,
+     "seen": 18,
+     "seen_frac": 1.0
+    },
+    "pixels": {
+     "slant_mm": 834.9,
+     "lateral_px_still": 433.4,
+     "depth_px_still": 211.1,
+     "face_on_lateral_px": 433.8,
+     "face_on_depth_px": 479.1,
+     "lateral_px_1080_scale": 180.6,
+     "depth_px_1080_scale": 88.0
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 834.9,
+     "in_focus": true,
+     "tx_deg": 1.07,
+     "ty_deg": 0.0
+    }
+   },
+   {
+    "range_m": 1.0,
+    "side_mm": 0.0,
+    "sun_x_mm": 1116.0,
+    "toe_to_sun_mm": 1086.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 27,
+     "seen": 27,
+     "seen_frac": 1.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 18,
+     "seen": 18,
+     "seen_frac": 1.0
+    },
+    "pixels": {
+     "slant_mm": 1065.2,
+     "lateral_px_still": 341.0,
+     "depth_px_still": 129.6,
+     "face_on_lateral_px": 340.1,
+     "face_on_depth_px": 375.6,
+     "lateral_px_1080_scale": 142.1,
+     "depth_px_1080_scale": 54.0
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 1065.2,
+     "in_focus": true,
+     "tx_deg": -4.85,
+     "ty_deg": 0.0
+    }
+   },
+   {
+    "range_m": 1.5,
+    "side_mm": 0.0,
+    "sun_x_mm": 1616.0,
+    "toe_to_sun_mm": 1586.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 27,
+     "seen": 27,
+     "seen_frac": 1.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 18,
+     "seen": 18,
+     "seen_frac": 1.0
+    },
+    "pixels": {
+     "slant_mm": 1544.2,
+     "lateral_px_still": 239.1,
+     "depth_px_still": 61.6,
+     "face_on_lateral_px": 234.6,
+     "face_on_depth_px": 259.0,
+     "lateral_px_1080_scale": 99.6,
+     "depth_px_1080_scale": 25.7
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 1544.2,
+     "in_focus": true,
+     "tx_deg": -11.26,
+     "ty_deg": 0.0
+    }
+   },
+   {
+    "range_m": 2.0,
+    "side_mm": 0.0,
+    "sun_x_mm": 2116.0,
+    "toe_to_sun_mm": 2086.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 27,
+     "seen": 27,
+     "seen_frac": 1.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 18,
+     "seen": 18,
+     "seen_frac": 1.0
+    },
+    "pixels": {
+     "slant_mm": 2033.4,
+     "lateral_px_still": 184.0,
+     "depth_px_still": 35.5,
+     "face_on_lateral_px": 178.1,
+     "face_on_depth_px": 196.7,
+     "lateral_px_1080_scale": 76.7,
+     "depth_px_1080_scale": 14.8
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 2033.4,
+     "in_focus": true,
+     "tx_deg": -14.61,
+     "ty_deg": 0.0
+    }
+   }
+  ],
+  "stand_hard_down_side": [
+   {
+    "range_m": 0.3,
+    "side_mm": 250.0,
+    "sun_x_mm": 416.0,
+    "toe_to_sun_mm": 386.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 0,
+     "seen": 0,
+     "seen_frac": 0.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 2,
+     "seen": 2,
+     "seen_frac": 0.07
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 1,
+     "seen": 1,
+     "seen_frac": 0.06
+    },
+    "pixels": {
+     "slant_mm": 535.8,
+     "lateral_px_still": 631.8,
+     "depth_px_still": 654.9,
+     "face_on_lateral_px": 676.0,
+     "face_on_depth_px": 746.6,
+     "lateral_px_1080_scale": 263.3,
+     "depth_px_1080_scale": 272.9
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": false,
+     "occluded": false,
+     "slant_mm": 535.8,
+     "in_focus": true,
+     "tx_deg": 25.73,
+     "ty_deg": 30.35
+    }
+   },
+   {
+    "range_m": 0.5,
+    "side_mm": 250.0,
+    "sun_x_mm": 616.0,
+    "toe_to_sun_mm": 586.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 4,
+     "seen": 4,
+     "seen_frac": 0.31
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 11,
+     "seen": 11,
+     "seen_frac": 0.41
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 6,
+     "seen": 6,
+     "seen_frac": 0.33
+    },
+    "pixels": {
+     "slant_mm": 668.7,
+     "lateral_px_still": 509.1,
+     "depth_px_still": 382.9,
+     "face_on_lateral_px": 541.7,
+     "face_on_depth_px": 598.3,
+     "lateral_px_1080_scale": 212.1,
+     "depth_px_1080_scale": 159.6
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": false,
+     "occluded": false,
+     "slant_mm": 668.7,
+     "in_focus": true,
+     "tx_deg": 11.27,
+     "ty_deg": 22.34
+    }
+   },
+   {
+    "range_m": 1.0,
+    "side_mm": 250.0,
+    "sun_x_mm": 1116.0,
+    "toe_to_sun_mm": 1086.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 22,
+     "seen": 22,
+     "seen_frac": 0.81
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 14,
+     "seen": 14,
+     "seen_frac": 0.78
+    },
+    "pixels": {
+     "slant_mm": 1094.1,
+     "lateral_px_still": 323.2,
+     "depth_px_still": 129.6,
+     "face_on_lateral_px": 331.1,
+     "face_on_depth_px": 365.6,
+     "lateral_px_1080_scale": 134.7,
+     "depth_px_1080_scale": 54.0
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 1094.1,
+     "in_focus": true,
+     "tx_deg": -4.85,
+     "ty_deg": 13.25
+    }
+   },
+   {
+    "range_m": 2.0,
+    "side_mm": 250.0,
+    "sun_x_mm": 2116.0,
+    "toe_to_sun_mm": 2086.7,
+    "sun": {
+     "samples": 13,
+     "in_field": 13,
+     "seen": 13,
+     "seen_frac": 1.0
+    },
+    "ring": {
+     "samples": 27,
+     "in_field": 27,
+     "seen": 27,
+     "seen_frac": 1.0
+    },
+    "ring_near": {
+     "samples": 18,
+     "in_field": 18,
+     "seen": 18,
+     "seen_frac": 1.0
+    },
+    "pixels": {
+     "slant_mm": 2048.7,
+     "lateral_px_still": 181.1,
+     "depth_px_still": 35.5,
+     "face_on_lateral_px": 176.8,
+     "face_on_depth_px": 195.3,
+     "lateral_px_1080_scale": 75.5,
+     "depth_px_1080_scale": 14.8
+    },
+    "sun_centre": {
+     "name": "sun_centre",
+     "kind": "sun",
+     "in_field": true,
+     "occluded": false,
+     "slant_mm": 2048.7,
+     "in_focus": true,
+     "tx_deg": -14.61,
+     "ty_deg": 7.24
+    }
+   }
+  ]
+ },
+ "grids": {
+  "stand_command_0": {
+   "x0": -50.72,
+   "x1": 2189.28,
+   "y0": -350.0,
+   "y1": 350.0,
+   "toe": 29.28,
+   "visible_cells": 2532,
+   "blocked_cells": 0
+  },
+  "stand_hard_down": {
+   "x0": -50.72,
+   "x1": 2209.28,
+   "y0": -350.0,
+   "y1": 350.0,
+   "toe": 29.28,
+   "visible_cells": 3010,
+   "blocked_cells": 0
+  },
+  "sit": {
+   "x0": -52.21,
+   "x1": 2127.79,
+   "y0": -350.0,
+   "y1": 350.0,
+   "toe": 27.79,
+   "visible_cells": 2662,
+   "blocked_cells": 0
+  }
+ },
+ "figures": [
+  "altaay_lab/twin/camera/figs/side_cone.png",
+  "altaay_lab/twin/camera/figs/top_cone.png",
+  "altaay_lab/twin/camera/figs/floor_stand.png",
+  "altaay_lab/twin/camera/figs/floor_down.png",
+  "altaay_lab/twin/camera/figs/floor_sit.png",
+  "altaay_lab/twin/camera/figs/pixels_range.png"
+ ]
+}
