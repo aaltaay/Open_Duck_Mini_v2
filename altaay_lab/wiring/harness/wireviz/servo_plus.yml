@@ -1,0 +1,79 @@
+connectors:
+  Big:
+    type: WAGO 221-415 servo plus
+    pinlabels: [P11, SP1, SP2, SP3, jumper]
+    notes: port 5 jumper to the small lever, 16 AWG, cut not set
+  Small:
+    type: WAGO 221-413 servo plus
+    pinlabels: [jumper, SP4, SP5]
+    notes: port 1 is that jumper, cut not set
+  ID20:
+    type: servo 20 BUS 2
+    pinlabels: [V]
+  ID10:
+    type: servo 10 BUS 2
+    pinlabels: [V]
+  ID30:
+    type: servo 30 BUS 2
+    pinlabels: [V]
+  ID24:
+    type: servo 24 BUS 1
+    pinlabels: [V]
+  ID14:
+    type: servo 14 BUS 1
+    pinlabels: [V]
+cables:
+  P11:
+    wirecount: 1
+    length: 0.10
+    gauge: 16 AWG
+    colors: [RD]
+  SP1:
+    wirecount: 1
+    length: 0.16
+    gauge: 22 AWG
+    colors: [RD]
+  SP2:
+    wirecount: 1
+    length: 0.15
+    gauge: 22 AWG
+    colors: [RD]
+  SP3:
+    wirecount: 1
+    length: 0.18
+    gauge: 22 AWG
+    colors: [RD]
+  SP4:
+    wirecount: 1
+    length: 0.42
+    gauge: 22 AWG
+    colors: [RD]
+  SP5:
+    wirecount: 1
+    length: 0.45
+    gauge: 22 AWG
+    colors: [RD]
+connections:
+  -
+    - Big: [1]
+    - P11: [1]
+  -
+    - Big: [2]
+    - SP1: [1]
+    - ID20: [1]
+  -
+    - Big: [3]
+    - SP2: [1]
+    - ID10: [1]
+  -
+    - Big: [4]
+    - SP3: [1]
+    - ID30: [1]
+  -
+    - Small: [2]
+    - SP4: [1]
+    - ID24: [1]
+  -
+    - Small: [3]
+    - SP5: [1]
+    - ID14: [1]
