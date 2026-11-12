@@ -2,6 +2,12 @@
 
 Written 2026-11-04 about 4:45 PM ET by the V1 electrical track (a Claude Code agent for the lead; branch claude/v1-elec, local commits only). V1 is the stock walking duck on legs, indoors, our 2.65 kg build (2652.8 g). Every sim number here is sim pass only; hand numbers are calc only. Nothing has run on real parts.
 
+## Update 2026-11-11 ET: P45B pack (sim pass only, and one BLOCKER)
+
+bus_events.py now builds the pack from the P45B figure (twin/electromech/p45b.py) and the servo law from the STS3215 sheet stall line (servo_sts3215.py mode "sheet"). The 2026-11-04 answer below is the P30B pack and the older servo law. It was not re-run. The fall and get-up traces that replay needs are not in this repo (they were logged in the shared lab gym, overlay gym/overlays/duck). That replay is BLOCKER until those traces are here. Do not quote the 19.5 to 20.6 A shove, or the other event peaks, as the P45B duck.
+
+The walk pack current, the sag, and the run time are the electromechanical loop on the same as-built network (ELECTROMECH_TWIN.md update, sim pass only). Trained actuator, P45B, backlash, typical: 5.30 A mean and 8.17 V at a full charge (sag 0.18 V from 8.35 V open circuit), and 42.9 minutes to an open circuit of 3.30 V per cell with no fall. The sheet-stall servo on that network falls at 3.5 s and does not walk. The nest two-net change is still not in wiring/netlist.yaml.
+
 ## Answer
 
 Two risks and one blocker; nothing fails. Regeneration and the servo bus signal are fine.
