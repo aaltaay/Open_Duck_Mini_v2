@@ -25,6 +25,11 @@ What it adds around the Runtime loop (details in odm_bench/walkhooks.py):
   8. After every stop in 4 to 7, Torque Enable (register 40) is read back from all 14 servos and
      torque off is written again until all read 0 (walkhooks.hard_stop). If a servo still reads 1
      or never answers: a loud message, report item 11.torque_off FAIL, exit 10.
+  9. With --knee-heat (software/knee_heat.py, the boot service): a servo at 55 C on 2 reads
+     warns and stops the walk, torque goes off, and goal writes stop so a write cannot turn
+     torque back on. Idle (the pad pause) and a caller that says the duck is sitting are torque
+     off even when cool. The walk may start again only after 2 readings whose hottest servo is
+     below 45 C. This path does not exit. The older thermal stop (limit minus 8 C) still exits.
   Ctrl-C behaves like upstream (servos keep their last targets) unless --torque-off-on-exit.
 Logs: <out>/walk_guard/guard_<time>.csv (every guard tick), thermal_<time>.csv (hottest servo
 every second) and a JSON report with the TEST_PLAN 11 items.
@@ -45,16 +50,34 @@ import battery_guard as bg  # noqa: E402
 class GuardHook:
     """Reads voltage and temperature at the guard period and turns guard events into walk actions."""
 
-    def __init__(self, guard, reader, log, max_seconds=0, thermal_guard=None, thermal_log=None, quiet=False):
+    def __init__(self, guard, reader, log, max_seconds=0, thermal_guard=None, thermal_log=None, quiet=False,
+                 knee=None, gate=None):
         self.guard, self.reader, self.log = guard, reader, log
         self.tg, self.tlog = thermal_guard, thermal_log
+        self.knee, self.gate = knee, gate
+        self._armed = False
         self.next_t = 0.0
         self.max_seconds = max_seconds
         self.read_ms = []
         self.medians = []
         self.quiet = quiet
 
+    def _arm(self, walk):
+        """Skip goal writes while the knee-heat rest holds torque off. Installed once."""
+        if self._armed or self.gate is None:
+            return
+        self._armed = True
+        write = walk.hwi.set_position_all
+        gate = self.gate
+
+        def set_position_all(positions, write=write, walk=walk, gate=gate):
+            return gate.filter_write(walk.hwi, positions, write)
+
+        walk.hwi.set_position_all = set_position_all
+
     def on_cycle(self, walk, t, paused):
+        if self.gate is not None:
+            self._arm(walk)
         if self.max_seconds and t >= self.max_seconds:
             raise walkhooks.WalkStop("timeout", f"--max-seconds {self.max_seconds} reached")
         if walk.stop_phase() == "standing" and self.guard.state == bg.STOPPING:
@@ -70,6 +93,13 @@ class GuardHook:
         if self.tg is not None:
             events += self.tg.update(t, temps)
             self._log_hottest(t)
+        if self.knee is not None:
+            # Pad pause is idle. A sit program passes posture "sitting" to KneeHeatGuard
+            # itself; this walk only sees walking and the pad pause.
+            posture = "idle" if paused else "walking"
+            decision = self.knee.update(t, temps, posture)
+            self.gate.apply(walk.hwi, decision)
+            events += decision.events
         if self.guard.last_median is not None and volts:
             self.medians.append(self.guard.last_median)
         names = ";".join(e["event"] for e in events)
@@ -83,8 +113,10 @@ class GuardHook:
             print(f"[guard] t {e['t']} s {e['event']}: {e['reason']}", flush=True)
             if e["event"] == "walk_stop":
                 walk.request_walk_stop(e["reason"])
-            elif e["event"] == "thermal_warn":
+            elif e["event"] == "thermal_warn" and self.knee is None:
                 walk.request_walk_stop(e["reason"], then="sink_off", hold_s=2.0)
+            elif e["event"] == "thermal_warn":
+                pass  # --knee-heat owns the 55 C stop and can resume; no stand, no exit
             elif e["event"] == "hard_stop":
                 raise walkhooks.WalkStop("hard_stop", e["reason"])
             elif e["event"] == "thermal_stop":
@@ -107,7 +139,16 @@ class GuardHook:
                   f"warn at {self.tg.warn[sid]:g} C", flush=True)
 
 
-def startup_checks(rep, pyio, smp, guard, errors, tcfg):
+def _load_knee_heat():
+    """Import software/knee_heat.py without a machine path baked into the file."""
+    soft = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "software"))
+    if soft not in sys.path:
+        sys.path.insert(0, soft)
+    import knee_heat
+    return knee_heat
+
+
+def startup_checks(rep, pyio, smp, guard, errors, tcfg, knee_guard=None):
     """Before torque-on: voltages, temperatures and register 13 of every servo."""
     volts, temps = smp.read_all()
     if not volts:
@@ -135,6 +176,15 @@ def startup_checks(rep, pyio, smp, guard, errors, tcfg):
     if not cool:
         print(f"servo(s) too hot to start: {hot}; let them cool")
         return None, 9
+    if knee_guard is not None:
+        k_ok, k_hot = knee_guard.check_start(temps)
+        rep.add("K.start", "every servo under the 55 C knee-heat stop before walking",
+                "PASS" if k_ok else "FAIL",
+                {str(k): v for k, v in k_hot.items()} if not k_ok else "under 55 C",
+                "< 55 C", "software/knee_heat.py")
+        if not k_ok:
+            print(f"servo(s) at the knee-heat stop: {k_hot}; let them cool")
+            return None, 9
     return tg, 0
 
 
@@ -148,6 +198,9 @@ def main(argv=None):
     t.add_argument("--stop-margin-c", type=float, default=8.0, help="torque off at limit minus this")
     t.add_argument("--groups", type=int, default=2, help="staggered read groups (2 = 7 servos per tick)")
     t.add_argument("--no-thermal", action="store_true")
+    t.add_argument("--knee-heat", action="store_true",
+                   help="55 C walk stop, torque off when idle or sitting, resume below 45 C "
+                        "(software/knee_heat.py). The boot service passes this.")
     ap.add_argument("--poweroff-cmd", default="sudo -n /usr/bin/systemctl poweroff",
                     help="run after a battery hard stop; '' to skip")
     ap.add_argument("--dry-run", action="store_true", help="print the power off command instead of running it")
@@ -164,6 +217,12 @@ def main(argv=None):
     cfg = bg.config_from_args(a)
     tcfg = thermal.ThermalConfig(warn_margin_c=a.warn_margin_c, stop_margin_c=a.stop_margin_c)
     guard = bg.BatteryGuard(cfg, state=bg.WALKING)
+    knee = None
+    gate = None
+    if a.knee_heat:
+        knee_mod = _load_knee_heat()
+        knee = knee_mod.KneeHeatGuard()
+        gate = knee_mod.TorqueGate()
 
     # 1. pypot first (before rustypot takes the port exclusively), then the start checks
     pyio = bus.open_pypot(a.serial_port, sync_read=True, errors=errors)
@@ -172,7 +231,7 @@ def main(argv=None):
     except Exception:                     # noqa: BLE001
         pass
     smp = sampler.GuardSampler(pyio, groups=a.groups, errors=errors)
-    tg, code = startup_checks(rep, pyio, smp, guard, errors, tcfg)
+    tg, code = startup_checks(rep, pyio, smp, guard, errors, tcfg, knee_guard=knee)
     if code:
         rep.finish(out)
         return code
@@ -186,7 +245,7 @@ def main(argv=None):
               ",".join(f"v_{i}" for i in joints.IDS) + "\n")
     tlog = open(out / f"thermal_{stamp}.csv", "w")
     tlog.write("t_s,hottest_id,joint,temp_c,limit_c,warn_c,stop_c,margin_to_warn_c\n")
-    hook = GuardHook(guard, smp, log, a.max_seconds, tg, tlog)
+    hook = GuardHook(guard, smp, log, a.max_seconds, tg, tlog, knee=knee, gate=gate)
     walk, rt = walkhooks.make_walk(a, [hook], errors, dict(settle_s=a.settle_s, blend_s=a.blend_s))
     rep.data["runtime"] = dict(dir=str(rt), commit=paths.runtime_commit(rt), pin=paths.RUNTIME_PIN)
     code = 0
@@ -232,9 +291,15 @@ def main(argv=None):
                 f.close()
     if walk.torque_check is not None and not walkhooks.report_torque_check(rep, "11.torque_off", walk.torque_check):
         code = walkhooks.EXIT_TORQUE_ON
-    for ev in guard.events + (tg.events if tg else []):
-        rep.add(f"11.{ev['event']}" if not ev["event"].startswith("thermal") else f"T.{ev['event']}",
-                ev["reason"], "INFO", ev.get("value", ev.get("temp_c")), None, f"t {ev['t']} s")
+    knee_events = knee.events if knee else []
+    for ev in guard.events + (tg.events if tg else []) + knee_events:
+        if ev["event"] in ("warn_stop", "resume", "torque_off"):
+            item = f"K.{ev['event']}"
+        elif ev["event"].startswith("thermal"):
+            item = f"T.{ev['event']}"
+        else:
+            item = f"11.{ev['event']}"
+        rep.add(item, ev["reason"], "INFO", ev.get("value", ev.get("temp_c")), None, f"t {ev['t']} s")
     rep.add("11.stop", "stop sequence", "INFO", walk.stop_log or "none")
     if tg:
         rep.add("T.max", "hottest reading per servo during the run", "INFO",
@@ -249,7 +314,8 @@ def main(argv=None):
                 "PASS" if st["over_budget_frac"] <= 0.05 else "WARN", st["over_budget_frac"], "<= 0.05",
                 "lab advisory limit")
     rep.add("11.errors", "bus errors (pypot and rustypot)", "INFO", errors.snapshot())
-    rep.data.update(events=guard.events, thermal_events=tg.events if tg else [], config=cfg.as_dict(),
+    rep.data.update(events=guard.events, thermal_events=tg.events if tg else [],
+                    knee_heat_events=knee.events if knee else [], config=cfg.as_dict(),
                     thermal_config=tcfg.as_dict(), log=str(log_path), stop_log=walk.stop_log, loop=st,
                     torque_check=walk.torque_check)
     rc = rep.finish(out)

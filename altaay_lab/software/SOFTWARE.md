@@ -1,6 +1,6 @@
 # SOFTWARE: what runs where, what is checked, what is only simulated
 
-Written 2026-11-02 by the Claude Code software agent (agent S); sections 1 and 6 to 9 updated 2026-11-02 about 4:50 AM ET by agent SW (walking log on its own timer in the loop's idle time, time under 6.0 V counted by phase for every servo, stability runs). Companion to software/PI_SETUP.md (install steps) and TEST_PLAN.md (bench tests). Tags: [U] upstream file and line (Open_Duck_Mini_Runtime at 376de65 unless named), [I] internet page, [L] lab file, script or test in this repo. "Sim pass only" marks MuJoCo or ngspice results; "simulated bus" marks tests against bench/tests/fake_sts3215.py.
+Written 2026-11-02 by the Claude Code software agent (agent S); sections 1 and 6 to 9 updated 2026-11-02 about 4:50 AM ET by agent SW (walking log on its own timer in the loop's idle time, time under 6.0 V counted by phase for every servo, stability runs). Sections 5, 10, 11 and 12 added 2026-11-11 ET: the program list, the link table, the eye colour note, and the knee heat guard. Companion to software/PI_SETUP.md (install steps) and TEST_PLAN.md (bench tests). Tags: [U] upstream file and line (Open_Duck_Mini_Runtime at 376de65 unless named), [I] internet page, [L] lab file, script or test in this repo. "Sim pass only" marks MuJoCo or ngspice results; "simulated bus" marks tests against bench/tests/fake_sts3215.py.
 
 ## 1. What runs where
 
@@ -8,6 +8,7 @@ Written 2026-11-02 by the Claude Code software agent (agent S); sections 1 and 6
 |---|---|---|
 | Pi Zero 2 W, main thread | Runtime walk loop at 50 Hz: per cycle 2 sync reads (position, velocity) and 1 sync write (goal) over rustypot, ONNX policy (BEST_WALK_ONNX_2) | [U] scripts/v2_rl_walk_mujoco.py RLWalk.run, mini_bdx_runtime/rustypot_position_hwi.py |
 | same thread, between cycles | lab hooks: staggered voltage and temperature read (pypot), battery guard, temperature guard; the walking log's reads run only inside the loop's own end-of-cycle sleep (section 6) | [L] bench/odm_bench/walkhooks.py, sampler.py, vsampler.py, thermal.py; bench/battery_guard.py, power_log.py |
+| same thread, only with --knee-heat | knee heat guard: warn and stop at 55 C, torque off while idle or sitting, resume below 45 C (section 5). The boot service passes the flag | [L] software/knee_heat.py, software/odm-walk-guard.service |
 | Pi, other threads | BNO055 reader (I2C, raw_imu.py), Xbox pad reader (pygame), eyes blink | [U] raw_imu.py lines 123-148, xbox_controller.py, eyes.py |
 | Pi, systemd | software/odm-walk-guard.service (replaces the image's open-duck-walk.service) | [L] |
 | Windows PC | Castle Link (BEC 7.2 V, D3), Feetech tool if firmware must be updated (G3) | TEST_PLAN 0 |
@@ -78,7 +79,19 @@ Both run inside the walk thread, on one staggered SYNC READ of registers 62 and 
 **Servo temperature (odm_bench/thermal.py).** Max Temperature Limit (register 13) is read from every servo before torque-on. Warn at limit - 15 C, stop at limit - 8 C, each confirmed by 2 reads of the same servo in a row. With the factory 70 C [I REGISTER_REFERENCE.md] that is 55 C and 62 C. Start refused if any servo is already at its warn level.
 - Warn: the same stand sequence as the battery walk stop, then 2 s standing, then a 2 s sink with the Runtime's low gains (HWI.low_torque_kps = 2), then HWI.turn_off(). The Runtime has no sit pose: HWI has init_pos = standing and zero_pos = straight legs [U rustypot_position_hwi.py lines 33-69]. Stop: low gains 0.5 s, torque off, at once. Neither powers off. The hottest servo is logged every second (thermal_<time>.csv).
 - Where the margins come from: at the limit the servo unloads itself, one joint at a time (Unload Condition register 19 = 44 includes the temperature bit [I REGISTER_REFERENCE.md]). D2 sets the lab's continuous-duty edge at limit - 10 C. The warn at limit - 15 C stops 5 C before that edge, because the reading keeps rising after a stop (holding current; the sensor is not the winding). The stop at limit - 8 C leaves room for the 1 C step, the 0.5 s read period, the 2-read confirmation and the sink. Both are lab choices. The heating rate is not published, so check them against the TEST_PLAN 7.3 log (C per second at 1.5 Nm). The sim agent's knee copper loss of 3 to 5.5 times the rated 1.06 W (coordinator note) is why this guard exists.
-- Tests on the simulated bus with the real walk loop: a left knee rising 1 C/s gives warn, stand, sink, torque off (exit 7). A right knee with its own 65 C limit rising 5 C/s gives warn, then the stop at 57 C (exit 8). A knee at 58 C at start refuses to start (exit 9) [L tests/test_thermal_guard.py].
+- Tests on the simulated bus with the real walk loop: a left knee rising 1 C/s gives warn, stand, sink, torque off (exit 7). A right knee with its own 65 C limit rising 5 C/s gives warn, then the stop at 57 C (exit 8). A knee at 58 C at start refuses to start (exit 9) [L tests/test_thermal_guard.py]. Those three tests do not pass --knee-heat, so they still take the stand and sink path.
+
+**Knee heat rest (software/knee_heat.py).** The knee heat study's first recommendation, on top of the guard above. The Runtime is not edited (D6). The boot unit passes --knee-heat. Without that flag the older warn path (stand, sink, exit 7) is unchanged.
+
+- Stop at 55 C. Two readings of the same servo at or above 55 C warn and stop the walk. Any of the 14 servos counts, not only the knees. The knee ids are 13 and 23 (software/servo_limits.json). 55 C is the study's cap. It is the same number as the warn above when the factory limit is 70 C. It is a set point, not a measured knee.
+- Resume below 45 C. After a stop, two readings in a row whose hottest servo is strictly under 45 C allow the walk again. 45.0 C does not. 45 C is the live twin's walk-again temperature (STATE.md, sim pass only). The study says a torque-on stand in a 32 C room can settle near 48 to 50 C (sim pass only), so 45 C may never arrive if torque stays on. This rest turns torque off.
+- Idle and sitting are torque off even when the servos are cool. The walk treats a pad pause as idle. No sit program is written. A caller that has one passes posture sitting to this guard (D59). Any other posture word is treated as idle.
+- While torque is off, goal writes are skipped. A goal write can turn torque back on by itself (section 8, not checked on a servo).
+- The older hard stop, limit minus 8 C, still ends the process and does not resume. On a factory 70 C limit that stop is 62 C, so the 55 C rest comes first. A lower register 13 can make the older stop come first.
+- Readings outside 0 to 120 C are dropped, as in the older guard. A start at or above 55 C is refused (exit 9) when --knee-heat is on.
+- The study's 17 walking minutes at 32 C and 26 at 25 C, inside a 90 minute session with torque-off rests, are calc only on a sim current held at 1.45 A (the knee heat study, rank 1). This program does not repeat that calc. It has not run on a servo.
+
+Tests, no hardware: software/tests/test_knee_heat.py. A rising knee stops on the second 55 C sample, ignores one spike, stays stopped at 45 C, and resumes on the second sample under 45 C. Idle and sitting turn torque off while cool. A hot sit stays off until the posture is walking and the servo is cool. The boot service file contains --knee-heat.
 
 **D2 thermal test caution (TEST_PLAN 7.3).** 1.5 Nm on a C001 is about 2.0 A at its stall ratio (1.91 Nm at 2.5 A [I datasheet via SERVO_DEEP_DIVE.md]). The factory protection current is also 2.0 A (register 28 = 310 x 6.5 mA) for 2 s (register 35 = 200 x 10 ms) [I REGISTER_REFERENCE.md]. The hold may trip the servo's own unload. first_servo_check.py reports that as INCOMPLETE [L tests/test_first_servo_check.py]. A hold near the sim walking RMS (1.45 A, about 1.1 Nm, sim/CURRENT_BUDGET.md, sim pass only) stays clear.
 
@@ -124,6 +137,7 @@ What is real and what is simulated:
 | power_log.py | 8.1, 9 | inventory pass; missing ID, register 85 and firmware mismatch fail; checksum errors fail; gates (a knee, the head roll or a hip over 10 % fails by ID; a late dip or too few readings is INCOMPLETE; the wiring check per feeds); on a virtual clock with a dip locked to the goal writes: the time count matches the exact share at 26 to 55 % coverage, the old once-per-cycle count reads 0 or 100 %, a fixed 27 ms timer locks to the 27-cycle gait and the random one does not, a late read is counted; a saved CSV re-scored with --analyze; real walk: the same dip counted in time while the old log reads about 1 %, the sim nominal profile fails 9.time6 as the sim predicts with the 4.5 V and wiring gates passing, a guard hard stop with a servo that keeps torque exits 10 |
 | battery_guard.py, walk_with_guard.py | 11 | synthetic: healthy, dips, slow discharge, lost reads, implausible readings, start check; replays of 5 sim profiles; real walk: start refused, full walk-stop-to-power-off sequence, G10 panic caught |
 | odm_bench/thermal.py in walk_with_guard.py | (new) | rising knee: warn then stop; spike ignored; per-servo limits; real walk: warn path, fast-rise stop path, too hot to start |
+| software/knee_heat.py | (knee heat study) | no hardware: stop at 55 C, resume only under 45 C, idle and sitting torque off, one spike ignored, goal writes skipped during the rest. Run: `python3 -m unittest discover -s altaay_lab/software/tests -v` |
 | imu_check.py | 10.1, 10.2 | clean 1000 reads pass; G2 bit flips and I2C errors fail; all six tilt steps pass; four wrong mountings fail; upside-down board with imu_upside_down true passes |
 | feet_check.py | 12 | open, stand, flicker, 20 presses per foot pass; swapped wires, missed presses, bounce caught |
 | crosscheck.py | (SOFTWARE 2) | rows above |
@@ -132,7 +146,7 @@ What is real and what is simulated:
 
 - Sim pass only: the IMU frame (section 4); the voltage profiles and the mapping in section 5; the ankle-gate prediction: as wired (D15 plus SP4/SP5), nominal pack, typical corner, the ankles are under 6.0 V 4.8 % (trained mass) to 6.4 % (our 2.65 kg build) of the walk counted in time, 0 to 18 % in 50 Hz samples locked to the control loop; the knees reach 9.8 % and the head roll 6.8 % (sim/POWER_PATH_SIM.md 'As built'). The 30 % and 34 % of tests/data/sim_profiles_summary.json are the star wiring without the feeds, sampled at 50 Hz in phase. Also the timer period study of section 6, on the sim/power_fix.py voltage traces.
 - Simulated bus only: every bench script end to end, the stop sequences, the G10 panic and its handling, the pypot write loss and the drained flush, the configure read-back; the walking log's idle-time reads, its late-read count and its time count against an exact answer (section 6).
-- Not verified anywhere (UNVERIFIED): servo behaviour beyond the register table (torque auto-enable on a goal write, which the fake assumes because HWI.turn_on never writes register 40 [U rustypot_position_hwi.py lines 90-101]); Present Voltage filtering and rounding, and the moment a servo copies it into its sync read reply (the time count assumes at its turn, after the replies ahead of it; if it is earlier the count errs high); USB round-trip time; Pi CPU time, and so the share of each cycle the walking log can read on the robot (report item 9.coverage measures it); the real rate of lost pypot writes; Blinka 9.2.0 and RPi.GPIO 0.7.1 on a real Zero 2 W with kernel 6.12; Imager customisation of a custom image; the contents of image 0.2.3.
+- Not verified anywhere (UNVERIFIED): the knee heat guard on a real servo (the unit tests drive the logic with numbers, not a bus); servo behaviour beyond the register table (torque auto-enable on a goal write, which the fake assumes because HWI.turn_on never writes register 40 [U rustypot_position_hwi.py lines 90-101]); Present Voltage filtering and rounding, and the moment a servo copies it into its sync read reply (the time count assumes at its turn, after the replies ahead of it; if it is earlier the count errs high); USB round-trip time; Pi CPU time, and so the share of each cycle the walking log can read on the robot (report item 9.coverage measures it); the real rate of lost pypot writes; Blinka 9.2.0 and RPi.GPIO 0.7.1 on a real Zero 2 W with kernel 6.12; Imager customisation of a custom image; the contents of image 0.2.3.
 
 ## 9. Bench commands by TEST_PLAN section
 
@@ -147,3 +161,55 @@ What is real and what is simulated:
 | 11 | `python battery_guard.py --monitor --state standing` with a bench supply sweep; `python battery_guard.py --replay tests/data/sim_star_discharge.csv` |
 | 12 | `python feet_check.py --open`, `--presses 200`, `--stand` |
 | any | `python crosscheck.py`, `python timing_budget.py` |
+
+## 10. Programs on the robot
+
+Where each program lives, and whether it has been run. "Simulated bus" means bench/tests/fake_sts3215.py. Nothing in this table has run on the robot.
+
+| Program | Where | Status |
+|---|---|---|
+| Boot | software/PI_SETUP.md, software/check_pi_setup.sh, software/odm-walk-guard.service | Written. PI_SETUP.md says those steps were not run on a Pi. The service starts the guarded walk and passes --knee-heat. |
+| Walk loop | Runtime scripts/v2_rl_walk_mujoco.py at 376de65, started by bench/walk_with_guard.py | Runtime file unmodified (D6). The lab hook is written and tested on a simulated bus (section 7). |
+| Policy | BEST_WALK_ONNX_2. The checksum is in software/check_pi_setup.sh | Stock policy. The lab has not trained one. |
+| Battery guard | bench/battery_guard.py | Written. Simulated bus (section 7). |
+| Temperature guard | bench/odm_bench/thermal.py | Written. Simulated bus. This is the older warn at limit minus 15 C, then a stand and a sink (section 5). |
+| Knee heat guard | software/knee_heat.py | Written. Unit tests with no hardware (section 5). Switched on by the boot service. Not run on a servo. |
+| Eyes | Runtime eyes.py | Unmodified. Dim warm white beads (D57, section 12). |
+| IMU reader | Runtime raw_imu.py | Unmodified. The bench check is bench/imu_check.py. |
+| Feet | Runtime feet_contacts.py | Unmodified. The bench check is bench/feet_check.py. |
+| Angle limits and calibration | bench/set_angle_limits.py, software/servo_limits.json, software/CALIBRATION.md | Written. servo_limits.json is labelled calc (the stop moved 3 deg). Not run on a servo. |
+| Logging | bench/power_log.py; the guard CSV and the thermal CSV from walk_with_guard.py; the service journal | Written. The walking log is tested on a simulated bus (sections 6 and 7). |
+| Earlier dock behaviour | software/dock/ | Written for the tag dock (D43), with unit tests in software/dock/tests. charge_state() returns NONE. D61 dropped tags. This is not the nest program. |
+| Nest vision | no file | Not written. D61 asks for the camera and no tags. BLOCKER: this pass has no camera model and no scored nest task. |
+| Charging | no charge program | Not written. The charger inside the duck is not designed yet. BLOCKER. The dock stub above is not a charger. |
+| Updates | software/PI_SETUP.md step 2, one apt full-upgrade at install | No updater after that. Not written. |
+| Ear PWM | Runtime antennas.py | Still Blinka software PWM. Writing the hardware PWM channels would edit the Runtime, which D6 does not allow (D53). Not written. |
+
+## 11. Communications
+
+One row per link. A time that is not in a cited file, and was not measured on this duck, is BLOCKER. Byte times that follow from a cited bit rate are calc only. Nothing here was measured on a Pi.
+
+| Link | Protocol | Rate | Latency | Nets in wiring/netlist.yaml |
+|---|---|---|---|---|
+| Servo bus | Feetech half duplex, 8N1. rustypot for the walk, pypot for the guards (section 3) | 1 000 000 baud (section 2, the Runtime) | One byte is 10 us, and one 14-servo control cycle is 318 bytes, 3.18 ms on the wire (section 6). Calc only. The USB round trip is not published (section 8): BLOCKER. The servo's answer delay is not published (twin/electrical/ELECTRICAL_TWIN.md): BLOCKER | BUS_DATA. Cable D1 carries it as USB_LINK from PI.USB to the adapter, then SD1 and the kit data leads |
+| I2C | One bus. BNO055 at 0x28, MPR121 at 0x5A and 0x5B, VL53L4CD at 0x29 (netlist notes on I2C_SDA) | 100 kHz. Hardware default, and the software-I2C delay of 2 us is about the same (software/PI_SETUP.md sections 4 and 4b) | One bit is 10 us, calc only from 100 kHz. A full transaction on this duck is not published: BLOCKER | I2C_SDA and I2C_SCL. Cables D2 (IMU), D16 (head touch), D19 (body touch), D21 (cliff sensor) |
+| I2S | Pi is the clock master. Playback and capture, S32_LE (twin/companion/COMPANION.md section 2, cited from the codec) | 48 kHz. BCLK is 3.072 MHz (same section) | One sample is 20.8 us (same section: the sample period, cited, not a measured delay through the program). The time from the mic to a sample in software is not published: BLOCKER | I2S_BCLK pin 12, I2S_LRC pin 35, I2S_DIN pin 40, I2S_MIC pin 38, AMP_SD pin 36. Cables D10 (amp), D14 and D15 (mics) |
+| CSI | Camera Module 3 on the Pi camera port. The netlist points at picamzero | The frame rate on this duck is not published: BLOCKER | The frame delay is not published: BLOCKER | CSI_LINK. Cable D12, PI.CSI to CAM.CSI, 300 mm |
+| USB | Pi OTG port to the CH343 adapter, cdc-acm, /dev/ttyACM0. Section 6 calls that adapter full speed | The servo bytes in the first row are what this link carries. A measured USB bit rate is not in the repo: BLOCKER | The round trip is not published (sections 6 and 8): BLOCKER | USB_LINK. Cable D1, PI.USB to U2.USB |
+| Wi-Fi | 2.4 GHz on the Pi Zero 2 W (PARTS_AUDIT.md, the product brief). D46: not used for docking | Not measured on this duck: BLOCKER | Not measured: BLOCKER | No wire. The radio is on the Pi. Not a net |
+| Bluetooth | Bluetooth 4.2 and BLE, same brief. The pad uses it (software/PI_SETUP.md). Direction finding is not in this build (D48) | Not measured: BLOCKER | Not measured: BLOCKER | No wire. Onboard antenna. Not a net |
+
+## 12. Lights (D57)
+
+D57 is the colour decision: one dim warm white bead per eye. No colour eyes. The RGBW part on GPIO10 is not added, and GPIO10 stays free (DECISIONS.md D57). The eyes stay on GPIO24 and GPIO23 through 100 ohm (D13, D9). The projector stays a white bead on GPIO25 with the same 100 ohm (D13, D33).
+
+BOM line E3 is "1 W warm white LED beads" with no manufacturer part number. PARTS_AUDIT.md marks that line NOT ORDERABLE. This note does not change the bill.
+
+The dome sits in the bulb's 8.0 mm centre hole (MOUNTING.md). A 5 mm lamp fits that hole. The drive is a Pi GPIO at 3.3 V through 100 ohm (D13). The resistor is BOM line E3b. D13's "about 3 mA" is that decision's estimate, not a measured current.
+
+Two real parts were opened on 2026-11-11. Neither closes E3.
+
+- Kingbright WP7113QWC/D, datasheet https://www.kingbrightusa.com/images/catalog/SPEC/WP7113QWC-D.pdf . 5 mm, so the dome fits the 8.0 mm hole. Forward voltage typical 3.3 V at 20 mA, maximum 4.0 V. Chromaticity x = 0.31, y = 0.31, which the maker's index calls cool white. That is not D57's warm white. At the 20 mA test point the typical forward voltage equals the GPIO high, so the current in 100 ohm is not the 3 mA estimate. A low-current forward voltage is not on that page.
+- Lite-On LTW-420C5, datasheet https://media.digikey.com/pdf/Data%20Sheets/Lite-On%20PDFs/LTW-420C5.pdf . 3 mm. Forward voltage 3.6 V minimum and 4.1 V maximum at 20 mA. Chromaticity 0.30, 0.30. It does not light from 3.3 V, and it is not warm. Rejected.
+
+E3 stays open. BLOCKER: a warm-white datasheet, a dome of at most 8.0 mm, and a forward voltage low enough that 3.3 V through 100 ohm passes current. The projector is the third bead on the same line, so the same gap covers it.
