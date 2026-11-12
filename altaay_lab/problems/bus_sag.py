@@ -102,29 +102,37 @@ def chain_ohms(kit_awg, contact):
 
 
 class _Cap(object):
+    """Backward-Euler companion of a shunt capacitor at each knee port.
+
+    i = (C/dt) * (v - v_prev). The first step stores the solved port voltage
+    and draws nothing, so the part is already charged and there is no inrush.
+    A smaller C is a smaller conductance. ESR is 0.
+    """
+
     def __init__(self, farads):
         self.C = farads
-        self.i_wire = None
+        self.v_prev = None
         self.idx = None
 
     def wrap(self, servo_current):
         cap = self
+        g = cap.C / DT
 
         def wrapped(vs):
             i = np.array(servo_current(vs), float)
-            if cap.idx is None:
+            if cap.idx is None or cap.v_prev is None:
                 return i
-            if cap.i_wire is None:
-                cap.i_wire = i[cap.idx].copy()
-            out = i.copy()
-            out[cap.idx] = cap.i_wire
-            return out
+            vs = np.asarray(vs, float)
+            i = i.copy()
+            i[cap.idx] += g * (vs[cap.idx] - cap.v_prev)
+            return i
 
         def slope(vs):
             cur, d = servo_current.slope(vs)
             d = np.array(d, float).copy()
-            if cap.idx is not None:
-                d[cap.idx] = 0.0
+            if cap.idx is not None and cap.v_prev is not None:
+                for k in cap.idx:
+                    d[k] += g
             return wrapped(vs), d
 
         wrapped.slope = slope
@@ -142,13 +150,7 @@ def _solve(self, servo_current, vcell=None, qm=None, tol=1e-7, maxit=40):
         _CAP.idx = [PN.NAMES.index(n) for n in KNEES]
     wrapped = _CAP.wrap(servo_current)
     y = _SOLVE(self, wrapped, vcell=vcell, qm=qm, tol=tol, maxit=maxit)
-    vs = y[self.osv]
-    i_srv = np.array(servo_current(vs), float)
-    # Favourable bound: R_th = 0.5 ohm, larger than one 22 AWG feed, so the
-    # capacitor is given every chance. tau = R C is still far under one step.
-    tau = max(0.5 * _CAP.C, 1e-9)
-    a = min(1.0, DT / tau)
-    _CAP.i_wire = _CAP.i_wire + a * (i_srv[_CAP.idx] - _CAP.i_wire)
+    _CAP.v_prev = np.array(y[self.osv], float)[_CAP.idx].copy()
     return y
 
 
@@ -185,7 +187,7 @@ def one(name, corner, mutate=None, extra=None, cap=0.0, q0=0.0, cell_mode="stead
         mutate(d)
     apply_lengths(d)
     _CAP.C = cap
-    _CAP.i_wire = None
+    _CAP.v_prev = None
     _CAP.idx = None
     print("RUN", name, corner, flush=True)
     r = ET.run(
@@ -244,7 +246,7 @@ def main():
                              awg16_plus_50mm_22={s: round(v, 4) for s, v in feed_16.items()}),
         cap_F=CAP_F,
         cap_tau_s_at_0p5_ohm=round(0.5 * CAP_F, 6),
-        cap_note="470 uF is the per-servo figure assumed in ELECTRICAL_TWIN.md (14 x 470 uF). ESR is 0 here, a bound.",
+        cap_note="470 uF at each knee port, ESR 0. Backward Euler: i = (C/dt)*(v - v_prev). The first step stores the port voltage and draws nothing. The 0.235 ms figure is R C at 0.5 ohm, not the model.",
         inj_knee_mm=PF.INJ_KNEE_MM,
     )
     print(json.dumps(info, indent=1), flush=True)

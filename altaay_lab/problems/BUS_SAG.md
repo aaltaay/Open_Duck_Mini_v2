@@ -19,7 +19,7 @@ One conductor from the splice to the knee, with no parallel feed, is 0.096 ohm o
 
 ## Each change
 
-22 AWG is the thickest gauge the harness note's Mini-SPOX terminal takes (22 to 28 AWG, cited there). The kit hops are 24 AWG on the typical corner and 26 AWG on the high-side corner. The 16 AWG feed keeps a 50 mm 22 AWG tail so that terminal still fits. 16 AWG is already the gauge of P11. The route-worst lengths, 348 mm and 377 mm, are the numbers already written on the SP4 and SP5 wire lines, before the slack those lines add. The knee star uses the 420 mm knee-injection length already in sim/power_fix.py and lands that feed on the knee instead of the ankle. The 470 uF is the per-servo figure assumed in twin/electrical/ELECTRICAL_TWIN.md. Its ESR is 0 in this run, which is the bound that helps the capacitor most.
+22 AWG is the thickest gauge the harness note's Mini-SPOX terminal takes (22 to 28 AWG, cited there). The kit hops are 24 AWG on the typical corner and 26 AWG on the high-side corner. The 16 AWG feed keeps a 50 mm 22 AWG tail so that terminal still fits. 16 AWG is already the gauge of P11. The route-worst lengths, 348 mm and 377 mm, are the numbers already written on the SP4 and SP5 wire lines, before the slack those lines add. The knee star uses the 420 mm knee-injection length already in sim/power_fix.py and lands that feed on the knee instead of the ankle. The 470 uF is the per-servo figure assumed in twin/electrical/ELECTRICAL_TWIN.md. Its ESR is 0. The knee port current includes the backward-Euler companion i = (C/dt) times (v - v previous). The first step stores the port voltage and draws nothing, so there is no inrush.
 
 | Change | Typical fall | Typical knee dips | High-side fall | High-side knee dips |
 |---|---|---|---|---|
@@ -27,13 +27,13 @@ One conductor from the splice to the knee, with no parallel feed, is 0.096 ohm o
 | Feeds cut down to the route worst | 3.54 s | 5.706 V, 5.817 V | 3.46 s | 5.096 V, 5.285 V |
 | 16 AWG feed, 22 AWG tail | 3.58 s | 5.977 V, 6.002 V | 3.46 s | 5.218 V, 5.344 V |
 | Star feed to the knee | 3.56 s | 5.901 V, 5.980 V | 3.46 s | 5.339 V, 5.432 V |
-| 470 uF at each knee, ESR 0 | 3.54 s | 5.871 V, 5.857 V | 3.40 s | 5.362 V, 5.552 V |
+| 470 uF at each knee, ESR 0 | 3.56 s | 5.745 V, 5.843 V | 3.42 s | 5.142 V, 5.297 V |
 | Cell pulses at the cited 7 mOhm AC | 3.54 s | 6.041 V, 6.036 V | 3.44 s | 5.227 V, 5.393 V |
 | All of the wire changes together | 3.56 s | 6.093 V, 6.087 V | 3.50 s | 5.395 V, 5.477 V |
 
 No row walks 20 s. The largest dip move is the stacked wire change: typical knees 6.09 V against 5.79 V as built, high-side 5.40 V and 5.48 V against 5.27 V and 5.24 V. The fall stays at 3.5 s. There is no smallest change in this set that walks 20 s on both corners, because none of them do.
 
-The capacitor time constant at 0.5 ohm is 0.235 ms (calc only, 470 uF times 0.5 ohm). A control step is 20 ms. The capacitor is finished long before the knee sag. The walk times match the as-built fall.
+The product R C at 0.5 ohm is 0.235 ms (calc only). That is not the model. The model is the companion above, and a smaller capacitor is a smaller conductance. With 470 uF the walk still falls at 3.56 s and 3.42 s, the same times as the as-built row. The stored charge of 470 uF across a 1 V move is 0.47 mC (calc only), which is a fraction of a millisecond at 2 A. It does not hold the sag.
 
 ## Pack sag, fresh cell
 
