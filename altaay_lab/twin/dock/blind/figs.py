@@ -13,19 +13,19 @@ plt.rcParams.update({"font.size": 9, "axes.edgecolor": GRID, "axes.labelcolor": 
                      "ytick.color": MUT, "text.color": INK, "axes.spines.top": False, "axes.spines.right": False,
                      "figure.facecolor": SURF, "axes.facecolor": SURF, "font.family": "DejaVu Sans"})
 
-# counts of 540, from score.py on blind_runs_b190.json and blind_runs_b215.json
-labels = ["falls", "first sit\ncharges", "within 3 sits\ncharges", "first seat inside\nthe flush window"]
-a190 = [1, 35, 98, 380]
-a215 = [2, 26, 92, 370]
+# counts of 540. Headline is the flush window. The old sun-and-ring pin test is the smaller pair.
+labels = ["falls", "flush window\nfirst sit", "flush window\nwithin 3 sits", "old sun pins\nfirst sit", "old sun pins\nwithin 3 sits"]
+a190 = [1, 380, 386, 35, 98]
+a215 = [2, 370, 374, 26, 92]
 x = np.arange(len(labels))
 w = 0.36
-fig, ax = plt.subplots(figsize=(8.2, 4.0))
+fig, ax = plt.subplots(figsize=(9.4, 4.2))
 b1 = ax.bar(x - w / 2, a190, w, color="#1f7a4d", label="190 mm, approved")
 b2 = ax.bar(x + w / 2, a215, w, color="#2a78d6", label="215 mm, study only")
 ax.set_xticks(x)
 ax.set_xticklabels(labels)
 ax.set_ylabel("runs, of 540")
-ax.set_ylim(0, 480)
+ax.set_ylim(0, 500)
 ax.legend(frameon=False)
 ax.grid(axis="y", color=GRID, lw=0.7)
 ax.tick_params(length=0)

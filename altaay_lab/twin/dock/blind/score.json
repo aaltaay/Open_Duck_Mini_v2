@@ -100,5 +100,56 @@
     "p90": 0.78
    }
   }
+ },
+ {
+  "file": "blind_runs_command.json",
+  "n": 540,
+  "crashed": 0,
+  "wall_x_m": 0.19,
+  "all": {
+   "n": 540,
+   "falls": 0,
+   "first_sit": 0,
+   "within_3": 0,
+   "reached_a_sit": 528,
+   "first_seat_in_window": 1,
+   "any_sit_in_window": 1,
+   "last_fix_m": {
+    "n": 528,
+    "median": 0.581,
+    "p10": 0.502,
+    "p90": 0.707
+   }
+  },
+  "6.0": {
+   "n": 270,
+   "falls": 0,
+   "first_sit": 0,
+   "within_3": 0,
+   "reached_a_sit": 267,
+   "first_seat_in_window": 0,
+   "any_sit_in_window": 0,
+   "last_fix_m": {
+    "n": 267,
+    "median": 0.535,
+    "p10": 0.48,
+    "p90": 0.589
+   }
+  },
+  "7.2": {
+   "n": 270,
+   "falls": 0,
+   "first_sit": 0,
+   "within_3": 0,
+   "reached_a_sit": 261,
+   "first_seat_in_window": 1,
+   "any_sit_in_window": 1,
+   "last_fix_m": {
+    "n": 261,
+    "median": 0.628,
+    "p10": 0.579,
+    "p90": 0.764
+   }
+  }
  }
 ]
