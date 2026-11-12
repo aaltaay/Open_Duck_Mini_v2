@@ -9,7 +9,7 @@ charger that D61 moves inside the body, and open cloth contacts on a floor mat. 
 
 ## Top 3 that can force a design change before freeze
 
-These three can change the nest, the bay, or where the charger sits. The others below can add labels, tests,
+These three can change the nest, the pack, or where the charger sits. The others below can add labels, tests,
 or a decision about who the duck is sold to. They are less clear as a shape change before freeze.
 
 1. **The cloth on the floor is a live contact while the duck charges.** D61 keeps only two wires. The mat is
@@ -30,14 +30,15 @@ or a decision about who the duck is sold to. They are less clear as a shape chan
    cannot hold those limits, the charger has to move back out or become a switcher. Either one changes the
    two-wire nest. The MCP73213 datasheet itself was not opened, so dropout and the timer are still BLOCKER.
 
-3. **The pack is two loose cells, spot welded, and the bay is tighter than the opened cell sheet.** 49 CFR
-   173.185, as returned by the public rule search, says each lithium cell or battery must be of a type proven
-   to meet UN 38.3. A pack built in the lab is a battery, not only a cell. The full section was not read line
-   by line, so any exception for a pack assembled from tested cells is uncertain. If the pack needs its own
-   test summary before it can be shipped, the bay may have to fit a pack that already has that summary. On
-   size, the opened Molicel P45B sheet (version 1.2) gives 21.55 mm and 70.15 mm as maximums. The bay is drawn
-   at 21.4 by 70 mm (twin/battery/BAY.md). Design for now: do not freeze the bay until it fits the maximums,
-   and do not treat the cell's data sheet as a pack approval.
+3. **The pack is two loose cells, spot welded.** 49 CFR 173.185, as returned by the public rule search,
+   says each lithium cell or battery must be of a type proven to meet UN 38.3. A pack built in the lab is a
+   battery, not only a cell. The full section was not read line by line, so any exception for a pack assembled
+   from tested cells is uncertain. If the pack needs its own test summary before it can be shipped, a pack
+   that already has that summary may not fit this bay, and that would be a design change. On size, the opened
+   Molicel P45B sheet (version 1.2) gives 21.55 mm and 70.15 mm as maximums. That is the top of the
+   21.40 plus or minus 0.15 mm by 70.00 plus or minus 0.15 mm band the bay already used. The sleeved pack in
+   the model is 22.2 by 43.7 by 71.0 mm (CAD check only, twin/battery/bay_edit.py). The cell maximum fits that
+   envelope. Do not resize the bay for this sheet. Do not treat the cell data sheet as a pack approval.
 
 Close behind these, and uncertain as a shape change: the Pi's radio in this plastic body. See the FCC section.
 If the grant does not cover this host, the fix might be a label and a test, or it might be moving metal away
@@ -109,8 +110,8 @@ UN 38.3, and it says it is not a warranty.
 that pack, can require a test summary for the pack as shipped, not only for the cell. The weld, the sleeve,
 and the BMS are not sourced (BOM line 7, PARTS_AUDIT.md).
 
-**Design for now.** Keep the cells as a known type (INR21700-P45B) and keep the bay large enough for the
-sheet's maximum size. Do not ship a welded pack, and do not freeze a "pack" part, until a test-summary path
+**Design for now.** Keep the cells as a known type (INR21700-P45B). The bay's sleeved envelope already
+covers the opened sheet's maximum (twin/battery/bay_edit.py, CAD check only). Do not ship a welded pack, and do not freeze a pack part, until a test-summary path
 is chosen: a pack that already has one, or a lab test of this exact 2S build. The software cutoff in
 TEST_PLAN.md section 11 stays, because the BMS cut the BOM cites (2.40 V per cell) is below the 2.5 V
 discharge floor on the opened cell sheet. That BMS number was not re-read on a Tenergy datasheet this session.

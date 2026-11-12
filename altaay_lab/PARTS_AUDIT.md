@@ -73,7 +73,7 @@ These are inputs the sims and the CAD use that are not a value from a datasheet 
 - Pin tip diameter 2.3 mm and several pin lengths in the nest CAD: estimates. The catalog, now opened, does not show a 2.3 mm round tip. Stroke and standard-spring force on that catalog do match the CAD's force line.
 - Servo stall in the twin is stronger than the Feetech sheet opened here (19.5 kg.cm at 7.4 V). Servo operating temperature on that sheet is -20 C to 60 C. The thermal twin's 70 C cut is not on that sheet. Rotor inertia has not been measured.
 - STS3250 knee torque, damping, and heat: no datasheet opened.
-- Cell envelope drawn at 21.4 x 70 mm. The opened P45B sheet gives 21.55 mm and 70.15 mm as maximums. Weld resistance of the pack is unknown (line 7). Some older twin runs still use a P30B pack model.
+- Cell picture in the viewer is a 21.4 x 70 mm cylinder (nominal, twin/battery/BAY.md). The opened P45B sheet gives 21.55 mm and 70.15 mm as maximums, which is the top of the 21.40 plus or minus 0.15 mm by 70.00 plus or minus 0.15 mm band the bay already used. The sleeved pack is 22.2 x 43.7 x 71.0 mm (CAD check only, twin/battery/bay_edit.py). No bay resize. Weld resistance of the pack is unknown (line 7). Some older twin runs still use a P30B pack model.
 - Charger dropout and the 1.9 to 3.2 W of heat in the trunk: calc only. The thermal twin was not re-run with the charger inside the duck. The MCP73213 sheet was not opened.
 - Camera: the nest sim uses true pose plus noise. It is not a camera model, not a lens, and not room light. The camera brief gives the sensor and the 0 C to 50 C range. It does not give a model of finding a mat.
 - Mat edge in the sim is one 2 mm rise. The CAD edge is two 1 mm steps. Those steps have not been simulated.
@@ -82,7 +82,7 @@ These are inputs the sims and the CAD use that are not a value from a datasheet 
 
 - Do not order DK1 for the nest. Do not order DK5 until the two-wire gate has a real parts list.
 - Add the probe only after the tip code is chosen from the catalog (a round tip, 30 or 40, standard spring S, a tube whose current note is read). Add four 100-SDN250S sockets. Do not press them into PLA until a coupon holds the catalog hole.
-- Size the cell bay to the opened sheet's maximum, 21.55 mm diameter and 70.15 mm height, and say which sheet revision the drawing uses.
+- Do not resize the cell bay for the opened sheet. Its maximum (21.55 mm by 70.15 mm) already fits the sleeved pack of 22.2 x 43.7 x 71.0 mm (twin/battery/bay_edit.py, CAD check only). The open battery item is line 7, the unsourced weld.
 - Give line 7, line 17m, and line 22c real part numbers or drop them from the order with a named substitute.
 - Point the nest charger at a read MCP73213 datasheet and a seated board, or keep the charger out of the duck. Line 11 is not that charger.
 - Record a Raspberry Pi order code for line 3, and a second distributor, because Adafruit 5291 was out of stock.
@@ -103,7 +103,7 @@ Lines with a longer note are in the rows above and repeated here in short form s
 | 4 | microSD | SanDisk SDSQUAR-032G-GN6MA | 1 | Amazon | not opened | UNVERIFIED/BLOCKER | STOCK NOT REOPENED |
 | 5 | IMU | Adafruit 2472, Bosch BNO055 | 1 | Adafruit 2472 | not opened | UNVERIFIED/BLOCKER | STOCK NOT REOPENED |
 | 5b | Cliff sensor (D54) | Adafruit 5396, ST VL53L4CD | 1 | Adafruit | not opened | UNVERIFIED/BLOCKER | STOCK NOT REOPENED |
-| 6 | Li-ion cell | Molicel INR21700-P45B | 2 | 18650 Battery Store | https://www.molicel.com/wp-content/uploads/INR21700P45B_1.2_Product-Data-Sheet-of-INR-21700-P45B-80109.pdf | MISMATCH | NOT TODAY |
+| 6 | Li-ion cell | Molicel INR21700-P45B | 2 | 18650 Battery Store | https://www.molicel.com/wp-content/uploads/INR21700P45B_1.2_Product-Data-Sheet-of-INR-21700-P45B-80109.pdf | VERIFIED | NOT TODAY |
 | 7 | 2S pack build (D44) | none | 1 | not chosen | none | UNVERIFIED/BLOCKER | NOT ORDERABLE |
 | 8 | 2S BMS | Tenergy 32175 | 1 | Tenergy (Fremont, CA) | not opened | UNVERIFIED/BLOCKER | STOCK NOT REOPENED |
 | 9 | 5 V regulator | Pololu 4892, D30V30F5 | 1 | Pololu (Las Vegas, NV) | not opened | UNVERIFIED/BLOCKER | STOCK NOT REOPENED |
@@ -211,8 +211,8 @@ twin/dock/DOCK_BOM_FULL.md is still the wall and paddle dock. D61 superseded tha
 ## Counts
 
 - BOM lines in the table: 105.
-- Lines with a datasheet opened this session and a matching purchase spec: 2 (the Pi, and the camera).
-- Lines opened and marked MISMATCH: 2 (the STS3215 against the twin's stall and 70 C cut, and the P45B against the drawn cell size).
+- Lines with a datasheet opened this session and a matching purchase spec: 3 (the Pi, the camera, and the P45B; the cell maximum fits the existing sleeved bay).
+- Lines opened and marked MISMATCH: 1 (the STS3215 against the twin's stall and 70 C cut).
 - Lines marked UNVERIFIED/BLOCKER in the special notes: 40, plus every fastener and every row whose datasheet cell says not opened.
 - Orderable today, by the rule at the top: none. Two named sellers were opened and were out of stock (the Pi at Adafruit, the P45B at 18650 Battery Store). Every other line is STOCK NOT REOPENED, NOT ORDERABLE, or DO NOT ORDER.
 

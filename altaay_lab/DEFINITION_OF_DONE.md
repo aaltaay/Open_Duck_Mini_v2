@@ -4,8 +4,13 @@ Written 2026-11-11 ET. Ahmed's meaning of done is a finished product: built, che
 A passing sim is not done. A calc is not done. A CAD check is not done. Those labels mean the work toward
 a gate has started. They do not pass the gate.
 
-Nothing physical is built before gate 0 passes. Today nothing has been built, bought, or run on hardware,
-and gate 0 has not passed.
+The duck is not printed, the pack is not welded, and the full order is not placed before gate 0 passes.
+Today none of that has been done, and gate 0 has not passed.
+
+One exception, so the checklist can be finished: a characterization coupon that a gate 0 row names may be
+bought and made after Ahmed says yes. For the pins that is TEST_PLAN.md 20.1 to 20.4 (a few pins, a scrap
+of cloth, a scrap of felt, no whole duck). The coupon is not the product and it is not the one-click bill.
+Its only job is to replace a guess in the twin with a measurement.
 
 Each line is Covered or GAP. Covered means a file in this repo already holds that work, and the label on
 that work is named. GAP means the pass criterion is not met.
@@ -19,9 +24,10 @@ opened this session. The gate list is Ahmed's.
 
 ## Gate 0. The twin matches the real duck, and the bill can be ordered in one click
 
-Nothing is printed, welded, or bought before this gate passes. The twin and the bill have to describe the
-same duck, line by line: the same parts, the same screws, the same wires, the same masses, the same
-materials. A sim of a stand-in does not count.
+The duck is not printed, the pack is not welded, and the full order is not placed before this gate passes.
+The coupon exception above is the only buy. The twin and the bill have to describe the same duck, line by
+line: the same parts, the same screws, the same wires, the same masses, the same materials. A sim of a
+stand-in does not count.
 
 ### Mechanical
 - Pass: every solid that will be printed or bought is in the twin at the size on its drawing, including
@@ -81,8 +87,10 @@ materials. A sim of a stand-in does not count.
 - Pass: servo torque, speed, current, and backlash; cell capacity and resistance; charger voltage, current,
   timer, and dropout; radio and camera identity. All match a datasheet. Covered in part: STS3215 stall
   19.5 kg.cm and 52 RPM at 7.4 V, backlash at most 0.5 deg (sheet opened). The twin's stall is stronger
-  than that sheet (MISMATCH). P45B capacity, 45 A, and 15 mOhm DC match the opened sheet. The drawn cell
-  size does not (MISMATCH). Charger datasheet not opened (BLOCKER). Pi and camera briefs match the boards
+  than that sheet (MISMATCH). P45B capacity, 45 A, and 15 mOhm DC match the opened sheet. The sheet maximum
+  (21.55 mm by 70.15 mm) is the top of the tolerance the bay already used, and the sleeved pack is 22.2 by
+  43.7 by 71.0 mm (CAD check only, twin/battery/bay_edit.py), so the cavity does not need a resize. Charger
+  datasheet not opened (BLOCKER). Pi and camera briefs match the boards
   named on the bill (VERIFIED). GAP overall.
 
 ### Software
