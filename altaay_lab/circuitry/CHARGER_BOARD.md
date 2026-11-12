@@ -97,21 +97,20 @@ The pack is a separate limit. P45B version 1.2: charge only from **0 C to 60 C**
 
 The pack sensor is the one already chosen: Adafruit 372, 10 kOhm at 25 C, B25/50 = 3950, epoxy bead. The product page was opened and said **in stock**. It did not print a piece count. The lookup table, opened, gives 31.77 kOhm at 0 C and 2.472 kOhm at 60 C.
 
-Divider, NTC to ground, 10.0 kOhm from the reference to the NTC:
+Divider, NTC to ground, 10.0 kOhm from the reference to the NTC. The thresholds sit inward of the cell limits so a 1 percent resistor stack, the bead's own 1 percent resistance and 1 percent beta, and the comparator offset still cannot charge outside 0 C to 60 C.
 
-- At 0 C the ratio is 31.77 / (10 + 31.77) = 0.7606 (calc).
-- At 60 C the ratio is 2.472 / (10 + 2.472) = 0.1982 (calc).
+The bead page says 10 kOhm ± 1 percent at 25 C and B25/50 = 3950 ± 1 percent. The comparator is a TI LM393BIDR. Sheet SLCS005AH, revised April 2025, section 5.5: input offset 4 mV maximum from -40 C to +85 C, and input bias 50 nA maximum over that range. 50 nA across 10 kOhm is 0.5 mV (calc). The error used below is 4.5 mV on a 2.5 V reference. The TL431 absolute voltage cancels between the two dividers. Its sheet is still not opened, so the same stack was also checked at 2.2 V and still stays inside the cell window (calc, a guard, not a TL431 limit).
 
-Thresholds, from the same reference so the absolute voltage cancels:
+- Cold divider: 10.0 kOhm over **28.0 kOhm**. Nominal trip **2.60 C** (calc, lookup table). Worst corner **1.33 C** (calc). That is above 0 C.
+- Hot divider: 10.0 kOhm over **2.80 kOhm**. Nominal trip **56.61 C** (calc). Worst corner **58.36 C** (calc). That is below 60 C.
 
-- Cold: 10.0 kOhm over 31.6 kOhm. Ratio 0.7596. The copied table rows put that trip at **0.11 C** (calc).
-- Hot: 10.0 kOhm over 2.49 kOhm. Ratio 0.1994. Trip at **59.80 C** (calc).
+The old 31.6 kOhm and 2.49 kOhm pair sat on the cell limits. With 1 percent resistors alone, the hot trip resistance fell to about 2.42 kOhm, near 60.6 C, and the cold trip went slightly under 0 C. Those values are not used.
 
-Both comparators are open collector and pull the charge-enable gate down. Cold uses the NTC on the inverting input. Hot uses the NTC on the non-inverting input. Inside 0 C to 60 C both outputs are off and the 100 kOhm pull-up enables charge.
+Both comparators are open collector and pull the charge-enable gate down. Cold uses the NTC on pin 2 (1IN-). Hot uses the NTC on pin 5 (2IN+) and the threshold on pin 6 (2IN-). SOIC pin numbers are Table 4-1 of SLCS005AH. Inside the window both outputs are off and the 100 kOhm pull-up enables charge.
 
 The reference is a TL431 with ref tied to the cathode, fed from the protected rail by 4.99 kOhm. At a 2.5 V cathode and 9.5 V in, that is about 1.4 mA (calc). The TL431 sheet was not opened, so 2.495 V and the minimum cathode current are BLOCKER. The trip ratios do not need that voltage. They need the two dividers to share one rail.
 
-The comparator is a TI LM393DR. Its sheet was not opened. Supply maximum, common-mode range, and the SOIC pin numbers are BLOCKER. The yaml uses function names (OUTA, INAM, INAP) and says so.
+LM393B supply is 2 V to 36 V (family table in the same sheet). The SMAJ10A clamp is 17.0 V, inside that range. Common mode over temperature is from the negative rail to VCC minus 2.0 V. The divider voltages are a fraction of about 2.5 V, and the supply here is the nest rail near 9.5 V, so the inputs sit inside that range.
 
 TEST_PLAN 20.8 asks for cells at 0 C to 45 C on the bench, which is tighter than the cell sheet on purpose (COMPLIANCE_FIRST_PASS.md). This hardware window is the cell sheet, 0 C to 60 C. The Pi can stop earlier, at 45 C, by pulling GPIO6 low. That software limit is a proposal for the software owner. It is not in `software/SOFTWARE.md`.
 
@@ -217,9 +216,9 @@ Stock is what a page showed when it was opened for this note. "Not opened" means
 | Q1 | Diodes DMP2045U-7 | 1 | https://www.digikey.com/en/products/detail/diodes-incorporated/DMP2045U-7/4231465 and the Diodes datasheet above | Datasheet opened. The distributor text that came back did not show a quantity. Not shown |
 | D2 | onsemi MMSZ5230B, 4.7 V zener | 1 | not opened | Not opened. BLOCKER until the knee is read |
 | Q2 | onsemi MMBF170 | 1 | not opened | Not opened. BLOCKER for VGS(th) |
-| U2 | TI LM393DR | 1 | not opened | Not opened. BLOCKER for the limits and the pin numbers |
+| U2 | TI LM393BIDR | 1 | https://www.ti.com/lit/ds/symlink/lm393.pdf | Sheet opened (SLCS005AH, April 2025). Distributor quantity not opened |
 | U3 | TI TL431AIDBZR | 1 | not opened | Not opened. BLOCKER for 2.495 V and the minimum current |
-| R1, R3, R4, R5, R6, R7, R8, R9, R10, R11 | 10 kOhm, 100 kOhm, 10 kOhm, 1 kOhm, 4.99 kOhm, 10.0 kOhm, 10.0 kOhm, 31.6 kOhm, 10.0 kOhm, 2.49 kOhm, all 1 percent 0603, ERJ-3EKF family | 1 each | family is the eval board's. Individual pages not opened | Not opened |
+| R1, R3, R4, R5, R6, R7, R8, R9, R10, R11 | 10 kOhm, 100 kOhm, 10 kOhm, 1 kOhm, 4.99 kOhm, 10.0 kOhm, 10.0 kOhm, 28.0 kOhm, 10.0 kOhm, 2.80 kOhm, all 1 percent 0603, ERJ-3EKF family | 1 each | family is the eval board's. Individual pages not opened | Not opened |
 | D3, D4 | 1N4148 | 2 | BOM line DK5 already names one. Sheet not re-opened | Not re-opened |
 | J2 / RT1 | Adafruit 372, 10 kOhm NTC, B25/50 = 3950 | 1 | https://www.adafruit.com/product/372 | Page opened. In stock. No piece count on the page |
 
@@ -291,7 +290,7 @@ Not applied.
 2. Pin contact resistance on cloth, and the unfinished spring-pin part number. They belong to the nest audit. The drop budget at 1 A is 0.80 ohm round trip (calc) before the chip leaves the characterized window.
 3. In-trunk thermal resistance, and Figure 5-1 not digitized. A 1 A charge that actually runs at 1 A is 2.30 W to 3.50 W, above the 1.9 W to 3.2 W twin. A die held at 110 C on a 62 C/W board is nearer 1.3 W and may miss the 6 hour timer if the pack is low for too long. Which one happens in the trunk is not known.
 4. No balance on the welded 2S. Per-cell OV/UV is on the Tenergy board. AN231 says series cells should have balancing considered. No balance IC was opened.
-5. Sheets not opened: TL431, LM393 (including pin numbers), MMBF170 VGS(th), MMSZ5230B knee, and a live page for C2012X5R1E475M.
+5. Sheets not opened: TL431, MMBF170 VGS(th), MMSZ5230B knee, and a live page for C2012X5R1E475M. The comparator sheet is opened (LM393BIDR, 4 mV, 36 V).
 6. No seat and no board mass. NEST_CAD.md BLOCKER 3.
-7. LM393 supply maximum versus a 17 V TVS clamp on the protected rail during a surge.
+7. The temperature window is inward of 0 C and 60 C after the resistor, bead, and comparator stack (worst corners 1.33 C and 58.36 C, calc). The TL431 sheet is still unread, so the reference voltage itself is not a cited number. The stack was also checked at 2.2 V and still stays inside the cell limits.
 8. Type 1 STAT cannot tell a full pack from a timer fault.

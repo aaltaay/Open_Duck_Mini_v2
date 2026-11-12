@@ -11,6 +11,7 @@ Usage (from the repo root):
 import math
 import os
 import sys
+import uuid
 
 import yaml
 
@@ -52,14 +53,25 @@ TVS_VC_V = 17.0            # SMAJ10A clamp at Ipp
 RDS_MOHM_45 = 45.0         # DMP2045U max at VGS = -4.5 V
 FET_VGS_ABS_V = 8.0        # DMP2045U gate absolute max
 
-# Adafruit 372 lookup table rows used for the window, kohm. Source URL in the markdown.
+# Adafruit 372 lookup rows, kohm, from the table opened for this board.
 NTC_KOHM = {
-    -1: 33.33, 0: 31.77, 1: 30.25, 2: 28.82,
-    58: 2.659, 59: 2.564, 60: 2.472, 61: 2.384, 62: 2.299,
+    -2: 34.97, -1: 33.33, 0: 31.77, 1: 30.25, 2: 28.82, 3: 27.45, 4: 26.16, 5: 24.94,
+    6: 23.77, 7: 22.67, 8: 21.62,
+    54: 3.086, 55: 2.972, 56: 2.863, 57: 2.759, 58: 2.659, 59: 2.564, 60: 2.472,
+    61: 2.384, 62: 2.299, 63: 2.218,
 }
 RBIAS_KOHM = 10.0
-R_COLD_BOT_KOHM = 31.6
-R_HOT_BOT_KOHM = 2.49
+R_TOP_KOHM = 10.0
+R_COLD_BOT_KOHM = 28.0
+R_HOT_BOT_KOHM = 2.80
+# LM393B SLCS005AH section 5.5: VIO max 4 mV from -40 C to 85 C. IB max 50 nA over that range.
+# 50 nA times 10 kOhm is 0.5 mV, used as a bias budget on top of the offset.
+VOS_V = 0.0045
+VREF_V = 2.5
+NTC_R25_TOL = 0.01
+NTC_B = 3950.0
+NTC_B_TOL = 0.01
+R_TOL = 0.01
 
 
 def ireg_ma(r_kohm):
@@ -79,17 +91,159 @@ def ntc_ratio(r_kohm, rbias=RBIAS_KOHM):
     return r_kohm / (rbias + r_kohm)
 
 
-def temp_for_ratio(ratio):
-    """Linear interpolation of the copied lookup rows. Returns C."""
-    items = sorted(NTC_KOHM.items())
-    # ratio falls as temperature rises
-    pairs = [(t, ntc_ratio(r)) for t, r in items]
-    for (t0, q0), (t1, q1) in zip(pairs, pairs[1:]):
-        if (q0 - ratio) * (q1 - ratio) <= 0:
-            if q0 == q1:
-                return t0
-            return t0 + (t1 - t0) * (q0 - ratio) / (q0 - q1)
-    raise SystemExit("ratio %.4f is outside the copied NTC rows" % ratio)
+def r_tol(nominal, sign):
+    return nominal * (1.0 + sign * R_TOL)
+
+
+def r_trip(rbias, rbot, rtop):
+    return rbias * rbot / rtop
+
+
+def shift_vos(r_seen, rbias, sign, vref=VREF_V):
+    """sign +1 raises the trip resistance. sign -1 lowers it."""
+    q = r_seen / (rbias + r_seen)
+    q2 = q + sign * (VOS_V / vref)
+    return rbias * q2 / (1.0 - q2)
+
+
+def ntc_factor(temp_c, r25_sign, b_sign):
+    d = 1.0 / (temp_c + 273.15) - 1.0 / 298.15
+    return (1.0 + r25_sign * NTC_R25_TOL) * math.exp(d * b_sign * NTC_B_TOL * NTC_B)
+
+
+def worst_cold_c(vref=VREF_V):
+    """Coldest true temperature at which charge is still allowed."""
+    seen = r_trip(r_tol(RBIAS_KOHM, +1), r_tol(R_COLD_BOT_KOHM, +1), r_tol(R_TOP_KOHM, -1))
+    seen = shift_vos(seen, r_tol(RBIAS_KOHM, +1), +1, vref)
+    table_r = seen / ntc_factor(0.0, -1, -1)
+    return temp_for_ratio_r(table_r), seen, table_r
+
+
+def worst_hot_c(vref=VREF_V):
+    """Hottest true temperature at which charge is still allowed."""
+    seen = r_trip(r_tol(RBIAS_KOHM, -1), r_tol(R_HOT_BOT_KOHM, -1), r_tol(R_TOP_KOHM, +1))
+    seen = shift_vos(seen, r_tol(RBIAS_KOHM, -1), -1, vref)
+    table_r = seen / ntc_factor(60.0, +1, -1)
+    return temp_for_ratio_r(table_r), seen, table_r
+
+
+def temp_for_ratio_r(r_kohm):
+    items = sorted(NTC_KOHM)
+    for a, b in zip(items, items[1:]):
+        ra, rb = NTC_KOHM[a], NTC_KOHM[b]
+        if (ra - r_kohm) * (rb - r_kohm) <= 0:
+            return a + (b - a) * (ra - r_kohm) / (ra - rb)
+    raise SystemExit("resistance %.4f kOhm is outside the copied NTC rows" % r_kohm)
+
+
+NS = uuid.UUID("6f1b9c2e-4a7d-4e11-9c3a-8b0d5e7f1a24")
+
+
+def uid(*parts):
+    return str(uuid.uuid5(NS, "|".join(str(p) for p in parts)))
+
+
+def kquote(text):
+    return str(text).replace("\\", "\\\\").replace('"', "'")
+
+
+def render_schematic(doc):
+    """One KiCad symbol per yaml component, each pin labeled with its net."""
+    pin_net = {}
+    for w in doc["wires"]:
+        pin_net[w["from"]] = w["net"]
+        pin_net[w["to"]] = w["net"]
+    libs = []
+    insts = []
+    wires = []
+    labels = []
+    # four columns, enough vertical room for the tallest part
+    for index, comp in enumerate(doc["components"]):
+        pins = [p for p in comp.get("pins") or []]
+        col = index % 4
+        row = index // 4
+        ox = 40.0 + col * 90.0
+        oy = 220.0 - row * 55.0
+        lib = "cb:%s" % comp["id"]
+        n = max(len(pins), 1)
+        half = (n * 2.54) / 2.0
+        left = pins[0::2]
+        right = pins[1::2]
+        pin_at = {}
+        lib_pins = []
+        for side, group in (("L", left), ("R", right)):
+            for i, p in enumerate(group):
+                y = half - 2.54 * (i + 0.5)
+                x = -12.70 if side == "L" else 12.70
+                rot = 180 if side == "L" else 0
+                pin_at[p["pin"]] = (ox + x, oy + y)
+                lib_pins.append(
+                    '(pin passive line (at %.2f %.2f %d) (length 5.08) '
+                    '(name "%s" (effects (font (size 0.8 0.8)))) '
+                    '(number "%s" (effects (font (size 0.8 0.8)))))' % (
+                        x, y, rot, kquote(p["pin"]), kquote(p["pin"])))
+        libs.append(
+            '(symbol "%s" (pin_names (offset 0.254)) (exclude_from_sim no) (in_bom yes) (on_board yes)\n'
+            '  (property "Reference" "U" (at 0 %.2f 0) (effects (font (size 1.27 1.27))))\n'
+            '  (property "Value" "%s" (at 0 %.2f 0) (effects (font (size 1.27 1.27))))\n'
+            '  (property "Footprint" "" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n'
+            '  (property "Datasheet" "" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))\n'
+            '  (symbol "%s_0_1" (rectangle (start -7.62 %.2f) (end 7.62 %.2f) '
+            '(stroke (width 0.254) (type default)) (fill (type background))))\n'
+            '  (symbol "%s_1_1"\n    %s\n  )\n)' % (
+                lib, half + 2.54, kquote(comp["id"]), -half - 4,
+                lib, half, -half, lib, "\n    ".join(lib_pins)))
+        value = kquote(comp.get("part", comp["id"]))[:180]
+        pin_lines = "\n".join(
+            '  (pin "%s" (uuid "%s"))' % (kquote(p["pin"]), uid(comp["id"], p["pin"], "pin"))
+            for p in pins)
+        insts.append(
+            '(symbol (lib_id "%s") (at %.2f %.2f 0) (unit 1) (exclude_from_sim no) '
+            '(in_bom yes) (on_board yes) (dnp no)\n'
+            '  (uuid "%s")\n'
+            '  (property "Reference" "%s" (at %.2f %.2f 0) (effects (font (size 1.27 1.27))))\n'
+            '  (property "Value" "%s" (at %.2f %.2f 0) (effects (font (size 1.0 1.0))))\n'
+            '  (property "Footprint" "" (at %.2f %.2f 0) (effects (font (size 1.27 1.27)) hide))\n'
+            '  (property "Datasheet" "" (at %.2f %.2f 0) (effects (font (size 1.27 1.27)) hide))\n'
+            '%s\n)' % (
+                lib, ox, oy, uid(comp["id"], "inst"),
+                kquote(comp.get("ref", comp["id"])), ox, oy + half + 4,
+                value, ox, oy - half - 6,
+                ox, oy, ox, oy, pin_lines))
+        for p in pins:
+            ref = "%s.%s" % (comp["id"], p["pin"])
+            net = pin_net.get(ref)
+            if not net or p.get("dir") == "nc":
+                continue
+            x, y = pin_at[p["pin"]]
+            end_x = x - 7.62 if x < ox else x + 7.62
+            wires.append(
+                '(wire (pts (xy %.2f %.2f) (xy %.2f %.2f)) (stroke (width 0) (type default)) (uuid "%s"))' % (
+                    x, y, end_x, y, uid(comp["id"], p["pin"], "wire")))
+            labels.append(
+                '(label "%s" (at %.2f %.2f 0) (effects (font (size 1.0 1.0)) (justify left bottom)) (uuid "%s"))' % (
+                    kquote(net), end_x, y, uid(comp["id"], p["pin"], "label")))
+    return (
+        '(kicad_sch\n'
+        '  (version 20231120)\n'
+        '  (generator "eeschema")\n'
+        '  (generator_version "8.0")\n'
+        '  (uuid "%s")\n'
+        '  (paper "A2")\n'
+        '  (title_block\n'
+        '    (title "Duck in-body charger")\n'
+        '    (date "2026-11-11")\n'
+        '    (rev "2")\n'
+        '    (comment 1 "Every part in circuitry/charger_board.yaml")\n'
+        '    (comment 2 "MCP73213-A6SI/MF, PROG 1.10 kOhm, NTC window 28.0 kOhm and 2.80 kOhm")\n'
+        '  )\n'
+        '  (lib_symbols\n%s\n  )\n'
+        '%s\n%s\n%s\n'
+        '  (text "Schematic of charger_board.yaml. Each pin label is that pin\'s net. Not a built board." '
+        '(at 20 250 0) (effects (font (size 1.5 1.5))) (uuid "%s"))\n'
+        '  (sheet_instances (path "/" (page "1")))\n'
+        ')\n' % (
+            uid("sheet"), "\n".join(libs), "\n".join(insts), "\n".join(wires), "\n".join(labels), uid("note")))
 
 
 def main():
@@ -197,18 +351,29 @@ def main():
           "if 4.5 Ah were taken at the 6.0 V foldback current %.3f A, %.1f h, past %.1f h" % (
               i6, t_slow, TIMER_MAX_H))
 
-    q0 = ntc_ratio(NTC_KOHM[0])
-    q60 = ntc_ratio(NTC_KOHM[60])
-    q_cold = R_COLD_BOT_KOHM / (RBIAS_KOHM + R_COLD_BOT_KOHM)
-    q_hot = R_HOT_BOT_KOHM / (RBIAS_KOHM + R_HOT_BOT_KOHM)
-    t_cold = temp_for_ratio(q_cold)
-    t_hot = temp_for_ratio(q_hot)
-    check("cold divider near 0 C",
-          abs(t_cold - 0.0) <= 1.0,
-          "31.6k/10k trips at %.2f C (0 C ratio %.4f, divider %.4f)" % (t_cold, q0, q_cold))
-    check("hot divider near 60 C",
-          abs(t_hot - 60.0) <= 1.0,
-          "2.49k/10k trips at %.2f C (60 C ratio %.4f, divider %.4f)" % (t_hot, q60, q_hot))
+    t_cold = temp_for_ratio_r(r_trip(RBIAS_KOHM, R_COLD_BOT_KOHM, R_TOP_KOHM))
+    t_hot = temp_for_ratio_r(r_trip(RBIAS_KOHM, R_HOT_BOT_KOHM, R_TOP_KOHM))
+    t_cold_worst, seen_c, table_c = worst_cold_c()
+    t_hot_worst, seen_h, table_h = worst_hot_c()
+    check("cold nominal is inside the cell window",
+          0.0 < t_cold < 10.0,
+          "28.0 kOhm trips at %.2f C" % t_cold)
+    check("hot nominal is inside the cell window",
+          50.0 < t_hot < 60.0,
+          "2.80 kOhm trips at %.2f C" % t_hot)
+    check("cold worst case stays at or above 0 C",
+          t_cold_worst >= 0.0,
+          "1 percent resistors, NTC R25 and B, and 4.5 mV: trip resistance %.2f kOhm, table %.2f kOhm, %.2f C" % (
+              seen_c, table_c, t_cold_worst))
+    check("hot worst case stays at or below 60 C",
+          t_hot_worst <= 60.0,
+          "same stack: trip resistance %.3f kOhm, table %.3f kOhm, %.2f C" % (
+              seen_h, table_h, t_hot_worst))
+    t_cold_low = worst_cold_c(2.2)[0]
+    t_hot_low = worst_hot_c(2.2)[0]
+    check("window still holds if the reference is 2.2 V",
+          t_cold_low >= 0.0 and t_hot_low <= 60.0,
+          "guard, not a TL431 limit: cold %.2f C, hot %.2f C" % (t_cold_low, t_hot_low))
 
     # cell rate
     c_rate = (IREG_SPEC_TYP_MA / 1000.0) / CELL_CHARGE_A
@@ -280,9 +445,18 @@ def main():
 
     if os.path.exists(SCH_PATH):
         sch = open(SCH_PATH, encoding="utf-8").read()
+        expect = render_schematic(doc)
+        n_yaml = len(doc["components"])
+        n_sch = sch.count('(symbol (lib_id "')
         check("kicad names the chip", "MCP73213-A6SI/MF" in sch, "symbol value")
         check("kicad names 1.10 kOhm", "1.10" in sch, "resistor value")
         check("kicad is s-expression", sch.strip().startswith("(kicad_sch"), "header")
+        check("kicad has every yaml part",
+              n_sch == n_yaml and "28.0 kOhm" in sch and "2.80 kOhm" in sch,
+              "%d symbols in the drawing, %d parts in the yaml" % (n_sch, n_yaml))
+        check("kicad matches the yaml nets",
+              sch == expect,
+              "regenerate with the renderer in this script" if sch != expect else "same text")
     else:
         print("%-28s %s  %s" % ("kicad", "INFO", "schematic not written yet"))
 

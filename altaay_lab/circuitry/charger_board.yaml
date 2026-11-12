@@ -44,8 +44,8 @@ nets:
   V3V3: {domain: GPIO_3V3, note: "Pi 3.3 V brought to the board for the pull-ups. Charge enable is off when this rail is down."}
   VREF: {domain: VREF, note: "TL431 cathode and ref tied, feed for the NTC dividers"}
   NTC_MID: {domain: NTC, note: "10 kOhm bias over the pack NTC. Cold is a high voltage."}
-  COLD_TH: {domain: NTC, note: "0 C threshold, 10 kOhm over 31.6 kOhm"}
-  HOT_TH: {domain: NTC, note: "60 C threshold, 10 kOhm over 2.49 kOhm"}
+  COLD_TH: {domain: NTC, note: "cold threshold, 10.0 kOhm over 28.0 kOhm. Nominal trip near 2.6 C."}
+  HOT_TH: {domain: NTC, note: "hot threshold, 10.0 kOhm over 2.80 kOhm. Nominal trip near 56.6 C."}
 
 components:
   - id: JIN
@@ -279,11 +279,11 @@ components:
 
   - id: CU2
     ref: U2
-    part: "TI LM393DR dual comparator. Datasheet not opened this session. BLOCKER for supply range, common mode, and the SOIC pin numbers."
+    part: "TI LM393BIDR dual comparator, SOIC-8. SLCS005AH revised April 2025. Offset 4 mV max from -40 C to 85 C. Supply 2 V to 36 V."
     kind: board
     region: battery_bay
     groups:
-      pads: {connector: SOIC-8, pitch_mm: null, note: "pin ids below are functions. Package numbers are BLOCKER."}
+      pads: {connector: SOIC-8, pitch_mm: null, note: "pin numbers from SLCS005AH Table 4-1"}
     pins:
       - {pin: OUTA, label: OUTA, name: "cold comparator, open collector", domain: GPIO_3V3, group: pads, dir: out, source: "[I] sheet not opened"}
       - {pin: INAM, label: "INA-", name: NTC sense, domain: NTC, group: pads, dir: in, source: "[I]"}
@@ -293,7 +293,7 @@ components:
       - {pin: INBM, label: "INB-", name: 60 C threshold, domain: NTC, group: pads, dir: in, source: "[I]"}
       - {pin: OUTB, label: OUTB, name: "hot comparator, open collector", domain: GPIO_3V3, group: pads, dir: out, source: "[I]"}
       - {pin: VCC, label: VCC, name: from the protected nest rail, domain: NEST_PROT, group: pads, dir: pwr_in, source: "[I] supply max not read"}
-    source: "[I] the charger sheet has no thermistor pin, so the window is outside the chip. LM393 sheet is BLOCKER."
+    source: "[S] https://www.ti.com/lit/ds/symlink/lm393.pdf section 5.5. B version for the 4 mV offset and the 36 V supply."
 
   - id: CU3
     ref: U3
@@ -345,18 +345,18 @@ components:
     pins:
       - {pin: "1", label: "1", name: VREF, domain: VREF, group: pads, dir: passive, source: "[S] NTC table"}
       - {pin: "2", label: "2", name: 0 C threshold, domain: NTC, group: pads, dir: passive, source: "[S] NTC table"}
-    source: "[S] paired with 31.6 kOhm"
+    source: "[S] paired with 28.0 kOhm"
 
   - id: RCOLDB
     ref: R9
-    part: 31.6 kOhm 1 percent, bottom of the 0 C divider. E96 value next to the 31.77 kOhm table point at 0 C.
+    part: 28.0 kOhm 1 percent, bottom of the cold divider. Nominal trip near 2.6 C so the 1 percent and sensor stack still stops at or above 0 C.
     kind: resistor
     region: battery_bay
-    ratings: {kohm: 31.6}
+    ratings: {kohm: 28.0}
     groups:
       pads: {connector: "0603", pitch_mm: null}
     pins:
-      - {pin: "1", label: "1", name: 0 C threshold, domain: NTC, group: pads, dir: passive, source: "[S] NTC table 0 C = 31.77 kOhm"}
+      - {pin: "1", label: "1", name: cold threshold, domain: NTC, group: pads, dir: passive, source: "[S] NTC table. 28.0 kOhm is inward of the 31.77 kOhm point at 0 C"}
       - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: passive, source: "[S]"}
     source: "[S] Adafruit 372 lookup table"
 
@@ -371,18 +371,18 @@ components:
     pins:
       - {pin: "1", label: "1", name: VREF, domain: VREF, group: pads, dir: passive, source: "[S] NTC table"}
       - {pin: "2", label: "2", name: 60 C threshold, domain: NTC, group: pads, dir: passive, source: "[S] NTC table"}
-    source: "[S] paired with 2.49 kOhm"
+    source: "[S] paired with 2.80 kOhm"
 
   - id: RHOTB
     ref: R11
-    part: 2.49 kOhm 1 percent, bottom of the 60 C divider. E96 value next to 2.472 kOhm at 60 C.
+    part: 2.80 kOhm 1 percent, bottom of the hot divider. Nominal trip near 56.6 C so the 1 percent and sensor stack still stops at or below 60 C.
     kind: resistor
     region: battery_bay
-    ratings: {kohm: 2.49}
+    ratings: {kohm: 2.80}
     groups:
       pads: {connector: "0603", pitch_mm: null}
     pins:
-      - {pin: "1", label: "1", name: 60 C threshold, domain: NTC, group: pads, dir: passive, source: "[S] NTC table 60 C = 2.472 kOhm"}
+      - {pin: "1", label: "1", name: hot threshold, domain: NTC, group: pads, dir: passive, source: "[S] NTC table. 2.80 kOhm is inward of the 2.472 kOhm point at 60 C"}
       - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: passive, source: "[S]"}
     source: "[S] Adafruit 372 lookup table"
 
