@@ -65071,7 +65071,7 @@
     "#1f77b4"
    ],
    "d_mm": 1.9,
-   "wires_n": 4,
+   "wires_n": 5,
    "cut_mm": 220,
    "joints": [],
    "points": [
@@ -65162,6 +65162,116 @@
       36.1
      ],
      "bend_min_radius_mm": 214.6,
+     "loop_min_radius_mm": null,
+     "bend_rule_mm": {
+      "min": 3.9,
+      "optimum": 13.0
+     }
+    },
+    {
+     "name": "r1",
+     "from": "JSN.S",
+     "to": "RT1.1",
+     "d_mm": 1.3,
+     "points": [
+      {
+       "link": "trunk_assembly",
+       "p": [
+        27.0,
+        4.0,
+        31.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -26.0,
+        23.0,
+        34.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -78.0,
+        27.0,
+        49.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -91.0,
+        22.0,
+        62.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -118.0,
+        6.0,
+        72.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -124.0,
+        0.0,
+        66.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -130.0,
+        0.0,
+        66.0
+       ]
+      },
+      {
+       "link": "trunk_assembly",
+       "p": [
+        -129.6,
+        0.0,
+        66.0
+       ]
+      }
+     ],
+     "joints": [
+      "neck_pitch",
+      "head_pitch",
+      "head_yaw",
+      "head_roll"
+     ],
+     "routed": true,
+     "through": null,
+     "seats": [],
+     "swept_joints": [
+      "left_hip_roll",
+      "left_hip_yaw"
+     ],
+     "length_zero_mm": 179.4,
+     "length_min_mm": 179.4,
+     "length_max_mm": 179.4,
+     "spans": [],
+     "length_max_runtime_mm": 179.4,
+     "span_taut_min_gap_mm": null,
+     "span_taut_at": null,
+     "rub_min_gap_runtime_mm": -1.1,
+     "rub_min_gap_mm": -1.1,
+     "rub_part_link": "hip_roll_assembly",
+     "rub_at": {},
+     "static_min_gap_mm": -1.1,
+     "clearance_min_mm": -2.25,
+     "clearance_part": "roll_motor_top",
+     "clearance_at": [
+      -36.4,
+      23.8,
+      37.0
+     ],
+     "bend_min_radius_mm": 3.8,
      "loop_min_radius_mm": null,
      "bend_rule_mm": {
       "min": 3.9,
@@ -65462,6 +65572,52 @@
      "margin_mm": 48.8,
      "margin_runtime_mm": 48.8,
      "fits_mm": 88.8,
+     "length_check": "pass"
+    },
+    {
+     "from": "JSN.S",
+     "to": "RT1.1",
+     "net": "SNS",
+     "gauge": "26 AWG",
+     "color": "white",
+     "cut_mm": 220,
+     "branch": null,
+     "od_mm": 1.3,
+     "od_source": "[I] BNTECHGO 20 AWG silicone, outside diameter 1.8 +/- 0.1 mm (https://www.amazon.com/BNTECHGO-Gauge-Silicone-Wire-Temperature/dp/B01F8PO5XE)",
+     "runs": [
+      "r1"
+     ],
+     "length_zero_mm": 179.4,
+     "length_min_mm": 179.4,
+     "length_max_mm": 179.4,
+     "chains": [
+      {
+       "chain": [
+        "DC3:DKP.SNS>JSN.S",
+        "DC3:JSN.S>RT1.1"
+       ],
+       "length_max_mm": 190.7,
+       "required_mm": 230.7,
+       "cut_mm": 280,
+       "margin_mm": 49.3,
+       "margin_runtime_mm": 49.3
+      },
+      {
+       "chain": [
+        "DC3:JSN.S>RT1.1",
+        "DC3:JSN.S>WK1.A"
+       ],
+       "length_max_mm": 319.3,
+       "required_mm": 359.3,
+       "cut_mm": 400,
+       "margin_mm": 40.7,
+       "margin_runtime_mm": 40.7
+      }
+     ],
+     "required_mm": 359.3,
+     "margin_mm": 40.7,
+     "margin_runtime_mm": 40.7,
+     "fits_mm": 80.7,
      "length_check": "pass"
     },
     {

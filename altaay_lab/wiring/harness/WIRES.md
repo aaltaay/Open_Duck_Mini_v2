@@ -124,6 +124,18 @@ Route polyline 179.4 mm is the netlist figure from cables3d (CAD check only).
 
 ### DC3 wire 2
 
+- From: JSN.S
+- To: RT1.1
+- Net: SNS
+- From end: JSN pin S (splice). Solder splice, heat shrink. Pin is JSN.S. Not a plug. 26 AWG cannot use WAGO 221, and the 221 pocket pack is already used by the ground, switched-plus, and servo levers.
+- To end: RT1 pin 1 (divider side). solder.
+- Gauge and current: Gauge 26 AWG is the netlist value.
+- Color: white
+- Cut: 220 mm, from the netlist. The cut is 40.6 mm longer than the polyline (calc only). That difference is the slack already in the netlist cut, not a new loop.
+- Netlist current, mean / peak / fall: 0.001 / 0.001 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### DC3 wire 3
+
 - From: RT1.2
 - To: BMS.P-
 - Net: GND
@@ -134,7 +146,7 @@ Route polyline 179.4 mm is the netlist figure from cables3d (CAD check only).
 - Cut: 120 mm, from the netlist.
 - Netlist current, mean / peak / fall: 0.001 / 0.001 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
 
-### DC3 wire 3
+### DC3 wire 4
 
 - From: JSN.S
 - To: WK1.A
@@ -146,7 +158,7 @@ Route polyline 179.4 mm is the netlist figure from cables3d (CAD check only).
 - Cut: 180 mm, from the netlist. The cut is 0.6 mm longer than the polyline (calc only). That difference is the slack already in the netlist cut, not a new loop.
 - Netlist current, mean / peak / fall: 0.001 / 0.001 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
 
-### DC3 wire 4
+### DC3 wire 5
 
 - From: WK1.K
 - To: SW1.ON
@@ -2851,5 +2863,5 @@ Each well is one conductor. Near end: solder to that well. Far end: BLOCKER, no 
 
 Counted here: 16 FIX lines, 10 BLOCKER lines, after dropping repeated wording (calc only, a count of this list).
 
-Wires read from the netlist: 193 (calc only, a count of active rows).
+Wires read from the netlist: 194 (calc only, a count of active rows).
 
