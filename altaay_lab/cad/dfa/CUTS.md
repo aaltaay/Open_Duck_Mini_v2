@@ -2,7 +2,7 @@
 
 2026-11-12. Follows the DFA check (PR 52) and the fastener schedule in altaay_lab/cad/fasteners/. That schedule counts the same file: 361 screw rows, 324 fitted, 37 left out. Nest joints in that folder are not part of the 324, and this note does not add or remove them. print/ is not edited.
 
-The target is under 200 fitted screws. The package that passes the checks removes 14. Fitted screws go from 324 to 310. Screws the builder turns go from 268 to 254. Under 200 is not met. The screws that would have to go next are the horn screws, the case clamps, and the shell and frame screws. The checks below say those stay.
+The target is under 200 fitted screws. The package that passes pull-off removes 14. Fitted screws go from 324 to 310. Screws the builder turns go from 268 to 254. Under 200 is not met. The screws that would have to go next are the horn screws, the case clamps, and the shell and frame screws. The checks below say those stay.
 
 Labels: CAD check only is a count or a mesh bound. Calc only is arithmetic on a cited load and the K3 section. Cited is a lab file or a page named in the sentence. BLOCKER means the number is not known, so that cut is not in the package.
 
@@ -106,38 +106,38 @@ Sum of the fitted column is 324. Sum of the factory column is 56. Sum of the bui
 
 ## What a cut has to clear
 
-The clip is the K3 cable clip already drawn (twin/screws/mesh_designs.py and lips.json): arm 0.9 mm thick, 12 mm long, barb overlap 0.4 mm. Strain is 1.5 x 0.9 x 0.4 / 12 squared = 0.375 percent. The service limit already used there is 0.535 percent. Changing only the barb width does not change that strain. The formula is the cantilever on the Fictiv page opened for DFA.md (https://www.fictiv.com/articles/how-to-design-snap-fit-components).
+The clip is the K3 cantilever already drawn in twin/screws/mesh_designs.py. The return face runs 0.4 mm across and 0.4 mm up, so it is 45 degrees, the same angle as the lead-in. A pull through that face spreads the arms. The barbs do not have to shear. Pull-off is the force that deflects both arms by the 0.4 mm overlap.
 
-One clip has to hold the whole part, the same one-fastener rule as the screws twin. The load is the mid fall, 196 g on the head and 128 g on the trunk (cited, SCREWS_TWIN.md). SF 1.2. Walk at 3 g and SF 2 is the smaller number on every row below, so the fall sets the clip. Shear uses 12.7 MPa, the low end of the range in STRUCTURE_TWIN.md (0.577 x 22 MPa). One barb at width b and overlap 0.4 mm holds b x 0.4 x 12.7 N.
+With friction left at zero, that force equals the sum of the two beam forces. Each beam is P = E b t cubed y / (4 L cubed), E = 2641 MPa (the modulus already used for K3). Strain is 1.5 t y / L squared, and it stays at or under 0.535 percent, the service limit already used for K3. The Fictiv cantilever page is the same source as DFA.md (https://www.fictiv.com/articles/how-to-design-snap-fit-components). A stock Pi clip, 5.7 mm wide on the unchanged 0.9 x 12 mm arms, pulls off at 1.27 N. The Pi needs 29.1 N. That clip does not pass. Shear area is not the check.
 
-The arm bends in the layer plane, which is the Fictiv note for a printed cantilever. The barb width is then the print-up height. parts.csv names that axis. A clip is not used when the required width is taller than that print-up extent (CAD check only).
+One clip has to hold the whole part, the same one-fastener rule as the screws twin. The load is the mid fall, 196 g on the head and 128 g on the trunk (cited, SCREWS_TWIN.md). SF 1.2. Walk at 3 g and SF 2 is smaller on every row, so the fall sets the clip. Where the stock arm is too soft, thickness and length go up, and the 45 degree return stays so the part still comes off by hand. The parts stay separate, so the speaker still drops into the cage (ASSEMBLY_TWIN.md).
 
-A clip comes off the same way it goes on: the Fictiv note says a return angle equal to the lead angle uses one force both ways. The parts stay separate, so the speaker still drops into the cage (ASSEMBLY_TWIN.md). They are not merged.
+The barb width is the print-up height. parts.csv names that axis. The arm length and thickness have to fit the other two bounds. A clip needs 0.3 mm spare on the print-up axis, the hip-head margin in D19.
 
 ## Package: 14 screws
 
-These pass the force calc and the print-up bound with 0.3 mm to spare (the hip-head margin in D19). Rank is screws saved. The effort is the same on each row: the K3 section, barb width only. A minimum under 5 mm is printed at the stock 5 mm when the part is tall enough.
+These pass pull-off, the strain limit, and the part bounds. Rank is screws saved. Effort is the same kind of edit on each row: the K3 cantilever, resized only as the table says.
 
-| Rank | Joint | Screws now | After | Saved | Barb used mm | Print-up extent mm | STL |
-|---|---|---|---|---|---|---|---|
-| 1 | Mics, both | 4 | 0 | 4 | 5.0 | 59.4 (-z -> z) | head.stl |
-| 2 | Adapter | 2 | 0 | 2 | 5.0 | 41.0 (+z -> z) | trunk_top.stl |
-| 3 | Cliff board | 2 | 0 | 2 | 5.0 | 18.0 (-x -> x) | body_front.stl |
-| 4 | Pi | 2 | 0 | 2 | 5.7 | 59.4 (-z -> z) | head.stl |
-| 5 | Speaker interface to stand | 2 | 0 | 2 | 14.1 | 27.8 (vec:-0.2631 -0.9354 0.2362 -> y) | speaker_interface.stl |
-| 6 | Speaker stand to head | 2 | 0 | 2 | 17.6 | 47.4 (-z -> z) | speaker_stand.stl |
-| | Sum | 14 | 0 | 14 | | | |
+| Rank | Joint | Saved | Arm mm | Pull-off N | Required N | Strain percent |
+|---|---|---|---|---|---|---|
+| 1 | Mics, both | 4 | 0.90 x 5.0 x 12 | 1.11 | 0.92 | 0.375 |
+| 2 | Adapter | 2 | 3.50 x 10.0 x 20 | 28.31 | 24.11 | 0.525 |
+| 3 | Cliff board | 2 | 1.27 x 5.0 x 12 | 3.13 | 2.71 | 0.529 |
+| 4 | Pi | 2 | 3.50 x 12.0 x 20 | 33.97 | 29.07 | 0.525 |
+| 5 | Speaker interface to stand | 2 | 5.50 x 14.0 x 25 | 78.74 | 71.76 | 0.528 |
+| 6 | Speaker stand to head | 2 | 3.50 x 33.0 x 20 | 93.42 | 89.52 | 0.525 |
+| | Sum | 14 | | | | |
+
+Arm is thickness x width x length. Pull-off and required force are calc only. Strain is calc only.
 
 Fitted screws 324 - 14 = 310. Builder-turned screws 268 - 14 = 254. Washers stay 8 (the eye screws stay). Inserts stay 48. These joints use pilots, not the heat-set inserts.
 
-Per row, calc only unless noted:
-
-- Mics, both. Mass 0.4 g (COMPANION.md 0.4 g each, product page). Required 0.9 N, so the minimum barb is 0.2 mm. Printed width 5.0 mm. Print-up extent 59.4 mm on head.stl, axis -z -> z, bounds 199.8 x 197.3 x 59.4 mm (CAD check only). Printed at the stock 5 mm.
-- Adapter. Mass 16 g (STRUCTURE_TWIN.md 16 g, clip on trunk_top). Required 24.1 N, so the minimum barb is 4.7 mm. Printed width 5.0 mm. Print-up extent 41.0 mm on trunk_top.stl, axis +z -> z, bounds 125.5 x 100.7 x 41.0 mm (CAD check only). Printed at the stock 5 mm.
-- Cliff board. Mass 1.8 g (FREEZE.md 1.8 g). Required 2.7 N, so the minimum barb is 0.5 mm. Printed width 5.0 mm. Print-up extent 18.0 mm on body_front.stl, axis -x -> x, bounds 18.0 x 110.0 x 143.0 mm (CAD check only). Printed at the stock 5 mm.
-- Pi. Mass 12.6 g (STRUCTURE_TWIN.md 12.6 g, clip on the head). Required 29.1 N, so the minimum barb is 5.7 mm. Printed width 5.7 mm. Print-up extent 59.4 mm on head.stl, axis -z -> z, bounds 199.8 x 197.3 x 59.4 mm (CAD check only). Wider than 5 mm, same arm thickness and length.
-- Speaker interface to stand. Mass 31.1 g (STRUCTURE_TWIN.md 31.1 g). Required 71.8 N, so the minimum barb is 14.1 mm. Printed width 14.1 mm. Print-up extent 27.8 mm on speaker_interface.stl, axis vec:-0.2631 -0.9354 0.2362 -> y, bounds 40.3 x 27.8 x 39.3 mm (CAD check only). Wider than 5 mm, same arm thickness and length.
-- Speaker stand to head. Mass 38.8 g (STRUCTURE_TWIN.md 38.8 g). Required 89.5 N, so the minimum barb is 17.6 mm. Printed width 17.6 mm. Print-up extent 47.4 mm on speaker_stand.stl, axis -z -> z, bounds 51.4 x 46.0 x 47.4 mm (CAD check only). Wider than 5 mm, same arm thickness and length.
+- Mics, both. Mass 0.4 g (COMPANION.md 0.4 g each, product page). Print-up extent 59.4 mm on head.stl, axis -z -> z, bounds 199.8 x 197.3 x 59.4 mm (CAD check only).
+- Adapter. Mass 16 g (STRUCTURE_TWIN.md 16 g, clip on trunk_top). Print-up extent 41.0 mm on trunk_top.stl, axis +z -> z, bounds 125.5 x 100.7 x 41.0 mm (CAD check only).
+- Cliff board. Mass 1.8 g (FREEZE.md 1.8 g). Print-up extent 18.0 mm on body_front.stl, axis -x -> x, bounds 18.0 x 110.0 x 143.0 mm (CAD check only).
+- Pi. Mass 12.6 g (STRUCTURE_TWIN.md 12.6 g, clip on the head). Print-up extent 59.4 mm on head.stl, axis -z -> z, bounds 199.8 x 197.3 x 59.4 mm (CAD check only).
+- Speaker interface to stand. Mass 31.1 g (STRUCTURE_TWIN.md 31.1 g). Print-up extent 27.8 mm on speaker_interface.stl, axis vec:-0.2631 -0.9354 0.2362 -> y, bounds 40.3 x 27.8 x 39.3 mm (CAD check only).
+- Speaker stand to head. Mass 38.8 g (STRUCTURE_TWIN.md 38.8 g). Print-up extent 47.4 mm on speaker_stand.stl, axis -z -> z, bounds 51.4 x 46.0 x 47.4 mm (CAD check only).
 
 The cliff board keeps the printed standoffs from D54. The clip only holds the board down. The 25.4 x 17.8 mm board (cited, FREEZE.md) is wider than a 5 mm clip.
 
@@ -149,10 +149,10 @@ Neighbour clash of the new clip against the next part is not swept. That sweep i
 
 | Idea | Screws it would touch | Result | Check |
 |---|---|---|---|
-| Eye clips | 4, and 8 washers | Minimum barb 4.1 mm, print-up extent 4.3 mm. Gap 0.2 mm, under the 0.3 mm margin. Screws stay. | CAD check only, fails |
-| Battery lid clip | 4 | Print-up extent 7.5 mm, required barb 40.3 mm. Does not fit. Screws stay. | CAD check only, fails |
-| Head bottom sheet clip | 4 | Print-up extent 3.0 mm, required barb 27.7 mm. Does not fit. Screws stay. | CAD check only, fails |
-| Body shells | 10 (back 6, front 4) | Mid shell hit 2800 N (cited, SCREWS_TWIN.md). SF 1.2 needs about 660 mm of barb. The lips already carry shear. The screws stay. | calc only, fails |
+| Eye clips | 4, and 8 washers | Largest arm inside the 0.3 mm margin (4.0 x 5.1 x 24 mm) pulls off at 20.3 N. The stack needs 20.8 N. Screws stay. | calc only, fails |
+| Battery lid clip | 4 | Stock K3 pull-off is 1.11 N. The lid needs 205 N. Print-up extent is 7.5 mm. Screws stay. | calc only, fails |
+| Head bottom sheet clip | 4 | Same stock pull-off, 1.11 N, against 141 N. Print-up extent is 3.0 mm. Screws stay. | calc only, fails |
+| Body shells | 10 (back 6, front 4) | Mid shell hit 2800 N (cited, SCREWS_TWIN.md). A 45 degree clip in this size range is a few newtons. The lips already carry shear. The screws stay. | calc only, fails |
 | Horn screws, 4 down to 2 | 50 if every 4-hole horn lost 2 | Halving the screw count is taken as doubling the peak. Foot walk 3.86 becomes 1.93, under 2. Hip-roll soft fall 2.33 becomes 1.17, under 1.2. Roll, shin, thigh, neck, and head are already under a margin (PR 43, FEA pass only). PR 46 keeps four drive screws on each shin. Not cut. | calc only, fails |
 | Servo case clamps | 68 | docs/assembly_guide.md says to fit the plastic screws that come with the servos. Pull-out of those M2 screws from the case is already a BLOCKER (STRUCTURE_TWIN.md). Not cut. | BLOCKER |
 | Ear screws | 6 | Antenna impact is not modelled (screws twin). | BLOCKER |
@@ -170,12 +170,12 @@ Even if the failed horn cut (50) and a rough half of the case clamps (34) were a
 
 No file under print/ changes. No row in fasteners.json changes. When a later job does the STL work, the edits are:
 
-- head.stl: stock K3 section, barb 5.0 mm, at each mic board (F356, F357, F358, F359). Close those pilots.
-- trunk_top.stl: K3 section, barb 5.0 mm, at the adapter (F119, F122). Close those pilots.
-- body_front.stl: K3 section, barb 5.0 mm, holding the cliff board (F360, F361). Keep the D54 standoffs. Close only the two screw pilots.
-- head.stl: K3 section, barb 5.7 mm, at the Pi pilots (F111, F114). Close those pilots.
-- speaker_interface.stl: K3 section, barb 14.1 mm. Close the stand pilots for F353 and F354. The two parts stay separate.
-- speaker_stand.stl: K3 section, barb 17.6 mm. Close the head pilots for F108 and F109.
+- head.stl: K3 clip, arm 0.90 x 5.0 x 12 mm, at each mic board (F356, F357, F358, F359). Close those pilots.
+- trunk_top.stl: same clip, arm 3.50 x 10.0 x 20 mm, at the adapter (F119, F122). Close those pilots.
+- body_front.stl: same clip, arm 1.27 x 5.0 x 12 mm, holding the cliff board (F360, F361). Keep the D54 standoffs. Close only the two screw pilots.
+- head.stl: same cantilever and 45 degree return, arm 3.50 x 12.0 x 20 mm, at the Pi pilots (F111, F114). Close those pilots.
+- speaker_interface.stl: same clip, arm 5.50 x 14.0 x 25 mm. Close the stand pilots for F353 and F354. The two parts stay separate.
+- speaker_stand.stl: same clip, arm 3.50 x 33.0 x 20 mm. Close the head pilots for F108 and F109.
 
 D42: a joint with no screws left is a uniform pattern. The holes close with the STL edit, which is D39.
 
