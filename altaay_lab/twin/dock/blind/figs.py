@@ -15,8 +15,8 @@ plt.rcParams.update({"font.size": 9, "axes.edgecolor": GRID, "axes.labelcolor": 
 
 # counts of 540. Headline is the flush window. The old sun-and-ring pin test is the smaller pair.
 labels = ["falls", "flush window\nfirst sit", "flush window\nwithin 3 sits", "old sun pins\nfirst sit", "old sun pins\nwithin 3 sits"]
-a190 = [1, 380, 386, 35, 98]
-a215 = [2, 370, 374, 26, 92]
+a190 = [0, 380, 383, 35, 43]
+a215 = [2, 370, 373, 26, 50]
 x = np.arange(len(labels))
 w = 0.36
 fig, ax = plt.subplots(figsize=(9.4, 4.2))

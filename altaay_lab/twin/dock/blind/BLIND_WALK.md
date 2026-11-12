@@ -25,14 +25,14 @@ Two different tests were easy to mix up. They are not the same number.
   sun, at least one bumper pin on the ring, no pin on the wrong zone, and the spring compressed
   (`nestlib.score_nest`, the 45 mm landing window). That is the **35**.
 
-At 190 mm (the approved distance): **1 fall**. Flush window, first sit **380 of 540**, within 3 sits
-**386 of 540**. Old sun and ring, first sit **35 of 540**, within 3 sits **98 of 540**. The same
+At 190 mm (the approved distance): **0 falls**. Flush window, first sit **380 of 540**, within 3 sits
+**383 of 540**. Old sun and ring, first sit **35 of 540**, within 3 sits **43 of 540**. The same
 controller with the pose stand-in, scored on the old sun and ring, charged at the first sit in 531 of
 540 (sim pass only, nest sim v3). The blind run does not keep that. It does put most first seats in the
 much larger flush box.
 
 Moving the sun to 215 mm does not fix it (study only): **2 falls**. Flush window, first sit **370 of
-540**, within 3 sits **374 of 540**. Old sun and ring, first sit **26 of 540**, within 3 sits **92 of
+540**, within 3 sits **373 of 540**. Old sun and ring, first sit **26 of 540**, within 3 sits **50 of
 540**.
 
 Integrating the raw walk command, instead of the measured speed, is worse. The duck stops about 280 mm
@@ -97,14 +97,14 @@ fail this pin test. That is why 380 and 35 can both be true.
 | sim pass only | 190 mm | 215 mm, study only |
 |---|---|---|
 | Runs | 540 | 540 |
-| Falls | 1 | 2 |
+| Falls | 0 | 2 |
 | Reached a sit | 528 | 517 |
 | Flush window, first sit | 380 | 370 |
-| Flush window, within 3 sits | 386 | 374 |
+| Flush window, within 3 sits | 383 | 373 |
 | Old sun and ring, first sit | 35 | 26 |
-| Old sun and ring, within 3 sits | 98 | 92 |
-| 6.0 V falls / flush first / flush within 3 / old first / old within 3 | 0 / 183 / 187 / 8 / 18 | 1 / 175 / 178 / 9 / 24 |
-| 7.2 V falls / flush first / flush within 3 / old first / old within 3 | 1 / 197 / 199 / 27 / 80 | 1 / 195 / 196 / 17 / 68 |
+| Old sun and ring, within 3 sits | 43 | 50 |
+| 6.0 V falls / flush first / flush within 3 / old first / old within 3 | 0 / 183 / 186 / 8 / 11 | 1 / 175 / 177 / 9 / 12 |
+| 7.2 V falls / flush first / flush within 3 / old first / old within 3 | 0 / 197 / 197 / 27 / 32 | 1 / 195 / 196 / 17 / 38 |
 
 Of the runs that sat at 190 mm, the first seat is 52 mm short of the sun on average and 69 mm to the
 side (1 sigma 122 mm and 105 mm). Median radial miss 130 mm, 95th 311 mm. At 215 mm the mean is 55 mm
@@ -112,20 +112,26 @@ short and 78 mm to the side, median radial 143 mm.
 
 The pose-stand-in run of this same walk law, at 190 mm, passed the old sun and ring test at the first
 sit in 531 of 540 and within 3 sits in 540 of 540, with 0 falls (sim pass only,
-twin/dock/nest/sim/v3/NEST_SIM_V3.md). The blind run keeps the falls low (1 and 2). On the old sun and
-ring test it falls to 35 and 98. On the flush window it holds 380 of 540 at the first sit and 386 of
+twin/dock/nest/sim/v3/NEST_SIM_V3.md). The blind run has 0 falls at 190 mm and 2 at 215 mm. On the old
+sun and ring test it is 35 and 43. On the flush window it holds 380 of 540 at the first sit and 383 of
 540 within 3 sits. 160 first seats at 190 mm, and 170 at 215 mm, miss even that box.
 
-Head to wall is a geometry check. The sim does not push the duck back. At 190 mm, 182 of 540 runs have
-a part past the wall plane or inside the rim block. At 215 mm, 156 of 540 do. The blind last stretch
+Head to wall is a geometry check. The sim does not push the duck back. At 190 mm, 140 of 540 runs have
+a part past the wall plane or inside the rim block. At 215 mm, 120 of 540 do. The blind last stretch
 still walks some ducks into the wall plane. Moving the sun out by 25 mm does not clear them.
+
+The re-sit used to keep the heading from before the turn, so the shuffle thought the duck was still
+facing the wall. A review caught that. The turn is unchanged. After it, the estimate heading is the
+pre-turn estimate plus the simulated IMU yaw. The first-sit counts did not move (35 and 380 at 190 mm,
+26 and 370 at 215 mm). The within-3 counts above are from that corrected heading. The old sun-and-ring
+within-3 count had been 98 at 190 mm with the backwards heading. It is 43 with the IMU heading.
 
 ## 3. What this does and does not say
 
 The camera can carry the duck until about half a metre. After that, dead reckoning at the measured
-walking speed puts the seat in the flush box in 380 of 540 runs at the first sit, and in 386 of 540
+walking speed puts the seat in the flush box in 380 of 540 runs at the first sit, and in 383 of 540
 within 3 sits. The same landings pass the old sun and ring pin test in only 35 of 540 at the first sit,
-and 98 of 540 within 3 sits. Three blind re-sits add 6 seats to the flush box and 63 passes to the old
+and 43 of 540 within 3 sits. Three blind re-sits add 3 seats to the flush box and 8 passes to the old
 pin test. A bad first seat usually stays outside the box.
 
 215 mm is not an improvement on either test. It is a study. 190 mm stays the approved distance.

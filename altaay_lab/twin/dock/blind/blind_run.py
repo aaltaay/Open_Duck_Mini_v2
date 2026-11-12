@@ -176,6 +176,27 @@ def _bind(run):
     run.est = CamEst(run.s, sx, D(sy), run.rate, run.lat)
 
 
+def blind_turn(self, psi_est):
+    """Same turn as the nest sim (IMU yaw, no new camera fix). Then set the blind heading from that IMU
+    measurement. The inherited turn calls the physics step directly, so the estimator would otherwise
+    keep the pre-turn heading and the re-sit would steer backwards."""
+    s = self.s
+    self.stage("turn")
+    self.est.on = False
+    s.imu_yaw = 0.0
+    want = np.pi - psi_est - self.coast
+    n = 0
+    while abs(s.imu_yaw) < want and n < 700 and not s.fallen:
+        s.step((0, 0, NR.TURN_WZ))
+        n += 1
+    if self.est.est is not None:
+        self.est.est[2] = wrap(float(psi_est) + s.imu_yaw)
+        e = self.est.est
+        self.est.got.append((s.t, s.t, float(e[0]), float(e[1]), float(e[2])))
+    self.end_stage()
+    return n * 0.02
+
+
 class B6(NR.Run):
     def __init__(self, cfg):
         super().__init__(cfg)
@@ -186,6 +207,8 @@ class B6(NR.Run):
             cmd = (0.0, 0.0, 0.5)
         self.est.cmd = cmd
         NR.Run.step(self, cmd)
+
+    turn = blind_turn
 
 
 class B7(R2.Run2):
@@ -198,6 +221,8 @@ class B7(R2.Run2):
             cmd = (0.0, 0.0, 0.5)
         self.est.cmd = cmd
         R2.Run2.step(self, cmd)
+
+    turn = blind_turn
 
 
 def job(cfg):
