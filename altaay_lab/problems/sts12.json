@@ -1,0 +1,93 @@
+{
+ "label": "sim pass only",
+ "sheet": {
+  "part": "ST-3215-C018",
+  "source": "https://www.feetech.cn/en/525603",
+  "stall_kgcm": 30.0,
+  "stall_Nm": 2.942,
+  "stall_A": 2.7,
+  "no_load_s_per_60deg": 0.222,
+  "no_load_rad_s": 4.717,
+  "model_no_load_rad_s": 4.717,
+  "kt_Nm_per_A": 1.0896,
+  "r_stall_ohm": 4.444,
+  "sheet_scale": 0.9108,
+  "speed_damping_factor": 1.197
+ },
+ "corners": {
+  "typical": {
+   "label": "sim pass only",
+   "corner": "typical",
+   "fall_s": "none",
+   "dur_s": 20.0,
+   "gait": {
+    "vx": 0.093260963993778,
+    "vy": -0.0036225613585973847,
+    "wz": 0.014636826482273413,
+    "track_lin": 0.6222086236712843,
+    "track_yaw": null,
+    "pitch_mean_deg": 6.577421293473193,
+    "pitch_rms_deg": 0.5998949868049015,
+    "roll_rms_deg": 2.9248325804425526,
+    "z_mean": 0.15983937250884847
+   },
+   "pack": {
+    "i_mean": 5.068,
+    "i_rms": 5.42,
+    "i_max": 9.527,
+    "i_max_100ms": 6.889,
+    "v_term_mean": 12.25,
+    "v_term_min": 12.04,
+    "bus_mean": 11.894,
+    "bus_min": 11.371,
+    "bec_out_mean": 11.576,
+    "bec_out_min": 11.035,
+    "bec_in_min": 11.335,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "knees": {
+    "left_knee": 10.886,
+    "right_knee": 10.728,
+    "i_pack_peak_A": 9.527,
+    "v_bec_out_min_V": 11.035
+   }
+  },
+  "high-side": {
+   "label": "sim pass only",
+   "corner": "high-side",
+   "fall_s": "none",
+   "dur_s": 20.0,
+   "gait": {
+    "vx": 0.08682762365837383,
+    "vy": -0.0034706022628211873,
+    "wz": 0.0008753737414813989,
+    "track_lin": 0.5793130533553186,
+    "track_yaw": null,
+    "pitch_mean_deg": 6.936378310136999,
+    "pitch_rms_deg": 0.5351395885093198,
+    "roll_rms_deg": 2.837027709589233,
+    "z_mean": 0.1591805074712133
+   },
+   "pack": {
+    "i_mean": 5.03,
+    "i_rms": 5.358,
+    "i_max": 9.019,
+    "i_max_100ms": 6.843,
+    "v_term_mean": 12.252,
+    "v_term_min": 12.067,
+    "bus_mean": 11.798,
+    "bus_min": 11.256,
+    "bec_out_mean": 11.48,
+    "bec_out_min": 10.923,
+    "bec_in_min": 11.223,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "knees": {
+    "left_knee": 10.515,
+    "right_knee": 10.417,
+    "i_pack_peak_A": 9.019,
+    "v_bec_out_min_V": 10.923
+   }
+  }
+ }
+}
