@@ -11,8 +11,9 @@ Maker screening against restricted lists waits for altaay_lab/compliance/. That 
 - BOM.md, fasteners/fasteners.json, and fasteners/FASTENERS.md for the duck screws, inserts, washers, wire, and tools.
 - wiring/netlist.yaml for the duck components. Splices whose part text says solder stay on the solder line.
 - circuitry/CHARGER_BOARD.md and circuitry/charger_board.yaml for the in-duck MCP73213 board. The Adeept board is not ordered.
+- BOM.md lines 22b and 22c for the Pi-header KK 254 terminals and housings. Cable D13 in wiring/netlist.yaml is the end that already says KK 254 socket. Mini-SPOX does not cover that header.
 - twin/dock/nest/cad/NEST_CAD.md for the nest at 190 mm: felt, cloth, foil, foam, jack, and the six extra inserts and six extra screws.
-- twin/dock/flush/FLUSH_CONTACTS.md for the Mill-Max 0906 pin and the five seat wells. Proud probes are not ordered.
+- twin/dock/flush/FLUSH_CONTACTS.md for the Mill-Max 0906 pin, the five seat wells, and the undesigned ideal-diode path from each well to either rail. Proud probes are not ordered. DK6 and DK7 stay the supply OR diodes. They are not that path.
 - twin/dock/closeup/CLOSEUP.md for the 40 mm wall card. It is a plain square, not a coded tag.
 - twin/structure/shin_eye/SHIN_EYE.md and shin_eye/slice.json for PA6-CF grams. twin/structure/TOPOLOGY.md for the PLA gram delta. print/SLICE_SUMMARY.md and print/PRINT_PLAN.md for the installed slice.
 - The foot carve in the topology study is not ordered. That study already left it out.
@@ -110,6 +111,8 @@ A line is a BLOCKER when it has no source, the page was out of stock, the datash
 - glass: Eye glass discs. page not opened 2026-11-12
 - holder: ATO inline fuse holder. page not opened 2026-11-12
 - jack: DC jack, 2.1 mm. page not opened 2026-11-12
+- kk-h: KK 254 crimp housings, 2695 series. the line as specified cannot be ordered
+- kk-term: KK 254 crimp terminal, 22 to 30 AWG. page not opened 2026-11-12
 - l2: BEC programmer. page not opened 2026-11-12
 - led: 1 W warm white LED bead, pack of 10. page not opened 2026-11-12
 - loctite: Threadlocker. page not opened 2026-11-12
@@ -161,6 +164,7 @@ A line is a BLOCKER when it has no source, the page was out of stock, the datash
 - waveshare: Bus servo adapter, USB data only. page not opened 2026-11-12
 - weld: 2S pack build: nickel strip, sleeve, fish paper, weld. no maker part number in the lab files
 - wells: Flush gold wells in the seat, 3 mm, five of them. no maker part number in the lab files
+- well-route: Duck-side ideal-diode path for each flush well. part is not chosen
 - wire16: Silicone wire, 16 AWG, red and black. page not opened 2026-11-12
 - wire20: Silicone wire, 20 AWG, red and black. page not opened 2026-11-12
 - wire22: Silicone wire, 22 AWG, 6 colors. page not opened 2026-11-12
