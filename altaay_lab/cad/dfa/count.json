@@ -1,0 +1,1227 @@
+{
+ "fit": 324,
+ "out": 37,
+ "screw_rows": 361,
+ "inserts_fit": 48,
+ "inserts_out": 10,
+ "insert_rows": 58,
+ "nuts": 0,
+ "washers": 8,
+ "buckets": {
+  "buy": 205,
+  "bag": 57,
+  "sg90": 6,
+  "factory": 56
+ },
+ "roles": {
+  "structure": 40,
+  "cover": 37,
+  "case": 68,
+  "horn": 117,
+  "ears": 6,
+  "factory": 56
+ },
+ "horn_specs": {
+  "M3x6 DIN 912 A2": 64,
+  "M3x5 DIN 912 A2": 28,
+  "M3x6 ISO 7380 A2 button head": 8,
+  "M3x6 machine screw (Feetech rocker screw)": 14,
+  "PA3.0x5 self-tapping, washer head (Feetech idle screw)": 3
+ },
+ "builder_screws": 268,
+ "specs": {
+  "M3x10 DIN 912 A2": 12,
+  "M3x6 ISO 7380 A2 button head": 10,
+  "M3x6 DIN 912 A2": 78,
+  "M2.5x10 DIN 912 A2": 4,
+  "M2x6 self-tapping pan head": 44,
+  "M2x8 self-tapping pan head": 2,
+  "M2x5 self-tapping pan head": 24,
+  "M3x8 DIN 912 A2": 18,
+  "M3x12 DIN 912 A2": 2,
+  "M2.5x6 DIN 912 A2": 13,
+  "M2x12 self-tapping pan head": 2,
+  "M2x4 self-tapping pan head": 2,
+  "M3x5 DIN 912 A2": 28,
+  "SG90 bag horn screw": 2,
+  "M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers": 4,
+  "PA2.0 self-tapping (factory)": 56,
+  "M3x6 machine screw (Feetech rocker screw)": 14,
+  "PA3.0x5 self-tapping, washer head (Feetech idle screw)": 3,
+  "SG90 bag mounting screw": 4,
+  "M2.5x5 DIN 912 A2": 2
+ },
+ "joints": [
+  {
+   "part": "servo top case",
+   "into": "servo bottom case",
+   "anchor": "servo case (factory)",
+   "spec": "PA2.0 self-tapping (factory)",
+   "qty": 56,
+   "ids": [
+    "F260",
+    "F261",
+    "F262",
+    "F263",
+    "F264",
+    "F265",
+    "F266",
+    "F267",
+    "F268",
+    "F269",
+    "F270",
+    "F271",
+    "F272",
+    "F273",
+    "F274",
+    "F275",
+    "F276",
+    "F277",
+    "F278",
+    "F279",
+    "F280",
+    "F281",
+    "F282",
+    "F283",
+    "F284",
+    "F285",
+    "F286",
+    "F287",
+    "F288",
+    "F289",
+    "F290",
+    "F291",
+    "F292",
+    "F293",
+    "F294",
+    "F295",
+    "F296",
+    "F297",
+    "F298",
+    "F299",
+    "F300",
+    "F301",
+    "F302",
+    "F303",
+    "F304",
+    "F305",
+    "F306",
+    "F307",
+    "F308",
+    "F309",
+    "F310",
+    "F311",
+    "F312",
+    "F313",
+    "F314",
+    "F315"
+   ],
+   "action": "Keep",
+   "role": "factory"
+  },
+  {
+   "part": "drive horn",
+   "into": "servo output shaft",
+   "anchor": "servo output shaft",
+   "spec": "M3x6 machine screw (Feetech rocker screw)",
+   "qty": 14,
+   "ids": [
+    "F316",
+    "F318",
+    "F320",
+    "F322",
+    "F324",
+    "F326",
+    "F328",
+    "F330",
+    "F332",
+    "F334",
+    "F336",
+    "F338",
+    "F340",
+    "F342"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "foot_side",
+   "into": "passive_palonier",
+   "anchor": "horn(passive)",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 8,
+   "ids": [
+    "F164",
+    "F166",
+    "F168",
+    "F170",
+    "F172",
+    "F174",
+    "F251",
+    "F257"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "foot_top",
+   "into": "drive_palonier",
+   "anchor": "horn(drive)",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 8,
+   "ids": [
+    "F165",
+    "F167",
+    "F169",
+    "F171",
+    "F173",
+    "F175",
+    "F252",
+    "F258"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "head_pitch_to_yaw",
+   "into": "drive_palonier",
+   "anchor": "horn(drive)",
+   "spec": "M3x5 DIN 912 A2",
+   "qty": 8,
+   "ids": [
+    "F221",
+    "F223",
+    "F225",
+    "F227",
+    "F236",
+    "F238",
+    "F240",
+    "F242"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "head_pitch_to_yaw",
+   "into": "passive_palonier",
+   "anchor": "horn(passive)",
+   "spec": "M3x5 DIN 912 A2",
+   "qty": 8,
+   "ids": [
+    "F220",
+    "F222",
+    "F224",
+    "F226",
+    "F235",
+    "F237",
+    "F239",
+    "F241"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "roll_motor_top",
+   "into": "drive_palonier",
+   "anchor": "horn(drive)",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 8,
+   "ids": [
+    "F033",
+    "F034",
+    "F035",
+    "F036",
+    "F037",
+    "F038",
+    "F039",
+    "F040"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "shin_left_sheet",
+   "into": "drive_palonier",
+   "anchor": "horn(drive)",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 8,
+   "ids": [
+    "F203",
+    "F205",
+    "F207",
+    "F215",
+    "F217",
+    "F219",
+    "F250",
+    "F256"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "shin_right_sheet",
+   "into": "passive_palonier",
+   "anchor": "horn(passive)",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 8,
+   "ids": [
+    "F202",
+    "F204",
+    "F206",
+    "F214",
+    "F216",
+    "F218",
+    "F249",
+    "F255"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "trunk_top",
+   "into": "wj-wk00-0122topcabinetcase_95",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 6,
+   "ids": [
+    "F126",
+    "F128",
+    "F130",
+    "F132",
+    "F138",
+    "F139"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "trunk_top",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 6,
+   "ids": [
+    "F057",
+    "F058",
+    "F059",
+    "F060",
+    "F125",
+    "F131"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "SG90 tab",
+   "into": "head",
+   "anchor": "plastic pilot 1.55 (SG90 tab)",
+   "spec": "SG90 bag mounting screw",
+   "qty": 4,
+   "ids": [
+    "F348",
+    "F349",
+    "F350",
+    "F351"
+   ],
+   "action": "Keep",
+   "role": "ears"
+  },
+  {
+   "part": "battery_pack_lid",
+   "into": "body_back",
+   "anchor": "plastic pilot 2.0",
+   "spec": "M2.5x10 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F017",
+    "F018",
+    "F027",
+    "F028"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "bno055",
+   "into": "trunk_top",
+   "anchor": "plastic pilot 2.0",
+   "spec": "M2.5x6 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F115",
+    "F116",
+    "F117",
+    "F118"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "body_back",
+   "into": "body_middle_top",
+   "anchor": "M3 insert",
+   "spec": "M3x8 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F079",
+    "F080",
+    "F081",
+    "F082"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "body_middle_bottom",
+   "into": "trunk_bottom",
+   "anchor": "M3 insert",
+   "spec": "M3x10 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F019",
+    "F020",
+    "F021",
+    "F022"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "foot_bottom_tpu",
+   "into": "foot_bottom_pla",
+   "anchor": "M3 insert",
+   "spec": "M3x8 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F095",
+    "F096",
+    "F097",
+    "F098"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "foot_side",
+   "into": "foot_top",
+   "anchor": "M3 insert",
+   "spec": "M3x10 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F023",
+    "F024",
+    "F025",
+    "F026"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "head_bot_sheet",
+   "into": "head",
+   "anchor": "M3 insert",
+   "spec": "M3x8 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F083",
+    "F084",
+    "F089",
+    "F090"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "head_roll_mount",
+   "into": "head",
+   "anchor": "M3 insert",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F091",
+    "F092",
+    "F093",
+    "F094"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "head_yaw_to_roll",
+   "into": "drive_palonier",
+   "anchor": "horn(drive)",
+   "spec": "M3x5 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F158",
+    "F159",
+    "F160",
+    "F161"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "knee_to_ankle_left_sheet",
+   "into": "drive_palonier",
+   "anchor": "horn(drive)",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F197",
+    "F199",
+    "F201",
+    "F248"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "knee_to_ankle_left_sheet",
+   "into": "passive_palonier",
+   "anchor": "horn(passive)",
+   "spec": "M3x6 ISO 7380 A2 button head",
+   "qty": 4,
+   "ids": [
+    "F209",
+    "F211",
+    "F213",
+    "F254"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "knee_to_ankle_left_sheet",
+   "into": "wj-wk00-0122topcabinetcase_95",
+   "anchor": "servo pilot",
+   "spec": "M2x5 self-tapping pan head",
+   "qty": 4,
+   "ids": [
+    "F099",
+    "F100",
+    "F103",
+    "F104"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "knee_to_ankle_right_sheet",
+   "into": "drive_palonier",
+   "anchor": "horn(drive)",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F208",
+    "F210",
+    "F212",
+    "F253"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "knee_to_ankle_right_sheet",
+   "into": "passive_palonier",
+   "anchor": "horn(passive)",
+   "spec": "M3x6 ISO 7380 A2 button head",
+   "qty": 4,
+   "ids": [
+    "F196",
+    "F198",
+    "F200",
+    "F247"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "knee_to_ankle_right_sheet",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 4,
+   "ids": [
+    "F041",
+    "F042",
+    "F045",
+    "F046"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "left_roll_to_pitch",
+   "into": "drive_palonier",
+   "anchor": "horn(drive)",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F187",
+    "F189",
+    "F195",
+    "F244"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "left_roll_to_pitch",
+   "into": "passive_palonier",
+   "anchor": "horn(passive)",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F186",
+    "F188",
+    "F194",
+    "F243"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "neck_left_sheet",
+   "into": "drive_palonier",
+   "anchor": "horn(drive)",
+   "spec": "M3x5 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F228",
+    "F231",
+    "F233",
+    "F259"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "neck_right_sheet",
+   "into": "passive_palonier",
+   "anchor": "horn(passive)",
+   "spec": "M3x5 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F229",
+    "F230",
+    "F232",
+    "F234"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "right_roll_to_pitch",
+   "into": "drive_palonier",
+   "anchor": "horn(drive)",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F185",
+    "F191",
+    "F193",
+    "F246"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "right_roll_to_pitch",
+   "into": "passive_palonier",
+   "anchor": "horn(passive)",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F184",
+    "F190",
+    "F192",
+    "F245"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "roll_motor_top",
+   "into": "wj-wk00-0122topcabinetcase_95",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 4,
+   "ids": [
+    "F152",
+    "F153",
+    "F154",
+    "F155"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "roll_motor_top",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 4,
+   "ids": [
+    "F051",
+    "F052",
+    "F053",
+    "F054"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "shin_left_sheet",
+   "into": "shin_spacer",
+   "anchor": "M3 insert",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F006",
+    "F008",
+    "F014",
+    "F016"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "shin_left_sheet",
+   "into": "wj-wk00-0122topcabinetcase_95",
+   "anchor": "servo pilot",
+   "spec": "M2x5 self-tapping pan head",
+   "qty": 4,
+   "ids": [
+    "F101",
+    "F102",
+    "F105",
+    "F106"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "shin_right_sheet",
+   "into": "shin_spacer",
+   "anchor": "M3 insert",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 4,
+   "ids": [
+    "F005",
+    "F007",
+    "F013",
+    "F015"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "shin_right_sheet",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 4,
+   "ids": [
+    "F043",
+    "F044",
+    "F047",
+    "F048"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "trunk_top",
+   "into": "wj-wk00-0122topcabinetcase_95",
+   "anchor": "servo pilot",
+   "spec": "M2x5 self-tapping pan head",
+   "qty": 4,
+   "ids": [
+    "F140",
+    "F141",
+    "F142",
+    "F143"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "idle horn",
+   "into": "servo bottom case boss",
+   "anchor": "servo idle boss pilot 2.67",
+   "spec": "PA3.0x5 self-tapping, washer head (Feetech idle screw)",
+   "qty": 3,
+   "ids": [
+    "F319",
+    "F329",
+    "F341"
+   ],
+   "action": "Keep",
+   "role": "horn"
+  },
+  {
+   "part": "left_roll_to_pitch",
+   "into": "wj-wk00-0122topcabinetcase_95",
+   "anchor": "servo pilot",
+   "spec": "M2x5 self-tapping pan head",
+   "qty": 3,
+   "ids": [
+    "F134",
+    "F144",
+    "F145"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "right_roll_to_pitch",
+   "into": "wj-wk00-0122topcabinetcase_95",
+   "anchor": "servo pilot",
+   "spec": "M2x5 self-tapping pan head",
+   "qty": 3,
+   "ids": [
+    "F137",
+    "F146",
+    "F147"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "Camera Module 3 PCB (BOM E6)",
+   "into": "head",
+   "anchor": "plastic pilot 1.65 (camera), drilled from 3.2 to 4.5 mm deep (D34)",
+   "spec": "M2x5 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F344",
+    "F347"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "I2S mic board, left (BOM E8, D47)",
+   "into": "head",
+   "anchor": "printed boss 5.0 mm, 3.5 mm high, pilot 1.65 x 5.6 mm (twin/companion/mic_seat.py, D47)",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F356",
+    "F357"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "I2S mic board, right (BOM E8, D47)",
+   "into": "head",
+   "anchor": "printed boss 5.0 mm, 3.5 mm high, pilot 1.65 x 5.6 mm (twin/companion/mic_seat.py, D47)",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F358",
+    "F359"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "board",
+   "into": "trunk_top",
+   "anchor": "plastic pilot 2.0",
+   "spec": "M2.5x6 DIN 912 A2",
+   "qty": 2,
+   "ids": [
+    "F119",
+    "F122"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "body_back",
+   "into": "body_middle_bottom",
+   "anchor": "M3 insert",
+   "spec": "M3x8 DIN 912 A2",
+   "qty": 2,
+   "ids": [
+    "F077",
+    "F078"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "body_front",
+   "into": "body_middle_bottom",
+   "anchor": "M3 insert",
+   "spec": "M3x8 DIN 912 A2",
+   "qty": 2,
+   "ids": [
+    "F071",
+    "F072"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "body_front",
+   "into": "body_middle_top",
+   "anchor": "M3 insert",
+   "spec": "M3x8 DIN 912 A2",
+   "qty": 2,
+   "ids": [
+    "F067",
+    "F068"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "bulb",
+   "into": "left_eye",
+   "anchor": "plastic pilot (eye)",
+   "spec": "M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers",
+   "qty": 2,
+   "ids": [
+    "F179",
+    "F182"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "bulb",
+   "into": "right_eye",
+   "anchor": "plastic pilot (eye)",
+   "spec": "M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers",
+   "qty": 2,
+   "ids": [
+    "F176",
+    "F181"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "head_roll_mount",
+   "into": "wj-wk00-0122topcabinetcase_95",
+   "anchor": "servo pilot",
+   "spec": "M2x4 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F156",
+    "F157"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "head_roll_mount",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x5 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F061",
+    "F062"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "head_yaw_to_roll",
+   "into": "wj-wk00-0122topcabinetcase_95",
+   "anchor": "servo pilot",
+   "spec": "M2x5 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F150",
+    "F151"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "head_yaw_to_roll",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F063",
+    "F064"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "left_cache",
+   "into": "leg_spacer",
+   "anchor": "M3 insert",
+   "spec": "M3x10 DIN 912 A2",
+   "qty": 2,
+   "ids": [
+    "F001",
+    "F003"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "left_roll_to_pitch",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F031",
+    "F032"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "neck_left_sheet",
+   "into": "wj-wk00-0122topcabinetcase_95",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F148",
+    "F149"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "neck_right_sheet",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F055",
+    "F056"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "neck_stop",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x12 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F127",
+    "F129"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "raspberrypizerow",
+   "into": "head",
+   "anchor": "plastic pilot 2.0",
+   "spec": "M2.5x6 DIN 912 A2",
+   "qty": 2,
+   "ids": [
+    "F111",
+    "F114"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "right_cache",
+   "into": "leg_spacer",
+   "anchor": "M3 insert",
+   "spec": "M3x10 DIN 912 A2",
+   "qty": 2,
+   "ids": [
+    "F009",
+    "F011"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "right_roll_to_pitch",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F029",
+    "F030"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "roll_motor_bottom",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x6 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F133",
+    "F135"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "speaker_interface",
+   "into": "speaker_stand",
+   "anchor": "plastic pilot 2.12 (speaker stand)",
+   "spec": "M2.5x5 DIN 912 A2",
+   "qty": 2,
+   "ids": [
+    "F353",
+    "F354"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "speaker_stand",
+   "into": "head",
+   "anchor": "plastic pilot 2.0",
+   "spec": "M2.5x6 DIN 912 A2",
+   "qty": 2,
+   "ids": [
+    "F108",
+    "F109"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "tof_cliff",
+   "into": "body_front",
+   "anchor": "plastic pilot 2.0 (printed standoff)",
+   "spec": "M2.5x6 DIN 912 A2",
+   "qty": 2,
+   "ids": [
+    "F360",
+    "F361"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  },
+  {
+   "part": "trunk_top",
+   "into": "trunk_bottom",
+   "anchor": "M3 insert",
+   "spec": "M3x12 DIN 912 A2",
+   "qty": 2,
+   "ids": [
+    "F073",
+    "F074"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "trunk_top",
+   "into": "wj-wk00-0124bottomcase_45",
+   "anchor": "servo pilot",
+   "spec": "M2x8 self-tapping pan head",
+   "qty": 2,
+   "ids": [
+    "F049",
+    "F050"
+   ],
+   "action": "Keep",
+   "role": "case"
+  },
+  {
+   "part": "knee_to_ankle_left_sheet",
+   "into": "leg_spacer",
+   "anchor": "M3 insert",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 1,
+   "ids": [
+    "F012"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "knee_to_ankle_left_sheet",
+   "into": "leg_spacer",
+   "anchor": "M3 insert",
+   "spec": "M3x6 ISO 7380 A2 button head",
+   "qty": 1,
+   "ids": [
+    "F010"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "knee_to_ankle_right_sheet",
+   "into": "leg_spacer",
+   "anchor": "M3 insert",
+   "spec": "M3x6 DIN 912 A2",
+   "qty": 1,
+   "ids": [
+    "F004"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "knee_to_ankle_right_sheet",
+   "into": "leg_spacer",
+   "anchor": "M3 insert",
+   "spec": "M3x6 ISO 7380 A2 button head",
+   "qty": 1,
+   "ids": [
+    "F002"
+   ],
+   "action": "Keep",
+   "role": "structure"
+  },
+  {
+   "part": "left_antenna_holder",
+   "into": "SG90 output shaft",
+   "anchor": "SG90 output shaft (not modelled)",
+   "spec": "SG90 bag horn screw",
+   "qty": 1,
+   "ids": [
+    "F162"
+   ],
+   "action": "Keep",
+   "role": "ears"
+  },
+  {
+   "part": "right_antenna_holder",
+   "into": "SG90 output shaft",
+   "anchor": "SG90 output shaft (not modelled)",
+   "spec": "SG90 bag horn screw",
+   "qty": 1,
+   "ids": [
+    "F163"
+   ],
+   "action": "Keep",
+   "role": "ears"
+  },
+  {
+   "part": "usb_c_charger",
+   "into": "body_back",
+   "anchor": "plastic pilot 2.0",
+   "spec": "M2.5x6 DIN 912 A2",
+   "qty": 1,
+   "ids": [
+    "F123"
+   ],
+   "action": "Keep",
+   "role": "cover"
+  }
+ ]
+}
