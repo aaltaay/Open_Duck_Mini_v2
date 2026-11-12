@@ -10,20 +10,22 @@ Charger heat is the D61 band, calc only: 1.9 W at a 7.2 V pack and 3.2 W at a 6.
 
 Docked sit, torque off, idle 21 mA per servo (the sheet), charge current 1.0 A, 6 hours. Sim pass only.
 
+The docked sit uses the stationary state in the thermal model (no walking air). An earlier pass of this table had treated the sit as walking. These numbers replace that pass.
+
 | Charger | Corner | Room | Cells at 6 h | Trunk wall | Hottest knee reading | BEC case |
 |---|---|---|---|---|---|---|
-| 1.9 W | central | 25 C | 31.1 C | 28.2 C | 26.7 C | 40.9 C |
-| 1.9 W | central | 32 C | 37.9 C | 35.1 C | 33.6 C | 47.6 C |
-| 1.9 W | high | 25 C | 32.7 C | 28.7 C | 27.8 C | 46.9 C |
-| 1.9 W | high | 32 C | 39.5 C | 35.6 C | 34.7 C | 53.8 C |
-| 3.2 W | central | 25 C | 33.2 C | 29.5 C | 26.7 C | 43.6 C |
-| 3.2 W | central | 32 C | 39.9 C | 36.4 C | 33.6 C | 50.4 C |
-| 3.2 W | high | 25 C | 35.3 C | 30.3 C | 27.8 C | 50.8 C |
-| 3.2 W | high | 32 C | 42.0 C | 37.1 C | 34.7 C | 57.7 C |
+| 1.9 W | central | 25 C | 31.5 C | 28.6 C | 27.6 C | 41.3 C |
+| 1.9 W | central | 32 C | 38.3 C | 35.5 C | 34.5 C | 48.0 C |
+| 1.9 W | high | 25 C | 33.1 C | 29.1 C | 27.8 C | 47.3 C |
+| 1.9 W | high | 32 C | 39.9 C | 36.0 C | 34.7 C | 54.1 C |
+| 3.2 W | central | 25 C | 33.7 C | 30.0 C | 27.6 C | 44.1 C |
+| 3.2 W | central | 32 C | 40.4 C | 36.8 C | 34.5 C | 50.8 C |
+| 3.2 W | high | 25 C | 35.8 C | 30.7 C | 27.8 C | 51.3 C |
+| 3.2 W | high | 32 C | 42.4 C | 37.6 C | 34.7 C | 58.1 C |
 
 None of those cells leave 0 C to 60 C. None of those servo readings leave -20 C to 60 C. The trunk wall stays under the 49 to 57 C heat-deflection band already cited below. On this model the 1.9 to 3.2 W charger can stay in the trunk during a sit.
 
-Walk, central corner, currents from the P45B session of the trained actuator (out/p45b_sheet/session_bam_backlash_typical.csv). The sheet-stall servo does not complete a walk (ELECTROMECH_TWIN.md update), so this walk heat is not that servo. Friction heat is not in the bins and is omitted, which makes the knee slightly cool. The right knee reading reaches 60 C at 3.3 minutes in a 25 C room and 2.5 minutes at 32 C, and 70 C at 4.5 and 3.5 minutes. If the torque stays on for the session, the right knee body reaches 94.7 C (25 C room) and 101.6 C (32 C). That is the temperature the knee sheets touch, and it is above the softening band. Cells in that central walk reach 48.3 C and 55.0 C, inside the 60 C discharge limit. The pessimistic corner crosses 60 C at 0.5 minutes, and at 32 C the cells reach 62.1 C at 36 minutes if the walk is not cut. The older P30B session file gives the same 3.3 and 2.5 minutes to 60 C, so the minute is not an artifact of which session file is used.
+Walk, central corner, currents from the P45B session of the trained actuator (out/p45b_sheet/session_bam_backlash_typical.csv). Resistive losses use the RMS pack and BEC currents over each 5 s bin, not the square of the mean. The sheet-stall servo does not complete a walk (ELECTROMECH_TWIN.md update), so this walk heat is not that servo. Friction heat is not in the bins and is omitted, which makes the knee slightly cool. The right knee reading reaches 60 C at 3.3 minutes in a 25 C room and 2.5 minutes at 32 C, and 70 C at 4.5 and 3.5 minutes. If the torque stays on for the session, the right knee body reaches 94.7 C (25 C room) and 101.6 C (32 C). That is the temperature the knee sheets touch, and it is above the softening band. Cells in that central walk reach 49.7 C and 56.4 C, inside the 60 C discharge limit. The pessimistic corner crosses 60 C on the knee at 0.5 minutes, and at 32 C the cells reach 63.9 C at 33 minutes if the walk is not cut.
 
 ## Answer in plain words
 

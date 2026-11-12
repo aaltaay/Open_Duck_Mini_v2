@@ -11,7 +11,7 @@ the opened P45B sheet (version 1.2). The servo limit is the opened STS3215 opera
 
 Run from the repo root:
   python3 altaay_lab/twin/thermal/gate_p45b.py [session.csv ...]
-With no CSV it uses the 2026-11-03 backlash typical session (BAM servo, P30B pack currents).
+With no CSV it uses the P45B backlash typical session. That file must have i_pack_rms and i_bec_rms.
 """
 import json
 import os
@@ -37,7 +37,7 @@ I_CHARGE = 1.0                      # MCP73213 on the EV board, D61
 # BEC efficiency is not published. 0.85 is the lab assumption already used in this thermal model.
 ETA_BEC = 0.85
 OUT = os.path.join(HERE, "gate_p45b.json")
-OLD_CSV = os.path.join(HERE, "..", "electromech", "out", "session_backlash_typical.csv")
+OLD_CSV = os.path.join(HERE, "..", "electromech", "out", "p45b_sheet", "session_bam_backlash_typical.csv")
 
 
 def _cross(t, y, thr):
@@ -65,7 +65,8 @@ def _trunk_sit(charger_w, c):
 
 def run_sit(charger_w, corner, Ta, hours=6.0):
     c = TT.CORNERS[corner]
-    key = "sit"
+    # "stand" is a stationary key in twin_thermal.simulate (walking air only for other keys). The duck is sitting still.
+    key = "stand"
     heats = {key: dict(servo=_idle_servo(), trunk=_trunk_sit(charger_w, c), head=c["P5V"])}
     r = TT.simulate(lambda t: key, heats, None, c, Ta, t_end=hours * 3600.0, dt=2.0, record=30.0)
     t = r["t"]
@@ -93,7 +94,10 @@ def _csv_walk(path):
     A = np.array(rows, float)
     col = {h: i for i, h in enumerate(hdr)}
     im = np.array([A[:, col["im_rms_%d" % TT.SERVO_ID[n]]] for n in TT.NAMES]).T
-    return dict(t=A[:, col["t_s"]], im=im, i_pack=A[:, col["i_pack"]], i_bec=A[:, col["i_bec_out"]], v_bec=A[:, col["v_bec_out"]])
+    if "i_pack_rms" not in col or "i_bec_rms" not in col:
+        raise SystemExit("session CSV %s has no RMS current columns; I^2R needs them" % path)
+    return dict(t=A[:, col["t_s"]], im=im, i_pack=A[:, col["i_pack_rms"]], i_bec=A[:, col["i_bec_rms"]],
+                i_pack_mean=A[:, col["i_pack"]], i_bec_mean=A[:, col["i_bec_out"]], v_bec=A[:, col["v_bec_out"]])
 
 
 def run_walk(path, corner, Ta, minutes=40.0):
@@ -115,10 +119,11 @@ def run_walk(path, corner, Ta, minutes=40.0):
     heats = {}
     for i in range(len(tbin)):
         i2 = np.nan_to_num(S["im"][i]) ** 2 * c["cf"] ** 2
-        ip = float(S["i_pack"][i])
-        ib = float(S["i_bec"][i])
+        ip = float(S["i_pack"][i])          # RMS, for every I^2 R term
+        ib = float(S["i_bec"][i])            # RMS, for the BEC lead I^2 R
         vb = float(S["v_bec"][i])
-        bec_loss = max(vb * ib, 0.0) * (1.0 / c["eta_bec"] - 1.0)
+        # converter loss follows mean output power, not the square of the mean current
+        bec_loss = max(vb * float(S["i_bec_mean"][i]), 0.0) * (1.0 / c["eta_bec"] - 1.0)
         trunk = dict(cells=2 * ip * ip * TT.PARAMS["R_cell"], holder=ip * ip * c["R_holder"], bms=ip * ip * c["R_bms"],
                      fuse=ip * ip * TT.PARAMS["R_fuse"], xt30=ip * ip * TT.PARAMS["R_xt30"],
                      switch=ip * ip * TT.sw_R_on(vb + 0.3, c), wires=ip * ip * TT.PARAMS["R_wires"],

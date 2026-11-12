@@ -168,8 +168,8 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
                sat=np.zeros(14), im2=np.zeros(14), isup=np.zeros(14), pin=np.zeros(14), err2=np.zeros(14), limsum=np.zeros(14),
                pk_i=[], pk_v=[], bus=[], vout=[], vbin=[])
     BIN = {k: np.zeros((nbins, 14), np.float32) for k in ("V_mean", "V_min", "Isup_mean", "Im_rms", "Pcu_mean", "Pel_mean", "absF_mean", "sat_frac", "w_rms")}
-    BINP = {k: np.zeros(nbins, np.float32) for k in ("t_end", "q_mAh", "v_pack_mean", "v_pack_min", "i_pack_mean", "i_pack_max", "v_bus_mean",
-                                                    "v_bec_out_mean", "v_bec_out_min", "i_bec_out_mean", "x", "y", "z", "yaw", "fallen")}
+    BINP = {k: np.zeros(nbins, np.float32) for k in ("t_end", "q_mAh", "v_pack_mean", "v_pack_min", "i_pack_mean", "i_pack_max", "i_pack_rms", "v_bus_mean",
+                                                    "v_bec_out_mean", "v_bec_out_min", "i_bec_out_mean", "i_bec_out_rms", "x", "y", "z", "yaw", "fallen")}
     if keep_full:
         FULL = {k: np.zeros((nsteps, 14), np.float32) for k in ("V", "Isup", "Im", "F", "w")}
         FULLP = {k: np.zeros(nsteps, np.float32) for k in ("v_pack", "i_pack", "v_bus", "v_bin", "v_out", "i_bout", "q")}
@@ -253,8 +253,11 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
             BIN["Pel_mean"][j] = np.mean(blk["Pel"], 0); BIN["absF_mean"][j] = np.mean(blk["absF"], 0); BIN["sat_frac"][j] = np.mean(blk["sat"], 0)
             BIN["w_rms"][j] = np.sqrt(np.mean(blk["w2"], 0))
             BINP["t_end"][j] = t; BINP["q_mAh"][j] = q; BINP["v_pack_mean"][j] = np.mean(blk["vp"]); BINP["v_pack_min"][j] = np.min(blk["vp"])
-            BINP["i_pack_mean"][j] = np.mean(blk["ip"]); BINP["i_pack_max"][j] = np.max(blk["ip"]); BINP["v_bus_mean"][j] = np.mean(blk["vb"])
-            BINP["v_bec_out_mean"][j] = np.mean(blk["vo"]); BINP["v_bec_out_min"][j] = np.min(blk["vo"]); BINP["i_bec_out_mean"][j] = np.mean(blk["io"])
+            ip = np.asarray(blk["ip"], float); ioa = np.asarray(blk["io"], float)
+            BINP["i_pack_mean"][j] = np.mean(ip); BINP["i_pack_max"][j] = np.max(ip); BINP["i_pack_rms"][j] = np.sqrt(np.mean(ip * ip))
+            BINP["v_bus_mean"][j] = np.mean(blk["vb"])
+            BINP["v_bec_out_mean"][j] = np.mean(blk["vo"]); BINP["v_bec_out_min"][j] = np.min(blk["vo"])
+            BINP["i_bec_out_mean"][j] = np.mean(ioa); BINP["i_bec_out_rms"][j] = np.sqrt(np.mean(ioa * ioa))
             pos = data.qpos[fb:fb + 3]; quat = data.qpos[fb + 3:fb + 7]
             Rm = np.zeros(9); mujoco.mju_quat2Mat(Rm, quat)
             BINP["x"][j], BINP["y"][j], BINP["z"][j] = pos
@@ -652,15 +655,18 @@ def session_csv(r, tag, bin_out_s=5.0, cell=None):
     nb = int(round(bin_out_s / float(t[1] - t[0])))
     nbin = len(t) // nb
     _, v20 = _moving_speed(BP, 20.0)
-    cols = ["t_s", "q_mAh", "soc", "v_pack", "i_pack", "v_bus", "v_bec_out", "i_bec_out", "speed_20s", "fallen"]
+    cols = ["t_s", "q_mAh", "soc", "v_pack", "i_pack", "i_pack_rms", "v_bus", "v_bec_out", "i_bec_out", "i_bec_rms", "speed_20s", "fallen"]
     per = [("V_mean", "v"), ("V_min", "vmin"), ("Isup_mean", "isup"), ("Im_rms", "im_rms"), ("Pcu_mean", "pcu"), ("sat_frac", "sat")]
     hdr = cols + ["%s_%d" % (p, sid) for _, p in per for sid in SID]
     lines = ["# twin/electromech/em_twin.py session %s (sim pass only); 5 s bins; columns in ELECTROMECH_TWIN.md 'Trace format'; servo columns end in the servo ID" % tag,
              ",".join(hdr)]
     for j in range(nbin):
         s = slice(j * nb, (j + 1) * nb)
-        row = [t[s][-1], BP["q_mAh"][s][-1], cell.soc(float(BP["q_mAh"][s][-1])), BP["v_pack_mean"][s].mean(), BP["i_pack_mean"][s].mean(), BP["v_bus_mean"][s].mean(),
-               BP["v_bec_out_mean"][s].mean(), BP["i_bec_out_mean"][s].mean(), np.nanmean(v20[s]) if not np.all(np.isnan(v20[s])) else np.nan, BP["fallen"][s].max()]
+        # RMS over the 5 s group is the root of the mean of the 0.1 s mean-squares, not the mean of the RMS values
+        i_pack_rms = float(np.sqrt(np.mean(np.square(BP["i_pack_rms"][s]))))
+        i_bec_rms = float(np.sqrt(np.mean(np.square(BP["i_bec_out_rms"][s]))))
+        row = [t[s][-1], BP["q_mAh"][s][-1], cell.soc(float(BP["q_mAh"][s][-1])), BP["v_pack_mean"][s].mean(), BP["i_pack_mean"][s].mean(), i_pack_rms, BP["v_bus_mean"][s].mean(),
+               BP["v_bec_out_mean"][s].mean(), BP["i_bec_out_mean"][s].mean(), i_bec_rms, np.nanmean(v20[s]) if not np.all(np.isnan(v20[s])) else np.nan, BP["fallen"][s].max()]
         for key, _ in per:
             X = B[key][s]
             if key == "V_min":
