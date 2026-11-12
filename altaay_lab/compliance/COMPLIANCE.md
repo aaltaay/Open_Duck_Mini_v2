@@ -2,7 +2,7 @@
 
 This is not legal advice. It is a research note. Nothing was bought. Nothing was sent to a lab or to an agency. A rule is cited only where a public page was opened on 2026-11-12, or where COMPLIANCE_FIRST_PASS.md already records that the page was opened. A number is marked cited or calc only. Where a number was not opened, the line says BLOCKER.
 
-The duck is the home machine in this repo: a walking body, a camera, Wi-Fi and Bluetooth on the Pi, a 2S lithium pack, and a felt charging nest. COMPLIANCE_FIRST_PASS.md still holds for the open contacts, the charger heat, and the homemade pack. This file adds the restricted-party check and the rules that attach if the duck is sold.
+The duck is the home machine in this repo: a walking body, a camera, Wi-Fi and Bluetooth on the Pi, a 2S lithium pack, and a felt charging nest. COMPLIANCE_FIRST_PASS.md still holds for the open contacts, the charger heat, and the homemade pack. This file adds the restricted-party check and the rules that attach if the duck is sold. The 2026-07-28 Covered List notice is quoted in compliance/FCC_COVERED_ROBOT.md.
 
 PARTS_CHECK.csv is one row per bill line, plus the nest parts that are not on the bill. Test-order rows buy the same makers. They are not a second set.
 
