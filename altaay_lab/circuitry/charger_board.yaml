@@ -1,0 +1,499 @@
+# charger_board.yaml: schematic netlist of the in-body charger board.
+# Same shape as wiring/netlist.yaml so a later pass can merge it.
+# This file does not replace wiring/netlist.yaml. Nothing here is installed.
+#
+# Tags in source: [S] a datasheet or page opened for this board (CHARGER_BOARD.md names the URL),
+# [L] an existing lab decision or file, [I] inferred, check before a merge.
+# BLOCKER = open item.
+#
+# Rev 2026-11-11 (America/New_York).
+
+meta:
+  title: Open Duck Mini v2, in-body charger board, schematic netlist
+  rev: "2026-11-11"
+  units: {length: mm, current: A, voltage: V}
+  board: CB1
+  chip: MCP73213-A6SI/MF
+  datasheet: "https://ww1.microchip.com/downloads/en/DeviceDoc/20002190C.pdf"
+  datasheet_id: DS20002190C
+  note: "Board-level only. Off-board mates (JNP, JNM, DK6, BMS P+, Pi header) are connector pins, not new robot cables."
+
+domains:
+  NEST_RAW: {v_min: -0.7, v_max: 18.0, note: "contacts before the fuse and the TVS. Design target 9.5 V. Abs max of the chip is 18 V. Reverse is blocked by the P-FET and forward-biases the unidirectional TVS."}
+  NEST_PROT: {v_min: 0.0, v_max: 17.0, note: "after the P-FET. Design window 8.70 to 10.0 V. A surge can reach the SMAJ10A 17.0 V clamp while the FET is on."}
+  PACK_6V0_8V4: {v_min: 6.0, v_max: 8.45, note: "charger VBAT. VREG for A6S is 8.40 V typical, 8.35 to 8.45 V."}
+  GPIO_3V3: {v_min: 0.0, v_max: 3.6, note: "Pi 3.3 V logic, including a diode clamp above the rail"}
+  PROG: {v_min: 0.0, v_max: 6.0, note: "PROG pin. Absolute max 6.0 V on the MCP73213 sheet."}
+  VREF: {v_min: 0.0, v_max: 2.6, note: "TL431 used as a 2.5 V rail for the NTC window. The TL431 sheet was not opened: the 2.495 V typical is BLOCKER until that sheet is read."}
+  NTC: {v_min: 0.0, v_max: 2.6, note: "pack thermistor divider, fraction of VREF"}
+  GND: {v_min: 0.0, v_max: 0.0, note: "charger ground, nest ring, BMS P-"}
+
+nets:
+  NEST_P: {domain: NEST_RAW, note: "board plus from the seat-pin splice JNP, before the fuse"}
+  NEST_FUSED: {domain: NEST_RAW, note: "fuse load side, TVS cathode, P-FET drain"}
+  NEST_PROT: {domain: NEST_PROT, note: "P-FET source, MCP73213 VDD, and the pad that feeds DK6"}
+  GATE_REV: {domain: NEST_PROT, note: "P-FET gate. Zener holds it about 4.7 V under the source. Zener sheet not opened."}
+  PACK_CHG: {domain: PACK_6V0_8V4, note: "MCP73213 VBAT to BMS P+ only. Not the servo bus."}
+  GND: {domain: GND, note: "ring, chip VSS, pack return"}
+  PROG: {domain: PROG, note: "PROG pin to the 1.10 kOhm resistor"}
+  PROG_SW: {domain: PROG, note: "resistor to the enable FET drain. FET off floats PROG and the chip stands by."}
+  EN: {domain: GPIO_3V3, note: "enable FET gate. Pull-up to 3.3 V turns charge on. Comparators and the Pi can pull it down."}
+  PI_EN: {domain: GPIO_3V3, note: "Pi GPIO6, pin 31. Open-drain low stops charge. Diode so the pin cannot drive the gate high."}
+  STAT: {domain: GPIO_3V3, note: "open-drain STAT, through 1 kOhm"}
+  STAT_GPIO: {domain: GPIO_3V3, note: "Pi GPIO5, pin 29, 10 kOhm pull-up to 3.3 V, clamp diode to 3.3 V"}
+  V3V3: {domain: GPIO_3V3, note: "Pi 3.3 V brought to the board for the pull-ups. Charge enable is off when this rail is down."}
+  VREF: {domain: VREF, note: "TL431 cathode and ref tied, feed for the NTC dividers"}
+  NTC_MID: {domain: NTC, note: "10 kOhm bias over the pack NTC. Cold is a high voltage."}
+  COLD_TH: {domain: NTC, note: "0 C threshold, 10 kOhm over 31.6 kOhm"}
+  HOT_TH: {domain: NTC, note: "60 C threshold, 10 kOhm over 2.49 kOhm"}
+
+components:
+  - id: JIN
+    ref: J1
+    part: board input from the nest splices JNP (plus) and JNM (minus). Four spring pins are off this board.
+    kind: connector
+    region: battery_bay
+    groups:
+      pads: {connector: solder pad, pitch_mm: null, note: "mates proposed at the existing splices, not a new connector family"}
+    pins:
+      - {pin: P, label: "+", name: nest plus from JNP, domain: NEST_RAW, group: pads, dir: pwr_in, source: "[L] NEST_CAD.md leads NP1 NP2 NP3 end at JNP"}
+      - {pin: M, label: "-", name: nest minus from JNM, domain: GND, group: pads, dir: gnd, source: "[L] NEST_CAD.md leads NM1 NM2"}
+    source: "[L] D61 gold disc plus, ring minus"
+
+  - id: CF1
+    ref: F2
+    part: Littelfuse 0287005.PXCN ATO 5 A in the existing FHAC0001ZXJ holder. Same part as today's charge fuse. Datasheet not re-opened this session.
+    kind: fuse
+    region: battery_bay
+    ratings: {fuse_a: 5, v: 32}
+    groups:
+      leads: {connector: ATO holder leads, pitch_mm: null}
+    pins:
+      - {pin: IN, label: IN, name: from J1 plus, domain: NEST_RAW, group: leads, dir: pwr_in, source: "[L] netlist F2 ratings"}
+      - {pin: OUT, label: OUT, name: to the TVS and the P-FET, domain: NEST_RAW, group: leads, dir: pwr_out, source: "[L] netlist F2 ratings"}
+    internal:
+      - {a: IN, b: OUT, kind: fuse, note: "5 A. Holds the stripe study's 2.8 A peak (calc only there) plus the 1.1 A charger ceiling."}
+    source: "[L] wiring/netlist.yaml F2; holder already on BOM DK3 DK4"
+
+  - id: TVS
+    ref: D1
+    part: Littelfuse SMAJ10A, uni-directional, DO-214AC
+    kind: diode
+    region: battery_bay
+    ratings: {vr_v: 10.0, vbr_min_v: 11.1, vbr_max_v: 12.3, vc_v: 17.0, ipp_a: 23.5, esd: "IEC 61000-4-2 30 kV contact and air"}
+    groups:
+      pads: {connector: SMA, pitch_mm: null}
+    pins:
+      - {pin: K, label: K, name: cathode to fused plus, domain: NEST_RAW, group: pads, dir: passive, source: "[S] Littelfuse SMAJ series electrical table, SMAJ10A row"}
+      - {pin: A, label: A, name: anode to ground, domain: GND, group: pads, dir: passive, source: "[S] same"}
+    source: "[S] https://www.littelfuse.com/assetdocs/tvs-diodes-smaj-datasheet?assetguid=13c2a823-03b8-4d1f-9ddc-9b44670aed9d"
+
+  - id: CQ1
+    ref: Q1
+    part: Diodes Incorporated DMP2045U-7, P-channel, SOT-23
+    kind: switch
+    region: battery_bay
+    ratings: {vds_v: -20, vgs_abs_v: 8, rds_mohm_max_at_4v5: 45, id_a: -4.3}
+    groups:
+      pads: {connector: SOT-23, pitch_mm: null}
+    pins:
+      - {pin: D, label: D, name: drain to fused plus, domain: NEST_RAW, group: pads, dir: pwr_in, source: "[S] DMP2045U DS40478 Rev 4-2"}
+      - {pin: S, label: S, name: source to the protected rail, domain: NEST_PROT, group: pads, dir: pwr_out, source: "[S] same. Body diode cathode is the source, so reverse input is blocked."}
+      - {pin: G, label: G, name: gate, domain: NEST_PROT, group: pads, dir: in, source: "[S] VGS absolute max plus or minus 8 V"}
+    internal:
+      - {a: D, b: S, kind: switch, note: "on when the gate is about 4.7 V below the source. Off when the input is reversed."}
+    source: "[S] https://www.diodes.com/assets/Datasheets/DMP2045U.pdf"
+
+  - id: DZ1
+    ref: D2
+    part: "4.7 V zener, candidate onsemi MMSZ5230B. Datasheet not opened. BLOCKER for the knee at the bias current."
+    kind: diode
+    region: battery_bay
+    ratings: {vz_v: 4.7, note: "chosen under the 8 V gate max and near the 4.5 V RDS test point"}
+    groups:
+      pads: {connector: SOD-123, pitch_mm: null}
+    pins:
+      - {pin: K, label: K, name: cathode to the P-FET source, domain: NEST_PROT, group: pads, dir: passive, source: "[I] clamp VGS. Sheet not opened."}
+      - {pin: A, label: A, name: anode to the P-FET gate, domain: NEST_PROT, group: pads, dir: passive, source: "[I]"}
+    source: "[I] requirement is cited from DMP2045U. The zener part's own sheet is BLOCKER."
+
+  - id: RG
+    ref: R1
+    part: 10 kOhm 1 percent, Panasonic ERJ-3EKF1002V family as the eval board resistors. Stock not opened.
+    kind: resistor
+    region: battery_bay
+    ratings: {ohm: 10000, tol: "1%"}
+    groups:
+      pads: {connector: "0603", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: to the P-FET gate, domain: NEST_PROT, group: pads, dir: passive, source: "[I]"}
+      - {pin: "2", label: "2", name: to ground, domain: GND, group: pads, dir: passive, source: "[I]"}
+    source: "[S] eval board uses the ERJ-3EKF family. Value is a calc for zener bias, not a sheet value."
+
+  - id: CU1
+    ref: U1
+    part: Microchip MCP73213-A6SI/MF, DFN-10 3x3, exposed pad
+    kind: charger
+    region: battery_bay
+    ratings:
+      vreg_v: 8.40
+      ovp_v: 13
+      i_typ_a: 1.0
+      rprog_kohm: 1.10
+      timer_h: 6
+      iterm_ratio: 0.10
+      vpth_ratio: 0.715
+      recharge_ratio: 0.95
+    groups:
+      pads: {connector: "DFN-10 3x3", pitch_mm: null, note: "pin numbers from DS20002190C Table 3-1"}
+    pins:
+      - {pin: VDD1, label: "1", name: VDD, domain: NEST_PROT, group: pads, dir: pwr_in, source: "[S] DS20002190C Table 3-1"}
+      - {pin: VDD2, label: "2", name: VDD, domain: NEST_PROT, group: pads, dir: pwr_in, source: "[S] DS20002190C Table 3-1"}
+      - {pin: VBAT1, label: "3", name: VBAT, domain: PACK_6V0_8V4, group: pads, dir: pwr_out, source: "[S] DS20002190C Table 3-1"}
+      - {pin: VBAT2, label: "4", name: VBAT, domain: PACK_6V0_8V4, group: pads, dir: pwr_out, source: "[S] DS20002190C Table 3-1"}
+      - {pin: NC1, label: "5", name: NC, domain: NEST_PROT, group: pads, dir: nc, source: "[S] DS20002190C Table 3-1"}
+      - {pin: NC2, label: "6", name: NC, domain: NEST_PROT, group: pads, dir: nc, source: "[S] DS20002190C Table 3-1"}
+      - {pin: STAT, label: "7", name: STAT open drain, domain: GPIO_3V3, group: pads, dir: out, source: "[S] DS20002190C section 3.4 and Table 5-2"}
+      - {pin: VSS1, label: "8", name: VSS, domain: GND, group: pads, dir: gnd, source: "[S] DS20002190C Table 3-1"}
+      - {pin: VSS2, label: "9", name: VSS, domain: GND, group: pads, dir: gnd, source: "[S] DS20002190C Table 3-1"}
+      - {pin: PROG, label: "10", name: PROG, domain: PROG, group: pads, dir: bidir, source: "[S] DS20002190C Table 3-1 and equation 5-1"}
+      - {pin: EP, label: "11", name: exposed pad, domain: GND, group: pads, dir: gnd, source: "[S] DS20002190C section 3.7, tie the pad to copper"}
+    source: "[S] DS20002190C, ordering example MCP73213-A6SI/MF. Table 2 writes MCP73213-A6S/MF for the same 8.40 V, 6 h, 10 percent option. The I is the industrial temperature range."
+
+  - id: CIN
+    ref: C1
+    part: "TDK C2012X5R1E475M, 4.7 uF, 25 V, X5R, 1206. Eval board BOM. Stock not opened. Exact number may be old. BLOCKER if it will not order."
+    kind: capacitor
+    region: battery_bay
+    ratings: {uf: 4.7, v: 25, dielectric: X5R}
+    groups:
+      pads: {connector: "1206", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: VDD, domain: NEST_PROT, group: pads, dir: passive, source: "[S] DS51849A Table B-1 C1"}
+      - {pin: "2", label: "2", name: VSS, domain: GND, group: pads, dir: passive, source: "[S] DS51849A Table B-1 C1"}
+    source: "[S] eval guide DS51849A. Chip sheet minimum is 1 uF, 25 V, on VDD. 4.7 uF meets that minimum."
+
+  - id: COUT
+    ref: C2
+    part: TDK C2012X5R1E475M, 4.7 uF, 25 V, X5R, 1206. Eval board BOM. Stock not opened.
+    kind: capacitor
+    region: battery_bay
+    ratings: {uf: 4.7, v: 25, dielectric: X5R}
+    groups:
+      pads: {connector: "1206", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: VBAT, domain: PACK_6V0_8V4, group: pads, dir: passive, source: "[S] DS51849A Table B-1 C2"}
+      - {pin: "2", label: "2", name: VSS, domain: GND, group: pads, dir: passive, source: "[S] DS51849A Table B-1 C2"}
+    source: "[S] eval guide puts 25 V on the output cap. Chip sheet allows 16 V minimum on VBAT. 25 V covers both."
+
+  - id: CRPROG
+    ref: R2
+    part: 1.10 kOhm 1 percent, Panasonic ERJ-3EKF1101V. Same family as the eval board resistors. Stock not opened.
+    kind: resistor
+    region: battery_bay
+    ratings: {kohm: 1.10, tol: "1%", i_typ_ma: 1000}
+    groups:
+      pads: {connector: "0603", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: PROG, domain: PROG, group: pads, dir: passive, source: "[S] DS20002190C Table 5-1"}
+      - {pin: "2", label: "2", name: to the enable FET, domain: PROG, group: pads, dir: passive, source: "[S] equation 5-1"}
+    source: "[S] Table 5-1 recommends 1.10 kOhm for 1000 mA. Spec point PROG = 1.1 kOhm is 1000 mA typical, 900 to 1100 mA."
+
+  - id: CQEN
+    ref: Q2
+    part: "N-channel enable FET, candidate onsemi MMBF170. Datasheet not opened. BLOCKER for VGS(th): it must be on at 3.3 V and off near 0.7 V."
+    kind: switch
+    region: battery_bay
+    groups:
+      pads: {connector: SOT-23, pitch_mm: null}
+    pins:
+      - {pin: D, label: D, name: drain to RPROG, domain: PROG, group: pads, dir: passive, source: "[I] sheet not opened"}
+      - {pin: S, label: S, name: source to ground, domain: GND, group: pads, dir: gnd, source: "[I]"}
+      - {pin: G, label: G, name: gate, domain: GPIO_3V3, group: pads, dir: in, source: "[I]"}
+    internal:
+      - {a: D, b: S, kind: switch, note: "on connects 1.10 kOhm from PROG to ground. Off leaves PROG at high impedance, which is standby."}
+    source: "[S] standby is PROG impedance at the 200 kOhm typical point, DS20002190C. The FET sheet is BLOCKER."
+
+  - id: RPU
+    ref: R3
+    part: 100 kOhm 1 percent pull-up, enable default on when 3.3 V is up
+    kind: resistor
+    region: battery_bay
+    ratings: {ohm: 100000}
+    groups:
+      pads: {connector: "0603", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: enable gate, domain: GPIO_3V3, group: pads, dir: passive, source: "[I]"}
+      - {pin: "2", label: "2", name: 3.3 V, domain: GPIO_3V3, group: pads, dir: passive, source: "[I]"}
+    source: "[I] value not from the charger sheet"
+
+  - id: RSTAT
+    ref: R4
+    part: 10 kOhm 1 percent STAT pull-up to 3.3 V
+    kind: resistor
+    region: battery_bay
+    ratings: {ohm: 10000}
+    groups:
+      pads: {connector: "0603", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: GPIO side of STAT, domain: GPIO_3V3, group: pads, dir: passive, source: "[S] section 3.4 allows a pull-up to a host"}
+      - {pin: "2", label: "2", name: 3.3 V, domain: GPIO_3V3, group: pads, dir: passive, source: "[S] do not pull STAT up to VDD"}
+    source: "[S] DS20002190C section 3.4. 10 kOhm at 3.3 V is 0.33 mA, under the 35 mA sink max."
+
+  - id: RSER
+    ref: R5
+    part: 1 kOhm series between STAT and the Pi pin
+    kind: resistor
+    region: battery_bay
+    ratings: {ohm: 1000}
+    groups:
+      pads: {connector: "0603", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: STAT pin, domain: GPIO_3V3, group: pads, dir: passive, source: "[I] fault resistor, not in the reference figure"}
+      - {pin: "2", label: "2", name: GPIO node, domain: GPIO_3V3, group: pads, dir: passive, source: "[I]"}
+    source: "[I] keeps a fault that pulls STAT up to the nest rail from driving the Pi pin hard"
+
+  - id: DCLAMP
+    ref: D3
+    part: "1N4148 clamp, anode at the GPIO node, cathode at 3.3 V. The duck BOM already names a 1N4148 on line DK5. Sheet not re-opened."
+    kind: diode
+    region: battery_bay
+    groups:
+      pads: {connector: SOD-123, pitch_mm: null}
+    pins:
+      - {pin: A, label: A, name: anode to the GPIO node, domain: GPIO_3V3, group: pads, dir: passive, source: "[L] BOM DK5 names a 1N4148"}
+      - {pin: K, label: K, name: cathode to 3.3 V, domain: GPIO_3V3, group: pads, dir: passive, source: "[I]"}
+    source: "[I] clamp so STAT cannot rise above the 3.3 V rail by more than a diode. Not a level-shifter IC."
+
+  - id: DEN
+    ref: D4
+    part: "1N4148, Pi enable pull-down. Same note as D3."
+    kind: diode
+    region: battery_bay
+    groups:
+      pads: {connector: SOD-123, pitch_mm: null}
+    pins:
+      - {pin: A, label: A, name: anode at the enable gate, domain: GPIO_3V3, group: pads, dir: passive, source: "[I]"}
+      - {pin: K, label: K, name: cathode to GPIO6, domain: GPIO_3V3, group: pads, dir: passive, source: "[I]"}
+    source: "[I] GPIO low pulls the gate down. GPIO high does not fight the comparators."
+
+  - id: CU2
+    ref: U2
+    part: "TI LM393DR dual comparator. Datasheet not opened this session. BLOCKER for supply range, common mode, and the SOIC pin numbers."
+    kind: board
+    region: battery_bay
+    groups:
+      pads: {connector: SOIC-8, pitch_mm: null, note: "pin ids below are functions. Package numbers are BLOCKER."}
+    pins:
+      - {pin: OUTA, label: OUTA, name: "cold comparator, open collector", domain: GPIO_3V3, group: pads, dir: out, source: "[I] sheet not opened"}
+      - {pin: INAM, label: "INA-", name: NTC sense, domain: NTC, group: pads, dir: in, source: "[I]"}
+      - {pin: INAP, label: "INA+", name: 0 C threshold, domain: NTC, group: pads, dir: in, source: "[I]"}
+      - {pin: GND, label: GND, name: ground, domain: GND, group: pads, dir: gnd, source: "[I]"}
+      - {pin: INBP, label: "INB+", name: NTC sense, domain: NTC, group: pads, dir: in, source: "[I]"}
+      - {pin: INBM, label: "INB-", name: 60 C threshold, domain: NTC, group: pads, dir: in, source: "[I]"}
+      - {pin: OUTB, label: OUTB, name: "hot comparator, open collector", domain: GPIO_3V3, group: pads, dir: out, source: "[I]"}
+      - {pin: VCC, label: VCC, name: from the protected nest rail, domain: NEST_PROT, group: pads, dir: pwr_in, source: "[I] supply max not read"}
+    source: "[I] the charger sheet has no thermistor pin, so the window is outside the chip. LM393 sheet is BLOCKER."
+
+  - id: CU3
+    ref: U3
+    part: "TI TL431AIDBZR. Datasheet not opened. BLOCKER for the 2.495 V typical and the minimum cathode current."
+    kind: board
+    region: battery_bay
+    groups:
+      pads: {connector: SOT-23, pitch_mm: null}
+    pins:
+      - {pin: K, label: K, name: cathode, domain: VREF, group: pads, dir: passive, source: "[I] sheet not opened"}
+      - {pin: R, label: R, name: reference tied to cathode, domain: VREF, group: pads, dir: passive, source: "[I]"}
+      - {pin: A, label: A, name: anode to ground, domain: GND, group: pads, dir: gnd, source: "[I]"}
+    source: "[I] used so the NTC thresholds are ratios of one stiff rail, not of the nest voltage"
+
+  - id: RKA
+    ref: R6
+    part: 4.99 kOhm from the protected rail to the TL431. Calc for about 1 mA. The 1 mA minimum is BLOCKER until the TL431 sheet is read.
+    kind: resistor
+    region: battery_bay
+    ratings: {ohm: 4990}
+    groups:
+      pads: {connector: "0603", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: protected rail, domain: NEST_PROT, group: pads, dir: passive, source: "[I]"}
+      - {pin: "2", label: "2", name: TL431 cathode, domain: VREF, group: pads, dir: passive, source: "[I]"}
+    source: "[I] (9.5 V - 2.5 V) / 4.99 kOhm = 1.4 mA, calc only, reference voltage not yet cited from a sheet"
+
+  - id: RBIAS
+    ref: R7
+    part: 10.0 kOhm 1 percent over the pack NTC
+    kind: resistor
+    region: battery_bay
+    ratings: {kohm: 10.0}
+    groups:
+      pads: {connector: "0603", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: VREF, domain: VREF, group: pads, dir: passive, source: "[S] Adafruit 372 table, ratio calc"}
+      - {pin: "2", label: "2", name: NTC high side, domain: NTC, group: pads, dir: passive, source: "[S] same"}
+    source: "[S] https://cdn-shop.adafruit.com/product-files/372/103_3950_lookuptable.txt"
+
+  - id: RCOLD
+    ref: R8
+    part: 10.0 kOhm 1 percent, top of the 0 C divider
+    kind: resistor
+    region: battery_bay
+    ratings: {kohm: 10.0}
+    groups:
+      pads: {connector: "0603", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: VREF, domain: VREF, group: pads, dir: passive, source: "[S] NTC table"}
+      - {pin: "2", label: "2", name: 0 C threshold, domain: NTC, group: pads, dir: passive, source: "[S] NTC table"}
+    source: "[S] paired with 31.6 kOhm"
+
+  - id: RCOLDB
+    ref: R9
+    part: 31.6 kOhm 1 percent, bottom of the 0 C divider. E96 value next to the 31.77 kOhm table point at 0 C.
+    kind: resistor
+    region: battery_bay
+    ratings: {kohm: 31.6}
+    groups:
+      pads: {connector: "0603", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: 0 C threshold, domain: NTC, group: pads, dir: passive, source: "[S] NTC table 0 C = 31.77 kOhm"}
+      - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: passive, source: "[S]"}
+    source: "[S] Adafruit 372 lookup table"
+
+  - id: RHOT
+    ref: R10
+    part: 10.0 kOhm 1 percent, top of the 60 C divider
+    kind: resistor
+    region: battery_bay
+    ratings: {kohm: 10.0}
+    groups:
+      pads: {connector: "0603", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: VREF, domain: VREF, group: pads, dir: passive, source: "[S] NTC table"}
+      - {pin: "2", label: "2", name: 60 C threshold, domain: NTC, group: pads, dir: passive, source: "[S] NTC table"}
+    source: "[S] paired with 2.49 kOhm"
+
+  - id: RHOTB
+    ref: R11
+    part: 2.49 kOhm 1 percent, bottom of the 60 C divider. E96 value next to 2.472 kOhm at 60 C.
+    kind: resistor
+    region: battery_bay
+    ratings: {kohm: 2.49}
+    groups:
+      pads: {connector: "0603", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: 60 C threshold, domain: NTC, group: pads, dir: passive, source: "[S] NTC table 60 C = 2.472 kOhm"}
+      - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: passive, source: "[S]"}
+    source: "[S] Adafruit 372 lookup table"
+
+  - id: JNTC
+    ref: J2
+    part: leads to the pack NTC, Adafruit 372, 10 kOhm at 25 C, B25/50 = 3950. Already BOM line DK5. Page opened, in stock, quantity not numbered.
+    kind: connector
+    region: battery_bay
+    groups:
+      pads: {connector: solder pads for the bead leads, pitch_mm: null}
+    pins:
+      - {pin: A, label: A, name: to the divider, domain: NTC, group: pads, dir: passive, source: "[S] Adafruit 372"}
+      - {pin: B, label: B, name: to ground, domain: GND, group: pads, dir: gnd, source: "[L] BAY.md valley between the cells"}
+    source: "[S] https://www.adafruit.com/product/372 opened, in stock. Lookup table URL in R7."
+
+  - id: JSYS
+    ref: J3
+    part: pad to the existing Pololu 5382 DK6 VIN. The nest runs the duck from here, not from VBAT.
+    kind: connector
+    region: battery_bay
+    groups:
+      pads: {connector: solder pad, pitch_mm: null}
+    pins:
+      - {pin: VIN, label: VIN, name: protected plus to DK6, domain: NEST_PROT, group: pads, dir: pwr_out, source: "[L] D50 DK6, D61 two nets"}
+      - {pin: GND, label: GND, name: ground, domain: GND, group: pads, dir: gnd, source: "[L] D50"}
+    source: "[L] D59 torque off does not move this node. DK7 still blocks the pack from the bus while the nest is higher."
+
+  - id: JPACK
+    ref: J4
+    part: charger output to BMS P+ and P-. Pack only. Not VSW.
+    kind: connector
+    region: battery_bay
+    groups:
+      pads: {connector: solder pad, pitch_mm: null}
+    pins:
+      - {pin: P, label: "P+", name: to BMS P+, domain: PACK_6V0_8V4, group: pads, dir: pwr_out, source: "[L] charger must see the pack alone, D50"}
+      - {pin: M, label: "P-", name: to BMS P-, domain: GND, group: pads, dir: gnd, source: "[L]"}
+    source: "[L] D50 and D61. Replaces the Adeept board pads B+ and B-."
+
+  - id: JPI
+    ref: J5
+    part: "three signals to the Pi header: GPIO5 pin 29 (STAT), GPIO6 pin 31 (enable), and 3.3 V pin 1. Ground is the common ground."
+    kind: connector
+    region: battery_bay
+    groups:
+      pads: {connector: solder pads, pitch_mm: null, note: "the cable up the neck is a proposed netlist add, not drawn here"}
+    pins:
+      - {pin: STAT, label: STAT, name: GPIO5 input, domain: GPIO_3V3, group: pads, dir: out, source: "[L] netlist GPIO map, pin 29 free"}
+      - {pin: EN, label: EN, name: GPIO6 open-drain output, domain: GPIO_3V3, group: pads, dir: in, source: "[L] netlist GPIO map, pin 31 free"}
+      - {pin: V3, label: "3V3", name: Pi pin 1, domain: GPIO_3V3, group: pads, dir: pwr_in, source: "[L] netlist 3V3 domain"}
+      - {pin: GND, label: GND, name: ground, domain: GND, group: pads, dir: gnd, source: "[L]"}
+    source: "[L] wiring/sheets/sheetlib.py header names. GPIO5 and GPIO6 are not used in wiring/netlist.yaml."
+
+cables:
+  - {id: CB, status: active, desc: "on-board nets of the charger. Off-board cables are proposals in CHARGER_BOARD.md, not cut lengths.", regions: [battery_bay], joints: [], polyline_mm: 0, rule_mm: 0, source: "[L] schematic only"}
+
+wires:
+  - {cable: CB, from: JIN.P, to: CF1.IN, net: NEST_P, gauge: "20 AWG", color: red, cut_mm: 0, i_mean_a: 2.0, i_peak_a: 2.8, ends: [solder pad, holder lead], source: "[L] stripe study 2.0 A typical and 2.8 A peak, calc only"}
+  - {cable: CB, from: CF1.OUT, to: TVS.K, net: NEST_FUSED, gauge: "board", color: red, cut_mm: 0, i_mean_a: 2.0, i_peak_a: 2.8, ends: [holder lead, solder pad], source: "[S]"}
+  - {cable: CB, from: TVS.K, to: CQ1.D, net: NEST_FUSED, gauge: "board", color: red, cut_mm: 0, i_mean_a: 2.0, i_peak_a: 2.8, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: TVS.A, to: JIN.M, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 2.0, i_peak_a: 2.8, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: CQ1.S, to: CU1.VDD1, net: NEST_PROT, gauge: "board", color: red, cut_mm: 0, i_mean_a: 1.0, i_peak_a: 1.1, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: CU1.VDD1, to: CU1.VDD2, net: NEST_PROT, gauge: "board", color: red, cut_mm: 0, i_mean_a: 1.0, i_peak_a: 1.1, ends: [solder pad, solder pad], source: "[S] both VDD pins"}
+  - {cable: CB, from: CU1.VDD2, to: CIN.1, net: NEST_PROT, gauge: "board", color: red, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S] 4.7 uF on VDD"}
+  - {cable: CB, from: CIN.2, to: CU1.VSS1, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: CU1.VSS1, to: CU1.VSS2, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: CU1.VSS2, to: CU1.EP, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S] exposed pad"}
+  - {cable: CB, from: CU1.EP, to: JIN.M, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: CQ1.G, to: DZ1.A, net: GATE_REV, gauge: "board", color: orange, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: DZ1.K, to: CQ1.S, net: NEST_PROT, gauge: "board", color: red, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I] zener across gate and source"}
+  - {cable: CB, from: CQ1.G, to: RG.1, net: GATE_REV, gauge: "board", color: orange, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: RG.2, to: JIN.M, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: CQ1.S, to: JSYS.VIN, net: NEST_PROT, gauge: "20 AWG", color: red, cut_mm: 0, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder pad], source: "[L] DK6 input. 1.0 A typical and 1.8 A peak are the stripe study's SYS numbers, calc only."}
+  - {cable: CB, from: JSYS.GND, to: JIN.M, net: GND, gauge: "20 AWG", color: black, cut_mm: 0, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder pad], source: "[L]"}
+  - {cable: CB, from: CU1.VBAT1, to: CU1.VBAT2, net: PACK_CHG, gauge: "board", color: red, cut_mm: 0, i_mean_a: 1.0, i_peak_a: 1.1, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: CU1.VBAT2, to: COUT.1, net: PACK_CHG, gauge: "board", color: red, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S] 4.7 uF on VBAT"}
+  - {cable: CB, from: COUT.2, to: CU1.VSS1, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: CU1.VBAT1, to: JPACK.P, net: PACK_CHG, gauge: "20 AWG", color: red, cut_mm: 0, i_mean_a: 1.0, i_peak_a: 1.1, ends: [solder pad, solder pad], source: "[L] to BMS P+ only"}
+  - {cable: CB, from: JPACK.M, to: JIN.M, net: GND, gauge: "20 AWG", color: black, cut_mm: 0, i_mean_a: 1.0, i_peak_a: 1.1, ends: [solder pad, solder pad], source: "[L] to BMS P-"}
+  - {cable: CB, from: CU1.PROG, to: CRPROG.1, net: PROG, gauge: "board", color: yellow, cut_mm: 0, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: CRPROG.2, to: CQEN.D, net: PROG_SW, gauge: "board", color: yellow, cut_mm: 0, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: CQEN.S, to: JIN.M, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: CQEN.G, to: RPU.1, net: EN, gauge: "board", color: green, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: RPU.2, to: JPI.V3, net: V3V3, gauge: "board", color: orange, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] Pi 3.3 V"}
+  - {cable: CB, from: CQEN.G, to: CU2.OUTA, net: EN, gauge: "board", color: green, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I] cold fault pulls enable down"}
+  - {cable: CB, from: CU2.OUTA, to: CU2.OUTB, net: EN, gauge: "board", color: green, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I] hot fault pulls enable down"}
+  - {cable: CB, from: CQEN.G, to: DEN.A, net: EN, gauge: "board", color: green, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: DEN.K, to: JPI.EN, net: PI_EN, gauge: "26 AWG", color: green, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] GPIO6 pin 31"}
+  - {cable: CB, from: CU1.STAT, to: RSER.1, net: STAT, gauge: "board", color: blue, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: RSER.2, to: RSTAT.1, net: STAT_GPIO, gauge: "board", color: blue, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: RSTAT.1, to: DCLAMP.A, net: STAT_GPIO, gauge: "board", color: blue, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: DCLAMP.A, to: JPI.STAT, net: STAT_GPIO, gauge: "26 AWG", color: blue, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] GPIO5 pin 29"}
+  - {cable: CB, from: RSTAT.2, to: JPI.V3, net: V3V3, gauge: "board", color: orange, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S] pull-up to the host rail"}
+  - {cable: CB, from: DCLAMP.K, to: JPI.V3, net: V3V3, gauge: "board", color: orange, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: JPI.GND, to: JIN.M, net: GND, gauge: "26 AWG", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L]"}
+  - {cable: CB, from: CU1.VDD1, to: RKA.1, net: NEST_PROT, gauge: "board", color: red, cut_mm: 0, i_mean_a: 0.001, i_peak_a: 0.002, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: RKA.2, to: CU3.K, net: VREF, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.001, i_peak_a: 0.002, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: CU3.K, to: CU3.R, net: VREF, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I] ref tied to cathode"}
+  - {cable: CB, from: CU3.A, to: JIN.M, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: CU3.K, to: RBIAS.1, net: VREF, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: RBIAS.2, to: JNTC.A, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: JNTC.B, to: JIN.M, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] NTC in the cell valley"}
+  - {cable: CB, from: JNTC.A, to: CU2.INAM, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: CU2.INAM, to: CU2.INBP, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: CU3.K, to: RCOLD.1, net: VREF, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: RCOLD.2, to: RCOLDB.1, net: COLD_TH, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: RCOLDB.2, to: JIN.M, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: RCOLD.2, to: CU2.INAP, net: COLD_TH, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: CU3.K, to: RHOT.1, net: VREF, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: RHOT.2, to: RHOTB.1, net: HOT_TH, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: RHOTB.2, to: JIN.M, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[S]"}
+  - {cable: CB, from: RHOT.2, to: CU2.INBM, net: HOT_TH, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: CU2.GND, to: JIN.M, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[I]"}
+  - {cable: CB, from: CU2.VCC, to: CQ1.S, net: NEST_PROT, gauge: "board", color: red, cut_mm: 0, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, solder pad], source: "[I] comparator supply. Its maximum voltage is BLOCKER."}
