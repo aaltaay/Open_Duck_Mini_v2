@@ -12,13 +12,15 @@ Keep the room-side x at `BX0 + 14` (158.0 mm). Lid thickness there is 2.0 mm, an
 
 Set the wall-side x to 174.9 mm, which is the mirror of 158.0 about the tray centre 166.45. Mirror error of the four posts is 0.0 mm (calc).
 
-Set y to +62 and -62, not +84. The jack stand-in already in `STANDINS` occupies y 68 to 88 and x 159 to 173. A post of radius 4 mm at y 84 and x 158 enters that box by 3.0 mm (cad). y 62 leaves about 2 mm (cad). Both sides use the same y so the pattern still mirrors.
+y is +2 and -2, not +84 and not +62. The jack, the fuse holder, and the gate board are already reserved in `STANDINS`. A post of radius 4 mm at (174.9, 62) enters the fuse holder, and the posts at y -62 enter the gate board (cad, the Codex note on this proposal). The gate board reaches y -8. With a 4 mm radius and a 2 mm gap, the post centres sit at y ±2. Every stand-in gap is then at least 2.0 mm (cad). The tight one is the gate board at (174.9, -2).
+
+Do not copy the 5.5 mm end-wall tie from `rim_parts()` onto these posts. That tie runs toward the end and would close the 2 mm gate gap. The post cylinder already in that function is the boss.
 
 Proposed `LID_POSTS`, for the nest owner to apply and then regenerate with the existing script:
 
-`LID_POSTS = [(BX0 + 14.0, 62.0), (BX0 + 14.0, -62.0), (174.9, 62.0), (174.9, -62.0)]`
+`LID_POSTS = [(BX0 + 14.0, 2.0), (BX0 + 14.0, -2.0), (174.9, 2.0), (174.9, -2.0)]`
 
-174.9 is `2 * ((BX0 + BX1) / 2) - (BX0 + 14)`. Writing it that way keeps it tied to the box constants. Nearest terminal after this move is 37.22 mm (calc).
+174.9 is `2 * ((BX0 + BX1) / 2) - (BX0 + 14)`. Writing it that way keeps it tied to the box constants. Nearest terminal centre is 23.35 mm away (calc). The terminal post radius is 4.5 mm, so the surfaces are about 14.8 mm apart (calc).
 
 ## Engagement
 

@@ -35,7 +35,7 @@ Labels: **cad** is a measurement on a mesh or on `fasteners.json`. **calc** is a
 
 `BUILD_ORDER.md` now uses M2x12 for F127 and F129, M2x5 for F344 and F347, drops the 12 left-out screws from the drive counts, and adds F356 to F361. A re-run finds no missing fitted screw and no length mismatch (cad).
 
-The nest lid change is a proposal, not applied (`PROPOSED_EDITS.md`). BX0+6 has 0.0 mm of lid (cad). Proposed posts are (158, 62), (158, -62), (174.9, 62), (174.9, -62). Mirror error 0.0 mm (calc). A longer insert does not raise the 4.0 mm engagement. M3x8 into a bore deepened to 6.3 mm engages 5.7 mm and stays 0.3 mm off the floor (calc), using BOM 17a and BOM 16.
+The nest lid change is a proposal, not applied (`PROPOSED_EDITS.md`). BX0+6 has 0.0 mm of lid (cad). Proposed posts are (158, 2), (158, -2), (174.9, 2), (174.9, -2). Mirror error 0.0 mm (calc). The gap to the jack, the fuse holder, and the gate board is at least 2.0 mm (cad). A longer insert does not raise the 4.0 mm engagement. M3x8 into a bore deepened to 6.3 mm engages 5.7 mm and stays 0.3 mm off the floor (calc), using BOM 17a and BOM 16.
 
 Wire gaps now use cable segments and finite cylinders (cad). F249 clears D3 by 0.13 mm. F027 overlaps P1 by 0.90 mm. No wire was moved.
 

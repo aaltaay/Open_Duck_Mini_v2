@@ -74,16 +74,45 @@ def engage(length, bore):
             "meets_4_5": (not bottoms) and used + 1e-9 >= RULE, "label": "calc"}
 
 
+POST_R = 4.0          # lid post diameter 8 mm, already in rim_parts()
+GAP = 2.0              # same gap used for the jack; applied to every stand-in
+
+
+def box_of(item):
+    c = np.array(item["c"], float)
+    h = np.array(item["size"], float) / 2.0
+    return c - h, c + h
+
+
+def xy_gap(x, y, lo, hi, radius):
+    """Gap from a vertical cylinder to an axis-aligned box. Negative means it enters the box.
+    The lid posts run through the z of every stand-in, so the xy gap is the clearance."""
+    cx = min(max(x, lo[0]), hi[0])
+    cy = min(max(y, lo[1]), hi[1])
+    return float(np.hypot(x - cx, y - cy) - radius)
+
+
+def standin_gaps(posts):
+    rows = []
+    for name, item in P.STANDINS.items():
+        lo, hi = box_of(item)
+        for x, y in posts:
+            rows.append({"standin": name, "post_xy": [round(x, 2), round(y, 2)],
+                         "gap_mm": round(xy_gap(x, y, lo, hi, POST_R), 2), "label": "cad"})
+    return rows
+
+
 def main():
     lid, z_split = profile()
     cx = tray_centre()
     room = P.BX0 + 14.0
     wall = 2 * cx - room
-    # The jack stand-in already in nest_parts.STANDINS occupies y 68 to 88 on the +y end.
-    # A post of radius 4 at y 84 enters that box. y = 68 - 4 - 2 keeps a 2 mm gap.
-    jack = P.STANDINS["jack"]
-    jack_lo_y = jack["c"][1] - jack["size"][1] / 2.0
-    post_y = round(jack_lo_y - 4.0 - 2.0, 2)
+    # Fuse, gate, and jack already fill the ends. The only y that clears every
+    # stand-in on both sides, with a 2 mm gap and a 4 mm post, is a short pair
+    # about the tray centre. The gate's top is the tight edge.
+    gate = P.STANDINS["gate_board"]
+    _, gate_hi = box_of(gate)
+    post_y = round(float(-gate_hi[1] - POST_R - GAP), 2)
     posts = [(room, post_y), (room, -post_y), (wall, post_y), (wall, -post_y)]
     rejected = P.BX0 + 6.0
     rows = []
@@ -119,7 +148,9 @@ def main():
         "mirror_error_about_tray_centre_mm": round(float(worst), 2),
         "nearest_terminal_mm": round(float(term_gap), 2),
         "post_y_mm": post_y,
-        "why_y": "jack stand-in y starts at %.2f; post radius 4 mm; 2 mm gap; same number both sides so the pattern still mirrors" % jack_lo_y,
+        "why_y": "gate stand-in reaches y %.2f; post radius 4 mm; 2 mm gap; fuse and jack are farther out, so this y clears all three" % gate_hi[1],
+        "standin_gaps": standin_gaps(posts),
+        "drawn_standin_gaps": standin_gaps(list(P.LID_POSTS)),
         "engagement": {
             "M3x6_bore_5.8": engage(6.0, BORE_NOW),
             "M3x6_deeper_bore_6.3": engage(6.0, 6.3),
@@ -137,11 +168,11 @@ def main():
         },
     }
     json.dump(out, open(os.path.join(HERE, "lid_check.json"), "w"), indent=1)
-    write_fig(out, jack)
-    print(json.dumps({k: out[k] for k in ("proposed_posts_xy", "mirror_error_about_tray_centre_mm", "nearest_terminal_mm", "post_y_mm", "engagement")}, indent=1))
+    write_fig(out)
+    print(json.dumps({k: out[k] for k in ("proposed_posts_xy", "mirror_error_about_tray_centre_mm", "nearest_terminal_mm", "post_y_mm", "standin_gaps")}, indent=1))
 
 
-def write_fig(out, jack):
+def write_fig(out):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -152,9 +183,11 @@ def write_fig(out, jack):
     ax.add_patch(plt.Rectangle((x0, y0), x1 - x0, y1 - y0, fill=False, lw=1.0, color="#333"))
     flat = out["chamfer_flat_starts_x_mm"]
     ax.plot([flat, flat], [y0, y1], color="#888", lw=1, label="chamfer, flat top starts")
-    lo = np.array(jack["c"]) - np.array(jack["size"]) / 2
-    ax.add_patch(plt.Rectangle((lo[0], lo[1]), jack["size"][0], jack["size"][1],
-                               fill=True, color="#f4c7c3", lw=0, label="jack stand-in"))
+    colors = {"jack": "#f4c7c3", "fuse_holder": "#f6e2b3", "gate_board": "#d6e2f4"}
+    for name, item in P.STANDINS.items():
+        lo, hi = box_of(item)
+        ax.add_patch(plt.Rectangle((lo[0], lo[1]), hi[0] - lo[0], hi[1] - lo[1],
+                                   fill=True, color=colors.get(name, "#ddd"), lw=0, label=name.replace("_", " "), zorder=1))
     drawn = np.array(P.LID_POSTS)
     prop = np.array(out["proposed_posts_xy"])
     ax.scatter(drawn[:, 0], drawn[:, 1], c="#1f4e79", s=40, zorder=3, label="as drawn")

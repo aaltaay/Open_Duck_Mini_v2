@@ -72,25 +72,245 @@
  "proposed_posts_xy": [
   [
    158.0,
-   62.0
+   2.0
   ],
   [
    158.0,
-   -62.0
+   -2.0
   ],
   [
    174.9,
-   62.0
+   2.0
   ],
   [
    174.9,
-   -62.0
+   -2.0
   ]
  ],
  "mirror_error_about_tray_centre_mm": 0.0,
- "nearest_terminal_mm": 37.22,
- "post_y_mm": 62.0,
- "why_y": "jack stand-in y starts at 68.00; post radius 4 mm; 2 mm gap; same number both sides so the pattern still mirrors",
+ "nearest_terminal_mm": 23.35,
+ "post_y_mm": 2.0,
+ "why_y": "gate stand-in reaches y -8.00; post radius 4 mm; 2 mm gap; fuse and jack are farther out, so this y clears all three",
+ "standin_gaps": [
+  {
+   "standin": "jack",
+   "post_xy": [
+    158.0,
+    2.0
+   ],
+   "gap_mm": 62.01,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    158.0,
+    -2.0
+   ],
+   "gap_mm": 66.01,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    174.9,
+    2.0
+   ],
+   "gap_mm": 62.03,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    174.9,
+    -2.0
+   ],
+   "gap_mm": 66.03,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    158.0,
+    2.0
+   ],
+   "gap_mm": 13.16,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    158.0,
+    -2.0
+   ],
+   "gap_mm": 16.36,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    174.9,
+    2.0
+   ],
+   "gap_mm": 9.0,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    174.9,
+    -2.0
+   ],
+   "gap_mm": 13.0,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    158.0,
+    2.0
+   ],
+   "gap_mm": 6.28,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    158.0,
+    -2.0
+   ],
+   "gap_mm": 2.46,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    174.9,
+    2.0
+   ],
+   "gap_mm": 6.0,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    174.9,
+    -2.0
+   ],
+   "gap_mm": 2.0,
+   "label": "cad"
+  }
+ ],
+ "drawn_standin_gaps": [
+  {
+   "standin": "jack",
+   "post_xy": [
+    158.0,
+    84.0
+   ],
+   "gap_mm": -3.0,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    158.0,
+    -84.0
+   ],
+   "gap_mm": 148.0,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    182.9,
+    84.0
+   ],
+   "gap_mm": 5.9,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    182.9,
+    -84.0
+   ],
+   "gap_mm": 148.32,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    158.0,
+    84.0
+   ],
+   "gap_mm": 18.06,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    158.0,
+    -84.0
+   ],
+   "gap_mm": 95.63,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    182.9,
+    84.0
+   ],
+   "gap_mm": 15.0,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    182.9,
+    -84.0
+   ],
+   "gap_mm": 95.0,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    158.0,
+    84.0
+   ],
+   "gap_mm": 88.03,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    158.0,
+    -84.0
+   ],
+   "gap_mm": 2.46,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    182.9,
+    84.0
+   ],
+   "gap_mm": 88.0,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    182.9,
+    -84.0
+   ],
+   "gap_mm": 2.0,
+   "label": "cad"
+  }
+ ],
  "engagement": {
   "M3x6_bore_5.8": {
    "length_mm": 6.0,
