@@ -6,7 +6,7 @@ the sitting and the new angles. This folder makes them in the real CAD, the robo
 model), **BLOCKER** (data missing). Nothing is printed or bought.
 
 The duck sits on its folded legs with the head up, then lets its torque go: it rests on hard stops, a TPU seat under the
-rear belly and a TPU bumper under the front. On the feet-dock pads (D58) it charges torque fully off (sim pass only).
+rear belly and a TPU bumper under the front. It can rest with the torque fully off (sim pass only). Charging is through the four spring pins under the body, on the nest mat (D61), not through the feet. The feet-contact dock (D58) is superseded.
 
 ## 1. The parts (CAD check only)
 
