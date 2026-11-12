@@ -98,7 +98,12 @@ def added_points(part_link, tool_link, n=4000):
 
 
 def hip_pitch_sweep(parent_link, joint, child_parts, angles):
-    """child part vertices in the parent link, over a list of joint angles (rad)"""
+    """child part vertices in the parent link, over a list of joint angles (rad).
+
+    URDF puts the joint origin on the child frame, and the axis is in that frame.
+    The parent pose at angle q is origin @ rotation(q) about the child origin, not a
+    rotation about the parent-frame point with the untransformed axis.
+    """
     u = FR.urdf()
     jt = u.joint_map[joint]
     origin = FR.joint_in_link(parent_link, joint)
@@ -106,10 +111,11 @@ def hip_pitch_sweep(parent_link, joint, child_parts, angles):
     axis = axis / np.linalg.norm(axis)
     clouds = []
     for ang in angles:
-        R = trimesh.transformations.rotation_matrix(ang, axis, origin[:3, 3])
+        spin = trimesh.transformations.rotation_matrix(ang, axis, [0.0, 0.0, 0.0])
+        T = origin @ spin
         for part, link in child_parts:
             m, _ = load_link(part, link)
-            m.apply_transform(R)
+            m.apply_transform(T)
             clouds.append(m.vertices)
     return np.vstack(clouds) if clouds else np.zeros((0, 3))
 
@@ -192,8 +198,13 @@ def roll_tool(mesh, clouds):
                 face = b if abs(b) >= abs(a) else a
                 sign = 1.0 if face >= 0 else -1.0
                 centre = np.array([face + sign * 1.3, y, z])
-                if not mesh.contains(centre[None, :])[0] and _clear(centre, clouds):
-                    lo, hi = face - 0.25, face + sign * 2.6
+                # the sample is the box centre; the box reaches about 1.6 mm past it, so the centre
+                # has to sit that far inside the 1.5 mm keep-out
+                if not mesh.contains(centre[None, :])[0] and _clear(centre, clouds, extra=1.6):
+                    # 0.25 mm overlap into the wall, then 2.6 mm outward. The overlap sign follows
+                    # the face: on the negative-x wall, face - 0.25 sits in the air and leaves a gap.
+                    lo = face - sign * 0.25
+                    hi = face + sign * 2.6
                     if lo > hi:
                         lo, hi = hi, lo
                     boxes.append(box([lo, y - 0.55, z - 0.55], [hi, y + 0.55, z + 0.55]))
@@ -202,8 +213,9 @@ def roll_tool(mesh, clouds):
                 inner = a if abs(a) <= abs(b) else b
                 sign_i = -1.0 if inner > 0 else 1.0
                 centre_i = np.array([inner + sign_i * 2.0, y, z])
-                if not mesh.contains(centre_i[None, :])[0] and _clear(centre_i, clouds):
-                    lo, hi = inner + sign_i * 4.0, inner + 0.25
+                if not mesh.contains(centre_i[None, :])[0] and _clear(centre_i, clouds, extra=1.6):
+                    lo = inner - sign_i * 0.25
+                    hi = inner + sign_i * 4.0
                     if lo > hi:
                         lo, hi = hi, lo
                     boxes.append(box([lo, y - 0.55, z - 0.55], [hi, y + 0.55, z + 0.55]))

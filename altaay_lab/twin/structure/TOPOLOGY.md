@@ -30,7 +30,7 @@ The 2026-11-03 tetgen study, for comparison only (2 walls on roll, 2.653 kg): ro
 
 Scripts: topology/margin_geom.py. STLs: topology/stl/. Clearance is CAD check only, at least 1.5 mm to the servo and, for roll_to_pitch, to the thigh sheets over the hip pitch range. Horn screw axes were ray-checked after the union: the holes stay open (D39). No screw was added (D42 unchanged).
 
-A rib along link y on roll_to_pitch was tried and dropped. That part prints with layers along link y, and the rib root failed in interlayer tension (walk SF fell from 1.43 to 1.25). The kept change thickens the 5 mm ear wall in x only, about 2.6 mm outboard and about 4 mm inboard. Clearance to the hip pitch servo: 2.02 mm left, 1.93 mm right.
+A rib along link y on roll_to_pitch was tried and dropped. That part prints with layers along link y, and the rib root failed in interlayer tension (walk SF fell from 1.43 to 1.25). The kept change thickens the 5 mm ear wall in x only, about 2.6 mm outboard and about 4 mm inboard, with 0.25 mm of overlap into the wall on both faces. The first right-hand pad used a fixed overlap sign and left a 0.25 mm gap on the negative-x wall, so that STL had extra loose shells (30 components against 5 in the stock STL). The overlap now follows the face direction. Both proposed roll STLs have the same component count as the stock STL (5). Clearance, CAD check only, after the hip pitch sweep was put in the parent frame (the joint origin includes about 90 degrees about y): hip pitch servo 2.75 mm left and 2.66 mm right, thigh sheets over the joint range 2.62 mm left and 2.61 mm right. The earlier 8 mm thigh figure used a rotation about the parent-frame point and is not the clearance.
 
 The knee drive plates (knee_to_ankle_left_sheet, knee_to_ankle_right_sheet, shin_left_sheet) get a stack of 2.2 mm slides, 6.6 mm proud of the head face, inside a 32 mm radius of the drive eye. One slide longer than the 3.3 mm plate left a gap and did not help (shin walk stayed 0.81). The stack is one solid, 9.9 to 10.5 mm thick at the old weak spot, and the hub and the four screw holes stay open. Clearance to the servo: 13.9 to 19.2 mm.
 
@@ -46,7 +46,7 @@ FEA pass only, same loads, same voxel pitches, room-temperature PLA.
 
 | Part | Walk SF before | Walk SF after | Soft worst before | Soft worst after | Soft falls under 1.2 after |
 |---|---|---|---|---|---|
-| roll_to_pitch | 1.43 | 2.23 | 0.54 | 0.78 | 3 of 11 |
+| roll_to_pitch | 1.43 | 2.41 | 0.54 | 0.78 | 3 of 11 |
 | shin drive eye | 0.79 | 1.30 | 0.46 | 0.87 | 3 of 11 |
 | thigh sheets | 1.78 | 1.71 | 0.70 | 0.94 | 2 of 11 |
 | neck sheets | 5.20 | 11.85 | 0.38 | 0.99 | 6 of 11 |
@@ -54,13 +54,13 @@ FEA pass only, same loads, same voxel pitches, room-temperature PLA.
 | foot_top | 3.86 | 3.86 | 2.76 | 2.76 | 0 of 11 |
 | hip roll stage | 16.74 | 16.74 | 2.33 | 2.33 | 0 of 11 |
 
-Walking margin of 2: met on roll_to_pitch (2.23), the neck (11.85), the head (52), the foot (3.86), and the hip roll stage (16.74). Not met on the shin eye (1.30) or the thigh sheets (1.71). The thigh number barely moved because the peak is the far end of the idle sheet, and that pad did not clear the knee servo.
+Walking margin of 2: met on roll_to_pitch (2.41), the neck (11.85), the head (52), the foot (3.86), and the hip roll stage (16.74). Not met on the shin eye (1.30) or the thigh sheets (1.71). The thigh number barely moved because the peak is the far end of the idle sheet, and that pad did not clear the knee servo.
 
-Soft-fall margin of 1.2: met on the foot and the hip roll stage. Not met on roll_to_pitch (worst 0.78, 3 of 11), the shin (0.87, 3 of 11), the thigh (0.94, 2 of 11), the neck (0.99, 6 of 11), or the head (1.03, 2 of 11). The neck and the roll wall are close to the servo already (2.0 to 2.1 mm). Another 2 mm of thickness does not fit. On the ear wall the stress scaled about as 1/thickness, not 1/thickness squared, so the inboard pad barely moved the outer-fiber peak (soft worst 0.75 with the outboard pad only, 0.78 with both faces).
+Soft-fall margin of 1.2: met on the foot and the hip roll stage. Not met on roll_to_pitch (worst 0.78, 3 of 11), the shin (0.87, 3 of 11), the thigh (0.94, 2 of 11), the neck (0.99, 6 of 11), or the head (1.03, 2 of 11). The neck pad is 2.1 mm from the head pitch servo, and the ear wall is 2.6 mm from the thigh over the hip pitch range. Another 2 mm of thickness does not fit. On the ear wall the stress scaled about as 1/thickness, not 1/thickness squared. The corrected sweep removed some of the inboard pad. Walk SF is 2.41 at [32.0, 14.4, 9.9] mm. Soft worst stays 0.78.
 
 Mid and hard contact levels still put these parts under 1.2. That stiffness is a guess. The 1.2 check above is the soft level only.
 
-Hot PLA is not a new FEA. These safety factors are room temperature. The 2026-11-03 twin cited a 0.62 strength factor at 50 C (a guess). Calc only: roll walking 2.23 times 0.62 is 1.38, under 2. Hot strength above that guess remains a BLOCKER, as in that file.
+Hot PLA is not a new FEA. These safety factors are room temperature. The 2026-11-03 twin cited a 0.62 strength factor at 50 C (a guess). Calc only: roll walking 2.41 times 0.62 is 1.49, under 2. Hot strength above that guess remains a BLOCKER, as in that file.
 
 ## Print cost of the kept STLs
 
@@ -68,16 +68,16 @@ PrusaSlicer 2.7.2 through print/slice.py (st_slice_proposals.py proposed). Model
 
 | STL | Qty | Base g | Proposed g | Robot delta g | Robot delta h |
 |---|---|---|---|---|---|
-| left_roll_to_pitch.stl | 1 | 24.24 | 26.04 | +1.80 | +0.29 |
-| right_roll_to_pitch.stl | 1 | 24.23 | 29.18 | +4.95 | +0.59 |
+| left_roll_to_pitch.stl | 1 | 24.24 | 25.79 | +1.55 | +0.27 |
+| right_roll_to_pitch.stl | 1 | 24.23 | 25.75 | +1.52 | +0.24 |
 | knee_to_ankle_left_sheet.stl | 2 | 6.50 | 10.57 | +8.14 | +1.05 |
 | knee_to_ankle_right_sheet.stl | 2 | 5.87 | 9.93 | +8.12 | +1.03 |
 | shin_left_sheet.stl | 2 | 10.38 | 14.12 | +7.48 | +1.02 |
 | neck_left_sheet.stl | 1 | 7.30 | 15.75 | +8.45 | +0.88 |
 | neck_right_sheet.stl | 1 | 6.48 | 15.31 | +8.83 | +0.90 |
-| Sum | | | | +47.77 | +5.76 |
+| Sum | | | | +44.09 | +5.39 |
 
-The pads add mass. They are loaded material. This is not a saving.
+The pads add mass. They are loaded material. This is not a saving. The earlier right-roll row of +4.95 g was the detached pad. The bonded pad is +1.52 g.
 
 ## Topology pass
 
@@ -87,7 +87,9 @@ Re-FEA of that STL (FEA pass only, pitch 1.1 mm): walk SF 7.50, soft-fall worst 
 
 PrusaSlicer on the carved STL: 21.87 g and 1.98 h become 33.00 g and 4.11 h per part. Times 2 is +22.26 g and +4.27 h. The slicer prints a wall around each pocket. The 15 percent gyroid was already the unloaded interior, so cutting it out of the STL adds walls instead of removing print time. The carved foot is not a proposed swap. topology/stl_topo/foot_top.stl is the check, not an install.
 
-No grams and no hours were saved. The margin geometry adds 47.77 g and 5.76 h. The topology cut on the foot adds a further 22.26 g and 4.27 h if it were printed, so it is left out.
+No grams and no hours were saved. The margin geometry adds 44.09 g and 5.39 h. The topology cut on the foot adds a further 22.26 g and 4.27 h if it were printed, so it is left out.
+
+The foot re-FEA loads foot_bottom_pla and foot_side through the same STL fallback as the study member. A proposal directory that holds only foot_top.stl still finds those two supports in print/.
 
 ## Proposed swaps, not installed
 

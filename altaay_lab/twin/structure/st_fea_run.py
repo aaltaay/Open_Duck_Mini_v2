@@ -154,7 +154,7 @@ def setup(name, maxvol):
         if cs: fix.append(hole_nodes(P, cs, 1.25))
     if st.get("fix_face_of"):
         for o in (st["fix_face_of"] if isinstance(st["fix_face_of"], (list, tuple)) else [st["fix_face_of"]]):
-            m = trimesh.load(os.path.join(FE.PRINT, o + ".stl"), force="mesh"); m.apply_transform(visual_T(link, o))
+            m = trimesh.load(FE.stl_path(o), force="mesh"); m.apply_transform(visual_T(link, o))
             sn = np.nonzero(P.surface_nodes())[0]; fix.append(sn[near_surface([m], P.X[sn]) < 0.3])
     if st.get("fix_inserts"):
         xs = [x for x in F if x["anchor"] == "M3 insert" and x["link"] == link and x["part"] in st["members"]]

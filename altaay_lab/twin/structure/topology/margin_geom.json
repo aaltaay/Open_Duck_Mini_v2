@@ -5,21 +5,21 @@
   "tag": "ear wall thickened in x, both faces, no rib along the layer direction",
   "stl": "twin/structure/topology/stl/left_roll_to_pitch.stl",
   "vol_before_mm3": 30839.9,
-  "vol_after_mm3": 34839.1,
-  "faces": 30732,
-  "bytes": 1536684,
+  "vol_after_mm3": 33714.2,
+  "faces": 24550,
+  "bytes": 1227584,
   "ok_clearance": true,
   "clearance": [
    {
     "against": "hip pitch servo",
-    "min_mm": 2.02
+    "min_mm": 2.75
    },
    {
     "against": "thigh sheets, full pitch range",
-    "min_mm": 8.15
+    "min_mm": 2.62
    }
   ],
-  "added_points": 7424
+  "added_points": 5441
  },
  {
   "part": "right_roll_to_pitch",
@@ -27,21 +27,21 @@
   "tag": "ear wall thickened in x, both faces, no rib along the layer direction",
   "stl": "twin/structure/topology/stl/right_roll_to_pitch.stl",
   "vol_before_mm3": 30839.9,
-  "vol_after_mm3": 34534.9,
-  "faces": 28490,
-  "bytes": 1424584,
+  "vol_after_mm3": 33660.4,
+  "faces": 25356,
+  "bytes": 1267884,
   "ok_clearance": true,
   "clearance": [
    {
     "against": "hip pitch servo",
-    "min_mm": 1.93
+    "min_mm": 2.66
    },
    {
     "against": "thigh sheets, full pitch range",
-    "min_mm": 9.1
+    "min_mm": 2.61
    }
   ],
-  "added_points": 6619
+  "added_points": 5316
  },
  {
   "part": "knee_to_ankle_left_sheet",
@@ -147,23 +147,5 @@
    0.0,
    1.0
   ]
- },
- {
-  "part": "head_roll_mount",
-  "link": "head_assembly",
-  "tag": "2.5 mm on the outer wall",
-  "stl": "twin/structure/topology/stl/head_roll_mount.stl",
-  "vol_before_mm3": 13367.6,
-  "vol_after_mm3": 14118.8,
-  "faces": 4588,
-  "bytes": 229484,
-  "ok_clearance": true,
-  "clearance": [
-   {
-    "against": "head roll servo",
-    "min_mm": 3.3
-   }
-  ],
-  "added_points": 1320
  }
 ]

@@ -33,6 +33,13 @@ LAB = os.path.abspath(os.path.join(HERE, "../.."))
 REPO = os.path.abspath(os.path.join(LAB, ".."))
 PRINT = os.environ.get("ST_PRINT", os.path.join(REPO, "print"))
 
+def stl_path(name):
+    """STL for a study member or a support mesh. ST_PRINT wins when the file is there; otherwise the print set."""
+    p = os.path.join(PRINT, name + ".stl")
+    if os.path.exists(p):
+        return p
+    return os.path.join(REPO, "print", name + ".stl")
+
 E_SOLID = 2641.0
 NU_SOLID = 0.35
 GYROID_N = 2.12
@@ -124,10 +131,7 @@ class Part:
         self.members = []; L = Part.LEVELS[level]; self.level = level; self.voxel_mm = voxel_mm
         Xs, Ts, mem = [], [], []; off = 0; t = time.time()
         for k, (name, T) in enumerate(members):
-            stl_path = os.path.join(PRINT, name + ".stl")
-            if not os.path.exists(stl_path):
-                stl_path = os.path.join(REPO, "print", name + ".stl")
-            m = trimesh.load(stl_path, force="mesh")
+            m = trimesh.load(stl_path(name), force="mesh")
             if simplify and name in simplify:            # collapse STL edges shorter than simplify[name] mm (manifold3d), so that
                 import manifold3d as m3                   # TetGen does not refine a cascade of tiny tets at needle triangles
                 me = m3.Manifold(m3.Mesh(vert_properties=np.asarray(m.vertices, np.float32), tri_verts=np.asarray(m.faces, np.uint32))).simplify(simplify[name]).to_mesh()
