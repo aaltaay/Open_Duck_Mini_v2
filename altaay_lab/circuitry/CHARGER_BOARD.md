@@ -150,6 +150,8 @@ At the D61 figure of 9.5 V (calc only in that decision):
 
 The old band, divided by 1.00 A and added back to the pack voltage, implies about **9.1 V** at the 7.2 V pack and about **9.2 V** at the 6.0 V pack (calc). Both are under the 9.5 V figure. So 2.30 W and 3.50 W are the same formula as the old band, at a higher input. They are **0.40 W and 0.30 W above** the band the thermal twin ran.
 
+Which number is the heat at the D61 input: **2.30 W and 3.50 W** (calc only), because that input is 9.5 V and the current in this note is 1.00 A. (9.5 minus 7.2) times 1.00 is 2.30. (9.5 minus 6.0) times 1.00 is 3.50. The thermal table's 1.9 W and 3.2 W are the watts that table actually ran. They match about 9.1 V and 9.2 V, not 9.5 V. That table was not re-run. It is the right record of that sim. It is not the heat of this board at 9.5 V.
+
 Equation 6-1 is the sheet's worst case: highest input, lowest precondition-exit voltage, highest current. At 9.5 V, 5.761 V, and 1.10 A that is **4.11 W** (calc). On 62 C/W that is a **255 C** rise (calc), which the die will not sit through. Section 5.9 exists for this case. The sheet's own worked example (equation 6-2) is (9.9 V - 6.0 V) x 440 mA printed as 1.58 W, and "about 98 C above room" on this package. 3.9 V x 0.440 A is 1.716 W (calc), not 1.58 W. 1.58 W x 62 C/W is 98 C (calc), which matches the sentence. The printed product and the printed power do not match. This board does not use 1.58 W. It uses equation 6-1 with the numbers above.
 
 Current that holds a 110 C die on a 62 C/W board, at 9.5 V in (calc, block-diagram temperature, not a digitized point on Figure 5-1):

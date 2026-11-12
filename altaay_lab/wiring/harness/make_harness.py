@@ -134,8 +134,11 @@ def main():
 
         key = (w["cable"], ref)
         if key in wago:
-            add_gap("FIX", "%s at %s was a solder splice with no part number. It is now %s." % (
-                w["cable"], ref, wago[key]))
+            part = c.get("part") or ""
+            conn = ((c.get("groups") or {}).get(p.get("group") or "", {}) or {}).get("connector") or ""
+            if "WAGO" not in part and "WAGO" not in conn:
+                add_gap("FIX", "%s at %s was a solder splice with no part number. It is now %s." % (
+                    w["cable"], ref, wago[key]))
             return (base + ". " + wago[key] + ". No separate contact: the lever clamps the bare wire.", "wago")
 
         if ref.startswith("PI.") and ref.split(".")[1].isdigit():
@@ -157,6 +160,10 @@ def main():
                 pos = d2_pos[ref]
                 return (base + ". KK 254 housing %s position %d, contact %s." % (
                     KK_HOUSING[5], pos, KK_CONTACT), "kk")
+            chg_pos = {"PI.29": 1, "PI.31": 2}
+            if ref in chg_pos and w["cable"] == "CE":
+                return (base + ". KK 254 housing %s position %d, contact %s." % (
+                    KK_HOUSING[2], chg_pos[ref], KK_CONTACT), "kk")
             if ref in eye_pos and w["cable"] in ("D5", "D6"):
                 # pin 20 owner is D5. D6 signal is pin 16, which is position 1 of the eye housing.
                 if ref == "PI.16" and w["cable"] == "D6":
@@ -345,7 +352,15 @@ def main():
             lines.append("- Gauge and current: %s" % check(w, {ka, kb}))
             lines.append("- Color: %s" % w.get("color"))
             cut = w.get("cut_mm")
-            if cut is None:
+            if cut is None and cb.get("no_route") and cid == "NT":
+                lines.append("- Cut: BLOCKER. BAY.md names the valley seat and gives no length. "
+                             "cables3d has no route for this cable.")
+            elif cut is None and cb.get("no_route"):
+                lines.append("- Cut: BLOCKER. cables3d has no route for this cable. "
+                             "The charger board has no seat (CHARGER_BOARD.md). "
+                             "D13 worst route is 542 mm (CAD check only, cables3d/CABLES_3D.md) "
+                             "and that wire is GPIO26 to the switch, not this one.")
+            elif cut is None:
                 lines.append("- Cut: BLOCKER. The netlist has no cut length.")
             elif cut == 0:
                 lines.append("- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.")
@@ -358,65 +373,6 @@ def main():
                 lines.append("- Netlist current, mean / peak / fall: %s / %s / %s A. The source on the wire says where that current came from (sim pass only unless that source says otherwise)." % (
                     fmt_a(w.get("i_mean_a")), fmt_a(w.get("i_peak_a")), fmt_a(w.get("i_fall_a"))))
             lines.append("")
-
-    # Charger off-board cable, from circuitry/charger_board.yaml pins JPI.*
-    lines.append("## Cable CB, off the charger board")
-    lines.append("")
-    lines.append("Source: `circuitry/charger_board.yaml` component JPI, and CHARGER_BOARD.md. "
-                 "These four conductors are not in `wiring/netlist.yaml`. The yaml marks the off-board "
-                 "rows cut_mm 0 and says that is not a cut length. Do not read 0 as a finished length.")
-    lines.append("")
-    lines.append("Joints: the same four neck joints as cable D13 (neck_pitch, head_pitch, head_yaw, head_roll), "
-                 "because one end is in the battery bay and the other is on the Pi, which is the D13 path. "
-                 "This is the existing joint list, not a new route. Cut length: BLOCKER. Flex cycle life: BLOCKER, "
-                 "same as every other neck wire.")
-    lines.append("")
-    lines.append("### CB wire 1, STAT")
-    lines.append("")
-    lines.append("- From: charger JPI.STAT (the pad after the 1 kOhm, yaml pin JPI.STAT)")
-    lines.append("- To: Pi header pin 29 (GPIO5)")
-    lines.append("- From end: solder to pad JPI.STAT. The board yaml gives a pad, not a plug.")
-    lines.append("- To end: KK 254 housing %s position 1, contact %s." % (KK_HOUSING[2], KK_CONTACT))
-    lines.append("- Gauge: 26 AWG, the gauge already on that yaml row. Peak on that row is 0 A. "
-                 "The 2.5 A brass rating (cited) is far above a logic pull-up. "
-                 "Insulation fit is the same BLOCKER as the other 26 AWG KK crimps.")
-    lines.append("- Color: blue, the color on that yaml row.")
-    lines.append("- Cut: BLOCKER.")
-    lines.append("")
-    lines.append("### CB wire 2, enable")
-    lines.append("")
-    lines.append("- From: charger JPI.EN")
-    lines.append("- To: Pi header pin 31 (GPIO6)")
-    lines.append("- From end: solder to pad JPI.EN.")
-    lines.append("- To end: KK 254 housing %s position 2, contact %s." % (KK_HOUSING[2], KK_CONTACT))
-    lines.append("- Gauge: 26 AWG, from that yaml row. Same 2.5 A note and the same insulation BLOCKER.")
-    lines.append("- Color: green, the color on that yaml row.")
-    lines.append("- Cut: BLOCKER.")
-    lines.append("")
-    lines.append("### CB wire 3, 3.3 V")
-    lines.append("")
-    lines.append("- From: charger JPI.V3")
-    lines.append("- To: the D2 red wire (Pi pin 1, 3.3 V), spliced. Not a second contact on pin 1.")
-    lines.append("- From end: solder to pad JPI.V3. The yaml names the pin. It does not give this conductor its own AWG row.")
-    lines.append("- To end: solder splice to cable D2 red, heat shrink. Pin 1 already has the D2 contact.")
-    lines.append("- Gauge: 26 AWG, the same gauge as the STAT and EN rows of this cable. Not a separate published row. "
-                 "Current is the pull-up already calculated in CHARGER_BOARD.md (0.33 mA on the 10 kOhm STAT pull-up, calc only there).")
-    lines.append("- Color: orange, the color the yaml uses on the 3.3 V net.")
-    lines.append("- Cut: BLOCKER.")
-    lines.append("")
-    lines.append("### CB wire 4, ground")
-    lines.append("")
-    lines.append("- From: charger JPI.GND (the pin is on the yaml component)")
-    lines.append("- To: the D2 black wire (Pi pin 9), spliced. Not a second contact on pin 9.")
-    lines.append("- From end: solder to pad JPI.GND.")
-    lines.append("- To end: solder splice to cable D2 black.")
-    lines.append("- Gauge: 26 AWG, the gauge on the yaml row JPI.GND to JIN.M. That row is the board ground. "
-                 "The neck piece is the same net and the same gauge.")
-    lines.append("- Color: black.")
-    lines.append("- Cut: BLOCKER.")
-    lines.append("")
-    add_gap("FIX", "Charger STAT and EN had solder pads and cut length 0. Pi end is now KK 254 housing "
-            "0022012027 on pins 29 and 31. 3.3 V and ground splice to cable D2. Cut length stays BLOCKER.")
 
     lines.append("## Flush wells")
     lines.append("")

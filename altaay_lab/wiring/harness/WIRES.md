@@ -124,29 +124,17 @@ Route polyline 179.4 mm is the netlist figure from cables3d (CAD check only).
 
 ### DC3 wire 2
 
-- From: JSN.S
-- To: RT1.1
-- Net: SNS
-- From end: JSN pin S (splice). Solder splice, heat shrink. Pin is JSN.S. Not a plug. 26 AWG cannot use WAGO 221, and the 221 pocket pack is already used by the ground, switched-plus, and servo levers.
-- To end: RT1 pin 1 (to SENSE). solder.
-- Gauge and current: Gauge 26 AWG is the netlist value.
-- Color: white
-- Cut: 220 mm, from the netlist. The cut is 40.6 mm longer than the polyline (calc only). That difference is the slack already in the netlist cut, not a new loop.
-- Netlist current, mean / peak / fall: 0.001 / 0.001 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
-
-### DC3 wire 3
-
 - From: RT1.2
 - To: BMS.P-
 - Net: GND
-- From end: RT1 pin 2 (to GND). solder.
+- From end: RT1 pin 2 (ground side). solder.
 - To end: U5 pin P- (pack output - (charge and discharge)). solder pad.
 - Gauge and current: Gauge 26 AWG is the netlist value.
 - Color: black
 - Cut: 120 mm, from the netlist.
 - Netlist current, mean / peak / fall: 0.001 / 0.001 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
 
-### DC3 wire 4
+### DC3 wire 3
 
 - From: JSN.S
 - To: WK1.A
@@ -158,7 +146,7 @@ Route polyline 179.4 mm is the netlist figure from cables3d (CAD check only).
 - Cut: 180 mm, from the netlist. The cut is 0.6 mm longer than the polyline (calc only). That difference is the slack already in the netlist cut, not a new loop.
 - Netlist current, mean / peak / fall: 0.001 / 0.001 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
 
-### DC3 wire 5
+### DC3 wire 4
 
 - From: WK1.K
 - To: SW1.ON
@@ -169,6 +157,96 @@ Route polyline 179.4 mm is the netlist figure from cables3d (CAD check only).
 - Color: white
 - Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
 - Netlist current, mean / peak / fall: 0 / 0.001 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+## Cable CE
+
+charger STAT and enable to Pi pins 29 and 31, with 3.3 V and ground joined at D2
+
+Joints: neck_pitch, head_pitch, head_yaw, head_roll.
+
+Flex: the netlist already sets the twist lay where a lay fits (NASA-STD-8739.4A 7.2.16 to 7.2.18, recorded on the cable). A flex-cycle number for this silicone was not published. BLOCKER for a cycle life. Same gap already recorded for the knee loop.
+
+Route polyline is empty in the netlist. BLOCKER for a new route measurement. The cut below is the netlist cut, where one is set.
+
+### CE wire 1
+
+- From: JPI.STAT
+- To: PI.29
+- Net: STAT_GPIO
+- From end: JPI pin STAT (GPIO5). solder pad.
+- To end: U4 pin 29 (GPIO5 charge status). KK 254 housing 0022012027 position 1, contact 08-50-0114.
+- Gauge and current: Gauge 26 AWG is the netlist value. Inside 22 to 30 AWG (cited, Molex 08-50-0114 / 2759 sheet). Peak 0.00033 A vs 2.5 A brass rating (cited, Molex 2759 catalog). Margin 2.49967 A (calc only). Insulation maximum 1.57 mm (cited, same 08-50-0114 sheet). The 26 AWG outside diameter 1.5 mm plus or minus 0.1 mm is marked [I] in sim/mass_budget.py and was not re-opened. BLOCKER for a sure fit.
+- Color: blue
+- Cut: BLOCKER. cables3d has no route for this cable. The charger board has no seat (CHARGER_BOARD.md). D13 worst route is 542 mm (CAD check only, cables3d/CABLES_3D.md) and that wire is GPIO26 to the switch, not this one.
+- Netlist current, mean / peak / fall: 0.00033 / 0.00033 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### CE wire 2
+
+- From: JPI.EN
+- To: PI.31
+- Net: PI_EN
+- From end: JPI pin EN (GPIO6). solder pad.
+- To end: U4 pin 31 (GPIO6 charge enable). KK 254 housing 0022012027 position 2, contact 08-50-0114.
+- Gauge and current: Gauge 26 AWG is the netlist value. Inside 22 to 30 AWG (cited, Molex 08-50-0114 / 2759 sheet). Peak 0 A vs 2.5 A brass rating (cited, Molex 2759 catalog). Margin 2.5 A (calc only). Insulation maximum 1.57 mm (cited, same 08-50-0114 sheet). The 26 AWG outside diameter 1.5 mm plus or minus 0.1 mm is marked [I] in sim/mass_budget.py and was not re-opened. BLOCKER for a sure fit.
+- Color: green
+- Cut: BLOCKER. cables3d has no route for this cable. The charger board has no seat (CHARGER_BOARD.md). D13 worst route is 542 mm (CAD check only, cables3d/CABLES_3D.md) and that wire is GPIO26 to the switch, not this one.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### CE wire 3
+
+- From: JPI.V3
+- To: PI.1
+- Net: 3V3
+- From end: JPI pin V3 (Pi 3.3 V). solder pad.
+- To end: U4 pin 1 (3V3). No second contact. Solder this wire to the D2 wire on the same pin (heat shrink). 26 AWG is below the WAGO 221 minimum of 24 AWG (cited).
+- Gauge and current: Gauge 26 AWG is the netlist value.
+- Color: orange
+- Cut: BLOCKER. cables3d has no route for this cable. The charger board has no seat (CHARGER_BOARD.md). D13 worst route is 542 mm (CAD check only, cables3d/CABLES_3D.md) and that wire is GPIO26 to the switch, not this one.
+- Netlist current, mean / peak / fall: 0.00033 / 0.00033 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### CE wire 4
+
+- From: JPI.GND
+- To: PI.9
+- Net: GND
+- From end: JPI pin GND (ground). solder pad.
+- To end: U4 pin 9 (GND). No second contact. Solder this wire to the D2 wire on the same pin (heat shrink). 26 AWG is below the WAGO 221 minimum of 24 AWG (cited).
+- Gauge and current: Gauge 26 AWG is the netlist value.
+- Color: black
+- Cut: BLOCKER. cables3d has no route for this cable. The charger board has no seat (CHARGER_BOARD.md). D13 worst route is 542 mm (CAD check only, cables3d/CABLES_3D.md) and that wire is GPIO26 to the switch, not this one.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+## Cable NT
+
+pack bead RT1 to the charger divider plug JNT. The old SENSE tap from JSN to the bead is not in this cable.
+
+Joints: none. This cable does not cross a moving joint.
+
+Route polyline is empty in the netlist. BLOCKER for a new route measurement. The cut below is the netlist cut, where one is set.
+
+### NT wire 1
+
+- From: RT1.1
+- To: JNT.A
+- Net: NTC_MID
+- From end: RT1 pin 1 (divider side). bead lead.
+- To end: JNT pin A (to RBIAS 10.0 kOhm). KK 254 housing 0022012027 position 1, contact 08-50-0114.
+- Gauge and current: BLOCKER: gauge "bead lead" is not an AWG.
+- Color: violet
+- Cut: BLOCKER. BAY.md names the valley seat and gives no length. cables3d has no route for this cable.
+- Netlist current, mean / peak / fall: 0.00025 / 0.00025 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NT wire 2
+
+- From: RT1.2
+- To: JNT.B
+- Net: GND
+- From end: RT1 pin 2 (ground side). bead lead.
+- To end: JNT pin B (ground). KK 254 housing 0022012027 position 2, contact 08-50-0114.
+- Gauge and current: BLOCKER: gauge "bead lead" is not an AWG.
+- Color: black
+- Cut: BLOCKER. BAY.md names the valley seat and gives no length. cables3d has no route for this cable.
+- Netlist current, mean / peak / fall: 0.00025 / 0.00025 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
 
 ## Cable DC4
 
@@ -2524,52 +2602,6 @@ Route polyline 51.6 mm is the netlist figure from cables3d (CAD check only).
 - Color: kit
 - Cut: 150 mm, from the netlist. The cut is 98.4 mm longer than the polyline (calc only). That difference is the slack already in the netlist cut, not a new loop.
 
-## Cable CB, off the charger board
-
-Source: `circuitry/charger_board.yaml` component JPI, and CHARGER_BOARD.md. These four conductors are not in `wiring/netlist.yaml`. The yaml marks the off-board rows cut_mm 0 and says that is not a cut length. Do not read 0 as a finished length.
-
-Joints: the same four neck joints as cable D13 (neck_pitch, head_pitch, head_yaw, head_roll), because one end is in the battery bay and the other is on the Pi, which is the D13 path. This is the existing joint list, not a new route. Cut length: BLOCKER. Flex cycle life: BLOCKER, same as every other neck wire.
-
-### CB wire 1, STAT
-
-- From: charger JPI.STAT (the pad after the 1 kOhm, yaml pin JPI.STAT)
-- To: Pi header pin 29 (GPIO5)
-- From end: solder to pad JPI.STAT. The board yaml gives a pad, not a plug.
-- To end: KK 254 housing 0022012027 position 1, contact 08-50-0114.
-- Gauge: 26 AWG, the gauge already on that yaml row. Peak on that row is 0 A. The 2.5 A brass rating (cited) is far above a logic pull-up. Insulation fit is the same BLOCKER as the other 26 AWG KK crimps.
-- Color: blue, the color on that yaml row.
-- Cut: BLOCKER.
-
-### CB wire 2, enable
-
-- From: charger JPI.EN
-- To: Pi header pin 31 (GPIO6)
-- From end: solder to pad JPI.EN.
-- To end: KK 254 housing 0022012027 position 2, contact 08-50-0114.
-- Gauge: 26 AWG, from that yaml row. Same 2.5 A note and the same insulation BLOCKER.
-- Color: green, the color on that yaml row.
-- Cut: BLOCKER.
-
-### CB wire 3, 3.3 V
-
-- From: charger JPI.V3
-- To: the D2 red wire (Pi pin 1, 3.3 V), spliced. Not a second contact on pin 1.
-- From end: solder to pad JPI.V3. The yaml names the pin. It does not give this conductor its own AWG row.
-- To end: solder splice to cable D2 red, heat shrink. Pin 1 already has the D2 contact.
-- Gauge: 26 AWG, the same gauge as the STAT and EN rows of this cable. Not a separate published row. Current is the pull-up already calculated in CHARGER_BOARD.md (0.33 mA on the 10 kOhm STAT pull-up, calc only there).
-- Color: orange, the color the yaml uses on the 3.3 V net.
-- Cut: BLOCKER.
-
-### CB wire 4, ground
-
-- From: charger JPI.GND (the pin is on the yaml component)
-- To: the D2 black wire (Pi pin 9), spliced. Not a second contact on pin 9.
-- From end: solder to pad JPI.GND.
-- To end: solder splice to cable D2 black.
-- Gauge: 26 AWG, the gauge on the yaml row JPI.GND to JIN.M. That row is the board ground. The neck piece is the same net and the same gauge.
-- Color: black.
-- Cut: BLOCKER.
-
 ## Flush wells
 
 Source: `twin/dock/flush/FLUSH_CONTACTS.md`. Five gold wells in the seat. No new wire crosses a joint (that file, line 3 of the belly column). The diode part is not chosen in that file. This harness does not pick one and does not draw a circuit.
@@ -2578,19 +2610,12 @@ Each well is one conductor. Near end: solder to that well. Far end: BLOCKER, no 
 
 ## What has no pin, and what was done
 
+- FIX: D2 and CE both landed on PI.1. One 08-50-0114 takes one wire. D2 keeps the contact. CE is spliced to it.
+- FIX: D2 and CE both landed on PI.9. One 08-50-0114 takes one wire. D2 keeps the contact. CE is spliced to it.
 - BLOCKER: CHG.B+ label is not checked on the part ([U] CABLE_MAP; label [I]).
 - BLOCKER: CHG.B- label is not checked on the part ([U] CABLE_MAP; label [I]).
-- FIX: P14 at G.S was a solder splice with no part number. It is now WAGO 221-415 port 1, ground lever.
-- FIX: P9 at VSW.S was a solder splice with no part number. It is now WAGO 221-413 port 1, switched plus lever.
-- FIX: P16 at G.S was a solder splice with no part number. It is now WAGO 221-415 port 4, ground lever.
 - BLOCKER: CTL.1 label is not checked on the part ([I]).
 - BLOCKER: CTL.2 label is not checked on the part ([I]).
-- FIX: P10 at VSW.S was a solder splice with no part number. It is now WAGO 221-413 port 2, switched plus lever.
-- FIX: P10 at G.S was a solder splice with no part number. It is now WAGO 221-415 port 2, ground lever.
-- FIX: P11 at SPV.S was a solder splice with no part number. It is now WAGO 221-415 port 1, servo plus lever.
-- FIX: P11 at SPG.S was a solder splice with no part number. It is now WAGO 221-415 port 1, servo ground lever.
-- FIX: P13 at VSW.S was a solder splice with no part number. It is now WAGO 221-413 port 3, switched plus lever.
-- FIX: P13 at G.S was a solder splice with no part number. It is now WAGO 221-415 port 3, ground lever.
 - FIX: P12 PI.2 is 20 AWG. Molex 08-50-0114 takes 22 to 30 AWG only (cited). Solder it to the header pin, as docs/assembly_guide.md does.
 - FIX: P12 PI.6 is 20 AWG. Molex 08-50-0114 takes 22 to 30 AWG only (cited). Solder it to the header pin, as docs/assembly_guide.md does.
 - FIX: P17 PI.4 is 20 AWG. Molex 08-50-0114 takes 22 to 30 AWG only (cited). Solder it to the header pin, as docs/assembly_guide.md does.
@@ -2608,22 +2633,11 @@ Each well is one conductor. Near end: solder to that well. Far end: BLOCKER, no 
 - FIX: D2 and D16 both landed on PI.3. One 08-50-0114 takes one wire. D2 keeps the contact. D16 is spliced to it.
 - FIX: D2 and D16 both landed on PI.5. One 08-50-0114 takes one wire. D2 keeps the contact. D16 is spliced to it.
 - FIX: D13 PI.37 was a KK socket, but a 1-circuit friction-ramp part was not on the Molex 2695 chart opened this pass. Solder to the header pin.
-- FIX: SP1 at SPV.S was a solder splice with no part number. It is now WAGO 221-415 port 2, servo plus lever.
-- FIX: SP1 at SPG.S was a solder splice with no part number. It is now WAGO 221-415 port 2, servo ground lever.
-- FIX: SP2 at SPV.S was a solder splice with no part number. It is now WAGO 221-415 port 3, servo plus lever.
-- FIX: SP2 at SPG.S was a solder splice with no part number. It is now WAGO 221-415 port 3, servo ground lever.
-- FIX: SP3 at SPV.S was a solder splice with no part number. It is now WAGO 221-415 port 4, servo plus lever.
-- FIX: SP3 at SPG.S was a solder splice with no part number. It is now WAGO 221-415 port 4, servo ground lever.
-- FIX: SP4 at SPV.S was a solder splice with no part number. It is now WAGO 221-413 port 2, servo plus small lever.
-- FIX: SP4 at SPG.S was a solder splice with no part number. It is now WAGO 221-413 port 2, servo ground small lever.
-- FIX: SP5 at SPV.S was a solder splice with no part number. It is now WAGO 221-413 port 3, servo plus small lever.
-- FIX: SP5 at SPG.S was a solder splice with no part number. It is now WAGO 221-413 port 3, servo ground small lever.
 - BLOCKER: YD3.S label is not checked on the part ([L] D15; position next to the adapter [I]).
 - BLOCKER: YG3.S label is not checked on the part ([L] D15 (H3 GND spliced into SP1 and SP3); position [I]).
-- FIX: Charger STAT and EN had solder pads and cut length 0. Pi end is now KK 254 housing 0022012027 on pins 29 and 31. 3.3 V and ground splice to cable D2. Cut length stays BLOCKER.
 - BLOCKER: Five flush-well wires have a near end (solder to the well) and no far pin or connector.
 
-Counted here: 34 FIX lines, 10 BLOCKER lines, after dropping repeated wording (calc only, a count of this list).
+Counted here: 16 FIX lines, 10 BLOCKER lines, after dropping repeated wording (calc only, a count of this list).
 
-Wires read from the netlist: 171 (calc only, a count of active rows).
+Wires read from the netlist: 176 (calc only, a count of active rows).
 

@@ -36,12 +36,11 @@ EXCLUDED = {
     "NL:JSN": "CHARGER_BOARD.md: the SENSE splice goes away with the four-net dock",
 }
 
-# Splices whose netlist part text says solder, including G and VSW.
-# BOM.md line 26b names WAGO for G and VSW, and the netlist text does not.
-# This order follows the netlist text and does not buy both.
+# Splices whose netlist part text still says solder. G, VSW, SPV, and SPG
+# name WAGO 221 in the part text, so they are the wago line, not this list.
 SOLDER_SPLICES = [
-    "NL:JFI", "NL:JFO", "NL:VSW", "NL:G", "NL:JBP", "NL:JBN",
-    "NL:SPV", "NL:SPG", "NL:YD3", "NL:YG3", "NL:JG20", "NL:JG30",
+    "NL:JFI", "NL:JFO", "NL:JBP", "NL:JBN",
+    "NL:YD3", "NL:YG3", "NL:JG20", "NL:JG30",
     "NL:JG10", "NL:J5", "NL:JG", "NL:JGD",
 ]
 
