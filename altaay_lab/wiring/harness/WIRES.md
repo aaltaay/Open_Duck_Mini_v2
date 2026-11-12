@@ -248,6 +248,218 @@ Route polyline is empty in the netlist. BLOCKER for a new route measurement. The
 - Cut: BLOCKER. BAY.md names the valley seat and gives no length. cables3d has no route for this cable.
 - Netlist current, mean / peak / fall: 0.00025 / 0.00025 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
 
+## Cable NW
+
+on the charger board: bead plug to RBIAS, the cold and hot dividers, CU2, CU3, and the enable gate
+
+Joints: none. This cable does not cross a moving joint.
+
+Route polyline is empty in the netlist. BLOCKER for a new route measurement. The cut below is the netlist cut, where one is set.
+
+### NW wire 1
+
+- From: JNT.A
+- To: RBIAS.2
+- Net: NTC_MID
+- From end: JNT pin A (to RBIAS 10.0 kOhm). solder pad.
+- To end: R7 pin 2 (bead). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: violet
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0.00025 / 0.00025 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 2
+
+- From: JNT.A
+- To: CU2.INAM
+- Net: NTC_MID
+- From end: JNT pin A (to RBIAS 10.0 kOhm). solder pad.
+- To end: U2 pin INAM (bead). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: violet
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 3
+
+- From: CU2.INAM
+- To: CU2.INBP
+- Net: NTC_MID
+- From end: U2 pin INAM (bead). solder pad.
+- To end: U2 pin INBP (bead). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: violet
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 4
+
+- From: CU3.K
+- To: RBIAS.1
+- Net: VREF
+- From end: U3 pin K (cathode). solder pad.
+- To end: R7 pin 1 (reference). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: violet
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0.00025 / 0.00025 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 5
+
+- From: CU3.K
+- To: CU3.R
+- Net: VREF
+- From end: U3 pin K (cathode). solder pad.
+- To end: U3 pin R (reference tied to cathode). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: violet
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 6
+
+- From: CU3.A
+- To: JNT.B
+- Net: GND
+- From end: U3 pin A (anode). solder pad.
+- To end: JNT pin B (ground). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: black
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 7
+
+- From: CU3.K
+- To: RCOLD.1
+- Net: VREF
+- From end: U3 pin K (cathode). solder pad.
+- To end: R8 pin 1 (reference). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: violet
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 8
+
+- From: RCOLD.2
+- To: RCOLDB.1
+- Net: COLD_TH
+- From end: R8 pin 2 (cold threshold). solder pad.
+- To end: R9 pin 1 (cold threshold). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: violet
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 9
+
+- From: RCOLDB.2
+- To: JNT.B
+- Net: GND
+- From end: R9 pin 2 (ground). solder pad.
+- To end: JNT pin B (ground). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: black
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 10
+
+- From: RCOLD.2
+- To: CU2.INAP
+- Net: COLD_TH
+- From end: R8 pin 2 (cold threshold). solder pad.
+- To end: U2 pin INAP (cold threshold). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: violet
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 11
+
+- From: CU3.K
+- To: RHOT.1
+- Net: VREF
+- From end: U3 pin K (cathode). solder pad.
+- To end: R10 pin 1 (reference). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: violet
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 12
+
+- From: RHOT.2
+- To: RHOTB.1
+- Net: HOT_TH
+- From end: R10 pin 2 (hot threshold). solder pad.
+- To end: R11 pin 1 (hot threshold). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: violet
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 13
+
+- From: RHOTB.2
+- To: JNT.B
+- Net: GND
+- From end: R11 pin 2 (ground). solder pad.
+- To end: JNT pin B (ground). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: black
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 14
+
+- From: RHOT.2
+- To: CU2.INBM
+- Net: HOT_TH
+- From end: R10 pin 2 (hot threshold). solder pad.
+- To end: U2 pin INBM (hot threshold). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: violet
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 15
+
+- From: CU2.GND
+- To: JNT.B
+- Net: GND
+- From end: U2 pin GND (ground). solder pad.
+- To end: JNT pin B (ground). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: black
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 16
+
+- From: CU2.OUTA
+- To: CQEN.G
+- Net: EN_GATE
+- From end: U2 pin OUTA (cold fault). solder pad.
+- To end: QEN pin G (enable gate). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: green
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
+### NW wire 17
+
+- From: CU2.OUTA
+- To: CU2.OUTB
+- Net: EN_GATE
+- From end: U2 pin OUTA (cold fault). solder pad.
+- To end: U2 pin OUTB (hot fault). solder pad.
+- Gauge and current: Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.
+- Color: green
+- Cut: 0 mm in the netlist, which means the parts are soldered together with no free wire.
+- Netlist current, mean / peak / fall: 0 / 0 / None A. The source on the wire says where that current came from (sim pass only unless that source says otherwise).
+
 ## Cable DC4
 
 chest SYS to DK6, DK6 and DK7 to SW1 VIN (D50)
@@ -2639,5 +2851,5 @@ Each well is one conductor. Near end: solder to that well. Far end: BLOCKER, no 
 
 Counted here: 16 FIX lines, 10 BLOCKER lines, after dropping repeated wording (calc only, a count of this list).
 
-Wires read from the netlist: 176 (calc only, a count of active rows).
+Wires read from the netlist: 193 (calc only, a count of active rows).
 

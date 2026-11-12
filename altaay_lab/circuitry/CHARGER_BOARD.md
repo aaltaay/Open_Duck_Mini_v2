@@ -264,6 +264,20 @@ Not applied.
 **PARTS_AUDIT.md**
 
 - The MCP73213 sheet has now been opened (DS20002190C). Dropout in the characterized table is the 0.3 V headroom: specs apply from 8.70 V for the 8.40 V option. The 6 hour timer is on the A6S option (5.4 to 6.6 h). The "missing thermistor" note is confirmed: there is no THERM pin. Die regulation at the 110 C block-diagram label is not a pack NTC.
+
+Table 3-1 of DS20002190C, page 13, opened again on 2026-11-12 (cited datasheet). The DFN-10 pins are:
+
+| DFN-10 | Symbol | Direction on the sheet | What the sheet says |
+|---|---|---|---|
+| 1, 2 | VDD | I | Battery Management Input Supply Pin |
+| 3, 4 | VBAT | I/O | Battery Charge Control Output Pin |
+| 5, 6 | NC | no direction | No Connection Pin |
+| 7 | STAT | O | Battery Charge Status Output Pin |
+| 8, 9 | VSS | no direction | Battery Management 0V Reference Pin |
+| 10 | PROG | I/O | Battery Charge Current Regulation Program and Charge Control Enable Pin |
+| 11 | EP | no direction | Exposed Pad Pin |
+
+The sheet prints a dash in the direction column for NC, VSS, and EP. There is no THR pin and no thermistor input. Section 3.3 says the NC pins are no connection. The pack bead cannot land on this chip. It lands on the LM393 (CU2) and the TL431 (CU3), which pull the enable gate down. That path is cable NW in wiring/netlist.yaml.
 - The in-duck part number to record is MCP73213-A6SI/MF, not the eval board.
 
 **STATE.md**

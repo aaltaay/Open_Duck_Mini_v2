@@ -204,8 +204,10 @@ def main():
         peak = w.get("i_peak_a")
         fall = w.get("i_fall_a")
         bits = []
-        if w["gauge"] in ("kit cable", "BEC lead", "SG90 lead", "USB 2.0 cable", "FPC ribbon",
-                          "holder lead", "resistor lead", "board"):
+        if w["gauge"] == "board" and w.get("cut_mm") == 0:
+            bits.append("Soldered on the charger board (cut 0 mm). Not a free wire and not an AWG.")
+        elif w["gauge"] in ("kit cable", "BEC lead", "SG90 lead", "USB 2.0 cable", "FPC ribbon",
+                            "holder lead", "resistor lead", "board"):
             bits.append("BLOCKER for a gauge number: the netlist leaves this as \"%s\"." % w["gauge"])
         elif g is None:
             bits.append("BLOCKER: gauge \"%s\" is not an AWG." % w["gauge"])

@@ -13,6 +13,23 @@ CE,JPI.V3,PI.1,3V3,26 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 CE,JPI.GND,PI.9,GND,26 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JPI.STAT JPI.EN JPI.V3
 NT,RT1.1,JNT.A,NTC_MID,bead lead,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RT1.2
 NT,RT1.2,JNT.B,GND,bead lead,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RT1.1
+NW,JNT.A,RBIAS.2,NTC_MID,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JNT.B
+NW,JNT.A,CU2.INAM,NTC_MID,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JNT.B
+NW,CU2.INAM,CU2.INBP,NTC_MID,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU2.INAP CU2.INBP CU2.INBM CU2.OUTA CU2.OUTB CU2.GND
+NW,CU3.K,RBIAS.1,VREF,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU3.R CU3.A
+NW,CU3.K,CU3.R,VREF,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU3.R CU3.A
+NW,CU3.A,JNT.B,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU3.K CU3.R
+NW,CU3.K,RCOLD.1,VREF,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU3.R CU3.A
+NW,RCOLD.2,RCOLDB.1,COLD_TH,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RCOLD.1
+NW,RCOLDB.2,JNT.B,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RCOLDB.1
+NW,RCOLD.2,CU2.INAP,COLD_TH,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RCOLD.1
+NW,CU3.K,RHOT.1,VREF,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU3.R CU3.A
+NW,RHOT.2,RHOTB.1,HOT_TH,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RHOT.1
+NW,RHOTB.2,JNT.B,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RHOTB.1
+NW,RHOT.2,CU2.INBM,HOT_TH,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RHOT.1
+NW,CU2.GND,JNT.B,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU2.INAM CU2.INAP CU2.INBP CU2.INBM CU2.OUTA CU2.OUTB
+NW,CU2.OUTA,CQEN.G,EN_GATE,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU2.INAM CU2.INAP CU2.INBP CU2.INBM CU2.OUTB CU2.GND
+NW,CU2.OUTA,CU2.OUTB,EN_GATE,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU2.INAM CU2.INAP CU2.INBP CU2.INBM CU2.OUTB CU2.GND
 DC3,JSN.S,WK1.A,SNS,26 AWG,180,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 DC4,DKP.SYS,DK6.VIN,SYS_IN,20 AWG,190,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.GND DKP.SNS DKP.CHG
 DC4,DK6.VOUT,SW1.VIN,PACK_OR,20 AWG,70,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK6.VIN DK6.GND
