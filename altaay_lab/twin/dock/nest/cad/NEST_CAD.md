@@ -1,6 +1,8 @@
 # NEST_CAD: the CAD of the nest, the new charging place for Duckie (Open Duck Mini v2 lab build)
 
-2026-11-11. CAD and checks only. Nothing bought, nothing printed, nobody contacted. The repo was only read. Everything is in this folder.
+SUPERSEDED 2026-11-12 ET by D62. The four spring pins and the QA Technology probe in this folder are not the nest to build. The official mat is the flush striped felt field and the five seat wells in altaay_lab/cad/nest_v2/. This file, its meshes, and its renders stay as the record. Do not delete them. Do not print the pins from this drawing.
+
+2026-11-11. CAD and checks only. Nothing bought, nothing printed, nobody contacted. The repo was only read. Everything is in this folder. The text below is kept as written.
 
 Repo copy note (2026-11-11 ET): this is the report as written, copied into the repo as an archive of work in progress, with local folder paths and prices removed. Nothing in it is installed: print/, the URDF, the netlist, the BOM and the viewer are unchanged (section 7 is the landing plan, not done). The scripts beside it were moved here and their paths made relative; they were syntax-checked and not re-run after the move. Where the text says `dock/natural/`, read this repo's `altaay_lab/twin/dock/nest/`. Four large STEP files were left out to keep the archive small (`sit_seat.step`, `sit_bumper.step`, `body_middle_bottom_feedthroughs.step`, `nest_box_tray.step`); `step_export.py` makes them again from the STLs in `stl/`. The owner has seen the renders and has not yet said the look is approved. Index: ../README.md. Status: ../HANDOVER.md.
 
