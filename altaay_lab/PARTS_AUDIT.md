@@ -6,6 +6,8 @@ A number from a sim, a calc, or a CAD check keeps that label. Anything not opene
 
 This is the parts half of gate 0 and all of gate 1 in DEFINITION_OF_DONE.md. Neither gate passes because of this file.
 
+A later section, "Session 2026-11-11 ET", reopened stock and filled part numbers. Where this first write and that section disagree, use the later section.
+
 ## What "orderable today" means here
 
 A part is orderable today only when all four are true: an exact manufacturer part number, a named distributor, a quantity, and a page opened this session that shows it can be bought.
@@ -215,4 +217,216 @@ twin/dock/DOCK_BOM_FULL.md is still the wall and paddle dock. D61 superseded tha
 - Lines opened and marked MISMATCH: 1 (the STS3215 against the twin's stall and 70 C cut).
 - Lines marked UNVERIFIED/BLOCKER in the special notes: 40, plus every fastener and every row whose datasheet cell says not opened.
 - Orderable today, by the rule at the top: none. Two named sellers were opened and were out of stock (the Pi at Adafruit, the P45B at 18650 Battery Store). Every other line is STOCK NOT REOPENED, NOT ORDERABLE, or DO NOT ORDER.
+
+That count is the first write only. The next section reopened pages on 2026-11-11 evening ET and replaces it.
+
+## Session 2026-11-11 ET
+
+Reads in this session, evening of 2026-11-11 ET. A number from a page opened here is labeled with that page. A number from the nest CAD stays CAD check only. A number that was not opened stays BLOCKER. This section does not change BOM.md.
+
+Orderable today still means all four: an exact manufacturer part number (or the seller model the opened page prints, when the maker publishes no other number), a named distributor, a quantity, and a page opened this session that shows the part can be bought. A fit that is still unchecked is labeled BLOCKER even when the listing itself can be bought.
+
+### Spring pin
+
+Catalog opened: QA Technology 2023 catalog, pages 32 and 33, https://www.qatech.com/pdfs/2023_QA-Catalog.pdf . The part number is built as 100-PR, then the tube letter, then 40, then the tip digits, then the spring letter. The example on page 32 is 100-PRP4003L.
+
+Chosen probe: **100-PRP4030S**.
+
+- Tube P (catalog page 32): nickel silver, ID precious metal clad, average resistance under 20 mOhm, average current 10.2 A at 120 C and 14.3 A at 204 C. The catalog footnote says the spring material and the lubrication change that current.
+- Tip 30 Round (catalog page 33): head diameter 0.055 in, which the page prints as 1.40 mm.
+- Spring S (catalog page 32): 1.5 oz at first touch, which the page prints as 43 g and 0.42 N, and 5.7 oz at 0.317 in stroke, which the page prints as 162 g, 1.58 N, and 8.05 mm. Life 500,000 cycles at that stroke. Full stroke 0.400 in, 10.16 mm. Tube diameter 0.0538 in, 1.367 mm.
+
+Geometry change this probe needs: the nest drawing uses a round head of about 2.3 mm (nestcad_lib.py, estimate, and NEST_CAD.md). The catalog head is 1.40 mm. Redraw the tip to 1.40 mm. The TPU well is 3.6 mm (nestcad_lib.py, drawn for the 2.3 mm estimate). A 1.40 mm head has more side clearance in that well, so the well does not have to grow. The nest substitute line asked for a rounded tip 2 mm or more across (NEST_CAD.md). This tip does not meet that. Whether 1.40 mm punches the cloth is still a bench test, BLOCKER.
+
+Closest options on the same pages, and the geometry change each needs:
+
+| Probe | Tip on the catalog page | Geometry change |
+|---|---|---|
+| 100-PRP4030S | 30 Round, 1.40 mm | Redraw the tip from 2.3 mm to 1.40 mm. This is the one proposed. |
+| 100-PRP4040S | 40 Round, 0.91 mm | Redraw the tip to 0.91 mm. Smaller contact on cloth. |
+| 100-PRP4010S | 10 Flat, 1.57 mm | Redraw a flat face at 1.57 mm. Not a sphere. Still under 2 mm. |
+| 100-PRP4009S | 09 Serrated, 2.92 mm, minimum centers 3.81 mm | The pins are 20 mm apart (NEST_CAD.md), so the center rule passes. The face is serrated. The nest text says a crown or a point catches cloth. A serrated face has the same risk. The 3.6 mm well is 0.34 mm clear of a 2.92 mm head on each side. Grow the well before this tip is used. |
+
+No round conductive tip on the opened 100-40 pages is 2.3 mm. On the 100-25 pages the 0.090 in (2.29 mm) head is tip 99, an insulator, not a contact.
+
+Socket: **100-SDN250S**, printed on the same 100-40 catalog pages. Nickel silver, no finish, solder cup, press ring code 0 at 0.300 in (7.62 mm). The length printed beside that part number is 1.187 in (30.15 mm). Suggested mounting hole 0.0670 to 0.0690 in (1.702 to 1.753 mm), drill 1.75 mm, in AT7000, G10/FR4 or similar, not in PLA. The drawing shows a typical socket outside of 0.066 in (1.68 mm). The nest estimate of a press ring at 10.03 mm is the other press-ring code (digit 1), not this part.
+
+TestEquity page opened for 100-SDN250S: Out of Stock, manufacturer lead time 8 days. That page says the socket accepts 100-25 series probes, and the same page lists the series as 100-40. The catalog draws this socket on the 100-40 sheet. Follow the catalog. The TestEquity sentence is recorded so it is not hidden.
+
+TME US page opened for 100-SDN250S: 533 in stock, minimum order 5, and the page says the product can be purchased only from the international offer. That is not a confirmed US cart. BLOCKER for a US one-click of the socket.
+
+Probe 100-PRP4030S: no distributor page opened this session showed it in stock. NOT TODAY. The PLA press fit of the 1.75 mm hole stays BLOCKER, because the catalog hole is for board material, not printed PLA.
+
+### Felt, cloth, foil, foam, gate
+
+Felt, about 1 mm, two layers, and the 2 mm rim sleeve (NEST_CAD.md, CAD check only): no manufacturer part number on a page opened this session. BLOCKER. Do not order a craft sheet with no grade.
+
+Conductive cloth: Shieldex Nora Dell, product ID 1401101S80, page https://www.shieldex.de/en-us/products/shieldex-nora-dell/ opened. Silver, copper, and nickel. Electrical surface resistivity under 0.009 ohm per square (that page). Thickness 0.125 mm plus or minus 15 percent (that page). Weight 100 g per square metre plus or minus 15 percent (that page). A datasheet link is on the page. The page does not call the cloth gold or pale gold. One grey cloth cannot be both the sun and the ring. If it is used for both, the camera loses the two colors, and both poles look the same. That is a look change, and the camera nest find is already untested (BLOCKER). The US shop link on the page was not opened, so stock is not confirmed. NOT ORDERABLE as the gold pair.
+
+Foil: 3M 1181 X 1/2, DigiKey page https://www.digikey.com/en/products/detail/3m/1181-X-1-2/111515 opened. The page description says buy now, ships today. Copper foil, conductive adhesive, single sided, width 0.500 in (12.70 mm), length 54.000 ft (16.50 m), thickness 0.003 in (0.08 mm). The drawn feed is 12 mm (NEST_CAD.md). Change the feed from 12 mm to 12.7 mm, or slit the tape. The sun disc is 90 mm (NEST_CAD.md). A 12.7 mm roll cannot cut that disc in one piece. Tiling it makes seams. A wider 1181 roll was not opened, so it is not claimed in stock. The half-inch roll is the orderable feed. The one-piece disc stays BLOCKER.
+
+Rim foam: no part number. BLOCKER. The bolsters are cut soft foam (NEST_CAD.md).
+
+Gate board: the circuit is not designed. No manufacturer part number. BLOCKER. The CAD keeps a space of 70 x 26 x 14 mm (NEST_CAD.md). Do not order a board in its place.
+
+In-duck charger: the MCP73213 datasheet was still not opened. Dropout, the timer, and the thermistor stay BLOCKER. The eval board is not a seated part. Line 11 is not that charger.
+
+### Lines that had no manufacturer part number
+
+Line 7, the spot-welded pack: no nickel strip, sleeve, fish-paper, or weld-shop part number on a page opened this session. BLOCKER. Leave it off a one-click order.
+
+Line 11: Amazon page for ASIN B0BJTW4QBR opened. Manufacturer Adeept. The page prints manufacturer part number Li-ion_Battery_Charger_M-2S2A and model 18650 Charge Board, variant 2S-2A-8.4V. Availability text: Only 7 left in stock. No datasheet and no hole drawing. The CAD body on the bill is 38.2 x 18.1 x 5.2 mm, holes 2.5 mm at 14.4 mm pitch. Fit stays BLOCKER until that check. The listing itself can be bought.
+
+Line 14: Amazon page for ASIN B072V529YD opened. Manufacturer Miuzei. Model on the page: SG90 9G Servo. The part number field is the ASIN. Availability: In Stock. The page calls the servo metal gear and digital. A Tower Pro datasheet was not opened. Datasheet BLOCKER. The listing itself can be bought. The stock-first PWM note in the lab rules is unchanged.
+
+Line 17m: no page opened for an M2 x 12 thread-forming pan head with a head about 4.0 mm by 1.6 mm (the fastener schedule). BLOCKER. A slotted machine screw is a different part and is not proposed.
+
+Line 22c: 22-01-3027 is not the Molex number. The 2-circuit KK 254 housing, series 2695, is Molex 0022012027. DigiKey page https://www.digikey.com/en/products/detail/molex/0022012027/171991 opened. The page description says buy now, ships today. That one housing is orderable. The line is not. The harness now lands a KK housing on 15 cables (D2, D3, D4, D5, D6, D7, D8, D9, D10, D13, D14, D16, D22, P12, P17), and several of those cables share a header pin or use both rows. Two housings cannot sit on one pin. A buy of 11 housings of one width is the wrong cart. BLOCKER until each header pin is given to one cavity. P12 and P17 are 20 AWG (HARNESS_BUILD.md). Terminal 08-50-0114 is 22 to 30 AWG on the bill. Those two crimps need a different terminal, and that terminal was not opened. BLOCKER for those two ends.
+
+Line E3: Amazon page for ASIN B07DHB13J4 opened. Manufacturer uxcell. Manufacturer part number and model on the page: a18032300ux0174. Title: 1 W LED chip, warm white, 280 to 350 mA. Availability: Only 9 left in stock. The same page also says bulb shape B10, which fights the bead title. No mechanical drawing. Fit in the eye stays BLOCKER.
+
+Line E4: Amazon page for ASIN B0C4H17QSH opened. Manufacturer FINGERINSPIRE. Model on the page: KY-FG0001-10-US18. The page says 30 mm diameter and 2 mm thick, 60 pieces. Availability: Only 9 left in stock. The CAD eye glass on the bill is 29.6 mm by 1.85 mm. The bill already says the disc fit was checked with the left eye test print. The listing can be bought. The 0.4 mm diameter difference and the 0.15 mm thickness difference are the ones that print already accepted.
+
+Line E5: Amazon page for ASIN B0BGS3C42N opened. Title Aurorad S5. The page says diameter 20 mm, height 15 mm, LED hole 7 mm, which matches the seat text on the bill. Availability: in stock, ships in 3 to 4 days. The manufacturer part number field is the word Aurorad, not a unique number. D29 dropped the side projector and this reflector. Proposed buy quantity 0. Do not order it.
+
+Line DK1: still the old chest pad. D61 replaces that dock. Proposed: do not order it for the nest. DECISIONS.md is not edited here.
+
+Line DK5: Adafruit 372 (the 10 k NTC) is in stock on the product page. The zener onsemi 1N5228B, the 1N4148, and the resistors were not opened. The set is not one part number. NOT ORDERABLE as a set.
+
+### Pi Zero 2 W and the P45B
+
+Line 3, Adafruit 5291: product schema OutOfStock on the page opened this session.
+
+CanaKit page https://www.canakit.com/raspberry-pi-zero-2-w.html opened. PI-Z2W (board only) Sold Out. PI-Z2WH (board only, pre-soldered header) Sold Out. Starter kit with pre-soldered header, code PI-Z2WH-STR32-C4-BLK, shows Add to Cart. That kit is the in-stock alternate that includes the board. The bare board is NOT TODAY.
+
+Line 6, Molicel INR21700-P45B: 18650 Battery Store page opened, stock words "Sold out". Liion Wholesale page opened, SKU molicelnpe-inr21700-p45b, words "Out Of Stock". The P50B alternate was not on a page that showed stock this session. No in-stock alternate was confirmed. NOT TODAY.
+
+### Stock seen this session, every BOM line
+
+HTTP 403 means the distributor refused the fetch, so stock was not reopened. A mixed page means both "in stock" and "out of stock" appeared and the product itself was not isolated.
+
+| Line | What was seen | Orderable today |
+|---|---|---|
+| 1 | Seeed, schema InStock, data-stock 41, title ST3215 C001, sku 108090023 | yes |
+| 1b | OpenELAB, schema InStock, STS3250-C002 | yes. Datasheet not opened |
+| 2 | Waveshare, schema InStock, SKU 25514 | yes |
+| 3 | Adafruit 5291, schema OutOfStock | NOT TODAY. Kit alternate above |
+| 4 | Amazon, Only 20 left, SDSQUAR-032G-GN6MA | yes |
+| 5 | Adafruit 2472, schema InStock | yes |
+| 5b | Adafruit 5396, schema InStock | yes |
+| 6 | 18650 Battery Store Sold out. Liion Wholesale Out Of Stock | NOT TODAY |
+| 7 | no part number | NOT ORDERABLE |
+| 8 | Tenergy page: in stock, order now to ship in 1 business day | yes |
+| 9 | Pololu 4892: Rationed (Active and Preferred), backorders allowed | yes, rationed |
+| 10 | Pololu 2813: Rationed, backorders allowed | yes, rationed |
+| 10r | Pololu 2815: Rationed, backorders allowed. Buy quantity 0 | DO NOT ORDER |
+| 10b | page text "In stock", schema not isolated | not clean |
+| 10b-old | no product page | DO NOT ORDER |
+| 11 | Amazon, Only 7 left, MPN Li-ion_Battery_Charger_M-2S2A | yes as that listing. Fit BLOCKER |
+| 12 | Amazon in stock, Amass XT30U named on the bill | yes |
+| 13 | DigiKey HTTP 403 | STOCK NOT REOPENED |
+| 13b | Adafruit 2782, schema InStock, page text 17 in stock | yes |
+| 14 | Amazon In Stock, Miuzei model SG90 9G Servo | yes as that listing. Datasheet BLOCKER |
+| 15 | Microsoft page HTTP 404 | STOCK NOT REOPENED |
+| L1 | Horizon, schema InStock, stockLevel 366, 010-0004-01 | yes |
+| L3 | Newark HTTP 403 | STOCK NOT REOPENED |
+| L4 | DigiKey HTTP 403 | STOCK NOT REOPENED |
+| DK1 | OSH Park service page, not a finished board | DO NOT ORDER for the nest |
+| DK2 | Pololu 5382: Rationed, backorders allowed | yes, rationed |
+| DK3 | Newark HTTP 403 | STOCK NOT REOPENED |
+| DK4 | DigiKey HTTP 403 | STOCK NOT REOPENED |
+| DK5 | Adafruit 372 schema InStock. The rest of the set was not opened | set NOT ORDERABLE |
+| DK6 | Pololu 5382: Rationed, backorders allowed | yes, rationed |
+| DK7 | Pololu 5383: schema InStock, page text Active and Preferred | yes |
+| 16 | CNC Kitchen schema InStock. The HTML also contains Sold out | yes from the schema. Check the button |
+| 17a | Bolt Depot HTTP 403 | STOCK NOT REOPENED |
+| 17b | Bolt Depot HTTP 403 | STOCK NOT REOPENED |
+| 17c | Bolt Depot HTTP 403 | STOCK NOT REOPENED |
+| 17d | Bolt Depot HTTP 403 | STOCK NOT REOPENED |
+| 17e | Bolt Depot HTTP 403 | STOCK NOT REOPENED |
+| 17f | Bolt Depot HTTP 403 | STOCK NOT REOPENED |
+| 17g | Bolt Depot HTTP 403 | STOCK NOT REOPENED |
+| 17i | Bolt Depot HTTP 403 | STOCK NOT REOPENED |
+| 17h | Amazon, Only 6 left, METALLIXITY M2 self-tapping kit | yes |
+| 17j | BelMetric: in stock, and this configuration is not available | NOT TODAY |
+| 17k | BelMetric: in stock, and this configuration is not available | NOT TODAY |
+| 17l | BelMetric: in stock, and this configuration is not available | NOT TODAY |
+| 17m | no listing | NOT ORDERABLE |
+| 18 | Amazon, Only 1 left, 6804ZZ | yes, one left |
+| 19 | Amazon, Only 3 left, Loctite 1330799 | yes |
+| 29 | Zoro HTTP 403 | STOCK NOT REOPENED |
+| 20 | Adafruit 3878, schema InStock | yes |
+| 21 | Newark HTTP 403 | STOCK NOT REOPENED |
+| 22 | Newark HTTP 403 | STOCK NOT REOPENED |
+| 22b | Octopart HTTP 403 | STOCK NOT REOPENED |
+| 22c | 0022012027 is orderable as a 2-circuit housing. The 11-piece line is not | NOT ORDERABLE as specified |
+| L5 | Amazon In Stock, BNTECHGO 16 AWG | yes |
+| 23 | Amazon, Only 18 left, BNTECHGO 20 AWG | yes |
+| 24 | Amazon, Only 4 left, BNTECHGO 22 AWG | yes |
+| 25 | Amazon, Only 13 left. The offer served ASIN B08FMDNRMW with the same 26 AWG title | yes |
+| 26 | Amazon, Currently unavailable, Wirefy kit | NOT TODAY |
+| 26b | eBay HTTP 403 | STOCK NOT REOPENED |
+| 30 | Adafruit 1886, schema OutOfStock | NOT TODAY |
+| 31 | Adafruit 3468, schema InStock | yes |
+| 32 | Home Depot HTTP 403 | STOCK NOT REOPENED |
+| 34 | Standard Electric, schema InStock, 151-01629 | yes |
+| 34b | Hisco page fetched. Product quantity was not in the static HTML | STOCK NOT ISOLATED |
+| 35 | TestEquity page mixed in stock and out of stock | STOCK NOT ISOLATED |
+| 33 | Adafruit 3057, schema OutOfStock | NOT TODAY |
+| 27 | Amazon In Stock, Overture Easy PLA black | yes |
+| 28 | Amazon In Stock. Offer served ASIN B07VDP2S3P. Title is Overture TPU 95A black | yes |
+| E1 | DigiKey HTTP 403 | STOCK NOT REOPENED |
+| E2 | Adafruit 3006, schema OutOfStock | NOT TODAY |
+| E3 | Amazon, Only 9 left, uxcell a18032300ux0174 | listing yes. Fit BLOCKER |
+| E3b | SparkFun page mixed in stock and out of stock | STOCK NOT ISOLATED |
+| E4 | Amazon, Only 9 left, model KY-FG0001-10-US18 | yes |
+| E5 | Amazon in stock, ships in 3 to 4 days | DO NOT ORDER (D29) |
+| E6 | Adafruit 5657, schema InStock | yes |
+| E7 | X-On HTTP 403 | STOCK NOT REOPENED |
+| E7r | Adafruit 3157 schema InStock. Buy quantity 0 | DO NOT ORDER |
+| E8 | Adafruit 3421, schema InStock | yes |
+| E9 | Adafruit 1982, schema InStock | yes |
+| E10 | Adafruit page text, 16 in stock, product 1127 | yes |
+| T1 | Pine64, schema InStock, PINECIL-BB2 | yes |
+| T2 | Pine64 page fetched. Product schema not isolated | STOCK NOT ISOLATED |
+| T3 | Amazon In Stock, Engineer PA-09 | yes |
+| T4 | Crawford page mixed in stock and sold out | STOCK NOT ISOLATED |
+| T5 | Home Depot HTTP 403 | STOCK NOT REOPENED |
+| L2 | Castle page: Sold out, Castle Link V4 | NOT TODAY |
+| T6 | Amazon In Stock | yes |
+| T6b | Adafruit 4199 page fetched. Product schema not isolated | STOCK NOT ISOLATED |
+| T7 | Amazon In Stock | yes |
+| T7b | Amazon In Stock | yes |
+| T8 | Adafruit page text, 25 in stock, product 5212 | yes |
+| T9 | Home Depot HTTP 403 | STOCK NOT REOPENED |
+| T10 | Home Depot HTTP 403 | STOCK NOT REOPENED |
+| T11 | Drills and Cutters page text Ships Today next to DWDMM6.00 | yes |
+| T12 | same site, page text Ships Today. Bit diameter not re-read off the title | not clean |
+| T13 | same site, page text Ships Today | not clean |
+| T14 | same site, page text Ships Today | not clean |
+| T15 | same site, page text Ships Today | not clean |
+| T16 | Haus of Tools page mixed in stock and sold out | STOCK NOT ISOLATED |
+| T17 | Haus of Tools page mixed in stock and sold out | STOCK NOT ISOLATED |
+| T18 | Jensen page mixed in stock and out of stock | STOCK NOT ISOLATED |
+| T19 | Walmart page fetched, stock words not isolated | STOCK NOT ISOLATED |
+| TE1 | Home Depot HTTP 403 | STOCK NOT REOPENED |
+| TE2 | Siglent page, schema InStock, SPD1168X | yes |
+| TE3 | Penn Tool page mixed in stock strings | STOCK NOT ISOLATED |
+| TE4 | Siglent page, schema OutOfStock, SDL1020X-E | NOT TODAY |
+
+### What a one-click can buy after this session
+
+Clean orderable lines, by the four-part rule, from a page that showed the part can be bought: 1, 1b, 2, 4, 5, 5b, 8, 9, 10, 11, 12, 13b, 14, 17h, 18, 19, 20, 23, 24, 25, 27, 28, 31, 34, L1, L5, DK2, DK6, DK7, E4, E6, E8, E9, E10, T1, T3, T6, T7, T7b, T8, T11, TE2. Line 16 is orderable from the product schema, and the page also contains the words Sold out, so the button should be checked. Lines 9, 10, DK2, and DK6 are rationed with backorders allowed.
+
+Still blocked, and why:
+
+- Spring probe 100-PRP4030S: part number is now complete, and no in-stock US page was opened. Socket 100-SDN250S: TestEquity out of stock, TME not a confirmed US cart. PLA press fit BLOCKER. Tip geometry change above.
+- Felt, pale gold cloth, gold cloth as a pair, the 90 mm foil disc, rim foam, the gate board, the in-duck charger: no orderable part.
+- Line 7 weld, line 17m, line 22c as an 11-piece set: no completed buy.
+- Line 6 P45B: out of stock at both sellers opened. No P50B stock page opened.
+- Line 3 bare Pi: out of stock at Adafruit and at CanaKit as a bare board. The header starter kit PI-Z2WH-STR32-C4-BLK showed Add to Cart.
+- Out of stock on a page that did open: line 26 heat shrink, line 30 solder, line 33 polyimide tape, line E2 amplifier, line L2 Castle Link, line TE4 load.
+- Not reopened (HTTP 403 or 404): 13, 15, L3, L4, DK3, DK4, 17a, 17b, 17c, 17d, 17e, 17f, 17g, 17i, 21, 22, 22b, 26b, 29, 32, E1, E7, T5, T9, T10, TE1.
+- BelMetric 17j, 17k, 17l: the page said the configuration is not available.
+- Line E5 and line DK1: do not order (D29 and D61). Line 10r and line E7r stay at quantity 0.
 
