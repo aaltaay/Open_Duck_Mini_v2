@@ -66,8 +66,9 @@ def hole_nodes(P, screws, r_hole):
 
 # active components per group: index into (Fx, Fy, Fz, Mx, My, Mz) of the group's load in the joint frame
 STUDIES = {
-    "shin_segment": dict(link="knee_and_ankle_assembly_2", members=["knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet", "leg_spacer"],
-                         grow={"leg_spacer": ((0, 0, 1), 0.3)},
+    # D59 moved the shin plates to shin_left_sheet / shin_right_sheet / shin_spacer. The knee sheet eye is on shin_left_sheet.
+    "shin_segment": dict(link="knee_and_ankle_assembly_2", members=["shin_left_sheet", "shin_right_sheet", "shin_spacer"],
+                         grow={"shin_spacer": ((0, 0, 1), 0.3)},
                          loads=[("left_knee", "drive", [0, 1, 2, 5]), ("left_knee", "idle", [0, 1])], fix_servo_of="left_ankle"),
     "thigh_segment": dict(link="knee_and_ankle_assembly", members=["knee_to_ankle_left_sheet", "knee_to_ankle_right_sheet", "leg_spacer"],
                           grow={"leg_spacer": ((0, 0, 1), 0.3)},
@@ -90,8 +91,28 @@ STUDIES["roll_to_pitch_w3"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_ro
 STUDIES["roll_to_pitch_w6i40"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(walls=6, infill=0.40)})  # the 5 mm walls print solid
 STUDIES["roll_to_pitch_upx"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(up="+x")})   # hip roll axis vertical
 STUDIES["roll_to_pitch_upy"] = dict(STUDIES["roll_to_pitch"], prof_over={"left_roll_to_pitch": dict(up="+y")})   # link x vertical: the wall between the ears lies flat
-STUDIES["shin_segment_w5i40"] = dict(STUDIES["shin_segment"], prof_over={"knee_to_ankle_left_sheet": dict(walls=5, infill=0.40),
-                                                                         "knee_to_ankle_right_sheet": dict(walls=5, infill=0.40)})
+STUDIES["shin_segment_w5i40"] = dict(STUDIES["shin_segment"], prof_over={"shin_left_sheet": dict(walls=5, infill=0.40),
+                                                                         "shin_right_sheet": dict(walls=5, infill=0.40)})
+
+def hole_cylinders(link, names):
+    """Screw holes and horn hubs kept open in a voxel mesh (D39: a hole that has a screw stays open). Link frame, mm."""
+    F = SI.fasteners(); holes = []; horns = {}
+    for x in F:
+        if x.get("link") != link or x.get("part") not in names: continue
+        anc = x.get("anchor") or ""
+        if anc not in ("horn(drive)", "horn(passive)", "servo pilot", "M3 insert"): continue
+        a = np.array(x["axis_link"], float); n = np.linalg.norm(a)
+        if n < 1e-9: continue
+        a = a / n; c = np.array(x["seat_link"], float)
+        r = 1.7 if anc != "servo pilot" else 1.25
+        holes.append((c + a * float(x.get("near") or 2.0) / 2.0, a, r, float(x.get("near") or 2.0) / 2.0 + 1.2))
+        if anc.startswith("horn"):
+            horns.setdefault((x.get("servo"), anc), []).append((c, a))
+    for pts in horns.values():
+        if len(pts) < 3: continue
+        C = np.mean([p[0] for p in pts], 0); A = np.mean([p[1] for p in pts], 0); A = A / np.linalg.norm(A)
+        holes.append((C, A, 3.6, 6.0))          # the 7 mm horn hub
+    return holes
 
 def setup(name, maxvol):
     st = STUDIES[name]; link = st["link"]; G = SI.groups(); F = SI.fasteners()
@@ -103,7 +124,11 @@ def setup(name, maxvol):
                 if x["kind"] == "insert" and x["into"] == p and x["link"] == link:
                     a = np.array(x["axis_link"], float); c = np.array(x["seat_link"], float) + a * x["bore_len"] / 2
                     rings.append((c, a / np.linalg.norm(a), x["bore_d"] / 2 + 2.0, x["bore_len"] / 2 + 0.6))
-    P = FE.Part(members, level=int(maxvol), rings=rings, grow=st.get("grow"), prof_over=st.get("prof_over"), simplify=st.get("simplify")); P.material(); P.assemble()
+    voxel = os.environ.get("ST_VOXEL_MM")
+    voxel_mm = float(voxel) if voxel else None
+    holes = hole_cylinders(link, st["members"]) if voxel_mm else ()
+    P = FE.Part(members, level=int(maxvol), rings=rings, grow=st.get("grow"), prof_over=st.get("prof_over"), simplify=st.get("simplify"),
+                voxel_mm=voxel_mm, holes=holes); P.material(); P.assemble()
     groups = []
     for (j, kind, comps) in st["loads"]:
         g = G[j]; JT = joint_in_link(link, j); R = JT[:3, :3]; o = JT[:3, 3]
@@ -129,7 +154,7 @@ def setup(name, maxvol):
         if cs: fix.append(hole_nodes(P, cs, 1.25))
     if st.get("fix_face_of"):
         for o in (st["fix_face_of"] if isinstance(st["fix_face_of"], (list, tuple)) else [st["fix_face_of"]]):
-            m = trimesh.load(os.path.join(FE.PRINT, o + ".stl"), force="mesh"); m.apply_transform(visual_T(link, o))
+            m = trimesh.load(FE.stl_path(o), force="mesh"); m.apply_transform(visual_T(link, o))
             sn = np.nonzero(P.surface_nodes())[0]; fix.append(sn[near_surface([m], P.X[sn]) < 0.3])
     if st.get("fix_inserts"):
         xs = [x for x in F if x["anchor"] == "M3 insert" and x["link"] == link and x["part"] in st["members"]]
