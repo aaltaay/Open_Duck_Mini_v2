@@ -171,7 +171,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable odm-walk-guard.service        # starts at the next boot
 ```
 - The sudoers line lets the guard power off after a battery hard stop and nothing else (walk_with_guard.py `--poweroff-cmd` default `sudo -n /usr/bin/systemctl poweroff`) [L].
-- The unit runs walk_with_guard.py with `Restart=no`, so a guard stop stays a stop. The image's unit uses `Restart=always` [U RELEASE_GUIDE.md lines 232-249]. It needs the pad: without one the Runtime's XBoxController raises before any motion [U xbox_controller.py line 30].
+- The unit runs walk_with_guard.py --knee-heat with `Restart=no`, so a guard stop stays a stop. --knee-heat is the 55 C walk stop in software/knee_heat.py (SOFTWARE.md section 5). The image's unit uses `Restart=always` [U RELEASE_GUIDE.md lines 232-249]. It needs the pad: without one the Runtime's XBoxController raises before any motion [U xbox_controller.py line 30].
 - On the 0.2.3 image: `sudo systemctl disable --now open-duck-walk.service` first. The hotspot fallback service can stay [U INSTALL.md lines 43-55].
 - Stop a running walk: `sudo systemctl stop odm-walk-guard`. Note: like the upstream Ctrl-C, servos keep their last targets (SOFTWARE.md section 2).
 

@@ -1,0 +1,7 @@
+# 2026-11-11 11:12 PM ET: software list, links, lights, efficiency, knee heat guard
+
+The robot software note now lists every program, with the file and the status. The link table covers the servo bus, I2C, I2S, CSI, USB, Wi-Fi and Bluetooth, each pointed at the netlist nets. Unpublished times are marked BLOCKER. D57 is recorded as the eye colour: one dim warm white bead, no colour eyes. BOM line E3 was not edited. Two datasheets were opened (Kingbright WP7113QWC/D, cool white, and Lite-On LTW-420C5, which will not light from 3.3 V). Neither is a warm white bead that the 100 ohm GPIO drive can light, so E3 stays NOT ORDERABLE. BLOCKER.
+
+twin/thermal/EFFICIENCY.md lists the BEC efficiency assumption 0.85 (unpublished, BLOCKER), the gait energy from the existing current budget (sim pass only), a cost of transport computed from those watts and the published speeds (calc only, no target, BLOCKER for a target), and the D22 cut of 128.2 g from print/MASS_STUDY.md.
+
+The knee heat guard is software/knee_heat.py. The boot service starts the walk with --knee-heat. Two readings at or above 55 C warn and stop the walk. Idle and sitting turn torque off. The walk may start again only after two readings whose hottest servo is strictly under 45 C. 55 C and 45 C are set points (the study's cap, and the live twin's walk-again temperature, sim pass only). The Runtime is not edited. 18 unit tests passed with no hardware. The guard has not run on a servo. c9_docs.py passed; its warnings are the ones already in the older files.
