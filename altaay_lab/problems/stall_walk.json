@@ -1,0 +1,506 @@
+{
+ "label": "sim pass only",
+ "reused": [
+  "twin/electromech/em_twin.py run()",
+  "twin/electromech/servo_sts3215.py mode sheet",
+  "twin/electromech/p45b.py"
+ ],
+ "sheet_vs_datasheet": {
+  "6.0 V": {
+   "model_no_load_rad_s": 4.555,
+   "datasheet_no_load_rad_s": 4.4,
+   "model_stall_Nm": 1.551,
+   "datasheet_stall_Nm": 1.618,
+   "model_stall_A": 2.027,
+   "datasheet_stall_A": 2.0
+  },
+  "7.4 V": {
+   "model_no_load_rad_s": 5.646,
+   "datasheet_no_load_rad_s": 5.454,
+   "model_stall_Nm": 1.912,
+   "datasheet_stall_Nm": 1.912,
+   "model_stall_A": 2.5,
+   "datasheet_stall_A": 2.5
+  }
+ },
+ "sheet_note": "No-load speed in sheet mode is the BAM speed because the stall scale cancels. Stall torque is the sheet. The gain scale is not on the sheet.",
+ "tau_sheet_Nm": 1.912,
+ "tau_train_Nm": 3.23,
+ "rows": [
+  {
+   "name": "sheet net backlash typical",
+   "label": "sim pass only",
+   "walk": "backlash",
+   "supply": "net",
+   "corner": "typical",
+   "cmd": [
+    0.15,
+    0.0,
+    0.0
+   ],
+   "servo_mode": "sheet",
+   "trained_gain": false,
+   "falls": [
+    3.56
+   ],
+   "dur_s": 3.56,
+   "wall_s": 0.4,
+   "track_lin": null,
+   "pitch_mean_deg": null,
+   "pack": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 6.206,
+     "V_mean": 6.948,
+     "sat_mean": 0.217
+    },
+    "right_knee": {
+     "V_min": 6.248,
+     "V_mean": 6.955,
+     "sat_mean": 0.224
+    }
+   },
+   "sat_pct": {
+    "left_knee": 0.0,
+    "right_knee": 0.0
+   },
+   "V_min": {
+    "left_knee": 99.0,
+    "right_knee": 99.0
+   },
+   "tau_limit_mean_Nm": {
+    "left_knee": 0.0,
+    "right_knee": 0.0
+   }
+  },
+  {
+   "name": "sheet net backlash high-side",
+   "label": "sim pass only",
+   "walk": "backlash",
+   "supply": "net",
+   "corner": "high-side",
+   "cmd": [
+    0.15,
+    0.0,
+    0.0
+   ],
+   "servo_mode": "sheet",
+   "trained_gain": false,
+   "falls": [
+    3.42
+   ],
+   "dur_s": 3.42,
+   "wall_s": 0.6,
+   "track_lin": null,
+   "pitch_mean_deg": null,
+   "pack": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.512,
+     "V_mean": 6.761,
+     "sat_mean": 0.234
+    },
+    "right_knee": {
+     "V_min": 5.576,
+     "V_mean": 6.797,
+     "sat_mean": 0.202
+    }
+   },
+   "sat_pct": {
+    "left_knee": 0.0,
+    "right_knee": 0.0
+   },
+   "V_min": {
+    "left_knee": 99.0,
+    "right_knee": 99.0
+   },
+   "tau_limit_mean_Nm": {
+    "left_knee": 0.0,
+    "right_knee": 0.0
+   }
+  },
+  {
+   "name": "sheet net plain typical",
+   "label": "sim pass only",
+   "walk": "plain",
+   "supply": "net",
+   "corner": "typical",
+   "cmd": [
+    0.15,
+    0.0,
+    0.0
+   ],
+   "servo_mode": "sheet",
+   "trained_gain": false,
+   "falls": [
+    3.56
+   ],
+   "dur_s": 3.56,
+   "wall_s": 0.5,
+   "track_lin": null,
+   "pitch_mean_deg": null,
+   "pack": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 6.408,
+     "V_mean": 7.01,
+     "sat_mean": 0.162
+    },
+    "right_knee": {
+     "V_min": 6.45,
+     "V_mean": 7.016,
+     "sat_mean": 0.159
+    }
+   },
+   "sat_pct": {
+    "left_knee": 0.0,
+    "right_knee": 0.0
+   },
+   "V_min": {
+    "left_knee": 99.0,
+    "right_knee": 99.0
+   },
+   "tau_limit_mean_Nm": {
+    "left_knee": 0.0,
+    "right_knee": 0.0
+   }
+  },
+  {
+   "name": "sheet fixed 7.4 backlash",
+   "label": "sim pass only",
+   "walk": "backlash",
+   "supply": "fixed",
+   "corner": "typical",
+   "cmd": [
+    0.15,
+    0.0,
+    0.0
+   ],
+   "servo_mode": "sheet",
+   "trained_gain": false,
+   "falls": [],
+   "dur_s": 12.0,
+   "wall_s": 0.4,
+   "track_lin": 0.645,
+   "pitch_mean_deg": 9.56,
+   "pack": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 7.4,
+     "V_mean": 7.4,
+     "sat_mean": 0.256
+    },
+    "right_knee": {
+     "V_min": 7.4,
+     "V_mean": 7.4,
+     "sat_mean": 0.376
+    }
+   },
+   "sat_pct": {
+    "left_knee": 31.3,
+    "right_knee": 46.65
+   },
+   "V_min": {
+    "left_knee": 7.4,
+    "right_knee": 7.4
+   },
+   "tau_limit_mean_Nm": {
+    "left_knee": 1.9123,
+    "right_knee": 1.9123
+   }
+  },
+  {
+   "name": "sheet net cmd 0.10",
+   "label": "sim pass only",
+   "walk": "backlash",
+   "supply": "net",
+   "corner": "typical",
+   "cmd": [
+    0.1,
+    0.0,
+    0.0
+   ],
+   "servo_mode": "sheet",
+   "trained_gain": false,
+   "falls": [
+    5.16
+   ],
+   "dur_s": 5.16,
+   "wall_s": 0.6,
+   "track_lin": 1.674,
+   "pitch_mean_deg": 20.26,
+   "pack": {
+    "i_mean": 12.58,
+    "i_rms": 12.924,
+    "i_max": 19.668,
+    "i_max_100ms": 16.16,
+    "v_term_mean": 7.976,
+    "v_term_min": 7.805,
+    "bus_mean": 7.093,
+    "bus_min": 6.424,
+    "bec_out_mean": 6.733,
+    "bec_out_min": 6.051,
+    "bec_in_min": 6.351,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "knees": {
+    "left_knee": {
+     "V_min": 6.101,
+     "V_mean": 6.844,
+     "sat_mean": 0.302
+    },
+    "right_knee": {
+     "V_min": 6.229,
+     "V_mean": 6.843,
+     "sat_mean": 0.307
+    }
+   },
+   "sat_pct": {
+    "left_knee": 60.17,
+    "right_knee": 61.55
+   },
+   "V_min": {
+    "left_knee": 5.596,
+    "right_knee": 5.611
+   },
+   "tau_limit_mean_Nm": {
+    "left_knee": 1.662,
+    "right_knee": 1.6585
+   }
+  },
+  {
+   "name": "sheet net cmd 0.08",
+   "label": "sim pass only",
+   "walk": "backlash",
+   "supply": "net",
+   "corner": "typical",
+   "cmd": [
+    0.08,
+    0.0,
+    0.0
+   ],
+   "servo_mode": "sheet",
+   "trained_gain": false,
+   "falls": [],
+   "dur_s": 12.0,
+   "wall_s": 1.4,
+   "track_lin": 0.498,
+   "pitch_mean_deg": 10.65,
+   "pack": {
+    "i_mean": 8.148,
+    "i_rms": 8.523,
+    "i_max": 19.255,
+    "i_max_100ms": 15.1,
+    "v_term_mean": 8.08,
+    "v_term_min": 7.795,
+    "bus_mean": 7.508,
+    "bus_min": 6.443,
+    "bec_out_mean": 7.096,
+    "bec_out_min": 6.071,
+    "bec_in_min": 6.371,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "knees": {
+    "left_knee": {
+     "V_min": 6.137,
+     "V_mean": 6.938,
+     "sat_mean": 0.239
+    },
+    "right_knee": {
+     "V_min": 6.235,
+     "V_mean": 6.926,
+     "sat_mean": 0.306
+    }
+   },
+   "sat_pct": {
+    "left_knee": 29.18,
+    "right_knee": 39.67
+   },
+   "V_min": {
+    "left_knee": 5.627,
+    "right_knee": 5.651
+   },
+   "tau_limit_mean_Nm": {
+    "left_knee": 1.7822,
+    "right_knee": 1.7767
+   }
+  },
+  {
+   "name": "sheet net cmd 0.05",
+   "label": "sim pass only",
+   "walk": "backlash",
+   "supply": "net",
+   "corner": "typical",
+   "cmd": [
+    0.05,
+    0.0,
+    0.0
+   ],
+   "servo_mode": "sheet",
+   "trained_gain": false,
+   "falls": [],
+   "dur_s": 12.0,
+   "wall_s": 1.3,
+   "track_lin": 0.03,
+   "pitch_mean_deg": 10.54,
+   "pack": {
+    "i_mean": 3.494,
+    "i_rms": 3.597,
+    "i_max": 7.029,
+    "i_max_100ms": 5.468,
+    "v_term_mean": 8.219,
+    "v_term_min": 8.115,
+    "bus_mean": 7.974,
+    "bus_min": 7.621,
+    "bec_out_mean": 7.2,
+    "bec_out_min": 7.2,
+    "bec_in_min": 7.597,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "knees": {
+    "left_knee": {
+     "V_min": 7.016,
+     "V_mean": 7.112,
+     "sat_mean": 0.0
+    },
+    "right_knee": {
+     "V_min": 7.027,
+     "V_mean": 7.127,
+     "sat_mean": 0.0
+    }
+   },
+   "sat_pct": {
+    "left_knee": 0.05,
+    "right_knee": 0.0
+   },
+   "V_min": {
+    "left_knee": 6.961,
+    "right_knee": 6.978
+   },
+   "tau_limit_mean_Nm": {
+    "left_knee": 1.8354,
+    "right_knee": 1.8394
+   }
+  },
+  {
+   "name": "sheet torque cap, trained gain",
+   "label": "sim pass only",
+   "walk": "backlash",
+   "supply": "net",
+   "corner": "typical",
+   "cmd": [
+    0.15,
+    0.0,
+    0.0
+   ],
+   "servo_mode": "sheet",
+   "trained_gain": true,
+   "falls": [
+    7.6
+   ],
+   "dur_s": 7.6,
+   "wall_s": 0.8,
+   "track_lin": 0.955,
+   "pitch_mean_deg": 15.54,
+   "pack": {
+    "i_mean": 9.468,
+    "i_rms": 10.129,
+    "i_max": 18.812,
+    "i_max_100ms": 16.717,
+    "v_term_mean": 8.052,
+    "v_term_min": 7.828,
+    "bus_mean": 7.387,
+    "bus_min": 6.507,
+    "bec_out_mean": 6.974,
+    "bec_out_min": 6.137,
+    "bec_in_min": 6.437,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "knees": {
+    "left_knee": {
+     "V_min": 6.141,
+     "V_mean": 6.884,
+     "sat_mean": 0.491
+    },
+    "right_knee": {
+     "V_min": 6.097,
+     "V_mean": 6.881,
+     "sat_mean": 0.521
+    }
+   },
+   "sat_pct": {
+    "left_knee": 68.44,
+    "right_knee": 72.56
+   },
+   "V_min": {
+    "left_knee": 5.641,
+    "right_knee": 5.748
+   },
+   "tau_limit_mean_Nm": {
+    "left_knee": 1.7408,
+    "right_knee": 1.7403
+   }
+  }
+ ],
+ "followup_20s": {
+  "label": "sim pass only",
+  "note": "Same run() as the rows above. A track number on a run that fell is the short log, not a steady gait.",
+  "rows": [
+   {
+    "cmd_m_s": 0.09,
+    "corner": "typical",
+    "falls_s": [
+     7.56
+    ],
+    "dur_s": 7.56,
+    "vx_m_s": 0.0753,
+    "pitch_mean_deg": 14.76
+   },
+   {
+    "cmd_m_s": 0.08,
+    "corner": "typical",
+    "falls_s": [
+     18.14
+    ],
+    "dur_s": 18.14,
+    "vx_m_s": 0.0513,
+    "pitch_mean_deg": 11.56
+   },
+   {
+    "cmd_m_s": 0.07,
+    "corner": "typical",
+    "falls_s": [],
+    "dur_s": 20.0,
+    "track_lin": 0.499,
+    "vx_m_s": 0.0349,
+    "pitch_mean_deg": 10.83
+   },
+   {
+    "cmd_m_s": 0.06,
+    "corner": "typical",
+    "falls_s": [],
+    "dur_s": 20.0,
+    "track_lin": 0.318,
+    "vx_m_s": 0.0191,
+    "pitch_mean_deg": 12.19
+   },
+   {
+    "cmd_m_s": 0.05,
+    "corner": "typical",
+    "falls_s": [],
+    "dur_s": 20.0,
+    "track_lin": 0.022,
+    "vx_m_s": 0.0007,
+    "pitch_mean_deg": 11.11
+   },
+   {
+    "cmd_m_s": 0.07,
+    "corner": "high-side",
+    "falls_s": [
+     5.24
+    ],
+    "dur_s": 5.24
+   }
+  ]
+ }
+}
