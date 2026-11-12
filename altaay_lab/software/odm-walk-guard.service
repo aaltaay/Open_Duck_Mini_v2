@@ -1,11 +1,11 @@
 # Guarded stock walk at boot (replaces the 0.2.3 image's open-duck-walk.service for this build).
 # Differences from the image unit (Runtime docs/RELEASE_GUIDE.md section 4): runs
-# altaay_lab/bench/walk_with_guard.py (battery and temperature guards) instead of the bare walk
+# altaay_lab/bench/walk_with_guard.py (battery, temperature, and knee-heat guards) instead of the bare walk
 # script, and Restart=no, so a guard stop is not undone 5 s later by systemd.
 # Edit User= and the paths if your user is not "duck". Install: PI_SETUP.md step 11.
 # Needs the Xbox pad paired and on: without it the Runtime's XBoxController raises and nothing moves.
 [Unit]
-Description=Open Duck Mini v2 walk with the lab battery and temperature guards
+Description=Open Duck Mini v2 walk with the lab battery, temperature, and knee-heat guards
 After=network.target bluetooth.target
 Wants=bluetooth.target
 
@@ -20,7 +20,7 @@ Environment=PYGAME_HIDE_SUPPORT_PROMPT=1
 Environment=XDG_RUNTIME_DIR=/tmp/xdg-duck
 ExecStartPre=/bin/mkdir -p -m 700 /tmp/xdg-duck
 ExecStartPre=/bin/sleep 10
-ExecStart=/home/duck/.virtualenvs/open-duck-mini-runtime/bin/python /home/duck/open_duck_mini_v2/altaay_lab/bench/walk_with_guard.py --onnx_model_path /home/duck/BEST_WALK_ONNX_2.onnx --duck_config_path /home/duck/duck_config.json
+ExecStart=/home/duck/.virtualenvs/open-duck-mini-runtime/bin/python /home/duck/open_duck_mini_v2/altaay_lab/bench/walk_with_guard.py --onnx_model_path /home/duck/BEST_WALK_ONNX_2.onnx --duck_config_path /home/duck/duck_config.json --knee-heat
 Restart=no
 StandardOutput=journal
 StandardError=journal
