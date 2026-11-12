@@ -287,7 +287,7 @@ Line E3: Amazon page for ASIN B07DHB13J4 opened. Manufacturer uxcell. Manufactur
 
 Line E4: Amazon page for ASIN B0C4H17QSH opened. Manufacturer FINGERINSPIRE. Model on the page: KY-FG0001-10-US18. The page says 30 mm diameter and 2 mm thick, 60 pieces. Availability: Only 9 left in stock. The CAD eye glass on the bill is 29.6 mm by 1.85 mm. The bill already says the disc fit was checked with the left eye test print. The listing can be bought. The 0.4 mm diameter difference and the 0.15 mm thickness difference are the ones that print already accepted.
 
-Line E5: Amazon page for ASIN B0BGS3C42N opened. Title Aurorad S5. The page says diameter 20 mm, height 15 mm, LED hole 7 mm, which matches the seat text on the bill. Availability: in stock, ships in 3 to 4 days. The manufacturer part number field is the word Aurorad, not a unique number. D29 dropped the side projector and this reflector. Proposed buy quantity 0. Do not order it.
+Line E5: Amazon page for ASIN B0BGS3C42N opened. Title Aurorad S5. The page says diameter 20 mm, height 15 mm, LED hole 7 mm, which matches the seat text on the bill. Availability: in stock, ships in 3 to 4 days. The manufacturer part number field is the word Aurorad, not a unique number. D29 would have dropped this reflector. D33 reverts D29 and keeps the side projector lamp, the reflector, and its lead (DECISIONS.md D33). Keep Need 1 and Buy 1. The listing can be bought.
 
 Line DK1: still the old chest pad. D61 replaces that dock. Proposed: do not order it for the nest. DECISIONS.md is not edited here.
 
@@ -380,7 +380,7 @@ HTTP 403 means the distributor refused the fetch, so stock was not reopened. A m
 | E3 | Amazon, Only 9 left, uxcell a18032300ux0174 | listing yes. Fit BLOCKER |
 | E3b | SparkFun page mixed in stock and out of stock | STOCK NOT ISOLATED |
 | E4 | Amazon, Only 9 left, model KY-FG0001-10-US18 | yes |
-| E5 | Amazon in stock, ships in 3 to 4 days | DO NOT ORDER (D29) |
+| E5 | Amazon in stock, ships in 3 to 4 days. Title Aurorad S5. D33 keeps it | yes as that listing. Unique maker number is only the brand word |
 | E6 | Adafruit 5657, schema InStock | yes |
 | E7 | X-On HTTP 403 | STOCK NOT REOPENED |
 | E7r | Adafruit 3157 schema InStock. Buy quantity 0 | DO NOT ORDER |
@@ -416,7 +416,7 @@ HTTP 403 means the distributor refused the fetch, so stock was not reopened. A m
 
 ### What a one-click can buy after this session
 
-Clean orderable lines, by the four-part rule, from a page that showed the part can be bought: 1, 1b, 2, 4, 5, 5b, 8, 9, 10, 11, 12, 13b, 14, 17h, 18, 19, 20, 23, 24, 25, 27, 28, 31, 34, L1, L5, DK2, DK6, DK7, E4, E6, E8, E9, E10, T1, T3, T6, T7, T7b, T8, T11, TE2. Line 16 is orderable from the product schema, and the page also contains the words Sold out, so the button should be checked. Lines 9, 10, DK2, and DK6 are rationed with backorders allowed.
+Clean orderable lines, by the four-part rule, from a page that showed the part can be bought: 1, 1b, 2, 4, 5, 5b, 8, 9, 10, 11, 12, 13b, 14, 17h, 18, 19, 20, 23, 24, 25, 27, 28, 31, 34, L1, L5, DK2, DK6, DK7, E4, E5, E6, E8, E9, E10, T1, T3, T6, T7, T7b, T8, T11, TE2. Line E5 is the Aurorad S5 listing. D33 keeps it. The maker field on that page is only the word Aurorad. Line 16 is orderable from the product schema, and the page also contains the words Sold out, so the button should be checked. Lines 9, 10, DK2, and DK6 are rationed with backorders allowed.
 
 Still blocked, and why:
 
@@ -428,5 +428,5 @@ Still blocked, and why:
 - Out of stock on a page that did open: line 26 heat shrink, line 30 solder, line 33 polyimide tape, line E2 amplifier, line L2 Castle Link, line TE4 load.
 - Not reopened (HTTP 403 or 404): 13, 15, L3, L4, DK3, DK4, 17a, 17b, 17c, 17d, 17e, 17f, 17g, 17i, 21, 22, 22b, 26b, 29, 32, E1, E7, T5, T9, T10, TE1.
 - BelMetric 17j, 17k, 17l: the page said the configuration is not available.
-- Line E5 and line DK1: do not order (D29 and D61). Line 10r and line E7r stay at quantity 0.
+- Line DK1: do not order for the nest (D61). Line E5 stays (D33). Line 10r and line E7r stay at quantity 0.
 

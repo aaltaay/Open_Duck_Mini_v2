@@ -36,7 +36,7 @@ Do not add a line that this file marks BLOCKER.
 | 22c | Delete the looked-up number 22-01-3027. It is not a Molex part. The 2-circuit housing is Molex 0022012027 (DigiKey, buy now, ships today). Do not buy 11 pieces of one width. The harness uses 15 cables on the header, and some share a pin or use both rows. Two housings cannot share a pin. Also name a 20 AWG KK terminal for P12 and P17 before those ends are crimped with 08-50-0114 (22 to 30 AWG on the bill). | the 2-circuit housing can be bought. The line as specified cannot |
 | E3 | Record uxcell a18032300ux0174. The page also says bulb shape B10. Fit stays BLOCKER until the part in hand is a bead that fits the eye. | Only 9 left |
 | E4 | Record FINGERINSPIRE model KY-FG0001-10-US18. Page size 30 mm by 2 mm. CAD on the bill is 29.6 mm by 1.85 mm. The bill already says the left eye test print checked the fit. | Only 9 left |
-| E5 | Set Need and Buy to 0. D29 dropped the side projector and this reflector. The listing is in stock and the page sizes match the old seat (20 mm, 15 mm, 7 mm hole). Do not order it. | in stock, and still do not order |
+| E5 | Keep Need 1 and Buy 1. D33 reverts D29 and keeps the side projector lamp, the reflector, and its lead (DECISIONS.md D33; twin/assembly/ASSEMBLY_TWIN.md). The opened listing title is Aurorad S5. The page says diameter 20 mm, height 15 mm, and a 7 mm LED hole, which matches the seat text on the bill. The manufacturer part number field on that page is only the word Aurorad, so a unique maker number is still missing. Buy this listing. | in stock, ships in 3 to 4 days |
 | DK1 | Do not order for the nest. D61 replaced the chest pad. DECISIONS.md is not edited by this pass, so the line stays on the bill until that agent applies the skip. | not a nest part |
 | DK5 | Split later into Adafruit 372 (in stock this session) plus the zener, the diode, and the resistors, each with its own part number. Do not order the set as one line. | set NOT ORDERABLE |
 | 26 | Wirefy kit ASIN was Currently unavailable. Pick another 3:1 adhesive kit before a one-click, or wait. | NOT TODAY |
@@ -50,4 +50,4 @@ Do not add a line that this file marks BLOCKER.
 
 ## One-click
 
-A single order of today's BOM.md is still wrong. It would buy DK1 and E5, it would skip the nest, and it would include lines that are out of stock or have no part number (3, 6, 7, 17m, 22c, 26, 30, 33, E2, L2, TE4). The clean in-stock lines are listed in PARTS_AUDIT.md under "What a one-click can buy after this session".
+A single order of today's BOM.md is still wrong. It would buy DK1, which the nest no longer uses. It would skip the nest. It would include lines that are out of stock or have no part number (3, 6, 7, 17m, 22c, 26, 30, 33, E2, L2, TE4). E5 stays on the order: D33 restored the side projector lamp. The clean in-stock lines are listed in PARTS_AUDIT.md under "What a one-click can buy after this session".
