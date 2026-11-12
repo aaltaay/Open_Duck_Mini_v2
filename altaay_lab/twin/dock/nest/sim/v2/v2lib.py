@@ -32,7 +32,10 @@ def feet_state(s, margin=0.0):
     for P in sole_points(s):
         r = np.hypot(P[:, 0], P[:, 1])
         inside = (r < N.MAT_R - margin) & (P[:, 0] < N.WALL_X - N.MAT_BACK)
-        outside = r > N.MAT_R + 0.005            # the edge face is one 5 mm cell
+        # the archived edge is one 5 mm cell outside the upper felt. The stepped and tapered edges add a 20 mm tread,
+        # so a sole on that tread is on the edge too. NEST_EDGE unset keeps the old test.
+        extra = N.TREAD if os.environ.get("NEST_EDGE", "one") in ("steps", "taper") else 0.005
+        outside = r > N.MAT_R + extra
         st.append("on" if inside.all() else "off" if outside.all() else "edge")
     return st
 

@@ -1,5 +1,7 @@
 # Structure twin: do the printed parts, inserts and screws hold walking, pushes and falls? (sim pass only, FEA pass only)
 
+Later pass, 2026-11-12: twin/structure/TOPOLOGY.md. It keeps this file's 2026-11-03 numbers as they are, and adds a voxel-mesh re-run on the current parts plus proposed STLs under twin/structure/topology/. Those STLs are not installed in print/.
+
 Written 2026-11-03 by the structure twin sub-agent (Claude Code) for the lead agent, branch claude/digital-twin, folder twin/structure/ only. Nothing was printed, bought, sent, deleted or committed. Loads are **sim pass only** (MuJoCo 3.17.0, stock BEST_WALK_ONNX_2 on our 2652.8 g build with the D22 print profile). Stresses are **FEA pass only** (linear tetrahedra, as-printed zones, room-temperature PLA unless the hot case says otherwise). Times are US Eastern.
 
 Tags: [L] lab file or script on this box; [U] upstream file; [I] internet source. Several hosts could not be opened from this session (eprints.whiterose.ac.uk, www.cnckitchen.com, www.mdpi.com, www.sculpteo.com, wiki.overture3d.com, overture3d.com): those [I] values are **search result text**, marked "(search text)". They need those hosts allowed to be read in full.

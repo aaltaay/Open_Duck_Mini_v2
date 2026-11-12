@@ -40,7 +40,43 @@ def slice_one(stl, extra, tag, up=None):
     SLC.run_slicer([src], cfgs, g)
     return SLC.parse_gcode(g, 1.20)
 
+def slice_proposed(stl_dir):
+    """Grams and hours of proposed STLs against the same part's print/ STL, same parts.csv settings.
+    stl_dir holds <part>.stl files. Uses print/slice.py unchanged (config stack, orient, parse)."""
+    import trimesh
+    rows = []
+    for fn in sorted(os.listdir(stl_dir)):
+        if not fn.endswith(".stl") or fn not in ROWS:
+            continue
+        r = ROWS[fn]
+        # orient the proposed file the same way slice.oriented turns the print/ file
+        prop = os.path.join(OUT, "prop_src")
+        os.makedirs(prop, exist_ok=True)
+        m = trimesh.load(os.path.join(stl_dir, fn), force="mesh")
+        m.apply_transform(SLC.rot_up(r["up"]))
+        m.apply_translation(-m.bounds[0])
+        src = os.path.join(prop, fn)
+        m.export(src)
+        base = slice_one(fn, {}, "base")
+        cfgs = SLC.config_stack(r["material"], r["overrides"])
+        g = os.path.join(OUT, f"{fn[:-4]}_proposed.gcode")
+        SLC.run_slicer([src], cfgs, g)
+        new = SLC.parse_gcode(g, 1.20)
+        qty = int(r["qty"])
+        row = dict(label=f"proposed {fn}", stl=fn, qty=qty, base_g_model=base["g_model"], new_g_model=new["g_model"],
+                   base_h=base["s"] / 3600, new_h=new["s"] / 3600,
+                   d_g_robot=round((new["g_model"] - base["g_model"]) * qty, 2),
+                   d_h_robot=round((new["s"] - base["s"]) / 3600 * qty, 2))
+        rows.append(row)
+        print(row, flush=True)
+    return rows
+
+
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "proposed":
+        rows = slice_proposed(sys.argv[2])
+        json.dump(rows, open(os.path.join(SCR, "slice_proposed.json"), "w"), indent=1)
+        raise SystemExit
     only = sys.argv[1] if len(sys.argv) > 1 else None          # optional label filter: update only those rows of the JSON
     res = []
     for k, (label, stl, extra) in enumerate(PROPOSALS):
