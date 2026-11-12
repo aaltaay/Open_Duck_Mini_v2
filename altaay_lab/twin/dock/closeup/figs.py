@@ -24,9 +24,9 @@ def main():
     blocks = json.load(open(os.path.join(HERE, "summary.json")))
     order = ["pitch", "marker", "wide", "turn"]
     by = {b["mode"]: b for b in blocks}
-    # Published blind walk-in, flush window, 190 mm. Not re-run here.
     labels = ["blind\ncamera", "head\ndown", "wall\ncard", "wide\nlens", "turn\nlook"]
-    series = [[1, 380, 386]] + [row(by[m]) for m in order]
+    # Merged blind run file, 190 mm. Re-scored here. Not the pre-correction 1 fall and 386.
+    series = [[0, 380, 383]] + [row(by[m]) for m in order]
     colors = ["#8a8580", "#c47b2b", "#1f7a4d", "#2a78d6", "#6b4c9a"]
     x = np.arange(3)
     w = 0.15

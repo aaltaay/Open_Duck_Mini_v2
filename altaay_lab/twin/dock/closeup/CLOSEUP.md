@@ -10,14 +10,14 @@ The blind walk-in (PR 45) loses the sun at a median 0.584 m and puts the first s
 
 | sim pass only | Falls | Flush window, first sit | Flush window, within 3 sits |
 |---|---|---|---|
-| Blind camera, published (PR 45) | 1 | 380 of 540 | 386 of 540 |
+| Blind camera, merged run file | 0 | 380 of 540 | 383 of 540 |
 | (a) Head down on the approach | 9 | 237 of 540 | 237 of 540 |
 | (b) 40 mm card on the wall | 1 | 533 of 540 | 533 of 540 |
 | (c) Wider lens | 5 | 491 of 540 | 491 of 540 |
 | (d) Look down at the start of the turn | 66 | 381 of 540 | 387 of 540 |
 | True pose, same walk law | 0 | 540 of 540 | 540 of 540 |
 
-**Recommend the wall card.** It keeps the one fall the blind walk already had, and it is the only change that gets close to the true-pose window. The head-down walk is worse than doing nothing. The wide lens helps and still loses the sun around 0.31 m. The turn look adds falls and does not move the window count.
+**Recommend the wall card.** It is the only change that gets close to the true-pose window. It does add one fall the merged blind walk does not have (seed 211019, below). The head-down walk is worse than doing nothing. The wide lens helps and still loses the sun around 0.31 m. The turn look adds falls and does not move the window count.
 
 The card is one 40 mm square, felt or printed, on the wall. No electronics. It is not on the BOM, so no price is stated. The duck is unchanged. The nest gains one small mark at about the walking camera height.
 
@@ -31,7 +31,7 @@ The walk law is the mixed one from the nest sim (PR 42): steering at 6.0 V, a st
 
 Perception is the blind walk-in's rule. A pose fix arrives only while a target point is inside the camera field. The noise on that fix is the nest schedule, not a measured detector. After the target leaves the field, the duck walks at the speed measured on the fixes. The sit is blind, as in the camera twin (PR 38, section 5).
 
-One seed of this harness, with no change, matched that blind run: seed 0, last fix 0.532 m, first seat (-0.017, 0.215) m, no fall (sim pass only, both files). The 380 and the 0.584 m in the table are the published blind run, not a second 540.
+The blind row is re-scored from the merged run file, not from a second 540 in this folder. That file is the one behind the merged blind report: 0 falls, first sit 380 of 540, within 3 sits 383 of 540 (sim pass only). An earlier copy of that file, before the re-sit heading correction, had 1 fall and 386 within 3 sits. First sit was already 380. The 0.584 m last-fix median is unchanged.
 
 The flush window is the belly field from the flush study (PR 41, section 6, calc only): the seat centre may sit anywhere inside +/-254 mm along the wall and +/-161 mm deep. "Within 3 sits" means any of the up to three sits has its seat centre in that box. The old sun-and-ring pin test is secondary and is not the headline.
 
@@ -73,7 +73,7 @@ Last fix is the horizontal range at the last pose fix. For the card, that fix is
 
 | sim pass only | Falls | First sit in the window | Within 3 sits | Last fix, median | Old pins, first / within 3 |
 |---|---|---|---|---|---|
-| Blind camera | 1 | 380 | 386 | 0.584 m | 35 / 98 |
+| Blind camera | 0 | 380 | 383 | 0.584 m | 35 / 43 |
 | Head down | 9 | 237 | 237 | 0.479 m | 45 / 72 |
 | Wall card | 1 | 533 | 533 | 0.146 m | 501 / 508 |
 | Wide lens | 5 | 491 | 491 | 0.308 m | 103 / 254 |
@@ -83,7 +83,7 @@ By voltage, falls and first sit in the window, of 270. sim pass only.
 
 | | 6.0 V falls | 6.0 V first sit | 7.2 V falls | 7.2 V first sit |
 |---|---|---|---|---|
-| Blind camera | 0 | 183 | 1 | 197 |
+| Blind camera | 0 | 183 | 0 | 197 |
 | Head down | 9 | 56 | 0 | 181 |
 | Wall card | 0 | 270 | 1 | 263 |
 | Wide lens | 4 | 234 | 1 | 257 |
@@ -91,7 +91,9 @@ By voltage, falls and first sit in the window, of 270. sim pass only.
 
 The head-down run does see the sun a little closer (median 0.479 m against 0.584 m) and the seats get worse, mostly at 6.0 V (56 of 270 against 183). Holding the head down changes the walk. The turn look re-sights the sun in 70 of 540 runs and the window count stays 381, with 66 falls. The wide lens ends the last fix at a median 0.308 m. The card ends it at 0.146 m, which is the standing spot, not a long blind stretch.
 
-Three re-sits add no seats to the window for the head-down run, the card, or the wide lens. The turn look adds 6, the same sort of gain the blind walk had (380 to 386).
+Three re-sits add no seats to the window for the head-down run, the card, or the wide lens. The turn look adds 6. The merged blind walk adds 3 (380 to 383).
+
+The card's one fall is new. The merged baseline has 0 falls. Seed 211019 (7.2 V, high pose noise, mat friction 0.8) does not fall in that file. It sits three times, all outside the window. The first seat is 108 mm toward the wall and 481 mm to the side (sim pass only). The card run of the same seed falls at 27.7 s, during the stand at the start of the fine moves, before the turn and before any sit (sim pass only, re-run of that seed). The two walks match through the first sun fixes. At 0.72 s the sun is below the field and the card is in it, so the card run takes one pose fix the baseline does not. That fix is 1.23 m from the card, with the trunk still about 1.09 m short of the sun. The approach then diverges. The duck reaches the fine stand at about x=-0.25 m, y=0.38 m and tips while standing. This seed was already a miss on the baseline, not one of the 380. The card turns that miss into a fall. It does not trade away a window hit.
 
 ## 4. Cost and looks
 
