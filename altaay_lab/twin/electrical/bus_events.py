@@ -27,13 +27,15 @@ sys.path.insert(0, EM)
 os.environ.setdefault("TWIN_EM_SCRATCH", os.environ.get("ELEC_SCRATCH", "/tmp/duck_v1_elec"))
 import numpy as np
 import power_net as PN          # noqa: E402  (as-built network, read only)
-import p30b                     # noqa: E402
+import p45b                     # noqa: E402
 import servo_sts3215 as SV      # noqa: E402
 
 GYM_ORDER = ["left_hip_yaw", "left_hip_roll", "left_hip_pitch", "left_knee", "left_ankle", "neck_pitch", "head_pitch",
              "head_yaw", "head_roll", "right_hip_yaw", "right_hip_roll", "right_hip_pitch", "right_knee", "right_ankle"]
 BMS = dict(lo=(17.0, 0.004), nom=(22.0, 0.008), hi=(27.0, 0.012))     # (A, s): 22 +/- 5 A after 8 +/- 4 ms
-PACK_Q = {"full": 0.0, "nominal": 1481.0}                             # mAh used (twin/electromech pack states)
+# mAh used at the same open-circuit points as the electromechanical twin, on the P45B figure
+_CELL = p45b.P45B()
+PACK_Q = {"full": 0.0, "nominal": _CELL.q_at_ocv(3.70)}
 
 
 def held(x, n):
@@ -77,10 +79,10 @@ def ground_matrix(corner, extra=None):
 
 
 def replay(F, W, dt, corner, qm, extra=None):
-    Rm = SV.R_M
-    u_cmd = np.clip(F * Rm / SV.KT, -SV.V_TRAIN, SV.V_TRAIN)
-    net = PN.Net(corner, extra, cell_model=p30b.P30B())
-    iq = net.iq
+    # sheet servo: stall line from the opened STS3215 specification (servo_sts3215.py mode "sheet")
+    kt, Rm, iq = SV._motor("sheet")
+    u_cmd = np.clip(F * Rm / kt, -SV.V_TRAIN, SV.V_TRAIN)
+    net = PN.Net(corner, extra, cell_model=p45b.P45B())
     n = len(F)
     out = dict(i_pack=np.zeros(n), v_bin=np.zeros(n), v_out=np.zeros(n), v_pack=np.zeros(n), vs=np.zeros((n, 14)),
                isup=np.zeros((n, 14)), psig=np.zeros((n, 14)))
@@ -89,11 +91,11 @@ def replay(F, W, dt, corner, qm, extra=None):
 
         def law(v, uc=uc, ww=ww):
             vl = np.maximum(v, 0.5); ue = np.clip(uc, -vl, vl)
-            return np.maximum(ue * (ue - SV.KT * ww) / Rm, 0.0) / vl + iq
+            return np.maximum(ue * (ue - kt * ww) / Rm, 0.0) / vl + iq
         y = net.solve(law, qm=qm)
         vs = net.servo_volts(y)
         vl = np.maximum(vs, 0.5); ue = np.clip(uc, -vl, vl)
-        out["psig"][k] = ue * (ue - SV.KT * ww) / Rm
+        out["psig"][k] = ue * (ue - kt * ww) / Rm
         out["isup"][k] = law(vs); out["vs"][k] = vs
         for kk in ("i_pack", "v_bin", "v_out", "v_pack"):
             out[kk][k] = y[net.o[kk]]

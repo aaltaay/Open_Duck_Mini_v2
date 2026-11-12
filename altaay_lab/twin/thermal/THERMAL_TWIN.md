@@ -2,6 +2,31 @@
 
 Written 2026-11-03 between about 2:05 and 3:20 PM ET by the thermal twin agent (sub-agent of the lead Claude Code agent, branch claude/digital-twin). Nothing was bought, printed, sent or deleted, and no other lab file was edited. Every result here is sim pass only: no servo, board or print has been measured. Source tags in square brackets point to the Sources list at the end. ASSUMPTION marks a value with no published source; every one is swept.
 
+## Update 2026-11-11 ET: 60 C operating range, P45B cells, charger in the trunk (sim pass only)
+
+The 2026-11-03 answer below uses a 70 C cut and a P30B cell. The STS3215 sheet (A/1, 2023-06-23) has both an operating range of -20 C to 60 C (item 1-2) and a torque-off above 70 C (item 7-11). The P45B sheet (version 1.2) charges from 0 C to 60 C and discharges from -40 C to 60 C. This update is gate_p45b.py and gate_p45b.json. The torque cut was left off so the time the reading crosses 60 C and 70 C could be read. A 200 C reading in the pessimistic corner is that choice, not a physical temperature.
+
+Charger heat is the D61 band, calc only: 1.9 W at a 7.2 V pack and 3.2 W at a 6.0 V pack, MCP73213 linear, 1.0 A. It is added in the trunk. The charger board has no seat, so the PLA number for it is the trunk wall node, not a gap to a placed board. Cell mass 70 g, diameter 21.55 mm, height 70.15 mm, DC resistance 15 mOhm, all from the P45B sheet. Specific heat is not on that sheet: the old 18650 range is kept and is a GUESS. Half the can facing the bay air is the same assumption as the first run. BEC efficiency 0.85 is a GUESS (Castle publishes none), including at idle.
+
+Docked sit, torque off, idle 21 mA per servo (the sheet), charge current 1.0 A, 6 hours. Sim pass only.
+
+The docked sit uses the stationary state in the thermal model (no walking air). An earlier pass of this table had treated the sit as walking. These numbers replace that pass.
+
+| Charger | Corner | Room | Cells at 6 h | Trunk wall | Hottest knee reading | BEC case |
+|---|---|---|---|---|---|---|
+| 1.9 W | central | 25 C | 31.5 C | 28.6 C | 27.6 C | 41.3 C |
+| 1.9 W | central | 32 C | 38.3 C | 35.5 C | 34.5 C | 48.0 C |
+| 1.9 W | high | 25 C | 33.1 C | 29.1 C | 27.8 C | 47.3 C |
+| 1.9 W | high | 32 C | 39.9 C | 36.0 C | 34.7 C | 54.1 C |
+| 3.2 W | central | 25 C | 33.7 C | 30.0 C | 27.6 C | 44.1 C |
+| 3.2 W | central | 32 C | 40.4 C | 36.8 C | 34.5 C | 50.8 C |
+| 3.2 W | high | 25 C | 35.8 C | 30.7 C | 27.8 C | 51.3 C |
+| 3.2 W | high | 32 C | 42.4 C | 37.6 C | 34.7 C | 58.1 C |
+
+None of those cells leave 0 C to 60 C. None of those servo readings leave -20 C to 60 C. The trunk wall stays under the 49 to 57 C heat-deflection band already cited below. On this model the 1.9 to 3.2 W charger can stay in the trunk during a sit.
+
+Walk, central corner, currents from the P45B session of the trained actuator (out/p45b_sheet/session_bam_backlash_typical.csv). Resistive losses use the RMS pack and BEC currents over each 5 s bin, not the square of the mean. The sheet-stall servo does not complete a walk (ELECTROMECH_TWIN.md update), so this walk heat is not that servo. Friction heat is not in the bins and is omitted, which makes the knee slightly cool. The right knee reading reaches 60 C at 3.3 minutes in a 25 C room and 2.5 minutes at 32 C, and 70 C at 4.5 and 3.5 minutes. If the torque stays on for the session, the right knee body reaches 94.7 C (25 C room) and 101.6 C (32 C). That is the temperature the knee sheets touch, and it is above the softening band. Cells in that central walk reach 49.7 C and 56.4 C, inside the 60 C discharge limit. The pessimistic corner crosses 60 C on the knee at 0.5 minutes, and at 32 C the cells reach 63.9 C at 33 minutes if the walk is not cut.
+
 ## Answer in plain words
 
 - **Do the knees overheat in a normal session? In continuous walking, probably yes.** In the central parameter set the hotter knee reaches the STS3215's 70 C torque cut after about **10 minutes of continuous walking** in the plain sim model and **4 minutes** in the backlash model at a 25 C room (7 and 3 minutes at 32 C), well inside the 23 to 32 minutes a full charge lasts. When it cuts, the knee drops its torque and the duck falls.

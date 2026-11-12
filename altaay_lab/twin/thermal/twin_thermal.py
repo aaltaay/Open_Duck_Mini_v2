@@ -303,7 +303,9 @@ def simulate(sched, heats, eps_of, c, Ta, t_end=90 * 60.0, dt=0.5, guard=None, A
     sc = servo_C(c); A = servo_area(c) * (A_scale if A_scale is not None else 1.0)
     et, eh = enclosure_params("trunk", c), enclosure_params("head", c)
     C_cells = 2 * PARAMS["m_cell_g"] * np.mean(PARAMS["cp_cell"])
-    A_cells = 2 * (np.pi * 18.6 * 65.2) * 1e-6 * 0.5          # half of the two cell cans faces bay air (ASSUMPTION; the holder covers the rest)
+    # default geometry is the P30B 18650 the first thermal run used. A P45B run sets cell_d_mm and cell_h_mm.
+    # cell_area_frac is the share of the can that faces bay air (ASSUMPTION 0.5; the sleeve covers the rest).
+    A_cells = 2 * (np.pi * PARAMS.get("cell_d_mm", 18.6) * PARAMS.get("cell_h_mm", 65.2)) * 1e-6 * PARAMS.get("cell_area_frac", 0.5)
     ins_t = np.array([INSIDE.get(n) == "trunk" for n in NAMES]); ins_h = np.array([INSIDE.get(n) == "head" for n in NAMES])
     Tw = np.full(14, Ta); Tb = np.full(14, Ta)
     T_ta, T_tw, T_c, T_ha, T_hw = Ta, Ta, Ta, Ta, Ta

@@ -49,6 +49,7 @@ import battery_guard as BG                      # noqa: E402  bench/battery_guar
 import power_net as PN                          # noqa: E402
 import servo_sts3215 as SV                      # noqa: E402
 import p30b                                     # noqa: E402
+import p45b                                     # noqa: E402
 
 MI = CB.MI
 OUT_GIT = os.path.join(HERE, "out")
@@ -57,7 +58,15 @@ SID = [PN.SERVO_ID[n] for n in NAMES]
 SCENES = {"backlash": "scene_flat_terrain_backlash.xml", "plain": "scene_flat_terrain.xml"}
 CMD = {"forward": (0.15, 0.0, 0.0)}
 CELL = p30b.P30B()
-STATES = {"full": 0.0, "nominal": CELL.q_at_ocv(3.70), "d16": CELL.q_at_ocv(3.57), "low": CELL.q_at_ocv(3.30)}
+CELLS = {"p30b": p30b.P30B, "p45b": p45b.P45B}
+
+
+def pack_states(cell):
+    """mAh delivered at the open-circuit voltages the twin already uses as full, nominal, D16 and low"""
+    return {"full": 0.0, "nominal": cell.q_at_ocv(3.70), "d16": cell.q_at_ocv(3.57), "low": cell.q_at_ocv(3.30)}
+
+
+STATES = pack_states(CELL)
 STATE_TEXT = {"full": "full (q 0 mAh, OCV 4.20 V/cell)", "nominal": "nominal (OCV 3.70 V/cell)",
               "d16": "near the D16 cut (OCV 3.57 V/cell)", "low": "low (OCV 3.30 V/cell, past the guard)"}
 LAB_VCELL = {"full": 4.2, "nominal": 3.7, "low": 3.3}            # sim/power_path_sim.py PACK_CELL_V
@@ -145,7 +154,7 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
     qv = m.actuator_qvel_addr
     dt = m.sim_dt
     nsteps = int(round(dur / dt))
-    cellm = p30b.P30B(mode=cell_mode) if cell == "p30b" else None
+    cellm = CELLS[cell](mode=cell_mode) if cell in CELLS else None
     net = PN.Net(corner, extra, cell_model=cellm) if supply == "net" else None
     q = float(q0)
     sched = CB.sched_const(list(cmd) + [0, 0, 0, 0])
@@ -159,8 +168,8 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
                sat=np.zeros(14), im2=np.zeros(14), isup=np.zeros(14), pin=np.zeros(14), err2=np.zeros(14), limsum=np.zeros(14),
                pk_i=[], pk_v=[], bus=[], vout=[], vbin=[])
     BIN = {k: np.zeros((nbins, 14), np.float32) for k in ("V_mean", "V_min", "Isup_mean", "Im_rms", "Pcu_mean", "Pel_mean", "absF_mean", "sat_frac", "w_rms")}
-    BINP = {k: np.zeros(nbins, np.float32) for k in ("t_end", "q_mAh", "v_pack_mean", "v_pack_min", "i_pack_mean", "i_pack_max", "v_bus_mean",
-                                                    "v_bec_out_mean", "v_bec_out_min", "i_bec_out_mean", "x", "y", "z", "yaw", "fallen")}
+    BINP = {k: np.zeros(nbins, np.float32) for k in ("t_end", "q_mAh", "v_pack_mean", "v_pack_min", "i_pack_mean", "i_pack_max", "i_pack_rms", "v_bus_mean",
+                                                    "v_bec_out_mean", "v_bec_out_min", "i_bec_out_mean", "i_bec_out_rms", "x", "y", "z", "yaw", "fallen")}
     if keep_full:
         FULL = {k: np.zeros((nsteps, 14), np.float32) for k in ("V", "Isup", "Im", "F", "w")}
         FULLP = {k: np.zeros(nsteps, np.float32) for k in ("v_pack", "i_pack", "v_bus", "v_bin", "v_out", "i_bout", "q")}
@@ -212,7 +221,7 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
         counter += 1
         F_m = data.actuator_force.copy()
         Fn = F_m[perm]; wn = w_m[perm]
-        u, im, isup = SV.ServoBank.electrical(Fn, wn, V)
+        u, im, isup = SV.ServoBank.electrical(Fn, wn, V, mode=servo_mode)
         if supply == "stock":
             Ftr[k] = F_m; Wtr[k] = data.qvel[qv]
         if y is not None:
@@ -244,8 +253,11 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
             BIN["Pel_mean"][j] = np.mean(blk["Pel"], 0); BIN["absF_mean"][j] = np.mean(blk["absF"], 0); BIN["sat_frac"][j] = np.mean(blk["sat"], 0)
             BIN["w_rms"][j] = np.sqrt(np.mean(blk["w2"], 0))
             BINP["t_end"][j] = t; BINP["q_mAh"][j] = q; BINP["v_pack_mean"][j] = np.mean(blk["vp"]); BINP["v_pack_min"][j] = np.min(blk["vp"])
-            BINP["i_pack_mean"][j] = np.mean(blk["ip"]); BINP["i_pack_max"][j] = np.max(blk["ip"]); BINP["v_bus_mean"][j] = np.mean(blk["vb"])
-            BINP["v_bec_out_mean"][j] = np.mean(blk["vo"]); BINP["v_bec_out_min"][j] = np.min(blk["vo"]); BINP["i_bec_out_mean"][j] = np.mean(blk["io"])
+            ip = np.asarray(blk["ip"], float); ioa = np.asarray(blk["io"], float)
+            BINP["i_pack_mean"][j] = np.mean(ip); BINP["i_pack_max"][j] = np.max(ip); BINP["i_pack_rms"][j] = np.sqrt(np.mean(ip * ip))
+            BINP["v_bus_mean"][j] = np.mean(blk["vb"])
+            BINP["v_bec_out_mean"][j] = np.mean(blk["vo"]); BINP["v_bec_out_min"][j] = np.min(blk["vo"])
+            BINP["i_bec_out_mean"][j] = np.mean(ioa); BINP["i_bec_out_rms"][j] = np.sqrt(np.mean(ioa * ioa))
             pos = data.qpos[fb:fb + 3]; quat = data.qpos[fb + 3:fb + 7]
             Rm = np.zeros(9); mujoco.mju_quat2Mat(Rm, quat)
             BINP["x"][j], BINP["y"][j], BINP["z"][j] = pos
@@ -347,19 +359,19 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
 
 
 # ---------------------------------------------------------------------------------------------------------------
-def replay(trace, t0=10.0, t1=16.0, corner="typical", extra=None, cell="lab", vcell=3.7, q0=0.0, cell_mode="steady"):
+def replay(trace, t0=10.0, t1=16.0, corner="typical", extra=None, cell="lab", vcell=3.7, q0=0.0, cell_mode="steady", servo_mode="bam"):
     """open loop: a stock walk's torques and speeds (sim/current_budget.py trace format) through the as-built network,
     with the servo law of sim/power_path_sim.py (commanded volts capped at the local volts, constant power)"""
     F, W, dt = np.asarray(trace["F"], float), np.asarray(trace["W"], float), float(trace["dt"])
     names = [str(x) for x in trace["names"]]
     perm = np.array([names.index(n) for n in NAMES])
-    Rm = SV.R_M
-    u_cmd = np.clip(F * Rm / SV.KT, -SV.V_TRAIN, SV.V_TRAIN)[:, perm]
+    kt, Rm, iq_motor = SV._motor(servo_mode)
+    u_cmd = np.clip(F * Rm / kt, -SV.V_TRAIN, SV.V_TRAIN)[:, perm]
     Wn = W[:, perm]
     k0, k1 = int(t0 / dt), int(t1 / dt)
-    cellm = p30b.P30B(mode=cell_mode) if cell == "p30b" else None
+    cellm = CELLS[cell](mode=cell_mode) if cell in CELLS else None
     net = PN.Net(corner, extra, cell_model=cellm)
-    iq = net.iq
+    iq = iq_motor if servo_mode == "sheet" else net.iq
     n = k1 - k0
     Vs = np.zeros((n, 14)); P = np.zeros((n, 6))
     for j, k in enumerate(range(k0, k1)):
@@ -367,7 +379,7 @@ def replay(trace, t0=10.0, t1=16.0, corner="typical", extra=None, cell="lab", vc
 
         def law(v, uc=uc, ww=ww):
             vl = np.maximum(v, 0.5); ue = np.clip(uc, -vl, vl)
-            return np.maximum(ue * (ue - SV.KT * ww) / Rm, 0.0) / vl + iq
+            return np.maximum(ue * (ue - kt * ww) / Rm, 0.0) / vl + iq
         y = net.solve(law, vcell=vcell, qm=q0)
         if cellm is not None:
             cellm.advance(float(y[net.o["i_pack"]]), dt)
@@ -515,8 +527,11 @@ def check():
     return out
 
 
-def states(walks=("backlash", "plain"), seeds=(None, 1), corners=("typical", "high-side"), sts=("full", "nominal", "d16", "low"), mass="ours", dur=30.0):
+def states(walks=("backlash", "plain"), seeds=(None, 1), corners=("typical", "high-side"), sts=("full", "nominal", "d16", "low"), mass="ours", dur=30.0,
+           cell="p30b", servo_mode="bam", out_name=None):
     """the walk at fixed pack states (charge frozen): closed loop against open loop, both corners"""
+    cellm0 = CELLS[cell]()
+    stq = pack_states(cellm0)
     rows = []
     for walk in walks:
         for seed in seeds:
@@ -527,13 +542,14 @@ def states(walks=("backlash", "plain"), seeds=(None, 1), corners=("typical", "hi
             print("ref", walk, seed, "stock", round(meta["gait"]["track_lin"], 3), "7.2 V", round(fx["gait"]["track_lin"], 3), flush=True)
             for st in sts:
                 for corner in corners:
-                    r = run(mass, walk, dur=dur, supply="net", corner=corner, cell="p30b", q0=STATES[st], compress=0.0, seed=seed, keep_full=True,
-                            guard="shadow", label="%s %s %s" % (walk, st, corner))
+                    r = run(mass, walk, dur=dur, supply="net", corner=corner, cell=cell, q0=stq[st], compress=0.0, seed=seed, keep_full=True,
+                            guard="shadow", servo_mode=servo_mode, label="%s %s %s" % (walk, st, corner))
                     save_npz(os.path.join(SCR, "states", "closed_%s_%s_%s_s%s.npz" % (walk, st, corner, seed)), r) if _mk(os.path.join(SCR, "states")) else None
-                    op = replay(tr, 4.0, dur, corner=corner, cell="p30b", q0=STATES[st])
+                    op = replay(tr, 4.0, dur, corner=corner, cell=cell, q0=stq[st], servo_mode=servo_mode)
                     os_ = replay_summary(op)
-                    row = dict(kind="pack state", walk=walk, seed=seed, state=st, corner=corner, q_mAh=round(STATES[st], 1), soc=round(CELL.soc(STATES[st]), 3),
-                               ocv_cell=round(CELL.ocv(STATES[st]), 3), closed=_short(r),
+                    row = dict(kind="pack state", walk=walk, seed=seed, state=st, corner=corner, cell=cell, servo_mode=servo_mode,
+                               q_mAh=round(stq[st], 1), soc=round(cellm0.soc(stq[st]), 3),
+                               ocv_cell=round(cellm0.ocv(stq[st]), 3), closed=_short(r),
                                open=dict(V_min=dict(zip(NAMES, os_["V_min"])), V_mean=dict(zip(NAMES, os_["V_mean"])), pct_below_6V=dict(zip(NAMES, os_["pct_below_6V"])),
                                          ms_below_4V5=dict(zip(NAMES, os_["ms_below_4V5"])), bus_mean=os_["bus_mean"], bec_out_mean=os_["bec_out_mean"],
                                          pack_i_mean=os_["pack_i_mean"], pack_i_max=os_["pack_i_max"], pack_i_rms=os_["pack_i_rms"], worst=os_["worst"],
@@ -544,7 +560,7 @@ def states(walks=("backlash", "plain"), seeds=(None, 1), corners=("typical", "hi
                         walk, seed, st, corner, c["falls"], c["gait"]["track_lin"] or 0, c["V_min"]["left_knee"], c["V_min"]["right_knee"],
                         c["pct_below_6V"]["left_knee"], c["pct_below_6V"]["right_knee"], row["open"]["V_min"]["left_knee"], row["open"]["V_min"]["right_knee"],
                         row["open"]["pct_below_6V"]["left_knee"], row["open"]["pct_below_6V"]["right_knee"], r["wall_s"]), flush=True)
-    _write("states_%s.json" % "_".join(walks), rows)
+    _write(out_name or ("states_%s.json" % "_".join(walks)), rows)
     return rows
 
 
@@ -553,19 +569,21 @@ def _mk(d):
     return True
 
 
-def session(walk="backlash", corner="typical", extra=None, tag=None, dur=3000.0, cell_mode="steady", servo_mode="bam"):
+def session(walk="backlash", corner="typical", extra=None, tag=None, dur=4000.0, cell_mode="steady", servo_mode="bam", cell="p30b"):
     """a session that runs the pack down from a full charge, no time compression; the D16 guard in shadow mode.
     Stops at a fall or when the cells reach OCV 3.30 V (past the guard's hard stop)."""
     tag = tag or "%s_%s" % (walk, corner)
+    cellm0 = CELLS[cell]()
+    stop_q = pack_states(cellm0)["low"]
     wins = [(60.0, 80.0)] + [(float(a), float(a) + 20.0) for a in range(300, int(dur), 300)]
-    r = run("ours", walk, dur=dur, supply="net", corner=corner, extra=extra, cell="p30b", q0=0.0, compress=1.0, guard="shadow", keep_full=False,
-            bin_s=0.1, stop_q=STATES["low"], stop_on_fall=True, label="session " + tag, full_windows=wins, progress=60.0, cell_mode=cell_mode,
+    r = run("ours", walk, dur=dur, supply="net", corner=corner, extra=extra, cell=cell, q0=0.0, compress=1.0, guard="shadow", keep_full=False,
+            bin_s=0.1, stop_q=stop_q, stop_on_fall=True, label="session " + tag, full_windows=wins, progress=60.0, cell_mode=cell_mode,
             servo_mode=servo_mode)
     _mk(os.path.join(SCR, "session"))
     save_npz(os.path.join(SCR, "session", "session_%s.npz" % tag), r)
-    summ = session_summary(r, tag)
+    summ = session_summary(r, tag, cellm0)
     _write("session_%s.json" % tag, summ)
-    session_csv(r, tag)
+    session_csv(r, tag, cell=cellm0)
     return summ
 
 
@@ -581,7 +599,8 @@ def _moving_speed(B, win_s=20.0):
     return t, v
 
 
-def session_summary(r, tag):
+def session_summary(r, tag, cell=None):
+    cell = cell or CELL
     B, BP = r["_bins"], r["_binsp"]
     t, v20 = _moving_speed(BP, 20.0)
     ref_sel = (t >= 30.0) & (t <= 70.0)                     # 20 s windows ending 30 to 70 s: walking 10 to 70 s, full pack
@@ -602,8 +621,8 @@ def session_summary(r, tag):
     def at(tq):
         if tq is None: return None
         i = int(np.clip(np.searchsorted(t, tq), 0, len(t) - 1))
-        return dict(t_s=round(float(t[i]), 1), minute=round(float(t[i]) / 60, 2), q_mAh=round(float(BP["q_mAh"][i]), 1), soc=round(CELL.soc(float(BP["q_mAh"][i])), 3),
-                    ocv_cell=round(CELL.ocv(float(BP["q_mAh"][i])), 3), v_pack=round(float(BP["v_pack_mean"][i]), 3),
+        return dict(t_s=round(float(t[i]), 1), minute=round(float(t[i]) / 60, 2), q_mAh=round(float(BP["q_mAh"][i]), 1), soc=round(cell.soc(float(BP["q_mAh"][i])), 3),
+                    ocv_cell=round(cell.ocv(float(BP["q_mAh"][i])), 3), v_pack=round(float(BP["v_pack_mean"][i]), 3),
                     speed_20s=None if np.isnan(v20[i]) else round(float(v20[i]), 4), speed_rel_full=None if np.isnan(v20[i]) else round(float(v20[i] / v_ref), 3))
     # minute table: per minute mean speed, pack, bus, the lowest servo per joint group
     rows = []
@@ -611,7 +630,7 @@ def session_summary(r, tag):
         sel = (t > mnt * 60) & (t <= (mnt + 1) * 60)
         if sel.sum() < 10: continue
         Vm, Vn = B["V_mean"][sel], B["V_min"][sel]
-        rows.append(dict(minute=mnt + 1, q_mAh=round(float(BP["q_mAh"][sel][-1]), 1), soc=round(CELL.soc(float(BP["q_mAh"][sel][-1])), 3),
+        rows.append(dict(minute=mnt + 1, q_mAh=round(float(BP["q_mAh"][sel][-1]), 1), soc=round(cell.soc(float(BP["q_mAh"][sel][-1])), 3),
                          speed=None if np.all(np.isnan(v20[sel])) else round(float(np.nanmean(v20[sel])), 4),
                          v_pack=round(float(BP["v_pack_mean"][sel].mean()), 3), i_pack=round(float(BP["i_pack_mean"][sel].mean()), 3),
                          v_bus=round(float(BP["v_bus_mean"][sel].mean()), 3), v_bec_out=round(float(BP["v_bec_out_mean"][sel].mean()), 3),
@@ -628,22 +647,26 @@ def session_summary(r, tag):
                 guard_events=ev, solver=r.get("solver_iterations"), minutes=rows)
 
 
-def session_csv(r, tag, bin_out_s=5.0):
+def session_csv(r, tag, bin_out_s=5.0, cell=None):
     """5 s bins for the twin/thermal job and the plots (format: ELECTROMECH_TWIN.md 'Trace format')"""
+    cell = cell or CELL
     B, BP = r["_bins"], r["_binsp"]
     t = BP["t_end"].astype(float)
     nb = int(round(bin_out_s / float(t[1] - t[0])))
     nbin = len(t) // nb
     _, v20 = _moving_speed(BP, 20.0)
-    cols = ["t_s", "q_mAh", "soc", "v_pack", "i_pack", "v_bus", "v_bec_out", "i_bec_out", "speed_20s", "fallen"]
+    cols = ["t_s", "q_mAh", "soc", "v_pack", "i_pack", "i_pack_rms", "v_bus", "v_bec_out", "i_bec_out", "i_bec_rms", "speed_20s", "fallen"]
     per = [("V_mean", "v"), ("V_min", "vmin"), ("Isup_mean", "isup"), ("Im_rms", "im_rms"), ("Pcu_mean", "pcu"), ("sat_frac", "sat")]
     hdr = cols + ["%s_%d" % (p, sid) for _, p in per for sid in SID]
     lines = ["# twin/electromech/em_twin.py session %s (sim pass only); 5 s bins; columns in ELECTROMECH_TWIN.md 'Trace format'; servo columns end in the servo ID" % tag,
              ",".join(hdr)]
     for j in range(nbin):
         s = slice(j * nb, (j + 1) * nb)
-        row = [t[s][-1], BP["q_mAh"][s][-1], CELL.soc(float(BP["q_mAh"][s][-1])), BP["v_pack_mean"][s].mean(), BP["i_pack_mean"][s].mean(), BP["v_bus_mean"][s].mean(),
-               BP["v_bec_out_mean"][s].mean(), BP["i_bec_out_mean"][s].mean(), np.nanmean(v20[s]) if not np.all(np.isnan(v20[s])) else np.nan, BP["fallen"][s].max()]
+        # RMS over the 5 s group is the root of the mean of the 0.1 s mean-squares, not the mean of the RMS values
+        i_pack_rms = float(np.sqrt(np.mean(np.square(BP["i_pack_rms"][s]))))
+        i_bec_rms = float(np.sqrt(np.mean(np.square(BP["i_bec_out_rms"][s]))))
+        row = [t[s][-1], BP["q_mAh"][s][-1], cell.soc(float(BP["q_mAh"][s][-1])), BP["v_pack_mean"][s].mean(), BP["i_pack_mean"][s].mean(), i_pack_rms, BP["v_bus_mean"][s].mean(),
+               BP["v_bec_out_mean"][s].mean(), BP["i_bec_out_mean"][s].mean(), i_bec_rms, np.nanmean(v20[s]) if not np.all(np.isnan(v20[s])) else np.nan, BP["fallen"][s].max()]
         for key, _ in per:
             X = B[key][s]
             if key == "V_min":
@@ -1002,6 +1025,22 @@ if __name__ == "__main__":
         walk = sys.argv[2] if len(sys.argv) > 2 else "backlash"
         corner = sys.argv[3] if len(sys.argv) > 3 else "typical"
         session(walk, corner)
+    elif step == "p45b":
+        # P45B pack and the STS3215 sheet servo. Writes under out/p45b_sheet so the P30B files stay.
+        OUT_GIT = os.path.join(HERE, "out", "p45b_sheet")
+        what = sys.argv[2] if len(sys.argv) > 2 else "states"
+        if what == "smoke":
+            r = run("ours", "backlash", dur=8.0, supply="net", corner="typical", cell="p45b", q0=0.0,
+                    servo_mode="sheet", keep_full=False, guard=None, label="p45b smoke")
+            print("smoke falls", r["falls"], "track", r["gait"].get("track_lin"), "pack", r["pack"], "wall", r["wall_s"])
+        elif what == "states":
+            states(walks=("backlash",), seeds=(None,), cell="p45b", servo_mode="sheet", out_name="states_backlash.json")
+        elif what == "session":
+            walk = sys.argv[3] if len(sys.argv) > 3 else "backlash"
+            corner = sys.argv[4] if len(sys.argv) > 4 else "typical"
+            session(walk, corner, cell="p45b", servo_mode="sheet")
+        else:
+            raise SystemExit("p45b expects smoke, states, or session")
     elif step == "sweep":
         sweep(sys.argv[2] if len(sys.argv) > 2 else "backlash")
     elif step == "png":

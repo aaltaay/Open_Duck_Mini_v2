@@ -1,0 +1,389 @@
+{
+ "label": "sim pass only",
+ "cell": "Molicel INR21700-P45B version 1.2",
+ "servo_operating_C": [
+  -20,
+  60
+ ],
+ "servo_torque_off_C": 70,
+ "charger_W": [
+  1.9,
+  3.2
+ ],
+ "charger_note": "calc only, D61, MCP73213 linear",
+ "guesses": [
+  "cell specific heat is the 18650 range already in twin_thermal.py, not on the P45B sheet",
+  "half the can faces the bay air",
+  "BEC efficiency 0.85, Castle publishes none",
+  "charger has no seated part, so the PLA reported for it is the trunk wall node",
+  "walk friction heat is not in the session bins and is omitted"
+ ],
+ "pla_band_C": {
+  "HDT_0p45_MPa": [
+   49,
+   57
+  ],
+  "Tg": [
+   55,
+   60
+  ],
+  "vicat_overture_easy_pla": 66.2,
+  "source": "the bands already cited in THERMAL_TWIN.md"
+ },
+ "sit": [
+  {
+   "charger_W": 1.9,
+   "corner": "central",
+   "room_C": 25.0,
+   "hours": 6.0,
+   "cell_end_C": 31.54,
+   "cell_max_C": 31.54,
+   "trunk_air_end_C": 32.95,
+   "trunk_wall_end_C": 28.59,
+   "trunk_wall_max_C": 28.59,
+   "knee_reading_max_C": 27.57,
+   "knee_body_max_C": 27.57,
+   "head_air_end_C": 33.19,
+   "bec_case_end_C": 41.26,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null
+  },
+  {
+   "charger_W": 1.9,
+   "corner": "central",
+   "room_C": 32.0,
+   "hours": 6.0,
+   "cell_end_C": 38.32,
+   "cell_max_C": 38.32,
+   "trunk_air_end_C": 39.84,
+   "trunk_wall_end_C": 35.46,
+   "trunk_wall_max_C": 35.46,
+   "knee_reading_max_C": 34.48,
+   "knee_body_max_C": 34.48,
+   "head_air_end_C": 40.09,
+   "bec_case_end_C": 47.99,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null
+  },
+  {
+   "charger_W": 1.9,
+   "corner": "high",
+   "room_C": 25.0,
+   "hours": 6.0,
+   "cell_end_C": 33.12,
+   "cell_max_C": 33.12,
+   "trunk_air_end_C": 36.01,
+   "trunk_wall_end_C": 29.09,
+   "trunk_wall_max_C": 29.09,
+   "knee_reading_max_C": 27.81,
+   "knee_body_max_C": 27.81,
+   "head_air_end_C": 40.67,
+   "bec_case_end_C": 47.25,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null
+  },
+  {
+   "charger_W": 1.9,
+   "corner": "high",
+   "room_C": 32.0,
+   "hours": 6.0,
+   "cell_end_C": 39.85,
+   "cell_max_C": 39.85,
+   "trunk_air_end_C": 42.91,
+   "trunk_wall_end_C": 35.97,
+   "trunk_wall_max_C": 35.97,
+   "knee_reading_max_C": 34.72,
+   "knee_body_max_C": 34.72,
+   "head_air_end_C": 47.53,
+   "bec_case_end_C": 54.12,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null
+  },
+  {
+   "charger_W": 3.2,
+   "corner": "central",
+   "room_C": 25.0,
+   "hours": 6.0,
+   "cell_end_C": 33.68,
+   "cell_max_C": 33.68,
+   "trunk_air_end_C": 35.88,
+   "trunk_wall_end_C": 30.01,
+   "trunk_wall_max_C": 30.01,
+   "knee_reading_max_C": 27.57,
+   "knee_body_max_C": 27.57,
+   "head_air_end_C": 33.19,
+   "bec_case_end_C": 44.13,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null
+  },
+  {
+   "charger_W": 3.2,
+   "corner": "central",
+   "room_C": 32.0,
+   "hours": 6.0,
+   "cell_end_C": 40.4,
+   "cell_max_C": 40.4,
+   "trunk_air_end_C": 42.73,
+   "trunk_wall_end_C": 36.84,
+   "trunk_wall_max_C": 36.84,
+   "knee_reading_max_C": 34.48,
+   "knee_body_max_C": 34.48,
+   "head_air_end_C": 40.09,
+   "bec_case_end_C": 50.82,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null
+  },
+  {
+   "charger_W": 3.2,
+   "corner": "high",
+   "room_C": 25.0,
+   "hours": 6.0,
+   "cell_end_C": 35.75,
+   "cell_max_C": 35.75,
+   "trunk_air_end_C": 40.03,
+   "trunk_wall_end_C": 30.72,
+   "trunk_wall_max_C": 30.72,
+   "knee_reading_max_C": 27.81,
+   "knee_body_max_C": 27.81,
+   "head_air_end_C": 40.67,
+   "bec_case_end_C": 51.25,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null
+  },
+  {
+   "charger_W": 3.2,
+   "corner": "high",
+   "room_C": 32.0,
+   "hours": 6.0,
+   "cell_end_C": 42.41,
+   "cell_max_C": 42.41,
+   "trunk_air_end_C": 46.9,
+   "trunk_wall_end_C": 37.55,
+   "trunk_wall_max_C": 37.55,
+   "knee_reading_max_C": 34.72,
+   "knee_body_max_C": 34.72,
+   "head_air_end_C": 47.53,
+   "bec_case_end_C": 58.09,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null
+  }
+ ],
+ "walk": [
+  {
+   "csv": "session_bam_backlash_typical.csv",
+   "corner": "central",
+   "room_C": 25.0,
+   "minutes": 40.0,
+   "r_loop_ohm": 2.63,
+   "friction_heat": "omitted, not in the session bins",
+   "left_knee": {
+    "reading_max_C": 92.4,
+    "body_max_C": 85.86,
+    "winding_max_C": 152.05,
+    "minutes_to_60C": 3.83,
+    "minutes_to_70C": 5.5
+   },
+   "right_knee": {
+    "reading_max_C": 102.36,
+    "body_max_C": 94.67,
+    "winding_max_C": 172.41,
+    "minutes_to_60C": 3.33,
+    "minutes_to_70C": 4.5
+   },
+   "left_ankle": {
+    "reading_max_C": 45.6,
+    "body_max_C": 43.97,
+    "winding_max_C": 60.47,
+    "minutes_to_60C": null,
+    "minutes_to_70C": null
+   },
+   "right_ankle": {
+    "reading_max_C": 46.01,
+    "body_max_C": 44.34,
+    "winding_max_C": 61.28,
+    "minutes_to_60C": null,
+    "minutes_to_70C": null
+   },
+   "head_roll": {
+    "reading_max_C": 47.66,
+    "body_max_C": 46.9,
+    "winding_max_C": 54.65,
+    "minutes_to_60C": null,
+    "minutes_to_70C": null
+   },
+   "cells_max_C": 49.66,
+   "trunk_wall_max_C": 32.32,
+   "trunk_air_max_C": 41.43,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null
+  },
+  {
+   "csv": "session_bam_backlash_typical.csv",
+   "corner": "central",
+   "room_C": 32.0,
+   "minutes": 40.0,
+   "r_loop_ohm": 2.63,
+   "friction_heat": "omitted, not in the session bins",
+   "left_knee": {
+    "reading_max_C": 99.58,
+    "body_max_C": 92.88,
+    "winding_max_C": 160.84,
+    "minutes_to_60C": 2.83,
+    "minutes_to_70C": 4.17
+   },
+   "right_knee": {
+    "reading_max_C": 109.52,
+    "body_max_C": 101.63,
+    "winding_max_C": 181.42,
+    "minutes_to_60C": 2.5,
+    "minutes_to_70C": 3.5
+   },
+   "left_ankle": {
+    "reading_max_C": 52.65,
+    "body_max_C": 50.98,
+    "winding_max_C": 67.92,
+    "minutes_to_60C": null,
+    "minutes_to_70C": null
+   },
+   "right_ankle": {
+    "reading_max_C": 53.08,
+    "body_max_C": 51.37,
+    "winding_max_C": 68.81,
+    "minutes_to_60C": null,
+    "minutes_to_70C": null
+   },
+   "head_roll": {
+    "reading_max_C": 54.6,
+    "body_max_C": 53.82,
+    "winding_max_C": 61.77,
+    "minutes_to_60C": null,
+    "minutes_to_70C": null
+   },
+   "cells_max_C": 56.38,
+   "trunk_wall_max_C": 39.17,
+   "trunk_air_max_C": 48.34,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null
+  },
+  {
+   "csv": "session_bam_backlash_typical.csv",
+   "corner": "high",
+   "room_C": 25.0,
+   "minutes": 40.0,
+   "r_loop_ohm": 2.63,
+   "friction_heat": "omitted, not in the session bins",
+   "left_knee": {
+    "reading_max_C": 200.07,
+    "body_max_C": 125.03,
+    "winding_max_C": 378.36,
+    "minutes_to_60C": 0.67,
+    "minutes_to_70C": 0.83
+   },
+   "right_knee": {
+    "reading_max_C": 200.01,
+    "body_max_C": 116.54,
+    "winding_max_C": 401.22,
+    "minutes_to_60C": 0.5,
+    "minutes_to_70C": 0.67
+   },
+   "left_ankle": {
+    "reading_max_C": 79.92,
+    "body_max_C": 66.47,
+    "winding_max_C": 111.64,
+    "minutes_to_60C": 5.0,
+    "minutes_to_70C": 8.17
+   },
+   "right_ankle": {
+    "reading_max_C": 80.93,
+    "body_max_C": 67.18,
+    "winding_max_C": 113.64,
+    "minutes_to_60C": 4.67,
+    "minutes_to_70C": 7.67
+   },
+   "head_roll": {
+    "reading_max_C": 70.71,
+    "body_max_C": 64.7,
+    "winding_max_C": 84.89,
+    "minutes_to_60C": 12.83,
+    "minutes_to_70C": 25.67
+   },
+   "cells_max_C": 57.21,
+   "trunk_wall_max_C": 35.87,
+   "trunk_air_max_C": 53.51,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null
+  },
+  {
+   "csv": "session_bam_backlash_typical.csv",
+   "corner": "high",
+   "room_C": 32.0,
+   "minutes": 40.0,
+   "r_loop_ohm": 2.63,
+   "friction_heat": "omitted, not in the session bins",
+   "left_knee": {
+    "reading_max_C": 200.17,
+    "body_max_C": 125.73,
+    "winding_max_C": 377.59,
+    "minutes_to_60C": 0.5,
+    "minutes_to_70C": 0.67
+   },
+   "right_knee": {
+    "reading_max_C": 200.16,
+    "body_max_C": 117.39,
+    "winding_max_C": 400.47,
+    "minutes_to_60C": 0.5,
+    "minutes_to_70C": 0.5
+   },
+   "left_ankle": {
+    "reading_max_C": 87.12,
+    "body_max_C": 73.32,
+    "winding_max_C": 119.7,
+    "minutes_to_60C": 3.17,
+    "minutes_to_70C": 5.67
+   },
+   "right_ankle": {
+    "reading_max_C": 88.19,
+    "body_max_C": 74.08,
+    "winding_max_C": 121.81,
+    "minutes_to_60C": 3.0,
+    "minutes_to_70C": 5.17
+   },
+   "head_roll": {
+    "reading_max_C": 77.79,
+    "body_max_C": 71.62,
+    "winding_max_C": 92.34,
+    "minutes_to_60C": 8.5,
+    "minutes_to_70C": 14.67
+   },
+   "cells_max_C": 63.86,
+   "trunk_wall_max_C": 42.69,
+   "trunk_air_max_C": 60.48,
+   "minutes_to_cell_60C": 33.0,
+   "minutes_to_wall_49C": null
+  }
+ ]
+}
