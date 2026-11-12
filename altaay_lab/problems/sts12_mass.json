@@ -1,0 +1,172 @@
+{
+ "label": "sim pass only",
+ "added_mass_kg": 0.07,
+ "cell_seat_m": [
+  -0.15251,
+  0.00143,
+  0.0315
+ ],
+ "trunk": {
+  "mass_before_kg": 1.0654,
+  "mass_after_kg": 1.1354,
+  "com_before_m": [
+   -0.05648,
+   0.00033,
+   0.03489
+  ],
+  "com_after_m": [
+   -0.0624,
+   0.0004,
+   0.03468
+  ]
+ },
+ "holder_kg": 0.0,
+ "holder_note": "The 25 g holder is already out of this pack (twin/battery/BAY.md). It is not added back.",
+ "no_load_rad_s": {
+  "sheet_12V": 4.717,
+  "bam": 5.646,
+  "ratio": 0.835
+ },
+ "walks": [
+  {
+   "label": "sim pass only",
+   "corner": "typical",
+   "cmd_m_s": 0.15,
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.0883,
+   "track_lin": 0.589,
+   "knees": {
+    "left_knee": 10.779,
+    "right_knee": 10.73,
+    "i_pack_peak_A": 9.026
+   },
+   "pack": {
+    "i_mean": 5.144,
+    "i_rms": 5.434,
+    "i_max": 9.026,
+    "i_max_100ms": 6.751,
+    "v_term_mean": 12.208,
+    "v_term_min": 11.976,
+    "bus_mean": 11.846,
+    "bus_min": 11.362,
+    "bec_out_mean": 11.528,
+    "bec_out_min": 11.03,
+    "bec_in_min": 11.33,
+    "bec_out_pct_below_6V": 0.0
+   }
+  },
+  {
+   "label": "sim pass only",
+   "corner": "high-side",
+   "cmd_m_s": 0.15,
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.0836,
+   "track_lin": 0.557,
+   "knees": {
+    "left_knee": 10.436,
+    "right_knee": 10.382,
+    "i_pack_peak_A": 8.664
+   },
+   "pack": {
+    "i_mean": 5.104,
+    "i_rms": 5.371,
+    "i_max": 8.664,
+    "i_max_100ms": 6.564,
+    "v_term_mean": 12.209,
+    "v_term_min": 11.988,
+    "bus_mean": 11.749,
+    "bus_min": 11.224,
+    "bec_out_mean": 11.431,
+    "bec_out_min": 10.893,
+    "bec_in_min": 11.193,
+    "bec_out_pct_below_6V": 0.0
+   }
+  },
+  {
+   "label": "sim pass only",
+   "corner": "typical",
+   "cmd_m_s": 0.0883,
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.0157,
+   "track_lin": 0.191,
+   "knees": {
+    "left_knee": 10.745,
+    "right_knee": 10.707,
+    "i_pack_peak_A": 9.534
+   },
+   "pack": {
+    "i_mean": 3.634,
+    "i_rms": 4.057,
+    "i_max": 9.534,
+    "i_max_100ms": 6.424,
+    "v_term_mean": 12.298,
+    "v_term_min": 11.992,
+    "bus_mean": 12.043,
+    "bus_min": 11.335,
+    "bec_out_mean": 11.731,
+    "bec_out_min": 10.999,
+    "bec_in_min": 11.299,
+    "bec_out_pct_below_6V": 0.0
+   }
+  },
+  {
+   "label": "sim pass only",
+   "corner": "high-side",
+   "cmd_m_s": 0.0883,
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.0167,
+   "track_lin": 0.201,
+   "knees": {
+    "left_knee": 10.408,
+    "right_knee": 10.368,
+    "i_pack_peak_A": 9.058
+   },
+   "pack": {
+    "i_mean": 3.649,
+    "i_rms": 4.052,
+    "i_max": 9.058,
+    "i_max_100ms": 6.296,
+    "v_term_mean": 12.297,
+    "v_term_min": 12.006,
+    "bus_mean": 11.968,
+    "bus_min": 11.195,
+    "bec_out_mean": 11.656,
+    "bec_out_min": 10.862,
+    "bec_in_min": 11.162,
+    "bec_out_pct_below_6V": 0.0
+   }
+  }
+ ],
+ "bam_speed_typical_20s": {
+  "label": "sim pass only",
+  "corner": "typical",
+  "cmd_m_s": 0.15,
+  "dur_s": 20.0,
+  "fall_s": "none",
+  "vx_m_s": 0.1217,
+  "track_lin": 0.812,
+  "knees": {
+   "left_knee": 10.555,
+   "right_knee": 10.67,
+   "i_pack_peak_A": 10.386
+  },
+  "pack": {
+   "i_mean": 5.254,
+   "i_rms": 5.68,
+   "i_max": 10.386,
+   "i_max_100ms": 7.568,
+   "v_term_mean": 12.243,
+   "v_term_min": 12.012,
+   "bus_mean": 11.874,
+   "bus_min": 11.288,
+   "bec_out_mean": 11.555,
+   "bec_out_min": 10.949,
+   "bec_in_min": 11.249,
+   "bec_out_pct_below_6V": 0.0
+  }
+ }
+}
