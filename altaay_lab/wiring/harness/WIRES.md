@@ -124,6 +124,8 @@ Route polyline 179.4 mm is the netlist figure from cables3d (CAD check only).
 
 ### DC3 wire 2
 
+Superseded 2026-11-12 ET by cable NT. The bead pin RT1.1 is on NTC_MID only. This SENSE tap is not an active conductor. The points stay in cables3d.json run r1.
+
 - From: JSN.S
 - To: RT1.1
 - Net: SNS

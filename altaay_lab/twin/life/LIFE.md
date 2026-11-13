@@ -2,15 +2,17 @@
 
 Written 2026-11-12. No servo, board, cell, or print was measured. The shared lab gym (overlay gym/overlays/duck) was not used. No new part is drawn here. The fixes at the end are ones already in the lab.
 
+Superseded as the current duck, 2026-11-12 ET: the first-break fall at 3.46 to 3.56 seconds and the BEC case at 109 C and 117 C are the 2S sheet-stall gait. On three P45B cells and the 12 V STS3215, the old policy walks about 0.088 m/s typical with no fall in 60 s (sim pass only, problems/FIT3.md). A BEC case temperature on that 3S walk was not run. BLOCKER. The other BLOCKERs in this file stay open.
+
 The 25 C check of this run matches the published thermal file: right knee reading crosses 60 C at 3.33 minutes, and the body reaches 94.67 C if torque is left on for 40 minutes (sim pass only, same model as twin/thermal/gate_p45b.json). Rooms below are 22 C and 32 C.
 
 ## Short answer
 
-On the bought STS3215, the trained gait falls at 3.46 to 3.56 seconds (sim pass only, twin/electromech/ELECTROMECH_TWIN.md). That is the first failure. Heat and gear wear do not get a long walk on that gait.
+~~On the bought STS3215, the trained gait falls at 3.46 to 3.56 seconds (sim pass only, twin/electromech/ELECTROMECH_TWIN.md). That is the first failure.~~ Superseded 2026-11-12 ET by the 3S walk in problems/FIT3.md. Heat and gear wear do not get a long walk on that old gait.
 
 If the actuators could hold the sim loads, the first printed part past its failure index is the shin drive eye on the current print (walk safety factor 0.79, FEA pass only, twin/structure/TOPOLOGY.md).
 
-What gets hot, in the closed-shell model, on the trained-actuator walk: the right knee reading crosses the 60 C operating line at 3.7 minutes in a 22 C room and at 2.5 minutes in a 32 C room (sim pass only). The BEC case is hotter than that reading (109 C and 117 C). The winding number is higher still, and it sits on the guessed 2.5 J/K node. Do not read it as measured copper. With the existing 55 C guard and torque off between bouts, the reading stays at 55 C, and the duck can walk 29 minutes of each 90 at 22 C, or 17 minutes of each 90 at 32 C (sim pass only).
+What gets hot, in the closed-shell model, on the trained-actuator walk: the right knee reading crosses the 60 C operating line at 3.7 minutes in a 22 C room and at 2.5 minutes in a 32 C room (sim pass only). ~~The BEC case is hotter than that reading (109 C and 117 C).~~ Those two readings are the superseded 2S gait. No 3S BEC case number exists (BLOCKER). The winding number is higher still, and it sits on the guessed 2.5 J/K node. Do not read it as measured copper. With the existing 55 C guard and torque off between bouts, the reading stays at 55 C, and the duck can walk 29 minutes of each 90 at 22 C, or 17 minutes of each 90 at 32 C (sim pass only).
 
 Charging while sitting, at 2.30 W or 3.50 W in the trunk, leaves the cells under 41 C (sim pass only). The charger die temperature inside the trunk is BLOCKER.
 
@@ -49,7 +51,7 @@ Other closed-shell nodes, same unguarded walk:
 
 | Node | 22 C room | 32 C room | Label |
 |---|---|---|---|
-| BEC case | 109 C | 117 C | sim pass only. Castle publishes no case limit: BLOCKER for a pass line |
+| BEC case | 109 C | 117 C | sim pass only on the superseded 2S gait. Castle publishes no case limit: BLOCKER for a pass line. No 3S BEC case number: BLOCKER |
 | cells | 46.8 C | 56.4 C | sim pass only. Under the 60 C discharge line on the P45B sheet in this 40 minutes |
 | head air | 31.0 C | 41.0 C | sim pass only. Not the Pi chip |
 | trunk wall | 29.4 C | 39.2 C | sim pass only. Average wall, not the spot under the BEC |

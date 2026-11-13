@@ -23,18 +23,22 @@ Status words, only these:
 
 ## Summary
 
-No row is done. Gate 0 stays open. Nest v2 is the approved nest (PR 61 merged). Recording that as D62 is open PR 65. DECISIONS.md D61 was not edited. The 324 to 310 screw package is PR 63, merged, and it is not in print/. The sheet-stall fall is still open. PR 66 tested free bus changes and none of them walk 20 s. That PR is open.
+No row is done. Gate 0 stays open.
+
+Current duck, 2026-11-12 9:41 PM ET. Pack is three P45B cells and the 12 V STS3215. The MCP73213 file is the 2S record only. The nest is D62, nest v2. Spring pins are superseded. Nest supply is 15.0 V. The docked servo rail is circuitry/SERVO_RAIL.md. Fitted screws are 310 and builder-turned screws are 254 (CAD check only, not installed). The 2S sheet-stall fall is superseded as the current walk. On 3S the old policy walks about 0.088 m/s typical with no fall in 60 s (sim pass only, problems/FIT3.md). The retrain is in progress and is not a gait. DECISIONS.md D61 was not edited. The buy-today total on the order is $1195.44 (calc only, bom/order/ORDER.md). BOM.md totals are a different rollup.
+
+~~Nest v2 is the approved nest (PR 61 merged). Recording that as D62 is open PR 65. The sheet-stall fall is still open. PR 66 tested free bus changes and none of them walk 20 s. That PR is open.~~ Superseded 2026-11-12 ET by the paragraph above. D62 is recorded. PR 66 is merged.
 
 | Twin | Status | Gate | In one line |
 |---|---|---|---|
 | Structure | FAIL | BLOCKER | The recessed web in PA6-CF clears the margins in FEA and is not in print/. Hot, wet, and the printer are BLOCKER. |
 | Thermal | FAIL | partial | The 2.30 W and 3.50 W sit was re-run. Cells and the trunk wall stay inside their cited windows. The die on the cited board crosses 110 C. A continuous walk still leaves 60 C. |
-| Electromechanical | FAIL | BLOCKER | The sheet-stall walk still falls. PR 66's free bus changes do not walk 20 s on either corner. That PR is open. |
-| Electrical and wiring | FAIL | partial | Walk current is the P45B loop. Fall traces are not in this repo. PR 56 names every harness end. The charger is still not in the netlist. PR 64 is open. |
-| Battery | FAIL | BLOCKER | The opened cell is in the loop. The weld still has no part number. |
-| Screws and assembly | GAP | partial | PR 52 left 324 fitted. PR 63's package is 310 and is not installed. Under 200 is not met. Nest v2 is not in that schedule. PR 60 is open. |
+| Electromechanical | FAIL | BLOCKER | The 2S sheet-stall fall is superseded. On 3S the old policy holds about 0.088 m/s for 60 s with no fall (sim pass only). That is not a retrained gait. Bench stall is BLOCKER. |
+| Electrical and wiring | FAIL | partial | PR 64 is merged. The bead pin is on NTC_MID only. The old SENSE tap is superseded. The BQ24133 board is still not seated. |
+| Battery | FAIL | BLOCKER | The pack is 3S. The cell line is three P45B. The weld still has no part number (BLOCKER). |
+| Screws and assembly | GAP | partial | Fitted 310, builder-turned 254 (CAD check only). Not installed. Under 200 is not met. PR 60 is merged. |
 | Sit and get-up | FAIL | partial | The sit is in the CAD. Get-up still misses the down-ramp front rests. Friction is not a datasheet value. |
-| Knee | FAIL | BLOCKER | The STS3250 ohm lines disagree. The stock policy still falls in sim. PR 62 does not avoid the sheet-stall fall. |
+| Knee | FAIL | BLOCKER | The buy is the 12 V STS3215. The STS3250 ohm disagreement is superseded as the knee to buy. Bench stall and the retrain are still BLOCKER. |
 | Freeze | GAP | partial | Seats are in the CAD. There is no behavior twin of touch, cliff, or hearing. |
 | Complete 3D and CAD | GAP | partial | Nest v2 is the approved nest and is not in the viewer or the print set. |
 | Nest dock | FAIL | partial | Nest v2 is the approved mat. It is not installed. The sims are not a camera on felt. |
@@ -42,13 +46,13 @@ No row is done. Gate 0 stays open. Nest v2 is the approved nest (PR 61 merged). 
 | Felt and cloth | GAP | BLOCKER | No felt grade. The charge note does not name one. Sole friction is BLOCKER. |
 | Pin contact | NOT RUN | BLOCKER | Nest v2 uses gold wells, not the spring pins. Well resistance was not measured. |
 | Servo angle limits vs CAD | FAIL | partial | Sit stops are in the limit file. The old sim ranges still do not match the printed contacts. |
-| One-click bill vs the twin | FAIL | BLOCKER | PR 50 collected one bill. It still follows the older nest CAD, not nest v2. The weld has no part number. PR 59 is open. |
+| One-click bill vs the twin | FAIL | BLOCKER | Buy-today total is $1195.44 (calc only). Nest v2 lines for felt, wells, and the gate board are still BLOCKER. The servo line is still the 7.4 V part. |
 | Lights | GAP | partial | Two beads were opened and do not close line E3. There is no light model. |
 | Field of view | FAIL | partial | The cone is on the seat. The recorded sit sees none of the cloth. PR 45 starts the blind walk from that miss. A person is not in the file. |
 | Communications | FAIL | partial | The link table exists. Several latencies are unpublished. Nothing in that table was measured on a Pi. |
-| Circuitry | FAIL | partial | The MCP73213 board is drawn. The 2.30 W and 3.50 W sit was re-run. The board is not in the netlist and has no seat. PR 64 is open. |
+| Circuitry | FAIL | partial | BQ24133 is the 3S charger. MCP73213 is the 2S record. The docked rail is SERVO_RAIL.md. The board has no seat. Limp-seat friction is BLOCKER. |
 | Software | GAP | partial | PR 51 added a local assistant demo with no hardware. Nest vision, charge control, and updates do not. |
-| Training | NOT RUN | BLOCKER | No GPU policy run. PR 51's CPU smoke is not a policy. The retrain still needs an OK. |
+| Training | NOT RUN | BLOCKER | A 12 V config and a CPU smoke exist. The smoke is not a gait. A full retrain is still open. |
 
 ## Structure (twin/structure)
 
@@ -100,7 +104,7 @@ No row is done. Gate 0 stays open. Nest v2 is the approved nest (PR 61 merged). 
 - Pass: one fastener schedule and one assembly order cover the duck that will be built, including the nest. Every hole has a screw or is closed (D39). Every screw group is a uniform pattern (D42). A second person can build from the order.
 - Status: GAP.
 - Gate: partial.
-- Result: the installed print set was audited, CAD check only. After D42, 88 parts and 133 part pairs are uniform (twin/holes/HOLES_TWIN.md). Two plug ends stay off a perfect flush and are explained there. Assembly reach of the driven screws is in twin/assembly/BUILD_ORDER.md (CAD check only). PR 53, merged, audited the duck and nest fasteners already in the CAD. PR 52, merged, left 324 fitted screws and added no latch (CAD check only, cad/dfa/DFA.md). PR 63, merged, removes 14 clips on paper: fitted screws 324 to 310, builder-turned 268 to 254 (CAD check only, cad/dfa/CUTS.md). print/ was not edited. Under 200 is not met. Horns, case clamps, and shells stay. Nest v2 adds no screw and is not in that schedule. The flush wells and the topology pads are not in that schedule either. Insert pull-out time and strength are still a BLOCKER in the screws twin. The topology pass ray-checked the horn screw holes on its own STLs and did not add a screw (TOPOLOGY.md, CAD check only). That check is not an install. PR 60, which would match the build order to the fastener file, is open.
+- Result: the installed print set was audited, CAD check only. After D42, 88 parts and 133 part pairs are uniform (twin/holes/HOLES_TWIN.md). Two plug ends stay off a perfect flush and are explained there. Assembly reach of the driven screws is in twin/assembly/BUILD_ORDER.md (CAD check only). PR 53, merged, audited the duck and nest fasteners already in the CAD. PR 52, merged, left 324 fitted screws and added no latch (CAD check only, cad/dfa/DFA.md). PR 63, merged, removes 14 clips on paper: fitted screws 324 to 310, builder-turned 268 to 254 (CAD check only, cad/dfa/CUTS.md). print/ was not edited. Under 200 is not met. Horns, case clamps, and shells stay. Nest v2 adds no screw and is not in that schedule. The flush wells and the topology pads are not in that schedule either. Insert pull-out time and strength are still a BLOCKER in the screws twin. The topology pass ray-checked the horn screw holes on its own STLs and did not add a screw (TOPOLOGY.md, CAD check only). That check is not an install. PR 60 is merged. The build order matches the fastener file on the lengths named in that PR.
 - Guess: self-tapping screw strength in printed pilots has no coupon. The nest lid screws are named in the nest CAD and are not in the robot build order.
 - Next: when nest v2 is installed, re-run the hole audit and add the nest steps to the build order. Do not treat 310 as the installed count. Until that install, do not mark D39 or D42 closed for the whole duck.
 
@@ -244,19 +248,19 @@ No row is done. Gate 0 stays open. Nest v2 is the approved nest (PR 61 merged). 
 - Pass: the policies the duck will ship have been trained for the mass, the knees, the gains, and the nest edge the twin uses, and an eval in the shared lab gym (overlay gym/overlays/duck) records the result.
 - Status: NOT RUN.
 - Gate: BLOCKER.
-- Result: no GPU training run has been executed. A CPU smoke of the STS3250 preset ran 480 env steps in 612 s on 8 envs (twin/knee/KNEE_TWIN.md, sim pass only). That smoke is not a policy. PR 51 ran another CPU smoke, 480 env steps on 8 envs in 148.5 s, and the rewards did not climb (sim pass only). That is not a policy either. Stage 0 of a walk at the build mass is described as ready on CPU and not run. The stock policy falls on the STS3250 model in sim (knee row). Get-up still misses the down-ramp front rests (sit row). Nest sim v3 ran the stock policy already in the repo: two 1 mm steps, 0 falls in 540 runs (sim pass only, twin/dock/nest/sim/v3/NEST_SIM_V3.md). That run is not a trained policy, and it is not an eval of a new policy in the shared lab gym (overlay gym/overlays/duck). The sheet-stall fall is still open after PR 66. No retrain was started.
+- Result: no GPU training run has been executed. A CPU smoke of the STS3250 preset ran 480 env steps in 612 s on 8 envs (twin/knee/KNEE_TWIN.md, sim pass only). That smoke is not a policy. PR 51 ran another CPU smoke, 480 env steps on 8 envs in 148.5 s, and the rewards did not climb (sim pass only). That is not a policy either. Stage 0 of a walk at the build mass is described as ready on CPU and not run. The stock policy falls on the STS3250 model in sim (knee row). Get-up still misses the down-ramp front rests (sit row). Nest sim v3 ran the stock policy already in the repo: two 1 mm steps, 0 falls in 540 runs (sim pass only, twin/dock/nest/sim/v3/NEST_SIM_V3.md). That run is not a trained policy, and it is not an eval of a new policy in the shared lab gym (overlay gym/overlays/duck). ~~The sheet-stall fall is still open after PR 66. No retrain was started.~~ Superseded 2026-11-12 ET: the 3S old-policy walk does not fall in 60 s (sim pass only, problems/FIT3.md). problems/TRAIN_STS12.md is a config and a CPU smoke, not a gait. A full retrain is still open.
 - Guess: how many GPU hours a real retrain takes. A published note for the upstream 150 to 300 million step command says 1.5 to 3 hours on an RTX 4090 (cited). That note is not a lab log. See COMPLETE_DUCK_AUDIT.md.
 - Next: do not start a paid run from this row. The scope is in COMPLETE_DUCK_AUDIT.md and needs an OK before any GPU is rented. Do not count the nest v3 stock-policy sim as that training.
 
 ## What blocks gate 0, in order
 
-1. There is no single model. The print set, the netlist, and the viewer are the walking duck. Nest v2 is the approved nest (PR 61) and is not in that model. D62 is open PR 65. D61 was not edited. The charger board has no seat. Until those are one duck, gate 0 cannot pass.
-2. The bill does not match that duck. PR 50 collected one order and it still follows the older nest CAD. Felt, the wells, the gate board, and the weld have no orderable part. PR 59 is open.
+1. There is no single model. The print set, the netlist, and the viewer are the walking duck. Nest v2 (D62) is the approved nest and is not in that model. D61 was not edited. The BQ24133 board has no seat. Until those are one duck, gate 0 cannot pass.
+2. The bill does not match that duck. Buy-today total is $1195.44 (calc only). Felt, the wells, the gate board, and the weld have no orderable part (BLOCKER). The servo line is still the 7.4 V part.
 3. The camera finder, the felt grade, and a measured well contact are not models. The nest sims, including v3 and the blind walk, are a pose stand-in on a rigid mat. Do not quote 380 of 540 as a charge rate. That cannot stand in for gate 0.
-4. A continuous walk still leaves the 60 C operating range (KNEE_HEAT_STUDY.md, calc only and sim pass only). The 2.30 W and 3.50 W sit stays inside the cell window and under the PLA wall edge (CHARGE_WATTS.md, sim pass only). The die on the cited 62 C/W board crosses 110 C and 150 C if the current stays at 1.00 A (calc only). The die in the trunk, the felt, and the plastic against the package are BLOCKER. The 55 C guard is a software stop in unit tests.
-5. The electromechanical loop runs the P45B figure. With the sheet stall the walk falls (sim pass only). PR 66, open, tried the free bus changes. None walk 20 s on either corner. The fall stays open. The electrical fall and get-up replay was not re-run: those traces are not in this repo (BLOCKER).
-6. The welded pack has no part number. The opened cell maximum fits the sleeved bay (22.2 by 43.7 by 71.0 mm, CAD check only, twin/battery/bay_edit.py). The charger schematic exists (CHARGER_BOARD.md) and is not in the netlist, and it has no seat.
-7. Structure stays under the lab margin on the print that would be made. The recessed web in PA6-CF is walk 2.85 and soft worst 1.61 at 0.75 mm (FEA pass only) and is not in print/. Hot and wet tensile are BLOCKER. D26 is open.
-8. Fitted screws went from 324 to 310 on paper (PR 63, CAD check only). print/ was not edited. Under 200 is not met. Nest v2 is not in that schedule. PR 60 is open.
-9. Get-up misses 48 down-ramp front rests (sim pass only). The stock policy falls on the STS3250 knee model in sim. The 1.2 ohm line disagrees with the stall current (calc only, 2.86 ohm). Neither is a shipping behavior.
-10. Line E3 is still open. The head-camera cone is on the seat and the recorded sit sees none of the cloth (CAD check only). Communications has a table and several BLOCKER latencies. Nest vision, the charge program, and updates are unwritten. The companion demo (PR 51) is not those programs. Training is NOT RUN.
+4. A continuous walk still leaves the 60 C operating range (KNEE_HEAT_STUDY.md, calc only and sim pass only). The 2.30 W and 3.50 W sit is the MCP73213 2S record (CHARGE_WATTS.md, sim pass only). The 3S die figures are upper bounds (BQ24133_HEAT.md). The die in the trunk is BLOCKER. The 55 C guard is a software stop in unit tests. The 3S BEC case temperature was not run (BLOCKER).
+5. ~~With the sheet stall the walk falls.~~ Superseded 2026-11-12 ET for the current pack: on 3S the old policy does not fall in 60 s at about 0.088 m/s (sim pass only, problems/FIT3.md). The retrain is not a gait. The electrical fall and get-up replay traces are not in this repo (BLOCKER).
+6. The welded pack has no part number (BLOCKER). The cell count on the bill is 3. The 3S blister fit is problems/FIT3.md (CAD check only). The BQ24133 drawing exists and has no seat.
+7. Structure stays under the lab margin on the print that would be made. The recessed web in PA6-CF is walk 2.85 and soft worst 1.61 at 0.75 mm (FEA pass only) and is not in print/. Hot and wet tensile are BLOCKER.
+8. Fitted screws are 310 and builder-turned screws are 254 (CAD check only). print/ was not edited. Under 200 is not met. Nest v2 is not in that schedule.
+9. Get-up misses 48 down-ramp front rests (sim pass only). Limp-seat friction on the docked rail is BLOCKER (twin/sit/RAIL_OFF_SIT.md). The STS3250 knee study is superseded as the servo to buy.
+10. Line E3 is still open. The head-camera cone is on the seat and the recorded sit sees none of the cloth (CAD check only). Communications has a table and several BLOCKER latencies. Nest vision, the charge program, and updates are unwritten. The companion demo (PR 51) is not those programs. Training is NOT RUN: the 12 V smoke is not a gait.

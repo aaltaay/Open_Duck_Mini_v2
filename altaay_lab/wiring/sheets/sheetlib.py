@@ -94,7 +94,7 @@ class Netlist:
             if key in self.by_ends:
                 raise SystemExit(f"netlist: two wires join {w['from']} and {w['to']}")
             self.by_ends[key] = w
-        self.active_wires = [w for w in self.wires if w["cable"] in self.active]
+        self.active_wires = [w for w in self.wires if w["cable"] in self.active and w.get("status") != "superseded"]
 
     def wire(self, a, b):
         w = self.by_ends.get(frozenset((a, b)))

@@ -6,7 +6,7 @@ Schematic only. No board has been built, and no electrical measurement of this c
 
 This board is the charger D61 moves into the duck. It replaces the Adeept USB-C board (netlist U6, BOM line 11) as the charge path. It does not edit `wiring/netlist.yaml`. A later owner merges `circuitry/charger_board.yaml`.
 
-D62 supersedes the four spring pins. This board is still the charger in the duck. It is what the five flush gold wells feed, from the striped felt field in altaay_lab/cad/nest_v2/. The sun-and-ring cloth and the pin routes below are the superseded drawing. They stay as the record. Open BLOCKERs that this board does not close: dirt on the gold, the gate board and a coin short on a live stripe, charger heat at 2.30 W and 3.50 W (the thermal twin was not re-run at those watts), and a real camera detector.
+D62 supersedes the four spring pins. This board is still the charger in the duck. It is what the five flush gold wells feed, from the striped felt field in altaay_lab/cad/nest_v2/. The sun-and-ring cloth and the pin routes below are the superseded drawing. They stay as the record. Open BLOCKERs that this board does not close: dirt on the gold, the gate board and a coin short on a live stripe, and a real camera detector. ~~Charger heat at 2.30 W and 3.50 W was not re-run.~~ Superseded 2026-11-12 ET: that sit is in twin/thermal/CHARGE_WATTS.md (sim pass only) and is the 2S record. The 3S charger heat is twin/thermal/BQ24133_HEAT.md.
 
 ## Sources opened for this board
 

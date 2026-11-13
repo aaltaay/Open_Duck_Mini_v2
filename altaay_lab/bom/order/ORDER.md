@@ -2,17 +2,19 @@
 
 One bill for one finished duck and its nest. Prices that were read on a live page on 2026-11-12 use the label cited, checked 2026-11-12. Shipping and tax are not included, the same rule as BOM.md. Nothing was bought, and nothing was added to a cart.
 
+Current bill, 2026-11-12 9:41 PM ET. The buy-today total below is the one number for this file. The earlier $839.60 is superseded. BOM.md build totals are a different rollup and are not this total. The pack is three P45B cells. The servo line is still the 7.4 V Seeed part at $20.00; the selected servo is the 12 V Waveshare SKU 22414 at $20.63 for four or more (cited, problems/NEST3.md), and that swap is not on this line yet. The charger to build is the BQ24133 board. The MCP73213 lines are the 2S record. The nest supply on this bill that still says 8.70 V to 10.0 V is that 2S window and is superseded by the 15.0 V nest (problems/NEST3.md, circuitry/SERVO_RAIL.md).
+
 Update 2026-11-12 6:23 PM ET, D62. The official nest is the flush striped felt mat and the five seat wells in altaay_lab/cad/nest_v2/. The spring pins in twin/dock/nest/cad/NEST_CAD.md and the QA Technology probe are superseded. Do not order them. The Mill-Max 0906 line below stays on this bill as a record of a pin that was studied. It is not a pin field to buy, and it is not the duck-side contact. Felt and foil still have no orderable part (BLOCKER). Still open, and not a reason to buy: dirt on the gold, the gate board and a coin short, charger heat, and a camera detector. This note does not change the dollar total.
 
 This file only collects parts that the lab files already name. It does not add a new contact, a new board, or a new fastener pattern. Where a file has no part number, the line says BLOCKER.
 
-Maker screening against restricted lists waits for altaay_lab/compliance/. That folder is not in the tree. This bill does not start that check.
+Maker screening against restricted lists is altaay_lab/compliance/. The sentence that said that folder was not in the tree is superseded.
 
 ## What was reused
 
 - BOM.md, fasteners/fasteners.json, and fasteners/FASTENERS.md for the duck screws, inserts, washers, wire, and tools.
 - wiring/netlist.yaml for the duck components. Splices whose part text says solder stay on the solder line. G, VSW, SPV, and SPG name WAGO 221, so they are the wago line.
-- circuitry/CHARGER_BOARD.md and circuitry/charger_board.yaml for the in-duck MCP73213 board. The Adeept board is not ordered.
+- circuitry/CHARGER_BOARD.md stays the 2S MCP73213 record. The board to build is circuitry/BQ24133_BOARD.md. The Adeept board is not ordered.
 - BOM.md lines 22b and 22c for the Pi-header KK 254 terminals and housings. Cable D13 in wiring/netlist.yaml is the end that already says KK 254 socket. Mini-SPOX does not cover that header.
 - altaay_lab/cad/nest_v2/ for the official nest at 190 mm: felt, foil stripes, five wells, and the cord pocket. twin/dock/nest/cad/NEST_CAD.md is the superseded spring-pin drawing. Its six extra inserts and six extra screws are not this nest.
 - twin/dock/flush/FLUSH_CONTACTS.md for the five seat wells and the undesigned ideal-diode path from each well to either rail. The Mill-Max 0906 pin is not ordered as a field. Proud probes are not ordered. DK6 and DK7 stay the supply OR diodes. They are not that path.
@@ -51,9 +53,9 @@ These sums are calc only. They add the line_usd column. A line is in that column
 - Seeed Studio: $280.00
 - SparkFun: $9.00
 - Tenergy: $22.99
-- illumn: $17.98
+- illumn: $26.97
 
-Grand total of lines that can be bought today: $1186.45
+Grand total of lines that can be bought today: $1195.44
 ## Filament grams
 
 Calc only. Not weighed.

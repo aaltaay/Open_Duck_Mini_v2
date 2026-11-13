@@ -93,18 +93,29 @@ https://pip-assets.raspberrypi.com/categories/1163-pcn/documents/RP-004862-PC-1-
 
 ## The share
 
-Priced components of the walking duck:
+Current share, 2026-11-12 9:41 PM ET, from compliance/domestic_share.py on the order after PR 77 and the third cell. Calc only. Not legal advice.
 
-- Domestic: $47.33 (calc only). The regulator is $29.95 and the 24 Panduit mounts are $17.38.
-- Foreign, cited or unknown: $732.06 (calc only).
-- Total in the share: $779.39 (calc only).
-- Domestic share: 6.07 percent (calc only, $47.33 divided by $779.39).
+- Domestic: $47.33. The regulator is $29.95 and the 24 Panduit mounts are $17.38.
+- Foreign, cited or unknown: $849.21.
+- Total in the share: $896.54.
+- Domestic share: 5.28 percent ($47.33 divided by $896.54).
 
-A delivery in 2026 uses the 65 percent test. Domestic cost has to exceed 65 percent of $779.39, which is $506.60 (calc only, 0.65 times $779.39). The sheet is short by $459.27 (calc only). A delivery in 2029 uses 75 percent. That gap is $537.21 (calc only).
+A delivery in 2026 uses the 65 percent test. Domestic cost has to exceed 65 percent of $896.54, which is $582.75 (0.65 times $896.54). The sheet is short by $535.42. A delivery in 2029 uses 75 percent. That gap is $625.08. The smallest set that clears the 2026 gap is 10 lines and sums to $548.15. The earlier 6.07 percent, the $779.39 total, and the seven-line set below are superseded.
+
+~~Priced components of the walking duck:~~
+
+- ~~Domestic: $47.33 (calc only). The regulator is $29.95 and the 24 Panduit mounts are $17.38.~~
+- ~~Foreign, cited or unknown: $732.06 (calc only).~~
+- ~~Total in the share: $779.39 (calc only).~~
+- ~~Domestic share: 6.07 percent (calc only, $47.33 divided by $779.39).~~
+
+~~A delivery in 2026 uses the 65 percent test. Domestic cost has to exceed 65 percent of $779.39, which is $506.60 (calc only, 0.65 times $779.39). The sheet is short by $459.27 (calc only). A delivery in 2029 uses 75 percent. That gap is $537.21 (calc only).~~
 
 Lines with no incorporated price are not in the $779.39. They are solder, threadlocker, the unwelded pack materials, the charger-board passives and the board fab, the KK 254 housings, the M2x12 screw, the five gold seat wells, and the duck-side ideal-diode path for each well. The wells sit in the seat and the diode paths sit in the trunk (FLUSH_CONTACTS.md section 6). Neither has a part or a price. If those lines are foreign, the gap is wider. If they are domestic, they help only to the extent of their incorporated cost, which is BLOCKER.
 
-On a reading that refuses the unknown-origin sentence, every priced line that is not the servo and not the Pi would be treated as domestic. That reading is not the one this worksheet uses. On the same $779.39 it would be domestic $479.79 and foreign $299.60, which is 61.56 percent (calc only). That reading is still short of 65 percent by $26.81 (calc only). The servo line alone is larger than $26.81. The Pi line alone, $19.60, is not.
+On a reading that refuses the unknown-origin sentence, the same script gives domestic $596.94 and foreign $299.60, which is 66.58 percent (calc only). That reading clears 65 percent by $14.19 (calc only). It is not the rule this worksheet uses. The servo line is still the 7.4 V part at $280.00. Swapping it for the 12 V servo would change this share and has not been done.
+
+~~On the same $779.39 it would be domestic $479.79 and foreign $299.60, which is 61.56 percent (calc only). That reading is still short of 65 percent by $26.81 (calc only).~~ Superseded by the recompute above.
 
 ## Smallest set that crosses 65 percent
 
