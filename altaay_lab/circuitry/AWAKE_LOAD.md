@@ -8,7 +8,7 @@ The netlist puts the 5 V regulator and the BEC on the same switched node. Cable 
 
 The rail cut in SERVO_RAIL.md holds that switch off. As the netlist is drawn, the Pi and the camera go off with the servos. They do not keep drawing from the pack. The charge sense then does not see them, and the 0.10 A termination is not blocked by them.
 
-The netlist calls SW1 a Pololu 2813 and describes its ON pin as a pulse. SERVO_RAIL.md read the level behavior on the 2815 page. Whether holding ON low keeps a 2813 off was not re-read on the 2813 page. BLOCKER for that pin.
+The harness record calls SW1 a Pololu 2813. That identity is superseded in wiring/netlist.yaml. The rail to build is the Pololu 2815, and the interlock is circuitry/bq24133_board.yaml. Both are described in circuitry/SERVO_RAIL.md. The 2813 ON-pin pulse is not the current rail.
 
 ## If the duck stays awake from the pack
 
