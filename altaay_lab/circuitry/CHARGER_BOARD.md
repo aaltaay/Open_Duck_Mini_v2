@@ -4,7 +4,7 @@ Schematic only. No board has been built, and no electrical measurement of this c
 
 This board is the charger D61 moves into the duck. It replaces the Adeept USB-C board (netlist U6, BOM line 11) as the charge path. It does not edit `wiring/netlist.yaml`. A later owner merges `circuitry/charger_board.yaml`.
 
-The nest folder was read and not edited. The four spring pins, the gold disc (plus) and the pale gold ring (minus) stay as drawn in `twin/dock/nest/`. This board is what those pins feed.
+D62 supersedes the four spring pins. This board is still the charger in the duck. It is what the five flush gold wells feed, from the striped felt field in altaay_lab/cad/nest_v2/. The sun-and-ring cloth and the pin routes below are the superseded drawing. They stay as the record. Open BLOCKERs that this board does not close: dirt on the gold, the gate board and a coin short on a live stripe, charger heat at 2.30 W and 3.50 W (the thermal twin was not re-run at those watts), and a real camera detector.
 
 ## Sources opened for this board
 
@@ -48,9 +48,9 @@ Precondition threshold for this option: 0.715 x 8.40 V = **6.006 V** (calc). The
 
 ## Input from the nest
 
-D61: gold disc is plus, pale gold ring is minus. Four spring pins under the body, two in the seat block (plus) and two in the belly bumper (minus), each pair 20 mm apart, the pairs 130 mm apart.
+D62: the mat is a gated supply. Plus and minus arrive from the striped field through five flush wells in the seat, not through four spring pins. Both poles run in foil from x = -180 mm to x = 180 mm (CAD check only, altaay_lab/cad/nest_v2/). A well can land on either stripe, so the steering diodes in the belly are still not chosen. That part stays BLOCKER. Contact resistance of gold on foil, with dirt, stays BLOCKER.
 
-`twin/dock/nest/cad/NEST_CAD.md` already routes those pins:
+The routes below are the superseded pin drawing in twin/dock/nest/cad/NEST_CAD.md. They are not the nest to build. The table is kept so the old lengths are not lost.
 
 | Lead | Path | Gauge | Length |
 |---|---|---|---|
@@ -58,7 +58,7 @@ D61: gold disc is plus, pale gold ring is minus. Four spring pins under the body
 | NP3 | JNP toward DK6 | 20 AWG | 62.9 mm (calc only, CAD check only) |
 | NM1, NM2 | bumper pins to splice JNM | 22 AWG | 65.9 mm and 60.5 mm (calc only, CAD check only) |
 
-This board's plus pad is JNP. Its minus pad is JNM. The pin part number is still incomplete (PARTS_AUDIT.md). Contact resistance on cloth is not measured. Both stay BLOCKER for the nest, not redesigned here.
+This board's plus pad is JNP. Its minus pad is JNM. Those names stay. The probe part number is superseded by D62 and is not ordered. Contact resistance of the wells on the foil is not measured. That stays BLOCKER.
 
 The stripe study's contact current, calc only, is 2.0 A typical and 2.8 A peak while charging (about 1.0 A for the duck and 1.0 A for the pack, peak about 1.8 A on the duck side plus the charge). The P-FET and the 5 A fuse are sized against that 2.8 A, not against the 1.1 A chip ceiling alone, because the duck supply is taken from the same protected node.
 

@@ -217,7 +217,10 @@ def main():
             errors += fail("line %s is cited and has no url" % lid)
         if label == "BLOCKER" and unit is not None:
             errors += fail("line %s has a unit price but price_label BLOCKER" % lid)
-        out = stock == "out of stock" or blocker != ""
+        # A proposed pick has a live price and stays in the total. The note
+        # says it is not yet verified against a coupon.
+        proposed = blocker == "proposed pick, not yet verified"
+        out = stock == "out of stock" or (blocker != "" and not proposed)
         if out:
             if line is not None:
                 errors += fail("line %s is not in the total but line_usd is set" % lid)
