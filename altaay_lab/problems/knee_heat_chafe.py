@@ -195,9 +195,15 @@ def branch_currents(s):
         sum_of_feed_peaks_scaled_A=leg_scaled,
         scale_100ms=round(scale, 4),
         scale_note=(
-            "calc only. 13.081 A run C 100 ms peak (sim pass only) divided by the "
-            "7.04 A 100 ms pack figure on the old 16 AWG (sim pass only). "
+            "calc only. 13.081 A is the maximum of a 50-sample moving average of pack "
+            "current (em_twin.py, np.convolve of ones(50)/50). It is not a pulse width. "
+            "Divided by the 7.04 A 100 ms pack figure on the old 16 AWG (sim pass only). "
             "Summing two feed peaks overstates a simultaneous current."
+        ),
+        average_is_not_a_duration=(
+            "BLOCKER for a nuisance-trip call. A branch can stay above the eFuse "
+            "threshold for longer than the averaging window and still post the same "
+            "100 ms average. No branch-current trace gives the time above 7.23 A."
         ),
     )
 
@@ -213,8 +219,8 @@ def eFuse_check(i_chafe, i_branch):
     """
     ilim = dict(typ_25C=8.13, min_25C=7.77, max_25C=8.54, min_temp=7.23, max_temp=9.07)
     # Shortest blanking uses the fastest discharge. Longest uses the slowest.
-    # 600 nF: shortest about 150 ms, so a 100 ms branch pulse can pass,
-    # longest about 557 ms.
+    # 600 nF is a candidate, not a proof the walk passes. The 100 ms figure is
+    # a moving average, not the time spent above the threshold.
     c_nf = 600.0
     t_short = c_nf * 0.7 / 2.8
     t_long = c_nf * 1.3 / 1.4
@@ -237,8 +243,11 @@ def eFuse_check(i_chafe, i_branch):
         blanking_note=(
             "calc only. t_ms = C_nF * dV / I_uA from the cited ITIMER current and delta V. "
             "The startup cap limit equation did not extract cleanly from the PDF text. "
-            "Whether 220 nF is under that limit is BLOCKER."
+            "Whether 600 nF is under that limit is BLOCKER. "
+            "Walk compatibility is also BLOCKER: the 100 ms pack figure is a moving "
+            "average, not the time a branch stays above ILIM."
         ),
+        walk_trip="BLOCKER. No branch trace gives the time above 7.23 A.",
         ron_typ_mohm=2.7,
         drop_at_8A_mV=round(2.7 * 8.0, 1),
     )
@@ -287,7 +296,7 @@ def summarize(r, heats, c, name):
     )
 
 
-def build_12v(s, sts, torque_scale, t_cut):
+def build_12v(s, sts, torque_scale, t_cut, walk_idle=True):
     apply_three_cell(t_cut)
     c = dict(TT.CORNERS["central"])
     scale_mean = sts["i_mean"] / float(np.nanmean(s["i_pack"]))
@@ -318,8 +327,12 @@ def build_12v(s, sts, torque_scale, t_cut):
             bec_leads=ib_rms * ib_rms * 0.004,
             logic=0.15,
         )
+        # Motor RMS does not include the electronics. gate_p45b adds I_idle * V on
+        # every walking bin. 0.021 A is the C001 idle. The C018 torque-off and
+        # running-idle currents are not the same number (BLOCKER for the C018).
+        p_idle_walk = (0.021 * sts["bec_out_mean"]) if walk_idle else 0.0
         heats[i] = dict(
-            servo=dict(i2=i2, P_cu25=i2 * R_W_12, P_board=i2 * R_BOARD_12, P_fric=np.zeros(14), P_idle=np.zeros(14)),
+            servo=dict(i2=i2, P_cu25=i2 * R_W_12, P_board=i2 * R_BOARD_12, P_fric=np.zeros(14), P_idle=np.full(14, p_idle_walk)),
             trunk=trunk,
             head=c["P5V"],
         )
@@ -345,7 +358,9 @@ def build_12v(s, sts, torque_scale, t_cut):
         pack_scale_rms=round(scale_rms, 4),
         right_knee_I_rms_first_bin_A=round(float(np.nan_to_num(s["im"][0, TT.NAMES.index("right_knee")]) * I_SCALE * torque_scale), 3),
         current_shape="Old backlash session, Kt-scaled. Not run C. Not a new closed-loop trace.",
+        idle_on_walk_W=round((0.021 * sts["bec_out_mean"]) if walk_idle else 0.0, 4),
         idle_on_rest="0.021 A, C001 sheet. C018 torque-off current is BLOCKER.",
+        walk_idle=walk_idle,
         five_volt_split="P5V / (mean eta 0.94 to 0.97 times bus). Calc only.",
     )
     return heats, c, tbin, meta
@@ -376,10 +391,12 @@ def run_thermal(s):
 
     jobs = []
 
-    def add(name, sched, t_end, guard, a_scale, extra_c, torque, t_cut):
+    def add(name, sched, t_end, guard, a_scale, extra_c, torque, t_cut, walk_idle=True):
         jobs.append(dict(name=name, sched=sched, t_end=t_end, guard=guard, a_scale=a_scale,
-                         extra_c=extra_c, torque=torque, t_cut=t_cut))
+                         extra_c=extra_c, torque=torque, t_cut=t_cut, walk_idle=walk_idle))
 
+    # Idle off matches the playbook's 76.74 C Kt-scaled row. Design rows keep the idle.
+    add("v12_playbook_idle_off_25C", bin_at, 40 * 60.0, None, None, {}, 1.0, 200.0, False)
     add("v12_continuous_cut_off_25C", bin_at, 40 * 60.0, None, None, {}, 1.0, 200.0)
     add("v12_continuous_cut_70_25C", bin_at, 40 * 60.0, None, None, {}, 1.0, 70.0)
     add("v12_continuous_cut_70_32C", bin_at, 40 * 60.0, None, None, {}, 1.0, 70.0)
@@ -400,7 +417,7 @@ def run_thermal(s):
     add("combo_guard55_and_sink30_32C", bin_at, 90 * 60.0, dict(stop=55.0, resume=45.0, rest="off"), knees, {}, 1.0, 70.0)
     add("combo_home_and_sink30_25C", pattern_sched(home), 90 * 60.0, None, knees, {}, 1.0, 70.0)
 
-    # Cache heats by (torque, t_cut). The cut is a PARAMS value, not part of the heat dict.
+    # Cache heats by (torque, t_cut, walk idle). The cut is a PARAMS value.
     cache = {}
     rows = []
     rooms = {
@@ -410,9 +427,9 @@ def run_thermal(s):
         "combo_guard55_and_sink30_32C": 32.0,
     }
     for job in jobs:
-        key = (job["torque"], job["t_cut"])
+        key = (job["torque"], job["t_cut"], job["walk_idle"])
         if key not in cache:
-            cache[key] = build_12v(s, STS12_PACK, job["torque"], job["t_cut"])
+            cache[key] = build_12v(s, STS12_PACK, job["torque"], job["t_cut"], job["walk_idle"])
         heats, c0, tbin, meta = cache[key]
         c = dict(c0)
         c.update(job["extra_c"])
