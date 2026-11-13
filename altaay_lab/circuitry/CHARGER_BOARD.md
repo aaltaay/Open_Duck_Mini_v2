@@ -4,7 +4,7 @@ Schematic only. No board has been built, and no electrical measurement of this c
 
 This board is the charger D61 moves into the duck. It replaces the Adeept USB-C board (netlist U6, BOM line 11) as the charge path. It does not edit `wiring/netlist.yaml`. A later owner merges `circuitry/charger_board.yaml`.
 
-The nest folder was read and not edited. The four spring pins, the gold disc (plus) and the pale gold ring (minus) stay as drawn in `twin/dock/nest/`. This board is what those pins feed.
+D62 supersedes the four spring pins. This board is still the charger in the duck. It is what the five flush gold wells feed, from the striped felt field in altaay_lab/cad/nest_v2/. The sun-and-ring cloth and the pin routes below are the superseded drawing. They stay as the record. Open BLOCKERs that this board does not close: dirt on the gold, the gate board and a coin short on a live stripe, charger heat at 2.30 W and 3.50 W (the thermal twin was not re-run at those watts), and a real camera detector.
 
 ## Sources opened for this board
 
@@ -48,9 +48,9 @@ Precondition threshold for this option: 0.715 x 8.40 V = **6.006 V** (calc). The
 
 ## Input from the nest
 
-D61: gold disc is plus, pale gold ring is minus. Four spring pins under the body, two in the seat block (plus) and two in the belly bumper (minus), each pair 20 mm apart, the pairs 130 mm apart.
+D62: the mat is a gated supply. Plus and minus arrive from the striped field through five flush wells in the seat, not through four spring pins. Both poles run in foil from x = -180 mm to x = 180 mm (CAD check only, altaay_lab/cad/nest_v2/). A well can land on either stripe, so the steering diodes in the belly are still not chosen. That part stays BLOCKER. Contact resistance of gold on foil, with dirt, stays BLOCKER.
 
-`twin/dock/nest/cad/NEST_CAD.md` already routes those pins:
+The routes below are the superseded pin drawing in twin/dock/nest/cad/NEST_CAD.md. They are not the nest to build. The table is kept so the old lengths are not lost.
 
 | Lead | Path | Gauge | Length |
 |---|---|---|---|
@@ -58,7 +58,7 @@ D61: gold disc is plus, pale gold ring is minus. Four spring pins under the body
 | NP3 | JNP toward DK6 | 20 AWG | 62.9 mm (calc only, CAD check only) |
 | NM1, NM2 | bumper pins to splice JNM | 22 AWG | 65.9 mm and 60.5 mm (calc only, CAD check only) |
 
-This board's plus pad is JNP. Its minus pad is JNM. The pin part number is still incomplete (PARTS_AUDIT.md). Contact resistance on cloth is not measured. Both stay BLOCKER for the nest, not redesigned here.
+This board's plus pad is JNP. Its minus pad is JNM. Those names stay. The probe part number is superseded by D62 and is not ordered. Contact resistance of the wells on the foil is not measured. That stays BLOCKER.
 
 The stripe study's contact current, calc only, is 2.0 A typical and 2.8 A peak while charging (about 1.0 A for the duck and 1.0 A for the pack, peak about 1.8 A on the duck side plus the charge). The P-FET and the 5 A fuse are sized against that 2.8 A, not against the 1.1 A chip ceiling alone, because the duck supply is taken from the same protected node.
 
@@ -149,6 +149,8 @@ At the D61 figure of 9.5 V (calc only in that decision):
 | 8.40 V, still at 1.00 A | 1.10 W (calc) | current is tapering here, so this is not the CV case |
 
 The old band, divided by 1.00 A and added back to the pack voltage, implies about **9.1 V** at the 7.2 V pack and about **9.2 V** at the 6.0 V pack (calc). Both are under the 9.5 V figure. So 2.30 W and 3.50 W are the same formula as the old band, at a higher input. They are **0.40 W and 0.30 W above** the band the thermal twin ran.
+
+Which number is the heat at the D61 input: **2.30 W and 3.50 W** (calc only), because that input is 9.5 V and the current in this note is 1.00 A. (9.5 minus 7.2) times 1.00 is 2.30. (9.5 minus 6.0) times 1.00 is 3.50. The thermal table's 1.9 W and 3.2 W are the watts that table actually ran. They match about 9.1 V and 9.2 V, not 9.5 V. That table was not re-run. It is the right record of that sim. It is not the heat of this board at 9.5 V.
 
 Equation 6-1 is the sheet's worst case: highest input, lowest precondition-exit voltage, highest current. At 9.5 V, 5.761 V, and 1.10 A that is **4.11 W** (calc). On 62 C/W that is a **255 C** rise (calc), which the die will not sit through. Section 5.9 exists for this case. The sheet's own worked example (equation 6-2) is (9.9 V - 6.0 V) x 440 mA printed as 1.58 W, and "about 98 C above room" on this package. 3.9 V x 0.440 A is 1.716 W (calc), not 1.58 W. 1.58 W x 62 C/W is 98 C (calc), which matches the sentence. The printed product and the printed power do not match. This board does not use 1.58 W. It uses equation 6-1 with the numbers above.
 
@@ -262,6 +264,20 @@ Not applied.
 **PARTS_AUDIT.md**
 
 - The MCP73213 sheet has now been opened (DS20002190C). Dropout in the characterized table is the 0.3 V headroom: specs apply from 8.70 V for the 8.40 V option. The 6 hour timer is on the A6S option (5.4 to 6.6 h). The "missing thermistor" note is confirmed: there is no THERM pin. Die regulation at the 110 C block-diagram label is not a pack NTC.
+
+Table 3-1 of DS20002190C, page 13, opened again on 2026-11-12 (cited datasheet). The DFN-10 pins are:
+
+| DFN-10 | Symbol | Direction on the sheet | What the sheet says |
+|---|---|---|---|
+| 1, 2 | VDD | I | Battery Management Input Supply Pin |
+| 3, 4 | VBAT | I/O | Battery Charge Control Output Pin |
+| 5, 6 | NC | no direction | No Connection Pin |
+| 7 | STAT | O | Battery Charge Status Output Pin |
+| 8, 9 | VSS | no direction | Battery Management 0V Reference Pin |
+| 10 | PROG | I/O | Battery Charge Current Regulation Program and Charge Control Enable Pin |
+| 11 | EP | no direction | Exposed Pad Pin |
+
+The sheet prints a dash in the direction column for NC, VSS, and EP. There is no THR pin and no thermistor input. Section 3.3 says the NC pins are no connection. The pack bead cannot land on this chip. It lands on the LM393 (CU2) and the TL431 (CU3), which pull the enable gate down. That path is cable NW in wiring/netlist.yaml.
 - The in-duck part number to record is MCP73213-A6SI/MF, not the eval board.
 
 **STATE.md**

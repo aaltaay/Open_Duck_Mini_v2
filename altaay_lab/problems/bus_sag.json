@@ -1,0 +1,772 @@
+{
+ "label": "sim pass only",
+ "info": {
+  "chain_to_knee_one_conductor_ohm": {
+   "typical_24awg_5mohm": 0.0964,
+   "high_side_26awg_20mohm": 0.2237
+  },
+  "feed_copper_ohm": {
+   "cut_22awg": {
+    "L": 0.0222,
+    "R": 0.0238
+   },
+   "route_worst_22awg": {
+    "L": 0.0184,
+    "R": 0.02
+   },
+   "awg16_plus_50mm_22": {
+    "L": 0.0075,
+    "R": 0.0079
+   }
+  },
+  "cap_F": 0.00047,
+  "cap_tau_s_at_0p5_ohm": 0.000235,
+  "cap_note": "470 uF at each knee port, ESR 0. Backward Euler: i = (C/dt)*(v - v_prev). The first step stores the port voltage and draws nothing. The 0.235 ms figure is R C at 0.5 ohm, not the model.",
+  "inj_knee_mm": {
+   "L": 420.0,
+   "R": 420.0
+  }
+ },
+ "sag": [
+  {
+   "where": "full, ocv at 0 mAh",
+   "q_mAh": 0.0,
+   "i_pack_A": 2.0,
+   "ocv_cell_V": 4.175,
+   "terminal_cell_V": 4.139,
+   "sag_pack_V": 0.073,
+   "label": "calc only, discharge figure, not a pulse measurement"
+  },
+  {
+   "where": "full, ocv at 0 mAh",
+   "q_mAh": 0.0,
+   "i_pack_A": 5.0,
+   "ocv_cell_V": 4.175,
+   "terminal_cell_V": 4.087,
+   "sag_pack_V": 0.177,
+   "label": "calc only, discharge figure, not a pulse measurement"
+  },
+  {
+   "where": "full, ocv at 0 mAh",
+   "q_mAh": 0.0,
+   "i_pack_A": 10.0,
+   "ocv_cell_V": 4.175,
+   "terminal_cell_V": 4.024,
+   "sag_pack_V": 0.302,
+   "label": "calc only, discharge figure, not a pulse measurement"
+  },
+  {
+   "where": "end, ocv 3.30 V/cell",
+   "q_mAh": 3860.6,
+   "i_pack_A": 2.0,
+   "ocv_cell_V": 3.3,
+   "terminal_cell_V": 3.265,
+   "sag_pack_V": 0.07,
+   "label": "calc only, discharge figure, not a pulse measurement"
+  },
+  {
+   "where": "end, ocv 3.30 V/cell",
+   "q_mAh": 3860.6,
+   "i_pack_A": 5.0,
+   "ocv_cell_V": 3.3,
+   "terminal_cell_V": 3.216,
+   "sag_pack_V": 0.168,
+   "label": "calc only, discharge figure, not a pulse measurement"
+  },
+  {
+   "where": "end, ocv 3.30 V/cell",
+   "q_mAh": 3860.6,
+   "i_pack_A": 10.0,
+   "ocv_cell_V": 3.3,
+   "terminal_cell_V": 3.163,
+   "sag_pack_V": 0.273,
+   "label": "calc only, discharge figure, not a pulse measurement"
+  }
+ ],
+ "rows": [
+  {
+   "name": "as built",
+   "corner": "typical",
+   "label": "sim pass only",
+   "falls_s": [
+    3.56
+   ],
+   "dur_s": 3.56,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.785,
+     "V_mean": 6.948,
+     "sat_mean": 0.217
+    },
+    "right_knee": {
+     "V_min": 5.889,
+     "V_mean": 6.955,
+     "sat_mean": 0.224
+    }
+   },
+   "pack": {
+    "i_mean": 5.785,
+    "i_rms": 7.152,
+    "i_max": 17.899,
+    "i_max_100ms": 15.298,
+    "v_term_mean": 8.164,
+    "v_term_min": 7.852,
+    "bus_mean": 7.758,
+    "bus_min": 6.595,
+    "bec_out_mean": 7.096,
+    "bec_out_min": 6.228,
+    "bec_in_min": 6.528,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "wall_s": 0.8
+  },
+  {
+   "name": "as built",
+   "corner": "high-side",
+   "label": "sim pass only",
+   "falls_s": [
+    3.42
+   ],
+   "dur_s": 3.42,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.269,
+     "V_mean": 6.761,
+     "sat_mean": 0.234
+    },
+    "right_knee": {
+     "V_min": 5.244,
+     "V_mean": 6.797,
+     "sat_mean": 0.202
+    }
+   },
+   "pack": {
+    "i_mean": 5.775,
+    "i_rms": 7.182,
+    "i_max": 17.676,
+    "i_max_100ms": 15.415,
+    "v_term_mean": 8.165,
+    "v_term_min": 7.858,
+    "bus_mean": 7.644,
+    "bus_min": 6.263,
+    "bec_out_mean": 7.021,
+    "bec_out_min": 5.898,
+    "bec_in_min": 6.198,
+    "bec_out_pct_below_6V": 0.58
+   },
+   "wall_s": 0.8
+  },
+  {
+   "name": "hops 22 AWG",
+   "corner": "typical",
+   "label": "sim pass only",
+   "falls_s": [
+    3.52
+   ],
+   "dur_s": 3.52,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.758,
+     "V_mean": 6.954,
+     "sat_mean": 0.211
+    },
+    "right_knee": {
+     "V_min": 5.811,
+     "V_mean": 6.964,
+     "sat_mean": 0.187
+    }
+   },
+   "pack": {
+    "i_mean": 5.76,
+    "i_rms": 7.209,
+    "i_max": 18.457,
+    "i_max_100ms": 16.752,
+    "v_term_mean": 8.165,
+    "v_term_min": 7.839,
+    "bus_mean": 7.761,
+    "bus_min": 6.543,
+    "bec_out_mean": 7.091,
+    "bec_out_min": 6.174,
+    "bec_in_min": 6.474,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "wall_s": 0.9
+  },
+  {
+   "name": "hops 22 AWG",
+   "corner": "high-side",
+   "label": "sim pass only",
+   "falls_s": [
+    3.46
+   ],
+   "dur_s": 3.46,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.091,
+     "V_mean": 6.771,
+     "sat_mean": 0.235
+    },
+    "right_knee": {
+     "V_min": 5.2,
+     "V_mean": 6.802,
+     "sat_mean": 0.192
+    }
+   },
+   "pack": {
+    "i_mean": 5.902,
+    "i_rms": 7.377,
+    "i_max": 18.677,
+    "i_max_100ms": 15.61,
+    "v_term_mean": 8.162,
+    "v_term_min": 7.833,
+    "bus_mean": 7.629,
+    "bus_min": 6.148,
+    "bec_out_mean": 7.008,
+    "bec_out_min": 5.778,
+    "bec_in_min": 6.078,
+    "bec_out_pct_below_6V": 1.04
+   },
+   "wall_s": 0.6
+  },
+  {
+   "name": "feeds at route worst",
+   "corner": "typical",
+   "label": "sim pass only",
+   "falls_s": [
+    3.54
+   ],
+   "dur_s": 3.54,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.706,
+     "V_mean": 6.956,
+     "sat_mean": 0.195
+    },
+    "right_knee": {
+     "V_min": 5.817,
+     "V_mean": 6.965,
+     "sat_mean": 0.219
+    }
+   },
+   "pack": {
+    "i_mean": 5.732,
+    "i_rms": 7.103,
+    "i_max": 18.549,
+    "i_max_100ms": 15.328,
+    "v_term_mean": 8.166,
+    "v_term_min": 7.836,
+    "bus_mean": 7.763,
+    "bus_min": 6.534,
+    "bec_out_mean": 7.098,
+    "bec_out_min": 6.165,
+    "bec_in_min": 6.465,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "wall_s": 0.8
+  },
+  {
+   "name": "feeds at route worst",
+   "corner": "high-side",
+   "label": "sim pass only",
+   "falls_s": [
+    3.46
+   ],
+   "dur_s": 3.46,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.096,
+     "V_mean": 6.766,
+     "sat_mean": 0.233
+    },
+    "right_knee": {
+     "V_min": 5.285,
+     "V_mean": 6.801,
+     "sat_mean": 0.197
+    }
+   },
+   "pack": {
+    "i_mean": 5.791,
+    "i_rms": 7.199,
+    "i_max": 18.189,
+    "i_max_100ms": 15.116,
+    "v_term_mean": 8.164,
+    "v_term_min": 7.845,
+    "bus_mean": 7.642,
+    "bus_min": 6.204,
+    "bec_out_mean": 7.021,
+    "bec_out_min": 5.836,
+    "bec_in_min": 6.136,
+    "bec_out_pct_below_6V": 0.69
+   },
+   "wall_s": 0.9
+  },
+  {
+   "name": "16 AWG feed plus 22 AWG tail",
+   "corner": "typical",
+   "label": "sim pass only",
+   "falls_s": [
+    3.58
+   ],
+   "dur_s": 3.58,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.977,
+     "V_mean": 6.979,
+     "sat_mean": 0.191
+    },
+    "right_knee": {
+     "V_min": 6.002,
+     "V_mean": 6.986,
+     "sat_mean": 0.22
+    }
+   },
+   "pack": {
+    "i_mean": 5.677,
+    "i_rms": 6.995,
+    "i_max": 16.875,
+    "i_max_100ms": 15.468,
+    "v_term_mean": 8.167,
+    "v_term_min": 7.877,
+    "bus_mean": 7.768,
+    "bus_min": 6.692,
+    "bec_out_mean": 7.104,
+    "bec_out_min": 6.33,
+    "bec_in_min": 6.63,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "wall_s": 1.0
+  },
+  {
+   "name": "16 AWG feed plus 22 AWG tail",
+   "corner": "high-side",
+   "label": "sim pass only",
+   "falls_s": [
+    3.46
+   ],
+   "dur_s": 3.46,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.218,
+     "V_mean": 6.777,
+     "sat_mean": 0.234
+    },
+    "right_knee": {
+     "V_min": 5.344,
+     "V_mean": 6.812,
+     "sat_mean": 0.198
+    }
+   },
+   "pack": {
+    "i_mean": 5.851,
+    "i_rms": 7.278,
+    "i_max": 17.642,
+    "i_max_100ms": 15.458,
+    "v_term_mean": 8.163,
+    "v_term_min": 7.858,
+    "bus_mean": 7.635,
+    "bus_min": 6.266,
+    "bec_out_mean": 7.016,
+    "bec_out_min": 5.901,
+    "bec_in_min": 6.201,
+    "bec_out_pct_below_6V": 1.1
+   },
+   "wall_s": 0.8
+  },
+  {
+   "name": "star feed to the knee",
+   "corner": "typical",
+   "label": "sim pass only",
+   "falls_s": [
+    3.56
+   ],
+   "dur_s": 3.56,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.901,
+     "V_mean": 6.983,
+     "sat_mean": 0.2
+    },
+    "right_knee": {
+     "V_min": 5.98,
+     "V_mean": 6.989,
+     "sat_mean": 0.212
+    }
+   },
+   "pack": {
+    "i_mean": 5.689,
+    "i_rms": 7.088,
+    "i_max": 17.598,
+    "i_max_100ms": 15.409,
+    "v_term_mean": 8.167,
+    "v_term_min": 7.859,
+    "bus_mean": 7.768,
+    "bus_min": 6.623,
+    "bec_out_mean": 7.098,
+    "bec_out_min": 6.258,
+    "bec_in_min": 6.558,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "wall_s": 0.8
+  },
+  {
+   "name": "star feed to the knee",
+   "corner": "high-side",
+   "label": "sim pass only",
+   "falls_s": [
+    3.46
+   ],
+   "dur_s": 3.46,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.339,
+     "V_mean": 6.86,
+     "sat_mean": 0.232
+    },
+    "right_knee": {
+     "V_min": 5.432,
+     "V_mean": 6.878,
+     "sat_mean": 0.201
+    }
+   },
+   "pack": {
+    "i_mean": 5.755,
+    "i_rms": 7.155,
+    "i_max": 17.988,
+    "i_max_100ms": 15.534,
+    "v_term_mean": 8.165,
+    "v_term_min": 7.85,
+    "bus_mean": 7.646,
+    "bus_min": 6.227,
+    "bec_out_mean": 7.024,
+    "bec_out_min": 5.86,
+    "bec_in_min": 6.16,
+    "bec_out_pct_below_6V": 1.33
+   },
+   "wall_s": 0.8
+  },
+  {
+   "name": "470 uF at each knee",
+   "corner": "typical",
+   "label": "sim pass only",
+   "falls_s": [
+    3.56
+   ],
+   "dur_s": 3.56,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.745,
+     "V_mean": 6.947,
+     "sat_mean": 0.217
+    },
+    "right_knee": {
+     "V_min": 5.843,
+     "V_mean": 6.954,
+     "sat_mean": 0.221
+    }
+   },
+   "pack": {
+    "i_mean": 5.767,
+    "i_rms": 7.158,
+    "i_max": 18.253,
+    "i_max_100ms": 15.405,
+    "v_term_mean": 8.165,
+    "v_term_min": 7.843,
+    "bus_mean": 7.76,
+    "bus_min": 6.561,
+    "bec_out_mean": 7.095,
+    "bec_out_min": 6.194,
+    "bec_in_min": 6.494,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "wall_s": 1.1
+  },
+  {
+   "name": "470 uF at each knee",
+   "corner": "high-side",
+   "label": "sim pass only",
+   "falls_s": [
+    3.42
+   ],
+   "dur_s": 3.42,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.142,
+     "V_mean": 6.767,
+     "sat_mean": 0.234
+    },
+    "right_knee": {
+     "V_min": 5.297,
+     "V_mean": 6.804,
+     "sat_mean": 0.199
+    }
+   },
+   "pack": {
+    "i_mean": 5.73,
+    "i_rms": 7.109,
+    "i_max": 17.752,
+    "i_max_100ms": 14.828,
+    "v_term_mean": 8.166,
+    "v_term_min": 7.855,
+    "bus_mean": 7.649,
+    "bus_min": 6.254,
+    "bec_out_mean": 7.026,
+    "bec_out_min": 5.888,
+    "bec_in_min": 6.188,
+    "bec_out_pct_below_6V": 0.53
+   },
+   "wall_s": 0.9
+  },
+  {
+   "name": "cell AC 7 mOhm",
+   "corner": "typical",
+   "label": "sim pass only",
+   "falls_s": [
+    3.54
+   ],
+   "dur_s": 3.54,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 6.041,
+     "V_mean": 6.986,
+     "sat_mean": 0.185
+    },
+    "right_knee": {
+     "V_min": 6.036,
+     "V_mean": 6.993,
+     "sat_mean": 0.203
+    }
+   },
+   "pack": {
+    "i_mean": 5.628,
+    "i_rms": 6.962,
+    "i_max": 17.379,
+    "i_max_100ms": 15.48,
+    "v_term_mean": 8.199,
+    "v_term_min": 8.026,
+    "bus_mean": 7.804,
+    "bus_min": 6.806,
+    "bec_out_mean": 7.13,
+    "bec_out_min": 6.441,
+    "bec_in_min": 6.741,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "wall_s": 1.1
+  },
+  {
+   "name": "cell AC 7 mOhm",
+   "corner": "high-side",
+   "label": "sim pass only",
+   "falls_s": [
+    3.44
+   ],
+   "dur_s": 3.44,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.227,
+     "V_mean": 6.787,
+     "sat_mean": 0.231
+    },
+    "right_knee": {
+     "V_min": 5.393,
+     "V_mean": 6.824,
+     "sat_mean": 0.191
+    }
+   },
+   "pack": {
+    "i_mean": 5.829,
+    "i_rms": 7.266,
+    "i_max": 18.131,
+    "i_max_100ms": 15.728,
+    "v_term_mean": 8.197,
+    "v_term_min": 8.009,
+    "bus_mean": 7.671,
+    "bus_min": 6.373,
+    "bec_out_mean": 7.049,
+    "bec_out_min": 6.006,
+    "bec_in_min": 6.306,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "wall_s": 1.0
+  },
+  {
+   "name": "end of discharge",
+   "corner": "typical",
+   "label": "sim pass only",
+   "falls_s": [
+    2.98
+   ],
+   "dur_s": 2.98,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 4.725,
+     "V_mean": 5.676,
+     "sat_mean": 0.207
+    },
+    "right_knee": {
+     "V_min": 4.629,
+     "V_mean": 5.691,
+     "sat_mean": 0.155
+    }
+   },
+   "pack": {
+    "i_mean": 4.892,
+    "i_rms": 5.609,
+    "i_max": 13.252,
+    "i_max_100ms": 11.578,
+    "v_term_mean": 6.445,
+    "v_term_min": 6.275,
+    "bus_mean": 6.102,
+    "bus_min": 5.344,
+    "bec_out_mean": 5.786,
+    "bec_out_min": 4.997,
+    "bec_in_min": 5.297,
+    "bec_out_pct_below_6V": 97.32
+   },
+   "wall_s": 0.8
+  },
+  {
+   "name": "end of discharge",
+   "corner": "high-side",
+   "label": "sim pass only",
+   "falls_s": [
+    2.96
+   ],
+   "dur_s": 2.96,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 4.347,
+     "V_mean": 5.5,
+     "sat_mean": 0.207
+    },
+    "right_knee": {
+     "V_min": 4.207,
+     "V_mean": 5.528,
+     "sat_mean": 0.156
+    }
+   },
+   "pack": {
+    "i_mean": 4.834,
+    "i_rms": 5.5,
+    "i_max": 12.729,
+    "i_max_100ms": 10.884,
+    "v_term_mean": 6.446,
+    "v_term_min": 6.283,
+    "bus_mean": 6.01,
+    "bus_min": 5.135,
+    "bec_out_mean": 5.695,
+    "bec_out_min": 4.789,
+    "bec_in_min": 5.089,
+    "bec_out_pct_below_6V": 98.31
+   },
+   "wall_s": 0.7
+  },
+  {
+   "name": "hops 22 plus short 16 AWG knee star",
+   "corner": "typical",
+   "label": "sim pass only",
+   "falls_s": [
+    3.56
+   ],
+   "dur_s": 3.56,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 6.093,
+     "V_mean": 7.022,
+     "sat_mean": 0.174
+    },
+    "right_knee": {
+     "V_min": 6.087,
+     "V_mean": 7.025,
+     "sat_mean": 0.202
+    }
+   },
+   "pack": {
+    "i_mean": 5.646,
+    "i_rms": 6.969,
+    "i_max": 17.12,
+    "i_max_100ms": 15.038,
+    "v_term_mean": 8.168,
+    "v_term_min": 7.872,
+    "bus_mean": 7.771,
+    "bus_min": 6.669,
+    "bec_out_mean": 7.105,
+    "bec_out_min": 6.306,
+    "bec_in_min": 6.606,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "wall_s": 0.8
+  },
+  {
+   "name": "hops 22 plus short 16 AWG knee star",
+   "corner": "high-side",
+   "label": "sim pass only",
+   "falls_s": [
+    3.5
+   ],
+   "dur_s": 3.5,
+   "track_lin": null,
+   "vx_m_s": null,
+   "knees": {
+    "left_knee": {
+     "V_min": 5.395,
+     "V_mean": 6.895,
+     "sat_mean": 0.236
+    },
+    "right_knee": {
+     "V_min": 5.477,
+     "V_mean": 6.907,
+     "sat_mean": 0.195
+    }
+   },
+   "pack": {
+    "i_mean": 5.771,
+    "i_rms": 7.187,
+    "i_max": 18.283,
+    "i_max_100ms": 15.626,
+    "v_term_mean": 8.165,
+    "v_term_min": 7.842,
+    "bus_mean": 7.644,
+    "bus_min": 6.193,
+    "bec_out_mean": 7.021,
+    "bec_out_min": 5.825,
+    "bec_in_min": 6.125,
+    "bec_out_pct_below_6V": 0.69
+   },
+   "wall_s": 0.7
+  }
+ ]
+}

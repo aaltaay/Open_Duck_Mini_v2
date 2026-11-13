@@ -1,0 +1,2047 @@
+{
+ "label": "sim pass only",
+ "tool": "altaay_lab/twin/thermal/twin_thermal.py simulate(), P45B constants from gate_p45b.py",
+ "charger_W": [
+  2.3,
+  3.5
+ ],
+ "charger_source": "circuitry/CHARGER_BOARD.md calc only, 9.5 V times 1.00 A at a 7.2 V and a 6.0 V pack",
+ "guard": "software/knee_heat.py stop 55 C, restart 45 C, torque off",
+ "closed_shell": "no G_vent term; the thermal model already has no air exchange through the leg and neck openings",
+ "pi": "chip temperature is BLOCKER. Head air is the 5 V branch node, not the chip.",
+ "winding_note": "The winding node is the model's 2.5 J/K guess. Do not read it as a measured copper temperature.",
+ "check_25C": {
+  "minutes_to_60C": 3.33,
+  "body_max_C": 94.67,
+  "reading_max_C": 102.36,
+  "published_min": 3.33,
+  "published_body": 94.67,
+  "ok": true
+ },
+ "walks": [
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 42.48,
+     "body_max_C": 42.33,
+     "winding_max_C": 43.8,
+     "reading_end_C": 42.46,
+     "body_end_C": 42.31,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 31.28,
+     "body_max_C": 30.68,
+     "winding_max_C": 36.79,
+     "reading_end_C": 28.57,
+     "body_end_C": 28.22,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 45.57,
+     "body_max_C": 43.84,
+     "winding_max_C": 61.37,
+     "reading_end_C": 44.51,
+     "body_end_C": 42.93,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 89.3,
+     "body_max_C": 82.82,
+     "winding_max_C": 148.27,
+     "reading_end_C": 77.41,
+     "body_end_C": 72.53,
+     "minutes_to_55C": 3.67,
+     "minutes_to_60C": 4.33,
+     "minutes_to_70C": 6.17
+    },
+    "left_ankle": {
+     "reading_max_C": 42.58,
+     "body_max_C": 40.96,
+     "winding_max_C": 57.26,
+     "reading_end_C": 41.47,
+     "body_end_C": 40.01,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 43.49,
+     "body_max_C": 43.28,
+     "winding_max_C": 45.39,
+     "reading_end_C": 43.48,
+     "body_end_C": 43.27,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 39.4,
+     "body_max_C": 38.21,
+     "winding_max_C": 50.27,
+     "reading_end_C": 34.94,
+     "body_end_C": 34.18,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 38.88,
+     "body_max_C": 37.76,
+     "winding_max_C": 49.18,
+     "reading_end_C": 37.49,
+     "body_end_C": 36.5,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 44.67,
+     "body_max_C": 43.93,
+     "winding_max_C": 51.59,
+     "reading_end_C": 43.85,
+     "body_end_C": 43.24,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 42.95,
+     "body_max_C": 42.78,
+     "winding_max_C": 44.62,
+     "reading_end_C": 42.93,
+     "body_end_C": 42.77,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 30.28,
+     "body_max_C": 29.77,
+     "winding_max_C": 35.01,
+     "reading_end_C": 29.57,
+     "body_end_C": 29.13,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 38.11,
+     "body_max_C": 36.99,
+     "winding_max_C": 48.33,
+     "reading_end_C": 37.9,
+     "body_end_C": 36.83,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 99.26,
+     "body_max_C": 91.66,
+     "winding_max_C": 168.53,
+     "reading_end_C": 90.09,
+     "body_end_C": 83.77,
+     "minutes_to_55C": 3.17,
+     "minutes_to_60C": 3.67,
+     "minutes_to_70C": 5.0
+    },
+    "right_ankle": {
+     "reading_max_C": 42.98,
+     "body_max_C": 41.33,
+     "winding_max_C": 58.06,
+     "reading_end_C": 40.17,
+     "body_end_C": 38.84,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 46.78,
+   "cells_end_C": 46.78,
+   "trunk_air_max_C": 38.46,
+   "trunk_air_end_C": 38.46,
+   "trunk_wall_max_C": 29.39,
+   "trunk_wall_end_C": 29.39,
+   "head_air_max_C": 30.99,
+   "head_air_end_C": 30.98,
+   "bec_case_max_C": 108.63,
+   "bec_case_end_C": 100.73,
+   "switch_max_C": 76.53,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 1.0,
+   "hottest": {
+    "name": "right_knee",
+    "C": 168.53,
+    "kind": "winding"
+   },
+   "room_C": 22.0,
+   "minutes": 40.0,
+   "r_loop_ohm": 2.63,
+   "mode": "walk_backlash_p45b"
+  },
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 52.36,
+     "body_max_C": 52.21,
+     "winding_max_C": 53.74,
+     "reading_end_C": 52.34,
+     "body_end_C": 52.19,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 41.31,
+     "body_max_C": 40.69,
+     "winding_max_C": 47.05,
+     "reading_end_C": 38.52,
+     "body_end_C": 38.15,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 55.67,
+     "body_max_C": 53.87,
+     "winding_max_C": 72.15,
+     "reading_end_C": 54.52,
+     "body_end_C": 52.89,
+     "minutes_to_55C": 16.0,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 99.58,
+     "body_max_C": 92.88,
+     "winding_max_C": 160.84,
+     "reading_end_C": 87.3,
+     "body_end_C": 82.26,
+     "minutes_to_55C": 2.33,
+     "minutes_to_60C": 2.83,
+     "minutes_to_70C": 4.17
+    },
+    "left_ankle": {
+     "reading_max_C": 52.65,
+     "body_max_C": 50.98,
+     "winding_max_C": 67.92,
+     "reading_end_C": 51.48,
+     "body_end_C": 49.97,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 53.33,
+     "body_max_C": 53.11,
+     "winding_max_C": 55.3,
+     "reading_end_C": 53.32,
+     "body_end_C": 53.1,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 49.42,
+     "body_max_C": 48.18,
+     "winding_max_C": 60.76,
+     "reading_end_C": 44.82,
+     "body_end_C": 44.04,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 48.87,
+     "body_max_C": 47.7,
+     "winding_max_C": 59.58,
+     "reading_end_C": 47.4,
+     "body_end_C": 46.38,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 54.6,
+     "body_max_C": 53.82,
+     "winding_max_C": 61.77,
+     "reading_end_C": 53.66,
+     "body_end_C": 53.03,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 52.82,
+     "body_max_C": 52.65,
+     "winding_max_C": 54.61,
+     "reading_end_C": 52.81,
+     "body_end_C": 52.64,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 40.28,
+     "body_max_C": 39.75,
+     "winding_max_C": 45.19,
+     "reading_end_C": 39.54,
+     "body_end_C": 39.08,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 48.14,
+     "body_max_C": 46.98,
+     "winding_max_C": 58.78,
+     "reading_end_C": 47.91,
+     "body_end_C": 46.79,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 109.52,
+     "body_max_C": 101.63,
+     "winding_max_C": 181.42,
+     "reading_end_C": 99.92,
+     "body_end_C": 93.41,
+     "minutes_to_55C": 2.0,
+     "minutes_to_60C": 2.5,
+     "minutes_to_70C": 3.5
+    },
+    "right_ankle": {
+     "reading_max_C": 53.08,
+     "body_max_C": 51.37,
+     "winding_max_C": 68.81,
+     "reading_end_C": 50.16,
+     "body_end_C": 48.79,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 56.38,
+   "cells_end_C": 56.38,
+   "trunk_air_max_C": 48.34,
+   "trunk_air_end_C": 48.34,
+   "trunk_wall_max_C": 39.17,
+   "trunk_wall_end_C": 39.17,
+   "head_air_max_C": 40.95,
+   "head_air_end_C": 40.93,
+   "bec_case_max_C": 117.09,
+   "bec_case_end_C": 109.27,
+   "switch_max_C": 86.42,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 1.0,
+   "hottest": {
+    "name": "right_knee",
+    "C": 181.42,
+    "kind": "winding"
+   },
+   "room_C": 32.0,
+   "minutes": 40.0,
+   "r_loop_ohm": 2.63,
+   "mode": "walk_backlash_p45b"
+  }
+ ],
+ "duties": [
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 34.46,
+     "body_max_C": 34.41,
+     "winding_max_C": 35.44,
+     "reading_end_C": 34.46,
+     "body_end_C": 34.38,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 28.02,
+     "body_max_C": 27.54,
+     "winding_max_C": 33.2,
+     "reading_end_C": 27.84,
+     "body_end_C": 27.42,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 34.0,
+     "body_max_C": 32.76,
+     "winding_max_C": 47.82,
+     "reading_end_C": 33.65,
+     "body_end_C": 32.55,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 51.88,
+     "body_max_C": 47.68,
+     "winding_max_C": 103.51,
+     "reading_end_C": 50.93,
+     "body_end_C": 47.15,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_ankle": {
+     "reading_max_C": 33.0,
+     "body_max_C": 31.79,
+     "winding_max_C": 46.45,
+     "reading_end_C": 32.65,
+     "body_end_C": 31.58,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 34.87,
+     "body_max_C": 34.75,
+     "winding_max_C": 36.88,
+     "reading_end_C": 34.86,
+     "body_end_C": 34.7,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 30.99,
+     "body_max_C": 30.12,
+     "winding_max_C": 40.84,
+     "reading_end_C": 30.78,
+     "body_end_C": 30.01,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 30.46,
+     "body_max_C": 29.68,
+     "winding_max_C": 39.29,
+     "reading_end_C": 30.27,
+     "body_end_C": 29.58,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 37.76,
+     "body_max_C": 37.2,
+     "winding_max_C": 43.93,
+     "reading_end_C": 37.65,
+     "body_end_C": 37.16,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 34.79,
+     "body_max_C": 34.71,
+     "winding_max_C": 36.2,
+     "reading_end_C": 34.79,
+     "body_end_C": 34.68,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 27.42,
+     "body_max_C": 27.02,
+     "winding_max_C": 31.71,
+     "reading_end_C": 27.25,
+     "body_end_C": 26.91,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 30.46,
+     "body_max_C": 29.69,
+     "winding_max_C": 38.92,
+     "reading_end_C": 30.21,
+     "body_end_C": 29.53,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 55.15,
+     "body_max_C": 50.39,
+     "winding_max_C": 114.45,
+     "reading_end_C": 54.08,
+     "body_end_C": 49.8,
+     "minutes_to_55C": 23.83,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_ankle": {
+     "reading_max_C": 33.32,
+     "body_max_C": 32.07,
+     "winding_max_C": 47.32,
+     "reading_end_C": 32.97,
+     "body_end_C": 31.86,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 35.77,
+   "cells_end_C": 35.77,
+   "trunk_air_max_C": 32.68,
+   "trunk_air_end_C": 32.38,
+   "trunk_wall_max_C": 26.08,
+   "trunk_wall_end_C": 26.08,
+   "head_air_max_C": 30.55,
+   "head_air_end_C": 30.52,
+   "bec_case_max_C": 107.92,
+   "bec_case_end_C": 40.7,
+   "switch_max_C": 68.67,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 0.3241,
+   "hottest": {
+    "name": "right_knee",
+    "C": 114.45,
+    "kind": "winding"
+   },
+   "room_C": 22.0,
+   "minutes": 90.0,
+   "mode": "duty_55_45_torque_off",
+   "walk_minutes": 29.17,
+   "held_right_knee_A": 1.447,
+   "held_pack_rms_A": 5.638
+  },
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 41.56,
+     "body_max_C": 41.54,
+     "winding_max_C": 42.48,
+     "reading_end_C": 41.56,
+     "body_end_C": 41.52,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 36.84,
+     "body_max_C": 36.47,
+     "winding_max_C": 41.96,
+     "reading_end_C": 36.59,
+     "body_end_C": 36.4,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 40.9,
+     "body_max_C": 39.9,
+     "winding_max_C": 54.39,
+     "reading_end_C": 40.28,
+     "body_end_C": 39.79,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 52.99,
+     "body_max_C": 49.59,
+     "winding_max_C": 103.42,
+     "reading_end_C": 50.99,
+     "body_end_C": 49.35,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_ankle": {
+     "reading_max_C": 40.21,
+     "body_max_C": 39.23,
+     "winding_max_C": 53.35,
+     "reading_end_C": 39.61,
+     "body_end_C": 39.12,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 41.7,
+     "body_max_C": 41.66,
+     "winding_max_C": 43.65,
+     "reading_end_C": 41.7,
+     "body_end_C": 41.63,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 38.76,
+     "body_max_C": 38.04,
+     "winding_max_C": 48.41,
+     "reading_end_C": 38.33,
+     "body_end_C": 37.98,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 38.41,
+     "body_max_C": 37.76,
+     "winding_max_C": 47.06,
+     "reading_end_C": 38.03,
+     "body_end_C": 37.71,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 45.78,
+     "body_max_C": 45.32,
+     "winding_max_C": 51.83,
+     "reading_end_C": 45.52,
+     "body_end_C": 45.3,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 41.75,
+     "body_max_C": 41.72,
+     "winding_max_C": 43.11,
+     "reading_end_C": 41.75,
+     "body_end_C": 41.7,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 36.44,
+     "body_max_C": 36.13,
+     "winding_max_C": 40.67,
+     "reading_end_C": 36.22,
+     "body_end_C": 36.06,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 38.51,
+     "body_max_C": 37.89,
+     "winding_max_C": 46.83,
+     "reading_end_C": 38.11,
+     "body_end_C": 37.81,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 55.17,
+     "body_max_C": 51.33,
+     "winding_max_C": 112.65,
+     "reading_end_C": 52.92,
+     "body_end_C": 51.07,
+     "minutes_to_55C": 12.17,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_ankle": {
+     "reading_max_C": 40.44,
+     "body_max_C": 39.42,
+     "winding_max_C": 54.09,
+     "reading_end_C": 39.81,
+     "body_end_C": 39.31,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 40.64,
+   "cells_end_C": 40.61,
+   "trunk_air_max_C": 40.3,
+   "trunk_air_end_C": 39.53,
+   "trunk_wall_max_C": 34.81,
+   "trunk_wall_end_C": 34.81,
+   "head_air_max_C": 40.29,
+   "head_air_end_C": 40.26,
+   "bec_case_max_C": 114.35,
+   "bec_case_end_C": 47.69,
+   "switch_max_C": 76.28,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 0.1891,
+   "hottest": {
+    "name": "bec_case",
+    "C": 114.35,
+    "kind": "part"
+   },
+   "room_C": 32.0,
+   "minutes": 90.0,
+   "mode": "duty_55_45_torque_off",
+   "walk_minutes": 17.02,
+   "held_right_knee_A": 1.447,
+   "held_pack_rms_A": 5.638
+  }
+ ],
+ "sits": [
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 28.03,
+     "body_max_C": 28.03,
+     "winding_max_C": 28.03,
+     "reading_end_C": 28.03,
+     "body_end_C": 28.03,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 24.77,
+     "body_max_C": 24.77,
+     "winding_max_C": 24.77,
+     "reading_end_C": 24.77,
+     "body_end_C": 24.77,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 24.87,
+     "body_max_C": 24.87,
+     "winding_max_C": 24.87,
+     "reading_end_C": 24.87,
+     "body_end_C": 24.87,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 24.6,
+     "body_max_C": 24.6,
+     "winding_max_C": 24.6,
+     "reading_end_C": 24.6,
+     "body_end_C": 24.6,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_ankle": {
+     "reading_max_C": 24.65,
+     "body_max_C": 24.65,
+     "winding_max_C": 24.65,
+     "reading_end_C": 24.65,
+     "body_end_C": 24.65,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 27.73,
+     "body_max_C": 27.73,
+     "winding_max_C": 27.73,
+     "reading_end_C": 27.73,
+     "body_end_C": 27.73,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 24.59,
+     "body_max_C": 24.59,
+     "winding_max_C": 24.59,
+     "reading_end_C": 24.59,
+     "body_end_C": 24.59,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 24.63,
+     "body_max_C": 24.63,
+     "winding_max_C": 24.63,
+     "reading_end_C": 24.63,
+     "body_end_C": 24.63,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 32.9,
+     "body_max_C": 32.9,
+     "winding_max_C": 32.9,
+     "reading_end_C": 32.9,
+     "body_end_C": 32.9,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 28.02,
+     "body_max_C": 28.02,
+     "winding_max_C": 28.02,
+     "reading_end_C": 28.02,
+     "body_end_C": 28.02,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 24.78,
+     "body_max_C": 24.78,
+     "winding_max_C": 24.78,
+     "reading_end_C": 24.78,
+     "body_end_C": 24.78,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 24.87,
+     "body_max_C": 24.87,
+     "winding_max_C": 24.87,
+     "reading_end_C": 24.87,
+     "body_end_C": 24.87,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 24.6,
+     "body_max_C": 24.6,
+     "winding_max_C": 24.6,
+     "reading_end_C": 24.6,
+     "body_end_C": 24.6,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_ankle": {
+     "reading_max_C": 24.65,
+     "body_max_C": 24.65,
+     "winding_max_C": 24.65,
+     "reading_end_C": 24.65,
+     "body_end_C": 24.65,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 24.08,
+   "cells_end_C": 24.08,
+   "trunk_air_max_C": 25.07,
+   "trunk_air_end_C": 25.07,
+   "trunk_wall_max_C": 23.3,
+   "trunk_wall_end_C": 23.3,
+   "head_air_max_C": 30.23,
+   "head_air_end_C": 30.23,
+   "bec_case_max_C": 33.56,
+   "bec_case_end_C": 33.56,
+   "switch_max_C": 25.07,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 0.0,
+   "hottest": {
+    "name": "bec_case",
+    "C": 33.56,
+    "kind": "part"
+   },
+   "room_C": 22.0,
+   "charger_W": 0.0,
+   "charge_A": 0.0,
+   "mode": "idle_torque_off",
+   "hours": 6.0
+  },
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 32.54,
+     "body_max_C": 32.54,
+     "winding_max_C": 32.54,
+     "reading_end_C": 32.54,
+     "body_end_C": 32.54,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 30.25,
+     "body_max_C": 29.93,
+     "winding_max_C": 33.13,
+     "reading_end_C": 30.25,
+     "body_end_C": 29.93,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 25.03,
+     "body_max_C": 25.02,
+     "winding_max_C": 25.12,
+     "reading_end_C": 25.03,
+     "body_end_C": 25.02,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 38.76,
+     "body_max_C": 37.81,
+     "winding_max_C": 47.38,
+     "reading_end_C": 38.76,
+     "body_end_C": 37.81,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_ankle": {
+     "reading_max_C": 24.63,
+     "body_max_C": 24.63,
+     "winding_max_C": 24.63,
+     "reading_end_C": 24.63,
+     "body_end_C": 24.63,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 32.25,
+     "body_max_C": 32.25,
+     "winding_max_C": 32.25,
+     "reading_end_C": 32.25,
+     "body_end_C": 32.25,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 24.9,
+     "body_max_C": 24.88,
+     "winding_max_C": 25.08,
+     "reading_end_C": 24.9,
+     "body_end_C": 24.88,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 24.62,
+     "body_max_C": 24.62,
+     "winding_max_C": 24.62,
+     "reading_end_C": 24.62,
+     "body_end_C": 24.62,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 32.88,
+     "body_max_C": 32.88,
+     "winding_max_C": 32.88,
+     "reading_end_C": 32.88,
+     "body_end_C": 32.88,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 32.53,
+     "body_max_C": 32.53,
+     "winding_max_C": 32.53,
+     "reading_end_C": 32.53,
+     "body_end_C": 32.53,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 31.08,
+     "body_max_C": 30.7,
+     "winding_max_C": 34.44,
+     "reading_end_C": 31.08,
+     "body_end_C": 30.7,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 25.21,
+     "body_max_C": 25.19,
+     "winding_max_C": 25.39,
+     "reading_end_C": 25.21,
+     "body_end_C": 25.19,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 34.0,
+     "body_max_C": 33.39,
+     "winding_max_C": 39.52,
+     "reading_end_C": 34.0,
+     "body_end_C": 33.39,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_ankle": {
+     "reading_max_C": 25.3,
+     "body_max_C": 25.26,
+     "winding_max_C": 25.66,
+     "reading_end_C": 25.3,
+     "body_end_C": 25.26,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 32.29,
+   "cells_end_C": 32.29,
+   "trunk_air_max_C": 29.68,
+   "trunk_air_end_C": 29.68,
+   "trunk_wall_max_C": 25.51,
+   "trunk_wall_end_C": 25.51,
+   "head_air_max_C": 30.23,
+   "head_air_end_C": 30.23,
+   "bec_case_max_C": 60.89,
+   "bec_case_end_C": 60.89,
+   "switch_max_C": 35.27,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 0.0,
+   "hottest": {
+    "name": "bec_case",
+    "C": 60.89,
+    "kind": "part"
+   },
+   "room_C": 22.0,
+   "mode": "idle_torque_on",
+   "hours": 3.0,
+   "P_stand_W": 4.44,
+   "P_back_ref_W": 23.66,
+   "pack_rms_A": 2.26,
+   "bec_loss_W": 1.76
+  },
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 33.8,
+     "body_max_C": 33.8,
+     "winding_max_C": 33.8,
+     "reading_end_C": 33.8,
+     "body_end_C": 33.8,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 24.77,
+     "body_max_C": 24.77,
+     "winding_max_C": 24.77,
+     "reading_end_C": 24.77,
+     "body_end_C": 24.77,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 24.87,
+     "body_max_C": 24.87,
+     "winding_max_C": 24.87,
+     "reading_end_C": 24.87,
+     "body_end_C": 24.87,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 24.6,
+     "body_max_C": 24.6,
+     "winding_max_C": 24.6,
+     "reading_end_C": 24.6,
+     "body_end_C": 24.6,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_ankle": {
+     "reading_max_C": 24.65,
+     "body_max_C": 24.65,
+     "winding_max_C": 24.65,
+     "reading_end_C": 24.65,
+     "body_end_C": 24.65,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 33.51,
+     "body_max_C": 33.51,
+     "winding_max_C": 33.51,
+     "reading_end_C": 33.51,
+     "body_end_C": 33.51,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 24.59,
+     "body_max_C": 24.59,
+     "winding_max_C": 24.59,
+     "reading_end_C": 24.59,
+     "body_end_C": 24.59,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 24.63,
+     "body_max_C": 24.63,
+     "winding_max_C": 24.63,
+     "reading_end_C": 24.63,
+     "body_end_C": 24.63,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 32.9,
+     "body_max_C": 32.9,
+     "winding_max_C": 32.9,
+     "reading_end_C": 32.9,
+     "body_end_C": 32.9,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 33.79,
+     "body_max_C": 33.79,
+     "winding_max_C": 33.79,
+     "reading_end_C": 33.79,
+     "body_end_C": 33.79,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 24.78,
+     "body_max_C": 24.78,
+     "winding_max_C": 24.78,
+     "reading_end_C": 24.78,
+     "body_end_C": 24.78,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 24.87,
+     "body_max_C": 24.87,
+     "winding_max_C": 24.87,
+     "reading_end_C": 24.87,
+     "body_end_C": 24.87,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 24.6,
+     "body_max_C": 24.6,
+     "winding_max_C": 24.6,
+     "reading_end_C": 24.6,
+     "body_end_C": 24.6,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_ankle": {
+     "reading_max_C": 24.65,
+     "body_max_C": 24.65,
+     "winding_max_C": 24.65,
+     "reading_end_C": 24.65,
+     "body_end_C": 24.65,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 29.31,
+   "cells_end_C": 29.31,
+   "trunk_air_max_C": 30.92,
+   "trunk_air_end_C": 30.92,
+   "trunk_wall_max_C": 26.09,
+   "trunk_wall_end_C": 26.09,
+   "head_air_max_C": 30.23,
+   "head_air_end_C": 30.23,
+   "bec_case_max_C": 39.28,
+   "bec_case_end_C": 39.28,
+   "switch_max_C": 30.92,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 0.0,
+   "hottest": {
+    "name": "bec_case",
+    "C": 39.28,
+    "kind": "part"
+   },
+   "room_C": 22.0,
+   "charger_W": 2.3,
+   "charge_A": 1.0,
+   "mode": "charge_7v2",
+   "hours": 6.0
+  },
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 36.45,
+     "body_max_C": 36.45,
+     "winding_max_C": 36.45,
+     "reading_end_C": 36.45,
+     "body_end_C": 36.45,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 24.77,
+     "body_max_C": 24.77,
+     "winding_max_C": 24.77,
+     "reading_end_C": 24.77,
+     "body_end_C": 24.77,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 24.87,
+     "body_max_C": 24.87,
+     "winding_max_C": 24.87,
+     "reading_end_C": 24.87,
+     "body_end_C": 24.87,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 24.6,
+     "body_max_C": 24.6,
+     "winding_max_C": 24.6,
+     "reading_end_C": 24.6,
+     "body_end_C": 24.6,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_ankle": {
+     "reading_max_C": 24.65,
+     "body_max_C": 24.65,
+     "winding_max_C": 24.65,
+     "reading_end_C": 24.65,
+     "body_end_C": 24.65,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 36.16,
+     "body_max_C": 36.16,
+     "winding_max_C": 36.16,
+     "reading_end_C": 36.16,
+     "body_end_C": 36.16,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 24.59,
+     "body_max_C": 24.59,
+     "winding_max_C": 24.59,
+     "reading_end_C": 24.59,
+     "body_end_C": 24.59,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 24.63,
+     "body_max_C": 24.63,
+     "winding_max_C": 24.63,
+     "reading_end_C": 24.63,
+     "body_end_C": 24.63,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 32.9,
+     "body_max_C": 32.9,
+     "winding_max_C": 32.9,
+     "reading_end_C": 32.9,
+     "body_end_C": 32.9,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 36.44,
+     "body_max_C": 36.44,
+     "winding_max_C": 36.44,
+     "reading_end_C": 36.44,
+     "body_end_C": 36.44,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 24.78,
+     "body_max_C": 24.78,
+     "winding_max_C": 24.78,
+     "reading_end_C": 24.78,
+     "body_end_C": 24.78,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 24.87,
+     "body_max_C": 24.87,
+     "winding_max_C": 24.87,
+     "reading_end_C": 24.87,
+     "body_end_C": 24.87,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 24.6,
+     "body_max_C": 24.6,
+     "winding_max_C": 24.6,
+     "reading_end_C": 24.6,
+     "body_end_C": 24.6,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_ankle": {
+     "reading_max_C": 24.65,
+     "body_max_C": 24.65,
+     "winding_max_C": 24.65,
+     "reading_end_C": 24.65,
+     "body_end_C": 24.65,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 31.3,
+   "cells_end_C": 31.3,
+   "trunk_air_max_C": 33.61,
+   "trunk_air_end_C": 33.61,
+   "trunk_wall_max_C": 27.41,
+   "trunk_wall_end_C": 27.41,
+   "head_air_max_C": 30.23,
+   "head_air_end_C": 30.23,
+   "bec_case_max_C": 41.9,
+   "bec_case_end_C": 41.9,
+   "switch_max_C": 33.61,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 0.0,
+   "hottest": {
+    "name": "bec_case",
+    "C": 41.9,
+    "kind": "part"
+   },
+   "room_C": 22.0,
+   "charger_W": 3.5,
+   "charge_A": 1.0,
+   "mode": "charge_6v0",
+   "hours": 6.0
+  },
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 37.83,
+     "body_max_C": 37.83,
+     "winding_max_C": 37.83,
+     "reading_end_C": 37.83,
+     "body_end_C": 37.83,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 34.64,
+     "body_max_C": 34.64,
+     "winding_max_C": 34.64,
+     "reading_end_C": 34.64,
+     "body_end_C": 34.64,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 34.73,
+     "body_max_C": 34.73,
+     "winding_max_C": 34.73,
+     "reading_end_C": 34.73,
+     "body_end_C": 34.73,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 34.48,
+     "body_max_C": 34.48,
+     "winding_max_C": 34.48,
+     "reading_end_C": 34.48,
+     "body_end_C": 34.48,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_ankle": {
+     "reading_max_C": 34.52,
+     "body_max_C": 34.52,
+     "winding_max_C": 34.52,
+     "reading_end_C": 34.52,
+     "body_end_C": 34.52,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 37.54,
+     "body_max_C": 37.54,
+     "winding_max_C": 37.54,
+     "reading_end_C": 37.54,
+     "body_end_C": 37.54,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 34.46,
+     "body_max_C": 34.46,
+     "winding_max_C": 34.46,
+     "reading_end_C": 34.46,
+     "body_end_C": 34.46,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 34.51,
+     "body_max_C": 34.51,
+     "winding_max_C": 34.51,
+     "reading_end_C": 34.51,
+     "body_end_C": 34.51,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 42.63,
+     "body_max_C": 42.63,
+     "winding_max_C": 42.63,
+     "reading_end_C": 42.63,
+     "body_end_C": 42.63,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 37.82,
+     "body_max_C": 37.82,
+     "winding_max_C": 37.82,
+     "reading_end_C": 37.82,
+     "body_end_C": 37.82,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 34.65,
+     "body_max_C": 34.65,
+     "winding_max_C": 34.65,
+     "reading_end_C": 34.65,
+     "body_end_C": 34.65,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 34.73,
+     "body_max_C": 34.73,
+     "winding_max_C": 34.73,
+     "reading_end_C": 34.73,
+     "body_end_C": 34.73,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 34.48,
+     "body_max_C": 34.48,
+     "winding_max_C": 34.48,
+     "reading_end_C": 34.48,
+     "body_end_C": 34.48,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_ankle": {
+     "reading_max_C": 34.52,
+     "body_max_C": 34.52,
+     "winding_max_C": 34.52,
+     "reading_end_C": 34.52,
+     "body_end_C": 34.52,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 33.97,
+   "cells_end_C": 33.97,
+   "trunk_air_max_C": 35.01,
+   "trunk_air_end_C": 35.01,
+   "trunk_wall_max_C": 33.23,
+   "trunk_wall_end_C": 33.23,
+   "head_air_max_C": 40.09,
+   "head_air_end_C": 40.09,
+   "bec_case_max_C": 43.27,
+   "bec_case_end_C": 43.27,
+   "switch_max_C": 35.01,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 0.0,
+   "hottest": {
+    "name": "bec_case",
+    "C": 43.27,
+    "kind": "part"
+   },
+   "room_C": 32.0,
+   "charger_W": 0.0,
+   "charge_A": 0.0,
+   "mode": "idle_torque_off",
+   "hours": 6.0
+  },
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 42.25,
+     "body_max_C": 42.25,
+     "winding_max_C": 42.24,
+     "reading_end_C": 42.25,
+     "body_end_C": 42.25,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 40.1,
+     "body_max_C": 39.77,
+     "winding_max_C": 43.09,
+     "reading_end_C": 40.1,
+     "body_end_C": 39.77,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 34.89,
+     "body_max_C": 34.88,
+     "winding_max_C": 34.99,
+     "reading_end_C": 34.89,
+     "body_end_C": 34.88,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 48.61,
+     "body_max_C": 47.62,
+     "winding_max_C": 57.54,
+     "reading_end_C": 48.61,
+     "body_end_C": 47.62,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_ankle": {
+     "reading_max_C": 34.5,
+     "body_max_C": 34.5,
+     "winding_max_C": 34.5,
+     "reading_end_C": 34.5,
+     "body_end_C": 34.5,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 41.97,
+     "body_max_C": 41.97,
+     "winding_max_C": 41.97,
+     "reading_end_C": 41.97,
+     "body_end_C": 41.97,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 34.77,
+     "body_max_C": 34.75,
+     "winding_max_C": 34.96,
+     "reading_end_C": 34.77,
+     "body_end_C": 34.75,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 34.49,
+     "body_max_C": 34.49,
+     "winding_max_C": 34.49,
+     "reading_end_C": 34.49,
+     "body_end_C": 34.49,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 42.61,
+     "body_max_C": 42.61,
+     "winding_max_C": 42.61,
+     "reading_end_C": 42.61,
+     "body_end_C": 42.61,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 42.24,
+     "body_max_C": 42.24,
+     "winding_max_C": 42.24,
+     "reading_end_C": 42.24,
+     "body_end_C": 42.24,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 40.93,
+     "body_max_C": 40.54,
+     "winding_max_C": 44.42,
+     "reading_end_C": 40.93,
+     "body_end_C": 40.54,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 35.07,
+     "body_max_C": 35.05,
+     "winding_max_C": 35.26,
+     "reading_end_C": 35.07,
+     "body_end_C": 35.05,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 43.86,
+     "body_max_C": 43.22,
+     "winding_max_C": 49.58,
+     "reading_end_C": 43.86,
+     "body_end_C": 43.22,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_ankle": {
+     "reading_max_C": 35.17,
+     "body_max_C": 35.13,
+     "winding_max_C": 35.54,
+     "reading_end_C": 35.17,
+     "body_end_C": 35.13,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 41.84,
+   "cells_end_C": 41.84,
+   "trunk_air_max_C": 39.52,
+   "trunk_air_end_C": 39.52,
+   "trunk_wall_max_C": 35.34,
+   "trunk_wall_end_C": 35.34,
+   "head_air_max_C": 40.09,
+   "head_air_end_C": 40.09,
+   "bec_case_max_C": 70.05,
+   "bec_case_end_C": 70.05,
+   "switch_max_C": 45.11,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 0.0,
+   "hottest": {
+    "name": "bec_case",
+    "C": 70.05,
+    "kind": "part"
+   },
+   "room_C": 32.0,
+   "mode": "idle_torque_on",
+   "hours": 3.0,
+   "P_stand_W": 4.44,
+   "P_back_ref_W": 23.66,
+   "pack_rms_A": 2.26,
+   "bec_loss_W": 1.76
+  },
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 43.49,
+     "body_max_C": 43.49,
+     "winding_max_C": 43.49,
+     "reading_end_C": 43.49,
+     "body_end_C": 43.49,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 34.64,
+     "body_max_C": 34.64,
+     "winding_max_C": 34.64,
+     "reading_end_C": 34.64,
+     "body_end_C": 34.64,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 34.73,
+     "body_max_C": 34.73,
+     "winding_max_C": 34.73,
+     "reading_end_C": 34.73,
+     "body_end_C": 34.73,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 34.48,
+     "body_max_C": 34.48,
+     "winding_max_C": 34.48,
+     "reading_end_C": 34.48,
+     "body_end_C": 34.48,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_ankle": {
+     "reading_max_C": 34.52,
+     "body_max_C": 34.52,
+     "winding_max_C": 34.52,
+     "reading_end_C": 34.52,
+     "body_end_C": 34.52,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 43.21,
+     "body_max_C": 43.21,
+     "winding_max_C": 43.21,
+     "reading_end_C": 43.21,
+     "body_end_C": 43.21,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 34.46,
+     "body_max_C": 34.46,
+     "winding_max_C": 34.46,
+     "reading_end_C": 34.46,
+     "body_end_C": 34.46,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 34.51,
+     "body_max_C": 34.51,
+     "winding_max_C": 34.51,
+     "reading_end_C": 34.51,
+     "body_end_C": 34.51,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 42.63,
+     "body_max_C": 42.63,
+     "winding_max_C": 42.63,
+     "reading_end_C": 42.63,
+     "body_end_C": 42.63,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 43.48,
+     "body_max_C": 43.48,
+     "winding_max_C": 43.48,
+     "reading_end_C": 43.48,
+     "body_end_C": 43.48,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 34.65,
+     "body_max_C": 34.65,
+     "winding_max_C": 34.65,
+     "reading_end_C": 34.65,
+     "body_end_C": 34.65,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 34.73,
+     "body_max_C": 34.73,
+     "winding_max_C": 34.73,
+     "reading_end_C": 34.73,
+     "body_end_C": 34.73,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 34.48,
+     "body_max_C": 34.48,
+     "winding_max_C": 34.48,
+     "reading_end_C": 34.48,
+     "body_end_C": 34.48,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_ankle": {
+     "reading_max_C": 34.52,
+     "body_max_C": 34.52,
+     "winding_max_C": 34.52,
+     "reading_end_C": 34.52,
+     "body_end_C": 34.52,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 38.97,
+   "cells_end_C": 38.97,
+   "trunk_air_max_C": 40.75,
+   "trunk_air_end_C": 40.75,
+   "trunk_wall_max_C": 35.89,
+   "trunk_wall_end_C": 35.89,
+   "head_air_max_C": 40.09,
+   "head_air_end_C": 40.09,
+   "bec_case_max_C": 48.88,
+   "bec_case_end_C": 48.88,
+   "switch_max_C": 40.75,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 0.0,
+   "hottest": {
+    "name": "bec_case",
+    "C": 48.88,
+    "kind": "part"
+   },
+   "room_C": 32.0,
+   "charger_W": 2.3,
+   "charge_A": 1.0,
+   "mode": "charge_7v2",
+   "hours": 6.0
+  },
+  {
+   "servos": {
+    "left_hip_yaw": {
+     "reading_max_C": 46.08,
+     "body_max_C": 46.08,
+     "winding_max_C": 46.08,
+     "reading_end_C": 46.08,
+     "body_end_C": 46.08,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_roll": {
+     "reading_max_C": 34.64,
+     "body_max_C": 34.64,
+     "winding_max_C": 34.64,
+     "reading_end_C": 34.64,
+     "body_end_C": 34.64,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_hip_pitch": {
+     "reading_max_C": 34.73,
+     "body_max_C": 34.73,
+     "winding_max_C": 34.73,
+     "reading_end_C": 34.73,
+     "body_end_C": 34.73,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_knee": {
+     "reading_max_C": 34.48,
+     "body_max_C": 34.48,
+     "winding_max_C": 34.48,
+     "reading_end_C": 34.48,
+     "body_end_C": 34.48,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "left_ankle": {
+     "reading_max_C": 34.52,
+     "body_max_C": 34.52,
+     "winding_max_C": 34.52,
+     "reading_end_C": 34.52,
+     "body_end_C": 34.52,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "neck_pitch": {
+     "reading_max_C": 45.81,
+     "body_max_C": 45.81,
+     "winding_max_C": 45.81,
+     "reading_end_C": 45.81,
+     "body_end_C": 45.81,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_pitch": {
+     "reading_max_C": 34.46,
+     "body_max_C": 34.46,
+     "winding_max_C": 34.46,
+     "reading_end_C": 34.46,
+     "body_end_C": 34.46,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_yaw": {
+     "reading_max_C": 34.51,
+     "body_max_C": 34.51,
+     "winding_max_C": 34.51,
+     "reading_end_C": 34.51,
+     "body_end_C": 34.51,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "head_roll": {
+     "reading_max_C": 42.63,
+     "body_max_C": 42.63,
+     "winding_max_C": 42.63,
+     "reading_end_C": 42.63,
+     "body_end_C": 42.63,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_yaw": {
+     "reading_max_C": 46.08,
+     "body_max_C": 46.08,
+     "winding_max_C": 46.08,
+     "reading_end_C": 46.08,
+     "body_end_C": 46.08,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_roll": {
+     "reading_max_C": 34.65,
+     "body_max_C": 34.65,
+     "winding_max_C": 34.65,
+     "reading_end_C": 34.65,
+     "body_end_C": 34.65,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_hip_pitch": {
+     "reading_max_C": 34.73,
+     "body_max_C": 34.73,
+     "winding_max_C": 34.73,
+     "reading_end_C": 34.73,
+     "body_end_C": 34.73,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_knee": {
+     "reading_max_C": 34.48,
+     "body_max_C": 34.48,
+     "winding_max_C": 34.48,
+     "reading_end_C": 34.48,
+     "body_end_C": 34.48,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    },
+    "right_ankle": {
+     "reading_max_C": 34.52,
+     "body_max_C": 34.52,
+     "winding_max_C": 34.52,
+     "reading_end_C": 34.52,
+     "body_end_C": 34.52,
+     "minutes_to_55C": null,
+     "minutes_to_60C": null,
+     "minutes_to_70C": null
+    }
+   },
+   "cells_max_C": 40.87,
+   "cells_end_C": 40.87,
+   "trunk_air_max_C": 43.38,
+   "trunk_air_end_C": 43.38,
+   "trunk_wall_max_C": 37.15,
+   "trunk_wall_end_C": 37.15,
+   "head_air_max_C": 40.09,
+   "head_air_end_C": 40.09,
+   "bec_case_max_C": 51.45,
+   "bec_case_end_C": 51.45,
+   "switch_max_C": 43.38,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "walk_share": 0.0,
+   "hottest": {
+    "name": "bec_case",
+    "C": 51.45,
+    "kind": "part"
+   },
+   "room_C": 32.0,
+   "charger_W": 3.5,
+   "charge_A": 1.0,
+   "mode": "charge_6v0",
+   "hours": 6.0
+  }
+ ]
+}
