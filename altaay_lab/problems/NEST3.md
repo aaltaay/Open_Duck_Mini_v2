@@ -52,3 +52,5 @@ Not run. A paid GPU run waits on Ahmed.
 The policy was trained on servos whose no-load speed is 5.646 rad/s. The 12 V sheet is 4.717 rad/s, which is 0.835 of that (calc only). With the sheet damping, a 0.15 m/s command walks at 0.088 m/s over 60 s (sim pass only). The same policy, the same 70 g, and the same 12 V torque, with the damping left at the trained speed, walks at 0.122 m/s over 20 s (sim pass only). The difference is 0.034 m/s (calc only). That is what this policy loses to the slower sheet. It is not a retrained speed. The two windows are 60 s and 20 s.
 
 Asking the same policy for 0.088 m/s does not get 0.088 m/s back. It picks a different gait and the body makes 0.016 m/s. A retrain would teach gaits the 4.717 rad/s servo can finish, instead of a 0.15 m/s gait the servo only partly finishes. The 0.034 m/s is the gap that retraining is aimed at. The speed after a retrain was not measured.
+
+The heat of the BQ24133 at the 1.00 A used above, and the 2S fallback, is in twin/thermal/BQ24133_HEAT.md. The mat is still this one.
