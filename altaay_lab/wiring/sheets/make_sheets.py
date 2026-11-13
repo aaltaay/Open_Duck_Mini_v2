@@ -800,8 +800,13 @@ def sheet_harness(book):
                      ("joints", "joints crossed")):
         sh.text(cx[k], y0, hname, 6.8, True, GREY, z=31)
     sh.line([(X0 - 1, y0 + 2.0), (W_ - 11, y0 + 2.0)], "#90a4ae", 0.5, z=30)
-    order = sorted(net.active, key=lambda c: (["P", "SP", "SD", "D", "S"].index(
-        "SP" if c.startswith("SP") else "SD" if c.startswith("SD") else c[0]), int("".join(ch for ch in c if ch.isdigit()))))
+    _kinds = ["P", "SP", "SD", "D", "S", "C", "N"]
+
+    def _cable_sort(c):
+        kind = "SP" if c.startswith("SP") else "SD" if c.startswith("SD") else c[0]
+        return (_kinds.index(kind) if kind in _kinds else 99, int("".join(ch for ch in c if ch.isdigit()) or 0))
+
+    order = sorted(net.active, key=_cable_sort)
     pitch = 4.2
     for i, cid in enumerate(order):
         yy = y0 + 5.2 + i * pitch
@@ -810,7 +815,10 @@ def sheet_harness(book):
         ws = [w for w in net.active_wires if w["cable"] == cid]
         cuts = sorted({int(w["cut_mm"]) for w in ws if w["cut_mm"] not in (None, 0)})
         cut_t = "/".join(str(c) for c in cuts) if len(cuts) <= 3 else f"{cuts[0]} to {cuts[-1]}"
-        if any(w["cut_mm"] is None for w in ws):
+        if net.cables[cid].get("no_route"):
+            cut_t = "BLOCKER"
+            sh.drawn_cables = getattr(sh, "drawn_cables", set()) | {cid}
+        elif any(w["cut_mm"] is None for w in ws):
             cut_t = (cut_t + ", leads" if cut_t else "as shipped")
         jt = " ".join(JAB[j] for j in net.cables[cid]["joints"]) or "none"
         chip(sh, X0 + 4.5, yy, cid, 6.0)
@@ -927,7 +935,8 @@ def check_coverage(book, sheets):
         for r in sh.routes:
             if r["kind"] == "full" and sh.no not in full[r["w"]["n"]]:
                 full[r["w"]["n"]].append(sh.no)
-    missing = [w for w in net.active_wires if w["n"] not in full]
+    skip = {w["n"] for w in net.active_wires if net.cables[w["cable"]].get("no_route")}
+    missing = [w for w in net.active_wires if w["n"] not in full and w["n"] not in skip]
     if missing:
         lines = [f"  row {w['n']}: {w['cable']} {w['from']} - {w['to']}" for w in missing]
         raise SystemExit("active netlist wires not drawn in full on any wiring sheet:\n" + "\n".join(lines))
@@ -1017,8 +1026,13 @@ def write_md(book, sheets, full, sizes, n_warn):
     out.append("")
     out.append("| Cable | Wires | Sheets |")
     out.append("|---|---|---|")
-    order = sorted(net.active, key=lambda c: (["P", "SP", "SD", "D", "S"].index(
-        "SP" if c.startswith("SP") else "SD" if c.startswith("SD") else c[0]), int("".join(ch for ch in c if ch.isdigit()))))
+    _kinds = ["P", "SP", "SD", "D", "S", "C", "N"]
+
+    def _cable_sort(c):
+        kind = "SP" if c.startswith("SP") else "SD" if c.startswith("SD") else c[0]
+        return (_kinds.index(kind) if kind in _kinds else 99, int("".join(ch for ch in c if ch.isdigit()) or 0))
+
+    order = sorted(net.active, key=_cable_sort)
     for cid in order:
         ws = [w for w in net.active_wires if w["cable"] == cid]
         shs = sorted({x for w in ws for x in full[w["n"]]})

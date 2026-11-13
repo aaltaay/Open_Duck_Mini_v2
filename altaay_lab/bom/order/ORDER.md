@@ -11,7 +11,7 @@ Maker screening against restricted lists waits for altaay_lab/compliance/. That 
 ## What was reused
 
 - BOM.md, fasteners/fasteners.json, and fasteners/FASTENERS.md for the duck screws, inserts, washers, wire, and tools.
-- wiring/netlist.yaml for the duck components. Splices whose part text says solder stay on the solder line.
+- wiring/netlist.yaml for the duck components. Splices whose part text says solder stay on the solder line. G, VSW, SPV, and SPG name WAGO 221, so they are the wago line.
 - circuitry/CHARGER_BOARD.md and circuitry/charger_board.yaml for the in-duck MCP73213 board. The Adeept board is not ordered.
 - BOM.md lines 22b and 22c for the Pi-header KK 254 terminals and housings. Cable D13 in wiring/netlist.yaml is the end that already says KK 254 socket. Mini-SPOX does not cover that header.
 - altaay_lab/cad/nest_v2/ for the official nest at 190 mm: felt, foil stripes, five wells, and the cord pocket. twin/dock/nest/cad/NEST_CAD.md is the superseded spring-pin drawing. Its six extra inserts and six extra screws are not this nest.
@@ -26,7 +26,7 @@ Maker screening against restricted lists waits for altaay_lab/compliance/. That 
 - The paddle dock in twin/dock/DOCK_BOM_FULL.md. D61 replaced it. Its gate, springs, ballast, and tags are not this nest.
 - QA Technology probes, and a field of Mill-Max spring pins. D62 superseded both. The nest CAD still draws the long probes. They are not on this bill. The pin line in the BLOCKER list is the studied part, not a quantity to buy.
 - A knee servo other than the STS3215. D32 names one. The current pick for this bill is STS3215 on all 14 joints, including the two knees.
-- WAGO splices. BOM.md line 26b names them for two nodes. The netlist part text for those nodes still says solder. This bill follows the netlist and does not buy both.
+- A second splice part on the same node. G, VSW, SPV, and SPG are WAGO in the netlist. The other splices stay solder. This bill does not buy both for one node.
 - The 5 V wall supply that existed only to feed the Adeept board.
 - Test equipment TE1 to TE4. BOM.md already keeps them out of the build. Their pages were not opened today, so they are not copied here as prices.
 - Magnets: none. The flush study looked at a magnetic connector and did not pick it. fasteners.json has no magnet.
