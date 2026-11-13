@@ -29,45 +29,45 @@ RθJA is 35.7 C/W (cited, thermal information). Thermal regulation is 120 C. The
 
 ## Sit, 6 hours, torque off, three cells
 
-Sim pass only. Same trunk model as gate_p45b.py. The model hardcodes two cans, so mass and can height are scaled by 3/2 and the cell node is three P45B cans. Servo idle is 21 mA at the pack voltage of the row (the STS3215 sheet idle). The BEC loss is 0.3 V times that idle current, because the 16 V setpoint in problems/FIT3.md is above the pack. Cell I2R is three times 15 milliohm.
+Sim pass only for the shell. Same trunk model as gate_p45b.py. The model hardcodes two cans, so mass and can height are scaled by 3/2 and the cell node is three P45B cans. Servo idle is 21 mA (the STS3215 sheet). Cell I2R is three times 15 milliohm. The BEC loss is 0.3 V times the idle current.
 
-A 15 V nest feeding a BEC that is already in dropout would put about 14.7 V on the servos. The C018 page range used in the 12 V study is 4 V to 14 V. 14.7 V is outside that page, so it is not a row here.
+The docked path is not the pack. D50 and D61 feed the awake servo bus from the nest through DK6. The nest is 15.0 V. The BEC setpoint in the 3S walk is 16 V, so it cannot regulate 15 V down. The servos then see 15.0 - 0.3 = 14.7 V (calc only). The C018 page range used in the 12 V study is 4 V to 14 V. 14.7 V is outside that page. The docked thermal gate stays BLOCKER until the servo bus on the nest is inside that range. Rows that put the idle at the pack voltage are a different configuration. They do not clear this gate.
 
 The 2S check, before the three-cell scale, still matches gate_p45b.json: 3.2 W, central, 32 C, cell 40.40 C, wall 36.84 C.
 
-### Planned 1.00 A at 12.6 V (0.963 W). This is the hotter of the two planned packs.
+### Docked path: 1.00 A into a 12.6 V pack, servos at 14.7 V
 
-| Corner | Room | Cells | Trunk air | Trunk wall | Knee reading | Die, 35.7 C/W in room air | Die, 35.7 C/W in the trunk air |
-|---|---|---|---|---|---|---|---|
-| central | 25 C | 29.91 C | 30.85 C | 27.61 C | 29.25 C | 59.38 C | 65.23 C |
-| central | 32 C | 36.73 C | 37.76 C | 34.51 C | 36.12 C | 66.38 C | 72.14 C |
-| high | 25 C | 31.04 C | 33.09 C | 27.97 C | 29.65 C | 59.38 C | 67.47 C |
-| high | 32 C | 37.83 C | 40.01 C | 34.88 C | 36.5 C | 66.38 C | 74.38 C |
+Charger loss is still 0.963 W. The extra heat is the higher idle.
 
-Shell columns are sim pass only. Die columns are calc only. The trunk-air die uses the sheet's 35.7 C/W on the model's trunk air. The sheet did not measure that board in a closed trunk.
+| Corner | Room | Cells | Trunk air | Trunk wall | Knee reading |
+|---|---|---|---|---|---|
+| central | 25 C | 30.14 C | 31.17 C | 27.76 C | 29.88 C |
+| central | 32 C | 36.96 C | 38.08 C | 34.66 C | 36.73 C |
+| high | 25 C | 31.32 C | 33.52 C | 28.14 C | 30.33 C |
+| high | 32 C | 38.10 C | 40.44 C | 35.04 C | 37.17 C |
 
-At 10.8 V the loss is 0.825 W. The hottest of those eight rows is the high corner at 32 C: cells 37.31 C, wall 34.55 C, knee 35.92 C, trunk-air die 68.64 C. All below the 12.6 V row.
+Shell numbers are sim pass only. Cells stay under 60 C. The knee reading stays under 60 C. The wall stays under the 49 C PLA edge. None of that clears the gate, because 14.7 V is still outside the 4 V to 14 V page.
 
-### Does the planned 1.00 A cross a cited limit?
+### Pack-fed comparison, not the dock. 1.00 A at 12.6 V, servos at 12.6 V.
 
-| Part | Hottest planned number | Cited limit | Crosses? |
-|---|---|---|---|
-| Cells | 37.83 C | 0 C to 60 C charge, P45B version 1.2 | No |
-| Servo reading | 36.5 C | -20 C to 60 C, STS3215 A/1 item 1-2 | No |
-| Trunk air | 40.01 C | -40 C to 85 C free air, BQ24133 | No |
-| Trunk wall, the model's PLA | 34.88 C | PLA heat deflection 49 C to 57 C | No |
-| Same wall if it were PETG | 34.88 C | PETG heat deflection 62 C at 1.8 MPa | No |
-| Die on the cited board, in room air | 66.38 C | 120 C regulation, 150 C shutdown | No |
-| Die if 35.7 C/W still holds in the trunk air | 74.38 C | 120 C and 150 C | No |
-| Board copper, from ψJB | 44.3 C | PLA 49 C, if the PLA touches that copper | No |
+| Corner | Room | Cells | Trunk air | Trunk wall | Knee reading |
+|---|---|---|---|---|---|
+| central | 25 C | 29.91 C | 30.85 C | 27.61 C | 29.25 C |
+| central | 32 C | 36.73 C | 37.76 C | 34.51 C | 36.12 C |
+| high | 25 C | 31.04 C | 33.09 C | 27.97 C | 29.65 C |
+| high | 32 C | 37.83 C | 40.01 C | 34.88 C | 36.5 C |
 
-Board copper is the trunk-air die minus ψJB times the loss: 74.38 - 31.2 x 0.963 = 44.3 C (calc only). That is the sheet's junction-to-board parameter, not a thermocouple on the PLA. Felt temperature is still BLOCKER. The mat has no grade. The wall bound, 34.88 C, is under the wool type I top of 93.3 C, and this mat is not identified as that felt.
+At 10.8 V on the pack-fed rows the loss is 0.825 W. The hottest of those is the high corner at 32 C: cells 37.31 C, wall 34.55 C, knee 35.92 C.
 
-### Chip maximum, 2.50 A at 12.6 V (2.517 W). Not the planned current.
+### Die temperature is an upper bound, not a confirmed crossing
 
-Hottest row, high corner, 32 C: cells 47.38 C, wall 37.55 C, knee 36.5 C, die in room air 121.87 C, die in trunk air 136.32 C (sim pass only for the shell, calc only for the die).
+Figure 10-4 is an EVM efficiency. The loss includes the external inductor and the sense resistor. RθJA applies to heat inside the package. Putting all 0.963 W, or all 2.517 W, on 35.7 C/W overstates the junction. Those figures are upper bounds only.
 
-Cells, the knee, and the wall stay inside the limits above. The die crosses 120 C regulation on the cited board at 32 C (121.87 C) and in the trunk air (125.41 C to 136.32 C). It does not cross 150 C shutdown. Board copper at that row is 136.32 - 31.2 times 2.517 = 57.8 C (calc only), which is over the 49 C PLA edge and under the 62 C PETG edge.
+The cited in-package piece is the MOSFET conduction (SLUSAF7D: high side 80 milliohm typical and 150 milliohm max, low side 95 and 160). Duty is 12.6 / 15.0 = 0.84 (calc only). At 1.00 A that is 0.082 W typical and 0.152 W max. At 2.50 A it is 0.515 W typical and 0.948 W max. On 35.7 C/W the 0.948 W rise is 33.8 C (calc only). Switching loss inside the die is not separated on the sheet. BLOCKER for a die temperature.
+
+So the 2.50 A case does not have a confirmed 120 C crossing. The upper bound, with every converter watt in the die and the nest-fed trunk air, is 136.72 C at the high corner and 32 C. That is above 120 C and below 150 C, and it is not the junction. The FET-only rise stays under 120 C. Which one the die does is not known.
+
+Felt temperature is still BLOCKER. The mat has no grade. The docked wall, 35.04 C, is under the wool type I top of 93.3 C, and this mat is not identified as that felt.
 
 ## 2S fallback, if the pack stays two cells
 
@@ -79,6 +79,6 @@ Three ways to fix that, and which one is small enough to also finish the charge:
 
 2. Copper pour. 3.50 W stays under 150 C at 32 C only if theta is 33.7 C/W or less (calc only, (150 - 32) / 3.50). The only theta the MCP73213 sheet gives is 62 C/W. It does not publish a pour that reaches 33.7 C/W. A pour is not a cited fix.
 
-3. The same BQ24133, with CELL floating. The sheet says a floating CELL pin is 2 cells at 8.4 V. Figure 10-4 has no 9.5 V, 2-cell trace. The nearest is AVCC = 12 V, 2 cells, 0.916 at 1.00 A (chart read). Loss at 8.4 V and 1.00 A is 0.770 W (calc only). On 35.7 C/W in a 32 C room the junction is 59.5 C. Even at 85 percent, which is worse than that trace, the loss is 1.482 W and the junction is 84.9 C. Both are under 120 C and under 150 C.
+3. The same BQ24133, with CELL floating. The sheet says a floating CELL pin is 2 cells at 8.4 V. Figure 10-4 has no 9.5 V, 2-cell trace. The nearest is AVCC = 12 V, 2 cells, 0.916 at 1.00 A (chart read). Loss at 8.4 V and 1.00 A is 0.770 W (calc only). Assigning all of that to the die on 35.7 C/W in a 32 C room is an upper bound of 59.5 C. At 85 percent, which is worse than that trace, the same upper bound is 84.9 C. Both upper bounds are under 120 C and under 150 C, so this chip at 1.00 A does not cross those two lines even if every converter watt is inside the package.
 
 The smallest fix that stays under 150 C and can still charge at 1.00 A is this chip with CELL floating. It is the charger the 3S plan already names. The mat does not change.
