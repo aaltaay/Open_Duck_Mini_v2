@@ -38,12 +38,14 @@ Maker screening against restricted lists waits for altaay_lab/compliance/. That 
 These sums are calc only. They add the line_usd column. A line is in that column only when a page opened today showed a price, the part was not out of stock, and the buy quantity is known. A proposed pick is in the sum and is labeled proposed pick, not yet verified. Designed-later lines stay out.
 
 - Adafruit: $155.05
+- Amazon: $300.87
 - Bolt Depot: $11.68
 - CNC Kitchen USA: $10.90
 - CanaKit: $89.95
-- DigiKey: $40.49
+- DigiKey: $50.49
 - Horizon Hobby: $54.95
 - MatterHackers: $57.99
+- Overture: $35.98
 - Pine64: $40.98
 - Pololu: $47.64
 - Seeed Studio: $280.00
@@ -51,14 +53,14 @@ These sums are calc only. They add the line_usd column. A line is in that column
 - Tenergy: $22.99
 - illumn: $17.98
 
-Grand total of lines that can be bought today: $839.60
+Grand total of lines that can be bought today: $1186.45
 ## Filament grams
 
 Calc only. Not weighed.
 
 - Installed robot PLA is 1355.5 g (print/SLICE_SUMMARY.md total). The shin sheets in that total are 23.2 g and 22.2 g. 1355.5 minus 23.2 minus 22.2 is 1310.1 g of PLA that stays.
 - Topology deltas that stay PLA are 44.09 minus 7.48, which is 36.61 g (twin/structure/TOPOLOGY.md). The 7.48 g is the shin row, and those sheets move to PA6-CF instead. The topology shin base is 10.38 g each. The installed slice is 11.58 g each. The 36.61 g is from the other slice, added onto the installed set. It is about 3 percent of 1310 g, which matches pads on existing parts, not a new body.
-- Duck PLA after those two studies: 1310.1 plus 36.61 is 1346.71 g. The existing spare rule is 10 to 20 percent. At 20 percent, 1346.71 times 1.2 is 1616.05 g, which is under 2 kg. The buy stays 2 spools of 1 kg, the existing line. The spool page was not opened today, so the dollars are not in the total.
+- Duck PLA after those two studies: 1310.1 plus 36.61 is 1346.71 g. The existing spare rule is 10 to 20 percent. At 20 percent, 1346.71 times 1.2 is 1616.05 g, which is under 2 kg. The buy stays 2 spools of 1 kg, the existing line. The spool page was opened. Two 1 kg spools are in the total. Nest box grams are still not sliced, so whether those two spools cover the nest is still BLOCKER.
 - Nest box and lid were not sliced (NEST_CAD.md). Whether 2 spools cover them is BLOCKER. No guessed gram number is added.
 - TPU is 75.1 g (print/PRINT_PLAN.md, the D59 robot set). One 1 kg spool is the existing line. The flush wells were not re-sliced, so that delta is BLOCKER.
 - PA6-CF is 28.03 g for the drive pair plus 17.97 g for the idle pair, 46.00 g (twin/structure/shin_eye/slice.json). One 0.5 kg spool covers that. The drive sheet is the recessed web. The idle sheet is the stock shin. The spacer stays PLA. Hot tensile, wet tensile, and the printer chamber are still BLOCKER in SHIN_EYE.md. The filament is still the named material.
@@ -69,11 +71,9 @@ Duck counts are the fitted rows in fasteners/fasteners.json (CAD check only). Ne
 
 ## BLOCKER lines
 
-A line stays BLOCKER when the part is not designed yet, the count is not in the files, or no same-spec listing was opened. A proposed pick has a live price and is labeled proposed pick, not yet verified.
+A line stays BLOCKER when the part is not designed yet, the count is not in the files, the named page was unavailable, or no same-spec listing was opened. A proposed pick has a live price and is labeled proposed pick, not yet verified.
 
-- kapton: Polyimide tape, 10 mm x 33 m. out of stock
 - sdread: USB-C microSD reader. out of stock
-- solder: Solder wire, 60/40 rosin core, 0.5 mm, 50 g. out of stock
 - pin: Short-stroke spring pin for the flush mat. count is not in FLUSH_CONTACTS.md
 - adapter: Nest wall supply, 8.70 V to 10.0 V. tolerance was not opened
 - alcohol: Isopropyl alcohol, 99.8 percent, 1 pint. page not opened 2026-11-12
@@ -81,7 +81,6 @@ A line stays BLOCKER when the part is not designed yet, the count is not in the 
 - bearing: Ball bearing 20 x 32 x 7 mm. page not opened 2026-11-12
 - button: Momentary pushbutton. page not opened 2026-11-12
 - camcable: Camera cable, standard to mini, 300 mm. page not opened 2026-11-12
-- controller: Xbox wireless controller. page not opened 2026-11-12
 - feed: Copper foil tape, 1/2 in, for the hidden feed. page not opened 2026-11-12
 - felt1: Nest felt, 1 mm. no maker part number in the lab files
 - felt2: Rim felt, 2 mm. no maker part number in the lab files
@@ -96,21 +95,15 @@ A line stays BLOCKER when the part is not designed yet, the count is not in the 
 - holder: ATO inline fuse holder. page not opened 2026-11-12
 - jack: DC jack, 2.1 mm. page not opened 2026-11-12
 - kk-h: KK 254 crimp housings, 2695 series. the line as specified cannot be ordered
-- kk-term: KK 254 crimp terminal, 22 to 30 AWG. page not opened 2026-11-12
 - l2: BEC programmer. page not opened 2026-11-12
-- led: 1 W warm white LED bead, pack of 10. page not opened 2026-11-12
-- loctite: Threadlocker. page not opened 2026-11-12
 - mount: Adhesive tie mount, 19 mm. page not opened 2026-11-12
 - mounts: Adhesive tie mount, 12.7 mm. page not opened 2026-11-12
 - nestpla: Nest box and lid, PLA, grams not sliced. grams were not sliced
 - nozzle: Hardened nozzle, 0.6 mm recommended. no listing opened today
 - pcb: Charger board fabrication. no gerber in the lab files
-- pla: PLA filament, 1.75 mm, 1 kg. page not opened 2026-11-12
 - reflector: Projector reflector. page not opened 2026-11-12
 - ring: Pale gold conductive cloth, ring. no maker part number in the lab files
-- sd: microSD 32 GB. page not opened 2026-11-12
 - sg90: SG90-class 9 g servo, pack of 10. page not opened 2026-11-12
-- shrink: Heat shrink, 3:1 adhesive lined, 180 piece kit. page not opened 2026-11-12
 - spoxt: Mini-SPOX crimp terminal. page not opened 2026-11-12
 - sun: Gold conductive cloth, sun disc. no maker part number in the lab files
 - t10: Heat gun. page not opened 2026-11-12
@@ -123,24 +116,14 @@ A line stays BLOCKER when the part is not designed yet, the count is not in the 
 - t17: Screwdriver PH 1. page not opened 2026-11-12
 - t18: Bit PH 0 x 25 mm. page not opened 2026-11-12
 - t19: Drill bit 1/16 in, pack of 3. page not opened 2026-11-12
-- t3: Crimper. page not opened 2026-11-12
-- t4: Hex key set, 1.5 to 6 mm. page not opened 2026-11-12
-- t5: Wire stripper, 22 to 32 AWG. page not opened 2026-11-12
-- t6: USB-C PD supply, 65 W. page not opened 2026-11-12
 - t7b: USB-A to USB-C cable, 3 ft. page not opened 2026-11-12
 - t9: Wire stripper, 12 to 20 AWG. page not opened 2026-11-12
-- tie: Cable tie, 4 in, pack of 100. page not opened 2026-11-12
-- tpu: TPU 95A filament, 1.75 mm, 1 kg. page not opened 2026-11-12
 - vhb: Foam tape, 3M VHB 4950, 3/4 in x 5 yd. page not opened 2026-11-12
 - wall: Wall card, 40 mm square, cut from felt, no electronics. no separate part to buy until the felt has a part number
 - waveshare: Bus servo adapter, USB data only. page not opened 2026-11-12
 - weld: 2S pack build: nickel strip, sleeve, fish paper, weld. no maker part number in the lab files
 - well-route: Duck-side ideal-diode path for each flush well. part is not chosen
 - wells: Flush gold wells in the seat, 3 mm, five of them. no maker part number in the lab files
-- wire16: Silicone wire, 16 AWG, red and black. page not opened 2026-11-12
-- wire20: Silicone wire, 20 AWG, red and black. page not opened 2026-11-12
-- wire22: Silicone wire, 22 AWG, 6 colors. page not opened 2026-11-12
-- wire26: Silicone wire, 26 AWG, 7 colors. page not opened 2026-11-12
 - xt30: XT30U pair, pack. page not opened 2026-11-12
 ## Check
 
