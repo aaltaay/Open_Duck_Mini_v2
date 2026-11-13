@@ -16,10 +16,13 @@ The extra 70 g is the third P45B, added to the build trunk the sheet walk alread
 
 --write rebuilds the config from the sheet, the bus solver, and the mass budget.
 --apply patches the playground checkout. --smoke is 8 envs and 480 steps, not a gait.
+--write with --apply, --check, or --smoke runs the write in a child process. The bus
+import pulls in the inference stubs, and those must not replace the trainer modules.
 """
 import argparse
 import json
 import os
+import subprocess
 import sys
 import xml.etree.ElementTree as ETXML
 
@@ -212,6 +215,10 @@ def apply_config(cfg, playground):
                 continue
             row = links[nm]
             inert = body.find("inertial")
+            # Same replacement as sim/added_mass_sim.write_variant. A source that
+            # still has quat and diaginertia must not keep them next to fullinertia.
+            for key in list(inert.attrib):
+                del inert.attrib[key]
             inert.set("mass", f"{row['mass']:.9g}")
             inert.set("pos", " ".join(f"{x:.9g}" for x in row["pos"]))
             inert.set("fullinertia", " ".join(f"{x:.9g}" for x in row["fullinertia"]))
@@ -321,7 +328,10 @@ def main():
     p.add_argument("--check", action="store_true", help="load the patched backlash scene")
     p.add_argument("--smoke", action="store_true", help="480-step CPU smoke, not a gait")
     args = p.parse_args()
-    if args.write:
+    if args.write and (args.apply or args.check or args.smoke):
+        subprocess.check_call([sys.executable, os.path.abspath(__file__), "--write"])
+        cfg = load_config()
+    elif args.write:
         cfg = write_config()
     else:
         cfg = load_config()
