@@ -52,7 +52,11 @@ nets:
   HOT_TH: {domain: VREF}
   ON_TH: {domain: VREF}
   NEST_TAP: {domain: NEST}
-  "ON": {domain: GPIO}
+  "ON": {domain: GPIO, note: "Pi to the servo switch ON pin. The nest comparator does not land here."}
+  DOCK: {domain: GPIO, note: "Low while the nest tap is above the threshold. Gates the clamp P-FET."}
+  CLAMP: {domain: GPIO, note: "High turns the N-FET that shorts the servo ON pin to ground."}
+  PI_END: {domain: GPIO, note: "Pi end-charge. High releases the clamp and pulls ISET down."}
+  PDRV: {domain: GPIO, note: "P-FET drain, before the 10 kOhm into the clamp gate."}
   PI_EN: {domain: GPIO}
   PI_3V3: {domain: GPIO}
 
@@ -133,7 +137,7 @@ components:
       - {pin: VCC, dir: pwr}
   - id: U3
     ref: U3
-    part: "TI LM393BIDR, channel A holds Pololu 2815 ON low while docked"
+    part: "TI LM393BIDR, channel A is the dock flag. Low when docked. It drives the clamp P-FET gate, not the ON pin directly."
     kind: ic
     pins:
       - {pin: OUTA, dir: out}
@@ -157,10 +161,18 @@ components:
   - {id: RVP, ref: R24, part: "200 kOhm ON threshold from the pack", kind: resistor, value_ohm: 200000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
   - {id: RNT, ref: R25, part: "100 kOhm nest divider top", kind: resistor, value_ohm: 100000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
   - {id: RNB, ref: R26, part: "20.0 kOhm nest divider bottom", kind: resistor, value_ohm: 20000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
-  - {id: RON, ref: R27, part: "10 kOhm from Pi GPIO to the 2815 ON pin", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: in}, {pin: B, dir: out}]}
-  - {id: JON, ref: J2, part: "to Pololu 2815 ON, slide switch left off", kind: connector, pins: [{pin: "ON", dir: out}]}
+  - {id: QP, ref: Q4, part: "onsemi FDME910PZT P-channel, dock flag to the clamp gate", kind: fet_p, pins: [{pin: S, dir: pwr}, {pin: G, dir: in}, {pin: D, dir: out}]}
+  - {id: RP, ref: R29, part: "10 kOhm from the P-FET drain to the clamp gate", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: in}, {pin: B, dir: out}]}
+  - {id: QE, ref: Q5, part: "onsemi 2N7002, Pi end-charge releases the clamp", kind: fet_n, pins: [{pin: D, dir: in}, {pin: G, dir: in}, {pin: S, dir: gnd}]}
+  - {id: QC, ref: Q6, part: "onsemi 2N7002, shorts servo ON to ground while the clamp gate is high", kind: fet_n, pins: [{pin: D, dir: out}, {pin: G, dir: in}, {pin: S, dir: gnd}]}
+  - {id: QI, ref: Q7, part: "onsemi 2N7002, Pi end-charge pulls ISET below 40 mV", kind: fet_n, pins: [{pin: D, dir: in}, {pin: G, dir: in}, {pin: S, dir: gnd}]}
+  - {id: RCG, ref: R30, part: "100 kOhm clamp gate pulldown", kind: resistor, value_ohm: 100000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: RONPD, ref: R31, part: "100 kOhm ON pin pulldown, open means off", kind: resistor, value_ohm: 100000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: RON, ref: R27, part: "10 kOhm from Pi rail-request to the 2815 ON pin", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: in}, {pin: B, dir: out}]}
+  - {id: RDOC, ref: R28, part: "10 kOhm pull-up on the dock flag", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: pwr}, {pin: B, dir: out}]}
+  - {id: JON, ref: J2, part: "to Pololu 2815 ON, slide switch left off. Input of that switch is the pack only.", kind: connector, pins: [{pin: "ON", dir: out}]}
   - {id: JPK, ref: J3, part: "to BMS P+", kind: connector, pins: [{pin: P, dir: pwr}]}
-  - {id: JPI, ref: J4, part: "Pi GPIO5 STAT, GPIO through RON", kind: connector, pins: [{pin: STAT, dir: in}, {pin: EN, dir: out}, {pin: V3, dir: nc}]}
+  - {id: JPI, ref: J4, part: "Pi STAT, rail request, end-charge, dock flag, 3.3 V", kind: connector, pins: [{pin: STAT, dir: in}, {pin: EN, dir: out}, {pin: END, dir: out}, {pin: V3, dir: pwr}, {pin: DOCK, dir: in}]}
 
 wires:
   - {from: JIN.P, to: F1.IN, net: NEST_P}
@@ -257,7 +269,7 @@ wires:
   - {from: U3.GND, to: U1.AGND, net: GND}
   - {from: U3.INA-, to: RNT.B, net: NEST_TAP}
   - {from: U3.INA+, to: RVT.B, net: ON_TH}
-  - {from: U3.OUTA, to: "JON.ON", net: "ON"}
+  - {from: U3.OUTA, to: JPI.DOCK, net: DOCK}
   - {from: RVT.A, to: U1.VREF, net: VREF}
   - {from: RVB.A, to: RVT.B, net: ON_TH}
   - {from: RVB.B, to: U1.AGND, net: GND}
@@ -268,3 +280,21 @@ wires:
   - {from: RNB.B, to: U1.AGND, net: GND}
   - {from: RON.A, to: JPI.EN, net: PI_EN}
   - {from: RON.B, to: "JON.ON", net: "ON"}
+  - {from: RONPD.A, to: "JON.ON", net: "ON"}
+  - {from: RONPD.B, to: U1.AGND, net: GND}
+  - {from: RDOC.A, to: JPI.V3, net: PI_3V3}
+  - {from: RDOC.B, to: JPI.DOCK, net: DOCK}
+  - {from: QP.S, to: JPI.V3, net: PI_3V3}
+  - {from: QP.G, to: JPI.DOCK, net: DOCK}
+  - {from: QP.D, to: RP.A, net: PDRV}
+  - {from: RP.B, to: QE.D, net: CLAMP}
+  - {from: QE.G, to: JPI.END, net: PI_END}
+  - {from: QE.S, to: U1.AGND, net: GND}
+  - {from: QC.G, to: QE.D, net: CLAMP}
+  - {from: QC.D, to: "JON.ON", net: "ON"}
+  - {from: QC.S, to: U1.AGND, net: GND}
+  - {from: RCG.A, to: QE.D, net: CLAMP}
+  - {from: RCG.B, to: U1.AGND, net: GND}
+  - {from: QI.G, to: JPI.END, net: PI_END}
+  - {from: QI.D, to: U1.ISET, net: ISET}
+  - {from: QI.S, to: U1.AGND, net: GND}

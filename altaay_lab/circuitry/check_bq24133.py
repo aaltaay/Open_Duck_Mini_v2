@@ -254,6 +254,27 @@ def main():
     check("threshold is on IN+", "ON_TH" in pin_nets.get("U3.INA+", set()), str(pin_nets.get("U3.INA+")))
     check("docked IN- is above IN+", tap_15 > th_dock, "%.3f > %.3f" % (tap_15, th_dock))
     check("undocked IN- is below IN+", 0.0 < th_walk, "0 < %.3f" % th_walk)
+    check("dock flag is not the servo ON pin", "DOCK" in pin_nets.get("U3.OUTA", set()) and "ON" not in pin_nets.get("U3.OUTA", set()), str(pin_nets.get("U3.OUTA")))
+    on_pins = [e for w in doc["wires"] if w["net"] == "ON" for e in (w["from"], w["to"])]
+    check("servo ON is Pi, pulldown, and clamp",
+          set(on_pins) == {"RON.B", "JON.ON", "RONPD.A", "QC.D"}, str(sorted(set(on_pins))))
+    check("dock flag does not wire to ON", "ON" not in pin_nets.get("U3.OUTA", set()), str(pin_nets.get("U3.OUTA")))
+    check("end-charge releases the clamp", "PI_END" in pin_nets.get("QE.G", set()), str(pin_nets.get("QE.G")))
+    check("end-charge pulls ISET down", "ISET" in pin_nets.get("QI.D", set()) and "PI_END" in pin_nets.get("QI.G", set()),
+          str(pin_nets.get("QI.D")))
+    # Rail = request and (not dock or end_charge). Eight rows.
+    rows = []
+    for dock in (0, 1):
+        for end in (0, 1):
+            for req in (0, 1):
+                rail = req and ((not dock) or end)
+                rows.append((dock, end, req, rail))
+    expect = [(0, 0, 0, 0), (0, 0, 1, 1), (0, 1, 0, 0), (0, 1, 1, 1),
+              (1, 0, 0, 0), (1, 0, 1, 0), (1, 1, 0, 0), (1, 1, 1, 1)]
+    check("rail truth table", rows == expect, "%d rows" % len(rows))
+    # 3.3 V through 10 kOhm against the clamp. Under 1 V needs R under 4.35 kOhm.
+    r_max = 10000 * 1.0 / (3.3 - 1.0)
+    check("clamp RDS under 4.35 kOhm keeps ON under 1 V", abs(r_max - 4348) < 5, "%.0f ohm" % r_max)
     check("AVCC resistor is on the adapter", "NEST_FUSED" in pin_nets.get("RAV.A", set()), str(pin_nets.get("RAV.A")))
     check("AVCC is not fed from SYS", "SYS" not in pin_nets.get("U1.AVCC", set()), str(pin_nets.get("U1.AVCC")))
 
