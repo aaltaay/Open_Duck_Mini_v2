@@ -1,0 +1,71 @@
+{
+ "label": "sim pass only for the run counts; calc only for the window tests on those seats",
+ "note": "No new physics run. Same seeds as the nest matrices.",
+ "blind_190": {
+  "n": 540,
+  "falls": 0,
+  "reached": 528,
+  "flush_first": 380,
+  "flush_within_3": 383,
+  "stripe_first": 380,
+  "stripe_within_3": 383,
+  "old_pins_first": 35,
+  "r45_first": 26,
+  "r16_first": 5,
+  "r8_first": 2,
+  "r10_first": 3,
+  "heading_over_46": 0,
+  "heading_abs_max": 44.8,
+  "radial_mm": {
+   "n": 528,
+   "median": 129.7,
+   "p95": 310.7,
+   "worst": 492.7
+  }
+ },
+ "wall_card": {
+  "n": 540,
+  "falls": 1,
+  "reached": 539,
+  "flush_first": 533,
+  "flush_within_3": 533,
+  "stripe_first": null,
+  "stripe_within_3": null,
+  "old_pins_first": 501,
+  "r45_first": 493,
+  "r16_first": 206,
+  "r8_first": 54,
+  "r10_first": 83,
+  "heading_over_46": null,
+  "heading_abs_max": null,
+  "radial_mm": {
+   "n": 539,
+   "median": 20.4,
+   "p95": 62.5,
+   "worst": 530.2
+  }
+ },
+ "true_pose_v3": {
+  "n": 540,
+  "falls": 0,
+  "reached": 540,
+  "flush_first": 540,
+  "flush_within_3": 540,
+  "stripe_first": 540,
+  "stripe_within_3": 540,
+  "old_pins_first": 531,
+  "r45_first": 518,
+  "r16_first": 235,
+  "r8_first": 73,
+  "r10_first": 110,
+  "heading_over_46": 0,
+  "heading_abs_max": 15.4,
+  "radial_mm": {
+   "n": 540,
+   "median": 18.4,
+   "p95": 42.9,
+   "worst": 72.0
+  },
+  "splice": "6.0 V from nest_runs_steps.json, 7.2 V from nest_runs_aim20full.json"
+ }
+}

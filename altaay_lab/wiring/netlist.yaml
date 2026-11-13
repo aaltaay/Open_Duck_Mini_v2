@@ -73,6 +73,8 @@ domains:
   SYS_9V: {v_min: 8.8, v_max: 9.2, note: "dock supply on the chest SYS strip (D50): present only while seated and the dock gate is on"}
   PACK_OR_6V0_9V2: {v_min: 6.0, v_max: 9.2, note: "2813 input after the D50 ideal-diode OR: the fused pack or, on the dock, SYS"}
   SENSE: {v_min: 0.0, v_max: 9.0, note: "dock SENSE strip: NTC reading 0.7 to 2.2 V; the 555 wake pulse 9 V for 100 ms"}
+  NTC_WIN: {v_min: 0.0, v_max: 2.6, note: "pack bead divider on the charger board. Not a pin of the MCP73213."}
+  VREF: {v_min: 0.0, v_max: 2.6, note: "TL431 cathode tied to its reference. The 2.495 V typical is BLOCKER until that sheet is read."}
   GND_CELL: {v_min: 0.0, v_max: 0.0, note: "cell stack negative (BMS B-); never used as ground for loads"}
 
 nets:
@@ -85,6 +87,13 @@ nets:
   CHG_IN: {domain: PACK_6V0_8V4, note: "chest CHG+ strip to DK2 (dock charger output, 8.40 V CV, 1.0 A on the EV board; D43)"}
   CHG_D: {domain: PACK_6V0_8V4, note: "DK2 output to the 5 A fuse F2"}
   SNS: {domain: SENSE, note: "chest SENSE strip: cell NTC to GND and the wake branch to SW1 ON (D43)"}
+  NTC_MID: {domain: NTC_WIN, note: "bead high side. RBIAS is 10.0 kOhm from the charger reference. Cold divider is 10.0 kOhm over 28.0 kOhm. Hot divider is 10.0 kOhm over 2.80 kOhm. Those three are the rbias, rcold, and rhot lines in CHARGER_BOARD.md."}
+  STAT_GPIO: {domain: GPIO_3V3, note: "charger STAT to Pi pin 29, through 1 kOhm on the board"}
+  PI_EN: {domain: GPIO_3V3, note: "Pi pin 31 open drain stops charge"}
+  VREF: {domain: VREF, note: "CU3 feeds RBIAS 10.0 kOhm, RCOLD 10.0 kOhm, and RHOT 10.0 kOhm"}
+  COLD_TH: {domain: NTC_WIN, note: "10.0 kOhm over 28.0 kOhm into CU2 INA+"}
+  HOT_TH: {domain: NTC_WIN, note: "10.0 kOhm over 2.80 kOhm into CU2 INB-"}
+  EN_GATE: {domain: GPIO_3V3, note: "CU2 open collectors pull the enable FET gate down and charge stops"}
   SYS_IN: {domain: SYS_9V, note: "chest SYS strip to DK6 (D50)"}
   PACK_OR: {domain: PACK_OR_6V0_9V2, note: "DK6 and DK7 outputs, SW1 VIN (D50)"}
   SW1_ON: {domain: CTRL, note: "wake branch to the 2813 ON input (full-shutdown mode wake, D43)"}
@@ -270,7 +279,7 @@ components:
 
   - id: VSW
     ref: VSW
-    part: solder splice with heat shrink (switched pack bus node)
+    part: WAGO 221-413 lever splice, 3 red wires (switched pack bus)
     kind: splice
     region: battery_bay
     groups:
@@ -281,7 +290,7 @@ components:
 
   - id: G
     ref: G
-    part: solder splice with heat shrink (common ground node)
+    part: WAGO 221-415 lever splice, 4 black wires (common ground, port 5 empty)
     kind: splice
     region: battery_bay
     groups:
@@ -376,22 +385,22 @@ components:
 
   - id: SPV
     ref: SPV
-    part: power splice V+ in the belly next to the BEC (P11 in, SP1 to SP5 out)
+    part: WAGO 221-415 (P11, SP1, SP2, SP3, jumper on port 5) and WAGO 221-413 (jumper on port 1, SP4, SP5), servo plus
     kind: splice
     region: belly
     groups:
-      s: {connector: "solder splice in adhesive heat shrink", pitch_mm: null}
+      s: {connector: "WAGO 221-415 and 221-413 lever splices", pitch_mm: null, note: "6 wires, two levers, one 16 AWG jumper. Jumper cut is not set."}
     pins:
       - {pin: "S", label: "SPV", name: splice, domain: SERVO_7V2, group: s, dir: pwr, source: "[L] D15"}
     source: "[L] D15"
 
   - id: SPG
     ref: SPG
-    part: power splice GND in the belly next to the BEC (P11 in, SP1 to SP5 out)
+    part: WAGO 221-415 (P11, SP1, SP2, SP3, jumper on port 5) and WAGO 221-413 (jumper on port 1, SP4, SP5), servo ground
     kind: splice
     region: belly
     groups:
-      s: {connector: "solder splice in adhesive heat shrink", pitch_mm: null}
+      s: {connector: "WAGO 221-415 and 221-413 lever splices", pitch_mm: null, note: "6 wires, two levers, one 16 AWG jumper. Jumper cut is not set."}
     pins:
       - {pin: "S", label: "SPG", name: splice, domain: GND, group: s, dir: gnd, source: "[L] D15"}
     source: "[L] D15"
@@ -528,6 +537,8 @@ components:
       - {pin: "35", label: "35", name: GPIO19 I2S LRC, domain: I2S, group: header, dir: out, source: "[U] table"}
       - {pin: "36", label: "36", name: GPIO16 amp SD mode (D48), domain: GPIO_3V3, group: header, dir: out, source: "[L] D48; sdmode-gpios GPIO16 in the googlevoicehat-soundcard overlay (raspberrypi/linux)"}
       - {pin: "37", label: "GPIO26", name: GPIO26 to the 2813 OFF input (D30), domain: GPIO_3V3, group: header, dir: out, source: "[U] table"}
+      - {pin: "29", label: "29", name: GPIO5 charge status, domain: GPIO_3V3, group: header, dir: in, source: "[L] CHARGER_BOARD.md, header pin 29"}
+      - {pin: "31", label: "31", name: GPIO6 charge enable, domain: GPIO_3V3, group: header, dir: out, source: "[L] CHARGER_BOARD.md, header pin 31"}
       - {pin: "38", label: "38", name: GPIO20 I2S mic data in (D47), domain: I2S, group: header, dir: in, source: "[L] D47; PCM_DIN on GPIO20, googlevoicehat-soundcard overlay (raspberrypi/linux overlays README)"}
       - {pin: "39", label: "39", name: GND, domain: GND, group: header, dir: gnd, source: "[L] D47 mic ground"}
       - {pin: "40", label: "40", name: GPIO21 I2S DIN, domain: I2S, group: header, dir: out, source: "[U] table"}
@@ -1171,17 +1182,144 @@ components:
 
   - id: RT1
     ref: RT1
-    part: 10 k NTC B3950 in the cell seat (BOM DK5)
+    part: Adafruit 372, 10 kOhm at 25 C, B25/50 3950, epoxy bead in the cell valley (BOM DK5). Same bead as the charger window.
     kind: sensor
     region: battery_bay
     groups:
-      leads: {connector: "solder leads", pitch_mm: null, note: "in the seat between the cells (twin/battery/BAY.md)"}
+      leads: {connector: "bead leads", pitch_mm: null, note: "seat in the valley between the cells (twin/battery/BAY.md). Lead gauge and lead length are not on that page."}
     pins:
-      - {pin: "1", label: "1", name: to SENSE, domain: SENSE, group: leads, dir: passive, source: "[L] D43"}
-      - {pin: "2", label: "2", name: to GND, domain: GND, group: leads, dir: gnd, source: "[L] D43"}
+      - {pin: "1", label: "1", name: divider side, domain: NTC_WIN, group: leads, dir: passive, source: "[L] CHARGER_BOARD.md RBIAS"}
+      - {pin: "2", label: "2", name: ground side, domain: GND, group: leads, dir: gnd, source: "[L] CHARGER_BOARD.md, NTC to ground"}
     internal:
-      - {a: "1", b: "2", kind: load, note: "10 k at 25 C"}
-    source: "[L] D43; BOM DK5"
+      - {a: "1", b: "2", kind: load, note: "10 kOhm at 25 C. The MCP73213 has no THERM pin (DS20002190C Table 3-1). This bead feeds the divider already set there: RBIAS 10.0 kOhm, cold 10.0 kOhm over 28.0 kOhm, hot 10.0 kOhm over 2.80 kOhm."}
+    source: "[L] CHARGER_BOARD.md pack NTC; Adafruit 372"
+
+  - id: JNT
+    ref: JNT
+    part: Molex KK 254 housing 0022012027, 2 circuits, friction ramp. Board end of the pack bead.
+    kind: connector
+    region: battery_bay
+    groups:
+      plug: {connector: "KK 254 housing 0022012027", pitch_mm: 2.54, note: "position 1 is the divider side, position 2 is ground. The chip has no THERM pin."}
+    pins:
+      - {pin: A, label: "1", name: to RBIAS 10.0 kOhm, domain: NTC_WIN, group: plug, dir: passive, source: "[L] CHARGER_BOARD.md RBIAS"}
+      - {pin: B, label: "2", name: ground, domain: GND, group: plug, dir: gnd, source: "[L] CHARGER_BOARD.md"}
+    source: "[L] CHARGER_BOARD.md. Housing from the Molex 2695 chart, part 0022012027. DS20002190C Table 3-1 has no thermistor pin, so this plug feeds CU2, not the charger chip."
+
+  - id: CU2
+    ref: U2
+    part: TI LM393BIDR. Already on the charger bill. Not a second chip. Open collectors pull the enable gate down when the bead is outside the window.
+    kind: board
+    region: battery_bay
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null, note: "SOIC-8 pin names from SLCS005AH Table 4-1, as in charger_board.yaml"}
+    pins:
+      - {pin: INAM, label: "INA-", name: bead, domain: NTC_WIN, group: pads, dir: in, source: "[L] charger_board.yaml"}
+      - {pin: INAP, label: "INA+", name: cold threshold, domain: NTC_WIN, group: pads, dir: in, source: "[L] 10.0 kOhm over 28.0 kOhm"}
+      - {pin: INBP, label: "INB+", name: bead, domain: NTC_WIN, group: pads, dir: in, source: "[L] charger_board.yaml"}
+      - {pin: INBM, label: "INB-", name: hot threshold, domain: NTC_WIN, group: pads, dir: in, source: "[L] 10.0 kOhm over 2.80 kOhm"}
+      - {pin: OUTA, label: OUTA, name: cold fault, domain: GPIO_3V3, group: pads, dir: out, source: "[L] open collector"}
+      - {pin: OUTB, label: OUTB, name: hot fault, domain: GPIO_3V3, group: pads, dir: out, source: "[L] open collector"}
+      - {pin: GND, label: GND, name: ground, domain: GND, group: pads, dir: gnd, source: "[L]"}
+    source: "[L] circuitry/charger_board.yaml CU2. Same part as order line cu2."
+
+  - id: CU3
+    ref: U3
+    part: TI TL431AIDBZR shunt reference. Already on the charger bill. Not a second part. The 2.495 V typical is BLOCKER until that sheet is read.
+    kind: board
+    region: battery_bay
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: K, label: K, name: cathode, domain: VREF, group: pads, dir: passive, source: "[L] charger_board.yaml"}
+      - {pin: R, label: R, name: reference tied to cathode, domain: VREF, group: pads, dir: passive, source: "[L]"}
+      - {pin: A, label: A, name: anode, domain: GND, group: pads, dir: gnd, source: "[L]"}
+    source: "[L] circuitry/charger_board.yaml CU3. Same part as order line cu3."
+
+  - id: RBIAS
+    ref: R7
+    part: 10.0 kOhm 1 percent from the reference to the bead
+    kind: resistor
+    region: battery_bay
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: reference, domain: VREF, group: pads, dir: passive, source: "[L] CHARGER_BOARD.md rbias"}
+      - {pin: "2", label: "2", name: bead, domain: NTC_WIN, group: pads, dir: passive, source: "[L] CHARGER_BOARD.md rbias"}
+    source: "[L] CHARGER_BOARD.md. Same part as order line rbias."
+
+  - id: RCOLD
+    ref: R8
+    part: 10.0 kOhm 1 percent, top of the cold divider
+    kind: resistor
+    region: battery_bay
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: reference, domain: VREF, group: pads, dir: passive, source: "[L] CHARGER_BOARD.md rcold"}
+      - {pin: "2", label: "2", name: cold threshold, domain: NTC_WIN, group: pads, dir: passive, source: "[L] CHARGER_BOARD.md rcold"}
+    source: "[L] CHARGER_BOARD.md. Same part as order line rcold."
+
+  - id: RCOLDB
+    ref: R9
+    part: 28.0 kOhm 1 percent, bottom of the cold divider
+    kind: resistor
+    region: battery_bay
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: cold threshold, domain: NTC_WIN, group: pads, dir: passive, source: "[L] CHARGER_BOARD.md rcold"}
+      - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] CHARGER_BOARD.md rcold"}
+    source: "[L] CHARGER_BOARD.md. Same part as order line rcoldb."
+
+  - id: RHOT
+    ref: R10
+    part: 10.0 kOhm 1 percent, top of the hot divider
+    kind: resistor
+    region: battery_bay
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: reference, domain: VREF, group: pads, dir: passive, source: "[L] CHARGER_BOARD.md rhot"}
+      - {pin: "2", label: "2", name: hot threshold, domain: NTC_WIN, group: pads, dir: passive, source: "[L] CHARGER_BOARD.md rhot"}
+    source: "[L] CHARGER_BOARD.md. Same part as order line rhot."
+
+  - id: RHOTB
+    ref: R11
+    part: 2.80 kOhm 1 percent, bottom of the hot divider
+    kind: resistor
+    region: battery_bay
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: hot threshold, domain: NTC_WIN, group: pads, dir: passive, source: "[L] CHARGER_BOARD.md rhot"}
+      - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] CHARGER_BOARD.md rhot"}
+    source: "[L] CHARGER_BOARD.md. Same part as order line rhotb."
+
+  - id: CQEN
+    ref: QEN
+    part: MMBF170 enable FET. Already on the charger bill. Not a second FET. Its gate is the EN node the comparators pull down.
+    kind: board
+    region: battery_bay
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: G, label: G, name: enable gate, domain: GPIO_3V3, group: pads, dir: in, source: "[L] charger_board.yaml CQEN.G"}
+    source: "[L] circuitry/charger_board.yaml. Source and drain stay the PROG switch in that file."
+
+  - id: JPI
+    ref: JPI
+    part: charger board pads for STAT, enable, 3.3 V, and ground. STAT is MCP73213 pin 7. Enable is the board gate in CHARGER_BOARD.md, not a chip pin.
+    kind: connector
+    region: battery_bay
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null, note: "Pi end of STAT and EN is housing 0022012027. 3.3 V and ground join cable D2."}
+    pins:
+      - {pin: STAT, label: STAT, name: GPIO5, domain: GPIO_3V3, group: pads, dir: out, source: "[L] CHARGER_BOARD.md"}
+      - {pin: EN, label: EN, name: GPIO6, domain: GPIO_3V3, group: pads, dir: in, source: "[L] CHARGER_BOARD.md"}
+      - {pin: V3, label: "3V3", name: Pi 3.3 V, domain: 3V3, group: pads, dir: pwr_in, source: "[L] CHARGER_BOARD.md"}
+      - {pin: GND, label: GND, name: ground, domain: GND, group: pads, dir: gnd, source: "[L] CHARGER_BOARD.md"}
+    source: "[L] CHARGER_BOARD.md and circuitry/charger_board.yaml JPI"
 
   - id: WK1
     ref: D3
@@ -1296,6 +1434,9 @@ cables:
   - {id: DC2, status: active, desc: "chest GND to the splice JGD inside the trunk, JGD to BMS P- (D43, D50)", regions: [trunk_top, battery_bay], joints: [], polyline_mm: 160.1, rule_mm: 200.1, source: "[L] D43, D50; twin/dock/dock_routes.json, twin/dock/dock_cables3d.py (CAD check only)", twist: {lay_mm: null, note: "not twisted: a short trunk run along the other bundles, no joint crossed (D25: twist where one lay fits; ties hold it)"}}
   - {id: DC3, status: active, desc: "chest SENSE to the splice JSN inside the trunk, JSN to the cell NTC and to the wake branch at SW1 ON (D43)", regions: [trunk_top, battery_bay], joints: [], polyline_mm: 179.4, rule_mm: 219.4, source: "[L] D43, D50; twin/dock/dock_routes.json, twin/dock/dock_cables3d.py (CAD check only)", twist: {lay_mm: null, note: "not twisted: a short trunk run along the other bundles, no joint crossed (D25: twist where one lay fits; ties hold it)"}}
   - {id: DC4, status: active, desc: "chest SYS to DK6, DK6 and DK7 to SW1 VIN (D50)", regions: [trunk_top, battery_bay], joints: [], polyline_mm: 149.5, rule_mm: 189.5, source: "[L] D43, D50; twin/dock/dock_routes.json, twin/dock/dock_cables3d.py (CAD check only)", twist: {lay_mm: null, note: "not twisted: a short trunk run along the other bundles, no joint crossed (D25: twist where one lay fits; ties hold it)"}}
+  - {id: CE, status: active, no_route: true, desc: "charger STAT and enable to Pi pins 29 and 31, with 3.3 V and ground joined at D2", regions: [battery_bay, trunk_top, neck, head], joints: [neck_pitch, head_pitch, head_yaw, head_roll], polyline_mm: null, rule_mm: null, source: "[L] CHARGER_BOARD.md. No CAD route: the board has no seat.", twist: {lay_mm: null, note: "no lay until a route exists"}}
+  - {id: NT, status: active, no_route: true, desc: "pack bead RT1 to the charger divider plug JNT. The old SENSE tap from JSN to the bead is not in this cable.", regions: [battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] CHARGER_BOARD.md pack NTC. BAY.md names the valley seat and gives no length.", twist: {lay_mm: null, note: "two leads, no lay published"}}
+  - {id: NW, status: active, no_route: true, desc: "on the charger board: bead plug to RBIAS, the cold and hot dividers, CU2, CU3, and the enable gate", regions: [battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] charger_board.yaml NTC window. DS20002190C Table 3-1 has no thermistor pin.", twist: {lay_mm: null, note: "board traces, not a twisted cable"}}
 wires:
   # dock (D43, D50)
   - {cable: DC1, from: DKP.CHG, to: DK2.VIN, net: CHG_IN, gauge: 20 AWG, color: red, cut_mm: 60, i_mean_a: 1.0, i_peak_a: 1.0, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
@@ -1307,6 +1448,29 @@ wires:
   - {cable: DC3, from: DKP.SNS, to: JSN.S, net: SNS, gauge: 26 AWG, color: white, cut_mm: 60, i_mean_a: null, i_peak_a: null, ends: [solder pad, splice], source: "[L] D50: branch joint inside the trunk (twin/dock/dock_routes.json)"}
   - {cable: DC3, from: JSN.S, to: RT1.1, net: SNS, gauge: 26 AWG, color: white, cut_mm: 220, i_mean_a: 0.001, i_peak_a: 0.001, ends: [splice, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
   - {cable: DC3, from: RT1.2, to: BMS.P-, net: GND, gauge: 26 AWG, color: black, cut_mm: 120, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: CE, from: JPI.STAT, to: PI.29, net: STAT_GPIO, gauge: 26 AWG, color: blue, cut_mm: null, i_mean_a: 0.00033, i_peak_a: 0.00033, ends: ["solder pad", "KK 254 socket on the header pin (0022012027 position 1)"], source: "[L] CHARGER_BOARD.md 3.3 V / 10 kOhm = 0.33 mA, calc only there"}
+  - {cable: CE, from: JPI.EN, to: PI.31, net: PI_EN, gauge: 26 AWG, color: green, cut_mm: null, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "KK 254 socket on the header pin (0022012027 position 2)"], source: "[L] CHARGER_BOARD.md"}
+  - {cable: CE, from: JPI.V3, to: PI.1, net: 3V3, gauge: 26 AWG, color: orange, cut_mm: null, i_mean_a: 0.00033, i_peak_a: 0.00033, ends: ["solder pad", "header pin"], source: "[L] CHARGER_BOARD.md. Second wire on pin 1. The harness splices it to cable D2."}
+  - {cable: CE, from: JPI.GND, to: PI.9, net: GND, gauge: 26 AWG, color: black, cut_mm: null, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "header pin"], source: "[L] CHARGER_BOARD.md. Second wire on pin 9. The harness splices it to cable D2."}
+  - {cable: NT, from: RT1.1, to: JNT.A, net: NTC_MID, gauge: "bead lead", color: violet, cut_mm: null, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["bead lead", "KK 254 housing 0022012027 position 1, contact 08-50-0114"], source: "[L] CHARGER_BOARD.md. 2.5 V / 10.0 kOhm is 0.25 mA if the bead is a short, calc only, an upper bound."}
+  - {cable: NT, from: RT1.2, to: JNT.B, net: GND, gauge: "bead lead", color: black, cut_mm: null, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["bead lead", "KK 254 housing 0022012027 position 2, contact 08-50-0114"], source: "[L] CHARGER_BOARD.md"}
+  - {cable: NW, from: JNT.A, to: RBIAS.2, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["solder pad", "solder pad"], source: "[L] CHARGER_BOARD.md rbias 10.0 kOhm"}
+  - {cable: NW, from: JNT.A, to: CU2.INAM, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] cold comparator sees the bead"}
+  - {cable: NW, from: CU2.INAM, to: CU2.INBP, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] hot comparator sees the bead"}
+  - {cable: NW, from: CU3.K, to: RBIAS.1, net: VREF, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["solder pad", "solder pad"], source: "[L] reference over the 10.0 kOhm bias"}
+  - {cable: NW, from: CU3.K, to: CU3.R, net: VREF, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] reference tied to cathode"}
+  - {cable: NW, from: CU3.A, to: JNT.B, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] anode to the bead ground"}
+  - {cable: NW, from: CU3.K, to: RCOLD.1, net: VREF, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] cold top 10.0 kOhm"}
+  - {cable: NW, from: RCOLD.2, to: RCOLDB.1, net: COLD_TH, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] cold bottom 28.0 kOhm"}
+  - {cable: NW, from: RCOLDB.2, to: JNT.B, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] cold divider ground"}
+  - {cable: NW, from: RCOLD.2, to: CU2.INAP, net: COLD_TH, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] INA+ is the cold threshold"}
+  - {cable: NW, from: CU3.K, to: RHOT.1, net: VREF, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] hot top 10.0 kOhm"}
+  - {cable: NW, from: RHOT.2, to: RHOTB.1, net: HOT_TH, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] hot bottom 2.80 kOhm"}
+  - {cable: NW, from: RHOTB.2, to: JNT.B, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] hot divider ground"}
+  - {cable: NW, from: RHOT.2, to: CU2.INBM, net: HOT_TH, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] INB- is the hot threshold"}
+  - {cable: NW, from: CU2.GND, to: JNT.B, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] comparator ground"}
+  - {cable: NW, from: CU2.OUTA, to: CQEN.G, net: EN_GATE, gauge: "board", color: green, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] cold fault pulls enable down"}
+  - {cable: NW, from: CU2.OUTA, to: CU2.OUTB, net: EN_GATE, gauge: "board", color: green, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] hot fault pulls enable down"}
   - {cable: DC3, from: JSN.S, to: WK1.A, net: SNS, gauge: 26 AWG, color: white, cut_mm: 180, i_mean_a: 0.001, i_peak_a: 0.001, ends: [splice, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
   - {cable: DC4, from: DKP.SYS, to: DK6.VIN, net: SYS_IN, gauge: 20 AWG, color: red, cut_mm: 190, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
   - {cable: DC4, from: DK6.VOUT, to: SW1.VIN, net: PACK_OR, gauge: 20 AWG, color: red, cut_mm: 70, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}

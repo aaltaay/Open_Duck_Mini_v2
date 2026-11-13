@@ -1,0 +1,449 @@
+{
+ "label": "sim pass only for shell temperatures, calc only for watts and for the JEDEC die",
+ "charger_W": [
+  "2.30",
+  "3.50"
+ ],
+ "charger_note": "calc only, 9.5 V in, 1.00 A forced, MCP73213, circuitry/CHARGER_BOARD.md",
+ "input_V": 9.5,
+ "current_A": 1.0,
+ "pack_V": {
+  "W_2_30": 7.2,
+  "W_3_50": 6.0
+ },
+ "hours": 6.0,
+ "state": "docked sit, torque off, idle 21 mA per servo, charge 1.0 A",
+ "older_table": "gate_p45b.json, 1.9 W and 3.2 W, left as written",
+ "life_note": "PR 49 ran the central corner at 22 C and 32 C. This file adds the high corner and the 25 C room of the original table.",
+ "guesses": [
+  "cell specific heat is the 18650 range already in twin_thermal.py, not on the P45B sheet",
+  "half the can faces the bay air",
+  "BEC efficiency 0.85 at idle, Castle publishes none",
+  "the charger has no seat, so the PLA number is the trunk wall node, not the plastic touching the package",
+  "in-trunk theta JA is not the 62 C/W JEDEC figure",
+  "the nest felt has no grade, so a felt conductivity is not used"
+ ],
+ "limits": {
+  "cells_charge_C": [
+   0.0,
+   60.0
+  ],
+  "cells_source": "Molicel INR21700-P45B version 1.2",
+  "servo_operating_C": [
+   -20.0,
+   60.0
+  ],
+  "servo_source": "STS3215 A/1 item 1-2",
+  "die_regulation_C": 110.0,
+  "die_shutdown_typical_C": 150.0,
+  "die_ambient_industrial_C": [
+   -40,
+   85
+  ],
+  "die_source": "MCP73213 DS20002190C, as read in circuitry/CHARGER_BOARD.md",
+  "pla_hdt_0p45_MPa_C": [
+   49.0,
+   57.0
+  ],
+  "pla_tg_C": [
+   55.0,
+   60.0
+  ],
+  "petg_hdt_1p8_MPa_C": 62.0,
+  "petg_hdt_0p45_MPa_C": 69.0,
+  "petg_tg_C": 66.0,
+  "plastic_source": "THERMAL_TWIN.md [P1] to [P3] and [P6]",
+  "wool_felt_type_I_F": [
+   -80.0,
+   200.0
+  ],
+  "wool_felt_type_I_C": [
+   -62.22,
+   93.33
+  ],
+  "felt_source": "Superior Felt Wool-Felt-Specs.pdf, all wool felt type I. This mat's grade is not named."
+ },
+ "verdict": {
+  "cells": "no row crosses 0 C to 60 C",
+  "servo_reading": "no row crosses -20 C to 60 C",
+  "pla_wall": "no row crosses the 49 C heat-deflection edge",
+  "petg_wall": "no row crosses 62 C",
+  "trunk_air_vs_85C": "no row crosses the 85 C industrial ambient",
+  "die_jedec_forced_1A": "every row crosses 110 C and 150 C",
+  "die_in_trunk": "BLOCKER",
+  "felt_temperature": "BLOCKER",
+  "plastic_touching_the_package": "BLOCKER"
+ },
+ "sit": [
+  {
+   "charger_W": "2.30",
+   "corner": "central",
+   "room_C": 25.0,
+   "hours": 6.0,
+   "cell_end_C": 32.21,
+   "cell_max_C": 32.21,
+   "trunk_air_end_C": 33.87,
+   "trunk_wall_end_C": 29.03,
+   "trunk_wall_max_C": 29.03,
+   "knee_reading_max_C": 27.57,
+   "knee_body_max_C": 27.57,
+   "head_air_end_C": 33.19,
+   "bec_case_end_C": 42.16,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null,
+   "limits": {
+    "cell_crosses_0_to_60C": false,
+    "knee_crosses_m20_to_60C": false,
+    "wall_crosses_pla_hdt_49C": false,
+    "wall_crosses_pla_tg_55C": false,
+    "wall_crosses_petg_hdt_62C": false,
+    "trunk_air_crosses_industrial_ambient_85C": false,
+    "wall_bound_crosses_wool_felt_93C": false
+   },
+   "die_jedec": {
+    "theta_JA_C_per_W": 62.0,
+    "rise_C": 142.6,
+    "junction_C": 167.6,
+    "crosses_110C": true,
+    "crosses_150C": true,
+    "label": "calc only, JEDEC board in room air, current forced at 1.00 A"
+   }
+  },
+  {
+   "charger_W": "2.30",
+   "corner": "central",
+   "room_C": 32.0,
+   "hours": 6.0,
+   "cell_end_C": 38.97,
+   "cell_max_C": 38.97,
+   "trunk_air_end_C": 40.75,
+   "trunk_wall_end_C": 35.89,
+   "trunk_wall_max_C": 35.89,
+   "knee_reading_max_C": 34.48,
+   "knee_body_max_C": 34.48,
+   "head_air_end_C": 40.09,
+   "bec_case_end_C": 48.88,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null,
+   "limits": {
+    "cell_crosses_0_to_60C": false,
+    "knee_crosses_m20_to_60C": false,
+    "wall_crosses_pla_hdt_49C": false,
+    "wall_crosses_pla_tg_55C": false,
+    "wall_crosses_petg_hdt_62C": false,
+    "trunk_air_crosses_industrial_ambient_85C": false,
+    "wall_bound_crosses_wool_felt_93C": false
+   },
+   "die_jedec": {
+    "theta_JA_C_per_W": 62.0,
+    "rise_C": 142.6,
+    "junction_C": 174.6,
+    "crosses_110C": true,
+    "crosses_150C": true,
+    "label": "calc only, JEDEC board in room air, current forced at 1.00 A"
+   }
+  },
+  {
+   "charger_W": "2.30",
+   "corner": "high",
+   "room_C": 25.0,
+   "hours": 6.0,
+   "cell_end_C": 33.94,
+   "cell_max_C": 33.94,
+   "trunk_air_end_C": 37.27,
+   "trunk_wall_end_C": 29.6,
+   "trunk_wall_max_C": 29.6,
+   "knee_reading_max_C": 27.81,
+   "knee_body_max_C": 27.81,
+   "head_air_end_C": 40.67,
+   "bec_case_end_C": 48.5,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null,
+   "limits": {
+    "cell_crosses_0_to_60C": false,
+    "knee_crosses_m20_to_60C": false,
+    "wall_crosses_pla_hdt_49C": false,
+    "wall_crosses_pla_tg_55C": false,
+    "wall_crosses_petg_hdt_62C": false,
+    "trunk_air_crosses_industrial_ambient_85C": false,
+    "wall_bound_crosses_wool_felt_93C": false
+   },
+   "die_jedec": {
+    "theta_JA_C_per_W": 62.0,
+    "rise_C": 142.6,
+    "junction_C": 167.6,
+    "crosses_110C": true,
+    "crosses_150C": true,
+    "label": "calc only, JEDEC board in room air, current forced at 1.00 A"
+   }
+  },
+  {
+   "charger_W": "2.30",
+   "corner": "high",
+   "room_C": 32.0,
+   "hours": 6.0,
+   "cell_end_C": 40.65,
+   "cell_max_C": 40.65,
+   "trunk_air_end_C": 44.16,
+   "trunk_wall_end_C": 36.46,
+   "trunk_wall_max_C": 36.46,
+   "knee_reading_max_C": 34.72,
+   "knee_body_max_C": 34.72,
+   "head_air_end_C": 47.53,
+   "bec_case_end_C": 55.36,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null,
+   "limits": {
+    "cell_crosses_0_to_60C": false,
+    "knee_crosses_m20_to_60C": false,
+    "wall_crosses_pla_hdt_49C": false,
+    "wall_crosses_pla_tg_55C": false,
+    "wall_crosses_petg_hdt_62C": false,
+    "trunk_air_crosses_industrial_ambient_85C": false,
+    "wall_bound_crosses_wool_felt_93C": false
+   },
+   "die_jedec": {
+    "theta_JA_C_per_W": 62.0,
+    "rise_C": 142.6,
+    "junction_C": 174.6,
+    "crosses_110C": true,
+    "crosses_150C": true,
+    "label": "calc only, JEDEC board in room air, current forced at 1.00 A"
+   }
+  },
+  {
+   "charger_W": "3.50",
+   "corner": "central",
+   "room_C": 25.0,
+   "hours": 6.0,
+   "cell_end_C": 34.17,
+   "cell_max_C": 34.17,
+   "trunk_air_end_C": 36.54,
+   "trunk_wall_end_C": 30.33,
+   "trunk_wall_max_C": 30.33,
+   "knee_reading_max_C": 27.57,
+   "knee_body_max_C": 27.57,
+   "head_air_end_C": 33.19,
+   "bec_case_end_C": 44.77,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null,
+   "limits": {
+    "cell_crosses_0_to_60C": false,
+    "knee_crosses_m20_to_60C": false,
+    "wall_crosses_pla_hdt_49C": false,
+    "wall_crosses_pla_tg_55C": false,
+    "wall_crosses_petg_hdt_62C": false,
+    "trunk_air_crosses_industrial_ambient_85C": false,
+    "wall_bound_crosses_wool_felt_93C": false
+   },
+   "die_jedec": {
+    "theta_JA_C_per_W": 62.0,
+    "rise_C": 217.0,
+    "junction_C": 242.0,
+    "crosses_110C": true,
+    "crosses_150C": true,
+    "label": "calc only, JEDEC board in room air, current forced at 1.00 A"
+   }
+  },
+  {
+   "charger_W": "3.50",
+   "corner": "central",
+   "room_C": 32.0,
+   "hours": 6.0,
+   "cell_end_C": 40.87,
+   "cell_max_C": 40.87,
+   "trunk_air_end_C": 43.38,
+   "trunk_wall_end_C": 37.15,
+   "trunk_wall_max_C": 37.15,
+   "knee_reading_max_C": 34.48,
+   "knee_body_max_C": 34.48,
+   "head_air_end_C": 40.09,
+   "bec_case_end_C": 51.45,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null,
+   "limits": {
+    "cell_crosses_0_to_60C": false,
+    "knee_crosses_m20_to_60C": false,
+    "wall_crosses_pla_hdt_49C": false,
+    "wall_crosses_pla_tg_55C": false,
+    "wall_crosses_petg_hdt_62C": false,
+    "trunk_air_crosses_industrial_ambient_85C": false,
+    "wall_bound_crosses_wool_felt_93C": false
+   },
+   "die_jedec": {
+    "theta_JA_C_per_W": 62.0,
+    "rise_C": 217.0,
+    "junction_C": 249.0,
+    "crosses_110C": true,
+    "crosses_150C": true,
+    "label": "calc only, JEDEC board in room air, current forced at 1.00 A"
+   }
+  },
+  {
+   "charger_W": "3.50",
+   "corner": "high",
+   "room_C": 25.0,
+   "hours": 6.0,
+   "cell_end_C": 36.35,
+   "cell_max_C": 36.35,
+   "trunk_air_end_C": 40.93,
+   "trunk_wall_end_C": 31.09,
+   "trunk_wall_max_C": 31.09,
+   "knee_reading_max_C": 27.81,
+   "knee_body_max_C": 27.81,
+   "head_air_end_C": 40.67,
+   "bec_case_end_C": 52.15,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null,
+   "limits": {
+    "cell_crosses_0_to_60C": false,
+    "knee_crosses_m20_to_60C": false,
+    "wall_crosses_pla_hdt_49C": false,
+    "wall_crosses_pla_tg_55C": false,
+    "wall_crosses_petg_hdt_62C": false,
+    "trunk_air_crosses_industrial_ambient_85C": false,
+    "wall_bound_crosses_wool_felt_93C": false
+   },
+   "die_jedec": {
+    "theta_JA_C_per_W": 62.0,
+    "rise_C": 217.0,
+    "junction_C": 242.0,
+    "crosses_110C": true,
+    "crosses_150C": true,
+    "label": "calc only, JEDEC board in room air, current forced at 1.00 A"
+   }
+  },
+  {
+   "charger_W": "3.50",
+   "corner": "high",
+   "room_C": 32.0,
+   "hours": 6.0,
+   "cell_end_C": 42.99,
+   "cell_max_C": 42.99,
+   "trunk_air_end_C": 47.79,
+   "trunk_wall_end_C": 37.91,
+   "trunk_wall_max_C": 37.91,
+   "knee_reading_max_C": 34.72,
+   "knee_body_max_C": 34.72,
+   "head_air_end_C": 47.53,
+   "bec_case_end_C": 58.98,
+   "minutes_to_servo_60C": null,
+   "minutes_to_servo_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "minutes_to_wall_55C": null,
+   "limits": {
+    "cell_crosses_0_to_60C": false,
+    "knee_crosses_m20_to_60C": false,
+    "wall_crosses_pla_hdt_49C": false,
+    "wall_crosses_pla_tg_55C": false,
+    "wall_crosses_petg_hdt_62C": false,
+    "trunk_air_crosses_industrial_ambient_85C": false,
+    "wall_bound_crosses_wool_felt_93C": false
+   },
+   "die_jedec": {
+    "theta_JA_C_per_W": 62.0,
+    "rise_C": 217.0,
+    "junction_C": 249.0,
+    "crosses_110C": true,
+    "crosses_150C": true,
+    "label": "calc only, JEDEC board in room air, current forced at 1.00 A"
+   }
+  }
+ ],
+ "die_jedec": [
+  {
+   "theta_JA_C_per_W": 62.0,
+   "rise_C": 142.6,
+   "junction_C": 167.6,
+   "crosses_110C": true,
+   "crosses_150C": true,
+   "label": "calc only, JEDEC board in room air, current forced at 1.00 A",
+   "charger_W": "2.30",
+   "room_C": 25.0,
+   "watts_at_110C": 1.371,
+   "watts_at_150C": 2.016
+  },
+  {
+   "theta_JA_C_per_W": 62.0,
+   "rise_C": 142.6,
+   "junction_C": 174.6,
+   "crosses_110C": true,
+   "crosses_150C": true,
+   "label": "calc only, JEDEC board in room air, current forced at 1.00 A",
+   "charger_W": "2.30",
+   "room_C": 32.0,
+   "watts_at_110C": 1.258,
+   "watts_at_150C": 1.903
+  },
+  {
+   "theta_JA_C_per_W": 62.0,
+   "rise_C": 217.0,
+   "junction_C": 242.0,
+   "crosses_110C": true,
+   "crosses_150C": true,
+   "label": "calc only, JEDEC board in room air, current forced at 1.00 A",
+   "charger_W": "3.50",
+   "room_C": 25.0,
+   "watts_at_110C": 1.371,
+   "watts_at_150C": 2.016
+  },
+  {
+   "theta_JA_C_per_W": 62.0,
+   "rise_C": 217.0,
+   "junction_C": 249.0,
+   "crosses_110C": true,
+   "crosses_150C": true,
+   "label": "calc only, JEDEC board in room air, current forced at 1.00 A",
+   "charger_W": "3.50",
+   "room_C": 32.0,
+   "watts_at_110C": 1.258,
+   "watts_at_150C": 1.903
+  }
+ ],
+ "regression": {
+  "published_3_2_central_32": {
+   "cell_C": 40.4,
+   "wall_C": 36.84,
+   "rerun_cell_C": 40.4,
+   "rerun_wall_C": 36.84
+  },
+  "life_note_3_50_central": {
+   "room_22": {
+    "cell_C": 31.3,
+    "wall_C": 27.41,
+    "knee_C": 24.6,
+    "bec_C": 41.9,
+    "air_C": 33.61
+   },
+   "room_32": {
+    "cell_C": 40.87,
+    "wall_C": 37.15,
+    "knee_C": 34.48,
+    "bec_C": 51.45,
+    "air_C": 43.38
+   }
+  }
+ }
+}

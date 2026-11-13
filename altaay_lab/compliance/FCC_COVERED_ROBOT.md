@@ -128,6 +128,8 @@ So US assembly labor on the finished duck is not a domestic component. If every 
 
 COTS is defined in 48 CFR 2.101, opened. Cited: a COTS item is a commercial product that is sold in substantial quantities in the commercial marketplace, and offered to the Government, under a contract or subcontract, without modification, in the same form in which it is sold in the commercial marketplace. This duck is not built and is not for sale (COMPLIANCE_FIRST_PASS.md). It is not, on those facts, sold in substantial quantities, and it is not offered to the Government. The COTS path is not met on the record in this repo.
 
+The FCC FAQ for this list was opened later, for the content worksheet in DOMESTIC_CONTENT.md. That FAQ says the commercially available off-the-shelf exception is inapplicable to whether a device is a domestic end product under 25.101(a), and that off-the-shelf components are still counted. The worksheet follows the FAQ. It does not treat the waiver sentence in 25.101 as an exemption for this duck.
+
 The exemption the notice itself writes, besides qualifying as a domestic end product, is a Conditional Approval by the Department of War. Cited from the body: entities that produce these devices in a foreign country can request an evaluation, and DoW evaluates the robot requests. The guidance document named in the notice was not opened. BLOCKER for the form, the fee, and the time.
 
 ## New authorizations, and sales of a module that already has one

@@ -2,6 +2,8 @@
 
 Written 2026-11-04 by the V1 track 2 agent from twin/assembly/asm_geom.py (every driven screw: 286 = 342 fitted less the 56 factory case screws inside the servos). Each line is a run of screws in the order they are driven; a part goes on just before its first screw. JOIN marks a screw that joins two subassemblies. Tools: hex2.0 and hex2.5 are the BOM T4 keys (Bondhus long series), PH0 and PH1 the proposed Wera 2050 drivers, the PH0 x 25 mm bit the proposed Wera 851/1 Z (both need Ahmed's OK). The order was checked: no screw's tool path or way in crosses a part that is already joined to it (0 violations, asm_geom.json verify).
 
+2026-11-12 correction, from fasteners.json (cad). F127 and F129 are M2x12, not M2x6. F344 and F347 are M2x5, not M2x4. Steps that drove a left-out screw now drive only the fitted ids. F356 to F359 (mic) and F360, F361 (cliff) are added, with the same PH0 and hex2.0 already used for those sizes. Those six were not in the 286-screw cast, so their tool path is not one of the 0 violations.
+
 1. JOIN 2 x M3x12 DIN 912 A2: trunk_top into trunk_bottom, hex2.5 (F073, F074)
 2. JOIN 2 x M2x8 self-tapping pan head: trunk_top into wj-wk00-0124bottomcase_45, PH0 (F049, F050)
 3. 2 x M2x6 self-tapping pan head: trunk_top into wj-wk00-0122topcabinetcase_95, PH0 (F138, F139)
@@ -74,14 +76,15 @@ Written 2026-11-04 by the V1 track 2 agent from twin/assembly/asm_geom.py (every
 70. JOIN 2 x M2x6 self-tapping pan head: roll_motor_top into wj-wk00-0124bottomcase_45, PH0 (F053, F054)
 71. 2 x M2x6 self-tapping pan head: roll_motor_top into wj-wk00-0122topcabinetcase_95, PH0 (F153, F154)
 72. JOIN 1 x M2x6 self-tapping pan head: roll_motor_bottom into wj-wk00-0124bottomcase_45, PH0 (F135)
-73. 4 x M2x6 self-tapping pan head: trunk_top into wj-wk00-0124bottomcase_45, PH0 (F057, F058, F125, F127)
+73. 4 x M2 self-tapping pan head: trunk_top into wj-wk00-0124bottomcase_45, PH0 (F057, F058, F125 are M2x6; F127 is M2x12 through the neck stop block, D59)
 74. 2 x M2x5 self-tapping pan head: trunk_top into wj-wk00-0122topcabinetcase_95, PH0 (F140, F141)
-75. 4 x M2x6 self-tapping pan head: trunk_top into wj-wk00-0124bottomcase_45, PH0 (F059, F060, F129, F131)
+75. 4 x M2 self-tapping pan head: trunk_top into wj-wk00-0124bottomcase_45, PH0 (F059, F060, F131 are M2x6; F129 is M2x12 through the neck stop block, D59)
 76. 2 x M2x5 self-tapping pan head: trunk_top into wj-wk00-0122topcabinetcase_95, PH0 (F142, F143)
+76b. JOIN 2 x M2.5x6 DIN 912 A2: tof_cliff into body_front, hex2.0, from the back of the board (F360, F361). Drive these while body_front is in the hand.
 77. JOIN 2 x M3x8 DIN 912 A2: body_front into body_middle_top, hex2.5 (F067, F068; F065 and F066 out since D38; D42: the 4 corners of body_front)
 78. JOIN 2 x M3x8 DIN 912 A2: body_front into body_middle_bottom, hex2.5 (F071, F072; D42: F069 out and its hole closed, F071 back; F070 out since D38)
 79. JOIN 4 x M2.5x6 DIN 912 A2: bno055 into trunk_top, hex2.0 (F115, F116, F117, F118)
-80. JOIN 4 x M2.5x6 DIN 912 A2: board into trunk_top, hex2.0 (F119, F120, F121, F122)
+80. JOIN 2 x M2.5x6 DIN 912 A2: board into trunk_top, hex2.0 (F119, F122; F120 and F121 out)
 81. JOIN 1 x M2.5x6 DIN 912 A2: usb_c_charger into body_back, hex2.0 (F123)
 82. JOIN 4 x M2.5x10 DIN 912 A2: battery_pack_lid into body_back, hex2.0 (F017, F018, F027, F028; D42: all 4)
 83. JOIN 2 x M3x8 DIN 912 A2: body_back into body_middle_bottom, hex2.5 (F077, F078; D38 F075 and D39 F076 out, their holes closed; the shell ears sit on the 4 printed seats)
@@ -100,14 +103,15 @@ Written 2026-11-04 by the V1 track 2 agent from twin/assembly/asm_geom.py (every
 96. 2 x M2x5 self-tapping pan head: head_yaw_to_roll into wj-wk00-0122topcabinetcase_95, PH0 (F150, F151)
 97. JOIN 2 x M2x5 self-tapping pan head: head_roll_mount into wj-wk00-0124bottomcase_45, PH0 (F061, F062)
 98. 2 x M2x4 self-tapping pan head: head_roll_mount into wj-wk00-0122topcabinetcase_95, PH0 (F156, F157)
-99. JOIN 4 x M2.5x6 DIN 912 A2: raspberrypizerow into head, hex2.0 (F111, F112, F113, F114)
-100. JOIN 4 x M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers: bulb into right_eye, hex2.0 (F176, F177, F180, F181)
+99. JOIN 2 x M2.5x6 DIN 912 A2: raspberrypizerow into head, hex2.0 (F111, F114; F112 and F113 out)
+99b. JOIN 4 x M2x6 self-tapping pan head: mic boards into head, PH0 (F356, F357, F358, F359). Drive these before head_bot_sheet.
+100. JOIN 2 x M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers: bulb into right_eye, hex2.0 (F176, F181; F177 and F180 out)
 101. JOIN 2 x M2.5x8 DIN 912 A2 + 2 x 0.3 mm washers: bulb into left_eye, hex2.0 (F179, F182; D39: F178 and F183 out, their holes closed)
-102. JOIN 4 x M2x4 self-tapping pan head: camera PCB (not in CAD) into head, PH0 (F344, F345, F346, F347)
+102. JOIN 2 x M2x5 self-tapping pan head: camera PCB into head, PH0 (F344, F347; F345 and F346 out; D34 length is M2x5)
 103. JOIN 1 x SG90 bag mounting screw: SG90 tab into head, PH0 (F349)
 104. JOIN 1 x SG90 bag mounting screw: SG90 tab into head, PH0 (F351)
-105. JOIN 4 x M2.5x5 DIN 912 A2: speaker_interface into speaker_stand, hex2.0 (F352, F353, F354, F355)
-106. JOIN 4 x M2.5x6 DIN 912 A2: speaker_stand into head, hex2.0 (F107, F108, F109, F110)
+105. JOIN 2 x M2.5x5 DIN 912 A2: speaker_interface into speaker_stand, hex2.0 (F353, F354; F352 and F355 out)
+106. JOIN 2 x M2.5x6 DIN 912 A2: speaker_stand into head, hex2.0 (F108, F109; F107 and F110 out)
 107. JOIN 1 x SG90 bag horn screw: left_antenna_holder into SG90 output shaft, PH0 (F162)
 108. JOIN 1 x SG90 bag horn screw: right_antenna_holder into SG90 output shaft, PH0 (F163)
 109. JOIN 4 x M3x6 DIN 912 A2: head_roll_mount into head, hex2.5 (F091, F092, F093, F094)

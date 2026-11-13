@@ -268,7 +268,7 @@ def main():
     R.ev("cables3d.json %s (checked %s): %d cables, %d cable ends, %d retention items; netlist %d active cables" % (
         D["meta"].get("generated_utc", "?"), D["meta"].get("check", {}).get("generated_utc", "?"), len(C),
         len(D.get("cable_ends", [])), len(D.get("retention", [])), len(active)))
-    missing = [cb["id"] for cb in active if cb["id"] not in C]
+    missing = [cb["id"] for cb in active if cb["id"] not in C and not cb.get("no_route")]
     for m in missing:
         R.find("FAIL", "cable %s has no 3D route" % m, fix="route it in cables3d/route_cables.py", where="altaay_lab/cables3d")
     # ---------------------------------------------------------------- coverage and cut lengths
