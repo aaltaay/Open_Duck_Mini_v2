@@ -137,7 +137,7 @@ What it catches. A netlist edit that breaks E1. A bench log that does not match 
 
 Script. `python3 altaay_lab/test/check_bench.py --self-test`. A real log: `python3 altaay_lab/test/check_bench.py RECORD.yaml --predict altaay_lab/test/records/predictions/bec12_case.yaml` or `--gates`.
 
-Pass. Self-test PASS means the checker works. A measured record PASSes the compare only when every filled value is inside `tol_abs`. That compare is an investigate band. It is not gate 2. Hop gates: 2S pass at most 28 mOhm, warn through 40, fail over 40; 3S pass at most 100 mOhm (TEST_PLAN section 5). Walk log: 2S uses 4.5 V and 10 percent under 6.0 V. 3S hard-fails under 4.0 V (the C018 page floor) and otherwise compares to the twin. Do not score a 12 V log with the 6.0 V gate.
+Pass. Self-test PASS means the checker works. A measured record PASSes the compare only when every filled value is inside `tol_abs` and every filled id is in the prediction. A measured record that matches nothing is a fail. `--gates` exits nonzero when a measured hop or walk row is FAIL. The compare band is an investigate band. It is not gate 2. Hop gates: 2S pass at most 28 mOhm, warn through 40, fail over 40; 3S pass at most 100 mOhm (TEST_PLAN section 5). Walk log: 2S uses 4.5 V and 10 percent under 6.0 V. 3S hard-fails under 4.0 V (the C018 page floor) and otherwise compares to the twin. Do not score a 12 V log with the 6.0 V gate.
 
 Templates, all status not_run: `altaay_lab/test/records/templates/`. Schema: `altaay_lab/test/records/schema.yaml`.
 
@@ -208,14 +208,14 @@ The walk does not hold 12.0 V. Typical BEC input minimum 11.335 V (sim pass only
 
 | Case | Room | BEC loss | BEC case at 40 min | Knee reading to 60 C | Knee reading max | Knee body max | Cells max | Wall max |
 |---|---|---|---|---|---|---|---|---|
-| Dropout, central | 25 C | 1.441 W | 60.22 C | 4.83 min | 81.76 C | 76.74 C | 41.24 C | 28.75 C |
-| Dropout, central | 32 C | 1.441 W | 66.76 C | 3.5 min | 88.84 C | 83.68 C | 48.06 C | 35.68 C |
+| Dropout, central | 25 C | 1.441 W | 60.7 C | 4.83 min | 81.76 C | 76.74 C | 43.18 C | 29.0 C |
+| Dropout, central | 32 C | 1.441 W | 67.24 C | 3.5 min | 88.84 C | 83.68 C | 49.97 C | 35.93 C |
 
 Continuous walking still leaves the 60 C operating line, at 4.83 min in a 25 C room on this scaled shape, and at 3.33 min on the unscaled session. The body at 76.74 C is still above the 49 C PLA edge. Cells and the average wall stay inside their windows in the central rows. The winding node peaked at 127.72 C in the 25 C central dropout case. That node is a guess. Do not read it as measured copper.
 
 The high corner stacks every pessimistic parameter (cf 1.25 and the hot thermal set). Its knee reading is about 200 C. THERMAL_TWIN.md already says a 200 C reading in that corner is the stack, not a temperature to quote. It is stored in the json and it is not the result above.
 
-If the same current were buck-regulated at 12.0 V and efficiency 0.85, the loss would be 10.173 W and the case 171.59 C (sim pass only, central, 25 C). This walk does not enter that regime. The older 2S session, if scored as a regulated buck at 0.85, has a mean loss of 4.76 W (calc only from that file's mean 6.649 V and 4.056 A). That is the family of the old hot BEC case. It is not the 12 V dropout number.
+Resistive pack heating uses the session RMS current, scaled to the STS12 RMS. Converter loss still uses the mean current. If the same current were buck-regulated at 12.0 V and efficiency 0.85, the loss would be 10.173 W and the case 171.9 C (sim pass only, central, 25 C). This walk does not enter that regime. The older 2S session, if scored as a regulated buck at 0.85, has a mean loss of 4.76 W (calc only from that file's mean 6.649 V and 4.056 A). That is the family of the old hot BEC case. It is not the 12 V dropout number.
 
 ## 10. Wear and life
 
@@ -356,7 +356,7 @@ Status. DONE for the matrix. Every gate in it is still GAP.
 
 | Check | Result |
 |---|---|
-| bec12_heat.py | Exit 0. Confirmation knee 60 C at 3.33 min. 12 V dropout case 60.22 C. Scaled knee still leaves 60 C at 4.83 min. |
+| bec12_heat.py | Exit 0. Confirmation knee 60 C at 3.33 min. 12 V dropout case 60.7 C. Scaled knee still leaves 60 C at 4.83 min. |
 | fault_inject.py | Exit 0. Top RPN 256, 252, 224, 210, 189. Cut-rail sit reproduced cells 28.36 C. |
 | check_bench.py --self-test | PASS |
 | check_bq24133.py | 49 checks, 0 failed |

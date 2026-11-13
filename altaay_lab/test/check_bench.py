@@ -82,19 +82,52 @@ def walk_gate(row, pack):
 
 def compare(record, predict):
     if record.get("status") == "not_run":
-        return dict(result="SKIP", mismatches=[])
+        return dict(result="SKIP", mismatches=[], unmatched=[], compared=0)
     by_id = {r["id"]: r for r in predict.get("rows", [])}
     mismatches = []
+    unmatched = []
+    compared = 0
     for row in record.get("rows", []):
-        pred = by_id.get(row["id"])
-        if pred is None or row.get("value") is None:
+        if row.get("value") is None:
             continue
+        pred = by_id.get(row["id"])
+        if pred is None:
+            unmatched.append(row["id"])
+            continue
+        compared += 1
         err = abs(float(row["value"]) - float(pred["predict"]))
         tol = float(pred["tol_abs"])
         if err > tol:
             mismatches.append(dict(id=row["id"], value=row["value"], predict=pred["predict"], tol_abs=tol, err=round(err, 4)))
-    result = "PASS" if not mismatches else "FAIL"
-    return dict(result=result, mismatches=mismatches)
+    # A measured record with nothing checked is not a pass. A filled id the
+    # prediction does not name is an error, not a skip.
+    if unmatched or compared == 0 or mismatches:
+        result = "FAIL"
+    else:
+        result = "PASS"
+    return dict(result=result, mismatches=mismatches, unmatched=unmatched, compared=compared)
+
+
+def score_gates(record):
+    """Return printed lines and whether any measured hop or walk row failed."""
+    pack = record.get("pack")
+    lines = []
+    failed = False
+    for row in record.get("rows", []):
+        if row.get("value") is None:
+            lines.append("%s SKIP" % row["id"])
+            continue
+        if str(row["id"]).startswith("hop"):
+            verdict = hop_gate(float(row["value"]), pack)
+        elif str(row["id"]).startswith("walk"):
+            verdict = walk_gate(row["value"], pack)
+        else:
+            lines.append("%s SKIP" % row["id"])
+            continue
+        lines.append("%s %s" % (row["id"], verdict))
+        if verdict == "FAIL":
+            failed = True
+    return lines, failed
 
 
 def self_test():
@@ -123,6 +156,19 @@ def self_test():
         raise SystemExit("inside band should pass the compare")
     if compare(outside, predict)["result"] != "FAIL":
         raise SystemExit("outside band should fail the compare")
+    wrong_id = dict(status="measured", rows=[dict(id="case_C_10min_5A", value=999.0)])
+    missed = compare(wrong_id, predict)
+    if missed["result"] != "FAIL" or missed["unmatched"] != ["case_C_10min_5A"] or missed["compared"] != 0:
+        raise SystemExit("unmatched filled id must fail: %s" % missed)
+    empty = dict(status="measured", rows=[dict(id="bec_case_C", value=None)])
+    if compare(empty, predict)["result"] != "FAIL":
+        raise SystemExit("measured record with no values must fail")
+    lines, failed = score_gates(dict(status="measured", pack="3S", rows=[dict(id="hop_vplus_mohm", value=200.0)]))
+    if (not failed) or lines != ["hop_vplus_mohm FAIL"]:
+        raise SystemExit("3S 200 mOhm hop must fail the gate: %s" % lines)
+    lines, failed = score_gates(dict(status="measured", pack="3S", rows=[dict(id="hop_vplus_mohm", value=20.0)]))
+    if failed or lines != ["hop_vplus_mohm PASS"]:
+        raise SystemExit("3S 20 mOhm hop must pass: %s" % lines)
     print("self-test PASS: templates, hop gates, walk gates, compare")
     return 0
 
@@ -140,25 +186,18 @@ def main(argv):
         raise SystemExit("give a record, or --self-test")
     record = load(args.record)
     if args.gates:
-        pack = record.get("pack")
-        lines = []
-        for row in record.get("rows", []):
-            if row.get("value") is None:
-                lines.append("%s SKIP" % row["id"])
-                continue
-            if row["id"].startswith("hop"):
-                lines.append("%s %s" % (row["id"], hop_gate(float(row["value"]), pack)))
-            elif row["id"].startswith("walk"):
-                lines.append("%s %s" % (row["id"], walk_gate(row["value"], pack)))
         if record.get("status") == "not_run":
             print("SKIP not_run")
             return 0
+        lines, failed = score_gates(record)
         print("\n".join(lines))
-        return 0
+        return 1 if failed else 0
     if not args.predict:
         raise SystemExit("give --predict or --gates")
     result = compare(record, load(args.predict))
     print(result["result"])
+    for name in result.get("unmatched") or []:
+        print("unmatched %s" % name)
     for m in result["mismatches"]:
         print(m)
     return 0 if result["result"] in ("PASS", "SKIP") else 1

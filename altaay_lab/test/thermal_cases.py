@@ -197,7 +197,9 @@ def _csv_arrays(path):
         t=a[:, col["t_s"]],
         im=im,
         i_pack=a[:, col["i_pack"]],
+        i_pack_rms=a[:, col["i_pack_rms"]],
         i_bec=a[:, col["i_bec_out"]],
+        i_bec_rms=a[:, col["i_bec_rms"]],
         v_bec=a[:, col["v_bec_out"]],
     )
 
@@ -227,8 +229,9 @@ def walk_scaled(path, corner, room_c, sts_pack, mode, minutes=40.0):
     """Continuous walk on the sheet-session current shape.
 
     Motor current is scaled by Kt_7.4 / Kt_12 so the same torque maps onto the
-    C018 stall line (calc only). Pack current is scaled so its mean matches the
-    STS12 corner (calc only). This is not a new closed-loop trace and not run C.
+    C018 stall line (calc only). Pack mean current is scaled to the STS12 mean
+    for converter loss. Pack RMS current is scaled to the STS12 RMS for every
+    I^2 R term (calc only). This is not a new closed-loop trace and not run C.
 
     mode "dropout": loss = I_bec * 0.30 V. This is the 12.0 V setpoint on the
     STS12 walk, because that walk's BEC input stays under 12.3 V.
@@ -242,7 +245,10 @@ def walk_scaled(path, corner, room_c, sts_pack, mode, minutes=40.0):
     i_scale = KT_7V4 / kt12
     r_w = 4.444 * (R_W_7V4 / R_LOOP_7V4)
     r_board = 4.444 - r_w
-    scale_pack = sts_pack["i_mean"] / float(np.nanmean(s["i_pack"]))
+    # Mean current scales the converter (loss is I times a voltage, or Pout).
+    # RMS current scales every I^2 R term. Squaring the bin mean understates heat.
+    scale_mean = sts_pack["i_mean"] / float(np.nanmean(s["i_pack"]))
+    scale_rms = sts_pack["i_rms"] / float(np.nanmean(s["i_pack_rms"]))
     split0 = bec_split(sts_pack["i_mean"], sts_pack["bus_mean"], c["P5V"])
     tbin = s["t"]
 
@@ -254,9 +260,12 @@ def walk_scaled(path, corner, room_c, sts_pack, mode, minutes=40.0):
     for i in range(len(tbin)):
         im = np.nan_to_num(s["im"][i]) * i_scale * c["cf"]
         i2 = im ** 2
-        ip = float(s["i_pack"][i]) * scale_pack
-        sp = bec_split(ip, sts_pack["bus_mean"], c["P5V"])
+        i_mean = float(s["i_pack"][i]) * scale_mean
+        i_rms = float(s["i_pack_rms"][i]) * scale_rms
+        i2_pack = i_rms * i_rms
+        sp = bec_split(i_mean, sts_pack["bus_mean"], c["P5V"])
         ib = sp["i_bec_A"]
+        ib_rms = float(s["i_bec_rms"][i]) * scale_rms
         if mode == "dropout":
             bec = dropout_loss_w(ib)
             v_srv = sts_pack["bec_out_mean"]
@@ -267,15 +276,15 @@ def walk_scaled(path, corner, room_c, sts_pack, mode, minutes=40.0):
             raise ValueError(mode)
         losses.append(bec)
         trunk = dict(
-            cells=N_CELLS * ip * ip * R_CELL,
-            holder=ip * ip * c["R_holder"],
-            bms=ip * ip * c["R_bms"],
-            fuse=ip * ip * TT.PARAMS["R_fuse"],
-            xt30=ip * ip * TT.PARAMS["R_xt30"],
-            switch=ip * ip * TT.sw_R_on(sts_pack["bus_mean"], c),
-            wires=ip * ip * TT.PARAMS["R_wires"],
+            cells=N_CELLS * i2_pack * R_CELL,
+            holder=i2_pack * c["R_holder"],
+            bms=i2_pack * c["R_bms"],
+            fuse=i2_pack * TT.PARAMS["R_fuse"],
+            xt30=i2_pack * TT.PARAMS["R_xt30"],
+            switch=i2_pack * TT.sw_R_on(sts_pack["bus_mean"], c),
+            wires=i2_pack * TT.PARAMS["R_wires"],
             bec=bec,
-            bec_leads=ib * ib * 0.004,
+            bec_leads=ib_rms * ib_rms * 0.004,
             logic=0.15,
         )
         # Idle is not added. The session current already includes the motor
@@ -306,7 +315,8 @@ def walk_scaled(path, corner, room_c, sts_pack, mode, minutes=40.0):
         kt_12_Nm_per_A=kt12,
         r_w_ohm=round(r_w, 3),
         r_board_ohm=round(r_board, 3),
-        pack_scale=round(scale_pack, 4),
+        pack_scale_mean=round(scale_mean, 4),
+        pack_scale_rms=round(scale_rms, 4),
         i_bec_mean_A=round(split0["i_bec_A"], 3),
         bec_loss_mean_W=round(float(np.mean(losses)), 3),
         friction_heat="omitted, not in the session bins",

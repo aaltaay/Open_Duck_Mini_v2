@@ -8,7 +8,7 @@ note: >
   not pass gate 0 or gate 2. Castle publishes no case limit.
 rows:
   - id: bec_case_C
-    predict: 60.22
+    predict: 60.7
     tol_abs: 15.0
     unit: C
   - id: bec_loss_W

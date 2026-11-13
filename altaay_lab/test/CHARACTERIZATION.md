@@ -67,7 +67,7 @@ Then the input sweep at 2 A: 12.6 V, 12.3 V, 12.0 V, 11.3 V, 8.4 V. Write input,
 
 Efficiency is output watts over input watts at 2 A and at 5 A, input 12.6 V if it is still regulating, and at the dropout point. The twin uses 0.85 until this number replaces it. Castle publishes none (BLOCKER).
 
-The STS12 walk does not hold 12.0 V. Typical BEC input minimum is 11.335 V (sim pass only, problems/sts12.json). Regulation at 12.0 V needs 12.3 V at the input (calc only, 12.0 plus 0.30). On that walk the loss used by the thermal twin is 1.441 W and the case at 40 min is 60.22 C in a 25 C room, central corner (sim pass only, results/bec12_heat.json). A bench case temperature is compared to 60.22 C with a 15 C investigate band (`records/predictions/bec12_case.yaml`). Outside the band means the twin or the setup is wrong. It does not by itself fail the sheet window, and inside the band is not a hardware pass.
+The STS12 walk does not hold 12.0 V. Typical BEC input minimum is 11.335 V (sim pass only, problems/sts12.json). Regulation at 12.0 V needs 12.3 V at the input (calc only, 12.0 plus 0.30). On that walk the loss used by the thermal twin is 1.441 W and the case at 40 min is 60.7 C in a 25 C room, central corner (sim pass only, results/bec12_heat.json). A bench case temperature is compared to 60.7 C with a 15 C investigate band (`records/predictions/bec12_case.yaml`). Outside the band means the twin or the setup is wrong. It does not by itself fail the sheet window, and inside the band is not a hardware pass.
 
 Pass: setpoint, dropout, and efficiency are written, and `bec12_heat.py` is re-run with those two numbers instead of 0.30 V and 0.85. Fail: the no-load point is outside 12.00 V plus or minus 0.10 V when the input is at least 12.3 V.
 
