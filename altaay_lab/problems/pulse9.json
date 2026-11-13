@@ -1,0 +1,12 @@
+{
+ "label": "sim pass only",
+ "step_s": 0.002,
+ "threshold_A": 9.0,
+ "note": "Same 60 s walks as problems/sts12_mass.py, pack current at every physics step. Samples at or above 9 A.",
+ "rows": [
+  {"corner": "typical", "cmd_m_s": 0.15, "n_at_or_above": 1, "longest_s": 0.002, "ms_at_or_above": 2.0, "i_max_A": 9.026, "i_mean_A": 5.144},
+  {"corner": "high-side", "cmd_m_s": 0.15, "n_at_or_above": 0, "longest_s": 0.0, "ms_at_or_above": 0.0, "i_max_A": 8.664, "i_mean_A": 5.104},
+  {"corner": "typical", "cmd_m_s": 0.0883, "n_at_or_above": 32, "longest_s": 0.006, "ms_at_or_above": 64.0, "i_max_A": 9.534, "i_mean_A": 3.634},
+  {"corner": "high-side", "cmd_m_s": 0.0883, "n_at_or_above": 4, "longest_s": 0.002, "ms_at_or_above": 8.0, "i_max_A": 9.058, "i_mean_A": 3.649}
+ ]
+}
