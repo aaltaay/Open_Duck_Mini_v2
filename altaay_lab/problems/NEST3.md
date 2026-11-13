@@ -53,4 +53,4 @@ The policy was trained on servos whose no-load speed is 5.646 rad/s. The 12 V sh
 
 Asking the same policy for 0.088 m/s does not get 0.088 m/s back. It picks a different gait and the body makes 0.016 m/s. A retrain would teach gaits the 4.717 rad/s servo can finish, instead of a 0.15 m/s gait the servo only partly finishes. The 0.034 m/s is the gap that retraining is aimed at. The speed after a retrain was not measured.
 
-The heat of the BQ24133 at the 1.00 A used above, and the 2S fallback, is in twin/thermal/BQ24133_HEAT.md. The mat is still this one.
+The heat of the BQ24133 at the 1.00 A used above, and the 2S fallback, is in twin/thermal/BQ24133_HEAT.md. The mat is still this one. The docked servo rail is not this 15.0 V supply. circuitry/SERVO_RAIL.md holds the Pololu 2815 off while the duck is on the mat. The 13.6 V to 16.0 V window, the 15.0 V supply, and the mat geometry stay as written above.

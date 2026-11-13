@@ -1,0 +1,127 @@
+{
+ "label": "sim pass only for the seat, calc only for the current",
+ "kt_Nm_per_A": 1.09,
+ "kt_note": "2.942 Nm / 2.7 A from the C018 stall line, problems/STS12.md",
+ "friction": "joint friction, joint damping, and floor friction set to 0 after the sit",
+ "term_A": 0.1,
+ "rows": [
+  {
+   "joints": [
+    "left_hip_roll",
+    "right_hip_roll"
+   ],
+   "blew": true,
+   "min_seat_N": null,
+   "seat_steps_over_0p2N": 0,
+   "seat_steps": 0,
+   "dy_mm": 0.0,
+   "peak_torque_Nm": {
+    "left_hip_roll": 0.2255,
+    "right_hip_roll": 0.224
+   },
+   "current_A": {
+    "left_hip_roll": 0.2069,
+    "right_hip_roll": 0.2055
+   },
+   "current_sum_A": 0.4124,
+   "under_0p10A": false,
+   "seat_held": false,
+   "name": "two_hip_rolls"
+  },
+  {
+   "joints": [
+    "left_hip_pitch",
+    "right_hip_pitch"
+   ],
+   "blew": true,
+   "min_seat_N": null,
+   "seat_steps_over_0p2N": 0,
+   "seat_steps": 0,
+   "dy_mm": 0.0,
+   "peak_torque_Nm": {
+    "left_hip_pitch": 0.0359,
+    "right_hip_pitch": 0.0363
+   },
+   "current_A": {
+    "left_hip_pitch": 0.033,
+    "right_hip_pitch": 0.0333
+   },
+   "current_sum_A": 0.0663,
+   "under_0p10A": true,
+   "seat_held": false,
+   "name": "two_hip_pitches"
+  },
+  {
+   "joints": [
+    "left_knee",
+    "right_knee"
+   ],
+   "blew": true,
+   "min_seat_N": null,
+   "seat_steps_over_0p2N": 0,
+   "seat_steps": 0,
+   "dy_mm": 0.0,
+   "peak_torque_Nm": {
+    "left_knee": 0.1175,
+    "right_knee": 0.1174
+   },
+   "current_A": {
+    "left_knee": 0.1078,
+    "right_knee": 0.1077
+   },
+   "current_sum_A": 0.2155,
+   "under_0p10A": false,
+   "seat_held": false,
+   "name": "two_knees"
+  },
+  {
+   "joints": [
+    "neck_pitch",
+    "head_pitch"
+   ],
+   "blew": true,
+   "min_seat_N": 0.0,
+   "seat_steps_over_0p2N": 109,
+   "seat_steps": 694,
+   "dy_mm": 344.59,
+   "peak_torque_Nm": {
+    "neck_pitch": 0.1059,
+    "head_pitch": 0.1022
+   },
+   "current_A": {
+    "neck_pitch": 0.0972,
+    "head_pitch": 0.0938
+   },
+   "current_sum_A": 0.191,
+   "under_0p10A": false,
+   "seat_held": false,
+   "name": "neck_and_head"
+  },
+  {
+   "joints": [
+    "left_hip_pitch",
+    "right_hip_pitch",
+    "left_ankle"
+   ],
+   "blew": true,
+   "min_seat_N": 0.0,
+   "seat_steps_over_0p2N": 70,
+   "seat_steps": 84,
+   "dy_mm": 0.73,
+   "peak_torque_Nm": {
+    "left_hip_pitch": 0.0359,
+    "left_ankle": 0.0086,
+    "right_hip_pitch": 0.0363
+   },
+   "current_A": {
+    "left_hip_pitch": 0.033,
+    "left_ankle": 0.0079,
+    "right_hip_pitch": 0.0333
+   },
+   "current_sum_A": 0.0742,
+   "under_0p10A": true,
+   "seat_held": false,
+   "name": "hip_pitches_and_ankle"
+  }
+ ]
+}
