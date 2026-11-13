@@ -127,7 +127,7 @@ Does (a) scale?
 1. Contact resistance of the gold wells on the foil, with dust, hair, and felt. The 50 milliohm mark is not a measurement.
 2. The signature gate board. The pocket fits the old 70 by 26 by 14 mm keep-out. The board is not designed. While the field is on, a coin can bridge a 5 mm gap.
 3. Steering diodes in the belly, so a well on either stripe still feeds the charger the right way. The part is not chosen. The charger board expects fixed plus and minus.
-4. Chip heat at 2.30 W and 3.50 W. The thermal twin ran 1.9 W and 3.2 W (sim pass only) and was not re-run.
+4. Chip heat at 2.30 W and 3.50 W was re-run in twin/thermal/CHARGE_WATTS.md. Cells and the trunk wall stay inside the cited windows in that sit (sim pass only). The die on the cited 62 C/W board crosses 110 C if the current stays at 1.00 A (calc only). In-trunk theta, the felt temperature, and the plastic against the package stay BLOCKER.
 5. A real camera detector, light, and the entrance pupil. The sims use a pose plus noise while a point is inside a cone.
 6. The card as a solid. The card run used a point 4 mm off the wall, not a 1 mm plate, and it did not store a wall gap. Clearance of this plate is not a sim.
 7. Felt compression under the seat's 0.88 N (sim pass only, flush study). A foil even 0.2 mm low may not meet the gold.
