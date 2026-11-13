@@ -136,7 +136,7 @@ def sheet_power(book):
     sh.w("F2.OUT", "BMS.P+", 290, 120.0, 110, sb=3, lab="none")
     sh.w("JGD.S", "BMS.P-", ("y", 178.5), 112, sb=3, lab="none")
     sh.w("DKP.SNS", "JSN.S", lab="none")
-    sh.w("JSN.S", "RT1.1", lab="none")
+    # Superseded 2026-11-12 ET: JSN.S to RT1.1 was the old SENSE tap. RT1.1 is cable NT on NTC_MID.
     sh.w("RT1.2", "BMS.P-", 268, 179.5, 114, sb=0, lab="none")
     sh.w("JSN.S", "WK1.A", ("y", 157.0), 270, lab="none")
     sh.w("WK1.K", "SW1.ON", 288, 108.0, 308, lab="none")

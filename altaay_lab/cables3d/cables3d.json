@@ -65170,6 +65170,8 @@
     },
     {
      "name": "r1",
+     "status": "superseded",
+     "note": "Superseded 2026-11-12 ET. Old SENSE tap from JSN.S to RT1.1. The bead pin is cable NT on NTC_MID. Points kept.",
      "from": "JSN.S",
      "to": "RT1.1",
      "d_mm": 1.3,
@@ -65577,6 +65579,8 @@
     {
      "from": "JSN.S",
      "to": "RT1.1",
+     "status": "superseded",
+     "note": "Superseded 2026-11-12 ET. Not an active conductor. Geometry kept.",
      "net": "SNS",
      "gauge": "26 AWG",
      "color": "white",

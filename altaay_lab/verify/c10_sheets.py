@@ -88,7 +88,7 @@ def main():
         active = {cb["id"] for cb in net["cables"] if cb.get("status", "active") == "active"}
         skip_cabs = {cb["id"] for cb in net["cables"] if cb.get("no_route")}
         wires = ["%s|%s|%s" % (w["cable"], w["from"], w["to"]) for w in net["wires"]
-                 if w["cable"] in active and w["cable"] not in skip_cabs]
+                 if w["cable"] in active and w["cable"] not in skip_cabs and w.get("status") != "superseded"]
         full = {k for k, v in cov["full"].items() if any(n != 5 for n in v)}   # every sheet but the harness overview (5)
         miss = [w for w in wires if w not in full]
         nos = sorted(s["no"] for s in cov["sheets"])

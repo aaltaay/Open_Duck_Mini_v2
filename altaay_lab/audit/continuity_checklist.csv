@@ -6,7 +6,6 @@ DC1,F2.OUT,BMS.P+,PACK_P,20 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md sec
 DC2,DKP.GND,JGD.S,GND,20 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.SYS DKP.SNS DKP.CHG
 DC2,JGD.S,BMS.P-,GND,20 AWG,210,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 DC3,DKP.SNS,JSN.S,SNS,26 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.SYS DKP.GND DKP.CHG
-DC3,JSN.S,RT1.1,SNS,26 AWG,220,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 DC3,RT1.2,BMS.P-,GND,26 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RT1.1
 CE,JPI.STAT,PI.29,STAT_GPIO,26 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JPI.EN JPI.V3 JPI.GND
 CE,JPI.EN,PI.31,PI_EN,26 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JPI.STAT JPI.V3 JPI.GND
