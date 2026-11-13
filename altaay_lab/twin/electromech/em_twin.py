@@ -7,7 +7,7 @@ Every 2 ms physics step:
   2. the power network as built (power_net.py: the ngspice circuit of sim/power_fix.py option ab, D15 star plus the D23
      feeds SP4/SP5, netlist lengths) is solved with each servo drawing its supply current for its own volts; the 2S
      Molicel P30B pack (p30b.py) gives the terminal volts for its charge and current; the Castle CC BEC Pro regulates
-     7.2 V or passes its input minus the dropout; the 5 V branch draws its constant power;
+     12.0 V or passes its input minus the dropout (7.2 V and 16.0 V are superseded); the 5 V branch draws its constant power;
   3. each servo's gain and torque limit are set from its volts (BAM: both scale with V / 7.4) and MuJoCo steps;
   4. the pack charge counter advances by the pack current (times the time compression factor, 1 = none).
 The 50 Hz policy loop is the lab's copy of the upstream MjInfer loop (sim/current_budget.py run(), accelerometer

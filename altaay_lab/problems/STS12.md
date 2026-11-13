@@ -21,7 +21,7 @@ ST-3215-C018, Feetech product page, read 2026-11-12 (https://www.feetech.cn/en/5
 
 The stall line is 12 / 2.7 = 4.444 ohm, and Kt is 2.942 / 2.7 = 1.090 Nm/A (calc only). The same page's wiki copy says the attached PDF prints 12.0 V as both the minimum and the maximum, while the page prints 4 V to 14 V (https://ftservo.github.io/ftservo-wiki/en/products/models/st-3215-c018/main/, checked there 2026-10-02). This walk uses the page range. It does not cut the servo off below 12 V. Waveshare's table for the same stall and speed prints 6 V to 12.6 V (https://docs.waveshare.com/ST3215_Servo).
 
-The model is the existing sheet mode. Torque scale is 2.942 / 3.23 = 0.911 at 12 V. Damping is raised by 1.197 so the no-load speed is the 4.717 rad/s above, not the faster trained speed. The two solver sources each carry 1.5 P45B cells, so the string is 3S. The BEC set point is 16 V, so the output is the pack minus the 0.3 V dropout assumption. A 7.2 V BEC would put this servo back on the voltage that falls.
+The model is the existing sheet mode. Torque scale is 2.942 / 3.23 = 0.911 at 12 V. Damping is raised by 1.197 so the no-load speed is the 4.717 rad/s above, not the faster trained speed. The two solver sources each carry 1.5 P45B cells, so the string is 3S. The BEC set point in the code is now 12.0 V (D63). Superseded: this paragraph's 16 V pass-through, and the 7.2 V set point. The walk numbers in the table below were run at 16 V and are kept. A pack under 12 V cannot hold a 12.0 V output. Castle does not publish that behavior (BLOCKER).
 
 ## The walk
 
@@ -50,7 +50,7 @@ The nest window is 8.70 V to 10.0 V, because the specs start 0.3 V above 8.40 V 
 
 The Tenergy 32175 is a 2S board for 7.2 V and 7.4 V (BOM line 8). A 3S pack needs a 3S protection board. The 25 milliohm ceiling and the 22 A trip belong to the 2S board. They do not come along.
 
-The Castle BEC is set to 7.2 V in the network. The walk above does not use that set point.
+The Castle BEC was set to 7.2 V in the network when this note was written. That set point is superseded. The live set point is 12.0 V (D63). The walk table above used 16 V and is kept.
 
 ## Cost and weight
 

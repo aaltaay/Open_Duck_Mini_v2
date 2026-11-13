@@ -104,3 +104,13 @@ The new I2C parts draw from the Pi 3V3 pins 1 and 17 (the touch boards and the T
 | total | about 45 mA typical, about 62 mA with the ToF peak | calc only |
 
 The Pi Zero 2 W 3.3 V pin current limit is not in its product brief: BLOCKER (read the Raspberry Pi documentation, or measure the rail with the parts on, TEST_PLAN). If the rail is short, the touch boards and the ToF take 5 V on their Vin instead (both accept 3 to 5 V and shift the I2C levels themselves), which moves about 25 mA from the 3.3 V rail to the U3 5 V branch (3.4 A rating). The 5 V branch total moves by under 0.1 A either way (calc only).
+
+## 11. 3S pack, BEC set to 12.0 V (2026-11-13, D63)
+
+Supersedes the 7.2 V set point in sections 1 and 3 for the 3S rail. Supersedes the 16 V pass-through used in the first 3S walks. Sections 1 to 9 stay as the 2S record. Do not delete them.
+
+- Set point 12.0 V. Cited output range 4.8 V to 12.5 V (section 3) and 4.9 V to 12.5 V (Castle chart, twin/battery/BATTERY_STUDY.md). 16 V is outside both. 12.0 V is inside both.
+- Pack domain about 9.0 V to 12.6 V (3 times 3.0 V to 3 times 4.2 V, calc only). The P45B cut-off is 2.5 V per cell, so 7.5 V is the sheet floor. The domain starts at 9.0 V. U3 VIN uses this domain. The Pololu D30V30F5 input cited in the netlist is 5 V to 45 V, so 9.0 V to 12.6 V is inside it.
+- When the pack is under 12 V the BEC cannot hold 12.0 V. The minimum input and the behavior below the set point are not published (BLOCKER). The sim still uses a 0.3 V dropout assumption. In that model the output regulates only when the BEC input is at least 12.3 V (calc only, 12.0 + 0.3). A full pack is 12.6 V, so only the top of the charge regulates. The rest of the discharge is pass-through in the sim, or a shut-off on the real part. Do not treat 12.0 V as held for the whole walk.
+- The 2S protection board and the 2S charger are still the parts drawn in the netlist. They do not cover 12.6 V. That open item is problems/STS12.md. D61 was not edited.
+- Any power-design change has to pass `python3 altaay_lab/verify/check_power_limits.py` before it is used in a sim.

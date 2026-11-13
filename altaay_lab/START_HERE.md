@@ -48,6 +48,9 @@ Open Duck Mini v2 exceptions (Ahmed, 2026-11-01):
 
 Duck note on "bus servos only": the 14 joint servos are serial bus. The optional antenna servos in the upstream design are SG90 PWM servos, which conflict with this rule. BOM.md line 14 lists them; GAPS.md B10a records this as a lab-rule gap; the stock build keeps them because Ahmed chose stock first, and a bus-servo swap belongs to the later lab step.
 
+## Power limit check (2026-11-13)
+Any power-design change must pass `python3 altaay_lab/verify/check_power_limits.py` before it is used in a sim. The limits and their source URLs are in altaay_lab/verify/part_limits.yaml. The check reads the netlist and the live sim set points (BEC, pack window, nest, dropout). It fails if a set point is outside a cited limit, or if the netlist and the sim configs disagree. The Castle BEC set point on the 3S rail is 12.0 V. The 7.2 V and 16 V set points are superseded. GitHub Actions runs this check on every pull request into altaay-lab.
+
 ## Repo map (altaay_lab/ only)
 | Path | What it is |
 |---|---|

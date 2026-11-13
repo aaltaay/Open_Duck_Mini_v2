@@ -42,7 +42,8 @@ N_CELLS = 3
 R_CELL = 0.015
 M_CELL = 70.0
 H_CELL = 70.15
-# Walk study dropout when the BEC setpoint is 16 V and the source is below it (problems/FIT3.md).
+# Walk study dropout when the BEC setpoint was 16 V and the source is below it (problems/FIT3.md).
+# Superseded 2026-11-13: the live set point is 12.0 V (D63). This file keeps the unfixed 14.7 V path.
 V_DROP = 0.3
 I_IDLE = 0.021
 # Docked charge: D50 and D61 feed the awake servo bus from the nest through DK6, not from the pack.

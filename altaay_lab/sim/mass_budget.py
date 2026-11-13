@@ -523,7 +523,8 @@ def wires(u, inst, servo_pos, pl, head_pt, pi_c, reg_c, amp_c, spk_c, cam_c):
            "JG20": (servo_c["left_hip_yaw"][0], "trunk_assembly"), "JG10": (servo_c["right_hip_yaw"][0], "trunk_assembly"),
            "BNO": (bno, "trunk_assembly")}
     hd = "head_assembly"
-    for k, c in (("U3", reg_c), ("J5", pi_c), ("JG", pi_c), ("PI", pi_c), ("RL", pi_c), ("RR", pi_c), ("RP", pi_c), ("RFL", pi_c), ("RFR", pi_c),
+    # JPI is the charger header on the Pi pins (netlist cable CE). It has no cables3d end, and its cut length is null.
+    for k, c in (("U3", reg_c), ("J5", pi_c), ("JG", pi_c), ("PI", pi_c), ("JPI", pi_c), ("RL", pi_c), ("RR", pi_c), ("RP", pi_c), ("RFL", pi_c), ("RFR", pi_c),
                  ("AMP", amp_c), ("SPK", spk_c), ("CAM", cam_c)):
         pos[k] = (to_trunk(hd, c), hd)
     for k, pname, mir in (("LEDL", "bulb", False), ("LEDR", "bulb", True), ("LEDP", "flash_light_module", False)):
@@ -552,7 +553,7 @@ def wires(u, inst, servo_pos, pl, head_pt, pi_c, reg_c, amp_c, spk_c, cam_c):
         c = cab[w["cable"]]
         if c["status"] != "active": continue
         g = w["gauge"]; L = (w.get("cut_mm") or 0) / 1000.0
-        if g in ("resistor lead", "BEC lead", "SG90 lead"): continue          # part of the resistor, BEC lead item, SG90 mass
+        if g in ("resistor lead", "BEC lead", "SG90 lead", "board", "bead lead"): continue  # on a part already weighed: resistor, BEC lead, SG90, charger board, NTC bead
         a = w["from"].split(".")[0]; b = w["to"].split(".")[0]
         pa, la = pos[a]; pb, lb = pos[b]
         ca, cb = chain(la), chain(lb); common = next(l for l in ca if l in cb)

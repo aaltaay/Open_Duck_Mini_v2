@@ -52,7 +52,7 @@ def bus_voltage():
     import power_net as PN  # noqa: E402
     import sts12  # noqa: E402
 
-    net = PN.Net(corner="typical", extra=dict(BEC_V=16.0), cell_model=sts12.Pack3S())
+    net = PN.Net(corner="typical", extra=dict(BEC_V=12.0), cell_model=sts12.Pack3S())
     y = net.solve(lambda v: np.full(len(PN.NAMES), I_NOLOAD), qm=0.0)
     volts = {n: float(v) for n, v in zip(PN.NAMES, net.servo_volts(y))}
     return volts, sts12
@@ -154,9 +154,10 @@ def write_config():
         ),
         bus=dict(
             cells=3,
-            bec_set_V=16.0,
+            bec_set_V=12.0,
+            bec_set_note="Live set point 12.0 V. Superseded: 16.0 V pass-through. The servo volts in an older json were solved at 16.0 V and are not this solve.",
             bec_drop_V=0.3,
-            bec_drop_note="ASSUMPTION, Castle publishes none. Same constant the twin uses.",
+            bec_drop_note="ASSUMPTION, Castle publishes none. Same constant the twin uses. BLOCKER.",
             current_A_per_servo=I_NOLOAD,
             current_note="Sheet no-load current, every servo, charge 0 mAh. Not a walking current.",
             servo_V=volts,

@@ -1,0 +1,27 @@
+# Power-path limits, and the small circuitry checks, on every pull request into altaay-lab.
+name: power limits
+
+on:
+  pull_request:
+    branches: [altaay-lab]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install PyYAML
+        run: pip install pyyaml
+      - name: prove the 16 V BEC set point fails and 12.0 V passes
+        run: python3 altaay_lab/verify/check_power_limits.py --prove
+      - name: power limits on this tree
+        run: python3 altaay_lab/verify/check_power_limits.py
+      - name: BQ24133 arithmetic
+        run: python3 altaay_lab/circuitry/check_bq24133.py
+      - name: awake load arithmetic
+        run: python3 altaay_lab/circuitry/check_awake_load.py
+      - name: charger board arithmetic
+        run: python3 altaay_lab/circuitry/check_charger.py
