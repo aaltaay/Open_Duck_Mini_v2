@@ -20,7 +20,7 @@ DO NOT ORDER means the line is superseded or the quantity is zero, and a one-cli
 
 A single order placed from today's BOM.md would both miss the nest and buy parts the nest no longer uses. What is missing:
 
-1. The spring pin has no complete part number. The catalog family is real (below). The tip code is not chosen, so the probe cannot be ordered. The socket number 100-SDN250S is printed on the catalog page. No distributor stock page for it was opened.
+1. SUPERSEDED by D62 (2026-11-12 ET). Do not order the spring pin or the QA Technology probe. The official nest is the striped felt mat and five seat wells in altaay_lab/cad/nest_v2/. The catalog note below stays as the record. The tip code was never closed, and no distributor stock page for 100-SDN250S was opened. Felt and foil still have no orderable part (BLOCKER). Dirt on the gold, the gate board and a coin short, charger heat, and a camera detector stay open.
 2. Felt, the gold conductive cloth, the pale gold cloth, the foil under the sun, the rim foam, and the gate board have no part numbers. The foil was guessed as a 3M 1181 class tape. That guess was not checked against a 3M sheet.
 3. The in-duck charger is not a seated, wired part. The dock list names Microchip MCP73213EV-2SOVP. The chip datasheet was not opened (dropout, the 6 hour timer, and the missing thermistor stay BLOCKER). The eval board is not a designed spot inside the duck.
 4. Line 7, the spot-welded pack, has no strip, sleeve, or weld source. Line 17m, the two M2x12 screws for the neck stop, has no listing. Line 22c, the eleven Pi-header housings, has no completed part numbers.

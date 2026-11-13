@@ -183,14 +183,7 @@
   "camera lens opening in the head front wall": 1,
   "panel switch screw holes: the switch is held by the body_back cutout (MOUNTING.md)": 2
  },
- "build_order_missing_fitted": [
-  "F356",
-  "F357",
-  "F358",
-  "F359",
-  "F360",
-  "F361"
- ],
+ "build_order_missing_fitted": [],
  "factory_screws_not_in_build_order": 56,
  "build_order_names_left_out": [
   "F065",
@@ -216,90 +209,180 @@
   "F352",
   "F355"
  ],
- "build_order_length_mismatch": [
-  {
-   "id": "F127",
-   "json": "M2x12 self-tapping pan head",
-   "order": "M2x6 self-tapping pan head",
-   "label": "cad"
-  },
-  {
-   "id": "F129",
-   "json": "M2x12 self-tapping pan head",
-   "order": "M2x6 self-tapping pan head",
-   "label": "cad"
-  },
-  {
-   "id": "F344",
-   "json": "M2x5 self-tapping pan head",
-   "order": "M2x4 self-tapping pan head",
-   "label": "cad"
-  },
-  {
-   "id": "F347",
-   "json": "M2x5 self-tapping pan head",
-   "order": "M2x4 self-tapping pan head",
-   "label": "cad"
-  }
- ],
+ "build_order_length_mismatch": [],
  "wire_gap_under_2mm": [
   {
-   "id": "F255",
-   "gap_mm": -0.59,
-   "cable": "S10",
+   "id": "F118",
+   "gap_mm": -1.58,
+   "cable": "D19",
    "label": "cad",
-   "pose": "zero"
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
   },
   {
-   "id": "F249",
-   "gap_mm": -0.09,
-   "cable": "D3",
+   "id": "F115",
+   "gap_mm": -1.55,
+   "cable": "DC4",
    "label": "cad",
-   "pose": "zero"
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F054",
+   "gap_mm": -0.96,
+   "cable": "DC2",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
   },
   {
    "id": "F027",
-   "gap_mm": 0.51,
+   "gap_mm": -0.9,
    "cable": "P1",
    "label": "cad",
-   "pose": "zero"
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F255",
+   "gap_mm": -0.22,
+   "cable": "S10",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F052",
+   "gap_mm": -0.07,
+   "cable": "DC3",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F249",
+   "gap_mm": 0.13,
+   "cable": "D3",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F015",
+   "gap_mm": 0.17,
+   "cable": "D4",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F007",
+   "gap_mm": 0.37,
+   "cable": "D3",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F190",
+   "gap_mm": 0.42,
+   "cable": "D4",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
   },
   {
    "id": "F181",
-   "gap_mm": 0.75,
+   "gap_mm": 0.85,
    "cable": "D12",
    "label": "cad",
-   "pose": "zero"
-  },
-  {
-   "id": "F118",
-   "gap_mm": 1.32,
-   "cable": "D19",
-   "label": "cad",
-   "pose": "zero"
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
   },
   {
    "id": "F204",
-   "gap_mm": 1.68,
+   "gap_mm": 1.78,
    "cable": "S5",
    "label": "cad",
-   "pose": "zero"
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F116",
+   "gap_mm": 1.85,
+   "cable": "D1",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
   }
  ],
  "wire_overlap": [
   {
-   "id": "F249",
-   "gap_mm": -0.09,
-   "cable": "D3",
+   "id": "F027",
+   "gap_mm": -0.9,
+   "cable": "P1",
    "label": "cad",
-   "pose": "zero"
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F052",
+   "gap_mm": -0.07,
+   "cable": "DC3",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F054",
+   "gap_mm": -0.96,
+   "cable": "DC2",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F115",
+   "gap_mm": -1.55,
+   "cable": "DC4",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
+  },
+  {
+   "id": "F118",
+   "gap_mm": -1.58,
+   "cable": "D19",
+   "label": "cad",
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
   },
   {
    "id": "F255",
-   "gap_mm": -0.59,
+   "gap_mm": -0.22,
    "cable": "S10",
    "label": "cad",
-   "pose": "zero"
+   "pose": "zero",
+   "sample_mm": 0.25,
+   "model": "finite head and shank cylinders, cable segments"
   }
  ],
  "chest": {

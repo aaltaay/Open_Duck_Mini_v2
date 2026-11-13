@@ -61,22 +61,30 @@ Lid pattern: calc, in `SCHEDULE.md`. Terminals pass D42. The jack hole has a job
 
 ## Wires (cad, zero pose only)
 
-Centreline of the screw to the cable centreline, then minus the wire radius and the head radius when the closest point is at the head. The link transforms match `seat_world` within 0.001 mm. This is not a joint sweep. There is no screw-to-wire limit in the fastener file, so this audit does not set one. Two rows come inside the head cylinder:
+The first pass used cable vertices and subtracted the head radius from the distance to the axis end. That is a spherical cap, and it missed the middle of a segment. Codex review on PR 53. This pass samples each run every 0.25 mm and measures a finite head cylinder and a finite shank cylinder, with flat ends. The link transforms still match `seat_world` within 0.001 mm. Not a joint sweep. No screw-to-wire limit is set here, and no wire is moved.
 
-| Screw | Cable | Gap | Label |
+| Screw | Cable | Gap | What the cable is |
 |---|---|---|---|
-| F255 | S10 | -0.59 mm | cad |
-| F249 | D3 | -0.09 mm | cad |
-| F027 | P1 | +0.51 mm | cad |
+| F118 | D19 | -1.58 mm | BNO055 to the body touch board |
+| F115 | DC4 | -1.55 mm | chest SYS lead, the wall dock |
+| F054 | DC2 | -0.96 mm | chest GND lead, the wall dock |
+| F027 | P1 | -0.90 mm | holder plus to the BMS |
+| F255 | S10 | -0.22 mm | kit cable ID 13 to ID 14 |
+| F052 | DC3 | -0.07 mm | chest SENSE lead, the wall dock |
+| F249 | D3 | +0.13 mm | Pi to the left foot switches. Clears. The old -0.09 mm was the cap, not the cylinder. |
 
-F027 is the battery-lid screw and the pack lead. It does not overlap. The two negative gaps are a problem for the cable file to dress. This audit does not move a wire.
+DC2, DC3 and DC4 are the chest-dock leads `NEST_CAD.md` already removes. F027, F118 and F255 are on the duck harness. Dressing them is for the cable file. Not done here.
+
+## Nest lid proposal (not applied)
+
+`lid_check.py` reads the existing `box_profile` and every box in `STANDINS`. BX0+6 has 0.0 mm of lid (cad). The room-side axes stay at x 158, where the lid is 2.0 mm thick and the button head has 3.15 mm of flat top inboard of the chamfer. The wall-side axes move to x 174.9, the mirror about the tray centre (mirror error 0.0 mm, calc). y is ±2, not ±62. At y 62 the wall-side post enters the fuse holder and the minus posts enter the gate board (cad). At y ±2 the gap to every stand-in is at least 2.0 mm (cad). The tight one is the gate board. The 5.5 mm end-wall tie is not part of this proposal. Nearest terminal centre is 23.35 mm (calc).
+
+A longer insert does not raise engagement: the M3x6 only reaches 4.0 mm, and the insert is already 5.7 mm (calc). A deeper bore with the same M3x6 is still 4.0 mm. M3x8 (BOM 17a, already on the bill) into a bore deepened from 5.8 mm to 6.3 mm engages 5.7 mm and stays 0.3 mm off the floor (calc). The socket head is 1.35 mm taller than the button. The published 2.85 mm over the button heads would leave 1.50 mm (calc, that 2.85 mm was not re-measured). Detail is `PROPOSED_EDITS.md`. The nest STL is not regenerated.
 
 ## Tool access
 
 `twin/assembly/asm_geom_summary.json` (cited, not re-run): 286 driven screws, 0 tool-path violations, 115 clear even with every part present. The 56 factory case screws are not in `BUILD_ORDER.md` because they are already in the servos. That is correct.
 
-Six fitted screws are not in that order (cad): F356, F357, F358, F359 (M2x6 mic screws, D47) and F360, F361 (M2.5x6 cliff screws, D54). The tools already exist: PH0 for the M2 screws, hex 2.0 for the M2.5 screws (BOM T4, and the same keys that order already uses). Where they go in the sequence is in `ASSEMBLY.md`. They were not in the 286-screw cast, so their tool path is not one of those 0 violations.
-
-Four lengths in the order do not match `fasteners.json` (cad): F127 and F129 are M2x12 in the JSON and M2x6 in the order. F344 and F347 are M2x5 in the JSON and M2x4 in the order.
+`BUILD_ORDER.md` now matches `fasteners.json` on F127, F129 (M2x12), F344 and F347 (M2x5). The 12 left-out screws are no longer in a drive count. F356 to F359 and F360, F361 are in the order, on PH0 and hex 2.0. A re-run of `audit.py` finds no missing fitted screw and no length mismatch (cad). Those six were not in the 286-screw cast.
 
 Nest tools: hex 2.0 and hex 2.5, both already in BOM T4. Drive the terminal screws before the lid, and the lid screws before the felt sleeve (`NEST_CAD.md` already has the sleeve over the screw heads). The jack nut is reached from the end wall before the left bolster covers it. The wrench size is not in the repo.

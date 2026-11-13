@@ -31,3 +31,6 @@ Every dollar is in COSTS.csv. Other files name a row id when they mean a price. 
 | knee_heat_results.json | That run |
 | build_costs.py | Writes COSTS.csv and score.json |
 | score.json | Score points only. No prices |
+| VOLUME.csv | Every order line at 1, 100, and 1,000. A blank cell is BLOCKER |
+| VOLUME.md | What those prices add up to, and the 380 check |
+| WAVESHARE_CHECK.md | 7.4 V Waveshare stall and backlash against the STS3215 sheet |

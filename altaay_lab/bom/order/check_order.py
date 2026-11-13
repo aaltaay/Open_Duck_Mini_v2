@@ -36,12 +36,11 @@ EXCLUDED = {
     "NL:JSN": "CHARGER_BOARD.md: the SENSE splice goes away with the four-net dock",
 }
 
-# Splices whose netlist part text says solder, including G and VSW.
-# BOM.md line 26b names WAGO for G and VSW, and the netlist text does not.
-# This order follows the netlist text and does not buy both.
+# Splices whose netlist part text still says solder. G, VSW, SPV, and SPG
+# name WAGO 221 in the part text, so they are the wago line, not this list.
 SOLDER_SPLICES = [
-    "NL:JFI", "NL:JFO", "NL:VSW", "NL:G", "NL:JBP", "NL:JBN",
-    "NL:SPV", "NL:SPG", "NL:YD3", "NL:YG3", "NL:JG20", "NL:JG30",
+    "NL:JFI", "NL:JFO", "NL:JBP", "NL:JBN",
+    "NL:YD3", "NL:YG3", "NL:JG20", "NL:JG30",
     "NL:JG10", "NL:J5", "NL:JG", "NL:JGD",
 ]
 
@@ -218,7 +217,10 @@ def main():
             errors += fail("line %s is cited and has no url" % lid)
         if label == "BLOCKER" and unit is not None:
             errors += fail("line %s has a unit price but price_label BLOCKER" % lid)
-        out = stock == "out of stock" or blocker != ""
+        # A proposed pick has a live price and stays in the total. The note
+        # says it is not yet verified against a coupon.
+        proposed = blocker == "proposed pick, not yet verified"
+        out = stock == "out of stock" or (blocker != "" and not proposed)
         if out:
             if line is not None:
                 errors += fail("line %s is not in the total but line_usd is set" % lid)
