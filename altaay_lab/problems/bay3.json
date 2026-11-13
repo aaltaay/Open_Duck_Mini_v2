@@ -13,7 +13,7 @@
  "dx_behind_front_axes_mm": 19.41,
  "watertight": true,
  "volume_before_mm3": 89439.7,
- "volume_after_mm3": 81433.4,
+ "volume_after_mm3": 83502.9,
  "back_before_mm": -154.0,
  "back_after_mm": -166.36,
  "protrusion_mm": 12.36,
@@ -25,5 +25,7 @@
  "other_part_overlap_mm3": {},
  "fasteners_within_30mm": [],
  "back_wall_ray_mm": 2.5,
+ "cap_up_ray_mm": 2.5,
+ "cap_down_ray_mm": 2.5,
  "print_stl_unchanged": true
 }

@@ -37,9 +37,10 @@ The check in problems/bay3.py keeps the two cells on their axes and puts the thi
 | Three sleeves against the plastic | 0 mm3 each |
 | New overlap with other parts | none (the BMS and body_middle_bottom overlaps are already in the unedited shell) |
 | Fasteners within 30 mm of the rear axis | none |
-| Back wall, ray from the sleeve | 2.5 mm |
+| Back wall | 2.5 mm |
+| Cap above and below the part of the cavity that sticks out past the old shell | 2.5 mm each |
 | How far the back moves | 12.36 mm, from x -154.0 mm to -166.36 mm |
-| Mesh volume | 89439.7 mm3 to 81433.4 mm3 |
+| Mesh volume | 89439.7 mm3 to 83502.9 mm3 |
 
 No screw moves (D42). The cavity is the battery bay, extended (D39). The plastic grams of that volume change are not converted here. The walk mass is the 70 g cell only.
 
@@ -62,4 +63,4 @@ Cited or calc only. Not a bill change. Not a purchase.
 | BMS, 32175 at $22.99 to 32007 at $23.99 | +$1.00 (calc only) | not on the 32007 page |
 | BQ24133RGYR | $3.12 at quantity 1 (LCSC lists $3.1246, read 2026-11-12, https://www.lcsc.com/product-image/C44478.html). The MCP73213 price was not on the bill lines opened, so this is the new chip, not a swap delta | the package is 5.5 x 3.5 mm. Board grams not opened |
 
-The shell volume drops 8006.3 mm3 in the check (calc only). That plastic is not in the 60 s walk, and the print file was not changed.
+The shell volume drops 5936.8 mm3 in the check (calc only). That plastic is not in the 60 s walk, and the print file was not changed.
