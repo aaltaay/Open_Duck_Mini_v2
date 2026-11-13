@@ -2,7 +2,9 @@
 
 One bill for one finished duck and its nest. Prices that were read on a live page on 2026-11-12 use the label cited, checked 2026-11-12. Shipping and tax are not included, the same rule as BOM.md. Nothing was bought, and nothing was added to a cart.
 
-Current bill, 2026-11-12 9:41 PM ET. The buy-today total below is the one number for this file. The earlier $839.60 is superseded. BOM.md build totals are a different rollup and are not this total. The pack is three P45B cells. The servo line is still the 7.4 V Seeed part at $20.00; the selected servo is the 12 V Waveshare SKU 22414 at $20.63 for four or more (cited, problems/NEST3.md), and that swap is not on this line yet. The charger to build is the BQ24133 board. The MCP73213 lines are the 2S record. The nest supply on this bill that still says 8.70 V to 10.0 V is that 2S window and is superseded by the 15.0 V nest (problems/NEST3.md, circuitry/SERVO_RAIL.md).
+Current bill, 2026-11-12 9:49 PM ET. The servo line is the 12 V Waveshare ST-3215-C018, SKU 22414, at $20.63 each for four or more (cited, problems/NEST3.md). Fourteen is $288.82 (calc only, 14 times 20.63). ~~The 7.4 V Seeed line at $20.00 each, $280.00 for 14,~~ is superseded. The pack is three P45B cells. The charger to build is the BQ24133 board. The MCP73213 lines are the 2S record. The nest supply on this bill that still says 8.70 V to 10.0 V is that 2S window and is superseded by the 15.0 V nest (problems/NEST3.md, circuitry/SERVO_RAIL.md).
+
+BOM.md build total $1258.70 (calc only) is the older table in that file: robot, fasteners, cables, and filament. It is not this cart. The buy-today total below is every priced in-stock line on this order, including one-time tools and full filament spools. The per-duck parts total leaves those two groups out. Earlier buy-today figures $839.60, $1186.45, and $1195.44 are superseded.
 
 Update 2026-11-12 6:23 PM ET, D62. The official nest is the flush striped felt mat and the five seat wells in altaay_lab/cad/nest_v2/. The spring pins in twin/dock/nest/cad/NEST_CAD.md and the QA Technology probe are superseded. Do not order them. The Mill-Max 0906 line below stays on this bill as a record of a pin that was studied. It is not a pin field to buy, and it is not the duck-side contact. Felt and foil still have no orderable part (BLOCKER). Still open, and not a reason to buy: dirt on the gold, the gate board and a coin short, charger heat, and a camera detector. This note does not change the dollar total.
 
@@ -50,12 +52,14 @@ These sums are calc only. They add the line_usd column. A line is in that column
 - Overture: $35.98
 - Pine64: $40.98
 - Pololu: $47.64
-- Seeed Studio: $280.00
+- Waveshare: $288.82
 - SparkFun: $9.00
 - Tenergy: $22.99
 - illumn: $26.97
 
-Grand total of lines that can be bought today: $1195.44
+Grand total of lines that can be bought today: $1204.26
+
+Per-duck parts, calc only: $957.75. That is the buy-today total minus one-time tools (crimper, hex keys, stripper, 65 W supply, Pinecil, and insert tips, $130.95) and minus full filament spools (PLA $35.98, TPU $21.59, PA6-CF $57.99, together $115.56). 1204.26 minus 130.95 minus 115.56 is 957.75. A spool can cover more than one duck. Dollars for the grams actually printed are BLOCKER. The controller stays in the parts total.
 ## Filament grams
 
 Calc only. Not weighed.

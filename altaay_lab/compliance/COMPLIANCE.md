@@ -129,7 +129,7 @@ On the papers already in the lab, the duck walks, it takes commands from the con
 
 Foreign-produced, in that appendix, means the article would not qualify as a domestic end product under 48 CFR 25.101(a). That section, eCFR as of 2026-11-10, uses two parts for a manufactured product that is not mostly iron or steel: it is made in the United States, and the cost of domestic components exceeds 65 percent of the cost of all components for items delivered in calendar years 2024 through 2028 (cited). The percentage is 75 percent for items delivered starting in calendar year 2029 (cited). The same paragraph waives the content test for government purchases of COTS items. The FCC FAQ on this list, opened for DOMESTIC_CONTENT.md, says that off-the-shelf exception is inapplicable, and that off-the-shelf components are still counted. The worksheet follows the FAQ.
 
-DOMESTIC_CONTENT.md is the content worksheet. On the priced components, domestic cost is $47.33 and the total is $779.39, which is 6.07 percent (calc only, in that file). That is under the 65 percent test. Lines with no incorporated price are BLOCKER and are not in that total. Until a lawyer accepts a worksheet that clears both prongs, treat the duck as foreign-produced for this list.
+DOMESTIC_CONTENT.md is the content worksheet. On the priced components, domestic cost is $47.33 and the total is $905.36, which is 5.23 percent (calc only, in that file, 2026-11-12 9:49 PM ET). That is under the 65 percent test. ~~The earlier figures 6.07 percent of $779.39 and 5.28 percent of $896.54~~ are superseded. Lines with no incorporated price are BLOCKER and are not in that total. Until a lawyer accepts a worksheet that clears both prongs, treat the duck as foreign-produced for this list.
 
 47 CFR 2.903 says covered equipment cannot get a certification, a Supplier's Declaration of Conformity, or an exemption. A covered duck cannot be marketed with its radio.
 
@@ -316,7 +316,7 @@ Sources: https://statutes.capitol.texas.gov/Docs/CP/htm/CP.82.htm and https://ww
 
 ## Open BLOCKERs
 
-- The domestic-content percentage on the priced lines is 6.07 percent in DOMESTIC_CONTENT.md (calc only). Unpriced component lines, freight, and duty are still BLOCKER, and so is manufacture of the finished duck in the United States.
+- The domestic-content percentage on the priced lines is 5.23 percent in DOMESTIC_CONTENT.md (calc only, 2026-11-12 9:49 PM ET). ~~6.07 percent and 5.28 percent~~ are superseded. Unpriced component lines, freight, and duty are still BLOCKER, and so is manufacture of the finished duck in the United States.
 - The COTS waiver. The FCC FAQ opened for DOMESTIC_CONTENT.md says the off-the-shelf exception is inapplicable to this test.
 - Whether 47 USC 1601(b)(2) narrows the robot category. The section was not read line by line.
 - The Department of War guidance, its fee, and its time.
