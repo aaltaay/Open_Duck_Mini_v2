@@ -32,8 +32,10 @@ So a sheet-backed claim that the limp duck stays seated is BLOCKER. The only 20 
 
 ## Standing back up
 
-The order is: the commands match the pose the duck is already in, the rail turns on, one second passes with no new command, then the stand ramp runs. The soft limits sit 3 deg inside the hard stops, so the command is 3.02 deg off the measured joint on the worst axis (sim pass only).
+The electrical order is in circuitry/SERVO_RAIL.md. The nest is not wired to the servo switch input, so the Pi can turn that switch on while the mat is still touching. The rail then comes from the pack, at 12.6 V or less. The sim does not model that switch or the 15 V nest. `rail_then_stand` only turns the joint torque on, which is the mechanical step after the pack rail is already up. It does not show that a clamp could be overridden.
 
-On the training-friction sit, that one second keeps the body up (1.0) and the drift is 1.23 mm, and the seat force falls to 0 N. The wells open when the rail comes on, before the stand ramp. The ramp then reaches a trunk height of 0.199 m with the up component 0.985 and the pitch 10.09 deg (sim pass only). The duck does not fall in that sequence. The contacts do not stay seated through the moment the rail returns.
+The command order in the sim is: the targets match the pose the duck is already in, the torque turns on, one second passes with no new command, then the stand ramp runs. The soft limits sit 3 deg inside the hard stops, so the command is 3.02 deg off the measured joint on the worst axis (sim pass only).
 
-The Pi has to write those sit commands before the rail turns on. The next note is why the Pi cannot take that current from the pack.
+On the training-friction sit, that one second keeps the body up (1.0) and the drift is 1.23 mm, and the seat force falls to 0 N. The wells open when the torque comes on, before the stand ramp. The ramp then reaches a trunk height of 0.199 m with the up component 0.985 and the pitch 10.09 deg (sim pass only). The duck does not fall in that sequence. The contacts do not stay seated through the moment the rail returns.
+
+The Pi has to write those sit commands before the rail turns on, and it has to be powered from the nest to do that. circuitry/AWAKE_LOAD.md is why that current cannot come from the pack.

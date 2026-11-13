@@ -254,6 +254,9 @@ def main():
     check("threshold is on IN+", "ON_TH" in pin_nets.get("U3.INA+", set()), str(pin_nets.get("U3.INA+")))
     check("docked IN- is above IN+", tap_15 > th_dock, "%.3f > %.3f" % (tap_15, th_dock))
     check("undocked IN- is below IN+", 0.0 < th_walk, "0 < %.3f" % th_walk)
+    check("dock flag is not the servo ON pin", "DOCK" in pin_nets.get("U3.OUTA", set()) and "ON" not in pin_nets.get("U3.OUTA", set()), str(pin_nets.get("U3.OUTA")))
+    on_pins = [e for w in doc["wires"] if w["net"] == "ON" for e in (w["from"], w["to"])]
+    check("servo ON is only the Pi wire", set(on_pins) == {"RON.B", "JON.ON"}, str(sorted(set(on_pins))))
     check("AVCC resistor is on the adapter", "NEST_FUSED" in pin_nets.get("RAV.A", set()), str(pin_nets.get("RAV.A")))
     check("AVCC is not fed from SYS", "SYS" not in pin_nets.get("U1.AVCC", set()), str(pin_nets.get("U1.AVCC")))
 

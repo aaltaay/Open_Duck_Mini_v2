@@ -3,7 +3,9 @@
 The Feetech sheets used here do not print an unpowered backdrive torque. The
 training joint friction (frictionloss 0.068 Nm, damping 0.56) is not that
 number. This run also sets both to 0. Floor friction 0.8 is the sit model's
-floor, not a felt measurement. Sim pass only.
+floor, not a felt measurement. Turning torque on is the mechanical step after
+the pack-only servo rail is already enabled. This file does not model the
+nest voltage or the dock flag. Sim pass only.
 
   ODM_PLAYGROUND=<Open_Duck_Playground at b9be205> python3 altaay_lab/twin/sit/rail_off_sit.py --out <scratch>
 Writes rail_off_sit.json next to this file.
@@ -175,6 +177,7 @@ def main():
         stripe_margin_mm=MARGIN_MM,
         stripe_margin_note="calc only, (20 mm stripe - 3 mm well) / 2, wells centered. Stripes run in x, so y is the crossing direction.",
         pins="off. Nest v2 has no foot pins. The sit is the D59 path onto the floor.",
+        electrical="The sim turns joint torque on. It does not model the servo switch. The nest is not on that switch input, so enabling it while seated is the pack voltage, not 15 V. circuitry/SERVO_RAIL.md.",
         rows=rows,
     )
     path = os.path.join(HERE, "rail_off_sit.json")

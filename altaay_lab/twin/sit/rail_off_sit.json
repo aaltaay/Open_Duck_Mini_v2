@@ -8,6 +8,7 @@
  "stripe_margin_mm": 8.5,
  "stripe_margin_note": "calc only, (20 mm stripe - 3 mm well) / 2, wells centered. Stripes run in x, so y is the crossing direction.",
  "pins": "off. Nest v2 has no foot pins. The sit is the D59 path onto the floor.",
+ "electrical": "The sim turns joint torque on. It does not model the servo switch. The nest is not on that switch input, so enabling it while seated is the pack voltage, not 15 V. circuitry/SERVO_RAIL.md.",
  "rows": [
   {
    "seconds": 20.0,

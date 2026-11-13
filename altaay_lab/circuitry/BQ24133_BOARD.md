@@ -64,7 +64,7 @@ No prices. An order code that was not opened is marked BLOCKER. The electrical v
 | ROH, ROL | 102 kOhm, 10.0 kOhm | 1 each | OVPSET divider, 17.92 V trip (calc only) | Order code not opened. BLOCKER. |
 | RTS, RTB | 10.0 kOhm, 15.0 kOhm | 1 each | TS held at 0.60 of VREF (calc only) | Order code not opened. BLOCKER. |
 | RST | 10 kOhm | 1 | STAT pin, 10 kOhm pullup | Order code not opened. BLOCKER. |
-| U2, U3 | TI LM393BIDR | 2 | SLCS005AH, already opened for the 2S window | U2 is the pack window. U3 channel A holds the 2815 ON pin low. |
+| U2, U3 | TI LM393BIDR | 2 | SLCS005AH, already opened for the 2S window | U2 is the pack window. U3 channel A is the dock flag to the Pi. It does not drive the 2815 ON pin. |
 | NTC | Adafruit 372 | 1 | CHARGER_BOARD.md | The bead already chosen there. |
 | RB, RCT, RCB, RHT, RHB | 10.0 kOhm, 10.0, 28.0, 10.0, 2.80 kOhm | 1 each | The 2S window, trips 2.60 C and 56.61 C (calc only) | Same values as CHARGER_BOARD.md. |
 | TL, RTLF | TL431, 4.99 kOhm | 1 each | The 2S reference. The TL431 sheet was not opened. | 2.495 V and the minimum cathode current stay BLOCKER, as in that note. The trip ratios do not need the absolute voltage. |
