@@ -1,0 +1,157 @@
+{
+ "label": "sim pass only",
+ "corners": {
+  "typical": {
+   "label": "sim pass only",
+   "corner": "typical",
+   "fall_s": [
+    3.56
+   ],
+   "n_samples": 1780,
+   "at_left_knee_min": {
+    "t_s": 3.182,
+    "ocv_cell_V": 4.173,
+    "ocv_pack_V": 8.347,
+    "v_pack_V": 7.852,
+    "v_bus_V": 6.595,
+    "v_bec_in_V": 6.528,
+    "v_bec_out_V": 6.228,
+    "v_left_knee_V": 5.785,
+    "v_right_knee_V": 5.889,
+    "i_pack_A": 17.899,
+    "i_bus_A": 15.147,
+    "i_left_knee_A": 1.968
+   },
+   "peaks": {
+    "i_pack_A": 17.899,
+    "i_bus_A": 15.147,
+    "label": "sim pass only, maximum sample on this walk up to the fall"
+   },
+   "resistors_ohm": {
+    "note": "plus-side edge resistance as the as-built net builds it",
+    "lead": 0.004,
+    "sp_L": 0.0135,
+    "hop_left_hip_roll": 0.0276,
+    "hop_left_hip_pitch": 0.0276,
+    "hop_left_knee": 0.0276,
+    "inj_L": 0.0322,
+    "ground_lead": 0.004,
+    "ground_sp_L": 0.0074
+   },
+   "assumptions": {
+    "R_contact_ohm": 0.005,
+    "R_holder_ohm": 0.01,
+    "R_servo_pcb_ohm": 0.005,
+    "kit_awg": 24,
+    "BEC_V": 7.2,
+    "BEC_DROP": 0.3,
+    "BEC_EFF": 0.85,
+    "R_cell_in_net_ohm": "1e-9 when the P45B model supplies the terminal volts"
+   },
+   "branch_A": {
+    "lead": 15.147,
+    "sp_L": 3.995,
+    "hop_left_hip_roll": 2.459,
+    "hop_left_hip_pitch": 1.584,
+    "hop_left_knee": -0.108,
+    "inj_L": 3.263,
+    "n_lead": -14.798,
+    "n_sp_L": -3.676
+   },
+   "drops_V": {
+    "cell_ocv_to_pack_terminal": 0.495,
+    "pack_terminal_to_switched_bus": 1.257,
+    "switched_bus_to_bec_out": 0.367,
+    "bec_out_to_left_knee": 0.443,
+    "seven_point_four_to_knee": 1.615
+   }
+  },
+  "high-side": {
+   "label": "sim pass only",
+   "corner": "high-side",
+   "fall_s": [
+    3.42
+   ],
+   "n_samples": 1710,
+   "at_left_knee_min": {
+    "t_s": 3.022,
+    "ocv_cell_V": 4.174,
+    "ocv_pack_V": 8.347,
+    "v_pack_V": 7.858,
+    "v_bus_V": 6.263,
+    "v_bec_in_V": 6.198,
+    "v_bec_out_V": 5.898,
+    "v_left_knee_V": 5.269,
+    "v_right_knee_V": 5.244,
+    "i_pack_A": 17.676,
+    "i_bus_A": 14.944,
+    "i_left_knee_A": 1.744
+   },
+   "peaks": {
+    "i_pack_A": 17.676,
+    "i_bus_A": 14.944,
+    "label": "sim pass only, maximum sample on this walk up to the fall"
+   },
+   "resistors_ohm": {
+    "note": "plus-side edge resistance as the as-built net builds it",
+    "lead": 0.004,
+    "sp_L": 0.0285,
+    "hop_left_hip_roll": 0.0651,
+    "hop_left_hip_pitch": 0.0651,
+    "hop_left_knee": 0.0651,
+    "inj_L": 0.0472,
+    "ground_lead": 0.004,
+    "ground_sp_L": 0.0074
+   },
+   "assumptions": {
+    "R_contact_ohm": 0.02,
+    "R_holder_ohm": 0.03,
+    "R_servo_pcb_ohm": 0.005,
+    "kit_awg": 26,
+    "BEC_V": 7.2,
+    "BEC_DROP": 0.3,
+    "BEC_EFF": 0.85,
+    "R_cell_in_net_ohm": "1e-9 when the P45B model supplies the terminal volts"
+   },
+   "branch_A": {
+    "lead": 14.944,
+    "sp_L": 2.714,
+    "hop_left_hip_roll": 2.608,
+    "hop_left_hip_pitch": 0.572,
+    "hop_left_knee": -0.445,
+    "inj_L": 2.388,
+    "n_lead": -14.616,
+    "n_sp_L": -3.052
+   },
+   "drops_V": {
+    "cell_ocv_to_pack_terminal": 0.489,
+    "pack_terminal_to_switched_bus": 1.595,
+    "switched_bus_to_bec_out": 0.365,
+    "bec_out_to_left_knee": 0.629,
+    "seven_point_four_to_knee": 2.131
+   }
+  }
+ },
+ "unmeasured_drops_removed": {
+  "typical": {
+   "label": "sim pass only",
+   "corner": "typical",
+   "fall_s": [
+    3.6
+   ],
+   "i_pack_max_A": 18.501,
+   "bus_min_V": 6.864,
+   "bec_out_min_V": 6.795
+  },
+  "high-side": {
+   "label": "sim pass only",
+   "corner": "high-side",
+   "fall_s": [
+    3.54
+   ],
+   "i_pack_max_A": 17.692,
+   "bus_min_V": 6.926,
+   "bec_out_min_V": 6.861
+  }
+ }
+}

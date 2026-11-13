@@ -2,11 +2,17 @@
 
 Written 2026-11-03 between about 2:05 and 3:20 PM ET by the thermal twin agent (sub-agent of the lead Claude Code agent, branch claude/digital-twin). Nothing was bought, printed, sent or deleted, and no other lab file was edited. Every result here is sim pass only: no servo, board or print has been measured. Source tags in square brackets point to the Sources list at the end. ASSUMPTION marks a value with no published source; every one is swept.
 
+## Update 2026-11-12 ET: 2.30 W and 3.50 W (sim pass only for the shell, calc only for the die)
+
+The sit table below is the older 1.9 W to 3.2 W band. The reconciled board heat at 9.5 V and 1.00 A is 2.30 W and 3.50 W (calc only, circuitry/CHARGER_BOARD.md). That sit, including the high corner, is CHARGE_WATTS.md and gate_charge_watts.json. It does not replace the rows below.
+
+In that re-run the hottest cell is 42.99 C and the hottest trunk wall is 37.91 C (3.50 W, high corner, 32 C, sim pass only). Cells stay inside 0 C to 60 C. The wall stays under the 49 C heat-deflection edge, and under the PETG 62 C edge. On the cited 62 C/W JEDEC board the die is 167.6 C to 249.0 C if the current is forced to stay at 1.00 A (calc only), which crosses 110 C and 150 C. The die temperature in the closed trunk is BLOCKER. The felt temperature is BLOCKER. The plastic touching the package is BLOCKER, because the board has no seat.
+
 ## Update 2026-11-11 ET: 60 C operating range, P45B cells, charger in the trunk (sim pass only)
 
 The 2026-11-03 answer below uses a 70 C cut and a P30B cell. The STS3215 sheet (A/1, 2023-06-23) has both an operating range of -20 C to 60 C (item 1-2) and a torque-off above 70 C (item 7-11). The P45B sheet (version 1.2) charges from 0 C to 60 C and discharges from -40 C to 60 C. This update is gate_p45b.py and gate_p45b.json. The torque cut was left off so the time the reading crosses 60 C and 70 C could be read. A 200 C reading in the pessimistic corner is that choice, not a physical temperature.
 
-Charger heat is the D61 band, calc only: 1.9 W at a 7.2 V pack and 3.2 W at a 6.0 V pack, MCP73213 linear, 1.0 A. It is added in the trunk. The charger board has no seat, so the PLA number for it is the trunk wall node, not a gap to a placed board. Cell mass 70 g, diameter 21.55 mm, height 70.15 mm, DC resistance 15 mOhm, all from the P45B sheet. Specific heat is not on that sheet: the old 18650 range is kept and is a GUESS. Half the can facing the bay air is the same assumption as the first run. BEC efficiency 0.85 is a GUESS (Castle publishes none), including at idle.
+Charger heat in this table is 1.9 W at a 7.2 V pack and 3.2 W at a 6.0 V pack (calc only, the older band). It is not the D61 9.5 V heat. At 9.5 V and 1.00 A the board note is 2.30 W and 3.50 W (calc only, CHARGER_BOARD.md: input minus pack, times current). 7.2 plus 1.9 is 9.1, and 6.0 plus 3.2 is 9.2 (calc only), so this table is the sim of about 9.1 V and 9.2 V. The right heat for a 9.5 V input at 1.00 A is the board pair, 2.30 W and 3.50 W. This table was not re-run at those watts. The watts below are what this model ran. They are added in the trunk. The charger board has no seat, so the PLA number for it is the trunk wall node, not a gap to a placed board. Cell mass 70 g, diameter 21.55 mm, height 70.15 mm, DC resistance 15 mOhm, all from the P45B sheet. Specific heat is not on that sheet: the old 18650 range is kept and is a GUESS. Half the can facing the bay air is the same assumption as the first run. BEC efficiency 0.85 is a GUESS (Castle publishes none), including at idle.
 
 Docked sit, torque off, idle 21 mA per servo (the sheet), charge current 1.0 A, 6 hours. Sim pass only.
 
@@ -23,7 +29,7 @@ The docked sit uses the stationary state in the thermal model (no walking air). 
 | 3.2 W | high | 25 C | 35.8 C | 30.7 C | 27.8 C | 51.3 C |
 | 3.2 W | high | 32 C | 42.4 C | 37.6 C | 34.7 C | 58.1 C |
 
-None of those cells leave 0 C to 60 C. None of those servo readings leave -20 C to 60 C. The trunk wall stays under the 49 to 57 C heat-deflection band already cited below. On this model the 1.9 to 3.2 W charger can stay in the trunk during a sit.
+None of those cells leave 0 C to 60 C. None of those servo readings leave -20 C to 60 C. The trunk wall stays under the 49 to 57 C heat-deflection band already cited below. On this model the 1.9 to 3.2 W charger can stay in the trunk during a sit. The 2.30 W and 3.50 W re-run is the 2026-11-12 update above. The die on the cited board does not stay under 110 C at those watts.
 
 Walk, central corner, currents from the P45B session of the trained actuator (out/p45b_sheet/session_bam_backlash_typical.csv). Resistive losses use the RMS pack and BEC currents over each 5 s bin, not the square of the mean. The sheet-stall servo does not complete a walk (ELECTROMECH_TWIN.md update), so this walk heat is not that servo. Friction heat is not in the bins and is omitted, which makes the knee slightly cool. The right knee reading reaches 60 C at 3.3 minutes in a 25 C room and 2.5 minutes at 32 C, and 70 C at 4.5 and 3.5 minutes. If the torque stays on for the session, the right knee body reaches 94.7 C (25 C room) and 101.6 C (32 C). That is the temperature the knee sheets touch, and it is above the softening band. Cells in that central walk reach 49.7 C and 56.4 C, inside the 60 C discharge limit. The pessimistic corner crosses 60 C on the knee at 0.5 minutes, and at 32 C the cells reach 63.9 C at 33 minutes if the walk is not cut.
 
@@ -43,6 +49,7 @@ Walk, central corner, currents from the P45B session of the trained actuator (ou
 | File | What it is |
 |---|---|
 | THERMAL_TWIN.md | This file. |
+| CHARGE_WATTS.md, gate_charge_watts.py, gate_charge_watts.json | The 2026-11-12 sit at 2.30 W and 3.50 W. The 1.9 W and 3.2 W json is not overwritten. |
 | twin_thermal.py | The twin: heat per servo from the walk traces, two-node servo model, trunk and head enclosures, cells, hot spots, sessions, corners, sweeps, mitigations, tables and figure; re-runs on the twin/electromech session CSVs (section 3.6). |
 | geometry.py, geometry.json | Measured on the CAD meshes: outer case area of each servo and how close the printed parts are, the printed parts that touch each case and horn, the trunk and head skin areas and walls, the seats of the electronics. |
 | fit_robo9.py, fit_robo9.json | The model against the published STS3215 temperature curves: fitted time constant, the physics time constant, and the sensor share w. |
