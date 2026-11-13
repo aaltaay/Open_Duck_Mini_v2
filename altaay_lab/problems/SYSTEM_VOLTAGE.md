@@ -8,7 +8,7 @@ Script: `problems/system_voltage.py`. Tables: `problems/system_voltage_calc.json
 
 ## Short answer
 
-The winner is **3S1P Molicel P45B, ST-3215-C018, servo rail straight from the pack**. Score 61.1 against 56.6 for the same pack through a Castle CC BEC Pro set to 12.0 V. Both walk 60 s with no fall on run C (sim pass only). The straight rail is ahead on run time, pack current, knee volts, mass, and the parts bill. The 12.0 V regulator does not hold 12.0 V while walking: the pack at the regulator input is under 12.3 V, so the existing solver is in dropout for the whole walk.
+The winner is **3S1P Molicel P45B, ST-3215-C018, servo rail straight from the pack**. Score 60.8 against 56.6 for the same pack through a Castle CC BEC Pro set to 12.0 V. Both walk 60 s with no fall on run C (sim pass only). The straight rail is ahead on run time, pack current, knee volts, mass, and the parts bill. The 12.0 V regulator does not hold 12.0 V while walking: the pack at the regulator input is under 12.3 V, so the existing solver is in dropout for the whole walk.
 
 A 4S P30B pack with the Castle actually regulating at 12.0 V walks a little faster and draws less current. It fails the bay, a cited 4S protection board, and the 15 V nest, so those three gates keep it out of the ranking.
 
@@ -68,7 +68,7 @@ Path resistance, typical corner, cell ohms not included because the cell curve a
 
 ## Run C walks (sim pass only)
 
-Same sheet patch as problems/sts12.py, run C policy, backlash, 60 s, both corners, commands 0.15 m/s and 0.40 m/s. MuJoCo 3.3.4. The trunk before the extra cells was 1.0654 kg at x -56.5 mm, which matches the 1.065 kg and -56.5 mm in problems/FIT3.md. After one 70 g P45B at the FIT3 rear seat the centre of mass is x -62.4 mm, the same figure FIT3 calculated. The mass script stops on a bead-lead gauge it does not price. Those leads were taken as 0 g for this model. They did not move the trunk off the published mass.
+Same sheet patch as problems/sts12.py, run C policy, backlash, 60 s, both corners, commands 0.15 m/s and 0.40 m/s. MuJoCo 3.3.4. The trunk before the extra cells was 1.0654 kg at x -56.5 mm, which matches the 1.065 kg and -56.5 mm in problems/FIT3.md. The wire rail then adds one 70 g P45B at the FIT3 rear seat and takes off the Castle that the mass budget already seats: 29.0 g for the body (user guide, without wires), 4.6 g of output leads, 1.4 g of tape, and 1.0 g for splices JB+ and JB-, 36.0 g together, at the bec_pro seat (-64.5, -0.5, -9.8) mm. The trunk after that is 1.0994 kg, centre of mass x -62.3 mm, z 36.1 mm (sim pass only). The buck row keeps the Castle, so its trunk is 1.1354 kg at x -62.4 mm, the FIT3 figure for the cell alone. The rerun of the wire walk, with that mass gone, printed the same speed and the same pack current as the heavier body, to the digits in the table. The mass script stops on a bead-lead gauge it does not price. Those leads were taken as 0 g for this model. They did not move the trunk off the published mass.
 
 The 4S mass is four P30B in place of two P45B, +48 g, on seats that are not a CAD check. The walk still ran, so the electrical result is real and the fit gate still fails.
 
@@ -131,13 +131,15 @@ The solver also divides by 0.85 while F is in dropout. Pack power is 65.04 W on 
 
 Charge at 1.006 A (calc only, circuitry/BQ24133_BOARD.md) plus the 0.50 h tail used in circuitry/CHARGER_BOARD.md:
 
-| Pack | Regulation | Nest can finish | Hours | Heat at the end | Heat at 3.0 V/cell |
+Charger loss is the switcher formula, Vbat times current times (1/efficiency - 1). The efficiency is 0.929 at 1.00 A, AVCC 15 V, 3 cells, from the Figure 10-4 chart read in twin/thermal/BQ24133_HEAT.md. The trace does not print the battery voltage, so that note uses the same 0.929 at 10.8 V and at 12.6 V. (15 V minus the pack) times the charge current is the linear-regulator formula. It is not this chip.
+
+| Pack | Regulation | Nest can finish | Hours | Loss at the end of charge | Loss at nominal |
 |---|---|---|---|---|---|
-| 2S | 8.4 V | yes, and the drop is large | 4.97 h on a 4.5 Ah cell | 6.64 W | 9.05 W |
-| 3S | 12.6 V | yes. 13.6 V needed, nest is 15.0 V, chip top is 17 V | 4.97 h on P45B, 3.48 h on P30B | 2.41 W | 6.04 W |
+| 2S | 8.4 V | yes. 9.4 V needed, nest is 15.0 V | 4.97 h on a 4.5 Ah cell | BLOCKER. No 15 V, 2-cell trace. The nearest chart read is 12 V in, 2 cells, 0.916 at 1.00 A. | BLOCKER |
+| 3S | 12.6 V | yes. 13.6 V needed, nest is 15.0 V, chip top is 17 V | 4.97 h on P45B, 3.48 h on P30B | 0.969 W at 12.6 V and 1.006 A (calc only) | 0.830 W at 10.8 V and 1.006 A (calc only) |
 | 4S | 16.8 V | no. 17.8 V needed | BLOCKER | BLOCKER | BLOCKER |
 
-The 6.04 W start of a 3S charge is above the 3.50 W the thermal twin ran (twin/thermal/CHARGE_WATTS.md). Cell temperature at that wattage is BLOCKER. It is the same for E and F.
+0.969 W is the same case as the 0.963 W sit already run at 1.00 A into 12.6 V (twin/thermal/BQ24133_HEAT.md, sim pass only for the shell). Loss at 3.0 V per cell is BLOCKER: Figure 10-4 was not read there. The old 6 W figure was the linear formula and is withdrawn.
 
 Shipping. Every pack in the eligible set is under 100 Wh (48.6 Wh for 3S P45B, 32.4 Wh for 3S P30B, 54.0 Wh for 3S P50B). PI 967 Section II applies to lithium ion batteries at or under 100 Wh contained in equipment, passenger aircraft allowed, 5 kg net per package (cited, IATA guidance and the FAA chart). A 4S2P P45B would be 129.6 Wh and would leave Section II. That pack also does not fit. UN 38.3: the P30B cell has a test summary, and the P45B product page lists a UN report. A spot-welded pack is a battery of its own and needs its own UN 38.3 summary. BLOCKER before the duck is shipped by air, on every series count. The gap is the same for every row, so the ranking does not move.
 
@@ -164,16 +166,16 @@ Scales are fixed, so a small gap does not take the whole weight. Higher is bette
 | Speed / 0.15 m/s | 20 | 0.1183 m/s, 15.8 | 0.1158 m/s, 15.4 |
 | (knee min - 6 V) / 6 V | 10 | 10.712 V, 7.9 | 10.192 V, 7.0 |
 | (13 A - peak) / 13 A | 15 | 8.114 A, 5.6 | 9.211 A, 4.4 |
-| 1 - mass delta / 150 g | 10 | +30 g, 8.0 | +70 g, 5.3 |
+| 1 - mass delta / 150 g | 10 | +34 g, 7.7 | +70 g, 5.3 |
 | 1 - heat / 10 W | 10 | 3.75 W, 6.2 | 5.85 W, 4.2 |
 | 1 - charge hours / 8 | 5 | 4.97 h, 1.9 | 4.97 h, 1.9 |
 | dollars saved / 100 | 5 | $54.95, 2.7 | $0, 0 |
 | Full-charge ceiling | penalty | 12.6 V is the Waveshare maximum, -8 | 12.0 V, 0 |
-| Total | | 61.1 | 56.6 |
+| Total | | 60.8 | 56.6 |
 
 ## Why this one
 
-The straight 3S rail wins because the walk never gives the Castle a legal 12.0 V job. Holding 12.0 V needs 12.3 V at the input with the 0.3 V dropout assumption, and the walked input is about 11.3 V to 11.4 V. The part is then asked to do the thing Castle has not published: pass the input through, or shut off. The wire does not depend on that. It also drops 40 g and $54.95, and the sim pack current falls from 5.334 A to 4.682 A mean.
+The straight 3S rail wins because the walk never gives the Castle a legal 12.0 V job. Holding 12.0 V needs 12.3 V at the input with the 0.3 V dropout assumption, and the walked input is about 11.3 V to 11.4 V. The part is then asked to do the thing Castle has not published: pass the input through, or shut off. The wire does not depend on that. It also drops 36.0 g and $54.95. The sim pack current is 4.682 A mean against 5.334 A on the buck. Taking the 36.0 g off the body and walking again left those currents and the 0.1183 m/s speed where the first wire run had them, at the printed digits.
 
 The cost of the wire is the top of charge. Three cells at the nameplate 4.20 V are 12.60 V, which is the Waveshare maximum with no margin, and 1.40 V under the Feetech page's 14 V. The digitized rest voltage is 12.525 V (3 x 4.175 V, the curve extended to 0 mAh). The Castle set to 12.0 V clamps that rest voltage when the input is above 12.3 V, which is the no-load full pack, and then it drops out as soon as the duck walks.
 
@@ -225,7 +227,8 @@ While the duck is on the mat the 2815 is held off, so the 15.0 V nest does not r
 - BEC lead gauge: still unpublished. The wire winner does not use those leads.
 - 5 V efficiency at a 12 V input: the 94 to 97 percent graph was not re-read at that point.
 - Pi 3.3 V regulator efficiency, and the pin's current limit.
-- Charger heat at 6.04 W at the start of a 3S charge. The thermal twin's highest ran point is 3.50 W.
+- Charger loss at 3.0 V per cell. Figure 10-4 was not read there. The 12.6 V loss is 0.969 W (calc only), the same case as the 0.963 W sit already run.
+- 2S charger loss on the 15 V nest. The nearest chart read is a 12 V input.
 - UN 38.3 summary for the welded pack, as distinct from the cell.
 - P50B discharge curve, and Samsung 50S DC resistance.
 - Mini-SPOX at the 0.40 m/s command: the 100 ms chain current is over 3 A on every walked rail.

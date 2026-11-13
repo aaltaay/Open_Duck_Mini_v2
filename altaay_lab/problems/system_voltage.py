@@ -56,6 +56,15 @@ CU = {16: 13.17e-3, 20: 33.31e-3, 22: 52.96e-3, 24: 84.22e-3, 26: 133.9e-3}
 # Comparison current for the discharge tables. FIT3 records 5.144 A mean at 0.15 m/s
 # on the old policy. 5.00 A is the round comparison point, calc only.
 I_CMP = 5.0
+# Items mass_budget.py seats on the BEC. The wire rail takes them off at that seat.
+# 29.0 g is the user guide without wires. Leads, tape, and the two output splices are that file's lines.
+BEC_BODY_G = 29.0
+BEC_LEADS_G = 4.6
+BEC_TAPE_G = 0.047 * 0.033 * 1.1e-3 * 0.8 * 1e6
+BEC_SPLICE_G = 2 * 0.5
+BEC_REMOVED_G = BEC_BODY_G + BEC_LEADS_G + BEC_TAPE_G + BEC_SPLICE_G
+# Figure 10-4, chart read in twin/thermal/BQ24133_HEAT.md. AVCC 15 V, 3 cells, 1.00 A.
+BQ_ETA_3S_15V = 0.929
 P5 = 5.0
 REG_EFF = 0.85
 BEC_EFF = 0.85
@@ -297,8 +306,8 @@ def converters(a):
                      limit="Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"))
     rows.append(dict(stage="charger, docked, not in the walk",
                      part="TI BQ24133, nest 15.0 V, charge 1.006 A",
-                     eff="loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
-                     loss="see the charge row",
+                     eff="0.929 at 1.00 A, AVCC 15 V, 3 cells, Figure 10-4 chart read in twin/thermal/BQ24133_HEAT.md. The trace does not print the battery voltage.",
+                     loss="Vbat times current times (1/0.929 - 1). Not (15 V minus pack) times current.",
                      limit="recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."))
     return rows
 
@@ -318,11 +327,24 @@ def charge_row(cell, ns):
     if not ok:
         why = "BLOCKER. %dS regulates at %.1f V. The EVM note wants the supply about 1 V above that (%.1f V). The nest is 15.0 V and the BQ24133 recommended top is 17 V." % (ns, v_reg, need)
         hours = None
-    heat_end = None if not ok else (15.0 - v_reg) * i_chg
-    heat_low = None if not ok else (15.0 - ns * 3.0) * i_chg
+    # Switcher loss. (nest minus pack) times current is the linear-regulator formula and is not used.
+    # Figure 10-4 was read at 15 V in and 3 cells. A 2S row on this 15 V nest has no matching trace.
+    # A 4S charge is already blocked, so it has no loss either.
+    heat = None
+    heat_nom = None
+    heat_note = "BLOCKER. Figure 10-4 was not read for this cell count on a 15 V input."
+    if ok and ns == 3:
+        # same chart-read efficiency at 12.6 V and at 10.8 V, as BQ24133_HEAT.md, because the trace
+        # does not print the battery voltage
+        heat = v_reg * i_chg * (1.0 / BQ_ETA_3S_15V - 1.0)
+        heat_nom = (ns * cell["v_nom"]) * i_chg * (1.0 / BQ_ETA_3S_15V - 1.0)
+        heat_note = "calc only from eta 0.929 at 1.00 A. Current here is 1.006 A. Loss at 3.0 V per cell is BLOCKER: the figure was not read there."
     return dict(ok=ok, hours=None if hours is None else round(hours, 2), why=why,
-                heat_end_W=None if heat_end is None else round(heat_end, 2),
-                heat_low_W=None if heat_low is None else round(heat_low, 2),
+                heat_end_W=None if heat is None else round(heat, 3),
+                heat_nominal_W=None if heat_nom is None else round(heat_nom, 3),
+                heat_low_W=None,
+                heat_note=heat_note,
+                eta=BQ_ETA_3S_15V if ok and ns == 3 else None,
                 v_reg=round(v_reg, 2))
 
 
@@ -407,7 +429,8 @@ def analyze(a):
     # baseline body in the mass budget already has 2x P45B and 14x 55 g servos and the BEC
     mass_delta = (mass_cells - 2 * 70.0) + servo_delta
     if a["mode"] == "wire":
-        mass_delta -= 40.0  # Horizon page mass used by the thermal twin, BEC leaves
+        # the walk model seats 29 g plus the leads, tape, and two output splices. Not the 40 g Horizon figure.
+        mass_delta -= BEC_REMOVED_G
     vol = cylinder_cm3(cell["dia_mm"], cell["h_mm"], a["ns"] * a["np"])
     ch = charge_row(cell, a["ns"])
     price_cells = None if cell["price"] is None else round(a["ns"] * a["np"] * cell["price"], 2)
@@ -594,8 +617,11 @@ def sim_main():
     # 4S seats are NOT a CAD check. One diameter behind the pair, same y.
     back1 = np.array([-0.15251, -0.00935, 0.0315])
     back2 = np.array([-0.15251, 0.0122, 0.0315])
+    # audit/placements.json bec_pro center, trunk frame, metres
+    bec = np.array([-0.0645, -0.0005, -0.0098])
     pieces = {
-        "E_3S_C018_wire": [(0.070, rear)],
+        # third cell in, Castle body, output leads, tape, and JB+/JB- out
+        "E_3S_C018_wire": [(0.070, rear), (-BEC_REMOVED_G / 1000.0, bec)],
         "F_3S_C018_buck12": [(0.070, rear)],
         # model already has 2 x 70 g. Four P30B are 188 g. Delta +48 g, split as -23 g on each existing cell and +47 g on two rear seats.
         "K_4S_P30B_buck12": [(-0.023, c1), (-0.023, c2), (0.047, back1), (0.047, back2)],
@@ -669,7 +695,9 @@ def sim_main():
     rows = []
     cmds = [0.15, 0.40]
     dur = float(os.environ.get("SV_DUR", "60"))
-    for key in SIM_IDS:
+    only = [x for x in os.environ.get("SV_ONLY", "").split(",") if x]
+    run_ids = tuple(only) if only else SIM_IDS
+    for key in run_ids:
         dst, moved = folders[key]
         ET.model_folder = lambda mass, dst=dst: dst
         for cmd in cmds:
@@ -696,6 +724,7 @@ def sim_main():
                     q_end_mAh=r["q_end_mAh"],
                     wall_s=r["wall_s"],
                     extra_note=dict(BEC_V=extra[key]["BEC_V"], BEC_DROP=extra[key]["BEC_DROP"], BEC_EFF=extra[key]["BEC_EFF"]),
+                    bec_removed_g=round(BEC_REMOVED_G, 2) if key == "E_3S_C018_wire" else 0.0,
                 ))
                 print(key, cmd, corner, rows[-1]["fall_s"], rows[-1]["vx_m_s"], knees, pack.get("i_max"), pack.get("i_mean"), flush=True)
     # sanity against the published run C 0.15 typical speed 0.108 m/s on the buck-dropout rig
@@ -703,15 +732,20 @@ def sim_main():
     if buck and buck[0]["vx_m_s"] is not None:
         if not (0.05 <= buck[0]["vx_m_s"] <= 0.20):
             print("SANITY: 0.15 m/s typical speed is outside 0.05 to 0.20. Published run C is 0.108.", flush=True)
+    path = os.path.join(HERE, "system_voltage_sim.json")
+    if only and os.path.exists(path):
+        old = json.load(open(path))
+        rows = [r for r in old["rows"] if r["id"] not in set(only)] + rows
     doc = dict(
         label="sim pass only",
         onnx="problems/retrain_sts12/sts12_runC_policy.onnx",
         sheet="sts12.py 12 V C018 sheet patch, not re-fit",
         mujoco="3.3.4",
         bec_setpoint_note="F and K use 12.0 V. E uses a wire (efficiency 1, drop 0). None use 16 V.",
+        bec_removed_g=round(BEC_REMOVED_G, 3),
+        bec_removed_note="E subtracts the mass-budget Castle (29.0 g cited, no wires), output leads 4.6 g, tape, and JB+ JB- at the bec_pro seat. F and K keep that mass.",
         rows=rows,
     )
-    path = os.path.join(HERE, "system_voltage_sim.json")
     json.dump(doc, open(path, "w"), indent=1)
     print("wrote", os.path.relpath(path, LAB))
 
