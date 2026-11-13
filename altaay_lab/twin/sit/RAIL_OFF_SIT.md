@@ -32,7 +32,7 @@ So a sheet-backed claim that the limp duck stays seated is BLOCKER. The only 20 
 
 ## Standing back up
 
-The electrical order is in circuitry/SERVO_RAIL.md. The nest is not wired to the servo switch input, so the Pi can turn that switch on while the mat is still touching. The rail then comes from the pack, at 12.6 V or less. The sim does not model that switch or the 15 V nest. `rail_then_stand` only turns the joint torque on, which is the mechanical step after the pack rail is already up. It does not show that a clamp could be overridden.
+The electrical order is in circuitry/SERVO_RAIL.md. Dock detect forces the rail off while end-charge is low. The Pi raises end-charge first, which releases that clamp and disables the charger, then raises the rail request. The nest is not wired to the servo switch input, so the rail comes from the pack, at 12.6 V or less, while the mat is still touching. The sim does not model that switch or the 15 V nest. `rail_then_stand` only turns the joint torque on, which is the mechanical step after the pack rail is already up.
 
 The command order in the sim is: the targets match the pose the duck is already in, the torque turns on, one second passes with no new command, then the stand ramp runs. The soft limits sit 3 deg inside the hard stops, so the command is 3.02 deg off the measured joint on the worst axis (sim pass only).
 
