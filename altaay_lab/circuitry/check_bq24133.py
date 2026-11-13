@@ -246,10 +246,16 @@ def main():
     trip_nest = th_dock * (ohm(parts["RNT"]) + ohm(parts["RNB"])) / ohm(parts["RNB"])
     check("docked threshold 1.789 V", abs(th_dock - 1.789) < 0.002, "%.3f V" % th_dock)
     check("15 V tap is 2.50 V", abs(tap_15 - 2.50) < 0.001, "%.3f V" % tap_15)
-    check("clamp is on at 15 V", tap_15 > th_dock, "%.3f > %.3f" % (tap_15, th_dock))
     check("nest trip is 10.73 V", abs(trip_nest - 10.73) < 0.02, "%.2f V" % trip_nest)
     check("asleep threshold 0.336 V", abs(th_walk - 0.336) < 0.002, "%.3f V" % th_walk)
-    check("clamp is off with no nest", 0.0 < th_walk, "%.3f V" % th_walk)
+    # LM393B sinks when IN- is above IN+, and is high impedance the other way
+    # (SLCS005AH section 7.2.2.1). Nest tap on IN-, threshold on IN+.
+    check("nest tap is on IN-", "NEST_TAP" in pin_nets.get("U3.INA-", set()), str(pin_nets.get("U3.INA-")))
+    check("threshold is on IN+", "ON_TH" in pin_nets.get("U3.INA+", set()), str(pin_nets.get("U3.INA+")))
+    check("docked IN- is above IN+", tap_15 > th_dock, "%.3f > %.3f" % (tap_15, th_dock))
+    check("undocked IN- is below IN+", 0.0 < th_walk, "0 < %.3f" % th_walk)
+    check("AVCC resistor is on the adapter", "NEST_FUSED" in pin_nets.get("RAV.A", set()), str(pin_nets.get("RAV.A")))
+    check("AVCC is not fed from SYS", "SYS" not in pin_nets.get("U1.AVCC", set()), str(pin_nets.get("U1.AVCC")))
 
     i_idle = N_SERVO * I_IDLE
     i_term = TERM_FRAC * i_chg

@@ -32,7 +32,7 @@ nets:
   BATDRV: {domain: PACK}
   GATE: {domain: SYS}
   SYS: {domain: SYS}
-  AVCC: {domain: SYS}
+  AVCC: {domain: NEST, note: "Adapter side, before the input FETs. The chip needs AVCC 300 mV above SRN before those FETs turn on."}
   PACK: {domain: PACK}
   BGATE: {domain: PACK}
   SW: {domain: PACK}
@@ -181,7 +181,7 @@ wires:
   - {from: Q3.D, to: U1.SRN, net: PACK}
   - {from: RBAT.A, to: U1.BATDRV, net: BATDRV}
   - {from: RBAT.B, to: Q3.G, net: BGATE}
-  - {from: RAV.A, to: Q1.D, net: SYS}
+  - {from: RAV.A, to: TVS.K, net: NEST_FUSED}
   - {from: RAV.B, to: U1.AVCC, net: AVCC}
   - {from: CAV.P, to: U1.AVCC, net: AVCC}
   - {from: CAV.M, to: U1.AGND, net: GND}
@@ -255,8 +255,8 @@ wires:
   - {from: RTLF.B, to: TL.K, net: VREF_TL}
   - {from: U3.VCC, to: JPK.P, net: PACK}
   - {from: U3.GND, to: U1.AGND, net: GND}
-  - {from: U3.INA+, to: RNT.B, net: NEST_TAP}
-  - {from: U3.INA-, to: RVT.B, net: ON_TH}
+  - {from: U3.INA-, to: RNT.B, net: NEST_TAP}
+  - {from: U3.INA+, to: RVT.B, net: ON_TH}
   - {from: U3.OUTA, to: "JON.ON", net: "ON"}
   - {from: RVT.A, to: U1.VREF, net: VREF}
   - {from: RVB.A, to: RVT.B, net: ON_TH}
