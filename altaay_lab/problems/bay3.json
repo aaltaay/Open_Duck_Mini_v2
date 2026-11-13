@@ -1,0 +1,31 @@
+{
+ "label": "CAD check only",
+ "rear_axis_mm": {
+  "x": -152.51,
+  "y": 1.42,
+  "z": [
+   -4.5,
+   67.5
+  ]
+ },
+ "pitch_mm": 22.2,
+ "wall_mm": 2.5,
+ "dx_behind_front_axes_mm": 19.41,
+ "watertight": true,
+ "volume_before_mm3": 89439.7,
+ "volume_after_mm3": 83502.9,
+ "back_before_mm": -154.0,
+ "back_after_mm": -166.36,
+ "protrusion_mm": 12.36,
+ "sleeve_overlap_mm3": {
+  "left": 0.0,
+  "right": 0.0,
+  "rear": 0.0
+ },
+ "other_part_overlap_mm3": {},
+ "fasteners_within_30mm": [],
+ "back_wall_ray_mm": 2.5,
+ "cap_up_ray_mm": 2.5,
+ "cap_down_ray_mm": 2.5,
+ "print_stl_unchanged": true
+}
