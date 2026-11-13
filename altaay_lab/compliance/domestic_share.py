@@ -106,7 +106,7 @@ BOM_FALLBACK = {
 # Bottle price is known. The amount left on the screws is not.
 BOTTLE_NOT_SPLIT = {
     "loctite": "BOM.md line 19, $9.90 for the 6 mL bottle. The incorporated fraction was not measured.",
-    "solder": "ORDER.csv unit $9.25 for 50 g, out of stock. Grams left in the joints were not measured.",
+    "solder": "ORDER.csv unit $17.14 for 50 g, in stock (cited, checked 2026-11-12). Grams left in the joints were not measured.",
 }
 
 ORIGIN = {
@@ -120,11 +120,9 @@ ORIGIN = {
         "United States",
         "BOM.md line 34b records a Hisco page read 2026-11-02 that printed country of origin US. Not re-opened this session.",
     ),
-    "servo": (
-        "foreign_cited",
-        "China",
-        "https://www.seeedstudio.com/STS3215-19kg-cm-7-4V-Serial-Servo-p-6338.html opened this session. The certification table prints COO CHINA for Feetech ST3215 C001.",
-    ),
+    # The Seeed 7.4 V line (COO CHINA on that page) is superseded. The Waveshare
+    # 12 V page cited in problems/NEST3.md did not print a country of origin.
+    # Unknown origin stays foreign under 48 CFR 25.003. Do not reuse the Seeed sentence.
     "pi": (
         "foreign_cited",
         "United Kingdom or Japan",

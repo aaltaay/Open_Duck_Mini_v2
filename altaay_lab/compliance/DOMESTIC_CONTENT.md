@@ -82,7 +82,7 @@ Origin:
 
 - Pololu D30V30F5, $29.95 (cited, ORDER.csv). The product page opened this session says these boards are manufactured in-house at the Las Vegas facility. Domestic.
 - Panduit ABM1M-AT-C, 24 fitted mounts, $17.38 (calc only, BOM.md line 34b price $72.41 per 100, cited from that file's 2026-11-02 Hisco read, not re-opened). That read printed country of origin US. Domestic.
-- Feetech ST3215 C001, 14 servos, $280.00 (cited, ORDER.csv, $20.00 each). The Seeed page opened this session prints COO CHINA. Foreign.
+- ~~Feetech ST3215 C001, 14 servos, $280.00 (cited, ORDER.csv, $20.00 each). The Seeed page opened this session prints COO CHINA. Foreign.~~ Superseded 2026-11-12 9:49 PM ET. The order line is the 12 V Waveshare SKU 22414, 14 at $20.63, which is $288.82 (calc only, problems/NEST3.md). That page did not print a country of origin. Unknown origin, counted foreign. The Seeed COO CHINA sentence is only for the superseded 7.4 V line.
 - Raspberry Pi Zero 2 W, $19.60 (cited, this session). The CanaKit page prints Made in UK. Raspberry Pi PCN 21, opened this session, says all production moved from Sony in the United Kingdom to Sony Inazawa, Japan, in September 2023, with both in the channel during a transition. The United Kingdom and Japan are not the 50 States or the District of Columbia. Foreign either way. Which factory made the board in a given box was not read from a revision code. The box was not opened.
 
 Every other priced component has no country-of-origin sentence on a page opened for this worksheet. Counted foreign under the 25.003 sentence above. "Ships from the United States" and a US seller's office are not that sentence. The Molicel sheet, opened this session, prints a Canada facility and a Taiwan facility and does not say which one makes the P45B. Neither address is a United States factory. The cell stays in the unknown group.
@@ -93,14 +93,14 @@ https://pip-assets.raspberrypi.com/categories/1163-pcn/documents/RP-004862-PC-1-
 
 ## The share
 
-Current share, 2026-11-12 9:41 PM ET, from compliance/domestic_share.py on the order after PR 77 and the third cell. Calc only. Not legal advice.
+Current share, 2026-11-12 9:49 PM ET, from compliance/domestic_share.py after the 12 V servo line. Calc only. Not legal advice.
 
 - Domestic: $47.33. The regulator is $29.95 and the 24 Panduit mounts are $17.38.
-- Foreign, cited or unknown: $849.21.
-- Total in the share: $896.54.
-- Domestic share: 5.28 percent ($47.33 divided by $896.54).
+- Foreign, cited or unknown: $858.03. The 14 servos are $288.82 of that, unknown origin counted foreign.
+- Total in the share: $905.36.
+- Domestic share: 5.23 percent ($47.33 divided by $905.36).
 
-A delivery in 2026 uses the 65 percent test. Domestic cost has to exceed 65 percent of $896.54, which is $582.75 (0.65 times $896.54). The sheet is short by $535.42. A delivery in 2029 uses 75 percent. That gap is $625.08. The smallest set that clears the 2026 gap is 10 lines and sums to $548.15. The earlier 6.07 percent, the $779.39 total, and the seven-line set below are superseded.
+A delivery in 2026 uses the 65 percent test. Domestic cost has to exceed $588.48 (calc only, 0.65 times $905.36). The sheet is short by $541.15. A delivery in 2029 uses 75 percent. That gap is $631.69. The smallest set that clears the 2026 gap is 10 lines and sums to $556.97 (calc only). ~~The 5.28 percent on $896.54, the 6.07 percent on $779.39, and the seven-line set below~~ are superseded.
 
 ~~Priced components of the walking duck:~~
 
@@ -113,9 +113,9 @@ A delivery in 2026 uses the 65 percent test. Domestic cost has to exceed 65 perc
 
 Lines with no incorporated price are not in the $779.39. They are solder, threadlocker, the unwelded pack materials, the charger-board passives and the board fab, the KK 254 housings, the M2x12 screw, the five gold seat wells, and the duck-side ideal-diode path for each well. The wells sit in the seat and the diode paths sit in the trunk (FLUSH_CONTACTS.md section 6). Neither has a part or a price. If those lines are foreign, the gap is wider. If they are domestic, they help only to the extent of their incorporated cost, which is BLOCKER.
 
-On a reading that refuses the unknown-origin sentence, the same script gives domestic $596.94 and foreign $299.60, which is 66.58 percent (calc only). That reading clears 65 percent by $14.19 (calc only). It is not the rule this worksheet uses. The servo line is still the 7.4 V part at $280.00. Swapping it for the 12 V servo would change this share and has not been done.
+On a reading that refuses the unknown-origin sentence, the same script gives domestic $885.76 and foreign $19.60, which is 97.84 percent (calc only). That reading clears 65 percent by $297.28 (calc only). It is not the rule this worksheet uses. The servos moved into the unknown bucket because the Waveshare page did not print a country of origin, so this reading counts them as domestic. The worksheet does not.
 
-~~On the same $779.39 it would be domestic $479.79 and foreign $299.60, which is 61.56 percent (calc only). That reading is still short of 65 percent by $26.81 (calc only).~~ Superseded by the recompute above.
+~~The same script gives domestic $596.94 and foreign $299.60, which is 66.58 percent (calc only).~~ Superseded 2026-11-12 9:49 PM ET by the recompute above. ~~On the same $779.39 it would be domestic $479.79 and foreign $299.60, which is 61.56 percent (calc only).~~ Superseded.
 
 ## Smallest set that crosses 65 percent
 

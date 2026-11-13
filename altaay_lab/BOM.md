@@ -179,6 +179,8 @@ Change 2026-11-04 about 8:50 PM ET (V1 screws job phase 2, D36 and D38, twin/scr
 | Build + expression pack | 1387.84 |
 | Build + expression + tools | 1659.50 |
 
+ORDER.md is the live cart. This table stays the older rollup. The build total $1258.70 (calc only) is robot $848.14 plus fasteners $73.75 plus cables $282.84 plus filament $53.97. Tools $271.66 are one-time and are outside that build total. The order's buy-today total and its per-duck parts total (tools and full filament spools left out) are in bom/order/ORDER.md.
+
 Change 2026-11-05 about 7:50 PM ET (V1 track 11): line E8 verified on adafruit.com/product/3421 ($6.95 each, in stock, 0.4 g, 16.7 x 12.7 x 1.8 mm) and against its datasheet and board files; no cost change. Nothing bought.
 
 Change 2026-11-05 about 4:50 PM ET (V1 track 11, companion, D47): line E8, 2 x Adafruit 3421 SPH0645LM4H I2S mic boards ($13.90) in Expression; 17h Need 28 to 32 (4 x M2x6 from the same kit, no new line); the mic wires come from the 26 AWG stock already bought. Expression $79.39 to $93.29, build + expression $1247.20 to $1261.10, build + expression + tools $1518.86 to $1532.76. Nothing bought.
