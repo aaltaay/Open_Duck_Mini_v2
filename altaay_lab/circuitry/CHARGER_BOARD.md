@@ -1,5 +1,7 @@
 # In-body charger board
 
+The 3S board is circuitry/BQ24133_BOARD.md, with circuitry/bq24133_board.yaml and the KiCad drawing of those nets. This file stays the 2S MCP73213 record. Nothing below was removed.
+
 Schematic only. No board has been built, and no electrical measurement of this circuit exists. The arithmetic is in `circuitry/check_charger.py` (calc only). A sim of the duck is not a result here.
 
 This board is the charger D61 moves into the duck. It replaces the Adeept USB-C board (netlist U6, BOM line 11) as the charge path. It does not edit `wiring/netlist.yaml`. A later owner merges `circuitry/charger_board.yaml`.

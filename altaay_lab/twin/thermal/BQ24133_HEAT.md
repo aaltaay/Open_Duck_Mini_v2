@@ -31,7 +31,7 @@ RθJA is 35.7 C/W (cited, thermal information). Thermal regulation is 120 C. The
 
 Sim pass only for the shell. Same trunk model as gate_p45b.py. The model hardcodes two cans, so mass and can height are scaled by 3/2 and the cell node is three P45B cans. Servo idle is 21 mA (the STS3215 sheet). Cell I2R is three times 15 milliohm. The BEC loss is 0.3 V times the idle current.
 
-The docked path is not the pack. D50 and D61 feed the awake servo bus from the nest through DK6. The nest is 15.0 V. The BEC setpoint in the 3S walk is 16 V, so it cannot regulate 15 V down. The servos then see 15.0 - 0.3 = 14.7 V (calc only). The C018 page range used in the 12 V study is 4 V to 14 V. 14.7 V is outside that page. The docked thermal gate stays BLOCKER until the servo bus on the nest is inside that range. Rows that put the idle at the pack voltage are a different configuration. They do not clear this gate.
+The docked path is not the pack. D50 and D61 feed the awake servo bus from the nest through DK6. The nest is 15.0 V. The BEC setpoint in the 3S walk is 16 V, so it cannot regulate 15 V down. The servos then see 15.0 - 0.3 = 14.7 V (calc only). The C018 page range used in the 12 V study is 4 V to 14 V. 14.7 V is outside that page. Rows that put the idle at the pack voltage are a different configuration. They do not clear this gate. The pick that takes the servos off that rail is circuitry/SERVO_RAIL.md. The 14.7 V table below stays as the unfixed path. The cut-rail sit is the last section of this note.
 
 The 2S check, before the three-cell scale, still matches gate_p45b.json: 3.2 W, central, 32 C, cell 40.40 C, wall 36.84 C.
 
@@ -82,3 +82,16 @@ Three ways to fix that, and which one is small enough to also finish the charge:
 3. The same BQ24133, with CELL floating. The sheet says a floating CELL pin is 2 cells at 8.4 V. Figure 10-4 has no 9.5 V, 2-cell trace. The nearest is AVCC = 12 V, 2 cells, 0.916 at 1.00 A (chart read). Loss at 8.4 V and 1.00 A is 0.770 W (calc only). Assigning all of that to the die on 35.7 C/W in a 32 C room is an upper bound of 59.5 C. At 85 percent, which is worse than that trace, the same upper bound is 84.9 C. Both upper bounds are under 120 C and under 150 C, so this chip at 1.00 A does not cross those two lines even if every converter watt is inside the package.
 
 The smallest fix that stays under 150 C and can still charge at 1.00 A is this chip with CELL floating. It is the charger the 3S plan already names. The mat does not change.
+
+## Cut rail, the dock this note now uses
+
+circuitry/SERVO_RAIL.md holds the Pololu 2815 off while the nest is present. Servo current in this sit is 0. Servo voltage is 0 V, which is under the 14 V page. Charger loss is still 0.963 W at 1.00 A into 12.6 V. The BEC is not in dropout on an idle current, because the rail is open. Sim pass only.
+
+| Corner | Room | Cells | Trunk air | Trunk wall | Knee reading |
+|---|---|---|---|---|---|
+| central | 25 C | 28.36 C | 28.63 C | 26.57 C | 25.0 C |
+| central | 32 C | 35.23 C | 35.58 C | 33.51 C | 32.0 C |
+| high | 25 C | 29.14 C | 30.06 C | 26.79 C | 25.0 C |
+| high | 32 C | 35.98 C | 37.00 C | 33.73 C | 32.0 C |
+
+The knee reading is the room, because the servos are off and the sheet idle is not flowing. Cells stay under 60 C. The wall stays under 49 C. The die upper bound at the high corner and 32 C is 71.38 C, under 120 C, and it is still an upper bound. Felt grade is still BLOCKER. Unpowered friction on the sit is still the open item in the sit study. It is not cleared by opening the rail.

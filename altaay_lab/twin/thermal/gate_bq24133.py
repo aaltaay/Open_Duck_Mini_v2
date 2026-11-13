@@ -89,10 +89,10 @@ def _three_cells():
     TT.PARAMS["T_cut"] = 200.0
 
 
-def _sit(charger_w, v_servo, i_chg, corner, Ta, hours=6.0):
+def _sit(charger_w, v_servo, i_chg, corner, Ta, hours=6.0, i_idle_a=None):
     c = TT.CORNERS[corner]
-    p_idle = I_IDLE * v_servo
-    i_idle = 14 * I_IDLE
+    i_idle = 14 * I_IDLE if i_idle_a is None else i_idle_a
+    p_idle = I_IDLE * v_servo if i_idle_a is None else 0.0
     # The 16 V setpoint is above the pack, so the BEC is in dropout, not at 85 percent.
     bec = i_idle * V_DROP
     z = np.zeros(14)
@@ -194,7 +194,7 @@ def main():
     _three_cells()
     cases = []
 
-    def add(i_chg, vbat, v_servo, bus):
+    def add(i_chg, vbat, v_servo, bus, i_idle_a=None):
         eta = ETA_15V_3CELL[i_chg]
         p = loss_w(vbat, i_chg, eta)
         fet = dict(
@@ -203,7 +203,7 @@ def main():
         )
         for corner in ("central", "high"):
             for Ta in (25.0, 32.0):
-                row = _sit(p, v_servo, i_chg, corner, Ta)
+                row = _sit(p, v_servo, i_chg, corner, Ta, i_idle_a=i_idle_a)
                 row.update(i_chg_A=i_chg, vbat_V=vbat, v_servo_V=v_servo, bus=bus, eta=eta,
                            planned=(i_chg == I_PLAN), fet_conduction_W=fet)
                 cases.append(row)
@@ -219,6 +219,8 @@ def main():
     # Docked path: nest at 15 V feeds the servos. Charger loss still follows the pack voltage.
     for i_chg, vbat in ((I_PLAN, 12.6), (I_MAX, 12.6)):
         add(i_chg, vbat, V_SERVO_NEST, "nest")
+    # Chosen dock: Pololu 2815 ON held low, servo current 0. circuitry/SERVO_RAIL.md.
+    add(I_PLAN, 12.6, 0.0, "cut", i_idle_a=0.0)
 
     doc = dict(
         label="sim pass only for the shell, calc only for the loss and the die",
@@ -235,8 +237,8 @@ def main():
         cells=N_CELLS,
         cell_scale="mass and can height times 3/2, because the model hardcodes two cans",
         bec="0.3 V dropout times the idle current. The 16 V setpoint cannot regulate a 15 V nest down.",
-        servo_volts="pack rows use the pack voltage. nest rows use 15.0 V minus 0.3 V, which is 14.7 V.",
-        docked_gate="BLOCKER. The nest-fed servo bus is 14.7 V. The C018 page range is 4 V to 14 V. Pack-fed rows do not clear this.",
+        servo_volts="pack rows use the pack voltage. nest rows use 15.0 V minus 0.3 V, which is 14.7 V. cut rows hold the servo rail off (0 V, 0 A).",
+        docked_gate="The unfixed nest rows are 14.7 V, outside 4 V to 14 V. The cut rows are the pick in circuitry/SERVO_RAIL.md: Pololu 2815 ON held low, servo current 0.",
         die_note="Die figures that use the full converter loss are upper bounds. FET conduction is the cited in-package piece. Switching loss inside the die is not separated. A 120 C crossing is not confirmed.",
         rds_ohm=dict(high_typical=RDS_HI[0], high_max=RDS_HI[1], low_typical=RDS_LO[0], low_max=RDS_LO[1]),
         nest="cad/nest_v2 stays. The mat is not redrawn.",

@@ -1,0 +1,270 @@
+# bq24133_board.yaml: schematic netlist of the 3S charger board.
+# Same shape as circuitry/charger_board.yaml. This file does not replace wiring/netlist.yaml.
+# The 2S MCP73213 netlist stays in charger_board.yaml.
+# Rev 2026-11-13 (America/New_York).
+
+meta:
+  title: Open Duck Mini v2, BQ24133 charger board, schematic netlist
+  rev: "2026-11-13"
+  units: {length: mm, current: A, voltage: V}
+  board: CB3
+  chip: BQ24133
+  datasheet: "https://www.ti.com/lit/ds/symlink/bq24133.pdf"
+  datasheet_id: SLUSAF7D
+  note: "Board-level only. The servo bus is not the charger system node. See SERVO_RAIL.md."
+
+domains:
+  NEST: {v_min: 0.0, v_max: 26.0, note: "Fused contacts. Design 15.0 V. SMAJ16A clamps at 26.0 V. AVCC abs max is 30 V. PVCC abs max is 20 V."}
+  SYS: {v_min: 0.0, v_max: 20.0, note: "After the ACFET. Charger input only. Not the servo bus."}
+  PACK: {v_min: 9.0, v_max: 12.6, note: "Three P45B cells. CELL tied to VREF regulates 12.6 V."}
+  VREF: {v_min: 0.0, v_max: 3.6, note: "BQ24133 VREF, 3.3 V. Abs max of the pin is 3.6 V."}
+  GPIO: {v_min: 0.0, v_max: 3.6, note: "Pi 3.3 V."}
+  GND: {v_min: 0.0, v_max: 0.0, note: "AGND, PGND, nest return, pack return."}
+
+nets:
+  GND: {domain: GND}
+  NEST_P: {domain: NEST}
+  NEST_FUSED: {domain: NEST}
+  ACN: {domain: NEST}
+  CMSRC: {domain: SYS}
+  CMSRC_PIN: {domain: SYS}
+  GATE_DRV: {domain: SYS}
+  BATDRV: {domain: PACK}
+  GATE: {domain: SYS}
+  SYS: {domain: SYS}
+  AVCC: {domain: SYS}
+  PACK: {domain: PACK}
+  BGATE: {domain: PACK}
+  SW: {domain: PACK}
+  SRP: {domain: PACK}
+  VREF: {domain: VREF}
+  ISET: {domain: VREF}
+  ACSET: {domain: VREF}
+  OVP: {domain: NEST}
+  TS: {domain: VREF}
+  STAT: {domain: VREF}
+  TTC: {domain: VREF}
+  BTST: {domain: SYS}
+  REGN: {domain: SYS}
+  VREF_TL: {domain: VREF, note: "TL431 rail for the pack window. Absolute voltage BLOCKER."}
+  NTC: {domain: VREF}
+  COLD_TH: {domain: VREF}
+  HOT_TH: {domain: VREF}
+  ON_TH: {domain: VREF}
+  NEST_TAP: {domain: NEST}
+  "ON": {domain: GPIO}
+  PI_EN: {domain: GPIO}
+  PI_3V3: {domain: GPIO}
+
+components:
+  - {id: JIN, ref: J1, part: "nest splices, plus and minus", kind: connector, pins: [{pin: P, dir: pwr_in}, {pin: M, dir: gnd}]}
+  - {id: F1, ref: F1, part: "5 A ATO fuse, same holder as the 2S board", kind: fuse, pins: [{pin: IN, dir: pwr_in}, {pin: OUT, dir: pwr_out}]}
+  - {id: TVS, ref: D1, part: "Littelfuse SMAJ16A", kind: tvs, pins: [{pin: K, dir: pwr}, {pin: A, dir: gnd}]}
+  - {id: RAC, ref: R1, part: "20 milliohm adapter sense", kind: resistor, value_ohm: 0.020, pins: [{pin: P, dir: pwr}, {pin: N, dir: pwr}]}
+  - {id: Q2, ref: Q2, part: "RBFET, N-channel, CSD17313 example", kind: fet_n, pins: [{pin: D, dir: pwr}, {pin: S, dir: pwr}, {pin: G, dir: in}]}
+  - {id: Q1, ref: Q1, part: "ACFET, NexFET CSD17313, named in SLUSAF7D 10.2.2.5", kind: fet_n, pins: [{pin: D, dir: pwr}, {pin: S, dir: pwr}, {pin: G, dir: in}]}
+  - {id: Q3, ref: Q3, part: "BATFET, P-channel, order code BLOCKER", kind: fet_p, pins: [{pin: D, dir: pwr}, {pin: S, dir: pwr}, {pin: G, dir: in}]}
+  - {id: RACDRV, ref: R2, part: "4.00 kOhm ACDRV to the gates", kind: resistor, value_ohm: 4000, pins: [{pin: A, dir: out}, {pin: B, dir: in}]}
+  - {id: RCMS, ref: R3, part: "4.00 kOhm CMSRC to the common source", kind: resistor, value_ohm: 4000, pins: [{pin: A, dir: out}, {pin: B, dir: in}]}
+  - {id: RBAT, ref: R4, part: "1.00 kOhm BATDRV to the BATFET gate", kind: resistor, value_ohm: 1000, pins: [{pin: A, dir: out}, {pin: B, dir: in}]}
+  - id: U1
+    ref: U1
+    part: "TI BQ24133, SLUSAF7D, CELL tied to VREF"
+    kind: ic
+    pins:
+      - {pin: ACP, dir: in}
+      - {pin: ACN, dir: in}
+      - {pin: CMSRC, dir: out}
+      - {pin: ACDRV, dir: out}
+      - {pin: PVCC, dir: pwr}
+      - {pin: AVCC, dir: pwr}
+      - {pin: SW, dir: out}
+      - {pin: BTST, dir: pwr}
+      - {pin: REGN, dir: pwr}
+      - {pin: SRP, dir: in}
+      - {pin: SRN, dir: in}
+      - {pin: BATDRV, dir: out}
+      - {pin: ISET, dir: in}
+      - {pin: ACSET, dir: in}
+      - {pin: OVPSET, dir: in}
+      - {pin: TS, dir: in}
+      - {pin: TTC, dir: in}
+      - {pin: STAT, dir: out}
+      - {pin: CELL, dir: in}
+      - {pin: VREF, dir: out}
+      - {pin: PGND, dir: gnd}
+      - {pin: AGND, dir: gnd}
+  - {id: RAV, ref: R5, part: "10 ohm into AVCC", kind: resistor, value_ohm: 10, pins: [{pin: A, dir: pwr}, {pin: B, dir: pwr}]}
+  - {id: CAV, ref: C1, part: "1 uF AVCC", kind: capacitor, value_F: 1.0e-6, pins: [{pin: P, dir: pwr}, {pin: M, dir: gnd}]}
+  - {id: CPV1, ref: C2, part: "10 uF PVCC", kind: capacitor, value_F: 10.0e-6, pins: [{pin: P, dir: pwr}, {pin: M, dir: gnd}]}
+  - {id: CPV2, ref: C3, part: "10 uF PVCC", kind: capacitor, value_F: 10.0e-6, pins: [{pin: P, dir: pwr}, {pin: M, dir: gnd}]}
+  - {id: CREG, ref: C4, part: "1 uF REGN", kind: capacitor, value_F: 1.0e-6, pins: [{pin: P, dir: pwr}, {pin: M, dir: gnd}]}
+  - {id: CBT, ref: C5, part: "0.047 uF bootstrap", kind: capacitor, value_F: 4.7e-8, pins: [{pin: P, dir: pwr}, {pin: M, dir: pwr}]}
+  - {id: CVRF, ref: C6, part: "1 uF VREF", kind: capacitor, value_F: 1.0e-6, pins: [{pin: P, dir: pwr}, {pin: M, dir: gnd}]}
+  - {id: L1, ref: L1, part: "6.8 uH, Table 10-2 at 1 A, order code BLOCKER", kind: inductor, value_H: 6.8e-6, pins: [{pin: A, dir: pwr}, {pin: B, dir: pwr}]}
+  - {id: RSNS, ref: R6, part: "10 milliohm charge sense", kind: resistor, value_ohm: 0.010, pins: [{pin: P, dir: pwr}, {pin: N, dir: pwr}]}
+  - {id: COUT, ref: C7, part: "10 uF output", kind: capacitor, value_F: 10.0e-6, pins: [{pin: P, dir: pwr}, {pin: M, dir: gnd}]}
+  - {id: CACP, ref: C8, part: "0.1 uF ACP to AGND", kind: capacitor, value_F: 1.0e-7, pins: [{pin: P, dir: pwr}, {pin: M, dir: gnd}]}
+  - {id: CACD, ref: C9, part: "0.1 uF ACP to ACN", kind: capacitor, value_F: 1.0e-7, pins: [{pin: P, dir: pwr}, {pin: M, dir: pwr}]}
+  - {id: CSRP, ref: C10, part: "0.1 uF SRP to AGND", kind: capacitor, value_F: 1.0e-7, pins: [{pin: P, dir: pwr}, {pin: M, dir: gnd}]}
+  - {id: CSRD, ref: C11, part: "0.1 uF SRP to SRN", kind: capacitor, value_F: 1.0e-7, pins: [{pin: P, dir: pwr}, {pin: M, dir: pwr}]}
+  - {id: RIH, ref: R7, part: "154 kOhm ISET top", kind: resistor, value_ohm: 154000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: RIL, ref: R8, part: "10.0 kOhm ISET bottom", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: RAH, ref: R9, part: "31.6 kOhm ACSET top", kind: resistor, value_ohm: 31600, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: RAL, ref: R10, part: "10.0 kOhm ACSET bottom", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: ROH, ref: R11, part: "102 kOhm OVPSET top", kind: resistor, value_ohm: 102000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: ROL, ref: R12, part: "10.0 kOhm OVPSET bottom", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: CTTC, ref: C12, part: "68 nF safety timer", kind: capacitor, value_F: 6.8e-8, pins: [{pin: P, dir: in}, {pin: M, dir: gnd}]}
+  - {id: RTS, ref: R13, part: "10.0 kOhm TS top", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: RTB, ref: R14, part: "15.0 kOhm TS bottom", kind: resistor, value_ohm: 15000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: RST, ref: R15, part: "10 kOhm STAT pullup to VREF", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: pwr}, {pin: B, dir: out}]}
+  - id: U2
+    ref: U2
+    part: "TI LM393BIDR, pack window, pulls ISET down outside 0 C to 60 C"
+    kind: ic
+    pins:
+      - {pin: OUTA, dir: out}
+      - {pin: INA-, dir: in}
+      - {pin: INA+, dir: in}
+      - {pin: GND, dir: gnd}
+      - {pin: INB+, dir: in}
+      - {pin: INB-, dir: in}
+      - {pin: OUTB, dir: out}
+      - {pin: VCC, dir: pwr}
+  - id: U3
+    ref: U3
+    part: "TI LM393BIDR, channel A holds Pololu 2815 ON low while docked"
+    kind: ic
+    pins:
+      - {pin: OUTA, dir: out}
+      - {pin: INA-, dir: in}
+      - {pin: INA+, dir: in}
+      - {pin: GND, dir: gnd}
+      - {pin: INB+, dir: nc}
+      - {pin: INB-, dir: nc}
+      - {pin: OUTB, dir: nc}
+      - {pin: VCC, dir: pwr}
+  - {id: NTC, ref: RT1, part: "Adafruit 372, 10 kOhm at 25 C", kind: thermistor, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: RB, ref: R16, part: "10.0 kOhm NTC bias", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: RCT, ref: R17, part: "10.0 kOhm cold top", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: RCB, ref: R18, part: "28.0 kOhm cold bottom", kind: resistor, value_ohm: 28000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: RHT, ref: R19, part: "10.0 kOhm hot top", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: RHB, ref: R20, part: "2.80 kOhm hot bottom", kind: resistor, value_ohm: 2800, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: TL, ref: U4, part: "TL431, sheet not opened, absolute voltage BLOCKER", kind: ref, pins: [{pin: K, dir: pwr}, {pin: R, dir: in}, {pin: A, dir: gnd}]}
+  - {id: RTLF, ref: R21, part: "4.99 kOhm into the TL431", kind: resistor, value_ohm: 4990, pins: [{pin: A, dir: pwr}, {pin: B, dir: pwr}]}
+  - {id: RVT, ref: R22, part: "12.1 kOhm ON threshold from VREF", kind: resistor, value_ohm: 12100, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: RVB, ref: R23, part: "10.0 kOhm ON threshold to ground", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: RVP, ref: R24, part: "200 kOhm ON threshold from the pack", kind: resistor, value_ohm: 200000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: RNT, ref: R25, part: "100 kOhm nest divider top", kind: resistor, value_ohm: 100000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: RNB, ref: R26, part: "20.0 kOhm nest divider bottom", kind: resistor, value_ohm: 20000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: RON, ref: R27, part: "10 kOhm from Pi GPIO to the 2815 ON pin", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: in}, {pin: B, dir: out}]}
+  - {id: JON, ref: J2, part: "to Pololu 2815 ON, slide switch left off", kind: connector, pins: [{pin: "ON", dir: out}]}
+  - {id: JPK, ref: J3, part: "to BMS P+", kind: connector, pins: [{pin: P, dir: pwr}]}
+  - {id: JPI, ref: J4, part: "Pi GPIO5 STAT, GPIO through RON", kind: connector, pins: [{pin: STAT, dir: in}, {pin: EN, dir: out}, {pin: V3, dir: nc}]}
+
+wires:
+  - {from: JIN.P, to: F1.IN, net: NEST_P}
+  - {from: JIN.M, to: U1.AGND, net: GND}
+  - {from: F1.OUT, to: TVS.K, net: NEST_FUSED}
+  - {from: TVS.A, to: U1.PGND, net: GND}
+  - {from: RAC.P, to: U1.ACP, net: NEST_FUSED}
+  - {from: RAC.N, to: U1.ACN, net: ACN}
+  - {from: Q2.D, to: RAC.N, net: ACN}
+  - {from: Q2.S, to: Q1.S, net: CMSRC}
+  - {from: Q1.S, to: RCMS.B, net: CMSRC}
+  - {from: RCMS.A, to: U1.CMSRC, net: CMSRC_PIN}
+  - {from: Q1.G, to: Q2.G, net: GATE}
+  - {from: RACDRV.B, to: Q1.G, net: GATE}
+  - {from: RACDRV.A, to: U1.ACDRV, net: GATE_DRV}
+  - {from: Q1.D, to: U1.PVCC, net: SYS}
+  - {from: Q3.S, to: Q1.D, net: SYS}
+  - {from: Q3.D, to: U1.SRN, net: PACK}
+  - {from: RBAT.A, to: U1.BATDRV, net: BATDRV}
+  - {from: RBAT.B, to: Q3.G, net: BGATE}
+  - {from: RAV.A, to: Q1.D, net: SYS}
+  - {from: RAV.B, to: U1.AVCC, net: AVCC}
+  - {from: CAV.P, to: U1.AVCC, net: AVCC}
+  - {from: CAV.M, to: U1.AGND, net: GND}
+  - {from: CPV1.P, to: U1.PVCC, net: SYS}
+  - {from: CPV1.M, to: U1.PGND, net: GND}
+  - {from: CPV2.P, to: U1.PVCC, net: SYS}
+  - {from: CPV2.M, to: U1.PGND, net: GND}
+  - {from: CREG.P, to: U1.REGN, net: REGN}
+  - {from: CREG.M, to: U1.PGND, net: GND}
+  - {from: CBT.P, to: U1.BTST, net: BTST}
+  - {from: CBT.M, to: U1.SW, net: SW}
+  - {from: CVRF.P, to: U1.VREF, net: VREF}
+  - {from: CVRF.M, to: U1.AGND, net: GND}
+  - {from: U1.CELL, to: U1.VREF, net: VREF}
+  - {from: L1.A, to: U1.SW, net: SW}
+  - {from: L1.B, to: RSNS.P, net: SRP}
+  - {from: RSNS.P, to: U1.SRP, net: SRP}
+  - {from: RSNS.N, to: U1.SRN, net: PACK}
+  - {from: COUT.P, to: U1.SRN, net: PACK}
+  - {from: COUT.M, to: U1.PGND, net: GND}
+  - {from: JPK.P, to: U1.SRN, net: PACK}
+  - {from: CACP.P, to: U1.ACP, net: NEST_FUSED}
+  - {from: CACP.M, to: U1.AGND, net: GND}
+  - {from: CACD.P, to: U1.ACP, net: NEST_FUSED}
+  - {from: CACD.M, to: U1.ACN, net: ACN}
+  - {from: CSRP.P, to: U1.SRP, net: SRP}
+  - {from: CSRP.M, to: U1.AGND, net: GND}
+  - {from: CSRD.P, to: U1.SRP, net: SRP}
+  - {from: CSRD.M, to: U1.SRN, net: PACK}
+  - {from: RIH.A, to: U1.VREF, net: VREF}
+  - {from: RIH.B, to: U1.ISET, net: ISET}
+  - {from: RIL.A, to: U1.ISET, net: ISET}
+  - {from: RIL.B, to: U1.AGND, net: GND}
+  - {from: RAH.A, to: U1.VREF, net: VREF}
+  - {from: RAH.B, to: U1.ACSET, net: ACSET}
+  - {from: RAL.A, to: U1.ACSET, net: ACSET}
+  - {from: RAL.B, to: U1.AGND, net: GND}
+  - {from: ROH.A, to: TVS.K, net: NEST_FUSED}
+  - {from: ROH.B, to: U1.OVPSET, net: OVP}
+  - {from: ROL.A, to: U1.OVPSET, net: OVP}
+  - {from: ROL.B, to: U1.AGND, net: GND}
+  - {from: CTTC.P, to: U1.TTC, net: TTC}
+  - {from: CTTC.M, to: U1.AGND, net: GND}
+  - {from: RTS.A, to: U1.VREF, net: VREF}
+  - {from: RTS.B, to: U1.TS, net: TS}
+  - {from: RTB.A, to: U1.TS, net: TS}
+  - {from: RTB.B, to: U1.AGND, net: GND}
+  - {from: RST.A, to: U1.VREF, net: VREF}
+  - {from: RST.B, to: U1.STAT, net: STAT}
+  - {from: JPI.STAT, to: U1.STAT, net: STAT}
+  - {from: U2.OUTA, to: U1.ISET, net: ISET}
+  - {from: U2.OUTB, to: U1.ISET, net: ISET}
+  - {from: U2.INA-, to: NTC.A, net: NTC}
+  - {from: U2.INA+, to: RCT.B, net: COLD_TH}
+  - {from: U2.INB+, to: NTC.A, net: NTC}
+  - {from: U2.INB-, to: RHT.B, net: HOT_TH}
+  - {from: U2.VCC, to: JPK.P, net: PACK}
+  - {from: U2.GND, to: U1.AGND, net: GND}
+  - {from: RB.A, to: TL.K, net: VREF_TL}
+  - {from: RB.B, to: NTC.A, net: NTC}
+  - {from: NTC.B, to: U1.AGND, net: GND}
+  - {from: RCT.A, to: TL.K, net: VREF_TL}
+  - {from: RCB.A, to: RCT.B, net: COLD_TH}
+  - {from: RCB.B, to: U1.AGND, net: GND}
+  - {from: RHT.A, to: TL.K, net: VREF_TL}
+  - {from: RHB.A, to: RHT.B, net: HOT_TH}
+  - {from: RHB.B, to: U1.AGND, net: GND}
+  - {from: TL.R, to: TL.K, net: VREF_TL}
+  - {from: TL.A, to: U1.AGND, net: GND}
+  - {from: RTLF.A, to: JPK.P, net: PACK}
+  - {from: RTLF.B, to: TL.K, net: VREF_TL}
+  - {from: U3.VCC, to: JPK.P, net: PACK}
+  - {from: U3.GND, to: U1.AGND, net: GND}
+  - {from: U3.INA+, to: RNT.B, net: NEST_TAP}
+  - {from: U3.INA-, to: RVT.B, net: ON_TH}
+  - {from: U3.OUTA, to: "JON.ON", net: "ON"}
+  - {from: RVT.A, to: U1.VREF, net: VREF}
+  - {from: RVB.A, to: RVT.B, net: ON_TH}
+  - {from: RVB.B, to: U1.AGND, net: GND}
+  - {from: RVP.A, to: JPK.P, net: PACK}
+  - {from: RVP.B, to: RVT.B, net: ON_TH}
+  - {from: RNT.A, to: TVS.K, net: NEST_FUSED}
+  - {from: RNB.A, to: RNT.B, net: NEST_TAP}
+  - {from: RNB.B, to: U1.AGND, net: GND}
+  - {from: RON.A, to: JPI.EN, net: PI_EN}
+  - {from: RON.B, to: "JON.ON", net: "ON"}
