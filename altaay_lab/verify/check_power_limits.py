@@ -86,9 +86,15 @@ def domain(net, name):
 
 
 def numbers_in_py():
-    """Design literals. Comment lines and the word superseded are skipped."""
+    """Design literals. Comment lines and the word superseded are skipped.
+
+    sim/power_path_sim.py BEC_V is the shared 2S default. It is not a 3S set point.
+    It must stay 7.2 V so the two-cell runs still regulate. The 3S studies pass 12.0 V.
+    """
     bec, drop, nest, pmin, pmax = [], [], [], [], []
     nest_2s = []
+    legacy = []
+    pps_rel = "altaay_lab/sim/power_path_sim.py"
     for path in glob.glob(os.path.join(LAB, "**", "*.py"), recursive=True):
         r = rel(path)
         text = open(path, encoding="utf-8").read().splitlines()
@@ -99,6 +105,13 @@ def numbers_in_py():
             if "superseded" in raw.lower():
                 continue
             where = "%s:%d" % (r, i)
+            m_drop = re.search(r"\bBEC_DROP\s*=\s*([0-9]+(?:\.[0-9]+)?)", raw)
+            if r == pps_rel and m_drop:
+                drop.append((where, float(m_drop.group(1))))
+            m_bec = re.search(r"\bBEC_V\s*=\s*([0-9]+(?:\.[0-9]+)?)", raw)
+            if r == pps_rel and m_bec:
+                legacy.append((where, float(m_bec.group(1))))
+                continue
             for rx, bucket in (
                 (r"\bBEC_SET_V\s*=\s*([0-9]+(?:\.[0-9]+)?)", bec),
                 (r"\bBEC_V\s*=\s*([0-9]+(?:\.[0-9]+)?)", bec),
@@ -117,16 +130,7 @@ def numbers_in_py():
                     nest_2s.append((where, float(m.group(1))))
                 else:
                     nest.append((where, float(m.group(1))))
-    # The design dropout lives on the power_path_sim parameter line, not in a sweep.
-    pps = os.path.join(LAB, "sim", "power_path_sim.py")
-    for i, line in enumerate(open(pps, encoding="utf-8"), 1):
-        raw = line.strip()
-        if raw.startswith("#") or "superseded" in raw.lower():
-            continue
-        m = re.search(r"\bBEC_DROP\s*=\s*([0-9]+(?:\.[0-9]+)?)", raw)
-        if m:
-            drop.append(("%s:%d" % (rel(pps), i), float(m.group(1))))
-    return bec, drop, nest, nest_2s, pmin, pmax
+    return bec, drop, nest, nest_2s, pmin, pmax, legacy
 
 
 def numbers_in_json():
@@ -290,7 +294,7 @@ def tree_report():
     limits = load_yaml(LIMITS)
     net = load_yaml(NETLIST)
     sp = netlist_setpoints(net)
-    bec_py, drop_py, nest_py, nest_2s, pmin, pmax = numbers_in_py()
+    bec_py, drop_py, nest_py, nest_2s, pmin, pmax, legacy = numbers_in_py()
     bec_js, drop_js = numbers_in_json()
 
     becs = [sp["v_out"]]
@@ -329,6 +333,11 @@ def tree_report():
     if any(v != v for v in becs):
         rep.add_fail("U1 part line has no 'set to N V'")
         becs = [v for v in becs if v == v]
+    if not legacy:
+        rep.add_fail("sim/power_path_sim.py has no 2S BEC_V default")
+    for where, v in legacy:
+        if not near(v, 7.2):
+            rep.add_fail("%s BEC_V is %.3f V. The shared 2S default stays 7.2 V. The 3S studies pass 12.0 V in extra." % (where, v))
 
     pack_rec = component(net, "PACK")
     chg = component(net, "CHG")
@@ -400,6 +409,7 @@ def main():
     rep, info = tree_report()
     print_report("power limits:", rep)
     print("bec values: %s" % ", ".join("%.3f" % v for v in info["becs"]))
+    print("2S shared default stays 7.2 V in sim/power_path_sim.py")
     print("pack domain %s: %.3f V to %.3f V" % (info["pack_domain"], info["pack"][0], info["pack"][1]))
     print("servo domain: %.3f V to %.3f V" % info["servo"])
     print("U3 VIN domain: %s" % info["u3"])

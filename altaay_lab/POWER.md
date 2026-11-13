@@ -109,7 +109,7 @@ The Pi Zero 2 W 3.3 V pin current limit is not in its product brief: BLOCKER (re
 
 Supersedes the 7.2 V set point in sections 1 and 3 for the 3S rail. Supersedes the 16 V pass-through used in the first 3S walks. Sections 1 to 9 stay as the 2S record. Do not delete them.
 
-- Set point 12.0 V. Cited output range 4.8 V to 12.5 V (section 3) and 4.9 V to 12.5 V (Castle chart, twin/battery/BATTERY_STUDY.md). 16 V is outside both. 12.0 V is inside both.
+- Set point 12.0 V on the 3S studies. They pass that value in. Cited output range 4.8 V to 12.5 V (section 3) and 4.9 V to 12.5 V (Castle chart, twin/battery/BATTERY_STUDY.md). 16 V is outside both. 12.0 V is inside both. The shared sim default in sim/power_path_sim.py stays 7.2 V, so the two-cell runs still regulate. A 2S pack cannot hold 12 V.
 - Pack domain about 9.0 V to 12.6 V (3 times 3.0 V to 3 times 4.2 V, calc only). The P45B cut-off is 2.5 V per cell, so 7.5 V is the sheet floor. The domain starts at 9.0 V. U3 VIN uses this domain. The Pololu D30V30F5 input cited in the netlist is 5 V to 45 V, so 9.0 V to 12.6 V is inside it.
 - When the pack is under 12 V the BEC cannot hold 12.0 V. The minimum input and the behavior below the set point are not published (BLOCKER). The sim still uses a 0.3 V dropout assumption. In that model the output regulates only when the BEC input is at least 12.3 V (calc only, 12.0 + 0.3). A full pack is 12.6 V, so only the top of the charge regulates. The rest of the discharge is pass-through in the sim, or a shut-off on the real part. Do not treat 12.0 V as held for the whole walk.
 - The 2S protection board and the 2S charger are still the parts drawn in the netlist. They do not cover 12.6 V. That open item is problems/STS12.md. D61 was not edited.
