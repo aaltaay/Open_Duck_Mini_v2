@@ -1,0 +1,11 @@
+record_id: TP-4.2-switch
+test_plan: "4.2"
+status: not_run
+pack: 3S
+instrument: ""
+operator: ""
+date: ""
+rows:
+  - {id: vout_minus_vin_5A, unit: V, value: null, note: "on, within 0.1 V"}
+  - {id: vout_off, unit: V, value: null, note: "off, 0 V"}
+  - {id: board_C_10min_6A, unit: C, value: null, note: "gate is under 50 C"}

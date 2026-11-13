@@ -1,0 +1,18 @@
+record_id: TP-19.5-friction
+test_plan: "19.5"
+status: not_run
+pack: "n/a"
+instrument: ""
+operator: ""
+date: ""
+note: >
+  Torque that starts the joint with torque off. Three trials each way.
+  TEST_PLAN 19.5 pass: within a factor of 2 of the sim value 0.068 Nm.
+  That 0.068 Nm is the training model, not a datasheet value.
+rows:
+  - {id: left_knee_start_Nm, unit: Nm, value: null}
+  - {id: right_knee_start_Nm, unit: Nm, value: null}
+  - {id: left_hip_pitch_start_Nm, unit: Nm, value: null}
+  - {id: right_hip_pitch_start_Nm, unit: Nm, value: null}
+  - {id: left_ankle_start_Nm, unit: Nm, value: null}
+  - {id: right_ankle_start_Nm, unit: Nm, value: null}

@@ -1,0 +1,17 @@
+# Bench record schema. A filled file is a measurement. A template stays not_run.
+# Values are numbers. Null means not measured. Do not put a sim result in value.
+record_id: string
+test_plan: string
+status: not_run or measured
+pack: 2S or 3S
+instrument: string
+operator: string
+date: YYYY-MM-DD
+rows:
+  - id: string
+    unit: string
+    value: number or null
+    note: string
+# A prediction file uses predict and tol_abs instead of value.
+# tol_abs is the compare band. Landing inside it does not pass a hardware gate
+# by itself. The gate is the TEST_PLAN line named in the playbook.

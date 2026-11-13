@@ -1,0 +1,14 @@
+record_id: TP-5-hop
+test_plan: "5"
+status: not_run
+pack: 3S
+instrument: ""
+operator: ""
+date: ""
+note: >
+  2S bands: pass at most 28 mOhm, warn through 40, fail over 40, per conductor.
+  3S line already in TEST_PLAN section 5: pass at most 100 mOhm per conductor.
+  Set pack to 2S to score the older bands.
+rows:
+  - {id: hop_vplus_mohm, unit: mOhm, value: null}
+  - {id: hop_gnd_mohm, unit: mOhm, value: null}

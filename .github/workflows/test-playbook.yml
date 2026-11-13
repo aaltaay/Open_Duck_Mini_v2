@@ -1,0 +1,32 @@
+# CPU checks for the test playbook. This is not the part-limits workflow.
+# That workflow, verify/part_limits.yaml, and verify/check_power_limits.py
+# belong to the power-limits change. This file does not run them.
+name: test playbook
+
+on:
+  pull_request:
+  push:
+    branches: [altaay-lab]
+
+jobs:
+  cpu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: install
+        run: pip install numpy pyyaml
+      - name: 12 V BEC heat and continuous walk
+        run: python3 altaay_lab/test/bec12_heat.py
+      - name: fault injection
+        run: python3 altaay_lab/test/fault_inject.py
+      - name: bench record checker
+        run: python3 altaay_lab/test/check_bench.py --self-test
+      - name: BQ24133 board arithmetic
+        run: python3 altaay_lab/circuitry/check_bq24133.py
+      - name: MCP73213 record arithmetic
+        run: python3 altaay_lab/circuitry/check_charger.py
+      - name: awake load arithmetic
+        run: python3 altaay_lab/circuitry/check_awake_load.py

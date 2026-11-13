@@ -1,0 +1,388 @@
+{
+ "label": "sim pass only or calc only, per row",
+ "rpn": [
+  {
+   "id": "ntc_open_short",
+   "S": 8,
+   "O": 4,
+   "D": 8,
+   "title": "Pack NTC open or short, and the charger IC does not see it",
+   "RPN": 256
+  },
+  {
+   "id": "fall",
+   "S": 7,
+   "O": 6,
+   "D": 6,
+   "title": "Fall, get-up miss, structure under the lab margin",
+   "RPN": 252
+  },
+  {
+   "id": "cable_chafe",
+   "S": 8,
+   "O": 4,
+   "D": 7,
+   "title": "Cable chafe to a low resistance, fuse rating not exceeded",
+   "RPN": 224
+  },
+  {
+   "id": "limp_sit_slip",
+   "S": 6,
+   "O": 7,
+   "D": 5,
+   "title": "Limp sit slips or unloads the wells",
+   "RPN": 210
+  },
+  {
+   "id": "pack_no_trip",
+   "S": 9,
+   "O": 3,
+   "D": 7,
+   "title": "Pack short and no 3S protector part is on the bill",
+   "RPN": 189
+  },
+  {
+   "id": "camera_dock_miss",
+   "S": 5,
+   "O": 9,
+   "D": 4,
+   "title": "Camera misses the cloth at the sit",
+   "RPN": 180
+  },
+  {
+   "id": "charger_stuck_on",
+   "S": 8,
+   "O": 3,
+   "D": 6,
+   "title": "Charger stays at 1 A past the end of charge",
+   "RPN": 144
+  },
+  {
+   "id": "pack_nuisance_trip",
+   "S": 5,
+   "O": 6,
+   "D": 4,
+   "title": "Walk peak sits inside the 13 A to 21 A watch band",
+   "RPN": 120
+  },
+  {
+   "id": "rail_on_while_docked",
+   "S": 6,
+   "O": 4,
+   "D": 5,
+   "title": "Servo rail turns on while the duck is still on the mat",
+   "RPN": 120
+  },
+  {
+   "id": "pi_brownout",
+   "S": 7,
+   "O": 3,
+   "D": 5,
+   "title": "5 V rail collapses when the BEC output falls",
+   "RPN": 105
+  },
+  {
+   "id": "bec_failure",
+   "S": 7,
+   "O": 3,
+   "D": 4,
+   "title": "BEC output collapses or the pass element shorts",
+   "RPN": 84
+  }
+ ],
+ "ntc": {
+  "label": "calc only",
+  "cold_th": 0.7368,
+  "hot_th": 0.2188,
+  "rows": [
+   {
+    "name": "open",
+    "r_ohm": null,
+    "fraction": 1.0,
+    "lm393_inhibits": true,
+    "chip_ts_fraction": 0.6,
+    "chip_ts_allows": true
+   },
+   {
+    "name": "short",
+    "r_ohm": 0.0,
+    "fraction": 0.0,
+    "lm393_inhibits": true,
+    "chip_ts_fraction": 0.6,
+    "chip_ts_allows": true
+   },
+   {
+    "name": "at_0C",
+    "r_ohm": 31770.0,
+    "fraction": 0.7606,
+    "lm393_inhibits": true,
+    "chip_ts_fraction": 0.6,
+    "chip_ts_allows": true
+   },
+   {
+    "name": "at_25C",
+    "r_ohm": 10000.0,
+    "fraction": 0.5,
+    "lm393_inhibits": false,
+    "chip_ts_fraction": 0.6,
+    "chip_ts_allows": true
+   },
+   {
+    "name": "at_60C",
+    "r_ohm": 2472.0,
+    "fraction": 0.1982,
+    "lm393_inhibits": true,
+    "chip_ts_fraction": 0.6,
+    "chip_ts_allows": true
+   }
+  ],
+  "stuck": {
+   "name": "lm393_stuck_off",
+   "lm393_inhibits": false,
+   "charge_continues": true,
+   "chip_ts_still_allows": true,
+   "note": "calc only. If the LM393 path fails, the fixed TS divider still looks valid."
+  }
+ },
+ "pack": {
+  "label": "calc only",
+  "band_A": [
+   13.0,
+   21.0
+  ],
+  "band_note": "Watch band in TWIN_CHECKLIST from the cited 17 A plus or minus 4 A. Not a 3S datasheet.",
+  "tenergy_2s_A": [
+   17.0,
+   27.0
+  ],
+  "protector_part": "BLOCKER. No 3S protector part number.",
+  "cases": [
+   {
+    "name": "run_C_peak_sustained",
+    "i_A": 15.57,
+    "duration_s": 0.02,
+    "label": "calc only",
+    "trips_at_13A_8ms": true,
+    "trips_at_17A_8ms": false,
+    "trips_at_21A_8ms": false,
+    "trips_at_17A_12ms": false
+   },
+   {
+    "name": "sts12_0.15_peak_sustained",
+    "i_A": 9.527,
+    "duration_s": 0.02,
+    "label": "calc only",
+    "trips_at_13A_8ms": false,
+    "trips_at_17A_8ms": false,
+    "trips_at_21A_8ms": false,
+    "trips_at_17A_12ms": false
+   },
+   {
+    "name": "old_2s_shove",
+    "i_A": 20.0,
+    "duration_s": 0.013,
+    "label": "calc only",
+    "trips_at_13A_8ms": true,
+    "trips_at_17A_8ms": true,
+    "trips_at_21A_8ms": false,
+    "trips_at_17A_12ms": true
+   }
+  ]
+ },
+ "chafe": {
+  "label": "calc only",
+  "v_oc_V": 12.6,
+  "r_path_ohm": 0.0998,
+  "fuse_A": 15.0,
+  "local_temperature": "BLOCKER. The thermal twin has no nick node.",
+  "fuse_opening_time": "BLOCKER. The fuse curve was not applied.",
+  "rows": [
+   {
+    "r_nick_ohm": 1.0,
+    "i_A": 11.46,
+    "p_nick_W": 131.3,
+    "above_15A_fuse_rating": false,
+    "above_21A_watch": false
+   },
+   {
+    "r_nick_ohm": 0.1,
+    "i_A": 63.06,
+    "p_nick_W": 397.7,
+    "above_15A_fuse_rating": true,
+    "above_21A_watch": true
+   },
+   {
+    "r_nick_ohm": 0.05,
+    "i_A": 84.11,
+    "p_nick_W": 353.7,
+    "above_15A_fuse_rating": true,
+    "above_21A_watch": true
+   },
+   {
+    "r_nick_ohm": 0.01,
+    "i_A": 114.75,
+    "p_nick_W": 131.7,
+    "above_15A_fuse_rating": true,
+    "above_21A_watch": true
+   }
+  ]
+ },
+ "pi_bec": {
+  "label": "calc only for the threshold, sim pass only for the STS12 voltages",
+  "walk_bus_min_V": 11.371,
+  "walk_bec_out_min_V": 11.035,
+  "bench_input_floor_V": 6.0,
+  "walk_above_floor": true,
+  "injected_bus_V": 5.4,
+  "injected_below_floor": true,
+  "pi_warning_voltage": "BLOCKER. The Pi under-voltage threshold was not opened for this playbook.",
+  "bec_open": "Servos go to 0 V. The netlist puts the Pi on the same switch, so the Pi goes with them.",
+  "bec_pass_short": "A shorted pass element puts the pack on the servos. On this 3S walk the BEC is already in dropout, so the voltage is the walk voltage, not a new 16 V.",
+  "holds_12v": false
+ },
+ "camera": {
+  "label": "CAD check only for the miss, specification test for the rule",
+  "disc_samples_seen": 0,
+  "ring_samples_seen": 0,
+  "charge_allowed": false,
+  "safety_rule_holds": true,
+  "mission": "FAIL. The sit does not see the cloth, so this rule never starts a charge.",
+  "product_code": "MISSING. Nest vision and the charge program are not written."
+ },
+ "limp": {
+  "label": "sim pass only",
+  "source": "altaay_lab/twin/sit/rail_off_sit.json",
+  "margin_mm": 8.5,
+  "margin_note": "calc only, (20 mm stripe - 3 mm well) / 2",
+  "friction": "BLOCKER. Sheet does not print unpowered friction.",
+  "rows": [
+   {
+    "name": "training_friction_mu_0.8",
+    "label": "sim pass only",
+    "seconds": 20.0,
+    "dy_mm": 0.05,
+    "dx_mm": 0.48,
+    "min_seat_N": 0.825,
+    "blew": false,
+    "lateral_inside": true,
+    "wells_loaded": true,
+    "rail_return_min_seat_N": 0.0,
+    "rail_return_keeps_wells": false
+   },
+   {
+    "name": "zero_joint_friction_mu_0.8",
+    "label": "sim pass only",
+    "seconds": 20.0,
+    "dy_mm": 0.27,
+    "dx_mm": 0.4,
+    "min_seat_N": 0.0,
+    "blew": false,
+    "lateral_inside": true,
+    "wells_loaded": false
+   },
+   {
+    "name": "zero_joint_and_floor_friction",
+    "label": "sim pass only",
+    "seconds": 2.27,
+    "dy_mm": 7.47,
+    "dx_mm": 28.97,
+    "min_seat_N": 0.0,
+    "blew": true,
+    "lateral_inside": true,
+    "wells_loaded": false
+   }
+  ]
+ },
+ "thermal": {
+  "label": "sim pass only",
+  "charger_W": 0.963,
+  "charger_W_note": "calc only, 12.6 V * 1.00 A * (1/0.929 - 1)",
+  "cut_rail_6h": {
+   "cell_end_C": 28.36,
+   "cell_max_C": 28.36,
+   "trunk_air_end_C": 28.63,
+   "trunk_wall_end_C": 26.57,
+   "trunk_wall_max_C": 26.57,
+   "knee_reading_max_C": 25.0,
+   "knee_body_max_C": 25.0,
+   "knee_winding_max_C": 25.0,
+   "right_knee_reading_max_C": 25.0,
+   "bec_case_end_C": 28.63,
+   "minutes_to_reading_60C": null,
+   "minutes_to_reading_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "head_air_end_C": 32.85,
+   "label": "sim pass only",
+   "corner": "central",
+   "room_C": 25.0,
+   "hours": 6.0,
+   "charger_W": 0.963,
+   "v_servo": 0.0,
+   "i_per_servo_A": 0.0,
+   "bec_loss_W": 0.0,
+   "n_cells": 3
+  },
+  "rail_on_c001_idle_6h": {
+   "cell_end_C": 29.91,
+   "cell_max_C": 29.91,
+   "trunk_air_end_C": 30.85,
+   "trunk_wall_end_C": 27.61,
+   "trunk_wall_max_C": 27.61,
+   "knee_reading_max_C": 29.25,
+   "knee_body_max_C": 29.25,
+   "knee_winding_max_C": 29.25,
+   "right_knee_reading_max_C": 29.25,
+   "bec_case_end_C": 33.22,
+   "minutes_to_reading_60C": null,
+   "minutes_to_reading_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "head_air_end_C": 33.44,
+   "label": "sim pass only",
+   "corner": "central",
+   "room_C": 25.0,
+   "hours": 6.0,
+   "charger_W": 0.963,
+   "v_servo": 12.6,
+   "i_per_servo_A": 0.021,
+   "bec_loss_W": 0.0882,
+   "n_cells": 3
+  },
+  "rail_on_c018_noload_6h": {
+   "cell_end_C": 40.0,
+   "cell_max_C": 40.0,
+   "trunk_air_end_C": 44.47,
+   "trunk_wall_end_C": 34.33,
+   "trunk_wall_max_C": 34.33,
+   "knee_reading_max_C": 51.71,
+   "knee_body_max_C": 51.71,
+   "knee_winding_max_C": 51.71,
+   "right_knee_reading_max_C": 51.71,
+   "bec_case_end_C": 59.25,
+   "minutes_to_reading_60C": null,
+   "minutes_to_reading_70C": null,
+   "minutes_to_cell_60C": null,
+   "minutes_to_wall_49C": null,
+   "head_air_end_C": 37.52,
+   "label": "sim pass only",
+   "corner": "central",
+   "room_C": 25.0,
+   "hours": 6.0,
+   "charger_W": 0.963,
+   "v_servo": 12.0,
+   "i_per_servo_A": 0.18,
+   "bec_loss_W": 0.756,
+   "n_cells": 3
+  },
+  "c018_noload_note": "0.180 A is the C018 running no-load current at 12 V, cited. It is an upper bound if powered servos spin free. It is not the torque-off current. Torque-off current on the C018 is BLOCKER.",
+  "termination_A": 0.1,
+  "idle_21mA_total_A": 0.294,
+  "noload_180mA_total_A": 2.52,
+  "termination_blocked_at_21mA": true,
+  "termination_blocked_at_180mA": true,
+  "timer_h": 6.35,
+  "timer_note": "calc only, 68 nF * 5.6 min/nF. A stuck 1 A past that timer is a second fault.",
+  "overvoltage": "BLOCKER in this thermal model. It does not integrate cell voltage."
+ }
+}

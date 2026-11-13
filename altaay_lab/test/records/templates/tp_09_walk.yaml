@@ -1,0 +1,17 @@
+record_id: TP-9-walk
+test_plan: "9"
+status: not_run
+pack: 3S
+instrument: ""
+operator: ""
+date: ""
+note: >
+  2S gates: no sample under 4.5 V, and no servo under 6.0 V for more than
+  10 percent of the walk. 3S: hard fail under 4.0 V (the C018 page floor).
+  Above that, compare min_V to the twin prediction. Do not apply the 6.0 V
+  gate to a 12 V bus.
+rows:
+  - id: walk
+    unit: V
+    value: null
+    note: "when measured, value is a mapping with min_V and, for 2S, pct_under_6V"
