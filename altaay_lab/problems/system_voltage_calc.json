@@ -1,0 +1,1844 @@
+{
+ "label": "calc only, except numbers copied from a cited sim",
+ "compare_current_A": 5.0,
+ "compare_current_note": "5.00 A pack, every architecture, so the voltage column is the same current. Not a walk.",
+ "bec_16V": "invalid. Castle output stops at 12.5 V. This file does not use 16 V.",
+ "check_power_limits": "altaay_lab/verify/check_power_limits.py is not on this branch. Pull request 84 is open and was not merged, so that check was not run.",
+ "rows": [
+  {
+   "id": "A_2S_C001_buck72",
+   "title": "2S P45B, C001, Castle buck at 7.2 V",
+   "why": "The as-built rail. POWER.md. The sheet walk falls.",
+   "cell": "Molicel INR-21700-P45B",
+   "ns": 2,
+   "np": 1,
+   "servo": "C001",
+   "mode": "buck",
+   "vset": 7.2,
+   "fit": "fits the grown two-cell bay (BAY.md)",
+   "wh": 32.4,
+   "mass_cells_g": 140.0,
+   "mass_delta_g": 0.0,
+   "volume_cm3": 51.2,
+   "v_nameplate_pack": 8.4,
+   "v_rail_at_nameplate": 7.2,
+   "v_curve_pack": 8.35,
+   "v_rail_at_curve_rest": 7.2,
+   "r_path_mohm": 74.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 25.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.854,
+   "cell_i2r_5A_W": 0.75,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.087,
+     "v_pack": 8.174,
+     "v_bec_in": 7.803,
+     "v_rail": 7.2,
+     "tau_Nm": 1.861,
+     "w0_rad_s": 5.307,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.858,
+     "v_pack": 7.715,
+     "v_bec_in": 7.344,
+     "v_rail": 7.044,
+     "tau_Nm": 1.82,
+     "w0_rad_s": 5.192,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.628,
+     "v_pack": 7.256,
+     "v_bec_in": 6.885,
+     "v_rail": 6.585,
+     "tau_Nm": 1.702,
+     "w0_rad_s": 4.854,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.374,
+     "v_pack": 6.749,
+     "v_bec_in": 6.378,
+     "v_rail": 6.078,
+     "tau_Nm": 1.571,
+     "w0_rad_s": 4.48,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.063,
+     "v_pack": 6.126,
+     "v_bec_in": 5.755,
+     "v_rail": 5.455,
+     "tau_Nm": 1.41,
+     "w0_rad_s": 4.021,
+     "in_adopted_window": false
+    }
+   ],
+   "bms": {
+    "part": "Tenergy 32175",
+    "r": 0.025,
+    "i_work": 10.0,
+    "i_trip": 22.0,
+    "i_tol": 5.0,
+    "price": 22.99,
+    "note": "cited ceiling 25 mOhm, trip 22 A plus or minus 5 A"
+   },
+   "charge": {
+    "ok": true,
+    "hours": 4.97,
+    "why": "CC 4.47 h at 1.006 A plus 0.50 h tail, the adder in CHARGER_BOARD.md",
+    "heat_end_W": 6.64,
+    "heat_low_W": 9.05,
+    "v_reg": 8.4
+   },
+   "cost_delta_usd": -33.81,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "Castle CC BEC Pro 010-0004-01, set to 7.2 V",
+     "eff": "0.85 assumption. Castle publishes none. BLOCKER until TEST_PLAN 4.1",
+     "loss": "dropout 0.3 V times current when the input is under the setpoint plus 0.3 V, else (1/0.85 - 1) times output power",
+     "limit": "output 4.9 V to 12.5 V cited. 15 A continuous at 2S to 4S with 5 mph air, 20 A peak. Minimum input BLOCKER."
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [
+    "cited sim: the sheet walk falls, problems/STALL.md and problems/BUS_SAG.md"
+   ],
+   "bec_model_note": "Buck uses the existing min(setpoint, input minus 0.3 V) equation and efficiency 0.85."
+  },
+  {
+   "id": "B_2S_C001_hold74",
+   "title": "2S P45B, C001, buck-boost held at 7.4 V",
+   "why": "POWER_FIX option 5. No cited module carries the walk current.",
+   "cell": "Molicel INR-21700-P45B",
+   "ns": 2,
+   "np": 1,
+   "servo": "C001",
+   "mode": "hold",
+   "vset": 7.4,
+   "fit": "fits the grown two-cell bay (BAY.md)",
+   "wh": 32.4,
+   "mass_cells_g": 140.0,
+   "mass_delta_g": 0.0,
+   "volume_cm3": 51.2,
+   "v_nameplate_pack": 8.4,
+   "v_rail_at_nameplate": 7.4,
+   "v_curve_pack": 8.35,
+   "v_rail_at_curve_rest": 7.4,
+   "r_path_mohm": 74.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 25.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.854,
+   "cell_i2r_5A_W": 0.75,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.087,
+     "v_pack": 8.174,
+     "v_bec_in": 7.803,
+     "v_rail": 7.4,
+     "tau_Nm": 1.912,
+     "w0_rad_s": 5.454,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.858,
+     "v_pack": 7.715,
+     "v_bec_in": 7.344,
+     "v_rail": 7.4,
+     "tau_Nm": 1.912,
+     "w0_rad_s": 5.454,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.628,
+     "v_pack": 7.256,
+     "v_bec_in": 6.885,
+     "v_rail": 7.4,
+     "tau_Nm": 1.912,
+     "w0_rad_s": 5.454,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.374,
+     "v_pack": 6.749,
+     "v_bec_in": 6.378,
+     "v_rail": 7.4,
+     "tau_Nm": 1.912,
+     "w0_rad_s": 5.454,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.063,
+     "v_pack": 6.126,
+     "v_bec_in": 5.755,
+     "v_rail": 0.0,
+     "tau_Nm": 0.0,
+     "w0_rad_s": 0.0,
+     "in_adopted_window": false
+    }
+   ],
+   "bms": {
+    "part": "Tenergy 32175",
+    "r": 0.025,
+    "i_work": 10.0,
+    "i_trip": 22.0,
+    "i_tol": 5.0,
+    "price": 22.99,
+    "note": "cited ceiling 25 mOhm, trip 22 A plus or minus 5 A"
+   },
+   "charge": {
+    "ok": true,
+    "hours": 4.97,
+    "why": "CC 4.47 h at 1.006 A plus 0.50 h tail, the adder in CHARGER_BOARD.md",
+    "heat_end_W": 6.64,
+    "heat_low_W": 9.05,
+    "v_reg": 8.4
+   },
+   "cost_delta_usd": -33.81,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "no cited buck-boost at this current",
+     "eff": "0.90 is the POWER_FIX option 5 assumption, not a measurement",
+     "loss": "BLOCKER, no part",
+     "limit": "Pololu S13V25F12 is 12 V at 2.5 A typical, input 2.8 V to 22 V, https://www.pololu.com/product/4984 . The walk bus is above 2.5 A."
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [
+    "no converter part at the current"
+   ],
+   "bec_model_note": "Hold mode is not a part. The 0.90 efficiency is the old option 5 assumption."
+  },
+  {
+   "id": "C_2S_C018_hold12",
+   "title": "2S P45B, C018, boost held at 12.0 V",
+   "why": "A 2S pack cannot buck up to 12 V. Pololu S13V25F12 is 2.5 A.",
+   "cell": "Molicel INR-21700-P45B",
+   "ns": 2,
+   "np": 1,
+   "servo": "C018",
+   "mode": "hold",
+   "vset": 12.0,
+   "fit": "fits the grown two-cell bay (BAY.md)",
+   "wh": 32.4,
+   "mass_cells_g": 140.0,
+   "mass_delta_g": 0.0,
+   "volume_cm3": 51.2,
+   "v_nameplate_pack": 8.4,
+   "v_rail_at_nameplate": 12.0,
+   "v_curve_pack": 8.35,
+   "v_rail_at_curve_rest": 12.0,
+   "r_path_mohm": 74.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 25.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.854,
+   "cell_i2r_5A_W": 0.75,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.087,
+     "v_pack": 8.174,
+     "v_bec_in": 7.803,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.858,
+     "v_pack": 7.715,
+     "v_bec_in": 7.344,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.628,
+     "v_pack": 7.256,
+     "v_bec_in": 6.885,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.374,
+     "v_pack": 6.749,
+     "v_bec_in": 6.378,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.063,
+     "v_pack": 6.126,
+     "v_bec_in": 5.755,
+     "v_rail": 0.0,
+     "tau_Nm": 0.0,
+     "w0_rad_s": 0.0,
+     "in_adopted_window": false
+    }
+   ],
+   "bms": {
+    "part": "Tenergy 32175",
+    "r": 0.025,
+    "i_work": 10.0,
+    "i_trip": 22.0,
+    "i_tol": 5.0,
+    "price": 22.99,
+    "note": "cited ceiling 25 mOhm, trip 22 A plus or minus 5 A"
+   },
+   "charge": {
+    "ok": true,
+    "hours": 4.97,
+    "why": "CC 4.47 h at 1.006 A plus 0.50 h tail, the adder in CHARGER_BOARD.md",
+    "heat_end_W": 6.64,
+    "heat_low_W": 9.05,
+    "v_reg": 8.4
+   },
+   "cost_delta_usd": -10.99,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "no cited buck-boost at this current",
+     "eff": "0.90 is the POWER_FIX option 5 assumption, not a measurement",
+     "loss": "BLOCKER, no part",
+     "limit": "Pololu S13V25F12 is 12 V at 2.5 A typical, input 2.8 V to 22 V, https://www.pololu.com/product/4984 . The walk bus is above 2.5 A."
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [
+    "no converter part at the current"
+   ],
+   "bec_model_note": "Hold mode is not a part. The 0.90 efficiency is the old option 5 assumption."
+  },
+  {
+   "id": "D_2S2P_P30B_C001",
+   "title": "2S2P P30B, C001, Castle buck at 7.2 V",
+   "why": "BATTERY_STUDY already stacked this and recorded more falls. The bay does not hold four cells.",
+   "cell": "Molicel INR-18650-P30B",
+   "ns": 2,
+   "np": 2,
+   "servo": "C001",
+   "mode": "buck",
+   "vset": 7.2,
+   "fit": "does not fit. A 2 by 2 block of 19.4 mm pitch is 38.8 mm, and the section is 43.75 mm by 25.45 mm. BLOCKER for CAD",
+   "wh": 43.2,
+   "mass_cells_g": 188.0,
+   "mass_delta_g": 48.0,
+   "volume_cm3": 70.9,
+   "v_nameplate_pack": 8.4,
+   "v_rail_at_nameplate": 7.2,
+   "v_curve_pack": 8.393,
+   "v_rail_at_curve_rest": 7.2,
+   "r_path_mohm": 74.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 25.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.854,
+   "cell_i2r_5A_W": 0.213,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.16,
+     "v_pack": 8.32,
+     "v_bec_in": 7.949,
+     "v_rail": 7.2,
+     "tau_Nm": 1.861,
+     "w0_rad_s": 5.307,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.873,
+     "v_pack": 7.746,
+     "v_bec_in": 7.375,
+     "v_rail": 7.075,
+     "tau_Nm": 1.828,
+     "w0_rad_s": 5.214,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.645,
+     "v_pack": 7.291,
+     "v_bec_in": 6.92,
+     "v_rail": 6.62,
+     "tau_Nm": 1.711,
+     "w0_rad_s": 4.879,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.375,
+     "v_pack": 6.75,
+     "v_bec_in": 6.38,
+     "v_rail": 6.08,
+     "tau_Nm": 1.571,
+     "w0_rad_s": 4.481,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.1,
+     "v_pack": 6.2,
+     "v_bec_in": 5.829,
+     "v_rail": 5.529,
+     "tau_Nm": 1.429,
+     "w0_rad_s": 4.075,
+     "in_adopted_window": false
+    }
+   ],
+   "bms": {
+    "part": "Tenergy 32175",
+    "r": 0.025,
+    "i_work": 10.0,
+    "i_trip": 22.0,
+    "i_tol": 5.0,
+    "price": 22.99,
+    "note": "cited ceiling 25 mOhm, trip 22 A plus or minus 5 A"
+   },
+   "charge": {
+    "ok": true,
+    "hours": 3.48,
+    "why": "CC 2.98 h at 1.006 A plus 0.50 h tail, the adder in CHARGER_BOARD.md",
+    "heat_end_W": 6.64,
+    "heat_low_W": 9.05,
+    "v_reg": 8.4
+   },
+   "cost_delta_usd": -17.83,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "Castle CC BEC Pro 010-0004-01, set to 7.2 V",
+     "eff": "0.85 assumption. Castle publishes none. BLOCKER until TEST_PLAN 4.1",
+     "loss": "dropout 0.3 V times current when the input is under the setpoint plus 0.3 V, else (1/0.85 - 1) times output power",
+     "limit": "output 4.9 V to 12.5 V cited. 15 A continuous at 2S to 4S with 5 mph air, 20 A peak. Minimum input BLOCKER."
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [
+    "fit"
+   ],
+   "bec_model_note": "Buck uses the existing min(setpoint, input minus 0.3 V) equation and efficiency 0.85."
+  },
+  {
+   "id": "E_3S_C018_wire",
+   "title": "3S P45B, C018, straight from the pack",
+   "why": "No series regulator. Full charge is 12.6 V.",
+   "cell": "Molicel INR-21700-P45B",
+   "ns": 3,
+   "np": 1,
+   "servo": "C018",
+   "mode": "wire",
+   "vset": null,
+   "fit": "fits only with the FIT3 single-cell blister (CAD check only, 12.36 mm)",
+   "wh": 48.6,
+   "mass_cells_g": 210.0,
+   "mass_delta_g": 30.0,
+   "volume_cm3": 76.8,
+   "v_nameplate_pack": 12.6,
+   "v_rail_at_nameplate": 12.6,
+   "v_curve_pack": 12.525,
+   "v_rail_at_curve_rest": 12.525,
+   "r_path_mohm": 79.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 30.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.979,
+   "cell_i2r_5A_W": 1.125,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.087,
+     "v_pack": 12.26,
+     "v_bec_in": 11.865,
+     "v_rail": 11.865,
+     "tau_Nm": 2.909,
+     "w0_rad_s": 4.664,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.858,
+     "v_pack": 11.573,
+     "v_bec_in": 11.177,
+     "v_rail": 11.177,
+     "tau_Nm": 2.74,
+     "w0_rad_s": 4.394,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.628,
+     "v_pack": 10.884,
+     "v_bec_in": 10.488,
+     "v_rail": 10.488,
+     "tau_Nm": 2.571,
+     "w0_rad_s": 4.123,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.374,
+     "v_pack": 10.123,
+     "v_bec_in": 9.727,
+     "v_rail": 9.727,
+     "tau_Nm": 2.385,
+     "w0_rad_s": 3.824,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.063,
+     "v_pack": 9.189,
+     "v_bec_in": 8.793,
+     "v_rail": 8.793,
+     "tau_Nm": 2.156,
+     "w0_rad_s": 3.457,
+     "in_adopted_window": true
+    }
+   ],
+   "bms": {
+    "part": "Tenergy 32007",
+    "r": 0.03,
+    "i_work": 9.0,
+    "i_trip": 17.0,
+    "i_tol": 4.0,
+    "price": 23.99,
+    "note": "cited ceiling 30 mOhm, working 9 A, trip 17 A plus or minus 4 A. Not yet the netlist part."
+   },
+   "charge": {
+    "ok": true,
+    "hours": 4.97,
+    "why": "CC 4.47 h at 1.006 A plus 0.50 h tail, the adder in CHARGER_BOARD.md",
+    "heat_end_W": 2.41,
+    "heat_low_W": 6.04,
+    "v_reg": 12.6
+   },
+   "cost_delta_usd": -54.95,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "none, pack straight through the harness",
+     "eff": "1, a wire",
+     "loss": "I2R of the harness only",
+     "limit": "no clamp"
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [],
+   "bec_model_note": "BEC_V 30 with drop 0 and efficiency 1 is a wire in the existing solver. It is not a Castle setpoint."
+  },
+  {
+   "id": "F_3S_C018_buck12",
+   "title": "3S P45B, C018, Castle set to 12.0 V",
+   "why": "The corrected setpoint. 16 V is outside 4.9 V to 12.5 V.",
+   "cell": "Molicel INR-21700-P45B",
+   "ns": 3,
+   "np": 1,
+   "servo": "C018",
+   "mode": "buck",
+   "vset": 12.0,
+   "fit": "fits only with the FIT3 single-cell blister (CAD check only, 12.36 mm)",
+   "wh": 48.6,
+   "mass_cells_g": 210.0,
+   "mass_delta_g": 70.0,
+   "volume_cm3": 76.8,
+   "v_nameplate_pack": 12.6,
+   "v_rail_at_nameplate": 12.0,
+   "v_curve_pack": 12.525,
+   "v_rail_at_curve_rest": 12.0,
+   "r_path_mohm": 79.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 30.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.979,
+   "cell_i2r_5A_W": 1.125,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.087,
+     "v_pack": 12.26,
+     "v_bec_in": 11.865,
+     "v_rail": 11.565,
+     "tau_Nm": 2.835,
+     "w0_rad_s": 4.546,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.858,
+     "v_pack": 11.573,
+     "v_bec_in": 11.177,
+     "v_rail": 10.877,
+     "tau_Nm": 2.667,
+     "w0_rad_s": 4.276,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.628,
+     "v_pack": 10.884,
+     "v_bec_in": 10.488,
+     "v_rail": 10.188,
+     "tau_Nm": 2.498,
+     "w0_rad_s": 4.005,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.374,
+     "v_pack": 10.123,
+     "v_bec_in": 9.727,
+     "v_rail": 9.427,
+     "tau_Nm": 2.311,
+     "w0_rad_s": 3.706,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.063,
+     "v_pack": 9.189,
+     "v_bec_in": 8.793,
+     "v_rail": 8.493,
+     "tau_Nm": 2.082,
+     "w0_rad_s": 3.339,
+     "in_adopted_window": true
+    }
+   ],
+   "bms": {
+    "part": "Tenergy 32007",
+    "r": 0.03,
+    "i_work": 9.0,
+    "i_trip": 17.0,
+    "i_tol": 4.0,
+    "price": 23.99,
+    "note": "cited ceiling 30 mOhm, working 9 A, trip 17 A plus or minus 4 A. Not yet the netlist part."
+   },
+   "charge": {
+    "ok": true,
+    "hours": 4.97,
+    "why": "CC 4.47 h at 1.006 A plus 0.50 h tail, the adder in CHARGER_BOARD.md",
+    "heat_end_W": 2.41,
+    "heat_low_W": 6.04,
+    "v_reg": 12.6
+   },
+   "cost_delta_usd": 0.0,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "Castle CC BEC Pro 010-0004-01, set to 12.0 V",
+     "eff": "0.85 assumption. Castle publishes none. BLOCKER until TEST_PLAN 4.1",
+     "loss": "dropout 0.3 V times current when the input is under the setpoint plus 0.3 V, else (1/0.85 - 1) times output power",
+     "limit": "output 4.9 V to 12.5 V cited. 15 A continuous at 2S to 4S with 5 mph air, 20 A peak. Minimum input BLOCKER."
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [],
+   "bec_model_note": "Buck uses the existing min(setpoint, input minus 0.3 V) equation and efficiency 0.85."
+  },
+  {
+   "id": "G_3S_P30B_buck12",
+   "title": "3S P30B, C018, Castle set to 12.0 V",
+   "why": "Same rail, smaller cell, digitized curve.",
+   "cell": "Molicel INR-18650-P30B",
+   "ns": 3,
+   "np": 1,
+   "servo": "C018",
+   "mode": "buck",
+   "vset": 12.0,
+   "fit": "the FIT3 blister was cut for a 22.2 mm circle. An 18.6 mm cell fits inside that circle.",
+   "wh": 32.4,
+   "mass_cells_g": 141.0,
+   "mass_delta_g": 1.0,
+   "volume_cm3": 53.1,
+   "v_nameplate_pack": 12.6,
+   "v_rail_at_nameplate": 12.0,
+   "v_curve_pack": 12.59,
+   "v_rail_at_curve_rest": 12.0,
+   "r_path_mohm": 79.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 30.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.979,
+   "cell_i2r_5A_W": 1.275,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.133,
+     "v_pack": 12.399,
+     "v_bec_in": 12.003,
+     "v_rail": 11.703,
+     "tau_Nm": 2.869,
+     "w0_rad_s": 4.6,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.831,
+     "v_pack": 11.493,
+     "v_bec_in": 11.097,
+     "v_rail": 10.797,
+     "tau_Nm": 2.647,
+     "w0_rad_s": 4.244,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.605,
+     "v_pack": 10.814,
+     "v_bec_in": 10.418,
+     "v_rail": 10.118,
+     "tau_Nm": 2.481,
+     "w0_rad_s": 3.977,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.341,
+     "v_pack": 10.023,
+     "v_bec_in": 9.627,
+     "v_rail": 9.327,
+     "tau_Nm": 2.287,
+     "w0_rad_s": 3.666,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.069,
+     "v_pack": 9.207,
+     "v_bec_in": 8.811,
+     "v_rail": 8.511,
+     "tau_Nm": 2.087,
+     "w0_rad_s": 3.346,
+     "in_adopted_window": true
+    }
+   ],
+   "bms": {
+    "part": "Tenergy 32007",
+    "r": 0.03,
+    "i_work": 9.0,
+    "i_trip": 17.0,
+    "i_tol": 4.0,
+    "price": 23.99,
+    "note": "cited ceiling 30 mOhm, working 9 A, trip 17 A plus or minus 4 A. Not yet the netlist part."
+   },
+   "charge": {
+    "ok": true,
+    "hours": 3.48,
+    "why": "CC 2.98 h at 1.006 A plus 0.50 h tail, the adder in CHARGER_BOARD.md",
+    "heat_end_W": 2.41,
+    "heat_low_W": 6.04,
+    "v_reg": 12.6
+   },
+   "cost_delta_usd": -3.0,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "Castle CC BEC Pro 010-0004-01, set to 12.0 V",
+     "eff": "0.85 assumption. Castle publishes none. BLOCKER until TEST_PLAN 4.1",
+     "loss": "dropout 0.3 V times current when the input is under the setpoint plus 0.3 V, else (1/0.85 - 1) times output power",
+     "limit": "output 4.9 V to 12.5 V cited. 15 A continuous at 2S to 4S with 5 mph air, 20 A peak. Minimum input BLOCKER."
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [],
+   "bec_model_note": "Buck uses the existing min(setpoint, input minus 0.3 V) equation and efficiency 0.85."
+  },
+  {
+   "id": "H_3S_P50B_wire",
+   "title": "3S P50B, C018, straight from the pack",
+   "why": "Same sleeve as the P45B. No digitized discharge curve, so no walk.",
+   "cell": "Molicel INR-21700-P50B",
+   "ns": 3,
+   "np": 1,
+   "servo": "C018",
+   "mode": "wire",
+   "vset": null,
+   "fit": "fits only with the FIT3 single-cell blister (CAD check only, 12.36 mm)",
+   "wh": 54.0,
+   "mass_cells_g": 213.0,
+   "mass_delta_g": 33.0,
+   "volume_cm3": 76.8,
+   "v_nameplate_pack": 12.6,
+   "v_rail_at_nameplate": 12.6,
+   "v_curve_pack": null,
+   "v_rail_at_curve_rest": null,
+   "r_path_mohm": 79.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 30.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.979,
+   "cell_i2r_5A_W": 0.96,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.136,
+     "v_pack": 12.408,
+     "v_bec_in": 12.012,
+     "v_rail": 12.012,
+     "tau_Nm": 2.945,
+     "w0_rad_s": 4.722,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.911,
+     "v_pack": 11.733,
+     "v_bec_in": 11.337,
+     "v_rail": 11.337,
+     "tau_Nm": 2.779,
+     "w0_rad_s": 4.457,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.686,
+     "v_pack": 11.058,
+     "v_bec_in": 10.662,
+     "v_rail": 10.662,
+     "tau_Nm": 2.614,
+     "w0_rad_s": 4.191,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.461,
+     "v_pack": 10.383,
+     "v_bec_in": 9.987,
+     "v_rail": 9.987,
+     "tau_Nm": 2.449,
+     "w0_rad_s": 3.926,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.326,
+     "v_pack": 9.978,
+     "v_bec_in": 9.582,
+     "v_rail": 9.582,
+     "tau_Nm": 2.349,
+     "w0_rad_s": 3.767,
+     "in_adopted_window": true
+    }
+   ],
+   "bms": {
+    "part": "Tenergy 32007",
+    "r": 0.03,
+    "i_work": 9.0,
+    "i_trip": 17.0,
+    "i_tol": 4.0,
+    "price": 23.99,
+    "note": "cited ceiling 30 mOhm, working 9 A, trip 17 A plus or minus 4 A. Not yet the netlist part."
+   },
+   "charge": {
+    "ok": true,
+    "hours": 5.47,
+    "why": "CC 4.97 h at 1.006 A plus 0.50 h tail, the adder in CHARGER_BOARD.md",
+    "heat_end_W": 2.41,
+    "heat_low_W": 6.04,
+    "v_reg": 12.6
+   },
+   "cost_delta_usd": -48.95,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "none, pack straight through the harness",
+     "eff": "1, a wire",
+     "loss": "I2R of the harness only",
+     "limit": "no clamp"
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [
+    "no digitized discharge curve, walk not run"
+   ],
+   "bec_model_note": "BEC_V 30 with drop 0 and efficiency 1 is a wire in the existing solver. It is not a Castle setpoint."
+  },
+  {
+   "id": "I_3S_50S_wire",
+   "title": "3S Samsung 50S, C018, straight from the pack",
+   "why": "Same sleeve class. DC resistance was not on a sheet opened here.",
+   "cell": "Samsung 50S 21700",
+   "ns": 3,
+   "np": 1,
+   "servo": "C018",
+   "mode": "wire",
+   "vset": null,
+   "fit": "fits only with the FIT3 single-cell blister (CAD check only, 12.36 mm)",
+   "wh": 54.0,
+   "mass_cells_g": 216.0,
+   "mass_delta_g": 36.0,
+   "volume_cm3": 76.8,
+   "v_nameplate_pack": 12.6,
+   "v_rail_at_nameplate": 12.6,
+   "v_curve_pack": null,
+   "v_rail_at_curve_rest": null,
+   "r_path_mohm": 79.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 30.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.979,
+   "cell_i2r_5A_W": 0.0,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": null,
+     "v_rail": null,
+     "tau": null,
+     "w0": null,
+     "note": "BLOCKER, no resistance"
+    },
+    {
+     "soc": 0.75,
+     "v_cell": null,
+     "v_rail": null,
+     "tau": null,
+     "w0": null,
+     "note": "BLOCKER, no resistance"
+    },
+    {
+     "soc": 0.5,
+     "v_cell": null,
+     "v_rail": null,
+     "tau": null,
+     "w0": null,
+     "note": "BLOCKER, no resistance"
+    },
+    {
+     "soc": 0.25,
+     "v_cell": null,
+     "v_rail": null,
+     "tau": null,
+     "w0": null,
+     "note": "BLOCKER, no resistance"
+    },
+    {
+     "soc": 0.1,
+     "v_cell": null,
+     "v_rail": null,
+     "tau": null,
+     "w0": null,
+     "note": "BLOCKER, no resistance"
+    }
+   ],
+   "bms": {
+    "part": "Tenergy 32007",
+    "r": 0.03,
+    "i_work": 9.0,
+    "i_trip": 17.0,
+    "i_tol": 4.0,
+    "price": 23.99,
+    "note": "cited ceiling 30 mOhm, working 9 A, trip 17 A plus or minus 4 A. Not yet the netlist part."
+   },
+   "charge": {
+    "ok": true,
+    "hours": 5.47,
+    "why": "CC 4.97 h at 1.006 A plus 0.50 h tail, the adder in CHARGER_BOARD.md",
+    "heat_end_W": 2.41,
+    "heat_low_W": 6.04,
+    "v_reg": 12.6
+   },
+   "cost_delta_usd": -54.95,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "none, pack straight through the harness",
+     "eff": "1, a wire",
+     "loss": "I2R of the harness only",
+     "limit": "no clamp"
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [
+    "cell resistance BLOCKER",
+    "no digitized discharge curve, walk not run"
+   ],
+   "bec_model_note": "BEC_V 30 with drop 0 and efficiency 1 is a wire in the existing solver. It is not a Castle setpoint."
+  },
+  {
+   "id": "J_3S_STS3250_buck12",
+   "title": "3S P45B, STS3250 on all 14, Castle at 12.0 V",
+   "why": "Same case, higher torque. The run C policy is not this servo.",
+   "cell": "Molicel INR-21700-P45B",
+   "ns": 3,
+   "np": 1,
+   "servo": "STS3250",
+   "mode": "buck",
+   "vset": 12.0,
+   "fit": "fits only with the FIT3 single-cell blister (CAD check only, 12.36 mm)",
+   "wh": 48.6,
+   "mass_cells_g": 210.0,
+   "mass_delta_g": 343.0,
+   "volume_cm3": 76.8,
+   "v_nameplate_pack": 12.6,
+   "v_rail_at_nameplate": 12.0,
+   "v_curve_pack": 12.525,
+   "v_rail_at_curve_rest": 12.0,
+   "r_path_mohm": 79.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 30.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.979,
+   "cell_i2r_5A_W": 1.125,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.087,
+     "v_pack": 12.26,
+     "v_bec_in": 11.865,
+     "v_rail": 11.565,
+     "tau_Nm": 4.725,
+     "w0_rad_s": 7.588,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.858,
+     "v_pack": 11.573,
+     "v_bec_in": 11.177,
+     "v_rail": 10.877,
+     "tau_Nm": 4.444,
+     "w0_rad_s": 7.137,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.628,
+     "v_pack": 10.884,
+     "v_bec_in": 10.488,
+     "v_rail": 10.188,
+     "tau_Nm": 4.163,
+     "w0_rad_s": 6.685,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.374,
+     "v_pack": 10.123,
+     "v_bec_in": 9.727,
+     "v_rail": 9.427,
+     "tau_Nm": 3.852,
+     "w0_rad_s": 6.185,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.063,
+     "v_pack": 9.189,
+     "v_bec_in": 8.793,
+     "v_rail": 8.493,
+     "tau_Nm": 3.47,
+     "w0_rad_s": 5.573,
+     "in_adopted_window": false
+    }
+   ],
+   "bms": {
+    "part": "Tenergy 32007",
+    "r": 0.03,
+    "i_work": 9.0,
+    "i_trip": 17.0,
+    "i_tol": 4.0,
+    "price": 23.99,
+    "note": "cited ceiling 30 mOhm, working 9 A, trip 17 A plus or minus 4 A. Not yet the netlist part."
+   },
+   "charge": {
+    "ok": true,
+    "hours": 4.97,
+    "why": "CC 4.47 h at 1.006 A plus 0.50 h tail, the adder in CHARGER_BOARD.md",
+    "heat_end_W": 2.41,
+    "heat_low_W": 6.04,
+    "v_reg": 12.6
+   },
+   "cost_delta_usd": 747.04,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "Castle CC BEC Pro 010-0004-01, set to 12.0 V",
+     "eff": "0.85 assumption. Castle publishes none. BLOCKER until TEST_PLAN 4.1",
+     "loss": "dropout 0.3 V times current when the input is under the setpoint plus 0.3 V, else (1/0.85 - 1) times output power",
+     "limit": "output 4.9 V to 12.5 V cited. 15 A continuous at 2S to 4S with 5 mph air, 20 A peak. Minimum input BLOCKER."
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [
+    "run C was not trained on this servo, walk not run"
+   ],
+   "bec_model_note": "Buck uses the existing min(setpoint, input minus 0.3 V) equation and efficiency 0.85."
+  },
+  {
+   "id": "K_4S_P30B_buck12",
+   "title": "4S P30B, C018, Castle buck at 12.0 V",
+   "why": "The pack stays above 12 V for most of the discharge. The bay and the 15 V nest do not.",
+   "cell": "Molicel INR-18650-P30B",
+   "ns": 4,
+   "np": 1,
+   "servo": "C018",
+   "mode": "buck",
+   "vset": 12.0,
+   "fit": "does not fit. A 2 by 2 block of 19.4 mm pitch is 38.8 mm, and the section is 43.75 mm by 25.45 mm. BLOCKER for CAD",
+   "wh": 43.2,
+   "mass_cells_g": 188.0,
+   "mass_delta_g": 48.0,
+   "volume_cm3": 70.9,
+   "v_nameplate_pack": 16.8,
+   "v_rail_at_nameplate": 12.0,
+   "v_curve_pack": 16.787,
+   "v_rail_at_curve_rest": 12.0,
+   "r_path_mohm": 79.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 30.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.979,
+   "cell_i2r_5A_W": 1.7,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.133,
+     "v_pack": 16.531,
+     "v_bec_in": 16.136,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.831,
+     "v_pack": 15.324,
+     "v_bec_in": 14.928,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.605,
+     "v_pack": 14.419,
+     "v_bec_in": 14.023,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.341,
+     "v_pack": 13.363,
+     "v_bec_in": 12.968,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.069,
+     "v_pack": 12.276,
+     "v_bec_in": 11.88,
+     "v_rail": 11.58,
+     "tau_Nm": 2.839,
+     "w0_rad_s": 4.552,
+     "in_adopted_window": true
+    }
+   ],
+   "bms": {
+    "part": null,
+    "r": 0.03,
+    "i_work": null,
+    "i_trip": null,
+    "i_tol": null,
+    "price": null,
+    "note": "BLOCKER. No 4S board was opened. The path reuses the 3S 30 mOhm ceiling so the ohms are not optimistic."
+   },
+   "charge": {
+    "ok": false,
+    "hours": null,
+    "why": "BLOCKER. 4S regulates at 16.8 V. The EVM note wants the supply about 1 V above that (17.8 V). The nest is 15.0 V and the BQ24133 recommended top is 17 V.",
+    "heat_end_W": null,
+    "heat_low_W": null,
+    "v_reg": 16.8
+   },
+   "cost_delta_usd": null,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "Castle CC BEC Pro 010-0004-01, set to 12.0 V",
+     "eff": "0.85 assumption. Castle publishes none. BLOCKER until TEST_PLAN 4.1",
+     "loss": "dropout 0.3 V times current when the input is under the setpoint plus 0.3 V, else (1/0.85 - 1) times output power",
+     "limit": "output 4.9 V to 12.5 V cited. 15 A continuous at 2S to 4S with 5 mph air, 20 A peak. Minimum input BLOCKER."
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [
+    "fit",
+    "no cited 4S protection board",
+    "nest cannot finish the charge"
+   ],
+   "bec_model_note": "Buck uses the existing min(setpoint, input minus 0.3 V) equation and efficiency 0.85."
+  },
+  {
+   "id": "L_4S_P45B_buck12",
+   "title": "4S P45B, C018, Castle buck at 12.0 V",
+   "why": "Same idea with the larger cell. Four 21700s do not fit.",
+   "cell": "Molicel INR-21700-P45B",
+   "ns": 4,
+   "np": 1,
+   "servo": "C018",
+   "mode": "buck",
+   "vset": 12.0,
+   "fit": "does not fit. A 2 by 2 block of 22.2 mm pitch is 44.4 mm, and the section is 43.75 mm by 25.45 mm. BLOCKER for CAD",
+   "wh": 64.8,
+   "mass_cells_g": 280.0,
+   "mass_delta_g": 140.0,
+   "volume_cm3": 102.3,
+   "v_nameplate_pack": 16.8,
+   "v_rail_at_nameplate": 12.0,
+   "v_curve_pack": 16.7,
+   "v_rail_at_curve_rest": 12.0,
+   "r_path_mohm": 79.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 30.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.979,
+   "cell_i2r_5A_W": 1.5,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.087,
+     "v_pack": 16.347,
+     "v_bec_in": 15.951,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.858,
+     "v_pack": 15.43,
+     "v_bec_in": 15.035,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.628,
+     "v_pack": 14.512,
+     "v_bec_in": 14.116,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.374,
+     "v_pack": 13.497,
+     "v_bec_in": 13.101,
+     "v_rail": 12.0,
+     "tau_Nm": 2.942,
+     "w0_rad_s": 4.717,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.063,
+     "v_pack": 12.252,
+     "v_bec_in": 11.856,
+     "v_rail": 11.556,
+     "tau_Nm": 2.833,
+     "w0_rad_s": 4.543,
+     "in_adopted_window": true
+    }
+   ],
+   "bms": {
+    "part": null,
+    "r": 0.03,
+    "i_work": null,
+    "i_trip": null,
+    "i_tol": null,
+    "price": null,
+    "note": "BLOCKER. No 4S board was opened. The path reuses the 3S 30 mOhm ceiling so the ohms are not optimistic."
+   },
+   "charge": {
+    "ok": false,
+    "hours": null,
+    "why": "BLOCKER. 4S regulates at 16.8 V. The EVM note wants the supply about 1 V above that (17.8 V). The nest is 15.0 V and the BQ24133 recommended top is 17 V.",
+    "heat_end_W": null,
+    "heat_low_W": null,
+    "v_reg": 16.8
+   },
+   "cost_delta_usd": null,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "Castle CC BEC Pro 010-0004-01, set to 12.0 V",
+     "eff": "0.85 assumption. Castle publishes none. BLOCKER until TEST_PLAN 4.1",
+     "loss": "dropout 0.3 V times current when the input is under the setpoint plus 0.3 V, else (1/0.85 - 1) times output power",
+     "limit": "output 4.9 V to 12.5 V cited. 15 A continuous at 2S to 4S with 5 mph air, 20 A peak. Minimum input BLOCKER."
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [
+    "fit",
+    "no cited 4S protection board",
+    "nest cannot finish the charge"
+   ],
+   "bec_model_note": "Buck uses the existing min(setpoint, input minus 0.3 V) equation and efficiency 0.85."
+  },
+  {
+   "id": "M_XM430",
+   "title": "3S P45B, Dynamixel XM430-W350, buck at 12.0 V",
+   "why": "Higher torque at 12 V. The case is 28.5 x 46.5 x 34 mm, not the duck horn.",
+   "cell": "Molicel INR-21700-P45B",
+   "ns": 3,
+   "np": 1,
+   "servo": "XM430",
+   "mode": "buck",
+   "vset": 12.0,
+   "fit": "fits only with the FIT3 single-cell blister (CAD check only, 12.36 mm)",
+   "wh": 48.6,
+   "mass_cells_g": 210.0,
+   "mass_delta_g": 448.0,
+   "volume_cm3": 76.8,
+   "v_nameplate_pack": 12.6,
+   "v_rail_at_nameplate": 12.0,
+   "v_curve_pack": 12.525,
+   "v_rail_at_curve_rest": 12.0,
+   "r_path_mohm": 79.17,
+   "r_parts_mohm": {
+    "Rhp": 5.0,
+    "Rhn": 5.0,
+    "Rp1": 1.58,
+    "Rp2": 1.58,
+    "Rbms": 30.0,
+    "Rp6": 2.98,
+    "Rp7": 10.08,
+    "Rsw": 13.0,
+    "Rp9": 1.19,
+    "Rp8": 4.82,
+    "Rp10p": 1.98,
+    "Rp10n": 1.98
+   },
+   "i2r_path_5A_W": 1.979,
+   "cell_i2r_5A_W": 1.125,
+   "discharge_at_5A": [
+    {
+     "soc": 1.0,
+     "v_cell": 4.087,
+     "v_pack": 12.26,
+     "v_bec_in": 11.865,
+     "v_rail": 11.565,
+     "tau_Nm": 3.951,
+     "w0_rad_s": 4.642,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.75,
+     "v_cell": 3.858,
+     "v_pack": 11.573,
+     "v_bec_in": 11.177,
+     "v_rail": 10.877,
+     "tau_Nm": 3.716,
+     "w0_rad_s": 4.366,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.5,
+     "v_cell": 3.628,
+     "v_pack": 10.884,
+     "v_bec_in": 10.488,
+     "v_rail": 10.188,
+     "tau_Nm": 3.481,
+     "w0_rad_s": 4.09,
+     "in_adopted_window": true
+    },
+    {
+     "soc": 0.25,
+     "v_cell": 3.374,
+     "v_pack": 10.123,
+     "v_bec_in": 9.727,
+     "v_rail": 9.427,
+     "tau_Nm": 3.221,
+     "w0_rad_s": 3.784,
+     "in_adopted_window": false
+    },
+    {
+     "soc": 0.1,
+     "v_cell": 3.063,
+     "v_pack": 9.189,
+     "v_bec_in": 8.793,
+     "v_rail": 8.493,
+     "tau_Nm": 2.902,
+     "w0_rad_s": 3.409,
+     "in_adopted_window": false
+    }
+   ],
+   "bms": {
+    "part": "Tenergy 32007",
+    "r": 0.03,
+    "i_work": 9.0,
+    "i_trip": 17.0,
+    "i_tol": 4.0,
+    "price": 23.99,
+    "note": "cited ceiling 30 mOhm, working 9 A, trip 17 A plus or minus 4 A. Not yet the netlist part."
+   },
+   "charge": {
+    "ok": true,
+    "hours": 4.97,
+    "why": "CC 4.47 h at 1.006 A plus 0.50 h tail, the adder in CHARGER_BOARD.md",
+    "heat_end_W": 2.41,
+    "heat_low_W": 6.04,
+    "v_reg": 12.6
+   },
+   "cost_delta_usd": 3489.78,
+   "ship": "PI 967 Section II, at or under 100 Wh, passenger aircraft allowed, cited IATA lithium battery guidance and the FAA chart",
+   "converters": [
+    {
+     "stage": "servo rail",
+     "part": "Castle CC BEC Pro 010-0004-01, set to 12.0 V",
+     "eff": "0.85 assumption. Castle publishes none. BLOCKER until TEST_PLAN 4.1",
+     "loss": "dropout 0.3 V times current when the input is under the setpoint plus 0.3 V, else (1/0.85 - 1) times output power",
+     "limit": "output 4.9 V to 12.5 V cited. 15 A continuous at 2S to 4S with 5 mph air, 20 A peak. Minimum input BLOCKER."
+    },
+    {
+     "stage": "Pi Zero 2 W, camera, 2x SG90, amp",
+     "part": "Pololu D30V30F5, item 4892, 5 V",
+     "eff": "sim uses 0.85. AWAKE_LOAD cites a 94 to 97 percent graph. That graph was not re-read at this pack voltage. BLOCKER for the point.",
+     "loss": "5 W branch in the sim, so 0.88 W at 0.85",
+     "limit": "input 5 V to 45 V cited. Output 5 V at 4 percent."
+    },
+    {
+     "stage": "IMU, touch, ToF, foot pull-ups",
+     "part": "the Pi Zero 2 W 3.3 V rail",
+     "eff": "BLOCKER. The regulator topology is not in the product brief copied here.",
+     "loss": "about 45 mA typical, 3.3 V, under 0.2 W even at half efficiency",
+     "limit": "Pi 3.3 V pin limit is BLOCKER, POWER.md section 10"
+    },
+    {
+     "stage": "charger, docked, not in the walk",
+     "part": "TI BQ24133, nest 15.0 V, charge 1.006 A",
+     "eff": "loss is (15 V minus pack) times 1.006 A, a linear drop across the switcher input. The chip is a switcher. The board note uses that difference as the heat.",
+     "loss": "see the charge row",
+     "limit": "recommended input 4.5 V to 17 V. 3 cells regulate 12.6 V."
+    }
+   ],
+   "hard_gates": [
+    "case does not fit the horn"
+   ],
+   "bec_model_note": "Buck uses the existing min(setpoint, input minus 0.3 V) equation and efficiency 0.85."
+  }
+ ]
+}
