@@ -6,7 +6,7 @@ The checklist as of PR 44, then updated the same day for the shin eye, is 22 row
 
 ## Ranked first
 
-Current walk, 2026-11-12 ET. The 3.4 s to 3.6 s fall is the superseded 2S sheet-stall baseline (sim pass only). On three P45B cells and the 12 V STS3215, a 0.15 m/s command on the old policy walks about 0.088 m/s typical and 0.084 m/s high-side, with no fall in 60 s (sim pass only, problems/FIT3.md). The retrain config is problems/TRAIN_STS12.md. The CPU smoke is not a gait. A full retrain is still open.
+Current walk, 2026-11-12 ET. The 3.4 s to 3.6 s fall is the superseded 2S sheet-stall baseline (sim pass only). ~~On three P45B cells and the 12 V STS3215, a 0.15 m/s command on the old policy walks about 0.088 m/s typical and 0.084 m/s high-side, with no fall in 60 s (sim pass only, problems/FIT3.md).~~ Superseded 2026-11-12 9:55 PM ET by run C (problems/retrain_sts12/SUMMARY.md, sim pass only): 60 s, no fall on both corners, up to 0.252 m/s typical at a 0.40 m/s command, no flight phase, still at a 0.10 m/s command. Pack peak 15.6 A is a watch item. Knee minimum 9.31 V (sim pass only). The old numbers stay in FIT3.
 
 | Problem | Source | Severity | What fixes it | Owner | Status |
 |---|---|---|---|---|---|

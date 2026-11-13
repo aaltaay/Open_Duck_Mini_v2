@@ -2,9 +2,13 @@
 
 The voltage budget is already in problems/VOLTAGE_BUDGET.md (pull request 66). Short form, sim pass only: at the typical left-knee minimum of 5.785 V the pack current is 17.899 A and the bus current is 15.147 A. From the 8.347 V open circuit that is 0.495 V in the cells, 1.257 V on the pack path, 0.067 V of copper into the BEC, 0.300 V of dropout, and 0.443 V of harness. Holder, fuse, and XT30 are 0.322 V with no measured part. Dropout and the 0.85 efficiency are unpublished. Zeroing those still falls. The knee port does not include a winding drop.
 
-This file adds the third cell's mass, a 60 s walk, and a fit check. The nest stays the striped felt mat (cad/nest_v2 on the lab branch, D62). No new mat is drawn. Nothing was bought. No retrain.
+This file adds the third cell's mass, a 60 s walk, and a fit check. The nest stays the striped felt mat (cad/nest_v2 on the lab branch, D62). No new mat is drawn. Nothing was bought.
+
+Superseded 2026-11-12 9:55 PM ET by run C in problems/retrain_sts12/SUMMARY.md. The 0.088 m/s typical and 0.084 m/s high-side figures below are the old policy (sim pass only). They stay in this file. Run C walks 60 s with no fall on both corners, up to 0.252 m/s typical at a 0.40 m/s command (sim pass only; the table records 0.2516 m/s typical and 0.2399 m/s high-side). There is no flight phase, so it is not a run. A 0.10 m/s command stands still (dead zone, sim pass only). Pack peak 15.6 A at the 0.40 m/s command (sim pass only; the table records 15.57 A typical) sits inside the 13 A to 21 A protection-board trip band (watch item; calc only from the cited 17 A plus or minus 4 A below). Knee minimum 9.31 V (sim pass only; high-side at that command, the table records 9.307 V and 9.323 V).
 
 ## Why the body speed is about 0.09 m/s
+
+Superseded 2026-11-12 9:55 PM ET as the current walk by run C (problems/retrain_sts12/). The old-policy numbers in this section are kept.
 
 The 0.15 m/s figure is the command. The policy does not walk at 0.15 m/s even on a stiff bus. The 12 V sheet no-load speed is 0.222 s/60 deg, which is 4.717 rad/s (calc only). The model the policy was trained against has a no-load speed of 5.646 rad/s (the same 0.068 Nm and 0.56 used in the servo file). The ratio is 0.835 (calc only).
 

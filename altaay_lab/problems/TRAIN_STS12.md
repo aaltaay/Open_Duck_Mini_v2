@@ -22,7 +22,7 @@ The playground step has no supply voltage. The training torque is constant. The 
 
 Lowest port on that solve is the head roll, 11.692 V. The knees are 11.735 V and 11.734 V. The MJCF class is one number, so every joint uses 11.692 V. Torque limit 2.8665 Nm. Backlash position gain 15.1846. Damping 0.6106. Friction 0.0741 Nm.
 
-A walking current still sags. That sag is the em_twin sheet walk, which is the eval. It was not run, because there is no new policy.
+A walking current still sags. That sag is the em_twin sheet walk. Run C is now in problems/retrain_sts12/ (sim pass only). The 0.088 m/s old-policy result in problems/FIT3.md is superseded by that run and is kept.
 
 ## Mass
 

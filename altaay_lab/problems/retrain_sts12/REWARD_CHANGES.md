@@ -1,0 +1,19 @@
+# Run C reward and command changes (Open_Duck_Playground b9be205, joystick.py)
+
+The weights below are the training config. The exp() line is calc only. Walk speeds are sim pass only in SUMMARY.md and eval_table.md.
+
+On top of the PR 74 config (12 V STS3215 actuator, 3S bus point, 70 g cell in the trunk, backlash scene, 150,000,000 steps, 8,192 envs, unchanged runner).
+
+| Setting | Upstream / PR 74 | Run 1 (stood still) | Run C (walks) |
+|---|---|---|---|
+| lin_vel_x command range | [-0.15, 0.15] | [-0.15, 0.40] | [-0.15, 0.40] |
+| tracking_lin_vel weight | 2.5 | 2.5 | 7.5 |
+| tracking_sigma | 0.01 | 0.01 | 0.03 |
+| feet_air_time weight | not used | not used | 5.0 (existing rewards.reward_feet_air_time, wired into the reward dict) |
+| action_rate weight | -0.5 | -1.0 | -0.5 |
+| stand_still weight | -0.2 | -0.2 | -0.1 |
+| torques, alive, imitation, tracking_ang_vel | -1e-3, 20, 1.0, 6.0 | same | same |
+
+Why: with sigma 0.01, a 0.25 to 0.40 m/s command gives almost zero tracking reward to any reachable speed (exp(-(0.4-0.15)^2/0.01) = 0.002, calc only), so most of the widened range taught nothing, and standing scored nearly as well as walking against the alive term. Run 1 and a partial run B ([-0.15, 0.30], action_rate -0.5, stopped at 65M) both learned to stand.
+
+The patched file is joystick_runC.py in this folder.
