@@ -4,7 +4,11 @@ Written 2026-11-11 evening ET. Research only. This file does not change BOM.md o
 
 Do not add a line that this file marks BLOCKER.
 
-## Add when the tip change is accepted
+## Superseded 2026-11-12 ET by D62. Do not order the probe or the socket
+
+The rows below stay as the record of the spring-pin proposal. They are not the nest. The official mat is altaay_lab/cad/nest_v2/. Felt, foil, the gate board, dirt on the gold, a coin short, charger heat, and a camera detector stay BLOCKER. Do not add a line from this table.
+
+## Add when the tip change is accepted (superseded, do not add)
 
 | Proposed line | Part | Qty | Distributor seen | Note |
 |---|---|---|---|---|

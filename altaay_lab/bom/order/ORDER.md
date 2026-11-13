@@ -2,6 +2,8 @@
 
 One bill for one finished duck and its nest. Prices that were read on a live page on 2026-11-12 use the label cited, checked 2026-11-12. Shipping and tax are not included, the same rule as BOM.md. Nothing was bought, and nothing was added to a cart.
 
+Update 2026-11-12 6:23 PM ET, D62. The official nest is the flush striped felt mat and the five seat wells in altaay_lab/cad/nest_v2/. The spring pins in twin/dock/nest/cad/NEST_CAD.md and the QA Technology probe are superseded. Do not order them. The Mill-Max 0906 line below stays on this bill as a record of a pin that was studied. It is not a pin field to buy, and it is not the duck-side contact. Felt and foil still have no orderable part (BLOCKER). Still open, and not a reason to buy: dirt on the gold, the gate board and a coin short, charger heat, and a camera detector. This note does not change the dollar total.
+
 This file only collects parts that the lab files already name. It does not add a new contact, a new board, or a new fastener pattern. Where a file has no part number, the line says BLOCKER.
 
 Maker screening against restricted lists waits for altaay_lab/compliance/. That folder is not in the tree. This bill does not start that check.
@@ -12,8 +14,8 @@ Maker screening against restricted lists waits for altaay_lab/compliance/. That 
 - wiring/netlist.yaml for the duck components. Splices whose part text says solder stay on the solder line.
 - circuitry/CHARGER_BOARD.md and circuitry/charger_board.yaml for the in-duck MCP73213 board. The Adeept board is not ordered.
 - BOM.md lines 22b and 22c for the Pi-header KK 254 terminals and housings. Cable D13 in wiring/netlist.yaml is the end that already says KK 254 socket. Mini-SPOX does not cover that header.
-- twin/dock/nest/cad/NEST_CAD.md for the nest at 190 mm: felt, cloth, foil, foam, jack, and the six extra inserts and six extra screws.
-- twin/dock/flush/FLUSH_CONTACTS.md for the Mill-Max 0906 pin, the five seat wells, and the undesigned ideal-diode path from each well to either rail. Proud probes are not ordered. DK6 and DK7 stay the supply OR diodes. They are not that path.
+- altaay_lab/cad/nest_v2/ for the official nest at 190 mm: felt, foil stripes, five wells, and the cord pocket. twin/dock/nest/cad/NEST_CAD.md is the superseded spring-pin drawing. Its six extra inserts and six extra screws are not this nest.
+- twin/dock/flush/FLUSH_CONTACTS.md for the five seat wells and the undesigned ideal-diode path from each well to either rail. The Mill-Max 0906 pin is not ordered as a field. Proud probes are not ordered. DK6 and DK7 stay the supply OR diodes. They are not that path.
 - twin/dock/closeup/CLOSEUP.md for the 40 mm wall card. It is a plain square, not a coded tag.
 - twin/structure/shin_eye/SHIN_EYE.md and shin_eye/slice.json for PA6-CF grams. twin/structure/TOPOLOGY.md for the PLA gram delta. print/SLICE_SUMMARY.md and print/PRINT_PLAN.md for the installed slice.
 - The foot carve in the topology study is not ordered. That study already left it out.
@@ -22,7 +24,7 @@ Maker screening against restricted lists waits for altaay_lab/compliance/. That 
 
 - Chest pad, charge ideal diode DK2, the SENSE splice, the wake branch, and the Adeept USB-C board. CHARGER_BOARD.md and D61 already retire them. The netlist still contains those ids. check_order.py excludes them by those citations.
 - The paddle dock in twin/dock/DOCK_BOM_FULL.md. D61 replaced it. Its gate, springs, ballast, and tags are not this nest.
-- QA Technology probes. FLUSH_CONTACTS.md is the contact pick. The nest CAD still draws the long probes. They are not on this bill.
+- QA Technology probes, and a field of Mill-Max spring pins. D62 superseded both. The nest CAD still draws the long probes. They are not on this bill. The pin line in the BLOCKER list is the studied part, not a quantity to buy.
 - A knee servo other than the STS3215. D32 names one. The current pick for this bill is STS3215 on all 14 joints, including the two knees.
 - WAGO splices. BOM.md line 26b names them for two nodes. The netlist part text for those nodes still says solder. This bill follows the netlist and does not buy both.
 - The 5 V wall supply that existed only to feed the Adeept board.
