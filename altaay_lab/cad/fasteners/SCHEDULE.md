@@ -72,7 +72,7 @@ Not installed. No new screw size. The duck side of the nest adds no screw (the c
 
 Lid engagement is 6.0 mm minus the 2.0 mm lid, so 4.0 mm (calc). The robot rule for a brass insert is 4.5 mm (cited via `FASTENERS.md` section 8). An M3x8 would enter 6.0 mm into a 5.8 mm bore and bottom (calc). No stock length meets the rule. The nest file already chose M3x6 from BOM 17j. This audit does not add a length.
 
-Lid screws are a rectangle. About their own centre the mirror error is 0.0 mm (calc). About the tray centre the mirror error is 8.0 mm, and that centre sits 4.0 mm toward the wall of the part centre (calc). D42 asks for the part's own centre. See `PROPOSED_EDITS.md`. The terminal pair mirrors about the part centre (error 0.0 mm, calc).
+Lid screws as drawn are a rectangle. About their own centre the mirror error is 0.0 mm (calc). About the tray centre the mirror error is 8.0 mm (calc). Moving them to BX0+6 would put them on the chamfer, where the lid thickness is 0.0 mm (cad). The proposal that stays on the flat top is in `PROPOSED_EDITS.md`. It is not applied. The terminal pair mirrors about the part centre (error 0.0 mm, calc).
 
 Chart torque does not apply to the lid screws: 4.0 mm in a brass insert is not the steel or aluminum depth on TTD01_03. Threadlocker: these threads are not metal into a motor, so the assembly guide does not call for it.
 

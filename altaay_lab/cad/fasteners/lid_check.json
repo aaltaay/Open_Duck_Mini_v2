@@ -1,0 +1,369 @@
+{
+ "label": "cad for the profile, calc for engagement",
+ "source": "twin/dock/nest/cad/nest_parts.py box_profile, not a new shape",
+ "tray_centre_x_mm": 166.45,
+ "chamfer_flat_starts_x_mm": 152.0,
+ "lid_split_z_mm": 23.5,
+ "positions": [
+  {
+   "name": "as drawn, room side",
+   "x_mm": 158.0,
+   "lid_thickness_mm": 2.0,
+   "head_on_flat": true,
+   "flat_margin_room_mm": 3.15,
+   "flat_margin_wall_mm": 28.05,
+   "label": "cad"
+  },
+  {
+   "name": "as drawn, wall side",
+   "x_mm": 182.9,
+   "lid_thickness_mm": 2.0,
+   "head_on_flat": true,
+   "flat_margin_room_mm": 28.05,
+   "flat_margin_wall_mm": 3.15,
+   "label": "cad"
+  },
+  {
+   "name": "rejected BX0+6",
+   "x_mm": 150.0,
+   "lid_thickness_mm": 0.0,
+   "head_on_flat": false,
+   "flat_margin_room_mm": -4.85,
+   "flat_margin_wall_mm": 36.05,
+   "label": "cad"
+  },
+  {
+   "name": "proposed room side, button head",
+   "x_mm": 158.0,
+   "lid_thickness_mm": 2.0,
+   "head_on_flat": true,
+   "flat_margin_room_mm": 3.15,
+   "flat_margin_wall_mm": 28.05,
+   "label": "cad"
+  },
+  {
+   "name": "proposed wall side, button head",
+   "x_mm": 174.9,
+   "lid_thickness_mm": 2.0,
+   "head_on_flat": true,
+   "flat_margin_room_mm": 20.05,
+   "flat_margin_wall_mm": 11.15,
+   "label": "cad"
+  },
+  {
+   "name": "proposed room side, socket head",
+   "x_mm": 158.0,
+   "lid_thickness_mm": 2.0,
+   "head_on_flat": true,
+   "flat_margin_room_mm": 3.16,
+   "flat_margin_wall_mm": 28.06,
+   "label": "cad"
+  },
+  {
+   "name": "proposed wall side, socket head",
+   "x_mm": 174.9,
+   "lid_thickness_mm": 2.0,
+   "head_on_flat": true,
+   "flat_margin_room_mm": 20.06,
+   "flat_margin_wall_mm": 11.16,
+   "label": "cad"
+  }
+ ],
+ "proposed_posts_xy": [
+  [
+   158.0,
+   2.0
+  ],
+  [
+   158.0,
+   -2.0
+  ],
+  [
+   174.9,
+   2.0
+  ],
+  [
+   174.9,
+   -2.0
+  ]
+ ],
+ "mirror_error_about_tray_centre_mm": 0.0,
+ "nearest_terminal_mm": 23.35,
+ "post_y_mm": 2.0,
+ "why_y": "gate stand-in reaches y -8.00; post radius 4 mm; 2 mm gap; fuse and jack are farther out, so this y clears all three",
+ "standin_gaps": [
+  {
+   "standin": "jack",
+   "post_xy": [
+    158.0,
+    2.0
+   ],
+   "gap_mm": 62.01,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    158.0,
+    -2.0
+   ],
+   "gap_mm": 66.01,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    174.9,
+    2.0
+   ],
+   "gap_mm": 62.03,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    174.9,
+    -2.0
+   ],
+   "gap_mm": 66.03,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    158.0,
+    2.0
+   ],
+   "gap_mm": 13.16,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    158.0,
+    -2.0
+   ],
+   "gap_mm": 16.36,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    174.9,
+    2.0
+   ],
+   "gap_mm": 9.0,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    174.9,
+    -2.0
+   ],
+   "gap_mm": 13.0,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    158.0,
+    2.0
+   ],
+   "gap_mm": 6.28,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    158.0,
+    -2.0
+   ],
+   "gap_mm": 2.46,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    174.9,
+    2.0
+   ],
+   "gap_mm": 6.0,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    174.9,
+    -2.0
+   ],
+   "gap_mm": 2.0,
+   "label": "cad"
+  }
+ ],
+ "drawn_standin_gaps": [
+  {
+   "standin": "jack",
+   "post_xy": [
+    158.0,
+    84.0
+   ],
+   "gap_mm": -3.0,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    158.0,
+    -84.0
+   ],
+   "gap_mm": 148.0,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    182.9,
+    84.0
+   ],
+   "gap_mm": 5.9,
+   "label": "cad"
+  },
+  {
+   "standin": "jack",
+   "post_xy": [
+    182.9,
+    -84.0
+   ],
+   "gap_mm": 148.32,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    158.0,
+    84.0
+   ],
+   "gap_mm": 18.06,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    158.0,
+    -84.0
+   ],
+   "gap_mm": 95.63,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    182.9,
+    84.0
+   ],
+   "gap_mm": 15.0,
+   "label": "cad"
+  },
+  {
+   "standin": "fuse_holder",
+   "post_xy": [
+    182.9,
+    -84.0
+   ],
+   "gap_mm": 95.0,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    158.0,
+    84.0
+   ],
+   "gap_mm": 88.03,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    158.0,
+    -84.0
+   ],
+   "gap_mm": 2.46,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    182.9,
+    84.0
+   ],
+   "gap_mm": 88.0,
+   "label": "cad"
+  },
+  {
+   "standin": "gate_board",
+   "post_xy": [
+    182.9,
+    -84.0
+   ],
+   "gap_mm": 2.0,
+   "label": "cad"
+  }
+ ],
+ "engagement": {
+  "M3x6_bore_5.8": {
+   "length_mm": 6.0,
+   "bore_mm": 5.8,
+   "reach_mm": 4.0,
+   "engaged_mm": 4.0,
+   "bottoms": false,
+   "meets_4_5": false,
+   "label": "calc"
+  },
+  "M3x6_deeper_bore_6.3": {
+   "length_mm": 6.0,
+   "bore_mm": 6.3,
+   "reach_mm": 4.0,
+   "engaged_mm": 4.0,
+   "bottoms": false,
+   "meets_4_5": false,
+   "label": "calc"
+  },
+  "M3x6_longer_insert_does_not_change_reach": {
+   "length_mm": 6.0,
+   "bore_mm": 8.0,
+   "reach_mm": 4.0,
+   "engaged_mm": 4.0,
+   "bottoms": false,
+   "meets_4_5": false,
+   "label": "calc"
+  },
+  "M3x8_bore_5.8_bottoms": {
+   "length_mm": 8.0,
+   "bore_mm": 5.8,
+   "reach_mm": 6.0,
+   "engaged_mm": 5.7,
+   "bottoms": true,
+   "meets_4_5": false,
+   "label": "calc"
+  },
+  "M3x8_deeper_bore_6.3": {
+   "length_mm": 8.0,
+   "bore_mm": 6.3,
+   "reach_mm": 6.0,
+   "engaged_mm": 5.7,
+   "bottoms": false,
+   "meets_4_5": true,
+   "label": "calc"
+  }
+ },
+ "sleeve_note": {
+  "published_gap_over_button_head_mm": 2.85,
+  "source": "NEST_CAD.md, cited, not re-measured on the sleeve mesh",
+  "button_k_mm": 1.65,
+  "socket_k_mm": 3.0,
+  "socket_gap_if_sleeve_stays_mm": 1.5,
+  "label": "calc"
+ }
+}
