@@ -1,4 +1,8 @@
-# netlist.yaml: single source of truth for the altaay-lab Open Duck Mini v2 wiring.
+# netlist.yaml: the altaay-lab Open Duck Mini v2 harness record.
+# Current rail, 2026-11-12 10:00 PM ET: Pololu 2815 plus the BQ24133 interlock.
+# Those nets are circuitry/bq24133_board.yaml. The behavior is circuitry/SERVO_RAIL.md.
+# SW1 below is the superseded Pololu 2813 record (D30). Pins and wires stay so the
+# earlier harness still checks. They are not the rail to build.
 # Rev 2026-11-06 (America/New_York): V1 freeze pass (D51 touch, D53 ear PWM, D54 cliff ToF); first rev 2026-11-02. Read by wiring/sheets/make_sheets.py, wiring/make_harness_build.py,
 # audit/erc.py, viewer/make_viewer_data.py and cables3d/. WIRING.md and CABLE_MAP.md follow this file.
 #
@@ -71,7 +75,7 @@ domains:
   GND: {v_min: 0.0, v_max: 0.0, note: "common ground, returns to BMS P-"}
   TOUCH: {v_min: 0.0, v_max: 3.3, note: "MPR121 electrode: the chip charges the pad with a constant current and reads the voltage, 0 to its 3.3 V supply (D51)"}
   SYS_9V: {v_min: 8.8, v_max: 9.2, note: "dock supply on the chest SYS strip (D50): present only while seated and the dock gate is on"}
-  PACK_OR_6V0_9V2: {v_min: 6.0, v_max: 9.2, note: "2813 input after the D50 ideal-diode OR: the fused pack or, on the dock, SYS"}
+  PACK_OR_6V0_9V2: {v_min: 6.0, v_max: 9.2, note: "Superseded as the current rail input. The 2815 input is the pack through DK7 only (circuitry/SERVO_RAIL.md). This domain is the earlier 2813 input after the D50 OR."}
   SENSE: {v_min: 0.0, v_max: 9.0, note: "dock SENSE strip: NTC reading 0.7 to 2.2 V; the 555 wake pulse 9 V for 100 ms"}
   NTC_WIN: {v_min: 0.0, v_max: 2.6, note: "pack bead divider on the charger board. Not a pin of the MCP73213."}
   VREF: {v_min: 0.0, v_max: 2.6, note: "TL431 cathode tied to its reference. The 2.495 V typical is BLOCKER until that sheet is read."}
@@ -96,9 +100,9 @@ nets:
   EN_GATE: {domain: GPIO_3V3, note: "CU2 open collectors pull the enable FET gate down and charge stops"}
   SYS_IN: {domain: SYS_9V, note: "chest SYS strip to DK6 (D50)"}
   PACK_OR: {domain: PACK_OR_6V0_9V2, note: "DK6 and DK7 outputs, SW1 VIN (D50)"}
-  SW1_ON: {domain: CTRL, note: "wake branch to the 2813 ON input (full-shutdown mode wake, D43)"}
+  SW1_ON: {domain: CTRL, note: "Superseded. The current ON pin is the 2815, driven by the Pi through 10 kOhm, with the clamp in circuitry/bq24133_board.yaml (circuitry/SERVO_RAIL.md). This net is the earlier wake pulse to the 2813 ON input (D43)."}
   CTRL_SW: {domain: CTRL, note: "2815 SW pad to the panel switch"}
-  PWR_OFF: {domain: GPIO_3V3, note: "Pi GPIO26 (pin 37) to the 2813 OFF input, cable D13 (D30, gpio-poweroff)"}
+  PWR_OFF: {domain: GPIO_3V3, note: "Superseded. The 2815 in circuitry/SERVO_RAIL.md has no OFF pin. This net is the earlier Pi GPIO26 wire to the 2813 OFF input, cable D13 (D30)."}
   SERVO_7V2: {domain: SERVO_7V2, note: "BEC output, belly splice SPV, SP1 to SP5, every servo V (not the adapter, D15)"}
   BUS_DATA: {domain: BUS_DATA, note: "servo bus data line"}
   5V: {domain: 5V, note: "U3 output, Pi 5 V pins, SG90 and amp supply"}
@@ -242,7 +246,8 @@ components:
 
   - id: SW1
     ref: SW1
-    part: Pololu 2813 Big Pushbutton Power Switch with Reverse Voltage Protection, HP (D30, was the 2815 slide switch; same size and MOSFET ratings; button on A and B, GPIO26 on OFF)
+    part: "SUPERSEDED 2026-11-12 10:00 PM ET. The rail to build is the Pololu 2815 (https://www.pololu.com/product/2815) with the BQ24133 interlock in circuitry/bq24133_board.yaml and circuitry/SERVO_RAIL.md. This record is the Pololu 2813 Big Pushbutton Power Switch (D30, button on A and B, GPIO26 on OFF). Pins and wires stay so the earlier harness still checks."
+    note: "Not the rail to build. See circuitry/SERVO_RAIL.md."
     kind: switch
     region: battery_bay
     ratings: {v_op: "4.5 to 32", i_cont_55c_a: 6.0, i_cont_150c_a: 16, i_max_a: 90, r_on_mohm: "13 at 4.5 V, 8.6 at 10 V", size_mm: "20.3 x 22.9", mounting: "no mounting holes; the four 2.18 mm holes are power connections; foam tape"}
@@ -255,13 +260,13 @@ components:
       - {pin: "VOUT", label: "VOUT", name: switched pack out, domain: PACK_6V0_8V4, group: power, dir: pwr_out, source: "[L] Pololu 2815 page"}
       - {pin: "SW", label: "SW", name: switch control terminal (pad pair marked with a switch symbol), domain: CTRL, group: control, dir: in, source: "[L] Pololu schematic net SW"}
       - {pin: "GND_SW", label: "GND", name: GND pad next to SW (pad pair marked with a switch symbol), domain: GND, group: control, dir: gnd, source: "[L] Pololu schematic"}
-      - {pin: "ON", label: "ON", name: "logic ON input (dock wake, D43)", domain: CTRL, group: control, dir: in, source: "[L] Pololu page: a high pulse over 1 V turns it on; the dock 555 pulse through the wake branch"}
-      - {pin: "OFF", label: "OFF", name: logic OFF input (D30), domain: GPIO_3V3, group: control, dir: in, source: "[L] D30; BOM.md line 10 (Pi GPIO26 on OFF, dtoverlay=gpio-poweroff,gpiopin=26)"}
+      - {pin: "ON", label: "ON", name: "superseded 2813 ON input (D43 wake pulse). Current 2815 ON is circuitry/bq24133_board.yaml.", domain: CTRL, group: control, dir: in, source: "[L] Pololu page: a high pulse over 1 V turns it on; the dock 555 pulse through the wake branch"}
+      - {pin: "OFF", label: "OFF", name: "superseded 2813 OFF input (D30). The 2815 rail has no OFF pin (circuitry/SERVO_RAIL.md).", domain: GPIO_3V3, group: control, dir: in, source: "[L] D30; BOM.md line 10 (Pi GPIO26 on OFF, dtoverlay=gpio-poweroff,gpiopin=26)"}
     internal:
       - {a: "VIN", b: "VOUT", kind: switch, note: "2 P-MOSFETs, on while SW is pulled to GND; on-board slide switch set OFF"}
       - {a: "GND", b: "GND_SW", kind: short}
       - {a: "VIN", b: "SW", kind: load, note: "100 kOhm (R3): about 84 uA when SW is grounded at 8.4 V"}
-    source: "[L] D8; https://www.pololu.com/product/2813; MOUNTING.md: battery bay front wall, centre (-108.5, 19.0, 36.5)"
+    source: "[L] D8; https://www.pololu.com/product/2813 is the superseded record. Current rail: https://www.pololu.com/product/2815 and circuitry/bq24133_board.yaml. MOUNTING.md: battery bay front wall, centre (-108.5, 19.0, 36.5)"
 
   - id: CTL
     ref: SW2
@@ -275,7 +280,7 @@ components:
       - {pin: "2", label: "2", name: contact, domain: GND, group: lugs, dir: passive, source: "[I]"}
     internal:
       - {a: "1", b: "2", kind: switch, note: "closed = robot ON; carries under 0.1 mA"}
-    source: "[L] D30 (Pololu 2813 button on A and B), D38 (in-stock NKK replacement); BOM 10b"
+    source: "[L] D30 (button across the superseded 2813 A and B pins), D38 (in-stock NKK replacement); BOM 10b. The 2815 rail does not use this button as the power latch (circuitry/SERVO_RAIL.md)."
 
   - id: VSW
     ref: VSW
@@ -536,7 +541,7 @@ components:
       - {pin: "33", label: "33", name: "GPIO13 left antenna PWM (hardware PWM1, D53)", domain: PWM_3V3, group: header, dir: out, source: "[U] antennas.py LEFT = D13 (D9); [L] D53 dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4"}
       - {pin: "35", label: "35", name: GPIO19 I2S LRC, domain: I2S, group: header, dir: out, source: "[U] table"}
       - {pin: "36", label: "36", name: GPIO16 amp SD mode (D48), domain: GPIO_3V3, group: header, dir: out, source: "[L] D48; sdmode-gpios GPIO16 in the googlevoicehat-soundcard overlay (raspberrypi/linux)"}
-      - {pin: "37", label: "GPIO26", name: GPIO26 to the 2813 OFF input (D30), domain: GPIO_3V3, group: header, dir: out, source: "[U] table"}
+      - {pin: "37", label: "GPIO26", name: "GPIO26 to the superseded 2813 OFF input (D30). The 2815 rail has no OFF pin (circuitry/SERVO_RAIL.md).", domain: GPIO_3V3, group: header, dir: out, source: "[U] table"}
       - {pin: "29", label: "29", name: GPIO5 charge status, domain: GPIO_3V3, group: header, dir: in, source: "[L] CHARGER_BOARD.md, header pin 29"}
       - {pin: "31", label: "31", name: GPIO6 charge enable, domain: GPIO_3V3, group: header, dir: out, source: "[L] CHARGER_BOARD.md, header pin 31"}
       - {pin: "38", label: "38", name: GPIO20 I2S mic data in (D47), domain: I2S, group: header, dir: in, source: "[L] D47; PCM_DIN on GPIO20, googlevoicehat-soundcard overlay (raspberrypi/linux overlays README)"}
@@ -1378,7 +1383,7 @@ cables:
   - {id: P14, status: active, desc: XT30U male - to splice G, regions: [battery_bay], joints: [], polyline_mm: 52.1, rule_mm: 137.3, source: "[L] reference BMS to 2815"}
   - {id: P9, status: active, desc: 2815 VOUT to splice VSW, regions: [battery_bay], joints: [], polyline_mm: 0.0, rule_mm: 85.2, source: "[L] splice next to the 2815"}
   - {id: P16, status: active, desc: splice G to 2815 GND (control ground), regions: [battery_bay], joints: [], polyline_mm: 0.0, rule_mm: 85.2, source: "[I]"}
-  - {id: P15, status: active, desc: 2813 A and B to the momentary button (D30; was the 2815 SW pad pair to the panel switch), regions: [battery_bay], joints: [], polyline_mm: 62.1, rule_mm: 147.3, source: "[L] placements: 2815 to power_switch.stl", twist: {lay_mm: null, note: "no twist: a 58 mm run leaves 18 mm after the 2 x 20 mm untwisted ends, under one 35 mm lay"}}
+  - {id: P15, status: active, desc: "SUPERSEDED record. 2813 A and B to the momentary button (D30). The rail to build is the 2815 in circuitry/SERVO_RAIL.md.", regions: [battery_bay], joints: [], polyline_mm: 62.1, rule_mm: 147.3, source: "[L] placements: 2815 to power_switch.stl", twist: {lay_mm: null, note: "no twist: a 58 mm run leaves 18 mm after the 2 x 20 mm untwisted ends, under one 35 mm lay"}}
   # D30: the GPIO26 (pin 37) wire to the 2813 OFF pin is now cable D13 (V1 3D track, 2026-11-04 evening), 26 AWG on the P13 route; dtoverlay=gpio-poweroff,gpiopin=26
   - {id: P10, status: active, desc: splices VSW and G to the BEC input leads, regions: [battery_bay, belly], joints: [], polyline_mm: 61.1, rule_mm: 146.3, source: "[L] placements: 2815 to BEC", note: "the BEC input leads ship (length not published): cut P10 shorter by their length", twist: {lay_mm: null, note: "no twist: a 54 mm run leaves 14 mm after the 2 x 20 mm untwisted ends, under one 70 mm lay"}}
   - {id: P11, status: active, desc: both BEC output leads joined (JB+ JB-) to the belly power splices SPV and SPG, regions: [belly], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D15; length cables3d", note: "BEC output leads ship (gauge and length not published: as shipped); ngspice power-path sim (lead, sim pass only): BEC output peaks 8.3 to 9.1 A while walking", twist: {lay_mm: null, note: "no twist: a 55 mm run leaves 15 mm after the 2 x 20 mm untwisted ends, under one 100 mm lay"}}
@@ -1402,7 +1407,7 @@ cables:
   - {id: D10, status: active, desc: Pi and splices to MAX98357A, regions: [head], joints: [], polyline_mm: 149.5, rule_mm: 189.5, source: "[U]", twist: {lay_mm: 45, lay_range_mm: [31, 62], takeup_max: 1.028, untwisted_ends_mm: 20, wires: "all made wires of the cable", source: "NASA-STD-8739.4A 7.2.16 to 7.2.18, lay 8 to 16 x the 3.9 mm harness OD; take-up at the shortest lay [L]"}}
   - {id: D11, status: active, desc: MAX98357A to speaker, regions: [head], joints: [], polyline_mm: 40.0, rule_mm: 80.0, source: "[U]", twist: {lay_mm: null, note: "no twist: a 73 mm run leaves 33 mm after the 2 x 20 mm untwisted ends, under one 35 mm lay"}}
   - {id: D12, status: active, desc: Pi CSI to Camera Module 3, regions: [head], joints: [], polyline_mm: null, rule_mm: null, source: "[L] BOM E7, 300 mm cable (D34)"}
-  - {id: D13, status: active, desc: Pi GPIO26 (pin 37) to the 2813 OFF input (D30; gpio-poweroff), regions: [head, neck, trunk_top, battery_bay], joints: [neck_pitch, head_pitch, head_yaw, head_roll], polyline_mm: 467.7, rule_mm: 582.4, source: "[L] D30; twin/complete3d/phase2_data.py: the P13 route, the P12 hop and the header to pin 37"}
+  - {id: D13, status: active, desc: "SUPERSEDED record. Pi GPIO26 (pin 37) to the 2813 OFF input (D30). The 2815 rail has no OFF pin (circuitry/SERVO_RAIL.md).", regions: [head, neck, trunk_top, battery_bay], joints: [neck_pitch, head_pitch, head_yaw, head_roll], polyline_mm: 467.7, rule_mm: 582.4, source: "[L] D30; twin/complete3d/phase2_data.py: the P13 route, the P12 hop and the header to pin 37"}
   - {id: S1, status: removed, desc: "kit cable adapter H3 to ID 20 (replaced by SP1 + SD1, D15)", regions: [trunk_top, trunk_bottom], joints: [], polyline_mm: 63.8, rule_mm: 149.0, source: "[L] D15"}
   - {id: S6, status: removed, desc: "kit cable adapter H5 to ID 10 (replaced by SP2 + SD2, D15)", regions: [trunk_top, trunk_bottom], joints: [], polyline_mm: 63.8, rule_mm: 149.0, source: "[L] D15"}
   - {id: S14, status: removed, desc: "made lead ID 24 BUS 2 to ID 30 (removed, D15)", regions: [left_leg, trunk_bottom, trunk_top], joints: [left_knee, left_hip_pitch, left_hip_roll, left_hip_yaw], polyline_mm: 336.4, rule_mm: 489.7, source: "[L] D15"}

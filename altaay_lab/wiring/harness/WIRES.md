@@ -804,7 +804,7 @@ Route polyline is empty in the netlist. BLOCKER for a new route measurement. The
 
 ## Cable P15
 
-2813 A and B to the momentary button (D30; was the 2815 SW pad pair to the panel switch)
+SUPERSEDED record. 2813 A and B to the momentary button (D30). The rail to build is the 2815 in circuitry/SERVO_RAIL.md.
 
 Joints: none. This cable does not cross a moving joint.
 
@@ -2022,7 +2022,7 @@ Route polyline is empty in the netlist. BLOCKER for a new route measurement. The
 
 ## Cable D13
 
-Pi GPIO26 (pin 37) to the 2813 OFF input (D30; gpio-poweroff)
+SUPERSEDED record. Pi GPIO26 (pin 37) to the 2813 OFF input (D30). The 2815 rail has no OFF pin (circuitry/SERVO_RAIL.md).
 
 Joints: neck_pitch, head_pitch, head_yaw, head_roll.
 
