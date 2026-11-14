@@ -220,6 +220,21 @@ def excursion_stats(series, dt, thresholds):
     return out
 
 
+def first_fall(falls):
+    """First fall time in seconds, or the string none.
+
+    em_twin stores falls as a list of timestamps. A nonempty list is not a
+    scalar, and float(list) raises TypeError in the thermal cut.
+    """
+    if falls is None or falls == "none":
+        return "none"
+    if isinstance(falls, (list, tuple, np.ndarray)):
+        if len(falls) == 0:
+            return "none"
+        return round(float(falls[0]), 2)
+    return round(float(falls), 2)
+
+
 def reduce_run(r):
     dt = float(r["dt"])
     n = len(r["_full"]["Im"])
@@ -288,7 +303,7 @@ def reduce_run(r):
         cmd_m_s=float(r["cmd"][0]),
         corner=r["corner"],
         dur_s=r["dur_s"],
-        fall_s=r["falls"] or "none",
+        fall_s=first_fall(r["falls"]),
         wall_s=r["wall_s"],
         vx_m_s=None if g.get("vx") is None else float(g["vx"]),
         track_lin=None if g.get("track_lin") is None else float(g["track_lin"]),
@@ -588,12 +603,56 @@ def load_bins(tag):
     )
 
 
+def fall_limit(fall):
+    """Seconds, or None when the walk did not fall. Accepts the old list form."""
+    if isinstance(fall, (list, tuple, np.ndarray)):
+        if len(fall) == 0:
+            return None
+        fall = fall[0]
+    if fall is None or fall == "none":
+        return None
+    return float(fall)
+
+
 def steady_bins(s, fall):
     t = s["t"]
-    use = (t >= T_STATS) & (t <= (1e9 if fall == "none" else float(fall) + 0.05))
+    hi = fall_limit(fall)
+    use = t >= T_STATS
+    if hi is not None:
+        use = use & (t <= hi + 0.05)
     if not np.any(use):
         use = np.ones(len(t), bool)
     return {k: (v[use] if hasattr(v, "__len__") else v) for k, v in s.items()}
+
+
+def bin_width(tbin):
+    tbin = np.asarray(tbin, float)
+    d = np.diff(tbin)
+    d = d[np.isfinite(d) & (d > 1e-9)]
+    if len(d) == 0:
+        raise RuntimeError("current bins have no spacing")
+    width = round(float(np.median(d)), 6)
+    if float(np.max(np.abs(d - width))) > 1e-4:
+        raise RuntimeError("current bins are not uniform, median %.6f s" % width)
+    return width
+
+
+def sched_every_bin(nbin, width):
+    """Map each thermal step onto the next current bin, then loop.
+
+    em_twin bins are 0.1 s. A 0.5 s thermal step that samples once per step
+    holds one bin for the whole step and skips the other four.
+    """
+    if nbin < 1 or width <= 0:
+        raise RuntimeError("bad bin grid")
+
+    def sched(t, nbin=nbin, width=width):
+        return int(np.floor(float(t) / width + 1e-9)) % nbin
+
+    seen = [sched(i * width) for i in range(nbin)]
+    if seen != list(range(nbin)):
+        raise RuntimeError("thermal schedule skipped a current bin")
+    return sched
 
 
 def run_thermal():
@@ -657,18 +716,19 @@ def run_thermal():
             if abs(meta["right_knee_I_rms_first_bin_A"] - round(logged, 3)) > 0.002:
                 raise RuntimeError("thermal current did not land on the log: %s vs %s" % (meta["right_knee_I_rms_first_bin_A"], logged))
             nbin = len(tbin)
-            span = float(tbin[-1] - tbin[0]) if nbin > 1 else 0.1
-
-            def sched(t, tbin=tbin, nbin=nbin, span=span, guard=guard):
-                x = float(tbin[0]) + (t % span if span > 0 else 0.0)
-                return int(np.clip(np.searchsorted(tbin, x), 0, nbin - 1))
-
-            sim = TT.simulate(sched, heats, None, c, room, t_end=t_end, dt=0.5, guard=guard, record=1.0)
+            width = bin_width(tbin)
+            sched = sched_every_bin(nbin, width)
+            # One step per bin. dt=0.5 on a 0.1 s grid would skip four bins in five.
+            # Record every step. A 1 s record can miss a guard stop that lasts under a second,
+            # and the first saved sample at 55 C is then a later bout.
+            sim = TT.simulate(sched, heats, None, c, room, t_end=t_end, dt=width, guard=guard, record=width)
             row = kh.summarize(sim, heats, c, "%s_%s" % (tag, name))
             row["series"] = role
             row["tag"] = tag
             row["case"] = name
             row["room_C"] = room
+            row["thermal_dt_s"] = width
+            row["n_bins"] = nbin
             row["bec_drop_V"] = drop
             row["current_scale"] = "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels."
             row["minutes_to_right_reading_55C"] = kh._cross(sim["t"], sim["Ts"][:, jr], 55.0)
@@ -679,9 +739,9 @@ def run_thermal():
             row["hottest_reading_C"] = round(float(sim["max_Ts"][hot_j]), 2)
             row["minutes_to_hottest_reading_55C"] = kh._cross(sim["t"], sim["Ts"][:, hot_j], 55.0)
             row["minutes_to_hottest_reading_60C"] = kh._cross(sim["t"], sim["Ts"][:, hot_j], 60.0)
-            n10 = min(len(sim["t"]), 600)
-            row["reading_rise_last_10min_C"] = round(float(sim["Ts"][-1, jr] - sim["Ts"][-n10, jr]), 3)
-            row["body_rise_last_10min_C"] = round(float(sim["Tb"][-1, jr] - sim["Tb"][-n10, jr]), 3)
+            i10 = int(np.searchsorted(sim["t"], float(sim["t"][-1]) - 600.0))
+            row["reading_rise_last_10min_C"] = round(float(sim["Ts"][-1, jr] - sim["Ts"][i10, jr]), 3)
+            row["body_rise_last_10min_C"] = round(float(sim["Tb"][-1, jr] - sim["Tb"][i10, jr]), 3)
             row["reading_end_C"] = round(float(sim["Ts"][-1, jr]), 2)
             row["body_end_C"] = round(float(sim["Tb"][-1, jr]), 2)
             # Drop the per-servo maps. The summary fields are the result.
@@ -698,7 +758,12 @@ def run_thermal():
                 "walk", row["walk_share"],
                 flush=True,
             )
-    return dict(sha=git_sha(KH_REF), i_scale=kh.I_SCALE, rows=rows)
+    return dict(
+        sha=git_sha(KH_REF),
+        i_scale=kh.I_SCALE,
+        integration="one thermal step per current bin",
+        rows=rows,
+    )
 
 
 def fC(x):
@@ -712,7 +777,7 @@ def write_md(doc):
     A = L.append
     A("# Run C joint current")
     A("")
-    A("Written 2026-11-13. CPU only. The walk is the em_twin sheet walk with the run C policy and the 12 V ST-3215-C018 patch in `problems/sts12.py`. The rail is the PR 85 winner: 3S Molicel P45B wired to the servos, Castle off the trunk. The thermal cases call `knee_heat_chafe.py` from the open knee-heat branch. This note does not copy those scripts. D61 was not edited. Nothing was bought. The policy was not retrained.")
+    A("Written 2026-11-13. CPU only. The walk is the em_twin sheet walk with the run C policy and the 12 V ST-3215-C018 patch in `problems/sts12.py`. This note walks the PR 85 wire case (3S Molicel P45B wired to the servos, Castle off the trunk) as a study. That case is not the adopted power path. The adopted path keeps the Castle CC BEC Pro. The thermal cases call `knee_heat_chafe.py` from the open knee-heat branch. This note does not copy those scripts. D61 was not edited. Nothing was bought. The policy was not retrained.")
     A("")
     A("Every walk figure is sim pass only. A temperature from the thermal twin is sim pass only. Arithmetic on those currents, and the blanking comparison, are calc only. A datasheet figure is cited. A missing measurement is BLOCKER.")
     A("")
@@ -722,7 +787,9 @@ def write_md(doc):
     A("")
     A("Run C had pack current and knee volts. It did not keep a per-servo current. The knee-heat note therefore scaled an older backlash session by Kt, and it marked a run C knee amp BLOCKER. This pass keeps the motor current and the supply current that `em_twin.py` already computes on each 2 ms step.")
     A("")
-    A("Commands are 0.15, 0.25, and 0.40 m/s, typical and high-side corners, 60 s, no fall in the runs below. The longer duty is the same command held for 10 min. Stats start at 4 s, the same window as the pack figures in the electromechanical twin. The logged amps are the post-step sheet law (`servo_sts3215.electrical`), which is the series the twin already reports as motor RMS and supply current.")
+    fell = ["%s at %s s" % (row["tag"], row["fall_s"]) for row in doc["walks"] if row.get("fall_s") not in ("none", None)]
+    fall_txt = "No walk in this pass fell." if not fell else ("Falls, first time, sim pass only: " + ", ".join(fell) + ".")
+    A("Commands are 0.15, 0.25, and 0.40 m/s, typical and high-side corners, 60 s. The longer duty is the same command held for 10 min. %s Stats start at 4 s, the same window as the pack figures in the electromechanical twin. The logged amps are the post-step sheet law (`servo_sts3215.electrical`), which is the series the twin already reports as motor RMS and supply current." % fall_txt)
     A("")
     mass = doc["mass"]
     A("Baseline trunk before the third cell, from the mass budget after the same JPI seat PR 85 uses: %.4f kg (sim pass only). That matches the 1.0654 kg figure PR 85 records." % mass["baseline_trunk_kg"])
@@ -769,7 +836,12 @@ def write_md(doc):
     A("")
     A("The thermal twin is the PR 86 model: `twin_thermal.simulate`, the C018 stall-line split that file uses (winding 3.753 ohm, an assumption, the page does not print a winding resistance), the C001 21 mA idle, friction omitted, central corner, torque cut 70 C unless a row says the cut is off. `build_12v` multiplies by Kt 7.4 V over Kt 12 V because its input was a 7.4 V log. These amps are already the 12 V sheet, so the script divides by that factor first. The product is the logged current. A check on the first bin refuses a run that does not land on the log.")
     A("")
-    A("The winner has no Castle, so the 0.30 V drop in that file is set to 0 for these rows. One comparison row puts the 0.30 V drop back. The knee is outside the trunk. PR 86 already found that trunk vents do not move the knee.")
+    dt_s = None
+    if doc["thermal"]["rows"]:
+        dt_s = doc["thermal"]["rows"][0].get("thermal_dt_s")
+    A("Each current bin is one thermal step. The bins are %.3f s, from `em_twin` `bin_s`. An earlier draft stepped at 0.5 s and sampled one bin in five, so those clocks are withdrawn. The numbers in this table are the rerun that applies every bin (sim pass only)." % (dt_s if dt_s is not None else 0.1))
+    A("")
+    A("This study's wire case has no Castle, so the 0.30 V drop in that file is set to 0 for these rows. One comparison row puts the 0.30 V drop back. The knee is outside the trunk. PR 86 already found that trunk vents do not move the knee. Keeping the Castle is a separate owner decision. It is not what these rows simulate.")
     A("")
     A("PLA and PETG do not change the sim temperature. They change the limit the case is compared with. PLA low edge 49 C is cited (SD3D, ASTM D648, the thermal note). PETG 62 C at 1.8 MPa is cited (Bambu PETG HF, the knee-heat note). The C018 page opened for this lab does not print an operating temperature. Using the C001 60 C line and the 70 C torque-off on the C018 is BLOCKER, the same open item as PR 86.")
     A("")
@@ -933,11 +1005,18 @@ def heat_note(rows):
             "The 55/45 guard, on the %s current, walks %.1f percent of the 90 min at 25 C and %.1f percent at 32 C (sim pass only). PR 86 reported 38.8 percent and 20.1 percent on the Kt-scaled old log."
             % ("10 min" if tag == "600s" else "60 s", 100.0 * g25["walk_share"], 100.0 * g32["walk_share"])
         )
+        rise32 = g32["body_rise_last_10min_C"]
+        if rise32 > 0.05:
+            climb = "The 32 C guard is still climbing at 90 min."
+        elif rise32 < -0.05:
+            climb = "The 32 C guard cooled over the last 10 min."
+        else:
+            climb = "The 32 C guard is flat over the last 10 min."
         bits.append(
-            "Guard case peak is %.2f C at 25 C and %.2f C at 32 C (sim pass only). The 90 min samples are %.2f C and %.2f C, and the last 10 min move those samples by %.3f C and %.3f C. The 32 C guard is still climbing at 90 min. Both peaks are above the cited 49 C PLA edge and under the cited 62 C PETG point."
+            "Guard case peak is %.2f C at 25 C and %.2f C at 32 C (sim pass only). The 90 min samples are %.2f C and %.2f C, and the last 10 min move those samples by %.3f C and %.3f C. %s Both peaks are above the cited 49 C PLA edge and under the cited 62 C PETG point."
             % (g25["right_knee_body_max_C"], g32["right_knee_body_max_C"],
                g25["body_end_C"], g32["body_end_C"],
-               g25["body_rise_last_10min_C"], g32["body_rise_last_10min_C"])
+               g25["body_rise_last_10min_C"], rise32, climb)
         )
     if drop and c25:
         bits.append(
@@ -1025,8 +1104,36 @@ def assemble():
     return doc
 
 
+def self_check():
+    """Fall time is a scalar, and a 0.5 s step is not the thermal schedule."""
+    if first_fall([]) != "none" or first_fall("none") != "none" or first_fall(None) != "none":
+        raise SystemExit("empty fall")
+    if first_fall([12.34, 20.0]) != 12.34 or first_fall(4.5) != 4.5:
+        raise SystemExit("fall scalar")
+    t = np.arange(4.0, 8.0, 0.1)
+    cut = steady_bins(dict(t=t, im=np.ones_like(t)), [5.0, 6.0])
+    if cut["t"][-1] > 5.05 or cut["t"][0] < 3.99:
+        raise SystemExit("fall list did not cut the bins: %s" % cut["t"][[0, -1]])
+    whole = steady_bins(dict(t=t, im=np.ones_like(t)), "none")
+    if len(whole["t"]) != len(t):
+        raise SystemExit("none should keep the stats window")
+    width = bin_width(t)
+    if abs(width - 0.1) > 1e-9:
+        raise SystemExit("bin width")
+    sched = sched_every_bin(len(t), width)
+    coarse = [sched(x) for x in np.arange(0.0, len(t) * width, 0.5)]
+    missed = set(range(len(t))) - set(coarse)
+    if len(missed) < int(0.7 * len(t)):
+        raise SystemExit("0.5 s sampling should skip most 0.1 s bins, missed %d" % len(missed))
+    print("self-check PASS: fall scalar, every bin scheduled, 0.5 s grid skips bins")
+    return 0
+
+
 def main():
     step = sys.argv[1] if len(sys.argv) > 1 else "all"
+    if step == "check":
+        return self_check()
+    self_check()
     if step in ("smoke", "walks", "long", "all", "mass"):
         meta = prepare()
         # prepare() imported em_twin in this process. Workers are fresh processes.
