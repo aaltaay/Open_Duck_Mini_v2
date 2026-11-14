@@ -7,6 +7,8 @@ derived_from:
 - altaay_lab/bom/order/ORDER.csv
 - altaay_lab/circuitry/bq24133_board.yaml
 - altaay_lab/bench/battery_guard.py
+- altaay_lab/software/servo_limits.json
+- altaay_lab/sim/mass_budget.py
 cells:
   name: Molicel INR-21700-P45B
   order_mpn: INR21700-P45B
@@ -138,8 +140,78 @@ servos:
     ports as the C001
   i_stall_12v_a: 2.7
   i_noload_12v_a: 0.18
-  angle_limits: GAP
-  angle_note: Joint angle limits are not in the netlist, the limits file, or the order.
+  joint_limits:
+    left_hip_yaw:
+      soft_lo_deg: -21.0
+      soft_hi_deg: 20.3
+      hard_lo_deg: -24.0
+      hard_hi_deg: 23.3
+    left_hip_roll:
+      soft_lo_deg: -5.0
+      soft_hi_deg: 22.0
+      hard_lo_deg: -8.0
+      hard_hi_deg: 25.0
+    left_hip_pitch:
+      soft_lo_deg: -72.0
+      soft_hi_deg: 10.5
+      hard_lo_deg: -75.0
+      hard_hi_deg: 13.5
+    left_knee:
+      soft_lo_deg: -25.5
+      soft_hi_deg: 147.0
+      hard_lo_deg: -28.5
+      hard_hi_deg: 150.0
+    left_ankle:
+      soft_lo_deg: -92.0
+      soft_hi_deg: 46.0
+      hard_lo_deg: -95.0
+      hard_hi_deg: 49.0
+    neck_pitch:
+      soft_lo_deg: -17.0
+      soft_hi_deg: 22.0
+      hard_lo_deg: -20.0
+      hard_hi_deg: 25.0
+    head_pitch:
+      soft_lo_deg: -22.0
+      soft_hi_deg: 36.0
+      hard_lo_deg: -25.0
+      hard_hi_deg: 39.0
+    head_yaw:
+      soft_lo_deg: -105.0
+      soft_hi_deg: 79.0
+      hard_lo_deg: -108.0
+      hard_hi_deg: 82.0
+    head_roll:
+      soft_lo_deg: -27.0
+      soft_hi_deg: 27.0
+      hard_lo_deg: -30.0
+      hard_hi_deg: 30.0
+    right_hip_yaw:
+      soft_lo_deg: -20.3
+      soft_hi_deg: 21.0
+      hard_lo_deg: -23.3
+      hard_hi_deg: 24.0
+    right_hip_roll:
+      soft_lo_deg: -22.0
+      soft_hi_deg: 5.0
+      hard_lo_deg: -25.0
+      hard_hi_deg: 8.0
+    right_hip_pitch:
+      soft_lo_deg: -10.5
+      soft_hi_deg: 72.0
+      hard_lo_deg: -13.5
+      hard_hi_deg: 75.0
+    right_knee:
+      soft_lo_deg: -25.5
+      soft_hi_deg: 147.0
+      hard_lo_deg: -28.5
+      hard_hi_deg: 150.0
+    right_ankle:
+      soft_lo_deg: -92.0
+      soft_hi_deg: 46.0
+      hard_lo_deg: -95.0
+      hard_hi_deg: 49.0
+  joint_limit_source: altaay_lab/software/servo_limits.json
 rest:
   stop_c: 55.0
   resume_c: 45.0
@@ -147,6 +219,6 @@ rest:
     Sim pass only. Not the code on the Pi.
 mass:
   regulator_g: 75.0
-  robot_kg: GAP
-  robot_note: No whole-duck mass is in the netlist, the limits file, or the order.
-    The walk uses the existing added-mass model.
+  robot_kg: 2.8078
+  mass_label: CAD mass model
+  robot_note: Sum of sim/mass_budget.py link masses, the model the walk loads.

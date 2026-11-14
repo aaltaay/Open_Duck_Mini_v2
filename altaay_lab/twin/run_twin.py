@@ -85,6 +85,27 @@ def sched_every_bin(nbin, width):
     return sched
 
 
+def home_command():
+    """Four legs and four turns. A fixed forward command drifts into a curve."""
+    leg, turn = 6.0, 2.2
+    cycle = 4.0 * (leg + turn)
+
+    def command(t, data, infer):
+        if t < 2.0:
+            return [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        u = (t - 2.0) % cycle
+        for _ in range(4):
+            if u < leg:
+                return [0.20, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+            u -= leg
+            if u < turn:
+                return [0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.0]
+            u -= turn
+        return [0.20, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    return command
+
+
 def walk(parts, seconds, scratch):
     import numpy as np
     os.environ["TWIN_EM_SCRATCH"] = scratch
@@ -96,82 +117,90 @@ def walk(parts, seconds, scratch):
     os.environ["ODM_ONNX"] = os.path.join(LAB, "problems", "retrain_sts12", "sts12_runC_policy.onnx")
     sys.path.insert(0, os.path.join(LAB, "problems"))
     sys.path.insert(0, os.path.join(LAB, "twin", "electromech"))
+    sys.path.insert(0, os.path.join(LAB, "twin", "thermal"))
     import sts12  # noqa: F401  registers the 3S pack and the 12 V sheet
     import em_twin as ET
-
-    extra = dict(
-        BEC_V=float(parts["regulator"]["v_set"]),
-        BEC_EFF=float(parts["regulator"]["eff_used"]),
-        BEC_HOLD=1 if parts["regulator"]["holds"] else 0,
-    )
-    cmd = (0.15, 0.0, 0.0)
-    r = ET.run(
-        mass="ours", walk="backlash", cmd=cmd, dur=float(seconds),
-        supply="net", corner="typical", extra=extra,
-        cell="p45b3", q0=0.0, servo_mode="sheet", guard="act",
-        keep_full=False, bin_s=0.1, stop_on_fall=False, t_stats=0.0,
-        label="one twin", progress=max(10.0, float(seconds) / 4.0),
-    )
-    return r, np
-
-
-def heat(parts, result, np):
-    sys.path.insert(0, os.path.join(LAB, "problems"))
-    sys.path.insert(0, os.path.join(LAB, "twin", "thermal"))
     import knee_heat_chafe as KH
     import twin_thermal as TT
 
-    bins = result["_bins"]
-    bp = result["_binsp"]
-    tbin = np.asarray(bp["t_end"], float)
-    width = bin_width(tbin)
+    c = dict(TT.CORNERS["central"])
+    heat = TT.HeatWalk(c, 25.0, 0.1)
+    stop_c = float(parts["rest"]["stop_c"])
+    resume_c = float(parts["rest"]["resume_c"])
+    eta = float(parts["regulator"]["eff_used"])
+    knee = TT.NAMES.index("right_knee")
+    trace = []
+
+    def on_bin(info):
+        im = np.asarray(info["im"], float)
+        i2 = im * im
+        vbar = float(np.mean(info["v"]))
+        walking = info["phase"] == "walk"
+        p_idle = 0.021 * max(vbar, 0.5)
+        servo = dict(
+            P_cu25=i2 * KH.R_W_12,
+            P_board=i2 * KH.R_BOARD_12,
+            P_fric=np.zeros(14),
+            P_idle=np.full(14, p_idle),
+        )
+        i_pack = float(info["i_pack"])
+        i2p = i_pack * i_pack
+        p_out = float(info["v_bec"]) * float(info["i_bec"])
+        trunk = dict(
+            cells=3.0 * i2p * 0.015, holder=i2p * c["R_holder"], bms=i2p * c["R_bms"],
+            fuse=i2p * TT.PARAMS["R_fuse"], xt30=i2p * TT.PARAMS["R_xt30"],
+            switch=i2p * TT.sw_R_on(vbar, c), wires=i2p * TT.PARAMS["R_wires"],
+            bec=max(p_out, 0.0) * (1.0 / eta - 1.0), bec_leads=0.0, logic=0.15,
+        )
+        Ts = heat.step(dict(servo=servo, trunk=trunk, head=c["P5V"]), walking)
+        hot = float(np.max(Ts))
+        trace.append((float(info["t"]), hot, float(Ts[knee]), float(heat.T_c), info["phase"], int(np.argmax(Ts))))
+        if info["phase"] == "walk" and hot >= stop_c:
+            return "rest"
+        if info["phase"] in ("hold", "off", "stand") and hot <= resume_c:
+            return "walk"
+        return None
+
+    extra = dict(
+        BEC_V=float(parts["regulator"]["v_set"]),
+        BEC_EFF=eta,
+        BEC_HOLD=1 if parts["regulator"]["holds"] else 0,
+    )
+    r = ET.run(
+        mass="ours", walk="backlash", cmd=(0.20, 0.0, 0.0), dur=float(seconds),
+        supply="net", corner="typical", extra=extra,
+        cell="p45b3", q0=0.0, servo_mode="sheet", guard="act",
+        keep_full=False, bin_s=0.1, stop_on_fall=False, t_stats=0.0,
+        label="one twin", progress=30.0,
+        command_fn=home_command(), on_bin=on_bin, pack_floor=True,
+    )
+    r["_heat_trace"] = trace
+    r["_heat"] = heat
+    return r, np
+
+
+def heat_of(result, np):
+    """Temperatures stepped inside the walk, one 0.1 s bin at a time."""
+    trace = result.get("_heat_trace") or []
+    if len(trace) < 2:
+        raise RuntimeError("the walk did not record a heat step")
+    width = bin_width([row[0] for row in trace])
     if abs(width - 0.1) > 1e-3:
         raise RuntimeError("thermal step is %.4f s, not 0.1 s" % width)
-    s = dict(
-        t=tbin,
-        im=np.asarray(bins["Im_rms"], float) / KH.I_SCALE,
-        i_pack=np.asarray(bp["i_pack_mean"], float),
-        i_pack_rms=np.asarray(bp["i_pack_rms"], float),
-        v_bus=np.asarray(bp["v_bus_mean"], float),
-        v_bec=np.asarray(bp["v_bec_out_mean"], float),
-        i_bec_rms=np.asarray(bp["i_bec_out_rms"], float),
-    )
-    sts = dict(
-        i_mean=float(np.nanmean(s["i_pack"])),
-        i_rms=float(np.nanmean(s["i_pack_rms"])),
-        bus_mean=float(np.nanmean(s["v_bus"])),
-        bec_out_mean=float(np.nanmean(s["v_bec"])),
-    )
-    heats, c, t_used, _meta = KH.build_12v(s, sts, 1.0, 70.0, True)
-    eta = float(parts["regulator"]["eff_used"])
-    i_bec = np.asarray(bp["i_bec_out_mean"], float)
-    for i in range(len(tbin)):
-        p_out = float(s["v_bec"][i]) * float(i_bec[i])
-        heats[i]["trunk"]["bec"] = p_out * (1.0 / eta - 1.0)
-    # Torque-off rest uses the same cited efficiency, not the dropout assumption.
-    p_idle = 14.0 * 0.021 * float(sts["bec_out_mean"])
-    heats["off"]["trunk"]["bec"] = p_idle * (1.0 / eta - 1.0)
-    nbin = len(tbin)
-    sched = sched_every_bin(nbin, width)
-    guard = dict(stop=float(parts["rest"]["stop_c"]), resume=float(parts["rest"]["resume_c"]), rest="off")
-    sim = TT.simulate(sched, heats, None, c, 25.0, t_end=float(tbin[-1]), dt=width, guard=guard, record=width)
-    names = list(TT.NAMES)
-    jr = names.index("right_knee")
-    hot = int(np.argmax(sim["max_Ts"]))
+    t = np.array([row[0] for row in trace], float)
+    hot_c = np.array([row[1] for row in trace], float)
+    knee = np.array([row[2] for row in trace], float)
+    cell = np.array([row[3] for row in trace], float)
+    phase = [row[4] for row in trace]
+    which = np.array([row[5] for row in trace], int)
+    import twin_thermal as TT
+    hot_i = int(which[int(np.argmax(hot_c))])
+    walk_n = sum(1 for p in phase if p == "walk")
     return dict(
-        t=np.asarray(sim["t"], float),
-        ts=np.asarray(sim["Ts"], float),
-        names=names,
-        knee=jr,
-        hot=hot,
-        hot_name=names[hot],
-        hot_c=float(sim["max_Ts"][hot]),
-        knee_c=float(np.max(sim["Ts"][:, jr])),
-        cell_c=float(np.max(sim["cells"])),
-        walk_share=float(sim["walk_share"]),
-        state=list(sim["state"]),
-        width=width,
-        nbin=nbin,
+        t=t, knee=knee, hot_c_series=hot_c, cell=cell, phase=phase,
+        hot_name=TT.NAMES[hot_i], hot_c=float(np.max(hot_c)),
+        knee_c=float(np.max(knee)), cell_c=float(np.max(cell)),
+        walk_share=walk_n / max(len(phase), 1), width=width, nbin=len(trace),
     )
 
 
@@ -216,10 +245,13 @@ def dock_once():
         sim_dir = os.path.join(LAB, "twin", "dock", "nest", "sim")
         sys.path.insert(0, sim_dir)
         import current_budget as CB
-        stock = os.path.join(ROOT, "BEST_WALK_ONNX_2.onnx")
-        CB.ONNX = stock
+        CB.ONNX = os.path.join(LAB, "problems", "retrain_sts12", "sts12_runC_policy.onnx")
         import nest_run as NR
-        run = NR.Run(dict(seed=0, volt=7.2, noise="mid", mu=0.8, pins=False))
+        # Rail is 12 V. The turn-offset table has rows only at 6.0 and 7.2 V, so the
+        # aim offset stays on the 7.2 V row instead of being extrapolated.
+        run = NR.Run(dict(seed=0, volt=12.0, noise="mid", mu=0.8, pins=False))
+        run.shift = NR.interp(NR.SHIFT, 7.2)
+        run.coast = float(NR.interp(NR.COAST, 7.2))
         run.go()
         sits = run.out.get("sits") or []
         first = sits[0] if sits else {}
@@ -230,8 +262,8 @@ def dock_once():
             note=note,
             seated_mechanical=seated,
             fell=bool(run.s.fallen),
-            volt_v=7.2,
-            policy="stock policy, the sim's own turn table",
+            volt_v=12.0,
+            policy="run C",
         )
     except Exception as exc:
         return dict(ran=False, camera="BLOCKER", note=note, error=_public_error(exc))
@@ -245,8 +277,12 @@ def limits_hit(parts, result, thermal, np):
         hits.append("pack current %.2f A crossed the %s A fuse" % (i_max, parts["fuse"]["i_fuse_a"]))
     if i_max is not None and i_max > float(parts["protection"]["i_work_a"]) + 1e-9:
         hits.append("pack current %.2f A crossed the %s A protection board" % (i_max, parts["protection"]["i_work_a"]))
-    if i_max is not None and i_max > float(parts["regulator"]["i_out_12v_at_10vin_a"]) + 1e-9:
-        hits.append("pack current %.2f A crossed the 16.5 A regulator row at 10 V in" % i_max)
+    i_reg = None
+    bp = result.get("_binsp") or {}
+    if bp.get("i_bec_out_mean") is not None:
+        i_reg = float(np.max(bp["i_bec_out_mean"]))
+    if i_reg is not None and i_reg > float(parts["regulator"]["i_out_12v_at_10vin_a"]) + 1e-9:
+        hits.append("regulator output %.2f A crossed the 16.5 A row at 10 V in" % i_reg)
     v_min = pack.get("v_term_min")
     floor = float(parts["pack"]["walk_stop_v"])
     if v_min is not None and v_min < floor - 1e-9:
@@ -271,7 +307,7 @@ def write_plot(path, result, thermal, parts, np):
     pct = (1.0 - q / cap_mAh) * 100.0
     i_pack = np.asarray(bp["i_pack_mean"], float)
     tt = np.asarray(thermal["t"], float) / 60.0
-    knee = np.asarray(thermal["ts"], float)[:, thermal["knee"]]
+    knee = np.asarray(thermal["knee"], float)
     fig, ax = plt.subplots(3, 1, figsize=(7.2, 5.4), sharex=True)
     ax[0].plot(t, pct, color="#1f4e79", lw=1.2)
     ax[0].set_ylabel("battery %")
@@ -298,7 +334,7 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds):
     pct = (1.0 - q / cap) * 100.0
     stopped = result.get("stopped")
     fell = result.get("falls") or []
-    walked = (not fell) and (gait.get("vx") or 0) > 0.02 and stopped != ("fall", fell[:1])
+    walked = (not fell) and path_m > 0.5
     if fell:
         walked_line = "It fell at %.2f s (sim pass only)." % fell[0]
     elif stopped and str(stopped[0]).startswith("pack"):
@@ -319,16 +355,25 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds):
     a("This is a simulation. Nothing here was measured on a servo, a cell, or a board.")
     a("")
     a(walked_line)
-    a("The clock on this run is %.2f minutes (sim pass only)." % (float(result["dur_s"]) / 60.0))
+    a("The clock on this run is %.2f minutes (sim pass only). It stops at the 10 V pack cutoff or at 45 minutes, whichever comes first." % (float(result["dur_s"]) / 60.0))
     a("It covered %.2f m along the path, and ended %.2f m from the start (sim pass only)." % (path_m, net_m))
-    a("Body speed was %.3f m/s at a 0.15 m/s command (sim pass only)." % float(gait.get("vx") or 0.0))
+    a("The command is a room circuit: 6 s forward at 0.20 m/s, then a 2.2 s turn, four times around. An earlier run with the forward command held fixed logged 17.29 m of path and only 1.34 m from the start in 2 minutes, because the heading drifts and the path folds into a curve. That was not a room.")
+    a("Mean speed along the path was %.3f m/s (sim pass only, path divided by time)." % (path_m / max(float(result["dur_s"]), 1e-6),))
     a("Battery at the end was %.1f percent of the %.2f Ah nameplate, %.0f mAh used (sim pass only for the coulomb count, cited for the nameplate)." % (pct, parts["cells"]["capacity_ah"], q))
-    a("Pack voltage at the end of the logged stats was %.2f V, minimum %.2f V (sim pass only). The walk cutoff is %.1f V (cited)." % (
-        float(pack.get("v_term_mean") or 0), float(pack.get("v_term_min") or 0), float(parts["pack"]["walk_stop_v"])))
+    cutoff = result.get("stopped")
+    if cutoff and str(cutoff[0]).startswith("pack"):
+        a("The pack hit the %.1f V walk cutoff at %.1f s (sim pass only for the clock, cited for the cutoff)." % (float(parts["pack"]["walk_stop_v"]), float(cutoff[1])))
+    else:
+        a("The pack did not reach the %.1f V walk cutoff in this run (cited cutoff, sim pass only for the voltage)." % float(parts["pack"]["walk_stop_v"]))
+    a("Pack voltage in the logged stats was %.2f V mean and %.2f V minimum (sim pass only)." % (
+        float(pack.get("v_term_mean") or 0), float(pack.get("v_term_min") or 0)))
+    a("Pack peak %.2f A is this 0.20 m/s room loop on the held 12.0 V rail (sim pass only). The 15.837 A in eval_table_bec12.md is a different case: the 0.40 m/s piece of a speed sequence, and that table still drops the regulator by 0.3 V instead of holding 12.0 V. The same table's 0.15 m/s typical peak is 8.956 A. Both peaks are sim pass only. Neither was measured on a pack." % float(pack.get("i_max") or 0))
     a("Hottest reading was the %s at %.1f C (sim pass only). The limit on that reading is the %s." % (thermal["hot_name"].replace("_", " "), thermal["hot_c"], hot_limit))
-    a("The heat model spent %.0f percent of the run walking. The remainder is the torque-off rest (sim pass only). That rest is not the code on the Pi." % (100.0 * thermal["walk_share"]))
+    a("The 55 C rest is inside the walk, not a replay. At 55 C the walk command goes to zero and the policy stands. It rested %d time%s. Walking was %.0f percent of the bins (sim pass only)." % (
+        int(result.get("rests") or 0), "" if int(result.get("rests") or 0) == 1 else "s", 100.0 * thermal["walk_share"]))
+    a("Turning the motor gains fully off tips this walk model over in a few seconds, and the knee joints only reach 90 deg, so the 147 deg sit from the sit study does not fit. The rest is therefore a powered stand. Holding the body up keeps the knee near 55 C, so it does not cool to 45 C and does not start walking again. That limit is sim pass only.")
     if dock.get("ran"):
-        a("Dock: %s The mechanical sim at 7.2 V, stock policy, %s (sim pass only). That voltage is the sim's own table, not the 12 V rail." % (
+        a("Dock: %s The mechanical sim used the run C policy and a 12 V rail. It %s (sim pass only). The aim offset table has no 12 V row, so that offset stayed at the 7.2 V measurement. Finding the nest by camera was not simulated." % (
             dock["note"], "sat" if dock.get("seated_mechanical") else "did not sit"))
     else:
         a("Dock: %s The mechanical sim did not finish in this run (%s)." % (dock["note"], dock.get("error") or "not run"))
@@ -350,7 +395,9 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds):
         ("duration", "%.2f min" % (float(result["dur_s"]) / 60.0), "sim pass only"),
         ("path", "%.2f m" % path_m, "sim pass only"),
         ("net travel", "%.2f m" % net_m, "sim pass only"),
+        ("rests", "%d" % int(result.get("rests") or 0), "sim pass only"),
         ("body speed", "%.3f m/s" % float(gait.get("vx") or 0), "sim pass only"),
+        ("duck mass", "%.3f kg" % float(parts["mass"].get("robot_kg") or 0), parts["mass"].get("mass_label", "CAD mass model")),
         ("battery left", "%.1f percent" % pct, "sim pass only"),
         ("nameplate", "%.2f Ah" % float(parts["cells"]["capacity_ah"]), "cited"),
         ("pack mean", "%.2f V" % float(pack.get("v_term_mean") or 0), "sim pass only"),
@@ -381,12 +428,11 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds):
     a("## What this twin does not model")
     a("")
     a("- A camera finding the nest. That is BLOCKER. The nest program uses the true pose plus noise.")
-    a("- The policy pausing inside MuJoCo at 55 C. The rest rule is applied when the heat model replays the current bins. The two are not one closed loop.")
     a("- A pack-voltage sensor on the Pi. The 10 V stop is in the guard, and this sim passes the modeled pack voltage in. The Pi still has no sensor (BLOCKER).")
     a("- Winding resistance of the C018 as a measured number. The heat model still uses the assumed split from the older sheet.")
     a("- The i7C current below 10 V, the TRIM resistor, and the wide boost tolerance above 100 W (BLOCKER).")
-    a("- Felt, dirt, a measured well, and a whole-duck mass. Mass of the walking body is the existing added-mass model (GAP in the parts file).")
-    a("- Joint angle limits from the parts file. They are not in the netlist, the limits file, or the order (GAP).")
+    a("- Felt, dirt, and a measured well contact.")
+    a("- The turn-offset table at 12 V. The dock uses the 7.2 V aim offset with a 12 V rail.")
     a("- Hardware. Every temperature, speed, and current above that says sim pass only is a model output.")
     a("")
     text = _no_dash("\n".join(lines) + "\n")
@@ -413,14 +459,14 @@ def main(argv=None):
         seconds = 6.0
         skip_dock = True
     else:
-        seconds = float(args.seconds) if args.seconds is not None else float(args.minutes or 2.0) * 60.0
+        seconds = float(args.seconds) if args.seconds is not None else float(args.minutes if args.minutes is not None else 45.0) * 60.0
         skip_dock = bool(args.skip_dock)
     os.makedirs(args.out, exist_ok=True)
     scratch = tempfile.mkdtemp(prefix="duck_twin_")
     print("walk %.1f s" % seconds, flush=True)
     result, np = walk(parts, seconds, scratch)
-    print("heat", flush=True)
-    thermal = heat(parts, result, np)
+    print("heat trace", result.get("rests"), "rests", flush=True)
+    thermal = heat_of(result, np)
     print("charge", flush=True)
     charge = charge_of(parts, result, thermal["cell_c"])
     if skip_dock:

@@ -375,6 +375,81 @@ def simulate(sched, heats, eps_of, c, Ta, t_end=90 * 60.0, dt=0.5, guard=None, A
     return out
 
 
+class HeatWalk:
+    """One step of simulate(), fed an explicit heat dict. Same nodes, same update."""
+
+    def __init__(self, c, Ta, dt):
+        self.c, self.Ta, self.dt = c, float(Ta), float(dt)
+        self.sc = servo_C(c)
+        self.A = servo_area(c)
+        self.et, self.eh = enclosure_params("trunk", c), enclosure_params("head", c)
+        self.C_cells = 2 * PARAMS["m_cell_g"] * np.mean(PARAMS["cp_cell"])
+        self.A_cells = 2 * (np.pi * PARAMS.get("cell_d_mm", 18.6) * PARAMS.get("cell_h_mm", 65.2)) * 1e-6 * PARAMS.get("cell_area_frac", 0.5)
+        self.ins_t = np.array([INSIDE.get(n) == "trunk" for n in NAMES])
+        self.ins_h = np.array([INSIDE.get(n) == "head" for n in NAMES])
+        self.Tw = np.full(14, Ta)
+        self.Tb = np.full(14, Ta)
+        self.T_ta = self.T_tw = self.T_c = self.T_ha = self.T_hw = float(Ta)
+        self.t_cut = np.full(14, np.nan)
+        self.s = 0
+        self.hh = self.hto = self.hti = self.hho = self.hhi = self.hc = None
+        self.Ts = np.full(14, Ta)
+        self.max_Ts = np.full(14, -1e9)
+        self.walk_t = 0.0
+        self.t = 0.0
+
+    def step(self, H, walking):
+        c, dt = self.c, self.dt
+        s = self.s
+        Tw, Tb = self.Tw, self.Tb
+        T_ta, T_tw, T_c, T_ha, T_hw = self.T_ta, self.T_tw, self.T_c, self.T_ha, self.T_hw
+        Ta = self.Ta
+        if walking:
+            self.walk_t += dt
+        hs = H["servo"]
+        Tamb = np.where(self.ins_t, T_ta, np.where(self.ins_h, T_ha, Ta))
+        if self.hh is None or s % 20 == 0:
+            v = c["v_walk"] if walking else 0.0
+            self.hh = np.array([h_total(Tb[j], Tamb[j], v * VFRAC[j], c["eps"]) for j in range(14)])
+            self.hto = h_total(T_tw, Ta, 0.13 if walking else 0.0, np.mean(PARAMS["eps_plastic"]), L=self.et["H"])
+            self.hti = h_natural(T_ta, T_tw, L=0.5 * self.et["H"]) * c["h_in_f"]
+            self.hho = h_total(T_hw, Ta, 0.13 if walking else 0.0, np.mean(PARAMS["eps_plastic"]), L=self.eh["H"])
+            self.hhi = h_natural(T_ha, T_hw, L=0.5 * self.eh["H"]) * c["h_in_f"]
+            self.hc = h_natural(T_c, T_ta, L=0.0186) * c["h_in_f"]
+        hh = self.hh
+        on = np.isnan(self.t_cut)
+        P_w = np.where(on, hs["P_cu25"] * (1 + PARAMS["alpha_cu"] * (Tw - 25.0)), 0.0)
+        P_b = np.where(on, hs["P_board"] + hs["P_fric"], 0.0) + hs["P_idle"]
+        q_wb = (Tw - Tb) / c["R_wc"]
+        q_ba = hh * self.A * (Tb - Tamb)
+        Tw = Tw + dt * (P_w - q_wb) / c["C_w"]
+        Tb = Tb + dt * (P_b + q_wb - q_ba) / self.sc["C_b"]
+        Lt = H["trunk"]
+        q_cells_conv = self.hc * self.A_cells * (T_c - T_ta)
+        q_cells_rad = h_rad(T_c, T_tw, 0.9) * self.A_cells * (T_c - T_tw)
+        q_comp = sum(v for k, v in Lt.items() if k not in ("cells", "holder")) + q_ba[self.ins_t].sum()
+        q_tw = self.hti * self.et["A_in"] * (T_ta - T_tw)
+        q_to = (T_tw - Ta) / (0.5 * self.et["R_cond"] + 1.0 / (self.hto * self.et["A_out"]))
+        T_ta += dt * (c.get("air_share", 0.6) * q_comp + q_cells_conv - q_tw) / self.et["C_air"]
+        T_tw += dt * ((1 - c.get("air_share", 0.6)) * q_comp + q_cells_rad + q_tw - q_to) / self.et["C_wall"]
+        T_c += dt * (Lt["cells"] + Lt["holder"] - q_cells_conv - q_cells_rad) / self.C_cells
+        q_head = H["head"] + q_ba[self.ins_h].sum()
+        q_hw = self.hhi * self.eh["A_in"] * (T_ha - T_hw)
+        q_ho = (T_hw - Ta) / (0.5 * self.eh["R_cond"] + 1.0 / (self.hho * self.eh["A_out"]))
+        T_ha += dt * (c.get("air_share", 0.6) * q_head - q_hw) / self.eh["C_air"]
+        T_hw += dt * ((1 - c.get("air_share", 0.6)) * q_head + q_hw - q_ho) / self.eh["C_wall"]
+        Ts = Tb + c["w"] * (Tw - Tb)
+        new = np.isnan(self.t_cut) & (Ts >= PARAMS["T_cut"])
+        self.t_cut[new] = self.t
+        self.Tw, self.Tb = Tw, Tb
+        self.T_ta, self.T_tw, self.T_c, self.T_ha, self.T_hw = T_ta, T_tw, T_c, T_ha, T_hw
+        self.Ts = Ts
+        self.max_Ts = np.maximum(self.max_Ts, Ts)
+        self.t += dt
+        self.s += 1
+        return Ts
+
+
 # ----------------------------------------------------------------------------------------------------------------
 # Steady hot spots above the local air (W x K/W), and the BEC case from its size
 def hot_spots(L, T_air, c, ep):

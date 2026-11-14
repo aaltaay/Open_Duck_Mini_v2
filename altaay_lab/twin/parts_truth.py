@@ -12,9 +12,11 @@ netlist charger part names that board.
 The twin loads altaay_lab/twin/parts.yaml and nothing else for these numbers.
 """
 import csv
+import json
 import os
 import re
 import sys
+import tempfile
 
 import yaml
 
@@ -29,6 +31,7 @@ ORDER_CSV = os.path.join(LAB, "bom", "order", "ORDER.csv")
 BOARD = os.path.join(LAB, "circuitry", "bq24133_board.yaml")
 GUARD = os.path.join(LAB, "bench", "battery_guard.py")
 POWER_NET = os.path.join(LAB, "twin", "electromech", "power_net.py")
+LIMITS_JSON = os.path.join(LAB, "software", "servo_limits.json")
 
 
 def rel(path):
@@ -93,6 +96,40 @@ def num_in(text, rx):
     return float(m.group(1))
 
 
+_MASS = {"done": False, "v": None}
+
+
+def mass_kg():
+    """Whole duck from sim/mass_budget.py. None when the playground pin is not set."""
+    if _MASS["done"]:
+        return _MASS["v"]
+    _MASS["done"] = True
+    pg = os.environ.get("ODM_PLAYGROUND")
+    if not pg or not os.path.isdir(pg):
+        return None
+    sim = os.path.join(LAB, "sim")
+    if sim not in sys.path:
+        sys.path.insert(0, sim)
+    os.environ.setdefault("ODM_OUT", os.path.join(tempfile.gettempdir(), "duck_mass"))
+    import mass_budget as MB
+    built = MB.build_budget()
+    _MASS["v"] = round(sum(link.m for link in built["links"].values()), 4)
+    return _MASS["v"]
+
+
+def joint_limits():
+    doc = json.load(open(LIMITS_JSON, encoding="utf-8"))
+    out = {}
+    for name, row in doc["joints"].items():
+        out[name] = dict(
+            soft_lo_deg=float(row["soft_lo_deg"]),
+            soft_hi_deg=float(row["soft_hi_deg"]),
+            hard_lo_deg=float(row["hard_lo_deg"]),
+            hard_hi_deg=float(row["hard_hi_deg"]),
+        )
+    return out
+
+
 def derive():
     net = load_yaml(NETLIST)
     limits = load_yaml(LIMITS)["parts"]
@@ -150,6 +187,10 @@ def derive():
     walk_guard = num_in(guard, r"self\.pack_walk_min_v\s*=\s*([0-9.]+)")
     walk_net = num_in(power, r"WALK_PACK_MIN_V\s*=\s*([0-9.]+)")
 
+    robot_kg = mass_kg()
+    if robot_kg is None and os.path.exists(PARTS_PATH):
+        prior = load_yaml(PARTS_PATH)
+        robot_kg = prior.get("mass", {}).get("robot_kg")
     doc = dict(
         derived_from=[
             rel(NETLIST),
@@ -158,6 +199,8 @@ def derive():
             rel(ORDER_CSV),
             rel(BOARD),
             rel(GUARD),
+            rel(LIMITS_JSON),
+            "altaay_lab/sim/mass_budget.py",
         ],
         cells=dict(
             name=cells["name"],
@@ -266,8 +309,8 @@ def derive():
             netlist_part_text=servo_parts,
             i_stall_12v_a=float(servo_lim["i_stall_12v_a"]),
             i_noload_12v_a=float(servo_lim["i_noload_12v_a"]),
-            angle_limits="GAP",
-            angle_note="Joint angle limits are not in the netlist, the limits file, or the order.",
+            joint_limits=joint_limits(),
+            joint_limit_source=rel(LIMITS_JSON),
         ),
         rest=dict(
             stop_c=float(rest["stop_c"]),
@@ -276,8 +319,9 @@ def derive():
         ),
         mass=dict(
             regulator_g=float(reg["ratings"]["mass_g"]),
-            robot_kg="GAP",
-            robot_note="No whole-duck mass is in the netlist, the limits file, or the order. The walk uses the existing added-mass model.",
+            robot_kg=robot_kg,
+            mass_label="CAD mass model",
+            robot_note="Sum of sim/mass_budget.py link masses, the model the walk loads.",
         ),
     )
     return doc
@@ -379,6 +423,20 @@ def problems(doc=None):
     missing = [i for i in s["ids"] if i not in {c["id"] for c in load_yaml(NETLIST)["components"]}]
     if missing:
         fail("order servos missing from the netlist: %s" % ", ".join(missing))
+    fresh = joint_limits()
+    got = s.get("joint_limits") or {}
+    if set(got) != set(fresh):
+        fail("joint limits do not match software/servo_limits.json")
+    else:
+        for name, row in fresh.items():
+            for key, val in row.items():
+                if not near(got[name].get(key), val, 1e-6):
+                    fail("joint %s %s disagrees with servo_limits.json" % (name, key))
+    if not isinstance(doc["mass"].get("robot_kg"), (int, float)):
+        fail("whole-duck mass is missing from the CAD mass model")
+    live_m = mass_kg()
+    if live_m is not None and abs(float(doc["mass"]["robot_kg"]) - live_m) > 0.002:
+        fail("parts mass %.4f kg disagrees with the CAD mass model %.4f kg" % (float(doc["mass"]["robot_kg"]), live_m))
 
     rest = doc["rest"]
     if rest["stop_c"] <= rest["resume_c"]:

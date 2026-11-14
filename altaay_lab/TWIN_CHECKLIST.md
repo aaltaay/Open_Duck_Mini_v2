@@ -31,7 +31,7 @@ Current duck, 2026-11-12 9:41 PM ET. Pack is three P45B cells and the 12 V STS32
 
 | Twin | Status | Gate | In one line |
 |---|---|---|---|
-| One command | FAIL | partial | `make twin` walks 2.00 min at 0.123 m/s, right knee 55.0 C, pack still above 10.0 V (sim pass only, twin/out/REPORT.md). Camera dock is BLOCKER. |
+| One command | FAIL | partial | `make twin` runs 45 min, one 55 C rest, then a powered stand. Pack stays above 10 V. Camera dock is BLOCKER. |
 | Structure | FAIL | BLOCKER | The recessed web in PA6-CF clears the margins in FEA and is not in print/. Hot, wet, and the printer are BLOCKER. |
 | Thermal | FAIL | partial | The 2.30 W and 3.50 W sit was re-run. Cells and the trunk wall stay inside their cited windows. The die on the cited board crosses 110 C. A continuous walk still leaves 60 C. |
 | Electromechanical | FAIL | BLOCKER | Run C walks 60 s, no fall, up to 0.252 m/s typical at a 0.40 command (sim pass only). No flight phase. The 0.088 m/s old policy is superseded. Bench stall is BLOCKER. Pack peak 15.6 A is a watch item. |
@@ -258,7 +258,7 @@ Current duck, 2026-11-12 9:41 PM ET. Pack is three P45B cells and the 12 V STS32
 - Pass: one command runs a full pack, the run C policy in MuJoCo, the power path, the thermal twin at 0.1 s with the 55/45 rest, a camera dock, and a BQ24133 charge, and every physical number comes from twin/parts.yaml.
 - Status: FAIL.
 - Gate: partial.
-- Result: 2026-11-14, `make twin`, 2.00 minutes, sim pass only (twin/out/REPORT.md). It walked, no fall, body speed 0.123 m/s, path 17.29 m. Pack mean 12.16 V, minimum 11.87 V, mean current 5.02 A, peak 9.69 A. Nameplate left 96.3 percent, 167 mAh used. Walk cutoff 10.0 V was not reached (cited, bench/battery_guard.py). Right knee reading 55.0 C. The heat model walked 56 percent of the run and then held the torque-off rest. Regulator efficiency used is 0.94, the low end of the cited band. The existing nest sim sat one mechanical trial at 7.2 V on the stock policy. Camera finding is BLOCKER. Charge at 1.006 A would replace the used charge in 0.17 h if the NTC stays open (calc only). D61 was not edited.
+- Result: 2026-11-14, `make twin`, 45.00 minutes, sim pass only (twin/out/REPORT.md). One rest at 55 C, then the policy stands with the motors still on. Walking was 2 percent of the bins. Path over the whole clock 16.17 m, end point 1.48 m from the start. Pack minimum 11.78 V, so the 10.0 V cutoff was not reached (cited). Nameplate left 74.5 percent. Peak pack current 12.31 A on this 0.20 m/s circuit. The 15.837 A in eval_table_bec12.md is the 0.40 m/s piece of a speed sequence on the old dropout model. Knee reading 62.4 C. A zero-gain rest tips this walk model, and the knee range is only 90 deg, so the 147 deg sit does not fit. The nest sim sat once on run C at 12 V. Camera finding is BLOCKER. Charge at 1.006 A would replace the used charge in 1.14 h (calc only). Whole-duck mass in the parts file is 2.8078 kg from the CAD mass model. Joint limits are copied from software/servo_limits.json. D61 was not edited.
 - Guess: the one-minute knee is still a model output. The C018 winding split is not a measured resistance. The Pi has no pack-voltage sensor, so the 10 V stop cannot yet be read on the duck.
 - Next: do not call this a hardware dock or a hardware heat time. A camera model, or a logged servo, is what would move this row.
 

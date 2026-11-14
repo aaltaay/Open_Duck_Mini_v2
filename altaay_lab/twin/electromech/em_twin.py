@@ -129,7 +129,8 @@ def sampled_frac(v, dt, period=0.02, thr=6.0):
 def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net", corner="typical", extra=None,
         cell="p30b", q0=0.0, vcell=3.7, compress=1.0, servo_mode="bam", seed=None, guard="shadow", t_stats=4.0,
         keep_full=True, bin_s=0.1, stop_q=None, stop_on_fall=False, fixed_v=7.4, cell_mode="steady", label="",
-        full_windows=None, progress=0.0, pushes=None):
+        full_windows=None, progress=0.0, pushes=None, command_fn=None, on_bin=None, sit_ctrl=None, sit_deg=None,
+        sit_path_deg=None, pack_floor=False):
     """one walk. supply: "stock" (trained actuators, no supply effect), "fixed" (every servo at fixed_v volts),
     "net" (the power network). cell: "p30b" (charge q0 mAh, advanced by the pack current x compress) or "lab"
     (OCV vcell per cell with the corner's Rc, as sim/power_path_sim.py). Returns a result dict; full traces in it."""
@@ -151,6 +152,20 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
     names = list(m.actuator_names)
     perm = np.array([names.index(n) for n in NAMES])       # model actuator index of each NAMES entry
     bank = SV.ServoBank(model, mode=servo_mode)
+    def _pose(deg):
+        ctrl = np.array(m.default_actuator, float).copy()
+        for i, n in enumerate(m.actuator_names):
+            if n in deg:
+                ctrl[i] = np.deg2rad(float(deg[n]))
+        return np.clip(ctrl, bank.ctrlrange[:, 0], bank.ctrlrange[:, 1])
+
+    sit_path = []
+    if sit_path_deg:
+        sit_path = [(float(dur), _pose(deg)) for dur, deg in sit_path_deg]
+        sit_ctrl = sit_path[-1][1]
+    elif sit_deg:
+        sit_ctrl = _pose(sit_deg)
+        sit_path = [(2.5, sit_ctrl)]
     fb = m._floating_base_qpos_addr
     qv = m.actuator_qvel_addr
     dt = m.sim_dt
@@ -181,6 +196,9 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
             WIN[(a, b)] = dict(t=[], V=[], Isup=[], Im=[], F=[], w=[], pack=[])
     blk = {k: [] for k in ("V", "Vmin", "Isup", "Im2", "Pel", "absF", "sat", "w2", "vp", "ip", "vb", "vo", "io")}
     log, falls, fallen, counter = [], [], False, 0
+    # walk, sit (ramp into the sit pose), off (torque off), rise (hand the joints back to the policy)
+    phase, phase_t0, sit_from, n_rests = "walk", 0.0, None, 0
+    phases = []
     # stock replay pairs (as sim/current_budget.py: F after the step, W after the step)
     Ftr = np.zeros((nsteps, 14), np.float32) if supply == "stock" else None
     Wtr = np.zeros((nsteps, 14), np.float32) if supply == "stock" else None
@@ -263,6 +281,20 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
             Rm = np.zeros(9); mujoco.mju_quat2Mat(Rm, quat)
             BINP["x"][j], BINP["y"][j], BINP["z"][j] = pos
             BINP["yaw"][j] = np.arctan2(Rm[3], Rm[0]); BINP["fallen"][j] = float(fallen)
+            phases.append(phase)
+            if on_bin is not None:
+                decision = on_bin(dict(
+                    t=float(t), phase=phase,
+                    im=BIN["Im_rms"][j].copy(), v=BIN["V_mean"][j].copy(),
+                    i_pack=float(BINP["i_pack_mean"][j]), v_pack=float(BINP["v_pack_mean"][j]),
+                    i_bec=float(BINP["i_bec_out_mean"][j]), v_bec=float(BINP["v_bec_out_mean"][j]),
+                ))
+                if decision == "rest" and phase == "walk":
+                    phase, phase_t0, n_rests = "stand", t, n_rests + 1
+                    sit_from = data.ctrl.copy()
+                elif decision == "walk" and phase in ("hold", "off"):
+                    phase, phase_t0 = "rise", t
+                    sit_from = data.ctrl.copy()
             for kk in blk:
                 blk[kk].clear()
         if k >= k0:
@@ -272,32 +304,59 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
             if y is not None:
                 acc["pk_i"].append(ipk); acc["bus"].append(vb); acc["vout"].append(vo); acc["vbin"].append(vbin); acc["pk_v"].append(vp)
         if gd is not None and gd.due(t):
-            ev = gd.feed(t, V, pack_v=vp if y is not None else None)
+            ev = gd.feed(t, V, pack_v=(vp if y is not None else None) if pack_floor else None)
             if guard == "act" and gd.g.state == BG.HARD_STOPPED and stopped is None:
                 stopped = ("guard hard stop", round(t, 2))
-            if guard == "act" and stopped is None:
+            if pack_floor and guard == "act" and stopped is None:
                 for e in ev or []:
                     if e.get("event") == "walk_stop" and str(e.get("reason", "")).startswith("pack under"):
                         stopped = ("pack walk cutoff", round(t, 2))
         if counter % m.decimation == 0:
-            m.commands = sched(t)
-            if guard == "act" and gd is not None and gd.g.state in (BG.STOPPING, BG.STANDING):
-                m.commands = [0.0] * 7
-            m.imitation_i += 1.0 * m.phase_frequency_factor
-            m.imitation_i = m.imitation_i % m.PRM.nb_steps_in_period
-            ph = m.imitation_i / m.PRM.nb_steps_in_period * 2 * np.pi
-            m.imitation_phase = np.array([np.cos(ph), np.sin(ph)])
-            obs = m.get_obs(data, m.commands)
-            action = m.policy.infer(obs)
-            m.last_last_last_action = m.last_last_action.copy()
-            m.last_last_action = m.last_action.copy()
-            m.last_action = action.copy()
-            m.motor_targets = m.default_actuator + action * m.action_scale
-            if MI.USE_MOTOR_SPEED_LIMITS:
-                m.motor_targets = np.clip(m.motor_targets, m.prev_motor_targets - m.max_motor_velocity * (m.sim_dt * m.decimation),
-                                          m.prev_motor_targets + m.max_motor_velocity * (m.sim_dt * m.decimation))
-                m.prev_motor_targets = m.motor_targets.copy()
-            data.ctrl = m.motor_targets.copy()
+            if phase in ("walk", "stand"):
+                if phase == "stand":
+                    m.commands = [0.0] * 7
+                else:
+                    m.commands = command_fn(t, data, m) if command_fn is not None else sched(t)
+                if guard == "act" and gd is not None and gd.g.state in (BG.STOPPING, BG.STANDING):
+                    m.commands = [0.0] * 7
+                m.imitation_i += 1.0 * m.phase_frequency_factor
+                m.imitation_i = m.imitation_i % m.PRM.nb_steps_in_period
+                ph = m.imitation_i / m.PRM.nb_steps_in_period * 2 * np.pi
+                m.imitation_phase = np.array([np.cos(ph), np.sin(ph)])
+                obs = m.get_obs(data, m.commands)
+                action = m.policy.infer(obs)
+                m.last_last_last_action = m.last_last_action.copy()
+                m.last_last_action = m.last_action.copy()
+                m.last_action = action.copy()
+                m.motor_targets = m.default_actuator + action * m.action_scale
+                if MI.USE_MOTOR_SPEED_LIMITS:
+                    m.motor_targets = np.clip(m.motor_targets, m.prev_motor_targets - m.max_motor_velocity * (m.sim_dt * m.decimation),
+                                              m.prev_motor_targets + m.max_motor_velocity * (m.sim_dt * m.decimation))
+                    m.prev_motor_targets = m.motor_targets.copy()
+                data.ctrl = m.motor_targets.copy()
+            elif phase == "sit" and sit_path and sit_from is not None:
+                elapsed = t - phase_t0
+                prev = sit_from
+                tally = 0.0
+                placed = False
+                for dur, ctrl in sit_path:
+                    if elapsed <= tally + dur:
+                        alpha = 0.0 if dur <= 0 else min(1.0, (elapsed - tally) / dur)
+                        data.ctrl = (1.0 - alpha) * prev + alpha * ctrl
+                        placed = True
+                        break
+                    prev = ctrl
+                    tally += dur
+                if not placed:
+                    data.ctrl = sit_path[-1][1]
+                    phase = "off"
+            elif phase == "hold" and sit_path:
+                data.ctrl = sit_path[-1][1]
+            elif phase == "rise" and sit_from is not None:
+                alpha = min(1.0, (t - phase_t0) / 2.0)
+                data.ctrl = (1.0 - alpha) * sit_from + alpha * m.default_actuator
+                if alpha >= 1.0:
+                    phase = "walk"
             pos = data.qpos[fb:fb + 3].copy(); quat = data.qpos[fb + 3:fb + 7].copy()
             Rm = np.zeros(9); mujoco.mju_quat2Mat(Rm, quat); Rm = Rm.reshape(3, 3); upz = Rm[2, 2]
             if (pos[2] < 0.10 or upz < 0.5) and not fallen:
@@ -320,7 +379,8 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
     L = np.array(log)
     res = dict(label=label, mass=mass, walk=walk, cmd=list(cmd), dur_s=round(nsteps * dt, 3), supply=supply, corner=corner, extra=extra or {},
                cell=cell, cell_mode=cell_mode, q0_mAh=round(q0, 1), q_end_mAh=round(q, 1), vcell=vcell, compress=compress, servo_mode=servo_mode,
-               seed=seed, falls=[f for f in falls if f > 1.0], stopped=stopped, wall_s=round(wall, 1), dt=dt, names=NAMES, servo_ids=SID)
+               seed=seed, falls=[f for f in falls if f > 1.0], stopped=stopped, wall_s=round(wall, 1), dt=dt, names=NAMES, servo_ids=SID,
+               rests=n_rests, phase_end=phase)
     if net is not None:
         it = np.array(net.iters)
         res["solver_iterations"] = dict(mean=round(float(it.mean()), 2), max=int(it.max()), p99=float(np.percentile(it, 99)))
