@@ -1,6 +1,6 @@
 # TWIN CHECKLIST: gate 0
 
-Written 2026-11-11 ET. Updated 2026-11-12 ET after PRs 34 to 43 merged, again the same day for the structure row (history/2026-11-12_0906_shin_eye_margin.md), and again the same day after PRs 45 to 66 were read. Merged and open are named in the rows. The pass line of each row is unchanged. The wording before this pass is in history/2026-11-12_1920_twin_checklist_before_prs_45_66.md.
+Written 2026-11-11 ET. Updated 2026-11-12 ET after PRs 34 to 43 merged, again the same day for the structure row (history/2026-11-12_0906_shin_eye_margin.md), and again the same day after PRs 45 to 66 were read. Updated 2026-11-14 for the one-command twin. The wording before that row is in history/2026-11-14_one_twin_before.md. Merged and open are named in the rows. The pass line of each older row is unchanged.
 
 Gate 0 passes only when every row below is PASS and the rows describe one duck. A sim pass only, a calc only,
 or a CAD check only result is evidence. It is not a PASS of the row. An FEA pass only result is the same kind of evidence.
@@ -31,6 +31,7 @@ Current duck, 2026-11-12 9:41 PM ET. Pack is three P45B cells and the 12 V STS32
 
 | Twin | Status | Gate | In one line |
 |---|---|---|---|
+| One command | FAIL | partial | `make twin` walks 2.00 min at 0.123 m/s, right knee 55.0 C, pack still above 10.0 V (sim pass only, twin/out/REPORT.md). Camera dock is BLOCKER. |
 | Structure | FAIL | BLOCKER | The recessed web in PA6-CF clears the margins in FEA and is not in print/. Hot, wet, and the printer are BLOCKER. |
 | Thermal | FAIL | partial | The 2.30 W and 3.50 W sit was re-run. Cells and the trunk wall stay inside their cited windows. The die on the cited board crosses 110 C. A continuous walk still leaves 60 C. |
 | Electromechanical | FAIL | BLOCKER | Run C walks 60 s, no fall, up to 0.252 m/s typical at a 0.40 command (sim pass only). No flight phase. The 0.088 m/s old policy is superseded. Bench stall is BLOCKER. Pack peak 15.6 A is a watch item. |
@@ -46,7 +47,7 @@ Current duck, 2026-11-12 9:41 PM ET. Pack is three P45B cells and the 12 V STS32
 | Felt and cloth | GAP | BLOCKER | No felt grade. The charge note does not name one. Sole friction is BLOCKER. |
 | Pin contact | NOT RUN | BLOCKER | Nest v2 uses gold wells, not the spring pins. Well resistance was not measured. |
 | Servo angle limits vs CAD | FAIL | partial | Sit stops are in the limit file. The old sim ranges still do not match the printed contacts. |
-| One-click bill vs the twin | FAIL | BLOCKER | Buy-today total is $1204.26 (calc only). Per-duck parts are $957.75 (calc only). Felt, wells, and the gate board are still BLOCKER. |
+| One-click bill vs the twin | FAIL | BLOCKER | The parts file matches the netlist and the order on the regulator, the cells, the fuse, the breakers, and the protection board. Dollar totals stay in the summary. Felt, wells, and the weld are still BLOCKER. |
 | Lights | GAP | partial | Two beads were opened and do not close line E3. There is no light model. |
 | Field of view | FAIL | partial | The cone is on the seat. The recorded sit sees none of the cloth. PR 45 starts the blind walk from that miss. A person is not in the file. |
 | Communications | FAIL | partial | The link table exists. Several latencies are unpublished. Nothing in that table was measured on a Pi. |
@@ -252,9 +253,18 @@ Current duck, 2026-11-12 9:41 PM ET. Pack is three P45B cells and the 12 V STS32
 - Guess: how many GPU hours a real retrain takes. A published note for the upstream 150 to 300 million step command says 1.5 to 3 hours on an RTX 4090 (cited). That note is not a lab log. See COMPLETE_DUCK_AUDIT.md.
 - Next: do not start a paid run from this row. The scope is in COMPLETE_DUCK_AUDIT.md and needs an OK before any GPU is rented. Do not count the nest v3 stock-policy sim as that training.
 
+## One command (twin/run_twin.py)
+
+- Pass: one command runs a full pack, the run C policy in MuJoCo, the power path, the thermal twin at 0.1 s with the 55/45 rest, a camera dock, and a BQ24133 charge, and every physical number comes from twin/parts.yaml.
+- Status: FAIL.
+- Gate: partial.
+- Result: 2026-11-14, `make twin`, 2.00 minutes, sim pass only (twin/out/REPORT.md). It walked, no fall, body speed 0.123 m/s, path 17.29 m. Pack mean 12.16 V, minimum 11.87 V, mean current 5.02 A, peak 9.69 A. Nameplate left 96.3 percent, 167 mAh used. Walk cutoff 10.0 V was not reached (cited, bench/battery_guard.py). Right knee reading 55.0 C. The heat model walked 56 percent of the run and then held the torque-off rest. Regulator efficiency used is 0.94, the low end of the cited band. The existing nest sim sat one mechanical trial at 7.2 V on the stock policy. Camera finding is BLOCKER. Charge at 1.006 A would replace the used charge in 0.17 h if the NTC stays open (calc only). D61 was not edited.
+- Guess: the one-minute knee is still a model output. The C018 winding split is not a measured resistance. The Pi has no pack-voltage sensor, so the 10 V stop cannot yet be read on the duck.
+- Next: do not call this a hardware dock or a hardware heat time. A camera model, or a logged servo, is what would move this row.
+
 ## What blocks gate 0, in order
 
-1. There is no single model. The print set, the netlist, and the viewer are the walking duck. Nest v2 (D62) is the approved nest and is not in that model. D61 was not edited. The BQ24133 board has no seat. Until those are one duck, gate 0 cannot pass.
+1. One command now chains the walk, the power path, the heat, and a charge estimate (twin/out/REPORT.md). The camera dock is still BLOCKER. Nest v2 is not in the print set. D61 was not edited. The BQ24133 board has no seat in the walking model. Gate 0 cannot pass.
 2. The bill does not match that duck. Buy-today total is $1204.26 (calc only). Per-duck parts are $957.75 (calc only). Felt, the wells, the gate board, and the weld have no orderable part (BLOCKER). The 12 V servo is on the order line.
 3. The camera finder, the felt grade, and a measured well contact are not models. The nest sims, including v3 and the blind walk, are a pose stand-in on a rigid mat. Do not quote 380 of 540 as a charge rate. That cannot stand in for gate 0.
 4. A continuous walk still leaves the 60 C operating range (KNEE_HEAT_STUDY.md, calc only and sim pass only). The 2.30 W and 3.50 W sit is the MCP73213 2S record (CHARGE_WATTS.md, sim pass only). The 3S die figures are upper bounds (BQ24133_HEAT.md). The die in the trunk is BLOCKER. The 55 C guard is a software stop in unit tests. The 3S BEC case temperature was not run (BLOCKER).

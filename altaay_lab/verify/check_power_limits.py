@@ -406,6 +406,12 @@ def tree_report():
     rep.blocker.extend(judged.blocker)
     if nest_2s:
         rep.add_open("2S nest in %s is %.1f V (D61, not edited). The 3S nest is the other NEST_V / V_NEST literals." % (nest_2s[0][0], nest_2s[0][1]))
+    # The one twin loads twin/parts.yaml. That file has to match this netlist,
+    # part_limits.yaml, and the order, and stay inside the cited limits.
+    sys.path.insert(0, os.path.abspath(os.path.join(LAB, "..")))
+    from altaay_lab.twin import parts_truth as PT
+    for row in PT.check():
+        rep.add_fail("twin parts: %s" % row)
     return rep, dict(becs=becs, drops=drops, nests=nests, pack=pack, servo=servo, u3=sp["u3_in"], pack_domain=sp["bec_in"])
 
 

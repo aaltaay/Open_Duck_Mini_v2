@@ -103,9 +103,10 @@ class Guard:
     def due(self, t):
         return t >= self.next_t
 
-    def feed(self, t, V):
+    def feed(self, t, V, pack_v=None):
         volts = {sid: BG.quantize(float(v)) for sid, v in zip(SID, V)}
-        ev = self.g.update(t, volts)
+        # pack_v is the pack terminal. battery_guard stops the walk under its pack floor.
+        ev = self.g.update(t, volts, pack_v=pack_v)
         self.medians.append((round(t, 3), self.g.last_median))
         for e in ev:
             self.events.append(e)
@@ -271,9 +272,13 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
             if y is not None:
                 acc["pk_i"].append(ipk); acc["bus"].append(vb); acc["vout"].append(vo); acc["vbin"].append(vbin); acc["pk_v"].append(vp)
         if gd is not None and gd.due(t):
-            gd.feed(t, V)
+            ev = gd.feed(t, V, pack_v=vp if y is not None else None)
             if guard == "act" and gd.g.state == BG.HARD_STOPPED and stopped is None:
                 stopped = ("guard hard stop", round(t, 2))
+            if guard == "act" and stopped is None:
+                for e in ev or []:
+                    if e.get("event") == "walk_stop" and str(e.get("reason", "")).startswith("pack under"):
+                        stopped = ("pack walk cutoff", round(t, 2))
         if counter % m.decimation == 0:
             m.commands = sched(t)
             if guard == "act" and gd is not None and gd.g.state in (BG.STOPPING, BG.STANDING):
