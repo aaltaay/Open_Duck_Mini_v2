@@ -1,6 +1,6 @@
 # TWIN CHECKLIST: gate 0
 
-Written 2026-11-11 ET. Updated 2026-11-12 ET after PRs 34 to 43 merged, again the same day for the structure row (history/2026-11-12_0906_shin_eye_margin.md), and again the same day after PRs 45 to 66 were read. Merged and open are named in the rows. The pass line of each row is unchanged. The wording before this pass is in history/2026-11-12_1920_twin_checklist_before_prs_45_66.md.
+Written 2026-11-11 ET. Updated 2026-11-12 ET after PRs 34 to 43 merged, again the same day for the structure row (history/2026-11-12_0906_shin_eye_margin.md), and again the same day after PRs 45 to 66 were read. Updated 2026-11-14 for the one-command twin. The wording before that row is in history/2026-11-14_one_twin_before.md. Merged and open are named in the rows. The pass line of each older row is unchanged.
 
 Gate 0 passes only when every row below is PASS and the rows describe one duck. A sim pass only, a calc only,
 or a CAD check only result is evidence. It is not a PASS of the row. An FEA pass only result is the same kind of evidence.
@@ -31,6 +31,7 @@ Current duck, 2026-11-12 9:41 PM ET. Pack is three P45B cells and the 12 V STS32
 
 | Twin | Status | Gate | In one line |
 |---|---|---|---|
+| One command | FAIL | partial | `make twin` runs 45 min, one 55 C rest, then a powered stand. Pack stays above 10 V. Camera dock is BLOCKER. |
 | Structure | FAIL | BLOCKER | The recessed web in PA6-CF clears the margins in FEA and is not in print/. Hot, wet, and the printer are BLOCKER. |
 | Thermal | FAIL | partial | The 2.30 W and 3.50 W sit was re-run. Cells and the trunk wall stay inside their cited windows. The die on the cited board crosses 110 C. A continuous walk still leaves 60 C. |
 | Electromechanical | FAIL | BLOCKER | Run C walks 60 s, no fall, up to 0.252 m/s typical at a 0.40 command (sim pass only). No flight phase. The 0.088 m/s old policy is superseded. Bench stall is BLOCKER. Pack peak 15.6 A is a watch item. |
@@ -46,7 +47,7 @@ Current duck, 2026-11-12 9:41 PM ET. Pack is three P45B cells and the 12 V STS32
 | Felt and cloth | GAP | BLOCKER | No felt grade. The charge note does not name one. Sole friction is BLOCKER. |
 | Pin contact | NOT RUN | BLOCKER | Nest v2 uses gold wells, not the spring pins. Well resistance was not measured. |
 | Servo angle limits vs CAD | FAIL | partial | Sit stops are in the limit file. The old sim ranges still do not match the printed contacts. |
-| One-click bill vs the twin | FAIL | BLOCKER | Buy-today total is $1204.26 (calc only). Per-duck parts are $957.75 (calc only). Felt, wells, and the gate board are still BLOCKER. |
+| One-click bill vs the twin | FAIL | BLOCKER | The parts file matches the netlist and the order on the regulator, the cells, the fuse, the breakers, and the protection board. Dollar totals stay in the summary. Felt, wells, and the weld are still BLOCKER. |
 | Lights | GAP | partial | Two beads were opened and do not close line E3. There is no light model. |
 | Field of view | FAIL | partial | The cone is on the seat. The recorded sit sees none of the cloth. PR 45 starts the blind walk from that miss. A person is not in the file. |
 | Communications | FAIL | partial | The link table exists. Several latencies are unpublished. Nothing in that table was measured on a Pi. |
@@ -252,14 +253,23 @@ Current duck, 2026-11-12 9:41 PM ET. Pack is three P45B cells and the 12 V STS32
 - Guess: how many GPU hours a real retrain takes. A published note for the upstream 150 to 300 million step command says 1.5 to 3 hours on an RTX 4090 (cited). That note is not a lab log. See COMPLETE_DUCK_AUDIT.md.
 - Next: do not start a paid run from this row. The scope is in COMPLETE_DUCK_AUDIT.md and needs an OK before any GPU is rented. Do not count the nest v3 stock-policy sim as that training.
 
+## One command (twin/run_twin.py)
+
+- Pass: one command runs a full pack, the run C policy in MuJoCo, the power path, the thermal twin at 0.1 s with the 55/45 rest, a camera dock, and a BQ24133 charge, and every physical number comes from twin/parts.yaml.
+- Status: FAIL.
+- Gate: partial.
+- Result: 2026-11-14, `make twin`, 45.00 minutes, sim pass only (twin/out/REPORT.md). One rest at 55 C, then the policy stands with the motors still on. Walking was 3 percent of the bins. Path over the whole clock 10.85 m, end point 1.51 m from the start. Pack minimum 11.80 V, so the 10.0 V cutoff was not reached (cited). Nameplate left 78.0 percent. Peak pack current 12.66 A on this 0.20 m/s circuit. The 15.837 A in eval_table_bec12.md is the 0.40 m/s piece of a speed sequence on the old dropout model. Knee reading 55.1 C. A zero-gain rest tips this walk model, and the knee range is only 90 deg, so the 147 deg sit does not fit. The nest sim sat once on run C at 12 V. Camera finding is BLOCKER. Charge at 1.006 A would replace the used charge in 0.98 h (calc only). MuJoCo loads 2.9491 kg and the parts rollup is the same number. That rollup has three P45B cells, the i7C at 75 g, the 3S protection board, the BQ24133 board, and three limb breakers. Joint limits are copied from software/servo_limits.json. D61 was not edited.
+- Guess: the one-minute knee is still a model output. The C018 winding split is not a measured resistance. The Pi has no pack-voltage sensor, so the 10 V stop cannot yet be read on the duck.
+- Next: do not call this a hardware dock or a hardware heat time. A camera model, or a logged servo, is what would move this row.
+
 ## What blocks gate 0, in order
 
-1. There is no single model. The print set, the netlist, and the viewer are the walking duck. Nest v2 (D62) is the approved nest and is not in that model. D61 was not edited. The BQ24133 board has no seat. Until those are one duck, gate 0 cannot pass.
+1. One command now chains the walk, the power path, the heat, and a charge estimate (twin/out/REPORT.md). The camera dock is still BLOCKER. Nest v2 is not in the print set. D61 was not edited. The BQ24133 board sits on the old charger mesh. Its assembled mass is not on a datasheet. Gate 0 cannot pass.
 2. The bill does not match that duck. Buy-today total is $1204.26 (calc only). Per-duck parts are $957.75 (calc only). Felt, the wells, the gate board, and the weld have no orderable part (BLOCKER). The 12 V servo is on the order line.
 3. The camera finder, the felt grade, and a measured well contact are not models. The nest sims, including v3 and the blind walk, are a pose stand-in on a rigid mat. Do not quote 380 of 540 as a charge rate. That cannot stand in for gate 0.
 4. A continuous walk still leaves the 60 C operating range (KNEE_HEAT_STUDY.md, calc only and sim pass only). The 2.30 W and 3.50 W sit is the MCP73213 2S record (CHARGE_WATTS.md, sim pass only). The 3S die figures are upper bounds (BQ24133_HEAT.md). The die in the trunk is BLOCKER. The 55 C guard is a software stop in unit tests. The 3S BEC case temperature was not run (BLOCKER).
 5. ~~With the sheet stall the walk falls.~~ ~~On 3S the old policy does not fall in 60 s at about 0.088 m/s (sim pass only, problems/FIT3.md).~~ Superseded 2026-11-12 9:55 PM ET by run C: 60 s, no fall, up to 0.252 m/s typical at a 0.40 m/s command (sim pass only). Not a run. The electrical fall and get-up replay traces are not in this repo (BLOCKER).
-6. The welded pack has no part number (BLOCKER). The cell count on the bill is 3. The 3S blister fit is problems/FIT3.md (CAD check only). The BQ24133 drawing exists and has no seat.
+6. The welded pack has no part number (BLOCKER). The cell count on the bill is 3. The 3S blister fit is problems/FIT3.md (CAD check only). The BQ24133 drawing sits on the old charger mesh. Assembled mass is not on a datasheet.
 7. Structure stays under the lab margin on the print that would be made. The recessed web in PA6-CF is walk 2.85 and soft worst 1.61 at 0.75 mm (FEA pass only) and is not in print/. Hot and wet tensile are BLOCKER.
 8. Fitted screws are 310 and builder-turned screws are 254 (CAD check only). print/ was not edited. Under 200 is not met. Nest v2 is not in that schedule.
 9. Get-up misses 48 down-ramp front rests (sim pass only). Limp-seat friction on the docked rail is BLOCKER (twin/sit/RAIL_OFF_SIT.md). The STS3250 knee study is superseded as the servo to buy.

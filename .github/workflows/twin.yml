@@ -1,0 +1,28 @@
+# Short run of the one digital twin on every pull request into altaay-lab.
+name: twin
+
+on:
+  pull_request:
+    branches: [altaay-lab]
+
+jobs:
+  short:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install the CPU sim
+        run: pip install pyyaml numpy matplotlib mujoco onnxruntime etils yourdfpy
+      - name: playground pin b9be205
+        run: |
+          git clone --filter=blob:none https://github.com/apirrone/Open_Duck_Playground.git "$RUNNER_TEMP/pg"
+          git -C "$RUNNER_TEMP/pg" fetch --depth 1 origin b9be205ac64488c23504ca42e5ec790337adeec3
+          git -C "$RUNNER_TEMP/pg" checkout b9be205ac64488c23504ca42e5ec790337adeec3
+      - name: parts file matches the netlist and the order
+        run: python3 altaay_lab/verify/check_power_limits.py
+      - name: short twin
+        env:
+          ODM_PLAYGROUND: ${{ runner.temp }}/pg
+        run: python3 -m altaay_lab.twin.run_twin --short --out "$RUNNER_TEMP/twin-out"
