@@ -126,6 +126,29 @@ def sampled_frac(v, dt, period=0.02, thr=6.0):
 
 
 # ---------------------------------------------------------------------------------------------------------------
+def _overcurrent(pk, sane, dt):
+    """Time the pack current spends above the 15 A rating, the 110 percent hold, and the 135 percent open row.
+
+    ATOF 15 A, cited in problems/KNEE_HEAT_CHAFE.md: 110 percent holds for at least 360000 s.
+    135 percent opens between 0.75 s and 600 s. Samples outside 8 V to 13.2 V are not counted.
+    """
+    out = {}
+    for key, level in (("a15", 15.0), ("a110", 16.5), ("a135", 20.25)):
+        mask = sane & (pk >= level)
+        if not np.any(mask):
+            out["t_%s_s" % key] = 0.0
+            out["longest_%s_s" % key] = 0.0
+            continue
+        padded = np.concatenate([[False], mask, [False]])
+        edges = np.diff(padded.astype(np.int8))
+        starts = np.flatnonzero(edges == 1)
+        ends = np.flatnonzero(edges == -1)
+        lengths = (ends - starts).astype(float) * float(dt)
+        out["t_%s_s" % key] = round(float(lengths.sum()), 4)
+        out["longest_%s_s" % key] = round(float(lengths.max()), 4)
+    return out
+
+
 def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net", corner="typical", extra=None,
         cell="p30b", q0=0.0, vcell=3.7, compress=1.0, servo_mode="bam", seed=None, guard="shadow", t_stats=4.0,
         keep_full=True, bin_s=0.1, stop_q=None, stop_on_fall=False, fixed_v=7.4, cell_mode="steady", label="",
@@ -444,6 +467,7 @@ def run(mass="ours", walk="backlash", cmd=CMD["forward"], dur=30.0, supply="net"
                            i_max_raw=round(float(pk.max()), 3),
                            v_min_raw=round(float(vk.min()), 3),
                            n_solver_spike=int((~sane).sum()),
+                           **_overcurrent(pk, sane, dt),
                            i_max_100ms=round(float(c100.max()), 3),
                            v_term_mean=round(float(vk[sane].mean()) if sane.any() else float(vk.mean()), 3),
                            v_term_min=round(float(vk[sane].min()) if sane.any() else float(vk.min()), 3),

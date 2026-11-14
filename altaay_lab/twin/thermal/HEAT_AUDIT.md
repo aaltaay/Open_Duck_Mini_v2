@@ -35,7 +35,7 @@ Robo9, Feetech STS3215 C018, 12 V, 1:345: a 1 kg mass on a 15 cm arm held sidewa
 
 The C018 performance table puts 15 kg.cm at 1450 mA (cited). Copper at the printed 1.0 ohm is 1.45 squared times 1.0 = 2.10 W (calc only). The chart rises 23 K and stops. Implied case-to-ambient is 23 / 2.10 = 11.0 K/W (calc only, taking the chart's first point as the room). The thermal twin's bare-case convection and radiation on the measured 6690 mm2 case is 11.2 to 11.6 K/W (THERMAL_TWIN.md, sim pass only for that physics). The printed 1.0 ohm and that case-to-ambient describe the same plateau.
 
-Copper at 1.5 A and 1.0 ohm is 2.25 W (calc only). At 11 K/W the steady rise is about 25 K, so the case levels off near 50 C in a 25 C room. It does not reach 55 C. The same current at 4.444 ohm is 10.0 W (calc only) and the steady rise is about 110 K. That is the one-minute clock.
+Copper at 1.5 A and 1.0 ohm is 2.25 W (calc only). At 11 K/W, with the copper held at its cold resistance and the sensor on the case, the case levels off near 50 C in a 25 C room. That 50 C is the case, not the sensor reading the twin guards on. In the twin the winding runs hotter than the case, the sensor takes a tenth of that gap, and the copper resistance rises as it heats. Held near 1.5 A the reading levels off near 59 C and crosses 55 C on the way (sim pass only). The one-minute clock is still the wrong resistance: the same current at 4.444 ohm is 10.0 W (calc only) and the steady rise is about 110 K.
 
 55 C in about one minute at about 1.5 A RMS is not a credible hardware time. It is what the stall-line resistance produces when it is used as copper resistance. The published hold at the same current stops at 48 C.
 

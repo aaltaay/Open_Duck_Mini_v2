@@ -100,6 +100,33 @@ def ntc_allows(temp_c, parts):
     return hot < frac < cold, frac
 
 
+def ntc_hot_c(parts):
+    """Temperature where the divider fraction equals the hot stop. Calc only."""
+    target = float(parts["ntc"]["stop_hot_frac"])
+    lo, hi = 20.0, 90.0
+    for _ in range(48):
+        mid = 0.5 * (lo + hi)
+        if ts_fraction(bead_ohm(mid, parts), parts) > target:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
+
+
+def knee_walk_rms(result, np):
+    im = np.asarray(result.get("_bins", {}).get("Im_rms"), float)
+    phases = list(result.get("phases") or [])
+    if im.ndim != 2 or len(phases) == 0:
+        return None
+    import twin_thermal as TT
+    k = TT.NAMES.index("right_knee")
+    n = min(len(im), len(phases))
+    sel = np.asarray([im[i, k] for i in range(n) if phases[i] == "walk"], float)
+    if len(sel) == 0:
+        return None
+    return float(np.sqrt(np.mean(sel * sel)))
+
+
 def bin_width(tbin):
     import numpy as np
     d = np.diff(np.asarray(tbin, float))
@@ -162,6 +189,12 @@ def walk(parts, seconds, scratch):
 
     c = dict(TT.CORNERS["central"])
     heat = TT.HeatWalk(c, 25.0, 0.1)
+    # The shared node is two 47 g 18650s. This pack is three P45B cells
+    # (70 g, 21.55 mm by 70.15 mm, THERMAL_TWIN.md, the P45B sheet).
+    # Half the can faces bay air. The trunk has no vent in this model.
+    cp = float(np.mean(TT.PARAMS["cp_cell"]))
+    heat.C_cells = 3.0 * 70.0 * cp
+    heat.A_cells = 3.0 * math.pi * 21.55 * 70.15 * 1e-6 * 0.5
     stop_c = float(parts["rest"]["stop_c"])
     resume_c = float(parts["rest"]["resume_c"])
     eta = float(parts["regulator"]["eff_used"])
@@ -303,13 +336,14 @@ def measure_rest(parts, scratch):
         return None
 
     rc = ET.run(
-        mass="ours", walk="backlash", cmd=(0.0, 0.0, 0.0), dur=3.5,
+        mass="ours", walk="backlash", cmd=(0.0, 0.0, 0.0), dur=9.0,
         supply="net", corner="typical", extra=extra,
         cell="p45b3", q0=0.0, servo_mode="sheet", guard=None,
         keep_full=False, bin_s=0.1, stop_on_fall=False, t_stats=0.0,
         label="crouch", progress=0.0,
         command_fn=lambda t, data, m: [0.0] * 7, on_bin=on_crouch,
-        sit_path_deg=[(6.0, crouch_pose)], knee_hi_deg=KNEE_SOFT_HI_DEG,
+        # 3 s stand, then a 1.5 s fold, then a hold of the same pose with the gains still on.
+        sit_path_deg=[(1.5, crouch_pose), (8.0, crouch_pose)], knee_hi_deg=KNEE_SOFT_HI_DEG,
     )
 
     def window(src, t0, t1):
@@ -318,7 +352,7 @@ def measure_rest(parts, scratch):
             return dict(i=None, q=None, im=None)
         im = np.array([row["im"] for row in sel], float)
         q = np.array([row["q"] for row in sel], float)
-        imv = np.mean([row["imv"] for row in sel], axis=0)
+        imv = np.sqrt(np.mean(np.square([row["imv"] for row in sel]), axis=0))
         return dict(i=float(np.sqrt(np.mean(im * im))), q=float(q[-1]), im=imv)
 
     off_rows = [row for row in rows if row["phase"] == "off"]
@@ -326,7 +360,7 @@ def measure_rest(parts, scratch):
         falls=list(r.get("falls") or []),
         phase_end=r.get("phase_end"),
         stance=window(rows, 0.4, 1.2),
-        crouch=window(crow, 2.4, 3.5),
+        crouch=window(crow, 6.2, 8.5),
         crouch_falls=list(rc.get("falls") or []),
         folded=window(rows, 5.8, 6.6),
         off=window(rows, 8.0, 11.0),
@@ -506,8 +540,10 @@ def limits_hit(parts, result, thermal, np):
     hits = []
     pack = result.get("pack") or {}
     i_max = pack.get("i_max")
-    if i_max is not None and i_max > float(parts["fuse"]["i_fuse_a"]) + 1e-9:
-        hits.append("pack current %.2f A crossed the %s A fuse" % (i_max, parts["fuse"]["i_fuse_a"]))
+    # 135 percent of 15 A is 20.25 A. The ATOF sheet requires an open only from that row,
+    # and the minimum there is 0.75 s. A shorter peak does not open the fuse.
+    if float(pack.get("longest_a135_s") or 0.0) >= 0.75:
+        hits.append("pack current stayed at or above 20.25 A for %.3f s, inside the 135 percent fuse window" % float(pack["longest_a135_s"]))
     if i_max is not None and i_max > float(parts["protection"]["i_work_a"]) + 1e-9:
         hits.append("pack current %.2f A crossed the %s A protection board" % (i_max, parts["protection"]["i_work_a"]))
     i_reg = None
@@ -614,6 +650,10 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
             spikes, float(pack.get("i_max_raw") or 0), float(pack.get("v_min_raw") or 0))
     a("Pack peak %.2f A is this 0.20 m/s room loop on the held 12.0 V rail, counting steps whose pack voltage stayed between 8 V and 13.2 V (sim pass only). The 15.837 A in eval_table_bec12.md is a different case: the 0.40 m/s piece of a speed sequence, and that table still drops the regulator by 0.3 V instead of holding 12.0 V. The same table's 0.15 m/s typical peak is 8.956 A. Both peaks are sim pass only. Neither was measured on a pack. %s" % (
         float(pack.get("i_max") or 0), spike_txt))
+    a("The 15 A ATOF holds at 110 percent (16.5 A) for at least 360000 s, and it is required to open only from 135 percent (20.25 A), in 0.75 s to 600 s (cited, problems/KNEE_HEAT_CHAFE.md, the Littelfuse 0287 sheet). Time at or above 15 A was %.3f s, longest run %.3f s. Time at or above 16.5 A was %.3f s, longest run %.3f s. Time at or above 20.25 A was %.3f s (sim pass only). The fuse does not open on this walk. The rating stays 15 A." % (
+        float(pack.get("t_a15_s") or 0), float(pack.get("longest_a15_s") or 0),
+        float(pack.get("t_a110_s") or 0), float(pack.get("longest_a110_s") or 0),
+        float(pack.get("t_a135_s") or 0)))
     a("Hottest reading was the %s at %.1f C (sim pass only). The limit on that reading is the %s." % (thermal["hot_name"].replace("_", " "), thermal["hot_c"], hot_limit))
     a("The 55 C rest is inside the walk. At 55 C the command goes to zero and the policy stands. Folding to the sit from a walk tips this model, so the session does not fold. It rested %d time%s. Upright walking is the figure in the table (sim pass only)." % (
         int(result.get("rests") or 0), "" if int(result.get("rests") or 0) == 1 else "s"))
@@ -622,10 +662,11 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
     else:
         sit_line = (
             "The rest check reached a right knee of %.0f deg, then torque off. "
-            "Stance current was %.2f A, the 20 deg crouch was %.2f A, and torque off was %.3f A (sim pass only)."
+            "Stance current was %.2f A. The crouch, measured after the knee had settled at %.0f deg, was %.2f A. Torque off was %.3f A (sim pass only)."
             % (
                 rest.get("knee_max") or 0,
                 rest["stance"]["i"] or 0,
+                rest["crouch"]["q"] or 0,
                 rest["crouch"]["i"] or 0,
                 rest["off"]["i"] or 0,
             )
@@ -636,16 +677,22 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
     stand_txt = "did not reach 45 C in 30 min" if cool_stand is None else "reached 45 C in %.2f min" % cool_stand
     a(sit_line + " From a 55 C start, torque off %s. The powered stand %s. Both clocks are sim pass only, on the cited 1.0 ohm." % (off_txt, stand_txt))
     a("Knee high stop used here is 147 deg, the register soft stop. The CAD bumper is 150 deg (software/servo_limits.json, CAD check only). The walk model was compiled at 90 deg, and this run raises that stop before the sit.")
+    krms = knee_walk_rms(result, np)
+    if krms is not None:
+        a("The 50 C figure in the heat audit is the case temperature for a flat 1.5 A if the copper stayed at its cold resistance and the sensor sat on the case. While this session was walking the right knee was %.2f A RMS (sim pass only), which is %.2f W in cold copper at 1.0 ohm (calc only). In the twin the winding runs hotter than the case, the sensor takes a tenth of that gap, and the copper resistance rises as it heats. Held at this current the reading levels off near 59 C and crosses 55 C on the way (sim pass only). The guard then stands the duck. The recorded peak is that 55 C stop. The knee rested %d times." % (
+            krms, krms * krms * R_TERM_OHM, int(result.get("rests") or 0)))
     if dock.get("ran"):
         a("Dock: %s The mechanical sim used the run C policy and a 12 V rail. It %s (sim pass only). The aim offset table has no 12 V row, so that offset stayed at the 7.2 V measurement. Finding the nest by camera was not simulated." % (
             dock["note"], "sat" if dock.get("seated_mechanical") else "did not sit"))
     else:
         a("Dock: %s The mechanical sim did not finish in this run (%s)." % (dock["note"], dock.get("error") or "not run"))
+    hot_ntc = ntc_hot_c(parts)
+    a("The cell node is three P45B cans, 70 g and 21.55 mm by 70.15 mm (cited, THERMAL_TWIN.md from the P45B sheet). Half of each can faces bay air. The trunk has no vent in this model, so the air exchange is the closed-bay assumption. Specific heat is the old 18650 range, a guess. An earlier 56.7 C figure used two 47 g 18650s for the same three-cell heat, which runs hot.")
     if charge["allows"]:
-        a("Charge: the NTC gate is open at a cell temperature of %.1f C (calc only, bead beta and the BQ24133 divider). Time to put the used %.0f mAh back at %.3f A is %.2f hours (calc only)." % (
-            charge["cell_c"], charge["q_mAh"], float(parts["charger"]["i_charge_a"]), charge["hours"] or 0))
+        a("Charge: the NTC gate is open at a cell temperature of %.1f C. The hot stop is %.1f C, where the divider fraction equals the cited 0.442 hot threshold (calc only, bead beta 3950 and the BQ24133 divider). The P45B charge limit is 60 C (cited). The gate does not hold off charge at the end of this discharge. Time to put the used %.0f mAh back at %.3f A is %.2f hours (calc only)." % (
+            charge["cell_c"], hot_ntc, charge["q_mAh"], float(parts["charger"]["i_charge_a"]), charge["hours"] or 0))
     else:
-        a("Charge: the NTC gate is shut at %.1f C (calc only). It does not charge." % charge["cell_c"])
+        a("Charge: the NTC gate is shut at %.1f C. The hot stop is %.1f C (calc only). It holds off charge until the bead cools through that stop. The P45B charge limit is 60 C (cited)." % (charge["cell_c"], hot_ntc))
     if hits:
         a("Limits this run touched: " + "; ".join(hits) + ".")
     else:

@@ -15,13 +15,16 @@ Battery at the end was 29.9 percent of the 4.50 Ah nameplate, 3154 mAh used (sim
 The pack hit the 10.0 V walk cutoff at 2527.6 s (sim pass only for the clock, cited for the cutoff).
 Pack voltage in the logged stats was 11.32 V mean and 10.00 V minimum (sim pass only).
 Pack peak 17.48 A is this 0.20 m/s room loop on the held 12.0 V rail, counting steps whose pack voltage stayed between 8 V and 13.2 V (sim pass only). The 15.837 A in eval_table_bec12.md is a different case: the 0.40 m/s piece of a speed sequence, and that table still drops the regulator by 0.3 V instead of holding 12.0 V. The same table's 0.15 m/s typical peak is 8.956 A. Both peaks are sim pass only. Neither was measured on a pack. No solver step left the 8 V to 13.2 V window.
+The 15 A ATOF holds at 110 percent (16.5 A) for at least 360000 s, and it is required to open only from 135 percent (20.25 A), in 0.75 s to 600 s (cited, problems/KNEE_HEAT_CHAFE.md, the Littelfuse 0287 sheet). Time at or above 15 A was 0.048 s, longest run 0.012 s. Time at or above 16.5 A was 0.006 s, longest run 0.006 s. Time at or above 20.25 A was 0.000 s (sim pass only). The fuse does not open on this walk. The rating stays 15 A.
 Hottest reading was the right knee at 55.0 C (sim pass only). The limit on that reading is the 60 C operating line on the servo page used by the thermal model, and the 55.0 C rest in the limits file.
 The 55 C rest is inside the walk. At 55 C the command goes to zero and the policy stands. Folding to the sit from a walk tips this model, so the session does not fold. It rested 3 times. Upright walking is the figure in the table (sim pass only).
-The rest check reached a right knee of 147 deg, then torque off. Stance current was 0.47 A, the 20 deg crouch was 0.42 A, and torque off was 0.000 A (sim pass only). From a 55 C start, torque off reached 45 C in 3.51 min. The powered stand reached 45 C in 4.11 min. Both clocks are sim pass only, on the cited 1.0 ohm.
+The rest check reached a right knee of 147 deg, then torque off. Stance current was 0.47 A. The crouch, measured after the knee had settled at 21 deg, was 0.28 A. Torque off was 0.000 A (sim pass only). From a 55 C start, torque off reached 45 C in 3.51 min. The powered stand reached 45 C in 4.27 min. Both clocks are sim pass only, on the cited 1.0 ohm.
 Knee high stop used here is 147 deg, the register soft stop. The CAD bumper is 150 deg (software/servo_limits.json, CAD check only). The walk model was compiled at 90 deg, and this run raises that stop before the sit.
+The 50 C figure in the heat audit is the case temperature for a flat 1.5 A if the copper stayed at its cold resistance and the sensor sat on the case. While this session was walking the right knee was 1.51 A RMS (sim pass only), which is 2.29 W in cold copper at 1.0 ohm (calc only). In the twin the winding runs hotter than the case, the sensor takes a tenth of that gap, and the copper resistance rises as it heats. Held at this current the reading levels off near 59 C and crosses 55 C on the way (sim pass only). The guard then stands the duck. The recorded peak is that 55 C stop. The knee rested 3 times.
 Dock: BLOCKER. The nest sim does not use a camera. It drives on the true pose plus noise. A seat in that sim is not a dock. The mechanical sim used the run C policy and a 12 V rail. It sat (sim pass only). The aim offset table has no 12 V row, so that offset stayed at the 7.2 V measurement. Finding the nest by camera was not simulated.
-Charge: the NTC gate is open at a cell temperature of 56.7 C (calc only, bead beta and the BQ24133 divider). Time to put the used 3154 mAh back at 1.006 A is 3.13 hours (calc only).
-Limits this run touched: pack current 17.48 A crossed the 15.0 A fuse; pack fell to 10.00 V, under the 10.0 V walk cutoff; hottest reading reached the 55.0 C rest.
+The cell node is three P45B cans, 70 g and 21.55 mm by 70.15 mm (cited, THERMAL_TWIN.md from the P45B sheet). Half of each can faces bay air. The trunk has no vent in this model, so the air exchange is the closed-bay assumption. Specific heat is the old 18650 range, a guess. An earlier 56.7 C figure used two 47 g 18650s for the same three-cell heat, which runs hot.
+Charge: the NTC gate is open at a cell temperature of 43.2 C. The hot stop is 57.0 C, where the divider fraction equals the cited 0.442 hot threshold (calc only, bead beta 3950 and the BQ24133 divider). The P45B charge limit is 60 C (cited). The gate does not hold off charge at the end of this discharge. Time to put the used 3154 mAh back at 1.006 A is 3.13 hours (calc only).
+Limits this run touched: pack fell to 10.00 V, under the 10.0 V walk cutoff; hottest reading reached the 55.0 C rest.
 
 ## Numbers
 
@@ -47,7 +50,7 @@ Limits this run touched: pack current 17.48 A crossed the 15.0 A fuse; pack fell
 | hottest reading | 55.0 C | sim pass only |
 | rest stop | 55 C | limits file |
 | rest resume | 45 C | limits file |
-| cell temperature | 56.7 C | sim pass only |
+| cell temperature | 43.2 C | sim pass only |
 | dock | BLOCKER | BLOCKER |
 | charge current | 1.006 A | cited |
 | time to replace what was used | 3.13 h | calc only |
@@ -60,7 +63,7 @@ Limits this run touched: pack current 17.48 A crossed the 15.0 A fuse; pack fell
 | knee high stop | 147 deg | CAD check only |
 | sit knee reached | 147 deg | sim pass only |
 | torque-off cool from 55 C | reached 45 C in 3.51 min | sim pass only |
-| powered-stand cool from 55 C | reached 45 C in 4.11 min | sim pass only |
+| powered-stand cool from 55 C | reached 45 C in 4.27 min | sim pass only |
 
 ## What this twin does not model
 
@@ -80,16 +83,16 @@ Each row replays this run's walking current for 45 min. The rest is the measured
 
 | Option | Walking minutes | Knee peak C | Added mass g | Kind |
 |---|---|---|---|---|
-| cited 1.0 ohm, powered stand | 33.1 | 55.0 | 0 | this run |
+| cited 1.0 ohm, powered stand | 32.7 | 55.0 | 0 | this run |
 | cited 1.0 ohm, torque-off sit | 33.7 | 55.0 | 0 | sit check |
 | old stall-line 4.444 ohm, torque-off sit | 6.0 | 55.1 | 0 | comparison |
 | old stall-line 4.444 ohm, powered stand | 1.1 | 55.0 | 0 | the 3 percent run |
 | knee current times 0.70 | 45.0 | 42.8 | 0 | retrain |
-| 20 deg knee crouch, torque on | 33.2 | 55.0 | 0 | stance |
+| 20 deg knee crouch, torque on | 33.7 | 55.0 | 0 | stance |
 | knee area times 1.3 | 45.0 | 51.7 | 0 | heatsink |
 | knee area times 1.8 | 45.0 | 45.1 | 0 | heatsink |
 | STS3250 knees, cited 1.2 ohm | 26.0 | 55.0 | 39 | servo swap |
 | gear ratio times 1.5 | 45.0 | 41.4 | 0 | not a catalog part |
 
-Chosen: the cited 1.0 ohm terminal resistance, and a stand with the command at zero when the reading reaches 55 C. This session's upright walking is 30.1 min with the knee at 55.0 C, and it adds no mass. The 45 min replay of the walking current, resting at the measured stance current, walks 33.1 min with the knee at 55.0 C. A separate check folds to 147 deg from a settled stand and turns the gains off. Folding from a walk tips this model, so that fold is not the session rest. The heatsink rows assume extra case area. The servo swap and the gear row are studies. No decision entry. A lower knee current would need a retrain, and this session did not run one.
+Chosen: the cited 1.0 ohm terminal resistance, and a stand with the command at zero when the reading reaches 55 C. This session's upright walking is 30.1 min with the knee at 55.0 C, and it adds no mass. The 45 min replay of the walking current, resting at the measured stance current, walks 32.7 min with the knee at 55.0 C. A separate check folds to 147 deg from a settled stand and turns the gains off. Folding from a walk tips this model, so that fold is not the session rest. The heatsink rows assume extra case area. The servo swap and the gear row are studies. No decision entry. A lower knee current would need a retrain, and this session did not run one.
 
