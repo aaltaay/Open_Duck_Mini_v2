@@ -431,9 +431,12 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds):
     a("- A pack-voltage sensor on the Pi. The 10 V stop is in the guard, and this sim passes the modeled pack voltage in. The Pi still has no sensor (BLOCKER).")
     a("- Winding resistance of the C018 as a measured number. The heat model still uses the assumed split from the older sheet.")
     a("- The i7C current below 10 V, the TRIM resistor, and the wide boost tolerance above 100 W (BLOCKER).")
+    a("- The third cell, the i7C at 75 g, and the 3S protection board. The mass model still has two P45B cells, the Castle regulator at 29 g, and the Tenergy board.")
     a("- Felt, dirt, and a measured well contact.")
     a("- The turn-offset table at 12 V. The dock uses the 7.2 V aim offset with a 12 V rail.")
     a("- Hardware. Every temperature, speed, and current above that says sim pass only is a model output.")
+    a("")
+    a("The duck mass in the table is the whole robot from the CAD mass model. The trunk body alone is 1.065 kg. The stock Open Duck Mini model is 2.107 kg. MuJoCo loads 2.8078 kg, the same total. The extra over stock is mostly printed parts, 1254 g, and 14 servos at 55 g, 770 g, plus screws and wire.")
     a("")
     text = _no_dash("\n".join(lines) + "\n")
     with open(path, "w", encoding="utf-8") as f:

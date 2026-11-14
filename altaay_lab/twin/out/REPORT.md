@@ -63,5 +63,8 @@ Limits this run touched: hottest reading 62.4 C crossed the 60 C operating line;
 - The i7C current below 10 V, the TRIM resistor, and the wide boost tolerance above 100 W (BLOCKER).
 - Felt, dirt, and a measured well contact.
 - The turn-offset table at 12 V. The dock uses the 7.2 V aim offset with a 12 V rail.
+- The third cell, the i7C at 75 g, and the 3S protection board. The 2.808 kg mass still has two P45B cells, the Castle regulator at 29 g, and the Tenergy board.
 - Hardware. Every temperature, speed, and current above that says sim pass only is a model output.
+
+The 2.808 kg is the whole duck, not the trunk. The trunk body alone is 1.065 kg. The stock Open Duck Mini model is 2.107 kg. MuJoCo's loaded total for this walk is 2.8078 kg, the same number as the mass model. The difference from stock is mostly printed parts (1254 g) and 14 servos at 55 g (770 g), plus screws and wire.
 

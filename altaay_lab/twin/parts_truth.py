@@ -321,7 +321,7 @@ def derive():
             regulator_g=float(reg["ratings"]["mass_g"]),
             robot_kg=robot_kg,
             mass_label="CAD mass model",
-            robot_note="Sum of sim/mass_budget.py link masses, the model the walk loads.",
+            robot_note="Whole duck from sim/mass_budget.py. MuJoCo loads the same total. Trunk body alone is about 1.065 kg. Stock model is 2.107 kg. This file still has two P45B cells, the Castle regulator at 29 g, and the Tenergy board.",
         ),
     )
     return doc
