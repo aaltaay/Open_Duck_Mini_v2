@@ -104,9 +104,10 @@ def numbers_in_py():
                 continue
             if "superseded" in raw.lower():
                 continue
-            # problems/system_voltage.py ranks a straight wire by telling the
-            # existing solver BEC_V=30 and BEC_DROP=0. That is a study model,
-            # not the adopted Castle set point. The netlist stays at 12.0 V.
+            # problems/system_voltage.py ranks a straight wire by passing a
+            # 30 V stand-in and a zero drop into the existing solver. That is
+            # a study model, not the adopted Castle set point. The netlist
+            # stays at 12.0 V.
             compact = raw.replace(" ", "")
             if r == "altaay_lab/problems/system_voltage.py" and (
                 "BEC_V=30" in compact or "BEC_DROP=0.0" in compact or "BEC_DROP=0," in compact
