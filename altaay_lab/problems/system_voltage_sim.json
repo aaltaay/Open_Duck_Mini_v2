@@ -1,0 +1,663 @@
+{
+ "label": "sim pass only",
+ "onnx": "problems/retrain_sts12/sts12_runC_policy.onnx",
+ "sheet": "sts12.py 12 V C018 sheet patch, not re-fit",
+ "mujoco": "3.3.4",
+ "bec_setpoint_note": "F and K use 12.0 V. E uses a wire (efficiency 1, drop 0). None use 16 V.",
+ "bec_removed_g": 35.965,
+ "bec_removed_note": "E subtracts the mass-budget Castle (29.0 g cited, no wires), output leads 4.6 g, tape, and JB+ JB- at the bec_pro seat. F and K keep that mass.",
+ "rows": [
+  {
+   "label": "sim pass only",
+   "id": "F_3S_C018_buck12",
+   "cmd_m_s": 0.15,
+   "corner": "typical",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.1158,
+   "track_lin": 0.775,
+   "knees": {
+    "left_knee": 10.659,
+    "right_knee": 10.8
+   },
+   "pack": {
+    "i_mean": 5.334,
+    "i_rms": 5.484,
+    "i_max": 9.211,
+    "i_max_100ms": 7.103,
+    "v_term_mean": 12.193,
+    "v_term_min": 11.968,
+    "bus_mean": 11.792,
+    "bus_min": 11.297,
+    "bec_out_mean": 11.473,
+    "bec_out_min": 10.964,
+    "bec_in_min": 11.264,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 2.9,
+    "SP2_right_100ms_mean_max_A": 2.889,
+    "SP3_neck_100ms_mean_max_A": 0.959
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.1354,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.0624,
+     0.0004,
+     0.03468
+    ]
+   },
+   "q_end_mAh": 86.2,
+   "wall_s": 6.0,
+   "extra_note": {
+    "BEC_V": 12.0,
+    "BEC_DROP": 0.3,
+    "BEC_EFF": 0.85
+   }
+  },
+  {
+   "label": "sim pass only",
+   "id": "F_3S_C018_buck12",
+   "cmd_m_s": 0.15,
+   "corner": "high-side",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.1131,
+   "track_lin": 0.756,
+   "knees": {
+    "left_knee": 10.192,
+    "right_knee": 10.434
+   },
+   "pack": {
+    "i_mean": 5.337,
+    "i_rms": 5.488,
+    "i_max": 9.314,
+    "i_max_100ms": 7.272,
+    "v_term_mean": 12.193,
+    "v_term_min": 11.953,
+    "bus_mean": 11.685,
+    "bus_min": 11.08,
+    "bec_out_mean": 11.366,
+    "bec_out_min": 10.746,
+    "bec_in_min": 11.046,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 2.982,
+    "SP2_right_100ms_mean_max_A": 2.841,
+    "SP3_neck_100ms_mean_max_A": 0.953
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.1354,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.0624,
+     0.0004,
+     0.03468
+    ]
+   },
+   "q_end_mAh": 86.2,
+   "wall_s": 6.0,
+   "extra_note": {
+    "BEC_V": 12.0,
+    "BEC_DROP": 0.3,
+    "BEC_EFF": 0.85
+   }
+  },
+  {
+   "label": "sim pass only",
+   "id": "F_3S_C018_buck12",
+   "cmd_m_s": 0.4,
+   "corner": "typical",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.2545,
+   "track_lin": 0.638,
+   "knees": {
+    "left_knee": 9.739,
+    "right_knee": 9.76
+   },
+   "pack": {
+    "i_mean": 9.36,
+    "i_rms": 9.651,
+    "i_max": 15.71,
+    "i_max_100ms": 13.334,
+    "v_term_mean": 11.969,
+    "v_term_min": 11.634,
+    "bus_mean": 11.265,
+    "bus_min": 10.482,
+    "bec_out_mean": 10.931,
+    "bec_out_min": 10.124,
+    "bec_in_min": 10.424,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 4.72,
+    "SP2_right_100ms_mean_max_A": 4.672,
+    "SP3_neck_100ms_mean_max_A": 2.061
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.1354,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.0624,
+     0.0004,
+     0.03468
+    ]
+   },
+   "q_end_mAh": 151.6,
+   "wall_s": 6.2,
+   "extra_note": {
+    "BEC_V": 12.0,
+    "BEC_DROP": 0.3,
+    "BEC_EFF": 0.85
+   }
+  },
+  {
+   "label": "sim pass only",
+   "id": "F_3S_C018_buck12",
+   "cmd_m_s": 0.4,
+   "corner": "high-side",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.2434,
+   "track_lin": 0.61,
+   "knees": {
+    "left_knee": 9.241,
+    "right_knee": 9.221
+   },
+   "pack": {
+    "i_mean": 9.248,
+    "i_rms": 9.535,
+    "i_max": 15.402,
+    "i_max_100ms": 13.012,
+    "v_term_mean": 11.975,
+    "v_term_min": 11.644,
+    "bus_mean": 11.095,
+    "bus_min": 10.209,
+    "bec_out_mean": 10.761,
+    "bec_out_min": 9.853,
+    "bec_in_min": 10.153,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 4.457,
+    "SP2_right_100ms_mean_max_A": 4.784,
+    "SP3_neck_100ms_mean_max_A": 2.006
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.1354,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.0624,
+     0.0004,
+     0.03468
+    ]
+   },
+   "q_end_mAh": 149.8,
+   "wall_s": 6.2,
+   "extra_note": {
+    "BEC_V": 12.0,
+    "BEC_DROP": 0.3,
+    "BEC_EFF": 0.85
+   }
+  },
+  {
+   "label": "sim pass only",
+   "id": "K_4S_P30B_buck12",
+   "cmd_m_s": 0.15,
+   "corner": "typical",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.1211,
+   "track_lin": 0.812,
+   "knees": {
+    "left_knee": 11.669,
+    "right_knee": 11.719
+   },
+   "pack": {
+    "i_mean": 4.099,
+    "i_rms": 4.234,
+    "i_max": 7.421,
+    "i_max_100ms": 5.731,
+    "v_term_mean": 16.311,
+    "v_term_min": 15.989,
+    "bus_mean": 16.002,
+    "bus_min": 15.431,
+    "bec_out_mean": 12.0,
+    "bec_out_min": 12.0,
+    "bec_in_min": 15.403,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 3.008,
+    "SP2_right_100ms_mean_max_A": 3.068,
+    "SP3_neck_100ms_mean_max_A": 0.994
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.1134,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.06142,
+     0.00038,
+     0.03474
+    ]
+   },
+   "q_end_mAh": 66.2,
+   "wall_s": 6.1,
+   "extra_note": {
+    "BEC_V": 12.0,
+    "BEC_DROP": 0.3,
+    "BEC_EFF": 0.85
+   }
+  },
+  {
+   "label": "sim pass only",
+   "id": "K_4S_P30B_buck12",
+   "cmd_m_s": 0.15,
+   "corner": "high-side",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.1187,
+   "track_lin": 0.795,
+   "knees": {
+    "left_knee": 11.426,
+    "right_knee": 11.497
+   },
+   "pack": {
+    "i_mean": 4.116,
+    "i_rms": 4.249,
+    "i_max": 7.444,
+    "i_max_100ms": 5.684,
+    "v_term_mean": 16.309,
+    "v_term_min": 15.976,
+    "bus_mean": 15.918,
+    "bus_min": 15.268,
+    "bec_out_mean": 12.0,
+    "bec_out_min": 12.0,
+    "bec_in_min": 15.24,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 3.008,
+    "SP2_right_100ms_mean_max_A": 2.971,
+    "SP3_neck_100ms_mean_max_A": 0.983
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.1134,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.06142,
+     0.00038,
+     0.03474
+    ]
+   },
+   "q_end_mAh": 66.4,
+   "wall_s": 6.3,
+   "extra_note": {
+    "BEC_V": 12.0,
+    "BEC_DROP": 0.3,
+    "BEC_EFF": 0.85
+   }
+  },
+  {
+   "label": "sim pass only",
+   "id": "K_4S_P30B_buck12",
+   "cmd_m_s": 0.4,
+   "corner": "typical",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.279,
+   "track_lin": 0.699,
+   "knees": {
+    "left_knee": 11.506,
+    "right_knee": 11.575
+   },
+   "pack": {
+    "i_mean": 7.839,
+    "i_rms": 8.13,
+    "i_max": 16.468,
+    "i_max_100ms": 11.704,
+    "v_term_mean": 15.992,
+    "v_term_min": 15.357,
+    "bus_mean": 15.403,
+    "bus_min": 14.129,
+    "bec_out_mean": 12.0,
+    "bec_out_min": 12.0,
+    "bec_in_min": 14.067,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 5.242,
+    "SP2_right_100ms_mean_max_A": 4.736,
+    "SP3_neck_100ms_mean_max_A": 2.189
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.1134,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.06142,
+     0.00038,
+     0.03474
+    ]
+   },
+   "q_end_mAh": 126.7,
+   "wall_s": 6.4,
+   "extra_note": {
+    "BEC_V": 12.0,
+    "BEC_DROP": 0.3,
+    "BEC_EFF": 0.85
+   }
+  },
+  {
+   "label": "sim pass only",
+   "id": "K_4S_P30B_buck12",
+   "cmd_m_s": 0.4,
+   "corner": "high-side",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.2757,
+   "track_lin": 0.691,
+   "knees": {
+    "left_knee": 11.184,
+    "right_knee": 11.27
+   },
+   "pack": {
+    "i_mean": 7.865,
+    "i_rms": 8.168,
+    "i_max": 16.526,
+    "i_max_100ms": 11.9,
+    "v_term_mean": 15.99,
+    "v_term_min": 15.357,
+    "bus_mean": 15.241,
+    "bus_min": 13.805,
+    "bec_out_mean": 12.0,
+    "bec_out_min": 12.0,
+    "bec_in_min": 13.742,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 5.219,
+    "SP2_right_100ms_mean_max_A": 4.775,
+    "SP3_neck_100ms_mean_max_A": 2.201
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.1134,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.06142,
+     0.00038,
+     0.03474
+    ]
+   },
+   "q_end_mAh": 127.1,
+   "wall_s": 6.2,
+   "extra_note": {
+    "BEC_V": 12.0,
+    "BEC_DROP": 0.3,
+    "BEC_EFF": 0.85
+   }
+  },
+  {
+   "label": "sim pass only",
+   "id": "E_3S_C018_wire",
+   "cmd_m_s": 0.15,
+   "corner": "typical",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.1183,
+   "track_lin": 0.793,
+   "knees": {
+    "left_knee": 11.095,
+    "right_knee": 11.197
+   },
+   "pack": {
+    "i_mean": 4.682,
+    "i_rms": 4.81,
+    "i_max": 8.114,
+    "i_max_100ms": 6.5,
+    "v_term_mean": 12.229,
+    "v_term_min": 12.031,
+    "bus_mean": 11.877,
+    "bus_min": 11.435,
+    "bec_out_mean": 11.861,
+    "bec_out_min": 11.406,
+    "bec_in_min": 11.406,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 2.998,
+    "SP2_right_100ms_mean_max_A": 2.978,
+    "SP3_neck_100ms_mean_max_A": 0.978
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.0994,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.06233,
+     0.00043,
+     0.03613
+    ]
+   },
+   "q_end_mAh": 75.7,
+   "wall_s": 6.2,
+   "extra_note": {
+    "BEC_V": 30.0,
+    "BEC_DROP": 0.0,
+    "BEC_EFF": 1.0
+   },
+   "bec_removed_g": 35.96
+  },
+  {
+   "label": "sim pass only",
+   "id": "E_3S_C018_wire",
+   "cmd_m_s": 0.15,
+   "corner": "high-side",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.1167,
+   "track_lin": 0.781,
+   "knees": {
+    "left_knee": 10.712,
+    "right_knee": 10.894
+   },
+   "pack": {
+    "i_mean": 4.697,
+    "i_rms": 4.821,
+    "i_max": 7.779,
+    "i_max_100ms": 6.282,
+    "v_term_mean": 12.229,
+    "v_term_min": 12.036,
+    "bus_mean": 11.781,
+    "bus_min": 11.295,
+    "bec_out_mean": 11.765,
+    "bec_out_min": 11.267,
+    "bec_in_min": 11.267,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 2.949,
+    "SP2_right_100ms_mean_max_A": 2.883,
+    "SP3_neck_100ms_mean_max_A": 0.966
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.0994,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.06233,
+     0.00043,
+     0.03613
+    ]
+   },
+   "q_end_mAh": 75.9,
+   "wall_s": 6.2,
+   "extra_note": {
+    "BEC_V": 30.0,
+    "BEC_DROP": 0.0,
+    "BEC_EFF": 1.0
+   },
+   "bec_removed_g": 35.96
+  },
+  {
+   "label": "sim pass only",
+   "id": "E_3S_C018_wire",
+   "cmd_m_s": 0.4,
+   "corner": "typical",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.2648,
+   "track_lin": 0.663,
+   "knees": {
+    "left_knee": 10.171,
+    "right_knee": 10.198
+   },
+   "pack": {
+    "i_mean": 8.367,
+    "i_rms": 8.613,
+    "i_max": 14.451,
+    "i_max_100ms": 11.793,
+    "v_term_mean": 12.022,
+    "v_term_min": 11.696,
+    "bus_mean": 11.393,
+    "bus_min": 10.628,
+    "bec_out_mean": 11.362,
+    "bec_out_min": 10.575,
+    "bec_in_min": 10.575,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 4.91,
+    "SP2_right_100ms_mean_max_A": 4.742,
+    "SP3_neck_100ms_mean_max_A": 2.153
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.0994,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.06233,
+     0.00043,
+     0.03613
+    ]
+   },
+   "q_end_mAh": 135.6,
+   "wall_s": 6.3,
+   "extra_note": {
+    "BEC_V": 30.0,
+    "BEC_DROP": 0.0,
+    "BEC_EFF": 1.0
+   },
+   "bec_removed_g": 35.96
+  },
+  {
+   "label": "sim pass only",
+   "id": "E_3S_C018_wire",
+   "cmd_m_s": 0.4,
+   "corner": "high-side",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "vx_m_s": 0.2551,
+   "track_lin": 0.639,
+   "knees": {
+    "left_knee": 9.703,
+    "right_knee": 9.759
+   },
+   "pack": {
+    "i_mean": 8.265,
+    "i_rms": 8.516,
+    "i_max": 13.956,
+    "i_max_100ms": 11.572,
+    "v_term_mean": 12.028,
+    "v_term_min": 11.715,
+    "bus_mean": 11.241,
+    "bus_min": 10.419,
+    "bec_out_mean": 11.211,
+    "bec_out_min": 10.368,
+    "bec_in_min": 10.368,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "chains": {
+    "SP1_left_100ms_mean_max_A": 4.81,
+    "SP2_right_100ms_mean_max_A": 4.632,
+    "SP3_neck_100ms_mean_max_A": 2.051
+   },
+   "trunk": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.0994,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.06233,
+     0.00043,
+     0.03613
+    ]
+   },
+   "q_end_mAh": 133.9,
+   "wall_s": 6.2,
+   "extra_note": {
+    "BEC_V": 30.0,
+    "BEC_DROP": 0.0,
+    "BEC_EFF": 1.0
+   },
+   "bec_removed_g": 35.96
+  }
+ ]
+}
