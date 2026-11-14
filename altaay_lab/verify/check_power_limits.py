@@ -143,8 +143,21 @@ def numbers_in_py():
 
 
 def numbers_in_json():
+    """Design configs only. A stored sim dump is not a set point.
+
+    runc_joint_current.json records a wire-study drop of 0 beside one
+    comparison row at 0.3 V. That 0 is the no-Castle case, not the design.
+    """
+    stored = (
+        "altaay_lab/problems/runc_joint_current.json",
+        "altaay_lab/problems/knee_heat_chafe_results.json",
+        "altaay_lab/problems/system_voltage_sim.json",
+        "altaay_lab/problems/system_voltage_calc.json",
+    )
     bec, drop = [], []
     for path in glob.glob(os.path.join(LAB, "**", "*.json"), recursive=True):
+        if rel(path) in stored or "/test/results/" in rel(path).replace("\\", "/"):
+            continue
         if os.path.getsize(path) > 2_000_000:
             continue
         try:
