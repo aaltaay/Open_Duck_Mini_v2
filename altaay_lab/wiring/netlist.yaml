@@ -50,7 +50,7 @@ meta:
   units: {length: mm, current: A, voltage: V}
   orientation: "drawings show the robot seen from behind: robot left is on the left of the page"
   current_source: "sim pass only; per wire in its source field: sim/CURRENT_BUDGET.md (walking mean, worst 100 ms, worst 20 ms fall at 7.4 V), sim/POWER_PATH_SIM.md as built (P1, P2, P6 to P11, P14: walking, worst of full and nominal pack and both corners) or VERIFICATION.md C7 (SP1 to SP5: E5 walks at 6.0 V, worse corner); i_fall_a stays from CURRENT_BUDGET.md"
-  decisions: "D17 (7:24 PM ET) foot switches Omron SS-01 (SS-10 fallback) with a 2.2 kOhm pull-up per foot to Pi pin 17; D13 projector resistor added; D15 servo power bypasses the adapter (BEC -> belly splices -> SP1 SP2 SP3), adapter H1 not connected, adapter gives DATA and GND only; D23 second feeds SP4 SP5 from the belly splices into BUS 1 of ID 24 and ID 14 (V and G, data cavity empty); D64 keeps the Castle at 12.0 V. Limb breakers EFL EFR EFN (TPS259827) are specified and are not yet in series: the live SP feeds still leave SPV. Eight knee-to-ankle sheets are PETG (part_limits petg_hf). The 55 C / 45 C rest rule is in test/FMEA.md and is not yet the code on the Pi."
+  decisions: "D17 (7:24 PM ET) foot switches Omron SS-01 (SS-10 fallback) with a 2.2 kOhm pull-up per foot to Pi pin 17; D13 projector resistor added; D15 servo power bypasses the adapter (regulator -> belly splices -> limb breakers -> SP1 SP2 SP3), adapter H1 not connected, adapter gives DATA and GND only; D23 second feeds SP4 SP5 from the limb breakers into BUS 1 of ID 24 and ID 14 (V and G, data cavity empty); D65 the servo regulator is the TDK-Lambda i7C2W020A120V-0F1-R set to 12.0 V. Limb breakers EFL EFR EFN (TPS259827) are in series with SP1-SP5. Eight knee-to-ankle sheets are PETG (part_limits petg_hf). The 55 C / 45 C rest rule is in test/FMEA.md and is not yet the code on the Pi."
   lengths: "cut_mm from cables3d/CABLES_3D.md (worst routed length over the joint ranges + 20 mm slack per fixed end, chained through inline splices)"
   as_shipped: "BEC lead and kit cable conductors: gauge not published (Castle CC BEC Pro guide and retailers; Feetech STS3215 sheet 6-7 gives 5264-3P, 15 cm, no gauge; searched 2026-11-02), so they stay as shipped and no AWG is set here"
   battery_note: "Tenergy over-discharge cut is 2.40 V per cell, below the P45B 2.5 V minimum (D44; the P30B had the same 2.5 V): stop in software when the servo Present Voltage reads about 6.0 V (about 3.3 V per cell loaded)"
@@ -59,9 +59,9 @@ meta:
 domains:
   CELL_MID_3V0_4V2: {v_min: 3.0, v_max: 4.2, note: "holder series strap, one cell above B-"}
   PACK_6V0_8V4: {v_min: 6.0, v_max: 8.4, superseded: true, note: "SUPERSEDED 2026-11-13. 2S pack window. The live pack domain is PACK_9V0_12V6."}
-  PACK_9V0_12V6: {v_min: 9.0, v_max: 12.6, note: "3S P45B, about 3.0 V to 4.2 V per cell (calc only, 3 times 3.0 and 3 times 4.2). Supersedes PACK_6V0_8V4. The cell cut-off is 2.5 V, so 7.5 V is the sheet floor. This window starts at 9.0 V."}
+  PACK_9V0_12V6: {v_min: 9.0, v_max: 12.6, note: "3S P45B, about 3.0 V to 4.2 V per cell (calc only, 3 times 3.0 and 3 times 4.2). Supersedes PACK_6V0_8V4. The cell cut-off is 2.5 V, so 7.5 V is the sheet floor. This window starts at 9.0 V. Walking stops at 10.0 V (D65). That is the first cited i7C current row."}
   SERVO_7V2: {v_min: 6.0, v_max: 7.4, superseded: true, note: "SUPERSEDED 2026-11-13. BEC was set to 7.2 V (D3). The 16 V pass-through used in the first 3S walks is superseded too. The live servo domain is SERVO_12V0."}
-  SERVO_12V0: {v_min: 9.0, v_max: 12.0, note: "BEC set to 12.0 V. Below the set point Castle does not publish the behavior (BLOCKER). The floor is the pack floor, not a held 12.0 V."}
+  SERVO_12V0: {v_min: 11.52, v_max: 12.48, note: "i7C set to 12.0 V. Cited output tolerance is plus or minus 4 percent, so 11.52 V to 12.48 V. D65. The boost high-power tolerance note was not read (BLOCKER)."}
   5V: {v_min: 4.8, v_max: 5.2, note: "Pololu D30V30F5 output, 4 % accuracy"}
   3V3: {v_min: 3.1, v_max: 3.5, note: "Pi 3.3 V rail"}
   GPIO_3V3: {v_min: 0.0, v_max: 3.3, note: "Pi GPIO, 3.3 V logic"}
@@ -86,6 +86,7 @@ domains:
 nets:
   CELL_N: {domain: GND_CELL, note: "holder - to BMS B-"}
   CELL_MID: {domain: CELL_MID_3V0_4V2, note: "series strap to BMS B1"}
+  CELL_MID2: {domain: CELL_MID_3V0_4V2, note: "series strap to BMS B2, third cell"}
   PACK_P: {domain: PACK_9V0_12V6, note: "holder +, BMS B+ and P+ (one copper node on the board), charger, XT30, splice JFI, fuse line side"}
   PACK_F: {domain: PACK_9V0_12V6, note: "fused pack +, fuse load side through splice JFO to Pololu 2815 VIN"}
   VSW: {domain: PACK_9V0_12V6, note: "switched pack bus after the 2815"}
@@ -138,34 +139,37 @@ nets:
 components:
   - id: PACK
     ref: BT1
-    part: 2x Molicel INR21700-P45B, spot-welded 2S1P pack in the grown bay (D44, twin/battery/BAY.md); no holder
+    part: 3x Molicel INR21700-P45B, spot-welded 3S1P pack (D44 bay record, FIT3 blister for the third cell); no holder
     kind: battery
     region: battery_bay
-    ratings: {cells: "2S", capacity_ah: 4.5, cell_i_cont_a: 45, v_range: "6.0 to 8.4"}
+    ratings: {cells: "3S", capacity_ah: 4.5, cell_i_cont_a: 45, v_range: "9.0 to 12.6", walk_stop_v: 10.0, walk_stop_note: "D65. Stop walking at 10.0 V pack, 3.33 V per cell. The i7C chart that was read gives 16.5 A at 12 V out only from 10 V in. Below that the current is not cited. Servo Present Voltage stays near 12 V while the regulator holds, so this limit is pack voltage."}
     groups:
       leads: {connector: "holder leads, solder", pitch_mm: null, note: "D44: the 16 AWG pack leads spot-welded to the nickel strip at the pack ends play the old holder leads (the connector kind keeps its name for the checks); use them for P1/P2 if 120 mm or longer"}
       strap: {connector: "solder pad on the holder series strap", pitch_mm: null, note: "D44: the series nickel strip of the pack (balance tap if ever needed); solder only to a lead tab on the strip, never to a cell"}
     pins:
-      - {pin: "B+", label: "+", name: pack + (cell 2 +), domain: PACK_9V0_12V6, group: leads, dir: pwr_out, source: "[U] holder"}
+      - {pin: "B+", label: "+", name: pack + (cell 3 +), domain: PACK_9V0_12V6, group: leads, dir: pwr_out, source: "[U] holder"}
       - {pin: "MID", label: "strap", name: series strap (cell 1 + / cell 2 -), domain: CELL_MID_3V0_4V2, group: strap, dir: passive, source: "[L] B27, Tnkr m1 m2"}
+      - {pin: "MID2", label: "strap2", name: series strap (cell 2 + / cell 3 -), domain: CELL_MID_3V0_4V2, group: strap, dir: passive, source: "[L] D65 third cell tap"}
       - {pin: "B-", label: "-", name: pack - (cell 1 -), domain: GND_CELL, group: leads, dir: pwr_out, source: "[U] holder"}
     internal:
       - {a: "B-", b: "MID", kind: cell, note: "cell 1, Molicel P45B"}
-      - {a: "MID", b: "B+", kind: cell, note: "cell 2, Molicel P45B"}
+      - {a: "MID", b: "MID2", kind: cell, note: "cell 2, Molicel P45B"}
+      - {a: "MID2", b: "B+", kind: cell, note: "cell 3, Molicel P45B"}
     source: "[L] pack (BOM 6, 7; D44)"
 
   - id: BMS
     ref: U5
-    part: Tenergy P/N 32175 2S protection board (board marking RYD-02S-032)
+    part: BatterySpace PCM-L04S30-566 3S protection board, 30 A continuous discharge
     kind: bms
     region: battery_bay
-    ratings: {i_work_a: 10, i_oc_detect_a: "22 +/- 5", oc_delay_ms: "8 +/- 4", r_loop_mohm_max: 25, ov_detect_v: "4.280 +/- 0.025", uv_detect_v: "2.40 +/- 0.05", balancing: none, size_mm: "34 x 16 x 4.5", ntc: "10k 3380 1 %"}
+    ratings: {i_work_a: 30, i_charge_a: 20, i_oc_detect_a: "120 to 160", r_loop_mohm_max: 30, ov_detect_v: "4.25 +/- 0.025", uv_detect_v: "2.50 +/- 0.07", v_charge: 12.6, balancing: "4.2 V +/- 0.03 V", size_mm: "60 x 60 x 5", fit: "BLOCKER, larger than the 17.75 x 47.2 mm slot"}
     groups:
       pads: {connector: "solder pad", pitch_mm: null, note: "pad names from the Tenergy product image 32175-spec"}
     pins:
       - {pin: "B-", label: "B-", name: cell stack -, domain: GND_CELL, group: pads, dir: pwr_in, source: "[L] Tenergy image"}
-      - {pin: "B1", label: "B1", name: mid tap (called BM in the brief), domain: CELL_MID_3V0_4V2, group: pads, dir: in, source: "[L] Tenergy image"}
-      - {pin: "B+", label: "B+", name: cell stack +, domain: PACK_9V0_12V6, group: pads, dir: pwr_in, source: "[L] Tenergy image"}
+      - {pin: "B1", label: "B1", name: cell 1 tap, domain: CELL_MID_3V0_4V2, group: pads, dir: in, source: "[L] D65, 3S balance"}
+      - {pin: "B2", label: "B2", name: cell 2 tap, domain: CELL_MID_3V0_4V2, group: pads, dir: in, source: "[L] D65, 3S balance"}
+      - {pin: "B+", label: "B+", name: cell stack +, domain: PACK_9V0_12V6, group: pads, dir: pwr_in, source: "[L] PCM-L04S30-566"}
       - {pin: "P-", label: "P-", name: pack output - (charge and discharge), domain: GND, group: pads, dir: gnd, source: "[L] Tenergy image"}
       - {pin: "P+", label: "P+", name: pack output + (charge and discharge), domain: PACK_9V0_12V6, group: pads, dir: pwr_out, source: "[L] Tenergy image"}
       - {pin: "T", label: "T", name: NTC output, domain: NTC, group: pads, dir: nc, source: "[L] Tenergy image; left unconnected, that it may be left open is [I] (not stated by Tenergy)"}
@@ -173,22 +177,23 @@ components:
       - {a: "B+", b: "P+", kind: short, note: "through copper"}
       - {a: "B-", b: "P-", kind: switch, note: "protection MOSFETs and 2x R006 sense resistors; opens on fault; P- is not B-"}
       - {a: "B1", b: "B-", kind: sense, note: "cell voltage sense, 10 uA max board current"}
-    source: "[L] D10; https://power.tenergy.com/protection-circuit-module-pcb-for-7-2v-7-4v-2s-li-ion-battery-pack-working-10a-cutoff-22a-ntc"
+    source: "[L] D65; http://www.batteryspace.com/prod-specs/7758.pdf"
 
   - id: CHG
     ref: U6
-    part: USB-C 2S charger board, Adeept B0BJTW4QBR (BOM 11)
+    part: TI BQ24133 3S charger board, CELL tied to VREF, regulates 12.6 V (circuitry/BQ24133_BOARD.md)
     kind: charger
     region: battery_bay
-    ratings: {output: "8.4 V 2S", i_charge_a: "2 (seller)"}
+    ratings: {output: "12.6 V 3S", i_charge_a: 1.006, v_nest: 15.0}
     groups:
       out: {connector: "solder pad", pitch_mm: null, note: "pad labels not verified [I]"}
       usb: {connector: "USB-C receptacle", pitch_mm: null}
     pins:
       - {pin: "B+", label: "B+", name: charge output +, domain: PACK_9V0_12V6, group: out, dir: pwr_out, source: "[U] CABLE_MAP; label [I]"}
-      - {pin: "B-", label: "B-", name: charge output -, domain: GND, group: out, dir: gnd, source: "[U] CABLE_MAP; label [I]"}
-      - {pin: "USB", label: "USB-C", name: 5 V USB-C input from a charger, domain: USB, group: usb, dir: nc, source: "[U]"}
-    source: "[U] BOM 11"
+      - {pin: "B-", label: "B-", name: charge output -, domain: GND, group: out, dir: gnd, source: "[L] BQ24133 pack return"}
+      - {pin: "TS", label: "TS", name: pack bead, domain: NTC_WIN, group: out, dir: in, source: "[L] D65. The bead reaches this pin."}
+      - {pin: "USB", label: "USB-C", name: not the 3S input, domain: USB, group: usb, dir: nc, source: "[L] the input is the 15 V nest, circuitry/BQ24133_BOARD.md"}
+    source: "[L] D65; circuitry/BQ24133_BOARD.md. CELL at VREF regulates 12.6 V (cited, SLUSAF7D)."
 
   - id: XT30
     ref: J1
@@ -308,10 +313,10 @@ components:
 
   - id: U1
     ref: U1
-    part: Castle Creations CC BEC Pro, P/N 010-0004-01, set to 12.0 V
+    part: TDK-Lambda i7C2W020A120V-0F1-R, set to 12.0 V
     kind: regulator
     region: belly
-    ratings: {v_in: "2S to 12S", i_cont_a: "15 at 2S to 4S with 5 mph air", i_peak_a: 20, v_out: 12.0, v_out_superseded: "7.2 V (D3) and 16 V (3S pass-through)", size_mm: "43 x 33 x 24", output_lead_a: "5 per 3-pin lead (Castle guide)"}
+    ratings: {v_in: "9 to 36 V", i_out_12v_at_10vin_a: 16.5, i_out_12v_at_12vin_a: 20, i_ocp_typ_a: 26, v_out: 12.0, v_out_tol: "plus or minus 4 percent", v_out_superseded: "Castle 7.2 V (D3), Castle 12.0 V dropout (D63), and 16 V", size_mm: "34 x 36.8 x 24.9", mass_g: 75}
     groups:
       in: {connector: "input leads red and black (gauge and length not published)", pitch_mm: null}
       out1: {connector: "3-pin servo lead 1, plug cut off (gauge and length not published: as shipped)", pitch_mm: null}
@@ -328,11 +333,11 @@ components:
       - {pin: "OUT2S", label: "2S", name: output lead 2 third wire, domain: GND, group: out2, dir: nc, source: "[I] insulate"}
       - {pin: "LINK", label: "LINK", name: Link Port (programming), domain: GND, group: link, dir: nc, source: "[L] Castle guide"}
     internal:
-      - {a: "IN+", b: "OUT1+", kind: regulator, note: "buck set to 12.0 V; 7.2 V and 16 V superseded; dropout not published"}
+      - {a: "IN+", b: "OUT1+", kind: regulator, note: "buck-boost holds 12.0 V across 9 V to 36 V in; D65"}
       - {a: "IN-", b: "OUT1-", kind: short}
       - {a: "OUT1+", b: "OUT2+", kind: short}
       - {a: "OUT1-", b: "OUT2-", kind: short}
-    source: "[L] D3; MOUNTING.md: belly floor, centre (-71.5, -0.5, -8.0), leads toward the battery bay"
+    source: "[L] D65; https://product.tdk.com/info/en/catalog/datasheets/i7c_e.pdf . Belly seat was drawn for the Castle. Fit of the 24.9 mm heatsink is not a new CAD check."
 
   - id: EFL
     ref: EF-L
@@ -344,7 +349,7 @@ components:
       pwr: {connector: "pads, not yet a harness cut-over", pitch_mm: null}
     pins:
       - {pin: "IN", label: "IN", name: "left limb breaker input", domain: SERVO_12V0, group: pwr, dir: pwr_in, source: "[L] D64, SLVSFE7"}
-      - {pin: "OUT", label: "OUT", name: "left limb breaker output", domain: SERVO_12V0, group: pwr, dir: pwr_out, source: "[L] D64. Not tied to SP1 or SP4 yet."}
+      - {pin: "OUT", label: "OUT", name: "left limb breaker output", domain: SERVO_12V0, group: pwr, dir: pwr_out, source: "[L] D65. SP1 and SP4 leave this pin."}
       - {pin: "GND", label: "GND", name: "ground", domain: GND, group: pwr, dir: gnd, source: "[L] D64"}
       - {pin: "ILIM", label: "ILIM", name: "182 ohm to ground", domain: GND, group: pwr, dir: nc, source: "[L] cited ILIM window. Not a harness wire."}
       - {pin: "ITIMER", label: "ITIMER", name: "600 nF to ground", domain: GND, group: pwr, dir: nc, source: "[L] blanking candidate. Walk compatibility is BLOCKER."}
@@ -361,7 +366,7 @@ components:
       pwr: {connector: "pads, not yet a harness cut-over", pitch_mm: null}
     pins:
       - {pin: "IN", label: "IN", name: "right limb breaker input", domain: SERVO_12V0, group: pwr, dir: pwr_in, source: "[L] D64, SLVSFE7"}
-      - {pin: "OUT", label: "OUT", name: "right limb breaker output", domain: SERVO_12V0, group: pwr, dir: pwr_out, source: "[L] D64. Not tied to SP2 or SP5 yet."}
+      - {pin: "OUT", label: "OUT", name: "right limb breaker output", domain: SERVO_12V0, group: pwr, dir: pwr_out, source: "[L] D65. SP2 and SP5 leave this pin."}
       - {pin: "GND", label: "GND", name: "ground", domain: GND, group: pwr, dir: gnd, source: "[L] D64"}
       - {pin: "ILIM", label: "ILIM", name: "182 ohm to ground", domain: GND, group: pwr, dir: nc, source: "[L] cited ILIM window. Not a harness wire."}
       - {pin: "ITIMER", label: "ITIMER", name: "600 nF to ground", domain: GND, group: pwr, dir: nc, source: "[L] blanking candidate. Walk compatibility is BLOCKER."}
@@ -378,7 +383,7 @@ components:
       pwr: {connector: "pads, not yet a harness cut-over", pitch_mm: null}
     pins:
       - {pin: "IN", label: "IN", name: "neck breaker input", domain: SERVO_12V0, group: pwr, dir: pwr_in, source: "[L] D64, SLVSFE7"}
-      - {pin: "OUT", label: "OUT", name: "neck breaker output", domain: SERVO_12V0, group: pwr, dir: pwr_out, source: "[L] D64. Not tied to SP3 yet."}
+      - {pin: "OUT", label: "OUT", name: "neck breaker output", domain: SERVO_12V0, group: pwr, dir: pwr_out, source: "[L] D65. SP3 leaves this pin."}
       - {pin: "GND", label: "GND", name: "ground", domain: GND, group: pwr, dir: gnd, source: "[L] D64"}
       - {pin: "ILIM", label: "ILIM", name: "182 ohm to ground", domain: GND, group: pwr, dir: nc, source: "[L] cited ILIM window. Not a harness wire."}
       - {pin: "ITIMER", label: "ITIMER", name: "600 nF to ground", domain: GND, group: pwr, dir: nc, source: "[L] blanking candidate. Walk compatibility is BLOCKER."}
@@ -1296,7 +1301,7 @@ components:
 
   - id: RBIAS
     ref: R7
-    part: 10.0 kOhm 1 percent from the reference to the bead
+    part: 2.87 kOhm 1 percent from VREF to the bead and to BQ24133 TS
     kind: resistor
     region: battery_bay
     groups:
@@ -1304,7 +1309,19 @@ components:
     pins:
       - {pin: "1", label: "1", name: reference, domain: VREF, group: pads, dir: passive, source: "[L] CHARGER_BOARD.md rbias"}
       - {pin: "2", label: "2", name: bead, domain: NTC_WIN, group: pads, dir: passive, source: "[L] CHARGER_BOARD.md rbias"}
-    source: "[L] CHARGER_BOARD.md. Same part as order line rbias."
+    source: "[L] D65. 2.87 kOhm bias from VREF to TS. The 10.0 kOhm value is the 2S record."
+
+  - id: RPAR
+    ref: R7b
+    part: 12.7 kOhm 1 percent from the bead node to ground, in parallel with the pack NTC
+    kind: resistor
+    region: battery_bay
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: bead and TS, domain: NTC_WIN, group: pads, dir: passive, source: "[L] D65"}
+      - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] D65"}
+    source: "[L] D65. Parallel with Adafruit 372 so the BQ24133 TS window stops charge at the cold and hot beads."
 
   - id: RCOLD
     ref: R8
@@ -1344,7 +1361,7 @@ components:
 
   - id: RHOTB
     ref: R11
-    part: 2.80 kOhm 1 percent, bottom of the hot divider
+    part: 8.25 kOhm 1 percent, bottom of the hot divider
     kind: resistor
     region: battery_bay
     groups:
@@ -1428,6 +1445,7 @@ cables:
   - {id: P1, status: active, desc: holder + to BMS B+, regions: [battery_bay], joints: [], polyline_mm: 30.1, rule_mm: 115.3, source: "[L] placements: holder to BMS", note: "use the holder lead if 120 mm or longer"}
   - {id: P2, status: active, desc: holder - to BMS B-, regions: [battery_bay], joints: [], polyline_mm: 30.1, rule_mm: 115.3, source: "[L]"}
   - {id: P3, status: active, desc: holder series strap to BMS B1, regions: [battery_bay], joints: [], polyline_mm: 30.1, rule_mm: 115.3, source: "[L] B27"}
+  - {id: P3b, status: active, no_route: true, desc: second series strap to BMS B2, the third cell tap, regions: [battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D65. Sense only. No 3D route yet.", twist: {lay_mm: null, note: "one sense lead"}}
   - {id: P4, status: active, desc: BMS P+ to charger B+, regions: [battery_bay], joints: [], polyline_mm: 39.4, rule_mm: 124.6, source: "[U]"}
   - {id: P5, status: active, desc: BMS P- to charger B-, regions: [battery_bay], joints: [], polyline_mm: 39.4, rule_mm: 124.6, source: "[U]"}
   - {id: P6, status: active, desc: BMS P+ to XT30U female +, regions: [battery_bay], joints: [], polyline_mm: 23.5, rule_mm: 108.7, source: "[L] reference BMS to fuse holder (XT30 sits between)", note: "BLOCKER-lite: XT30 spot from Tnkr only"}
@@ -1495,7 +1513,7 @@ cables:
   - {id: CE, status: active, no_route: true, desc: "charger STAT and enable to Pi pins 29 and 31, with 3.3 V and ground joined at D2", regions: [battery_bay, trunk_top, neck, head], joints: [neck_pitch, head_pitch, head_yaw, head_roll], polyline_mm: null, rule_mm: null, source: "[L] CHARGER_BOARD.md. No CAD route: the board has no seat.", twist: {lay_mm: null, note: "no lay until a route exists"}}
   - {id: NT, status: active, no_route: true, desc: "pack bead RT1 to the charger divider plug JNT. The old SENSE tap from JSN to the bead is not in this cable.", regions: [battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] CHARGER_BOARD.md pack NTC. BAY.md names the valley seat and gives no length.", twist: {lay_mm: null, note: "two leads, no lay published"}}
   - {id: NW, status: active, no_route: true, desc: "on the charger board: bead plug to RBIAS, the cold and hot dividers, CU2, CU3, and the enable gate", regions: [battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] charger_board.yaml NTC window. DS20002190C Table 3-1 has no thermistor pin.", twist: {lay_mm: null, note: "board traces, not a twisted cable"}}
-  - {id: EF, status: active, no_route: true, desc: "three TPS259827 breakers, one per limb, from SPV. Outputs are not tied into SP1-SP5 yet.", regions: [belly], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D64. No 3D route. The live feeds still leave SPV.", twist: {lay_mm: null, note: "no lay until the harness is cut over"}}
+  - {id: EF, status: active, no_route: true, desc: "three TPS259827 breakers in series. SPV feeds each IN. SP1 and SP4 leave EFL.OUT, SP2 and SP5 leave EFR.OUT, SP3 leaves EFN.OUT.", regions: [belly], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D65. No 3D route yet.", twist: {lay_mm: null, note: "no lay until the harness length is drawn"}}
 wires:
   # dock (D43, D50)
   - {cable: DC1, from: DKP.CHG, to: DK2.VIN, net: CHG_IN, gauge: 20 AWG, color: red, cut_mm: 60, i_mean_a: 1.0, i_peak_a: 1.0, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
@@ -1511,9 +1529,12 @@ wires:
   - {cable: CE, from: JPI.EN, to: PI.31, net: PI_EN, gauge: 26 AWG, color: green, cut_mm: null, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "KK 254 socket on the header pin (0022012027 position 2)"], source: "[L] CHARGER_BOARD.md"}
   - {cable: CE, from: JPI.V3, to: PI.1, net: 3V3, gauge: 26 AWG, color: orange, cut_mm: null, i_mean_a: 0.00033, i_peak_a: 0.00033, ends: ["solder pad", "header pin"], source: "[L] CHARGER_BOARD.md. Second wire on pin 1. The harness splices it to cable D2."}
   - {cable: CE, from: JPI.GND, to: PI.9, net: GND, gauge: 26 AWG, color: black, cut_mm: null, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "header pin"], source: "[L] CHARGER_BOARD.md. Second wire on pin 9. The harness splices it to cable D2."}
-  - {cable: NT, from: RT1.1, to: JNT.A, net: NTC_MID, gauge: "bead lead", color: violet, cut_mm: null, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["bead lead", "KK 254 housing 0022012027 position 1, contact 08-50-0114"], source: "[L] CHARGER_BOARD.md. 2.5 V / 10.0 kOhm is 0.25 mA if the bead is a short, calc only, an upper bound."}
+  - {cable: NT, from: RT1.1, to: JNT.A, net: NTC_MID, gauge: "bead lead", color: violet, cut_mm: null, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["bead lead", "KK 254 housing 0022012027 position 1, contact 08-50-0114"], source: "[L] D65. The bead reaches the BQ24133 TS pin through JNT."}
   - {cable: NT, from: RT1.2, to: JNT.B, net: GND, gauge: "bead lead", color: black, cut_mm: null, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["bead lead", "KK 254 housing 0022012027 position 2, contact 08-50-0114"], source: "[L] CHARGER_BOARD.md"}
-  - {cable: NW, from: JNT.A, to: RBIAS.2, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["solder pad", "solder pad"], source: "[L] CHARGER_BOARD.md rbias 10.0 kOhm"}
+  - {cable: NW, from: JNT.A, to: RBIAS.2, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["solder pad", "solder pad"], source: "[L] D65 rbias 2.87 kOhm"}
+  - {cable: NW, from: JNT.A, to: CHG.TS, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["solder pad", "solder pad"], source: "[L] D65. Pack NTC reaches BQ24133 TS."}
+  - {cable: NW, from: JNT.A, to: RPAR.1, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["solder pad", "solder pad"], source: "[L] D65. 12.7 kOhm in parallel with the bead."}
+  - {cable: NW, from: RPAR.2, to: JNT.B, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] D65"}
   - {cable: NW, from: JNT.A, to: CU2.INAM, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] cold comparator sees the bead"}
   - {cable: NW, from: CU2.INAM, to: CU2.INBP, net: NTC_MID, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] hot comparator sees the bead"}
   - {cable: NW, from: CU3.K, to: RBIAS.1, net: VREF, gauge: "board", color: violet, cut_mm: 0, i_mean_a: 0.00025, i_peak_a: 0.00025, ends: ["solder pad", "solder pad"], source: "[L] reference over the 10.0 kOhm bias"}
@@ -1538,13 +1559,14 @@ wires:
   - {cable: DC4, from: DK7.GND, to: SW1.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 70, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
   - {cable: DC3, from: WK1.K, to: SW1.ON, net: SW1_ON, gauge: 26 AWG, color: white, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.001, ends: [solder, solder in 0.1 in hole], source: "[L] D43: the wake branch sits in heat shrink at the SW1 control pads"}
   # battery bay
-  - {cable: P1, from: PACK.B+, to: BMS.B+, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 120, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [holder lead, solder pad], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)", note: "6.4 V pack: 4.9 A mean, 8.7 A worst 100 ms"}
+  - {cable: P1, from: PACK.B+, to: BMS.B+, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 120, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [holder lead, solder pad], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)", note: "D65 abrasion sleeve on this 16 AWG pack lead. A 1 ohm nick here stays under the 15 A fuse and under the 120 A protector trip, so the sleeve is the protection."}
   - {cable: P2, from: PACK.B-, to: BMS.B-, net: CELL_N, gauge: 16 AWG, color: black, cut_mm: 120, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [holder lead, solder pad], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}
   - {cable: P3, from: PACK.MID, to: BMS.B1, net: CELL_MID, gauge: 26 AWG, color: yellow, cut_mm: 140, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder to strap, solder pad], source: "[L] B27; colour [I]", note: "sense only"}
+  - {cable: P3b, from: PACK.MID2, to: BMS.B2, net: CELL_MID2, gauge: 26 AWG, color: yellow, cut_mm: null, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder to strap, solder pad], source: "[L] D65", note: "sense only, third cell. Cut length not set."}
   - {cable: P4, from: BMS.P+, to: CHG.B+, net: PACK_P, gauge: 20 AWG, color: red, cut_mm: 130, i_mean_a: 0.0, i_peak_a: 2.0, ends: [solder pad, solder pad], source: "[U]", note: "2 A only while charging (seller)"}
   - {cable: P5, from: BMS.P-, to: CHG.B-, net: GND, gauge: 20 AWG, color: black, cut_mm: 130, i_mean_a: 0.0, i_peak_a: 2.0, ends: [solder pad, solder pad], source: "[U]"}
-  - {cable: P6, from: BMS.P+, to: XT30.F+, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 150, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [solder pad, XT30 solder cup], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}
-  - {cable: P8, from: BMS.P-, to: XT30.F-, net: GND, gauge: 16 AWG, color: black, cut_mm: 150, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [solder pad, XT30 solder cup], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}
+  - {cable: P6, from: BMS.P+, to: XT30.F+, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 150, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [solder pad, XT30 solder cup], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)", note: "D65 abrasion sleeve"}
+  - {cable: P8, from: BMS.P-, to: XT30.F-, net: GND, gauge: 16 AWG, color: black, cut_mm: 150, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [solder pad, XT30 solder cup], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)", note: "D65 abrasion sleeve"}
   - {cable: P7, branch: line, from: XT30.M+, to: JFI.S, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 30, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [XT30 solder cup, splice], source: "[L] D3; cut 30 (agent CAB 2026-11-02): a 20 mm piece of 16 AWG (3.0 mm OD) leaves no room between the XT30 cup sleeve and the JFI sleeve, which must reach 2 x OD = 6 mm past the lap (NASA-STD-8739.4A 19.2.6); cables3d chain 30 + 90 = 120 mm (needs 92); currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}
   - {cable: P7, branch: line, from: JFI.S, to: F1.IN, net: PACK_P, gauge: 16 AWG, color: holder lead, cut_mm: 90, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [splice, holder lead], source: "[L] D3; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)", note: "holder lead as shipped"}
   - {cable: P7, branch: load, from: F1.OUT, to: JFO.S, net: PACK_F, gauge: 16 AWG, color: holder lead, cut_mm: 90, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [holder lead, splice], source: "[L] D3; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)", note: "holder lead as shipped; its -y end leaves about 4 mm from the body wall, turn it at once (cables3d)"}
@@ -1555,7 +1577,7 @@ wires:
   - {cable: P15, from: SW1.SW, to: CTL.1, net: CTRL_SW, gauge: 26 AWG, color: white, cut_mm: 150, i_mean_a: 0.000084, i_peak_a: 0.000084, ends: [solder in 0.1 in hole, solder lug], source: "[L] D8; colour [I]"}
   - {cable: P15, from: SW1.GND_SW, to: CTL.2, net: GND, gauge: 26 AWG, color: black, cut_mm: 150, i_mean_a: 0.000084, i_peak_a: 0.000084, ends: [solder in 0.1 in hole, solder lug], source: "[L] D8"}
   # belly: servo regulator
-  - {cable: P10, from: VSW.S, to: U1.IN+, net: VSW, gauge: 16 AWG, color: red, cut_mm: 150, i_mean_a: 4.77, i_peak_a: 6.23, i_fall_a: 14.6, ends: [splice, solder to BEC lead], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}
+  - {cable: P10, from: VSW.S, to: U1.IN+, net: VSW, gauge: 16 AWG, color: red, cut_mm: 150, i_mean_a: 4.77, i_peak_a: 6.23, i_fall_a: 14.6, ends: [splice, solder to BEC lead], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)", note: "D65 abrasion sleeve. The end name stays BEC lead so the connector check still matches the input lead."}
   - {cable: P10, from: G.S, to: U1.IN-, net: GND, gauge: 16 AWG, color: black, cut_mm: 150, i_mean_a: 4.77, i_peak_a: 6.23, i_fall_a: 14.6, ends: [splice, solder to BEC lead], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}
   - {cable: P11, branch: lead1, from: U1.OUT1+, to: JBP.S, net: SERVO_7V2, gauge: BEC lead, color: red, cut_mm: null, i_mean_a: 2.13, i_peak_a: 2.78, i_fall_a: 6.3, ends: [BEC lead, splice], source: "[L] POWER.md; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only), equal split of the two BEC leads", note: "cut the 3-pin plug off; lead gauge and length not published, as shipped; equal split assumed [I]"}
   - {cable: P11, branch: lead2, from: U1.OUT2+, to: JBP.S, net: SERVO_7V2, gauge: BEC lead, color: red, cut_mm: null, i_mean_a: 2.13, i_peak_a: 2.78, i_fall_a: 6.3, ends: [BEC lead, splice], source: "[L] POWER.md; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only), equal split of the two BEC leads"}
@@ -1645,18 +1667,18 @@ wires:
   # servo bus (D15). Power: BEC -> SPV/SPG -> SP1 SP2 SP3 (22 AWG) -> first servo BUS 2. Data: adapter H3/H5,
   # DATA and GND only. Ground of each data lead joins the power-pair ground just before the servo housing.
   # D23: SP4 SP5 (22 AWG) from SPV/SPG into BUS 1 of the ankle servos ID 24 and ID 14, data position empty.
-  - {cable: SP1, from: SPV.S, to: SV20.BUS2.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 160, i_mean_a: 0.84, i_peak_a: 1.64, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15; currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)", note: "feeds the left leg (IDs 20 to 24)"}
+  - {cable: SP1, from: EFL.OUT, to: SV20.BUS2.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 160, i_mean_a: 0.84, i_peak_a: 1.64, ends: [pad, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15 and D65; currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)", note: "feeds the left leg (IDs 20 to 24) through EFL"}
   - {cable: SP1, from: SPG.S, to: JG20.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 140, i_mean_a: 0.85, i_peak_a: 1.44, ends: [splice, splice], source: "[L] D15; split point [I]; currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)"}
   - {cable: SP1, branch: tail, from: JG20.S, to: SV20.BUS2.G, net: GND, gauge: 22 AWG, color: black, cut_mm: 30, i_mean_a: 0.84, i_peak_a: 1.64, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15 one wire per terminal; cut 30 mm (agent CAB 2026-11-02): 3.5 mm in the terminal (Molex 5263 catalog drawing B-101), a lap splice of 3 to 6 wire diameters under a 15 mm adhesive sleeve that reaches 2 x OD past the joint (NASA-STD-8739.4A 19.4.1 c, 19.2.6), so the stiff sleeve sits past the bend at the plug exit (7.2.36); the splice floats, judged by chain (cables3d); currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)"}
-  - {cable: SP2, from: SPV.S, to: SV10.BUS2.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 150, i_mean_a: 0.84, i_peak_a: 2.21, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15; currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)", note: "feeds the right leg (IDs 10 to 14)"}
+  - {cable: SP2, from: EFR.OUT, to: SV10.BUS2.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 150, i_mean_a: 0.84, i_peak_a: 2.21, ends: [pad, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15 and D65; currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)", note: "feeds the right leg (IDs 10 to 14) through EFR"}
   - {cable: SP2, from: SPG.S, to: JG10.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 130, i_mean_a: 0.82, i_peak_a: 1.88, ends: [splice, splice], source: "[L] D15; split point [I]; currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)"}
   - {cable: SP2, branch: tail, from: JG10.S, to: SV10.BUS2.G, net: GND, gauge: 22 AWG, color: black, cut_mm: 30, i_mean_a: 0.84, i_peak_a: 2.22, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15; cut 30 mm (agent CAB 2026-11-02): 3.5 mm in the terminal (Molex 5263 catalog drawing B-101), a lap splice of 3 to 6 wire diameters under a 15 mm adhesive sleeve that reaches 2 x OD past the joint (NASA-STD-8739.4A 19.4.1 c, 19.2.6), so the stiff sleeve sits past the bend at the plug exit (7.2.36); the splice floats, judged by chain (cables3d); currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)"}
-  - {cable: SP3, from: SPV.S, to: SV30.BUS2.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 180, i_mean_a: 0.85, i_peak_a: 1.52, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15; currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)", note: "feeds the neck chain (IDs 30 to 33)"}
+  - {cable: SP3, from: EFN.OUT, to: SV30.BUS2.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 180, i_mean_a: 0.85, i_peak_a: 1.52, ends: [pad, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15 and D65; currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)", note: "feeds the neck chain (IDs 30 to 33) through EFN"}
   - {cable: SP3, from: SPG.S, to: JG30.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 160, i_mean_a: 0.77, i_peak_a: 1.2, ends: [splice, splice], source: "[L] D15; split point [I]; currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)"}
   - {cable: SP3, branch: tail, from: JG30.S, to: SV30.BUS2.G, net: GND, gauge: 22 AWG, color: black, cut_mm: 30, i_mean_a: 0.85, i_peak_a: 1.52, ends: [splice, Molex 50-37-5033 housing + 08-70-1040 crimp], source: "[L] D15; cut 30 mm (agent CAB 2026-11-02): 3.5 mm in the terminal (Molex 5263 catalog drawing B-101), a lap splice of 3 to 6 wire diameters under a 15 mm adhesive sleeve that reaches 2 x OD past the joint (NASA-STD-8739.4A 19.4.1 c, 19.2.6), so the stiff sleeve sits past the bend at the plug exit (7.2.36); the splice floats, judged by chain (cables3d); currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only)"}
-  - {cable: SP4, from: SPV.S, to: SV24.BUS1.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 420, i_mean_a: 1.15, i_peak_a: 1.98, ends: [splice, Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp], source: "[L] D23; cut = route worst 348 + 40 slack (cables3d); currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only); cut +10 mm (agent CAB 2026-11-02, D25): the twist take-up at the shortest lay (up to 1.9 %) on the cables3d worst route"}
+  - {cable: SP4, from: EFL.OUT, to: SV24.BUS1.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 420, i_mean_a: 1.15, i_peak_a: 1.98, ends: [pad, Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp], source: "[L] D23 and D65; cut = route worst 348 + 40 slack (cables3d); currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only); cut +10 mm (agent CAB 2026-11-02, D25): the twist take-up at the shortest lay (up to 1.9 %) on the cables3d worst route"}
   - {cable: SP4, from: SPG.S, to: SV24.BUS1.G, net: GND, gauge: 22 AWG, color: black, cut_mm: 420, i_mean_a: 1.15, i_peak_a: 1.98, ends: [splice, Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp], source: "[L] D23; cut = route worst 348 + 40 slack (cables3d); currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only); cut +10 mm (agent CAB 2026-11-02, D25): the twist take-up at the shortest lay (up to 1.9 %) on the cables3d worst route"}
-  - {cable: SP5, from: SPV.S, to: SV14.BUS1.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 450, i_mean_a: 1.18, i_peak_a: 2.11, ends: [splice, Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp], source: "[L] D23; cut = route worst 377 + 40 slack (cables3d); currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only); cut +10 mm (agent CAB 2026-11-02, D25): the twist take-up at the shortest lay (up to 1.9 %) on the cables3d worst route"}
+  - {cable: SP5, from: EFR.OUT, to: SV14.BUS1.V, net: SERVO_7V2, gauge: 22 AWG, color: red, cut_mm: 450, i_mean_a: 1.18, i_peak_a: 2.11, ends: [pad, Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp], source: "[L] D23 and D65; cut = route worst 377 + 40 slack (cables3d); currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only); cut +10 mm (agent CAB 2026-11-02, D25): the twist take-up at the shortest lay (up to 1.9 %) on the cables3d worst route"}
   - {cable: SP5, from: SPG.S, to: SV14.BUS1.G, net: GND, gauge: 22 AWG, color: black, cut_mm: 450, i_mean_a: 1.18, i_peak_a: 2.11, ends: [splice, Molex 50-37-5033 housing (DATA position empty) + 08-70-1040 crimp], source: "[L] D23; cut = route worst 377 + 40 slack (cables3d); currents: [L] VERIFICATION.md C7, as built, E5 walks at 6.0 V, worse corner (sim pass only); cut +10 mm (agent CAB 2026-11-02, D25): the twist take-up at the shortest lay (up to 1.9 %) on the cables3d worst route"}
   - {cable: SD1, branch: stem, from: U2.H3.D, to: YD3.S, net: BUS_DATA, gauge: 22 AWG, color: yellow, cut_mm: 30, i_mean_a: null, i_peak_a: null, ends: [Molex 50-37-5033 housing (V position empty) + 08-70-1040 crimp, splice], source: "[L] D15; stem length and colours [I]"}
   - {cable: SD1, branch: stem, from: U2.H3.G, to: YG3.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 45, i_mean_a: null, i_peak_a: null, ends: [Molex 50-37-5033 housing (V position empty) + 08-70-1040 crimp, splice], source: "[L] D15; 45 mm (agent CAB 2026-11-02): 15 mm longer than the stem D wire, so YG3 sits one 15 mm sleeve past YD3 (splices staggered, NASA-STD-8739.4A 7.2.35)"}
@@ -1699,9 +1721,9 @@ wires:
   - {cable: S13, from: SV32.BUS1.D, to: SV33.BUS2.D, net: BUS_DATA, gauge: kit cable, color: kit, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [5264 plug, 5264 plug], source: "[U]"}
   - {cable: S13, from: SV32.BUS1.V, to: SV33.BUS2.V, net: SERVO_7V2, gauge: kit cable, color: kit, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [5264 plug, 5264 plug], source: "[U]"}
   - {cable: S13, from: SV32.BUS1.G, to: SV33.BUS2.G, net: GND, gauge: kit cable, color: kit, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [5264 plug, 5264 plug], source: "[U]"}
-  - {cable: EF, from: SPV.S, to: EFL.IN, net: SERVO_7V2, gauge: 16 AWG, color: red, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64. Input only. OUT is not tied to SP1 or SP4. The live feeds still leave SPV."}
+  - {cable: EF, from: SPV.S, to: EFL.IN, net: SERVO_7V2, gauge: 16 AWG, color: red, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D65. EFL.OUT feeds SP1 and SP4."}
   - {cable: EF, from: SPG.S, to: EFL.GND, net: GND, gauge: 16 AWG, color: black, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64"}
-  - {cable: EF, from: SPV.S, to: EFR.IN, net: SERVO_7V2, gauge: 16 AWG, color: red, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64. OUT is not tied to SP2 or SP5."}
+  - {cable: EF, from: SPV.S, to: EFR.IN, net: SERVO_7V2, gauge: 16 AWG, color: red, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D65. EFR.OUT feeds SP2 and SP5."}
   - {cable: EF, from: SPG.S, to: EFR.GND, net: GND, gauge: 16 AWG, color: black, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64"}
-  - {cable: EF, from: SPV.S, to: EFN.IN, net: SERVO_7V2, gauge: 16 AWG, color: red, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64. OUT is not tied to SP3."}
+  - {cable: EF, from: SPV.S, to: EFN.IN, net: SERVO_7V2, gauge: 16 AWG, color: red, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D65. EFN.OUT feeds SP3."}
   - {cable: EF, from: SPG.S, to: EFN.GND, net: GND, gauge: 16 AWG, color: black, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64"}

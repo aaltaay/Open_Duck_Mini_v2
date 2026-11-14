@@ -232,9 +232,48 @@ def main():
     isat = i_chg + 0.5 * ripple
     check("Isat clears 1.099 A", abs(isat - 1.099) < 0.002, "%.3f A" % isat)
 
-    ts = ohm(parts["RTB"]) / (ohm(parts["RTS"]) + ohm(parts["RTB"]))
-    check("TS fraction is 0.60", abs(ts - 0.60) < 0.001, "%.3f" % ts)
-    check("TS between hot and cold", 0.488 < ts < 0.725, "%.3f" % ts)
+    ts_net = next(iter(pin_nets.get("U1.TS", set()) or {""}))
+    ntc_on_ts = ts_net in pin_nets.get("NTC.A", set()) and "GND" in pin_nets.get("NTC.B", set())
+    check("pack bead is on TS", ntc_on_ts and ts_net == "TS", "TS nets %s" % sorted(pin_nets.get("NTC.A", set())))
+    # Bias is every resistor from VREF to TS. Bottom is every resistor from TS to GND, in parallel with the bead.
+    bias = []
+    bottom = []
+    for c in doc["components"]:
+        if c.get("kind") != "resistor" or "value_ohm" not in c:
+            continue
+        na = pin_nets.get("%s.A" % c["id"], set())
+        nb = pin_nets.get("%s.B" % c["id"], set())
+        if ts_net in na and "VREF" in nb:
+            bias.append(ohm(c))
+        elif ts_net in nb and "VREF" in na:
+            bias.append(ohm(c))
+        elif ts_net in na and "GND" in nb:
+            bottom.append(ohm(c))
+        elif ts_net in nb and "GND" in na:
+            bottom.append(ohm(c))
+    check("TS has one bias resistor", len(bias) == 1, ",".join("%.0f" % r for r in bias) or "none")
+    check("TS has a resistor to ground", len(bottom) == 1, ",".join("%.0f" % r for r in bottom) or "none")
+
+    def ts_frac(rn):
+        r1 = bias[0]
+        rpar = bottom[0]
+        if rn is None:
+            rp = rpar
+        else:
+            rp = 1.0 / (1.0 / rpar + 1.0 / rn)
+        return rp / (r1 + rp)
+    if bias and bottom and ntc_on_ts:
+        f0 = ts_frac(31770.0)
+        f25 = ts_frac(10000.0)
+        f60 = ts_frac(2472.0)
+        fopen = ts_frac(None)
+        check("0 C bead is above 0.745", f0 > 0.745, "%.3f" % f0)
+        check("25 C bead is inside the TS window", 0.452 < f25 < 0.725, "%.3f" % f25)
+        check("60 C bead is below 0.442", f60 < 0.442, "%.3f" % f60)
+        check("open bead stops charge", fopen > 0.745, "%.3f" % fopen)
+        check("shorted bead stops charge", ts_frac(1e-6) < 0.442, "%.3f" % ts_frac(1e-6))
+    else:
+        check("TS fraction uses the wired bead", False, "bead not on TS")
 
     cin = parts["CPV1"]["value_F"] + parts["CPV2"]["value_F"]
     check("PVCC is 20 uF", abs(cin - 20e-6) < 1e-12, "%.0f uF" % (cin * 1e6))

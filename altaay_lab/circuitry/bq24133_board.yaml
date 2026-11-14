@@ -119,8 +119,8 @@ components:
   - {id: ROH, ref: R11, part: "102 kOhm OVPSET top", kind: resistor, value_ohm: 102000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
   - {id: ROL, ref: R12, part: "10.0 kOhm OVPSET bottom", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
   - {id: CTTC, ref: C12, part: "68 nF safety timer", kind: capacitor, value_F: 6.8e-8, pins: [{pin: P, dir: in}, {pin: M, dir: gnd}]}
-  - {id: RTS, ref: R13, part: "10.0 kOhm TS top", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
-  - {id: RTB, ref: R14, part: "15.0 kOhm TS bottom", kind: resistor, value_ohm: 15000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: RTS, ref: R13, part: "2.87 kOhm TS bias from VREF", kind: resistor, value_ohm: 2870, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: RTB, ref: R14, part: "12.7 kOhm in parallel with the pack NTC", kind: resistor, value_ohm: 12700, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
   - {id: RST, ref: R15, part: "10 kOhm STAT pullup to VREF", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: pwr}, {pin: B, dir: out}]}
   - id: U2
     ref: U2
@@ -148,12 +148,11 @@ components:
       - {pin: INB-, dir: nc}
       - {pin: OUTB, dir: nc}
       - {pin: VCC, dir: pwr}
-  - {id: NTC, ref: RT1, part: "Adafruit 372, 10 kOhm at 25 C", kind: thermistor, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
-  - {id: RB, ref: R16, part: "10.0 kOhm NTC bias", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
+  - {id: NTC, ref: RT1, part: "Adafruit 372, 10 kOhm at 25 C, on the BQ24133 TS pin", kind: thermistor, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
   - {id: RCT, ref: R17, part: "10.0 kOhm cold top", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
   - {id: RCB, ref: R18, part: "28.0 kOhm cold bottom", kind: resistor, value_ohm: 28000, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
   - {id: RHT, ref: R19, part: "10.0 kOhm hot top", kind: resistor, value_ohm: 10000, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
-  - {id: RHB, ref: R20, part: "2.80 kOhm hot bottom", kind: resistor, value_ohm: 2800, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
+  - {id: RHB, ref: R20, part: "8.25 kOhm hot bottom", kind: resistor, value_ohm: 8250, pins: [{pin: A, dir: in}, {pin: B, dir: gnd}]}
   - {id: TL, ref: U4, part: "TL431, sheet not opened, absolute voltage BLOCKER", kind: ref, pins: [{pin: K, dir: pwr}, {pin: R, dir: in}, {pin: A, dir: gnd}]}
   - {id: RTLF, ref: R21, part: "4.99 kOhm into the TL431", kind: resistor, value_ohm: 4990, pins: [{pin: A, dir: pwr}, {pin: B, dir: pwr}]}
   - {id: RVT, ref: R22, part: "12.1 kOhm ON threshold from VREF", kind: resistor, value_ohm: 12100, pins: [{pin: A, dir: pwr}, {pin: B, dir: in}]}
@@ -241,19 +240,18 @@ wires:
   - {from: RTS.B, to: U1.TS, net: TS}
   - {from: RTB.A, to: U1.TS, net: TS}
   - {from: RTB.B, to: U1.AGND, net: GND}
+  - {from: NTC.A, to: U1.TS, net: TS}
   - {from: RST.A, to: U1.VREF, net: VREF}
   - {from: RST.B, to: U1.STAT, net: STAT}
   - {from: JPI.STAT, to: U1.STAT, net: STAT}
   - {from: U2.OUTA, to: U1.ISET, net: ISET}
   - {from: U2.OUTB, to: U1.ISET, net: ISET}
-  - {from: U2.INA-, to: NTC.A, net: NTC}
+  - {from: U2.INA-, to: NTC.A, net: TS}
   - {from: U2.INA+, to: RCT.B, net: COLD_TH}
-  - {from: U2.INB+, to: NTC.A, net: NTC}
+  - {from: U2.INB+, to: NTC.A, net: TS}
   - {from: U2.INB-, to: RHT.B, net: HOT_TH}
   - {from: U2.VCC, to: JPK.P, net: PACK}
   - {from: U2.GND, to: U1.AGND, net: GND}
-  - {from: RB.A, to: TL.K, net: VREF_TL}
-  - {from: RB.B, to: NTC.A, net: NTC}
   - {from: NTC.B, to: U1.AGND, net: GND}
   - {from: RCT.A, to: TL.K, net: VREF_TL}
   - {from: RCB.A, to: RCT.B, net: COLD_TH}

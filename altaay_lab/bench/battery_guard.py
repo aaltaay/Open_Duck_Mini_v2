@@ -20,7 +20,14 @@ Rules (defaults; every number is a flag):
   start check  refuse to start walking if the idle median is under 6.8 V (rest model: pack minus
                the 0.3 V BEC dropout assumed in sim/POWER_PATH_SIM.md, about 3.55 V per cell).
   lost reads   5 s without a valid reading while walking -> walk stop (fail safe).
-Readings outside 3.0 to 9.0 V are dropped as implausible (counted).
+Readings outside 3.0 to 13.0 V are dropped as implausible (counted). A held 12 V rail
+reads near 12 V, so the old 9.0 V ceiling would throw those samples away.
+
+Pack walk cutoff (D65): stop walking when the pack terminal is under 10.0 V. That is
+3.33 V per cell, the first cited i7C current row (16.5 A at 12 V out). The catalog
+row at 9 V was not found. Servo Present Voltage stays near 12 V while the regulator
+holds, so this cutoff is pack voltage, not the servo median. Pass pack_v into
+update() and check_start(). The Pi has no pack-voltage sensor yet (SOFTWARE.md).
 
 Why not D16 literally ("hard stop at 6.0 V") while walking: the sim median reads 6.0 V while
 walking at about 3.57 V per cell, which is where the walk stop should act; a torque-off there
@@ -61,7 +68,8 @@ class GuardConfig:
         self.start_min_v = 6.8
         self.lost_reads_s = 5.0
         self.v_min_plausible = 3.0
-        self.v_max_plausible = 9.0
+        self.v_max_plausible = 13.0
+        self.pack_walk_min_v = 10.0
         self.min_servos = 7          # a sample needs at least half the servos to answer
         for k, v in kw.items():
             if not hasattr(self, k):
@@ -138,17 +146,35 @@ class BatteryGuard:
             return None, good
         return statistics.median(good), good
 
-    def check_start(self, volts):
-        """True if walking may start; idle reading before torque-on."""
-        med, _ = self.median_of(volts)
-        return med is not None and med >= self.cfg.start_min_v, med
+    def pack_allows_walk(self, pack_v):
+        """True when the pack terminal is at or above the D65 walk floor."""
+        if pack_v is None:
+            return False
+        return float(pack_v) >= self.cfg.pack_walk_min_v
 
-    def update(self, t, volts):
+    def check_start(self, volts, pack_v=None):
+        """True if walking may start; idle reading before torque-on.
+
+        pack_v is the pack terminal in volts. When it is passed, walking also
+        needs the D65 floor (10.0 V). Servo voltage alone cannot see that floor
+        while the regulator holds 12 V.
+        """
+        med, _ = self.median_of(volts)
+        ok = med is not None and med >= self.cfg.start_min_v
+        if pack_v is not None:
+            ok = ok and self.pack_allows_walk(pack_v)
+        return ok, med
+
+    def update(self, t, volts, pack_v=None):
         c = self.cfg
         new = []
         if self.t_start is None:
             self.t_start = t
         if self.state == HARD_STOPPED:
+            return new
+        if pack_v is not None and not self.pack_allows_walk(pack_v) and self.state == WALKING:
+            new.append(self._event(t, "walk_stop", "pack under %.1f V" % c.pack_walk_min_v, pack_v))
+            self.state = STOPPING
             return new
         med, good = self.median_of(volts)
         if med is None:

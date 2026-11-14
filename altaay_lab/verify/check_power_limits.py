@@ -207,7 +207,8 @@ def judge(limits, becs, drops, nests, pack, servo, five, u3_domain, pack_domain,
     """becs, drops, nests are lists of floats. pack and servo and five are (lo, hi) or None.
     flags: bms_2s, charger_2s, pack_drawing_2s (bool)."""
     rep = Report()
-    bec_part = limits["parts"]["castle_bec"]
+    held = bool(flags.get("held"))
+    bec_part = limits["parts"]["servo_reg"] if held else limits["parts"]["castle_bec"]
     cells = limits["parts"]["p45b"]
     fuse = limits["parts"]["fuse"]
     sw = limits["parts"]["pololu_2815"]
@@ -221,11 +222,16 @@ def judge(limits, becs, drops, nests, pack, servo, five, u3_domain, pack_domain,
     for v in becs:
         if v + 1e-6 < bec_part["v_out_min"] or v > bec_part["v_out_max"] + 1e-6:
             rep.add_fail(
-                "BEC set point %.3f V is outside the cited output range %.1f V to %.1f V "
-                "(Castle chart 4.9 V, POWER.md also cites 4.8 V, both cap at 12.5 V)"
-                % (v, bec_part["v_out_min"], bec_part["v_out_max"]))
-        elif v + 1e-6 < bec_part["v_out_min_also_cited"]:
-            rep.add_fail("BEC set point %.3f V is under the POWER.md minimum %.1f V" % (v, bec_part["v_out_min_also_cited"]))
+                "regulator set point %.3f V is outside the cited output range %.1f V to %.1f V (%s)"
+                % (v, bec_part["v_out_min"], bec_part["v_out_max"], bec_part["name"]))
+        also = bec_part.get("v_out_min_also_cited")
+        if also is not None and v + 1e-6 < also:
+            rep.add_fail("regulator set point %.3f V is under the other cited minimum %.1f V" % (v, also))
+        caps = [rng["v_max"] for rng in limits["parts"]["sts3215_c018"]["ranges"] if rng["adopted"]]
+        if caps and v > min(caps) + 1e-6:
+            rep.add_fail(
+                "regulator set point %.3f V is above the adopted servo maximum %.1f V"
+                % (v, min(caps)))
 
     if len(set(round(v, 6) for v in drops)) != 1:
         rep.add_fail("design dropout disagrees: %s" % ", ".join("%.3f" % v for v in drops))
@@ -254,7 +260,9 @@ def judge(limits, becs, drops, nests, pack, servo, five, u3_domain, pack_domain,
         if not inside(lo, hi, reg["v_in_min"], reg["v_in_max"]):
             rep.add_fail("pack %.3f V to %.3f V is outside the Pololu D30V30F5 input %.0f V to %.0f V" % (lo, hi, reg["v_in_min"], reg["v_in_max"]))
         if hi > bec_part["v_in_max"] + 1e-6:
-            rep.add_fail("pack max %.3f V is above the Castle surface input max %.1f V" % (hi, bec_part["v_in_max"]))
+            rep.add_fail("pack max %.3f V is above the regulator input max %.1f V" % (hi, bec_part["v_in_max"]))
+        if bec_part.get("v_in_min") is not None and lo + 1e-6 < bec_part["v_in_min"]:
+            rep.add_fail("pack min %.3f V is under the regulator input min %.1f V" % (lo, bec_part["v_in_min"]))
         if u3_domain != pack_domain:
             rep.add_fail("U3 VIN domain %s is not the pack domain %s" % (u3_domain, pack_domain))
 
@@ -262,8 +270,16 @@ def judge(limits, becs, drops, nests, pack, servo, five, u3_domain, pack_domain,
         rep.add_fail("no live servo voltage domain")
     else:
         slo, shi = servo
-        if becs and not all(near(shi, v) for v in becs):
-            rep.add_fail("servo domain max %.3f V is not the BEC set point" % shi)
+        if held and becs and len(set(round(v, 6) for v in becs)) == 1:
+            tol = float(bec_part.get("v_out_tol") or 0.0)
+            band_lo = becs[0] * (1.0 - tol)
+            band_hi = becs[0] * (1.0 + tol)
+            if not (near(slo, band_lo, 0.02) and near(shi, band_hi, 0.02)):
+                rep.add_fail(
+                    "servo domain %.3f V to %.3f V is not the set point %.3f V plus or minus %.0f percent (%.3f V to %.3f V)"
+                    % (slo, shi, becs[0], tol * 100, band_lo, band_hi))
+        elif becs and not all(near(shi, v) for v in becs):
+            rep.add_fail("servo domain max %.3f V is not the regulator set point" % shi)
         for rng in limits["parts"]["sts3215_c018"]["ranges"]:
             if not rng["adopted"]:
                 if slo + 1e-6 < rng["v_min"] or shi > rng["v_max"] + 1e-6:
@@ -289,16 +305,20 @@ def judge(limits, becs, drops, nests, pack, servo, five, u3_domain, pack_domain,
 
     if pack is not None and flags.get("bms_2s"):
         ov = 2.0 * (bms["v_ov_cell"] + bms["v_ov_tol"])
-        rep.add_open(
+        rep.add_fail(
             "pack %.3f V to %.3f V is outside the Tenergy 32175 2S board (over-charge about %.2f V, cited). "
-            "A 3S protection board is not selected. problems/STS12.md. Tenergy 32007 is only a cited candidate."
+            "The 3S board is PCM-L04S30-566."
             % (pack[0], pack[1], ov))
     if pack is not None and flags.get("charger_2s"):
-        rep.add_open("netlist CHG is still the 8.4 V 2S charger. The pack domain goes to %.1f V. The 3S charger in the later notes is the BQ24133." % pack[1])
+        rep.add_fail("netlist CHG is still the 8.4 V 2S charger. The pack domain goes to %.1f V. The charger is the BQ24133 board at 12.6 V." % pack[1])
     if flags.get("pack_drawing_2s"):
-        rep.add_open("netlist PACK still says 2S and 6.0 V to 8.4 V. The live domain is the 3S window. The third cell is not drawn in this harness.")
+        rep.add_fail("netlist PACK still says 2S. The live domain is the 3S window.")
 
-    if becs:
+    if held:
+        rep.add_blocker(
+            "The catalog says the output tolerance is wider in boost when the input is under 20 V and the output power is over 100 W. That chart was not read.")
+        rep.add_blocker("The TRIM resistor ohm for 12.0 V was not in the catalog pages that were read.")
+    elif becs:
         top = max(becs)
         rep.add_blocker(
             "Castle does not publish the CC BEC Pro minimum input or the behavior below the set point. "
@@ -307,7 +327,7 @@ def judge(limits, becs, drops, nests, pack, servo, five, u3_domain, pack_domain,
             "Below that the sim follows the input minus 0.3 V. The real part might shut off instead. "
             "Motion RC lists 16 V to 40 V input. That is not used as a gate, because Castle's own chart rates 2S to 8S and does not print a minimum voltage."
             % (top, top + 0.3))
-    rep.add_blocker("BEC dropout 0.3 V and efficiency are assumptions. Castle publishes neither.")
+        rep.add_blocker("BEC dropout 0.3 V and efficiency are assumptions. Castle publishes neither.")
     rep.add_blocker("Pi Zero 2 W input tolerance around 5 V was not copied from the product brief. The 5 V domain is the regulator 4 percent band.")
     return rep
 
@@ -364,11 +384,22 @@ def tree_report():
     pack_rec = component(net, "PACK")
     chg = component(net, "CHG")
     bms = component(net, "BMS")
+    u1 = component(net, "U1")
     flags = dict(
         bms_2s="32175" in bms["part"],
         charger_2s="8.4" in str(chg["ratings"].get("output", "")),
         pack_drawing_2s=str(pack_rec["ratings"].get("cells", "")).startswith("2"),
+        held="i7C" in u1["part"] or "I7C" in u1["part"],
     )
+    walk_stop = pack_rec["ratings"].get("walk_stop_v")
+    if flags["held"]:
+        if walk_stop is None or not near(float(walk_stop), 10.0):
+            rep.add_fail("PACK walk_stop_v must be 10.0 V, the first cited i7C current row")
+        cited = limits["parts"]["servo_reg"].get("walk_pack_min_v")
+        if cited is None or not near(float(cited), float(walk_stop or 0)):
+            rep.add_fail("part_limits walk_pack_min_v does not match the netlist walk stop")
+        if limits["parts"]["pcm_l04s30"].get("fit_status") != "seated":
+            rep.add_fail("PCM fit_status is not seated")
     judged = judge(limits, becs, drops, nests, pack, servo, five, sp["u3_in"], sp["bec_in"], flags)
     rep.fail.extend(judged.fail)
     rep.open.extend(judged.open)
@@ -403,9 +434,9 @@ def prove():
         flags=dict(bms_2s=False, charger_2s=False, pack_drawing_2s=False))
     fixed = judge(
         limits, becs=[12.0], drops=[0.3], nests=[15.0],
-        pack=(9.0, 12.6), servo=(9.0, 12.0), five=(4.8, 5.2),
+        pack=(9.0, 12.6), servo=(11.52, 12.48), five=(4.8, 5.2),
         u3_domain="PACK_9V0_12V6", pack_domain="PACK_9V0_12V6",
-        flags=dict(bms_2s=False, charger_2s=False, pack_drawing_2s=False))
+        flags=dict(bms_2s=False, charger_2s=False, pack_drawing_2s=False, held=True))
     print_report("OLD 7.2 V and 16 V (the bug):", old)
     print_report("OLD 16 V alone, other values already at the 3S window:", only16)
     print_report("FIXED 12.0 V set point:", fixed)

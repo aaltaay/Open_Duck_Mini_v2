@@ -10,10 +10,10 @@ Elements kept from that circuit:
                                       the P30B surface gives the terminal volts (p30b.py)
   holder, P1, P2, BMS, P6/P8 + XT30, P7 + fuse, Pololu 2815, P9, P14, P10 (+/-), P13 (+/-), P11 + BEC leads, SP1..SP5,
   kit hops (cable + 2 contacts + servo board), data-lead grounds, adapter, USB ground, P12   all as resistors
-  Ebec   BEC output = min(BEC_V, max(V(becip,becin) - BEC_DROP, 0)); solved in two linear modes (regulating, dropout)
+  Ebec   3S hold (BEC_HOLD): output is the set point. Otherwise
+         BEC output = min(BEC_V, max(V(becip,becin) - BEC_DROP, 0)); two linear modes (regulating, dropout)
 The shared default is the 2S set point in sim/power_path_sim.py (7.2 V). The 3S studies pass BEC_V=BEC_SET_V
-(12.0 V). 16.0 V is superseded. Castle does not publish the minimum input or the behavior below the set point
-(BLOCKER). The 0.3 V dropout is an assumption.
+(12.0 V) and BEC_HOLD so the buck-boost holds that voltage. 16.0 V is superseded.
   Bbecin BEC input current = V(beco,becon) I(Vbecs) / (BEC_EFF max(V(becip,becin), 1))
   Breg   5 V regulator input current = P_5V / (REG_EFF max(V(regp,regn), 1))
   B_<servo> servo supply current: a current sink set by the servo model (servo_sts3215.py), one per servo
@@ -44,9 +44,12 @@ import power_fix as PF                                             # noqa: E402 
 # sim/power_path_sim.py. Superseded for the 3S rail: 16.0 V (pass-through).
 BEC_SET_V = 12.0
 PACK_V_MIN = 9.0
+WALK_PACK_MIN_V = 10.0  # D65. First cited i7C current row. Walking stops here.
 PACK_V_MAX = 12.6
 NEST_V = 15.0
-BEC_DROP_V = 0.3          # unpublished. BLOCKER. Not a Castle number.
+BEC_DROP_V = 0.3          # 2S buck assumption in sim/power_path_sim.py. Not used when BEC_HOLD is on.
+BEC_HOLD = 1              # 3S rail holds BEC_SET_V. D65, TDK-Lambda i7C buck-boost.
+BEC_EFF_HOLD = 0.94       # low end of the cited 94 to 97 percent band. The curve at this point was not read.
 
 NAMES = list(PPS.CHAIN_L + PPS.CHAIN_N + PPS.CHAIN_R)              # order of the servo sources in the solver
 SERVO_ID = dict(zip(NAMES, PPS.CHAIN_IDS["L"] + PPS.CHAIN_IDS["N"] + PPS.CHAIN_IDS["R"]))
@@ -66,8 +69,13 @@ def circuit_text(corner="typical", extra=None, vcell=3.7):
     """the ngspice text of sim/power_fix.py option ab for this corner (servo command sources are dummies)"""
     opt = PF.OPTIONS["ab"]
     ex = dict(CORNERS[corner]); ex.update(extra or {})
-    # No default override. Callers that still use the 2S pack keep sim/power_path_sim.py (7.2 V).
-    # The 3S studies pass BEC_V=BEC_SET_V.
+    # 2S callers that omit BEC_V keep sim/power_path_sim.py at 7.2 V (params default).
+    # A caller that passes the 3S set point holds it, unless they pass BEC_HOLD=0.
+    if ex.get("BEC_HOLD") is None and ex.get("BEC_V") == BEC_SET_V:
+        ex["BEC_HOLD"] = BEC_HOLD
+    if ex.get("BEC_HOLD"):
+        ex.setdefault("BEC_V", BEC_SET_V)
+        ex.setdefault("BEC_EFF", BEC_EFF_HOLD)
     p = PF.params("high-side", opt, ex)          # power_fix convention: "high-side" = P itself, the corner comes in extra
     pw = {n: (np.zeros(2), np.zeros(2)) for n in NAMES}
     cir, pr, nodes, probes = PF.netlist(pw, 0.002, vcell, opt, p)
@@ -81,6 +89,7 @@ class Net:
         self.corner = corner
         cir, nodes, probes, p = circuit_text(corner, extra)
         self.p = p
+        self.hold = False
         self.servo_nodes = nodes                 # name -> (p node, n node)
         self.probes = probes
         self.cell_model = cell_model             # None: lab cells (OCV + Rc); else p30b.P30B (Rc set to 1 nOhm)
@@ -103,8 +112,16 @@ class Net:
             elif nm[0] == "E":
                 E = (nm, t[1], t[2])
                 m = re.search(r"min\(([0-9.]+),\s*max\(V\((\w+),(\w+)\)\s*-\s*([0-9.]+)", line)
-                self.bec_v, self.bec_in = float(m.group(1)), (m.group(2), m.group(3))
-                self.bec_drop = float(m.group(4))
+                if m:
+                    self.bec_v, self.bec_in = float(m.group(1)), (m.group(2), m.group(3))
+                    self.bec_drop = float(m.group(4))
+                    self.hold = False
+                else:
+                    mh = re.search(r"value=\{([0-9.]+)\}", line)
+                    self.bec_v = float(mh.group(1))
+                    self.bec_in = ("becip", "becin")
+                    self.bec_drop = float(p["BEC_DROP"])
+                    self.hold = True
             elif nm[0] == "B":
                 B[nm] = (t[1], t[2])
         assert abs(self.bec_v - p["BEC_V"]) < 1e-12 and abs(self.bec_drop - p["BEC_DROP"]) < 1e-12
@@ -203,7 +220,10 @@ class Net:
             Hc = self._core[mode]
             yc = Hc @ s
             vbin, vreg, vout, ibout, ipk = yc[0], yc[1], yc[2], yc[3], yc[4]
-            want = "reg" if vbin - self.bec_drop >= self.bec_v else "drop"
+            if self.hold:
+                want = "reg"
+            else:
+                want = "reg" if vbin - self.bec_drop >= self.bec_v else "drop"
             if want != mode and flips < 4:         # BEC mode from the input it sees
                 mode = want; flips += 1
                 continue

@@ -48,7 +48,7 @@ Calc only, from `fault_inject.py`:
 | 60 C, 2.472 kOhm | 0.198 | yes |
 | Short | 0.00 | yes |
 
-The BQ24133 TS pin is not that bead. It is 10.0 kOhm over 15.0 kOhm, fraction 0.60 (calc only, BQ24133_BOARD.md). The chip's own window stays open at 0.60. If the LM393 path fails to pull ISET down, the chip still thinks the pack is fine. The low level of that comparator against the 40 mV disable threshold is already BLOCKER. Detection on the product is weak. That is the high D.
+D65 wires the bead to the BQ24133 TS pin. The bias is 2.87 kOhm from VREF, and 12.7 kOhm to ground in parallel with the bead. Calc only: the fraction is 0.760 at 0 C, 0.661 at 25 C, and 0.419 at 60 C. An open bead is 0.816 and a short is 0. Both are outside the cited TS window, so the chip stops charge. The old fixed divider (10.0 kOhm over 15.0 kOhm, fraction 0.60) is superseded. The LM393 still watches the same node. Detection is the chip's own pin. The resistor order codes are BLOCKER.
 
 What would lower it: a bench record of the bead open, the bead shorted, and charge current at zero both times (TEST_PLAN 20.5 style), plus a second inhibit that does not depend on one comparator.
 
@@ -85,7 +85,7 @@ The 8.5 mm margin is calc only: (20 mm stripe minus 3 mm well) / 2. When the rai
 
 ## 5. Pack protector missing (RPN 189)
 
-The Tenergy 32175 numbers (17 A to 27 A) are the 2S board. They do not move to a 3S pack. No 3S protector part number is on the bill (BLOCKER). A short above 15 A is supposed to open the fuse. Without a pack protector part, a fault the fuse is slow to clear has nowhere else to go. Severity stays high because the part is absent, not because a named 3S board was shown to fail.
+D65 puts BatterySpace PCM-L04S30-566 on the bill: 30 A continuous discharge and a trip of 120 A to 160 A (cited). The Tenergy 32175 numbers do not move to a 3S pack. The new board sits in the rear pocket on body_back (CAD check only, D65). The old slot does not hold it. A short above 15 A is still supposed to open the fuse. The 16 A walk peak is under 120 A, so this board is not the nuisance-trip case in row 9.
 
 ## 6. Camera dock miss (RPN 180)
 

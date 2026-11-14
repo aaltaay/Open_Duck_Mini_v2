@@ -4,7 +4,7 @@
 # Open items are real mismatches that are already written down. They are printed
 # on every run. They are not the BEC set-point gate.
 
-read: 2026-11-13
+read: 2026-11-14
 
 parts:
   p45b:
@@ -35,12 +35,32 @@ parts:
   tenergy_32007:
     name: Tenergy 32007 3S protection board
     source: https://power.tenergy.com/protection-circuit-module-pcb-for-11-1v-3s-li-ion-battery-pack-working-9a-cutoff-17a/
-    source_note: cited in problems/NEST3.md. Not the netlist part. Not a gate.
+    source_note: cited candidate. Not the netlist part. Working 9 A does not cover a 16 A peak, and the trip band 13 A to 21 A can open on that peak.
     series: 3
     v_nominal: 11.1
     i_cont_a: 9
     i_oc_a: 17
     i_oc_tol_a: 4
+
+  pcm_l04s30:
+    name: BatterySpace PCM-L04S30-566
+    source: http://www.batteryspace.com/prod-specs/7758.pdf
+    buy: https://www.batteryspace.com/custom-protection-circuit-module-pcm-with-equilibrium-function-for-11-1v-li-ion-battery-pack-at-30a-with-thermistor.aspx
+    source_note: One-page spec titled 11.1 V Li-ion, model line also says Li-3S. Charge voltage on that page is 12.6 V. Buy page read 2026-11-14, in stock. D65.
+    series: 3
+    v_charge: 12.6
+    i_charge_cont_a: 20
+    i_discharge_cont_a: 30
+    i_oc_min_a: 120
+    i_oc_max_a: 160
+    v_ov_cell: 4.25
+    v_ov_tol: 0.025
+    v_uv_cell: 2.5
+    v_uv_tol: 0.07
+    r_loop_mohm_max: 30
+    size_mm: "60 x 60 x 5"
+    fit_status: seated
+    pocket: "Rear face of print/body_back.stl. Boss 66 x 66 x 8 mm, recess 61 x 61 x 6 mm. Board center x -159.2, y 0, z 40 mm. CAD check only, 2026-11-14. The old 17.75 x 47.2 x 5.33 mm slot does not hold this board."
 
   fuse:
     name: Littelfuse 0287015.PXCN ATO 15 A in FHAC0001ZXJ
@@ -58,6 +78,26 @@ parts:
     v_max: 40
     i_cont_a: 16
     i_cont_note: the page says around 16 A
+
+  servo_reg:
+    name: TDK-Lambda i7C2W020A120V-0F1-R
+    source: https://product.tdk.com/info/en/catalog/datasheets/i7c_e.pdf
+    source_note: i7C series catalog, February 4 2025, V8. Buy page https://www.digikey.com/en/products/detail/tdk-lambda/I7C2W020A120V-0F1-R/22260923 read 2026-11-14, in stock, heatsink suffix. Buck-boost. D65.
+    v_out_min: 8
+    v_out_max: 24
+    v_out_tol: 0.04
+    v_in_min: 9
+    v_in_max: 36
+    v_turn_on_typ: 9.5
+    walk_pack_min_v: 10.0
+    i_out_12v_at_10vin_a: 16.5
+    i_out_12v_at_12vin_a: 20
+    i_ocp_typ_a: 26
+    eff_min: 0.94
+    eff_max: 0.97
+    below_setpoint_status: holds
+    current_at_9v_status: blocker
+    boost_tolerance_status: blocker
 
   castle_bec:
     name: Castle Creations CC BEC Pro, 010-0004-01
@@ -135,7 +175,7 @@ parts:
   tps259827:
     name: TI TPS259827ONRGE
     source: https://www.ti.com/lit/ds/symlink/tps25982.pdf
-    source_note: SLVSFE7, cited in problems/KNEE_HEAT_CHAFE.md. One per limb (EFL, EFR, EFN). Circuit breaker, no overvoltage lockout. Not in series with SP1-SP5 yet. Nothing bought.
+    source_note: SLVSFE7, cited in problems/KNEE_HEAT_CHAFE.md. One per limb (EFL, EFR, EFN). Circuit breaker, no overvoltage lockout. D65 wires the outputs in series with SP1-SP5. Nothing bought.
     v_in_min: 2.7
     v_in_max: 24
     r_ilim_ohm: 182

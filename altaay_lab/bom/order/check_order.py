@@ -29,7 +29,7 @@ ORDER_MD = os.path.join(HERE, "ORDER.md")
 # Still in wiring/netlist.yaml. Retired by circuitry/CHARGER_BOARD.md,
 # DECISIONS.md D61, or twin/dock/flush/FLUSH_CONTACTS.md. Not bought.
 EXCLUDED = {
-    "NL:CHG": "CHARGER_BOARD.md replaces the Adeept board with MCP73213",
+    "NL:CHG": "BQ24133_BOARD.md is the 3S charger. The Adeept board is not ordered.",
     "NL:DKP": "D61 and FLUSH_CONTACTS.md: the chest pad is not the contact",
     "NL:DK2": "CHARGER_BOARD.md: the P-FET replaces the charge ideal diode",
     "NL:WK1": "CHARGER_BOARD.md: the old wake branch is not on the two-wire nest",
@@ -51,7 +51,7 @@ ADDITIONS = [
     "FS:16", "FS:17a", "FS:17b", "FS:17c", "FS:17d", "FS:17e", "FS:17f",
     "FS:17g", "FS:17h", "FS:17i", "FS:17j", "FS:17k", "FS:17l", "FS:17m",
     "FS:bag-sts", "FS:bag-sg90", "FS:factory",
-    "NX:weld", "NX:sd", "NX:usb", "NX:spox-h", "NX:spox-t", "NX:kk-term", "NX:kk-h",
+    "NX:weld", "NX:sleeve", "NX:sd", "NX:usb", "NX:spox-h", "NX:spox-t", "NX:kk-term", "NX:kk-h",
     "NX:well-route",
     "NX:wire16", "NX:wire20", "NX:wire22", "NX:wire26",
     "NX:heatshrink", "NX:solder", "NX:flux", "NX:kapton", "NX:vhb",
@@ -70,7 +70,7 @@ ADDITIONS = [
 BUY_FLOOR = {
     "servo": 14,
     "pi": 1,
-    "cell": 2,
+    "cell": 3,
     "imu": 1,
     "tof": 1,
     "bms": 1,

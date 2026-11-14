@@ -138,10 +138,12 @@ def netlist_lengths(path=None):
     d["bec_leads"] = [one("P11", "U1.OUT%d%s" % (k, s), "JB%s.S" % ("P" if s == "+" else "N")) for k in (1, 2) for s in "+-"]
     first = {"L": "SP1", "R": "SP2", "N": "SP3"}
     jg = {"L": "JG20", "R": "JG10", "N": "JG30"}
+    # D65: the live plus leaves the limb breaker, not SPV.
+    limb = {"L": "EFL.OUT", "R": "EFR.OUT", "N": "EFN.OUT"}
     d["sp_v"], d["sp_g"], d["sp_tail"], d["hop_mm"], d["hop_cable"] = {}, {}, {}, {}, {}
     for side, ids in CHAIN_IDS.items():
         c, s0 = first[side], ids[0]
-        d["sp_v"][side] = one(c, "SPV.S", "SV%d.BUS2.V" % s0)
+        d["sp_v"][side] = one(c, limb[side], "SV%d.BUS2.V" % s0)
         d["sp_g"][side] = one(c, "SPG.S", "%s.S" % jg[side])
         d["sp_tail"][side] = one(c, "%s.S" % jg[side], "SV%d.BUS2.G" % s0)
         hm, hc = [], []
@@ -151,10 +153,10 @@ def netlist_lengths(path=None):
             one(cab, "SV%d.BUS1.G" % a, "SV%d.BUS2.G" % b)
             hm.append(mm); hc.append(cab)
         d["hop_mm"][side], d["hop_cable"][side] = hm, hc
-    # second feeds (D23): any active wire from SPV.S into a servo port other than the first servo's BUS 2
+    # second feeds (D23, D65): any active wire from a limb breaker into a servo port other than the first servo's BUS 2
     d["feeds"] = {}
     for w in W:
-        if w["from"] == "SPV.S" and w["to"].startswith("SV") and w["to"].endswith(".V") and w["cable"] not in first.values():
+        if w["from"] in limb.values() and w["to"].startswith("SV") and w["to"].endswith(".V") and w["cable"] not in first.values():
             sid = int(w["to"][2:4]); side = [k for k, v in CHAIN_IDS.items() if sid in v]
             if not side:
                 raise ValueError("netlist.yaml: feed %s goes to %s, not a chain servo" % (w["cable"], w["to"]))
@@ -163,7 +165,7 @@ def netlist_lengths(path=None):
                 raise ValueError("netlist.yaml: two second feeds on chain %s (the as_built model takes one per chain)" % side)
             port = w["to"].split(".")[1]
             d["feeds"][side] = dict(cable=w["cable"], servo=CHAIN_NAMES[side][CHAIN_IDS[side].index(sid)], servo_id=sid, port=port,
-                                    v=one(w["cable"], "SPV.S", w["to"]), g=one(w["cable"], "SPG.S", w["to"][:-2] + ".G"))
+                                    v=one(w["cable"], w["from"], w["to"]), g=one(w["cable"], "SPG.S", w["to"][:-2] + ".G"))
     # D15 data-lead grounds: SD1 stem from adapter H3 G to YG3, branch a to JG20, branch b to JG30; SD2 G from H5 G to JG10
     d["sd"] = dict(stem=one("SD1", "U2.H3.G", "YG3.S"), a=one("SD1", "YG3.S", "JG20.S"), b=one("SD1", "YG3.S", "JG30.S"),
                    sd2=one("SD2", "U2.H5.G", "JG10.S"))

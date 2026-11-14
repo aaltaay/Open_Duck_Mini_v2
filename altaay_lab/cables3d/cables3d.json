@@ -11112,7 +11112,7 @@
    ],
    "wires": [
     {
-     "from": "SPV.S",
+     "from": "EFL.OUT",
      "to": "SV20.BUS2.V",
      "net": "SERVO_7V2",
      "gauge": "22 AWG",
@@ -12042,7 +12042,7 @@
    ],
    "wires": [
     {
-     "from": "SPV.S",
+     "from": "EFR.OUT",
      "to": "SV10.BUS2.V",
      "net": "SERVO_7V2",
      "gauge": "22 AWG",
@@ -13021,7 +13021,7 @@
    ],
    "wires": [
     {
-     "from": "SPV.S",
+     "from": "EFN.OUT",
      "to": "SV30.BUS2.V",
      "net": "SERVO_7V2",
      "gauge": "22 AWG",
@@ -61147,7 +61147,7 @@
    ],
    "wires": [
     {
-     "from": "SPV.S",
+     "from": "EFL.OUT",
      "to": "SV24.BUS1.V",
      "net": "SERVO_7V2",
      "gauge": "22 AWG",
@@ -63390,7 +63390,7 @@
    ],
    "wires": [
     {
-     "from": "SPV.S",
+     "from": "EFR.OUT",
      "to": "SV14.BUS1.V",
      "net": "SERVO_7V2",
      "gauge": "22 AWG",
