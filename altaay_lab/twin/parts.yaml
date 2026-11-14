@@ -219,8 +219,11 @@ rest:
     Sim pass only. Not the code on the Pi.
 mass:
   regulator_g: 75.0
-  robot_kg: 2.8078
+  robot_kg: 2.9491
   mass_label: CAD mass model
-  robot_note: Whole duck from sim/mass_budget.py. MuJoCo loads the same total. Trunk
-    body alone is about 1.065 kg. Stock model is 2.107 kg. This file still has two
-    P45B cells, the Castle regulator at 29 g, and the Tenergy board.
+  robot_note: Whole duck. MuJoCo body masses must match the mass-model item rollup.
+    Trunk is the trunk body only. Includes 3 P45B cells, the i7C, the PCM, the BQ24133
+    board, and 3 breakers.
+  trunk_kg: 1.2067
+  rollup_kg: 2.9491
+  stock_kg: 2.1071

@@ -99,22 +99,37 @@ def num_in(text, rx):
 _MASS = {"done": False, "v": None}
 
 
-def mass_kg():
-    """Whole duck from sim/mass_budget.py. None when the playground pin is not set."""
+def mass_pair():
+    """MuJoCo loaded total and the BOM item rollup. None when the playground pin is not set."""
     if _MASS["done"]:
         return _MASS["v"]
     _MASS["done"] = True
     pg = os.environ.get("ODM_PLAYGROUND")
     if not pg or not os.path.isdir(pg):
+        _MASS["v"] = None
         return None
     sim = os.path.join(LAB, "sim")
     if sim not in sys.path:
         sys.path.insert(0, sim)
     os.environ.setdefault("ODM_OUT", os.path.join(tempfile.gettempdir(), "duck_mass"))
+    os.environ.setdefault("ODM_SCRATCH", os.path.join(tempfile.gettempdir(), "duck_mass_scratch"))
     import mass_budget as MB
+    import added_mass_sim as AM
     built = MB.build_budget()
-    _MASS["v"] = round(sum(link.m for link in built["links"].values()), 4)
+    rollup = round(float(sum(it.mass_g for it in built["items"]) / 1000.0), 4)
+    trunk = round(float(built["links"]["trunk_assembly"].m), 4)
+    folder = AM.write_variant("parts_truth", built["links"])
+    model = AM.model_check(folder, "scene_flat_terrain_backlash.xml")
+    loaded = round(float(model.body_mass.sum()), 4)
+    _MASS["v"] = dict(mujoco_kg=loaded, rollup_kg=rollup, trunk_kg=trunk)
     return _MASS["v"]
+
+
+def mass_kg():
+    pair = mass_pair()
+    if pair is None:
+        return None
+    return pair["mujoco_kg"]
 
 
 def joint_limits():
@@ -187,10 +202,15 @@ def derive():
     walk_guard = num_in(guard, r"self\.pack_walk_min_v\s*=\s*([0-9.]+)")
     walk_net = num_in(power, r"WALK_PACK_MIN_V\s*=\s*([0-9.]+)")
 
-    robot_kg = mass_kg()
+    pair = mass_pair() or {}
+    robot_kg = pair.get("mujoco_kg")
+    trunk_kg = pair.get("trunk_kg")
+    rollup_kg = pair.get("rollup_kg")
     if robot_kg is None and os.path.exists(PARTS_PATH):
-        prior = load_yaml(PARTS_PATH)
-        robot_kg = prior.get("mass", {}).get("robot_kg")
+        prior = load_yaml(PARTS_PATH).get("mass", {})
+        robot_kg = prior.get("robot_kg")
+        trunk_kg = trunk_kg if trunk_kg is not None else prior.get("trunk_kg")
+        rollup_kg = rollup_kg if rollup_kg is not None else prior.get("rollup_kg")
     doc = dict(
         derived_from=[
             rel(NETLIST),
@@ -321,7 +341,10 @@ def derive():
             regulator_g=float(reg["ratings"]["mass_g"]),
             robot_kg=robot_kg,
             mass_label="CAD mass model",
-            robot_note="Whole duck from sim/mass_budget.py. MuJoCo loads the same total. Trunk body alone is about 1.065 kg. Stock model is 2.107 kg. This file still has two P45B cells, the Castle regulator at 29 g, and the Tenergy board.",
+            robot_note="Whole duck. MuJoCo body masses must match the mass-model item rollup. Trunk is the trunk body only. Includes 3 P45B cells, the i7C, the PCM, the BQ24133 board, and 3 breakers.",
+            trunk_kg=trunk_kg,
+            rollup_kg=rollup_kg,
+            stock_kg=2.1071,
         ),
     )
     return doc
@@ -434,9 +457,12 @@ def problems(doc=None):
                     fail("joint %s %s disagrees with servo_limits.json" % (name, key))
     if not isinstance(doc["mass"].get("robot_kg"), (int, float)):
         fail("whole-duck mass is missing from the CAD mass model")
-    live_m = mass_kg()
-    if live_m is not None and abs(float(doc["mass"]["robot_kg"]) - live_m) > 0.002:
-        fail("parts mass %.4f kg disagrees with the CAD mass model %.4f kg" % (float(doc["mass"]["robot_kg"]), live_m))
+    pair = mass_pair()
+    if pair is not None:
+        if abs(pair["mujoco_kg"] - pair["rollup_kg"]) > 0.005:
+            fail("MuJoCo total %.4f kg differs from the BOM mass rollup %.4f kg" % (pair["mujoco_kg"], pair["rollup_kg"]))
+        if abs(float(doc["mass"]["robot_kg"]) - pair["mujoco_kg"]) > 0.005:
+            fail("parts mass %.4f kg disagrees with the MuJoCo loaded total %.4f kg" % (float(doc["mass"]["robot_kg"]), pair["mujoco_kg"]))
 
     rest = doc["rest"]
     if rest["stop_c"] <= rest["resume_c"]:

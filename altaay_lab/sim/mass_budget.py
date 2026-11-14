@@ -52,7 +52,11 @@ PACKWRAP_G = src("packwrap", 5.0, "UNVERIFIED: 2S1P P45B pack wrap: 2 nickel str
 P45B_SEATS = [(-133.1, -9.35, 31.5), (-133.1, 12.2, 31.5)]
 HOLDER_G = src("holder", 25.0, "UNVERIFIED: Amazon B09WCT8672 lists 'Item Weight 0.05 kg' with 'Unit Count 2 Count' (https://www.amazon.com/dp/B09WCT8672); 25 g assumes the 0.05 kg is for 2 holders; 50 g if it is one")
 SG90_G = src("sg90", 9.0, "[I] Amazon B072V529YD Miuzei SG90, 'Item Weight 9 g' (https://www.amazon.com/dp/B072V529YD), lead included")
-BEC_G = src("bec", 29.0, "[I] Castle CC BEC Pro user guide 095-0047-00, 'Weight (w/o wires) 1 oz (29 grams)' (https://www.freakware.de/technik/CastleCreations/cc_bec_pro_user_guide.pdf)")
+BEC_G = src("bec", 29.0, "[I] Castle CC BEC Pro user guide 095-0047-00, 'Weight (w/o wires) 1 oz (29 grams)'. Superseded as the part in the duck. The rail is the i7C.")
+I7C_G = src("i7c", 75.0, "[I] TDK-Lambda i7C catalog, heatsink part, 75 g, recorded on wiring/netlist.yaml U1 ratings and BOM.md line L1. D65. Replaces the Castle 29 g.")
+PCM_G = src("pcm", 21.6, "calc only: cited size 60 x 60 x 5 mm times 1.2 g/cm3, the bounding-box density the old Tenergy line used. The PCM page does not print a mass. Seat is the D65 rear pocket.")
+BQ_BOARD_G = src("bq24133_board", 15.0, "assembled board mass is BLOCKER (BOM.md line 11). 15 g is a stand-in for a small board at the usb_c_charger CAD seat, not a datasheet.")
+BREAKER_G = src("tps259827", 0.08, "package mass was not on the pages opened. 0.08 g each for the RGE body. Three parts, seated on the servo splice until a 3D route exists.")
 SW2815_G = src("sw2815", 2.6, "[I] Pololu 2815 specs, 'Weight: 2.6 g' without the optional connectors (https://www.pololu.com/product/2815/specs)")
 REG_G = src("d30v30f5", 3.3, "[I] Pololu 4892 D30V30F5 specs, 'Weight: 3.3 g' without headers (https://www.pololu.com/product/4892/specs)")
 AMP_G = src("max98357", 1.2, "[I] Adafruit 3006, 'Product Weight: 1.2g' (https://www.adafruit.com/product/3006)")
@@ -331,7 +335,7 @@ def build_budget(holder_g=None, include_antennas=False):
         elif base == "bno055":
             items.append(Item("BNO055 breakout (Adafruit 2472)", "electronics", BNO_G, S["bno055"][1], tgt, mesh_mass(P, T, BNO_G / 1000), True))
         elif base == "usb_c_charger":
-            items.append(Item("USB-C 2S charger (Adeept)", "electronics", CHARGER_G, S["charger"][1], tgt, mesh_mass(P, T, CHARGER_G / 1000), True))
+            items.append(Item("BQ24133 charger board", "electronics", BQ_BOARD_G, S["bq24133_board"][1], tgt, mesh_mass(P, T, BQ_BOARD_G / 1000), True))
         elif base == "power_switch":
             items.append(Item("panel control switch", "electronics", SWITCH_G, S["panel_switch"][1], tgt, mesh_mass(P, T, SWITCH_G / 1000), True))
         elif base == "sg90":
@@ -386,19 +390,27 @@ def build_budget(holder_g=None, include_antennas=False):
                       box_mass(AMP_G / 1000, amp_c, (0.0194, 0.0178, 0.003)), False))
     for nm, n in (("100 ohm LED resistor", 3), ("2.2 kOhm foot pull-up", 2)):
         items.append(Item(nm + f" x{n}", "electronics", n * RES_G, S["resistor"][1], "head_assembly", point_mass(n * RES_G / 1000, pi_c_link), False))
+    # Third P45B. The URDF still draws two cells. FIT3 puts the third 19.41 mm behind that pair.
+    c3 = np.array([-152.51, 1.42, 31.5]) / 1000.0
+    items.append(Item("Molicel P45B cell", "battery", P45B_G, S["p45b"][1] + "; seat: FIT3 blister, axis x -152.51 mm, y 1.42 mm, z 31.5 mm",
+                      "trunk_assembly", box_mass(P45B_G / 1000, c3, (0.02155, 0.02155, 0.07015)), True))
+    assert sum(1 for it in items if it.name == "Molicel P45B cell") == 3
     # ---- lab-only parts at audit/placements.json (URDF zero-pose world = trunk frame, mm) ----
     pl = {p["id"]: p for p in json.load(open(os.path.join(LAB, "audit/placements.json")))}
     def pl_box(pid, g):
         p = pl[pid]; return box_mass(g / 1000, np.array(p["center_mm"]) / 1000, np.array(p["dims_xyz_mm"]) / 1000)
     PLSRC = "; seat: audit/placements.json"
-    items.append(Item("Castle CC BEC Pro", "lab_added", BEC_G, S["bec"][1] + PLSRC, "trunk_assembly", pl_box("bec_pro", BEC_G), False))
-    items.append(Item("CC BEC Pro output leads", "lab_added", BEC_LEADS_G, S["bec_out_leads"][1] + PLSRC, "trunk_assembly", pl_box("bec_pro", BEC_LEADS_G), False))
+    items.append(Item("TDK-Lambda i7C2W020A120V-0F1-R", "lab_added", I7C_G, S["i7c"][1] + "; seat: audit/placements.json bec_pro, the servo regulator seat",
+                      "trunk_assembly", box_mass(I7C_G / 1000, np.array(pl["bec_pro"]["center_mm"]) / 1000, (0.034, 0.0368, 0.0249)), False))
+    items.append(Item("i7C output leads", "lab_added", BEC_LEADS_G, S["bec_out_leads"][1] + PLSRC, "trunk_assembly", pl_box("bec_pro", BEC_LEADS_G), False))
     items.append(Item("Littelfuse FHAC0001ZXJ fuse holder with leads", "lab_added", FUSEHOLDER_G, S["fuse_holder"][1] + PLSRC, "trunk_assembly", pl_box("fuse_holder", FUSEHOLDER_G), False))
     items.append(Item("ATO 15 A fuse", "lab_added", FUSE_G, S["ato_fuse"][1] + PLSRC, "trunk_assembly", pl_box("fuse_holder", FUSE_G), False))
     items.append(Item("Pololu 2815 MOSFET switch", "lab_added", SW2815_G, S["sw2815"][1] + PLSRC, "trunk_assembly", pl_box("mosfet_switch", SW2815_G), False))
     items.append(Item("servo power splices SPV, SPG", "lab_added", 2 * SPLICE_G, S["splice"][1] + PLSRC, "trunk_assembly", pl_box("power_splice", 2 * SPLICE_G), False))
-    items.append(Item("Tenergy 32175 BMS", "lab_added", TENERGY_G, S["tenergy_bms"][1] + PLSRC, "trunk_assembly", pl_box("bms_tenergy", TENERGY_G), True,
-                      "replaces the CAD bms part"))
+    items.append(Item("BatterySpace PCM-L04S30-566", "lab_added", PCM_G, S["pcm"][1] + PLSRC, "trunk_assembly", pl_box("bms_tenergy", PCM_G), True,
+                      "D65 rear pocket. Replaces the Tenergy 32175."))
+    items.append(Item("TPS259827 limb breaker x3", "electronics", 3 * BREAKER_G, S["tps259827"][1] + "; seat: servo splice, no 3D route yet",
+                      "trunk_assembly", point_mass(3 * BREAKER_G / 1000, np.array(pl["power_splice"]["center_mm"]) / 1000), False))
     # parts from the netlist without a CAD body: XT30 pair, the other solder splices, foot switches
     def inst_centroid(fn, link):
         for tgt, f, T, ln in inst:
