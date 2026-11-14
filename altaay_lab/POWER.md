@@ -114,3 +114,15 @@ Supersedes the 7.2 V set point in sections 1 and 3 for the 3S rail. Supersedes t
 - When the pack is under 12 V the BEC cannot hold 12.0 V. The minimum input and the behavior below the set point are not published (BLOCKER). The sim still uses a 0.3 V dropout assumption. In that model the output regulates only when the BEC input is at least 12.3 V (calc only, 12.0 + 0.3). A full pack is 12.6 V, so only the top of the charge regulates. The rest of the discharge is pass-through in the sim, or a shut-off on the real part. Do not treat 12.0 V as held for the whole walk.
 - The 2S protection board and the 2S charger are still the parts drawn in the netlist. They do not cover 12.6 V. That open item is problems/STS12.md. D61 was not edited.
 - Any power-design change has to pass `python3 altaay_lab/verify/check_power_limits.py` before it is used in a sim.
+
+## 12. Held 12.0 V on the 3S pack (2026-11-14, D65)
+
+Supersedes the Castle as the part in section 11. The decision to keep a regulator (D64) stands. Sections 1 to 11 stay as the record. Do not delete them.
+
+- Part: TDK-Lambda I7C2W020A120V-0F1-R. Buck-boost. Set point 12.0 V, inside the cited 8 V to 24 V output. Input 9 V to 36 V covers the pack domain 9.0 V to 12.6 V. Tolerance plus or minus 4 percent is 11.52 V to 12.48 V, inside the adopted servo windows. Datasheet: the i7C catalog, https://product.tdk.com/info/en/catalog/datasheets/i7c_e.pdf . Buy: DigiKey, $86.34, 18 in stock, read 2026-11-14.
+- Current, cited chart, 12 V out: 16.5 A at 10 V in, 20 A at 12 V in and above. Overcurrent 26 A typical. Walk peaks 15.599 A and 15.837 A are sim pass only (eval_table_bec12.md). 16.5 A covers 15.837 A by 0.663 A (calc only).
+- The sim holds 12.0 V when the 3S study passes that set point. It uses efficiency 0.94, the low end of the cited 94 to 97 percent band. The 2S default in sim/power_path_sim.py stays 7.2 V with the 0.3 V dropout assumption.
+- Protection: BatterySpace PCM-L04S30-566, 30 A continuous discharge, trip 120 A to 160 A, $34.25, read 2026-11-14. The 60 x 60 mm board does not fit the old slot (BLOCKER).
+- Charger: BQ24133, 12.6 V. The pack NTC reaches TS through 2.87 kOhm and 12.7 kOhm (calc only, D65).
+- Limb breakers are in series with SP1 to SP5. The 16 AWG pack leads get an abrasion sleeve, because a 1 ohm nick on that lead does not open the 15 A fuse or the 120 A trip.
+- Still BLOCKER: the 9 V current row, the wider boost tolerance above 100 W, the TRIM ohm, and the pocket. Nothing bought.

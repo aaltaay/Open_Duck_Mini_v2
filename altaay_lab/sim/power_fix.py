@@ -235,7 +235,8 @@ def netlist_as_built(pw, dt, vcell, opt, p):
               f"Rsw swin swo {p['R_sw']}", f"Rp9 swo bus {wire(*N['P9']):.9g}",
               f"Rp8 pm busn {wire(*N['P8']) + p['R_xt30'] + wire(*N['P14']):.9g}",
               "Vi_p10 bus bus_p10 0", f"Rp10p bus_p10 becip {wire(*N['P10p']):.9g}", f"Rp10n busn becin {wire(*N['P10n']):.9g}",
-              f"Ebec beco becon value={{min({p['BEC_V']}, max(V(becip,becin) - {p['BEC_DROP']}, 0))}}",
+              (f"Ebec beco becon value={{{p['BEC_V']}}}" if p.get("BEC_HOLD")
+               else f"Ebec beco becon value={{min({p['BEC_V']}, max(V(becip,becin) - {p['BEC_DROP']}, 0))}}"),
               "Rbecon becon becin 1e-6", "Vbecs beco beco2 0",
               f"Bbecin becip becin I={{ V(beco,becon) * I(Vbecs) / ({p['BEC_EFF']} * max(V(becip,becin), 1)) }}",
               "Vi_p13 bus bus_p13 0", f"Rp13p bus_p13 regp {wire(*N['P13p']):.9g}", f"Rp13n busn regn {wire(*N['P13n']):.9g}",

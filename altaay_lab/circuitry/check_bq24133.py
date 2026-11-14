@@ -232,9 +232,19 @@ def main():
     isat = i_chg + 0.5 * ripple
     check("Isat clears 1.099 A", abs(isat - 1.099) < 0.002, "%.3f A" % isat)
 
-    ts = ohm(parts["RTB"]) / (ohm(parts["RTS"]) + ohm(parts["RTB"]))
-    check("TS fraction is 0.60", abs(ts - 0.60) < 0.001, "%.3f" % ts)
-    check("TS between hot and cold", 0.488 < ts < 0.725, "%.3f" % ts)
+    def ts_frac(rn):
+        r1 = ohm(parts["RTS"])
+        r2 = ohm(parts["RTB"])
+        rp = 1.0 / (1.0 / r2 + 1.0 / rn)
+        return rp / (r1 + rp)
+    f0 = ts_frac(31770.0)
+    f25 = ts_frac(10000.0)
+    f60 = ts_frac(2472.0)
+    fopen = ohm(parts["RTB"]) / (ohm(parts["RTS"]) + ohm(parts["RTB"]))
+    check("0 C bead is above 0.745", f0 > 0.745, "%.3f" % f0)
+    check("25 C bead is inside the TS window", 0.452 < f25 < 0.725, "%.3f" % f25)
+    check("60 C bead is below 0.442", f60 < 0.442, "%.3f" % f60)
+    check("open bead stops charge", fopen > 0.745, "%.3f" % fopen)
 
     cin = parts["CPV1"]["value_F"] + parts["CPV2"]["value_F"]
     check("PVCC is 20 uF", abs(cin - 20e-6) < 1e-12, "%.0f uF" % (cin * 1e6))

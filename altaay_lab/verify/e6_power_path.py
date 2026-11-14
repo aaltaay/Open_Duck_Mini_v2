@@ -39,7 +39,8 @@ MODEL_CABLES = {"P1", "P2", "P6", "P7", "P8", "P9", "P10", "P11", "P12", "P13", 
 POWER_NETS = ("SERVO_7V2", "VSW", "PACK_P", "PACK_F", "CELL_N")
 NOT_SERVO_PATH = {"P3": "BMS cell sense only", "P4": "charger, carries current only while charging", "P5": "charger",
                   "P15": "2815 control switch, under 0.1 mA", "P16": "2815 control ground, under 1 mA",
-                  "P17": "5 V from the Pi header to the head devices (5 V branch after the regulator)"}
+                  "P17": "5 V from the Pi header to the head devices (5 V branch after the regulator)",
+                  "EF": "limb breaker inputs from SPV. Cut length is not set. SP1 to SP5 leave the breaker outputs and those wires are in the model."}
 
 
 def gates_from_test_plan():

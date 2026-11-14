@@ -2,7 +2,7 @@
 
 One bill for one finished duck and its nest. Prices that were read on a live page on 2026-11-12 use the label cited, checked 2026-11-12. Shipping and tax are not included, the same rule as BOM.md. Nothing was bought, and nothing was added to a cart.
 
-Current bill, 2026-11-12 9:49 PM ET. The servo line is the 12 V Waveshare ST-3215-C018, SKU 22414, at $20.63 each for four or more (cited, problems/NEST3.md). Fourteen is $288.82 (calc only, 14 times 20.63). ~~The 7.4 V Seeed line at $20.00 each, $280.00 for 14,~~ is superseded. The pack is three P45B cells. The charger to build is the BQ24133 board. The MCP73213 lines are the 2S record. The nest supply on this bill that still says 8.70 V to 10.0 V is that 2S window and is superseded by the 15.0 V nest (problems/NEST3.md, circuitry/SERVO_RAIL.md).
+Current bill, 2026-11-14. The servo line is the 12 V Waveshare ST-3215-C018, SKU 22414, at $20.63 each for four or more (cited, problems/NEST3.md). Fourteen is $288.82 (calc only, 14 times 20.63). The pack is three P45B cells. The charger to build is the BQ24133 board at 12.6 V (D65). The servo regulator is the TDK-Lambda I7C2W020A120V-0F1-R at $86.34 (cited, DigiKey, read 2026-11-14). The protection board is BatterySpace PCM-L04S30-566 at $34.25 (cited, read 2026-11-14). Castle at $54.95 and Tenergy 32175 at $22.99 are superseded. The nest supply on this bill that still says 8.70 V to 10.0 V is the old 2S window and is superseded by the 15.0 V nest (problems/NEST3.md, circuitry/SERVO_RAIL.md).
 
 BOM.md build total $1258.70 (calc only) is the older table in that file: robot, fasteners, cables, and filament. It is not this cart. The buy-today total below is every priced in-stock line on this order, including one-time tools and full filament spools. The per-duck parts total leaves those two groups out. Earlier buy-today figures $839.60, $1186.45, and $1195.44 are superseded.
 
@@ -46,20 +46,19 @@ These sums are calc only. They add the line_usd column. A line is in that column
 - Bolt Depot: $11.68
 - CNC Kitchen USA: $10.90
 - CanaKit: $89.95
-- DigiKey: $50.49
-- Horizon Hobby: $54.95
+- BatterySpace: $34.25
+- DigiKey: $136.62
 - MatterHackers: $57.99
 - Overture: $35.98
 - Pine64: $40.98
 - Pololu: $47.64
 - Waveshare: $288.82
 - SparkFun: $9.00
-- Tenergy: $22.99
 - illumn: $26.97
 
-Grand total of lines that can be bought today: $1204.26
+Grand total of lines that can be bought today: $1246.70
 
-Per-duck parts, calc only: $957.75. That is the buy-today total minus one-time tools (crimper, hex keys, stripper, 65 W supply, Pinecil, and insert tips, $130.95) and minus full filament spools (PLA $35.98, TPU $21.59, PA6-CF $57.99, together $115.56). 1204.26 minus 130.95 minus 115.56 is 957.75. A spool can cover more than one duck. Dollars for the grams actually printed are BLOCKER. The controller stays in the parts total.
+Per-duck parts, calc only: $1000.19. That is the buy-today total minus one-time tools (crimper, hex keys, stripper, 65 W supply, Pinecil, and insert tips, $130.95) and minus full filament spools (PLA $35.98, TPU $21.59, PA6-CF $57.99, together $115.56). 1246.70 minus 130.95 minus 115.56 is 1000.19. Against the previous per-duck total of $957.75, this bill is $42.44 more (calc only): the regulator is $86.34 instead of $54.95, the protection board is $34.25 instead of $22.99, and two resistor lines left the priced total because their new values were not opened. A spool can cover more than one duck. Dollars for the grams actually printed are BLOCKER. The controller stays in the parts total. The three limb breakers and the pack-lead sleeve are on the bill without a price (BLOCKER).
 ## Filament grams
 
 Calc only. Not weighed.

@@ -519,6 +519,9 @@ def wires(u, inst, servo_pos, pl, head_pt, pi_c, reg_c, amp_c, spk_c, cam_c):
            "VSW": (P("mosfet_switch"), "trunk_assembly"), "G": (P("mosfet_switch"), "trunk_assembly"),
            "U1": (P("bec_pro"), "trunk_assembly"), "JBP": (P("bec_pro"), "trunk_assembly"), "JBN": (P("bec_pro"), "trunk_assembly"),
            "U2": (ADAPTER, "trunk_assembly"), "SPV": (P("power_splice"), "trunk_assembly"), "SPG": (P("power_splice"), "trunk_assembly"),
+           # D65 limb breakers have no 3D route yet. Seat them on the servo splice until a route exists.
+           "EFL": (P("power_splice"), "trunk_assembly"), "EFR": (P("power_splice"), "trunk_assembly"),
+           "EFN": (P("power_splice"), "trunk_assembly"),
            "YD3": (ADAPTER, "trunk_assembly"), "YG3": (ADAPTER, "trunk_assembly"), "JG30": (servo_c["neck_pitch"][0], "trunk_assembly"),
            "JG20": (servo_c["left_hip_yaw"][0], "trunk_assembly"), "JG10": (servo_c["right_hip_yaw"][0], "trunk_assembly"),
            "BNO": (bno, "trunk_assembly")}
