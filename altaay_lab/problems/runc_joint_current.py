@@ -777,7 +777,9 @@ def write_md(doc):
     A = L.append
     A("# Run C joint current")
     A("")
-    A("Written 2026-11-13. CPU only. The walk is the em_twin sheet walk with the run C policy and the 12 V ST-3215-C018 patch in `problems/sts12.py`. This note walks the PR 85 wire case (3S Molicel P45B wired to the servos, Castle off the trunk) as a study. That case is not the adopted power path. The adopted path keeps the Castle CC BEC Pro. The thermal cases call `knee_heat_chafe.py` from the open knee-heat branch. This note does not copy those scripts. D61 was not edited. Nothing was bought. The policy was not retrained.")
+    A("UNRELIABLE: the heat clocks in commit 6d8c153, and the same clocks copied into the PR 87 description, are not to be used. That commit stepped the thermal model at 0.5 s on 0.1 s current bins, so four bins in five never heated the knee, and it stored a fall as a list, which aborts the thermal cut when a walk falls. Those withdrawn clocks were: reading 55 C at 1.22 min and 60 C at 1.43 min, case peak 61.41 C, 32 C case peak 62.14 C, guard walk share 0.142 at 25 C and 0.090 at 32 C, guard case peaks 50.44 C and 51.20 C. Commit a0e2251, included in merge 89da799, is the correction. The table below is that CPU rerun, one thermal step per bin. Do not quote the 6d8c153 clocks.")
+    A("")
+    A("Written 2026-11-13, heat table corrected 2026-11-14. CPU only. The walk is the em_twin sheet walk with the run C policy and the 12 V ST-3215-C018 patch in `problems/sts12.py`. This note walks the PR 85 wire case (3S Molicel P45B wired to the servos, Castle off the trunk) as a study. That case is not the adopted power path. The adopted path keeps the Castle CC BEC Pro. D61 was not edited. Nothing was bought. The policy was not retrained.")
     A("")
     A("Every walk figure is sim pass only. A temperature from the thermal twin is sim pass only. Arithmetic on those currents, and the blanking comparison, are calc only. A datasheet figure is cited. A missing measurement is BLOCKER.")
     A("")

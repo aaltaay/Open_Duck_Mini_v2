@@ -131,3 +131,36 @@ parts:
     v_nom: 5.0
     i_typ_a: 0.350
     v_tolerance_status: blocker
+
+  tps259827:
+    name: TI TPS259827ONRGE
+    source: https://www.ti.com/lit/ds/symlink/tps25982.pdf
+    source_note: SLVSFE7, cited in problems/KNEE_HEAT_CHAFE.md. One per limb (EFL, EFR, EFN). Circuit breaker, no overvoltage lockout. Not in series with SP1-SP5 yet. Nothing bought.
+    v_in_min: 2.7
+    v_in_max: 24
+    r_ilim_ohm: 182
+    ilim_typ_25c_a: 8.13
+    ilim_min_25c_a: 7.77
+    ilim_max_25c_a: 8.54
+    ilim_min_temp_a: 7.23
+    ilim_max_temp_a: 9.07
+    fast_trip_typical_ratio: 2.10
+    itimer_nf: 600
+    ron_typ_mohm: 2.7
+    blanking_status: blocker
+    pg_pin_status: blocker
+
+  petg_hf:
+    name: Bambu PETG HF for the eight knee-to-ankle sheets
+    source: https://botland.com.pl/img/art/inne/25540_karta_produktu.pdf
+    source_note: TDS V1.0, cited in problems/KNEE_HEAT_CHAFE.md. The slicer profile is still PLA (D22). This row is the chosen material. It is not a print setting.
+    hdt_0_45_mpa_c: 69
+    hdt_1_8_mpa_c: 62
+    tg_c: 66
+    creep_status: blocker
+
+  rest_rule:
+    name: Walk until the hottest Present Temperature is 55 C, then torque off until 45 C
+    source_note: Chosen in problems/KNEE_HEAT_CHAFE.md and rerun on the run C current in problems/RUNC_JOINT_CURRENT.md. Sim pass only. Not the code on the Pi.
+    stop_c: 55
+    resume_c: 45

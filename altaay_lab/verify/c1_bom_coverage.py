@@ -106,6 +106,9 @@ def main():
     for c in net["components"]:
         if c.get("kind") == "splice":
             continue
+        if c["id"] in ("EFL", "EFR", "EFN"):
+            # Specified in D64. Not bought. No BOM line until a harness cut-over.
+            continue
         hit = next((m for m in MAP if re.fullmatch(m[0], c["id"]) and (len(m) < 4 or re.search(m[3], c.get("part") or ""))), None)
         if not hit:
             unmapped.append(c["id"])
@@ -129,8 +132,10 @@ def main():
                     inline_n.append("%s on %s (line %s)" % (tok, cb["id"], lid))
     R.ev("inline parts on cables: %s" % (", ".join(inline_n) or "none"))
     nspl = sum(1 for c in net["components"] if c.get("kind") == "splice")
+    n_breakers = sum(1 for c in net["components"] if c["id"] in ("EFL", "EFR", "EFN"))
+    R.ev("limb breakers EFL EFR EFN: %d specified, not bought, no BOM line (D64)" % n_breakers)
     R.ev("netlist: %d components, %d splices (made from wire and heat shrink, BOM 26), %d mapped to BOM lines, unmapped %s" % (
-        len(net["components"]), nspl, len(net["components"]) - nspl - len(unmapped), unmapped or "none"))
+        len(net["components"]), nspl, len(net["components"]) - nspl - len(unmapped) - n_breakers, unmapped or "none"))
     for u in unmapped:
         R.find("FAIL", "netlist component %s has no BOM line" % u, fix="add it to BOM.md or to MAP in this check")
     refs = set()
@@ -398,7 +403,7 @@ def main():
                 R.find("WARN", "%s is proposed and is not a BOM.md line yet" % t,
                        fix="the nest install agent adds it when the tip geometry is accepted", where="altaay_lab/BOM.md")
     R.key("%d netlist parts map to BOM lines with matching part numbers (%d splices are made); BOM_FULL %d rows vs sources: "
-          "%d FAIL (see list)%s" % (len(net["components"]) - nspl - len(unmapped), nspl, len(rows), nf, hs_txt))
+          "%d FAIL (see list)%s" % (len(net["components"]) - nspl - len(unmapped) - n_breakers, nspl, len(rows), nf, hs_txt))
     R.write()
 
 

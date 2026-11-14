@@ -192,3 +192,9 @@ S12,SV31.BUS1.G,SV32.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_P
 S13,SV32.BUS1.D,SV33.BUS2.D,BUS_DATA,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV32.BUS1.V SV32.BUS1.G
 S13,SV32.BUS1.V,SV33.BUS2.V,SERVO_7V2,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV32.BUS1.D SV32.BUS1.G
 S13,SV32.BUS1.G,SV33.BUS2.G,GND,kit cable,150,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",SV32.BUS1.D SV32.BUS1.V
+EF,SPV.S,EFL.IN,SERVO_7V2,16 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+EF,SPG.S,EFL.GND,GND,16 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+EF,SPV.S,EFR.IN,SERVO_7V2,16 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+EF,SPG.S,EFR.GND,GND,16 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+EF,SPV.S,EFN.IN,SERVO_7V2,16 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+EF,SPG.S,EFN.GND,GND,16 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",

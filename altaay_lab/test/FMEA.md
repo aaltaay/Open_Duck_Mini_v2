@@ -128,3 +128,21 @@ TEST_PLAN 4.3 checks the 5 V regulator from 6.0 V in. The STS12 typical walk min
 On the STS12 walk a 12.0 V setpoint does not regulate. Input minimum is 11.335 V typical and 11.223 V high-side (sim pass only), and regulation needs 12.3 V (12.0 plus the 0.30 V dropout assumption). A shorted pass element leaves the walk in the dropout state it is already in. An open output puts the servos at 0 V. The netlist puts the Pi on that same switch, so the Pi goes with them.
 
 The hot number people might quote by mistake: if the same current were buck-regulated at 12.0 V and efficiency 0.85, the loss is 10.173 W and the case is 171.9 C at 40 min in a 25 C room (sim pass only). That walk does not enter that regime. The dropout loss on the walk is 1.441 W and the case is 60.7 C (sim pass only, central, 25 C). Castle publishes no efficiency and no case limit. Both the 0.85 and the 0.30 V drop stay BLOCKER until TEST_PLAN 4.1 replaces them.
+
+## 12. Limb breaker not yet in the harness (specified, RPN not reduced)
+
+Three TI TPS259827ONRGE parts are now in the netlist (EFL, EFR, EFN) and in verify/part_limits.yaml. Cited, SLVSFE7: input 2.7 V to 24 V, RILIM 182 ohm gives 7.77 A to 8.54 A at 25 C and 7.23 A to 9.07 A from -40 C to 125 C. Fast trip is 210 percent of ILIM, typical. ITIMER 600 nF is a candidate. The short blanking corner is 150 ms and the long corner is 557 ms (calc only, from the cited 1.4 uA to 2.8 uA and 0.7 V to 1.3 V).
+
+They are not in series. Cable EF is a no-route record from SPV to each input. The live SP1 to SP5 feeds still leave SPV. A 1 ohm nick on those feeds is still the row 3 fault. This row does not lower that RPN.
+
+Whether a normal walk stays under 7.23 A for longer than the blanking is BLOCKER. The 100 ms figure is a moving average, not a pulse width (problems/KNEE_HEAT_CHAFE.md, problems/RUNC_JOINT_CURRENT.md). The Pi pin for power-good is BLOCKER. Nothing bought.
+
+## 13. Rest rule (specified, not running)
+
+Walk until the hottest Present Temperature is 55 C, drop torque, sit until it is 45 C, then walk again. That is the chosen heat fix in problems/KNEE_HEAT_CHAFE.md. On the run C 0.15 m/s typical current, after every 0.1 s bin is integrated, the guard walks 14.0 percent of 90 min at 25 C and 9.0 percent at 32 C (sim pass only, problems/RUNC_JOINT_CURRENT.md). The case peaks are 50.31 C and 51.01 C (sim pass only). Both are over the cited PLA 49 C edge and under the cited PETG 62 C point at 1.8 MPa.
+
+The rule is not the code on the Pi. A sim share is not a hardware pass. The C018 operating temperature is still the C001 sheet (BLOCKER).
+
+## 14. PETG knee-to-ankle sheets (specified, slicer still PLA)
+
+The eight knee-to-ankle sheets are the PETG row in verify/part_limits.yaml. Cited HDT is 69 C at 0.45 MPa and 62 C at 1.8 MPa (Bambu PETG HF TDS). The case under the guard is about 50 C to 52 C (sim pass only). That is under 62 C and over the PLA 49 C edge, which is why the material and the rest rule are a pair. Creep at the structure-twin stress, about 4.3 MPa, is BLOCKER. D22 still prints those sheets on the PLA profile. This row does not change the slicer. Nothing bought.
