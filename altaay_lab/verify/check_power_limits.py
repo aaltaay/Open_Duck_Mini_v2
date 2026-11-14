@@ -316,11 +316,8 @@ def judge(limits, becs, drops, nests, pack, servo, five, u3_domain, pack_domain,
 
     if held:
         rep.add_blocker(
-            "i7C turn-on is 9.5 V typical. The operating range starts at 9 V. The current table that was read starts at 10 V in, so the 9.0 V row is not cited.")
-        rep.add_blocker(
             "The catalog says the output tolerance is wider in boost when the input is under 20 V and the output power is over 100 W. That chart was not read.")
         rep.add_blocker("The TRIM resistor ohm for 12.0 V was not in the catalog pages that were read.")
-        rep.add_blocker("PCM-L04S30-566 is 60 x 60 x 5 mm. The measured BMS slot is about 17.75 x 47.2 x 5.33 mm. The pocket does not fit this board.")
     elif becs:
         top = max(becs)
         rep.add_blocker(
@@ -394,6 +391,15 @@ def tree_report():
         pack_drawing_2s=str(pack_rec["ratings"].get("cells", "")).startswith("2"),
         held="i7C" in u1["part"] or "I7C" in u1["part"],
     )
+    walk_stop = pack_rec["ratings"].get("walk_stop_v")
+    if flags["held"]:
+        if walk_stop is None or not near(float(walk_stop), 10.0):
+            rep.add_fail("PACK walk_stop_v must be 10.0 V, the first cited i7C current row")
+        cited = limits["parts"]["servo_reg"].get("walk_pack_min_v")
+        if cited is None or not near(float(cited), float(walk_stop or 0)):
+            rep.add_fail("part_limits walk_pack_min_v does not match the netlist walk stop")
+        if limits["parts"]["pcm_l04s30"].get("fit_status") != "seated":
+            rep.add_fail("PCM fit_status is not seated")
     judged = judge(limits, becs, drops, nests, pack, servo, five, sp["u3_in"], sp["bec_in"], flags)
     rep.fail.extend(judged.fail)
     rep.open.extend(judged.open)

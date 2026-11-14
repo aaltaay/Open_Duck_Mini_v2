@@ -36,6 +36,22 @@ def gait(level, t, rng):
     return out
 
 
+def test_pack_floor_stops_the_walk_before_the_regulator_chart_ends():
+    """D65: 10.0 V pack is the first cited i7C row. 9.6 V is still below that row."""
+    g = bg.BatteryGuard()
+    assert g.pack_allows_walk(10.0)
+    assert not g.pack_allows_walk(9.6)
+    assert not g.pack_allows_walk(9.9)
+    held = {i: 12.0 for i in IDS}
+    ev = g.update(1.0, held, pack_v=9.9)
+    assert [e["event"] for e in ev] == ["walk_stop"]
+    assert g.state == bg.STOPPING
+    ok, med = bg.BatteryGuard().check_start(held, pack_v=9.9)
+    assert not ok and med == 12.0
+    ok, med = bg.BatteryGuard().check_start(held, pack_v=10.0)
+    assert ok and med == 12.0
+
+
 def test_healthy_pack_never_trips():
     rng = random.Random(3)
     g = bg.BatteryGuard()

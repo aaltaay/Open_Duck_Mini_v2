@@ -85,7 +85,7 @@ The 8.5 mm margin is calc only: (20 mm stripe minus 3 mm well) / 2. When the rai
 
 ## 5. Pack protector missing (RPN 189)
 
-D65 puts BatterySpace PCM-L04S30-566 on the bill: 30 A continuous discharge and a trip of 120 A to 160 A (cited). The Tenergy 32175 numbers do not move to a 3S pack. The new board does not fit the old pocket (BLOCKER). A short above 15 A is still supposed to open the fuse. The 16 A walk peak is under 120 A, so this board is not the nuisance-trip case in row 9.
+D65 puts BatterySpace PCM-L04S30-566 on the bill: 30 A continuous discharge and a trip of 120 A to 160 A (cited). The Tenergy 32175 numbers do not move to a 3S pack. The new board sits in the rear pocket on body_back (CAD check only, D65). The old slot does not hold it. A short above 15 A is still supposed to open the fuse. The 16 A walk peak is under 120 A, so this board is not the nuisance-trip case in row 9.
 
 ## 6. Camera dock miss (RPN 180)
 

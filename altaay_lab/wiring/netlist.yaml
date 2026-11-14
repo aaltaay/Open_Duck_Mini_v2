@@ -59,7 +59,7 @@ meta:
 domains:
   CELL_MID_3V0_4V2: {v_min: 3.0, v_max: 4.2, note: "holder series strap, one cell above B-"}
   PACK_6V0_8V4: {v_min: 6.0, v_max: 8.4, superseded: true, note: "SUPERSEDED 2026-11-13. 2S pack window. The live pack domain is PACK_9V0_12V6."}
-  PACK_9V0_12V6: {v_min: 9.0, v_max: 12.6, note: "3S P45B, about 3.0 V to 4.2 V per cell (calc only, 3 times 3.0 and 3 times 4.2). Supersedes PACK_6V0_8V4. The cell cut-off is 2.5 V, so 7.5 V is the sheet floor. This window starts at 9.0 V."}
+  PACK_9V0_12V6: {v_min: 9.0, v_max: 12.6, note: "3S P45B, about 3.0 V to 4.2 V per cell (calc only, 3 times 3.0 and 3 times 4.2). Supersedes PACK_6V0_8V4. The cell cut-off is 2.5 V, so 7.5 V is the sheet floor. This window starts at 9.0 V. Walking stops at 10.0 V (D65). That is the first cited i7C current row."}
   SERVO_7V2: {v_min: 6.0, v_max: 7.4, superseded: true, note: "SUPERSEDED 2026-11-13. BEC was set to 7.2 V (D3). The 16 V pass-through used in the first 3S walks is superseded too. The live servo domain is SERVO_12V0."}
   SERVO_12V0: {v_min: 11.52, v_max: 12.48, note: "i7C set to 12.0 V. Cited output tolerance is plus or minus 4 percent, so 11.52 V to 12.48 V. D65. The boost high-power tolerance note was not read (BLOCKER)."}
   5V: {v_min: 4.8, v_max: 5.2, note: "Pololu D30V30F5 output, 4 % accuracy"}
@@ -142,7 +142,7 @@ components:
     part: 3x Molicel INR21700-P45B, spot-welded 3S1P pack (D44 bay record, FIT3 blister for the third cell); no holder
     kind: battery
     region: battery_bay
-    ratings: {cells: "3S", capacity_ah: 4.5, cell_i_cont_a: 45, v_range: "9.0 to 12.6"}
+    ratings: {cells: "3S", capacity_ah: 4.5, cell_i_cont_a: 45, v_range: "9.0 to 12.6", walk_stop_v: 10.0, walk_stop_note: "D65. Stop walking at 10.0 V pack, 3.33 V per cell. The i7C chart that was read gives 16.5 A at 12 V out only from 10 V in. Below that the current is not cited. Servo Present Voltage stays near 12 V while the regulator holds, so this limit is pack voltage."}
     groups:
       leads: {connector: "holder leads, solder", pitch_mm: null, note: "D44: the 16 AWG pack leads spot-welded to the nickel strip at the pack ends play the old holder leads (the connector kind keeps its name for the checks); use them for P1/P2 if 120 mm or longer"}
       strap: {connector: "solder pad on the holder series strap", pitch_mm: null, note: "D44: the series nickel strip of the pack (balance tap if ever needed); solder only to a lead tab on the strip, never to a cell"}

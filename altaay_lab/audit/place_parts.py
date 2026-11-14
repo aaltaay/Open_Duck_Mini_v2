@@ -120,8 +120,9 @@ for pid, label, dims, margin, anchor, keep in PARTS:
 
 # Parts placed from the CAD or measured positions rather than the free-space search
 res += [
-    dict(id="bms_tenergy", label="Tenergy 32175 2S protection board (replaces bms.stl, same slot)", dims_xyz_mm=[16, 4.5, 34],
-         center_mm=[-126.3, -26.7, 18.9], frame="urdf_world_mm", source="bms.stl slot, measured envelope 17.75 x 47.2 x 5.33"),
+    dict(id="bms_tenergy", label="BatterySpace PCM-L04S30-566, 60 x 60 x 5 mm, in the rear pocket (D65)", dims_xyz_mm=[5, 60, 60],
+         center_mm=[-159.2, 0.0, 40.0], frame="urdf_world_mm",
+         source="CAD check only, 2026-11-14. Rear boss on body_back, 66 x 66 x 8 mm, recess 61 x 61 x 6 mm. The old measured slot 17.75 x 47.2 x 5.33 mm does not hold this board."),
 ]
 np.save(os.environ.get("ODM_FREE_KEEP_NPY", "/tmp/odm_free_keep.npy"), free)
 json.dump(res, open(OUT, "w"), indent=1)

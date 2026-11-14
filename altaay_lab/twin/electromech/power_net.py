@@ -44,6 +44,7 @@ import power_fix as PF                                             # noqa: E402 
 # sim/power_path_sim.py. Superseded for the 3S rail: 16.0 V (pass-through).
 BEC_SET_V = 12.0
 PACK_V_MIN = 9.0
+WALK_PACK_MIN_V = 10.0  # D65. First cited i7C current row. Walking stops here.
 PACK_V_MAX = 12.6
 NEST_V = 15.0
 BEC_DROP_V = 0.3          # 2S buck assumption in sim/power_path_sim.py. Not used when BEC_HOLD is on.

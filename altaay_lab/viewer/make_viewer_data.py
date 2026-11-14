@@ -253,7 +253,7 @@ MOUNT = {
     "bearing": "Press into a 32.19 mm seat (2 in trunk_bottom, 1 in head): 0.19 mm slip fit on a 32.00 bearing (PRINT_CHECK flag 7).",
     "cell": "Molicel P45B cell in the 2S1P pack (D44): spot-welded nickel strip, never soldered; captive in the grown body_back bay with the pack (0.25 mm clear per side, 0.5 mm to the lid pad, a 1 mm foam pad on the pad; twin/battery/BAY.md). Charge both cells to the same voltage first.",
     "holder": "2S1P Molicel P45B pack (D44): no holder; the spot-welded nickel strips and the 2S sleeve hold the 2 cells. Captive in the grown body_back bay, closed by battery_pack_lid: sits on the bay floor ledges, a 1 mm foam pad (BOM 7) on the lid's centre pad, 0.5 mm from the pad at x -121.5 mm, 0.25 mm per side in the cut, 0 overlap with every part (CAD check, twin/battery/BAY.md).",
-    "bms_cad": "Sandwiched between body_back and battery_pack_lid, no screws. Free envelope here 17.75 x 47.2 x 5.33 mm (B12).",
+    "bms_cad": "PCM-L04S30-566 sits in a rear pocket on body_back (D65, CAD check only): boss 66 x 66 x 8 mm, recess 61 x 61 x 6 mm, board 60 x 60 x 5 mm at center x -159.2, y 0, z 40 mm. The old slot 17.75 x 47.2 x 5.33 mm does not hold this board.",
     "charger": "body_back: 1 x M2.5x6 into a 2.0 pilot (the 2nd hole has no pilot), USB-C out of the body_back opening.",
     "power_switch": "Held by the body_back cutout (23.4 x 7.4 x 16.8 mm CAD body).",
     "pi": "head.stl: 4 x M2.5x6 DIN 912 into 2.0 pilots, components side up.",
