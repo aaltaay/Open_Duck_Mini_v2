@@ -1,0 +1,5963 @@
+{
+ "label": "sim pass only, calc only, or cited, per section",
+ "sv_sha": "3bbc204170fbdfbaa2c2fa3ece5c300d71ab1eda",
+ "kh_sha": "ada5faa0a7abaaba097698aff1926eb350a2bb50",
+ "bec_removed_g": 35.96488,
+ "wire_extra": {
+  "BEC_V": 30.0,
+  "BEC_DROP": 0.0,
+  "BEC_EFF": 1.0,
+  "R_bms": 0.03
+ },
+ "unseated_ends": null,
+ "models": {
+  "wire": {
+   "xml": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.0994,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.06233,
+     0.00043,
+     0.03613
+    ]
+   },
+   "mujoco": {
+    "trunk_mass_kg": 1.09941098,
+    "subtree_mass_kg": 2.8418059918,
+    "nbody": 18
+   },
+   "xml_file": {
+    "mass_kg": 1.09941098,
+    "pos_m": [
+     -0.062334597,
+     0.000428688878,
+     0.0361343954
+    ]
+   }
+  },
+  "castle_kept": {
+   "xml": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.1354,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.0624,
+     0.0004,
+     0.03468
+    ]
+   },
+   "mujoco": {
+    "trunk_mass_kg": 1.13537586,
+    "subtree_mass_kg": 2.8777708717999997,
+    "nbody": 18
+   },
+   "xml_file": {
+    "mass_kg": 1.13537586,
+    "pos_m": [
+     -0.0624031896,
+     0.000399271145,
+     0.0346793486
+    ]
+   }
+  },
+  "plus_200g": {
+   "xml": {
+    "mass_before_kg": 1.0654,
+    "mass_after_kg": 1.2994,
+    "com_before_m": [
+     -0.05648,
+     0.00033,
+     0.03489
+    ],
+    "com_after_m": [
+     -0.06143,
+     0.00041,
+     0.03594
+    ]
+   },
+   "mujoco": {
+    "trunk_mass_kg": 1.29941098,
+    "subtree_mass_kg": 3.0418059918,
+    "nbody": 18
+   },
+   "xml_file": {
+    "mass_kg": 1.29941098,
+    "pos_m": [
+     -0.0614339071,
+     0.000413787858,
+     0.0359425932
+    ]
+   }
+  }
+ },
+ "walks": [
+  {
+   "label": "sim pass only",
+   "cmd_m_s": 0.15,
+   "corner": "typical",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "wall_s": 6.5,
+   "vx_m_s": 0.12090429826383157,
+   "track_lin": 0.8110351791998454,
+   "pack_em_twin": {
+    "i_mean": 4.508,
+    "i_rms": 4.632,
+    "i_max": 7.743,
+    "i_max_100ms": 6.025,
+    "v_term_mean": 12.24,
+    "v_term_min": 12.07,
+    "bus_mean": 11.901,
+    "bus_min": 11.488,
+    "bec_out_mean": 11.885,
+    "bec_out_min": 11.46,
+    "bec_in_min": 11.46,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "pack_window": {
+    "t0_s": 4.0,
+    "i_mean_A": 4.50824,
+    "i_rms_A": 4.631655,
+    "i_max_A": 7.743059,
+    "n": 28000
+   },
+   "hottest_joint": "right_knee",
+   "hottest_motor_rms_A": 1.545904,
+   "hottest_motor_peak_A": 2.543533,
+   "joints": [
+    {
+     "joint": "left_hip_yaw",
+     "motor_rms_A": 0.465922,
+     "motor_peak_A": 1.243502,
+     "supply_rms_A": 0.171068,
+     "supply_peak_A": 0.687404
+    },
+    {
+     "joint": "left_hip_roll",
+     "motor_rms_A": 0.640287,
+     "motor_peak_A": 1.725561,
+     "supply_rms_A": 0.314702,
+     "supply_peak_A": 1.311861
+    },
+    {
+     "joint": "left_hip_pitch",
+     "motor_rms_A": 0.833979,
+     "motor_peak_A": 2.174459,
+     "supply_rms_A": 0.500723,
+     "supply_peak_A": 2.013455
+    },
+    {
+     "joint": "left_knee",
+     "motor_rms_A": 1.479038,
+     "motor_peak_A": 2.525055,
+     "supply_rms_A": 1.231068,
+     "supply_peak_A": 2.546055
+    },
+    {
+     "joint": "left_ankle",
+     "motor_rms_A": 0.708313,
+     "motor_peak_A": 1.431315,
+     "supply_rms_A": 0.305794,
+     "supply_peak_A": 0.938605
+    },
+    {
+     "joint": "neck_pitch",
+     "motor_rms_A": 0.34465,
+     "motor_peak_A": 0.757326,
+     "supply_rms_A": 0.08252,
+     "supply_peak_A": 0.235714
+    },
+    {
+     "joint": "head_pitch",
+     "motor_rms_A": 0.451484,
+     "motor_peak_A": 0.962269,
+     "supply_rms_A": 0.131612,
+     "supply_peak_A": 0.370698
+    },
+    {
+     "joint": "head_yaw",
+     "motor_rms_A": 0.501808,
+     "motor_peak_A": 1.492799,
+     "supply_rms_A": 0.1837,
+     "supply_peak_A": 0.899181
+    },
+    {
+     "joint": "head_roll",
+     "motor_rms_A": 0.424146,
+     "motor_peak_A": 1.202592,
+     "supply_rms_A": 0.15975,
+     "supply_peak_A": 0.658372
+    },
+    {
+     "joint": "right_hip_yaw",
+     "motor_rms_A": 0.534241,
+     "motor_peak_A": 1.257965,
+     "supply_rms_A": 0.192498,
+     "supply_peak_A": 0.626322
+    },
+    {
+     "joint": "right_hip_roll",
+     "motor_rms_A": 0.562859,
+     "motor_peak_A": 1.590678,
+     "supply_rms_A": 0.233045,
+     "supply_peak_A": 1.169605
+    },
+    {
+     "joint": "right_hip_pitch",
+     "motor_rms_A": 0.721872,
+     "motor_peak_A": 1.954235,
+     "supply_rms_A": 0.415557,
+     "supply_peak_A": 1.653393
+    },
+    {
+     "joint": "right_knee",
+     "motor_rms_A": 1.545904,
+     "motor_peak_A": 2.543533,
+     "supply_rms_A": 1.330786,
+     "supply_peak_A": 2.564533
+    },
+    {
+     "joint": "right_ankle",
+     "motor_rms_A": 0.59501,
+     "motor_peak_A": 1.437519,
+     "supply_rms_A": 0.253858,
+     "supply_peak_A": 0.889909
+    }
+   ],
+   "branches": {
+    "left_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.837049,
+     "rms_A": 2.041634,
+     "peak_A": 4.557633,
+     "max_100ms_A": 2.988672,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "right_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.76995,
+     "rms_A": 1.953811,
+     "peak_A": 3.909844,
+     "max_100ms_A": 2.836745,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "neck_and_head": {
+     "label": "sim pass only",
+     "mean_A": 0.406078,
+     "rms_A": 0.465063,
+     "peak_A": 1.330517,
+     "max_100ms_A": 0.664178,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    }
+   },
+   "first_minute_hot_motor_rms_A": 1.545904,
+   "first_minute_pack_mean_A": 4.50824,
+   "last_minute_hot_motor_rms_A": 1.545904,
+   "last_minute_pack_mean_A": 4.50824,
+   "servo_im_rms_check": [
+    0.4659,
+    0.6403,
+    0.834,
+    1.479,
+    0.7083,
+    0.3447,
+    0.4515,
+    0.5018,
+    0.4241,
+    0.5342,
+    0.5629,
+    0.7219,
+    1.5459,
+    0.595
+   ],
+   "tag": "castle_kept_0.15_typical_60s",
+   "model": "castle_kept",
+   "wall_total_s": 6.6
+  },
+  {
+   "label": "sim pass only",
+   "cmd_m_s": 0.15,
+   "corner": "typical",
+   "dur_s": 20.0,
+   "fall_s": "none",
+   "wall_s": 2.1,
+   "vx_m_s": 0.11124532108280448,
+   "track_lin": 0.7496110449591974,
+   "pack_em_twin": {
+    "i_mean": 4.417,
+    "i_rms": 4.543,
+    "i_max": 7.464,
+    "i_max_100ms": 5.634,
+    "v_term_mean": 12.275,
+    "v_term_min": 12.135,
+    "bus_mean": 11.943,
+    "bus_min": 11.573,
+    "bec_out_mean": 11.928,
+    "bec_out_min": 11.546,
+    "bec_in_min": 11.546,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "pack_window": {
+    "t0_s": 4.0,
+    "i_mean_A": 4.416819,
+    "i_rms_A": 4.543152,
+    "i_max_A": 7.464018,
+    "n": 8000
+   },
+   "hottest_joint": "right_knee",
+   "hottest_motor_rms_A": 1.552724,
+   "hottest_motor_peak_A": 2.530556,
+   "joints": [
+    {
+     "joint": "left_hip_yaw",
+     "motor_rms_A": 0.444127,
+     "motor_peak_A": 1.272758,
+     "supply_rms_A": 0.165081,
+     "supply_peak_A": 0.647142
+    },
+    {
+     "joint": "left_hip_roll",
+     "motor_rms_A": 0.618843,
+     "motor_peak_A": 1.67225,
+     "supply_rms_A": 0.298345,
+     "supply_peak_A": 1.241868
+    },
+    {
+     "joint": "left_hip_pitch",
+     "motor_rms_A": 0.813875,
+     "motor_peak_A": 2.221213,
+     "supply_rms_A": 0.47231,
+     "supply_peak_A": 2.031538
+    },
+    {
+     "joint": "left_knee",
+     "motor_rms_A": 1.473301,
+     "motor_peak_A": 2.532609,
+     "supply_rms_A": 1.218474,
+     "supply_peak_A": 2.553609
+    },
+    {
+     "joint": "left_ankle",
+     "motor_rms_A": 0.706119,
+     "motor_peak_A": 1.449415,
+     "supply_rms_A": 0.306063,
+     "supply_peak_A": 0.941274
+    },
+    {
+     "joint": "neck_pitch",
+     "motor_rms_A": 0.339436,
+     "motor_peak_A": 0.750179,
+     "supply_rms_A": 0.079497,
+     "supply_peak_A": 0.230195
+    },
+    {
+     "joint": "head_pitch",
+     "motor_rms_A": 0.475062,
+     "motor_peak_A": 0.955574,
+     "supply_rms_A": 0.143201,
+     "supply_peak_A": 0.381699
+    },
+    {
+     "joint": "head_yaw",
+     "motor_rms_A": 0.511289,
+     "motor_peak_A": 1.426154,
+     "supply_rms_A": 0.189516,
+     "supply_peak_A": 0.79221
+    },
+    {
+     "joint": "head_roll",
+     "motor_rms_A": 0.410631,
+     "motor_peak_A": 1.188316,
+     "supply_rms_A": 0.14948,
+     "supply_peak_A": 0.63401
+    },
+    {
+     "joint": "right_hip_yaw",
+     "motor_rms_A": 0.506312,
+     "motor_peak_A": 1.202839,
+     "supply_rms_A": 0.171453,
+     "supply_peak_A": 0.604478
+    },
+    {
+     "joint": "right_hip_roll",
+     "motor_rms_A": 0.546557,
+     "motor_peak_A": 1.388236,
+     "supply_rms_A": 0.214926,
+     "supply_peak_A": 0.885882
+    },
+    {
+     "joint": "right_hip_pitch",
+     "motor_rms_A": 0.704291,
+     "motor_peak_A": 1.812013,
+     "supply_rms_A": 0.39011,
+     "supply_peak_A": 1.398181
+    },
+    {
+     "joint": "right_knee",
+     "motor_rms_A": 1.552724,
+     "motor_peak_A": 2.530556,
+     "supply_rms_A": 1.331317,
+     "supply_peak_A": 2.551556
+    },
+    {
+     "joint": "right_ankle",
+     "motor_rms_A": 0.585312,
+     "motor_peak_A": 1.356678,
+     "supply_rms_A": 0.24694,
+     "supply_peak_A": 0.793723
+    }
+   ],
+   "branches": {
+    "left_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.77848,
+     "rms_A": 1.988425,
+     "peak_A": 4.397524,
+     "max_100ms_A": 2.786089,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 8000,
+     "dt_s": 0.002
+    },
+    "right_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.734238,
+     "rms_A": 1.91404,
+     "peak_A": 3.717984,
+     "max_100ms_A": 2.760314,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 8000,
+     "dt_s": 0.002
+    },
+    "neck_and_head": {
+     "label": "sim pass only",
+     "mean_A": 0.410707,
+     "rms_A": 0.461907,
+     "peak_A": 1.276194,
+     "max_100ms_A": 0.635353,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 8000,
+     "dt_s": 0.002
+    }
+   },
+   "first_minute_hot_motor_rms_A": 1.552724,
+   "first_minute_pack_mean_A": 4.416819,
+   "last_minute_hot_motor_rms_A": 1.552724,
+   "last_minute_pack_mean_A": 4.416819,
+   "servo_im_rms_check": [
+    0.4441,
+    0.6188,
+    0.8139,
+    1.4733,
+    0.7061,
+    0.3394,
+    0.4751,
+    0.5113,
+    0.4106,
+    0.5063,
+    0.5466,
+    0.7043,
+    1.5527,
+    0.5853
+   ],
+   "tag": "plus200g_0.15_typical_20s",
+   "model": "plus_200g",
+   "wall_total_s": 2.2
+  },
+  {
+   "label": "sim pass only",
+   "cmd_m_s": 0.15,
+   "corner": "high-side",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "wall_s": 7.5,
+   "vx_m_s": 0.11364194294396743,
+   "track_lin": 0.7652142372193278,
+   "pack_em_twin": {
+    "i_mean": 4.423,
+    "i_rms": 4.537,
+    "i_max": 7.555,
+    "i_max_100ms": 5.907,
+    "v_term_mean": 12.244,
+    "v_term_min": 12.075,
+    "bus_mean": 11.823,
+    "bus_min": 11.359,
+    "bec_out_mean": 11.808,
+    "bec_out_min": 11.331,
+    "bec_in_min": 11.331,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "pack_window": {
+    "t0_s": 4.0,
+    "i_mean_A": 4.422929,
+    "i_rms_A": 4.537143,
+    "i_max_A": 7.55475,
+    "n": 28000
+   },
+   "hottest_joint": "right_knee",
+   "hottest_motor_rms_A": 1.514745,
+   "hottest_motor_peak_A": 2.472711,
+   "joints": [
+    {
+     "joint": "left_hip_yaw",
+     "motor_rms_A": 0.451421,
+     "motor_peak_A": 1.193762,
+     "supply_rms_A": 0.167294,
+     "supply_peak_A": 0.654522
+    },
+    {
+     "joint": "left_hip_roll",
+     "motor_rms_A": 0.633376,
+     "motor_peak_A": 1.663825,
+     "supply_rms_A": 0.314804,
+     "supply_peak_A": 1.268972
+    },
+    {
+     "joint": "left_hip_pitch",
+     "motor_rms_A": 0.825861,
+     "motor_peak_A": 2.158798,
+     "supply_rms_A": 0.489265,
+     "supply_peak_A": 1.957968
+    },
+    {
+     "joint": "left_knee",
+     "motor_rms_A": 1.44164,
+     "motor_peak_A": 2.469872,
+     "supply_rms_A": 1.19088,
+     "supply_peak_A": 2.490872
+    },
+    {
+     "joint": "left_ankle",
+     "motor_rms_A": 0.701048,
+     "motor_peak_A": 1.409841,
+     "supply_rms_A": 0.301372,
+     "supply_peak_A": 0.89092
+    },
+    {
+     "joint": "neck_pitch",
+     "motor_rms_A": 0.346945,
+     "motor_peak_A": 0.778536,
+     "supply_rms_A": 0.084962,
+     "supply_peak_A": 0.253463
+    },
+    {
+     "joint": "head_pitch",
+     "motor_rms_A": 0.456656,
+     "motor_peak_A": 1.113167,
+     "supply_rms_A": 0.135087,
+     "supply_peak_A": 0.513109
+    },
+    {
+     "joint": "head_yaw",
+     "motor_rms_A": 0.506906,
+     "motor_peak_A": 1.433836,
+     "supply_rms_A": 0.188706,
+     "supply_peak_A": 0.830254
+    },
+    {
+     "joint": "head_roll",
+     "motor_rms_A": 0.409951,
+     "motor_peak_A": 1.160203,
+     "supply_rms_A": 0.150962,
+     "supply_peak_A": 0.631844
+    },
+    {
+     "joint": "right_hip_yaw",
+     "motor_rms_A": 0.5083,
+     "motor_peak_A": 1.272163,
+     "supply_rms_A": 0.176585,
+     "supply_peak_A": 0.646943
+    },
+    {
+     "joint": "right_hip_roll",
+     "motor_rms_A": 0.547526,
+     "motor_peak_A": 1.597104,
+     "supply_rms_A": 0.22147,
+     "supply_peak_A": 1.185275
+    },
+    {
+     "joint": "right_hip_pitch",
+     "motor_rms_A": 0.711657,
+     "motor_peak_A": 1.936003,
+     "supply_rms_A": 0.408457,
+     "supply_peak_A": 1.652369
+    },
+    {
+     "joint": "right_knee",
+     "motor_rms_A": 1.514745,
+     "motor_peak_A": 2.472711,
+     "supply_rms_A": 1.298322,
+     "supply_peak_A": 2.493711
+    },
+    {
+     "joint": "right_ankle",
+     "motor_rms_A": 0.577949,
+     "motor_peak_A": 1.388523,
+     "supply_rms_A": 0.24782,
+     "supply_peak_A": 0.830964
+    }
+   ],
+   "branches": {
+    "left_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.793757,
+     "rms_A": 1.990669,
+     "peak_A": 4.293315,
+     "max_100ms_A": 2.924141,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "right_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.721819,
+     "rms_A": 1.902098,
+     "peak_A": 3.863653,
+     "max_100ms_A": 2.791522,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "neck_and_head": {
+     "label": "sim pass only",
+     "mean_A": 0.408919,
+     "rms_A": 0.464082,
+     "peak_A": 1.323097,
+     "max_100ms_A": 0.661918,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    }
+   },
+   "first_minute_hot_motor_rms_A": 1.514745,
+   "first_minute_pack_mean_A": 4.422929,
+   "last_minute_hot_motor_rms_A": 1.514745,
+   "last_minute_pack_mean_A": 4.422929,
+   "servo_im_rms_check": [
+    0.4514,
+    0.6334,
+    0.8259,
+    1.4416,
+    0.701,
+    0.3469,
+    0.4567,
+    0.5069,
+    0.41,
+    0.5083,
+    0.5475,
+    0.7117,
+    1.5147,
+    0.5779
+   ],
+   "tag": "wire_0.15_high-side_60s",
+   "model": "wire",
+   "wall_total_s": 8.0
+  },
+  {
+   "label": "sim pass only",
+   "cmd_m_s": 0.15,
+   "corner": "high-side",
+   "dur_s": 600.0,
+   "fall_s": "none",
+   "wall_s": 62.9,
+   "vx_m_s": 0.109313484834906,
+   "track_lin": 0.7361858024157824,
+   "pack_em_twin": {
+    "i_mean": 4.38,
+    "i_rms": 4.493,
+    "i_max": 7.874,
+    "i_max_100ms": 5.907,
+    "v_term_mean": 12.043,
+    "v_term_min": 11.771,
+    "bus_mean": 11.626,
+    "bus_min": 11.073,
+    "bec_out_mean": 11.61,
+    "bec_out_min": 11.046,
+    "bec_in_min": 11.046,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "pack_window": {
+    "t0_s": 4.0,
+    "i_mean_A": 4.379931,
+    "i_rms_A": 4.493464,
+    "i_max_A": 7.873857,
+    "n": 298000
+   },
+   "hottest_joint": "right_knee",
+   "hottest_motor_rms_A": 1.496587,
+   "hottest_motor_peak_A": 2.472711,
+   "joints": [
+    {
+     "joint": "left_hip_yaw",
+     "motor_rms_A": 0.435027,
+     "motor_peak_A": 1.216729,
+     "supply_rms_A": 0.163719,
+     "supply_peak_A": 0.654522
+    },
+    {
+     "joint": "left_hip_roll",
+     "motor_rms_A": 0.616459,
+     "motor_peak_A": 1.664766,
+     "supply_rms_A": 0.305691,
+     "supply_peak_A": 1.296813
+    },
+    {
+     "joint": "left_hip_pitch",
+     "motor_rms_A": 0.807254,
+     "motor_peak_A": 2.16701,
+     "supply_rms_A": 0.474735,
+     "supply_peak_A": 2.021141
+    },
+    {
+     "joint": "left_knee",
+     "motor_rms_A": 1.417988,
+     "motor_peak_A": 2.469872,
+     "supply_rms_A": 1.171047,
+     "supply_peak_A": 2.490872
+    },
+    {
+     "joint": "left_ankle",
+     "motor_rms_A": 0.695499,
+     "motor_peak_A": 1.440353,
+     "supply_rms_A": 0.302648,
+     "supply_peak_A": 0.92032
+    },
+    {
+     "joint": "neck_pitch",
+     "motor_rms_A": 0.341632,
+     "motor_peak_A": 0.782668,
+     "supply_rms_A": 0.084172,
+     "supply_peak_A": 0.253463
+    },
+    {
+     "joint": "head_pitch",
+     "motor_rms_A": 0.456027,
+     "motor_peak_A": 1.12083,
+     "supply_rms_A": 0.137276,
+     "supply_peak_A": 0.526654
+    },
+    {
+     "joint": "head_yaw",
+     "motor_rms_A": 0.51022,
+     "motor_peak_A": 1.433836,
+     "supply_rms_A": 0.194716,
+     "supply_peak_A": 0.846221
+    },
+    {
+     "joint": "head_roll",
+     "motor_rms_A": 0.402923,
+     "motor_peak_A": 1.174645,
+     "supply_rms_A": 0.147301,
+     "supply_peak_A": 0.651196
+    },
+    {
+     "joint": "right_hip_yaw",
+     "motor_rms_A": 0.493187,
+     "motor_peak_A": 1.272163,
+     "supply_rms_A": 0.169338,
+     "supply_peak_A": 0.646943
+    },
+    {
+     "joint": "right_hip_roll",
+     "motor_rms_A": 0.531706,
+     "motor_peak_A": 1.597104,
+     "supply_rms_A": 0.214538,
+     "supply_peak_A": 1.185275
+    },
+    {
+     "joint": "right_hip_pitch",
+     "motor_rms_A": 0.70163,
+     "motor_peak_A": 1.936558,
+     "supply_rms_A": 0.402887,
+     "supply_peak_A": 1.675519
+    },
+    {
+     "joint": "right_knee",
+     "motor_rms_A": 1.496587,
+     "motor_peak_A": 2.472711,
+     "supply_rms_A": 1.283721,
+     "supply_peak_A": 2.493711
+    },
+    {
+     "joint": "right_ankle",
+     "motor_rms_A": 0.571923,
+     "motor_peak_A": 1.406438,
+     "supply_rms_A": 0.2466,
+     "supply_peak_A": 0.864146
+    }
+   ],
+   "branches": {
+    "left_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.759957,
+     "rms_A": 1.956671,
+     "peak_A": 4.426844,
+     "max_100ms_A": 2.924141,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 298000,
+     "dt_s": 0.002
+    },
+    "right_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.700822,
+     "rms_A": 1.878895,
+     "peak_A": 4.40856,
+     "max_100ms_A": 2.801973,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 298000,
+     "dt_s": 0.002
+    },
+    "neck_and_head": {
+     "label": "sim pass only",
+     "mean_A": 0.412193,
+     "rms_A": 0.464598,
+     "peak_A": 1.35871,
+     "max_100ms_A": 0.666738,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 298000,
+     "dt_s": 0.002
+    }
+   },
+   "first_minute_hot_motor_rms_A": 1.513015,
+   "first_minute_pack_mean_A": 4.421472,
+   "last_minute_hot_motor_rms_A": 1.490605,
+   "last_minute_pack_mean_A": 4.375016,
+   "servo_im_rms_check": [
+    0.435,
+    0.6165,
+    0.8073,
+    1.418,
+    0.6955,
+    0.3416,
+    0.456,
+    0.5102,
+    0.4029,
+    0.4932,
+    0.5317,
+    0.7016,
+    1.4966,
+    0.5719
+   ],
+   "tag": "wire_0.15_high-side_600s",
+   "model": "wire",
+   "wall_total_s": 63.6
+  },
+  {
+   "label": "sim pass only",
+   "cmd_m_s": 0.15,
+   "corner": "typical",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "wall_s": 8.0,
+   "vx_m_s": 0.12325072103712459,
+   "track_lin": 0.8260954600135096,
+   "pack_em_twin": {
+    "i_mean": 4.554,
+    "i_rms": 4.678,
+    "i_max": 8.132,
+    "i_max_100ms": 6.203,
+    "v_term_mean": 12.237,
+    "v_term_min": 12.063,
+    "bus_mean": 11.894,
+    "bus_min": 11.452,
+    "bec_out_mean": 11.879,
+    "bec_out_min": 11.422,
+    "bec_in_min": 11.422,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "pack_window": {
+    "t0_s": 4.0,
+    "i_mean_A": 4.55428,
+    "i_rms_A": 4.678039,
+    "i_max_A": 8.131589,
+    "n": 28000
+   },
+   "hottest_joint": "right_knee",
+   "hottest_motor_rms_A": 1.551464,
+   "hottest_motor_peak_A": 2.542489,
+   "joints": [
+    {
+     "joint": "left_hip_yaw",
+     "motor_rms_A": 0.471094,
+     "motor_peak_A": 1.267388,
+     "supply_rms_A": 0.174496,
+     "supply_peak_A": 0.709957
+    },
+    {
+     "joint": "left_hip_roll",
+     "motor_rms_A": 0.649056,
+     "motor_peak_A": 1.707595,
+     "supply_rms_A": 0.320996,
+     "supply_peak_A": 1.295811
+    },
+    {
+     "joint": "left_hip_pitch",
+     "motor_rms_A": 0.84656,
+     "motor_peak_A": 2.277023,
+     "supply_rms_A": 0.516235,
+     "supply_peak_A": 2.13754
+    },
+    {
+     "joint": "left_knee",
+     "motor_rms_A": 1.484361,
+     "motor_peak_A": 2.527543,
+     "supply_rms_A": 1.237382,
+     "supply_peak_A": 2.548543
+    },
+    {
+     "joint": "left_ankle",
+     "motor_rms_A": 0.709507,
+     "motor_peak_A": 1.436496,
+     "supply_rms_A": 0.305627,
+     "supply_peak_A": 0.928081
+    },
+    {
+     "joint": "neck_pitch",
+     "motor_rms_A": 0.350041,
+     "motor_peak_A": 0.75644,
+     "supply_rms_A": 0.084716,
+     "supply_peak_A": 0.2465
+    },
+    {
+     "joint": "head_pitch",
+     "motor_rms_A": 0.446846,
+     "motor_peak_A": 0.971386,
+     "supply_rms_A": 0.128952,
+     "supply_peak_A": 0.379598
+    },
+    {
+     "joint": "head_yaw",
+     "motor_rms_A": 0.497993,
+     "motor_peak_A": 1.503224,
+     "supply_rms_A": 0.180737,
+     "supply_peak_A": 0.909444
+    },
+    {
+     "joint": "head_roll",
+     "motor_rms_A": 0.426736,
+     "motor_peak_A": 1.249283,
+     "supply_rms_A": 0.162059,
+     "supply_peak_A": 0.708029
+    },
+    {
+     "joint": "right_hip_yaw",
+     "motor_rms_A": 0.540002,
+     "motor_peak_A": 1.29378,
+     "supply_rms_A": 0.19773,
+     "supply_peak_A": 0.660431
+    },
+    {
+     "joint": "right_hip_roll",
+     "motor_rms_A": 0.569129,
+     "motor_peak_A": 1.642522,
+     "supply_rms_A": 0.239452,
+     "supply_peak_A": 1.223769
+    },
+    {
+     "joint": "right_hip_pitch",
+     "motor_rms_A": 0.728306,
+     "motor_peak_A": 1.968211,
+     "supply_rms_A": 0.427487,
+     "supply_peak_A": 1.731872
+    },
+    {
+     "joint": "right_knee",
+     "motor_rms_A": 1.551464,
+     "motor_peak_A": 2.542489,
+     "supply_rms_A": 1.340185,
+     "supply_peak_A": 2.563489
+    },
+    {
+     "joint": "right_ankle",
+     "motor_rms_A": 0.597916,
+     "motor_peak_A": 1.471603,
+     "supply_rms_A": 0.25595,
+     "supply_peak_A": 1.006486
+    }
+   ],
+   "branches": {
+    "left_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.863364,
+     "rms_A": 2.064177,
+     "peak_A": 4.631687,
+     "max_100ms_A": 3.057921,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "right_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.789671,
+     "rms_A": 1.976471,
+     "peak_A": 4.080586,
+     "max_100ms_A": 2.888106,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "neck_and_head": {
+     "label": "sim pass only",
+     "mean_A": 0.405822,
+     "rms_A": 0.465239,
+     "peak_A": 1.447652,
+     "max_100ms_A": 0.689908,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    }
+   },
+   "first_minute_hot_motor_rms_A": 1.551464,
+   "first_minute_pack_mean_A": 4.55428,
+   "last_minute_hot_motor_rms_A": 1.551464,
+   "last_minute_pack_mean_A": 4.55428,
+   "servo_im_rms_check": [
+    0.4711,
+    0.6491,
+    0.8466,
+    1.4844,
+    0.7095,
+    0.35,
+    0.4468,
+    0.498,
+    0.4267,
+    0.54,
+    0.5691,
+    0.7283,
+    1.5515,
+    0.5979
+   ],
+   "tag": "wire_0.15_typical_60s",
+   "model": "wire",
+   "wall_total_s": 8.4
+  },
+  {
+   "label": "sim pass only",
+   "cmd_m_s": 0.15,
+   "corner": "typical",
+   "dur_s": 600.0,
+   "fall_s": "none",
+   "wall_s": 63.7,
+   "vx_m_s": 0.1153803501398629,
+   "track_lin": 0.7757001860883888,
+   "pack_em_twin": {
+    "i_mean": 4.443,
+    "i_rms": 4.562,
+    "i_max": 8.162,
+    "i_max_100ms": 6.203,
+    "v_term_mean": 12.037,
+    "v_term_min": 11.749,
+    "bus_mean": 11.703,
+    "bus_min": 11.183,
+    "bec_out_mean": 11.687,
+    "bec_out_min": 11.154,
+    "bec_in_min": 11.154,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "pack_window": {
+    "t0_s": 4.0,
+    "i_mean_A": 4.442594,
+    "i_rms_A": 4.562203,
+    "i_max_A": 8.161615,
+    "n": 298000
+   },
+   "hottest_joint": "right_knee",
+   "hottest_motor_rms_A": 1.520128,
+   "hottest_motor_peak_A": 2.542489,
+   "joints": [
+    {
+     "joint": "left_hip_yaw",
+     "motor_rms_A": 0.449944,
+     "motor_peak_A": 1.267388,
+     "supply_rms_A": 0.16691,
+     "supply_peak_A": 0.709957
+    },
+    {
+     "joint": "left_hip_roll",
+     "motor_rms_A": 0.633386,
+     "motor_peak_A": 1.713132,
+     "supply_rms_A": 0.315739,
+     "supply_peak_A": 1.333837
+    },
+    {
+     "joint": "left_hip_pitch",
+     "motor_rms_A": 0.824942,
+     "motor_peak_A": 2.277023,
+     "supply_rms_A": 0.491917,
+     "supply_peak_A": 2.13754
+    },
+    {
+     "joint": "left_knee",
+     "motor_rms_A": 1.448517,
+     "motor_peak_A": 2.527543,
+     "supply_rms_A": 1.200903,
+     "supply_peak_A": 2.548543
+    },
+    {
+     "joint": "left_ankle",
+     "motor_rms_A": 0.69912,
+     "motor_peak_A": 1.462686,
+     "supply_rms_A": 0.302356,
+     "supply_peak_A": 0.95452
+    },
+    {
+     "joint": "neck_pitch",
+     "motor_rms_A": 0.344272,
+     "motor_peak_A": 0.783421,
+     "supply_rms_A": 0.084145,
+     "supply_peak_A": 0.257022
+    },
+    {
+     "joint": "head_pitch",
+     "motor_rms_A": 0.449426,
+     "motor_peak_A": 1.083418,
+     "supply_rms_A": 0.13241,
+     "supply_peak_A": 0.490443
+    },
+    {
+     "joint": "head_yaw",
+     "motor_rms_A": 0.503305,
+     "motor_peak_A": 1.503224,
+     "supply_rms_A": 0.186939,
+     "supply_peak_A": 0.909444
+    },
+    {
+     "joint": "head_roll",
+     "motor_rms_A": 0.412301,
+     "motor_peak_A": 1.256495,
+     "supply_rms_A": 0.153177,
+     "supply_peak_A": 0.718055
+    },
+    {
+     "joint": "right_hip_yaw",
+     "motor_rms_A": 0.508549,
+     "motor_peak_A": 1.29378,
+     "supply_rms_A": 0.178688,
+     "supply_peak_A": 0.660431
+    },
+    {
+     "joint": "right_hip_roll",
+     "motor_rms_A": 0.546975,
+     "motor_peak_A": 1.642522,
+     "supply_rms_A": 0.223389,
+     "supply_peak_A": 1.233845
+    },
+    {
+     "joint": "right_hip_pitch",
+     "motor_rms_A": 0.712082,
+     "motor_peak_A": 2.00354,
+     "supply_rms_A": 0.410859,
+     "supply_peak_A": 1.763253
+    },
+    {
+     "joint": "right_knee",
+     "motor_rms_A": 1.520128,
+     "motor_peak_A": 2.542489,
+     "supply_rms_A": 1.307247,
+     "supply_peak_A": 2.563489
+    },
+    {
+     "joint": "right_ankle",
+     "motor_rms_A": 0.580417,
+     "motor_peak_A": 1.474693,
+     "supply_rms_A": 0.249737,
+     "supply_peak_A": 1.006486
+    }
+   ],
+   "branches": {
+    "left_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.802101,
+     "rms_A": 2.002974,
+     "peak_A": 4.631687,
+     "max_100ms_A": 3.057921,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 298000,
+     "dt_s": 0.002
+    },
+    "right_leg": {
+     "label": "sim pass only",
+     "mean_A": 1.730337,
+     "rms_A": 1.913736,
+     "peak_A": 4.351266,
+     "max_100ms_A": 2.888106,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 298000,
+     "dt_s": 0.002
+    },
+    "neck_and_head": {
+     "label": "sim pass only",
+     "mean_A": 0.406561,
+     "rms_A": 0.462805,
+     "peak_A": 1.447652,
+     "max_100ms_A": 0.689908,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 298000,
+     "dt_s": 0.002
+    }
+   },
+   "first_minute_hot_motor_rms_A": 1.550435,
+   "first_minute_pack_mean_A": 4.554883,
+   "last_minute_hot_motor_rms_A": 1.506396,
+   "last_minute_pack_mean_A": 4.383413,
+   "servo_im_rms_check": [
+    0.4499,
+    0.6334,
+    0.8249,
+    1.4485,
+    0.6991,
+    0.3443,
+    0.4494,
+    0.5033,
+    0.4123,
+    0.5085,
+    0.547,
+    0.7121,
+    1.5201,
+    0.5804
+   ],
+   "tag": "wire_0.15_typical_600s",
+   "model": "wire",
+   "wall_total_s": 64.5
+  },
+  {
+   "label": "sim pass only",
+   "cmd_m_s": 0.25,
+   "corner": "high-side",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "wall_s": 6.5,
+   "vx_m_s": 0.17530184210605865,
+   "track_lin": 0.701238000544833,
+   "pack_em_twin": {
+    "i_mean": 6.496,
+    "i_rms": 6.691,
+    "i_max": 11.143,
+    "i_max_100ms": 8.986,
+    "v_term_mean": 12.127,
+    "v_term_min": 11.872,
+    "bus_mean": 11.508,
+    "bus_min": 10.825,
+    "bec_out_mean": 11.485,
+    "bec_out_min": 10.783,
+    "bec_in_min": 10.783,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "pack_window": {
+    "t0_s": 4.0,
+    "i_mean_A": 6.495534,
+    "i_rms_A": 6.691294,
+    "i_max_A": 11.142719,
+    "n": 28000
+   },
+   "hottest_joint": "right_knee",
+   "hottest_motor_rms_A": 1.666708,
+   "hottest_motor_peak_A": 2.585059,
+   "joints": [
+    {
+     "joint": "left_hip_yaw",
+     "motor_rms_A": 0.558897,
+     "motor_peak_A": 1.657874,
+     "supply_rms_A": 0.264346,
+     "supply_peak_A": 1.106677
+    },
+    {
+     "joint": "left_hip_roll",
+     "motor_rms_A": 0.877156,
+     "motor_peak_A": 2.240519,
+     "supply_rms_A": 0.609413,
+     "supply_peak_A": 2.07261
+    },
+    {
+     "joint": "left_hip_pitch",
+     "motor_rms_A": 1.066557,
+     "motor_peak_A": 2.162678,
+     "supply_rms_A": 0.867919,
+     "supply_peak_A": 2.183678
+    },
+    {
+     "joint": "left_knee",
+     "motor_rms_A": 1.60034,
+     "motor_peak_A": 2.54579,
+     "supply_rms_A": 1.462474,
+     "supply_peak_A": 2.56679
+    },
+    {
+     "joint": "left_ankle",
+     "motor_rms_A": 0.897215,
+     "motor_peak_A": 1.58535,
+     "supply_rms_A": 0.468706,
+     "supply_peak_A": 1.383593
+    },
+    {
+     "joint": "neck_pitch",
+     "motor_rms_A": 0.592773,
+     "motor_peak_A": 1.162899,
+     "supply_rms_A": 0.212575,
+     "supply_peak_A": 0.623556
+    },
+    {
+     "joint": "head_pitch",
+     "motor_rms_A": 0.47293,
+     "motor_peak_A": 1.062683,
+     "supply_rms_A": 0.143792,
+     "supply_peak_A": 0.436247
+    },
+    {
+     "joint": "head_yaw",
+     "motor_rms_A": 0.706822,
+     "motor_peak_A": 1.965975,
+     "supply_rms_A": 0.441478,
+     "supply_peak_A": 1.945546
+    },
+    {
+     "joint": "head_roll",
+     "motor_rms_A": 0.535621,
+     "motor_peak_A": 1.250883,
+     "supply_rms_A": 0.238628,
+     "supply_peak_A": 0.817216
+    },
+    {
+     "joint": "right_hip_yaw",
+     "motor_rms_A": 0.636709,
+     "motor_peak_A": 1.703207,
+     "supply_rms_A": 0.31493,
+     "supply_peak_A": 1.411705
+    },
+    {
+     "joint": "right_hip_roll",
+     "motor_rms_A": 0.710598,
+     "motor_peak_A": 2.106129,
+     "supply_rms_A": 0.393958,
+     "supply_peak_A": 1.999457
+    },
+    {
+     "joint": "right_hip_pitch",
+     "motor_rms_A": 1.041234,
+     "motor_peak_A": 2.1147,
+     "supply_rms_A": 0.871818,
+     "supply_peak_A": 2.1357
+    },
+    {
+     "joint": "right_knee",
+     "motor_rms_A": 1.666708,
+     "motor_peak_A": 2.585059,
+     "supply_rms_A": 1.535628,
+     "supply_peak_A": 2.606059
+    },
+    {
+     "joint": "right_ankle",
+     "motor_rms_A": 0.804272,
+     "motor_peak_A": 1.471329,
+     "supply_rms_A": 0.398447,
+     "supply_peak_A": 0.975707
+    }
+   ],
+   "branches": {
+    "left_leg": {
+     "label": "sim pass only",
+     "mean_A": 2.684628,
+     "rms_A": 2.918065,
+     "peak_A": 5.511401,
+     "max_100ms_A": 4.278098,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "right_leg": {
+     "label": "sim pass only",
+     "mean_A": 2.576486,
+     "rms_A": 2.772574,
+     "peak_A": 5.528642,
+     "max_100ms_A": 3.651989,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "neck_and_head": {
+     "label": "sim pass only",
+     "mean_A": 0.722139,
+     "rms_A": 0.84671,
+     "peak_A": 2.651756,
+     "max_100ms_A": 1.395449,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    }
+   },
+   "first_minute_hot_motor_rms_A": 1.666708,
+   "first_minute_pack_mean_A": 6.495534,
+   "last_minute_hot_motor_rms_A": 1.666708,
+   "last_minute_pack_mean_A": 6.495534,
+   "servo_im_rms_check": [
+    0.5589,
+    0.8772,
+    1.0666,
+    1.6003,
+    0.8972,
+    0.5928,
+    0.4729,
+    0.7068,
+    0.5356,
+    0.6367,
+    0.7106,
+    1.0412,
+    1.6667,
+    0.8043
+   ],
+   "tag": "wire_0.25_high-side_60s",
+   "model": "wire",
+   "wall_total_s": 6.7
+  },
+  {
+   "label": "sim pass only",
+   "cmd_m_s": 0.25,
+   "corner": "typical",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "wall_s": 6.7,
+   "vx_m_s": 0.18323404292530884,
+   "track_lin": 0.7329938688802407,
+   "pack_em_twin": {
+    "i_mean": 6.533,
+    "i_rms": 6.734,
+    "i_max": 10.973,
+    "i_max_100ms": 8.911,
+    "v_term_mean": 12.125,
+    "v_term_min": 11.847,
+    "bus_mean": 11.633,
+    "bus_min": 11.028,
+    "bec_out_mean": 11.61,
+    "bec_out_min": 10.987,
+    "bec_in_min": 10.987,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "pack_window": {
+    "t0_s": 4.0,
+    "i_mean_A": 6.533222,
+    "i_rms_A": 6.734485,
+    "i_max_A": 10.972827,
+    "n": 28000
+   },
+   "hottest_joint": "right_knee",
+   "hottest_motor_rms_A": 1.709471,
+   "hottest_motor_peak_A": 2.694389,
+   "joints": [
+    {
+     "joint": "left_hip_yaw",
+     "motor_rms_A": 0.569387,
+     "motor_peak_A": 1.583918,
+     "supply_rms_A": 0.26578,
+     "supply_peak_A": 1.018538
+    },
+    {
+     "joint": "left_hip_roll",
+     "motor_rms_A": 0.88611,
+     "motor_peak_A": 2.346945,
+     "supply_rms_A": 0.604454,
+     "supply_peak_A": 2.138256
+    },
+    {
+     "joint": "left_hip_pitch",
+     "motor_rms_A": 1.075433,
+     "motor_peak_A": 2.229442,
+     "supply_rms_A": 0.87004,
+     "supply_peak_A": 2.250442
+    },
+    {
+     "joint": "left_knee",
+     "motor_rms_A": 1.643249,
+     "motor_peak_A": 2.620451,
+     "supply_rms_A": 1.502398,
+     "supply_peak_A": 2.641452
+    },
+    {
+     "joint": "left_ankle",
+     "motor_rms_A": 0.904206,
+     "motor_peak_A": 1.617751,
+     "supply_rms_A": 0.467644,
+     "supply_peak_A": 1.399225
+    },
+    {
+     "joint": "neck_pitch",
+     "motor_rms_A": 0.599428,
+     "motor_peak_A": 1.191431,
+     "supply_rms_A": 0.214408,
+     "supply_peak_A": 0.632685
+    },
+    {
+     "joint": "head_pitch",
+     "motor_rms_A": 0.477709,
+     "motor_peak_A": 1.094583,
+     "supply_rms_A": 0.145123,
+     "supply_peak_A": 0.456536
+    },
+    {
+     "joint": "head_yaw",
+     "motor_rms_A": 0.689792,
+     "motor_peak_A": 1.947096,
+     "supply_rms_A": 0.413629,
+     "supply_peak_A": 1.773691
+    },
+    {
+     "joint": "head_roll",
+     "motor_rms_A": 0.544691,
+     "motor_peak_A": 1.362104,
+     "supply_rms_A": 0.241272,
+     "supply_peak_A": 0.869461
+    },
+    {
+     "joint": "right_hip_yaw",
+     "motor_rms_A": 0.654015,
+     "motor_peak_A": 1.780273,
+     "supply_rms_A": 0.320568,
+     "supply_peak_A": 1.414937
+    },
+    {
+     "joint": "right_hip_roll",
+     "motor_rms_A": 0.714824,
+     "motor_peak_A": 2.066893,
+     "supply_rms_A": 0.369707,
+     "supply_peak_A": 1.900534
+    },
+    {
+     "joint": "right_hip_pitch",
+     "motor_rms_A": 1.055404,
+     "motor_peak_A": 2.195707,
+     "supply_rms_A": 0.888719,
+     "supply_peak_A": 2.216707
+    },
+    {
+     "joint": "right_knee",
+     "motor_rms_A": 1.709471,
+     "motor_peak_A": 2.694389,
+     "supply_rms_A": 1.578037,
+     "supply_peak_A": 2.715389
+    },
+    {
+     "joint": "right_ankle",
+     "motor_rms_A": 0.808131,
+     "motor_peak_A": 1.497786,
+     "supply_rms_A": 0.393601,
+     "supply_peak_A": 0.934509
+    }
+   ],
+   "branches": {
+    "left_leg": {
+     "label": "sim pass only",
+     "mean_A": 2.710741,
+     "rms_A": 2.953295,
+     "peak_A": 5.791522,
+     "max_100ms_A": 4.547754,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "right_leg": {
+     "label": "sim pass only",
+     "mean_A": 2.609964,
+     "rms_A": 2.805576,
+     "peak_A": 5.357033,
+     "max_100ms_A": 3.731862,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "neck_and_head": {
+     "label": "sim pass only",
+     "mean_A": 0.705802,
+     "rms_A": 0.828903,
+     "peak_A": 2.603594,
+     "max_100ms_A": 1.352181,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    }
+   },
+   "first_minute_hot_motor_rms_A": 1.709471,
+   "first_minute_pack_mean_A": 6.533222,
+   "last_minute_hot_motor_rms_A": 1.709471,
+   "last_minute_pack_mean_A": 6.533222,
+   "servo_im_rms_check": [
+    0.5694,
+    0.8861,
+    1.0754,
+    1.6432,
+    0.9042,
+    0.5994,
+    0.4777,
+    0.6898,
+    0.5447,
+    0.654,
+    0.7148,
+    1.0554,
+    1.7095,
+    0.8081
+   ],
+   "tag": "wire_0.25_typical_60s",
+   "model": "wire",
+   "wall_total_s": 6.9
+  },
+  {
+   "label": "sim pass only",
+   "cmd_m_s": 0.4,
+   "corner": "high-side",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "wall_s": 6.4,
+   "vx_m_s": 0.2526569668622729,
+   "track_lin": 0.6325336849946703,
+   "pack_em_twin": {
+    "i_mean": 8.113,
+    "i_rms": 8.339,
+    "i_max": 13.875,
+    "i_max_100ms": 11.518,
+    "v_term_mean": 12.036,
+    "v_term_min": 11.728,
+    "bus_mean": 11.264,
+    "bus_min": 10.424,
+    "bec_out_mean": 11.234,
+    "bec_out_min": 10.373,
+    "bec_in_min": 10.373,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "pack_window": {
+    "t0_s": 4.0,
+    "i_mean_A": 8.112938,
+    "i_rms_A": 8.339029,
+    "i_max_A": 13.874766,
+    "n": 28000
+   },
+   "hottest_joint": "left_knee",
+   "hottest_motor_rms_A": 1.684777,
+   "hottest_motor_peak_A": 2.536427,
+   "joints": [
+    {
+     "joint": "left_hip_yaw",
+     "motor_rms_A": 0.738452,
+     "motor_peak_A": 1.920772,
+     "supply_rms_A": 0.459926,
+     "supply_peak_A": 1.676769
+    },
+    {
+     "joint": "left_hip_roll",
+     "motor_rms_A": 0.832329,
+     "motor_peak_A": 2.373733,
+     "supply_rms_A": 0.619696,
+     "supply_peak_A": 2.394733
+    },
+    {
+     "joint": "left_hip_pitch",
+     "motor_rms_A": 1.204439,
+     "motor_peak_A": 2.460254,
+     "supply_rms_A": 1.048004,
+     "supply_peak_A": 2.481254
+    },
+    {
+     "joint": "left_knee",
+     "motor_rms_A": 1.684777,
+     "motor_peak_A": 2.536427,
+     "supply_rms_A": 1.572362,
+     "supply_peak_A": 2.548146
+    },
+    {
+     "joint": "left_ankle",
+     "motor_rms_A": 1.043591,
+     "motor_peak_A": 1.776931,
+     "supply_rms_A": 0.597648,
+     "supply_peak_A": 1.79793
+    },
+    {
+     "joint": "neck_pitch",
+     "motor_rms_A": 0.952786,
+     "motor_peak_A": 2.146922,
+     "supply_rms_A": 0.562578,
+     "supply_peak_A": 2.09133
+    },
+    {
+     "joint": "head_pitch",
+     "motor_rms_A": 0.569356,
+     "motor_peak_A": 1.159595,
+     "supply_rms_A": 0.202953,
+     "supply_peak_A": 0.630436
+    },
+    {
+     "joint": "head_yaw",
+     "motor_rms_A": 0.875917,
+     "motor_peak_A": 2.115194,
+     "supply_rms_A": 0.677133,
+     "supply_peak_A": 2.136194
+    },
+    {
+     "joint": "head_roll",
+     "motor_rms_A": 0.599882,
+     "motor_peak_A": 1.349813,
+     "supply_rms_A": 0.28651,
+     "supply_peak_A": 1.002112
+    },
+    {
+     "joint": "right_hip_yaw",
+     "motor_rms_A": 0.830703,
+     "motor_peak_A": 2.180111,
+     "supply_rms_A": 0.607905,
+     "supply_peak_A": 2.155804
+    },
+    {
+     "joint": "right_hip_roll",
+     "motor_rms_A": 0.872647,
+     "motor_peak_A": 2.137926,
+     "supply_rms_A": 0.543712,
+     "supply_peak_A": 2.098039
+    },
+    {
+     "joint": "right_hip_pitch",
+     "motor_rms_A": 1.17598,
+     "motor_peak_A": 2.284395,
+     "supply_rms_A": 1.074859,
+     "supply_peak_A": 2.305395
+    },
+    {
+     "joint": "right_knee",
+     "motor_rms_A": 1.643662,
+     "motor_peak_A": 2.505478,
+     "supply_rms_A": 1.517349,
+     "supply_peak_A": 2.526478
+    },
+    {
+     "joint": "right_ankle",
+     "motor_rms_A": 0.90444,
+     "motor_peak_A": 1.684921,
+     "supply_rms_A": 0.487535,
+     "supply_peak_A": 1.324456
+    }
+   ],
+   "branches": {
+    "left_leg": {
+     "label": "sim pass only",
+     "mean_A": 3.225981,
+     "rms_A": 3.396544,
+     "peak_A": 5.986081,
+     "max_100ms_A": 4.868338,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "right_leg": {
+     "label": "sim pass only",
+     "mean_A": 3.148358,
+     "rms_A": 3.316889,
+     "peak_A": 5.958943,
+     "max_100ms_A": 4.649724,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "neck_and_head": {
+     "label": "sim pass only",
+     "mean_A": 1.215015,
+     "rms_A": 1.393203,
+     "peak_A": 3.24586,
+     "max_100ms_A": 2.142085,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    }
+   },
+   "first_minute_hot_motor_rms_A": 1.684777,
+   "first_minute_pack_mean_A": 8.112938,
+   "last_minute_hot_motor_rms_A": 1.684777,
+   "last_minute_pack_mean_A": 8.112938,
+   "servo_im_rms_check": [
+    0.7385,
+    0.8323,
+    1.2044,
+    1.6848,
+    1.0436,
+    0.9528,
+    0.5694,
+    0.8759,
+    0.5999,
+    0.8307,
+    0.8726,
+    1.176,
+    1.6437,
+    0.9044
+   ],
+   "tag": "wire_0.4_high-side_60s",
+   "model": "wire",
+   "wall_total_s": 6.5
+  },
+  {
+   "label": "sim pass only",
+   "cmd_m_s": 0.4,
+   "corner": "typical",
+   "dur_s": 60.0,
+   "fall_s": "none",
+   "wall_s": 6.2,
+   "vx_m_s": 0.2609979162170983,
+   "track_lin": 0.6532629544746493,
+   "pack_em_twin": {
+    "i_mean": 8.236,
+    "i_rms": 8.461,
+    "i_max": 14.509,
+    "i_max_100ms": 11.748,
+    "v_term_mean": 12.029,
+    "v_term_min": 11.698,
+    "bus_mean": 11.41,
+    "bus_min": 10.615,
+    "bec_out_mean": 11.38,
+    "bec_out_min": 10.561,
+    "bec_in_min": 10.561,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "pack_window": {
+    "t0_s": 4.0,
+    "i_mean_A": 8.236214,
+    "i_rms_A": 8.460835,
+    "i_max_A": 14.508957,
+    "n": 28000
+   },
+   "hottest_joint": "left_knee",
+   "hottest_motor_rms_A": 1.71939,
+   "hottest_motor_peak_A": 2.658206,
+   "joints": [
+    {
+     "joint": "left_hip_yaw",
+     "motor_rms_A": 0.740902,
+     "motor_peak_A": 1.926329,
+     "supply_rms_A": 0.449114,
+     "supply_peak_A": 1.651975
+    },
+    {
+     "joint": "left_hip_roll",
+     "motor_rms_A": 0.856684,
+     "motor_peak_A": 2.439317,
+     "supply_rms_A": 0.634324,
+     "supply_peak_A": 2.460317
+    },
+    {
+     "joint": "left_hip_pitch",
+     "motor_rms_A": 1.222729,
+     "motor_peak_A": 2.467244,
+     "supply_rms_A": 1.070362,
+     "supply_peak_A": 2.488244
+    },
+    {
+     "joint": "left_knee",
+     "motor_rms_A": 1.71939,
+     "motor_peak_A": 2.658206,
+     "supply_rms_A": 1.599219,
+     "supply_peak_A": 2.637403
+    },
+    {
+     "joint": "left_ankle",
+     "motor_rms_A": 1.069728,
+     "motor_peak_A": 1.825178,
+     "supply_rms_A": 0.620446,
+     "supply_peak_A": 1.846178
+    },
+    {
+     "joint": "neck_pitch",
+     "motor_rms_A": 0.990866,
+     "motor_peak_A": 2.16978,
+     "supply_rms_A": 0.587764,
+     "supply_peak_A": 2.060599
+    },
+    {
+     "joint": "head_pitch",
+     "motor_rms_A": 0.595004,
+     "motor_peak_A": 1.189921,
+     "supply_rms_A": 0.213646,
+     "supply_peak_A": 0.659127
+    },
+    {
+     "joint": "head_yaw",
+     "motor_rms_A": 0.889372,
+     "motor_peak_A": 2.242247,
+     "supply_rms_A": 0.678286,
+     "supply_peak_A": 2.263247
+    },
+    {
+     "joint": "head_roll",
+     "motor_rms_A": 0.611196,
+     "motor_peak_A": 1.42373,
+     "supply_rms_A": 0.291003,
+     "supply_peak_A": 1.004931
+    },
+    {
+     "joint": "right_hip_yaw",
+     "motor_rms_A": 0.841174,
+     "motor_peak_A": 2.258331,
+     "supply_rms_A": 0.603745,
+     "supply_peak_A": 2.243595
+    },
+    {
+     "joint": "right_hip_roll",
+     "motor_rms_A": 0.91028,
+     "motor_peak_A": 2.135452,
+     "supply_rms_A": 0.575926,
+     "supply_peak_A": 2.149203
+    },
+    {
+     "joint": "right_hip_pitch",
+     "motor_rms_A": 1.202076,
+     "motor_peak_A": 2.388354,
+     "supply_rms_A": 1.09917,
+     "supply_peak_A": 2.409354
+    },
+    {
+     "joint": "right_knee",
+     "motor_rms_A": 1.690208,
+     "motor_peak_A": 2.602469,
+     "supply_rms_A": 1.568665,
+     "supply_peak_A": 2.623469
+    },
+    {
+     "joint": "right_ankle",
+     "motor_rms_A": 0.925655,
+     "motor_peak_A": 1.678421,
+     "supply_rms_A": 0.499997,
+     "supply_peak_A": 1.452384
+    }
+   ],
+   "branches": {
+    "left_leg": {
+     "label": "sim pass only",
+     "mean_A": 3.260565,
+     "rms_A": 3.441096,
+     "peak_A": 6.411269,
+     "max_100ms_A": 5.012489,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "right_leg": {
+     "label": "sim pass only",
+     "mean_A": 3.217369,
+     "rms_A": 3.392618,
+     "peak_A": 6.165477,
+     "max_100ms_A": 4.646537,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    },
+    "neck_and_head": {
+     "label": "sim pass only",
+     "mean_A": 1.241504,
+     "rms_A": 1.422029,
+     "peak_A": 3.512661,
+     "max_100ms_A": 2.199081,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 28000,
+     "dt_s": 0.002
+    }
+   },
+   "first_minute_hot_motor_rms_A": 1.71939,
+   "first_minute_pack_mean_A": 8.236214,
+   "last_minute_hot_motor_rms_A": 1.71939,
+   "last_minute_pack_mean_A": 8.236214,
+   "servo_im_rms_check": [
+    0.7409,
+    0.8567,
+    1.2227,
+    1.7194,
+    1.0697,
+    0.9909,
+    0.595,
+    0.8894,
+    0.6112,
+    0.8412,
+    0.9103,
+    1.2021,
+    1.6902,
+    0.9257
+   ],
+   "tag": "wire_0.4_typical_60s",
+   "model": "wire",
+   "wall_total_s": 6.3
+  },
+  {
+   "label": "sim pass only",
+   "cmd_m_s": 0.4,
+   "corner": "typical",
+   "dur_s": 600.0,
+   "fall_s": "none",
+   "wall_s": 64.5,
+   "vx_m_s": 0.25547009649631774,
+   "track_lin": 0.639721234368227,
+   "pack_em_twin": {
+    "i_mean": 8.149,
+    "i_rms": 8.381,
+    "i_max": 14.511,
+    "i_max_100ms": 11.763,
+    "v_term_mean": 11.705,
+    "v_term_min": 11.145,
+    "bus_mean": 11.092,
+    "bus_min": 10.089,
+    "bec_out_mean": 11.062,
+    "bec_out_min": 10.036,
+    "bec_in_min": 10.036,
+    "bec_out_pct_below_6V": 0.0
+   },
+   "pack_window": {
+    "t0_s": 4.0,
+    "i_mean_A": 8.149278,
+    "i_rms_A": 8.381157,
+    "i_max_A": 14.51137,
+    "n": 298000
+   },
+   "hottest_joint": "left_knee",
+   "hottest_motor_rms_A": 1.68919,
+   "hottest_motor_peak_A": 2.658206,
+   "joints": [
+    {
+     "joint": "left_hip_yaw",
+     "motor_rms_A": 0.730595,
+     "motor_peak_A": 1.928595,
+     "supply_rms_A": 0.455876,
+     "supply_peak_A": 1.701691
+    },
+    {
+     "joint": "left_hip_roll",
+     "motor_rms_A": 0.829847,
+     "motor_peak_A": 2.439317,
+     "supply_rms_A": 0.616361,
+     "supply_peak_A": 2.460317
+    },
+    {
+     "joint": "left_hip_pitch",
+     "motor_rms_A": 1.20777,
+     "motor_peak_A": 2.526008,
+     "supply_rms_A": 1.05571,
+     "supply_peak_A": 2.535119
+    },
+    {
+     "joint": "left_knee",
+     "motor_rms_A": 1.68919,
+     "motor_peak_A": 2.658206,
+     "supply_rms_A": 1.577074,
+     "supply_peak_A": 2.637403
+    },
+    {
+     "joint": "left_ankle",
+     "motor_rms_A": 1.039615,
+     "motor_peak_A": 1.941039,
+     "supply_rms_A": 0.596956,
+     "supply_peak_A": 1.855351
+    },
+    {
+     "joint": "neck_pitch",
+     "motor_rms_A": 0.949393,
+     "motor_peak_A": 2.230059,
+     "supply_rms_A": 0.563814,
+     "supply_peak_A": 2.214678
+    },
+    {
+     "joint": "head_pitch",
+     "motor_rms_A": 0.567121,
+     "motor_peak_A": 1.198053,
+     "supply_rms_A": 0.202252,
+     "supply_peak_A": 0.659127
+    },
+    {
+     "joint": "head_yaw",
+     "motor_rms_A": 0.885164,
+     "motor_peak_A": 2.242247,
+     "supply_rms_A": 0.689001,
+     "supply_peak_A": 2.263247
+    },
+    {
+     "joint": "head_roll",
+     "motor_rms_A": 0.601401,
+     "motor_peak_A": 1.42373,
+     "supply_rms_A": 0.286926,
+     "supply_peak_A": 1.024087
+    },
+    {
+     "joint": "right_hip_yaw",
+     "motor_rms_A": 0.826079,
+     "motor_peak_A": 2.258331,
+     "supply_rms_A": 0.605686,
+     "supply_peak_A": 2.243595
+    },
+    {
+     "joint": "right_hip_roll",
+     "motor_rms_A": 0.874687,
+     "motor_peak_A": 2.174909,
+     "supply_rms_A": 0.550099,
+     "supply_peak_A": 2.177851
+    },
+    {
+     "joint": "right_hip_pitch",
+     "motor_rms_A": 1.184182,
+     "motor_peak_A": 2.388354,
+     "supply_rms_A": 1.082963,
+     "supply_peak_A": 2.409354
+    },
+    {
+     "joint": "right_knee",
+     "motor_rms_A": 1.6532,
+     "motor_peak_A": 2.602469,
+     "supply_rms_A": 1.530304,
+     "supply_peak_A": 2.623469
+    },
+    {
+     "joint": "right_ankle",
+     "motor_rms_A": 0.907016,
+     "motor_peak_A": 1.686528,
+     "supply_rms_A": 0.49374,
+     "supply_peak_A": 1.452384
+    }
+   ],
+   "branches": {
+    "left_leg": {
+     "label": "sim pass only",
+     "mean_A": 3.227004,
+     "rms_A": 3.398596,
+     "peak_A": 6.411269,
+     "max_100ms_A": 5.012489,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 298000,
+     "dt_s": 0.002
+    },
+    "right_leg": {
+     "label": "sim pass only",
+     "mean_A": 3.172744,
+     "rms_A": 3.343101,
+     "peak_A": 6.245997,
+     "max_100ms_A": 4.727509,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 298000,
+     "dt_s": 0.002
+    },
+    "neck_and_head": {
+     "label": "sim pass only",
+     "mean_A": 1.217725,
+     "rms_A": 1.399227,
+     "peak_A": 3.515173,
+     "max_100ms_A": 2.199081,
+     "fast_trip_A": 19.047,
+     "above": {
+      "7.23": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "7.77": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.13": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "8.54": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      },
+      "9.07": {
+       "time_above_s": 0.0,
+       "longest_s": 0.0,
+       "n_excursions": 0,
+       "buckets": {
+        "under_50ms": 0,
+        "50_to_150ms": 0,
+        "150ms_to_long_blanking": 0,
+        "over_long_blanking": 0
+       },
+       "trips_short_blanking": false,
+       "trips_long_blanking": false
+      }
+     },
+     "samples": 298000,
+     "dt_s": 0.002
+    }
+   },
+   "first_minute_hot_motor_rms_A": 1.719234,
+   "first_minute_pack_mean_A": 8.235469,
+   "last_minute_hot_motor_rms_A": 1.660807,
+   "last_minute_pack_mean_A": 8.057092,
+   "servo_im_rms_check": [
+    0.7306,
+    0.8298,
+    1.2078,
+    1.6892,
+    1.0396,
+    0.9494,
+    0.5671,
+    0.8852,
+    0.6014,
+    0.8261,
+    0.8747,
+    1.1842,
+    1.6532,
+    0.907
+   ],
+   "tag": "wire_0.4_typical_600s",
+   "model": "wire",
+   "wall_total_s": 64.9
+  }
+ ],
+ "mass": {
+  "label": "sim pass only",
+  "pr85_patch_writes_file": false,
+  "verdict": "The Castle mass reached MuJoCo, and this rerun moves speed or current at the printed digits. The earlier match does not repeat. A further 200 g at the original trunk COM does move the 20 s pose, so the walker is reading trunk mass.",
+  "castle_removed_g": 35.965,
+  "xml_wire_kg": 1.0994,
+  "xml_castle_kept_kg": 1.1354,
+  "mujoco_wire_kg": 1.099411,
+  "mujoco_castle_kept_kg": 1.135376,
+  "mujoco_minus_xml_wire_kg": 1.1e-05,
+  "mujoco_minus_xml_castle_kg": -2.4e-05,
+  "mass_reached_mujoco": true,
+  "vx_wire": 0.123251,
+  "vx_castle_kept": 0.120904,
+  "dvx": 0.002346,
+  "i_mean_wire_A": 4.55428,
+  "i_mean_castle_kept_A": 4.50824,
+  "di_mean_A": 0.04604,
+  "i_max_wire_A": 8.131589,
+  "i_max_castle_kept_A": 7.743059,
+  "di_max_A": 0.38853,
+  "pose_vs_castle_kept": {
+   "max_dist_m": 0.357906,
+   "at_10s": {
+    "t_s": 10.0,
+    "dx_m": 0.021561,
+    "dy_m": 0.002802,
+    "dist_m": 0.021742
+   },
+   "at_20s": {
+    "t_s": 20.0,
+    "dx_m": 0.032285,
+    "dy_m": 0.009467,
+    "dist_m": 0.033645
+   },
+   "n": 3000
+  },
+  "pose_vs_plus200g": {
+   "max_dist_m": 0.176405,
+   "at_10s": {
+    "t_s": 10.0,
+    "dx_m": 0.063491,
+    "dy_m": 0.003515,
+    "dist_m": 0.063589
+   },
+   "at_20s": {
+    "t_s": 20.0,
+    "dx_m": 0.1263,
+    "dy_m": 0.123156,
+    "dist_m": 0.176405
+   },
+   "n": 1000
+  },
+  "plus200g_mujoco_kg": 1.299411,
+  "plus200g_vx": 0.111245,
+  "plus200g_i_mean_A": 4.416819,
+  "plus200g_i_max_A": 7.464018,
+  "baseline_trunk_kg": 1.065376,
+  "baseline_com_m": [
+   -0.056483,
+   0.000332,
+   0.034888
+  ],
+  "published_pr85_vx": 0.1183,
+  "published_pr85_i_max_A": 8.114,
+  "wire_vs_published_dvx": 0.004951,
+  "wire_vs_published_di_max": 0.017589
+ },
+ "thermal": {
+  "sha": "ada5faa0a7abaaba097698aff1926eb350a2bb50",
+  "i_scale": 0.7020178964757711,
+  "integration": "one thermal step per current bin",
+  "rows": [
+   {
+    "name": "wire_0.15_typical_600s_cont70_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 70.03,
+    "right_knee_body_max_C": 61.06,
+    "right_knee_winding_max_C": 184.58,
+    "minutes_to_right_reading_60C": 1.37,
+    "minutes_to_right_reading_70C": 1.78,
+    "minutes_to_right_body_49C": 1.4,
+    "hottest_body_servo": "left_hip_pitch",
+    "hottest_body_C": 66.59,
+    "cell_max_C": 47.06,
+    "wall_max_C": 31.04,
+    "trunk_air_end_C": 38.4,
+    "bec_case_end_C": 38.4,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s typical, 10 min",
+    "tag": "wire_0.15_typical_600s",
+    "case": "cont70_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 1.16,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 70.03,
+    "minutes_to_hottest_reading_55C": 1.16,
+    "minutes_to_hottest_reading_60C": 1.37,
+    "reading_rise_last_10min_C": -0.0,
+    "body_rise_last_10min_C": -0.0,
+    "reading_end_C": 27.68,
+    "body_end_C": 27.68
+   },
+   {
+    "name": "wire_0.15_typical_600s_cont70_32",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 70.01,
+    "right_knee_body_max_C": 61.9,
+    "right_knee_winding_max_C": 180.62,
+    "minutes_to_right_reading_60C": 1.06,
+    "minutes_to_right_reading_70C": 1.45,
+    "minutes_to_right_body_49C": 1.06,
+    "hottest_body_servo": "right_hip_yaw",
+    "hottest_body_C": 67.2,
+    "cell_max_C": 53.68,
+    "wall_max_C": 37.93,
+    "trunk_air_end_C": 45.35,
+    "bec_case_end_C": 45.35,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s typical, 10 min",
+    "tag": "wire_0.15_typical_600s",
+    "case": "cont70_32",
+    "room_C": 32.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 0.87,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "left_knee",
+    "hottest_reading_C": 70.01,
+    "minutes_to_hottest_reading_55C": 0.97,
+    "minutes_to_hottest_reading_60C": 1.19,
+    "reading_rise_last_10min_C": -0.0,
+    "body_rise_last_10min_C": -0.0,
+    "reading_end_C": 34.61,
+    "body_end_C": 34.61
+   },
+   {
+    "name": "wire_0.15_typical_600s_cont200_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 200.01,
+    "right_knee_body_max_C": 179.24,
+    "right_knee_winding_max_C": 387.66,
+    "minutes_to_right_reading_60C": 1.37,
+    "minutes_to_right_reading_70C": 1.78,
+    "minutes_to_right_body_49C": 1.4,
+    "hottest_body_servo": "right_knee",
+    "hottest_body_C": 179.24,
+    "cell_max_C": 47.06,
+    "wall_max_C": 31.04,
+    "trunk_air_end_C": 38.4,
+    "bec_case_end_C": 38.4,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s typical, 10 min",
+    "tag": "wire_0.15_typical_600s",
+    "case": "cont200_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 1.16,
+    "minutes_to_right_body_62C": 1.99,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 200.01,
+    "minutes_to_hottest_reading_55C": 1.16,
+    "minutes_to_hottest_reading_60C": 1.37,
+    "reading_rise_last_10min_C": -0.002,
+    "body_rise_last_10min_C": -0.002,
+    "reading_end_C": 27.68,
+    "body_end_C": 27.68
+   },
+   {
+    "name": "wire_0.15_typical_600s_guard_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 0.14,
+    "right_knee_reading_max_C": 55.09,
+    "right_knee_body_max_C": 50.31,
+    "right_knee_winding_max_C": 155.49,
+    "minutes_to_right_reading_60C": null,
+    "minutes_to_right_reading_70C": null,
+    "minutes_to_right_body_49C": 4.42,
+    "hottest_body_servo": "right_knee",
+    "hottest_body_C": 50.31,
+    "cell_max_C": 29.48,
+    "wall_max_C": 26.8,
+    "trunk_air_end_C": 29.16,
+    "bec_case_end_C": 29.16,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s typical, 10 min",
+    "tag": "wire_0.15_typical_600s",
+    "case": "guard_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 1.16,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 55.09,
+    "minutes_to_hottest_reading_55C": 1.16,
+    "minutes_to_hottest_reading_60C": null,
+    "reading_rise_last_10min_C": 0.216,
+    "body_rise_last_10min_C": 0.198,
+    "reading_end_C": 48.14,
+    "body_end_C": 47.93
+   },
+   {
+    "name": "wire_0.15_typical_600s_guard_32",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 0.09,
+    "right_knee_reading_max_C": 55.09,
+    "right_knee_body_max_C": 51.01,
+    "right_knee_winding_max_C": 146.06,
+    "minutes_to_right_reading_60C": null,
+    "minutes_to_right_reading_70C": null,
+    "minutes_to_right_body_49C": 1.25,
+    "hottest_body_servo": "right_knee",
+    "hottest_body_C": 51.01,
+    "cell_max_C": 35.31,
+    "wall_max_C": 33.49,
+    "trunk_air_end_C": 35.77,
+    "bec_case_end_C": 35.77,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s typical, 10 min",
+    "tag": "wire_0.15_typical_600s",
+    "case": "guard_32",
+    "room_C": 32.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 0.87,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 55.09,
+    "minutes_to_hottest_reading_55C": 0.87,
+    "minutes_to_hottest_reading_60C": null,
+    "reading_rise_last_10min_C": 4.713,
+    "body_rise_last_10min_C": -0.976,
+    "reading_end_C": 54.58,
+    "body_end_C": 48.7
+   },
+   {
+    "name": "wire_0.15_typical_600s_cont70_25_drop0p3",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 70.03,
+    "right_knee_body_max_C": 61.06,
+    "right_knee_winding_max_C": 184.58,
+    "minutes_to_right_reading_60C": 1.37,
+    "minutes_to_right_reading_70C": 1.78,
+    "minutes_to_right_body_49C": 1.4,
+    "hottest_body_servo": "left_hip_pitch",
+    "hottest_body_C": 66.59,
+    "cell_max_C": 48.67,
+    "wall_max_C": 32.26,
+    "trunk_air_end_C": 40.89,
+    "bec_case_end_C": 63.81,
+    "bec_loss_mean_W": 1.252,
+    "series": "0.15 m/s typical, 10 min",
+    "tag": "wire_0.15_typical_600s",
+    "case": "cont70_25_drop0p3",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.3,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 1.16,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 70.03,
+    "minutes_to_hottest_reading_55C": 1.16,
+    "minutes_to_hottest_reading_60C": 1.37,
+    "reading_rise_last_10min_C": -0.0,
+    "body_rise_last_10min_C": -0.0,
+    "reading_end_C": 27.68,
+    "body_end_C": 27.68
+   },
+   {
+    "name": "wire_0.15_high-side_600s_cont70_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 70.02,
+    "right_knee_body_max_C": 61.31,
+    "right_knee_winding_max_C": 178.44,
+    "minutes_to_right_reading_60C": 1.46,
+    "minutes_to_right_reading_70C": 1.9,
+    "minutes_to_right_body_49C": 1.47,
+    "hottest_body_servo": "left_hip_pitch",
+    "hottest_body_C": 65.44,
+    "cell_max_C": 46.39,
+    "wall_max_C": 30.81,
+    "trunk_air_end_C": 37.93,
+    "bec_case_end_C": 37.93,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s high-side, 10 min",
+    "tag": "wire_0.15_high-side_600s",
+    "case": "cont70_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 1.24,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "left_knee",
+    "hottest_reading_C": 70.05,
+    "minutes_to_hottest_reading_55C": 1.41,
+    "minutes_to_hottest_reading_60C": 1.66,
+    "reading_rise_last_10min_C": -0.0,
+    "body_rise_last_10min_C": -0.0,
+    "reading_end_C": 27.66,
+    "body_end_C": 27.66
+   },
+   {
+    "name": "wire_0.15_high-side_600s_cont70_32",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 70.02,
+    "right_knee_body_max_C": 62.09,
+    "right_knee_winding_max_C": 175.7,
+    "minutes_to_right_reading_60C": 1.13,
+    "minutes_to_right_reading_70C": 1.55,
+    "minutes_to_right_body_49C": 1.11,
+    "hottest_body_servo": "left_hip_pitch",
+    "hottest_body_C": 66.86,
+    "cell_max_C": 53.02,
+    "wall_max_C": 37.71,
+    "trunk_air_end_C": 44.89,
+    "bec_case_end_C": 44.89,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s high-side, 10 min",
+    "tag": "wire_0.15_high-side_600s",
+    "case": "cont70_32",
+    "room_C": 32.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 0.92,
+    "minutes_to_right_body_62C": 2.0,
+    "hottest_reading_joint": "left_knee",
+    "hottest_reading_C": 70.02,
+    "minutes_to_hottest_reading_55C": 1.04,
+    "minutes_to_hottest_reading_60C": 1.28,
+    "reading_rise_last_10min_C": -0.0,
+    "body_rise_last_10min_C": -0.0,
+    "reading_end_C": 34.6,
+    "body_end_C": 34.6
+   },
+   {
+    "name": "wire_0.15_high-side_600s_cont200_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 198.32,
+    "right_knee_body_max_C": 178.04,
+    "right_knee_winding_max_C": 382.48,
+    "minutes_to_right_reading_60C": 1.46,
+    "minutes_to_right_reading_70C": 1.9,
+    "minutes_to_right_body_49C": 1.47,
+    "hottest_body_servo": "right_knee",
+    "hottest_body_C": 178.04,
+    "cell_max_C": 46.39,
+    "wall_max_C": 30.81,
+    "trunk_air_end_C": 37.93,
+    "bec_case_end_C": 37.93,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s high-side, 10 min",
+    "tag": "wire_0.15_high-side_600s",
+    "case": "cont200_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 1.24,
+    "minutes_to_right_body_62C": 2.1,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 198.32,
+    "minutes_to_hottest_reading_55C": 1.24,
+    "minutes_to_hottest_reading_60C": 1.46,
+    "reading_rise_last_10min_C": 0.069,
+    "body_rise_last_10min_C": 0.048,
+    "reading_end_C": 197.22,
+    "body_end_C": 176.86
+   },
+   {
+    "name": "wire_0.15_high-side_600s_guard_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 0.146,
+    "right_knee_reading_max_C": 55.09,
+    "right_knee_body_max_C": 50.33,
+    "right_knee_winding_max_C": 150.52,
+    "minutes_to_right_reading_60C": null,
+    "minutes_to_right_reading_70C": null,
+    "minutes_to_right_body_49C": 1.86,
+    "hottest_body_servo": "right_knee",
+    "hottest_body_C": 50.33,
+    "cell_max_C": 29.49,
+    "wall_max_C": 26.79,
+    "trunk_air_end_C": 29.18,
+    "bec_case_end_C": 29.18,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s high-side, 10 min",
+    "tag": "wire_0.15_high-side_600s",
+    "case": "guard_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 1.24,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 55.09,
+    "minutes_to_hottest_reading_55C": 1.24,
+    "minutes_to_hottest_reading_60C": null,
+    "reading_rise_last_10min_C": 0.463,
+    "body_rise_last_10min_C": 0.352,
+    "reading_end_C": 49.96,
+    "body_end_C": 49.46
+   },
+   {
+    "name": "wire_0.15_high-side_600s_guard_32",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 0.093,
+    "right_knee_reading_max_C": 55.08,
+    "right_knee_body_max_C": 51.04,
+    "right_knee_winding_max_C": 142.84,
+    "minutes_to_right_reading_60C": null,
+    "minutes_to_right_reading_70C": null,
+    "minutes_to_right_body_49C": 1.27,
+    "hottest_body_servo": "right_knee",
+    "hottest_body_C": 51.04,
+    "cell_max_C": 35.3,
+    "wall_max_C": 33.49,
+    "trunk_air_end_C": 35.59,
+    "bec_case_end_C": 35.59,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s high-side, 10 min",
+    "tag": "wire_0.15_high-side_600s",
+    "case": "guard_32",
+    "room_C": 32.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 0.92,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 55.08,
+    "minutes_to_hottest_reading_55C": 0.92,
+    "minutes_to_hottest_reading_60C": null,
+    "reading_rise_last_10min_C": 1.565,
+    "body_rise_last_10min_C": 1.53,
+    "reading_end_C": 48.94,
+    "body_end_C": 48.83
+   },
+   {
+    "name": "wire_0.15_typical_60s_cont70_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 70.06,
+    "right_knee_body_max_C": 61.01,
+    "right_knee_winding_max_C": 186.37,
+    "minutes_to_right_reading_60C": 1.36,
+    "minutes_to_right_reading_70C": 1.76,
+    "minutes_to_right_body_49C": 1.4,
+    "hottest_body_servo": "left_hip_pitch",
+    "hottest_body_C": 66.52,
+    "cell_max_C": 48.26,
+    "wall_max_C": 31.47,
+    "trunk_air_end_C": 39.29,
+    "bec_case_end_C": 39.29,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s typical, 60 s",
+    "tag": "wire_0.15_typical_60s",
+    "case": "cont70_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.1,
+    "n_bins": 561,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 1.16,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 70.06,
+    "minutes_to_hottest_reading_55C": 1.16,
+    "minutes_to_hottest_reading_60C": 1.36,
+    "reading_rise_last_10min_C": -0.0,
+    "body_rise_last_10min_C": -0.0,
+    "reading_end_C": 27.72,
+    "body_end_C": 27.72
+   },
+   {
+    "name": "wire_0.15_typical_60s_cont70_32",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 70.02,
+    "right_knee_body_max_C": 61.86,
+    "right_knee_winding_max_C": 182.07,
+    "minutes_to_right_reading_60C": 1.06,
+    "minutes_to_right_reading_70C": 1.44,
+    "minutes_to_right_body_49C": 1.06,
+    "hottest_body_servo": "right_hip_yaw",
+    "hottest_body_C": 68.63,
+    "cell_max_C": 53.93,
+    "wall_max_C": 37.69,
+    "trunk_air_end_C": 43.66,
+    "bec_case_end_C": 43.66,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s typical, 60 s",
+    "tag": "wire_0.15_typical_60s",
+    "case": "cont70_32",
+    "room_C": 32.0,
+    "thermal_dt_s": 0.1,
+    "n_bins": 561,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 0.87,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 70.02,
+    "minutes_to_hottest_reading_55C": 0.87,
+    "minutes_to_hottest_reading_60C": 1.06,
+    "reading_rise_last_10min_C": -0.0,
+    "body_rise_last_10min_C": -0.0,
+    "reading_end_C": 34.66,
+    "body_end_C": 34.66
+   },
+   {
+    "name": "wire_0.15_typical_60s_cont200_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 200.02,
+    "right_knee_body_max_C": 177.96,
+    "right_knee_winding_max_C": 398.63,
+    "minutes_to_right_reading_60C": 1.36,
+    "minutes_to_right_reading_70C": 1.76,
+    "minutes_to_right_body_49C": 1.4,
+    "hottest_body_servo": "right_knee",
+    "hottest_body_C": 177.96,
+    "cell_max_C": 48.26,
+    "wall_max_C": 31.47,
+    "trunk_air_end_C": 39.29,
+    "bec_case_end_C": 39.29,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s typical, 60 s",
+    "tag": "wire_0.15_typical_60s",
+    "case": "cont200_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.1,
+    "n_bins": 561,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 1.16,
+    "minutes_to_right_body_62C": 1.98,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 200.02,
+    "minutes_to_hottest_reading_55C": 1.16,
+    "minutes_to_hottest_reading_60C": 1.36,
+    "reading_rise_last_10min_C": -0.001,
+    "body_rise_last_10min_C": -0.001,
+    "reading_end_C": 27.72,
+    "body_end_C": 27.72
+   },
+   {
+    "name": "wire_0.15_typical_60s_guard_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 0.134,
+    "right_knee_reading_max_C": 55.1,
+    "right_knee_body_max_C": 50.29,
+    "right_knee_winding_max_C": 155.58,
+    "minutes_to_right_reading_60C": null,
+    "minutes_to_right_reading_70C": null,
+    "minutes_to_right_body_49C": 4.4,
+    "hottest_body_servo": "right_knee",
+    "hottest_body_C": 50.29,
+    "cell_max_C": 29.52,
+    "wall_max_C": 26.84,
+    "trunk_air_end_C": 29.21,
+    "bec_case_end_C": 29.21,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s typical, 60 s",
+    "tag": "wire_0.15_typical_60s",
+    "case": "guard_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.1,
+    "n_bins": 561,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 1.16,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 55.1,
+    "minutes_to_hottest_reading_55C": 1.16,
+    "minutes_to_hottest_reading_60C": null,
+    "reading_rise_last_10min_C": 0.088,
+    "body_rise_last_10min_C": 0.086,
+    "reading_end_C": 46.86,
+    "body_end_C": 46.72
+   },
+   {
+    "name": "wire_0.15_typical_60s_guard_32",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 0.084,
+    "right_knee_reading_max_C": 55.07,
+    "right_knee_body_max_C": 51.0,
+    "right_knee_winding_max_C": 146.06,
+    "minutes_to_right_reading_60C": null,
+    "minutes_to_right_reading_70C": null,
+    "minutes_to_right_body_49C": 1.25,
+    "hottest_body_servo": "right_knee",
+    "hottest_body_C": 51.0,
+    "cell_max_C": 35.26,
+    "wall_max_C": 33.5,
+    "trunk_air_end_C": 35.7,
+    "bec_case_end_C": 35.7,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.15 m/s typical, 60 s",
+    "tag": "wire_0.15_typical_60s",
+    "case": "guard_32",
+    "room_C": 32.0,
+    "thermal_dt_s": 0.1,
+    "n_bins": 561,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 0.87,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 55.07,
+    "minutes_to_hottest_reading_55C": 0.87,
+    "minutes_to_hottest_reading_60C": null,
+    "reading_rise_last_10min_C": 5.89,
+    "body_rise_last_10min_C": 5.021,
+    "reading_end_C": 51.64,
+    "body_end_C": 50.7
+   },
+   {
+    "name": "wire_0.25_typical_60s_cont70_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 70.09,
+    "right_knee_body_max_C": 60.04,
+    "right_knee_winding_max_C": 212.19,
+    "minutes_to_right_reading_60C": 1.06,
+    "minutes_to_right_reading_70C": 1.35,
+    "minutes_to_right_body_49C": 1.17,
+    "hottest_body_servo": "left_hip_yaw",
+    "hottest_body_C": 68.51,
+    "cell_max_C": 62.38,
+    "wall_max_C": 33.18,
+    "trunk_air_end_C": 38.83,
+    "bec_case_end_C": 38.83,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.25 m/s typical, 60 s",
+    "tag": "wire_0.25_typical_60s",
+    "case": "cont70_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.1,
+    "n_bins": 561,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 0.91,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "right_knee",
+    "hottest_reading_C": 70.09,
+    "minutes_to_hottest_reading_55C": 0.91,
+    "minutes_to_hottest_reading_60C": 1.06,
+    "reading_rise_last_10min_C": -0.0,
+    "body_rise_last_10min_C": -0.0,
+    "reading_end_C": 27.66,
+    "body_end_C": 27.66
+   },
+   {
+    "name": "wire_0.4_high-side_60s_cont70_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 70.0,
+    "right_knee_body_max_C": 60.34,
+    "right_knee_winding_max_C": 201.65,
+    "minutes_to_right_reading_60C": 1.17,
+    "minutes_to_right_reading_70C": 1.5,
+    "minutes_to_right_body_49C": 1.25,
+    "hottest_body_servo": "left_hip_yaw",
+    "hottest_body_C": 67.59,
+    "cell_max_C": 76.19,
+    "wall_max_C": 33.57,
+    "trunk_air_end_C": 43.33,
+    "bec_case_end_C": 43.33,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.40 m/s high-side, 60 s",
+    "tag": "wire_0.4_high-side_60s",
+    "case": "cont70_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.1,
+    "n_bins": 561,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 1.01,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "left_knee",
+    "hottest_reading_C": 70.07,
+    "minutes_to_hottest_reading_55C": 0.95,
+    "minutes_to_hottest_reading_60C": 1.09,
+    "reading_rise_last_10min_C": -0.0,
+    "body_rise_last_10min_C": -0.0,
+    "reading_end_C": 27.58,
+    "body_end_C": 27.58
+   },
+   {
+    "name": "wire_0.4_typical_600s_cont70_25",
+    "label": "sim pass only",
+    "minutes": 90.0,
+    "walk_share": 1.0,
+    "right_knee_reading_max_C": 70.01,
+    "right_knee_body_max_C": 60.11,
+    "right_knee_winding_max_C": 207.73,
+    "minutes_to_right_reading_60C": 1.09,
+    "minutes_to_right_reading_70C": 1.4,
+    "minutes_to_right_body_49C": 1.2,
+    "hottest_body_servo": "left_hip_yaw",
+    "hottest_body_C": 67.59,
+    "cell_max_C": 76.57,
+    "wall_max_C": 33.63,
+    "trunk_air_end_C": 43.44,
+    "bec_case_end_C": 43.44,
+    "bec_loss_mean_W": 0.0,
+    "series": "0.40 m/s typical, 10 min",
+    "tag": "wire_0.4_typical_600s",
+    "case": "cont70_25",
+    "room_C": 25.0,
+    "thermal_dt_s": 0.100006,
+    "n_bins": 5961,
+    "bec_drop_V": 0.0,
+    "current_scale": "1. Logged 12 V sheet current. The Kt scale is inverted around build_12v so it is applied once and cancels.",
+    "minutes_to_right_reading_55C": 0.94,
+    "minutes_to_right_body_62C": null,
+    "hottest_reading_joint": "left_knee",
+    "hottest_reading_C": 70.11,
+    "minutes_to_hottest_reading_55C": 0.9,
+    "minutes_to_hottest_reading_60C": 1.04,
+    "reading_rise_last_10min_C": -0.0,
+    "body_rise_last_10min_C": -0.0,
+    "reading_end_C": 27.54,
+    "body_end_C": 27.54
+   }
+  ]
+ },
+ "wire_0.15_typical_60s": {
+  "label": "sim pass only",
+  "cmd_m_s": 0.15,
+  "corner": "typical",
+  "dur_s": 60.0,
+  "fall_s": "none",
+  "wall_s": 8.0,
+  "vx_m_s": 0.12325072103712459,
+  "track_lin": 0.8260954600135096,
+  "pack_em_twin": {
+   "i_mean": 4.554,
+   "i_rms": 4.678,
+   "i_max": 8.132,
+   "i_max_100ms": 6.203,
+   "v_term_mean": 12.237,
+   "v_term_min": 12.063,
+   "bus_mean": 11.894,
+   "bus_min": 11.452,
+   "bec_out_mean": 11.879,
+   "bec_out_min": 11.422,
+   "bec_in_min": 11.422,
+   "bec_out_pct_below_6V": 0.0
+  },
+  "pack_window": {
+   "t0_s": 4.0,
+   "i_mean_A": 4.55428,
+   "i_rms_A": 4.678039,
+   "i_max_A": 8.131589,
+   "n": 28000
+  },
+  "hottest_joint": "right_knee",
+  "hottest_motor_rms_A": 1.551464,
+  "hottest_motor_peak_A": 2.542489,
+  "joints": [
+   {
+    "joint": "left_hip_yaw",
+    "motor_rms_A": 0.471094,
+    "motor_peak_A": 1.267388,
+    "supply_rms_A": 0.174496,
+    "supply_peak_A": 0.709957
+   },
+   {
+    "joint": "left_hip_roll",
+    "motor_rms_A": 0.649056,
+    "motor_peak_A": 1.707595,
+    "supply_rms_A": 0.320996,
+    "supply_peak_A": 1.295811
+   },
+   {
+    "joint": "left_hip_pitch",
+    "motor_rms_A": 0.84656,
+    "motor_peak_A": 2.277023,
+    "supply_rms_A": 0.516235,
+    "supply_peak_A": 2.13754
+   },
+   {
+    "joint": "left_knee",
+    "motor_rms_A": 1.484361,
+    "motor_peak_A": 2.527543,
+    "supply_rms_A": 1.237382,
+    "supply_peak_A": 2.548543
+   },
+   {
+    "joint": "left_ankle",
+    "motor_rms_A": 0.709507,
+    "motor_peak_A": 1.436496,
+    "supply_rms_A": 0.305627,
+    "supply_peak_A": 0.928081
+   },
+   {
+    "joint": "neck_pitch",
+    "motor_rms_A": 0.350041,
+    "motor_peak_A": 0.75644,
+    "supply_rms_A": 0.084716,
+    "supply_peak_A": 0.2465
+   },
+   {
+    "joint": "head_pitch",
+    "motor_rms_A": 0.446846,
+    "motor_peak_A": 0.971386,
+    "supply_rms_A": 0.128952,
+    "supply_peak_A": 0.379598
+   },
+   {
+    "joint": "head_yaw",
+    "motor_rms_A": 0.497993,
+    "motor_peak_A": 1.503224,
+    "supply_rms_A": 0.180737,
+    "supply_peak_A": 0.909444
+   },
+   {
+    "joint": "head_roll",
+    "motor_rms_A": 0.426736,
+    "motor_peak_A": 1.249283,
+    "supply_rms_A": 0.162059,
+    "supply_peak_A": 0.708029
+   },
+   {
+    "joint": "right_hip_yaw",
+    "motor_rms_A": 0.540002,
+    "motor_peak_A": 1.29378,
+    "supply_rms_A": 0.19773,
+    "supply_peak_A": 0.660431
+   },
+   {
+    "joint": "right_hip_roll",
+    "motor_rms_A": 0.569129,
+    "motor_peak_A": 1.642522,
+    "supply_rms_A": 0.239452,
+    "supply_peak_A": 1.223769
+   },
+   {
+    "joint": "right_hip_pitch",
+    "motor_rms_A": 0.728306,
+    "motor_peak_A": 1.968211,
+    "supply_rms_A": 0.427487,
+    "supply_peak_A": 1.731872
+   },
+   {
+    "joint": "right_knee",
+    "motor_rms_A": 1.551464,
+    "motor_peak_A": 2.542489,
+    "supply_rms_A": 1.340185,
+    "supply_peak_A": 2.563489
+   },
+   {
+    "joint": "right_ankle",
+    "motor_rms_A": 0.597916,
+    "motor_peak_A": 1.471603,
+    "supply_rms_A": 0.25595,
+    "supply_peak_A": 1.006486
+   }
+  ],
+  "branches": {
+   "left_leg": {
+    "label": "sim pass only",
+    "mean_A": 1.863364,
+    "rms_A": 2.064177,
+    "peak_A": 4.631687,
+    "max_100ms_A": 3.057921,
+    "fast_trip_A": 19.047,
+    "above": {
+     "7.23": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "7.77": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.13": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.54": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "9.07": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     }
+    },
+    "samples": 28000,
+    "dt_s": 0.002
+   },
+   "right_leg": {
+    "label": "sim pass only",
+    "mean_A": 1.789671,
+    "rms_A": 1.976471,
+    "peak_A": 4.080586,
+    "max_100ms_A": 2.888106,
+    "fast_trip_A": 19.047,
+    "above": {
+     "7.23": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "7.77": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.13": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.54": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "9.07": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     }
+    },
+    "samples": 28000,
+    "dt_s": 0.002
+   },
+   "neck_and_head": {
+    "label": "sim pass only",
+    "mean_A": 0.405822,
+    "rms_A": 0.465239,
+    "peak_A": 1.447652,
+    "max_100ms_A": 0.689908,
+    "fast_trip_A": 19.047,
+    "above": {
+     "7.23": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "7.77": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.13": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.54": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "9.07": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     }
+    },
+    "samples": 28000,
+    "dt_s": 0.002
+   }
+  },
+  "first_minute_hot_motor_rms_A": 1.551464,
+  "first_minute_pack_mean_A": 4.55428,
+  "last_minute_hot_motor_rms_A": 1.551464,
+  "last_minute_pack_mean_A": 4.55428,
+  "servo_im_rms_check": [
+   0.4711,
+   0.6491,
+   0.8466,
+   1.4844,
+   0.7095,
+   0.35,
+   0.4468,
+   0.498,
+   0.4267,
+   0.54,
+   0.5691,
+   0.7283,
+   1.5515,
+   0.5979
+  ],
+  "tag": "wire_0.15_typical_60s",
+  "model": "wire",
+  "wall_total_s": 8.4
+ },
+ "wire_0.15_highside_60s": {
+  "label": "sim pass only",
+  "cmd_m_s": 0.15,
+  "corner": "high-side",
+  "dur_s": 60.0,
+  "fall_s": "none",
+  "wall_s": 7.5,
+  "vx_m_s": 0.11364194294396743,
+  "track_lin": 0.7652142372193278,
+  "pack_em_twin": {
+   "i_mean": 4.423,
+   "i_rms": 4.537,
+   "i_max": 7.555,
+   "i_max_100ms": 5.907,
+   "v_term_mean": 12.244,
+   "v_term_min": 12.075,
+   "bus_mean": 11.823,
+   "bus_min": 11.359,
+   "bec_out_mean": 11.808,
+   "bec_out_min": 11.331,
+   "bec_in_min": 11.331,
+   "bec_out_pct_below_6V": 0.0
+  },
+  "pack_window": {
+   "t0_s": 4.0,
+   "i_mean_A": 4.422929,
+   "i_rms_A": 4.537143,
+   "i_max_A": 7.55475,
+   "n": 28000
+  },
+  "hottest_joint": "right_knee",
+  "hottest_motor_rms_A": 1.514745,
+  "hottest_motor_peak_A": 2.472711,
+  "joints": [
+   {
+    "joint": "left_hip_yaw",
+    "motor_rms_A": 0.451421,
+    "motor_peak_A": 1.193762,
+    "supply_rms_A": 0.167294,
+    "supply_peak_A": 0.654522
+   },
+   {
+    "joint": "left_hip_roll",
+    "motor_rms_A": 0.633376,
+    "motor_peak_A": 1.663825,
+    "supply_rms_A": 0.314804,
+    "supply_peak_A": 1.268972
+   },
+   {
+    "joint": "left_hip_pitch",
+    "motor_rms_A": 0.825861,
+    "motor_peak_A": 2.158798,
+    "supply_rms_A": 0.489265,
+    "supply_peak_A": 1.957968
+   },
+   {
+    "joint": "left_knee",
+    "motor_rms_A": 1.44164,
+    "motor_peak_A": 2.469872,
+    "supply_rms_A": 1.19088,
+    "supply_peak_A": 2.490872
+   },
+   {
+    "joint": "left_ankle",
+    "motor_rms_A": 0.701048,
+    "motor_peak_A": 1.409841,
+    "supply_rms_A": 0.301372,
+    "supply_peak_A": 0.89092
+   },
+   {
+    "joint": "neck_pitch",
+    "motor_rms_A": 0.346945,
+    "motor_peak_A": 0.778536,
+    "supply_rms_A": 0.084962,
+    "supply_peak_A": 0.253463
+   },
+   {
+    "joint": "head_pitch",
+    "motor_rms_A": 0.456656,
+    "motor_peak_A": 1.113167,
+    "supply_rms_A": 0.135087,
+    "supply_peak_A": 0.513109
+   },
+   {
+    "joint": "head_yaw",
+    "motor_rms_A": 0.506906,
+    "motor_peak_A": 1.433836,
+    "supply_rms_A": 0.188706,
+    "supply_peak_A": 0.830254
+   },
+   {
+    "joint": "head_roll",
+    "motor_rms_A": 0.409951,
+    "motor_peak_A": 1.160203,
+    "supply_rms_A": 0.150962,
+    "supply_peak_A": 0.631844
+   },
+   {
+    "joint": "right_hip_yaw",
+    "motor_rms_A": 0.5083,
+    "motor_peak_A": 1.272163,
+    "supply_rms_A": 0.176585,
+    "supply_peak_A": 0.646943
+   },
+   {
+    "joint": "right_hip_roll",
+    "motor_rms_A": 0.547526,
+    "motor_peak_A": 1.597104,
+    "supply_rms_A": 0.22147,
+    "supply_peak_A": 1.185275
+   },
+   {
+    "joint": "right_hip_pitch",
+    "motor_rms_A": 0.711657,
+    "motor_peak_A": 1.936003,
+    "supply_rms_A": 0.408457,
+    "supply_peak_A": 1.652369
+   },
+   {
+    "joint": "right_knee",
+    "motor_rms_A": 1.514745,
+    "motor_peak_A": 2.472711,
+    "supply_rms_A": 1.298322,
+    "supply_peak_A": 2.493711
+   },
+   {
+    "joint": "right_ankle",
+    "motor_rms_A": 0.577949,
+    "motor_peak_A": 1.388523,
+    "supply_rms_A": 0.24782,
+    "supply_peak_A": 0.830964
+   }
+  ],
+  "branches": {
+   "left_leg": {
+    "label": "sim pass only",
+    "mean_A": 1.793757,
+    "rms_A": 1.990669,
+    "peak_A": 4.293315,
+    "max_100ms_A": 2.924141,
+    "fast_trip_A": 19.047,
+    "above": {
+     "7.23": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "7.77": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.13": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.54": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "9.07": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     }
+    },
+    "samples": 28000,
+    "dt_s": 0.002
+   },
+   "right_leg": {
+    "label": "sim pass only",
+    "mean_A": 1.721819,
+    "rms_A": 1.902098,
+    "peak_A": 3.863653,
+    "max_100ms_A": 2.791522,
+    "fast_trip_A": 19.047,
+    "above": {
+     "7.23": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "7.77": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.13": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.54": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "9.07": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     }
+    },
+    "samples": 28000,
+    "dt_s": 0.002
+   },
+   "neck_and_head": {
+    "label": "sim pass only",
+    "mean_A": 0.408919,
+    "rms_A": 0.464082,
+    "peak_A": 1.323097,
+    "max_100ms_A": 0.661918,
+    "fast_trip_A": 19.047,
+    "above": {
+     "7.23": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "7.77": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.13": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "8.54": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     },
+     "9.07": {
+      "time_above_s": 0.0,
+      "longest_s": 0.0,
+      "n_excursions": 0,
+      "buckets": {
+       "under_50ms": 0,
+       "50_to_150ms": 0,
+       "150ms_to_long_blanking": 0,
+       "over_long_blanking": 0
+      },
+      "trips_short_blanking": false,
+      "trips_long_blanking": false
+     }
+    },
+    "samples": 28000,
+    "dt_s": 0.002
+   }
+  },
+  "first_minute_hot_motor_rms_A": 1.514745,
+  "first_minute_pack_mean_A": 4.422929,
+  "last_minute_hot_motor_rms_A": 1.514745,
+  "last_minute_pack_mean_A": 4.422929,
+  "servo_im_rms_check": [
+   0.4514,
+   0.6334,
+   0.8259,
+   1.4416,
+   0.701,
+   0.3469,
+   0.4567,
+   0.5069,
+   0.41,
+   0.5083,
+   0.5475,
+   0.7117,
+   1.5147,
+   0.5779
+  ],
+  "tag": "wire_0.15_high-side_60s",
+  "model": "wire",
+  "wall_total_s": 8.0
+ },
+ "long_note": "Longer duty, the command held for 10 min. 0.15 m/s high-side, 10 min: hottest joint right_knee, motor RMS 1.497 A over the whole window, 1.513 A in the first minute, 1.491 A in the last minute, pack mean 4.421 A then 4.375 A (sim pass only). 0.15 m/s typical, 10 min: hottest joint right_knee, motor RMS 1.520 A over the whole window, 1.550 A in the first minute, 1.506 A in the last minute, pack mean 4.555 A then 4.383 A (sim pass only). 0.40 m/s typical, 10 min: hottest joint left_knee, motor RMS 1.689 A over the whole window, 1.719 A in the first minute, 1.661 A in the last minute, pack mean 8.235 A then 8.057 A (sim pass only).",
+ "heat_note": "Without the rest rule, cut still at 70 C, 25 C room: the right-knee reading reaches 55 C at 1.16 min and 60 C at 1.37 min. The case reaches 49 C at 1.40 min and peaks at 61.06 C. The case does not reach 62 C in that 25 C run. After the cut unloads the knee the case cools, and at 90 min it is 27.68 C (sim pass only). The 32 C room with the same cut peaks the case at 61.90 C. Sim pass only. With the torque cut raised to 200 C on the typical corner, the reading reaches 200.01 C and the case peaks at 179.24 C (sim pass only). That stand-in cut then unloads the servo. The high-side corner with the same 200 C stand-in ends at a 176.86 C case, last-10-min rise 0.048 C, reading max 198.32 C (sim pass only). That is the balance this model reaches when the sheet cut is not allowed to hide it. The 55/45 guard, on the 10 min current, walks 14.0 percent of the 90 min at 25 C and 9.0 percent at 32 C (sim pass only). PR 86 reported 38.8 percent and 20.1 percent on the Kt-scaled old log. Guard case peak is 50.31 C at 25 C and 51.01 C at 32 C (sim pass only). The 90 min samples are 47.93 C and 48.70 C, and the last 10 min move those samples by 0.198 C and -0.976 C. The 32 C guard cooled over the last 10 min. Both peaks are above the cited 49 C PLA edge and under the cited 62 C PETG point. Putting the 0.30 V Castle drop back leaves the case peak at 61.06 C against 61.06 C on the wire (sim pass only). The knee number does not move with that trunk drop.",
+ "breaker_note": "No limb sample in these walks is above 7.23 A. The highest limb peak is 6.411 A, on the 0.40 m/s jog, typical, left_leg (sim pass only). That peak is under the cited ILIM window, 7.23 A to 9.07 A, so the 600 nF timer does not start. A normal walk does not trip this breaker, and the 0.40 m/s jog does not trip it either. The 100 ms average is not the basis of that call. Calc only against the cited limits, on sim pass only currents.",
+ "sanity": [
+  "0.15 m/s typical speed 0.1233 m/s and pack peak 8.132 A, against PR 85 0.1183 m/s and 8.114 A (sim pass only).",
+  "Per-joint motor RMS matches em_twin's own accumulator within 0.000046 A (sim pass only).",
+  "Falls: none.",
+  "Baseline trunk 1.0654 kg against the PR 85 figure 1.0654 kg (sim pass only).",
+  "MuJoCo trunk mass minus the patched XML mass on the wire body: 0.000011 kg.",
+  "PR 85 printed 0.1183 m/s and 8.114 A from the unpatched 1.0654 kg trunk. This 0.15 m/s walk is the written 1.0994 kg trunk: speed differs by 0.0050 m/s and pack peak by 0.018 A (sim pass only)."
+ ]
+}
