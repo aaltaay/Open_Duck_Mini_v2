@@ -7,7 +7,7 @@
 
 Every physical number is loaded from altaay_lab/twin/parts.yaml, which is
 derived from the netlist, the limits file, and the order. The walk is the
-run C policy in MuJoCo. The pack uses the existing power network and the
+run D policy in MuJoCo. The pack uses the existing power network and the
 battery guard's pack floor. Heat uses the existing thermal twin, one step
 per 0.1 s current bin, with the C018 sheet's 1.0 ohm terminal resistance.
 The nest sim is the existing one. Camera docking is
@@ -16,6 +16,7 @@ not in that sim, so the dock line is BLOCKER.
 Nothing is bought. No paid GPU.
 """
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -30,6 +31,71 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from altaay_lab.twin import parts_truth as PT  # noqa: E402
+
+# Run D is the walk. current_budget freezes ONNX when it is imported, and
+# added_mass_sim setdefault would otherwise point that freeze at BEST_WALK_ONNX_2.
+POLICY_REL = "altaay_lab/problems/retrain_sts12/sts12_runD_policy.onnx"
+RAN_ONNX = []
+
+
+def policy_path():
+    return os.path.join(ROOT, POLICY_REL)
+
+
+def pin_policy_env():
+    """Set the walk policy before any import can freeze the stock file."""
+    path = policy_path()
+    if not os.path.isfile(path):
+        raise SystemExit("missing walk policy " + POLICY_REL)
+    os.environ["ODM_ONNX"] = path
+    mod = sys.modules.get("current_budget")
+    if mod is not None:
+        mod.ONNX = path
+    return path
+
+
+def policy_sha256():
+    digest = hashlib.sha256()
+    with open(policy_path(), "rb") as handle:
+        for chunk in iter(lambda: handle.read(1 << 20), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def arm_policy(mi_module):
+    """Refuse a policy load that is not run D, and record the file that loaded."""
+    path = pin_policy_env()
+    want = os.path.realpath(path)
+    current = mi_module.MjInfer
+    if getattr(current, "_run_d", False):
+        return path
+    real = current
+
+    def wrapped(*args, **kwargs):
+        onnx = kwargs.get("onnx_model_path")
+        if onnx is None and len(args) >= 3:
+            onnx = args[2]
+        got = os.path.realpath(onnx) if onnx else ""
+        if got != want:
+            raise SystemExit("policy loader got %s, wanted %s" % (
+                os.path.basename(onnx or ""), os.path.basename(want)))
+        obj = real(*args, **kwargs)
+        loaded = getattr(getattr(obj, "policy", None), "onnx_model_path", None)
+        if not loaded or os.path.realpath(loaded) != want:
+            raise SystemExit("policy object did not load " + os.path.basename(want))
+        RAN_ONNX.append(os.path.basename(loaded))
+        return obj
+
+    wrapped._run_d = True
+    mi_module.MjInfer = wrapped
+    return path
+
+
+def policy_ran():
+    name = os.path.basename(policy_path())
+    if not RAN_ONNX or any(item != name for item in RAN_ONNX):
+        raise SystemExit("the walk did not record the run D policy")
+    return name
 
 
 def _no_dash(text):
@@ -179,12 +245,14 @@ def walk(parts, seconds, scratch):
     pg = os.environ.get("ODM_PLAYGROUND")
     if not pg:
         raise SystemExit("Set ODM_PLAYGROUND to an Open_Duck_Playground checkout at b9be205")
-    os.environ["ODM_ONNX"] = os.path.join(LAB, "problems", "retrain_sts12", "sts12_runC_policy.onnx")
+    pin_policy_env()
     sys.path.insert(0, os.path.join(LAB, "problems"))
     sys.path.insert(0, os.path.join(LAB, "twin", "electromech"))
     sys.path.insert(0, os.path.join(LAB, "twin", "thermal"))
     import sts12  # noqa: F401  registers the 3S pack and the 12 V sheet
     import em_twin as ET
+    ET.CB.ONNX = pin_policy_env()
+    arm_policy(ET.MI)
     import twin_thermal as TT
 
     c = dict(TT.CORNERS["central"])
@@ -278,7 +346,10 @@ def heat_of(result, np):
 
 
 def _boot():
+    pin_policy_env()
     import em_twin as ET
+    ET.CB.ONNX = os.environ["ODM_ONNX"]
+    arm_policy(ET.MI)
     import knee_heat_chafe as KH
     import twin_thermal as TT
     return ET, KH, TT
@@ -512,7 +583,9 @@ def dock_once():
         sim_dir = os.path.join(LAB, "twin", "dock", "nest", "sim")
         sys.path.insert(0, sim_dir)
         import current_budget as CB
-        CB.ONNX = os.path.join(LAB, "problems", "retrain_sts12", "sts12_runC_policy.onnx")
+        pin_policy_env()
+        CB.ONNX = os.environ["ODM_ONNX"]
+        arm_policy(CB.MI)
         import nest_run as NR
         # Rail is 12 V. The turn-offset table has rows only at 6.0 and 7.2 V, so the
         # aim offset stays on the 7.2 V row instead of being extrapolated.
@@ -530,7 +603,7 @@ def dock_once():
             seated_mechanical=seated,
             fell=bool(run.s.fallen),
             volt_v=12.0,
-            policy="run C",
+            policy="run D",
         )
     except Exception as exc:
         return dict(ran=False, camera="BLOCKER", note=note, error=_public_error(exc))
@@ -630,6 +703,12 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
     a("")
     a("This is a simulation. Nothing here was measured on a servo, a cell, or a board.")
     a("")
+    ran_name = policy_ran()
+    ran_sha = policy_sha256()
+    a("Policy file that ran: `%s` (%s). Sha256 %s. The policy loader was called %d times and every call loaded this file." % (
+        ran_name, POLICY_REL, ran_sha, len(RAN_ONNX)))
+    a("The earlier merged report, 30.07 walking minutes and 17.48 A pack peak, was the stock BEST_WALK_ONNX_2 policy and is superseded.")
+    a("")
     a(walked_line)
     a("The clock on this run is %.2f minutes (sim pass only). It stops at the 10 V pack cutoff or at 45 minutes, whichever comes first." % (float(result["dur_s"]) / 60.0))
     a("It covered %.2f m along the path, and ended %.2f m from the start (sim pass only)." % (path_m, net_m))
@@ -679,11 +758,17 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
     a("Knee high stop used here is 147 deg, the register soft stop. The CAD bumper is 150 deg (software/servo_limits.json, CAD check only). The walk model was compiled at 90 deg, and this run raises that stop before the sit.")
     krms = knee_walk_rms(result, np)
     if krms is not None:
-        a("The 50 C figure in the heat audit is the case temperature for a flat 1.5 A if the copper stayed at its cold resistance and the sensor sat on the case. While this session was walking the right knee was %.2f A RMS (sim pass only), which is %.2f W in cold copper at 1.0 ohm (calc only). In the twin the winding runs hotter than the case, the sensor takes a tenth of that gap, and the copper resistance rises as it heats. Held at this current the reading levels off near 59 C and crosses 55 C on the way (sim pass only). The guard then stands the duck. The recorded peak is that 55 C stop. The knee rested %d times." % (
-            krms, krms * krms * R_TERM_OHM, int(result.get("rests") or 0)))
+        rests_n = int(result.get("rests") or 0)
+        watts = krms * krms * R_TERM_OHM
+        if rests_n > 0 or thermal["knee_c"] >= float(parts["rest"]["stop_c"]) - 0.05:
+            a("The 50 C figure in the heat audit is the case temperature for a flat 1.5 A if the copper stayed at its cold resistance and the sensor sat on the case. While this session was walking the right knee was %.2f A RMS (sim pass only), which is %.2f W in cold copper at 1.0 ohm (calc only). The knee reading peaked at %.1f C and reached the %s C rest, so the guard stood the duck. The knee rested %d times." % (
+                krms, watts, thermal["knee_c"], parts["rest"]["stop_c"], rests_n))
+        else:
+            a("The 50 C figure in the heat audit is the case temperature for a flat 1.5 A if the copper stayed at its cold resistance and the sensor sat on the case. While this session was walking the right knee was %.2f A RMS (sim pass only), which is %.2f W in cold copper at 1.0 ohm (calc only). The knee reading peaked at %.1f C, under the %s C rest, so the guard did not stand the duck. The knee rested 0 times." % (
+                krms, watts, thermal["knee_c"], parts["rest"]["stop_c"]))
     if dock.get("ran"):
-        a("Dock: %s The mechanical sim used the run C policy and a 12 V rail. It %s (sim pass only). The aim offset table has no 12 V row, so that offset stayed at the 7.2 V measurement. Finding the nest by camera was not simulated." % (
-            dock["note"], "sat" if dock.get("seated_mechanical") else "did not sit"))
+        a("Dock: %s The mechanical sim used the run D policy (%s) and a 12 V rail. It %s (sim pass only). The aim offset table has no 12 V row, so that offset stayed at the 7.2 V measurement. Finding the nest by camera was not simulated." % (
+            dock["note"], ran_name, "sat" if dock.get("seated_mechanical") else "did not sit"))
     else:
         a("Dock: %s The mechanical sim did not finish in this run (%s)." % (dock["note"], dock.get("error") or "not run"))
     hot_ntc = ntc_hot_c(parts)
@@ -702,6 +787,11 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
     a("## Numbers")
     a("")
     rows = [
+        ("policy file", ran_name, "asserted"),
+        ("policy sha256", ran_sha, "the file"),
+        ("policy loads", "%d" % len(RAN_ONNX), "asserted"),
+        ("earlier merged walking minutes", "30.07 min", "stock policy, superseded, sim pass only"),
+        ("earlier merged pack peak", "17.48 A", "stock policy, superseded, sim pass only"),
         ("walked", "yes" if walked and not fell else "no", "sim pass only"),
         ("duration", "%.2f min" % (float(result["dur_s"]) / 60.0), "sim pass only"),
         ("path", "%.2f m" % path_m, "sim pass only"),
@@ -770,10 +860,10 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
     a("")
     session_min = float(result.get("upright_walk_s") or 0.0) / 60.0
     if chosen and chosen["minutes"] >= 20.0 and chosen["peak"] < 60.0 and session_min >= 20.0 and thermal["knee_c"] < 60.0:
-        a("Chosen: the cited 1.0 ohm terminal resistance, and a stand with the command at zero when the reading reaches 55 C. This session's upright walking is %.1f min with the knee at %.1f C, and it adds no mass. The 45 min replay of the walking current, resting at the measured stance current, walks %.1f min with the knee at %.1f C. A separate check folds to 147 deg from a settled stand and turns the gains off. Folding from a walk tips this model, so that fold is not the session rest. The heatsink rows assume extra case area. The servo swap and the gear row are studies. No decision entry. A lower knee current would need a retrain, and this session did not run one." % (
+        a("Chosen: the cited 1.0 ohm terminal resistance, and a stand with the command at zero when the reading reaches 55 C. This session's upright walking is %.1f min with the knee at %.1f C, and it adds no mass. The 45 min replay of the walking current, resting at the measured stance current, walks %.1f min with the knee at %.1f C. A separate check folds to 147 deg from a settled stand and turns the gains off. Folding from a walk tips this model, so that fold is not the session rest. Fold-to-sit from a walk and sit-to-stand are not trained yet. The heatsink rows assume extra case area. The servo swap and the gear row are studies. This walk is run D, recorded as D66." % (
             session_min, thermal["knee_c"], chosen["minutes"], chosen["peak"]))
     else:
-        a("No option is a clear hardware win on this session. The table is a study. A gait with lower knee torque needs a retrain on a GPU. The published RTX 4090 note is 1.5 to 3 hours, and the RunPod 4090 rates already cited in problems/TRAIN_STS12.md are $0.34 to $0.89 an hour, so that retrain is about $0.51 to $2.67. It was not run.")
+        a("No option is a clear hardware win on this session. The table is a study. Fold-to-sit from a walk and sit-to-stand are not trained yet. This walk is run D, recorded as D66.")
     a("")
     text = _no_dash("\n".join(lines) + "\n")
     with open(path, "w", encoding="utf-8") as f:
@@ -789,6 +879,7 @@ def main(argv=None):
     p.add_argument("--skip-dock", action="store_true")
     p.add_argument("--out", default=os.path.join(HERE, "out"))
     args = p.parse_args(argv)
+    pin_policy_env()
     bad = PT.check()
     if bad:
         for row in bad:
