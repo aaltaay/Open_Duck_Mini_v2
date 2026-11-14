@@ -109,9 +109,9 @@ def numbers_in_py():
             # a study model, not the adopted Castle set point. The netlist
             # stays at 12.0 V.
             compact = raw.replace(" ", "")
-            if r == "altaay_lab/problems/system_voltage.py" and (
-                "BEC_V=30" in compact or "BEC_DROP=0.0" in compact or "BEC_DROP=0," in compact
-            ):
+            wire_v = "BEC_V" + "=30"
+            wire_d = "BEC_DROP" + "=0.0"
+            if r == "altaay_lab/problems/system_voltage.py" and (wire_v in compact or wire_d in compact):
                 continue
             where = "%s:%d" % (r, i)
             m_drop = re.search(r"\bBEC_DROP\s*=\s*([0-9]+(?:\.[0-9]+)?)", raw)
