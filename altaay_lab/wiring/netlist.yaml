@@ -50,7 +50,7 @@ meta:
   units: {length: mm, current: A, voltage: V}
   orientation: "drawings show the robot seen from behind: robot left is on the left of the page"
   current_source: "sim pass only; per wire in its source field: sim/CURRENT_BUDGET.md (walking mean, worst 100 ms, worst 20 ms fall at 7.4 V), sim/POWER_PATH_SIM.md as built (P1, P2, P6 to P11, P14: walking, worst of full and nominal pack and both corners) or VERIFICATION.md C7 (SP1 to SP5: E5 walks at 6.0 V, worse corner); i_fall_a stays from CURRENT_BUDGET.md"
-  decisions: "D17 (7:24 PM ET) foot switches Omron SS-01 (SS-10 fallback) with a 2.2 kOhm pull-up per foot to Pi pin 17; D13 projector resistor added; D15 servo power bypasses the adapter (BEC -> belly splices -> SP1 SP2 SP3), adapter H1 not connected, adapter gives DATA and GND only; D23 second feeds SP4 SP5 from the belly splices into BUS 1 of ID 24 and ID 14 (V and G, data cavity empty)"
+  decisions: "D17 (7:24 PM ET) foot switches Omron SS-01 (SS-10 fallback) with a 2.2 kOhm pull-up per foot to Pi pin 17; D13 projector resistor added; D15 servo power bypasses the adapter (BEC -> belly splices -> SP1 SP2 SP3), adapter H1 not connected, adapter gives DATA and GND only; D23 second feeds SP4 SP5 from the belly splices into BUS 1 of ID 24 and ID 14 (V and G, data cavity empty); D64 keeps the Castle at 12.0 V. Limb breakers EFL EFR EFN (TPS259827) are specified and are not yet in series: the live SP feeds still leave SPV. Eight knee-to-ankle sheets are PETG (part_limits petg_hf). The 55 C / 45 C rest rule is in test/FMEA.md and is not yet the code on the Pi."
   lengths: "cut_mm from cables3d/CABLES_3D.md (worst routed length over the joint ranges + 20 mm slack per fixed end, chained through inline splices)"
   as_shipped: "BEC lead and kit cable conductors: gauge not published (Castle CC BEC Pro guide and retailers; Feetech STS3215 sheet 6-7 gives 5264-3P, 15 cm, no gauge; searched 2026-11-02), so they stay as shipped and no AWG is set here"
   battery_note: "Tenergy over-discharge cut is 2.40 V per cell, below the P45B 2.5 V minimum (D44; the P30B had the same 2.5 V): stop in software when the servo Present Voltage reads about 6.0 V (about 3.3 V per cell loaded)"
@@ -333,6 +333,57 @@ components:
       - {a: "OUT1+", b: "OUT2+", kind: short}
       - {a: "OUT1-", b: "OUT2-", kind: short}
     source: "[L] D3; MOUNTING.md: belly floor, centre (-71.5, -0.5, -8.0), leads toward the battery bay"
+
+  - id: EFL
+    ref: EF-L
+    part: "TI TPS259827ONRGE, circuit breaker, no overvoltage lockout. RILIM 182 ohm. ITIMER 600 nF. Left limb, ahead of SP1 and SP4."
+    kind: breaker
+    region: belly
+    ratings: {v_in: "2.7 to 24 V", ilim_25c_a: "7.77 to 8.54", ilim_temp_a: "7.23 to 9.07", ron_typ_mohm: 2.7}
+    groups:
+      pwr: {connector: "pads, not yet a harness cut-over", pitch_mm: null}
+    pins:
+      - {pin: "IN", label: "IN", name: "left limb breaker input", domain: SERVO_12V0, group: pwr, dir: pwr_in, source: "[L] D64, SLVSFE7"}
+      - {pin: "OUT", label: "OUT", name: "left limb breaker output", domain: SERVO_12V0, group: pwr, dir: pwr_out, source: "[L] D64. Not tied to SP1 or SP4 yet."}
+      - {pin: "GND", label: "GND", name: "ground", domain: GND, group: pwr, dir: gnd, source: "[L] D64"}
+      - {pin: "ILIM", label: "ILIM", name: "182 ohm to ground", domain: GND, group: pwr, dir: nc, source: "[L] cited ILIM window. Not a harness wire."}
+      - {pin: "ITIMER", label: "ITIMER", name: "600 nF to ground", domain: GND, group: pwr, dir: nc, source: "[L] blanking candidate. Walk compatibility is BLOCKER."}
+      - {pin: "PG", label: "PG", name: "power good", domain: GPIO_3V3, group: pwr, dir: nc, source: "[L] Pi pin not chosen. BLOCKER."}
+    source: "[L] D64. problems/KNEE_HEAT_CHAFE.md. Not in series with the live feeds."
+
+  - id: EFR
+    ref: EF-R
+    part: "TI TPS259827ONRGE, circuit breaker, no overvoltage lockout. RILIM 182 ohm. ITIMER 600 nF. Right limb, ahead of SP2 and SP5."
+    kind: breaker
+    region: belly
+    ratings: {v_in: "2.7 to 24 V", ilim_25c_a: "7.77 to 8.54", ilim_temp_a: "7.23 to 9.07", ron_typ_mohm: 2.7}
+    groups:
+      pwr: {connector: "pads, not yet a harness cut-over", pitch_mm: null}
+    pins:
+      - {pin: "IN", label: "IN", name: "right limb breaker input", domain: SERVO_12V0, group: pwr, dir: pwr_in, source: "[L] D64, SLVSFE7"}
+      - {pin: "OUT", label: "OUT", name: "right limb breaker output", domain: SERVO_12V0, group: pwr, dir: pwr_out, source: "[L] D64. Not tied to SP2 or SP5 yet."}
+      - {pin: "GND", label: "GND", name: "ground", domain: GND, group: pwr, dir: gnd, source: "[L] D64"}
+      - {pin: "ILIM", label: "ILIM", name: "182 ohm to ground", domain: GND, group: pwr, dir: nc, source: "[L] cited ILIM window. Not a harness wire."}
+      - {pin: "ITIMER", label: "ITIMER", name: "600 nF to ground", domain: GND, group: pwr, dir: nc, source: "[L] blanking candidate. Walk compatibility is BLOCKER."}
+      - {pin: "PG", label: "PG", name: "power good", domain: GPIO_3V3, group: pwr, dir: nc, source: "[L] Pi pin not chosen. BLOCKER."}
+    source: "[L] D64. problems/KNEE_HEAT_CHAFE.md. Not in series with the live feeds."
+
+  - id: EFN
+    ref: EF-N
+    part: "TI TPS259827ONRGE, circuit breaker, no overvoltage lockout. RILIM 182 ohm. ITIMER 600 nF. Neck, ahead of SP3."
+    kind: breaker
+    region: belly
+    ratings: {v_in: "2.7 to 24 V", ilim_25c_a: "7.77 to 8.54", ilim_temp_a: "7.23 to 9.07", ron_typ_mohm: 2.7}
+    groups:
+      pwr: {connector: "pads, not yet a harness cut-over", pitch_mm: null}
+    pins:
+      - {pin: "IN", label: "IN", name: "neck breaker input", domain: SERVO_12V0, group: pwr, dir: pwr_in, source: "[L] D64, SLVSFE7"}
+      - {pin: "OUT", label: "OUT", name: "neck breaker output", domain: SERVO_12V0, group: pwr, dir: pwr_out, source: "[L] D64. Not tied to SP3 yet."}
+      - {pin: "GND", label: "GND", name: "ground", domain: GND, group: pwr, dir: gnd, source: "[L] D64"}
+      - {pin: "ILIM", label: "ILIM", name: "182 ohm to ground", domain: GND, group: pwr, dir: nc, source: "[L] cited ILIM window. Not a harness wire."}
+      - {pin: "ITIMER", label: "ITIMER", name: "600 nF to ground", domain: GND, group: pwr, dir: nc, source: "[L] blanking candidate. Walk compatibility is BLOCKER."}
+      - {pin: "PG", label: "PG", name: "power good", domain: GPIO_3V3, group: pwr, dir: nc, source: "[L] Pi pin not chosen. BLOCKER."}
+    source: "[L] D64. problems/KNEE_HEAT_CHAFE.md. Not in series with the live feeds."
 
   - id: JBP
     ref: JB+
@@ -1444,6 +1495,7 @@ cables:
   - {id: CE, status: active, no_route: true, desc: "charger STAT and enable to Pi pins 29 and 31, with 3.3 V and ground joined at D2", regions: [battery_bay, trunk_top, neck, head], joints: [neck_pitch, head_pitch, head_yaw, head_roll], polyline_mm: null, rule_mm: null, source: "[L] CHARGER_BOARD.md. No CAD route: the board has no seat.", twist: {lay_mm: null, note: "no lay until a route exists"}}
   - {id: NT, status: active, no_route: true, desc: "pack bead RT1 to the charger divider plug JNT. The old SENSE tap from JSN to the bead is not in this cable.", regions: [battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] CHARGER_BOARD.md pack NTC. BAY.md names the valley seat and gives no length.", twist: {lay_mm: null, note: "two leads, no lay published"}}
   - {id: NW, status: active, no_route: true, desc: "on the charger board: bead plug to RBIAS, the cold and hot dividers, CU2, CU3, and the enable gate", regions: [battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] charger_board.yaml NTC window. DS20002190C Table 3-1 has no thermistor pin.", twist: {lay_mm: null, note: "board traces, not a twisted cable"}}
+  - {id: EF, status: active, no_route: true, desc: "three TPS259827 breakers, one per limb, from SPV. Outputs are not tied into SP1-SP5 yet.", regions: [belly], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D64. No 3D route. The live feeds still leave SPV.", twist: {lay_mm: null, note: "no lay until the harness is cut over"}}
 wires:
   # dock (D43, D50)
   - {cable: DC1, from: DKP.CHG, to: DK2.VIN, net: CHG_IN, gauge: 20 AWG, color: red, cut_mm: 60, i_mean_a: 1.0, i_peak_a: 1.0, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
@@ -1647,3 +1699,9 @@ wires:
   - {cable: S13, from: SV32.BUS1.D, to: SV33.BUS2.D, net: BUS_DATA, gauge: kit cable, color: kit, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [5264 plug, 5264 plug], source: "[U]"}
   - {cable: S13, from: SV32.BUS1.V, to: SV33.BUS2.V, net: SERVO_7V2, gauge: kit cable, color: kit, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [5264 plug, 5264 plug], source: "[U]"}
   - {cable: S13, from: SV32.BUS1.G, to: SV33.BUS2.G, net: GND, gauge: kit cable, color: kit, cut_mm: 150, i_mean_a: null, i_peak_a: null, ends: [5264 plug, 5264 plug], source: "[U]"}
+  - {cable: EF, from: SPV.S, to: EFL.IN, net: SERVO_7V2, gauge: 16 AWG, color: red, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64. Input only. OUT is not tied to SP1 or SP4. The live feeds still leave SPV."}
+  - {cable: EF, from: SPG.S, to: EFL.GND, net: GND, gauge: 16 AWG, color: black, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64"}
+  - {cable: EF, from: SPV.S, to: EFR.IN, net: SERVO_7V2, gauge: 16 AWG, color: red, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64. OUT is not tied to SP2 or SP5."}
+  - {cable: EF, from: SPG.S, to: EFR.GND, net: GND, gauge: 16 AWG, color: black, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64"}
+  - {cable: EF, from: SPV.S, to: EFN.IN, net: SERVO_7V2, gauge: 16 AWG, color: red, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64. OUT is not tied to SP3."}
+  - {cable: EF, from: SPG.S, to: EFN.GND, net: GND, gauge: 16 AWG, color: black, cut_mm: null, i_mean_a: null, i_peak_a: null, ends: [splice, pad], source: "[L] D64"}

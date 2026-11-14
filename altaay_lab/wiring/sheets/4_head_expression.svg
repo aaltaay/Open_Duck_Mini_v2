@@ -3345,7 +3345,7 @@ z
     </g>
    </g>
    <g id="text_60">
-    <!-- Source: wiring/netlist.yaml rev 2026-11-06 (sha256 0b1b562360b5) -->
+    <!-- Source: wiring/netlist.yaml rev 2026-11-06 (sha256 e54df0e2ea0b) -->
     <g style="fill: #1f2a33" transform="translate(776.692913 746.196586) scale(0.07 -0.07)">
      <defs>
       <path id="DejaVuSans-12" d="M 1625 4666 
@@ -3424,23 +3424,23 @@ z
      <use xlink:href="#DejaVuSans-18" transform="translate(2451.859375 0)"/>
      <use xlink:href="#DejaVuSans-19" transform="translate(2515.484375 0)"/>
      <use xlink:href="#DejaVuSans-3" transform="translate(2579.109375 0)"/>
-     <use xlink:href="#DejaVuSans-13" transform="translate(2610.890625 0)"/>
-     <use xlink:href="#DejaVuSans-45" transform="translate(2674.515625 0)"/>
-     <use xlink:href="#DejaVuSans-14" transform="translate(2738 0)"/>
-     <use xlink:href="#DejaVuSans-45" transform="translate(2801.625 0)"/>
-     <use xlink:href="#DejaVuSans-18" transform="translate(2865.109375 0)"/>
-     <use xlink:href="#DejaVuSans-19" transform="translate(2928.734375 0)"/>
-     <use xlink:href="#DejaVuSans-15" transform="translate(2992.359375 0)"/>
-     <use xlink:href="#DejaVuSans-16" transform="translate(3055.984375 0)"/>
-     <use xlink:href="#DejaVuSans-19" transform="translate(3119.609375 0)"/>
-     <use xlink:href="#DejaVuSans-13" transform="translate(3183.234375 0)"/>
-     <use xlink:href="#DejaVuSans-45" transform="translate(3246.859375 0)"/>
-     <use xlink:href="#DejaVuSans-18" transform="translate(3310.34375 0)"/>
-     <use xlink:href="#DejaVuSans-c" transform="translate(3373.96875 0)"/>
+     <use xlink:href="#DejaVuSans-48" transform="translate(2610.890625 0)"/>
+     <use xlink:href="#DejaVuSans-18" transform="translate(2672.421875 0)"/>
+     <use xlink:href="#DejaVuSans-17" transform="translate(2736.046875 0)"/>
+     <use xlink:href="#DejaVuSans-47" transform="translate(2799.671875 0)"/>
+     <use xlink:href="#DejaVuSans-49" transform="translate(2863.15625 0)"/>
+     <use xlink:href="#DejaVuSans-13" transform="translate(2898.359375 0)"/>
+     <use xlink:href="#DejaVuSans-48" transform="translate(2961.984375 0)"/>
+     <use xlink:href="#DejaVuSans-15" transform="translate(3023.515625 0)"/>
+     <use xlink:href="#DejaVuSans-48" transform="translate(3087.140625 0)"/>
+     <use xlink:href="#DejaVuSans-44" transform="translate(3148.671875 0)"/>
+     <use xlink:href="#DejaVuSans-13" transform="translate(3209.953125 0)"/>
+     <use xlink:href="#DejaVuSans-45" transform="translate(3273.578125 0)"/>
+     <use xlink:href="#DejaVuSans-c" transform="translate(3337.0625 0)"/>
     </g>
    </g>
    <g id="text_61">
-    <!-- Date: 2026-11-13 22:37 EST (TZ=America/New_York date) -->
+    <!-- Date: 2026-11-13 23:01 EST (TZ=America/New_York date) -->
     <g style="fill: #1f2a33" transform="translate(776.692913 756.259578) scale(0.07 -0.07)">
      <defs>
       <path id="DejaVuSans-3d" d="M 359 4666 
@@ -3487,10 +3487,10 @@ z
      <use xlink:href="#DejaVuSans-16" transform="translate(822.015625 0)"/>
      <use xlink:href="#DejaVuSans-3" transform="translate(885.640625 0)"/>
      <use xlink:href="#DejaVuSans-15" transform="translate(917.421875 0)"/>
-     <use xlink:href="#DejaVuSans-15" transform="translate(981.046875 0)"/>
+     <use xlink:href="#DejaVuSans-16" transform="translate(981.046875 0)"/>
      <use xlink:href="#DejaVuSans-1d" transform="translate(1044.671875 0)"/>
-     <use xlink:href="#DejaVuSans-16" transform="translate(1078.359375 0)"/>
-     <use xlink:href="#DejaVuSans-1a" transform="translate(1141.984375 0)"/>
+     <use xlink:href="#DejaVuSans-13" transform="translate(1078.359375 0)"/>
+     <use xlink:href="#DejaVuSans-14" transform="translate(1141.984375 0)"/>
      <use xlink:href="#DejaVuSans-3" transform="translate(1205.609375 0)"/>
      <use xlink:href="#DejaVuSans-28" transform="translate(1237.390625 0)"/>
      <use xlink:href="#DejaVuSans-36" transform="translate(1300.578125 0)"/>
@@ -3583,7 +3583,7 @@ z
     </g>
    </g>
    <g id="text_63">
-    <!-- Wires drawn in full here: 37 of 193 in the netlist; stubs to other sheets: 0 -->
+    <!-- Wires drawn in full here: 37 of 199 in the netlist; stubs to other sheets: 0 -->
     <g style="fill: #1f2a33" transform="translate(776.692913 776.385562) scale(0.07 -0.07)">
      <defs>
       <path id="DejaVuSans-1e" d="M 750 3309 
@@ -3636,7 +3636,7 @@ z
      <use xlink:href="#DejaVuSans-3" transform="translate(1506.671875 0)"/>
      <use xlink:href="#DejaVuSans-14" transform="translate(1538.453125 0)"/>
      <use xlink:href="#DejaVuSans-1c" transform="translate(1602.078125 0)"/>
-     <use xlink:href="#DejaVuSans-16" transform="translate(1665.703125 0)"/>
+     <use xlink:href="#DejaVuSans-1c" transform="translate(1665.703125 0)"/>
      <use xlink:href="#DejaVuSans-3" transform="translate(1729.328125 0)"/>
      <use xlink:href="#DejaVuSans-4c" transform="translate(1761.109375 0)"/>
      <use xlink:href="#DejaVuSans-51" transform="translate(1788.890625 0)"/>

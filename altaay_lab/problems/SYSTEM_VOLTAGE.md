@@ -1,5 +1,7 @@
 # System voltage and pack size
 
+Owner decision, 2026-11-13 10:18 PM ET (D64). The regulator was kept. Ahmed's words: "we definitely need regulator and all the nice stuff so we study it properly". The straight-wire score in this file is a study result. It is not the rail to build. The adopted path is the Castle CC BEC Pro at 12.0 V (D63), and verify/check_power_limits.py. The Castle at 12.0 V is in dropout while walking, because the 3S input stays under 12.3 V (12.0 plus the 0.3 V dropout assumption). Open, not decided: a regulator that truly holds a fixed servo voltage across the whole 3S discharge. The follow-up study is a buck-boost, a lower set point such as 10 to 11 V, or a 4S pack with a buck.
+
 Calc only, sim pass only, cited, or BLOCKER, on every number below. Nothing was bought. The policy was not retrained. D61 was not edited. The Castle set point of 16 V is invalid and is not used here.
 
 The question was whether 12 V had been shown to be the best system voltage. It had not. The 3S pack and the 12 V STS3215 (C018) were chosen to stop the servo slowdown on a sagging 2S bus (problems/STALL.md, problems/STS12.md). This pass compares the rails and the cells that fit the bay.
