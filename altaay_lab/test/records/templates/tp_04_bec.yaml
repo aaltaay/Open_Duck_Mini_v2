@@ -1,0 +1,21 @@
+record_id: TP-4.1-bec
+test_plan: "4.1"
+status: not_run
+pack: 3S
+bec_setpoint_V: 12.0
+instrument: ""
+operator: ""
+date: ""
+note: >
+  TEST_PLAN section 4.1 was written for a 7.2 V setpoint. The current duck's
+  setpoint under test is 12.0 V. Record the setpoint you actually programmed.
+  No-load output is 12.00 V plus or minus 0.10 V only when the input is at
+  least 12.3 V. On the STS12 walk the input is below that, so the output is
+  the dropout voltage, not 12.0 V.
+rows:
+  - {id: vout_noload_V, unit: V, value: null, note: "no load, input at least 12.3 V"}
+  - {id: vout_at_2A_8V4_in, unit: V, value: null, note: "input sweep point"}
+  - {id: vout_at_2A_12V6_in, unit: V, value: null, note: "3S full, 2 A"}
+  - {id: dropout_V, unit: V, value: null, note: "input minus output when regulating is lost"}
+  - {id: case_C_10min_5A, unit: C, value: null, note: "bench case, not the closed body"}
+  - {id: efficiency, unit: "1", value: null, note: "output W / input W at the stated load"}

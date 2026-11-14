@@ -1,0 +1,14 @@
+record_id,quantity,unit,condition,twin_value,twin_label,tol_abs,pass_rule,measured,status
+CHAR-SERVO,stall_torque,Nm,"12.0 V, stalled",2.942,cited,0.294,"abs, playbook band 10 percent of the sheet line",,NEEDS HARDWARE
+CHAR-SERVO,stall_current,A,"12.0 V, stalled",2.7,cited,0.27,"abs, playbook band 10 percent",,NEEDS HARDWARE
+CHAR-SERVO,noload_speed,rad/s,"12.0 V, no load",4.717,calc only from the sheet 0.222 s/60 deg,0.472,"abs, playbook band 10 percent",,NEEDS HARDWARE
+CHAR-SERVO,noload_current,A,"12.0 V, no load",0.180,cited,0.036,"abs, playbook band 20 percent",,NEEDS HARDWARE
+CHAR-SERVO,terminal_resistance,ohm,"four wire, stalled line 12 V / 2.7 A",4.444,calc only,0.444,"abs, playbook band 10 percent. The 1.2 ohm class of disagreement is a fail.",,NEEDS HARDWARE
+CHAR-BEC,vout_regulating,V,"setpoint 12.0 V, input at least 12.3 V, no load",12.0,playbook gate,0.10,"Castle publishes no tolerance. 0.10 V is the playbook gate.",,NEEDS HARDWARE
+CHAR-BEC,dropout,V,"input minus output once regulation is lost",0.30,assumption BLOCKER,0.05,"Replace 0.30 V. Until then the twin dropout is BLOCKER.",,NEEDS HARDWARE
+CHAR-BEC,efficiency,1,"stated load and input, output W / input W",0.85,assumption BLOCKER,0.05,"Replace 0.85. Castle publishes none.",,NEEDS HARDWARE
+CHAR-PACK,cell_dcr,ohm,"one P45B, 50 percent SOC, DC",0.015,cited,0.003,"abs, playbook band 20 percent",,NEEDS HARDWARE
+CHAR-PACK,string_ocv,V,"3S, rested, full",12.6,calc only 3 x 4.20,0.05,"abs",,NEEDS HARDWARE
+CHAR-SIT,joint_start_torque,Nm,"torque off, worst leg joint",0.068,sim model not a datasheet,,,"factor of 2, TEST_PLAN 19.5. Sheet value is BLOCKER.",,NEEDS HARDWARE
+CHAR-SOLE,mu_sole_on_felt,1,"dry felt, stated normal load",,BLOCKER,,,"no twin value until this row is measured",,NEEDS HARDWARE
+CHAR-WELL,loop_ohm,ohm,"two wells, foil, 1.0 A",,BLOCKER,,"under 0.15 ohm is the TEST_PLAN 20.1 line, not a measurement",,NEEDS HARDWARE

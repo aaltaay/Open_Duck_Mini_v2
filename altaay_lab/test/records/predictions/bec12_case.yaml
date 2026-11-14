@@ -1,0 +1,25 @@
+record_id: TP-BEC12-case
+test_plan: "4.1"
+label: sim pass only
+source: altaay_lab/test/results/bec12_heat.json
+note: >
+  Central corner, 25 C room, 40 min, 12.0 V setpoint in dropout on the STS12
+  walk. tol_abs is an investigate band for a future bench log. A match does
+  not pass gate 0 or gate 2. Castle publishes no case limit.
+rows:
+  - id: bec_case_C
+    predict: 60.7
+    tol_abs: 15.0
+    unit: C
+  - id: bec_loss_W
+    predict: 1.441
+    tol_abs: 0.5
+    unit: W
+  - id: knee_reading_max_C
+    predict: 81.76
+    tol_abs: 15.0
+    unit: C
+  - id: minutes_to_reading_60C
+    predict: 4.83
+    tol_abs: 2.0
+    unit: min

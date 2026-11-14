@@ -1,0 +1,16 @@
+record_id: TP-20.8-charge-heat
+test_plan: "20.8"
+status: not_run
+pack: 3S
+instrument: ""
+operator: ""
+date: ""
+note: >
+  Bench limits from TEST_PLAN 20.8: cells 0 C to 45 C, charger case under
+  70 C, nearest PLA under 45 C. The cell sheet allows charge to 60 C.
+  The bench limit is tighter. Sim temperatures are not this measurement.
+rows:
+  - {id: room_C, unit: C, value: null}
+  - {id: cell_max_C, unit: C, value: null}
+  - {id: charger_case_max_C, unit: C, value: null}
+  - {id: pla_max_C, unit: C, value: null}

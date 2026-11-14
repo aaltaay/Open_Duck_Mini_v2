@@ -1,0 +1,16 @@
+record_id: TP-20-contact
+test_plan: "20.1"
+status: not_run
+pack: 3S
+instrument: ""
+operator: ""
+date: ""
+note: >
+  Nest v2 contact is five gold wells on foil, not the spring pins.
+  Loop pass written in TEST_PLAN 20.1 is under 0.15 ohm at 1.0 A.
+  That line was for two pins on cloth. Use it for the well loop until a
+  measured well number replaces it. 500 cycles is a first look, not a life test.
+rows:
+  - {id: loop_ohm_1A, unit: ohm, value: null}
+  - {id: loop_ohm_after_500, unit: ohm, value: null}
+  - {id: snag, unit: pass_fail, value: null}

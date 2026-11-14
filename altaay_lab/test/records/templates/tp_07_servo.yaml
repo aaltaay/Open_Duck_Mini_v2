@@ -1,0 +1,17 @@
+record_id: TP-7-servo-12v
+test_plan: "7"
+status: not_run
+pack: 3S
+instrument: ""
+operator: ""
+date: ""
+note: >
+  Section 7 was written at 7.4 V for the C001. The buy is the 12 V C018.
+  Fill this at 12.0 V. Keep a second run at 7.4 V if a C001 is on the bench.
+rows:
+  - {id: stall_torque_Nm, unit: Nm, value: null}
+  - {id: stall_current_A, unit: A, value: null}
+  - {id: noload_speed_rad_s, unit: rad/s, value: null}
+  - {id: noload_current_A, unit: A, value: null}
+  - {id: terminal_ohm, unit: ohm, value: null, note: "four wire, at the stated current"}
+  - {id: register_85, unit: "1", value: null, note: "pass is 0"}
