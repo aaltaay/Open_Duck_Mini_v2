@@ -144,7 +144,7 @@ def sheet_power(book):
     sh.w("DK6.VOUT", "SW1.VIN", 292, 118.0, 309, sb=1, lab="none")
     sh.w("DK6.GND", "SW1.GND", 181.0, 354, sb=2, lab="none")
     sh.block("U1", 372, 130, 406, 174, "BEC Pro", band=BAND_PWR, tsize=8.6, sub_y=145,
-             sub=["Castle CC", "set to 7.2 V"], subsize=6.8,
+             sub=["Castle CC", "set to 12.0 V"], subsize=6.8,
              pins=[(p_, side, pos, plab(sh.net, "U1", p_) if side != "D" else "")
                    for p_, side, pos in (("IN-", "U", 386), ("IN+", "U", 400), ("OUT1+", "L", 140), ("OUT2+", "L", 147),
                                          ("OUT1-", "L", 156), ("OUT2-", "L", 163), ("OUT1S", "D", 380),
@@ -394,7 +394,7 @@ def sheet_servo_bus(book):
     sh.w("U2.H5.G", "JG10.S", lab=82)
     # power injection at the first servo of each chain: stubs to the belly splices on sheet 1
     for sv, ys in (("SV30", yA), ("SV20", yB), ("SV10", yC)):
-        sh.stub(f"{sv}.BUS2.V", "SPV.S", X0 - 4.4, ys["V"], "L", far="from SPV, 7.2 V")
+        sh.stub(f"{sv}.BUS2.V", "SPV.S", X0 - 4.4, ys["V"], "L", far="from SPV, 12.0 V")
     sh.stub("JG30.S", "SPG.S", J - 4.0, yA["G"] - 9.0, "L", ("y", yA["G"] - 9.0), far="from SPG, GND")
     sh.stub("JG20.S", "SPG.S", J + 4.0, yB["G"] + 14.0, "R", ("y", yB["G"] + 14.0), far="from SPG, GND")
     sh.stub("JG10.S", "SPG.S", J + 4.0, yC["G"] + 10.0, "R", ("y", yC["G"] + 10.0), far="from SPG, GND")

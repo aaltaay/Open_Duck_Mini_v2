@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """60 s em_twin sheet walks of a retrained policy, same setup as problems/sts12_mass.py (PR 71 FIT3).
 
-12 V sheet servo, 3S P45B pack, BEC 16 V, backlash scene, 70 g cell in the trunk, both corners.
+12 V sheet servo, 3S P45B pack, BEC 12.0 V, backlash scene, 70 g cell in the trunk, both corners.
+The 16.0 V pass-through is superseded (outside the cited 4.8 to 12.5 V output).
 Adds per-step foot contact (flight phase), action rate, joint accel and jerk, and a speed sequence.
 Usage: ODM_ONNX=<policy.onnx> ODM_PLAYGROUND=<pin> python3 eval_sts12_run.py OUT.json [dur] [jobs]
 Sim pass only.
@@ -136,7 +137,7 @@ if __name__ == "__main__":
     # also expose gait pitch and roll rms
     _orig_walk = SM.walk
     def walk2(corner, cmd, d):
-        r = ET.run(mass="ours", walk="backlash", cmd=(cmd, 0.0, 0.0), dur=d, supply="net", corner=corner, extra=dict(BEC_V=16.0),
+        r = ET.run(mass="ours", walk="backlash", cmd=(cmd, 0.0, 0.0), dur=d, supply="net", corner=corner, extra=dict(BEC_V=12.0),
                    cell="p45b3", q0=0.0, servo_mode="sheet", guard=None, keep_full=False, stop_on_fall=True, t_stats=0.0, label="sts12r")
         g = r["gait"]
         return dict(label="sim pass only", corner=corner, cmd_m_s=cmd, dur_s=r["dur_s"], fall_s=r["falls"] or "none",

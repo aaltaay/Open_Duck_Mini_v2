@@ -52,7 +52,9 @@ P = dict(
     R_xt30=0.001,        # ohm per contact, ASSUMPTION
     R_fuse=0.006,        # ohm, ASSUMPTION for a 15 A ATO blade cold resistance
     R_sw=0.013,          # ohm, Pololu 2815 combined MOSFET resistance max at 4.5 V gate (Pololu table); 8.6 mOhm at 10 V
-    BEC_V=7.2, BEC_DROP=0.3, BEC_EFF=0.85,   # setpoint (D3); dropout and efficiency ASSUMPTION (not published by Castle)
+    # 2S default (D3). The 3S studies pass BEC_V=12.0. Do not put 12.0 or 16.0 here:
+    # a 2S pack cannot hold 12 V, and 16 V is outside the cited output range. Dropout is not published.
+    BEC_V=7.2, BEC_DROP=0.3, BEC_EFF=0.85,
     R_bec_lead=0.5 * CU[22] * 0.10,          # two output leads in parallel, ASSUMPTION 22 AWG x 100 mm each
     R_adapter=0.010,     # ohm, ASSUMPTION adapter board H1 to H3/H5 copper plus socket
     R_contact=0.020,     # ohm per Mini-SPOX/5264 contact, ASSUMPTION (high side)

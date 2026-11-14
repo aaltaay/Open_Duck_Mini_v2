@@ -2,7 +2,7 @@
 
 2026-11-13 ET. The nest supply stays 15.0 V. The mat in problems/NEST3.md is not redrawn: 20 mm stripes, 5 mm felt gaps, five wells 3 mm across with centres 12 mm apart. D61 was not edited.
 
-The unfixed dock puts that 15.0 V on the servo bus through DK6. The 3S walk sets the BEC to 16 V, so the BEC is in dropout and the servos see 15.0 - 0.3 = 14.7 V (calc only, twin/thermal/BQ24133_HEAT.md). The C018 page range used in the 12 V study is 4 V to 14 V. 14.7 V is outside that page.
+The unfixed dock puts that 15.0 V on the servo bus through DK6. The 3S walk had set the BEC to 16 V, so the BEC was in dropout and the servos see 15.0 - 0.3 = 14.7 V (calc only, twin/thermal/BQ24133_HEAT.md). Superseded 2026-11-13: the live BEC set point is 12.0 V (D63). 16 V is outside the cited 4.8 V to 12.5 V output. The 14.7 V figure stays as the record of that bug. The C018 page range used in the 12 V study is 4 V to 14 V. 14.7 V is outside that page.
 
 Three cited ways to get the servos back inside that page. One is the pick.
 

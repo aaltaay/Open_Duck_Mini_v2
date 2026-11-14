@@ -1,3 +1,5 @@
+Superseded 2026-11-13: the BEC set point in this table is 16 V. The live set point is 12.0 V. The new run is eval_table_bec12.md. This table is kept.
+
 Sim pass only. 60 s sheet walk, 12 V STS3215, 3S P45B, BEC set point 16 V, 70 g cell, both corners, run C policy. Every number in the table is sim pass only.
 
 | Cmd m/s | Corner | Fall | Body speed m/s | Flight phase (frac) | Double support frac | Action rate | Joint jerk RMS rad/s3 | Pitch RMS deg | Roll RMS deg | Knee min V L / R | Pack peak A | Pack 100 ms peak A |

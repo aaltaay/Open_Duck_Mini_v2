@@ -94,7 +94,7 @@ def knees_of(r):
 def walk(corner, cmd, dur):
     r = ET.run(
         mass="ours", walk="backlash", cmd=(cmd, 0.0, 0.0), dur=dur,
-        supply="net", corner=corner, extra=dict(BEC_V=16.0),
+        supply="net", corner=corner, extra=dict(BEC_V=12.0),
         cell="p45b3", q0=0.0, servo_mode="sheet", guard=None,
         keep_full=False, stop_on_fall=True, t_stats=0.0, label="sts12m",
     )

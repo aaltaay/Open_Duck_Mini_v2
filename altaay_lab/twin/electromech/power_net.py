@@ -11,6 +11,9 @@ Elements kept from that circuit:
   holder, P1, P2, BMS, P6/P8 + XT30, P7 + fuse, Pololu 2815, P9, P14, P10 (+/-), P13 (+/-), P11 + BEC leads, SP1..SP5,
   kit hops (cable + 2 contacts + servo board), data-lead grounds, adapter, USB ground, P12   all as resistors
   Ebec   BEC output = min(BEC_V, max(V(becip,becin) - BEC_DROP, 0)); solved in two linear modes (regulating, dropout)
+The shared default is the 2S set point in sim/power_path_sim.py (7.2 V). The 3S studies pass BEC_V=BEC_SET_V
+(12.0 V). 16.0 V is superseded. Castle does not publish the minimum input or the behavior below the set point
+(BLOCKER). The 0.3 V dropout is an assumption.
   Bbecin BEC input current = V(beco,becon) I(Vbecs) / (BEC_EFF max(V(becip,becin), 1))
   Breg   5 V regulator input current = P_5V / (REG_EFF max(V(regp,regn), 1))
   B_<servo> servo supply current: a current sink set by the servo model (servo_sts3215.py), one per servo
@@ -37,6 +40,14 @@ import power_path_sim as PPS                                       # noqa: E402 
 sys.modules.setdefault("power_path_sim", PPS)
 import power_fix as PF                                             # noqa: E402  (lab model, read only)
 
+# 3S set points. The 3S studies pass BEC_V=BEC_SET_V. The shared 2S default stays 7.2 V in
+# sim/power_path_sim.py. Superseded for the 3S rail: 16.0 V (pass-through).
+BEC_SET_V = 12.0
+PACK_V_MIN = 9.0
+PACK_V_MAX = 12.6
+NEST_V = 15.0
+BEC_DROP_V = 0.3          # unpublished. BLOCKER. Not a Castle number.
+
 NAMES = list(PPS.CHAIN_L + PPS.CHAIN_N + PPS.CHAIN_R)              # order of the servo sources in the solver
 SERVO_ID = dict(zip(NAMES, PPS.CHAIN_IDS["L"] + PPS.CHAIN_IDS["N"] + PPS.CHAIN_IDS["R"]))
 TYP = dict(PF.TYP)                                                 # typical corner (power_path_sim.py __main__)
@@ -55,6 +66,8 @@ def circuit_text(corner="typical", extra=None, vcell=3.7):
     """the ngspice text of sim/power_fix.py option ab for this corner (servo command sources are dummies)"""
     opt = PF.OPTIONS["ab"]
     ex = dict(CORNERS[corner]); ex.update(extra or {})
+    # No default override. Callers that still use the 2S pack keep sim/power_path_sim.py (7.2 V).
+    # The 3S studies pass BEC_V=BEC_SET_V.
     p = PF.params("high-side", opt, ex)          # power_fix convention: "high-side" = P itself, the corner comes in extra
     pw = {n: (np.zeros(2), np.zeros(2)) for n in NAMES}
     cir, pr, nodes, probes = PF.netlist(pw, 0.002, vcell, opt, p)

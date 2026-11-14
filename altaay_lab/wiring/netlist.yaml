@@ -58,8 +58,10 @@ meta:
 
 domains:
   CELL_MID_3V0_4V2: {v_min: 3.0, v_max: 4.2, note: "holder series strap, one cell above B-"}
-  PACK_6V0_8V4: {v_min: 6.0, v_max: 8.4, note: "2S pack, before and after the main switch"}
-  SERVO_7V2: {v_min: 6.0, v_max: 7.4, note: "BEC set to 7.2 V; follows the pack below about 7.3 V (dropout not published)"}
+  PACK_6V0_8V4: {v_min: 6.0, v_max: 8.4, superseded: true, note: "SUPERSEDED 2026-11-13. 2S pack window. The live pack domain is PACK_9V0_12V6."}
+  PACK_9V0_12V6: {v_min: 9.0, v_max: 12.6, note: "3S P45B, about 3.0 V to 4.2 V per cell (calc only, 3 times 3.0 and 3 times 4.2). Supersedes PACK_6V0_8V4. The cell cut-off is 2.5 V, so 7.5 V is the sheet floor. This window starts at 9.0 V."}
+  SERVO_7V2: {v_min: 6.0, v_max: 7.4, superseded: true, note: "SUPERSEDED 2026-11-13. BEC was set to 7.2 V (D3). The 16 V pass-through used in the first 3S walks is superseded too. The live servo domain is SERVO_12V0."}
+  SERVO_12V0: {v_min: 9.0, v_max: 12.0, note: "BEC set to 12.0 V. Below the set point Castle does not publish the behavior (BLOCKER). The floor is the pack floor, not a held 12.0 V."}
   5V: {v_min: 4.8, v_max: 5.2, note: "Pololu D30V30F5 output, 4 % accuracy"}
   3V3: {v_min: 3.1, v_max: 3.5, note: "Pi 3.3 V rail"}
   GPIO_3V3: {v_min: 0.0, v_max: 3.3, note: "Pi GPIO, 3.3 V logic"}
@@ -70,7 +72,7 @@ domains:
   USB: {v_min: 0.0, v_max: 5.25, note: "USB 2.0"}
   CSI: {v_min: 0.0, v_max: 1.8, note: "MIPI CSI-2 camera ribbon"}
   AUDIO: {v_min: -5.0, v_max: 5.0, note: "MAX98357A bridge output to the speaker"}
-  CTRL: {v_min: 0.0, v_max: 8.4, note: "Pololu 2815 SW pad: 0 V = ON, VIN through 100 kOhm = OFF"}
+  CTRL: {v_min: 0.0, v_max: 12.6, note: "Pololu 2815 SW pad: 0 V = ON, VIN through 100 kOhm = OFF. v_max follows the 3S pack. Superseded: 8.4 V was the 2S full pack."}
   NTC: {v_min: 0.0, v_max: 8.4, note: "BMS thermistor lead, not used"}
   GND: {v_min: 0.0, v_max: 0.0, note: "common ground, returns to BMS P-"}
   TOUCH: {v_min: 0.0, v_max: 3.3, note: "MPR121 electrode: the chip charges the pad with a constant current and reads the voltage, 0 to its 3.3 V supply (D51)"}
@@ -84,12 +86,12 @@ domains:
 nets:
   CELL_N: {domain: GND_CELL, note: "holder - to BMS B-"}
   CELL_MID: {domain: CELL_MID_3V0_4V2, note: "series strap to BMS B1"}
-  PACK_P: {domain: PACK_6V0_8V4, note: "holder +, BMS B+ and P+ (one copper node on the board), charger, XT30, splice JFI, fuse line side"}
-  PACK_F: {domain: PACK_6V0_8V4, note: "fused pack +, fuse load side through splice JFO to Pololu 2815 VIN"}
-  VSW: {domain: PACK_6V0_8V4, note: "switched pack bus after the 2815"}
+  PACK_P: {domain: PACK_9V0_12V6, note: "holder +, BMS B+ and P+ (one copper node on the board), charger, XT30, splice JFI, fuse line side"}
+  PACK_F: {domain: PACK_9V0_12V6, note: "fused pack +, fuse load side through splice JFO to Pololu 2815 VIN"}
+  VSW: {domain: PACK_9V0_12V6, note: "switched pack bus after the 2815"}
   GND: {domain: GND, note: "every ground; one node at BMS P-"}
-  CHG_IN: {domain: PACK_6V0_8V4, note: "chest CHG+ strip to DK2 (dock charger output, 8.40 V CV, 1.0 A on the EV board; D43)"}
-  CHG_D: {domain: PACK_6V0_8V4, note: "DK2 output to the 5 A fuse F2"}
+  CHG_IN: {domain: PACK_9V0_12V6, note: "chest CHG+ strip to DK2 (dock charger output, 8.40 V CV, 1.0 A on the EV board; D43)"}
+  CHG_D: {domain: PACK_9V0_12V6, note: "DK2 output to the 5 A fuse F2"}
   SNS: {domain: SENSE, note: "chest SENSE strip: cell NTC to GND and the wake branch to SW1 ON (D43)"}
   NTC_MID: {domain: NTC_WIN, note: "bead high side. RBIAS is 10.0 kOhm from the charger reference. Cold divider is 10.0 kOhm over 28.0 kOhm. Hot divider is 10.0 kOhm over 2.80 kOhm. Those three are the rbias, rcold, and rhot lines in CHARGER_BOARD.md."}
   STAT_GPIO: {domain: GPIO_3V3, note: "charger STAT to Pi pin 29, through 1 kOhm on the board"}
@@ -103,7 +105,7 @@ nets:
   SW1_ON: {domain: CTRL, note: "Superseded. The current ON pin is the 2815, driven by the Pi through 10 kOhm, with the clamp in circuitry/bq24133_board.yaml (circuitry/SERVO_RAIL.md). This net is the earlier wake pulse to the 2813 ON input (D43)."}
   CTRL_SW: {domain: CTRL, note: "2815 SW pad to the panel switch"}
   PWR_OFF: {domain: GPIO_3V3, note: "Superseded. The 2815 in circuitry/SERVO_RAIL.md has no OFF pin. This net is the earlier Pi GPIO26 wire to the 2813 OFF input, cable D13 (D30)."}
-  SERVO_7V2: {domain: SERVO_7V2, note: "BEC output, belly splice SPV, SP1 to SP5, every servo V (not the adapter, D15)"}
+  SERVO_7V2: {domain: SERVO_12V0, note: "BEC output at 12.0 V, belly splice SPV, SP1 to SP5, every servo V (not the adapter, D15). The net name is the old 7.2 V name, kept."}
   BUS_DATA: {domain: BUS_DATA, note: "servo bus data line"}
   5V: {domain: 5V, note: "U3 output, Pi 5 V pins, SG90 and amp supply"}
   3V3: {domain: 3V3, note: "Pi pin 1 to BNO055 VIN and the head touch board (D16); BNO055 VIN on to the body touch board (D19) and the cliff ToF (D21); Pi pin 17 to the foot pull-ups R4, R5 (D17) and the mics"}
@@ -144,7 +146,7 @@ components:
       leads: {connector: "holder leads, solder", pitch_mm: null, note: "D44: the 16 AWG pack leads spot-welded to the nickel strip at the pack ends play the old holder leads (the connector kind keeps its name for the checks); use them for P1/P2 if 120 mm or longer"}
       strap: {connector: "solder pad on the holder series strap", pitch_mm: null, note: "D44: the series nickel strip of the pack (balance tap if ever needed); solder only to a lead tab on the strip, never to a cell"}
     pins:
-      - {pin: "B+", label: "+", name: pack + (cell 2 +), domain: PACK_6V0_8V4, group: leads, dir: pwr_out, source: "[U] holder"}
+      - {pin: "B+", label: "+", name: pack + (cell 2 +), domain: PACK_9V0_12V6, group: leads, dir: pwr_out, source: "[U] holder"}
       - {pin: "MID", label: "strap", name: series strap (cell 1 + / cell 2 -), domain: CELL_MID_3V0_4V2, group: strap, dir: passive, source: "[L] B27, Tnkr m1 m2"}
       - {pin: "B-", label: "-", name: pack - (cell 1 -), domain: GND_CELL, group: leads, dir: pwr_out, source: "[U] holder"}
     internal:
@@ -163,9 +165,9 @@ components:
     pins:
       - {pin: "B-", label: "B-", name: cell stack -, domain: GND_CELL, group: pads, dir: pwr_in, source: "[L] Tenergy image"}
       - {pin: "B1", label: "B1", name: mid tap (called BM in the brief), domain: CELL_MID_3V0_4V2, group: pads, dir: in, source: "[L] Tenergy image"}
-      - {pin: "B+", label: "B+", name: cell stack +, domain: PACK_6V0_8V4, group: pads, dir: pwr_in, source: "[L] Tenergy image"}
+      - {pin: "B+", label: "B+", name: cell stack +, domain: PACK_9V0_12V6, group: pads, dir: pwr_in, source: "[L] Tenergy image"}
       - {pin: "P-", label: "P-", name: pack output - (charge and discharge), domain: GND, group: pads, dir: gnd, source: "[L] Tenergy image"}
-      - {pin: "P+", label: "P+", name: pack output + (charge and discharge), domain: PACK_6V0_8V4, group: pads, dir: pwr_out, source: "[L] Tenergy image"}
+      - {pin: "P+", label: "P+", name: pack output + (charge and discharge), domain: PACK_9V0_12V6, group: pads, dir: pwr_out, source: "[L] Tenergy image"}
       - {pin: "T", label: "T", name: NTC output, domain: NTC, group: pads, dir: nc, source: "[L] Tenergy image; left unconnected, that it may be left open is [I] (not stated by Tenergy)"}
     internal:
       - {a: "B+", b: "P+", kind: short, note: "through copper"}
@@ -183,7 +185,7 @@ components:
       out: {connector: "solder pad", pitch_mm: null, note: "pad labels not verified [I]"}
       usb: {connector: "USB-C receptacle", pitch_mm: null}
     pins:
-      - {pin: "B+", label: "B+", name: charge output +, domain: PACK_6V0_8V4, group: out, dir: pwr_out, source: "[U] CABLE_MAP; label [I]"}
+      - {pin: "B+", label: "B+", name: charge output +, domain: PACK_9V0_12V6, group: out, dir: pwr_out, source: "[U] CABLE_MAP; label [I]"}
       - {pin: "B-", label: "B-", name: charge output -, domain: GND, group: out, dir: gnd, source: "[U] CABLE_MAP; label [I]"}
       - {pin: "USB", label: "USB-C", name: 5 V USB-C input from a charger, domain: USB, group: usb, dir: nc, source: "[U]"}
     source: "[U] BOM 11"
@@ -198,9 +200,9 @@ components:
       female: {connector: "XT30U female, solder cups", pitch_mm: null}
       male: {connector: "XT30U male, solder cups", pitch_mm: null}
     pins:
-      - {pin: "F+", label: "+", name: pack side +, domain: PACK_6V0_8V4, group: female, dir: pwr, source: "[U]"}
+      - {pin: "F+", label: "+", name: pack side +, domain: PACK_9V0_12V6, group: female, dir: pwr, source: "[U]"}
       - {pin: "F-", label: "-", name: pack side -, domain: GND, group: female, dir: gnd, source: "[U]"}
-      - {pin: "M+", label: "+", name: robot side +, domain: PACK_6V0_8V4, group: male, dir: pwr, source: "[U]"}
+      - {pin: "M+", label: "+", name: robot side +, domain: PACK_9V0_12V6, group: male, dir: pwr, source: "[U]"}
       - {pin: "M-", label: "-", name: robot side -, domain: GND, group: male, dir: gnd, source: "[U]"}
     internal:
       - {a: "F+", b: "M+", kind: mated, note: "pack disconnect"}
@@ -216,8 +218,8 @@ components:
     groups:
       leads: {connector: "ATO holder leads", pitch_mm: null, note: "the two holder leads are P7; each is lengthened with 16 AWG red at splice JFI (line) or JFO (load)"}
     pins:
-      - {pin: "IN", label: "lead 1", name: line side (from XT30), domain: PACK_6V0_8V4, group: leads, dir: pwr_in, source: "[L] D3"}
-      - {pin: "OUT", label: "lead 2", name: load side (to 2815 VIN), domain: PACK_6V0_8V4, group: leads, dir: pwr_out, source: "[L] D3"}
+      - {pin: "IN", label: "lead 1", name: line side (from XT30), domain: PACK_9V0_12V6, group: leads, dir: pwr_in, source: "[L] D3"}
+      - {pin: "OUT", label: "lead 2", name: load side (to 2815 VIN), domain: PACK_9V0_12V6, group: leads, dir: pwr_out, source: "[L] D3"}
     internal:
       - {a: "IN", b: "OUT", kind: fuse, note: "15 A ATO"}
     source: "[L] D3; MOUNTING.md: battery bay front wall, BMS side, centre (-104.5, -21.5, 26.0)"
@@ -230,7 +232,7 @@ components:
     groups:
       s: {connector: "solder splice, heat shrink", pitch_mm: null}
     pins:
-      - {pin: "S", label: "JFI", name: splice, domain: PACK_6V0_8V4, group: s, dir: pwr, source: "[L] cables3d: P7 line chain"}
+      - {pin: "S", label: "JFI", name: splice, domain: PACK_9V0_12V6, group: s, dir: pwr, source: "[L] cables3d: P7 line chain"}
     source: "[L] cables3d/CABLES_3D.md: the 90 mm holder lead is short of the P7 line chain"
 
   - id: JFO
@@ -241,7 +243,7 @@ components:
     groups:
       s: {connector: "solder splice, heat shrink", pitch_mm: null}
     pins:
-      - {pin: "S", label: "JFO", name: splice, domain: PACK_6V0_8V4, group: s, dir: pwr, source: "[L] cables3d: P7 load chain"}
+      - {pin: "S", label: "JFO", name: splice, domain: PACK_9V0_12V6, group: s, dir: pwr, source: "[L] cables3d: P7 load chain"}
     source: "[L] cables3d/CABLES_3D.md: the 90 mm holder lead is short of the P7 load chain"
 
   - id: SW1
@@ -257,7 +259,7 @@ components:
     pins:
       - {pin: "VIN", label: "VIN", name: "pack in after the D50 ideal-diode OR (DK7 soldered here, DK6 output joins)", domain: PACK_OR_6V0_9V2, group: power, dir: pwr_in, source: "[L] Pololu 2815 page; D50"}
       - {pin: "GND", label: "GND", name: ground (large hole), domain: GND, group: power, dir: gnd, source: "[L] Pololu 2815 page"}
-      - {pin: "VOUT", label: "VOUT", name: switched pack out, domain: PACK_6V0_8V4, group: power, dir: pwr_out, source: "[L] Pololu 2815 page"}
+      - {pin: "VOUT", label: "VOUT", name: switched pack out, domain: PACK_9V0_12V6, group: power, dir: pwr_out, source: "[L] Pololu 2815 page"}
       - {pin: "SW", label: "SW", name: switch control terminal (pad pair marked with a switch symbol), domain: CTRL, group: control, dir: in, source: "[L] Pololu schematic net SW"}
       - {pin: "GND_SW", label: "GND", name: GND pad next to SW (pad pair marked with a switch symbol), domain: GND, group: control, dir: gnd, source: "[L] Pololu schematic"}
       - {pin: "ON", label: "ON", name: "superseded 2813 ON input (D43 wake pulse). Current 2815 ON is circuitry/bq24133_board.yaml.", domain: CTRL, group: control, dir: in, source: "[L] Pololu page: a high pulse over 1 V turns it on; the dock 555 pulse through the wake branch"}
@@ -265,7 +267,7 @@ components:
     internal:
       - {a: "VIN", b: "VOUT", kind: switch, note: "2 P-MOSFETs, on while SW is pulled to GND; on-board slide switch set OFF"}
       - {a: "GND", b: "GND_SW", kind: short}
-      - {a: "VIN", b: "SW", kind: load, note: "100 kOhm (R3): about 84 uA when SW is grounded at 8.4 V"}
+      - {a: "VIN", b: "SW", kind: load, note: "100 kOhm (R3): about 126 uA when SW is grounded at 12.6 V (calc only). Was about 84 uA at 8.4 V."}
     source: "[L] D8; https://www.pololu.com/product/2813 is the superseded record. Current rail: https://www.pololu.com/product/2815 and circuitry/bq24133_board.yaml. MOUNTING.md: battery bay front wall, centre (-108.5, 19.0, 36.5)"
 
   - id: CTL
@@ -290,7 +292,7 @@ components:
     groups:
       s: {connector: "WAGO 221-413 (3 wires) lever splice (X4, D36)", pitch_mm: null}
     pins:
-      - {pin: "S", label: "VSW", name: splice, domain: PACK_6V0_8V4, group: s, dir: pwr, source: "[L]"}
+      - {pin: "S", label: "VSW", name: splice, domain: PACK_9V0_12V6, group: s, dir: pwr, source: "[L]"}
     source: "[L] next to the 2815"
 
   - id: G
@@ -306,27 +308,27 @@ components:
 
   - id: U1
     ref: U1
-    part: Castle Creations CC BEC Pro, P/N 010-0004-01, set to 7.2 V
+    part: Castle Creations CC BEC Pro, P/N 010-0004-01, set to 12.0 V
     kind: regulator
     region: belly
-    ratings: {v_in: "2S to 12S", i_cont_a: "15 at 2S to 4S with 5 mph air", i_peak_a: 20, v_out: 7.2, size_mm: "43 x 33 x 24", output_lead_a: "5 per 3-pin lead (Castle guide)"}
+    ratings: {v_in: "2S to 12S", i_cont_a: "15 at 2S to 4S with 5 mph air", i_peak_a: 20, v_out: 12.0, v_out_superseded: "7.2 V (D3) and 16 V (3S pass-through)", size_mm: "43 x 33 x 24", output_lead_a: "5 per 3-pin lead (Castle guide)"}
     groups:
       in: {connector: "input leads red and black (gauge and length not published)", pitch_mm: null}
       out1: {connector: "3-pin servo lead 1, plug cut off (gauge and length not published: as shipped)", pitch_mm: null}
       out2: {connector: "3-pin servo lead 2, plug cut off (gauge and length not published: as shipped)", pitch_mm: null}
       link: {connector: "Link Port, 2-wire jumper to Castle Link V4", pitch_mm: null, note: "programming only"}
     pins:
-      - {pin: "IN+", label: "IN+", name: input + (red lead), domain: PACK_6V0_8V4, group: in, dir: pwr_in, source: "[L] Castle guide 095-0047-00"}
+      - {pin: "IN+", label: "IN+", name: input + (red lead), domain: PACK_9V0_12V6, group: in, dir: pwr_in, source: "[L] Castle guide 095-0047-00"}
       - {pin: "IN-", label: "IN-", name: input - (black lead), domain: GND, group: in, dir: gnd, source: "[L] Castle guide"}
-      - {pin: "OUT1+", label: "1+", name: output lead 1 + (red), domain: SERVO_7V2, group: out1, dir: pwr_out, source: "[L] Castle guide"}
+      - {pin: "OUT1+", label: "1+", name: output lead 1 + (red), domain: SERVO_12V0, group: out1, dir: pwr_out, source: "[L] Castle guide"}
       - {pin: "OUT1-", label: "1-", name: output lead 1 - (black), domain: GND, group: out1, dir: gnd, source: "[L] Castle guide"}
       - {pin: "OUT1S", label: "1S", name: output lead 1 third wire, domain: GND, group: out1, dir: nc, source: "[I] insulate"}
-      - {pin: "OUT2+", label: "2+", name: output lead 2 + (red), domain: SERVO_7V2, group: out2, dir: pwr_out, source: "[L] Castle guide"}
+      - {pin: "OUT2+", label: "2+", name: output lead 2 + (red), domain: SERVO_12V0, group: out2, dir: pwr_out, source: "[L] Castle guide"}
       - {pin: "OUT2-", label: "2-", name: output lead 2 - (black), domain: GND, group: out2, dir: gnd, source: "[L] Castle guide"}
       - {pin: "OUT2S", label: "2S", name: output lead 2 third wire, domain: GND, group: out2, dir: nc, source: "[I] insulate"}
       - {pin: "LINK", label: "LINK", name: Link Port (programming), domain: GND, group: link, dir: nc, source: "[L] Castle guide"}
     internal:
-      - {a: "IN+", b: "OUT1+", kind: regulator, note: "buck set to 7.2 V; dropout not published"}
+      - {a: "IN+", b: "OUT1+", kind: regulator, note: "buck set to 12.0 V; 7.2 V and 16 V superseded; dropout not published"}
       - {a: "IN-", b: "OUT1-", kind: short}
       - {a: "OUT1+", b: "OUT2+", kind: short}
       - {a: "OUT1-", b: "OUT2-", kind: short}
@@ -340,7 +342,7 @@ components:
     groups:
       s: {connector: "solder splice, heat shrink", pitch_mm: null}
     pins:
-      - {pin: "S", label: "JB+", name: splice, domain: SERVO_7V2, group: s, dir: pwr, source: "[L]"}
+      - {pin: "S", label: "JB+", name: splice, domain: SERVO_12V0, group: s, dir: pwr, source: "[L]"}
     source: "[L] POWER.md: cut both output leads, red to red"
 
   - id: JBN
@@ -369,16 +371,16 @@ components:
       jumper: {connector: "A/B jumper", pitch_mm: 2.54, note: "B = USB ~ SERVO (set), A = UART ~ SERVO"}
       uart: {connector: "3-pin header TX RX GND", pitch_mm: 2.54, note: "not used"}
     pins:
-      - {pin: "DC+", label: "DC+", name: servo supply + (H1 pin 2), domain: SERVO_7V2, group: h1, dir: nc, source: "[L] D15: H1 not connected"}
+      - {pin: "DC+", label: "DC+", name: servo supply + (H1 pin 2), domain: SERVO_12V0, group: h1, dir: nc, source: "[L] D15: H1 not connected"}
       - {pin: "DC-", label: "DC-", name: ground (H1 pin 1), domain: GND, group: h1, dir: nc, source: "[L] D15: H1 not connected"}
       - {pin: "H3.D", label: "D", name: bus data (H3 pin 1), domain: BUS_DATA, group: h3, dir: bidir, source: "[U] schematic, printed D V G"}
-      - {pin: "H3.V", label: "V", name: bus supply (H3 pin 2), domain: SERVO_7V2, group: h3, dir: nc, source: "[L] D15: housing position left empty"}
+      - {pin: "H3.V", label: "V", name: bus supply (H3 pin 2), domain: SERVO_12V0, group: h3, dir: nc, source: "[L] D15: housing position left empty"}
       - {pin: "H3.G", label: "G", name: ground (H3 pin 3), domain: GND, group: h3, dir: gnd, source: "[U] schematic"}
       - {pin: "H5.D", label: "D", name: bus data (H5 pin 1), domain: BUS_DATA, group: h5, dir: bidir, source: "[U] schematic"}
-      - {pin: "H5.V", label: "V", name: bus supply (H5 pin 2), domain: SERVO_7V2, group: h5, dir: nc, source: "[L] D15: housing position left empty"}
+      - {pin: "H5.V", label: "V", name: bus supply (H5 pin 2), domain: SERVO_12V0, group: h5, dir: nc, source: "[L] D15: housing position left empty"}
       - {pin: "H5.G", label: "G", name: ground (H5 pin 3), domain: GND, group: h5, dir: gnd, source: "[U] schematic"}
       - {pin: "USB", label: "USB", name: USB-C to the CH343P serial bridge, domain: USB, group: usb, dir: bidir, source: "[U] /dev/ttyACM0, 1 Mbaud"}
-      - {pin: "JACK", label: "DC 9~12.6V", name: barrel jack, domain: SERVO_7V2, group: jack, dir: nc, source: "[L] not used"}
+      - {pin: "JACK", label: "DC 9~12.6V", name: barrel jack, domain: SERVO_12V0, group: jack, dir: nc, source: "[L] not used"}
       - {pin: "JMP", label: "A/B", name: jumper set to B (USB control), domain: GND, group: jumper, dir: nc, source: "[U] wiki"}
     internal:
       - {a: "DC+", b: "H3.V", kind: short, note: "through FET M1 (AO4407)"}
@@ -396,7 +398,7 @@ components:
     groups:
       s: {connector: "WAGO 221-415 and 221-413 lever splices", pitch_mm: null, note: "6 wires, two levers, one 16 AWG jumper. Jumper cut is not set."}
     pins:
-      - {pin: "S", label: "SPV", name: splice, domain: SERVO_7V2, group: s, dir: pwr, source: "[L] D15"}
+      - {pin: "S", label: "SPV", name: splice, domain: SERVO_12V0, group: s, dir: pwr, source: "[L] D15"}
     source: "[L] D15"
 
   - id: SPG
@@ -474,11 +476,11 @@ components:
     groups:
       pins: {connector: "0.1 in holes, solder", pitch_mm: 2.54, note: "pin order on the edge not checked [I]"}
     pins:
-      - {pin: "VIN", label: "VIN", name: input from VSW, domain: PACK_6V0_8V4, group: pins, dir: pwr_in, source: "[L] Pololu 4892 page"}
+      - {pin: "VIN", label: "VIN", name: input from VSW, domain: PACK_9V0_12V6, group: pins, dir: pwr_in, source: "[L] Pololu 4892 page"}
       - {pin: "GND.1", label: "GND", name: ground (input side), domain: GND, group: pins, dir: gnd, source: "[L] Pololu page"}
       - {pin: "GND.2", label: "GND", name: ground (output side), domain: GND, group: pins, dir: gnd, source: "[L] Pololu page"}
       - {pin: "VOUT", label: "VOUT", name: 5 V out, domain: 5V, group: pins, dir: pwr_out, source: "[L] Pololu page"}
-      - {pin: "EN", label: "EN", name: "enable (on by default, 100 kOhm pull-up)", domain: PACK_6V0_8V4, group: pins, dir: nc, source: "[L] Pololu page"}
+      - {pin: "EN", label: "EN", name: "enable (on by default, 100 kOhm pull-up)", domain: PACK_9V0_12V6, group: pins, dir: nc, source: "[L] Pololu page"}
       - {pin: "PG", label: "PG", name: power good (open drain), domain: 5V, group: pins, dir: nc, source: "[L] Pololu page"}
     internal:
       - {a: "VIN", b: "VOUT", kind: regulator, note: "5 V buck, dropout 0.28 V at 2.5 A"}
@@ -972,10 +974,10 @@ components:
       bus2: {connector: "Molex 5264-type 2.5 mm 3-pin socket", pitch_mm: 2.5, note: "as bus1"}
     pins: &sts_pins
       - {pin: BUS1.D, label: "BUS 1", name: "data, pin 3", domain: BUS_DATA, group: bus1, dir: bidir, source: "[U]"}
-      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_7V2, group: bus1, dir: pwr, source: "[U]"}
+      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_12V0, group: bus1, dir: pwr, source: "[U]"}
       - {pin: BUS1.G, label: "BUS 1", name: "ground, pin 1", domain: GND, group: bus1, dir: gnd, source: "[U]"}
       - {pin: BUS2.D, label: "BUS 2", name: "data, pin 3", domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
-      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
+      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_12V0, group: bus2, dir: pwr, source: "[U]"}
       - {pin: BUS2.G, label: "BUS 2", name: "ground, pin 1", domain: GND, group: bus2, dir: gnd, source: "[U]"}
     internal: &sts_internal
       - {a: BUS1.D, b: BUS2.D, kind: short}
@@ -1018,10 +1020,10 @@ components:
     groups: *sts_groups
     pins: &sts_pins_end_SV24
       - {pin: BUS1.D, label: "BUS 1", name: "data, pin 3", domain: BUS_DATA, group: bus1, dir: nc, source: "[L] D23: data position empty"}
-      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_7V2, group: bus1, dir: pwr, source: "[L] D23: second feed SP4"}
+      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_12V0, group: bus1, dir: pwr, source: "[L] D23: second feed SP4"}
       - {pin: BUS1.G, label: "BUS 1", name: "ground, pin 1", domain: GND, group: bus1, dir: gnd, source: "[L] D23: second feed SP4"}
       - {pin: BUS2.D, label: "BUS 2", name: "data, pin 3", domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
-      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
+      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_12V0, group: bus2, dir: pwr, source: "[U]"}
       - {pin: BUS2.G, label: "BUS 2", name: "ground, pin 1", domain: GND, group: bus2, dir: gnd, source: "[U]"}
     internal: *sts_internal
     source: "[U] left_ankle, ID 24; BUS 1 takes the second power feed SP4, data position empty (D23, sim/POWER_FIX.md option 3b)"
@@ -1069,10 +1071,10 @@ components:
     groups: *sts_groups
     pins: &sts_pins_end_SV14
       - {pin: BUS1.D, label: "BUS 1", name: "data, pin 3", domain: BUS_DATA, group: bus1, dir: nc, source: "[L] D23: data position empty"}
-      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_7V2, group: bus1, dir: pwr, source: "[L] D23: second feed SP5"}
+      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_12V0, group: bus1, dir: pwr, source: "[L] D23: second feed SP5"}
       - {pin: BUS1.G, label: "BUS 1", name: "ground, pin 1", domain: GND, group: bus1, dir: gnd, source: "[L] D23: second feed SP5"}
       - {pin: BUS2.D, label: "BUS 2", name: "data, pin 3", domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
-      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
+      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_12V0, group: bus2, dir: pwr, source: "[U]"}
       - {pin: BUS2.G, label: "BUS 2", name: "ground, pin 1", domain: GND, group: bus2, dir: gnd, source: "[U]"}
     internal: *sts_internal
     source: "[U] right_ankle, ID 14; BUS 1 takes the second power feed SP5, data position empty (D23, sim/POWER_FIX.md option 3b)"
@@ -1111,10 +1113,10 @@ components:
     groups: *sts_groups
     pins: &sts_pins_end_SV33
       - {pin: BUS1.D, label: "BUS 1", name: "data, pin 3", domain: BUS_DATA, group: bus1, dir: nc, source: "[L] D15 free"}
-      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_7V2, group: bus1, dir: nc, source: "[L] D15 free"}
+      - {pin: BUS1.V, label: "BUS 1", name: "supply, pin 2", domain: SERVO_12V0, group: bus1, dir: nc, source: "[L] D15 free"}
       - {pin: BUS1.G, label: "BUS 1", name: "ground, pin 1", domain: GND, group: bus1, dir: nc, source: "[L] D15 free"}
       - {pin: BUS2.D, label: "BUS 2", name: "data, pin 3", domain: BUS_DATA, group: bus2, dir: bidir, source: "[U]"}
-      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_7V2, group: bus2, dir: pwr, source: "[U]"}
+      - {pin: BUS2.V, label: "BUS 2", name: "supply, pin 2", domain: SERVO_12V0, group: bus2, dir: pwr, source: "[U]"}
       - {pin: BUS2.G, label: "BUS 2", name: "ground, pin 1", domain: GND, group: bus2, dir: gnd, source: "[U]"}
     internal: *sts_internal
     source: "[U] head_roll, ID 33 (case on the head side of the head_roll joint, cables.json); second port unused"
@@ -1130,7 +1132,7 @@ components:
       - {pin: "SYS", label: "SYS", name: dock supply strip (z 0 to 17.5), domain: SYS_9V, group: pads, dir: pwr_in, source: "[L] D50"}
       - {pin: "GND", label: "GND", name: ground strip (z 19.5 to 37), domain: GND, group: pads, dir: gnd, source: "[L] D43"}
       - {pin: "SNS", label: "SENSE", name: sense strip (z 39 to 56.5), domain: SENSE, group: pads, dir: bidir, source: "[L] D43"}
-      - {pin: "CHG", label: "CHG+", name: charge strip (z 58.5 to 76), domain: PACK_6V0_8V4, group: pads, dir: pwr_in, source: "[L] D43"}
+      - {pin: "CHG", label: "CHG+", name: charge strip (z 58.5 to 76), domain: PACK_9V0_12V6, group: pads, dir: pwr_in, source: "[L] D43"}
     source: "[L] twin/dock/DOCK_TWIN.md sections 2 and 11"
 
   - id: JGD
@@ -1163,8 +1165,8 @@ components:
     groups:
       pads: {connector: "solder pads", pitch_mm: null, note: "0.3 x 0.5 in board"}
     pins:
-      - {pin: "VIN", label: "VIN", name: from the CHG+ strip, domain: PACK_6V0_8V4, group: pads, dir: pwr_in, source: "[L] D43"}
-      - {pin: "VOUT", label: "VOUT", name: to the 5 A fuse, domain: PACK_6V0_8V4, group: pads, dir: pwr_out, source: "[L] D43"}
+      - {pin: "VIN", label: "VIN", name: from the CHG+ strip, domain: PACK_9V0_12V6, group: pads, dir: pwr_in, source: "[L] D43"}
+      - {pin: "VOUT", label: "VOUT", name: to the 5 A fuse, domain: PACK_9V0_12V6, group: pads, dir: pwr_out, source: "[L] D43"}
       - {pin: "GND", label: "GND", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] Pololu page"}
     internal:
       - {a: "VIN", b: "VOUT", kind: switch, note: "ideal diode, under 10 mOhm, blocks VOUT to VIN; the 100 k bypass lets the dock read the pack"}
@@ -1179,8 +1181,8 @@ components:
     groups:
       leads: {connector: "ATO holder leads", pitch_mm: null, note: "holder leads soldered to the DC1 wires"}
     pins:
-      - {pin: "IN", label: "lead 1", name: from DK2, domain: PACK_6V0_8V4, group: leads, dir: pwr_in, source: "[L] D43"}
-      - {pin: "OUT", label: "lead 2", name: to JFI (PACK_P), domain: PACK_6V0_8V4, group: leads, dir: pwr_out, source: "[L] D43"}
+      - {pin: "IN", label: "lead 1", name: from DK2, domain: PACK_9V0_12V6, group: leads, dir: pwr_in, source: "[L] D43"}
+      - {pin: "OUT", label: "lead 2", name: to JFI (PACK_P), domain: PACK_9V0_12V6, group: leads, dir: pwr_out, source: "[L] D43"}
     internal:
       - {a: "IN", b: "OUT", kind: fuse, note: "5 A ATO"}
     source: "[L] D43; seat twin/dock/dock_seats.json"
@@ -1364,7 +1366,7 @@ components:
     groups:
       pads: {connector: "solder pads", pitch_mm: null, note: "0.3 x 0.5 in board, VOUT soldered on SW1 VIN"}
     pins:
-      - {pin: "VIN", label: "VIN", name: fused pack from JFO, domain: PACK_6V0_8V4, group: pads, dir: pwr_in, source: "[L] D50"}
+      - {pin: "VIN", label: "VIN", name: fused pack from JFO, domain: PACK_9V0_12V6, group: pads, dir: pwr_in, source: "[L] D50"}
       - {pin: "VOUT", label: "VOUT", name: to SW1 VIN, domain: PACK_OR_6V0_9V2, group: pads, dir: pwr_out, source: "[L] D50"}
       - {pin: "GND", label: "GND", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] Pololu page"}
     internal:

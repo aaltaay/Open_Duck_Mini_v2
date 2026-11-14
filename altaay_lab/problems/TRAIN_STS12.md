@@ -18,7 +18,7 @@ Damping and friction are scaled the same way `problems/sts12.py` scales them (sh
 
 ## Bus (calc only)
 
-The playground step has no supply voltage. The training torque is constant. The voltage is one DC point of the existing 3S bus (`twin/electromech/power_net.py`, three P45B cells, BEC set point 16 V, dropout 0.3 V). The dropout is the unpublished assumption the twin already uses. Every servo draws the sheet no-load current, 0.180 A, at charge 0 mAh. That is not a walking current.
+The playground step has no supply voltage. The training torque is constant. The voltage is one DC point of the existing 3S bus (`twin/electromech/power_net.py`, three P45B cells, dropout 0.3 V). Superseded: that solve used a BEC set point of 16 V. The live set point is 12.0 V (D63). The numbers below are the 16 V solve and are kept. They were not recomputed. Do not retrain. The dropout is the unpublished assumption the twin already uses. Every servo draws the sheet no-load current, 0.180 A, at charge 0 mAh. That is not a walking current.
 
 Lowest port on that solve is the head roll, 11.692 V. The knees are 11.735 V and 11.734 V. The MJCF class is one number, so every joint uses 11.692 V. Torque limit 2.8665 Nm. Backlash position gain 15.1846. Damping 0.6106. Friction 0.0741 Nm.
 

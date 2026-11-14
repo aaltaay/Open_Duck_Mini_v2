@@ -36,7 +36,9 @@
  },
  "bus": {
   "cells": 3,
-  "bec_set_V": 16.0,
+  "bec_set_V": 12.0,
+  "bec_set_V_superseded": 16.0,
+  "bec_set_note": "Live set point is 12.0 V. The servo_V and actuator numbers in this file were solved at the superseded 16.0 V set point for run C. They were not recomputed. Do not retrain.",
   "bec_drop_V": 0.3,
   "bec_drop_note": "ASSUMPTION, Castle publishes none. Same constant the twin uses.",
   "current_A_per_servo": 0.18,

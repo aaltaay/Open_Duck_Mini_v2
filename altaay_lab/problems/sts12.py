@@ -4,8 +4,8 @@
 The 7.4 V sheet constants stay in servo_sts3215.py. This script sets the 12 V
 stall, the 12 V stall current, and the no-load speed for the duration of the
 run, and it feeds the two voltage sources as 1.5 cells each so the pack is 3S.
-The BEC set point is raised above the pack so the servos see the pack minus the
-existing dropout, not 7.2 V.
+The BEC set point is 12.0 V. Superseded: 7.2 V (D3) and 16.0 V (pass-through).
+Castle does not publish the minimum input or the behavior below the set point (BLOCKER).
 
 Sim pass only. Nothing is bought.
 """
@@ -101,7 +101,7 @@ def knees_of(r):
 def one(corner):
     r = ET.run(
         mass="ours", walk="backlash", cmd=(0.15, 0.0, 0.0), dur=20.0,
-        supply="net", corner=corner, extra=dict(BEC_V=16.0),
+        supply="net", corner=corner, extra=dict(BEC_V=12.0),
         cell="p45b3", q0=0.0, servo_mode="sheet", guard=None,
         keep_full=False, stop_on_fall=True, t_stats=0.0, label="sts12",
     )

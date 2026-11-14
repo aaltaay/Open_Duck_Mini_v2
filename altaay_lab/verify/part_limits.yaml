@@ -1,0 +1,133 @@
+# Cited limits for the power path. The checker reads this file.
+# A live set point outside an adopted limit is a failure.
+# A missing citation is a BLOCKER, not a guessed number.
+# Open items are real mismatches that are already written down. They are printed
+# on every run. They are not the BEC set-point gate.
+
+read: 2026-11-13
+
+parts:
+  p45b:
+    name: Molicel INR-21700-P45B
+    source: https://www.molicel.com/wp-content/uploads/INR21700P45B_1.2_Product-Data-Sheet-of-INR-21700-P45B-80109.pdf
+    source_note: version 1.2, cited in twin/electromech/p45b.py and circuitry/CHARGER_BOARD.md
+    v_charge: 4.2
+    v_cut: 2.5
+    i_cont_a: 45
+    i_charge_max_a: 13.5
+    series: 3
+
+  tenergy_32175:
+    name: Tenergy 32175 2S protection board
+    source: https://power.tenergy.com/protection-circuit-module-pcb-for-7-2v-7-4v-2s-li-ion-battery-pack-working-10a-cutoff-22a-ntc
+    source_note: POWER.md section 5 and wiring/netlist.yaml. This is the board drawn in the netlist. It is not a 3S board.
+    series: 2
+    v_pack_nominal_min: 7.2
+    v_pack_nominal_max: 7.4
+    v_ov_cell: 4.280
+    v_ov_tol: 0.025
+    v_uv_cell: 2.40
+    v_uv_tol: 0.05
+    i_work_a: 10
+    i_oc_a: 22
+    i_oc_tol_a: 5
+
+  tenergy_32007:
+    name: Tenergy 32007 3S protection board
+    source: https://power.tenergy.com/protection-circuit-module-pcb-for-11-1v-3s-li-ion-battery-pack-working-9a-cutoff-17a/
+    source_note: cited in problems/NEST3.md. Not the netlist part. Not a gate.
+    series: 3
+    v_nominal: 11.1
+    i_cont_a: 9
+    i_oc_a: 17
+    i_oc_tol_a: 4
+
+  fuse:
+    name: Littelfuse 0287015.PXCN ATO 15 A in FHAC0001ZXJ
+    source: https://www.digikey.com/en/products/detail/littelfuse-inc/0287015-PXCN/2519816
+    source_note: 15 A and 32 V, holder 20 A and 32 V, as recorded in POWER.md section 4. The PDF was not re-opened.
+    v_max: 32
+    i_fuse_a: 15
+    i_holder_a: 20
+
+  pololu_2815:
+    name: Pololu 2815
+    source: https://www.pololu.com/product/2815
+    source_note: circuitry/SERVO_RAIL.md, page read 2026-11-13. Operating 4.5 V to 40 V, continuous current up to around 16 A. POWER.md section 6 had said 4.5 V to 32 V and 90 A maximum. The later page reading is the gate.
+    v_min: 4.5
+    v_max: 40
+    i_cont_a: 16
+    i_cont_note: the page says around 16 A
+
+  castle_bec:
+    name: Castle Creations CC BEC Pro, 010-0004-01
+    sources:
+      - url: https://castlecreations.com/products/voltage-regulator-cc-bec-pro-20a-010-0004-01
+        note: POWER.md section 3. Output adjustable 4.8 V to 12.5 V, default 5.1 V.
+      - url: https://castlecreations.com/products/voltage-regulator-cc-bec-2-15a-max-output-14s-58-8-volts-waterproof-010-0153-00
+        note: Castle chart cited in twin/battery/BATTERY_STUDY.md. Output 4.9 V to 12.5 V. Peak 20 A. Continuous 15 A at 2S to 4S with 5 mph air. Surface input max 8S (33.6 V).
+    v_out_min: 4.9
+    v_out_min_also_cited: 4.8
+    v_out_max: 12.5
+    i_cont_2s_4s_a: 15
+    i_peak_a: 20
+    v_in_max: 33.6
+    v_in_min_status: blocker
+    below_setpoint_status: blocker
+    retailer_conflict:
+      source: https://motionrc.com/products/castle-creations-20a-bec-pro-010-0004-01
+      note: twin/thermal/THERMAL_TWIN.md cites Motion RC as input 16 V to 40 V. That fights the Castle 2S to 8S chart. Castle has not published a minimum input voltage. The 16 V retailer figure is not the gate.
+
+  pololu_4892:
+    name: Pololu D30V30F5, item 4892
+    source: https://www.pololu.com/product/4892
+    source_note: wiring/netlist.yaml ratings. Input 5 V to 45 V. Output 5 V at 4 percent. Graph about 3.8 A at 6.0 V to 8.4 V in.
+    v_in_min: 5
+    v_in_max: 45
+    v_out: 5.0
+    v_out_accuracy: 0.04
+    i_graph_a: 3.8
+
+  bq24133:
+    name: TI BQ24133
+    source: https://www.ti.com/lit/ds/symlink/bq24133.pdf
+    source_note: SLUSAF7D, cited in problems/NEST3.md and twin/thermal/BQ24133_HEAT.md. Recommended input 4.5 V to 17 V. AVCC absolute maximum 30 V. PVCC absolute maximum 20 V. Fast charge 0.6 A to 2.5 A. Three cells with CELL at VREF regulate 12.6 V.
+    v_in_min: 4.5
+    v_in_max: 17
+    v_abs_avcc: 30
+    v_abs_pvcc: 20
+    i_charge_min_a: 0.6
+    i_charge_max_a: 2.5
+    v_charge_3cell: 12.6
+
+  sts3215_c018:
+    name: Feetech ST-3215-C018, Waveshare ST-3215-C018
+    i_stall_12v_a: 2.7
+    i_noload_12v_a: 0.180
+    ranges:
+      - id: feetech_page
+        v_min: 4
+        v_max: 14
+        adopted: true
+        source: https://www.feetech.cn/en/525603
+        note: page range used by the 12 V walk, problems/STS12.md
+      - id: waveshare
+        v_min: 6
+        v_max: 12.6
+        adopted: true
+        source: https://docs.waveshare.com/ST3215_Servo
+        note: same stall and speed, 6 V to 12.6 V
+      - id: pdf_12v_only
+        v_min: 12.0
+        v_max: 12.0
+        adopted: false
+        source: https://ftservo.github.io/ftservo-wiki/en/products/models/st-3215-c018/main/
+        note: the wiki says the attached PDF prints 12.0 V as both the minimum and the maximum
+
+  pi_zero_2w:
+    name: Raspberry Pi Zero 2 W
+    source: https://github.com/raspberrypi/documentation
+    source_note: power-supplies page cited in twin/thermal/THERMAL_TWIN.md. The rail is 5 V. Typical bare-board active draw 350 mA. An input tolerance band was not copied (BLOCKER).
+    v_nom: 5.0
+    i_typ_a: 0.350
+    v_tolerance_status: blocker
