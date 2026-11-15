@@ -104,7 +104,8 @@ def score_wells(x, y, yaw):
     margins = []
     for wx, wy in wells:
         labs = [band(wy - WELL_R), band(wy), band(wy + WELL_R)]
-        on_field = FIELD_X0 < wx < FIELD_X1
+        # The whole 3 mm well has to sit on the foil, including past the side of the mat.
+        on_field = (FIELD_X0 + WELL_R < wx < FIELD_X1 - WELL_R) and abs(wy) + WELL_R < 0.280
         if labs[0] == labs[1] == labs[2] and labs[0] in ("P", "M") and on_field:
             hits.append(labs[0])
             # clearance to the edge of this 20 mm conductor
@@ -695,11 +696,15 @@ class DockSim:
         if capture:
             est = self._capture(blur)
         x, y, yaw, z, up = self.true_pose()
-        if not self.sitting and (up < 0.45 or z < 0.07):
-            self.fallen = True
-        if self.sitting and up < 0.30:
-            self.fallen = True
+        self._check_fall(z, up)
         return est
+
+    def _check_fall(self, z, up):
+        if self.sitting:
+            if up < 0.30 or z < 0.04:
+                self.fallen = True
+        elif up < 0.45 or z < 0.07:
+            self.fallen = True
 
     def go_pose(self, target, seconds):
         """Policy off. Cosine ramp of the position targets, then the gains stay on."""
@@ -713,6 +718,8 @@ class DockSim:
             if (i + 1) % 10 == 0:
                 self.t += CTRL_DT
                 self._integrate_gyro()
+                _, _, _, z, up = self.true_pose()
+                self._check_fall(z, up)
                 if self.record and int(self.t / CTRL_DT) % 3 == 0:
                     self._capture(False)
 
@@ -724,6 +731,8 @@ class DockSim:
             self.mujoco.mj_step(self.model, self.data)
             if (i + 1) % 10 == 0:
                 self.t += CTRL_DT
+                _, _, _, z, up = self.true_pose()
+                self._check_fall(z, up)
                 if self.record and int(self.t / CTRL_DT) % 3 == 0:
                     self._capture(False)
 
