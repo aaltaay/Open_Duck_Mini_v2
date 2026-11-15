@@ -150,6 +150,105 @@ def score_wells(x, y, yaw):
     )
 
 
+# Samtec plating note, 23 Sep 2022: gold contacts, about 30 to 40 grams of
+# normal force. 30 grams is the floor used here.
+F_MIN_N = 0.030 * 9.80665
+# Mroczkowski, Connector Supplier, 7 Apr 2009: clean gold can be a few
+# milliohms under 10 grams when the contact is held still. Five milliohms is
+# the middle of "a few" (assumption). The nest foil is copper tape, not gold.
+# No gold-on-copper force curve was found, so this gold figure is used for
+# that pair and marked as an assumption.
+R_REF_OHM = 0.005
+F_REF_N = 0.010 * 9.80665
+# Dust and fuzz. Stated assumption, not a measurement. Multiplies the clean resistance.
+DUST_DERATE = 5.0
+# Both poles of 22 AWG, NEST_V2.md, calc only from the cited 52.96 mohm/m.
+R_WIRE_OHM = 0.038
+# BQ24133 board, parts.yaml, from the chip sheet. Nest supply 15 V, input
+# window 4.5 V to 17 V, charge current 1.006 A.
+V_NEST = 15.0
+I_SET_A = 1.006
+V_IN_MIN = 4.5
+V_IN_MAX = 17.0
+
+
+def r_of_force(fn):
+    """Ohms for one well. None if the force is under the gold floor."""
+    if fn < F_MIN_N:
+        return None
+    clean = R_REF_OHM * math.sqrt(F_REF_N / fn)
+    return DUST_DERATE * clean
+
+
+def _parallel(rs):
+    if not rs:
+        return None
+    return 1.0 / sum(1.0 / r for r in rs)
+
+
+def well_forces(sim, x, y, yaw):
+    """Normal force, newtons, on each well from MuJoCo contacts. Sim pass only.
+
+    A contact counts for a well when its point is inside 6 mm of that well.
+    The 6 mm is the 3 mm well plus a 3 mm pad. Contacts on the feet, away
+    from the wells, are not counted.
+    """
+    wells = well_world(x, y, yaw)
+    forces = [0.0] * len(wells)
+    mj = sim.mujoco
+    for i in range(sim.data.ncon):
+        con = sim.data.contact[i]
+        fr = np.zeros(6)
+        mj.mj_contactForce(sim.model, sim.data, i, fr)
+        fn = float(fr[0])
+        if fn <= 0.0:
+            continue
+        px, py = float(con.pos[0]), float(con.pos[1])
+        for k, (wx, wy) in enumerate(wells):
+            if (px - wx) ** 2 + (py - wy) ** 2 <= (0.006 ** 2):
+                forces[k] += fn
+    return forces
+
+
+def score_charge(sim, x, y, yaw, geom):
+    """Geometry plus force plus the charger window. Not a hardware charge."""
+    forces = well_forces(sim, x, y, yaw) if sim is not None else [0.0] * 5
+    wells = well_world(x, y, yaw)
+    plus_r, minus_r = [], []
+    rows = []
+    for fn, (wx, wy) in zip(forces, wells):
+        pol = band(wy)
+        on = (FIELD_X0 + WELL_R < wx < FIELD_X1 - WELL_R) and abs(wy) + WELL_R < 0.280
+        rr = r_of_force(fn) if on and pol in ("P", "M") else None
+        if rr is not None and pol == "P":
+            plus_r.append(rr)
+        if rr is not None and pol == "M":
+            minus_r.append(rr)
+        rows.append(dict(n=round(fn, 3), pol=pol if on else "off", ohm=None if rr is None else round(rr, 4)))
+    rp, rm = _parallel(plus_r), _parallel(minus_r)
+    r_contact = None if rp is None or rm is None else rp + rm
+    r_series = None if r_contact is None else r_contact + R_WIRE_OHM
+    v_chip = None if r_series is None else V_NEST - I_SET_A * r_series
+    charging = bool(
+        geom
+        and r_series is not None
+        and V_IN_MIN <= v_chip <= V_IN_MAX
+    )
+    i_a = I_SET_A if charging else 0.0
+    heat = None if r_contact is None else (i_a ** 2) * r_contact
+    return dict(
+        charging=charging,
+        well_force_n=[round(f, 3) for f in forces],
+        wells=rows,
+        r_contact_ohm=None if r_contact is None else round(r_contact, 4),
+        r_series_ohm=None if r_series is None else round(r_series, 4),
+        v_charger=None if v_chip is None else round(v_chip, 3),
+        i_charge_a=round(i_a, 3),
+        heat_w=None if heat is None else round(heat, 4),
+        f_min_n=round(F_MIN_N, 3),
+    )
+
+
 def _hull(pts):
     pts = np.unique(np.round(pts, 3), axis=0)
     pts = pts[np.lexsort((pts[:, 1], pts[:, 0]))]
@@ -302,12 +401,16 @@ def detect(img):
     # A bright red patch used to pass the old gold test once the room light lifted G.
     gold = (rr > 150) & (gg > 120) & (bb < 110) & (np.abs(rr.astype(int) - gg.astype(int)) < 55) & (gg > bb + 35)
     red = (rr > 120) & (rr > gg + 45) & (rr > bb + 45) & (gg < 150) & (bb < 130)
-    if int(red.sum()) >= 6:
-        kind = "red"
-        gy, gx = np.where(red)
-    elif int(gold.sum()) >= 6:
+    n_red = int(red.sum())
+    n_gold = int(gold.sum())
+    # Gold wins a tie. A few red-looking pixels on the foil used to label the
+    # wall card as the room mark, and the duck then turned the wrong way.
+    if n_gold >= 6 and n_gold >= n_red:
         kind = "gold"
         gy, gx = np.where(gold)
+    elif n_red >= 8 and n_red > n_gold:
+        kind = "red"
+        gy, gx = np.where(red)
     else:
         return None
     gcen = np.array([gx.mean() + x0, gy.mean() + y0])
@@ -522,6 +625,7 @@ def _scene_dir(folder):
   <geom name="mark_gold" type="box" pos="%.4f 0 %.4f" size="0.0012 0.011 0.011" rgba="0.95 0.78 0.16 1" contype="0" conaffinity="0"/>
   <geom name="mark2" type="box" pos="%.3f 0 %.3f" size="0.001 %.4f %.4f" rgba="0.02 0.02 0.02 1" contype="0" conaffinity="0"/>
   <geom name="mark2_red" type="box" pos="%.3f 0 %.4f" size="0.0012 0.016 0.016" rgba="0.85 0.08 0.08 1" contype="0" conaffinity="0"/>
+  <geom name="charge_led" type="sphere" pos="-0.05 0.32 0.06" size="0.015" rgba="0.15 0.15 0.15 1" contype="0" conaffinity="0"/>
   <geom name="mat_low" type="box" pos="-0.0415 0 0.0005" size="0.2255 0.300 0.0005" rgba="0.55 0.42 0.28 1" contype="1" conaffinity="0" priority="2" friction="0.8 0.01 0.001"/>
   <geom name="mat_top" type="box" pos="-0.0315 0 0.0015" size="0.2155 0.280 0.0005" rgba="0.62 0.48 0.30 1" contype="1" conaffinity="0" priority="3" friction="0.8 0.01 0.001"/>
   %s
@@ -627,12 +731,19 @@ class DockSim:
         self.seen_red = -10.0
         self.seen_gold = -10.0
         self.last_dist = 9.0
+        self.gold_dist = 9.0
+        self.led = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_GEOM, "charge_led")
         self.gyro0 = 0.0
 
     def close(self):
         for ren in (self.ren, self.ren3):
             if ren is not None and hasattr(ren, "close"):
                 ren.close()
+
+    def set_led(self, on):
+        if getattr(self, "led", -1) < 0:
+            return
+        self.model.geom_rgba[self.led] = (0.15, 0.85, 0.2, 1.0) if on else (0.15, 0.15, 0.15, 1.0)
 
     def true_pose(self):
         p = self.data.xpos[self.trunk]
@@ -683,6 +794,7 @@ class DockSim:
                         self.seen_red = self.t
                     else:
                         self.seen_gold = self.t
+                        self.gold_dist = dist
                     self.last_dist = dist
         self.est_q.append((self.t + LAT_S, est))
         if self.record and self.ren3 is not None and int(self.t / CTRL_DT) % 3 == 0:
@@ -881,6 +993,18 @@ def _kind(est):
     return est[4] if est is not None and len(est) > 4 else None
 
 
+def _false_room(sim, est, kind):
+    """The wall card solved at the room-mark size.
+
+    The two marks are 2.39 m apart. A red range under 1.55 m cannot be the
+    room mark if the wall mark was just seen inside 1.05 m.
+    """
+    if kind != "red" or est is None:
+        return False
+    dist = math.hypot(est[0], est[1])
+    return getattr(sim, "gold_dist", 9.0) < 1.05 and dist < 1.55
+
+
 def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
     sim = DockSim(seed=seed, light=light, record=record)
     try:
@@ -899,6 +1023,11 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
             kind = _kind(est)
             if kind is not None:
                 sim.last_kind = kind
+            if _false_room(sim, est, kind):
+                kind = None
+            # A good room-mark fix is a sit, even if a retry was about to spin away.
+            if kind == "red" and camera_says_ok(est) and mode != "fine":
+                mode, t_mode = "fine", sim.t
             if mode == "search":
                 # Either mark is enough. The room mark is what the duck sees
                 # once it faces away from the wall, so spinning past it was a miss.
@@ -929,7 +1058,10 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                 # Face the wall. The room mark leaves the frame; the wall mark
                 # is the one to re-acquire. Still standing, no sit yet.
                 turned = abs(wrap(sim.imu_yaw - imu_lock))
-                if kind == "gold":
+                if kind == "red" and est is not None and math.hypot(est[0], est[1]) > 1.5:
+                    mode, t_mode = "fine", sim.t
+                    cmd = (0.0, 0.0, 0.0)
+                elif kind == "gold":
                     mode, t_mode = "approach", sim.t
                     sim._stable_dist = None
                     cmd = _cmd_wall(est)
@@ -964,7 +1096,7 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                         sim._turn_sign = 1.0
                 else:
                     blind = sim.t - sim.seen_gold
-                    if getattr(sim, "last_kind", None) == "gold" and sim.last_dist < 0.65 and blind > 0.35:
+                    if getattr(sim, "last_kind", None) == "gold" and getattr(sim, "gold_dist", 9) < 0.90 and blind > 0.35:
                         mode, t_mode = "turn", sim.t
                         imu_lock = sim.imu_yaw
                         sim._turn_sign = 1.0
@@ -1042,7 +1174,7 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                     if last is not None and camera_says_ok(last) and blind < 1.4:
                         mode = "sit"
                         break
-                if sim.t - t_mode > 8.0 and mode == "fine":
+                if sim.t - t_mode > 10.0 and mode == "fine" and kind != "red":
                     last = getattr(sim, "_last_red", None)
                     if last is not None and camera_says_ok(last):
                         mode = "sit"
@@ -1065,6 +1197,33 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                     imu_lock = sim.imu_yaw
             if mode == "sit":
                 break
+            # A pure yaw command stalls this policy around a right angle, in
+            # the search. One short step restarts the gait. Not during the
+            # turn: that step walks into the wall.
+            if mode in ("search", "about") and abs(cmd[2]) >= 0.40 and cmd[0] < 0.05:
+                if sim.t - getattr(sim, "_spin_t", -10.0) > 1.2:
+                    moved = abs(wrap(sim.imu_yaw - getattr(sim, "_spin_yaw", sim.imu_yaw)))
+                    if moved < 0.10 and getattr(sim, "_kicks", 0) < 4:
+                        sim._kick_until = sim.t + 0.40
+                        sim._kicks = getattr(sim, "_kicks", 0) + 1
+                    sim._spin_t = sim.t
+                    sim._spin_yaw = sim.imu_yaw
+                if sim.t < getattr(sim, "_kick_until", 0.0):
+                    cmd = (0.12, 0.0, 0.0)
+            else:
+                sim._spin_t = sim.t
+                sim._spin_yaw = sim.imu_yaw
+            # If the turn's yaw stalls, drop the side step. That side step is
+            # what walks a stuck duck into the wall.
+            if mode == "turn" and abs(cmd[2]) >= 0.40:
+                if sim.t - getattr(sim, "_turn_t", -10.0) > 2.0:
+                    moved = abs(wrap(sim.imu_yaw - getattr(sim, "_turn_yaw", sim.imu_yaw)))
+                    if moved < 0.05:
+                        sim._turn_plain_until = sim.t + 0.8
+                    sim._turn_t = sim.t
+                    sim._turn_yaw = sim.imu_yaw
+                if sim.t < getattr(sim, "_turn_plain_until", 0.0):
+                    cmd = (0.0, 0.0, 0.55 if cmd[2] >= 0.0 else -0.55)
             speed = math.hypot(sim.data.qvel[0], sim.data.qvel[1])
             sim.step_policy(cmd, capture=capture, blur=speed > 0.15)
             k += 1
@@ -1091,6 +1250,11 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
         scored = score_wells(x, y, yaw)
         heading = abs(math.degrees(wrap(yaw - math.pi)))
         ok = bool(sat and scored["contacts_meet"] and not sim.fallen and heading < 20.0)
+        elec = score_charge(sim, x, y, yaw, ok)
+        if elec["charging"] and record:
+            sim.set_led(True)
+            for _ in range(6):
+                sim._capture(False)
         if ok:
             reason = "docked"
         elif sat and not ok:
@@ -1109,6 +1273,7 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
             sat=bool(sat),
             true=[round(x, 3), round(y, 3), round(math.degrees(yaw), 1), round(z, 3)],
             **scored,
+            **elec,
         )
         frames = list(sim.frames) if record else []
         return out, frames
@@ -1141,11 +1306,36 @@ STARTS = [
 ]
 
 
-def batch(n=20, record=False, limit_s=55.0):
+# A second set, not a copy of the first 20. Same room, different starts.
+STARTS_NEW = [
+    (21, -1.12, -0.04, 8.0, 0.90),
+    (22, -1.28, 0.18, -12.0, 0.75),
+    (23, -0.98, -0.22, 24.0, 1.15),
+    (24, -1.42, 0.08, -8.0, 0.55),
+    (25, -1.06, 0.12, 140.0, 1.00),
+    (26, -1.22, -0.30, 16.0, 0.65),
+    (27, -0.92, 0.20, -28.0, 1.20),
+    (28, -1.48, -0.10, 70.0, 0.85),
+    (29, -1.16, 0.28, -40.0, 0.50),
+    (30, -1.34, -0.16, 4.0, 1.05),
+    (31, -1.00, 0.00, -150.0, 0.80),
+    (32, -1.38, 0.22, 32.0, 0.70),
+    (33, -1.10, -0.08, 110.0, 1.10),
+    (34, -1.26, 0.06, -6.0, 0.60),
+    (35, -0.96, -0.14, 20.0, 1.25),
+    (36, -1.52, 0.14, -70.0, 0.45),
+    (37, -1.18, -0.24, 48.0, 0.95),
+    (38, -1.08, 0.16, 175.0, 0.85),
+    (39, -1.30, -0.02, -18.0, 1.00),
+    (40, -1.44, 0.26, 10.0, 0.72),
+]
+
+
+def batch(n=20, record=False, limit_s=70.0, starts=None):
     rows = []
     success_frames = None
     fail_frames = None
-    for seed, x, y, yaw_deg, light in STARTS[:n]:
+    for seed, x, y, yaw_deg, light in list(starts or STARTS)[:n]:
         want = record and (success_frames is None or fail_frames is None)
         row, frames = run_one(seed, x, y, math.radians(yaw_deg), light, record=want, limit_s=limit_s)
         rows.append(row)
@@ -1161,6 +1351,7 @@ def batch(n=20, record=False, limit_s=55.0):
 def summarize(rows):
     n = len(rows)
     ok = [r for r in rows if r["ok"]]
+    charged = [r for r in rows if r.get("charging")]
     fails = {}
     for r in rows:
         if not r["ok"]:
@@ -1172,6 +1363,8 @@ def summarize(rows):
         n=n,
         ok=len(ok),
         rate=round(len(ok) / n, 3) if n else None,
+        charge_n=len(charged),
+        charge_rate=round(len(charged) / n, 3) if n else None,
         align_mm_median=round(float(np.median(aligns)), 1) if aligns else None,
         align_mm_max=round(float(np.max(aligns)), 1) if aligns else None,
         margin_mm_min=round(float(np.min(margins)), 2) if margins else None,
@@ -1267,7 +1460,8 @@ def write_note(path, rows, summary):
     a("Noise in every frame: exposure gain drawn with the light level, gaussian read noise of 3 counts, and a 3-tap blur while the body is moving. The detector then scales the frame so the 95th percentile is mid white, which stands in for the module's auto exposure. The controller uses the fix 0.10 s late. Light is a per-seed scale on the room lamp, from 0.45 to 1.30 in this batch.")
     a("")
     rate = summary["rate"]
-    a("Batch: %d of %d docks put one well fully on plus and one fully on minus (sim pass only). Rate %.2f." % (summary["ok"], summary["n"], rate if rate is not None else 0))
+    a("Geometry: %d of %d docks put one well fully on plus and one fully on minus (sim pass only). Rate %.2f." % (summary["ok"], summary["n"], rate if rate is not None else 0))
+    a("Charging: %d of %d. A charge needs that geometry, at least 0.294 N (30 grams, Samtec gold guideline, 23 Sep 2022, cited) on one well of each pole, and the BQ24133 input still inside 4.5 V to 17 V after the contact drop (parts.yaml, the chip sheet). The resistance model is in the charge section below." % (summary.get("charge_n") or 0, summary["n"]))
     if summary["align_mm_median"] is not None:
         a("On the docks that met, the seat centre was a median %.1f mm from the sun and at most %.1f mm (sim pass only). That distance is the alignment error. Stripe margin, the smallest clearance of a connected well inside its 20 mm foil, was at least %.2f mm (calc only on the scored pose)." % (
             summary["align_mm_median"], summary["align_mm_max"], summary["margin_mm_min"] or 0))
@@ -1279,7 +1473,9 @@ def write_note(path, rows, summary):
         a("No failure in this batch.")
     a("A timeout is a turn that lost the room mark, or a stop short of the foil. This policy does not walk backward, so that short stop is not walked back onto the mat. When the camera says the wells are off, the duck stays standing, steps toward the room mark, turns back to the wall, and approaches again. That retry is capped at two.")
     a("")
-    a("A meet is geometry. The well circle lies inside one foil stripe, and the two poles both occur. Contact resistance on foil, with dust, is still BLOCKER. The sit is the recorded cute sit, knee clamped to 147 deg, then the gains go to zero.")
+    a("A geometric meet is one well circle inside a plus stripe and one inside a minus stripe. The sit is the recorded cute sit, knee clamped to 147 deg, then the gains go to zero.")
+    a("Charge model, assumption on the pair: the foil is copper tape (BOM), and no gold-on-copper force curve was found. Clean gold is a few milliohms under 10 grams when held still (Mroczkowski, Connector Supplier, 7 Apr 2009, cited). This note uses 5 milliohms at 10 grams, scaling as 1/sqrt(force), then times 5 for dust and fuzz. The 5 milliohms and the dust factor are assumptions. The wire is 0.038 ohm for both poles (NEST_V2.md, calc only). The nest supply is 15 V and the chip window is 4.5 V to 17 V (parts.yaml, BQ24133 sheet).")
+    a("In this walk model the gold wells are not collision shapes. After the sit the MuJoCo contacts are the two foot soles on the mat. No contact falls inside 6 mm of a well, so every well force is 0 N, under the 0.294 N floor, and the charger path is open. The lamp in the video stays dark for that reason. This is not a measurement of a real seat.")
     a("")
     a("| Seed | Start x y yaw | Light | Result | Time s | Seat to sun mm | Yaw err deg | Margin mm |")
     a("|---|---|---|---|---|---|---|---|")

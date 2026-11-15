@@ -43,6 +43,17 @@ def test_square_depth():
     assert abs(np.linalg.det(rm) - 1.0) < 1e-6
 
 
+def test_charge_floor():
+    # Under 30 grams the well is not a contact. Above it, dust raises the ohms.
+    assert CD.r_of_force(0.05) is None
+    hi = CD.r_of_force(1.0)
+    assert hi is not None and hi > 0.005
+    class Dummy:
+        gold_dist = 0.5
+    assert CD._false_room(Dummy(), (0.7, 0.0, 0.0, 1.0, "red"), "red")
+    assert not CD._false_room(Dummy(), (2.0, 0.0, 0.0, 1.0, "red"), "red")
+
+
 def test_no_dash():
     text = open(os.path.join(os.path.dirname(__file__), "CAMERA_DOCK.md"), encoding="utf-8").read()
     assert "\u2014" not in text and "\u2013" not in text
@@ -52,5 +63,6 @@ if __name__ == "__main__":
     test_centered_sit_meets()
     test_far_sit_misses()
     test_square_depth()
+    test_charge_floor()
     test_no_dash()
     print("ok")
