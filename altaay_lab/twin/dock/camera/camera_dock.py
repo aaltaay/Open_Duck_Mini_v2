@@ -571,7 +571,8 @@ def _scene_dir(folder):
     import xml.etree.ElementTree as ETREE
     robot = os.path.join(dst, "open_duck_mini_v2_backlash.xml")
     tree = ETREE.parse(robot)
-    found = False
+    found_head = False
+    found_trunk = False
     for body in tree.getroot().iter("body"):
         for old in list(body.findall("camera")):
             if old.get("name") == "onboard":
@@ -582,10 +583,28 @@ def _scene_dir(folder):
             cam.set("pos", "%.5f %.5f %.5f" % CAM_POS)
             cam.set("xyaxes", " ".join("%.1f" % v for v in CAM_XYAXES))
             cam.set("fovy", "%.1f" % FOV_UP_DEG)
-            found = True
-            break
-    if not found:
-        raise SystemExit("head_assembly is not in the walk model")
+            found_head = True
+        if body.get("name") == "trunk_assembly":
+            # The five gold wells. The sit CAD puts this face on the felt.
+            # The walk model had no collision there, so the feet carried the
+            # sit and the wells read 0 N. Radius is the 3 mm well. The disk is
+            # 1 mm thick with its face on the CAD seat face (trunk z -66 mm).
+            # Density 0: the gold mass is about 0.7 g and is already the seat
+            # wells, not a new part.
+            for i, ly in enumerate(WELLS_Y):
+                g = ETREE.SubElement(body, "geom")
+                g.set("name", "gold_well_%d" % i)
+                g.set("type", "cylinder")
+                g.set("pos", "%.4f %.4f -0.0655" % (SEAT_X, ly))
+                g.set("size", "0.0015 0.0005")
+                g.set("density", "0")
+                g.set("friction", "0.8 0.01 0.001")
+                g.set("contype", "1")
+                g.set("conaffinity", "1")
+                g.set("rgba", "0.95 0.78 0.16 1")
+            found_trunk = True
+    if not found_head or not found_trunk:
+        raise SystemExit("head_assembly or trunk_assembly is not in the walk model")
     tree.write(robot)
     scene = os.path.join(dst, "scene_flat_terrain_backlash.xml")
     st = ETREE.parse(scene)
@@ -625,7 +644,7 @@ def _scene_dir(folder):
   <geom name="mark_gold" type="box" pos="%.4f 0 %.4f" size="0.0012 0.011 0.011" rgba="0.95 0.78 0.16 1" contype="0" conaffinity="0"/>
   <geom name="mark2" type="box" pos="%.3f 0 %.3f" size="0.001 %.4f %.4f" rgba="0.02 0.02 0.02 1" contype="0" conaffinity="0"/>
   <geom name="mark2_red" type="box" pos="%.3f 0 %.4f" size="0.0012 0.016 0.016" rgba="0.85 0.08 0.08 1" contype="0" conaffinity="0"/>
-  <geom name="charge_led" type="sphere" pos="-0.05 0.32 0.06" size="0.015" rgba="0.15 0.15 0.15 1" contype="0" conaffinity="0"/>
+  <geom name="charge_led" type="sphere" pos="0.185 0.22 0.28" size="0.028" rgba="0.25 0.05 0.05 1" contype="0" conaffinity="0"/>
   <geom name="mat_low" type="box" pos="-0.0415 0 0.0005" size="0.2255 0.300 0.0005" rgba="0.55 0.42 0.28 1" contype="1" conaffinity="0" priority="2" friction="0.8 0.01 0.001"/>
   <geom name="mat_top" type="box" pos="-0.0315 0 0.0015" size="0.2155 0.280 0.0005" rgba="0.62 0.48 0.30 1" contype="1" conaffinity="0" priority="3" friction="0.8 0.01 0.001"/>
   %s
@@ -743,7 +762,21 @@ class DockSim:
     def set_led(self, on):
         if getattr(self, "led", -1) < 0:
             return
-        self.model.geom_rgba[self.led] = (0.15, 0.85, 0.2, 1.0) if on else (0.15, 0.15, 0.15, 1.0)
+        self.model.geom_rgba[self.led] = (0.15, 0.95, 0.25, 1.0) if on else (0.35, 0.05, 0.05, 1.0)
+
+    def snap(self):
+        """One third-person frame, including the charge lamp. For the end of a clip."""
+        if self.ren3 is None:
+            return
+        cam = self.mujoco.MjvCamera()
+        cam.type = self.mujoco.mjtCamera.mjCAMERA_FREE
+        p = self.data.xpos[self.trunk]
+        cam.lookat[:] = [p[0], p[1], 0.12]
+        cam.distance = 1.85
+        cam.azimuth = 78
+        cam.elevation = -16
+        self.ren3.update_scene(self.data, cam)
+        self.frames.append(self.ren3.render().copy())
 
     def true_pose(self):
         p = self.data.xpos[self.trunk]
@@ -1058,10 +1091,10 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                 # Face the wall. The room mark leaves the frame; the wall mark
                 # is the one to re-acquire. Still standing, no sit yet.
                 turned = abs(wrap(sim.imu_yaw - imu_lock))
-                if kind == "red" and est is not None and math.hypot(est[0], est[1]) > 1.5:
-                    mode, t_mode = "fine", sim.t
-                    cmd = (0.0, 0.0, 0.0)
-                elif kind == "gold":
+                # A short room-mark range means the duck is still too far into
+                # the room. Stay in this turn until the wall mark comes back.
+                # A pose that already meets the sit gate is sent to fine above.
+                if kind == "gold":
                     mode, t_mode = "approach", sim.t
                     sim._stable_dist = None
                     cmd = _cmd_wall(est)
@@ -1253,8 +1286,8 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
         elec = score_charge(sim, x, y, yaw, ok)
         if elec["charging"] and record:
             sim.set_led(True)
-            for _ in range(6):
-                sim._capture(False)
+            for _ in range(8):
+                sim.snap()
         if ok:
             reason = "docked"
         elif sat and not ok:
@@ -1475,7 +1508,7 @@ def write_note(path, rows, summary):
     a("")
     a("A geometric meet is one well circle inside a plus stripe and one inside a minus stripe. The sit is the recorded cute sit, knee clamped to 147 deg, then the gains go to zero.")
     a("Charge model, assumption on the pair: the foil is copper tape (BOM), and no gold-on-copper force curve was found. Clean gold is a few milliohms under 10 grams when held still (Mroczkowski, Connector Supplier, 7 Apr 2009, cited). This note uses 5 milliohms at 10 grams, scaling as 1/sqrt(force), then times 5 for dust and fuzz. The 5 milliohms and the dust factor are assumptions. The wire is 0.038 ohm for both poles (NEST_V2.md, calc only). The nest supply is 15 V and the chip window is 4.5 V to 17 V (parts.yaml, BQ24133 sheet).")
-    a("In this walk model the gold wells are not collision shapes. After the sit the MuJoCo contacts are the two foot soles on the mat. No contact falls inside 6 mm of a well, so every well force is 0 N, under the 0.294 N floor, and the charger path is open. The lamp in the video stays dark for that reason. This is not a measurement of a real seat.")
+    a("The five gold wells are collision disks on the trunk, at the seat face the sit CAD puts on the felt (3 mm across, 1 mm thick). A dock charges only when both poles see at least 0.294 N. A geometric dock that loads one well leaves the other pole open. This is not a measurement of a real seat. Why the earlier model floated, and why the mat was left alone, is SEAT_WELLS.md.")
     a("")
     a("| Seed | Start x y yaw | Light | Result | Time s | Seat to sun mm | Yaw err deg | Margin mm |")
     a("|---|---|---|---|---|---|---|---|")

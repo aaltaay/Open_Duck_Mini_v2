@@ -601,11 +601,12 @@ def dock_once(short=False):
             "On those, the seat was a median %s mm from the sun, at most %s mm, in a median %s s. "
             "Stripe margin at least %s mm (calc only on the scored pose). Failures: %s. "
             "The turn finishes on a second mark on the room side of the sun, so a mark stays in view. "
-            "Contact resistance is still BLOCKER."
+            "Charging docks %d of %d (sim pass only). The ohms are a clean-gold assumption, not a foil measurement."
             % (
                 summary["ok"], summary["n"],
                 summary["align_mm_median"], summary["align_mm_max"],
                 summary["time_s_median"], summary["margin_mm_min"], fail_txt,
+                summary.get("charge_n") or 0, summary["n"],
             )
         )
         return dict(ran=True, camera="image", ok_n=summary["ok"], n=summary["n"], summary=summary, note=note)
@@ -846,7 +847,7 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
     a("")
     a("## What this twin does not model")
     a("")
-    a("- A pressed gold well. The camera dock logs MuJoCo force at each well and a contact-resistance model. In this sit the force is 0 N, so it does not count as a charge. Dust on real foil is still not a measurement (BENCH_CONTACT.md).")
+    a("- A measured gold-on-foil resistance. The camera dock now presses the well disks and logs the force, but the ohms still use a clean-gold assumption times 5 for dust (BENCH_CONTACT.md).")
     a("- The camera entrance pupil. The render starts at the lens opening in camera_seat.json. The brief does not mark the pupil (BLOCKER).")
     a("- A pack-voltage sensor on the Pi. The 10 V stop is in the guard, and this sim passes the modeled pack voltage in. The Pi still has no sensor (BLOCKER).")
     a("- A bench measurement of the C018 terminal resistance. The heat uses the 1.0 ohm printed in specification A/0 item 5-10. The stall line 12 V / 2.7 A is 4.444 ohm on the same sheet, and the old 3.753 ohm figure was that stall line times the C001 winding share. The audit is altaay_lab/twin/thermal/HEAT_AUDIT.md.")

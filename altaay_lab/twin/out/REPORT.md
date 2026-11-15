@@ -24,7 +24,7 @@ The 55 C rest is inside the walk. At 55 C the command goes to zero and the polic
 The rest check reached a right knee of 147 deg, then torque off. Stance current was 0.58 A. The crouch, measured after the knee had settled at 21 deg, was 0.26 A. Torque off was 0.000 A (sim pass only). From a 55 C start, torque off reached 45 C in 3.51 min. The powered stand reached 45 C in 4.80 min. Both clocks are sim pass only, on the cited 1.0 ohm.
 Knee high stop used here is 147 deg, the register soft stop. The CAD bumper is 150 deg (software/servo_limits.json, CAD check only). The walk model was compiled at 90 deg, and this run raises that stop before the sit.
 The 50 C figure in the heat audit is the case temperature for a flat 1.5 A if the copper stayed at its cold resistance and the sensor sat on the case. While this session was walking the right knee was 0.88 A RMS (sim pass only), which is 0.78 W in cold copper at 1.0 ohm (calc only). The knee reading peaked at 38.4 C, under the 55.0 C rest, so the guard did not stand the duck. The knee rested 0 times.
-Dock: The head camera, not the true pose, put one well on each stripe in 19 of 20 runs on the original seeds and 19 of 20 on a second set of 20 new starts (sim pass only). Median time 32.9 s and 32.4 s. Charging docks are 0 of 20 and 0 of 20. After the sit the MuJoCo contacts are the foot soles. No contact is within 6 mm of a gold well, so every well force is 0 N, under the 0.294 N floor, and the BQ24133 path is open. The lamp stays dark. The model of gold-on-copper resistance is an assumption (CAMERA_DOCK.md). The walk numbers above are the run D session already in this file. The dock numbers are the two batches in twin/dock/camera.
+Dock: With the five gold wells as contact shapes, the head camera put one well on each stripe in 20 of 20 original seeds and 19 of 20 new starts (sim pass only). Median time 33.5 s and 31.8 s. Charging docks are 14 of 20 and 10 of 20, 24 of 40. A charge needs both poles pressed at 0.294 N or more and the BQ24133 input still inside 4.5 V to 17 V. The wells that miss are the ones the sit does not load. The walk numbers above are the prior run D session. The dock numbers are the two batches in twin/dock/camera.
 The cell node is three P45B cans, 70 g and 21.55 mm by 70.15 mm (cited, THERMAL_TWIN.md from the P45B sheet). Half of each can faces bay air. The trunk has no vent in this model, so the air exchange is the closed-bay assumption. Specific heat is the old 18650 range, a guess. An earlier 56.7 C figure used two 47 g 18650s for the same three-cell heat, which runs hot.
 Charge: the NTC gate is open at a cell temperature of 44.5 C. The hot stop is 57.0 C, where the divider fraction equals the cited 0.442 hot threshold (calc only, bead beta 3950 and the BQ24133 divider). The P45B charge limit is 60 C (cited). The gate does not hold off charge at the end of this discharge. Time to put the used 3413 mAh back at 1.006 A is 3.39 hours (calc only).
 Limits this run touched: pack fell to 9.90 V, under the 10.0 V walk cutoff.
@@ -59,8 +59,8 @@ Limits this run touched: pack fell to 9.90 V, under the 10.0 V walk cutoff.
 | rest stop | 55 C | limits file |
 | rest resume | 45 C | limits file |
 | cell temperature | 44.5 C | sim pass only |
-| dock | 19 of 20, and 19 of 20 new | sim pass only |
-| charging docks | 0 of 20, and 0 of 20 new | sim pass only |
+| dock | 20 of 20, and 19 of 20 new | sim pass only |
+| charging docks | 14 of 20, and 10 of 20 new | sim pass only |
 | charge current | 1.006 A | cited |
 | time to replace what was used | 3.39 h | calc only |
 | NTC allows charge | yes | calc only |
@@ -76,7 +76,7 @@ Limits this run touched: pack fell to 9.90 V, under the 10.0 V walk cutoff.
 
 ## What this twin does not model
 
-- A pressed gold well. The camera dock logs MuJoCo force at each well and a contact-resistance model. In this sit the force is 0 N, so it does not count as a charge. Dust on real foil is still not a measurement (twin/dock/camera/BENCH_CONTACT.md).
+- A measured gold-on-foil resistance. The camera dock presses the well disks and logs the force. The ohms still use a clean-gold assumption times 5 for dust (twin/dock/camera/BENCH_CONTACT.md).
 - The camera entrance pupil. The render starts at the lens opening in camera_seat.json. The brief does not mark the pupil (BLOCKER).
 - A pack-voltage sensor on the Pi. The 10 V stop is in the guard, and this sim passes the modeled pack voltage in. The Pi still has no sensor (BLOCKER).
 - A bench measurement of the C018 terminal resistance. The heat uses the 1.0 ohm printed in specification A/0 item 5-10. The stall line 12 V / 2.7 A is 4.444 ohm on the same sheet, and the old 3.753 ohm figure was that stall line times the C001 winding share. The audit is altaay_lab/twin/thermal/HEAT_AUDIT.md.
