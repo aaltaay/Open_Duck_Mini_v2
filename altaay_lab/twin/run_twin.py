@@ -846,7 +846,7 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
     a("")
     a("## What this twin does not model")
     a("")
-    a("- Electrical contact of the gold wells on the foil, with dust. The dock score is geometry only. Resistance is BLOCKER.")
+    a("- A pressed gold well. The camera dock logs MuJoCo force at each well and a contact-resistance model. In this sit the force is 0 N, so it does not count as a charge. Dust on real foil is still not a measurement (BENCH_CONTACT.md).")
     a("- The camera entrance pupil. The render starts at the lens opening in camera_seat.json. The brief does not mark the pupil (BLOCKER).")
     a("- A pack-voltage sensor on the Pi. The 10 V stop is in the guard, and this sim passes the modeled pack voltage in. The Pi still has no sensor (BLOCKER).")
     a("- A bench measurement of the C018 terminal resistance. The heat uses the 1.0 ohm printed in specification A/0 item 5-10. The stall line 12 V / 2.7 A is 4.444 ohm on the same sheet, and the old 3.753 ohm figure was that stall line times the C001 winding share. The audit is altaay_lab/twin/thermal/HEAT_AUDIT.md.")
