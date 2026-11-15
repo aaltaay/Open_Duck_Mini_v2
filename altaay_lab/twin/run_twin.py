@@ -10,8 +10,8 @@ derived from the netlist, the limits file, and the order. The walk is the
 run D policy in MuJoCo. The pack uses the existing power network and the
 battery guard's pack floor. Heat uses the existing thermal twin, one step
 per 0.1 s current bin, with the C018 sheet's 1.0 ohm terminal resistance.
-The nest sim is the existing one. Camera docking is
-not in that sim, so the dock line is BLOCKER.
+The dock is the head camera on the nest v2 mat. The true pose is the
+score after the sit, not the command. Contact resistance is still BLOCKER.
 
 Nothing is bought. No paid GPU.
 """
@@ -561,52 +561,60 @@ def charge_of(parts, result, cell_c):
     return dict(q_mAh=q, hours=hours, allows=allows, frac=frac, cell_c=cell_c)
 
 
+def _dock_cell(dock):
+    if dock.get("camera") == "image" and dock.get("summary"):
+        s = dock["summary"]
+        return "%d of %d" % (s["ok"], s["n"])
+    if dock.get("camera") == "short" and dock.get("ok"):
+        return "short check %s mm" % dock.get("err_mm")
+    return "BLOCKER"
+
+
 def _public_error(exc):
     msg = " ".join(str(exc).split())
     msg = re.sub(r"/[^\s'\"]+", "[path]", msg)
     return msg[:240]
 
 
-def dock_once():
-    """One existing nest run. Perception in that file is a pose stand-in."""
-    note = (
-        "BLOCKER. The nest sim does not use a camera. It drives on the true pose plus noise. "
-        "A seat in that sim is not a dock."
-    )
+def dock_once(short=False):
+    """Head-camera dock. short: one frame. Otherwise the 10-seed batch."""
     try:
-        scratch = os.environ.get("NEST_SCRATCH") or os.path.join(tempfile.gettempdir(), "nestsim")
-        sit_dir = os.path.join(scratch, "model", "sit")
-        if not os.path.exists(os.path.join(sit_dir, "sit_model.json")):
-            sys.path.insert(0, os.path.join(LAB, "twin", "sit"))
-            import sit_model as SM
-            SM.write(os.path.join(scratch, "model"), "sit")
-        sim_dir = os.path.join(LAB, "twin", "dock", "nest", "sim")
-        sys.path.insert(0, sim_dir)
-        import current_budget as CB
+        from altaay_lab.twin.dock.camera import camera_dock as CD
         pin_policy_env()
-        CB.ONNX = os.environ["ODM_ONNX"]
-        arm_policy(CB.MI)
-        import nest_run as NR
-        # Rail is 12 V. The turn-offset table has rows only at 6.0 and 7.2 V, so the
-        # aim offset stays on the 7.2 V row instead of being extrapolated.
-        run = NR.Run(dict(seed=0, volt=12.0, noise="mid", mu=0.8, pins=False))
-        run.shift = NR.interp(NR.SHIFT, 7.2)
-        run.coast = float(NR.interp(NR.COAST, 7.2))
-        run.go()
-        sits = run.out.get("sits") or []
-        first = sits[0] if sits else {}
-        seated = bool(first.get("nest", {}).get("ok")) if isinstance(first.get("nest"), dict) else False
-        return dict(
-            ran=True,
-            camera="BLOCKER",
-            note=note,
-            seated_mechanical=seated,
-            fell=bool(run.s.fallen),
-            volt_v=12.0,
-            policy="run D",
+        if short:
+            row = CD.short_check()
+            row["note"] = (
+                "Short camera check only. Marker error %s mm in the body frame, bearing error %s deg (sim pass only). "
+                "The 10-seed dock was not run on this command."
+                % (row.get("err_mm"), row.get("yaw_err_deg"))
+            )
+            return row
+        n = int(os.environ.get("CAM_DOCK_SEEDS", "10"))
+        rows, _, _ = CD.batch(n=n, record=False)
+        summary = CD.summarize(rows)
+        note_path = os.path.join(LAB, "twin", "dock", "camera", "CAMERA_DOCK.md")
+        CD.write_note(note_path, rows, summary)
+        fails = summary.get("failures") or {}
+        fail_txt = ", ".join("%s %d" % (k, v) for k, v in sorted(fails.items())) or "none"
+        note = (
+            "The head camera, not the true pose, put one well on each stripe in %d of %d runs (sim pass only). "
+            "On those, the seat was a median %s mm from the sun, at most %s mm, in a median %s s. "
+            "Stripe margin at least %s mm (calc only on the scored pose). Failures: %s. "
+            "The half turn after the mark is centred uses the gyro, because the mark leaves the frame. "
+            "Contact resistance is still BLOCKER."
+            % (
+                summary["ok"], summary["n"],
+                summary["align_mm_median"], summary["align_mm_max"],
+                summary["time_s_median"], summary["margin_mm_min"], fail_txt,
+            )
         )
+        return dict(ran=True, camera="image", ok_n=summary["ok"], n=summary["n"], summary=summary, note=note)
     except Exception as exc:
-        return dict(ran=False, camera="BLOCKER", note=note, error=_public_error(exc))
+        return dict(
+            ran=False, camera="BLOCKER",
+            note="The camera dock did not finish.",
+            error=_public_error(exc),
+        )
 
 
 def limits_hit(parts, result, thermal, np):
@@ -766,11 +774,15 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
         else:
             a("The 50 C figure in the heat audit is the case temperature for a flat 1.5 A if the copper stayed at its cold resistance and the sensor sat on the case. While this session was walking the right knee was %.2f A RMS (sim pass only), which is %.2f W in cold copper at 1.0 ohm (calc only). The knee reading peaked at %.1f C, under the %s C rest, so the guard did not stand the duck. The knee rested 0 times." % (
                 krms, watts, thermal["knee_c"], parts["rest"]["stop_c"]))
-    if dock.get("ran"):
-        a("Dock: %s The mechanical sim used the run D policy (%s) and a 12 V rail. It %s (sim pass only). The aim offset table has no 12 V row, so that offset stayed at the 7.2 V measurement. Finding the nest by camera was not simulated." % (
-            dock["note"], ran_name, "sat" if dock.get("seated_mechanical") else "did not sit"))
+    if dock.get("camera") == "image" and dock.get("ran"):
+        a("Dock: %s The walk is the run D policy (%s) on the held 12.0 V rail (sim pass only). The old nest program that drove on the true pose plus noise is not this loop." % (
+            dock["note"], ran_name))
+    elif dock.get("camera") == "short" and dock.get("ran"):
+        a("Dock: %s" % dock["note"])
+    elif dock.get("ran"):
+        a("Dock: %s" % dock["note"])
     else:
-        a("Dock: %s The mechanical sim did not finish in this run (%s)." % (dock["note"], dock.get("error") or "not run"))
+        a("Dock: %s (%s)." % (dock["note"], dock.get("error") or "not run"))
     hot_ntc = ntc_hot_c(parts)
     a("The cell node is three P45B cans, 70 g and 21.55 mm by 70.15 mm (cited, THERMAL_TWIN.md from the P45B sheet). Half of each can faces bay air. The trunk has no vent in this model, so the air exchange is the closed-bay assumption. Specific heat is the old 18650 range, a guess. An earlier 56.7 C figure used two 47 g 18650s for the same three-cell heat, which runs hot.")
     if charge["allows"]:
@@ -813,7 +825,7 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
         ("rest stop", "%.0f C" % float(parts["rest"]["stop_c"]), "limits file"),
         ("rest resume", "%.0f C" % float(parts["rest"]["resume_c"]), "limits file"),
         ("cell temperature", "%.1f C" % thermal["cell_c"], "sim pass only"),
-        ("dock", "BLOCKER", "BLOCKER"),
+        ("dock", _dock_cell(dock), "sim pass only" if dock.get("camera") in ("image", "short") and dock.get("ok", dock.get("ran")) else "BLOCKER"),
         ("charge current", "%.3f A" % float(parts["charger"]["i_charge_a"]), "cited"),
         ("time to replace what was used", "%.2f h" % (charge["hours"] or 0), "calc only"),
         ("NTC allows charge", "yes" if charge["allows"] else "no", "calc only"),
@@ -834,12 +846,13 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
     a("")
     a("## What this twin does not model")
     a("")
-    a("- A camera finding the nest. That is BLOCKER. The nest program uses the true pose plus noise.")
+    a("- Electrical contact of the gold wells on the foil, with dust. The dock score is geometry only. Resistance is BLOCKER.")
+    a("- The camera entrance pupil. The render starts at the lens opening in camera_seat.json. The brief does not mark the pupil (BLOCKER).")
     a("- A pack-voltage sensor on the Pi. The 10 V stop is in the guard, and this sim passes the modeled pack voltage in. The Pi still has no sensor (BLOCKER).")
     a("- A bench measurement of the C018 terminal resistance. The heat uses the 1.0 ohm printed in specification A/0 item 5-10. The stall line 12 V / 2.7 A is 4.444 ohm on the same sheet, and the old 3.753 ohm figure was that stall line times the C001 winding share. The audit is altaay_lab/twin/thermal/HEAT_AUDIT.md.")
     a("- The i7C current below 10 V, the TRIM resistor, and the wide boost tolerance above 100 W (BLOCKER).")
     a("- Felt, dirt, and a measured well contact.")
-    a("- The turn-offset table at 12 V. The dock uses the 7.2 V aim offset with a 12 V rail.")
+    a("- The turn-offset table at 12 V. This dock does not use that table. The half turn is the gyro from the last camera fix.")
     a("- Hardware. Every temperature, speed, and current above that says sim pass only is a model output.")
     a("")
     a("The duck mass is the whole robot. The trunk body alone is %.3f kg. The stock Open Duck Mini model is %.3f kg. MuJoCo loads %.3f kg, and the parts rollup is %.3f kg. The rollup includes three P45B cells at the cited 70 g, the i7C at the cited 75 g, the 3S protection board, the BQ24133 board, and three limb breakers. The protection-board grams are the cited size times 1.2 g/cm3 (calc only). The BQ24133 assembled grams and the breaker package grams are not on a datasheet." % (
@@ -888,10 +901,10 @@ def main(argv=None):
     parts = PT.load()
     if args.short:
         seconds = 6.0
-        skip_dock = True
+        dock_mode = "short"
     else:
         seconds = float(args.seconds) if args.seconds is not None else float(args.minutes if args.minutes is not None else 45.0) * 60.0
-        skip_dock = bool(args.skip_dock)
+        dock_mode = "skip" if args.skip_dock else "batch"
     os.makedirs(args.out, exist_ok=True)
     scratch = tempfile.mkdtemp(prefix="duck_twin_")
     print("walk %.1f s" % seconds, flush=True)
@@ -903,15 +916,15 @@ def main(argv=None):
     rank = rank_fixes(result, rest, np)
     print("charge", flush=True)
     charge = charge_of(parts, result, thermal["cell_c"])
-    if skip_dock:
+    if dock_mode == "skip":
         dock = dict(
             ran=False, camera="BLOCKER",
-            note="BLOCKER. The nest sim does not use a camera. It drives on the true pose plus noise. A seat in that sim is not a dock.",
-            error="not run on this short command",
+            note="The camera dock was not run on this command.",
+            error="skipped",
         )
     else:
-        print("dock", flush=True)
-        dock = dock_once()
+        print("dock", dock_mode, flush=True)
+        dock = dock_once(short=(dock_mode == "short"))
     hits = limits_hit(parts, result, thermal, np)
     report = os.path.join(args.out, "REPORT.md")
     plot = os.path.join(args.out, "walk.png")
