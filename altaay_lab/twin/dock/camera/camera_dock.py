@@ -67,6 +67,27 @@ STRIPE = 0.020
 WELLS_Y = (-0.024, -0.012, 0.0, 0.012, 0.024)
 WELL_R = 0.0015
 SEAT_X = -0.108
+# Seat and bumper contact faces, sit_cad.json bbox, trunk frame, metres.
+# The seat face is 32 by 80 mm with its lowest point at z = -66 mm.
+# The bumper face is 24 by 60 mm with its lowest point at z = -69 mm.
+SEAT_FACE = (-0.110, 0.0, -0.065, 0.016, 0.040, 0.001)  # centre xyz, half sizes
+BUMPER_FACE = (0.020, 0.0, -0.068, 0.012, 0.030, 0.001)
+# Pressed piano-hammer wool felt, static modulus 0.6 MPa.
+# Kartofelev and Stulov, Forum Acusticum 2014, static stress-strain tests, Es = 0.6 MPa.
+# The nest sheet is craft felt. That grade has no modulus (BOM, felt grade BLOCKER).
+# E*A/t for this face and the 2 mm stack (NEST_V2, walking surface 2.00 mm) is
+# 768 kN/m. Under 10 N that is 0.013 mm of sink (calc only). A spring that stiff
+# has a time constant under one 0.002 s step, and MuJoCo will not hold it
+# (sit_model.py uses the same two-step floor). The solref below is the spring
+# that stays quiet at this step and splits force by area: a 1.2 kg block puts
+# 0.035 N on each well and the rest on the face, against an area share of
+# 0.033 N (pi * 1.5^2 / (32 * 80), calc only).
+FELT_E_PA = 0.6e6
+FELT_T_M = 0.002
+SEAT_SOLREF = (8000.0, 113.0)    # N/m, N s/m, the face box (four contacts)
+WELL_SOLREF = (44.0, 8.0)        # one well, area share of that face spring
+BUMPER_SOLREF = (4500.0, 85.0)   # bumper area 24*60 over the seat 32*80
+FELT_SOLIMP = (0.95, 0.99, 0.001, 0.5, 2.0)
 # Render size. Height / width matches tan(33 deg) / tan(20.5 deg), so a 66 deg
 # vertical field gives a 41 deg horizontal field. Calc only.
 IMG_W = 400
@@ -186,15 +207,14 @@ def _parallel(rs):
     return 1.0 / sum(1.0 / r for r in rs)
 
 
-def well_forces(sim, x, y, yaw):
-    """Normal force, newtons, on each well from MuJoCo contacts. Sim pass only.
+def _geom_name(sim, gid):
+    name = sim.mujoco.mj_id2name(sim.model, sim.mujoco.mjtObj.mjOBJ_GEOM, int(gid))
+    return name or ""
 
-    A contact counts for a well when its point is inside 6 mm of that well.
-    The 6 mm is the 3 mm well plus a 3 mm pad. Contacts on the feet, away
-    from the wells, are not counted.
-    """
-    wells = well_world(x, y, yaw)
-    forces = [0.0] * len(wells)
+
+def contact_force(sim, pred):
+    """Sum of normal force on contacts whose geom name matches pred."""
+    total = 0.0
     mj = sim.mujoco
     for i in range(sim.data.ncon):
         con = sim.data.contact[i]
@@ -203,10 +223,25 @@ def well_forces(sim, x, y, yaw):
         fn = float(fr[0])
         if fn <= 0.0:
             continue
-        px, py = float(con.pos[0]), float(con.pos[1])
-        for k, (wx, wy) in enumerate(wells):
-            if (px - wx) ** 2 + (py - wy) ** 2 <= (0.006 ** 2):
-                forces[k] += fn
+        n1 = _geom_name(sim, con.geom1)
+        n2 = _geom_name(sim, con.geom2)
+        if pred(n1) or pred(n2):
+            total += fn
+    return total
+
+
+def well_forces(sim, x, y, yaw):
+    """Normal force, newtons, on each gold well geom. Sim pass only.
+
+    Only the well's own contact counts. The seat face around it is a
+    different geom and is not added in. x, y, yaw are unused. They stay
+    in the signature so the scorer call does not change.
+    """
+    del x, y, yaw
+    forces = []
+    for k in range(len(WELLS_Y)):
+        name = "gold_well_%d" % k
+        forces.append(contact_force(sim, lambda n, name=name: n == name))
     return forces
 
 
@@ -585,12 +620,28 @@ def _scene_dir(folder):
             cam.set("fovy", "%.1f" % FOV_UP_DEG)
             found_head = True
         if body.get("name") == "trunk_assembly":
-            # The five gold wells. The sit CAD puts this face on the felt.
-            # The walk model had no collision there, so the feet carried the
-            # sit and the wells read 0 N. Radius is the 3 mm well. The disk is
-            # 1 mm thick with its face on the CAD seat face (trunk z -66 mm).
-            # Density 0: the gold mass is about 0.7 g and is already the seat
-            # wells, not a new part.
+            # The seat face and the bumper, as boxes on the CAD bbox.
+            # Density 0 so the trunk mass and inertia stay the walk model's.
+            # contype 4 so the face hits the floor (contype 1) and not the soles.
+            # The soles are set to contype 0 below. They still hit the floor
+            # through conaffinity 1. Two soles no longer hit each other.
+            def _pad(name, spec, sol, rgba):
+                g = ETREE.SubElement(body, "geom")
+                g.set("name", name)
+                g.set("type", "box")
+                g.set("pos", "%.4f %.4f %.4f" % spec[:3])
+                g.set("size", "%.4f %.4f %.4f" % spec[3:])
+                g.set("density", "0")
+                g.set("friction", "0.8 0.01 0.001")
+                g.set("contype", "4")
+                g.set("conaffinity", "1")
+                g.set("solref", "-%.1f -%.1f" % sol)
+                g.set("solimp", " ".join("%.4g" % v for v in FELT_SOLIMP))
+                g.set("rgba", rgba)
+            _pad("sit_seat_face", SEAT_FACE, SEAT_SOLREF, "0.95 0.75 0.20 1")
+            _pad("sit_bumper_face", BUMPER_FACE, BUMPER_SOLREF, "0.95 0.75 0.20 1")
+            # Wells flush in the seat face. The disk bottom is the CAD face
+            # at trunk z -66 mm. They are the wells already drawn.
             for i, ly in enumerate(WELLS_Y):
                 g = ETREE.SubElement(body, "geom")
                 g.set("name", "gold_well_%d" % i)
@@ -599,12 +650,18 @@ def _scene_dir(folder):
                 g.set("size", "0.0015 0.0005")
                 g.set("density", "0")
                 g.set("friction", "0.8 0.01 0.001")
-                g.set("contype", "1")
+                g.set("contype", "4")
                 g.set("conaffinity", "1")
+                g.set("solref", "-%.1f -%.1f" % WELL_SOLREF)
+                g.set("solimp", " ".join("%.4g" % v for v in FELT_SOLIMP))
                 g.set("rgba", "0.95 0.78 0.16 1")
             found_trunk = True
     if not found_head or not found_trunk:
         raise SystemExit("head_assembly or trunk_assembly is not in the walk model")
+    for geom in tree.getroot().iter("geom"):
+        if geom.get("name") in ("left_foot_bottom_tpu", "right_foot_bottom_tpu"):
+            geom.set("contype", "0")
+            geom.set("conaffinity", "1")
     tree.write(robot)
     scene = os.path.join(dst, "scene_flat_terrain_backlash.xml")
     st = ETREE.parse(scene)
@@ -1508,7 +1565,7 @@ def write_note(path, rows, summary):
     a("")
     a("A geometric meet is one well circle inside a plus stripe and one inside a minus stripe. The sit is the recorded cute sit, knee clamped to 147 deg, then the gains go to zero.")
     a("Charge model, assumption on the pair: the foil is copper tape (BOM), and no gold-on-copper force curve was found. Clean gold is a few milliohms under 10 grams when held still (Mroczkowski, Connector Supplier, 7 Apr 2009, cited). This note uses 5 milliohms at 10 grams, scaling as 1/sqrt(force), then times 5 for dust and fuzz. The 5 milliohms and the dust factor are assumptions. The wire is 0.038 ohm for both poles (NEST_V2.md, calc only). The nest supply is 15 V and the chip window is 4.5 V to 17 V (parts.yaml, BQ24133 sheet).")
-    a("The five gold wells are collision disks on the trunk, at the seat face the sit CAD puts on the felt (3 mm across, 1 mm thick). A dock charges only when both poles see at least 0.294 N. A geometric dock that loads one well leaves the other pole open. This is not a measurement of a real seat. Why the earlier model floated, and why the mat was left alone, is SEAT_WELLS.md.")
+    a("The seat face and the bumper are collision boxes on the CAD bbox, and the wells are flush in that face. A dock charges only when both poles see at least 0.294 N on the well itself. The face around a well is not counted as well force. Why the wells read what they read, and why the mat was left alone, is SEAT_WELLS.md.")
     a("")
     a("| Seed | Start x y yaw | Light | Result | Time s | Seat to sun mm | Yaw err deg | Margin mm |")
     a("|---|---|---|---|---|---|---|---|")

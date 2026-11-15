@@ -17,60 +17,60 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.151,
-    0.153,
-    171.3,
-    0.062
+    -0.146,
+    0.152,
+    171.4,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
    "minus": 1,
-   "seat_offset_mm": 143.2,
-   "seat_x_mm": -43.8,
-   "seat_y_mm": 136.4,
-   "yaw_err_deg": 8.7,
-   "stripe_margin_mm": 7.12,
-   "align_mm": 143.2,
-   "charging": true,
+   "seat_offset_mm": 141.2,
+   "seat_x_mm": -39.0,
+   "seat_y_mm": 135.7,
+   "yaw_err_deg": 8.6,
+   "stripe_margin_mm": 7.84,
+   "align_mm": 141.2,
+   "charging": false,
    "well_force_n": [
-    2.195,
-    2.515,
-    1.294,
-    1.385,
-    1.477
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
    ],
    "wells": [
     {
-     "n": 2.195,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0053
+     "ohm": null
     },
     {
-     "n": 2.515,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 1.294,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0069
+     "ohm": null
     },
     {
-     "n": 1.385,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 1.477,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0064
+     "ohm": null
     }
    ],
-   "r_contact_ohm": 0.0098,
-   "r_series_ohm": 0.0478,
-   "v_charger": 14.952,
-   "i_charge_a": 1.006,
-   "heat_w": 0.0099,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
    "f_min_n": 0.294
   },
   {
@@ -90,23 +90,23 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.108,
-    0.223,
-    175.0,
-    0.059
+    -0.102,
+    0.222,
+    175.2,
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 2,
+   "plus": 1,
    "minus": 2,
-   "seat_offset_mm": 213.6,
-   "seat_x_mm": -0.3,
-   "seat_y_mm": 213.6,
-   "yaw_err_deg": 5.0,
-   "stripe_margin_mm": 4.86,
-   "align_mm": 213.6,
+   "seat_offset_mm": 213.0,
+   "seat_x_mm": 5.3,
+   "seat_y_mm": 212.9,
+   "yaw_err_deg": 4.8,
+   "stripe_margin_mm": 5.61,
+   "align_mm": 213.0,
    "charging": false,
    "well_force_n": [
-    7.608,
+    0.0,
     0.0,
     0.0,
     0.0,
@@ -114,13 +114,13 @@
    ],
    "wells": [
     {
-     "n": 7.608,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0028
+     "ohm": null
     },
     {
      "n": 0.0,
-     "pol": "M",
+     "pol": "G",
      "ohm": null
     },
     {
@@ -163,60 +163,60 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.132,
-    0.003,
-    168.3,
-    0.062
+    -0.127,
+    0.002,
+    168.5,
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 2,
+   "plus": 3,
    "minus": 2,
-   "seat_offset_mm": 32.4,
-   "seat_x_mm": -26.4,
-   "seat_y_mm": -18.9,
-   "yaw_err_deg": 11.7,
-   "stripe_margin_mm": 4.59,
-   "align_mm": 32.4,
-   "charging": true,
+   "seat_offset_mm": 29.3,
+   "seat_x_mm": -21.6,
+   "seat_y_mm": -19.8,
+   "yaw_err_deg": 11.5,
+   "stripe_margin_mm": 3.66,
+   "align_mm": 29.3,
+   "charging": false,
    "well_force_n": [
-    1.977,
-    2.194,
-    2.414,
-    1.185,
-    1.234
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
    ],
    "wells": [
     {
-     "n": 1.977,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0056
+     "ohm": null
     },
     {
-     "n": 2.194,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0053
+     "ohm": null
     },
     {
-     "n": 2.414,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.005
+     "ohm": null
     },
     {
-     "n": 1.185,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0072
+     "ohm": null
     },
     {
-     "n": 1.234,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.007
+     "ohm": null
     }
    ],
-   "r_contact_ohm": 0.0048,
-   "r_series_ohm": 0.0428,
-   "v_charger": 14.957,
-   "i_charge_a": 1.006,
-   "heat_w": 0.0048,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
    "f_min_n": 0.294
   },
   {
@@ -236,23 +236,23 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.142,
-    0.232,
-    172.6,
-    0.059
+    -0.137,
+    0.23,
+    172.9,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
-   "minus": 2,
-   "seat_offset_mm": 220.9,
-   "seat_x_mm": -35.3,
-   "seat_y_mm": 218.0,
-   "yaw_err_deg": 7.4,
-   "stripe_margin_mm": 3.43,
-   "align_mm": 220.9,
+   "minus": 3,
+   "seat_offset_mm": 219.0,
+   "seat_x_mm": -29.7,
+   "seat_y_mm": 216.9,
+   "yaw_err_deg": 7.1,
+   "stripe_margin_mm": 2.74,
+   "align_mm": 219.0,
    "charging": false,
    "well_force_n": [
-    7.509,
+    0.0,
     0.0,
     0.0,
     0.0,
@@ -260,9 +260,9 @@
    ],
    "wells": [
     {
-     "n": 7.509,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0029
+     "ohm": null
     },
     {
      "n": 0.0,
@@ -309,38 +309,38 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.146,
-    0.206,
-    172.3,
-    0.061
+    -0.141,
+    0.205,
+    172.1,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 3,
    "minus": 2,
-   "seat_offset_mm": 195.2,
-   "seat_x_mm": -39.0,
-   "seat_y_mm": 191.2,
-   "yaw_err_deg": 7.7,
-   "stripe_margin_mm": 2.84,
-   "align_mm": 195.2,
+   "seat_offset_mm": 193.5,
+   "seat_x_mm": -33.9,
+   "seat_y_mm": 190.5,
+   "yaw_err_deg": 7.9,
+   "stripe_margin_mm": 2.95,
+   "align_mm": 193.5,
    "charging": false,
    "well_force_n": [
-    5.69,
-    2.366,
+    0.0,
+    0.0,
     0.0,
     0.0,
     0.0
    ],
    "wells": [
     {
-     "n": 5.69,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0033
+     "ohm": null
     },
     {
-     "n": 2.366,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0051
+     "ohm": null
     },
     {
      "n": 0.0,
@@ -382,60 +382,60 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.14,
-    0.07,
-    169.5,
-    0.062
+    -0.135,
+    0.069,
+    169.7,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 1,
-   "minus": 2,
-   "seat_offset_mm": 60.9,
-   "seat_x_mm": -33.6,
-   "seat_y_mm": 50.8,
-   "yaw_err_deg": 10.5,
-   "stripe_margin_mm": 4.53,
-   "align_mm": 60.9,
-   "charging": true,
+   "minus": 1,
+   "seat_offset_mm": 57.7,
+   "seat_x_mm": -28.9,
+   "seat_y_mm": 50.0,
+   "yaw_err_deg": 10.3,
+   "stripe_margin_mm": 5.35,
+   "align_mm": 57.7,
+   "charging": false,
    "well_force_n": [
-    2.139,
-    1.933,
-    1.846,
-    1.76,
-    1.684
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
    ],
    "wells": [
     {
-     "n": 2.139,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 1.933,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0056
+     "ohm": null
     },
     {
-     "n": 1.846,
-     "pol": "P",
-     "ohm": 0.0058
+     "n": 0.0,
+     "pol": "G",
+     "ohm": null
     },
     {
-     "n": 1.76,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0059
+     "ohm": null
     },
     {
-     "n": 1.684,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.006
+     "ohm": null
     }
    ],
-   "r_contact_ohm": 0.0058,
-   "r_series_ohm": 0.0438,
-   "v_charger": 14.956,
-   "i_charge_a": 1.006,
-   "heat_w": 0.0059,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
    "f_min_n": 0.294
   },
   {
@@ -455,23 +455,23 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.114,
+    -0.108,
     0.227,
-    -179.2,
-    0.059
+    -179.0,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 3,
    "minus": 2,
-   "seat_offset_mm": 228.8,
-   "seat_x_mm": -5.6,
-   "seat_y_mm": 228.7,
-   "yaw_err_deg": 0.8,
-   "stripe_margin_mm": 2.77,
-   "align_mm": 228.8,
+   "seat_offset_mm": 228.5,
+   "seat_x_mm": -0.0,
+   "seat_y_mm": 228.5,
+   "yaw_err_deg": 1.0,
+   "stripe_margin_mm": 2.96,
+   "align_mm": 228.5,
    "charging": false,
    "well_force_n": [
-    7.225,
+    0.0,
     0.0,
     0.0,
     0.0,
@@ -479,9 +479,9 @@
    ],
    "wells": [
     {
-     "n": 7.225,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0029
+     "ohm": null
     },
     {
      "n": 0.0,
@@ -528,60 +528,60 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.152,
-    0.154,
-    169.6,
-    0.062
+    -0.148,
+    0.153,
+    169.7,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
    "minus": 1,
-   "seat_offset_mm": 142.6,
-   "seat_x_mm": -46.0,
-   "seat_y_mm": 135.0,
-   "yaw_err_deg": 10.4,
-   "stripe_margin_mm": 7.12,
-   "align_mm": 142.6,
-   "charging": true,
+   "seat_offset_mm": 140.4,
+   "seat_x_mm": -41.3,
+   "seat_y_mm": 134.2,
+   "yaw_err_deg": 10.3,
+   "stripe_margin_mm": 7.67,
+   "align_mm": 140.4,
+   "charging": false,
    "well_force_n": [
-    1.268,
-    1.661,
-    2.053,
-    2.445,
-    1.219
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
    ],
    "wells": [
     {
-     "n": 1.268,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.007
+     "ohm": null
     },
     {
-     "n": 1.661,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 2.053,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0055
+     "ohm": null
     },
     {
-     "n": 2.445,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 1.219,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0071
+     "ohm": null
     }
    ],
-   "r_contact_ohm": 0.009,
-   "r_series_ohm": 0.047,
-   "v_charger": 14.953,
-   "i_charge_a": 1.006,
-   "heat_w": 0.0091,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
    "f_min_n": 0.294
   },
   {
@@ -601,24 +601,24 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.096,
-    0.277,
-    173.5,
-    0.059
+    -0.09,
+    0.276,
+    173.7,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
-   "minus": 2,
-   "seat_offset_mm": 265.3,
-   "seat_x_mm": 11.6,
-   "seat_y_mm": 265.1,
-   "yaw_err_deg": 6.5,
-   "stripe_margin_mm": 2.27,
-   "align_mm": 265.3,
+   "minus": 1,
+   "seat_offset_mm": 264.6,
+   "seat_x_mm": 17.3,
+   "seat_y_mm": 264.0,
+   "yaw_err_deg": 6.3,
+   "stripe_margin_mm": 3.36,
+   "align_mm": 264.6,
    "charging": false,
    "well_force_n": [
     0.0,
-    7.712,
+    0.0,
     0.0,
     0.0,
     0.0
@@ -630,9 +630,9 @@
      "ohm": null
     },
     {
-     "n": 7.712,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0028
+     "ohm": null
     },
     {
      "n": 0.0,
@@ -674,60 +674,60 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.149,
+    -0.144,
     0.162,
     172.4,
-    0.062
+    0.071
    ],
    "contacts_meet": true,
    "plus": 1,
    "minus": 1,
-   "seat_offset_mm": 153.8,
-   "seat_x_mm": -41.9,
-   "seat_y_mm": 148.0,
+   "seat_offset_mm": 152.0,
+   "seat_x_mm": -37.1,
+   "seat_y_mm": 147.4,
    "yaw_err_deg": 7.6,
-   "stripe_margin_mm": 7.42,
-   "align_mm": 153.8,
-   "charging": true,
+   "stripe_margin_mm": 7.77,
+   "align_mm": 152.0,
+   "charging": false,
    "well_force_n": [
-    1.849,
-    1.923,
-    2.06,
-    2.197,
-    1.064
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
    ],
    "wells": [
     {
-     "n": 1.849,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 1.923,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0056
+     "ohm": null
     },
     {
-     "n": 2.06,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 2.197,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0053
+     "ohm": null
     },
     {
-     "n": 1.064,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     }
    ],
-   "r_contact_ohm": 0.0109,
-   "r_series_ohm": 0.0489,
-   "v_charger": 14.951,
-   "i_charge_a": 1.006,
-   "heat_w": 0.0111,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
    "f_min_n": 0.294
   },
   {
@@ -747,60 +747,60 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.148,
-    0.102,
-    170.6,
-    0.062
+    -0.143,
+    0.101,
+    170.7,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
    "minus": 1,
-   "seat_offset_mm": 94.1,
-   "seat_x_mm": -41.2,
-   "seat_y_mm": 84.6,
-   "yaw_err_deg": 9.4,
-   "stripe_margin_mm": 7.57,
-   "align_mm": 94.1,
-   "charging": true,
+   "seat_offset_mm": 91.5,
+   "seat_x_mm": -36.5,
+   "seat_y_mm": 83.9,
+   "yaw_err_deg": 9.3,
+   "stripe_margin_mm": 7.37,
+   "align_mm": 91.5,
+   "charging": false,
    "well_force_n": [
-    1.897,
-    1.956,
-    2.076,
-    2.196,
-    1.047
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
    ],
    "wells": [
     {
-     "n": 1.897,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0057
+     "ohm": null
     },
     {
-     "n": 1.956,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 2.076,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0054
+     "ohm": null
     },
     {
-     "n": 2.196,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 1.047,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0077
+     "ohm": null
     }
    ],
-   "r_contact_ohm": 0.0087,
-   "r_series_ohm": 0.0467,
-   "v_charger": 14.953,
-   "i_charge_a": 1.006,
-   "heat_w": 0.0088,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
    "f_min_n": 0.294
   },
   {
@@ -893,60 +893,60 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.201,
-    0.093,
-    170.9,
-    0.062
+    -0.196,
+    0.092,
+    171.0,
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 2,
+   "plus": 1,
    "minus": 1,
-   "seat_offset_mm": 120.9,
-   "seat_x_mm": -94.3,
-   "seat_y_mm": 75.7,
-   "yaw_err_deg": 9.1,
-   "stripe_margin_mm": 4.68,
-   "align_mm": 120.9,
-   "charging": true,
+   "seat_offset_mm": 116.9,
+   "seat_x_mm": -89.8,
+   "seat_y_mm": 74.9,
+   "yaw_err_deg": 9.0,
+   "stripe_margin_mm": 5.42,
+   "align_mm": 116.9,
+   "charging": false,
    "well_force_n": [
-    1.894,
-    2.476,
-    1.388,
-    1.635,
-    1.883
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
    ],
    "wells": [
     {
-     "n": 1.894,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 2.476,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.005
+     "ohm": null
     },
     {
-     "n": 1.388,
-     "pol": "M",
-     "ohm": 0.0066
+     "n": 0.0,
+     "pol": "G",
+     "ohm": null
     },
     {
-     "n": 1.635,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0061
+     "ohm": null
     },
     {
-     "n": 1.883,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0057
+     "ohm": null
     }
    ],
-   "r_contact_ohm": 0.0058,
-   "r_series_ohm": 0.0438,
-   "v_charger": 14.956,
-   "i_charge_a": 1.006,
-   "heat_w": 0.0059,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
    "f_min_n": 0.294
   },
   {
@@ -966,23 +966,23 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.073,
-    0.219,
-    170.7,
-    0.06
+    -0.068,
+    0.217,
+    171.1,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 1,
-   "minus": 2,
+   "minus": 1,
    "seat_offset_mm": 203.8,
-   "seat_x_mm": 33.7,
-   "seat_y_mm": 201.0,
-   "yaw_err_deg": 9.3,
-   "stripe_margin_mm": 4.37,
+   "seat_x_mm": 39.1,
+   "seat_y_mm": 200.1,
+   "yaw_err_deg": 8.9,
+   "stripe_margin_mm": 5.3,
    "align_mm": 203.8,
    "charging": false,
    "well_force_n": [
-    7.895,
+    0.0,
     0.0,
     0.0,
     0.0,
@@ -990,7 +990,7 @@
    ],
    "wells": [
     {
-     "n": 7.895,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
@@ -1039,60 +1039,60 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.212,
-    0.07,
-    171.3,
-    0.063
+    -0.208,
+    0.069,
+    171.5,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
-   "minus": 3,
-   "seat_offset_mm": 118.0,
-   "seat_x_mm": -105.2,
-   "seat_y_mm": 53.3,
-   "yaw_err_deg": 8.7,
-   "stripe_margin_mm": 3.12,
-   "align_mm": 118.0,
-   "charging": true,
+   "minus": 2,
+   "seat_offset_mm": 113.9,
+   "seat_x_mm": -101.0,
+   "seat_y_mm": 52.7,
+   "yaw_err_deg": 8.5,
+   "stripe_margin_mm": 2.7,
+   "align_mm": 113.9,
+   "charging": false,
    "well_force_n": [
-    2.525,
-    2.177,
-    1.831,
-    0.824,
-    0.708
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
    ],
    "wells": [
     {
-     "n": 2.525,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0049
+     "ohm": null
     },
     {
-     "n": 2.177,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0053
+     "ohm": null
     },
     {
-     "n": 1.831,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0058
+     "ohm": null
     },
     {
-     "n": 0.824,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0086
+     "ohm": null
     },
     {
-     "n": 0.708,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0093
+     "ohm": null
     }
    ],
-   "r_contact_ohm": 0.0051,
-   "r_series_ohm": 0.0431,
-   "v_charger": 14.957,
-   "i_charge_a": 1.006,
-   "heat_w": 0.0052,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
    "f_min_n": 0.294
   },
   {
@@ -1112,23 +1112,23 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.104,
-    0.229,
-    176.4,
-    0.059
+    -0.098,
+    0.228,
+    176.6,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 1,
    "minus": 1,
-   "seat_offset_mm": 222.6,
-   "seat_x_mm": 4.2,
-   "seat_y_mm": 222.5,
-   "yaw_err_deg": 3.6,
-   "stripe_margin_mm": 7.96,
-   "align_mm": 222.6,
+   "seat_offset_mm": 222.1,
+   "seat_x_mm": 9.7,
+   "seat_y_mm": 221.9,
+   "yaw_err_deg": 3.4,
+   "stripe_margin_mm": 7.33,
+   "align_mm": 222.1,
    "charging": false,
    "well_force_n": [
-    7.671,
+    0.0,
     0.0,
     0.0,
     0.0,
@@ -1136,7 +1136,7 @@
    ],
    "wells": [
     {
-     "n": 7.671,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
@@ -1185,60 +1185,60 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.214,
-    0.064,
-    168.7,
-    0.063
+    -0.21,
+    0.063,
+    169.0,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
    "minus": 2,
-   "seat_offset_mm": 116.5,
-   "seat_x_mm": -108.3,
-   "seat_y_mm": 43.0,
-   "yaw_err_deg": 11.3,
-   "stripe_margin_mm": 3.27,
-   "align_mm": 116.5,
-   "charging": true,
+   "seat_offset_mm": 112.3,
+   "seat_x_mm": -104.1,
+   "seat_y_mm": 42.2,
+   "yaw_err_deg": 11.0,
+   "stripe_margin_mm": 2.77,
+   "align_mm": 112.3,
+   "charging": false,
    "well_force_n": [
-    2.386,
-    2.02,
-    1.655,
-    1.304,
-    0.629
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
    ],
    "wells": [
     {
-     "n": 2.386,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0051
+     "ohm": null
     },
     {
-     "n": 2.02,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0055
+     "ohm": null
     },
     {
-     "n": 1.655,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0061
+     "ohm": null
     },
     {
-     "n": 1.304,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0069
+     "ohm": null
     },
     {
-     "n": 0.629,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0099
+     "ohm": null
     }
    ],
-   "r_contact_ohm": 0.0053,
-   "r_series_ohm": 0.0433,
-   "v_charger": 14.956,
-   "i_charge_a": 1.006,
-   "heat_w": 0.0054,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
    "f_min_n": 0.294
   },
   {
@@ -1258,42 +1258,42 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.121,
-    0.191,
+    -0.116,
+    0.19,
     171.9,
-    0.061
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 2,
+   "plus": 1,
    "minus": 1,
-   "seat_offset_mm": 176.6,
-   "seat_x_mm": -14.2,
-   "seat_y_mm": 176.0,
+   "seat_offset_mm": 175.1,
+   "seat_x_mm": -9.0,
+   "seat_y_mm": 174.9,
    "yaw_err_deg": 8.1,
-   "stripe_margin_mm": 4.34,
-   "align_mm": 176.6,
+   "stripe_margin_mm": 5.51,
+   "align_mm": 175.1,
    "charging": false,
    "well_force_n": [
-    5.809,
-    2.453,
+    0.0,
+    0.0,
     0.0,
     0.0,
     0.0
    ],
    "wells": [
     {
-     "n": 5.809,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 2.453,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.005
+     "ohm": null
     },
     {
      "n": 0.0,
-     "pol": "M",
+     "pol": "G",
      "ohm": null
     },
     {
@@ -1331,60 +1331,60 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.164,
+    -0.159,
     0.198,
     172.6,
-    0.062
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
    "minus": 1,
-   "seat_offset_mm": 192.9,
-   "seat_x_mm": -56.6,
-   "seat_y_mm": 184.4,
+   "seat_offset_mm": 191.1,
+   "seat_x_mm": -51.8,
+   "seat_y_mm": 184.0,
    "yaw_err_deg": 7.4,
-   "stripe_margin_mm": 7.85,
-   "align_mm": 192.9,
-   "charging": true,
+   "stripe_margin_mm": 7.47,
+   "align_mm": 191.1,
+   "charging": false,
    "well_force_n": [
-    1.069,
-    1.244,
-    1.605,
-    1.965,
-    2.344
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
    ],
    "wells": [
     {
-     "n": 1.069,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0076
+     "ohm": null
     },
     {
-     "n": 1.244,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 1.605,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0062
+     "ohm": null
     },
     {
-     "n": 1.965,
+     "n": 0.0,
      "pol": "G",
      "ohm": null
     },
     {
-     "n": 2.344,
+     "n": 0.0,
      "pol": "P",
-     "ohm": 0.0051
+     "ohm": null
     }
    ],
-   "r_contact_ohm": 0.0092,
-   "r_series_ohm": 0.0472,
-   "v_charger": 14.952,
-   "i_charge_a": 1.006,
-   "heat_w": 0.0093,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
    "f_min_n": 0.294
   },
   {
@@ -1404,23 +1404,23 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.126,
-    0.225,
-    175.7,
-    0.059
+    -0.12,
+    0.224,
+    175.9,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
    "minus": 3,
-   "seat_offset_mm": 218.0,
-   "seat_x_mm": -18.3,
-   "seat_y_mm": 217.2,
-   "yaw_err_deg": 4.3,
-   "stripe_margin_mm": 2.67,
-   "align_mm": 218.0,
+   "seat_offset_mm": 216.8,
+   "seat_x_mm": -12.8,
+   "seat_y_mm": 216.5,
+   "yaw_err_deg": 4.1,
+   "stripe_margin_mm": 3.0,
+   "align_mm": 216.8,
    "charging": false,
    "well_force_n": [
-    7.66,
+    0.0,
     0.0,
     0.0,
     0.0,
@@ -1428,9 +1428,9 @@
    ],
    "wells": [
     {
-     "n": 7.66,
+     "n": 0.0,
      "pol": "M",
-     "ohm": 0.0028
+     "ohm": null
     },
     {
      "n": 0.0,
@@ -1465,11 +1465,11 @@
   "n": 20,
   "ok": 19,
   "rate": 0.95,
-  "charge_n": 10,
-  "charge_rate": 0.5,
-  "align_mm_median": 176.6,
-  "align_mm_max": 265.3,
-  "margin_mm_min": 2.27,
+  "charge_n": 0,
+  "charge_rate": 0.0,
+  "align_mm_median": 175.1,
+  "align_mm_max": 264.6,
+  "margin_mm_min": 2.7,
   "time_s_median": 31.8,
   "time_s_max": 41.3,
   "failures": {
