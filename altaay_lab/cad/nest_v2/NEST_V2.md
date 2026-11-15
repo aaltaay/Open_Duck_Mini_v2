@@ -138,4 +138,4 @@ Does (a) scale?
 
 Nothing here is a hardware pass.
 
-The head-camera dock is twin/dock/camera. It renders the standard module and drives the run D walk from that image. It does not close blocker 5 on hardware. The entrance pupil is still unmarked. The 80 mm mark and its felt price are in BOM.md. The STL here still shows the 40 mm card.
+The head-camera dock is twin/dock/camera. It renders the standard module and drives the run D walk from that image. It does not close blocker 5 on hardware. The entrance pupil is still unmarked. The 80 mm wall mark, the 120 mm room-side mark, and the felt prices are in BOM.md. The stripe stays 20 mm foil with a 5 mm gap. Blocker 2 is why the gap was not narrowed. The STL here still shows the 40 mm card.

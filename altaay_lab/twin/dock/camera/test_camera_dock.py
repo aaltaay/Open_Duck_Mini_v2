@@ -19,6 +19,7 @@ def test_centered_sit_meets():
 def test_far_sit_misses():
     s = CD.score_wells(-1.2, 0.4, math.pi)
     assert not s["contacts_meet"]
+    # Past the foil in y. The stripe polarity repeats, so the field bound has to count.
     side = CD.score_wells(CD.SEAT_X, 0.5, math.pi)
     assert not side["contacts_meet"], side
 
