@@ -1058,10 +1058,10 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                 # Face the wall. The room mark leaves the frame; the wall mark
                 # is the one to re-acquire. Still standing, no sit yet.
                 turned = abs(wrap(sim.imu_yaw - imu_lock))
-                if kind == "red" and est is not None and math.hypot(est[0], est[1]) > 1.5:
-                    mode, t_mode = "fine", sim.t
-                    cmd = (0.0, 0.0, 0.0)
-                elif kind == "gold":
+                # A short room-mark range means the duck is still too far into
+                # the room. Stay in this turn until the wall mark comes back.
+                # A pose that already meets the sit gate is sent to fine above.
+                if kind == "gold":
                     mode, t_mode = "approach", sim.t
                     sim._stable_dist = None
                     cmd = _cmd_wall(est)
