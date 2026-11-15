@@ -1,19 +1,4 @@
 {
- "summary": {
-  "n": 20,
-  "ok": 19,
-  "rate": 0.95,
-  "charge_n": 0,
-  "charge_rate": 0.0,
-  "align_mm_median": 192.3,
-  "align_mm_max": 266.9,
-  "margin_mm_min": 0.78,
-  "time_s_median": 32.4,
-  "time_s_max": 45.9,
-  "failures": {
-   "no_marker": 1
-  }
- },
  "rows": [
   {
    "seed": 21,
@@ -32,20 +17,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.15,
+    -0.146,
     0.152,
-    171.3,
-    0.056
+    171.4,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
    "minus": 1,
-   "seat_offset_mm": 141.9,
-   "seat_x_mm": -42.8,
-   "seat_y_mm": 135.3,
-   "yaw_err_deg": 8.7,
-   "stripe_margin_mm": 7.51,
-   "align_mm": 141.9,
+   "seat_offset_mm": 141.2,
+   "seat_x_mm": -39.0,
+   "seat_y_mm": 135.7,
+   "yaw_err_deg": 8.6,
+   "stripe_margin_mm": 7.84,
+   "align_mm": 141.2,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -99,26 +84,26 @@
    "gain": 0.72,
    "ok": true,
    "reason": "docked",
-   "retries": 1,
-   "t_s": 33.96,
+   "retries": 0,
+   "t_s": 30.96,
    "fell": false,
    "saw": true,
    "sat": true,
    "true": [
-    -0.15,
-    0.204,
-    -175.5,
-    0.055
+    -0.102,
+    0.222,
+    175.2,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 1,
    "minus": 2,
-   "seat_offset_mm": 216.8,
-   "seat_x_mm": -42.0,
-   "seat_y_mm": 212.7,
-   "yaw_err_deg": 4.5,
-   "stripe_margin_mm": 5.78,
-   "align_mm": 216.8,
+   "seat_offset_mm": 213.0,
+   "seat_x_mm": 5.3,
+   "seat_y_mm": 212.9,
+   "yaw_err_deg": 4.8,
+   "stripe_margin_mm": 5.61,
+   "align_mm": 213.0,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -173,25 +158,25 @@
    "ok": true,
    "reason": "docked",
    "retries": 0,
-   "t_s": 22.24,
+   "t_s": 21.6,
    "fell": false,
    "saw": true,
    "sat": true,
    "true": [
-    -0.134,
-    0.049,
-    167.4,
-    0.056
+    -0.127,
+    0.002,
+    168.5,
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 1,
-   "minus": 1,
-   "seat_offset_mm": 38.1,
-   "seat_x_mm": -28.8,
-   "seat_y_mm": 24.9,
-   "yaw_err_deg": 12.6,
-   "stripe_margin_mm": 5.33,
-   "align_mm": 38.1,
+   "plus": 3,
+   "minus": 2,
+   "seat_offset_mm": 29.3,
+   "seat_x_mm": -21.6,
+   "seat_y_mm": -19.8,
+   "yaw_err_deg": 11.5,
+   "stripe_margin_mm": 3.66,
+   "align_mm": 29.3,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -203,7 +188,7 @@
    "wells": [
     {
      "n": 0.0,
-     "pol": "G",
+     "pol": "P",
      "ohm": null
     },
     {
@@ -213,7 +198,7 @@
     },
     {
      "n": 0.0,
-     "pol": "G",
+     "pol": "M",
      "ohm": null
     },
     {
@@ -251,20 +236,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.14,
-    0.233,
-    173.1,
-    0.054
+    -0.137,
+    0.23,
+    172.9,
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 1,
-   "minus": 1,
-   "seat_offset_mm": 222.7,
-   "seat_x_mm": -33.1,
-   "seat_y_mm": 220.3,
-   "yaw_err_deg": 6.9,
-   "stripe_margin_mm": 5.67,
-   "align_mm": 222.7,
+   "plus": 2,
+   "minus": 3,
+   "seat_offset_mm": 219.0,
+   "seat_x_mm": -29.7,
+   "seat_y_mm": 216.9,
+   "yaw_err_deg": 7.1,
+   "stripe_margin_mm": 2.74,
+   "align_mm": 219.0,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -286,7 +271,7 @@
     },
     {
      "n": 0.0,
-     "pol": "G",
+     "pol": "P",
      "ohm": null
     },
     {
@@ -296,7 +281,7 @@
     },
     {
      "n": 0.0,
-     "pol": "G",
+     "pol": "M",
      "ohm": null
     }
    ],
@@ -324,20 +309,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.146,
-    0.207,
-    172.5,
-    0.055
+    -0.141,
+    0.205,
+    172.1,
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 2,
+   "plus": 3,
    "minus": 2,
-   "seat_offset_mm": 197.2,
-   "seat_x_mm": -38.8,
-   "seat_y_mm": 193.4,
-   "yaw_err_deg": 7.5,
-   "stripe_margin_mm": 3.76,
-   "align_mm": 197.2,
+   "seat_offset_mm": 193.5,
+   "seat_x_mm": -33.9,
+   "seat_y_mm": 190.5,
+   "yaw_err_deg": 7.9,
+   "stripe_margin_mm": 2.95,
+   "align_mm": 193.5,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -397,20 +382,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.139,
+    -0.135,
     0.069,
-    169.6,
-    0.056
+    169.7,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 1,
    "minus": 1,
-   "seat_offset_mm": 59.7,
-   "seat_x_mm": -32.9,
-   "seat_y_mm": 49.8,
-   "yaw_err_deg": 10.4,
-   "stripe_margin_mm": 5.48,
-   "align_mm": 59.7,
+   "seat_offset_mm": 57.7,
+   "seat_x_mm": -28.9,
+   "seat_y_mm": 50.0,
+   "yaw_err_deg": 10.3,
+   "stripe_margin_mm": 5.35,
+   "align_mm": 57.7,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -470,20 +455,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.112,
-    0.229,
+    -0.108,
+    0.227,
     -179.0,
-    0.054
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 2,
+   "plus": 3,
    "minus": 2,
-   "seat_offset_mm": 231.1,
-   "seat_x_mm": -3.6,
-   "seat_y_mm": 231.1,
+   "seat_offset_mm": 228.5,
+   "seat_x_mm": -0.0,
+   "seat_y_mm": 228.5,
    "yaw_err_deg": 1.0,
-   "stripe_margin_mm": 4.58,
-   "align_mm": 231.1,
+   "stripe_margin_mm": 2.96,
+   "align_mm": 228.5,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -538,25 +523,25 @@
    "ok": true,
    "reason": "docked",
    "retries": 0,
-   "t_s": 45.94,
+   "t_s": 38.98,
    "fell": false,
    "saw": true,
    "sat": true,
    "true": [
-    -0.141,
-    0.207,
-    172.9,
-    0.055
+    -0.148,
+    0.153,
+    169.7,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
-   "minus": 2,
-   "seat_offset_mm": 196.2,
-   "seat_x_mm": -33.7,
-   "seat_y_mm": 193.3,
-   "yaw_err_deg": 7.1,
-   "stripe_margin_mm": 3.74,
-   "align_mm": 196.2,
+   "minus": 1,
+   "seat_offset_mm": 140.4,
+   "seat_x_mm": -41.3,
+   "seat_y_mm": 134.2,
+   "yaw_err_deg": 10.3,
+   "stripe_margin_mm": 7.67,
+   "align_mm": 140.4,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -573,7 +558,7 @@
     },
     {
      "n": 0.0,
-     "pol": "P",
+     "pol": "G",
      "ohm": null
     },
     {
@@ -583,7 +568,7 @@
     },
     {
      "n": 0.0,
-     "pol": "M",
+     "pol": "G",
      "ohm": null
     },
     {
@@ -616,20 +601,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.093,
-    0.278,
-    173.8,
-    0.054
+    -0.09,
+    0.276,
+    173.7,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
    "minus": 1,
-   "seat_offset_mm": 266.9,
-   "seat_x_mm": 14.0,
-   "seat_y_mm": 266.6,
-   "yaw_err_deg": 6.2,
-   "stripe_margin_mm": 0.78,
-   "align_mm": 266.9,
+   "seat_offset_mm": 264.6,
+   "seat_x_mm": 17.3,
+   "seat_y_mm": 264.0,
+   "yaw_err_deg": 6.3,
+   "stripe_margin_mm": 3.36,
+   "align_mm": 264.6,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -646,7 +631,7 @@
     },
     {
      "n": 0.0,
-     "pol": "off",
+     "pol": "M",
      "ohm": null
     },
     {
@@ -689,20 +674,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.148,
+    -0.144,
     0.162,
-    172.3,
-    0.056
+    172.4,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 1,
    "minus": 1,
-   "seat_offset_mm": 152.8,
-   "seat_x_mm": -40.8,
-   "seat_y_mm": 147.2,
-   "yaw_err_deg": 7.7,
-   "stripe_margin_mm": 7.61,
-   "align_mm": 152.8,
+   "seat_offset_mm": 152.0,
+   "seat_x_mm": -37.1,
+   "seat_y_mm": 147.4,
+   "yaw_err_deg": 7.6,
+   "stripe_margin_mm": 7.77,
+   "align_mm": 152.0,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -762,20 +747,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.147,
+    -0.143,
     0.101,
     170.7,
-    0.056
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
    "minus": 1,
-   "seat_offset_mm": 92.8,
-   "seat_x_mm": -40.2,
-   "seat_y_mm": 83.6,
+   "seat_offset_mm": 91.5,
+   "seat_x_mm": -36.5,
+   "seat_y_mm": 83.9,
    "yaw_err_deg": 9.3,
-   "stripe_margin_mm": 7.14,
-   "align_mm": 92.8,
+   "stripe_margin_mm": 7.37,
+   "align_mm": 91.5,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -908,20 +893,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.2,
+    -0.196,
     0.092,
     171.0,
-    0.056
+    0.071
    ],
    "contacts_meet": true,
    "plus": 1,
    "minus": 1,
-   "seat_offset_mm": 119.8,
-   "seat_x_mm": -93.5,
+   "seat_offset_mm": 116.9,
+   "seat_x_mm": -89.8,
    "seat_y_mm": 74.9,
    "yaw_err_deg": 9.0,
-   "stripe_margin_mm": 5.45,
-   "align_mm": 119.8,
+   "stripe_margin_mm": 5.42,
+   "align_mm": 116.9,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -981,20 +966,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.072,
-    0.219,
+    -0.068,
+    0.217,
     171.1,
-    0.055
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 2,
-   "minus": 2,
-   "seat_offset_mm": 205.8,
-   "seat_x_mm": 35.2,
-   "seat_y_mm": 202.8,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 203.8,
+   "seat_x_mm": 39.1,
+   "seat_y_mm": 200.1,
    "yaw_err_deg": 8.9,
-   "stripe_margin_mm": 2.59,
-   "align_mm": 205.8,
+   "stripe_margin_mm": 5.3,
+   "align_mm": 203.8,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -1006,7 +991,7 @@
    "wells": [
     {
      "n": 0.0,
-     "pol": "M",
+     "pol": "G",
      "ohm": null
     },
     {
@@ -1054,20 +1039,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.212,
-    0.068,
-    171.4,
-    0.056
+    -0.208,
+    0.069,
+    171.5,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
    "minus": 2,
-   "seat_offset_mm": 117.2,
-   "seat_x_mm": -104.9,
-   "seat_y_mm": 52.2,
-   "yaw_err_deg": 8.6,
-   "stripe_margin_mm": 3.21,
-   "align_mm": 117.2,
+   "seat_offset_mm": 113.9,
+   "seat_x_mm": -101.0,
+   "seat_y_mm": 52.7,
+   "yaw_err_deg": 8.5,
+   "stripe_margin_mm": 2.7,
+   "align_mm": 113.9,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -1127,20 +1112,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.102,
-    0.231,
-    176.7,
-    0.054
+    -0.098,
+    0.228,
+    176.6,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 1,
    "minus": 1,
-   "seat_offset_mm": 225.1,
-   "seat_x_mm": 6.3,
-   "seat_y_mm": 225.0,
-   "yaw_err_deg": 3.3,
-   "stripe_margin_mm": 5.49,
-   "align_mm": 225.1,
+   "seat_offset_mm": 222.1,
+   "seat_x_mm": 9.7,
+   "seat_y_mm": 221.9,
+   "yaw_err_deg": 3.4,
+   "stripe_margin_mm": 7.33,
+   "align_mm": 222.1,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -1172,7 +1157,7 @@
     },
     {
      "n": 0.0,
-     "pol": "P",
+     "pol": "G",
      "ohm": null
     }
    ],
@@ -1200,20 +1185,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.214,
+    -0.21,
     0.063,
-    168.9,
-    0.056
+    169.0,
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 3,
+   "plus": 2,
    "minus": 2,
-   "seat_offset_mm": 116.0,
-   "seat_x_mm": -108.2,
-   "seat_y_mm": 41.9,
-   "yaw_err_deg": 11.1,
-   "stripe_margin_mm": 3.07,
-   "align_mm": 116.0,
+   "seat_offset_mm": 112.3,
+   "seat_x_mm": -104.1,
+   "seat_y_mm": 42.2,
+   "yaw_err_deg": 11.0,
+   "stripe_margin_mm": 2.77,
+   "align_mm": 112.3,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -1273,20 +1258,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.12,
+    -0.116,
     0.19,
-    172.1,
-    0.056
+    171.9,
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 2,
+   "plus": 1,
    "minus": 1,
-   "seat_offset_mm": 176.1,
-   "seat_x_mm": -12.6,
-   "seat_y_mm": 175.7,
-   "yaw_err_deg": 7.9,
-   "stripe_margin_mm": 4.71,
-   "align_mm": 176.1,
+   "seat_offset_mm": 175.1,
+   "seat_x_mm": -9.0,
+   "seat_y_mm": 174.9,
+   "yaw_err_deg": 8.1,
+   "stripe_margin_mm": 5.51,
+   "align_mm": 175.1,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -1308,7 +1293,7 @@
     },
     {
      "n": 0.0,
-     "pol": "M",
+     "pol": "G",
      "ohm": null
     },
     {
@@ -1346,20 +1331,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.165,
-    0.197,
-    172.8,
-    0.055
+    -0.159,
+    0.198,
+    172.6,
+    0.071
    ],
    "contacts_meet": true,
    "plus": 2,
    "minus": 1,
-   "seat_offset_mm": 192.3,
-   "seat_x_mm": -57.4,
-   "seat_y_mm": 183.6,
-   "yaw_err_deg": 7.2,
-   "stripe_margin_mm": 7.08,
-   "align_mm": 192.3,
+   "seat_offset_mm": 191.1,
+   "seat_x_mm": -51.8,
+   "seat_y_mm": 184.0,
+   "yaw_err_deg": 7.4,
+   "stripe_margin_mm": 7.47,
+   "align_mm": 191.1,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -1419,20 +1404,20 @@
    "saw": true,
    "sat": true,
    "true": [
-    -0.124,
-    0.227,
-    176.0,
-    0.054
+    -0.12,
+    0.224,
+    175.9,
+    0.071
    ],
    "contacts_meet": true,
-   "plus": 1,
-   "minus": 2,
-   "seat_offset_mm": 219.8,
-   "seat_x_mm": -16.2,
-   "seat_y_mm": 219.2,
-   "yaw_err_deg": 4.0,
-   "stripe_margin_mm": 4.7,
-   "align_mm": 219.8,
+   "plus": 2,
+   "minus": 3,
+   "seat_offset_mm": 216.8,
+   "seat_x_mm": -12.8,
+   "seat_y_mm": 216.5,
+   "yaw_err_deg": 4.1,
+   "stripe_margin_mm": 3.0,
+   "align_mm": 216.8,
    "charging": false,
    "well_force_n": [
     0.0,
@@ -1464,7 +1449,7 @@
     },
     {
      "n": 0.0,
-     "pol": "G",
+     "pol": "M",
      "ohm": null
     }
    ],
@@ -1475,5 +1460,20 @@
    "heat_w": null,
    "f_min_n": 0.294
   }
- ]
+ ],
+ "summary": {
+  "n": 20,
+  "ok": 19,
+  "rate": 0.95,
+  "charge_n": 0,
+  "charge_rate": 0.0,
+  "align_mm_median": 175.1,
+  "align_mm_max": 264.6,
+  "margin_mm_min": 2.7,
+  "time_s_median": 31.8,
+  "time_s_max": 41.3,
+  "failures": {
+   "no_marker": 1
+  }
+ }
 }

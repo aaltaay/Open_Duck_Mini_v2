@@ -1,10 +1,10 @@
 # Bench check: gold on the nest foil
 
-Nothing here was bought. Prices are the pages that were open. The sim does not press the gold wells, so this bench is the measurement the charger score is waiting on.
+Nothing here was bought. Prices are the pages that were open. The sim now presses the seat face. The flush wells read 0 N in that sit, so this bench is still the measurement the charger score is waiting on.
 
 ## What it answers
 
-The walk model sits on the foot soles. MuJoCo reports no contact within 6 mm of a well, so the charge score stays open. This bench presses a gold-plated pin onto the same kind of copper foil the nest BOM calls for, at a known force, and reads the voltage drop at the charge current.
+The dock model puts the CAD seat face and the bumper on the mat, with the wells flush in the face. In the torque-off sit the wells are 0.36 mm clear, so the charge score stays open. This bench presses a gold-plated pin onto the same kind of copper foil the nest BOM calls for, at a known force, and reads the voltage drop at the charge current.
 
 The pair in the nest is gold on copper foil. No force-versus-resistance curve for that pair was found. The sim uses a clean-gold figure instead, and says so. This bench replaces that assumption for the real foil.
 
