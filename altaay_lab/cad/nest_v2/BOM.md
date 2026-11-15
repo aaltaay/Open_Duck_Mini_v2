@@ -24,6 +24,14 @@ This pin is not in the picked mat. It is the part a spring field (option e) woul
 
 The picked mat uses no Mill-Max pins.
 
+## Duck-side wells, tried after the flush face read 0 N
+
+The mat in this file is unchanged. D61 was not edited. The approved line is still a flush well and nothing standing out of the duck (DECISION.md).
+
+A placed sit with the seat face and the bumper in the model leaves the flush wells 0.36 mm above the mat, because the bumper and the seat edges take the load (twin/dock/camera/SEAT_WELLS.md). Three duck-side options were simulated. The one put into the dock model is a 1.5 mm gold dome standing 0.9 mm proud of the seat face. That is the smallest height in the 0.3 to 1.5 mm sweep whose low print tolerance, 0.6 mm, still presses every well. It does not match the flush line. It adds no bought part: the gold is the well already drawn, formed proud. A solid cap 0.9 mm tall on a 1.5 mm radius is about 0.06 g, and five of them are about 0.29 g (calc only, spherical cap, 19.3 g/cm3). The foil price is still BLOCKER.
+
+The Mill-Max 0906 above, spring 76, is the spring option that was not picked. The sheet gives 25 g at first touch and 60 g at mid stroke, 0.495 mm, with a 0.991 mm stroke (Mill-Max data sheet, the Farnell copy of 0906-0-15-20-76-14-11-0, and the element14 listing). Five pins at the quantity-1 price are 4.30 USD (calc only, 5 times 0.86). Springs on the duck are the thing DECISION.md dropped. The low print tolerance, a pin only 0.69 mm proud, put 0.18 N on each well, under the 0.294 N floor. The full comparison is twin/dock/camera/SEAT_CONTACTS.md.
+
 ## Not opened, so no dollar figure
 
 - Felt sheet. BLOCKER.
