@@ -88,6 +88,13 @@ SEAT_SOLREF = (8000.0, 113.0)    # N/m, N s/m, the face box (four contacts)
 WELL_SOLREF = (44.0, 8.0)        # one well, area share of that face spring
 BUMPER_SOLREF = (4500.0, 85.0)   # bumper area 24*60 over the seat 32*80
 FELT_SOLIMP = (0.95, 0.99, 0.001, 0.5, 2.0)
+# Sweep knobs. Zero is the flush face from PR 96. A proud dome stands
+# below the CAD face. A bumper lift raises the bumper box. The spring is
+# the Mill-Max 0906, spring 76: 25 g at first touch, 60 g at 0.495 mm.
+WELL_PROUD_M = 0.0009
+BUMPER_LIFT_M = 0.0
+WELL_SPRING = False
+WELL_SPRING_TC = 0.20
 # Render size. Height / width matches tan(33 deg) / tan(20.5 deg), so a 66 deg
 # vertical field gives a 41 deg horizontal field. Calc only.
 IMG_W = 400
@@ -639,22 +646,38 @@ def _scene_dir(folder):
                 g.set("solimp", " ".join("%.4g" % v for v in FELT_SOLIMP))
                 g.set("rgba", rgba)
             _pad("sit_seat_face", SEAT_FACE, SEAT_SOLREF, "0.95 0.75 0.20 1")
-            _pad("sit_bumper_face", BUMPER_FACE, BUMPER_SOLREF, "0.95 0.75 0.20 1")
-            # Wells flush in the seat face. The disk bottom is the CAD face
-            # at trunk z -66 mm. They are the wells already drawn.
+            bx, by, bz, bsx, bsy, bsz = BUMPER_FACE
+            _pad("sit_bumper_face", (bx, by, bz + BUMPER_LIFT_M, bsx, bsy, bsz), BUMPER_SOLREF, "0.95 0.75 0.20 1")
+            # Wells. Flush disks when WELL_PROUD_M is 0. A dome is a 1.5 mm
+            # sphere whose bottom stands WELL_PROUD_M below the CAD face.
             for i, ly in enumerate(WELLS_Y):
                 g = ETREE.SubElement(body, "geom")
                 g.set("name", "gold_well_%d" % i)
-                g.set("type", "cylinder")
-                g.set("pos", "%.4f %.4f -0.0655" % (SEAT_X, ly))
-                g.set("size", "0.0015 0.0005")
                 g.set("density", "0")
                 g.set("friction", "0.8 0.01 0.001")
                 g.set("contype", "4")
                 g.set("conaffinity", "1")
-                g.set("solref", "-%.1f -%.1f" % WELL_SOLREF)
                 g.set("solimp", " ".join("%.4g" % v for v in FELT_SOLIMP))
                 g.set("rgba", "0.95 0.78 0.16 1")
+                if WELL_PROUD_M > 0.0 or WELL_SPRING:
+                    # Sphere bottom at the CAD face, then down by the proud
+                    # height. The spring adds 0.35 mm of overlap so the first
+                    # touch already carries the 25 g preload (0.245 N / 695 N/m).
+                    extra = 0.000352 if WELL_SPRING else 0.0
+                    zc = -0.066 - WELL_PROUD_M - extra + 0.0015
+                    g.set("type", "sphere")
+                    g.set("pos", "%.4f %.4f %.4f" % (SEAT_X, ly, zc))
+                    g.set("size", "0.0015")
+                    if WELL_SPRING:
+                        # Large timeconst so the pin is a soft spring, not a hard stop.
+                        g.set("solref", "0.20 1.0")
+                    else:
+                        g.set("solref", "-%.1f -%.1f" % WELL_SOLREF)
+                else:
+                    g.set("type", "cylinder")
+                    g.set("pos", "%.4f %.4f -0.0655" % (SEAT_X, ly))
+                    g.set("size", "0.0015 0.0005")
+                    g.set("solref", "-%.1f -%.1f" % WELL_SOLREF)
             found_trunk = True
     if not found_head or not found_trunk:
         raise SystemExit("head_assembly or trunk_assembly is not in the walk model")
@@ -714,6 +737,13 @@ def _scene_dir(folder):
         MARK2_X + 0.001, MARK2_Z + 0.018,
         "\n  ".join(stripes),
     )
+    if WELL_SPRING:
+        # The mat's own solref is the hard default. A pair keeps the pin soft.
+        pairs = "\n".join(
+            '  <pair geom1="gold_well_%d" geom2="mat_top" solref="%.3f 1" solimp="0.95 0.99 0.001 0.5 2"/>' % (i, WELL_SPRING_TC)
+            for i in range(len(WELLS_Y))
+        )
+        xml = xml.replace("</mujoco>", "<contact>\n%s\n</contact>\n</mujoco>" % pairs)
     open(os.path.join(dst, "scene_dock.xml"), "w").write(xml)
     return dst
 
@@ -1565,7 +1595,7 @@ def write_note(path, rows, summary):
     a("")
     a("A geometric meet is one well circle inside a plus stripe and one inside a minus stripe. The sit is the recorded cute sit, knee clamped to 147 deg, then the gains go to zero.")
     a("Charge model, assumption on the pair: the foil is copper tape (BOM), and no gold-on-copper force curve was found. Clean gold is a few milliohms under 10 grams when held still (Mroczkowski, Connector Supplier, 7 Apr 2009, cited). This note uses 5 milliohms at 10 grams, scaling as 1/sqrt(force), then times 5 for dust and fuzz. The 5 milliohms and the dust factor are assumptions. The wire is 0.038 ohm for both poles (NEST_V2.md, calc only). The nest supply is 15 V and the chip window is 4.5 V to 17 V (parts.yaml, BQ24133 sheet).")
-    a("The seat face and the bumper are collision boxes on the CAD bbox, and the wells are flush in that face. A dock charges only when both poles see at least 0.294 N on the well itself. The face around a well is not counted as well force. Why the wells read what they read, and why the mat was left alone, is SEAT_WELLS.md.")
+    a("The wells are 1.5 mm gold domes standing 0.9 mm proud of the seat face. A dock charges only when both poles see at least 0.294 N on the dome itself. The comparison with a trimmed bumper and a Mill-Max spring pin is SEAT_CONTACTS.md. The flush-face result, 0 of 40, is SEAT_WELLS.md.")
     a("")
     a("| Seed | Start x y yaw | Light | Result | Time s | Seat to sun mm | Yaw err deg | Margin mm |")
     a("|---|---|---|---|---|---|---|---|")
