@@ -1,0 +1,58 @@
+{
+ "label": "calc only for actuator and bus; CAD mass model for mass",
+ "servo_V": {
+  "left_hip_yaw": 11.965987480863005,
+  "left_hip_roll": 11.948192618728516,
+  "left_hip_pitch": 11.940345636594028,
+  "left_knee": 11.942446534459538,
+  "left_ankle": 11.954495312325053,
+  "neck_pitch": 11.959751470465095,
+  "head_pitch": 11.929907830465094,
+  "head_yaw": 11.910012070465097,
+  "head_roll": 11.900064190465095,
+  "right_hip_yaw": 11.966606726955602,
+  "right_hip_roll": 11.948451249173901,
+  "right_hip_pitch": 11.94024365139221,
+  "right_knee": 11.94198393361052,
+  "right_ankle": 11.953672095828821
+ },
+ "training_vin_V": 11.9001,
+ "actuator": {
+  "vin_V": 11.9001,
+  "stall_Nm_at_12V": 2.942,
+  "forcerange_Nm": 2.9175,
+  "damping": 0.6106,
+  "frictionloss_Nm": 0.0741,
+  "armature": 0.027,
+  "sheet_scale": 0.9108,
+  "speed_damping_factor": 1.197,
+  "no_load_at_12V_rad_s": 4.6971,
+  "no_load_at_vin_rad_s": 4.657,
+  "kp": {
+   "open_duck_mini_v2.xml": {
+    "kp": 12.0764
+   },
+   "open_duck_mini_v2_backlash.xml": {
+    "kp": 15.4546
+   }
+  }
+ },
+ "loaded_total_kg": 2.9491,
+ "rollup_kg": 2.9491,
+ "trunk_kg": 1.2067,
+ "knee_range_rad": [
+  -1.570796327,
+  2.565634
+ ],
+ "knee_range_deg": [
+  -90.00000001175157,
+  146.99999997526746
+ ],
+ "check": {
+  "trunk_kg": 1.2067,
+  "damping": 0.6106,
+  "friction": 0.0741,
+  "force": 2.9175,
+  "kp": 15.4546
+ }
+}
