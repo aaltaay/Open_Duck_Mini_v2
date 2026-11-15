@@ -137,3 +137,5 @@ Does (a) scale?
 11. A cradle, a coil, or a pin field was not given a new physics run. The scores above are the stored seats tested against each window.
 
 Nothing here is a hardware pass.
+
+The head-camera dock is twin/dock/camera. It renders the standard module and drives the run D walk from that image. It does not close blocker 5 on hardware. The entrance pupil is still unmarked. The 80 mm mark and its felt price are in BOM.md. The STL here still shows the 40 mm card.

@@ -33,6 +33,10 @@ The picked mat uses no Mill-Max pins.
 - Qi2 coil and receiver module. BLOCKER. The ST brief and the WPC page that were opened do not print a price.
 - The 40 mm wall card. It is a felt or printed square. No electronics. Not on the order list, so no price.
 
+## Camera mark, added for the head camera
+
+The dock sim uses an 80 mm black square at the same station as the 40 mm card (centre 350 mm up, on the centre line). 40 mm is about 11 px wide at 1.5 m on a 320-wide frame of the standard module (calc only, camera brief 41 deg across the short axis). The black sheet is Grainear 9 by 12 inch black craft felt, 6 sheets, listed at 6.99 USD (Amazon B0FXKGNV95, the page price shown 2026-11-15, cited). One sheet is 1.17 USD (calc only, 6.99 divided by 6). The gold patch is cut from the stripe foil. Foil dollars stay BLOCKER. The mat felt grade stays BLOCKER. Nothing was bought. The STL in this folder was not rebuilt. It still shows the 40 mm card.
+
 ## What the picked mat adds, without a price
 
 | Part | Count | Note |
