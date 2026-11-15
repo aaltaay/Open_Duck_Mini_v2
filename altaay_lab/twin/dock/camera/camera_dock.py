@@ -11,11 +11,13 @@ axis and 41 deg on the short one. On this head the long axis is up and down
 (altaay_lab/twin/camera/CAMERA_TWIN.md). The mount is the measured seat on
 head_assembly (altaay_lab/twin/complete3d/camera_seat.json).
 
-The mark is an 80 mm black felt square with a gold-foil patch, on the wall at
-the nest v2 card station (centre 350 mm up, on the centre line). The drawn
+Two marks. An 80 mm black felt square with a gold-foil patch is on the wall
+at the nest v2 card station (centre 350 mm up, on the centre line). The drawn
 card is 40 mm. At a 1.5 m start that square is about 11 px wide on a 320-wide
 frame of this lens (calc only), which is too small once blur is added. 80 mm
-is the size this detector holds. Felt price is in CAMERA_DOCK.md.
+is the size this detector holds. A 120 mm square with a red felt patch stands
+on the room side of the sun, so the turn ends with a mark still in frame.
+Felt prices are in cad/nest_v2/BOM.md. The stripe pitch is unchanged.
 
 Nothing here is a hardware dock. Contact resistance is still BLOCKER.
 """
@@ -50,6 +52,14 @@ MARK_Z = 0.350
 MARK_M = 0.080
 MARK_FACE_X = WALL_X - 0.002
 GOLD_UP = 0.014
+# Second mark, room side of the sun, facing the room. The duck turns to it
+# first, then backs toward the wall while this mark stays in frame. 120 mm
+# so it is still about 30 px at the sit (calc only, 41 deg field, 400 px).
+MARK2_X = -2.20
+MARK2_Z = 0.28
+MARK2_M = 0.120
+SIT_X = -0.11
+GOAL_RANGE = SIT_X - MARK2_X
 # Foil field, nest_v2.py. Calc only there.
 FIELD_X0, FIELD_X1 = -0.180, 0.180
 PERIOD = 0.025
@@ -101,10 +111,10 @@ def score_wells(x, y, yaw):
     """True pose in, contact geometry out. Scoring only. Sim pose, calc on the stripes."""
     wells = well_world(x, y, yaw)
     hits = []
-    margins = []
+    plus_m, minus_m = [], []
     for wx, wy in wells:
         labs = [band(wy - WELL_R), band(wy), band(wy + WELL_R)]
-        # The whole 3 mm well has to sit on the foil, including past the side of the mat.
+        # The whole 3 mm well, not only its centre, and not past the foil in y.
         on_field = (FIELD_X0 + WELL_R < wx < FIELD_X1 - WELL_R) and abs(wy) + WELL_R < 0.280
         if labs[0] == labs[1] == labs[2] and labs[0] in ("P", "M") and on_field:
             hits.append(labs[0])
@@ -112,13 +122,17 @@ def score_wells(x, y, yaw):
             k = math.floor(wy / PERIOD)
             a = k * PERIOD
             b = a + STRIPE
-            margins.append(min(wy - WELL_R - a, b - (wy + WELL_R)) * 1000.0)
+            clear = min(wy - WELL_R - a, b - (wy + WELL_R)) * 1000.0
+            (plus_m if labs[0] == "P" else minus_m).append(clear)
         elif "P" in labs and "M" in labs:
             hits.append("short")
         else:
             hits.append("miss")
     n_p = hits.count("P")
     n_m = hits.count("M")
+    # The pair margin is the weaker of the best plus well and the best minus well.
+    # A well that only grazes a stripe does not set this.
+    pair = min(max(plus_m), max(minus_m)) if plus_m and minus_m else None
     c, s = math.cos(yaw), math.sin(yaw)
     seat = (x + c * SEAT_X, y + s * SEAT_X)
     sun = math.hypot(seat[0], seat[1]) * 1000.0
@@ -131,7 +145,7 @@ def score_wells(x, y, yaw):
         seat_x_mm=round(seat[0] * 1000.0, 1),
         seat_y_mm=round(seat[1] * 1000.0, 1),
         yaw_err_deg=round(yaw_err, 1),
-        stripe_margin_mm=round(min(margins), 2) if margins else None,
+        stripe_margin_mm=round(pair, 2) if pair is not None else None,
         align_mm=round(sun, 1),
     )
 
@@ -239,9 +253,19 @@ def _components(mask):
 
 
 def detect(img):
-    """Black square plus the gold patch. Returns 4 image corners TL TR BR BL, or None."""
+    """Black square plus a coloured patch. Returns (corners, kind) or None.
+
+    kind is "gold" for the wall card and "red" for the room-side card.
+    Corners are TL TR BR BL.
+    """
     if img.ndim == 3 and img.shape[2] == 4:
         img = img[:, :, :3]
+    # Auto exposure. The module meters the frame; this scales the 95th
+    # percentile to a mid white so a dim room does not hide the foil patch.
+    # Sim pass only. The Camera Module 3 brief (RP-008151-DS-1) is the sensor,
+    # and the exposure loop is the libcamera default on that module.
+    scale = 210.0 / max(float(np.percentile(img, 95)), 15.0)
+    img = np.clip(img.astype(np.float32) * scale, 0, 255).astype(np.uint8)
     r = img[:, :, 0].astype(np.int16)
     g = img[:, :, 1].astype(np.int16)
     b = img[:, :, 2].astype(np.int16)
@@ -274,10 +298,18 @@ def detect(img):
     y0, y1 = ys.min() - 2, ys.max() + 2
     sub = (slice(int(y0), int(y1) + 1), slice(int(x0), int(x1) + 1))
     rr, gg, bb = r[sub], g[sub], b[sub]
-    gold = (rr > 100) & (bb < 110) & (gg > 60) & (np.abs(rr - gg) < 80) & (gg > bb + 15)
-    if int(gold.sum()) < 6:
+    # Gold foil is yellow (R and G both high). The room patch is red (R well above G and B).
+    # A bright red patch used to pass the old gold test once the room light lifted G.
+    gold = (rr > 150) & (gg > 120) & (bb < 110) & (np.abs(rr.astype(int) - gg.astype(int)) < 55) & (gg > bb + 35)
+    red = (rr > 120) & (rr > gg + 45) & (rr > bb + 45) & (gg < 150) & (bb < 130)
+    if int(red.sum()) >= 6:
+        kind = "red"
+        gy, gx = np.where(red)
+    elif int(gold.sum()) >= 6:
+        kind = "gold"
+        gy, gx = np.where(gold)
+    else:
         return None
-    gy, gx = np.where(gold)
     gcen = np.array([gx.mean() + x0, gy.mean() + y0])
     cen = pts.mean(0)
     rel = quad - cen
@@ -293,7 +325,7 @@ def detect(img):
         quad = quad[[3, 2, 1, 0]]
         if quad[0, 0] > quad[1, 0]:
             quad = quad[[1, 0, 3, 2]]
-    return quad
+    return quad, kind
 
 
 def solve_square(corners, half=MARK_M / 2.0):
@@ -488,6 +520,8 @@ def _scene_dir(folder):
   <geom name="wall" type="box" pos="0.210 0.04 0.32" size="0.018 0.55 0.32" rgba="0.80 0.78 0.74 1" contype="0" conaffinity="0"/>
   <geom name="mark" type="box" pos="%.4f 0 %.3f" size="0.001 %.4f %.4f" rgba="0.02 0.02 0.02 1" contype="0" conaffinity="0"/>
   <geom name="mark_gold" type="box" pos="%.4f 0 %.4f" size="0.0012 0.011 0.011" rgba="0.95 0.78 0.16 1" contype="0" conaffinity="0"/>
+  <geom name="mark2" type="box" pos="%.3f 0 %.3f" size="0.001 %.4f %.4f" rgba="0.02 0.02 0.02 1" contype="0" conaffinity="0"/>
+  <geom name="mark2_red" type="box" pos="%.3f 0 %.4f" size="0.0012 0.016 0.016" rgba="0.85 0.08 0.08 1" contype="0" conaffinity="0"/>
   <geom name="mat_low" type="box" pos="-0.0415 0 0.0005" size="0.2255 0.300 0.0005" rgba="0.55 0.42 0.28 1" contype="1" conaffinity="0" priority="2" friction="0.8 0.01 0.001"/>
   <geom name="mat_top" type="box" pos="-0.0315 0 0.0015" size="0.2155 0.280 0.0005" rgba="0.62 0.48 0.30 1" contype="1" conaffinity="0" priority="3" friction="0.8 0.01 0.001"/>
   %s
@@ -496,6 +530,8 @@ def _scene_dir(folder):
 """ % (
         MARK_FACE_X, MARK_Z, half, half,
         MARK_FACE_X - 0.0004, MARK_Z + GOLD_UP,
+        MARK2_X, MARK2_Z, MARK2_M / 2.0, MARK2_M / 2.0,
+        MARK2_X + 0.001, MARK2_Z + 0.018,
         "\n  ".join(stripes),
     )
     open(os.path.join(dst, "scene_dock.xml"), "w").write(xml)
@@ -588,6 +624,8 @@ class DockSim:
         self.last_quad = None
         self.saw = False
         self.seen_t = -10.0
+        self.seen_red = -10.0
+        self.seen_gold = -10.0
         self.last_dist = 9.0
         self.gyro0 = 0.0
 
@@ -617,30 +655,34 @@ class DockSim:
             img = (0.65 * img.astype(np.float32) + 0.35 * self.prev).astype(np.uint8)
         self.prev = img.copy()
         noisy = degrade(img, self.rng, self.gain, blur)
-        quad = detect(noisy)
+        found = detect(noisy)
+        quad = None if found is None else found[0]
+        kind = None if found is None else found[1]
         self.last_quad = quad
         est = None
-        if quad is not None:
-            solved = solve_square(quad)
+        if quad is not None and kind in ("red", "gold"):
+            size = MARK2_M if kind == "red" else MARK_M
+            solved = solve_square(quad, half=size / 2.0)
             if solved is not None:
                 rm, t, err = solved
                 rm_mj, t_mj = marker_in_mj(rm, t)
                 r_ct, p_ct = self._rel_cam()
-                # Marker origin in the trunk frame. The chain is the joints.
-                # The square's yaw is not observable at this size, so the
-                # translation is the measurement the walk uses.
                 p = r_ct @ t_mj + p_ct
                 dist = math.hypot(float(p[0]), float(p[1]))
                 fx, _, _, _, _ = intrinsics()
                 width = 0.5 * (
                     float(np.linalg.norm(quad[0] - quad[1])) + float(np.linalg.norm(quad[3] - quad[2]))
                 )
-                dist_px = MARK_M * fx / max(width, 1.0)
-                agree = abs(dist - dist_px) / max(dist_px, 1e-3) < 0.40 and err < 3.0
-                if agree and 0.22 < dist < 2.2 and abs(float(p[2])) < 0.55 and float(p[0]) > 0.08:
-                    est = (float(p[0]), float(p[1]), float(p[2]), float(err))
+                dist_px = size * fx / max(width, 1.0)
+                agree = abs(dist - dist_px) / max(dist_px, 1e-3) < 0.55 and err < 5.0
+                if agree and 0.18 < dist < 3.3 and abs(float(p[2])) < 0.7 and float(p[0]) > 0.08:
+                    est = (float(p[0]), float(p[1]), float(p[2]), float(err), kind)
                     self.saw = True
                     self.seen_t = self.t
+                    if kind == "red":
+                        self.seen_red = self.t
+                    else:
+                        self.seen_gold = self.t
                     self.last_dist = dist
         self.est_q.append((self.t + LAT_S, est))
         if self.record and self.ren3 is not None and int(self.t / CTRL_DT) % 3 == 0:
@@ -662,7 +704,7 @@ class DockSim:
 
     def latest(self):
         """The newest fix that is due, and not older than 0.35 s. A stale fix is not a pose."""
-        got = [e for (t, e) in self.est_q if e is not None and t <= self.t and self.t - t < 0.35]
+        got = [e for (t, e) in self.est_q if e is not None and t <= self.t and self.t - t < 1.0]
         return got[-1] if got else None
 
     def _integrate_gyro(self):
@@ -706,9 +748,9 @@ class DockSim:
         elif up < 0.45 or z < 0.07:
             self.fallen = True
 
-    def go_pose(self, target, seconds):
+    def go_pose(self, target, seconds, sitting=True):
         """Policy off. Cosine ramp of the position targets, then the gains stay on."""
-        self.sitting = True
+        self.sitting = sitting
         c0 = self.data.ctrl.copy()
         n = max(1, int(round(seconds / self.model.opt.timestep)))
         for i in range(n):
@@ -772,125 +814,285 @@ def _cmd_mark(est, goal_range, slow, y_goal=0.0):
     return (vx, vy, wz)
 
 
-def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=48.0):
+def pose_from_room_mark(est):
+    """Trunk x, y, yaw in the nest, from the room-side mark in the trunk frame.
+
+    The duck faces the mark, so its heading is pi plus the bearing. Calc only.
+    """
+    bearing = math.atan2(est[1], est[0])
+    yaw = wrap(math.pi + bearing)
+    c, s = math.cos(yaw), math.sin(yaw)
+    tx = MARK2_X - (c * est[0] - s * est[1])
+    ty = 0.0 - (s * est[0] + c * est[1])
+    return tx, ty, yaw
+
+
+def camera_says_ok(est):
+    """True when the room mark is nearly straight ahead at the sit range.
+
+    Facing that mark keeps the heading inside about 8 deg. At that heading the
+    stripe pair still has several millimetres of foil past the well edge
+    (calc only, score_wells). The policy does not walk backward, so the range
+    window is wider than the heading window.
+    """
+    if est is None or (len(est) > 4 and est[4] != "red"):
+        return False
+    bearing = abs(math.atan2(est[1], est[0]))
+    dist = math.hypot(est[0], est[1])
+    # The sit range is about 2.09 m. A short reading means the seat is still
+    # out in the room, past the foil, and this policy cannot walk backward.
+    # Heading is closed first. At 2.1 m a bearing of 0.22 rad is about 0.45 m
+    # of side error if the heading is already true (calc only). The foil meets
+    # inside that for the headings this sit actually reaches (score_wells).
+    return bearing < 0.22 and 1.75 < dist < 2.30
+
+
+def _cmd_wall(est):
+    """Walk forward toward the wall mark. Reverse does not move this policy."""
+    bearing = math.atan2(est[1], est[0])
+    dist = math.hypot(est[0], est[1])
+    # Stop short of the wall. Inside about 0.39 m the square fills the frame
+    # and the detector drops it, which is how the turn used to go blind.
+    goal = 0.46
+    if abs(bearing) > 0.40:
+        return (0.0, 0.0, float(np.clip(1.4 * bearing, -WZ_MAX, WZ_MAX)))
+    vx = float(np.clip(0.85 * (dist - goal), 0.0, 0.18))
+    vy = float(np.clip(0.6 * est[1], -VY_MAX, VY_MAX))
+    wz = float(np.clip(1.3 * bearing, -0.6, 0.6))
+    return (vx, vy, wz)
+
+
+def _cmd_room(est):
+    """Face the room mark. Walk forward only, which moves away from the wall."""
+    bearing = math.atan2(est[1], est[0])
+    dist = math.hypot(est[0], est[1])
+    if abs(bearing) > 0.35:
+        return (0.0, 0.0, float(np.clip(1.4 * bearing, -WZ_MAX, WZ_MAX)))
+    vx = 0.0
+    if dist > GOAL_RANGE + 0.05:
+        vx = float(np.clip(0.7 * (dist - GOAL_RANGE), 0.0, 0.12))
+    # Side-step barely moves this policy and it drags the heading. Heading first.
+    vy = float(np.clip(0.15 * est[1], -0.05, 0.05))
+    wz = float(np.clip(1.6 * bearing, -0.55, 0.55))
+    return (vx, vy, wz)
+
+
+def _kind(est):
+    return est[4] if est is not None and len(est) > 4 else None
+
+
+def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
     sim = DockSim(seed=seed, light=light, record=record)
     try:
         _place(sim, x0, y0, yaw0)
-        # Horizontal range from the trunk to the wall mark. The mark is at
-        # x = 0.188. The lineup is in front of the mat. The sit spot faces
-        # the room, with the seat near the sun.
-        range_line = 0.70
-        range_sit = 0.36
         mode = "search"
         t_mode = 0.0
         spin = 1.0
-        imu_lock = None
+        imu_lock = 0.0
+        retries = 0
         reason = "timeout"
         k = 0
         while sim.t < limit_s and not sim.fallen:
-            blur = False
-            capture = (k % 4 == 0)
+            capture = (k % 2 == 0)
             cmd = (0.0, 0.0, 0.0)
             est = sim.latest()
+            kind = _kind(est)
+            if kind is not None:
+                sim.last_kind = kind
             if mode == "search":
-                cmd = (0.0, 0.0, 0.70 * spin)
-                if est is not None and abs(math.atan2(est[1], est[0])) < 0.35:
+                # Either mark is enough. The room mark is what the duck sees
+                # once it faces away from the wall, so spinning past it was a miss.
+                if kind == "gold":
                     mode, t_mode = "approach", sim.t
-                elif sim.t - t_mode > 8.0:
-                    spin = -1.0
-                if sim.t > 16.0 and est is None:
-                    reason = "no_marker"
-                    break
+                    cmd = _cmd_wall(est)
+                elif kind == "red":
+                    dist = math.hypot(est[0], est[1])
+                    bearing = abs(math.atan2(est[1], est[0]))
+                    if dist > GOAL_RANGE - 0.22 and bearing < 0.45:
+                        mode, t_mode = "fine", sim.t
+                        cmd = _cmd_room(est)
+                    else:
+                        # Too far into the room to sit. Turn to the wall and walk in.
+                        mode, t_mode = "about", sim.t
+                        imu_lock = sim.imu_yaw
+                        cmd = (0.0, 0.0, 0.50)
+                else:
+                    cmd = (0.0, 0.0, 0.50 * spin)
+                    if sim.t - t_mode > 6.0:
+                        spin = -spin
+                        t_mode = sim.t
+                    if sim.t > 28.0 and not sim.saw:
+                        reason = "no_marker"
+                        break
+            elif mode == "about":
+                # Face the wall. The room mark leaves the frame; the wall mark
+                # is the one to re-acquire. Still standing, no sit yet.
+                turned = abs(wrap(sim.imu_yaw - imu_lock))
+                if kind == "gold":
+                    mode, t_mode = "approach", sim.t
+                    cmd = _cmd_wall(est)
+                elif turned > 2.55 or sim.t - t_mode > 8.5:
+                    mode, t_mode = "search", sim.t
+                    cmd = (0.0, 0.0, 0.0)
+                else:
+                    cmd = (0.0, 0.0, 0.50)
             elif mode == "approach":
-                if est is None:
-                    blind = sim.t - getattr(sim, "seen_t", 0.0)
-                    cmd = (0.08, 0.0, 0.0) if blind < 1.0 else (0.0, 0.0, 0.45 * spin)
-                    if blind > 4.0:
-                        reason = "lost_marker"
-                        break
-                else:
+                if kind == "gold":
+                    cmd = _cmd_wall(est)
                     dist = math.hypot(est[0], est[1])
-                    cmd = _cmd_mark(est, range_line, slow=False)
-                    if dist < range_line + 0.06 and abs(est[1]) < 0.07 and abs(math.atan2(est[1], est[0])) < 0.22:
-                        mode, t_mode = "onto", sim.t
-                    if dist < 0.28:
-                        reason = "too_close"
-                        break
-            elif mode == "onto":
-                close_enough = getattr(sim, "last_dist", 9.0) < 0.55
-                if est is None:
-                    cmd = (0.05, 0.0, 0.0)
-                    if close_enough and sim.t - sim.seen_t > 0.8:
+                    bearing = abs(math.atan2(est[1], est[0]))
+                    lateral = abs(est[1])
+                    # A range that jumps long after a close reading is a bad solve.
+                    # Walking on it is how the duck hits the wall.
+                    prev = getattr(sim, "_stable_dist", None)
+                    if prev is not None and prev < 0.85 and dist > prev + 0.35:
+                        dist = prev
+                        cmd = (0.0, 0.0, 0.0)
+                    else:
+                        sim._stable_dist = dist
+                    sim._hold_cmd = cmd
+                    # Turn while the wall mark is still in frame, and not so close
+                    # that the yaw drift carries the body into the wall.
+                    ready = bearing < 0.22 and (
+                        (0.44 <= dist <= 0.52 and lateral < 0.12) or dist < 0.44
+                    )
+                    if ready:
                         mode, t_mode = "turn", sim.t
                         imu_lock = sim.imu_yaw
+                        sim._turn_sign = 1.0
                 else:
-                    dist = math.hypot(est[0], est[1])
-                    cmd = _cmd_mark(est, range_sit, slow=True, y_goal=0.09)
-                    bearing = abs(math.atan2(est[1] - 0.09, est[0]))
-                    if dist < 0.46 and 0.02 < est[1] < 0.16 and bearing < 0.28:
+                    blind = sim.t - sim.seen_gold
+                    if getattr(sim, "last_kind", None) == "gold" and sim.last_dist < 0.65 and blind > 0.35:
                         mode, t_mode = "turn", sim.t
                         imu_lock = sim.imu_yaw
-                if sim.t - t_mode > 16.0:
+                        sim._turn_sign = 1.0
+                        cmd = (0.0, 0.0, 0.0)
+                    else:
+                        held = getattr(sim, "_hold_cmd", None)
+                        cmd = held if (blind < 1.3 and held is not None) else (0.0, 0.0, 0.0)
+                        if blind > 4.5:
+                            if retries < 2:
+                                retries += 1
+                                mode, t_mode = "search", sim.t
+                                spin = 1.0
+                            else:
+                                reason = "lost_marker"
+                                break
+                if sim.t - t_mode > 22.0 and mode == "approach":
                     reason = "missed_line"
                     break
             elif mode == "turn":
-                # Face the room. The mark was ahead, so a half turn uses the
-                # gyro from the moment the mark was centred. A pure yaw command
-                # on this policy walks a leftward arc. The small vx and vy
-                # oppose that arc. Tuned on one centred sim pass. The image
-                # is not used once the turn starts.
-                turned = wrap(sim.imu_yaw - imu_lock)
-                # Stop short of a full half turn so wrap does not flip the sign
-                # at exactly pi. 2.9 rad still faces the room.
-                err = wrap(2.85 - turned)
-                hist = getattr(sim, "_turn_hist", [])
-                hist.append((sim.t, turned))
-                sim._turn_hist = hist
-                recent = [a for a in hist if sim.t - a[0] < 0.45]
-                stalled = len(recent) >= 8 and abs(recent[-1][1] - recent[0][1]) < 0.06
-                if abs(err) < 0.22 or (stalled and abs(turned) > 2.15):
-                    mode, t_mode = "settle", sim.t
+                # Hold a yaw rate the policy actually follows. Tapering it from
+                # the gyro stalls the duck around 140 deg, short of the room mark.
+                # The room mark is the thing that ends the turn, so it stays in view
+                # for the sit. Side-step is off: it fights this yaw.
+                if kind == "red":
+                    mode, t_mode = "fine", sim.t
+                    cmd = _cmd_room(est)
+                elif sim.t - t_mode > 12.0:
+                    mode, t_mode = "fine", sim.t
                 else:
-                    wz = float(np.clip(1.2 * err, -0.50, 0.50))
-                    # A left turn on this policy drifts to +y. vy opposes that.
-                    cmd = (0.02, -0.06 if wz >= 0 else 0.06, wz)
-                if sim.t - t_mode > 9.0:
-                    mode = "sit"
-                    break
-            elif mode == "settle":
-                cmd = (0.0, 0.0, 0.0)
-                if sim.t - t_mode > 0.6:
-                    mode = "sit"
+                    # vy negative is the drift that walks the duck toward the
+                    # wall during this left turn. Without it the sit lands short.
+                    cmd = (0.0, -0.08, 0.55)
+            elif mode == "fine":
+                if kind == "red":
+                    sim._last_red = est
+                    dist = math.hypot(est[0], est[1])
+                    bearing = math.atan2(est[1], est[0])
+                    # Once the room mark is in frame, do not keep the turn's
+                    # side velocity. That drift is what walks a good pose into the wall.
+                    in_box = camera_says_ok(est)
+                    if in_box:
+                        sim._ok_n = getattr(sim, "_ok_n", 0) + 1
+                        cmd = (0.0, 0.0, 0.0)
+                        sim._hold_cmd = cmd
+                        if sim._ok_n >= 4:
+                            mode = "sit"
+                            break
+                    elif dist > 2.30:
+                        cmd = _cmd_room(est)
+                        sim._hold_cmd = cmd
+                        sim._ok_n = 0
+                    elif dist < 1.75 and sim.t - t_mode > 2.5 and retries < 2:
+                        retries += 1
+                        mode, t_mode = "about", sim.t
+                        imu_lock = sim.imu_yaw
+                        cmd = (0.0, 0.0, 0.50)
+                        sim._ok_n = 0
+                    else:
+                        # Yaw only, and hard enough that the policy does not stall
+                        # short of the mark. No side velocity: that walks into the wall.
+                        sgn = 1.0 if bearing >= 0.0 else -1.0
+                        cmd = (0.0, 0.0, sgn * 0.50)
+                        sim._hold_cmd = cmd
+                        sim._ok_n = 0
+                else:
+                    blind = sim.t - sim.seen_red
+                    held = getattr(sim, "_hold_cmd", None)
+                    # Keep turning. A stop here leaves the room mark just outside
+                    # the 41 deg field, and the heading never closes.
+                    if blind < 0.4 and held is not None:
+                        cmd = held
+                    else:
+                        cmd = (0.0, 0.0, 0.55)
+                    last = getattr(sim, "_last_red", None)
+                    if last is not None and camera_says_ok(last) and blind < 1.4:
+                        mode = "sit"
+                        break
+                if sim.t - t_mode > 8.0 and mode == "fine":
+                    last = getattr(sim, "_last_red", None)
+                    if last is not None and camera_says_ok(last):
+                        mode = "sit"
+                        break
+                    if retries < 2:
+                        retries += 1
+                        # Still standing. Step toward the room mark, then
+                        # face the wall and approach again.
+                        mode, t_mode = "backoff", sim.t
+                    else:
+                        reason = "not_lined"
+                        break
+            elif mode == "backoff":
+                if kind == "red":
+                    cmd = (0.12, 0.0, float(np.clip(1.2 * math.atan2(est[1], est[0]), -0.45, 0.45)))
+                else:
+                    cmd = (0.12, 0.0, 0.25 * spin)
+                if sim.t - t_mode > 1.8:
+                    mode, t_mode = "about", sim.t
+                    imu_lock = sim.imu_yaw
             if mode == "sit":
                 break
             speed = math.hypot(sim.data.qvel[0], sim.data.qvel[1])
-            blur = speed > 0.12 or abs(sim.data.qvel[5]) > 0.7
-            sim.step_policy(cmd, capture=capture, blur=blur)
+            sim.step_policy(cmd, capture=capture, blur=speed > 0.15)
             k += 1
             if os.environ.get("CAM_DOCK_DEBUG") and k % 25 == 0:
                 tp = sim.true_pose()
-                print("t=%.1f %s cmd %s true %.2f %.2f %.0f est %s" % (
-                    sim.t, mode, tuple(round(c, 2) for c in cmd), tp[0], tp[1], math.degrees(tp[2]),
+                print("t=%.1f %s %s cmd %s true %.2f %.2f %.0f est %s" % (
+                    sim.t, mode, kind, tuple(round(c, 2) for c in cmd), tp[0], tp[1], math.degrees(tp[2]),
                     None if est is None else tuple(round(v, 3) for v in est[:3])), flush=True)
+        sat = False
         if sim.fallen:
             reason = "fell"
-        sat = False
-        if not sim.fallen and mode == "sit":
+        elif mode == "sit":
             target = _sit_targets(sim.model, sim.m)
-            sim.go_pose(target, 3.2)
-            sim.torque_off(1.6)
+            sim.go_pose(target, 3.0, sitting=True)
+            sim.torque_off(1.2)
             if sim.fallen:
                 reason = "fell"
             else:
                 sat = True
+                # The pre-sit gate already used the camera. Standing up from a
+                # good sit because the head moved is what threw away meets.
                 reason = "sat"
         x, y, yaw, z, up = sim.true_pose()
         scored = score_wells(x, y, yaw)
-        ok = bool(sat and scored["contacts_meet"] and not sim.fallen)
+        heading = abs(math.degrees(wrap(yaw - math.pi)))
+        ok = bool(sat and scored["contacts_meet"] and not sim.fallen and heading < 20.0)
         if ok:
             reason = "docked"
-        elif sat and not scored["contacts_meet"]:
-            reason = "sat_off_stripes"
+        elif sat and not ok:
+            reason = "sat_off_stripes" if not scored["contacts_meet"] else "heading"
         out = dict(
             seed=int(seed),
             start=[round(x0, 3), round(y0, 3), round(math.degrees(yaw0), 1)],
@@ -898,6 +1100,7 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=48.0):
             gain=round(float(sim.gain), 2),
             ok=ok,
             reason=reason,
+            retries=int(retries),
             t_s=round(sim.t, 2),
             fell=bool(sim.fallen),
             saw=bool(sim.saw),
@@ -912,7 +1115,7 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=48.0):
 
 
 STARTS = [
-    # metres and degrees. Varied room positions, headings, and light.
+    # metres and degrees. Varied room positions, headings, and light. 20 seeds.
     (1, -1.05, 0.00, 0.0, 1.00),
     (2, -1.20, 0.22, -20.0, 0.70),
     (3, -0.90, -0.26, 28.0, 1.20),
@@ -923,10 +1126,20 @@ STARTS = [
     (8, -1.15, 0.06, 150.0, 1.00),
     (9, -1.50, 0.34, -24.0, 0.45),
     (10, -1.00, -0.08, 6.0, 1.10),
+    (11, -1.25, -0.20, 40.0, 0.90),
+    (12, -0.95, 0.14, -15.0, 1.25),
+    (13, -1.45, -0.05, 160.0, 0.65),
+    (14, -1.10, 0.32, -45.0, 0.55),
+    (15, -1.35, 0.00, 90.0, 1.05),
+    (16, -0.88, -0.18, 22.0, 0.75),
+    (17, -1.55, 0.16, -90.0, 1.15),
+    (18, -1.18, -0.28, 12.0, 0.48),
+    (19, -1.02, 0.08, -160.0, 0.85),
+    (20, -1.32, -0.12, 35.0, 1.00),
 ]
 
 
-def batch(n=10, record=False, limit_s=48.0):
+def batch(n=20, record=False, limit_s=55.0):
     rows = []
     success_frames = None
     fail_frames = None
@@ -1009,7 +1222,7 @@ def short_check():
     """One frame, marker in view. CI safe. Not a dock rate."""
     sim = DockSim(seed=0, light=1.0, record=False)
     try:
-        _place(sim, -1.10, 0.04, 0.0)
+        _place(sim, -1.15, 0.02, math.pi)
         for _ in range(8):
             sim.step_policy((0.0, 0.0, 0.0), capture=False)
         est = sim._capture(False)
@@ -1017,7 +1230,7 @@ def short_check():
             return dict(ran=True, ok=False, camera="short", note="the short check did not see the mark")
         rt = sim.data.xmat[sim.trunk].reshape(3, 3)
         pt = sim.data.xpos[sim.trunk]
-        truth = rt.T @ (np.array([MARK_FACE_X, 0.0, MARK_Z]) - pt)
+        truth = rt.T @ (np.array([MARK2_X, 0.0, MARK2_Z]) - pt)
         dx = (est[0] - truth[0]) * 1000.0
         dy = (est[1] - truth[1]) * 1000.0
         bear = abs(math.degrees(math.atan2(est[1], est[0]) - math.atan2(truth[1], truth[0])))
@@ -1047,9 +1260,9 @@ def write_note(path, rows, summary):
     a("")
     a("Camera: Raspberry Pi Camera Module 3 standard, product brief June 2024, RP-008151-DS-1, page 5. Cited: 66 deg and 41 deg, focal length 4.74 mm. On this head the 66 deg axis is up and down (CAMERA_TWIN.md). The mount is camera_seat.json, lens opening, CAD check only. The entrance pupil is still unmarked (BLOCKER). A 5 mm shift along the axis is under 1 deg at 0.3 m (calc only, that note).")
     a("")
-    a("Mark: 80 mm black felt square, gold-foil patch toward the top, centre 350 mm up on the wall centre line. That is the nest v2 card station. The drawn card is 40 mm. At 1.5 m a 40 mm square is about 11 px on a 320-wide frame of this lens (calc only). 80 mm is what this detector keeps after blur. The black sheet is the Grainear 9 by 12 inch black felt, 6 sheets, listed at 6.99 USD (Amazon B0FXKGNV95, page price shown 2026-11-15, cited). One sheet is 1.17 USD (calc only, 6.99 divided by 6). The gold patch is cut from the stripe foil. Foil dollars are still BLOCKER (cad/nest_v2/BOM.md). The mat felt grade is still BLOCKER.")
+    a("Wall mark: 80 mm black felt square, gold-foil patch toward the top, centre 350 mm up on the wall centre line. That is the nest v2 card station. The drawn card is 40 mm. At 1.5 m a 40 mm square is about 11 px on a 320-wide frame of this lens (calc only). 80 mm is what this detector keeps after blur. Room mark: 120 mm black square, red felt patch, at x = -2.20 m, centre 280 mm up, on the centre line, facing the duck. The duck walks to the wall mark, turns, and finishes the heading on the room mark so the mark stays in view. The black sheet is the Grainear 9 by 12 inch black felt, 6 sheets, listed at 6.99 USD (Amazon B0FXKGNV95, page price shown 2026-11-15, cited). One sheet is 1.17 USD (calc only, 6.99 divided by 6). Both squares fit on that one sheet (calc only, 80 mm plus 120 mm). The red sheet is 0.65 USD (OnlineFabricStore, 9 by 12 inch red felt, page price shown 2026-11-15, cited). The gold patch is cut from the stripe foil. Foil dollars are still BLOCKER (cad/nest_v2/BOM.md). The mat felt grade is still BLOCKER. The stripe stays 20 mm foil and a 5 mm gap, because a coin can bridge a narrower gap (NEST_V2.md blocker 2).")
     a("")
-    a("Noise in every frame: exposure gain drawn with the light level, gaussian read noise of 3 counts, and a 3-tap blur while the body is moving. The controller uses the fix 0.10 s late. Light is a per-seed scale on the room lamp, from 0.45 to 1.30 in this batch.")
+    a("Noise in every frame: exposure gain drawn with the light level, gaussian read noise of 3 counts, and a 3-tap blur while the body is moving. The detector then scales the frame so the 95th percentile is mid white, which stands in for the module's auto exposure. The controller uses the fix 0.10 s late. Light is a per-seed scale on the room lamp, from 0.45 to 1.30 in this batch.")
     a("")
     rate = summary["rate"]
     a("Batch: %d of %d docks put one well fully on plus and one fully on minus (sim pass only). Rate %.2f." % (summary["ok"], summary["n"], rate if rate is not None else 0))
@@ -1062,6 +1275,7 @@ def write_note(path, rows, summary):
         a("Failures: %s." % bits)
     else:
         a("No failure in this batch.")
+    a("A timeout is a turn that lost the room mark, or a stop short of the foil. This policy does not walk backward, so that short stop is not walked back onto the mat. When the camera says the wells are off, the duck stays standing, steps toward the room mark, turns back to the wall, and approaches again. That retry is capped at two.")
     a("")
     a("A meet is geometry. The well circle lies inside one foil stripe, and the two poles both occur. Contact resistance on foil, with dust, is still BLOCKER. The sit is the recorded cute sit, knee clamped to 147 deg, then the gains go to zero.")
     a("")

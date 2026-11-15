@@ -577,7 +577,7 @@ def _public_error(exc):
 
 
 def dock_once(short=False):
-    """Head-camera dock. short: one frame. Otherwise the 10-seed batch."""
+    """Head-camera dock. short: one frame. Otherwise the seed batch."""
     try:
         from altaay_lab.twin.dock.camera import camera_dock as CD
         pin_policy_env()
@@ -585,11 +585,11 @@ def dock_once(short=False):
             row = CD.short_check()
             row["note"] = (
                 "Short camera check only. Marker error %s mm in the body frame, bearing error %s deg (sim pass only). "
-                "The 10-seed dock was not run on this command."
+                "The seed batch was not run on this command."
                 % (row.get("err_mm"), row.get("yaw_err_deg"))
             )
             return row
-        n = int(os.environ.get("CAM_DOCK_SEEDS", "10"))
+        n = int(os.environ.get("CAM_DOCK_SEEDS", "20"))
         rows, _, _ = CD.batch(n=n, record=False)
         summary = CD.summarize(rows)
         note_path = os.path.join(LAB, "twin", "dock", "camera", "CAMERA_DOCK.md")
@@ -600,7 +600,7 @@ def dock_once(short=False):
             "The head camera, not the true pose, put one well on each stripe in %d of %d runs (sim pass only). "
             "On those, the seat was a median %s mm from the sun, at most %s mm, in a median %s s. "
             "Stripe margin at least %s mm (calc only on the scored pose). Failures: %s. "
-            "The half turn after the mark is centred uses the gyro, because the mark leaves the frame. "
+            "The turn finishes on a second mark on the room side of the sun, so a mark stays in view. "
             "Contact resistance is still BLOCKER."
             % (
                 summary["ok"], summary["n"],
@@ -852,7 +852,7 @@ def write_report(path, parts, result, thermal, charge, dock, hits, seconds, rest
     a("- A bench measurement of the C018 terminal resistance. The heat uses the 1.0 ohm printed in specification A/0 item 5-10. The stall line 12 V / 2.7 A is 4.444 ohm on the same sheet, and the old 3.753 ohm figure was that stall line times the C001 winding share. The audit is altaay_lab/twin/thermal/HEAT_AUDIT.md.")
     a("- The i7C current below 10 V, the TRIM resistor, and the wide boost tolerance above 100 W (BLOCKER).")
     a("- Felt, dirt, and a measured well contact.")
-    a("- The turn-offset table at 12 V. This dock does not use that table. The half turn is the gyro from the last camera fix.")
+    a("- The turn-offset table at 12 V. This dock does not use that table. The heading is closed on the room-side mark.")
     a("- Hardware. Every temperature, speed, and current above that says sim pass only is a model output.")
     a("")
     a("The duck mass is the whole robot. The trunk body alone is %.3f kg. The stock Open Duck Mini model is %.3f kg. MuJoCo loads %.3f kg, and the parts rollup is %.3f kg. The rollup includes three P45B cells at the cited 70 g, the i7C at the cited 75 g, the 3S protection board, the BQ24133 board, and three limb breakers. The protection-board grams are the cited size times 1.2 g/cm3 (calc only). The BQ24133 assembled grams and the breaker package grams are not on a datasheet." % (

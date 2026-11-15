@@ -24,7 +24,7 @@ The 55 C rest is inside the walk. At 55 C the command goes to zero and the polic
 The rest check reached a right knee of 147 deg, then torque off. Stance current was 0.58 A. The crouch, measured after the knee had settled at 21 deg, was 0.26 A. Torque off was 0.000 A (sim pass only). From a 55 C start, torque off reached 45 C in 3.51 min. The powered stand reached 45 C in 4.80 min. Both clocks are sim pass only, on the cited 1.0 ohm.
 Knee high stop used here is 147 deg, the register soft stop. The CAD bumper is 150 deg (software/servo_limits.json, CAD check only). The walk model was compiled at 90 deg, and this run raises that stop before the sit.
 The 50 C figure in the heat audit is the case temperature for a flat 1.5 A if the copper stayed at its cold resistance and the sensor sat on the case. While this session was walking the right knee was 0.88 A RMS (sim pass only), which is 0.78 W in cold copper at 1.0 ohm (calc only). The knee reading peaked at 38.4 C, under the 55.0 C rest, so the guard did not stand the duck. The knee rested 0 times.
-Dock: The head camera, not the true pose, put one well on each stripe in 4 of 10 runs (sim pass only). On those, the seat was a median 143.2 mm from the sun, at most 169.9 mm, in a median 21.6 s. Stripe margin at least 0.44 mm (calc only on the scored pose). Failures: missed_line 2, no_marker 1, sat_off_stripes 3. The half turn after the mark is centred uses the gyro, because the mark leaves the frame. Contact resistance is still BLOCKER. The walk is the run D policy (sts12_runD_policy.onnx) on the held 12.0 V rail (sim pass only). The old nest program that drove on the true pose plus noise is not this loop. The dock numbers are the batch in twin/dock/camera/CAMERA_DOCK.md. The walk numbers above are the run D session already in this file.
+Dock: The head camera, not the true pose, put one well on each stripe in 14 of 20 runs (sim pass only). On those, the seat was a median 113.4 mm from the sun, at most 215.4 mm, in a median 29.8 s. Stripe margin at least 2.69 mm (calc only on the scored pose). Failures: timeout 6. The turn finishes on a second mark on the room side of the sun, so a mark stays in view. Contact resistance is still BLOCKER. The walk is the run D policy (sts12_runD_policy.onnx) on the held 12.0 V rail (sim pass only). The old nest program that drove on the true pose plus noise is not this loop. The dock numbers are the batch in twin/dock/camera/CAMERA_DOCK.md. The walk numbers above are the run D session already in this file.
 The cell node is three P45B cans, 70 g and 21.55 mm by 70.15 mm (cited, THERMAL_TWIN.md from the P45B sheet). Half of each can faces bay air. The trunk has no vent in this model, so the air exchange is the closed-bay assumption. Specific heat is the old 18650 range, a guess. An earlier 56.7 C figure used two 47 g 18650s for the same three-cell heat, which runs hot.
 Charge: the NTC gate is open at a cell temperature of 44.5 C. The hot stop is 57.0 C, where the divider fraction equals the cited 0.442 hot threshold (calc only, bead beta 3950 and the BQ24133 divider). The P45B charge limit is 60 C (cited). The gate does not hold off charge at the end of this discharge. Time to put the used 3413 mAh back at 1.006 A is 3.39 hours (calc only).
 Limits this run touched: pack fell to 9.90 V, under the 10.0 V walk cutoff.
@@ -59,7 +59,7 @@ Limits this run touched: pack fell to 9.90 V, under the 10.0 V walk cutoff.
 | rest stop | 55 C | limits file |
 | rest resume | 45 C | limits file |
 | cell temperature | 44.5 C | sim pass only |
-| dock | 4 of 10 | sim pass only |
+| dock | 14 of 20 | sim pass only |
 | charge current | 1.006 A | cited |
 | time to replace what was used | 3.39 h | calc only |
 | NTC allows charge | yes | calc only |
@@ -81,7 +81,7 @@ Limits this run touched: pack fell to 9.90 V, under the 10.0 V walk cutoff.
 - A bench measurement of the C018 terminal resistance. The heat uses the 1.0 ohm printed in specification A/0 item 5-10. The stall line 12 V / 2.7 A is 4.444 ohm on the same sheet, and the old 3.753 ohm figure was that stall line times the C001 winding share. The audit is altaay_lab/twin/thermal/HEAT_AUDIT.md.
 - The i7C current below 10 V, the TRIM resistor, and the wide boost tolerance above 100 W (BLOCKER).
 - Felt, dirt, and a measured well contact.
-- The turn-offset table at 12 V. This dock does not use that table. The half turn is the gyro from the last camera fix.
+- The turn-offset table at 12 V. This dock does not use that table. The heading is closed on the room-side mark.
 - Hardware. Every temperature, speed, and current above that says sim pass only is a model output.
 
 The duck mass is the whole robot. The trunk body alone is 1.207 kg. The stock Open Duck Mini model is 2.107 kg. MuJoCo loads 2.949 kg, and the parts rollup is 2.949 kg. The rollup includes three P45B cells at the cited 70 g, the i7C at the cited 75 g, the 3S protection board, the BQ24133 board, and three limb breakers. The protection-board grams are the cited size times 1.2 g/cm3 (calc only). The BQ24133 assembled grams and the breaker package grams are not on a datasheet.
