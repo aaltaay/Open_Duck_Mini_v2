@@ -904,6 +904,7 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                 # once it faces away from the wall, so spinning past it was a miss.
                 if kind == "gold":
                     mode, t_mode = "approach", sim.t
+                    sim._stable_dist = None
                     cmd = _cmd_wall(est)
                 elif kind == "red":
                     dist = math.hypot(est[0], est[1])
@@ -930,6 +931,7 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                 turned = abs(wrap(sim.imu_yaw - imu_lock))
                 if kind == "gold":
                     mode, t_mode = "approach", sim.t
+                    sim._stable_dist = None
                     cmd = _cmd_wall(est)
                 elif turned > 2.55 or sim.t - t_mode > 8.5:
                     mode, t_mode = "search", sim.t
