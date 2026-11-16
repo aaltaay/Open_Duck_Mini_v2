@@ -1,0 +1,35 @@
+{
+ "label": "sim pass only",
+ "policy": "sts12_runD_policy.onnx",
+ "scene": "playground scene_flat_terrain.xml at pin b9be205, plus two visual marks",
+ "standing_head": "override the four head actuators",
+ "walking_head": "command channels only, joints not overwritten",
+ "probe": {
+  "label": "sim pass only",
+  "stand_channel_yaw_error_rad": 0.26,
+  "stand_override_yaw_error_rad": 0.002,
+  "yaw_command_rad": 0.4,
+  "note": "The infer script leaves the head-joint write commented out. Channels are in the observation. Override is used while standing because the channel error stays large."
+ },
+ "duration_s": 43.22,
+ "frames": 865,
+ "fps": 20,
+ "width": 1280,
+ "height": 720,
+ "video_bytes": 508870,
+ "fallen": false,
+ "fall_t_s": null,
+ "arrived_near_mark": true,
+ "start_x_m": 0.0,
+ "end_x_m": 0.924,
+ "end_y_m": 0.154,
+ "walk_channel_yaw_error_rad": 0.108,
+ "walk_command_m_s": 0.15,
+ "not_in_this_clip": [
+  "nest camera",
+  "charge current",
+  "sit from a walk",
+  "ear servos and eye beads (caption only)",
+  "a real face finder or a real sound direction"
+ ]
+}

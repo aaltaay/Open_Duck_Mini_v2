@@ -10,6 +10,7 @@ Written 2026-11-02 by the Claude Code software agent (agent S); sections 1 and 6
 | same thread, between cycles | lab hooks: staggered voltage and temperature read (pypot), battery guard, temperature guard; the walking log's reads run only inside the loop's own end-of-cycle sleep (section 6) | [L] bench/odm_bench/walkhooks.py, sampler.py, vsampler.py, thermal.py; bench/battery_guard.py, power_log.py |
 | same thread, only with --knee-heat | knee heat guard: warn and stop at 55 C, torque off while idle or sitting, resume below 45 C (section 5). The boot service passes the flag | [L] software/knee_heat.py, software/odm-walk-guard.service |
 | Pi, other threads | BNO055 reader (I2C, raw_imu.py), Xbox pad reader (pygame), eyes blink | [U] raw_imu.py lines 123-148, xbox_controller.py, eyes.py |
+| Pi, a thread that is not the 50 Hz walk | personality: mood, head and ear targets, white eye brightness, and the choice to go home, sit, or nap | [L] software/personality/ |
 | Pi, systemd | software/odm-walk-guard.service (replaces the image's open-duck-walk.service) | [L] |
 | Windows PC | Castle Link (BEC 7.2 V, D3), Feetech tool if firmware must be updated (G3) | TEST_PLAN 0 |
 | Lab container | MuJoCo walk and ngspice power sim (sim/), bench script tests on the simulated bus | [L] sim/, bench/tests/ |
@@ -185,6 +186,7 @@ Where each program lives, and whether it has been run. "Simulated bus" means ben
 | Charging | no charge program | Not written. The charger inside the duck is not designed yet. BLOCKER. The dock stub above is not a charger. |
 | Updates | software/PI_SETUP.md step 2, one apt full-upgrade at install | No updater after that. Not written. |
 | Ear PWM | Runtime antennas.py | Still Blinka software PWM. Writing the hardware PWM channels would edit the Runtime, which D6 does not allow (D53). Not written. |
+| Personality | software/personality/ | Written. Unit tests, no hardware. A scripted day on the run D policy is sim pass only (twin/out/videos/personality_demo.mp4). Not run on a duck. |
 
 ## 11. Communications
 
