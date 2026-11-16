@@ -230,10 +230,14 @@ class ArbitrationTests(unittest.TestCase):
         self.assertEqual(alert.intent, "sit")
         self.assertEqual(alert.expression, "seated_alert")
         self.assertGreater(alert.neck_pitch, 0.05)
-        duck.arousal = 0.08
-        for _ in range(15):
-            nap = duck.step(0.1, Sensors(pack_v=12.4, posture="sitting", idle_s=40.0))
+        nap = alert
+        for i in range(40):
+            nap = duck.step(1.0, Sensors(pack_v=12.4, posture="sitting", idle_s=25.0 + i))
+            if nap.intent == "nap":
+                break
         self.assertEqual(nap.intent, "nap")
+        for _ in range(20):
+            nap = duck.step(0.1, Sensors(pack_v=12.4, posture="sitting", idle_s=80.0))
         self.assertEqual(nap.expression, "sleepy_droop")
         self.assertLess(nap.neck_pitch, 0.0)
 
@@ -337,6 +341,23 @@ class AssistantBodyTests(unittest.TestCase):
         fired = bot.timer_due()
         self.assertEqual(fired["expression"], "startled")
         self.assertEqual(bot.personality.mode, "kid")
+
+    def test_a_dead_pack_stays_a_sit_through_assistant_turns(self):
+        duck = Personality(seed=1)
+        stopped = duck.step(0.1, Sensors(pack_v=9.9))
+        self.assertEqual(stopped.intent, "sit")
+        bot = Assistant(mode="kid", cloud="off", personality=duck)
+        reply = bot.handle("go home")
+        self.assertEqual(reply["body"]["priority"], "safety")
+        self.assertEqual(reply["body"]["intent"], "sit")
+        bot.reminders.append("stretch")
+        carried = bot.reminder_due()
+        self.assertEqual(carried["priority"], "safety")
+        self.assertEqual(carried["intent"], "sit")
+        bot.timers.append(1)
+        fired = bot.timer_due()
+        self.assertEqual(fired["priority"], "safety")
+        self.assertEqual(fired["intent"], "sit")
 
 
 if __name__ == "__main__":

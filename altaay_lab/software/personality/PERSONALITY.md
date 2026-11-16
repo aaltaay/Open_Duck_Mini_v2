@@ -8,11 +8,11 @@ Duckie keeps a small mood: how pleasant things feel, how awake it is, how curiou
 
 Energy comes from the pack voltage, or from the battery guard's servo reading when the pack voltage is not there. A full pack is 12.6 V and the walk stops at 10.0 V (cited, the pack window and the pack walk cutoff). Energy is 0 at 10.0 V and 1 at 12.6 V (calc only, from those two cited ends).
 
-When the pack is still above 10.0 V but at or under 10.8 V, Duckie heads home. 10.8 V is a set point, 0.8 V above the cited stop, so it can still walk. Home means the dock states that are already written: APPROACH, STEER_DOCK, ACTIVATE_CHARGER. It does not invent a new walk. If the pack is already at or under 10.0 V, or the servo median is at or under 6.0 V (cited, the battery guard), it sits. It does not keep walking.
+When the pack is still above 10.0 V but at or under 10.8 V, Duckie heads home. 10.8 V is a set point, 0.8 V above the cited stop, so it can still walk. Home means the dock states that are already written: APPROACH, STEER_DOCK, ACTIVATE_CHARGER. It does not invent a new walk. If the pack is already at or under 10.0 V, or the servo median is at or under 6.0 V (cited, the battery guard), it sits. It does not keep walking. A hello, a reminder, or a timer does not drop that last reading.
 
 A hot knee (55 C stop, 45 C to walk again, cited, the knee heat guard) or a fall also sits, ahead of going home and ahead of saying hello. A fall stays until something says it stood up. Getting up from a fall is not in this program.
 
-If none of that is wrong, people come next. A wake word, a face, a pet or a pickup, a timer, or a reminder changes the mood and the pose. With nobody around it glances about. If it has been still and drowsy it droops. While it is sitting and still alert, the head stays up. If it has been sitting 25 s (a set point) and is very quiet, it naps.
+If none of that is wrong, people come next. A wake word, a face, a pet or a pickup, a timer, or a reminder changes the mood and the pose. With nobody around it glances about. If it has been still and drowsy it droops. While it is sitting and still alert, the head stays up. If it has been sitting 25 s (a set point) and is very quiet, how awake it is eases toward 0.10 (a set point) instead of the usual 0.35, and it naps.
 
 A reminder is stored by the assistant, on the duck, with no cloud. When it comes due, Duckie looks around. If it is shown a face, it walks toward that person. When the face is close, it nods and the reminder counts as delivered. The face and the sound direction are handed in. This program does not find them.
 

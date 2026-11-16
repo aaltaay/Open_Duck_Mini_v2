@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import re
 
-from ..personality.engine import Personality, Sensors
+from ..personality.engine import Personality
 from .mock_llm import MockCloudLLM
 
 # Existing dock state machine (software/dock). Walk on, turn, sit.
@@ -63,7 +63,7 @@ class Assistant:
         if not self.reminders:
             return None
         self.personality.clear_assistant()
-        cmd = self.personality.step(0.05, Sensors(), ["reminder_due"])
+        cmd = self.personality.step(0.05, None, ["reminder_due"])
         return cmd.as_dict()
 
     def timer_due(self):
@@ -71,7 +71,7 @@ class Assistant:
         if not self.timers:
             return None
         self.personality.clear_assistant()
-        cmd = self.personality.step(0.05, Sensors(), ["timer_fired"])
+        cmd = self.personality.step(0.05, None, ["timer_fired"])
         return cmd.as_dict()
 
     def _mark(self, phase):

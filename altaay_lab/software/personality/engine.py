@@ -47,6 +47,9 @@ EYE_RATE = 3.0
 DROWSY_AROUSAL = 0.20
 NAP_AROUSAL = 0.22
 NAP_IDLE_S = 25.0
+# Set point, below the nap line. A quiet sit eases toward this so a nap
+# can happen from the calm baseline. Not a measurement.
+NAP_REST_AROUSAL = 0.10
 NIGHT_LIGHT_FLOOR = 0.75
 GREET_S = 1.6
 WAKE_S = 2.0
@@ -203,6 +206,7 @@ class Personality:
         self._walk_thread_id = None
         self._expr_t = 0.0
         self._expr_name = "settle"
+        self._last_sensors = Sensors()
 
     def bind_walk_thread(self, ident=None):
         """Remember the walk thread. step() refuses to run there."""
@@ -225,6 +229,7 @@ class Personality:
             self._last_phase = phase
         self.assistant_phase = phase
         self._phase_until = self.t + ASSISTANT_HOLD_S
+        # No new readings. The last pack, knee, and posture stay in force.
         return self.step(0.05)
 
     def _enter_phase(self, phase):
@@ -240,13 +245,17 @@ class Personality:
         if dt < 0:
             raise ValueError("dt must be >= 0")
         dt = float(dt)
-        sensors = sensors if sensors is not None else Sensors()
+        if sensors is None:
+            sensors = self._last_sensors
+        else:
+            sensors = self._hold_readings(sensors)
+        self._last_sensors = sensors
         self.t += dt
         # A reading can still say "face" on the tick the face is lost.
         # Apply the reading first so the event wins.
         self._apply_sensors(sensors)
         self._apply_events(list(events or []))
-        self._decay_mood(dt)
+        self._decay_mood(dt, sensors)
         choice = self._arbitrate(sensors)
         self._follow(choice, dt)
         return self._command()
@@ -338,11 +347,29 @@ class Personality:
             elif float(sensors.knee_c) < KNEE_RESUME_C:
                 self.knee_hot = False
 
-    def _decay_mood(self, dt):
+    def _hold_readings(self, sensors):
+        """A missing voltage or knee keeps the last sample. None is not a recovery."""
+        prev = self._last_sensors
+        return Sensors(
+            pack_v=prev.pack_v if sensors.pack_v is None else sensors.pack_v,
+            servo_median_v=prev.servo_median_v if sensors.servo_median_v is None else sensors.servo_median_v,
+            knee_c=prev.knee_c if sensors.knee_c is None else sensors.knee_c,
+            idle_s=sensors.idle_s,
+            posture=sensors.posture,
+            bearing_rad=sensors.bearing_rad,
+            elevation_rad=sensors.elevation_rad,
+            attention=sensors.attention,
+            face_close=sensors.face_close,
+        )
+
+    def _decay_mood(self, dt, sensors):
         if dt == 0:
             return
+        arousal_base = AROUSAL_BASE
+        if sensors.posture == "sitting" and sensors.idle_s >= NAP_IDLE_S:
+            arousal_base = NAP_REST_AROUSAL
         self.valence = _decay(self.valence, VALENCE_BASE, dt, TAU_VALENCE_S)
-        self.arousal = _decay(self.arousal, AROUSAL_BASE, dt, TAU_AROUSAL_S)
+        self.arousal = _decay(self.arousal, arousal_base, dt, TAU_AROUSAL_S)
         self.curiosity = _decay(self.curiosity, CURIOSITY_BASE, dt, TAU_CURIOSITY_S)
         self.sociability = _decay(self.sociability, SOCIABILITY_BASE, dt, TAU_SOCIABILITY_S)
 
