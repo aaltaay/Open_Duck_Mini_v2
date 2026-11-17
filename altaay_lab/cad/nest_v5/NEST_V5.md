@@ -18,24 +18,24 @@ The pitch used here is 130 mm: a 74 mm copper band, then a 56 mm felt strip, the
 
 With 0.3 mm of growth on every edge, the seat diagonal is 52.1 mm and the bumper diagonal is 47.5 mm (calc only). Every felt strip is 56 mm. A plate shorter than the strip cannot reach both sides of it, so it cannot touch a plus band and a minus band. The sweep in test_layout.py finds 0 shorts at every heading. The 40-seed run also found 0 shorts, including the print and felt re-settles.
 
-The walk stands on one flat mat, the same box as the gold-well dock. The bands are the copper pattern on that mat. Splitting the walking surface into separate boxes made the dock time out (17 of 40, an earlier run). That surface is not the one in this result.
+The walk stands on one flat mat. That box is stretched to the copper layout, from x = -550 mm to x = 184 mm, so a plate on a room-side band has a surface under it. The bands are paint on that mat, not a second set of collision boxes. Splitting the walking surface into separate boxes made the dock time out (17 of 40, an earlier run). That surface is not the one in this result.
 
 ## The 40 seeds
 
 Same starts. Run D. The dock program is the camera dock. A stand-up and a short walk toward the room, as a retry when the sit missed, was tried on three seeds. All three fell. It is not in this run. Sim pass only.
 
-Charging docks: 21 of 40.
+Charging docks: 25 of 40.
 Geometric docks: 27 of 40.
 Shorts: 0 of 40.
 Falls: 4 of 40.
-No mark: 1 (seed 32).
-The other misses sat with one half off the copper.
+Timeouts: 2. No mark: 1 (seed 32).
+The other misses sat with a half off the copper.
 
 This does not beat 38 of 40. It does not keep the fall count of the v4 run (1 fall).
 
-On a charging sit the lighter half is at least 2.47 N and the chip input is 14.917 V, inside 4.5 V to 17 V.
+On a charging sit the lighter half is at least 1.40 N (seed 31) and the chip input is 14.911 V to 14.917 V, inside 4.5 V to 17 V.
 
-Print 0.3 mm either way, and a 0.4 mm felt dent: 20 charge, 0 shorts (re-settle, not a new walk).
+Print 0.3 mm either way, and a 0.4 mm felt dent: 25 charge, 0 shorts (re-settle, not a new walk).
 
 A 20 s run D walk does not fall and does not scrape. Closest belly point 84.7 mm (sim pass only).
 
@@ -45,7 +45,7 @@ The sense-then-15 V gate is the one in NEST_V3.md. The bridge still sorts which 
 
 twin/out/videos/belly_v5_charge.mp4 is a charging sit, lamp green, caption sim pass only, 1280 by 720.
 
-twin/out/videos/belly_v5_charge_fail.mp4 is a sit that misses the copper. The lamp stays dark. It is not a short.
+twin/out/videos/belly_v5_charge_fail.mp4 is seed 7. The sit misses the copper. The lamp stays dark. It is not a short.
 
 ## Still BLOCKER
 

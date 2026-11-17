@@ -818,6 +818,17 @@ def _scene_dir(folder):
         ]
         xml = xml.replace("</worldbody>", "  %s\n</worldbody>" % "\n  ".join(parts))
     elif NEST_V5:
+        # One collision mat, same height, stretched to the copper layout.
+        # The bands stay paint. Without this stretch a sit on the room side
+        # of x = -0.247 m has copper in the drawing and no surface under it.
+        xml = xml.replace(
+            'name="mat_top" type="box" pos="-0.0315 0 0.0015" size="0.2155 0.280 0.0005"',
+            'name="mat_top" type="box" pos="-0.1830 0 0.0015" size="0.3670 0.280 0.0005"',
+        )
+        xml = xml.replace(
+            'name="mat_low" type="box" pos="-0.0415 0 0.0005" size="0.2255 0.300 0.0005"',
+            'name="mat_low" type="box" pos="-0.1880 0 0.0005" size="0.3820 0.300 0.0005"',
+        )
         from altaay_lab.cad.nest_v5 import layout as _v5
         def _slab(name, xa, xb, rgba):
             cx, hx = 0.5 * (xa + xb), 0.5 * (xb - xa)

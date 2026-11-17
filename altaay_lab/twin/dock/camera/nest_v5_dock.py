@@ -243,7 +243,7 @@ def walk_clearance(seconds=20.0):
             for gid in ids:
                 p = sim.data.geom_xpos[gid]
                 z = _min_z(sim, gid)
-                on_mat = abs(p[0] + 0.0315) <= 0.2155 and abs(p[1]) <= 0.280
+                on_mat = -0.550 <= p[0] <= 0.184 and abs(p[1]) <= 0.280
                 gnd = 0.002 if on_mat else 0.0
                 c = z - gnd
                 if c < clear:
