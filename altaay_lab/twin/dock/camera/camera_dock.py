@@ -110,6 +110,14 @@ BELLY_SEAT_RELIEF = 0.0009
 BELLY_GEOM = None
 BELLY_SCORE = None
 BELLY_AFTER = None
+# Nest v3. Two full belly halves, rear seat and front bumper, on a mat
+# split by one insulating strip parallel to the wall. Off unless nest_v3_dock
+# turns it on. The strip and the stop window are calc only in NEST_V3.md.
+NEST_V3 = False
+NEST_XS = -0.200
+NEST_W = 0.024
+NEST_TX_LO = -0.284
+NEST_TX_HI = -0.205
 # Render size. Height / width matches tan(33 deg) / tan(20.5 deg), so a 66 deg
 # vertical field gives a 41 deg horizontal field. Calc only.
 IMG_W = 400
@@ -663,6 +671,10 @@ def _scene_dir(folder):
             sx, sy, sz, ssx, ssy, ssz = SEAT_FACE
             if BELLY and BELLY_SEAT_RELIEF:
                 sz = sz + BELLY_SEAT_RELIEF
+            if NEST_V3:
+                # Bring the seat half down to the bumper plane (CAD bumper is
+                # 3 mm lower) so both halves land. Nothing goes below the bumper.
+                sz = sz - 0.005
             _pad("sit_seat_face", (sx, sy, sz, ssx, ssy, ssz), SEAT_SOLREF, "0.95 0.75 0.20 1")
             bx, by, bz, bsx, bsy, bsz = BUMPER_FACE
             lift = BUMPER_LIFT_M + (BELLY_RELIEF_M if BELLY else 0.0)
@@ -689,7 +701,7 @@ def _scene_dir(folder):
             # Wells. Flush disks when WELL_PROUD_M is 0. A dome is a 1.5 mm
             # sphere whose bottom stands WELL_PROUD_M below the CAD face.
             # In the belly run the wells are not in the model.
-            for i, ly in enumerate(() if BELLY else WELLS_Y):
+            for i, ly in enumerate(() if (BELLY or NEST_V3) else WELLS_Y):
                 g = ETREE.SubElement(body, "geom")
                 g.set("name", "gold_well_%d" % i)
                 g.set("density", "0")
@@ -765,7 +777,7 @@ def _scene_dir(folder):
   <geom name="mark2_red" type="box" pos="%.3f 0 %.4f" size="0.0012 0.016 0.016" rgba="0.85 0.08 0.08 1" contype="0" conaffinity="0"/>
   <geom name="charge_led" type="sphere" pos="0.185 0.22 0.28" size="0.028" rgba="0.25 0.05 0.05 1" contype="0" conaffinity="0"/>
   <geom name="mat_low" type="box" pos="-0.0415 0 0.0005" size="0.2255 0.300 0.0005" rgba="0.55 0.42 0.28 1" contype="1" conaffinity="0" priority="2" friction="0.8 0.01 0.001"/>
-  <geom name="mat_top" type="box" pos="-0.0315 0 0.0015" size="0.2155 0.280 0.0005" rgba="0.62 0.48 0.30 1" contype="1" conaffinity="0" priority="3" friction="0.8 0.01 0.001"/>
+  <geom name="mat_top" type="box" pos="-0.0315 0 0.0015" size="0.2155 0.280 0.0005" rgba="0.62 0.48 0.30 1" contype="%s" conaffinity="0" priority="3" friction="0.8 0.01 0.001"/>
   %s
 </worldbody>
 </mujoco>
@@ -774,8 +786,26 @@ def _scene_dir(folder):
         MARK_FACE_X - 0.0004, MARK_Z + GOLD_UP,
         MARK2_X, MARK2_Z, MARK2_M / 2.0, MARK2_M / 2.0,
         MARK2_X + 0.001, MARK2_Z + 0.018,
+        "0" if NEST_V3 else "1",
         "\n  ".join(stripes),
     )
+    if NEST_V3:
+        # Strip parallel to the wall. Rear pad is the wall side, front pad the room side.
+        # Same height as the old mat top, so the walk surface stays 2 mm.
+        x0, x1 = -0.247, 0.184
+        a, b = NEST_XS - NEST_W / 2.0, NEST_XS + NEST_W / 2.0
+        def _slab(name, xa, xb, rgba):
+            cx, hx = 0.5 * (xa + xb), 0.5 * (xb - xa)
+            return (
+                '<geom name="%s" type="box" pos="%.4f 0 0.0015" size="%.4f 0.280 0.0005" rgba="%s" contype="1" conaffinity="0" priority="4" friction="0.8 0.01 0.001"/>'
+                % (name, cx, hx, rgba)
+            )
+        pads = "\n  ".join((
+            _slab("pad_front", x0, a, "0.72 0.55 0.28 1"),
+            _slab("pad_gap", a, b, "0.45 0.32 0.22 1"),
+            _slab("pad_rear", b, x1, "0.85 0.68 0.32 1"),
+        ))
+        xml = xml.replace("</worldbody>", "  %s\n</worldbody>" % pads)
     if WELL_SPRING:
         # The mat's own solref is the hard default. A pair keeps the pin soft.
         pairs = "\n".join(
@@ -1117,7 +1147,12 @@ def camera_says_ok(est):
     # Heading is closed first. At 2.1 m a bearing of 0.22 rad is about 0.45 m
     # of side error if the heading is already true (calc only). The foil meets
     # inside that for the headings this sit actually reaches (score_wells).
-    return bearing < 0.22 and 1.75 < dist < 2.30
+    ok = bearing < 0.22 and 1.75 < dist < 2.30
+    if not ok or not NEST_V3:
+        return ok
+    tx, _, _ = pose_from_room_mark(est)
+    # Stop only when the trunk depth puts both belly halves on opposite pads.
+    return NEST_TX_LO <= tx <= NEST_TX_HI
 
 
 def _cmd_wall(est):
@@ -1320,6 +1355,14 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                         # short of the mark. No side velocity: that walks into the wall.
                         sgn = 1.0 if bearing >= 0.0 else -1.0
                         cmd = (0.0, 0.0, sgn * 0.50)
+                        if NEST_V3:
+                            tx, _, _ = pose_from_room_mark(est)
+                            if tx > NEST_TX_HI:
+                                # Too close to the wall. Forward, while facing the room,
+                                # walks toward the room and onto the strip. This policy
+                                # does not walk backward, so a sit that is already too
+                                # deep cannot be walked back.
+                                cmd = (0.12, 0.0, float(np.clip(1.2 * bearing, -0.35, 0.35)))
                         sim._hold_cmd = cmd
                         sim._ok_n = 0
                 else:
