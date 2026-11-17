@@ -111,48 +111,48 @@ On a charging sit the lower pole is at least 0.77 N (seed 30) and the chip sees 
 
 | Seed | Result | Time s | Yaw err deg | Charging | Pole force N | Chip V |
 |---|---|---|---|---|---|---|
-| 1 | docked | 25.1 | 5.0 | yes | 4.69, 7.29 | 14.927 |
-| 2 | off the foil | 26.1 | 5.1 | no | 0, 0 | |
+| 1 | docked | 22.7 | 5.0 | yes | 4.69, 7.29 | 14.927 |
+| 2 | off the foil | 23.7 | 5.1 | no | 0, 0 | |
 | 3 | fell | 19.5 | 158.7 | no | 0, 0 | |
-| 4 | docked | 27.5 | 6.1 | yes | 7.07, 6.34 | 14.928 |
-| 5 | gap | 25.6 | 9.5 | no | 0, 0 | |
-| 6 | off the foil | 49.4 | 2.6 | no | 0, 0 | |
-| 7 | gap | 26.2 | 10.4 | no | 0, 0 | |
-| 8 | one plate off | 36.5 | 11.5 | no | 4.20, 0 | |
-| 9 | docked | 37.0 | 3.5 | yes | 3.87, 6.33 | 14.927 |
-| 10 | gap | 26.8 | 5.2 | no | 0, 0 | |
-| 11 | gap | 46.2 | 8.5 | no | 0, 0 | |
-| 12 | docked | 27.8 | 5.5 | yes | 5.92, 7.23 | 14.928 |
-| 13 | one plate light | 32.8 | 13.3 | no | 0, 8.20 | |
-| 14 | off the foil | 26.2 | 0.9 | no | 0, 0 | |
-| 15 | docked | 40.8 | 9.6 | yes | 5.67, 3.75 | 14.927 |
-| 16 | docked | 25.6 | 7.0 | yes | 5.36, 5.72 | 14.927 |
-| 17 | docked | 32.8 | 2.1 | yes | 4.47, 6.34 | 14.927 |
-| 18 | docked | 24.7 | 9.0 | yes | 5.09, 2.90 | 14.926 |
-| 19 | gap | 28.3 | 7.6 | no | 0, 0 | |
-| 20 | gap | 51.6 | 10.3 | no | 0, 0 | |
-| 21 | docked | 20.3 | 8.6 | yes | 5.54, 5.68 | 14.927 |
-| 22 | docked | 28.3 | 0.5 | yes | 6.05, 5.67 | 14.928 |
-| 23 | docked | 19.9 | 6.8 | yes | 7.52, 3.57 | 14.927 |
-| 24 | docked | 26.7 | 2.7 | yes | 6.85, 3.28 | 14.927 |
+| 4 | docked | 25.1 | 6.1 | yes | 7.07, 6.34 | 14.928 |
+| 5 | gap | 23.2 | 9.5 | no | 0, 0 | |
+| 6 | off the foil | 47.0 | 2.6 | no | 0, 0 | |
+| 7 | gap | 23.8 | 10.4 | no | 0, 0 | |
+| 8 | one plate off | 34.1 | 11.5 | no | 4.20, 0 | |
+| 9 | docked | 34.6 | 3.5 | yes | 3.87, 6.33 | 14.927 |
+| 10 | gap | 24.4 | 5.2 | no | 0, 0 | |
+| 11 | gap | 43.8 | 8.5 | no | 0, 0 | |
+| 12 | docked | 25.4 | 5.5 | yes | 5.92, 7.23 | 14.928 |
+| 13 | one plate light | 30.4 | 13.3 | no | 0, 8.20 | |
+| 14 | off the foil | 23.8 | 0.9 | no | 0, 0 | |
+| 15 | docked | 38.4 | 9.6 | yes | 5.67, 3.75 | 14.927 |
+| 16 | docked | 23.2 | 7.0 | yes | 5.36, 5.72 | 14.927 |
+| 17 | docked | 30.4 | 2.1 | yes | 4.47, 6.34 | 14.927 |
+| 18 | docked | 22.3 | 9.0 | yes | 5.09, 2.90 | 14.926 |
+| 19 | gap | 25.9 | 7.6 | no | 0, 0 | |
+| 20 | gap | 49.2 | 10.3 | no | 0, 0 | |
+| 21 | docked | 17.9 | 8.6 | yes | 5.54, 5.68 | 14.927 |
+| 22 | docked | 25.9 | 0.5 | yes | 6.05, 5.67 | 14.928 |
+| 23 | docked | 17.5 | 6.8 | yes | 7.52, 3.57 | 14.927 |
+| 24 | docked | 24.3 | 2.7 | yes | 6.85, 3.28 | 14.927 |
 | 25 | fell | 33.0 | 164.4 | no | 17.4, 17.6 | |
-| 26 | gap | 21.7 | 10.4 | no | 0, 0 | |
-| 27 | off the foil | 25.1 | 2.7 | no | 0, 0 | |
-| 28 | docked | 44.6 | 9.7 | yes | 4.50, 6.17 | 14.927 |
-| 29 | one plate off the foil | 28.9 | 6.8 | no | 9.05, 0 | |
-| 30 | docked | 24.6 | 12.1 | yes | 8.12, 0.77 | 14.922 |
-| 31 | gap | 33.2 | 13.5 | no | 0, 0 | |
+| 26 | gap | 19.3 | 10.4 | no | 0, 0 | |
+| 27 | off the foil | 22.7 | 2.7 | no | 0, 0 | |
+| 28 | docked | 42.2 | 9.7 | yes | 4.50, 6.17 | 14.927 |
+| 29 | one plate off the foil | 26.5 | 6.8 | no | 9.05, 0 | |
+| 30 | docked | 22.2 | 12.1 | yes | 8.12, 0.77 | 14.922 |
+| 31 | gap | 30.8 | 13.5 | no | 0, 0 | |
 | 32 | no mark | 28.0 | 91.0 | no | 0, 0 | |
-| 33 | gap | 34.8 | 4.0 | no | 0, 0 | |
-| 34 | docked | 26.1 | 4.6 | yes | 4.69, 6.35 | 14.927 |
+| 33 | gap | 32.4 | 4.0 | no | 0, 0 | |
+| 34 | docked | 23.7 | 4.6 | yes | 4.69, 6.35 | 14.927 |
 | 35 | fell | 16.8 | 177.8 | no | 17.8, 17.9 | |
-| 36 | docked | 30.0 | 3.2 | yes | 6.29, 3.88 | 14.927 |
-| 37 | docked | 45.6 | 8.6 | yes | 3.01, 6.83 | 14.926 |
+| 36 | docked | 27.6 | 3.2 | yes | 6.29, 3.88 | 14.927 |
+| 37 | docked | 43.2 | 8.6 | yes | 3.01, 6.83 | 14.926 |
 | 38 | fell | 29.0 | 178.4 | no | 17.5, 17.4 | |
-| 39 | docked | 30.4 | 1.9 | yes | 6.42, 3.71 | 14.927 |
-| 40 | gap | 25.6 | 4.1 | no | 0, 0 | |
+| 39 | docked | 28.0 | 1.9 | yes | 6.42, 3.71 | 14.927 |
+| 40 | gap | 23.2 | 4.1 | no | 0, 0 | |
 
-Median time on the geometric docks is 27.8 s, max 45.6 s (sim pass only). Median seat-to-sun on those docks is 224 mm, max 264 mm. The tightest plate inside its 20 mm foil is 0.38 mm (calc only on the scored pose). That margin is thin.
+Median time on the geometric docks is 25.4 s, max 43.2 s (sim pass only). The tolerance settles are not in that clock. An earlier pass had added 2.4 s of those settles, three times 0.8 s, and those seconds are taken back out here (calc only on that clock). Median seat-to-sun on those docks is 224 mm, max 264 mm. The tightest plate inside its 20 mm foil is 0.38 mm (calc only on the scored pose). That margin is thin.
 
 The fell rows still show force because the plates hit the floor on the way over. They are not charges. The heading is past the 20 deg gate.
 

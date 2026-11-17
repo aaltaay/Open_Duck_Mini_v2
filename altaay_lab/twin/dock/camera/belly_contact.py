@@ -326,39 +326,51 @@ def resettle_cases(sim):
         ("felt_dent", 0.0004),
     )
     saved_q = sim.data.qpos.copy()
+    saved_t = float(sim.t)
+    saved_record = bool(sim.record)
+    nframes = len(sim.frames)
+    # The three settles are not part of the dock. Leave the clock and the clip alone.
+    sim.record = False
     saved_z = []
     mj = sim.mujoco
-    for i in range(2):
-        gid = mj.mj_name2id(sim.model, mj.mjtObj.mjOBJ_GEOM, "belly_%d" % i)
-        saved_z.append((gid, float(sim.model.geom_pos[gid][2])))
-    rows = []
-    for name, dz in cases:
+    try:
+        for i in range(2):
+            gid = mj.mj_name2id(sim.model, mj.mjtObj.mjOBJ_GEOM, "belly_%d" % i)
+            saved_z.append((gid, float(sim.model.geom_pos[gid][2])))
+        rows = []
+        for name, dz in cases:
+            sim.data.qpos[:] = saved_q
+            sim.data.qvel[:] = 0.0
+            sim.t = saved_t
+            for gid, z0 in saved_z:
+                sim.model.geom_pos[gid][2] = z0 + dz
+            mj.mj_forward(sim.model, sim.data)
+            sim.torque_off(0.8)
+            x, y, yaw, _, _ = sim.true_pose()
+            geom = score_geom(x, y, yaw)
+            elec = score_belly(sim, x, y, yaw, geom["contacts_meet"])
+            rows.append(dict(
+                name=name,
+                dz_mm=round(dz * 1000.0, 2),
+                meet=geom["contacts_meet"],
+                charging=elec["charging"],
+                pole_force_n=elec["pole_force_n"],
+                v_charger=elec["v_charger"],
+                short=elec["short"],
+                labels=elec["belly_labels"],
+                contact_loss=elec["contact_loss"],
+            ))
+        return rows
+    finally:
+        for gid, z0 in saved_z:
+            sim.model.geom_pos[gid][2] = z0
         sim.data.qpos[:] = saved_q
         sim.data.qvel[:] = 0.0
-        for gid, z0 in saved_z:
-            sim.model.geom_pos[gid][2] = z0 + dz
+        sim.t = saved_t
+        sim.record = saved_record
+        if len(sim.frames) > nframes:
+            del sim.frames[nframes:]
         mj.mj_forward(sim.model, sim.data)
-        sim.torque_off(0.8)
-        x, y, yaw, _, _ = sim.true_pose()
-        geom = score_geom(x, y, yaw)
-        elec = score_belly(sim, x, y, yaw, geom["contacts_meet"])
-        rows.append(dict(
-            name=name,
-            dz_mm=round(dz * 1000.0, 2),
-            meet=geom["contacts_meet"],
-            charging=elec["charging"],
-            pole_force_n=elec["pole_force_n"],
-            v_charger=elec["v_charger"],
-            short=elec["short"],
-            labels=elec["belly_labels"],
-            contact_loss=elec["contact_loss"],
-        ))
-    for gid, z0 in saved_z:
-        sim.model.geom_pos[gid][2] = z0
-    sim.data.qpos[:] = saved_q
-    sim.data.qvel[:] = 0.0
-    mj.mj_forward(sim.model, sim.data)
-    return rows
 
 
 def probe():
@@ -529,9 +541,12 @@ def run_batch(n=40, record=False, jobs=1):
                 row["seed"], row["reason"], row.get("charging"), row.get("pole_force_n"), row.get("v_charger")),
                   flush=True)
             if record and frames:
+                # The fail clip is a sit that meets the stripes and still does not
+                # charge (one plate light). A miss of the foil is a different failure.
+                force_miss = bool(row.get("contacts_meet") and not row.get("charging"))
                 if row.get("charging") and ok_fr is None:
                     ok_fr = frames
-                elif (not row.get("charging")) and bad_fr is None:
+                elif force_miss and bad_fr is None:
                     bad_fr = frames
     return rows, ok_fr, bad_fr
 
