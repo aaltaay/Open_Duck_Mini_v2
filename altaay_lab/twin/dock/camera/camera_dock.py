@@ -115,6 +115,10 @@ BELLY_AFTER = None
 # turns it on. The strip and the stop window are calc only in NEST_V3.md.
 NEST_V3 = False
 NEST_V4 = False
+NEST_V5 = False
+NEST_RETRY = False
+NEST_T = 0.130
+NEST_PHASE = 0.115
 NEST_XS = -0.200
 NEST_W = 0.024
 NEST_TX_LO = -0.230
@@ -673,16 +677,16 @@ def _scene_dir(folder):
             sx, sy, sz, ssx, ssy, ssz = SEAT_FACE
             if BELLY and BELLY_SEAT_RELIEF:
                 sz = sz + BELLY_SEAT_RELIEF
-            if NEST_V3 or NEST_V4:
+            if NEST_V3 or NEST_V4 or NEST_V5:
                 # Seat plate down 5 mm so it shares the sit with the bumper.
                 sz = sz - 0.005
-            if NEST_V4:
-                # 40 mm wide, full seat depth. Wider than this and the plate
-                # can bridge the strip when the duck is turned (calc only).
+            if NEST_V4 or NEST_V5:
+                # 40 mm wide, full seat depth. The fat diagonal stays under
+                # the 56 mm strip (calc only, nest v4 and v5).
                 ssy = 0.020
             _pad("sit_seat_face", (sx, sy, sz, ssx, ssy, ssz), SEAT_SOLREF, "0.95 0.75 0.20 1")
             bx, by, bz, bsx, bsy, bsz = BUMPER_FACE
-            if NEST_V4:
+            if NEST_V4 or NEST_V5:
                 bsy = 0.020
             lift = BUMPER_LIFT_M + (BELLY_RELIEF_M if BELLY else 0.0)
             _pad("sit_bumper_face", (bx, by, bz + lift, bsx, bsy, bsz), BUMPER_SOLREF, "0.95 0.75 0.20 1")
@@ -708,7 +712,7 @@ def _scene_dir(folder):
             # Wells. Flush disks when WELL_PROUD_M is 0. A dome is a 1.5 mm
             # sphere whose bottom stands WELL_PROUD_M below the CAD face.
             # In the belly run the wells are not in the model.
-            for i, ly in enumerate(() if (BELLY or NEST_V3 or NEST_V4) else WELLS_Y):
+            for i, ly in enumerate(() if (BELLY or NEST_V3 or NEST_V4 or NEST_V5) else WELLS_Y):
                 g = ETREE.SubElement(body, "geom")
                 g.set("name", "gold_well_%d" % i)
                 g.set("density", "0")
@@ -812,6 +816,17 @@ def _scene_dir(folder):
             _slab("pad_gap", a, b, "0.45 0.32 0.22 1"),
             _slab("pad_rear", b, x1, "0.85 0.68 0.32 1"),
         ]
+        xml = xml.replace("</worldbody>", "  %s\n</worldbody>" % "\n  ".join(parts))
+    elif NEST_V5:
+        from altaay_lab.cad.nest_v5 import layout as _v5
+        def _slab(name, xa, xb, rgba):
+            cx, hx = 0.5 * (xa + xb), 0.5 * (xb - xa)
+            return (
+                '<geom name="%s" type="box" pos="%.4f 0 0.0026" size="%.4f 0.280 0.00005" rgba="%s" contype="0" conaffinity="0"/>'
+                % (name, cx, hx, rgba)
+            )
+        tint = {"plus": "0.85 0.68 0.32 1", "minus": "0.72 0.55 0.28 1", "felt": "0.45 0.32 0.22 1"}
+        parts = [_slab(name, xa, xb, tint[kind]) for name, xa, xb, kind in _v5.slabs()]
         xml = xml.replace("</worldbody>", "  %s\n</worldbody>" % "\n  ".join(parts))
     if WELL_SPRING:
         # The mat's own solref is the hard default. A pair keeps the pin soft.
@@ -1208,6 +1223,43 @@ def _false_room(sim, est, kind):
     return getattr(sim, "gold_dist", 9.0) < 1.05 and dist < 1.55
 
 
+def _sit_and_maybe_retry(sim, record):
+    """Sit. If the bands do not enable, stand, step toward the room, try again.
+
+    Returns True when the dock should stop on this sit. Never commands a
+    negative forward speed. The step is about half a band, so a miss can
+    land on copper. Sim pass only.
+    """
+    target = _sit_targets(sim.model, sim.m)
+    gain = sim.model.actuator_gainprm.copy()
+    bias = sim.model.actuator_biasprm.copy()
+    sim.go_pose(target, 2.2, sitting=True)
+    sim.torque_off(0.6)
+    if sim.fallen:
+        sim._already_sat = True
+        return True
+    x, y, yaw, _, _ = sim.true_pose()
+    scored = (BELLY_GEOM or score_wells)(x, y, yaw)
+    elec = (BELLY_SCORE or score_charge)(sim, x, y, yaw, scored.get("contacts_meet"))
+    if elec.get("charging"):
+        sim._already_sat = True
+        return True
+    sim._charge_tries = getattr(sim, "_charge_tries", 0) + 1
+    # Stand and walk toward the room. Positive vx, no reverse.
+    sim.model.actuator_gainprm[:] = gain
+    sim.model.actuator_biasprm[:] = bias
+    sim.sitting = False
+    t0 = sim.t
+    while sim.t < t0 + 1.6 and not sim.fallen:
+        err = wrap(math.pi - sim.true_pose()[2])
+        if abs(err) > 0.45:
+            cmd = (0.0, 0.0, float(np.clip(1.3 * err, -0.6, 0.6)))
+        else:
+            cmd = (0.12, 0.0, float(np.clip(1.0 * err, -0.3, 0.3)))
+        sim.step_policy(cmd, capture=record, blur=False)
+    return bool(sim.fallen)
+
+
 def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
     sim = DockSim(seed=seed, light=light, record=record)
     try:
@@ -1220,6 +1272,14 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
         reason = "timeout"
         k = 0
         while sim.t < limit_s and not sim.fallen:
+            if mode == "sit":
+                if NEST_RETRY and not sim.fallen and getattr(sim, "_charge_tries", 0) < 2:
+                    if _sit_and_maybe_retry(sim, record):
+                        break
+                    mode, t_mode = "about", sim.t
+                    imu_lock = sim.imu_yaw
+                    continue
+                break
             capture = (k % 2 == 0)
             cmd = (0.0, 0.0, 0.0)
             est = sim.latest()
@@ -1346,7 +1406,7 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                         sim._hold_cmd = cmd
                         if sim._ok_n >= 4:
                             mode = "sit"
-                            break
+                            continue
                     elif dist > 2.30:
                         cmd = _cmd_room(est)
                         sim._hold_cmd = cmd
@@ -1384,12 +1444,12 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                     last = getattr(sim, "_last_red", None)
                     if last is not None and camera_says_ok(last) and blind < 1.4:
                         mode = "sit"
-                        break
+                        continue
                 if sim.t - t_mode > 10.0 and mode == "fine" and kind != "red":
                     last = getattr(sim, "_last_red", None)
                     if last is not None and camera_says_ok(last):
                         mode = "sit"
-                        break
+                        continue
                     if retries < 2:
                         retries += 1
                         # Still standing. Step toward the room mark, then
@@ -1406,8 +1466,6 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                 if sim.t - t_mode > 1.8:
                     mode, t_mode = "about", sim.t
                     imu_lock = sim.imu_yaw
-            if mode == "sit":
-                break
             # A pure yaw command stalls this policy around a right angle, in
             # the search. One short step restarts the gait. Not during the
             # turn: that step walks into the wall.
@@ -1444,7 +1502,10 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
                     sim.t, mode, kind, tuple(round(c, 2) for c in cmd), tp[0], tp[1], math.degrees(tp[2]),
                     None if est is None else tuple(round(v, 3) for v in est[:3])), flush=True)
         sat = False
-        if sim.fallen:
+        if getattr(sim, "_already_sat", False):
+            sat = not sim.fallen
+            reason = "fell" if sim.fallen else "sat"
+        elif sim.fallen:
             reason = "fell"
         elif mode == "sit":
             target = _sit_targets(sim.model, sim.m)
@@ -1481,6 +1542,7 @@ def run_one(seed, x0, y0, yaw0, light=1.0, record=False, limit_s=70.0):
             ok=ok,
             reason=reason,
             retries=int(retries),
+            charge_tries=int(getattr(sim, "_charge_tries", 0)),
             t_s=round(sim.t, 2),
             fell=bool(sim.fallen),
             saw=bool(sim.saw),
