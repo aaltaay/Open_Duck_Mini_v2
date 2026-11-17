@@ -114,10 +114,12 @@ BELLY_AFTER = None
 # split by one insulating strip parallel to the wall. Off unless nest_v3_dock
 # turns it on. The strip and the stop window are calc only in NEST_V3.md.
 NEST_V3 = False
+NEST_V4 = False
 NEST_XS = -0.200
 NEST_W = 0.024
 NEST_TX_LO = -0.230
 NEST_TX_HI = -0.192
+NEST_PAD_X0 = -0.247
 # Render size. Height / width matches tan(33 deg) / tan(20.5 deg), so a 66 deg
 # vertical field gives a 41 deg horizontal field. Calc only.
 IMG_W = 400
@@ -671,12 +673,17 @@ def _scene_dir(folder):
             sx, sy, sz, ssx, ssy, ssz = SEAT_FACE
             if BELLY and BELLY_SEAT_RELIEF:
                 sz = sz + BELLY_SEAT_RELIEF
-            if NEST_V3:
-                # Bring the seat half down to the bumper plane (CAD bumper is
-                # 3 mm lower) so both halves land. Nothing goes below the bumper.
+            if NEST_V3 or NEST_V4:
+                # Seat plate down 5 mm so it shares the sit with the bumper.
                 sz = sz - 0.005
+            if NEST_V4:
+                # 40 mm wide, full seat depth. Wider than this and the plate
+                # can bridge the strip when the duck is turned (calc only).
+                ssy = 0.020
             _pad("sit_seat_face", (sx, sy, sz, ssx, ssy, ssz), SEAT_SOLREF, "0.95 0.75 0.20 1")
             bx, by, bz, bsx, bsy, bsz = BUMPER_FACE
+            if NEST_V4:
+                bsy = 0.020
             lift = BUMPER_LIFT_M + (BELLY_RELIEF_M if BELLY else 0.0)
             _pad("sit_bumper_face", (bx, by, bz + lift, bsx, bsy, bsz), BUMPER_SOLREF, "0.95 0.75 0.20 1")
             if BELLY:
@@ -701,7 +708,7 @@ def _scene_dir(folder):
             # Wells. Flush disks when WELL_PROUD_M is 0. A dome is a 1.5 mm
             # sphere whose bottom stands WELL_PROUD_M below the CAD face.
             # In the belly run the wells are not in the model.
-            for i, ly in enumerate(() if (BELLY or NEST_V3) else WELLS_Y):
+            for i, ly in enumerate(() if (BELLY or NEST_V3 or NEST_V4) else WELLS_Y):
                 g = ETREE.SubElement(body, "geom")
                 g.set("name", "gold_well_%d" % i)
                 g.set("density", "0")
@@ -786,26 +793,26 @@ def _scene_dir(folder):
         MARK_FACE_X - 0.0004, MARK_Z + GOLD_UP,
         MARK2_X, MARK2_Z, MARK2_M / 2.0, MARK2_M / 2.0,
         MARK2_X + 0.001, MARK2_Z + 0.018,
-        "0" if NEST_V3 else "1",
+        "0" if (NEST_V3 or NEST_V4) else "1",
         "\n  ".join(stripes),
     )
-    if NEST_V3:
+    if NEST_V3 or NEST_V4:
         # Strip parallel to the wall. Rear pad is the wall side, front pad the room side.
         # Same height as the old mat top, so the walk surface stays 2 mm.
-        x0, x1 = -0.247, 0.184
+        x0, x1 = NEST_PAD_X0, 0.184
         a, b = NEST_XS - NEST_W / 2.0, NEST_XS + NEST_W / 2.0
-        def _slab(name, xa, xb, rgba):
+        def _slab(name, xa, xb, rgba, z=0.0015, hz=0.0005):
             cx, hx = 0.5 * (xa + xb), 0.5 * (xb - xa)
             return (
-                '<geom name="%s" type="box" pos="%.4f 0 0.0015" size="%.4f 0.280 0.0005" rgba="%s" contype="1" conaffinity="0" priority="4" friction="0.8 0.01 0.001"/>'
-                % (name, cx, hx, rgba)
+                '<geom name="%s" type="box" pos="%.4f 0 %.4f" size="%.4f 0.280 %.4f" rgba="%s" contype="1" conaffinity="0" priority="4" friction="0.8 0.01 0.001"/>'
+                % (name, cx, z, hx, hz, rgba)
             )
-        pads = "\n  ".join((
+        parts = [
             _slab("pad_front", x0, a, "0.72 0.55 0.28 1"),
             _slab("pad_gap", a, b, "0.45 0.32 0.22 1"),
             _slab("pad_rear", b, x1, "0.85 0.68 0.32 1"),
-        ))
-        xml = xml.replace("</worldbody>", "  %s\n</worldbody>" % pads)
+        ]
+        xml = xml.replace("</worldbody>", "  %s\n</worldbody>" % "\n  ".join(parts))
     if WELL_SPRING:
         # The mat's own solref is the hard default. A pair keeps the pin soft.
         pairs = "\n".join(
