@@ -23,9 +23,10 @@ Sun at the origin, wall at x = 190 mm, same frame as nest v2.
 - Strip centre x = -200 mm, width 24 mm (calc only). Felt, no copper. It runs the full width of the mat, y from -280 mm to 280 mm.
 - Rear pad (wall side of the strip) is plus. Front pad (room side) is minus.
 - Both pads are flush with the 2 mm walking surface. The old 20 mm stripes are not on this mat.
-- A trunk between x = -292 mm and x = -197 mm, heading within 14 deg of facing the room, puts at least 8 mm of each half on its own pad, even if the metal is 0.3 mm fat (calc only). Outside that band a half can sit on the strip, on one pad only, or across both.
+- The front pad in the sim ends at the mat edge, x = -247 mm. It is only about 35 mm deep (calc only). A helper that treated the pads as endless half-planes said a trunk from -292 mm to -197 mm was safe. At the deep end of that band the bumper is off the copper. That claim was wrong.
+- Clipped to the real pad edges, a trunk from -235 mm to -187 mm, heading within 14 deg of facing the room, puts at least 4 mm of each half on its own pad, even if the metal is 0.3 mm fat (calc only).
 
-The duck is asked to sit when the camera puts the trunk between x = -284 mm and x = -205 mm. That is 8 mm inside the deep end of the geometric band.
+The 40-seed run asked the duck to sit on the wider, wrong band. The charging count below is not that helper. It is force on the pad geoms. All 15 charging sits still have both halves on the real pads when the saved trunk position is clipped to those edges (calc only).
 
 ## The belly
 

@@ -116,8 +116,8 @@ BELLY_AFTER = None
 NEST_V3 = False
 NEST_XS = -0.200
 NEST_W = 0.024
-NEST_TX_LO = -0.284
-NEST_TX_HI = -0.205
+NEST_TX_LO = -0.230
+NEST_TX_HI = -0.192
 # Render size. Height / width matches tan(33 deg) / tan(20.5 deg), so a 66 deg
 # vertical field gives a 41 deg horizontal field. Calc only.
 IMG_W = 400
