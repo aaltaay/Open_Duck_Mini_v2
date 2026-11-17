@@ -1,0 +1,4268 @@
+{
+ "summary": {
+  "n": 40,
+  "ok": 19,
+  "rate": 0.475,
+  "charge_n": 18,
+  "charge_rate": 0.45,
+  "align_mm_median": 223.9,
+  "align_mm_max": 264.0,
+  "margin_mm_min": 0.38,
+  "time_s_median": 25.4,
+  "time_s_max": 43.2,
+  "failures": {
+   "sat_off_stripes": 16,
+   "fell": 4,
+   "no_marker": 1
+  },
+  "cases": {
+   "print_low": {
+    "n": 35,
+    "charge": 18,
+    "meet": 19,
+    "short": 0
+   },
+   "print_high": {
+    "n": 35,
+    "charge": 18,
+    "meet": 19,
+    "short": 0
+   },
+   "felt_dent": {
+    "n": 35,
+    "charge": 18,
+    "meet": 19,
+    "short": 0
+   }
+  },
+  "shorts": 0,
+  "contact_loss": 2
+ },
+ "rows": [
+  {
+   "seed": 1,
+   "start": [
+    -1.05,
+    0.0,
+    0.0
+   ],
+   "light": 1.0,
+   "gain": 1.0,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 22.72,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.225,
+    0.2,
+    175.0,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 224.0,
+   "seat_x_mm": -117.8,
+   "seat_y_mm": 190.6,
+   "yaw_err_deg": 5.0,
+   "stripe_margin_mm": 1.52,
+   "align_mm": 224.0,
+   "charging": true,
+   "well_force_n": [
+    4.686,
+    7.286
+   ],
+   "pole_force_n": [
+    4.686,
+    7.286
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0065,
+   "r_series_ohm": 0.0446,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0066,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.309,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      3.773,
+      5.612
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.504,
+      6.223
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.971,
+      5.646
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 2,
+   "start": [
+    -1.2,
+    0.22,
+    -20.0
+   ],
+   "light": 0.7,
+   "gain": 0.65,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 23.68,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.153,
+    0.316,
+    -174.9,
+    0.066
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 329.0,
+   "seat_x_mm": -45.6,
+   "seat_y_mm": 325.9,
+   "yaw_err_deg": 5.1,
+   "stripe_margin_mm": null,
+   "align_mm": 329.0,
+   "charging": false,
+   "well_force_n": [
+    13.359,
+    0.0
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "off",
+    "off"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.33,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 3,
+   "start": [
+    -0.9,
+    -0.26,
+    28.0
+   ],
+   "light": 1.2,
+   "gain": 1.05,
+   "ok": false,
+   "reason": "fell",
+   "retries": 0,
+   "t_s": 19.52,
+   "fell": true,
+   "saw": true,
+   "sat": false,
+   "true": [
+    0.118,
+    -0.05,
+    -21.3,
+    -0.063
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 1,
+   "seat_offset_mm": 20.7,
+   "seat_x_mm": 17.5,
+   "seat_y_mm": -11.0,
+   "yaw_err_deg": 158.7,
+   "stripe_margin_mm": 0.94,
+   "align_mm": 20.7,
+   "charging": false,
+   "well_force_n": [
+    0.0,
+    0.0
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "M",
+    "miss"
+   ],
+   "contact_loss": true,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 660.808,
+    "seat": 34.924
+   }
+  },
+  {
+   "seed": 4,
+   "start": [
+    -1.4,
+    0.1,
+    12.0
+   ],
+   "light": 0.5,
+   "gain": 0.57,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 25.08,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.169,
+    0.254,
+    173.9,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 250.6,
+   "seat_x_mm": -61.6,
+   "seat_y_mm": 242.9,
+   "yaw_err_deg": 6.1,
+   "stripe_margin_mm": 3.71,
+   "align_mm": 250.6,
+   "charging": true,
+   "well_force_n": [
+    7.074,
+    6.344
+   ],
+   "pole_force_n": [
+    7.074,
+    6.344
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0061,
+   "r_series_ohm": 0.0441,
+   "v_diode": 0.0277,
+   "v_charger": 14.928,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0061,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.779,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.349,
+      6.425
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.808,
+      7.16
+     ],
+     "v_charger": 14.928,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.783,
+      4.386
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 5,
+   "start": [
+    -1.1,
+    -0.16,
+    -32.0
+   ],
+   "light": 1.3,
+   "gain": 1.42,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 23.24,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.217,
+    0.076,
+    170.5,
+    0.067
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 125.2,
+   "seat_x_mm": -110.8,
+   "seat_y_mm": 58.3,
+   "yaw_err_deg": 9.5,
+   "stripe_margin_mm": null,
+   "align_mm": 125.2,
+   "charging": false,
+   "well_force_n": [
+    3.419,
+    6.169
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "miss",
+    "miss"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.598,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 6,
+   "start": [
+    -0.85,
+    0.28,
+    18.0
+   ],
+   "light": 0.8,
+   "gain": 0.81,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 46.98,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.127,
+    0.334,
+    177.4,
+    0.065
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 329.2,
+   "seat_x_mm": -18.7,
+   "seat_y_mm": 328.7,
+   "yaw_err_deg": 2.6,
+   "stripe_margin_mm": null,
+   "align_mm": 329.2,
+   "charging": false,
+   "well_force_n": [
+    3.929,
+    0.0
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "off",
+    "off"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.132,
+    "seat": 6.604
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 7,
+   "start": [
+    -1.3,
+    -0.3,
+    8.0
+   ],
+   "light": 0.6,
+   "gain": 0.62,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 23.8,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.228,
+    0.08,
+    169.6,
+    0.067
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 135.8,
+   "seat_x_mm": -121.5,
+   "seat_y_mm": 60.7,
+   "yaw_err_deg": 10.4,
+   "stripe_margin_mm": null,
+   "align_mm": 135.8,
+   "charging": false,
+   "well_force_n": [
+    4.976,
+    6.906
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "miss",
+    "miss"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.217,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 8,
+   "start": [
+    -1.15,
+    0.06,
+    150.0
+   ],
+   "light": 1.0,
+   "gain": 0.95,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 34.08,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.21,
+    0.186,
+    168.5,
+    0.067
+   ],
+   "contacts_meet": false,
+   "plus": 1,
+   "minus": 0,
+   "seat_offset_mm": 194.4,
+   "seat_x_mm": -103.7,
+   "seat_y_mm": 164.4,
+   "yaw_err_deg": 11.5,
+   "stripe_margin_mm": 0.09,
+   "align_mm": 194.4,
+   "charging": false,
+   "well_force_n": [
+    6.411,
+    4.204
+   ],
+   "pole_force_n": [
+    4.204,
+    0.0
+   ],
+   "belly_labels": [
+    "miss",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.57,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      5.005,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 9,
+   "start": [
+    -1.5,
+    0.34,
+    -24.0
+   ],
+   "light": 0.45,
+   "gain": 0.5,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 34.56,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.129,
+    0.23,
+    176.5,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 223.9,
+   "seat_x_mm": -20.8,
+   "seat_y_mm": 222.9,
+   "yaw_err_deg": 3.5,
+   "stripe_margin_mm": 8.43,
+   "align_mm": 223.9,
+   "charging": true,
+   "well_force_n": [
+    6.329,
+    3.869
+   ],
+   "pole_force_n": [
+    3.869,
+    6.329
+   ],
+   "belly_labels": [
+    "M",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0071,
+   "r_series_ohm": 0.0451,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0072,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.883,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.624,
+      5.514
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.271,
+      5.392
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.495,
+      5.144
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 10,
+   "start": [
+    -1.0,
+    -0.08,
+    6.0
+   ],
+   "light": 1.1,
+   "gain": 1.25,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 24.4,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.198,
+    0.145,
+    174.8,
+    0.067
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 162.6,
+   "seat_x_mm": -90.1,
+   "seat_y_mm": 135.4,
+   "yaw_err_deg": 5.2,
+   "stripe_margin_mm": null,
+   "align_mm": 162.6,
+   "charging": false,
+   "well_force_n": [
+    7.714,
+    4.148
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "miss",
+    "miss"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.397,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 11,
+   "start": [
+    -1.25,
+    -0.2,
+    40.0
+   ],
+   "light": 0.9,
+   "gain": 0.8,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 43.82,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.243,
+    0.123,
+    171.5,
+    0.067
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 173.8,
+   "seat_x_mm": -136.6,
+   "seat_y_mm": 107.4,
+   "yaw_err_deg": 8.5,
+   "stripe_margin_mm": null,
+   "align_mm": 173.8,
+   "charging": false,
+   "well_force_n": [
+    0.0,
+    9.057
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "miss",
+    "miss"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.528,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 12,
+   "start": [
+    -0.95,
+    0.14,
+    -15.0
+   ],
+   "light": 1.25,
+   "gain": 1.16,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 25.44,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.161,
+    0.238,
+    174.5,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 233.5,
+   "seat_x_mm": -53.5,
+   "seat_y_mm": 227.3,
+   "yaw_err_deg": 5.5,
+   "stripe_margin_mm": 3.93,
+   "align_mm": 233.5,
+   "charging": true,
+   "well_force_n": [
+    7.231,
+    5.924
+   ],
+   "pole_force_n": [
+    5.924,
+    7.231
+   ],
+   "belly_labels": [
+    "M",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0061,
+   "r_series_ohm": 0.0442,
+   "v_diode": 0.0277,
+   "v_charger": 14.928,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0062,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.316,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.648,
+      5.431
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.117,
+      5.275
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.641,
+      5.446
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 13,
+   "start": [
+    -1.45,
+    -0.05,
+    160.0
+   ],
+   "light": 0.65,
+   "gain": 0.72,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 30.36,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.265,
+    0.118,
+    166.7,
+    0.066
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 185.0,
+   "seat_x_mm": -159.6,
+   "seat_y_mm": 93.6,
+   "yaw_err_deg": 13.3,
+   "stripe_margin_mm": 3.59,
+   "align_mm": 185.0,
+   "charging": false,
+   "well_force_n": [
+    0.0,
+    8.199
+   ],
+   "pole_force_n": [
+    0.0,
+    8.199
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": true,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 11.706,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      9.285
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": true
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      10.044
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": true
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      5.535
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": true
+    }
+   ]
+  },
+  {
+   "seed": 14,
+   "start": [
+    -1.1,
+    0.32,
+    -45.0
+   ],
+   "light": 0.55,
+   "gain": 0.6,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 23.84,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.17,
+    0.33,
+    179.1,
+    0.065
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 334.5,
+   "seat_x_mm": -62.4,
+   "seat_y_mm": 328.7,
+   "yaw_err_deg": 0.9,
+   "stripe_margin_mm": null,
+   "align_mm": 334.5,
+   "charging": false,
+   "well_force_n": [
+    3.873,
+    0.0
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "off",
+    "off"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.1,
+    "seat": 6.806
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 15,
+   "start": [
+    -1.35,
+    0.0,
+    90.0
+   ],
+   "light": 1.05,
+   "gain": 1.11,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 38.42,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.232,
+    0.186,
+    170.4,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 209.8,
+   "seat_x_mm": -125.3,
+   "seat_y_mm": 168.3,
+   "yaw_err_deg": 9.6,
+   "stripe_margin_mm": 3.71,
+   "align_mm": 209.8,
+   "charging": true,
+   "well_force_n": [
+    3.753,
+    5.666
+   ],
+   "pole_force_n": [
+    5.666,
+    3.753
+   ],
+   "belly_labels": [
+    "M",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0073,
+   "r_series_ohm": 0.0454,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0074,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 11.065,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.809,
+      3.655
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      7.214,
+      3.057
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.738,
+      3.828
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 16,
+   "start": [
+    -0.88,
+    -0.18,
+    22.0
+   ],
+   "light": 0.75,
+   "gain": 0.77,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 23.24,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.224,
+    0.109,
+    173.0,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 151.2,
+   "seat_x_mm": -116.9,
+   "seat_y_mm": 95.9,
+   "yaw_err_deg": 7.0,
+   "stripe_margin_mm": 6.63,
+   "align_mm": 151.2,
+   "charging": true,
+   "well_force_n": [
+    5.357,
+    5.72
+   ],
+   "pole_force_n": [
+    5.357,
+    5.72
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0067,
+   "r_series_ohm": 0.0447,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0067,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.339,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.583,
+      6.285
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.185,
+      6.657
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      3.352,
+      7.859
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 17,
+   "start": [
+    -1.55,
+    0.16,
+    -90.0
+   ],
+   "light": 1.15,
+   "gain": 1.27,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 30.4,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.206,
+    0.224,
+    177.9,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 241.0,
+   "seat_x_mm": -98.3,
+   "seat_y_mm": 220.0,
+   "yaw_err_deg": 2.1,
+   "stripe_margin_mm": 6.25,
+   "align_mm": 241.0,
+   "charging": true,
+   "well_force_n": [
+    6.342,
+    4.474
+   ],
+   "pole_force_n": [
+    4.474,
+    6.342
+   ],
+   "belly_labels": [
+    "M",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0068,
+   "r_series_ohm": 0.0449,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0069,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.054,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.548,
+      5.565
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.772,
+      4.64
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.308,
+      5.562
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 18,
+   "start": [
+    -1.18,
+    -0.28,
+    12.0
+   ],
+   "light": 0.48,
+   "gain": 0.47,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 22.32,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.232,
+    0.082,
+    171.0,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 140.9,
+   "seat_x_mm": -125.1,
+   "seat_y_mm": 64.9,
+   "yaw_err_deg": 9.0,
+   "stripe_margin_mm": 0.38,
+   "align_mm": 140.9,
+   "charging": true,
+   "well_force_n": [
+    2.904,
+    5.087
+   ],
+   "pole_force_n": [
+    5.087,
+    2.904
+   ],
+   "belly_labels": [
+    "M",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0081,
+   "r_series_ohm": 0.0461,
+   "v_diode": 0.0277,
+   "v_charger": 14.926,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0082,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 11.675,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.178,
+      3.061
+     ],
+     "v_charger": 14.926,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      6.098,
+      2.817
+     ],
+     "v_charger": 14.926,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.628,
+      7.001
+     ],
+     "v_charger": 14.928,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 19,
+   "start": [
+    -1.02,
+    0.08,
+    -160.0
+   ],
+   "light": 0.85,
+   "gain": 0.83,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 25.92,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.24,
+    0.125,
+    172.4,
+    0.067
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 173.1,
+   "seat_x_mm": -133.0,
+   "seat_y_mm": 110.9,
+   "yaw_err_deg": 7.6,
+   "stripe_margin_mm": null,
+   "align_mm": 173.1,
+   "charging": false,
+   "well_force_n": [
+    1.39,
+    6.595
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "miss",
+    "miss"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 12.122,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 20,
+   "start": [
+    -1.32,
+    -0.12,
+    35.0
+   ],
+   "light": 1.0,
+   "gain": 0.93,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 49.22,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.186,
+    0.226,
+    169.7,
+    0.067
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 221.5,
+   "seat_x_mm": -79.5,
+   "seat_y_mm": 206.7,
+   "yaw_err_deg": 10.3,
+   "stripe_margin_mm": null,
+   "align_mm": 221.5,
+   "charging": false,
+   "well_force_n": [
+    6.565,
+    3.772
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "miss",
+    "miss"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.711,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 21,
+   "start": [
+    -1.12,
+    -0.04,
+    8.0
+   ],
+   "light": 0.9,
+   "gain": 0.98,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 17.92,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.275,
+    0.142,
+    171.4,
+    0.066
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 210.6,
+   "seat_x_mm": -168.5,
+   "seat_y_mm": 126.2,
+   "yaw_err_deg": 8.6,
+   "stripe_margin_mm": 4.92,
+   "align_mm": 210.6,
+   "charging": true,
+   "well_force_n": [
+    5.683,
+    5.543
+   ],
+   "pole_force_n": [
+    5.543,
+    5.683
+   ],
+   "belly_labels": [
+    "M",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0066,
+   "r_series_ohm": 0.0447,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0067,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.949,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.098,
+      5.02
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.76,
+      5.67
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.09,
+      5.024
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 22,
+   "start": [
+    -1.28,
+    0.18,
+    -12.0
+   ],
+   "light": 0.75,
+   "gain": 0.72,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 25.88,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.178,
+    0.253,
+    179.5,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 261.3,
+   "seat_x_mm": -70.2,
+   "seat_y_mm": 251.7,
+   "yaw_err_deg": 0.5,
+   "stripe_margin_mm": 4.68,
+   "align_mm": 261.3,
+   "charging": true,
+   "well_force_n": [
+    6.054,
+    5.669
+   ],
+   "pole_force_n": [
+    6.054,
+    5.669
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0065,
+   "r_series_ohm": 0.0445,
+   "v_diode": 0.0277,
+   "v_charger": 14.928,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0065,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.918,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.515,
+      4.763
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.426,
+      4.998
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.671,
+      4.566
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 23,
+   "start": [
+    -0.98,
+    -0.22,
+    24.0
+   ],
+   "light": 1.15,
+   "gain": 1.22,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 17.52,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.256,
+    0.041,
+    173.2,
+    0.066
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 151.6,
+   "seat_x_mm": -149.0,
+   "seat_y_mm": 28.0,
+   "yaw_err_deg": 6.8,
+   "stripe_margin_mm": 3.17,
+   "align_mm": 151.6,
+   "charging": true,
+   "well_force_n": [
+    3.574,
+    7.522
+   ],
+   "pole_force_n": [
+    7.522,
+    3.574
+   ],
+   "belly_labels": [
+    "M",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.007,
+   "r_series_ohm": 0.0451,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0071,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.384,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.723,
+      2.64
+     ],
+     "v_charger": 14.926,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      6.861,
+      2.359
+     ],
+     "v_charger": 14.926,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      6.012,
+      3.838
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 24,
+   "start": [
+    -1.42,
+    0.08,
+    -8.0
+   ],
+   "light": 0.55,
+   "gain": 0.52,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 24.28,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.181,
+    0.259,
+    177.3,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 264.0,
+   "seat_x_mm": -72.6,
+   "seat_y_mm": 253.8,
+   "yaw_err_deg": 2.7,
+   "stripe_margin_mm": 2.58,
+   "align_mm": 264.0,
+   "charging": true,
+   "well_force_n": [
+    6.854,
+    3.279
+   ],
+   "pole_force_n": [
+    6.854,
+    3.279
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0073,
+   "r_series_ohm": 0.0454,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0074,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.825,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      6.132,
+      3.995
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.834,
+      4.805
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      6.165,
+      3.958
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 25,
+   "start": [
+    -1.06,
+    0.12,
+    140.0
+   ],
+   "light": 1.0,
+   "gain": 0.9,
+   "ok": false,
+   "reason": "fell",
+   "retries": 0,
+   "t_s": 33.04,
+   "fell": true,
+   "saw": true,
+   "sat": false,
+   "true": [
+    0.126,
+    0.067,
+    -15.6,
+    -0.063
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 98.9,
+   "seat_x_mm": 22.3,
+   "seat_y_mm": 96.3,
+   "yaw_err_deg": 164.4,
+   "stripe_margin_mm": 7.05,
+   "align_mm": 98.9,
+   "charging": false,
+   "well_force_n": [
+    17.618,
+    17.363
+   ],
+   "pole_force_n": [
+    17.363,
+    17.618
+   ],
+   "belly_labels": [
+    "M",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0037,
+   "r_series_ohm": 0.0418,
+   "v_diode": 0.0277,
+   "v_charger": 14.93,
+   "i_charge_a": 0.0,
+   "heat_w": 0.0,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 1408.393,
+    "seat": 613.716
+   }
+  },
+  {
+   "seed": 26,
+   "start": [
+    -1.22,
+    -0.3,
+    16.0
+   ],
+   "light": 0.65,
+   "gain": 0.65,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 19.32,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.246,
+    0.057,
+    169.6,
+    0.066
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 145.0,
+   "seat_x_mm": -140.1,
+   "seat_y_mm": 37.4,
+   "yaw_err_deg": 10.4,
+   "stripe_margin_mm": null,
+   "align_mm": 145.0,
+   "charging": false,
+   "well_force_n": [
+    2.418,
+    8.559
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "miss",
+    "miss"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.118,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 27,
+   "start": [
+    -0.92,
+    0.2,
+    -28.0
+   ],
+   "light": 1.2,
+   "gain": 1.27,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 22.72,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.167,
+    0.3,
+    177.3,
+    0.066
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 300.7,
+   "seat_x_mm": -59.3,
+   "seat_y_mm": 294.8,
+   "yaw_err_deg": 2.7,
+   "stripe_margin_mm": null,
+   "align_mm": 300.7,
+   "charging": false,
+   "well_force_n": [
+    0.0,
+    10.362
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "off",
+    "off"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.524,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "off"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 28,
+   "start": [
+    -1.48,
+    -0.1,
+    70.0
+   ],
+   "light": 0.85,
+   "gain": 0.94,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 42.18,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.198,
+    0.192,
+    170.3,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 196.2,
+   "seat_x_mm": -91.0,
+   "seat_y_mm": 173.9,
+   "yaw_err_deg": 9.7,
+   "stripe_margin_mm": 7.22,
+   "align_mm": 196.2,
+   "charging": true,
+   "well_force_n": [
+    6.173,
+    4.5
+   ],
+   "pole_force_n": [
+    4.5,
+    6.173
+   ],
+   "belly_labels": [
+    "M",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0068,
+   "r_series_ohm": 0.0449,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0069,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.216,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.891,
+      5.447
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.098,
+      5.469
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.854,
+      5.431
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 29,
+   "start": [
+    -1.16,
+    0.28,
+    -40.0
+   ],
+   "light": 0.5,
+   "gain": 0.43,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 26.52,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.133,
+    0.286,
+    173.2,
+    0.067
+   ],
+   "contacts_meet": false,
+   "plus": 1,
+   "minus": 0,
+   "seat_offset_mm": 273.8,
+   "seat_x_mm": -25.4,
+   "seat_y_mm": 272.7,
+   "yaw_err_deg": 6.8,
+   "stripe_margin_mm": 8.54,
+   "align_mm": 273.8,
+   "charging": false,
+   "well_force_n": [
+    0.0,
+    9.05
+   ],
+   "pole_force_n": [
+    9.05,
+    0.0
+   ],
+   "belly_labels": [
+    "off",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.632,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      2.639,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      10.409,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.169,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "off",
+      "P"
+     ],
+     "contact_loss": true
+    }
+   ]
+  },
+  {
+   "seed": 30,
+   "start": [
+    -1.34,
+    -0.16,
+    4.0
+   ],
+   "light": 1.05,
+   "gain": 0.97,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 22.2,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.257,
+    0.143,
+    167.9,
+    0.066
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 193.4,
+   "seat_x_mm": -151.3,
+   "seat_y_mm": 120.5,
+   "yaw_err_deg": 12.1,
+   "stripe_margin_mm": 5.56,
+   "align_mm": 193.4,
+   "charging": true,
+   "well_force_n": [
+    0.769,
+    8.124
+   ],
+   "pole_force_n": [
+    8.124,
+    0.769
+   ],
+   "belly_labels": [
+    "M",
+    "P"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0117,
+   "r_series_ohm": 0.0497,
+   "v_diode": 0.0277,
+   "v_charger": 14.922,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0118,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 11.402,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      8.487,
+      1.866
+     ],
+     "v_charger": 14.926,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      9.951,
+      1.101
+     ],
+     "v_charger": 14.924,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      8.703,
+      2.476
+     ],
+     "v_charger": 14.926,
+     "short": false,
+     "labels": [
+      "M",
+      "P"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 31,
+   "start": [
+    -1.0,
+    0.0,
+    -150.0
+   ],
+   "light": 0.8,
+   "gain": 0.9,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 30.84,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.276,
+    0.088,
+    166.5,
+    0.066
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 181.9,
+   "seat_x_mm": -170.6,
+   "seat_y_mm": 63.2,
+   "yaw_err_deg": 13.5,
+   "stripe_margin_mm": null,
+   "align_mm": 181.9,
+   "charging": false,
+   "well_force_n": [
+    5.879,
+    5.688
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "miss",
+    "miss"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.416,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 32,
+   "start": [
+    -1.38,
+    0.22,
+    32.0
+   ],
+   "light": 0.7,
+   "gain": 0.63,
+   "ok": false,
+   "reason": "no_marker",
+   "retries": 0,
+   "t_s": 28.02,
+   "fell": false,
+   "saw": false,
+   "sat": false,
+   "true": [
+    -1.664,
+    0.286,
+    -89.0,
+    0.161
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 1711.4,
+   "seat_x_mm": -1665.4,
+   "seat_y_mm": 393.8,
+   "yaw_err_deg": 91.0,
+   "stripe_margin_mm": null,
+   "align_mm": 1711.4,
+   "charging": false,
+   "well_force_n": [
+    0.0,
+    0.0
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "off",
+    "off"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 0.0,
+    "seat": 0.0
+   }
+  },
+  {
+   "seed": 33,
+   "start": [
+    -1.1,
+    -0.08,
+    110.0
+   ],
+   "light": 1.1,
+   "gain": 1.08,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 32.44,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.252,
+    0.119,
+    176.0,
+    0.066
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 182.3,
+   "seat_x_mm": -144.3,
+   "seat_y_mm": 111.4,
+   "yaw_err_deg": 4.0,
+   "stripe_margin_mm": null,
+   "align_mm": 182.3,
+   "charging": false,
+   "well_force_n": [
+    3.822,
+    6.767
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "miss",
+    "miss"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 11.136,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 34,
+   "start": [
+    -1.26,
+    0.06,
+    -6.0
+   ],
+   "light": 0.6,
+   "gain": 0.51,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 23.72,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.248,
+    0.208,
+    175.4,
+    0.066
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 243.9,
+   "seat_x_mm": -140.2,
+   "seat_y_mm": 199.6,
+   "yaw_err_deg": 4.6,
+   "stripe_margin_mm": 6.69,
+   "align_mm": 243.9,
+   "charging": true,
+   "well_force_n": [
+    4.694,
+    6.347
+   ],
+   "pole_force_n": [
+    4.694,
+    6.347
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0067,
+   "r_series_ohm": 0.0448,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0068,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 10.614,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.267,
+      5.449
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      3.832,
+      6.055
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      4.411,
+      5.399
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 35,
+   "start": [
+    -0.96,
+    -0.14,
+    20.0
+   ],
+   "light": 1.25,
+   "gain": 1.19,
+   "ok": false,
+   "reason": "fell",
+   "retries": 0,
+   "t_s": 16.84,
+   "fell": true,
+   "saw": true,
+   "sat": false,
+   "true": [
+    0.051,
+    0.075,
+    -2.2,
+    -0.063
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 97.5,
+   "seat_x_mm": -56.8,
+   "seat_y_mm": 79.2,
+   "yaw_err_deg": 177.8,
+   "stripe_margin_mm": 1.98,
+   "align_mm": 97.5,
+   "charging": false,
+   "well_force_n": [
+    17.812,
+    17.855
+   ],
+   "pole_force_n": [
+    17.812,
+    17.855
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0037,
+   "r_series_ohm": 0.0418,
+   "v_diode": 0.0277,
+   "v_charger": 14.93,
+   "i_charge_a": 0.0,
+   "heat_w": 0.0,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 1408.377,
+    "seat": 614.004
+   }
+  },
+  {
+   "seed": 36,
+   "start": [
+    -1.52,
+    0.14,
+    -70.0
+   ],
+   "light": 0.45,
+   "gain": 0.41,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 27.56,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.154,
+    0.253,
+    176.8,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 250.9,
+   "seat_x_mm": -45.9,
+   "seat_y_mm": 246.7,
+   "yaw_err_deg": 3.2,
+   "stripe_margin_mm": 7.77,
+   "align_mm": 250.9,
+   "charging": true,
+   "well_force_n": [
+    6.292,
+    3.875
+   ],
+   "pole_force_n": [
+    6.292,
+    3.875
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0071,
+   "r_series_ohm": 0.0452,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0072,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.872,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.413,
+      7.266
+     ],
+     "v_charger": 14.928,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.537,
+      4.885
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.791,
+      4.378
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 37,
+   "start": [
+    -1.18,
+    -0.24,
+    48.0
+   ],
+   "light": 0.95,
+   "gain": 1.01,
+   "ok": true,
+   "reason": "docked",
+   "retries": 1,
+   "t_s": 43.22,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.23,
+    0.116,
+    171.4,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 158.6,
+   "seat_x_mm": -123.1,
+   "seat_y_mm": 100.0,
+   "yaw_err_deg": 8.6,
+   "stripe_margin_mm": 6.12,
+   "align_mm": 158.6,
+   "charging": true,
+   "well_force_n": [
+    3.007,
+    6.83
+   ],
+   "pole_force_n": [
+    3.007,
+    6.83
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0075,
+   "r_series_ohm": 0.0456,
+   "v_diode": 0.0277,
+   "v_charger": 14.926,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0076,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 11.119,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      3.448,
+      5.703
+     ],
+     "v_charger": 14.926,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      2.886,
+      6.875
+     ],
+     "v_charger": 14.926,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      3.074,
+      5.338
+     ],
+     "v_charger": 14.926,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 38,
+   "start": [
+    -1.08,
+    0.16,
+    175.0
+   ],
+   "light": 0.85,
+   "gain": 0.85,
+   "ok": false,
+   "reason": "fell",
+   "retries": 0,
+   "t_s": 28.96,
+   "fell": true,
+   "saw": true,
+   "sat": false,
+   "true": [
+    0.107,
+    0.178,
+    -1.6,
+    -0.063
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 180.8,
+   "seat_x_mm": -0.6,
+   "seat_y_mm": 180.8,
+   "yaw_err_deg": 178.4,
+   "stripe_margin_mm": 0.43,
+   "align_mm": 180.8,
+   "charging": false,
+   "well_force_n": [
+    17.502,
+    17.41
+   ],
+   "pole_force_n": [
+    17.502,
+    17.41
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0037,
+   "r_series_ohm": 0.0418,
+   "v_diode": 0.0277,
+   "v_charger": 14.93,
+   "i_charge_a": 0.0,
+   "heat_w": 0.0,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 1408.381,
+    "seat": 613.677
+   }
+  },
+  {
+   "seed": 39,
+   "start": [
+    -1.3,
+    -0.02,
+    -18.0
+   ],
+   "light": 1.0,
+   "gain": 1.0,
+   "ok": true,
+   "reason": "docked",
+   "retries": 0,
+   "t_s": 28.04,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.193,
+    0.246,
+    178.1,
+    0.067
+   ],
+   "contacts_meet": true,
+   "plus": 1,
+   "minus": 1,
+   "seat_offset_mm": 256.7,
+   "seat_x_mm": -85.3,
+   "seat_y_mm": 242.1,
+   "yaw_err_deg": 1.9,
+   "stripe_margin_mm": 3.32,
+   "align_mm": 256.7,
+   "charging": true,
+   "well_force_n": [
+    6.424,
+    3.706
+   ],
+   "pole_force_n": [
+    6.424,
+    3.706
+   ],
+   "belly_labels": [
+    "P",
+    "M"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": 0.0072,
+   "r_series_ohm": 0.0452,
+   "v_diode": 0.0277,
+   "v_charger": 14.927,
+   "i_charge_a": 1.006,
+   "heat_w": 0.0072,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.787,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.488,
+      4.438
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.647,
+      7.599
+     ],
+     "v_charger": 14.928,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": true,
+     "charging": true,
+     "pole_force_n": [
+      5.554,
+      4.62
+     ],
+     "v_charger": 14.927,
+     "short": false,
+     "labels": [
+      "P",
+      "M"
+     ],
+     "contact_loss": false
+    }
+   ]
+  },
+  {
+   "seed": 40,
+   "start": [
+    -1.44,
+    0.26,
+    10.0
+   ],
+   "light": 0.72,
+   "gain": 0.77,
+   "ok": false,
+   "reason": "sat_off_stripes",
+   "retries": 0,
+   "t_s": 23.2,
+   "fell": false,
+   "saw": true,
+   "sat": true,
+   "true": [
+    -0.214,
+    0.271,
+    175.9,
+    0.067
+   ],
+   "contacts_meet": false,
+   "plus": 0,
+   "minus": 0,
+   "seat_offset_mm": 284.3,
+   "seat_x_mm": -106.3,
+   "seat_y_mm": 263.7,
+   "yaw_err_deg": 4.1,
+   "stripe_margin_mm": null,
+   "align_mm": 284.3,
+   "charging": false,
+   "well_force_n": [
+    12.388,
+    0.0
+   ],
+   "pole_force_n": [
+    0.0,
+    0.0
+   ],
+   "belly_labels": [
+    "miss",
+    "miss"
+   ],
+   "contact_loss": false,
+   "short": false,
+   "r_contact_ohm": null,
+   "r_series_ohm": null,
+   "v_diode": 0.0,
+   "v_charger": null,
+   "i_charge_a": 0.0,
+   "heat_w": null,
+   "f_min_n": 0.294,
+   "others": {
+    "bumper": 9.974,
+    "seat": 0.0
+   },
+   "belly_cases": [
+    {
+     "name": "print_low",
+     "dz_mm": 0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "print_high",
+     "dz_mm": -0.3,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    },
+    {
+     "name": "felt_dent",
+     "dz_mm": 0.4,
+     "meet": false,
+     "charging": false,
+     "pole_force_n": [
+      0.0,
+      0.0
+     ],
+     "v_charger": null,
+     "short": false,
+     "labels": [
+      "miss",
+      "miss"
+     ],
+     "contact_loss": false
+    }
+   ]
+  }
+ ],
+ "sweep": {
+  "rows": [
+   {
+    "n": 4100,
+    "ok": 2663,
+    "short": 0,
+    "miss": 1437,
+    "ok_frac": 0.6495121951219512,
+    "short_frac": 0.0,
+    "name": "nominal",
+    "lx_mm": 6.0,
+    "ly_mm": 2.2
+   },
+   {
+    "n": 4100,
+    "ok": 2611,
+    "short": 0,
+    "miss": 1489,
+    "ok_frac": 0.6368292682926829,
+    "short_frac": 0.0,
+    "name": "print_high_0.3mm",
+    "lx_mm": 6.3,
+    "ly_mm": 2.5
+   },
+   {
+    "n": 4100,
+    "ok": 2725,
+    "short": 0,
+    "miss": 1375,
+    "ok_frac": 0.6646341463414634,
+    "short_frac": 0.0,
+    "name": "print_low_is_same_footprint",
+    "lx_mm": 5.7,
+    "ly_mm": 1.9
+   }
+  ],
+  "extent_0_mm": 2.2,
+  "extent_14_mm": 3.59,
+  "extent_20_mm": 4.12,
+  "extent_20_print_high_mm": 4.5,
+  "gap_mm": 22.8,
+  "sep_mm": 25.0
+ },
+ "mass": {
+  "steel_g": 0.104,
+  "petg_cut_g": 10.21,
+  "net_g": -10.11,
+  "r_one_ohm": 2.727272727272727e-05,
+  "r_two_ohm": 5.454545454545454e-05
+ }
+}
