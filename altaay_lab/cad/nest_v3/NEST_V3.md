@@ -1,6 +1,6 @@
 # Nest mat, version 3
 
-2026-11-16 ET. Ahmed approved a redesign the same evening (7:24 PM ET): the charging contact is the full metal belly, split into two halves, and the mat is redrawn to match. This file is that mat. nest_v2 is not changed. D61 is not edited.
+2026-11-16 ET. Ahmed asked for a full metal belly, split into two halves, and a mat redrawn to match. This file is that study. It is not an approval of the mat. nest_v2 is not changed. D61 is not edited.
 
 Nothing was built or bought. The 40-seed numbers are sim pass only. They do not beat the gold domes (38 of 40, SEAT_CONTACTS.md).
 
@@ -89,4 +89,4 @@ The belly, off the mat, is the same story as BELLY_CONTACT.md. The bridge is off
 6. A copper-sheet price for pads this size was not opened. BLOCKER. Felt sheet price is still BLOCKER (nest v2).
 7. The sense board is not in the netlist. D61 was not edited.
 
-The approval and the outcome are in DECISION.md. The gold wells stay the contact that charges more often.
+The study note is in DECISION.md. Nest v3 is not approved. The gold wells stay the contact that charges more often.
