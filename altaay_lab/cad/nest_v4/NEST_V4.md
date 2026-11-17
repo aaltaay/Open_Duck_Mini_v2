@@ -28,7 +28,7 @@ Geometric docks: 20 of 40. Five of those press only one half hard enough.
 Shorts: 0 of 40.
 Falls: 1 of 40.
 Timeouts: 6. No mark: 1 (seed 32).
-On a charging sit the lighter half is at least 1.97 N and the chip input is 14.917 V. Inside 4.5 V to 17 V.
+On a charging sit the lighter half is at least 0.759 N (seed 34) and the chip input is 14.910 V to 14.917 V. Inside 4.5 V to 17 V.
 
 This does not beat 38 of 40. The misses are sits whose depth is outside the 93 mm band (trunk x from -324 mm to -231 mm, calc only, +/-14 deg, 0.3 mm fat, 4 mm of metal on the pad). The two halves are 102 mm apart in the body, so one strip cannot cover a wider band than that.
 
