@@ -30,3 +30,7 @@ jobs:
         run: python3 altaay_lab/circuitry/check_charger.py
       - name: awake load arithmetic
         run: python3 altaay_lab/circuitry/check_awake_load.py
+      - name: companion and personality
+        run: |
+          python3 -m unittest discover -s altaay_lab/software/companion/tests -q
+          python3 -m unittest discover -s altaay_lab/software/personality/tests -q

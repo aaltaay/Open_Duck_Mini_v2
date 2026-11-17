@@ -82,9 +82,7 @@ Cloud-tied toys stop being companions when the vendor turns the servers off. The
 
 ## A companion, not a speaker
 
-The speech line is the assistant. The companion is the body that is already designed: the eye blink in the Runtime, the ear servos in twin/companion/COMPANION.md, and the head command ranges in the playground joystick task (head yaw -1.5 to 1.5 rad, cited, that file). The demo's hello and night-light lines do not add a new pose.
-
-How the body shows assistant state: details held for later.
+The speech line is the assistant. The companion is the body that is already designed: the eye blink in the Runtime, the ear servos in twin/companion/COMPANION.md, and the head command ranges in the playground joystick task (head yaw -1.5 to 1.5 rad, cited, that file). The personality engine turns listening, thinking, speaking, done, and refused into named head poses. Safety and a low pack still come first. See software/personality/PERSONALITY.md.
 
 ## First demo
 
@@ -105,11 +103,14 @@ Pass for this demo: those checks pass on a machine with the repo and Python. Tha
 
 ## Held
 
-Details held for later:
+Still held:
 
 - How kid or adult mode is chosen.
-- How the body shows assistant state.
 - How a privacy choice is shown on the body.
+
+Closed in software/personality/ (PERSONALITY.md). The engine is not on the 50 Hz walk thread. No cloud:
+
+- How the body shows assistant state.
 - How a reminder is carried to a person.
 - What the body does while seated.
 - When to walk home from the duck's own readings, beyond the guards already in software/SOFTWARE.md.
@@ -118,5 +119,5 @@ Details held for later:
 
 - Sim pass only applies to training numbers in TRAINING.md, not to this demo. The demo is a Python check with no physics.
 - No row in SOFTWARE.md section 11 was measured on a Pi. This note does not close any of them.
-- Nest vision and a charge program are still unwritten (SOFTWARE.md section 10). Naming the old dock states does not close that gap.
+- Nest vision and a charge program are still unwritten (SOFTWARE.md section 10). Naming the old dock states does not close that gap. The personality clip in twin/out/videos/personality_demo.mp4 is sim pass only. It does not close that gap either.
 - The mock is not a model and not an account.
