@@ -64,6 +64,10 @@ note_new() { echo "installed $*"; changed=1; }
 priv() {
   dest=$1
   shift
+  if [ -n "${ODM_PRIV_SH:-}" ]; then
+    "$ODM_PRIV_SH" "$dest" "$@"
+    return
+  fi
   if [ -z "$PREFIX" ] && [ "$(id -u)" -ne 0 ]; then
     case "$dest" in
       /etc/*|/boot/*|/var/*) sudo "$@" ; return ;;
@@ -72,16 +76,31 @@ priv() {
   "$@"
 }
 
+apply_mode() {
+  dest=$1
+  case "$dest" in
+    */sudoers.d/*) priv "$dest" chmod 0440 "$dest" ;;
+    /etc/*|/boot/*|/var/*) priv "$dest" chmod 0644 "$dest" ;;
+  esac
+}
+
 copy_if_changed() {
   src=$1
   dst=$2
   priv "$dst" mkdir -p "$(dirname -- "$dst")"
-  if [ -f "$dst" ] && cmp -s "$src" "$dst"; then
+  if [ -f "$dst" ] && priv "$dst" cmp -s "$src" "$dst"; then
     note_same "$dst"
   else
     priv "$dst" cp "$src" "$dst"
+    apply_mode "$dst"
     note_new "$dst"
   fi
+}
+
+grep_q() {
+  pattern=$1
+  file=$2
+  priv "$file" grep -q -e "$pattern" "$file"
 }
 
 ensure_line() {
@@ -90,7 +109,7 @@ ensure_line() {
   priv "$file" mkdir -p "$(dirname -- "$file")"
   tmp=$(mktemp)
   if [ -f "$file" ]; then
-    cat "$file" > "$tmp"
+    priv "$file" cat "$file" > "$tmp"
   else
     printf '%s\n' "# written by altaay_lab/software/install_pi.sh" > "$tmp"
   fi
@@ -101,6 +120,7 @@ ensure_line() {
   fi
   printf '%s\n' "$line" >> "$tmp"
   priv "$file" cp "$tmp" "$file"
+  apply_mode "$file"
   rm -f "$tmp"
   note_new "$file :: $line"
 }
@@ -269,15 +289,15 @@ sum=$(sha256sum "$policy_dst" | awk '{print $1}')
 [ -f "$config_dst" ] && ok "duck_config.json" || bad "duck_config.json missing"
 
 unit=$(root "/etc/systemd/system/odm-walk-guard.service")
-grep -q -- '--knee-heat' "$unit" && ok "service passes --knee-heat" || bad "service missing --knee-heat"
-grep -q 'walk_with_guard.py' "$unit" && ok "service starts walk_with_guard.py" || bad "service missing walk program"
-grep -q '^Environment=ODM_HW_PWM=1' "$unit" && ok "service sets the ear PWM overlay" || bad "service missing ODM_HW_PWM"
-grep -q "User=$USER_NAME" "$unit" && ok "service user $USER_NAME" || bad "service user"
+grep_q '--knee-heat' "$unit" && ok "service passes --knee-heat" || bad "service missing --knee-heat"
+grep_q 'walk_with_guard.py' "$unit" && ok "service starts walk_with_guard.py" || bad "service missing walk program"
+grep_q '^Environment=ODM_HW_PWM=1' "$unit" && ok "service sets the ear PWM overlay" || bad "service missing ODM_HW_PWM"
+grep_q "User=$USER_NAME" "$unit" && ok "service user $USER_NAME" || bad "service user"
 
-grep -q '1a86' "$(root "/etc/udev/rules.d/99-odm-servo-bus.rules")" && ok "udev rule" || bad "udev rule"
-grep -q 'systemctl poweroff' "$(root "/etc/sudoers.d/odm-poweroff")" && ok "poweroff sudoers" || bad "sudoers"
-grep -q 'dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4' "$cfg" && ok "ear PWM overlay in config.txt" || bad "pwm overlay"
-grep -q 'dtoverlay=max98357a,no-sdmode' "$cfg" && ok "I2S amp overlay" || bad "amp overlay"
+grep_q '1a86' "$(root "/etc/udev/rules.d/99-odm-servo-bus.rules")" && ok "udev rule" || bad "udev rule"
+grep_q 'systemctl poweroff' "$(root "/etc/sudoers.d/odm-poweroff")" && ok "poweroff sudoers" || bad "sudoers"
+grep_q 'dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4' "$cfg" && ok "ear PWM overlay in config.txt" || bad "pwm overlay"
+grep_q 'dtoverlay=max98357a,no-sdmode' "$cfg" && ok "I2S amp overlay" || bad "amp overlay"
 grep -q 'ODM_HW_PWM' "$site" && ok "sitecustomize overlay" || bad "sitecustomize"
 
 python3 -m py_compile "$LAB/software/hw_pwm.py" "$LAB/bench/day_one.py" "$LAB/bench/mock_hw.py" \

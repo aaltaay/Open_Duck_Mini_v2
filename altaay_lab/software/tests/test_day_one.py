@@ -95,6 +95,55 @@ class MockBench(unittest.TestCase):
         self.assertIn("STEP dayone_bus PASS", r.stdout)
 
 
+class ReviewFixes(unittest.TestCase):
+    def test_fail_wins_over_incomplete(self):
+        failed = day_one.report.Report("voltage", "day-one", "voltage")
+        failed.add("voltage.bec", "rail", "FAIL", 7.2, "11.52 to 12.48 V")
+        missing = day_one.report.Report("camera", "day-one", "camera")
+        missing.add("camera.frame", "frame", "INCOMPLETE", None, "a frame")
+        code, overall = day_one.combine([failed, missing])
+        self.assertEqual((code, overall), (1, "FAIL"))
+
+    def test_live_pwm_chip_is_not_a_folder_of_files(self):
+        self.assertIsNone(day_one.chip_root_for(False, __import__("pathlib").Path("/tmp")))
+        hw = MockHardware()
+        rep = day_one.report.Report("antennas", "day-one", "antennas")
+        day_one.step_antennas(hw, rep, None)
+        self.assertEqual(rep.overall(), "FAIL")
+        self.assertFalse(os.path.exists("/sys/class/pwm/pwmchip0"))
+
+    def test_unreadable_sudoers_is_checked_through_priv(self):
+        import stat
+        import subprocess
+        script = os.path.join(SOFT, "install_pi.sh")
+        with tempfile.TemporaryDirectory() as tmp:
+            env = dict(os.environ)
+            install = ["bash", script, "--mock", "--prefix", tmp]
+            first = subprocess.run(install, capture_output=True, text=True, check=False, env=env)
+            self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+            sudoers = os.path.join(tmp, "etc", "sudoers.d", "odm-poweroff")
+            os.chmod(sudoers, 0)
+            helper = os.path.join(tmp, "asroot")
+            with open(helper, "w", encoding="utf-8") as fh:
+                fh.write(
+                    "#!/bin/bash\n"
+                    "dest=$1\n"
+                    "shift\n"
+                    "old=\n"
+                    "if [ -e \"$dest\" ]; then old=$(stat -c %a \"$dest\"); chmod u+r \"$dest\"; fi\n"
+                    "\"$@\"\n"
+                    "rc=$?\n"
+                    "if [ -n \"$old\" ]; then chmod \"$old\" \"$dest\"; fi\n"
+                    "exit $rc\n"
+                )
+            os.chmod(helper, stat.S_IRWXU)
+            env["ODM_PRIV_SH"] = helper
+            second = subprocess.run(install, capture_output=True, text=True, check=False, env=env)
+            self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+            self.assertIn("poweroff sudoers", second.stdout)
+            self.assertEqual(os.stat(sudoers).st_mode & 0o777, 0)
+
+
 class EarPwm(unittest.TestCase):
     def test_commands_stay_inside_the_cited_clamp(self):
         for value in (-1, -0.5, 0, 0.5, 1):
@@ -120,6 +169,14 @@ class EarPwm(unittest.TestCase):
             self.assertEqual(int(chip.read(0, "duty_cycle")), hw_pwm.duty_to_ns(4915))
             out.deinit()
             self.assertEqual(chip.read(0, "enable"), "0")
+
+    def test_sysfs_path_is_not_created(self):
+        missing = "/sys/class/pwm/pwmchip0"
+        if os.path.exists(missing):
+            self.skipTest("this machine has a PWM chip")
+        with self.assertRaises(FileNotFoundError):
+            hw_pwm.Chip(missing).export(0)
+        self.assertFalse(os.path.exists(missing))
 
     def test_refuses_a_duty_outside_the_clamp(self):
         with self.assertRaises(ValueError):

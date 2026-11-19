@@ -59,6 +59,14 @@ def duty_to_ns(duty):
     return (duty * PERIOD_NS) // DUTY_FULL
 
 
+def _under_sys(path):
+    """True when path is the kernel PWM tree, not a mock directory."""
+    try:
+        return Path(path).resolve().is_relative_to("/sys")
+    except (OSError, ValueError):
+        return str(path).startswith("/sys/")
+
+
 class Chip:
     """sysfs pwmchip. A normal directory with an export file is the fake chip."""
 
@@ -72,6 +80,16 @@ class Chip:
         if channel.exists():
             return channel
         export = self.root / "export"
+        # A path under /sys is the real PWM device. Never create that tree.
+        # A missing chip is a failure, not a folder of ordinary files.
+        if _under_sys(self.root):
+            if not export.exists():
+                raise FileNotFoundError("PWM chip is not present at %s" % self.root)
+            export.write_text("%d\n" % index)
+            if not channel.exists():
+                raise OSError("export did not create %s" % channel)
+            return channel
+        # File-backed stand-in. Used by --mock and by unit tests only.
         export.parent.mkdir(parents=True, exist_ok=True)
         if not export.exists():
             export.write_text("")

@@ -237,6 +237,16 @@ def step_eyes(hw, rep):
 
 def step_antennas(hw, rep, chip_root):
     import hw_pwm
+    try:
+        _antennas(hw, rep, chip_root, hw_pwm)
+    except OSError as exc:
+        rep.add("antennas.pulse", "hardware PWM chip", "FAIL", str(exc),
+                "/sys/class/pwm/pwmchip0",
+                "live mode writes that device; a folder of files is not a pass")
+    return rep
+
+
+def _antennas(hw, rep, chip_root, hw_pwm):
     chip = hw_pwm.Chip(chip_root)
     # Neutral, then both ends, then stop. Signs match antennas.py.
     plan = (("right", hw_pwm.RIGHT_GPIO, hw_pwm.RIGHT_SIGN),
@@ -356,6 +366,27 @@ RUNNERS = {
 }
 
 
+def chip_root_for(mock, folder):
+    """Mock runs use a directory of files. Live runs use the PWM device."""
+    if mock:
+        return folder / "pwmchip0"
+    return None
+
+
+def combine(reports):
+    """FAIL wins over INCOMPLETE. Exit 1, then 2, then 0.
+
+    Report.exit_code uses 1 for FAIL and 2 for INCOMPLETE, so a numeric
+    maximum would hide a failure behind an incomplete step.
+    """
+    statuses = [rep.overall() for rep in reports]
+    if "FAIL" in statuses:
+        return 1, "FAIL"
+    if "INCOMPLETE" in statuses:
+        return 2, "INCOMPLETE"
+    return 0, "PASS"
+
+
 def run_steps(hw, folder, steps, imu_reads, chip_root):
     reports = []
     print("day one bench")
@@ -365,15 +396,17 @@ def run_steps(hw, folder, steps, imu_reads, chip_root):
         if name == "imu":
             step_imu(hw, rep, imu_reads)
         elif name == "antennas":
-            step_antennas(hw, rep, chip_root)
+            try:
+                step_antennas(hw, rep, chip_root)
+            except OSError as exc:
+                rep.add("antennas.pulse", "hardware PWM chip", "FAIL", str(exc),
+                        "/sys/class/pwm/pwmchip0",
+                        "live mode writes that device; a folder of files is not a pass")
         else:
             RUNNERS[name](hw, rep)
         _save(rep, folder)
         reports.append(rep)
-    worst = 0
-    for rep in reports:
-        worst = max(worst, rep.exit_code())
-    overall = "FAIL" if worst == 1 else "INCOMPLETE" if worst == 2 else "PASS"
+    code, overall = combine(reports)
     summary = {
         "hardware": hw.name,
         "overall": overall,
@@ -383,7 +416,7 @@ def run_steps(hw, folder, steps, imu_reads, chip_root):
     path.write_text(json.dumps(summary, indent=1) + "\n")
     print("OVERALL: %s" % overall)
     print("report: %s" % path)
-    return worst, summary
+    return code, summary
 
 
 def _live(port, bec, rail, charge_ohm):
@@ -450,7 +483,7 @@ def main(argv=None):
     if unknown:
         ap.error("unknown step %s" % ",".join(unknown))
     folder = out_dir(args.out, "dayone")
-    chip = folder / "pwmchip0"
+    chip = chip_root_for(args.mock, folder)
     if args.mock:
         from mock_hw import MockHardware
         hw = MockHardware()
