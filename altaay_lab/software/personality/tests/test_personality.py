@@ -342,6 +342,19 @@ class AssistantBodyTests(unittest.TestCase):
         self.assertEqual(fired["expression"], "startled")
         self.assertEqual(bot.personality.mode, "kid")
 
+    def test_help_me_beats_a_face_until_a_person_helps(self):
+        duck = Personality(seed=0)
+        duck.request_help()
+        cmd = duck.step(0.05, _full(), ["face_seen"])
+        self.assertEqual(cmd.expression, "help_me")
+        self.assertEqual(cmd.intent, "sit")
+        self.assertEqual(cmd.eye_color, "white")
+        box = load_box()
+        for name in ("neck_pitch", "head_pitch", "head_yaw", "head_roll"):
+            self.assertTrue(box.holds_joint(name, getattr(cmd, name)))
+        cmd = duck.step(0.2, _full(), ["petted"])
+        self.assertNotEqual(cmd.expression, "help_me")
+
     def test_a_dead_pack_stays_a_sit_through_assistant_turns(self):
         duck = Personality(seed=1)
         stopped = duck.step(0.1, Sensors(pack_v=9.9))

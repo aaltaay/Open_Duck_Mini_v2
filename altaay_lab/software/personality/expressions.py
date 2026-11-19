@@ -21,6 +21,7 @@ NAMES = (
     "bored_glance",
     "seated_alert",
     "settle",
+    "help_me",
 )
 
 BLINKS = ("steady", "slow", "double", "off")
@@ -136,6 +137,17 @@ def target(name, t, ctx, box):
         ears = (0.0, 0.0)
         eye = 0.5
         blink = "steady"
+    elif name == "help_me":
+        # Sit and wait. Head up, ears opposed, eyes full white. A person can see it
+        # from across the room. Not a walk, and not the nap droop.
+        pose["neck_pitch"] = 0.85 * j["neck_pitch"].hi
+        pose["head_pitch"] = 0.20 * j["head_pitch"].hi
+        pose["head_yaw"] = 0.55 * j["head_yaw"].hi * math.sin(2.0 * math.pi * 0.7 * t)
+        pose["head_roll"] = 0.18 * j["head_roll"].hi * math.sin(2.0 * math.pi * 0.7 * t)
+        ears = (1.0, -1.0)
+        eye = 1.0
+        blink = "double"
+        sound = "peep" if t < 0.30 else None
 
     pose = _clip_head(box, pose)
     return {

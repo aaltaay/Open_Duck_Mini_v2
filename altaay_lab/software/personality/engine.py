@@ -185,6 +185,7 @@ class Personality:
         self.reminder = "none"
         self.night_light = False
         self.asked_home = False
+        self.help_me = False
         self.fallen = False
         self.fall_at = None
         self.knee_hot = False
@@ -215,6 +216,109 @@ class Personality:
     def request_home(self):
         """Spoken go-home. Same need as a low pack, same dock state names."""
         self.asked_home = True
+
+    def request_help(self):
+        """Sit and wait. The help_me pose stays until a person pets or picks up."""
+        self.help_me = True
+
+    def export_state(self):
+        """Plain numbers so a restart can continue. The walk thread id is not saved."""
+        version, state, gauss = self.rng.getstate()
+        sensors = self._last_sensors
+        return {
+            "t": self.t,
+            "mode": self.mode,
+            "valence": self.valence,
+            "arousal": self.arousal,
+            "curiosity": self.curiosity,
+            "sociability": self.sociability,
+            "energy": self.energy,
+            "head": dict(self.head),
+            "antenna_left": self.antenna_left,
+            "antenna_right": self.antenna_right,
+            "eye_brightness": self.eye_brightness,
+            "blink": self.blink,
+            "expression": self.expression,
+            "intent": self.intent,
+            "priority": self.priority,
+            "reason": self.reason,
+            "assistant_phase": self.assistant_phase,
+            "carry": self.carry,
+            "reminder": self.reminder,
+            "night_light": self.night_light,
+            "asked_home": self.asked_home,
+            "help_me": self.help_me,
+            "fallen": self.fallen,
+            "fall_at": self.fall_at,
+            "knee_hot": self.knee_hot,
+            "on_dock": self.on_dock,
+            "low_latched": self.low_latched,
+            "face_on": self.face_on,
+            "face_close": self.face_close,
+            "bearing": self.bearing,
+            "elevation": self.elevation,
+            "attention": self.attention,
+            "glance_sign": self.glance_sign,
+            "glance_phase": self.glance_phase,
+            "greet_until": self.greet_until,
+            "wake_until": self.wake_until,
+            "pet_until": self.pet_until,
+            "timer_until": self.timer_until,
+            "sound_until": self._sound_until,
+            "sound_name": self._sound_name,
+            "phase_until": self._phase_until,
+            "expr_t": self._expr_t,
+            "expr_name": self._expr_name,
+            "rng_version": version,
+            "rng_state": list(state),
+            "rng_gauss": gauss,
+            "sensors": {
+                "pack_v": sensors.pack_v,
+                "servo_median_v": sensors.servo_median_v,
+                "knee_c": sensors.knee_c,
+                "idle_s": sensors.idle_s,
+                "posture": sensors.posture,
+                "bearing_rad": sensors.bearing_rad,
+                "elevation_rad": sensors.elevation_rad,
+                "attention": sensors.attention,
+                "face_close": sensors.face_close,
+            },
+        }
+
+    def import_state(self, saved):
+        """Restore export_state(). The box and the blend rate stay as constructed."""
+        for name in (
+            "t", "valence", "arousal", "curiosity", "sociability", "energy",
+            "antenna_left", "antenna_right", "eye_brightness", "blink",
+            "expression", "intent", "priority", "reason", "assistant_phase",
+            "carry", "reminder", "night_light", "asked_home", "help_me",
+            "fallen", "fall_at", "knee_hot", "on_dock", "low_latched",
+            "face_on", "face_close", "bearing", "elevation", "attention",
+            "glance_sign", "glance_phase", "greet_until", "wake_until",
+            "pet_until", "timer_until",
+        ):
+            setattr(self, name, saved[name])
+        self.head = {name: float(saved["head"][name]) for name in HEAD_JOINTS}
+        self._sound_until = saved["sound_until"]
+        self._sound_name = saved["sound_name"]
+        self._phase_until = saved["phase_until"]
+        self._expr_t = saved["expr_t"]
+        self._expr_name = saved["expr_name"]
+        self._last_phase = saved["assistant_phase"]
+        gauss = saved["rng_gauss"]
+        self.rng.setstate((saved["rng_version"], tuple(saved["rng_state"]), gauss))
+        raw = saved["sensors"]
+        self._last_sensors = Sensors(
+            pack_v=raw["pack_v"],
+            servo_median_v=raw["servo_median_v"],
+            knee_c=raw["knee_c"],
+            idle_s=raw["idle_s"],
+            posture=raw["posture"],
+            bearing_rad=raw["bearing_rad"],
+            elevation_rad=raw["elevation_rad"],
+            attention=raw["attention"],
+            face_close=raw["face_close"],
+        )
 
     def clear_assistant(self):
         """Drop a held assistant pose so a reminder or a timer can show."""
@@ -281,6 +385,7 @@ class Personality:
                 self.valence = _clamp(self.valence + 0.40, -1.0, 1.0)
                 self.arousal = _clamp(self.arousal + 0.25, 0.0, 1.0)
                 self.pet_until = self.t + PET_S
+                self.help_me = False
             elif name == "timer_fired":
                 self.arousal = _clamp(self.arousal + 0.30, 0.0, 1.0)
                 self.timer_until = self.t + TIMER_S
@@ -422,6 +527,14 @@ class Personality:
         return None
 
     def _arbitrate(self, sensors):
+        if self.help_me:
+            return {
+                "priority": "safety",
+                "intent": "sit",
+                "expression": "help_me",
+                "reason": "stuck, sit and wait",
+                "dock_states": (),
+            }
         if self.fallen:
             fresh = self.fall_at is not None and (self.t - self.fall_at) <= FALL_STARTLE_S
             name = "startled" if fresh else "settle"
