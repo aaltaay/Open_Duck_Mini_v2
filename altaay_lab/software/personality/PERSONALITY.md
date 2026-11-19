@@ -28,6 +28,8 @@ Assistant lines show on the body:
 
 Kid mode still refuses mail, calendar, and open questions. Timers, reminders, the night light, and going home still work. The night light holds the eyes bright and white.
 
+If the autonomy supervisor gives up, it asks for the help_me pose. The head stays up, the ears point opposite ways, and the eyes stay bright white, so a person can see that the duck is waiting. A pet or a pickup clears that pose. The pose is not a walk. Getting up from a fall is still not decided in this file. The supervisor is the program that runs the get-up.
+
 ## The picture
 
 twin/out/videos/personality_demo.mp4 is a scripted day on the run D policy. Sim pass only. It is 43.22 s, 1280 by 720, 20 frames a second. The file is 508870 bytes. The caption names the mood and the event, and it says sim pass only.
@@ -48,6 +50,6 @@ Ears and eye beads are not in that scene. The caption is the only place they sho
 - Nest vision is BLOCKER. Naming the old dock states does not dock the duck. The brown mark is not the nest.
 - Charge current is BLOCKER. There is no charge program.
 - Sit from a walk, and stand from a sit, are not trained. The clip ends standing.
-- Getting up from a fall is not written.
+- Getting up from a fall is not written in this file. The autonomy supervisor runs the cited get-up and then calls stood_up.
 - How kid or adult mode is chosen, and how a privacy choice shows on the body, are still open.
 - Wake word, speech to text, and speech out are wired in software/companion/. An x86 run is in LATENCY.md. A timing on this Pi is still BLOCKER.

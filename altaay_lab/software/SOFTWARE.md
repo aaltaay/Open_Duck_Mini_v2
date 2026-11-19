@@ -183,8 +183,9 @@ Where each program lives, and whether it has been run. "Simulated bus" means ben
 | Angle limits and calibration | bench/set_angle_limits.py, software/servo_limits.json, software/CALIBRATION.md | Written. servo_limits.json is labelled calc (the stop moved 3 deg). Not run on a servo. |
 | Logging | bench/power_log.py; the guard CSV and the thermal CSV from walk_with_guard.py; the service journal | Written. The walking log is tested on a simulated bus (sections 6 and 7). |
 | Earlier dock behaviour | software/dock/ | Written for the tag dock (D43), with unit tests in software/dock/tests. charge_state() returns NONE. D61 dropped tags. This is not the nest program. |
-| Nest vision | no file | Not written. D61 asks for the camera and no tags. BLOCKER: this pass has no camera model and no scored nest task. |
-| Charging | no charge program | Not written. The charger inside the duck is not designed yet. BLOCKER. The dock stub above is not a charger. |
+| Nest vision | twin/dock/camera/camera_dock.py, software/autonomy/ | The camera dock (no tags) is sim pass only. The supervisor runs that state list and the gold-dome outcomes. A live camera on the Pi is still BLOCKER. |
+| Charging | software/autonomy/ | The supervisor holds the gold-dome sit and counts charge at the netlist 1.006 A until the cell model is full. Not run on a charger. BLOCKER on the bench. |
+| Autonomy supervisor | software/autonomy/ | One loop: personality, camera dock states, battery guard, knee heat guard, get-up, nap, assistant. Unit tests. A 3 day soak is sim pass only. Not run on a duck. |
 | Updates | software/PI_SETUP.md step 2, one apt full-upgrade at install | No updater after that. Not written. |
 | Ear PWM | Runtime antennas.py | Still Blinka software PWM. Writing the hardware PWM channels would edit the Runtime, which D6 does not allow (D53). Not written. |
 | Personality | software/personality/ | Written. Unit tests, no hardware. A scripted day on the run D policy is sim pass only (twin/out/videos/personality_demo.mp4). Not run on a duck. |

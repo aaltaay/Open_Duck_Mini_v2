@@ -1,0 +1,48 @@
+{
+ "charge_a": 1.006,
+ "charge_current_label": "calc only, netlist 1.006 A",
+ "days": 3.0,
+ "dock_attempts": 24,
+ "dock_misses": [
+  {
+   "reason": "no_marker",
+   "seed": 32,
+   "t": 69708.0
+  },
+  {
+   "reason": "one_well",
+   "seed": 29,
+   "t": 69740.4
+  },
+  {
+   "reason": "no_marker",
+   "seed": 32,
+   "t": 122708.0
+  },
+  {
+   "reason": "one_well",
+   "seed": 29,
+   "t": 188342.4
+  }
+ ],
+ "dock_rate_cited": "38 of 40 charging, sim pass only, SEAT_CONTACTS.md",
+ "dock_success": 20,
+ "falls": 0,
+ "getup_cited": "112 of 112 flat, sim pass only, VIA_SIT_EVAL.md",
+ "hours_awake": 23.211388888888894,
+ "hours_awake_label": "sim pass only",
+ "label": "sim pass only",
+ "min_pack_v": 10.66513999569692,
+ "min_pack_v_plant": 10.66513999569692,
+ "pack_v": 11.970663409123699,
+ "q_mAh": 1030.7989618068973,
+ "restarted_after_day": true,
+ "seed": 1,
+ "spontaneous_falls": "0. Cited flat walks in HOLD12 and the 40 camera docks report no fall. A daily fall rate is BLOCKER, so none is invented.",
+ "stuck_events": 0,
+ "summary_file": "altaay_lab/twin/out/autonomy_soak.json",
+ "tick_s": 10.0,
+ "video_file": "altaay_lab/twin/out/videos/autonomy_day.mp4",
+ "walk_current_label": "sim pass only, FIT3.md mean 5.144 A. Held-rail mean is BLOCKER.",
+ "walk_pack_a": 5.144
+}
