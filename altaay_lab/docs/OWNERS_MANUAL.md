@@ -115,7 +115,7 @@ Say the wake phrase, then one of these. The words are the ones the assistant act
 | good night | Night light flag. Eyes are meant to stay bright white. The demo does not drive the pins yet. | Works |
 | night light | Same as good night. | Works |
 | hello | A short hello. | Works |
-| what is a duck? | In kid mode, or with the cloud off, a local line. It does not call a model. | Stays local |
+| what is a duck? | An open question. In kid mode, or with the cloud off, the answer is: I can set a timer or a reminder. It does not call a model. | That same refusal |
 | check my email | Refused in kid mode. | Refused |
 
 Kid mode refuses mail, calendar, and open questions. Timers, reminders, the clock, weather, the night light,
@@ -134,14 +134,15 @@ The eyes stay white (cited, decision D57). Brightness and blink names are for th
 The beads on the duck today are on or off, not a measured dimmer.
 How fast a real ear moves is **BLOCKER**.
 
-These names are the ones in [software/personality/expressions.py](../software/personality/expressions.py)
+The expression names are the ones in [software/personality/expressions.py](../software/personality/expressions.py)
 and [software/personality/PERSONALITY.md](../software/personality/PERSONALITY.md).
-They have been drawn in simulation. No servo has moved. Status: **never done on hardware**.
+The last row is a voice flag, not one of those names.
+The expressions have been drawn in simulation. No servo has moved. Status: **never done on hardware**.
 
 | What you see | Name | Meaning |
 |---|---|---|
 | Head tilted, ears up, eyes bright, steady blink | curious tilt | Listening |
-| Head turns toward the person, only if a cloud mock is actually in use | look, thinking | Working on an adult cloud question |
+| Head turns toward the caller, only if a cloud mock is actually in use | look_at | The assistant phase is called thinking. The expression name is look_at. |
 | A nod | nod | Speaking |
 | Head settles back to centre | settle | Done |
 | Head shake, double blink | shake | Refused. Mail in kid mode does this. |
@@ -153,7 +154,7 @@ They have been drawn in simulation. No servo has moved. Status: **never done on 
 | Slow look from side to side | bored glance | Nobody is around |
 | Sitting, head up, slow blink | seated alert | Sitting and still awake |
 | Head up, ears pointed opposite ways, eyes bright white, double blink | help me | It has given up and is waiting for a person. See the next section. |
-| Eyes held bright white | night light | You said good night. Not a measured lamp. |
+| Eyes held bright white after good night | not an expression name | A voice flag. The beads are not a measured lamp. |
 
 A fall, a hot knee, or a battery that is too low comes before any of these greetings.
 Duckie should sit. It should not keep walking to finish a hello.

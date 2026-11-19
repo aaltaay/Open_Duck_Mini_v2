@@ -246,11 +246,17 @@ for this build.
     The window is 9.0 V to 12.6 V (cited, domain PACK_9V0_12V6).
     [START_HERE.md](../START_HERE.md) still says a 2S pack in its opening lines. That sentence is older
     than D65. Do not build two cells.
-    The harness sheet has not been regenerated for the third tap. BLOCKER. Do not invent a weld.
+    Cable P3b in the netlist is the second strap, PACK.MID2 to BMS.B2 (cited, wiring/netlist.yaml).
+    It is not in HARNESS_BUILD.md. Its cut length is unset (cited, cut_mm null) and it has no 3D route.
+    BLOCKER. Do not invent a length or a weld.
     Use the netlist pin names. Do not follow the holder wording in section 1, and do not follow the
     2S holder story in [WIRING.md](../WIRING.md) section 1.
+    Where that sheet says BEC, the live regulator is the i7C in section 7.1, not a Castle part set to 7.2 V.
     Status: **never done on hardware**.
 29. Belly servo power. HARNESS_BUILD section 2 (P11, SP1 to SP5).
+    The sheet still says "both BEC output leads". That wording is the 2026-11-06 text.
+    The live part on those leads is the TDK-Lambda i7C set to 12.0 V (cited, D65, netlist U1).
+    Do not buy or program a Castle BEC to 7.2 V for this step. The pass band is in section 7.1.
     SP4 and SP5 are V and G only. Leave the data cavity empty (cited, D23).
     Status: **never done on hardware**.
 30. Servo data leads and kit cables. HARNESS_BUILD section 3.

@@ -16,6 +16,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 LAB = os.path.dirname(os.path.dirname(HERE))
 ROOT = os.path.dirname(LAB)
 DOCS = os.path.join(LAB, "docs")
+EXTRA = [
+    os.path.join(LAB, "history", "2026-11-19_1405_build_and_owners_docs.md"),
+]
 
 EM_DASH = "\u2014"
 EN_DASH = "\u2013"
@@ -34,7 +37,12 @@ def _pages():
     )
     if not names:
         raise AssertionError("no markdown pages in altaay_lab/docs")
-    return [os.path.join(DOCS, name) for name in names]
+    pages = [os.path.join(DOCS, name) for name in names]
+    for extra in EXTRA:
+        if not os.path.isfile(extra):
+            raise AssertionError("missing %s" % extra)
+        pages.append(extra)
+    return pages
 
 
 def _read(path):
