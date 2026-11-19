@@ -1,0 +1,16 @@
+{
+  "mode": "kid",
+  "cloud": "off",
+  "cloud_base_url": "",
+  "cloud_model": "",
+  "cloud_key_env": "ODM_CLOUD_API_KEY",
+  "wake_model": "hey_jarvis",
+  "wake_threshold": 0.5,
+  "vosk_model_dir": "",
+  "piper_model": "",
+  "weather_city": "",
+  "input_rate": 16000,
+  "input_channels": 1,
+  "i2s_shift": 16,
+  "resident": false
+}

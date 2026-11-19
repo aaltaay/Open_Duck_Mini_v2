@@ -188,4 +188,43 @@ python ~/Open_Duck_Mini_Runtime/mini_bdx_runtime/mini_bdx_runtime/xbox_controlle
 ```bash
 bash ~/open_duck_mini_v2/altaay_lab/software/check_pi_setup.sh
 ```
-Read-only. It checks the OS, I2C, the UART, groups, the adapter, the pinned packages and the pypot commit, the imports, the Runtime commit and that its files are unmodified (D6), the duck config, the IMU calibration file, the policy checksum, the services and the sudoers line [L]. It exits 1 on any FAIL.
+Read-only. It checks the OS, I2C, the UART, groups, the adapter, the pinned packages and the pypot commit, the imports, the Runtime commit and that its files are unmodified (D6), the duck config, the IMU calibration file, the policy checksum, the services and the sudoers line [L]. It exits 1 on any FAIL. The voice models are a WARN if they are missing. The walk does not need them.
+
+## 14. Voice (wake word, speech to text, speech out)
+
+This step is not required to walk. It was not run on a Pi. The x86 timing is software/companion/LATENCY.md.
+
+The two mics and the amp share one I2S port. When they are fitted, use the Google voice-hat overlay instead of the `max98357a` line in step 4 (cited, twin/companion/COMPANION.md section 2). In `/boot/firmware/config.txt`:
+
+```
+dtoverlay=googlevoicehat-soundcard
+```
+
+Do not also enable `dtoverlay=max98357a`. GPIO18 is BCLK, GPIO19 is LRCLK, GPIO21 is the amp data, GPIO20 is the mic data, and GPIO16 is the amp SD pin (D48). The card name ALSA prints is checked on the Pi: BLOCKER until then. After a reboot, `arecord -l` and `aplay -l` should list the voice card.
+
+Install the models outside the repo. This does not change the walk venv and it does not edit the Runtime (D6):
+
+```bash
+bash ~/open_duck_mini_v2/altaay_lab/software/companion/install_voice.sh
+```
+
+That writes `$HOME/odm_voice/voice_config.json` with `mode` kid, `cloud` off, and `resident` false (one model at a time, LATENCY.md). The wake phrase is "hey jarvis" (the published openWakeWord model). Speech to text is Vosk small English. Speech out is Piper `en_US-lessac-low`.
+
+A cloud model stays off until you set a key yourself. Do not put the key in a file in this repo:
+
+```bash
+export ODM_CLOUD_API_KEY="your key"
+```
+
+Then set `cloud` to `live` and fill `cloud_base_url` and `cloud_model` in the voice config. With the variable empty, live does not open a socket.
+
+Run one wav (the venv from the install script):
+
+```bash
+$HOME/.virtualenvs/open-duck-voice/bin/python \
+  ~/open_duck_mini_v2/altaay_lab/software/companion/run_voice.py \
+  --config "$HOME/odm_voice/voice_config.json" --wav request.wav --out reply.wav
+aplay reply.wav
+```
+
+Half duplex: stop the capture before `aplay`. The amp SD pin is the listen-or-speak switch (COMPANION.md). Do not run this inside the 50 Hz walk thread. The personality engine refuses that thread.
