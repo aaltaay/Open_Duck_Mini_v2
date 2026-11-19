@@ -11,6 +11,12 @@ from .weather import WeatherClient
 
 
 def build_pipeline(cfg, weather=None):
+    if cfg.get("isolate"):
+        from .isolate import IsolatedPipeline
+
+        if not cfg.get("vosk_model_dir") or not cfg.get("piper_model"):
+            raise ValueError("vosk_model_dir and piper_model are required")
+        return IsolatedPipeline(cfg)
     if not cfg.get("vosk_model_dir") or not cfg.get("piper_model"):
         raise ValueError("vosk_model_dir and piper_model are required")
     if weather is None:

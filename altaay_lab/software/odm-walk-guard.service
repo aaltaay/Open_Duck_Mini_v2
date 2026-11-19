@@ -16,6 +16,10 @@ WorkingDirectory=/home/duck/Open_Duck_Mini_Runtime/scripts
 Environment=ODM_RUNTIME_DIR=/home/duck/Open_Duck_Mini_Runtime
 Environment=ODM_BENCH_OUT=/home/duck/odm_bench_logs
 Environment=PYGAME_HIDE_SUPPORT_PROMPT=1
+Environment=ODM_WALK_CPU=0
+Environment=ODM_WALK_NICE=-10
+Environment=ODM_ORT_THREADS=1
+Environment=MALLOC_ARENA_MAX=2
 # pygame wants a runtime dir; the image launcher makes /tmp/xdg-$USER (RELEASE_GUIDE.md lines 171-179)
 Environment=XDG_RUNTIME_DIR=/tmp/xdg-duck
 ExecStartPre=/bin/mkdir -p -m 700 /tmp/xdg-duck
@@ -24,6 +28,11 @@ ExecStart=/home/duck/.virtualenvs/open-duck-mini-runtime/bin/python /home/duck/o
 Restart=no
 StandardOutput=journal
 StandardError=journal
+CPUAffinity=0
+Nice=-10
+CPUSchedulingPolicy=fifo
+CPUSchedulingPriority=10
+LimitRTPRIO=20
 
 [Install]
 WantedBy=multi-user.target

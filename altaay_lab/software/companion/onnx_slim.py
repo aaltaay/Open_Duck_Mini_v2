@@ -2,7 +2,8 @@
 
 software/companion/LATENCY.md records the resident size with and without
 this switch. The switch is a set point so the voice process stays closer
-to the 512 MB board. It does not change the model.
+to the 512 MB board. It does not change the model. The session also uses
+one intra-op thread so a voice model does not fan out across the walk core.
 """
 
 from __future__ import annotations
@@ -23,6 +24,8 @@ def install():
                 kwargs["sess_options"] = options
             options.enable_cpu_mem_arena = False
             options.enable_mem_pattern = False
+            options.intra_op_num_threads = 1
+            options.inter_op_num_threads = 1
             super().__init__(*args, **kwargs)
 
     ort.InferenceSession = SlimSession

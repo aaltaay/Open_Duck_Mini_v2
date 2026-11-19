@@ -12,5 +12,6 @@
   "input_rate": 16000,
   "input_channels": 1,
   "i2s_shift": 16,
-  "resident": false
+  "resident": false,
+  "isolate": false
 }

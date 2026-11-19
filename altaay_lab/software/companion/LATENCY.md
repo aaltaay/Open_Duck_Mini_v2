@@ -43,7 +43,7 @@ These are not runs on our duck.
 
 ## RAM against 512 MB
 
-317.3 MB after the sequential runs is under 512 MB (both numbers measured or cited as above). The difference is 194.7 MB (calc only, 512 - 317.3). The OS and the walk are not in the 317.3 MB. Whether they fit in the remainder is BLOCKER. SOFTWARE.md section 8 already marks Pi CPU time for the walk as UNVERIFIED.
+317.3 MB after the sequential runs is under 512 MB (both numbers measured or cited as above). The difference is 194.7 MB (calc only, 512 - 317.3). The OS and the walk are not in the 317.3 MB. The emulation that puts the OS, the walk, the voice, and a dock frame in one 512 MB budget is software/pi_fit/FIT.md. A measurement on a Pi is still BLOCKER.
 
 422.7 MB with all three models resident leaves 89.3 MB (calc only). That is not enough room to assume an OS, so the Pi config keeps `resident` false.
 

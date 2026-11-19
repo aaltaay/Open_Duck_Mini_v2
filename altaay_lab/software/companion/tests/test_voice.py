@@ -4,6 +4,7 @@ The engines here are stand-ins. The latency script measures the real ones.
 """
 
 import array
+import sys
 import unittest
 
 from altaay_lab.software.companion.assistant import Assistant
@@ -53,6 +54,153 @@ class ConfigTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             load_config({"mode": "adult", "cloud": "off", "api_key": "plain-value"})
 
+    def test_resident_and_isolate_cannot_both_be_on(self):
+        with self.assertRaises(ValueError):
+            load_config({"mode": "kid", "cloud": "off", "resident": True, "isolate": True})
+
+    def test_isolate_child_round_trip(self):
+        import json
+        import tempfile
+        import wave
+        from pathlib import Path
+
+        from altaay_lab.software.companion.isolate import IsolatedPipeline
+
+        stub = (
+            "import json, sys, wave\n"
+            "stage = sys.argv[sys.argv.index('--stage') + 1]\n"
+            "cfg = json.load(open(sys.argv[sys.argv.index('--config') + 1], encoding='utf-8'))\n"
+            "wav = sys.argv[sys.argv.index('--wav') + 1]\n"
+            "with wave.open(wav, 'rb') as handle:\n"
+            "    frames = handle.getnframes()\n"
+            "    rate = handle.getframerate()\n"
+            "    channels = handle.getnchannels()\n"
+            "if frames != 160 or rate != 16000 or channels != 1:\n"
+            "    raise SystemExit('bad wav %s %s %s' % (frames, rate, channels))\n"
+            "if cfg.get('mode') != 'adult' or cfg.get('weather_city') != 'Chicago' or cfg.get('isolate'):\n"
+            "    raise SystemExit('bad cfg')\n"
+            "if stage == 'wake':\n"
+            "    print(json.dumps({'woke': True, 'frames': frames, 'rate': rate, "
+            "'mode': cfg['mode'], 'city': cfg['weather_city'], 'isolate': cfg['isolate']}))\n"
+            "elif stage == 'stt':\n"
+            "    print(json.dumps({'heard': 'set a timer for 5 minutes', 'frames': frames}))\n"
+            "else:\n"
+            "    text = open(sys.argv[sys.argv.index('--text-file') + 1], encoding='utf-8').read()\n"
+            "    reply = sys.argv[sys.argv.index('--reply') + 1]\n"
+            "    with wave.open(reply, 'wb') as handle:\n"
+            "        handle.setnchannels(1)\n"
+            "        handle.setsampwidth(2)\n"
+            "        handle.setframerate(16000)\n"
+            "        handle.writeframes(b'\\x00\\x00' * 8)\n"
+            "    print(json.dumps({'sample_rate': 16000, 'said': text}))\n"
+        )
+        with tempfile.TemporaryDirectory() as folder:
+            script = Path(folder) / "stub.py"
+            script.write_text(stub, encoding="utf-8")
+            cfg = load_config(
+                {
+                    "mode": "adult",
+                    "cloud": "off",
+                    "isolate": True,
+                    "weather_city": "Chicago",
+                    "vosk_model_dir": str(Path(folder) / "vosk-model-small-en-us-0.15"),
+                    "piper_model": str(Path(folder) / "voice.onnx"),
+                }
+            )
+            pipe = IsolatedPipeline(cfg, command=[sys.executable, str(script)])
+            # 480 samples at 48 kHz is 160 samples at 16 kHz. A second downsample would leave 53.
+            turn = pipe.run_pcm(_tone(480), 48000, 1)
+        self.assertTrue(turn.woke)
+        self.assertEqual(turn.heard, "set a timer for 5 minutes")
+        self.assertEqual(turn.as_dict()["said"], "Timer set for 5 minutes.")
+        self.assertEqual(turn.sample_rate, 16000)
+        self.assertEqual(len(turn.audio), 8)
+
+    def test_isolate_writes_16k_audio_once(self):
+        import tempfile
+        import wave
+        from pathlib import Path
+
+        from altaay_lab.software.companion.isolate import IsolatedPipeline
+
+        seen = {}
+
+        stub = (
+            "import json, sys, wave\n"
+            "stage = sys.argv[sys.argv.index('--stage') + 1]\n"
+            "wav = sys.argv[sys.argv.index('--wav') + 1]\n"
+            "with wave.open(wav, 'rb') as handle:\n"
+            "    frames = handle.getnframes()\n"
+            "    rate = handle.getframerate()\n"
+            "    channels = handle.getnchannels()\n"
+            "if frames != 1 or rate != 16000 or channels != 1:\n"
+            "    raise SystemExit('bad wav %s %s %s' % (frames, rate, channels))\n"
+            "if stage == 'wake':\n"
+            "    print(json.dumps({'woke': False, 'frames': frames}))\n"
+            "else:\n"
+            "    raise SystemExit('stt should not run')\n"
+        )
+        with tempfile.TemporaryDirectory() as folder:
+            script = Path(folder) / "stub.py"
+            script.write_text(stub, encoding="utf-8")
+            cfg = load_config(
+                {
+                    "mode": "kid",
+                    "cloud": "off",
+                    "isolate": True,
+                    "vosk_model_dir": str(Path(folder) / "model"),
+                    "piper_model": str(Path(folder) / "voice.onnx"),
+                }
+            )
+            pipe = IsolatedPipeline(cfg, command=[sys.executable, str(script)])
+            # Stereo 48 kHz: 6 interleaved samples are two frames of three, so one 16 kHz sample.
+            interleaved = [0, 2, 0, 2, 0, 2]
+            turn = pipe.run_pcm(interleaved, 48000, 2)
+            seen["woke"] = turn.woke
+        self.assertFalse(seen["woke"])
+
+    def test_wake_loader_runs_twice_on_a_stand_in(self):
+        import sys
+        import types
+
+        from altaay_lab.software.companion.wake import _wake_model
+
+        saved = {}
+        for key in ("openwakeword", "openwakeword.model"):
+            saved[key] = sys.modules.get(key)
+        try:
+            pkg = types.ModuleType("openwakeword")
+            pkg.__path__ = ["/unused"]
+            pkg.models = {"hey_jarvis": {"model_path": "/unused/hey.onnx"}}
+            pkg.model_class_mappings = {}
+            sys.modules["openwakeword"] = pkg
+            model_mod = types.ModuleType("openwakeword.model")
+            model_mod.Model = object
+            sys.modules["openwakeword.model"] = model_mod
+            first = _wake_model("hey_jarvis")
+            second = _wake_model("hey_jarvis")
+            self.assertEqual(first, second)
+            self.assertIs(first[0], object)
+        finally:
+            for key, value in saved.items():
+                if value is None:
+                    sys.modules.pop(key, None)
+                else:
+                    sys.modules[key] = value
+
+    def test_wake_loader_skips_a_missing_package(self):
+        import importlib.util
+        import sys
+
+        from altaay_lab.software.companion.wake import _wake_model
+
+        if importlib.util.find_spec("openwakeword") is not None:
+            self.skipTest("openwakeword is installed here")
+        sys.modules.pop("sklearn", None)
+        with self.assertRaises(ImportError):
+            _wake_model("hey_jarvis")
+        self.assertNotIn("sklearn", sys.modules)
+
     def test_example_config_loads(self):
         from pathlib import Path
 
@@ -62,6 +210,7 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(cfg["cloud"], "off")
         self.assertEqual(cfg["wake_threshold"], 0.5)
         self.assertFalse(cfg["resident"])
+        self.assertFalse(cfg["isolate"])
         self.assertNotIn("api_key", cfg)
 
 

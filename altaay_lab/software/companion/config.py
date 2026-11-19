@@ -25,6 +25,7 @@ DEFAULTS = {
     "input_channels": 1,
     "i2s_shift": 16,
     "resident": False,
+    "isolate": False,
 }
 
 
@@ -58,6 +59,9 @@ def load_config(source=None, overrides=None):
     data["input_channels"] = int(data["input_channels"])
     data["i2s_shift"] = int(data["i2s_shift"])
     data["resident"] = bool(data.get("resident", False))
+    data["isolate"] = bool(data.get("isolate", False))
+    if data["resident"] and data["isolate"]:
+        raise ValueError("resident and isolate cannot both be on")
     data["weather_city"] = " ".join(str(data.get("weather_city") or "").split())
     return data
 

@@ -10,6 +10,55 @@ from __future__ import annotations
 from .audio_pcm import FRAME_SAMPLES
 
 
+def _wake_model(model_name):
+    """Load the ONNX wake class without the trainer import.
+
+    openwakeword/__init__.py imports a verifier trainer, and that trainer
+    imports scikit-learn. The duck uses one published ONNX wake file and
+    does not train a verifier. Skipping that import keeps the wake process
+    smaller. The model file is the one shipped in the package.
+    """
+    import importlib.util
+    import os
+    import sys
+    import types
+
+    pkg = sys.modules.get("openwakeword")
+    if pkg is not None and getattr(pkg, "models", None):
+        pkg_dir = pkg.__path__[0]
+    else:
+        # find_spec raises if a stand-in package is already loaded with no spec.
+        # Build the stand-in only on the first call, and keep the real spec on it.
+        spec = importlib.util.find_spec("openwakeword")
+        if spec is None or not spec.origin:
+            raise ImportError("openwakeword is not installed")
+        pkg_dir = os.path.dirname(spec.origin)
+        pkg = types.ModuleType("openwakeword")
+        pkg.__path__ = [pkg_dir]
+        pkg.__file__ = spec.origin
+        pkg.__package__ = "openwakeword"
+        pkg.__spec__ = spec
+        folder = os.path.join(pkg_dir, "resources", "models")
+        models = {}
+        if os.path.isdir(folder):
+            for fname in os.listdir(folder):
+                if fname.endswith(".onnx") and "_v" in fname:
+                    key = fname.split("_v", 1)[0]
+                    models[key] = {"model_path": os.path.join(folder, fname)}
+        pkg.models = models
+        pkg.model_class_mappings = {}
+        sys.modules["openwakeword"] = pkg
+    if model_name not in pkg.models:
+        raise ValueError("unknown wake model")
+    if "openwakeword.model" not in sys.modules:
+        path = os.path.join(pkg_dir, "model.py")
+        mspec = importlib.util.spec_from_file_location("openwakeword.model", path)
+        module = importlib.util.module_from_spec(mspec)
+        sys.modules["openwakeword.model"] = module
+        mspec.loader.exec_module(module)
+    return sys.modules["openwakeword.model"].Model, pkg.models[model_name]["model_path"]
+
+
 class WakeHit:
     def __init__(self, detected, name, score, at_sample):
         self.detected = bool(detected)
@@ -48,14 +97,11 @@ class OpenWakeWordEngine:
         from .onnx_slim import install
 
         install()
-        import openwakeword
-        from openwakeword.model import Model
-
-        if model_name not in openwakeword.models:
-            raise ValueError("unknown wake model")
-        path = openwakeword.models[model_name]["model_path"]
+        model_cls, path = _wake_model(model_name)
         # One model, not the whole set. ONNX, CPU. VAD stays off (threshold 0).
-        self.model = Model(wakeword_model_paths=[path], vad_threshold=0)
+        # The package init also imports a trainer that pulls scikit-learn.
+        # This loader skips that import. The wake model file is unchanged.
+        self.model = model_cls(wakeword_model_paths=[path], vad_threshold=0)
         self.model_name = model_name
         self._np = __import__("numpy")
 
