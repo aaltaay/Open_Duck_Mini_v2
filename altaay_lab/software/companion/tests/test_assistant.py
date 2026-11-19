@@ -14,6 +14,64 @@ DOCK_FILE = pathlib.Path(__file__).resolve().parents[2] / "dock" / "autodock" / 
 
 
 class AssistantTests(unittest.TestCase):
+    def test_wake_phrase_is_stripped_before_routing(self):
+        llm = MockCloudLLM()
+        bot = Assistant(mode="adult", cloud="mock", llm=llm)
+        reply = bot.handle("hey jarvis what is a duck")
+        self.assertEqual(llm.calls, 1)
+        self.assertIn("Mock answer", reply["said"])
+        saved = Assistant(mode="kid", cloud="off").handle("hey jarvis remind me to stretch")
+        self.assertEqual(saved["stored"], "reminder")
+
+    def test_twenty_five_minutes_is_twenty_five(self):
+        bot = Assistant(mode="kid", cloud="off")
+        reply = bot.handle("set a timer for twenty five minutes")
+        self.assertEqual(bot.timers, [25])
+        self.assertIn("25", reply["said"])
+
+    def test_unreadable_duration_is_not_stored(self):
+        bot = Assistant(mode="kid", cloud="off")
+        reply = bot.handle("set a timer for five twenty minutes")
+        self.assertEqual(bot.timers, [])
+        self.assertEqual(bot.timer_jobs, [])
+        self.assertIn("minutes", reply["said"])
+
+    def test_reminder_twenty_five_minutes(self):
+        now = {"t": 10.0}
+        bot = Assistant(mode="kid", cloud="off", now=lambda: now["t"])
+        reply = bot.handle("hey jarvis remind me to stretch in twenty five minutes")
+        self.assertEqual(reply["stored"], "reminder")
+        self.assertEqual(bot.reminders, ["stretch"])
+        self.assertEqual(bot.poll(now=10.0 + 24 * 60), [])
+        fired = bot.poll(now=10.0 + 25 * 60)
+        self.assertEqual(fired[0][0], "reminder")
+
+    def test_live_outage_is_a_reply(self):
+        import os
+
+        from altaay_lab.software.companion.cloud_llm import LiveCloudLLM
+
+        def transport(url, headers, body):
+            raise OSError("down")
+
+        llm = LiveCloudLLM(
+            base_url="https://example.invalid/v1",
+            model="demo",
+            key_env="ODM_TEST_CLOUD_KEY",
+            transport=transport,
+        )
+        os.environ["ODM_TEST_CLOUD_KEY"] = "test-key-value"
+        try:
+            bot = Assistant(mode="adult", cloud="live", llm=llm)
+            reply = bot.handle("What is a duck?")
+            mail = bot.handle("check my email")
+        finally:
+            del os.environ["ODM_TEST_CLOUD_KEY"]
+        self.assertIn("did not answer", reply["said"])
+        self.assertFalse(reply["used_cloud"])
+        self.assertIn("did not answer", mail["said"])
+        self.assertFalse(mail["refused"])
+
     def test_timer_stays_local(self):
         llm = MockCloudLLM()
         bot = Assistant(mode="adult", cloud="mock", llm=llm)

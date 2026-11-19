@@ -73,6 +73,12 @@ class PipelineTests(unittest.TestCase):
         tts = ScriptedSpeechOut()
         return VoicePipeline(bot, wake, stt, tts), bot, tts
 
+    def test_heard_line_keeps_the_wake_phrase(self):
+        pipe, bot, _tts = self._pipe(heard="hey jarvis remind me to stretch")
+        turn = pipe.run_pcm(_tone(48000), 16000)
+        self.assertEqual(turn.heard, "hey jarvis remind me to stretch")
+        self.assertEqual(bot.reminders, ["stretch"])
+
     def test_timer_from_audio_sets_the_body(self):
         pipe, bot, tts = self._pipe()
         turn = pipe.run_pcm(_tone(48000), 16000)

@@ -20,14 +20,14 @@ import time
 from datetime import datetime
 
 from ..personality.engine import Personality
+from .cloud_llm import CloudError
 from .mock_llm import MockCloudLLM
 
 # Existing dock state machine (software/dock). Walk on, turn, sit.
 # Not a new policy.
 DOCK_WALK_TURN_SIT = ("APPROACH", "STEER_DOCK", "ACTIVATE_CHARGER")
 
-_WORD_NUM = {
-    "a": 1,
+_ONES = {
     "one": 1,
     "two": 2,
     "three": 3,
@@ -43,25 +43,88 @@ _WORD_NUM = {
     "thirteen": 13,
     "fourteen": 14,
     "fifteen": 15,
+    "sixteen": 16,
+    "seventeen": 17,
+    "eighteen": 18,
+    "nineteen": 19,
+}
+_TENS = {
     "twenty": 20,
     "thirty": 30,
     "forty": 40,
     "fifty": 50,
     "sixty": 60,
+    "seventy": 70,
+    "eighty": 80,
+    "ninety": 90,
 }
-_NUM = r"(\d+|a|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|twenty|thirty|forty|fifty|sixty)"
-_TIMER = re.compile(_NUM + r"\s*(minute|minutes|min|second|seconds|sec)\b")
-_IN = re.compile(r"\bin\s+" + _NUM + r"\s+(minute|minutes|min|second|seconds|sec)\b")
+_UNITS = {
+    "minute": 60,
+    "minutes": 60,
+    "min": 60,
+    "second": 1,
+    "seconds": 1,
+    "sec": 1,
+}
+_WAKE_PREFIXES = ("hey jarvis",)
 _CITY = re.compile(r"\b(?:in|for|at)\s+([A-Za-z][A-Za-z .'-]{1,40})", re.IGNORECASE)
 _CLOUD_TOOLS = ("list_inbox", "list_calendar")
 
 
-def _number(token):
-    if token.isdigit():
-        return int(token)
-    if token not in _WORD_NUM:
-        raise ValueError("not a number")
-    return _WORD_NUM[token]
+def _is_num_token(token):
+    return token.isdigit() or token == "a" or token in _ONES or token in _TENS
+
+
+def _eval_number(chunk):
+    """One number, or tens plus a single digit. None means the phrase is not one we store."""
+    if len(chunk) == 1:
+        token = chunk[0]
+        if token.isdigit():
+            return int(token)
+        if token == "a":
+            return 1
+        if token in _ONES:
+            return _ONES[token]
+        if token in _TENS:
+            return _TENS[token]
+        return None
+    if len(chunk) == 2 and chunk[0] in _TENS and chunk[1] in _ONES and _ONES[chunk[1]] < 10:
+        return _TENS[chunk[0]] + _ONES[chunk[1]]
+    return None
+
+
+def _duration_at(words):
+    """(seconds, start, end) for the first duration. ('bad', None, None) if the number is not readable."""
+    for index, word in enumerate(words):
+        if word not in _UNITS:
+            continue
+        cursor = index - 1
+        chunk = []
+        while cursor >= 0 and _is_num_token(words[cursor]):
+            # "a" is a number only when it is the whole count, as in "a minute".
+            if words[cursor] == "a" and chunk:
+                break
+            chunk.append(words[cursor])
+            cursor -= 1
+        chunk.reverse()
+        if not chunk:
+            continue
+        value = _eval_number(chunk)
+        if value is None:
+            return ("bad", None, None)
+        return (value * _UNITS[word], cursor + 1, index + 1)
+    return None
+
+
+def _strip_wake(text):
+    """Drop a leading wake phrase. The caller keeps the original line for the report."""
+    lowered = _norm(text)
+    for prefix in _WAKE_PREFIXES:
+        if lowered == prefix or lowered.startswith(prefix + " "):
+            skip = len(prefix.split())
+            tail = text.split()[skip:]
+            return " ".join(tail)
+    return text
 
 
 def _norm(text):
@@ -157,6 +220,7 @@ class Assistant:
         return cmd
 
     def _route(self, text):
+        text = _strip_wake(text)
         lowered = _norm(text)
         if "timer" in lowered:
             return self._timer(lowered)
@@ -172,7 +236,7 @@ class Assistant:
             return self._clock()
         if any(word in lowered for word in ("email", "inbox", "mail", "calendar", "schedule")):
             return self._cloud_tools(text)
-        if "?" in text or lowered.startswith(("what", "who", "when", "why", "how", "where")):
+        if "?" in text or "?" in lowered or lowered.startswith(("what", "who", "when", "why", "how", "where")):
             return self._question(text)
         if lowered.startswith(("hello", "hi")):
             return self._reply("Hello.")
@@ -190,44 +254,47 @@ class Assistant:
         )
 
     def _timer(self, lowered):
-        match = _TIMER.search(lowered)
-        if not match:
+        found = _duration_at(lowered.split())
+        if not found or found[0] == "bad":
             return self._reply("Say a timer in minutes.")
-        count = _number(match.group(1))
-        unit = match.group(2)
-        if unit.startswith("min"):
+        seconds = found[0]
+        if seconds % 60 == 0 and seconds >= 60:
+            count = seconds // 60
             self.timers.append(count)
-            seconds = count * 60
-            said = "Timer set for %d minutes." % count
+            unit = "minute" if count == 1 else "minutes"
+            said = "Timer set for %d %s." % (count, unit)
         else:
-            seconds = count
-            said = "Timer set for %d seconds." % count
+            unit = "second" if seconds == 1 else "seconds"
+            said = "Timer set for %d %s." % (seconds, unit)
         self.timer_jobs.append({"seconds": seconds, "due": self.now() + seconds, "fired": False})
         return self._reply(said, stored="timer")
 
     def _reminder(self, text, lowered):
-        note = text
+        note = text.strip()
         if lowered.startswith("remind me"):
-            note = text.strip()
-            # Drop the leading words from the original so the note keeps its case.
             parts = note.split(None, 2)
             note = parts[-1] if len(parts) >= 3 else ""
         note = note.strip()
         if note.lower().startswith("to "):
             note = note[3:]
         delay = None
-        found = _IN.search(_norm(note))
-        if found:
-            count = _number(found.group(1))
-            delay = count * 60 if found.group(2).startswith("min") else count
-            note = _IN.sub(" ", _norm(note))
-            note = " ".join(note.split()).strip()
+        original = note.split()
+        words = _norm(note).split()
+        found = _duration_at(words)
+        if found and found[0] == "bad":
+            return self._reply("Say the reminder time again.")
+        if found and found[1] > 0 and words[found[1] - 1] == "in":
+            delay = found[0]
+            start, end = found[1] - 1, found[2]
+            if len(original) == len(words):
+                note = " ".join(original[:start] + original[end:])
+            else:
+                note = " ".join(words[:start] + words[end:])
+            note = note.strip()
         if not note:
             return self._reply("Say what I should remember.")
         self.reminders.append(note)
         self.reminder_jobs.append({"note": note, "due": None if delay is None else self.now() + delay, "fired": False})
-        if delay is None:
-            return self._reply("Reminder saved.", stored="reminder")
         return self._reply("Reminder saved.", stored="reminder")
 
     def _go_home(self):
@@ -284,8 +351,16 @@ class Assistant:
         if self.cloud == "live" and not self._cloud_ready():
             return self._reply("The cloud model stays off until a key is set outside this repo.")
         self._mark("thinking")
-        result = self.llm.complete(text, tools=_CLOUD_TOOLS, kid=False)
+        result = self._complete(text)
+        if result is None:
+            return self._reply("The cloud model did not answer.")
         return self._reply(result["said"], used_cloud=True)
+
+    def _complete(self, text):
+        try:
+            return self.llm.complete(text, tools=_CLOUD_TOOLS, kid=False)
+        except CloudError:
+            return None
 
     def _cloud_tools(self, text):
         if self.mode == "kid":
@@ -295,7 +370,9 @@ class Assistant:
         if self.cloud == "live" and not self._cloud_ready():
             return self._reply("The cloud model stays off until a key is set outside this repo.", refused=True)
         self._mark("thinking")
-        result = self.llm.complete(text, tools=_CLOUD_TOOLS, kid=False)
+        result = self._complete(text)
+        if result is None:
+            return self._reply("The cloud model did not answer.")
         return self._reply(result["said"], used_cloud=True, records=result.get("records") or ())
 
     def _reply(self, said, *, used_cloud=False, eye_on=None, dock_states=(), stored=None, records=(), refused=False):
