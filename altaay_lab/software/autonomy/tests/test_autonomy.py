@@ -228,6 +228,71 @@ class LifeTests(unittest.TestCase):
         sup.step(plant, plant.t, 8.0)
         self.assertEqual(sup.dock_success, 1)
 
+    def test_pet_after_a_failed_getup_starts_a_real_try(self):
+        outcomes = Scripted([], [False, False, True])
+        sup = Supervisor(seed=0, outcomes=outcomes)
+        plant = HomePlant()
+        plant.fallen = True
+        sup.step(plant, 0.0, GETUP_S)
+        sup.step(plant, plant.t, GETUP_S)
+        self.assertTrue(sup.stuck)
+        self.assertEqual(sup.getup_left, 0.0)
+        t0 = plant.t
+        q0 = plant.q_mAh
+        row = sup.step(plant, plant.t, 0.5, ["petted"])
+        self.assertFalse(sup.stuck)
+        self.assertEqual(row["mode"], "getup")
+        self.assertGreater(plant.t, t0)
+        self.assertGreater(plant.q_mAh, q0)
+        sup.step(plant, plant.t, GETUP_S)
+        self.assertFalse(plant.fallen)
+        self.assertEqual(sup.stuck_events, 1)
+
+    def test_restart_continues_the_dock_draws(self):
+        sup = Supervisor(seed=1)
+        plant = HomePlant()
+        first = sup.outcomes.dock()
+        snap = sup.snapshot(plant)
+        nxt = sup.outcomes.dock()
+        again = Supervisor(seed=1)
+        again.restore(plant, snap)
+        followed = again.outcomes.dock()
+        self.assertEqual(followed["seed"], nxt["seed"])
+        self.assertEqual(followed["t_s"], nxt["t_s"])
+        self.assertEqual(followed["reason"], nxt["reason"])
+        fresh = Supervisor(seed=1)
+        replay = fresh.outcomes.dock()
+        self.assertEqual(replay["seed"], first["seed"])
+        self.assertEqual(replay["t_s"], first["t_s"])
+
+    def test_a_hot_knee_holds_the_fall(self):
+        outcomes = Scripted([], [True])
+        sup = Supervisor(seed=0, outcomes=outcomes)
+        plant = HomePlant()
+        plant.fallen = True
+        plant.knee_c = 60.0
+        sup.knee.latched = True
+        q0 = plant.q_mAh
+        row = sup.step(plant, 0.0, 1.0)
+        self.assertEqual(row["mode"], "knee_rest")
+        self.assertEqual(row["motion"], "sit")
+        self.assertTrue(plant.fallen)
+        self.assertLess(plant.q_mAh - q0, 0.5)
+
+    def test_a_low_pack_holds_the_fall(self):
+        outcomes = Scripted([], [True])
+        sup = Supervisor(seed=0, outcomes=outcomes)
+        plant = HomePlant()
+        plant.fallen = True
+        plant.v_pack = PACK_WALK_STOP_V
+        q0 = plant.q_mAh
+        row = sup.step(plant, 0.0, 1.0)
+        self.assertEqual(row["mode"], "sit")
+        self.assertEqual(row["motion"], "sit")
+        self.assertTrue(plant.fallen)
+        self.assertNotEqual(row["mode"], "getup")
+        self.assertLess(plant.q_mAh - q0, 0.5)
+
     def test_hello_is_social(self):
         sup = Supervisor(seed=0, outcomes=Scripted([]))
         plant = HomePlant()

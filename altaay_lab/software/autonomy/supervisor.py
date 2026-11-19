@@ -77,6 +77,17 @@ class MeasuredOutcomes:
         # 112 of 112 on flat. A ramp rate is not used for this home floor.
         return self.rng.randrange(GETUP_FLAT_N) < GETUP_FLAT_OK
 
+    def export_state(self):
+        """Random draws so a new process continues the same sequence."""
+        version, state, gauss = self.rng.getstate()
+        return {"version": version, "state": list(state), "gauss": gauss}
+
+    def import_state(self, saved):
+        gauss = saved["gauss"]
+        if isinstance(gauss, list):
+            gauss = tuple(gauss)
+        self.rng.setstate((saved["version"], tuple(saved["state"]), gauss))
+
 
 class Supervisor:
     def __init__(self, seed=1, outcomes=None, log_path=None, personality=None):
@@ -188,11 +199,27 @@ class Supervisor:
         temps = {13: sens.knee_c, 23: sens.knee_c}
         self.knee.update(t, temps, posture)
 
+    def _recovery_blocked(self, sens):
+        """A hot knee or a pack at the walk stop. Either one blocks a get-up."""
+        knee_hot = self.knee.latched or (
+            sens.knee_c is not None and float(sens.knee_c) >= KNEE_STOP_C
+        )
+        pack = sens.pack_v
+        pack_low = pack is not None and float(pack) <= PACK_WALK_STOP_V and not self.on_nest
+        return knee_hot, pack_low
+
     def _choose(self, plant, sens, cmd, t):
         pack = sens.pack_v
         if self.stuck:
             return "sit", "stuck"
-        if plant.fallen or self.personality.fallen:
+        fallen = plant.fallen or self.personality.fallen
+        if fallen:
+            knee_hot, pack_low = self._recovery_blocked(sens)
+            # Keep the fall. Do not spend walking current until the knee and the pack allow it.
+            if knee_hot:
+                return "sit", "knee_rest"
+            if pack_low or plant.at_floor:
+                return "sit", "sit"
             if self.getup_fails >= GETUP_TRIES:
                 self._become_stuck(plant, "getup")
                 return "sit", "stuck"
@@ -351,6 +378,10 @@ class Supervisor:
         self.getup_fails = 0
         self.personality.help_me = False
         self._help_counted = False
+        # A failed get-up leaves the timer at zero. The fall is still open, so the
+        # next try needs a full interval or the slice length is zero and nothing moves.
+        if self._fall_open:
+            self.getup_left = GETUP_S
 
     def _row(self, plant, cmd):
         camera = None
@@ -431,6 +462,7 @@ class Supervisor:
             "knee_latched": self.knee.latched,
             "knee_n_hot": {str(k): v for k, v in self.knee.n_hot.items()},
             "knee_n_below": {str(k): v for k, v in self.knee.n_below.items()},
+            "outcomes": self.outcomes.export_state() if hasattr(self.outcomes, "export_state") else None,
             "log_count": len(self.log_rows),
         }
 
@@ -451,6 +483,9 @@ class Supervisor:
         self.knee.latched = bool(saved["knee_latched"])
         self.knee.n_hot = {int(k): v for k, v in saved.get("knee_n_hot", {}).items()}
         self.knee.n_below = {int(k): v for k, v in saved.get("knee_n_below", {}).items()}
+        saved_rng = saved.get("outcomes")
+        if saved_rng and hasattr(self.outcomes, "import_state"):
+            self.outcomes.import_state(saved_rng)
         plant.restore(saved["plant"])
         self.personality.import_state(saved["personality"])
 

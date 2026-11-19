@@ -12,11 +12,11 @@ When the pack is at or under 10.8 V and still above the 10.0 V walk stop, the du
 
 A dock episode is one row from the gold-dome batch: 38 of 40 charging (sim pass only, twin/dock/camera/SEAT_CONTACTS.md). Seed 32 never sees a mark. Seed 29 sits on one well. The papers' own retry cap is two (`retries < 2` in camera_dock.py). After two retries the duck sits and shows help_me: head up, ears opposed, eyes bright white. A pet or a pickup clears the wait.
 
-A fall runs the flat-floor get-up, 112 of 112 (sim pass only, twin/sit/getup/VIA_SIT_EVAL.md). The program time used here is 21.9 s, the long end of the roll window in that note (sim pass only). Two misses sit and show the same help pose. A daily fall rate on a home floor is BLOCKER. The cited flat walks and the 40 camera docks do not report a fall, so the soak does not invent one.
+A fall runs the flat-floor get-up, 112 of 112 (sim pass only, twin/sit/getup/VIA_SIT_EVAL.md). The program time used here is 21.9 s, the long end of the roll window in that note (sim pass only). Two misses sit and show the same help pose. A pet or a pickup clears the wait and arms a full get-up interval if the duck is still down. A hot knee, or a pack at or under the 10.0 V walk stop, holds that fall. The duck sits with the torque off and does not spend walking current until the knee is cool and the pack is above the stop. A daily fall rate on a home floor is BLOCKER. The cited flat walks and the 40 camera docks do not report a fall, so the soak does not invent one.
 
 A hot knee (55 C stop, 45 C to walk again) sits with the torque off. A quiet sit can nap. A nap lasts 15 minutes (a set point), then the duck stands. Charge holds the body on the nest until the cell model is full. The head may still look at a person. The feet do not walk off the contacts.
 
-Logs are JSON lines. snapshot() and restore() keep the episode, the pack, the mood, and the knee confirm counts, so a restart continues.
+Logs are JSON lines. snapshot() and restore() keep the episode, the pack, the mood, the knee confirm counts, and the measured dock draws, so a new process continues the same sequence.
 
 ## Power
 

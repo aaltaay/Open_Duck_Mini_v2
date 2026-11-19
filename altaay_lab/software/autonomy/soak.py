@@ -70,7 +70,8 @@ def run(days=3.0, seed=1, tick_s=TICK_S):
         if not state["restarted"] and t >= DAY_S:
             kept.extend(sup.log_rows)
             snap = sup.snapshot(plant)
-            sup = Supervisor(seed=seed, outcomes=outcomes)
+            # A new process, not the same outcomes object. The snapshot carries the draws.
+            sup = Supervisor(seed=seed)
             sup.restore(plant, snap)
             sup._log(plant, "restart")
             state["restarted"] = True
