@@ -1,0 +1,14 @@
+# Pins the Pi checker compares (software/check_pi_setup.sh).
+# Each == line is cited in software/PI_SETUP.md from Runtime setup.cfg at
+# 376de65, or from the Blinka 9.2.0 note in that file. pypot is not a
+# version pin: the checker reads commit f6d305e70e1640f66188b256dfd1dcfeb8ab8a59.
+rustypot==0.1.0
+onnxruntime==1.18.1
+numpy==1.26.4
+adafruit-circuitpython-bno055==5.4.13
+scipy==1.15.1
+pygame==2.6.0
+openai==1.70.0
+Adafruit-Blinka==9.2.0
+Adafruit-PlatformDetect==3.89.1
+RPi.GPIO==0.7.1

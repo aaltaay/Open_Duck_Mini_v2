@@ -34,3 +34,5 @@ jobs:
         run: |
           python3 -m unittest discover -s altaay_lab/software/companion/tests -q
           python3 -m unittest discover -s altaay_lab/software/personality/tests -q
+      - name: day one install and mock bench
+        run: python3 -m unittest discover -s altaay_lab/software/tests -q

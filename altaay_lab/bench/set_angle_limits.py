@@ -29,12 +29,14 @@ STEPS = 4096 / (2 * math.pi)
 
 
 def load_limits(path=LIMITS):
-    J = json.load(open(path))
+    with open(path) as fh:
+        J = json.load(fh)
     return J["joints"]
 
 
 def load_offsets(path=CONFIG):
-    J = json.load(open(path))
+    with open(path) as fh:
+        J = json.load(fh)
     return {k: float(v) for k, v in J.get("joints_offsets", {}).items()}
 
 
