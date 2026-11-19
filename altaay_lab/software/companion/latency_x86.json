@@ -1,0 +1,316 @@
+{
+  "audio_seconds": 2.688,
+  "engines": {
+    "stt": "vosk 0.3.45 vosk-model-small-en-us-0.15",
+    "tts": "piper-tts 1.8.0 en_US-lessac-low",
+    "wake": "openWakeWord 0.4.0 hey_jarvis"
+  },
+  "human": {
+    "heard": "one zero zero zero one nine oh two i no zero one eight zero three",
+    "label": "measured on this x86 VM, not the Pi",
+    "samples": 132928,
+    "seconds": 0.7373690819999865
+  },
+  "label": "measured on this x86 VM, not the Pi",
+  "machine": "x86_64, 4 cores, reported 2400.000 MHz, Intel(R) Xeon(R) Processor",
+  "phrase": "Hey Jarvis. Set a timer for five minutes.",
+  "resident": {
+    "median_total_s": 0.774466029999985,
+    "model_load_seconds": 0.6099918709999201,
+    "note": "All three models stay loaded. Faster. Heavier. Measured on this x86 VM, not the Pi.",
+    "repeats": [
+      {
+        "audio_samples": 27648,
+        "heard": "hey jarvis set a timer for five minutes",
+        "label": "measured on this x86 VM, not the Pi",
+        "phases": [
+          "listening",
+          "speaking",
+          "done"
+        ],
+        "refused": false,
+        "said": "Timer set for 5 minutes.",
+        "sample_rate": 16000,
+        "stored": "timer",
+        "timings_s": {
+          "brain": 0.00017021000007844123,
+          "prepare": 0.003529052999965643,
+          "stt": 0.5387403009999616,
+          "total": 0.7939895199999683,
+          "tts": 0.02591171199992459,
+          "wake": 0.22563824400003796
+        },
+        "used_cloud": false,
+        "wake_at": 14080,
+        "wake_score": 0.9985861778259277,
+        "woke": true
+      },
+      {
+        "audio_samples": 29184,
+        "heard": "hey jarvis set a timer for five minutes",
+        "label": "measured on this x86 VM, not the Pi",
+        "phases": [
+          "listening",
+          "speaking",
+          "done"
+        ],
+        "refused": false,
+        "said": "Timer set for 5 minutes.",
+        "sample_rate": 16000,
+        "stored": "timer",
+        "timings_s": {
+          "brain": 0.00016512100000909413,
+          "prepare": 0.003527328000018315,
+          "stt": 0.5219061720000582,
+          "total": 0.7546065059999592,
+          "tts": 0.03236899699993501,
+          "wake": 0.19663888799993856
+        },
+        "used_cloud": false,
+        "wake_at": 14080,
+        "wake_score": 0.9985861778259277,
+        "woke": true
+      },
+      {
+        "audio_samples": 26624,
+        "heard": "hey jarvis set a timer for five minutes",
+        "label": "measured on this x86 VM, not the Pi",
+        "phases": [
+          "listening",
+          "speaking",
+          "done"
+        ],
+        "refused": false,
+        "said": "Timer set for 5 minutes.",
+        "sample_rate": 16000,
+        "stored": "timer",
+        "timings_s": {
+          "brain": 0.00018334200001390855,
+          "prepare": 0.0035820460000195453,
+          "stt": 0.5364006989999552,
+          "total": 0.774466029999985,
+          "tts": 0.031093523999970785,
+          "wake": 0.20320641900002556
+        },
+        "used_cloud": false,
+        "wake_at": 14080,
+        "wake_score": 0.9985861778259277,
+        "woke": true
+      },
+      {
+        "audio_samples": 27136,
+        "heard": "hey jarvis set a timer for five minutes",
+        "label": "measured on this x86 VM, not the Pi",
+        "phases": [
+          "listening",
+          "speaking",
+          "done"
+        ],
+        "refused": false,
+        "said": "Timer set for 5 minutes.",
+        "sample_rate": 16000,
+        "stored": "timer",
+        "timings_s": {
+          "brain": 0.00016814600007819536,
+          "prepare": 0.003603246000011495,
+          "stt": 0.540484374000016,
+          "total": 0.7779162230000338,
+          "tts": 0.03101346999994803,
+          "wake": 0.20264698699998007
+        },
+        "used_cloud": false,
+        "wake_at": 14080,
+        "wake_score": 0.9985861778259277,
+        "woke": true
+      },
+      {
+        "audio_samples": 28672,
+        "heard": "hey jarvis set a timer for five minutes",
+        "label": "measured on this x86 VM, not the Pi",
+        "phases": [
+          "listening",
+          "speaking",
+          "done"
+        ],
+        "refused": false,
+        "said": "Timer set for 5 minutes.",
+        "sample_rate": 16000,
+        "stored": "timer",
+        "timings_s": {
+          "brain": 0.00017109100008383393,
+          "prepare": 0.003561982000064745,
+          "stt": 0.5268579149999368,
+          "total": 0.765122998000038,
+          "tts": 0.030571412999961467,
+          "wake": 0.20396059699999114
+        },
+        "used_cloud": false,
+        "wake_at": 14080,
+        "wake_score": 0.9985861778259277,
+        "woke": true
+      }
+    ],
+    "rss_mb_after": 422.70703125
+  },
+  "rss_mb_peak": 492.86328125,
+  "sequential": {
+    "median_total_s": 1.514752016999978,
+    "note": "Pi default. One model at a time. ONNX arenas off. Measured on this x86 VM, not the Pi.",
+    "repeats": [
+      {
+        "audio_samples": 27648,
+        "heard": "hey jarvis set a timer for five minutes",
+        "label": "measured on this x86 VM, not the Pi",
+        "phases": [
+          "listening",
+          "speaking",
+          "done"
+        ],
+        "refused": false,
+        "said": "Timer set for 5 minutes.",
+        "sample_rate": 16000,
+        "stored": "timer",
+        "timings_s": {
+          "brain": 0.0003322579999576192,
+          "load_stt": 0.24311546100000214,
+          "load_tts": 0.2050137649999897,
+          "load_wake": 0.8037147860000005,
+          "prepare": 0.0035094650000928596,
+          "stt": 0.6001550480000333,
+          "total": 2.1057485950000228,
+          "tts": 0.0473923060000061,
+          "wake": 0.20251550599994061
+        },
+        "used_cloud": false,
+        "wake_at": 14080,
+        "wake_score": 0.9985861778259277,
+        "woke": true
+      },
+      {
+        "audio_samples": 27648,
+        "heard": "hey jarvis set a timer for five minutes",
+        "label": "measured on this x86 VM, not the Pi",
+        "phases": [
+          "listening",
+          "speaking",
+          "done"
+        ],
+        "refused": false,
+        "said": "Timer set for 5 minutes.",
+        "sample_rate": 16000,
+        "stored": "timer",
+        "timings_s": {
+          "brain": 0.0002856180000208042,
+          "load_stt": 0.19139665699992747,
+          "load_tts": 0.2070272759999625,
+          "load_wake": 0.17749060299991015,
+          "prepare": 0.003752724000037233,
+          "stt": 0.5956620370001247,
+          "total": 1.3942263459998685,
+          "tts": 0.047864303999972435,
+          "wake": 0.17074712699991323
+        },
+        "used_cloud": false,
+        "wake_at": 14080,
+        "wake_score": 0.9985861778259277,
+        "woke": true
+      },
+      {
+        "audio_samples": 27648,
+        "heard": "hey jarvis set a timer for five minutes",
+        "label": "measured on this x86 VM, not the Pi",
+        "phases": [
+          "listening",
+          "speaking",
+          "done"
+        ],
+        "refused": false,
+        "said": "Timer set for 5 minutes.",
+        "sample_rate": 16000,
+        "stored": "timer",
+        "timings_s": {
+          "brain": 0.0002713119999953051,
+          "load_stt": 0.19558929499999067,
+          "load_tts": 0.20422810899992783,
+          "load_wake": 0.17759919299999183,
+          "prepare": 0.003575571999931526,
+          "stt": 0.5979719950000799,
+          "total": 1.4211275540000088,
+          "tts": 0.05219007700009115,
+          "wake": 0.18970200100000056
+        },
+        "used_cloud": false,
+        "wake_at": 14080,
+        "wake_score": 0.9985861778259277,
+        "woke": true
+      },
+      {
+        "audio_samples": 27648,
+        "heard": "hey jarvis set a timer for five minutes",
+        "label": "measured on this x86 VM, not the Pi",
+        "phases": [
+          "listening",
+          "speaking",
+          "done"
+        ],
+        "refused": false,
+        "said": "Timer set for 5 minutes.",
+        "sample_rate": 16000,
+        "stored": "timer",
+        "timings_s": {
+          "brain": 0.00031699099997695157,
+          "load_stt": 0.20521619400005875,
+          "load_tts": 0.20959984700004952,
+          "load_wake": 0.19514807100006237,
+          "prepare": 0.003536084999950617,
+          "stt": 0.6844398119999369,
+          "total": 1.5437528090000114,
+          "tts": 0.0489612499999339,
+          "wake": 0.19653455900004246
+        },
+        "used_cloud": false,
+        "wake_at": 14080,
+        "wake_score": 0.9985861778259277,
+        "woke": true
+      },
+      {
+        "audio_samples": 27648,
+        "heard": "hey jarvis set a timer for five minutes",
+        "label": "measured on this x86 VM, not the Pi",
+        "phases": [
+          "listening",
+          "speaking",
+          "done"
+        ],
+        "refused": false,
+        "said": "Timer set for 5 minutes.",
+        "sample_rate": 16000,
+        "stored": "timer",
+        "timings_s": {
+          "brain": 0.0003213280000409213,
+          "load_stt": 0.19953029400005562,
+          "load_tts": 0.2061898189999738,
+          "load_wake": 0.20232399899998654,
+          "prepare": 0.0034393670000554266,
+          "stt": 0.6167781629999354,
+          "total": 1.514752016999978,
+          "tts": 0.04857910999999149,
+          "wake": 0.2375899369999388
+        },
+        "used_cloud": false,
+        "wake_at": 14080,
+        "wake_score": 0.9985861778259277,
+        "woke": true
+      }
+    ],
+    "rss_mb_after": 317.2890625
+  },
+  "synth_seconds": 0.053531116999920414,
+  "weather": {
+    "city": "Chicago",
+    "label": "measured on this x86 VM, not the Pi",
+    "ok": true,
+    "said": "Chicago, United States is 65 F and mainly clear.",
+    "seconds": 0.5179064000000153
+  }
+}

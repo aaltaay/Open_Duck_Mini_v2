@@ -12,7 +12,7 @@ Ranked for a toy that also has to be worth keeping: answer and remind first, the
 
 | Rank | Behavior | Why it is on the list | Block to reuse | On this Pi |
 |---|---|---|---|---|
-| 1 | React to a voice and answer | A desk toy that only plays wears off. A home robot is kept when it is useful | openWakeWord, Wyoming, Vosk or a later speech engine, Piper, optional cloud chat | Wake word is plausible beside the walk. Speech and chat timing on this board are BLOCKER |
+| 1 | React to a voice and answer | A desk toy that only plays wears off. A home robot is kept when it is useful | openWakeWord, Vosk small, Piper low, optional cloud chat | The engines are wired. Timing on this Pi, next to the walk, is BLOCKER (LATENCY.md has the x86 run) |
 | 2 | Reminders and timers | The practical job a voice product already does, and it needs no cloud | A local list in this folder's demo. No new library | Runs. No model |
 | 3 | Expressive idle | People write about a robot pet as alive, and a desk toy is kept for that | Existing eye blink, ear servos, reference-motion polynomials | Eyes and ears are already in the build. New motion is not |
 | 4 | Greet and look at you | Social rapport is a large share of what people say about a robot pet | Existing head yaw command range, camera already fitted | Direction from the mics is calc only. A person finder is BLOCKER |
@@ -65,7 +65,7 @@ Cited near this board, not a run on our duck:
 - openWakeWord: a single core of a Raspberry Pi 3 can run 15 to 20 models at once in real time (cited, the project README, https://github.com/dscripka/openWakeWord). A Pi 3 is a faster A53 than this Zero 2 W. A timing on our Pi, next to the 50 Hz walk, is BLOCKER.
 - The walk itself is designed as a 50 Hz loop. One control cycle is 318 bytes, 3.18 ms on the wire at 1 Mbaud (calc only, SOFTWARE.md section 6). USB time and Pi CPU time are BLOCKER (SOFTWARE.md sections 6 and 8).
 - I2S capture is 48 kHz, one sample 20.8 us (cited, COMPANION.md section 2). A 2-channel direction estimate was 21 ms on an x86 box (calc only, COMPANION.md section 7). The Pi number is BLOCKER.
-- 512 MB is the whole RAM (cited, the product page). A chat model of a few hundred MB plus the walk, the OS, and a speech engine was not fitted. On-device chat is BLOCKER. The assistant's open questions are the optional cloud client, and in this repo that client is the mock.
+- 512 MB is the whole RAM (cited, the product page). A chat model of a few hundred MB plus the walk, the OS, and a speech engine was not fitted. On-device chat is BLOCKER. The assistant's open questions are the optional cloud client. In this repo that client is off unless a key is set outside the repo (cloud_llm.py). The voice models' resident size on an x86 VM is in LATENCY.md. They are loaded one at a time on the Pi config. The Pi resident size is BLOCKER.
 - Face and person frames per second on this Pi were not opened. BLOCKER. The camera link's frame rate on this duck is already BLOCKER (SOFTWARE.md section 11).
 
 Night light, timers, reminders, and the dock state names do not need a new model.

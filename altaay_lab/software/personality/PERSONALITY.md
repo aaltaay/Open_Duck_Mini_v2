@@ -50,4 +50,4 @@ Ears and eye beads are not in that scene. The caption is the only place they sho
 - Sit from a walk, and stand from a sit, are not trained. The clip ends standing.
 - Getting up from a fall is not written.
 - How kid or adult mode is chosen, and how a privacy choice shows on the body, are still open.
-- Wake word, speech to text, and speech out on this Pi are still BLOCKER (SOFTWARE.md).
+- Wake word, speech to text, and speech out are wired in software/companion/. An x86 run is in LATENCY.md. A timing on this Pi is still BLOCKER.

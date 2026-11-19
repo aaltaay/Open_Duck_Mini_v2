@@ -14,6 +14,64 @@ DOCK_FILE = pathlib.Path(__file__).resolve().parents[2] / "dock" / "autodock" / 
 
 
 class AssistantTests(unittest.TestCase):
+    def test_wake_phrase_is_stripped_before_routing(self):
+        llm = MockCloudLLM()
+        bot = Assistant(mode="adult", cloud="mock", llm=llm)
+        reply = bot.handle("hey jarvis what is a duck")
+        self.assertEqual(llm.calls, 1)
+        self.assertIn("Mock answer", reply["said"])
+        saved = Assistant(mode="kid", cloud="off").handle("hey jarvis remind me to stretch")
+        self.assertEqual(saved["stored"], "reminder")
+
+    def test_twenty_five_minutes_is_twenty_five(self):
+        bot = Assistant(mode="kid", cloud="off")
+        reply = bot.handle("set a timer for twenty five minutes")
+        self.assertEqual(bot.timers, [25])
+        self.assertIn("25", reply["said"])
+
+    def test_unreadable_duration_is_not_stored(self):
+        bot = Assistant(mode="kid", cloud="off")
+        reply = bot.handle("set a timer for five twenty minutes")
+        self.assertEqual(bot.timers, [])
+        self.assertEqual(bot.timer_jobs, [])
+        self.assertIn("minutes", reply["said"])
+
+    def test_reminder_twenty_five_minutes(self):
+        now = {"t": 10.0}
+        bot = Assistant(mode="kid", cloud="off", now=lambda: now["t"])
+        reply = bot.handle("hey jarvis remind me to stretch in twenty five minutes")
+        self.assertEqual(reply["stored"], "reminder")
+        self.assertEqual(bot.reminders, ["stretch"])
+        self.assertEqual(bot.poll(now=10.0 + 24 * 60), [])
+        fired = bot.poll(now=10.0 + 25 * 60)
+        self.assertEqual(fired[0][0], "reminder")
+
+    def test_live_outage_is_a_reply(self):
+        import os
+
+        from altaay_lab.software.companion.cloud_llm import LiveCloudLLM
+
+        def transport(url, headers, body):
+            raise OSError("down")
+
+        llm = LiveCloudLLM(
+            base_url="https://example.invalid/v1",
+            model="demo",
+            key_env="ODM_TEST_CLOUD_KEY",
+            transport=transport,
+        )
+        os.environ["ODM_TEST_CLOUD_KEY"] = "test-key-value"
+        try:
+            bot = Assistant(mode="adult", cloud="live", llm=llm)
+            reply = bot.handle("What is a duck?")
+            mail = bot.handle("check my email")
+        finally:
+            del os.environ["ODM_TEST_CLOUD_KEY"]
+        self.assertIn("did not answer", reply["said"])
+        self.assertFalse(reply["used_cloud"])
+        self.assertIn("did not answer", mail["said"])
+        self.assertFalse(mail["refused"])
+
     def test_timer_stays_local(self):
         llm = MockCloudLLM()
         bot = Assistant(mode="adult", cloud="mock", llm=llm)
@@ -33,10 +91,11 @@ class AssistantTests(unittest.TestCase):
     def test_kid_question_does_not_call_cloud(self):
         llm = MockCloudLLM()
         bot = Assistant(mode="kid", cloud="mock", llm=llm)
-        reply = bot.handle("What is the weather?")
+        reply = bot.handle("What is a duck?")
         self.assertEqual(llm.calls, 0)
         self.assertFalse(reply["used_cloud"])
         self.assertIn("timer", reply["said"])
+        self.assertNotIn("thinking", reply["phases"])
 
     def test_adult_question_uses_mock(self):
         llm = MockCloudLLM()
@@ -91,9 +150,83 @@ class AssistantTests(unittest.TestCase):
             MockCloudLLM().complete("hello", tools=(), api_key=value)
         self.assertNotIn(value, str(caught.exception))
 
-    def test_live_cloud_is_not_a_choice(self):
+    def test_unknown_cloud_is_not_a_choice(self):
         with self.assertRaises(ValueError):
-            Assistant(mode="adult", cloud="live")
+            Assistant(mode="adult", cloud="vendor")
+
+    def test_live_without_a_key_does_not_call_out(self):
+        from altaay_lab.software.companion.cloud_llm import LiveCloudLLM
+
+        llm = LiveCloudLLM(base_url="https://example.invalid/v1", model="none")
+        bot = Assistant(mode="adult", cloud="live", llm=llm)
+        reply = bot.handle("What is a duck?")
+        self.assertEqual(llm.calls, 0)
+        self.assertFalse(reply["used_cloud"])
+        self.assertNotIn("thinking", reply["phases"])
+        self.assertIn("outside this repo", reply["said"])
+
+    def test_weather_in_kid_mode_uses_the_lookup(self):
+        class Lookup:
+            def report(self, city):
+                return "%s is 40 F and clear." % city
+
+        bot = Assistant(mode="kid", cloud="off", weather=Lookup())
+        reply = bot.handle("What is the weather in Chicago?")
+        self.assertEqual(reply["stored"], "weather")
+        self.assertIn("Chicago", reply["said"])
+        self.assertFalse(reply["used_cloud"])
+        self.assertEqual(reply["phases"], ("listening", "speaking", "done"))
+
+    def test_weather_offline_says_so(self):
+        class Down:
+            def report(self, city):
+                raise OSError("down")
+
+        bot = Assistant(mode="kid", cloud="off", weather=Down(), weather_city="Chicago")
+        reply = bot.handle("what is the weather")
+        self.assertIn("network", reply["said"])
+        self.assertFalse(reply["used_cloud"])
+
+    def test_clock_is_local(self):
+        from datetime import datetime
+
+        bot = Assistant(mode="kid", cloud="off", clock=lambda: datetime(2026, 11, 19, 15, 5))
+        reply = bot.handle("what time is it")
+        self.assertEqual(reply["stored"], "time")
+        self.assertIn("3:05 PM", reply["said"])
+        self.assertFalse(reply["used_cloud"])
+
+    def test_timer_fires_on_poll(self):
+        now = {"t": 1000.0}
+        bot = Assistant(mode="kid", cloud="off", now=lambda: now["t"])
+        bot.handle("set a timer for 5 minutes")
+        self.assertEqual(bot.poll(now=1000.0), [])
+        fired = bot.poll(now=1000.0 + 5 * 60)
+        self.assertEqual(fired[0][0], "timer")
+        self.assertEqual(fired[0][1]["expression"], "startled")
+
+    def test_reminder_in_ten_minutes(self):
+        now = {"t": 50.0}
+        bot = Assistant(mode="kid", cloud="off", now=lambda: now["t"])
+        reply = bot.handle("remind me to stretch in 10 minutes")
+        self.assertEqual(bot.reminders, ["stretch"])
+        self.assertEqual(reply["stored"], "reminder")
+        self.assertEqual(bot.poll(now=50.0 + 9 * 60), [])
+        fired = bot.poll(now=50.0 + 10 * 60)
+        self.assertEqual(fired[0][0], "reminder")
+        self.assertEqual(fired[0][1]["reminder"], "search")
+
+    def test_listening_body_is_the_tilt(self):
+        reply = Assistant(mode="kid", cloud="off").handle("set a timer for 5 minutes")
+        self.assertEqual(reply["bodies"]["listening"]["expression"], "curious_tilt")
+        self.assertEqual(reply["bodies"]["speaking"]["expression"], "nod")
+        self.assertEqual(reply["bodies"]["done"]["expression"], "settle")
+
+    def test_kid_mail_body_is_a_shake(self):
+        reply = Assistant(mode="kid", cloud="off").handle("check my email")
+        self.assertEqual(reply["phase"], "refused")
+        self.assertEqual(reply["bodies"]["refused"]["expression"], "shake")
+        self.assertTrue(reply["bodies"]["refused"]["kid_mode"])
 
 
 if __name__ == "__main__":

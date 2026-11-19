@@ -11,6 +11,7 @@ Written 2026-11-02 by the Claude Code software agent (agent S); sections 1 and 6
 | same thread, only with --knee-heat | knee heat guard: warn and stop at 55 C, torque off while idle or sitting, resume below 45 C (section 5). The boot service passes the flag | [L] software/knee_heat.py, software/odm-walk-guard.service |
 | Pi, other threads | BNO055 reader (I2C, raw_imu.py), Xbox pad reader (pygame), eyes blink | [U] raw_imu.py lines 123-148, xbox_controller.py, eyes.py |
 | Pi, a thread that is not the 50 Hz walk | personality: mood, head and ear targets, white eye brightness, and the choice to go home, sit, or nap | [L] software/personality/ |
+| Pi, a thread that is not the 50 Hz walk | voice: wake word, speech to text, the assistant, speech out. One model at a time unless `resident` is true | [L] software/companion/ |
 | Pi, systemd | software/odm-walk-guard.service (replaces the image's open-duck-walk.service) | [L] |
 | Windows PC | Castle Link (BEC 7.2 V, D3), Feetech tool if firmware must be updated (G3) | TEST_PLAN 0 |
 | Lab container | MuJoCo walk and ngspice power sim (sim/), bench script tests on the simulated bus | [L] sim/, bench/tests/ |
@@ -187,6 +188,7 @@ Where each program lives, and whether it has been run. "Simulated bus" means ben
 | Updates | software/PI_SETUP.md step 2, one apt full-upgrade at install | No updater after that. Not written. |
 | Ear PWM | Runtime antennas.py | Still Blinka software PWM. Writing the hardware PWM channels would edit the Runtime, which D6 does not allow (D53). Not written. |
 | Personality | software/personality/ | Written. Unit tests, no hardware. A scripted day on the run D policy is sim pass only (twin/out/videos/personality_demo.mp4). Not run on a duck. |
+| Voice | software/companion/ | Wake, speech to text, assistant, speech out. Unit tests, no hardware. An x86 timing is LATENCY.md. Not run on a Pi. |
 
 ## 11. Communications
 

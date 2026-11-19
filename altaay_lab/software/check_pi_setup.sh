@@ -77,4 +77,10 @@ else bad "no ~/BEST_WALK_ONNX_2.onnx (step 8)"; fi
 systemctl is-enabled open-duck-walk.service >/dev/null 2>&1 && warn "image service open-duck-walk enabled (step 11)"
 systemctl is-enabled odm-walk-guard.service >/dev/null 2>&1 && ok "odm-walk-guard enabled" || echo "INFO  odm-walk-guard not enabled (manual start)"
 sudo -n -l /usr/bin/systemctl poweroff >/dev/null 2>&1 && ok "guard may power off (sudoers)" || warn "no sudoers line for poweroff (step 11)"
+if [ -f "$HOME/odm_voice/voice_config.json" ]; then
+  ok "voice config present (step 14)"
+else
+  warn "no ~/odm_voice/voice_config.json (voice is optional, step 14)"
+fi
+grep -Eq '^dtoverlay=googlevoicehat-soundcard' $CFG && ok "voice-hat overlay (mics and amp, step 14)" || warn "no googlevoicehat overlay (mics not enabled, step 14)"
 exit $fail
