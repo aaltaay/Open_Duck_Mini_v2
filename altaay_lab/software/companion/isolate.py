@@ -1,8 +1,9 @@
-"""One voice turn in a child process.
+"""One voice model per child process.
 
 Sequential mode already loads one model at a time. The child exiting is what
 hands the RAM back to the OS. An in-process close does not. LATENCY.md
-recorded that a deleted wake model stayed resident.
+recorded that a deleted wake model stayed resident. The fit run in
+software/pi_fit/FIT.md measured this same one-process-per-model split.
 """
 
 from __future__ import annotations
@@ -13,7 +14,8 @@ import sys
 import tempfile
 from pathlib import Path
 
-from .audio_pcm import read_wav, write_wav
+from .audio_pcm import read_wav, to_16k_mono, write_wav
+from .config import build_assistant
 
 
 def worker_path():
@@ -49,54 +51,68 @@ class IsolatedPipeline:
         self.cfg = cfg
         self.command = list(command) if command is not None else [sys.executable, worker_path()]
 
-    def start(self, samples, sample_rate, channels=1):
+    def run_pcm(self, samples, sample_rate, channels=1):
+        """Wake, then speech to text, then speech out. Each model is its own process."""
         folder = Path(tempfile.mkdtemp(prefix="odm-voice-"))
-        wav_path = folder / "turn.wav"
-        reply_path = folder / "reply.wav"
-        write_wav(wav_path, samples, int(sample_rate))
-        cmd = self.command + [
-            "--voice-dir",
-            str(Path(self.cfg["vosk_model_dir"]).parent),
-            "--piper",
-            Path(self.cfg["piper_model"]).name,
-            "--wav",
-            str(wav_path),
-            "--reply",
-            str(reply_path),
-            "--rate",
-            str(int(sample_rate)),
-            "--channels",
-            str(int(channels)),
-        ]
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        proc._odm_dir = folder  # noqa: SLF001 - cleaned in finish
-        proc._odm_reply = reply_path  # noqa: SLF001
-        return proc
-
-    def finish(self, proc):
-        out, err = proc.communicate()
-        folder = getattr(proc, "_odm_dir", None)
-        reply_path = getattr(proc, "_odm_reply", None)
         try:
-            if proc.returncode != 0:
-                raise RuntimeError(err.strip() or "voice child failed")
-            report = json.loads(out)
-            audio = []
-            rate = int(report.get("sample_rate") or 16000)
-            if reply_path is not None and Path(reply_path).is_file():
-                audio = read_wav(reply_path)
-            return ChildTurn(report, audio, rate)
+            pcm = to_16k_mono(samples, int(sample_rate), int(channels))
+            wav_path = folder / "turn.wav"
+            # One conversion. The child reads 16 kHz mono and must not convert again.
+            write_wav(wav_path, pcm, 16000)
+            cfg_path = folder / "voice_config.json"
+            handed = dict(self.cfg)
+            handed["isolate"] = False
+            handed["resident"] = False
+            cfg_path.write_text(json.dumps(handed), encoding="utf-8")
+            wake = self._stage("wake", cfg_path, wav_path)
+            if not wake.get("woke"):
+                return ChildTurn(
+                    {"woke": False, "heard": "", "said": "", "phases": [], "timings_s": {}},
+                    [],
+                    16000,
+                )
+            heard = self._stage("stt", cfg_path, wav_path).get("heard") or ""
+            reply = build_assistant(self.cfg).handle(heard)
+            text_path = folder / "say.txt"
+            text_path.write_text(reply.get("said") or "", encoding="utf-8")
+            reply_path = folder / "reply.wav"
+            spoken = self._stage("tts", cfg_path, wav_path, text_path=text_path, reply_path=reply_path)
+            audio = read_wav(reply_path) if reply_path.is_file() else []
+            report = {
+                "woke": True,
+                "heard": heard,
+                "said": reply.get("said") or "",
+                "phases": list(reply.get("phases") or ()),
+                "timings_s": {},
+                "sample_rate": int(spoken.get("sample_rate") or 16000),
+            }
+            return ChildTurn(report, audio, report["sample_rate"])
         finally:
-            if folder is not None:
-                for name in Path(folder).glob("*"):
-                    try:
-                        name.unlink()
-                    except OSError:
-                        pass
+            for name in folder.glob("*"):
                 try:
-                    Path(folder).rmdir()
+                    name.unlink()
                 except OSError:
                     pass
+            try:
+                folder.rmdir()
+            except OSError:
+                pass
 
-    def run_pcm(self, samples, sample_rate, channels=1):
-        return self.finish(self.start(samples, sample_rate, channels))
+    def _stage(self, stage, cfg_path, wav_path, text_path=None, reply_path=None):
+        cmd = self.command + [
+            "--stage",
+            stage,
+            "--config",
+            str(cfg_path),
+            "--wav",
+            str(wav_path),
+        ]
+        if text_path is not None:
+            cmd.extend(["--text-file", str(text_path)])
+        if reply_path is not None:
+            cmd.extend(["--reply", str(reply_path)])
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        out, err = proc.communicate()
+        if proc.returncode != 0:
+            raise RuntimeError(err.strip() or out.strip() or "voice child failed")
+        return json.loads(out)

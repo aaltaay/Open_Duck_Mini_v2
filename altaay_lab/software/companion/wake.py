@@ -23,16 +23,21 @@ def _wake_model(model_name):
     import sys
     import types
 
-    spec = importlib.util.find_spec("openwakeword")
-    if spec is None or not spec.origin:
-        raise ImportError("openwakeword is not installed")
-    pkg_dir = os.path.dirname(spec.origin)
     pkg = sys.modules.get("openwakeword")
-    if pkg is None or not hasattr(pkg, "models"):
+    if pkg is not None and getattr(pkg, "models", None):
+        pkg_dir = pkg.__path__[0]
+    else:
+        # find_spec raises if a stand-in package is already loaded with no spec.
+        # Build the stand-in only on the first call, and keep the real spec on it.
+        spec = importlib.util.find_spec("openwakeword")
+        if spec is None or not spec.origin:
+            raise ImportError("openwakeword is not installed")
+        pkg_dir = os.path.dirname(spec.origin)
         pkg = types.ModuleType("openwakeword")
         pkg.__path__ = [pkg_dir]
         pkg.__file__ = spec.origin
         pkg.__package__ = "openwakeword"
+        pkg.__spec__ = spec
         folder = os.path.join(pkg_dir, "resources", "models")
         models = {}
         if os.path.isdir(folder):

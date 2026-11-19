@@ -48,7 +48,7 @@ The first cycles are late because the voice process is being created. After that
 These are in the install and the voice path. They are why the 512 MiB row is lower than the first row.
 
 - The wake loader does not import the openWakeWord trainer, so scikit-learn stays out.
-- Voice runs one model per process, then that process exits. An in-process close does not return the RAM (LATENCY.md).
+- Voice runs one model per process, then that process exits. An in-process close does not return the RAM (LATENCY.md). The installed path (isolate true) is this same split. The 512 MiB peaks are those three model processes, not one process that keeps all three.
 - The walk service pins CPU 0, sets a high priority, and caps ONNX at one thread. Voice sessions use one thread too.
 - glibc arenas are capped with MALLOC_ARENA_MAX=2.
 - zram is configured for the Pi (lz4, half of RAM) in software/pi_fit/zramswap.default. This kernel has no zram device, so the compression was not measured: BLOCKER. The swap in the table is a swap file, not zram.
