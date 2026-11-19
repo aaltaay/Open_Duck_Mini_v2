@@ -1,0 +1,6 @@
+# zram for the duck Pi. zram-tools reads this file.
+# Half of RAM, lz4. The compressed pages still live in RAM.
+# This does not add a new board and it does not change the BOM.
+ALGO=lz4
+PERCENT=50
+PRIORITY=100

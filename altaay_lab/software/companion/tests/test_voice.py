@@ -4,6 +4,7 @@ The engines here are stand-ins. The latency script measures the real ones.
 """
 
 import array
+import sys
 import unittest
 
 from altaay_lab.software.companion.assistant import Assistant
@@ -53,6 +54,52 @@ class ConfigTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             load_config({"mode": "adult", "cloud": "off", "api_key": "plain-value"})
 
+    def test_resident_and_isolate_cannot_both_be_on(self):
+        with self.assertRaises(ValueError):
+            load_config({"mode": "kid", "cloud": "off", "resident": True, "isolate": True})
+
+    def test_isolate_child_round_trip(self):
+        from altaay_lab.software.companion.isolate import IsolatedPipeline
+
+        stub = (
+            "import json, sys\n"
+            "print(json.dumps({'woke': True, 'heard': 'set a timer', 'said': 'ok', "
+            "'timings_s': {'total': 0.1}, 'phases': ['listening', 'done'], 'sample_rate': 16000}))\n"
+        )
+        import tempfile
+        from pathlib import Path
+
+        with tempfile.TemporaryDirectory() as folder:
+            script = Path(folder) / "stub.py"
+            script.write_text(stub, encoding="utf-8")
+            cfg = load_config(
+                {
+                    "mode": "kid",
+                    "cloud": "off",
+                    "isolate": True,
+                    "vosk_model_dir": str(Path(folder) / "vosk-model-small-en-us-0.15"),
+                    "piper_model": str(Path(folder) / "voice.onnx"),
+                }
+            )
+            pipe = IsolatedPipeline(cfg, command=[sys.executable, str(script)])
+            turn = pipe.run_pcm(_tone(1600), 16000)
+        self.assertTrue(turn.woke)
+        self.assertEqual(turn.heard, "set a timer")
+        self.assertEqual(turn.as_dict()["said"], "ok")
+
+    def test_wake_loader_skips_a_missing_package(self):
+        import importlib.util
+        import sys
+
+        from altaay_lab.software.companion.wake import _wake_model
+
+        if importlib.util.find_spec("openwakeword") is not None:
+            self.skipTest("openwakeword is installed here")
+        sys.modules.pop("sklearn", None)
+        with self.assertRaises(ImportError):
+            _wake_model("hey_jarvis")
+        self.assertNotIn("sklearn", sys.modules)
+
     def test_example_config_loads(self):
         from pathlib import Path
 
@@ -62,6 +109,7 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(cfg["cloud"], "off")
         self.assertEqual(cfg["wake_threshold"], 0.5)
         self.assertFalse(cfg["resident"])
+        self.assertFalse(cfg["isolate"])
         self.assertNotIn("api_key", cfg)
 
 

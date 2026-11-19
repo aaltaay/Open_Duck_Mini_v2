@@ -49,6 +49,23 @@ from odm_bench import bus, joints, paths, report, sampler, thermal, walkhooks  #
 import battery_guard as bg  # noqa: E402
 
 
+def _pin_walk():
+    """Pin when the service set ODM_WALK_CPU. A bench run leaves it unset."""
+    if not os.environ.get("ODM_WALK_CPU", "").strip():
+        return
+    soft = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "software"))
+    if soft not in sys.path:
+        sys.path.insert(0, soft)
+    try:
+        from pi_fit.pin import apply_from_env
+    except ImportError:
+        print("WARN  walk pin requested but pi_fit.pin is missing")
+        return
+    note = apply_from_env()
+    if note.get("pinned"):
+        print("walk pinned to cpu %s" % note.get("cpu"))
+
+
 class GuardHook:
     """Reads voltage and temperature at the guard period and turns guard events into walk actions."""
 
@@ -217,6 +234,7 @@ def main(argv=None):
     ap.add_argument("--blend-s", type=float, default=2.0)
     ap.add_argument("--out", help="log folder (default ODM_BENCH_OUT or ~/odm_bench_logs)")
     a = ap.parse_args(argv)
+    _pin_walk()
 
     out = paths.out_dir(a.out, "walk_guard")
     rep = report.Report("walk_with_guard", "11", "Stock walk with the battery and temperature guards")

@@ -220,6 +220,8 @@ fi
 copy_if_changed "$unit_src" "$(root "/etc/systemd/system/odm-walk-guard.service")"
 rm -f "$unit_src"
 
+copy_if_changed "$LAB/software/pi_fit/zramswap.default" "$(root "/etc/default/zramswap")"
+
 site=$(root "$HOME_DIR/.virtualenvs/open-duck-mini-runtime/lib/python3.11/site-packages/sitecustomize.py")
 copy_if_changed "$LAB/software/hw_pwm_sitecustomize.py" "$site"
 
@@ -292,6 +294,9 @@ unit=$(root "/etc/systemd/system/odm-walk-guard.service")
 grep_q '--knee-heat' "$unit" && ok "service passes --knee-heat" || bad "service missing --knee-heat"
 grep_q 'walk_with_guard.py' "$unit" && ok "service starts walk_with_guard.py" || bad "service missing walk program"
 grep_q '^Environment=ODM_HW_PWM=1' "$unit" && ok "service sets the ear PWM overlay" || bad "service missing ODM_HW_PWM"
+grep_q 'CPUAffinity=0' "$unit" && ok "walk pinned to cpu 0" || bad "walk pin"
+grep_q 'ODM_ORT_THREADS=1' "$unit" && ok "walk onnx threads" || bad "walk onnx threads"
+grep_q 'ALGO=lz4' "$(root "/etc/default/zramswap")" && ok "zram config" || bad "zram config"
 grep_q "User=$USER_NAME" "$unit" && ok "service user $USER_NAME" || bad "service user"
 
 grep_q '1a86' "$(root "/etc/udev/rules.d/99-odm-servo-bus.rules")" && ok "udev rule" || bad "udev rule"

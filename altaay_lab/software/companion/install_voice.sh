@@ -42,6 +42,7 @@ cfg = {
     "input_channels": 2,
     "i2s_shift": 16,
     "resident": False,
+    "isolate": True,
 }
 with open(path, "w", encoding="utf-8") as handle:
     json.dump(cfg, handle, indent=2)
