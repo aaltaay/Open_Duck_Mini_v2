@@ -8,6 +8,7 @@ experiments/RL/new/sac/
 experiments/RL/new/ppo/
 *.zip
 *.txt
+!altaay_lab/software/constraints-bookworm.txt
 *.onnx
 !altaay_lab/problems/retrain_sts12/sts12_runC_policy.onnx
 !altaay_lab/problems/retrain_sts12/sts12_runD_policy.onnx
