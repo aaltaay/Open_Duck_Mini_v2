@@ -356,17 +356,17 @@ The order below is the order that protects a buyer. A cheap sim that leaves a fa
 
 **Builds on.** [wiring/netlist.yaml](wiring/netlist.yaml), [bom/order/ORDER.md](bom/order/ORDER.md), [docs/BUILD_GUIDE.md](docs/BUILD_GUIDE.md).
 
-### EL6. The limb breakers are not in the live path
+### EL6. The limb breakers have no harness route
 
-**Missing.** The red team records three limb breakers and a cable EF that is `no_route`, not in series with the live feeds ([redteam/VERDICT_2026-11-13.md](redteam/VERDICT_2026-11-13.md)). A nick in a knee lead is a current the chafe note already calculates. The nuisance-trip check against a real walk current is BLOCKER.
+**Missing.** D65 already puts the three TPS259827 breakers in series with the servo feeds. SP1 and SP4 leave EFL.OUT, SP2 and SP5 leave EFR.OUT, and SP3 leaves EFN.OUT. Cable EF ties each breaker input to the servo splice (cited, [wiring/netlist.yaml](wiring/netlist.yaml)). What is still missing is the body of that cable: EF is marked `no_route`, with no cut length and no 3D polyline. The 2026-11-13 red team line that said the breakers were off the live feeds is the older reading. A trip check against a real limb current is still BLOCKER ([problems/KNEE_HEAT_CHAFE.md](problems/KNEE_HEAT_CHAFE.md), [test/FMEA.md](test/FMEA.md)).
 
-**Why.** The fuse that is supposed to save a leg does not see the leg current until it is in the wire.
+**Why.** A breaker that exists only as a net name can be left out of the harness a person builds. The leg is protected when the wire is drawn and a walk shows whether the blanking window nuisance-trips.
 
-**Closer.** Software or sim now, to put the breakers in the route. The trip check is hardware.
+**Closer.** Software or sim now, for the 3D route and the cut lengths. The trip check is hardware.
 
 **Size.** Medium.
 
-**Builds on.** [redteam/VERDICT_2026-11-13.md](redteam/VERDICT_2026-11-13.md), [problems/KNEE_HEAT_CHAFE.md](problems/KNEE_HEAT_CHAFE.md), [wiring/netlist.yaml](wiring/netlist.yaml).
+**Builds on.** [wiring/netlist.yaml](wiring/netlist.yaml) cable EF, [problems/KNEE_HEAT_CHAFE.md](problems/KNEE_HEAT_CHAFE.md), [test/FMEA.md](test/FMEA.md). [redteam/VERDICT_2026-11-13.md](redteam/VERDICT_2026-11-13.md) is the older series claim.
 
 ## Mechanical and CAD
 
