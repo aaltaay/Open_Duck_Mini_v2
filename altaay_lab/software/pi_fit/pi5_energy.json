@@ -1,0 +1,15 @@
+{
+ "label": "sim pass only, computer watts are the cited minimum band",
+ "zero_computer_w": 1.75,
+ "pi5_computer_w": 5.0,
+ "pi5_computer_w_label": "cited, whitepaper RP-010139-WP table 1 high end of 4 W to 5 W. A measured idle watt is BLOCKER.",
+ "walk_extra_w": 3.25,
+ "walk_extra_label": "calc only, added on top of the 5.144 A sim mean",
+ "zero_hours_awake": 23.211388888888894,
+ "pi5_hours_awake": 21.623777777777782,
+ "hours_delta": -1.5876111111111122,
+ "zero_min_pack_v": 10.66513999569692,
+ "pi5_min_pack_v": 10.627058503248179,
+ "zero_dock_attempts": 24,
+ "pi5_dock_attempts": 25
+}

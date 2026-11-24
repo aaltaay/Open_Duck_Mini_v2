@@ -2,6 +2,10 @@
 
 Written 2026-11-03 between about 2:05 and 3:20 PM ET by the thermal twin agent (sub-agent of the lead Claude Code agent, branch claude/digital-twin). Nothing was bought, printed, sent or deleted, and no other lab file was edited. Every result here is sim pass only: no servo, board or print has been measured. Source tags in square brackets point to the Sources list at the end. ASSUMPTION marks a value with no published source; every one is swept.
 
+## Update 2026-11-24 ET: docked and awake, BQ24133 at 1.006 A (sim pass only)
+
+The installed charger on the 3S pack is the BQ24133, not the MCP73213. Docked, awake, servo rail off, charger loss 0.969 W at 12.6 V (calc only). Hottest cell 36.01 C, trunk wall 33.74 C, high corner, 32 C room. Die upper bound 71.61 C (calc only). Full table: DOCKED_AWAKE.md. The 1.9 W to 3.2 W rows below stay the 2S record.
+
 ## Update 2026-11-12 ET: 2.30 W and 3.50 W (sim pass only for the shell, calc only for the die)
 
 The sit table below is the older 1.9 W to 3.2 W band. The reconciled board heat at 9.5 V and 1.00 A is 2.30 W and 3.50 W (calc only, circuitry/CHARGER_BOARD.md). That sit, including the high corner, is CHARGE_WATTS.md and gate_charge_watts.json. It does not replace the rows below.

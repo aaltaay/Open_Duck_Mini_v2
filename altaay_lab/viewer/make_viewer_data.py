@@ -37,11 +37,8 @@ import time
 from collections import Counter, OrderedDict, defaultdict
 
 import numpy as np
-# The nest scene does not load the duck. The duck scene still needs both.
-_scene_arg = sys.argv[sys.argv.index("--scene") + 1] if "--scene" in sys.argv else "duck"
-if _scene_arg not in ("nest", "nested"):
-    import trimesh
-    import yourdfpy
+import trimesh
+import yourdfpy
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 LAB = os.path.dirname(HERE)
@@ -764,18 +761,8 @@ def place_sleeve(j, netlist, E3, runs_of, od_of):
 
 
 # ---------------------------------------------------------------------------------------------- geometry
-def load_mesh(path, to_mm, scale=None):
-    """Load a mesh. `scale` is the URDF visual scale. `to_mm` then converts metres to the viewer.
-
-    A millimetre STL with scale 0.001 is 1.5 mm across after both steps, not 1.5 m and not 3000 mm.
-    """
+def load_mesh(path, to_mm):
     m = trimesh.load(path, force="mesh")
-    if scale is not None:
-        s = np.asarray(scale, float).reshape(-1)
-        if s.size == 1:
-            s = np.repeat(s, 3)
-        if s.size == 3 and np.any(np.abs(s - 1.0) > 1e-12):
-            m.apply_scale(s)
     if to_mm:
         m.apply_scale(1000.0)
     return m
@@ -1053,7 +1040,7 @@ def main():
     ap.add_argument("--write-bom", action="store_true",
                     help="also write altaay_lab/BOM_FULL.md and altaay_lab/bom_full.csv (text, every part)")
     ap.add_argument("--scene", choices=["duck", "nest", "nested", "dock", "docked"], default="duck",
-                    help="duck (default); nest or nested: the nest_v2 mat and the gold domes; "
+                    help="duck (default); nest and nested: nest v2 (viewer/nest_scene.py); "
                          "dock and docked: the archived wall and paddle dock")
     args = ap.parse_args()
     out = os.path.abspath(args.out)
@@ -1096,12 +1083,7 @@ def main():
             T = Tl @ (v.origin if v.origin is not None else np.eye(4))
             T = T.copy()
             T[:3, 3] *= 1000.0
-            raw_scale = v.geometry.mesh.scale
-            if raw_scale is None:
-                mesh_scale = None
-            else:
-                mesh_scale = [float(x) for x in np.asarray(raw_scale, float).reshape(-1)]
-            inst.append(dict(link=ln, urdf=fn, T=T, src="urdf", scale=mesh_scale))
+            inst.append(dict(link=ln, urdf=fn, T=T, src="urdf"))
     n_urdf = len(inst)
     # cross-check with the audit's assembly (sites.json instance indices refer to it)
     asm_path = os.path.join(AUDIT, "assembly.json")
@@ -1167,14 +1149,8 @@ def main():
                          printed=True, mirrored=bool(seen[stem] == 2)))
         mesh_src[stem] = (os.path.join(PRINT_DIR, stem + ".stl"), False)
 
-    # load source meshes once. URDF scale is applied, then metres become millimetres.
-    src = {}
-    for i in inst:
-        key = i["key"]
-        if key in src:
-            continue
-        path, to_mm = mesh_src[key]
-        src[key] = load_mesh(path, to_mm, i.get("scale"))
+    # load source meshes once
+    src = {k: load_mesh(p, mm) for k, (p, mm) in mesh_src.items()}
     # D44 (V1 track 9): the 2S1P Molicel P45B pack in the grown bay replaces the URDF's 18650 cells and holder:
     # 21.4 x 70.0 mm cells on their axes (trunk frame x -133.1, y -9.35 and +12.2, z 31.5) and the pack's two nickel strips
     if "cell" in src:

@@ -19,6 +19,7 @@ sys.path.insert(0, SOFT)
 
 import day_one  # noqa: E402
 import hw_pwm  # noqa: E402
+import pi_gpio  # noqa: E402
 from mock_hw import MockBus, MockHardware  # noqa: E402
 
 
@@ -237,6 +238,48 @@ class InstallScript(unittest.TestCase):
             self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
             self.assertIn("unchanged install tree", second.stdout)
             self.assertEqual(before, _tree(tmp))
+
+    def test_pi5_mock_keeps_the_ear_overlay_and_skips_rpi_gpio(self):
+        import subprocess
+        script = os.path.join(SOFT, "install_pi.sh")
+        with tempfile.TemporaryDirectory() as tmp:
+            cmd = ["bash", script, "--mock", "--pi5", "--prefix", tmp]
+            result = subprocess.run(cmd, capture_output=True, text=True, check=False)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            stamp = os.path.join(tmp, "var", "lib", "odm", "installed.json")
+            with open(stamp, encoding="utf-8") as fh:
+                body = json.load(fh)
+            self.assertEqual(body["board"], "pi5")
+            self.assertEqual(body["gpio"], "lgpio")
+            self.assertEqual(body["camera"], "picamera2")
+            cfg = os.path.join(tmp, "boot", "firmware", "config.txt")
+            with open(cfg, encoding="utf-8") as fh:
+                text = fh.read()
+            self.assertIn("dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4", text)
+            self.assertIn("lgpio or gpiod", text)
+            self.assertNotIn("RPi.GPIO", text)
+            with open(script, encoding="utf-8") as fh:
+                install = fh.read()
+            self.assertIn("venv_flags=(--system-site-packages)", install)
+            self.assertIn('python3 -m venv "${venv_flags[@]}" "$venv"', install)
+            self.assertIn("include-system-site-packages = true", install)
+
+    def test_pi5_mock_bench_still_passes(self):
+        hw = MockHardware()
+        hw.pi5 = True
+        with tempfile.TemporaryDirectory() as tmp:
+            import io
+            from contextlib import redirect_stdout
+            with redirect_stdout(io.StringIO()):
+                code, summary = day_one.run_steps(
+                    hw, __import__("pathlib").Path(tmp), day_one.STEPS, 20, os.path.join(tmp, "pwm"))
+            self.assertEqual(code, 0)
+            self.assertEqual(summary["board"], "pi5")
+
+    def test_eye_cycle_uses_the_netlist_pins(self):
+        chip = pi_gpio.MemoryChip()
+        log = pi_gpio.eye_cycle(chip)
+        self.assertEqual(log, [(24, 1), (23, 1), (24, 0), (23, 0)])
 
 
 def _tree(root):

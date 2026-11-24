@@ -1,19 +1,5 @@
 # CABLE_MAP
 
-## Nest cable ND1
-
-Two nets at the mat, NEST_P and GND. The five domes are sorted by the steering diodes. Cuts are calc only (short trunk runs). There is no 3D route yet, so the length rule is not applied. Currents are calc only, circuitry/NEST_CHARGE.md: 0.910 A charge, 0.250 A servo idle, up to 1.773 A if the 5 V branch is 5 A. One dome may carry the sum, 2.933 A. 22 AWG chassis limit in audit/erc.py is 7 A. 20 AWG is 11 A.
-
-| ID | From | To | Net | Gauge | Cut | Mean | Peak |
-|---|---|---|---|---|---|---|---|
-| ND1 | GD1..GD5 | DP, DN, ED | DOME_1..5 | 22 AWG | 40 mm | 1.30 A | 3.20 A |
-| ND1 | DP1..DP5 cathode | F2.IN | NEST_PRE | 20 AWG | 50 mm | 1.30 A | 3.20 A |
-| ND1 | F2.OUT | CHG.VIN | NEST_P | 20 AWG | 60 mm | 0.91 A | 1.10 A |
-| ND1 | F2.OUT | DK6.VIN | NEST_P | 20 AWG | 70 mm | 2.10 A | 3.20 A |
-| ND1 | DN and ED anodes | G | GND | 22 AWG | 40 mm | up to 1.30 A | up to 3.20 A |
-
-DC1, DC2, DC3, and the chest SYS conductor of DC4 are superseded. They are not in this table. DK6 and DK7 still meet at the switch so the duck stays awake while docked.
-
 Last updated: 2026-11-02 4:45 AM (America/New_York) by agent CAB (D25: twisted cables and their take-up, SP4, SP5 and D10 LRC cuts +10 mm; earlier 2:33 AM: splice tails, length rule by chain, Molex 08-70-1040 data, currents from the power sim), wiring decisions D8 to D13, D15, D17 and D23 (D15 replaced D14). One row per cable. The conductor-level data (from pin, to pin, net, gauge, colour, cut length, expected current) is in wiring/netlist.yaml, which is the source of truth; this file and the drawings (wiring/sheets/WIRING_SHEETS.md) follow it. Nothing has been built.
 
 Routes were measured on the upstream URDF/STL assembly (STL commit 730c14b): the route is a polyline through the centres of the parts the cable passes and the joint axes it crosses (audit/cables.py, audit/cables.json). Parts not in the CAD use the centres in audit/placements.json (BEC, fuse holder, Pololu 2815, BMS; MOUNTING.md, D11). The 3D routes, seats, ties and the worst length over the joint ranges of every cable are in cables3d/CABLES_3D.md; the cut lengths changed on 2026-11-02 come from there.

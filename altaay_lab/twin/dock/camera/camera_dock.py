@@ -92,13 +92,6 @@ FELT_SOLIMP = (0.95, 0.99, 0.001, 0.5, 2.0)
 # below the CAD face. A bumper lift raises the bumper box. The spring is
 # the Mill-Max 0906, spring 76: 25 g at first touch, 60 g at 0.495 mm.
 WELL_PROUD_M = 0.0009
-# Installed domes. The URDF and print/ use this file, so a re-run is the installed model.
-_DOME_INSTALL = os.path.join(ROOT, "mini_bdx", "robots", "open_duck_mini_v2", "gold_dome_install.json")
-if os.path.isfile(_DOME_INSTALL):
-    _DJ = json.load(open(_DOME_INSTALL))
-    WELL_PROUD_M = float(_DJ["proud_m"])
-    WELL_R = float(_DJ["radius_m"])
-    WELLS_Y = tuple(_DJ["y_m"])
 BUMPER_LIFT_M = 0.0
 WELL_SPRING = False
 WELL_SPRING_TC = 0.20

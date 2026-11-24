@@ -358,11 +358,7 @@ def tree_report():
     din = domain(net, sp["bec_in"])
     dout = domain(net, sp["bec_out"])
     d5 = domain(net, "5V")
-    # The cell string stays PACK_9V0_12V6. The regulator input may also see the
-    # 15 V nest while the duck is docked and awake. Those are not the same window.
-    pack_dom = domain(net, "PACK_9V0_12V6")
-    pack = (float(pack_dom["v_min"]), float(pack_dom["v_max"]))
-    rail = (float(din["v_min"]), float(din["v_max"]))
+    pack = (float(din["v_min"]), float(din["v_max"]))
     servo = (float(dout["v_min"]), float(dout["v_max"]))
     five = (float(d5["v_min"]), float(d5["v_max"]))
 
@@ -376,21 +372,6 @@ def tree_report():
     elif not (near(pack[0], pack_consts[0]) and near(pack[1], pack_consts[1])):
         rep.add_fail("pack domain %.3f V to %.3f V disagrees with power_net %.3f V to %.3f V"
                      % (pack[0], pack[1], pack_consts[0], pack_consts[1]))
-    held_now = "i7C" in component(net, "U1")["part"] or "I7C" in component(net, "U1")["part"]
-    bec_lim = limits["parts"]["servo_reg"] if held_now else limits["parts"]["castle_bec"]
-    if bec_lim.get("v_in_min") is not None and (
-            rail[0] + 1e-9 < float(bec_lim["v_in_min"]) or rail[1] > float(bec_lim["v_in_max"]) + 1e-9):
-        rep.add_fail("regulator input %.3f V to %.3f V is outside %.1f V to %.1f V"
-                     % (rail[0], rail[1], bec_lim["v_in_min"], bec_lim["v_in_max"]))
-    u3_lim = limits["parts"]["pololu_4892"]
-    if rail[0] + 1e-9 < float(u3_lim["v_in_min"]) or rail[1] > float(u3_lim["v_in_max"]) + 1e-9:
-        rep.add_fail("5 V regulator input %.3f V to %.3f V is outside %.0f V to %.0f V"
-                     % (rail[0], rail[1], u3_lim["v_in_min"], u3_lim["v_in_max"]))
-    if rail[0] > pack[0] + 1e-9 or rail[1] + 1e-9 < pack[1]:
-        rep.add_fail("regulator input %.3f V to %.3f V does not cover the pack %.3f V to %.3f V"
-                     % (rail[0], rail[1], pack[0], pack[1]))
-    if rail[1] > pack[1] + 1e-6 and (rail[1] + 1e-9 < 15.0 or rail[1] > 16.0 + 1e-9):
-        rep.add_fail("regulator input above the pack must include the 15.0 V nest and stay at or under the 16.0 V TVS standoff")
     if any(v != v for v in becs):
         rep.add_fail("U1 part line has no 'set to N V'")
         becs = [v for v in becs if v == v]

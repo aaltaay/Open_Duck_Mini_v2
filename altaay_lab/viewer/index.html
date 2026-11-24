@@ -417,20 +417,20 @@ function fail(err) {
     '<br>Reload the page. If it keeps failing, this browser may not support WebGL.';
 }
 
-/* Scenes: Duck, Nest, Nested. The URL hash picks one.
-   The wall and paddle dock is archived: #dock and #docked still load dock_manifest.json and docked_manifest.json.
-   Nest files are nest_manifest.json + nest.glb.txt, and nested_manifest.json + nested.glb.txt. */
+/* ---------------------------------------------------------------- scenes: Duck, Nest, Nested (the URL hash picks one)
+   Each scene is its own data pair next to this page. Nest is nest v2. The old wall and paddle
+   dock hashes still resolve, for a page that was built before this change. */
 const SCENES = {
   '': { man: 'manifest.json', glb: 'duck.glb.txt', what: 'duck', guess: 5.8e6, eyebrow: 'Open Duck Mini v2 · print readiness', title: 'Parts check, exploded',
-        lede: 'The upstream CAD at zero joint angles, with every print STL, servo, heat-set insert, screw, cable and BOM line. Parts that are not in the CAD are dashed boxes. The five gold domes are on the seat.' },
-  nest: { man: 'nest_manifest.json', glb: 'nest.glb.txt', what: 'nest', guess: 2e6, eyebrow: 'Open Duck Mini v2 · nest', title: 'Nest mat',
-          lede: 'The nest v2 felt mat, the foil stripes, the cord pocket, and the five gold domes at the sit. The wall and paddle dock is archived.' },
-  nested: { man: 'nested_manifest.json', glb: 'nested.glb.txt', what: 'nested', guess: 2e6, eyebrow: 'Open Duck Mini v2 · nested', title: 'Domes on the mat',
-            lede: 'The same mat with the five gold domes at the sit. Sim pass only: this contact charged in 38 of 40 camera docks in the earlier batch.' },
-  dock: { man: 'dock_manifest.json', glb: 'dock.glb.txt', what: 'archived wall dock', guess: 4e6, eyebrow: 'Open Duck Mini v2 · archived wall dock', title: 'Archived wall dock',
-          lede: 'Archived. The wall and paddle dock is not the nest. The files stay so the old scene can still be opened.' },
-  docked: { man: 'docked_manifest.json', glb: 'docked.glb.txt', what: 'archived docked pose', guess: 9.5e6, eyebrow: 'Open Duck Mini v2 · archived', title: 'Archived duck on the wall dock',
-            lede: 'Archived. The chest on the paddle pins. The nest is the mat scene.' },
+        lede: 'The upstream CAD at zero joint angles, with every print STL, servo, heat-set insert, screw, cable and BOM line. Parts that are not in the CAD are dashed boxes.' },
+  nest: { man: 'nest_manifest.json', glb: 'nest.glb.txt', what: 'nest', guess: 2e6, eyebrow: 'Open Duck Mini v2 · nest', title: 'Nest, the mat',
+          lede: 'SIM. Nest v2: felt, two foil buses, the cord pocket. Not a hardware dock. The old wall and paddle dock is archived.' },
+  nested: { man: 'nested_manifest.json', glb: 'nested.glb.txt', what: 'duck on the nest', guess: 8e6, eyebrow: 'Open Duck Mini v2 · nested', title: 'Duck on the nest',
+            lede: 'SIM. The duck on the nest. Gold domes are the seat contacts. 38 of 40 charging docks is sim pass only. The charge path is two nets into the BQ24133 in the duck.' },
+  dock: { man: 'dock_manifest.json', glb: 'dock.glb.txt', what: 'archived wall dock', guess: 4e6, eyebrow: 'Open Duck Mini v2 · archived dock', title: 'Archived wall dock',
+          lede: 'The wall and paddle dock. Superseded by the nest. Kept so an older build of this page still opens.' },
+  docked: { man: 'docked_manifest.json', glb: 'docked.glb.txt', what: 'archived docked duck', guess: 9.5e6, eyebrow: 'Open Duck Mini v2 · archived docked', title: 'Archived docked duck',
+            lede: 'The duck on the wall and paddle dock. Superseded by the nest.' },
 };
 const SCENE_KEY = Object.prototype.hasOwnProperty.call(SCENES, location.hash.replace('#', '')) ? location.hash.replace('#', '') : '';
 const SC = SCENES[SCENE_KEY];

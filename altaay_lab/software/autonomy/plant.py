@@ -59,11 +59,15 @@ def heat_tau_s():
     return T_60_S / -math.log(ratio)
 
 
-def idle_pack_a(pack_v):
-    """Pack current while torque is off. Calc only from the cited pieces above."""
+def idle_pack_a(pack_v, pi_w=None):
+    """Pack current while torque is off. Calc only from the cited pieces above.
+
+    pi_w defaults to the Zero 1.75 W. A Pi 5 study passes a higher watt figure.
+    """
     v = max(float(pack_v), PACK_LOW_V)
+    watts = PI_W if pi_w is None else float(pi_w)
     p_servo = SERVO_COUNT * SERVO_IDLE_A * RAIL_V
-    return p_servo / (I7C_EFF_MIN * v) + PI_W / v
+    return p_servo / (I7C_EFF_MIN * v) + watts / v
 
 
 class HomePlant:
@@ -73,8 +77,10 @@ class HomePlant:
     the supervisor from the measured 40, not from a new physics run.
     """
 
-    def __init__(self, cell=None):
+    def __init__(self, cell=None, pi_w=None, walk_extra_w=0.0):
         self.cell = cell if cell is not None else P45B()
+        self.pi_w = PI_W if pi_w is None else float(pi_w)
+        self.walk_extra_w = float(walk_extra_w)
         self.q_mAh = 0.0
         self.knee_c = T_ROOM_C
         self.t = 0.0
@@ -85,7 +91,7 @@ class HomePlant:
         self.face_close = False
         self.bearing = None
         self.tau_s = heat_tau_s()
-        self.v_pack = self._terminal(idle_pack_a(3.0 * self.cell.ocv(0.0)))
+        self.v_pack = self._terminal(idle_pack_a(3.0 * self.cell.ocv(0.0), self.pi_w))
         self.min_pack_v = self.v_pack
         self.at_floor = False
         self.motion = "sit"
@@ -100,9 +106,10 @@ class HomePlant:
         if motion == "charge":
             return -CHARGE_A
         if motion in ("walk", "stand", "getup"):
-            return WALK_PACK_A
+            v = max(self.ocv_pack(), PACK_LOW_V)
+            return WALK_PACK_A + self.walk_extra_w / v
         v = self.ocv_pack()
-        return idle_pack_a(v)
+        return idle_pack_a(v, self.pi_w)
 
     def advance(self, motion, dt):
         """Move energy and heat forward by dt seconds. Does not cross 9.0 V."""
@@ -141,7 +148,10 @@ class HomePlant:
             self.v_pack = self.ocv_pack()
             self.at_floor = False
         else:
-            amps = WALK_PACK_A if motion in ("walk", "stand", "getup") else idle_pack_a(self.ocv_pack())
+            if motion in ("walk", "stand", "getup"):
+                amps = WALK_PACK_A + self.walk_extra_w / max(self.ocv_pack(), PACK_LOW_V)
+            else:
+                amps = idle_pack_a(self.ocv_pack(), self.pi_w)
             nxt = self.q_mAh + amps * step / 3.6
             nxt = min(nxt, float(self.cell.q_end))
             saved = self.q_mAh

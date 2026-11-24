@@ -56,10 +56,10 @@ def _script(plant, sup, state):
     return events
 
 
-def run(days=3.0, seed=1, tick_s=TICK_S):
+def run(days=3.0, seed=1, tick_s=TICK_S, pi_w=None, walk_extra_w=0.0):
     horizon = float(days) * DAY_S
     outcomes = MeasuredOutcomes(seed)
-    plant = HomePlant()
+    plant = HomePlant(pi_w=pi_w, walk_extra_w=walk_extra_w)
     sup = Supervisor(seed=seed, outcomes=outcomes)
     state = {"slot": -1, "reminded": False, "due": False, "restarted": False}
     day = []

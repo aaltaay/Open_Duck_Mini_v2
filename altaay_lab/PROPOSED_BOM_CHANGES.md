@@ -1,5 +1,27 @@
 # Proposed BOM changes
 
+## Delta, 2026-11-24 ET, nest two-net. Not applied to BOM.md or bom.json
+
+Do not buy from this table until a page is opened for stock. No prices are copied here. D61 was not edited. The MCP73213 is not a line to add for this 3S pack.
+
+| Proposed change | Part | Qty | Why |
+|---|---|---|---|
+| Add | Vishay SS33, document 88751 | 10 | Two per gold dome, so either stripe still feeds the charger. Cited 30 V, 3.0 A. |
+| Add | Littelfuse RXEF185 | 1 | Holds 1.006 A through 60 C (cited rerating 1.17 A). Trips at 3.70 A. |
+| Add | Littelfuse SMAJ16A | 1 | Already the 3S contact TVS in problems/NEST3.md. Standoff 16.0 V. |
+| Add | Pololu 2815, second unit, in the rim | 1 | Reverse-protected supply switch. The duck already has one on the servo rail. |
+| Add | 4.99 kOhm and 47.5 kOhm, 1 percent | 1 each | Signature the rim looks for. A coin does not match it. |
+| Add | TI LM393BIDR, if the charger board's comparator is not shared | 1 | Window 1.20 V to 1.65 V. The charger board already names this part. Do not buy a second one if that channel is free. |
+| Do not add | MCP73213-A6SI/MF as the 3S charger | 0 | Regulates 8.40 V. Over-voltage trip 13 V. The installed charger is the BQ24133 already on the bill path. |
+| Do not add | Chest pad DK1 for the nest | 0 | Four strips are superseded. The contacts are the five gold domes, formed, no catalog part. |
+| Keep | Littelfuse 0287005.PXCN, 5 A, and the holder | as billed | One on the rim, F2 still in the duck ahead of the charger. |
+| Keep | Pololu 5383 (DK7) and add one more as DK8 | 1 more | DK8 is the pack-domain diode to J5IN. Not a nest feed. |
+| Leave off | Felt, foil, gold dome plating |  | No manufacturer part opened for the cloth or the plating. BLOCKER, same as the 2026-11-12 note. |
+
+J5IN does not change the 5 V regulator line. A later 5 V 5 A seat can use that node. This delta does not name that regulator.
+
+
+
 Written 2026-11-11 evening ET. Research only. This file does not change BOM.md or bom.json. The nest install agent applies the rows below. PARTS_AUDIT.md, session 2026-11-11 ET, is the evidence. A number from a page opened that session is labeled there. A number from the nest CAD stays CAD check only.
 
 Do not add a line that this file marks BLOCKER.
@@ -51,25 +73,6 @@ The rows below stay as the record of the spring-pin proposal. They are not the n
 | TE4 | Siglent SDL1020X-E schema OutOfStock. | NOT TODAY |
 | 17j, 17k, 17l | BelMetric said the configuration is not available. Re-select the exact size on the page before those three are counted as in stock. | NOT TODAY |
 | 10r, E7r | Leave Buy at 0. | DO NOT ORDER |
-
-## Nest charger delta, 2026-11-24
-
-Do not edit BOM.md from this table. Nothing is bought. Prices were not opened for these lines, so the dollars are BLOCKER.
-
-| Proposed line | Part | Qty | Why |
-|---|---|---|---|
-| nest diode | onsemi MBRS540T3G | 10 | Five plus diodes and five return diodes. 40 V, 5 A, 0.50 V max at 5 A (cited, MBRS540T3/D Rev. 13). One dome may carry 2.933 A (calc only). |
-| nest TVS | Littelfuse SMAJ16A | 6 | One on each dome and one on the eFuse input. Standoff 16.0 V, clamp 26.0 V (cited, NEST3.md). Not on the charger pin. |
-| nest eFuse | TI TPS259470ARPW | 1 | OVLO trip 18.00 V typical, 18.345 V at the high threshold (calc only from the cited 1.183 V to 1.223 V). Response 1.2 us typical (cited, SLVSFC9C). IN absolute maximum 28 V covers the 26.0 V clamp. |
-| OVLO divider | 140 kOhm and 10.0 kOhm, 1 percent | 1 each | Sets the 18.00 V trip. |
-| UVLO divider | 90.9 kOhm and 10.0 kOhm, 1 percent | 1 each | Keeps the eFuse on at the 15.0 V nest. |
-| ILIM resistor | 750 ohm, 1 percent | 1 | Cited row: 3.96 A minimum. |
-| mat fuse | Littelfuse 0287005.PXCN, 5 A ATO | 1 | In the cord pocket, ahead of the stripes, so a coin short opens it. The duck already has F2 of the same part. |
-| diode copper | 700 mm2, 2 ounce pad under each MBRS540 | 10 pads | The minimum pad is 111 C/W and crosses 150 C on the VF bound. The sheet's 700 mm2 pad is 64 C/W (cited). |
-
-Do not add the MCP73213 eval board. It regulates at 8.40 V and this pack charges to 12.6 V. The BQ24133 is already the netlist charger. Do not add a second one from this note.
-
-The D30V30F5 stays. It does not publish 5 A. A Pi 5 at 5 V and 5 A needs a different regulator. That change belongs to the board-seat work. The nest rail can feed it.
 
 ## One-click
 

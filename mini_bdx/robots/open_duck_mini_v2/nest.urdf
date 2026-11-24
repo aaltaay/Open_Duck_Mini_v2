@@ -1,151 +1,66 @@
 <?xml version="1.0"?>
 <robot name="nest_v2">
-  <link name="nest_world"/>
+  <!-- Nest mat, version 2. Meshes are metres, copied from altaay_lab/cad/nest_v2/stl.
+       The duck is not in this file. Gold domes are on robot.urdf, link gold_domes.
+       CAD check only. Not a hardware dock. -->
   <link name="felt_base">
     <visual>
-      <geometry><mesh filename="package:///nest_felt_base.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="felt_base_mat"><color rgba="0.77 0.65 0.45 1"/></material>
+      <geometry><mesh filename="nest/felt_base.stl"/></geometry>
+      <material name="felt"><color rgba="0.78 0.71 0.56 1"/></material>
     </visual>
   </link>
-  <joint name="felt_base_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="felt_base"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-  </joint>
   <link name="felt_top">
     <visual>
-      <geometry><mesh filename="package:///nest_felt_top.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="felt_top_mat"><color rgba="0.77 0.65 0.45 1"/></material>
+      <geometry><mesh filename="nest/felt_top.stl"/></geometry>
+      <material name="felt_top"><color rgba="0.84 0.76 0.60 1"/></material>
     </visual>
   </link>
   <joint name="felt_top_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="felt_top"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="felt_base"/><child link="felt_top"/>
   </joint>
   <link name="stripe_plus">
     <visual>
-      <geometry><mesh filename="package:///nest_stripe_plus.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="stripe_plus_mat"><color rgba="0.77 0.65 0.45 1"/></material>
+      <geometry><mesh filename="nest/stripe_plus.stl"/></geometry>
+      <material name="plus"><color rgba="0.88 0.72 0.35 1"/></material>
     </visual>
   </link>
   <joint name="stripe_plus_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="stripe_plus"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="felt_base"/><child link="stripe_plus"/>
   </joint>
   <link name="stripe_minus">
     <visual>
-      <geometry><mesh filename="package:///nest_stripe_minus.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="stripe_minus_mat"><color rgba="0.77 0.65 0.45 1"/></material>
+      <geometry><mesh filename="nest/stripe_minus.stl"/></geometry>
+      <material name="minus"><color rgba="0.65 0.52 0.28 1"/></material>
     </visual>
   </link>
   <joint name="stripe_minus_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="stripe_minus"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="felt_base"/><child link="stripe_minus"/>
   </joint>
   <link name="cord_pocket">
     <visual>
-      <geometry><mesh filename="package:///nest_cord_pocket.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="cord_pocket_mat"><color rgba="0.77 0.65 0.45 1"/></material>
+      <geometry><mesh filename="nest/cord_pocket.stl"/></geometry>
+      <material name="pla"><color rgba="0.66 0.58 0.46 1"/></material>
     </visual>
   </link>
   <joint name="cord_pocket_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="cord_pocket"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="felt_base"/><child link="cord_pocket"/>
   </joint>
   <link name="cord_cap">
     <visual>
-      <geometry><mesh filename="package:///nest_cord_cap.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="cord_cap_mat"><color rgba="0.77 0.65 0.45 1"/></material>
+      <geometry><mesh filename="nest/cord_cap.stl"/></geometry>
+      <material name="cap"><color rgba="0.74 0.66 0.52 1"/></material>
     </visual>
   </link>
   <joint name="cord_cap_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="cord_cap"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="felt_base"/><child link="cord_cap"/>
   </joint>
   <link name="wall_card">
     <visual>
-      <geometry><mesh filename="package:///nest_wall_card.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="wall_card_mat"><color rgba="0.77 0.65 0.45 1"/></material>
+      <geometry><mesh filename="nest/wall_card.stl"/></geometry>
+      <material name="card"><color rgba="0.45 0.28 0.20 1"/></material>
     </visual>
   </link>
   <joint name="wall_card_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="wall_card"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-  </joint>
-  <link name="gold_dome_1">
-    <visual>
-      <geometry><mesh filename="package:///gold_dome.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="gold_1"><color rgba="0.83 0.69 0.22 1"/></material>
-    </visual>
-    <collision>
-      <geometry><sphere radius="0.0015"/></geometry>
-    </collision>
-  </link>
-  <joint name="gold_dome_1_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="gold_dome_1"/>
-    <origin xyz="0 -0.024 0.0026" rpy="0 0 0"/>
-  </joint>
-  <link name="gold_dome_2">
-    <visual>
-      <geometry><mesh filename="package:///gold_dome.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="gold_2"><color rgba="0.83 0.69 0.22 1"/></material>
-    </visual>
-    <collision>
-      <geometry><sphere radius="0.0015"/></geometry>
-    </collision>
-  </link>
-  <joint name="gold_dome_2_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="gold_dome_2"/>
-    <origin xyz="0 -0.012 0.0026" rpy="0 0 0"/>
-  </joint>
-  <link name="gold_dome_3">
-    <visual>
-      <geometry><mesh filename="package:///gold_dome.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="gold_3"><color rgba="0.83 0.69 0.22 1"/></material>
-    </visual>
-    <collision>
-      <geometry><sphere radius="0.0015"/></geometry>
-    </collision>
-  </link>
-  <joint name="gold_dome_3_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="gold_dome_3"/>
-    <origin xyz="0 0.0 0.0026" rpy="0 0 0"/>
-  </joint>
-  <link name="gold_dome_4">
-    <visual>
-      <geometry><mesh filename="package:///gold_dome.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="gold_4"><color rgba="0.83 0.69 0.22 1"/></material>
-    </visual>
-    <collision>
-      <geometry><sphere radius="0.0015"/></geometry>
-    </collision>
-  </link>
-  <joint name="gold_dome_4_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="gold_dome_4"/>
-    <origin xyz="0 0.012 0.0026" rpy="0 0 0"/>
-  </joint>
-  <link name="gold_dome_5">
-    <visual>
-      <geometry><mesh filename="package:///gold_dome.stl" scale="0.001 0.001 0.001"/></geometry>
-      <material name="gold_5"><color rgba="0.83 0.69 0.22 1"/></material>
-    </visual>
-    <collision>
-      <geometry><sphere radius="0.0015"/></geometry>
-    </collision>
-  </link>
-  <joint name="gold_dome_5_fixed" type="fixed">
-    <parent link="nest_world"/>
-    <child link="gold_dome_5"/>
-    <origin xyz="0 0.024 0.0026" rpy="0 0 0"/>
+    <parent link="felt_base"/><child link="wall_card"/>
   </joint>
 </robot>

@@ -18,6 +18,14 @@ from altaay_lab.software.pi_fit.budget import (
     verdict,
     work_stats,
 )
+from altaay_lab.software.pi_fit.pi5_board import (
+    BOARD_X_MM,
+    BOARD_Y_MM,
+    HOLE_D_MM,
+    HOLE_PITCH_X_MM,
+    HOLE_PITCH_Y_MM,
+    hole_centers,
+)
 from altaay_lab.software.pi_fit.pin import apply_from_env
 
 
@@ -74,6 +82,41 @@ class BudgetTests(unittest.TestCase):
         self.assertEqual(quota_us(10000.0, 2500.0, 100000), 25000)
         # A measured score below the cited score cannot grow past one full period.
         self.assertEqual(quota_us(1000.0, 5000.0, 100000), 100000)
+
+    def test_pi5_holes_match_the_drawing_pitch(self):
+        self.assertEqual(BOARD_X_MM, 85.0)
+        self.assertEqual(BOARD_Y_MM, 56.0)
+        self.assertEqual(HOLE_D_MM, 2.7)
+        centers = hole_centers()
+        self.assertEqual(len(centers), 4)
+        xs = sorted({row[0] for row in centers})
+        ys = sorted({row[1] for row in centers})
+        self.assertAlmostEqual(xs[1] - xs[0], HOLE_PITCH_X_MM)
+        self.assertAlmostEqual(ys[1] - ys[0], HOLE_PITCH_Y_MM)
+        self.assertAlmostEqual(ys[0], (56.0 - 49.0) / 2.0)
+
+    def test_seat_pilots_are_open_through_the_plate_and_the_boss(self):
+        import importlib.util
+        path = os.path.join(
+            os.path.dirname(__file__), "..", "..", "cad", "pi5_seat", "make_seat.py")
+        spec = importlib.util.spec_from_file_location("pi5_seat", os.path.abspath(path))
+        seat = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(seat)
+        origin = (0.0, 0.0, 0.0)
+        openings = seat.hole_rects(origin, False)
+        self.assertEqual(len(openings), 4)
+        outer = (-2.0, -2.0, seat.BOARD_X + 2.0, seat.BOARD_Y + 2.0)
+        solid = seat.rects_minus(outer, openings)
+        for hx0, hy0, hx1, hy1 in openings:
+            cx = (hx0 + hx1) / 2.0
+            cy = (hy0 + hy1) / 2.0
+            self.assertAlmostEqual(hx1 - hx0, seat.PILOT_D)
+            for x0, y0, x1, y1 in solid:
+                inside = x0 < cx < x1 and y0 < cy < y1
+                self.assertFalse(inside)
+            for x0, y0, x1, y1 in seat.boss_wall_rects((hx0, hy0, hx1, hy1)):
+                inside = x0 < cx < x1 and y0 < cy < y1
+                self.assertFalse(inside)
 
     def test_pin_is_idle_without_the_variable(self):
         old = os.environ.pop("ODM_WALK_CPU", None)
