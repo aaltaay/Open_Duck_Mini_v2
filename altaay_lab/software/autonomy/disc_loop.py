@@ -44,6 +44,15 @@ def _clip(v, lo, hi):
     return float(max(lo, min(hi, v)))
 
 
+def _obs_left(head_yaw, image_right):
+    """Obstacle bearing in the trunk, left positive.
+
+    image_right is the angle from the camera axis toward image right.
+    A positive head yaw looks left, so it adds to that trunk bearing.
+    """
+    return wrap(float(head_yaw) - float(image_right))
+
+
 class DiscLoop:
     def __init__(self):
         self.phase = "search"
@@ -172,10 +181,14 @@ class DiscLoop:
                 if cliff and abs(bearing) < 0.50:
                     cmd[0] = 0.0
                     cmd[2] = 0.45 * self.spin
-                elif obstacle and abs(obs_right) < 0.30 and abs(obs_right - bearing) > 0.22:
+                elif obstacle and abs(obs_right) < 0.30 and abs(wrap(_obs_left(self.head_cmd, obs_right) - math.atan2(left, fwd))) > 0.15:
+                    # obstacle_right is image-right positive. The disc bearing
+                    # is trunk-left positive. Convert before comparing, and
+                    # include the head yaw the camera was looking through.
                     # Positive yaw is a left turn. An obstacle on the image
-                    # right (positive) is left behind by turning left.
-                    # A flag on the disc itself is not a side hazard.
+                    # right is left behind by turning left. A flag on the
+                    # disc itself is not a side hazard.
+                    cmd[0] = 0.0
                     cmd[2] = 0.50 if obs_right > 0.0 else -0.50
                 elif near and -0.20 <= bearing <= 0.22:
                     self.phase = "turn"
@@ -287,13 +300,15 @@ class DiscLoop:
             err = None
             if seen and est.get("sun_fwd") is not None:
                 # Zero when the sun is straight behind. Near pi while it is still ahead.
+                # A positive body yaw moves a sun that is already behind further
+                # to the left, so the correction is the opposite of this error.
                 err = math.atan2(float(est["sun_left"]), -float(est["sun_fwd"]))
             if err is None or abs(err) < 0.10 or self.t - self.t_phase > 8.0:
                 self.phase = "settle"
                 self.t_phase = self.t
                 self.ok_n = 0
             else:
-                cmd[2] = _clip(1.3 * err, -0.40, 0.40)
+                cmd[2] = _clip(-1.3 * err, -0.40, 0.40)
         elif self.phase == "settle":
             cmd = [0.0, 0.0, 0.0, 0.0, 0.0]
             self.ok_n += 1

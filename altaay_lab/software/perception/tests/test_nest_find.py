@@ -147,9 +147,42 @@ class LoopTests(unittest.TestCase):
                "cliff": False, "obstacle": True, "obstacle_right": 0.2}
         cmd = loop.command(est, 0.0, 0.02)
         self.assertGreater(cmd[2], 0.0)
+        self.assertEqual(cmd[0], 0.0)
         est["obstacle_right"] = -0.2
         cmd = loop.command(est, 0.0, 0.02)
         self.assertLess(cmd[2], 0.0)
+        self.assertEqual(cmd[0], 0.0)
+
+    def test_a_head_yaw_does_not_hide_an_obstacle_on_the_other_side(self):
+        from altaay_lab.software.autonomy.disc_loop import _obs_left
+        # Head looking left. The disc is along that look. An image-right
+        # obstacle is then on the other side of the trunk and is not the disc.
+        self.assertAlmostEqual(_obs_left(0.30, 0.0), 0.30, places=5)
+        self.assertAlmostEqual(_obs_left(0.30, 0.25), 0.05, places=5)
+        loop = DiscLoop()
+        loop.phase = "approach"
+        loop.head_cmd = 0.30
+        est = {"seen": True, "clipped": False, "sun_fwd": 0.8, "sun_left": 0.25,
+               "cliff": False, "obstacle": True, "obstacle_right": 0.25}
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertGreater(cmd[2], 0.0)
+        self.assertEqual(cmd[0], 0.0)
+        est["obstacle_right"] = 0.0
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertNotEqual(cmd[2], 0.50)
+        self.assertNotEqual(cmd[2], -0.50)
+
+    def test_trim_turns_toward_a_sun_that_is_behind(self):
+        loop = DiscLoop()
+        loop.phase = "trim"
+        est = {"seen": True, "clipped": False, "sun_fwd": -0.4, "sun_left": 0.08,
+               "cliff": False, "obstacle": False, "obstacle_right": 0.0}
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertEqual(loop.phase, "trim")
+        self.assertLess(cmd[2], 0.0)
+        est["sun_left"] = -0.08
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertGreater(cmd[2], 0.0)
 
     def test_cliff_stops_a_creep(self):
         loop = DiscLoop()
