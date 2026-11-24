@@ -502,7 +502,8 @@ def render(shells, origin, size, dest, servo_pts=None, extra=None):
 def remesh(report_path=None):
     """Rewrite the seat STL from the saved pose. Does not rerun the search."""
     path = report_path or os.path.join(HERE, "seat_fit.json")
-    report = json.loads(open(path, encoding="utf-8").read())
+    with open(path, encoding="utf-8") as handle:
+        report = json.loads(handle.read())
     origin = report["origin_mm"]
     swap = bool(report["long_side_along_y"])
     tris = seat_mesh(origin, swap)
@@ -550,7 +551,8 @@ def publish_saved():
         sys.path.insert(0, HERE)
     import search_pose as sweep
     path = os.path.join(HERE, "seat_fit.json")
-    report = json.loads(open(path, encoding="utf-8").read())
+    with open(path, encoding="utf-8") as handle:
+        report = json.loads(handle.read())
     origin = [float(v) for v in report["origin_mm"]]
     size = [float(v) for v in report["size_mm"]]
     stl_path, count = remesh(path)
@@ -570,7 +572,10 @@ def publish_saved():
     reg = report.get("regulator") or {}
     if reg.get("origin_mm") and reg.get("size_mm"):
         extra = (reg["origin_mm"], reg["size_mm"])
-    render(shells, bmin, bmax - bmin, png_path, yaw_stop_cloud(), extra=extra)
+    try:
+        render(shells, bmin, bmax - bmin, png_path, yaw_stop_cloud(), extra=extra)
+    except ModuleNotFoundError:
+        report["png_skipped"] = "matplotlib is not installed"
     with open(path, "w", encoding="utf-8") as handle:
         json.dump(report, handle, indent=1)
         handle.write("\n")
