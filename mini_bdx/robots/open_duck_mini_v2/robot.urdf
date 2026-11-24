@@ -2492,6 +2492,34 @@
         <child link="sit_seat" />
         <axis xyz="0 0 0"/>
     </joint>
+    <link name="gold_domes">
+        <visual>
+            <origin xyz="-0.11 0 -0.018209061" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package:///gold_domes.stl"/>
+            </geometry>
+            <material name="gold_domes_material">
+                <color rgba="0.86 0.68 0.28 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.11 0 -0.018209061" rpy="0 -0 0" />
+            <geometry>
+                <mesh filename="package:///gold_domes.stl"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1e-9" />
+            <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+        </inertial>
+    </link>
+    <joint name="gold_domes_fixed" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="trunk_assembly" />
+        <child link="gold_domes" />
+        <axis xyz="0 0 0"/>
+    </joint>
     <link name="sit_bumper">
         <visual>
             <origin xyz="0.02 0 -0.036209061" rpy="0 -0 0" />

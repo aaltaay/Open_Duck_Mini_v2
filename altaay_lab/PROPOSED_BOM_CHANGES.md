@@ -1,5 +1,27 @@
 # Proposed BOM changes
 
+## Delta, 2026-11-24 ET, nest two-net. Not applied to BOM.md or bom.json
+
+Do not buy from this table until a page is opened for stock. No prices are copied here. D61 was not edited. The MCP73213 is not a line to add for this 3S pack.
+
+| Proposed change | Part | Qty | Why |
+|---|---|---|---|
+| Add | Vishay SS33, document 88751 | 10 | Two per gold dome, so either stripe still feeds the charger. Cited 30 V, 3.0 A. |
+| Add | Littelfuse RXEF185 | 1 | Holds 1.006 A through 60 C (cited rerating 1.17 A). Trips at 3.70 A. |
+| Add | Littelfuse SMAJ16A | 1 | Already the 3S contact TVS in problems/NEST3.md. Standoff 16.0 V. |
+| Add | Pololu 2815, second unit, in the rim | 1 | Reverse-protected supply switch. The duck already has one on the servo rail. |
+| Add | 4.99 kOhm and 47.5 kOhm, 1 percent | 1 each | Signature the rim looks for. A coin does not match it. |
+| Add | TI LM393BIDR, if the charger board's comparator is not shared | 1 | Window 1.20 V to 1.65 V. The charger board already names this part. Do not buy a second one if that channel is free. |
+| Do not add | MCP73213-A6SI/MF as the 3S charger | 0 | Regulates 8.40 V. Over-voltage trip 13 V. The installed charger is the BQ24133 already on the bill path. |
+| Do not add | Chest pad DK1 for the nest | 0 | Four strips are superseded. The contacts are the five gold domes, formed, no catalog part. |
+| Keep | Littelfuse 0287005.PXCN, 5 A, and the holder | as billed | One on the rim, F2 still in the duck ahead of the charger. |
+| Keep | Pololu 5383 (DK7) and add one more as DK8 | 1 more | DK8 is the pack-domain diode to J5IN. Not a nest feed. |
+| Leave off | Felt, foil, gold dome plating |  | No manufacturer part opened for the cloth or the plating. BLOCKER, same as the 2026-11-12 note. |
+
+J5IN does not change the 5 V regulator line. A later 5 V 5 A seat can use that node. This delta does not name that regulator.
+
+
+
 Written 2026-11-11 evening ET. Research only. This file does not change BOM.md or bom.json. The nest install agent applies the rows below. PARTS_AUDIT.md, session 2026-11-11 ET, is the evidence. A number from a page opened that session is labeled there. A number from the nest CAD stays CAD check only.
 
 Do not add a line that this file marks BLOCKER.

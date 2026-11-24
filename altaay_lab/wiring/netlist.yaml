@@ -1,5 +1,7 @@
 # netlist.yaml: the altaay-lab Open Duck Mini v2 harness record.
 # Current rail, 2026-11-12 10:00 PM ET: Pololu 2815 plus the BQ24133 interlock.
+# Nest update, 2026-11-24 ET: two contact nets, gold domes, charger in the duck.
+# The drawing is circuitry/NEST_TWO_NET.md. Cable NEST is status nest.
 # Those nets are circuitry/bq24133_board.yaml. The behavior is circuitry/SERVO_RAIL.md.
 # SW1 below is the superseded Pololu 2813 record (D30). Pins and wires stay so the
 # earlier harness still checks. They are not the rail to build.
@@ -76,7 +78,9 @@ domains:
   NTC: {v_min: 0.0, v_max: 8.4, note: "BMS thermistor lead, not used"}
   GND: {v_min: 0.0, v_max: 0.0, note: "common ground, returns to BMS P-"}
   TOUCH: {v_min: 0.0, v_max: 3.3, note: "MPR121 electrode: the chip charges the pad with a constant current and reads the voltage, 0 to its 3.3 V supply (D51)"}
-  SYS_9V: {v_min: 8.8, v_max: 9.2, note: "dock supply on the chest SYS strip (D50): present only while seated and the dock gate is on"}
+  SYS_9V: {v_min: 8.8, v_max: 9.2, note: "SUPERSEDED 2026-11-24. The chest SYS strip is not the nest. The live nest domain is NEST_13V6_16V0."}
+  NEST_13V6_16V0: {v_min: 13.6, v_max: 16.0, note: "3S nest window. Above 13.6 V (12.6 V plus the 1 V EVM headroom, calc only) and at or under the SMAJ16A 16.0 V standoff (cited). The supply point inside it is 15.0 V."}
+  CONTACT_0V_16V: {v_min: 0.0, v_max: 16.0, note: "A gold dome before the SS33 bridge. The dome may land on plus or minus, so this window is 0 V to the 16.0 V standoff."}
   PACK_OR_6V0_9V2: {v_min: 6.0, v_max: 9.2, note: "Superseded as the current rail input. The 2815 input is the pack through DK7 only (circuitry/SERVO_RAIL.md). This domain is the earlier 2813 input after the D50 OR."}
   SENSE: {v_min: 0.0, v_max: 9.0, note: "dock SENSE strip: NTC reading 0.7 to 2.2 V; the 555 wake pulse 9 V for 100 ms"}
   NTC_WIN: {v_min: 0.0, v_max: 2.6, note: "pack bead divider on the charger board. Not a pin of the MCP73213."}
@@ -101,7 +105,14 @@ nets:
   COLD_TH: {domain: NTC_WIN, note: "10.0 kOhm over 28.0 kOhm into CU2 INA+"}
   HOT_TH: {domain: NTC_WIN, note: "10.0 kOhm over 2.80 kOhm into CU2 INB-"}
   EN_GATE: {domain: GPIO_3V3, note: "CU2 open collectors pull the enable FET gate down and charge stops"}
-  SYS_IN: {domain: SYS_9V, note: "chest SYS strip to DK6 (D50)"}
+  SYS_IN: {domain: SYS_9V, note: "SUPERSEDED 2026-11-24. Chest SYS strip. The wires that used it are status superseded."}
+  NEST_P: {domain: NEST_13V6_16V0, note: "steered plus from the gold domes, after the SS33 cathodes, through the PTC and F2 to CHG.VIN"}
+  NEST_N: {domain: GND, note: "steered minus from the gold domes, SS33 anodes, to BMS P-"}
+  WELL_1: {domain: CONTACT_0V_16V, note: "gold dome 1 to its SS33 pair"}
+  WELL_2: {domain: CONTACT_0V_16V, note: "gold dome 2 to its SS33 pair"}
+  WELL_3: {domain: CONTACT_0V_16V, note: "gold dome 3 to its SS33 pair"}
+  WELL_4: {domain: CONTACT_0V_16V, note: "gold dome 4 to its SS33 pair"}
+  WELL_5: {domain: CONTACT_0V_16V, note: "gold dome 5 to its SS33 pair"}
   PACK_OR: {domain: PACK_OR_6V0_9V2, note: "DK6 and DK7 outputs, SW1 VIN (D50)"}
   SW1_ON: {domain: CTRL, note: "Superseded. The current ON pin is the 2815, driven by the Pi through 10 kOhm, with the clamp in circuitry/bq24133_board.yaml (circuitry/SERVO_RAIL.md). This net is the earlier wake pulse to the 2813 ON input (D43)."}
   CTRL_SW: {domain: CTRL, note: "2815 SW pad to the panel switch"}
@@ -192,6 +203,7 @@ components:
       - {pin: "B+", label: "B+", name: charge output +, domain: PACK_9V0_12V6, group: out, dir: pwr_out, source: "[U] CABLE_MAP; label [I]"}
       - {pin: "B-", label: "B-", name: charge output -, domain: GND, group: out, dir: gnd, source: "[L] BQ24133 pack return"}
       - {pin: "TS", label: "TS", name: pack bead, domain: NTC_WIN, group: out, dir: in, source: "[L] D65. The bead reaches this pin."}
+      - {pin: "VIN", label: "PVCC", name: nest after F2, domain: NEST_13V6_16V0, group: out, dir: pwr_in, source: "[L] circuitry/NEST_TWO_NET.md. Two nets. Not the MCP73213."}
       - {pin: "USB", label: "USB-C", name: not the 3S input, domain: USB, group: usb, dir: nc, source: "[L] the input is the 15 V nest, circuitry/BQ24133_BOARD.md"}
     source: "[L] D65; circuitry/BQ24133_BOARD.md. CELL at VREF regulates 12.6 V (cited, SLUSAF7D)."
 
@@ -532,7 +544,7 @@ components:
     groups:
       pins: {connector: "0.1 in holes, solder", pitch_mm: 2.54, note: "pin order on the edge not checked [I]"}
     pins:
-      - {pin: "VIN", label: "VIN", name: input from VSW, domain: PACK_9V0_12V6, group: pins, dir: pwr_in, source: "[L] Pololu 4892 page"}
+      - {pin: "VIN", label: "VIN", name: "input from VSW on cable P13. 5 V interface stays on this pack domain. J5IN is the fused-pack node a later seat may use instead. Do not move this pin to the 15 V nest.", domain: PACK_9V0_12V6, group: pins, dir: pwr_in, source: "[L] Pololu 4892 page; circuitry/NEST_TWO_NET.md"}
       - {pin: "GND.1", label: "GND", name: ground (input side), domain: GND, group: pins, dir: gnd, source: "[L] Pololu page"}
       - {pin: "GND.2", label: "GND", name: ground (output side), domain: GND, group: pins, dir: gnd, source: "[L] Pololu page"}
       - {pin: "VOUT", label: "VOUT", name: 5 V out, domain: 5V, group: pins, dir: pwr_out, source: "[L] Pololu page"}
@@ -1179,7 +1191,7 @@ components:
 
   - id: DKP
     ref: J9
-    part: chest contact pad, 100 x 76 x 0.8 mm FR4 ENIG, four strips (BOM DK1, D43, D50)
+    part: "SUPERSEDED 2026-11-24. Chest contact pad, four strips (BOM DK1, D43, D50). The nest is two nets on the gold domes, component JNW. Pins stay so the old wires can be marked superseded."
     kind: connector
     region: trunk_top
     groups:
@@ -1230,15 +1242,15 @@ components:
 
   - id: F2
     ref: F2
-    part: Littelfuse FHAC0001ZXJ inline ATO holder with Littelfuse 0287005.PXCN ATO 5 A (BOM DK3, DK4)
+    part: "Littelfuse FHAC0001ZXJ inline ATO holder with Littelfuse 0287005.PXCN ATO 5 A (BOM DK3, DK4). 2026-11-24: ahead of CHG.VIN on the two-net nest, not between the chest pad and the pack."
     kind: fuse
     region: trunk_top
     ratings: {fuse_a: 5, holder_a: 20, v_max: 32, body_mm: "50 x 17.2 x 17.2"}
     groups:
       leads: {connector: "ATO holder leads", pitch_mm: null, note: "holder leads soldered to the DC1 wires"}
     pins:
-      - {pin: "IN", label: "lead 1", name: from DK2, domain: PACK_9V0_12V6, group: leads, dir: pwr_in, source: "[L] D43"}
-      - {pin: "OUT", label: "lead 2", name: to JFI (PACK_P), domain: PACK_9V0_12V6, group: leads, dir: pwr_out, source: "[L] D43"}
+      - {pin: "IN", label: "lead 1", name: from the PTC on NEST_P, domain: NEST_13V6_16V0, group: leads, dir: pwr_in, source: "[L] circuitry/NEST_TWO_NET.md"}
+      - {pin: "OUT", label: "lead 2", name: to CHG.VIN, domain: NEST_13V6_16V0, group: leads, dir: pwr_out, source: "[L] circuitry/NEST_TWO_NET.md"}
     internal:
       - {a: "IN", b: "OUT", kind: fuse, note: "5 A ATO"}
     source: "[L] D43; seat twin/dock/dock_seats.json"
@@ -1441,6 +1453,103 @@ components:
       - {a: "VIN", b: "VOUT", kind: switch, note: "ideal diode: the dock supply never back-feeds the pack"}
     source: "[L] D50; BOM DK7"
 
+  - id: JNW
+    ref: JNW
+    part: five gold domes, 1.5 mm radius, 0.9 mm proud of the seat face (SEAT_CONTACTS.md). No catalog current rating. BLOCKER for contact ohms.
+    kind: connector
+    region: trunk_bottom
+    ratings: {n_domes: 5, proud_mm: 0.9, radius_mm: 1.5, docks_charging: "38 of 40, sim pass only"}
+    groups:
+      pads: {connector: "formed gold on the seat wells", pitch_mm: 12, note: "y = -24, -12, 0, +12, +24 mm in the seat face. Each dome can land on either stripe."}
+    pins:
+      - {pin: "1", label: "1", name: dome, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
+      - {pin: "2", label: "2", name: dome, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
+      - {pin: "3", label: "3", name: dome, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
+      - {pin: "4", label: "4", name: dome, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
+      - {pin: "5", label: "5", name: dome, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
+    source: "[L] circuitry/NEST_TWO_NET.md. 38 of 40 is sim pass only, not a hardware rate."
+
+  - id: BR1
+    ref: BR1
+    part: "Vishay SS33, ten pieces, two per dome. VRRM 30 V, IF(AV) 3.0 A, VF 0.50 V max at 3.0 A (document 88751, 23 Apr 2020)."
+    kind: diode
+    region: trunk_bottom
+    ratings: {v_rrm: 30, i_f_av_a: 3.0, v_f_max_at_3a: 0.50, qty: 10}
+    groups:
+      pads: {connector: "solder pads on the charger board", pitch_mm: null}
+    pins:
+      - {pin: "D1", label: "D1", name: dome 1, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] JNW.1"}
+      - {pin: "D2", label: "D2", name: dome 2, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] JNW.2"}
+      - {pin: "D3", label: "D3", name: dome 3, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] JNW.3"}
+      - {pin: "D4", label: "D4", name: dome 4, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] JNW.4"}
+      - {pin: "D5", label: "D5", name: dome 5, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] JNW.5"}
+      - {pin: "P", label: "P", name: steered plus, domain: NEST_13V6_16V0, group: pads, dir: pwr_out, source: "[L] SS33 cathodes"}
+      - {pin: "N", label: "N", name: steered minus, domain: GND, group: pads, dir: gnd, source: "[L] SS33 anodes"}
+    internal:
+      - {a: "D1", b: "P", kind: diode, note: "SS33, cathode at P"}
+      - {a: "D1", b: "N", kind: diode, note: "SS33, anode at N"}
+      - {a: "D2", b: "P", kind: diode, note: "SS33, cathode at P"}
+      - {a: "D2", b: "N", kind: diode, note: "SS33, anode at N"}
+      - {a: "D3", b: "P", kind: diode, note: "SS33, cathode at P"}
+      - {a: "D3", b: "N", kind: diode, note: "SS33, anode at N"}
+      - {a: "D4", b: "P", kind: diode, note: "SS33, cathode at P"}
+      - {a: "D4", b: "N", kind: diode, note: "SS33, anode at N"}
+      - {a: "D5", b: "P", kind: diode, note: "SS33, cathode at P"}
+      - {a: "D5", b: "N", kind: diode, note: "SS33, anode at N"}
+    source: "[L] circuitry/NEST_TWO_NET.md. Either stripe still feeds the charger the right way."
+
+  - id: PTC1
+    ref: PTC1
+    part: "Littelfuse RXEF185. Hold 1.85 A at 20 C, 1.17 A at 60 C, trip 3.70 A, 72 V, RMAX 0.12 ohm."
+    kind: fuse
+    region: trunk_bottom
+    ratings: {i_hold_20c_a: 1.85, i_hold_60c_a: 1.17, i_trip_a: 3.70, v_max: 72, r_max_ohm: 0.12}
+    groups:
+      leads: {connector: "radial leads", pitch_mm: null}
+    pins:
+      - {pin: "A", label: "A", name: from the bridge, domain: NEST_13V6_16V0, group: leads, dir: pwr_in, source: "[L] RXEF185"}
+      - {pin: "B", label: "B", name: to F2, domain: NEST_13V6_16V0, group: leads, dir: pwr_out, source: "[L] RXEF185"}
+    source: "[L] circuitry/NEST_TWO_NET.md. Wet-mat and sustained-short layer on the duck side of the two nets."
+
+  - id: RSIG
+    ref: RSIG
+    part: 4.99 kOhm, 1 percent, signature across the two nets while the duck is docking
+    kind: resistor
+    region: trunk_bottom
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: NEST+, domain: NEST_13V6_16V0, group: pads, dir: passive, source: "[L] circuitry/NEST_TWO_NET.md"}
+      - {pin: "2", label: "2", name: NEST-, domain: GND, group: pads, dir: passive, source: "[L] circuitry/NEST_TWO_NET.md"}
+    source: "[L] circuitry/NEST_TWO_NET.md. The rim LM393 window looks for this resistor. A coin or an open mat does not match it."
+
+  - id: DK8
+    ref: D8
+    part: Pololu 5383 ideal diode, 4-60 V, 12 A. Fused pack to the 5 V interface node. Not a nest feed.
+    kind: diode
+    region: battery_bay
+    ratings: {i_cont_a: 12, v_min: 4, v_max: 60}
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "VIN", label: "VIN", name: from JFO, fused pack, domain: PACK_9V0_12V6, group: pads, dir: pwr_in, source: "[L] Pololu 5383, same part as DK7"}
+      - {pin: "VOUT", label: "VOUT", name: to J5IN, domain: PACK_9V0_12V6, group: pads, dir: pwr_out, source: "[L] circuitry/NEST_TWO_NET.md"}
+      - {pin: "GND", label: "GND", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] Pololu page"}
+    internal:
+      - {a: "VIN", b: "VOUT", kind: switch, note: "ideal diode. Pack domain only. The 15 V nest does not land here."}
+    source: "[L] circuitry/NEST_TWO_NET.md. Awake feed ahead of the servo switch. U3 is not tied to it in this rev."
+
+  - id: J5IN
+    ref: J5IN
+    part: "5 V rail interface. Fused pack after DK8, domain PACK_9V0_12V6. A later 5 V regulator may take this node. Do not connect the nest here."
+    kind: splice
+    region: battery_bay
+    groups:
+      s: {connector: "solder splice, heat shrink", pitch_mm: null}
+    pins:
+      - {pin: "S", label: "J5IN", name: interface, domain: PACK_9V0_12V6, group: s, dir: pwr, source: "[L] circuitry/NEST_TWO_NET.md"}
+    source: "[L] circuitry/NEST_TWO_NET.md. Cable P13 stays on VSW so the existing sheets still match."
+
 cables:
   - {id: P1, status: active, desc: holder + to BMS B+, regions: [battery_bay], joints: [], polyline_mm: 30.1, rule_mm: 115.3, source: "[L] placements: holder to BMS", note: "use the holder lead if 120 mm or longer"}
   - {id: P2, status: active, desc: holder - to BMS B-, regions: [battery_bay], joints: [], polyline_mm: 30.1, rule_mm: 115.3, source: "[L]"}
@@ -1514,15 +1623,30 @@ cables:
   - {id: NT, status: active, no_route: true, desc: "pack bead RT1 to the charger divider plug JNT. The old SENSE tap from JSN to the bead is not in this cable.", regions: [battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] CHARGER_BOARD.md pack NTC. BAY.md names the valley seat and gives no length.", twist: {lay_mm: null, note: "two leads, no lay published"}}
   - {id: NW, status: active, no_route: true, desc: "on the charger board: bead plug to RBIAS, the cold and hot dividers, CU2, CU3, and the enable gate", regions: [battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] charger_board.yaml NTC window. DS20002190C Table 3-1 has no thermistor pin.", twist: {lay_mm: null, note: "board traces, not a twisted cable"}}
   - {id: EF, status: active, no_route: true, desc: "three TPS259827 breakers in series. SPV feeds each IN. SP1 and SP4 leave EFL.OUT, SP2 and SP5 leave EFR.OUT, SP3 leaves EFN.OUT.", regions: [belly], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D65. No 3D route yet.", twist: {lay_mm: null, note: "no lay until the harness length is drawn"}}
+  - {id: NEST, status: nest, no_route: true, desc: "two-net nest: gold domes, SS33 bridge, RXEF185, F2, BQ24133 input, and the J5IN pack-domain tap for the 5 V seat. Not drawn on sheets 1 to 6. See circuitry/NEST_TWO_NET.md.", regions: [trunk_bottom, battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] circuitry/NEST_TWO_NET.md", twist: {lay_mm: null, note: "no lay until a route exists"}}
 wires:
-  # dock (D43, D50)
-  - {cable: DC1, from: DKP.CHG, to: DK2.VIN, net: CHG_IN, gauge: 20 AWG, color: red, cut_mm: 60, i_mean_a: 1.0, i_peak_a: 1.0, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC1, from: JGD.S, to: DK2.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 60, i_mean_a: 0.001, i_peak_a: 0.001, ends: [splice, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC1, from: DK2.VOUT, to: F2.IN, net: CHG_D, gauge: 20 AWG, color: red, cut_mm: 180, i_mean_a: 1.0, i_peak_a: 1.0, ends: [solder pad, holder lead], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC1, from: F2.OUT, to: BMS.P+, net: PACK_P, gauge: 20 AWG, color: red, cut_mm: 110, i_mean_a: 1.0, i_peak_a: 1.0, ends: [holder lead, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC2, from: DKP.GND, to: JGD.S, net: GND, gauge: 20 AWG, color: black, cut_mm: 60, i_mean_a: null, i_peak_a: null, ends: [solder pad, splice], source: "[L] D50: branch joint inside the trunk (twin/dock/dock_routes.json)"}
-  - {cable: DC2, from: JGD.S, to: BMS.P-, net: GND, gauge: 20 AWG, color: black, cut_mm: 210, i_mean_a: 2.1, i_peak_a: 2.9, ends: [splice, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC3, from: DKP.SNS, to: JSN.S, net: SNS, gauge: 26 AWG, color: white, cut_mm: 60, i_mean_a: null, i_peak_a: null, ends: [solder pad, splice], source: "[L] D50: branch joint inside the trunk (twin/dock/dock_routes.json)"}
+  # two-net nest (2026-11-24). Cable NEST is not an active sheet cable.
+  - {cable: NEST, from: JNW.1, to: BR1.D1, net: WELL_1, gauge: "22 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [dome, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. One dome may carry the pole."}
+  - {cable: NEST, from: JNW.2, to: BR1.D2, net: WELL_2, gauge: "22 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [dome, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: JNW.3, to: BR1.D3, net: WELL_3, gauge: "22 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [dome, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: JNW.4, to: BR1.D4, net: WELL_4, gauge: "22 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [dome, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: JNW.5, to: BR1.D5, net: WELL_5, gauge: "22 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [dome, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: RSIG.1, to: BR1.P, net: NEST_P, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0003, i_peak_a: 0.0003, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. 4.99 kOhm signature across the steered rails."}
+  - {cable: NEST, from: RSIG.2, to: BR1.N, net: GND, gauge: board, color: black, cut_mm: 0, i_mean_a: 0.0003, i_peak_a: 0.0003, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: BR1.P, to: PTC1.A, net: NEST_P, gauge: board, color: red, cut_mm: 0, i_mean_a: 1.006, i_peak_a: 1.006, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. Calc only current."}
+  - {cable: NEST, from: PTC1.B, to: F2.IN, net: NEST_P, gauge: "20 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [radial lead, holder lead], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: F2.OUT, to: CHG.VIN, net: NEST_P, gauge: "20 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [holder lead, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. Pack only, through the charger."}
+  - {cable: NEST, from: BR1.N, to: BMS.P-, net: GND, gauge: "20 AWG", color: black, cut_mm: 80, i_mean_a: 1.006, i_peak_a: 1.006, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: JFO.S, to: DK8.VIN, net: PACK_F, gauge: "16 AWG", color: red, cut_mm: 40, i_mean_a: 0.48, i_peak_a: 1.91, ends: [splice, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. Pack domain. Same currents as P13, not a 5 A budget."}
+  - {cable: NEST, from: DK8.VOUT, to: J5IN.S, net: PACK_F, gauge: "16 AWG", color: red, cut_mm: 20, i_mean_a: 0.48, i_peak_a: 1.91, ends: [solder pad, splice], source: "[L] circuitry/NEST_TWO_NET.md. 5 V interface. Not tied to U3."}
+  # dock (D43, D50). Chest four-net wires superseded 2026-11-24.
+  - {cable: DC1, from: DKP.CHG, to: DK2.VIN, status: superseded, net: CHG_IN, gauge: 20 AWG, color: red, cut_mm: 60, i_mean_a: 1.0, i_peak_a: 1.0, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC1, from: JGD.S, to: DK2.GND, status: superseded, net: GND, gauge: 26 AWG, color: black, cut_mm: 60, i_mean_a: 0.001, i_peak_a: 0.001, ends: [splice, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC1, from: DK2.VOUT, to: F2.IN, status: superseded, net: CHG_D, gauge: 20 AWG, color: red, cut_mm: 180, i_mean_a: 1.0, i_peak_a: 1.0, ends: [solder pad, holder lead], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC1, from: F2.OUT, to: BMS.P+, status: superseded, net: PACK_P, gauge: 20 AWG, color: red, cut_mm: 110, i_mean_a: 1.0, i_peak_a: 1.0, ends: [holder lead, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC2, from: DKP.GND, to: JGD.S, status: superseded, net: GND, gauge: 20 AWG, color: black, cut_mm: 60, i_mean_a: null, i_peak_a: null, ends: [solder pad, splice], source: "[L] D50: branch joint inside the trunk (twin/dock/dock_routes.json)"}
+  - {cable: DC2, from: JGD.S, to: BMS.P-, status: superseded, net: GND, gauge: 20 AWG, color: black, cut_mm: 210, i_mean_a: 2.1, i_peak_a: 2.9, ends: [splice, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC3, from: DKP.SNS, to: JSN.S, status: superseded, net: SNS, gauge: 26 AWG, color: white, cut_mm: 60, i_mean_a: null, i_peak_a: null, ends: [solder pad, splice], source: "[L] D50: branch joint inside the trunk (twin/dock/dock_routes.json)"}
   - {cable: DC3, from: JSN.S, to: RT1.1, net: SNS, status: superseded, gauge: 26 AWG, color: white, cut_mm: 220, i_mean_a: 0.001, i_peak_a: 0.001, ends: [splice, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11). Superseded 2026-11-12 ET by cable NT: RT1.1 is on NTC_MID only. The 3D run r1 stays in cables3d.json. Not an active conductor."}
   - {cable: DC3, from: RT1.2, to: BMS.P-, net: GND, gauge: 26 AWG, color: black, cut_mm: 120, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
   - {cable: CE, from: JPI.STAT, to: PI.29, net: STAT_GPIO, gauge: 26 AWG, color: blue, cut_mm: null, i_mean_a: 0.00033, i_peak_a: 0.00033, ends: ["solder pad", "KK 254 socket on the header pin (0022012027 position 1)"], source: "[L] CHARGER_BOARD.md 3.3 V / 10 kOhm = 0.33 mA, calc only there"}
@@ -1551,13 +1675,13 @@ wires:
   - {cable: NW, from: CU2.GND, to: JNT.B, net: GND, gauge: "board", color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] comparator ground"}
   - {cable: NW, from: CU2.OUTA, to: CQEN.G, net: EN_GATE, gauge: "board", color: green, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] cold fault pulls enable down"}
   - {cable: NW, from: CU2.OUTA, to: CU2.OUTB, net: EN_GATE, gauge: "board", color: green, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: ["solder pad", "solder pad"], source: "[L] hot fault pulls enable down"}
-  - {cable: DC3, from: JSN.S, to: WK1.A, net: SNS, gauge: 26 AWG, color: white, cut_mm: 180, i_mean_a: 0.001, i_peak_a: 0.001, ends: [splice, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC4, from: DKP.SYS, to: DK6.VIN, net: SYS_IN, gauge: 20 AWG, color: red, cut_mm: 190, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC4, from: DK6.VOUT, to: SW1.VIN, net: PACK_OR, gauge: 20 AWG, color: red, cut_mm: 70, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC4, from: DK6.GND, to: SW1.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 80, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC3, from: JSN.S, to: WK1.A, status: superseded, net: SNS, gauge: 26 AWG, color: white, cut_mm: 180, i_mean_a: 0.001, i_peak_a: 0.001, ends: [splice, solder], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC4, from: DKP.SYS, to: DK6.VIN, status: superseded, net: SYS_IN, gauge: 20 AWG, color: red, cut_mm: 190, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder pad], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC4, from: DK6.VOUT, to: SW1.VIN, status: superseded, net: PACK_OR, gauge: 20 AWG, color: red, cut_mm: 70, i_mean_a: 1.0, i_peak_a: 1.8, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
+  - {cable: DC4, from: DK6.GND, to: SW1.GND, status: superseded, net: GND, gauge: 26 AWG, color: black, cut_mm: 80, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
   - {cable: DC4, from: DK7.VOUT, to: SW1.VIN, net: PACK_OR, gauge: 16 AWG, color: red, cut_mm: 60, i_mean_a: 5.66, i_peak_a: 7.04, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
   - {cable: DC4, from: DK7.GND, to: SW1.GND, net: GND, gauge: 26 AWG, color: black, cut_mm: 70, i_mean_a: 0.001, i_peak_a: 0.001, ends: [solder pad, solder in large hole], source: "[L] D43, D50; docked currents calc only (DOCK_TWIN.md section 11)"}
-  - {cable: DC3, from: WK1.K, to: SW1.ON, net: SW1_ON, gauge: 26 AWG, color: white, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.001, ends: [solder, solder in 0.1 in hole], source: "[L] D43: the wake branch sits in heat shrink at the SW1 control pads"}
+  - {cable: DC3, from: WK1.K, to: SW1.ON, status: superseded, net: SW1_ON, gauge: 26 AWG, color: white, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.001, ends: [solder, solder in 0.1 in hole], source: "[L] D43: the wake branch sits in heat shrink at the SW1 control pads"}
   # battery bay
   - {cable: P1, from: PACK.B+, to: BMS.B+, net: PACK_P, gauge: 16 AWG, color: red, cut_mm: 120, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [holder lead, solder pad], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)", note: "D65 abrasion sleeve on this 16 AWG pack lead. A 1 ohm nick here stays under the 15 A fuse and under the 120 A protector trip, so the sleeve is the protection."}
   - {cable: P2, from: PACK.B-, to: BMS.B-, net: CELL_N, gauge: 16 AWG, color: black, cut_mm: 120, i_mean_a: 5.66, i_peak_a: 7.04, i_fall_a: 17, ends: [holder lead, solder pad], source: "[L]; currents: [L] sim/POWER_PATH_SIM.md as built, walking, worst of full and nominal pack and both corners (sim pass only)"}

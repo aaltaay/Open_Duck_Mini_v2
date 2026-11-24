@@ -409,6 +409,7 @@ def run_steps(hw, folder, steps, imu_reads, chip_root):
     code, overall = combine(reports)
     summary = {
         "hardware": hw.name,
+        "board": "pi5" if getattr(hw, "pi5", False) else "unspecified",
         "overall": overall,
         "steps": [{"step": r.script, "overall": r.overall()} for r in reports],
     }
@@ -419,7 +420,7 @@ def run_steps(hw, folder, steps, imu_reads, chip_root):
     return code, summary
 
 
-def _live(port, bec, rail, charge_ohm):
+def _live(port, bec, rail, charge_ohm, pi5=False):
     """Real adapter. Meter values come from the flags. Sensors that need a Pi
     tool fall through to INCOMPLETE inside the step if the tool is missing.
     """
@@ -432,6 +433,7 @@ def _live(port, bec, rail, charge_ohm):
             self.io = bus.open_pypot(port)
             self._bec = bec
             self._rail = rail
+            self.pi5 = pi5
 
         def servo_ids(self):
             return bus.scan(self.io)
@@ -443,14 +445,24 @@ def _live(port, bec, rail, charge_ohm):
             return {"bec_v": self._bec, "rail_5v": self._rail}
 
         def camera_frame(self):
-            # A device node is not a frame. The mock path returns bytes.
+            # Pi 5 reads one frame through picamera2. A missing library is
+            # incomplete, not a pass. The mock path returns bytes.
+            if getattr(self, "pi5", False):
+                from pi_camera import capture_frame
+                return capture_frame()
             return None
 
         def imu_samples(self, n):
             return []
 
         def eye_cycle(self):
-            return []
+            if not getattr(self, "pi5", False):
+                return []
+            try:
+                from pi_gpio import eye_cycle
+                return eye_cycle()
+            except (ImportError, FileNotFoundError, OSError):
+                return []
 
         def speaker_tone(self):
             return {"rate": 0, "samples": [], "sd_after": 1}
@@ -470,6 +482,7 @@ def _live(port, bec, rail, charge_ohm):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--mock", action="store_true", help="mock hardware, no adapter and no Pi")
+    ap.add_argument("--pi5", action="store_true", help="Pi 5 path: lgpio or gpiod, picamera2")
     ap.add_argument("--port", default="/dev/ttyACM0")
     ap.add_argument("--out", default=None)
     ap.add_argument("--steps", default=",".join(STEPS))
@@ -487,6 +500,7 @@ def main(argv=None):
     if args.mock:
         from mock_hw import MockHardware
         hw = MockHardware()
+        hw.pi5 = bool(args.pi5)
         if args.bec_volts is not None:
             hw.bec_v = args.bec_volts
         if args.rail_5v is not None:
@@ -494,7 +508,7 @@ def main(argv=None):
         if args.charge_ohm is not None:
             hw.charge_ohm = args.charge_ohm
     else:
-        hw = _live(args.port, args.bec_volts, args.rail_5v, args.charge_ohm)
+        hw = _live(args.port, args.bec_volts, args.rail_5v, args.charge_ohm, pi5=args.pi5)
     code, _summary = run_steps(hw, folder, steps, args.imu_reads, chip)
     return code
 

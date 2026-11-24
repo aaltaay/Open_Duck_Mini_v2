@@ -14,6 +14,7 @@
 set -euo pipefail
 
 MOCK=0
+PI5=0
 PREFIX=""
 USER_NAME=""
 HOME_DIR=""
@@ -23,6 +24,7 @@ POLICY_SHA=3c606f9381a1710cc8fecdb7442787dcbfce3ee9bc02a6f1224774ab2b3a1067
 while [ $# -gt 0 ]; do
   case "$1" in
     --mock) MOCK=1 ;;
+    --pi5) PI5=1 ;;
     --prefix) PREFIX=${2:?}; shift ;;
     --user) USER_NAME=${2:?}; shift ;;
     --home) HOME_DIR=${2:?}; shift ;;
@@ -126,9 +128,15 @@ ensure_line() {
 }
 
 if [ "$MOCK" = 0 ]; then
-  if ! dpkg -s git python3-pip python3-venv python3-dev i2c-tools hostapd dnsmasq >/dev/null 2>&1; then
+  APT_PKGS="git python3-pip python3-venv python3-dev i2c-tools hostapd dnsmasq"
+  if [ "$PI5" = 1 ]; then
+    APT_PKGS="$APT_PKGS python3-lgpio python3-libgpiod python3-picamera2"
+  fi
+  # shellcheck disable=SC2086
+  if ! dpkg -s $APT_PKGS >/dev/null 2>&1; then
     sudo apt-get update
-    sudo apt-get install -y git python3-pip python3-venv python3-dev i2c-tools hostapd dnsmasq
+    # shellcheck disable=SC2086
+    sudo apt-get install -y $APT_PKGS
   else
     note_same "apt packages"
   fi
@@ -199,6 +207,10 @@ fi
 ensure_line "$cfg" "enable_uart=0"
 ensure_line "$cfg" "dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4"
 ensure_line "$cfg" "dtoverlay=max98357a,no-sdmode"
+if [ "$PI5" = 1 ]; then
+  # RP1 GPIO. RPi.GPIO does not drive it. The ear overlay line stays.
+  ensure_line "$cfg" "# odm pi5: gpio via lgpio or gpiod, camera via libcamera"
+fi
 
 copy_if_changed "$LAB/software/99-odm-servo-bus.rules" "$(root "/etc/udev/rules.d/99-odm-servo-bus.rules")"
 
@@ -243,16 +255,36 @@ copy_if_changed "$LAB/software/hw_pwm_sitecustomize.py" "$site"
 
 if [ "$MOCK" = 0 ]; then
   venv=$HOME_DIR/.virtualenvs/open-duck-mini-runtime
+  # Pi 5 GPIO and the camera come from apt (python3-lgpio, python3-libgpiod,
+  # python3-picamera2). The bench runs inside this venv, so the venv has to
+  # see those system packages. The Zero path stays isolated.
+  venv_flags=()
+  if [ "$PI5" = 1 ]; then
+    venv_flags=(--system-site-packages)
+  fi
   if [ ! -x "$venv/bin/python" ]; then
-    python3 -m venv "$venv"
+    python3 -m venv "${venv_flags[@]}" "$venv"
     changed=1
   else
     note_same "$venv"
   fi
+  if [ "$PI5" = 1 ] && [ -f "$venv/pyvenv.cfg" ]; then
+    if grep -q '^include-system-site-packages = false' "$venv/pyvenv.cfg"; then
+      tmp=$(mktemp)
+      sed 's/^include-system-site-packages = false/include-system-site-packages = true/' "$venv/pyvenv.cfg" > "$tmp"
+      cp "$tmp" "$venv/pyvenv.cfg"
+      rm -f "$tmp"
+      note_new "$venv include-system-site-packages"
+    fi
+  fi
   if ! "$venv/bin/python" -c 'import rustypot' >/dev/null 2>&1; then
     # shellcheck disable=SC1091
     "$venv/bin/pip" install -c "$LAB/software/constraints-bookworm.txt" -e "$RT"
-    "$venv/bin/pip" install -c "$LAB/software/constraints-bookworm.txt" 'RPi.GPIO==0.7.1'
+    if [ "$PI5" = 1 ]; then
+      echo "pi5 gpio is lgpio or gpiod, not RPi.GPIO"
+    else
+      "$venv/bin/pip" install -c "$LAB/software/constraints-bookworm.txt" 'RPi.GPIO==0.7.1'
+    fi
     changed=1
   else
     note_same "venv packages"
@@ -265,6 +297,9 @@ cat > "$stamp_body" <<EOF
 {
   "runtime_pin": "$RUNTIME_PIN",
   "policy_sha256": "$POLICY_SHA",
+  "board": "$([ "$PI5" = 1 ] && echo pi5 || echo zero2w)",
+  "gpio": "$([ "$PI5" = 1 ] && echo lgpio || echo rpi-gpio)",
+  "camera": "$([ "$PI5" = 1 ] && echo picamera2 || echo zero-csi)",
   "components": [
     "runtime",
     "policy",

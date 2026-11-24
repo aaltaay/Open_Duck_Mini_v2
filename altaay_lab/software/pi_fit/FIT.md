@@ -1,8 +1,8 @@
 # Does the stack fit a Pi Zero 2 W?
 
-Written 2026-11-19. Nothing here ran on a duck. A number is cited, calc only, measured in emulation, or BLOCKER.
+Written 2026-11-19. Pi 5 section added 2026-11-24. Nothing here ran on a duck. A number is cited, calc only, measured in emulation, measured on the fit host, or BLOCKER.
 
-Verdict: **does not fit** the stock Raspberry Pi OS Bookworm Lite image on a Pi Zero 2 W. The fixes below keep the walking math inside its 20 ms line after the voice process has started, and they fit a 512 MiB cap in this emulation. They do not fit the 417 MiB that the published 64-bit Lite image actually gives Linux.
+Verdict for the Zero 2 W: **does not fit** the stock Raspberry Pi OS Bookworm Lite image on a Pi Zero 2 W. The fixes below keep the walking math inside its 20 ms line after the voice process has started, and they fit a 512 MiB cap in this emulation. They do not fit the 417 MiB that the published 64-bit Lite image actually gives Linux.
 
 The picture is software/pi_fit/fit_chart.png. The machine-readable summary is software/pi_fit/fit_result.json.
 
@@ -58,3 +58,27 @@ No smaller Piper English file turned up in the published voice list. The low voi
 ## Boards
 
 A 2 GB board that can physically replace the Zero is the recommendation. It is not a BOM change. Prices, sizes, and power are in software/pi_fit/BOARDS.md. D61 was not edited.
+
+Ahmed later chose the Pi 5, 2 GB, and a new seat. That study is software/pi_fit/PI5_STUDY.md. The picture software/pi_fit/fit_chart.png is now the 2 GB cap. The Zero numbers above are unchanged.
+
+## Pi 5, 2 GB cap
+
+The cap in this section is 2048 MiB, the cited 2 GB chip (product page, LPDDR4X). A Bookworm Lite MemTotal for the 2 GB Pi 5 was not copied: BLOCKER. The run did not lock an OS ballast.
+
+The prior full-stack peak, voice included, is 467.0 MiB (measured in emulation, the 512 MiB row above). 467.0 is under 2048. That is why the RAM row can fit a 2 GB board. Voice was not re-run here: the model files are not in this tree. A new voice peak is BLOCKER.
+
+This session timed the walk policy, the autonomy loop, and one dock frame on the fit host, inside a 2048 MiB cgroup. It is not a Pi and not qemu-user. CoreMark 1.0, one thread, size 666, scored 28606 iterations/s (measured on the fit host). The official Pi 5 benchmark post gives Geekbench 6 single-core 774 at 16 KB pages and 764 at 4 KB pages (cited, https://www.raspberrypi.com/news/benchmarking-raspberry-pi-5/). A CoreMark iterations/s figure for the Pi 5 was not copied from a text source: BLOCKER. A cpu quota of 11155 us out of 100000 us was set from 3191 / 28606 (calc only, the cited Zero score over the host score). The walk inferences are shorter than that quota, so the quota did not stretch them. The times below are the fit host.
+
+| | Value | Label |
+|---|---|---|
+| Cycles, after the first 20 | 926 | measured on the fit host |
+| Work, median | 0.151 ms | measured on the fit host |
+| Work, 99th percentile | 0.305 ms | measured on the fit host |
+| Work, max | 0.879 ms | measured on the fit host |
+| Work over 20 ms | 0 of 926 | measured on the fit host |
+| Work plus the 5.18 ms bus, max | 6.06 ms | the 5.18 ms is calc only. 0.879 + 5.18 = 6.059 |
+| Walk process high water | 79.6 MiB | measured on the fit host |
+| Cgroup peak | 42.1 MiB | measured on the fit host |
+| Camera frame | found, 0.902 s, 77.5 MiB | measured on the fit host |
+
+Do not read this table as a Pi 5 deadline pass. The host is a different chip. The machine-readable summary is software/pi_fit/fit_result.json.
