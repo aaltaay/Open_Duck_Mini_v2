@@ -1,12 +1,14 @@
 """Self-test of the walk guards and one supervisor step.
 
-A bundle can ask this check to fail. That is how the rollback test simulates
-a bad update. The real guard objects still run when the bundle does not ask
-to fail. This is measured in emulation. It does not move a servo.
+The candidate slot must contain payload/slot_entry.py. That file is what the
+services run after the pointer moves. A bundle can also ask the check to fail.
+This is measured in emulation. It does not move a servo.
 """
 
 from __future__ import annotations
 
+import hashlib
+import importlib.util
 import json
 import os
 import sys
@@ -91,17 +93,63 @@ def health_request(slot_dir):
     return body
 
 
+def slot_entry_path(slot_dir):
+    return os.path.join(slot_dir, "payload", "slot_entry.py")
+
+
+def load_slot_entry(slot_dir):
+    """Load the signed slot's entry module. None if the slot has no code."""
+    path = slot_entry_path(slot_dir)
+    if not os.path.isfile(path):
+        return None
+    digest = hashlib.sha256(path.encode("utf-8")).hexdigest()[:12]
+    spec = importlib.util.spec_from_file_location("odm_slot_%s" % digest, path)
+    if spec is None or spec.loader is None:
+        return None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def active_entry(state):
+    """The entry module for the slot the pointer names, or None."""
+    from . import store
+    slot = store.read_current(state)
+    if not slot:
+        return None
+    try:
+        return load_slot_entry(store.slot_path(state, slot))
+    except Exception:
+        return None
+
+
 def run_self_test(slot_dir):
-    """Return (ok, failures). failures names walk, supervisor, or both."""
+    """Return (ok, failures). failures names walk, supervisor, or both.
+
+    The slot entry is called first, so the candidate code runs. The checkout
+    guards still run too, unless the bundle asked that check to fail.
+    A slot with no entry fails both checks.
+    """
     request = health_request(slot_dir)
+    try:
+        module = load_slot_entry(slot_dir)
+    except Exception:
+        module = None
+    if module is None or not hasattr(module, "walk_ok") or not hasattr(module, "supervisor_ok"):
+        return False, ["walk", "supervisor"]
+    try:
+        slot_walk = bool(module.walk_ok())
+        slot_supervisor = bool(module.supervisor_ok())
+    except Exception:
+        return False, ["walk", "supervisor"]
     failures = []
-    if request.get("walk") == "fail":
+    if request.get("walk") == "fail" or not slot_walk:
         failures.append("walk")
     else:
         ok, _detail = walk_self_test()
         if not ok:
             failures.append("walk")
-    if request.get("supervisor") == "fail":
+    if request.get("supervisor") == "fail" or not slot_supervisor:
         failures.append("supervisor")
     else:
         ok, _detail = supervisor_self_test()

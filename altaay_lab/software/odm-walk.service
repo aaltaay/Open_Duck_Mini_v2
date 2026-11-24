@@ -16,6 +16,7 @@ WorkingDirectory=/home/duck/open_duck_mini_v2
 Environment=PYTHONPATH=/home/duck/open_duck_mini_v2
 Environment=ODM_HOME=/home/duck
 Environment=ODM_STATE=/var/lib/odm
+Environment=ODM_RUNTIME_DIR=/run/odm
 Environment=ODM_HW_PWM=1
 Environment=ODM_RUNTIME_DIR=/home/duck/Open_Duck_Mini_Runtime
 Environment=ODM_BENCH_OUT=/home/duck/odm_bench_logs

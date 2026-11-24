@@ -23,6 +23,8 @@ from . import selftest, store
 
 PUBLIC_KEY = os.path.join(os.path.dirname(__file__), "update_public_key.pem")
 LABEL = "measured in emulation"
+# A slot entry whose own checks pass. The checkout guards still run.
+PASSING_ENTRY = b"def walk_ok():\n    return True\n\ndef supervisor_ok():\n    return True\n"
 
 
 class UpdateError(Exception):
@@ -199,9 +201,10 @@ def apply_update(bundle_path, state, public_key_path=None, self_test=None):
         version = manifest.get("version")
         if not _version_ok(version):
             raise UpdateError("bad version")
+        verified = []
         for row in manifest.get("files") or []:
             rel = row.get("path")
-            if not rel or rel != os.path.normpath(rel) or rel.startswith("/") or ".." in rel.split("/"):
+            if not rel or "/" in rel or rel in (".", "..") or rel != os.path.normpath(rel):
                 raise UpdateError("bad file in the manifest")
             file_path = os.path.join(unpacked, "payload", rel)
             if not os.path.isfile(file_path):
@@ -210,16 +213,23 @@ def apply_update(bundle_path, state, public_key_path=None, self_test=None):
                 digest = hashlib.sha256(handle.read()).hexdigest()
             if digest != row.get("sha256"):
                 raise UpdateError("a signed file was changed")
+            verified.append(rel)
+        payload_src = os.path.join(unpacked, "payload")
+        if os.path.isdir(payload_src):
+            for name in os.listdir(payload_src):
+                if name not in verified:
+                    raise UpdateError("unsigned file in the bundle")
         previous = store.read_current(state)
         slot = _inactive(previous)
         dest = store.slot_path(state, slot)
         if os.path.isdir(dest):
             shutil.rmtree(dest)
         os.makedirs(os.path.join(dest, "payload"), exist_ok=True)
-        payload_src = os.path.join(unpacked, "payload")
-        if os.path.isdir(payload_src):
-            for name in os.listdir(payload_src):
-                shutil.copy2(os.path.join(payload_src, name), os.path.join(dest, "payload", name))
+        for name in verified:
+            shutil.copy2(
+                os.path.join(payload_src, name),
+                os.path.join(dest, "payload", name),
+            )
         store.write_text(os.path.join(dest, "VERSION"), version + "\n", 0o644)
         store.write_current(state, slot)
         try:
@@ -292,9 +302,15 @@ def demo_rollback():
         seed_slot(state, "a", "1.0.0", "factory\n")
         good = os.path.join(tmp, "good.tar")
         bad = os.path.join(tmp, "bad.tar")
-        build_bundle(good, "1.0.1", {"marker.txt": b"good\n"}, private)
+        build_bundle(good, "1.0.1", {
+            "marker.txt": b"good\n",
+            "slot_entry.py": PASSING_ENTRY,
+        }, private)
         build_bundle(
-            bad, "1.1.0", {"marker.txt": b"bad\n"}, private, health={"walk": "fail"},
+            bad, "1.1.0", {
+                "marker.txt": b"bad\n",
+                "slot_entry.py": PASSING_ENTRY,
+            }, private, health={"walk": "fail"},
         )
         # The seeded slot is the starting point. The bad bundle is the event.
         before_slot = store.read_current(state)

@@ -60,7 +60,9 @@ not the duck. The steps are written in
    join until you save the page. Then the temporary network turns off.
 3. Enter the code, a name, a timezone, and your home Wi-Fi. Kid mode is already
    selected. Leave it selected unless you mean to turn it off.
-4. Save. The duck joins the home network.
+4. Save. The duck joins the home network only after that network accepts the
+   passphrase. If it does not, the temporary network comes back and setup is
+   not finished. You can try again. The spoken code is still the one to use.
 5. From a phone on that home network, open port 8080 on the duck (set point).
    Enter the pairing code again. The page shows the battery, the last docks,
    the falls, and the knee temperature copied from the supervisor log, and it
@@ -79,9 +81,10 @@ The private key is not in this repository. Do not put one there. A production
 key that a maintainer can sign with is **BLOCKER** until that private half is
 created offline and this public file is replaced with its pair.
 
-The install keeps two copies. After a new copy is selected, the duck runs a
-self-test of the walk guards and one supervisor step. If either fails, it
-switches back. That rollback is measured in emulation by the tests named in
+The install keeps two copies. The new copy's own program is what runs, and
+the duck also runs a self-test of the walk guards and one supervisor step.
+If either fails, it switches back. A file that was not in the signed list is
+refused. That rollback is measured in emulation by the tests named in
 [software/owner/OWNER.md](../software/owner/OWNER.md). It has not been done on
 a robot. Status: **never done on hardware**.
 

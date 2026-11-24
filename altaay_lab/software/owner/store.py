@@ -88,6 +88,23 @@ def read_current(state):
     return slot
 
 
+def runtime_dir(state):
+    """Where a shutdown request lives. /run is empty after a reboot.
+
+    The units set ODM_RUNTIME_DIR to /run/odm. Tests leave it unset and use
+    a folder inside the temporary state, which a test can delete to act as
+    a reboot.
+    """
+    override = os.environ.get("ODM_RUNTIME_DIR")
+    if override:
+        return override
+    return os.path.join(state, "run")
+
+
+def request_path(state):
+    return os.path.join(runtime_dir(state), SHUTDOWN_REQUEST)
+
+
 def write_current(state, slot):
     if slot not in ("a", "b"):
         raise ValueError("slot")

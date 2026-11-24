@@ -147,6 +147,16 @@ class SetupSession:
                 )
         else:
             passphrase = ""
+        from .net import AP_ADDRESS
+        try:
+            self.net.stop_ap()
+            self.net.join_wifi(ssid, passphrase, open_net)
+        except NetError as exc:
+            self.net.start_ap(self.ssid, self.code, AP_ADDRESS)
+            raise SetupError(
+                "could not join that home network. The temporary network is back.",
+                400,
+            ) from exc
         salt = new_salt()
         owner = {
             "kid_mode": kid,
@@ -168,8 +178,6 @@ class SetupSession:
         self._write_voice(kid)
         self.net.set_timezone(zone)
         self.net.set_hostname(hostname_for(name))
-        self.net.join_wifi(ssid, passphrase, open_net)
-        self.net.stop_ap()
         self.net.speak("Setup is finished. The temporary network is off. " + PRIVACY)
         self.done = True
         self.code = None

@@ -50,7 +50,9 @@ def plan_for(reading):
 
 def apply_plan(state, plan, runner):
     store.ensure(state)
-    store.write_json(store.path(state, store.SHUTDOWN_REQUEST), {
+    # The request lives in the runtime dir, which a reboot clears. The json
+    # under the state dir is only a record of the last request.
+    store.write_json(store.request_path(state), {
         "reason": plan["reason"],
         "pack_v": plan["pack_v"],
     }, 0o644)
@@ -69,8 +71,13 @@ def apply_allowed(state):
 
 
 def consider(state, runner, text=None):
-    """Look at the log once. Return the plan if a shutdown was requested."""
-    if os.path.isfile(store.path(state, store.SHUTDOWN)):
+    """Look at the log once. Return the plan if a shutdown was requested.
+
+    A request already written this boot is not repeated. The record file
+    under the state directory does not count: it survives a charge and a
+    reboot, and the runtime request does not.
+    """
+    if os.path.isfile(store.request_path(state)):
         return None
     if text is None:
         body, _trimmed = status_data.read_tail(store.log_path(state), status_data.TAIL_BYTES)

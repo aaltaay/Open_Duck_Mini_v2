@@ -23,14 +23,22 @@ PING_S = 5
 
 
 def shutdown_requested(state):
-    return os.path.isfile(store.path(state, store.SHUTDOWN_REQUEST))
+    return os.path.isfile(store.request_path(state))
 
 
-def heartbeat(state, role):
-    store.write_json(store.path(state, "heartbeat-%s.json" % role), {
+def heartbeat(state, role, slot=None):
+    body = {
         "privacy": "The camera and the microphone stay on the duck. Frames and audio are not uploaded.",
         "role": role,
-    }, 0o644)
+    }
+    if slot:
+        body["slot"] = slot
+    store.write_json(store.path(state, "heartbeat-%s.json" % role), body, 0o644)
+
+
+def active_module(state):
+    from .selftest import active_entry
+    return active_entry(state)
 
 
 def child_exit_code(code):
@@ -64,11 +72,15 @@ def serve(role, state, stop, interval=PING_S):
         raise ValueError("unknown role")
     store.ensure(state)
     watchdog.notify("READY=1")
+    module = active_module(state)
+    slot = store.read_current(state)
+    if module is not None and hasattr(module, "serve_role"):
+        return int(module.serve_role(role, state, stop))
     while not stop.is_set():
         if shutdown_requested(state):
             watchdog.notify("STOPPING=1")
             return 0
-        heartbeat(state, role)
+        heartbeat(state, role, slot)
         watchdog.notify("WATCHDOG=1")
         if stop.wait(interval):
             break
@@ -79,6 +91,9 @@ def serve_walk(state, home, stop, popen=None, interval=PING_S):
     store.ensure(state)
     watchdog.notify("READY=1")
     argv = walk_argv(home)
+    module = active_module(state)
+    if module is not None and hasattr(module, "walk_argv"):
+        argv = list(module.walk_argv(home))
     if not os.path.isfile(argv[0]) or not os.path.isfile(argv[1]):
         return 1
     cwd = os.path.join(home, "Open_Duck_Mini_Runtime", "scripts")

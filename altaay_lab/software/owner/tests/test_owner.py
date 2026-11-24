@@ -28,9 +28,11 @@ from altaay_lab.software.owner.lowpack import (
 )
 from altaay_lab.software.owner.net import (
     MockNet,
+    NetError,
     ap_commands,
     check_passphrase,
     hostapd_conf,
+    wifi_associated,
     wifi_supplicant_conf,
 )
 from altaay_lab.software.owner.pages import DEMO_BANNER
@@ -40,6 +42,7 @@ from altaay_lab.software.owner.selftest import run_self_test
 from altaay_lab.software.owner.service import child_exit_code, serve, walk_argv
 from altaay_lab.software.owner.setup_flow import SetupError, SetupSession, kid_from_form
 from altaay_lab.software.owner.update_flow import (
+    PASSING_ENTRY,
     PUBLIC_KEY,
     UpdateError,
     apply_update,
@@ -235,6 +238,33 @@ class SetupTests(unittest.TestCase):
                 httpd.shutdown()
                 httpd.server_close()
 
+    def test_a_failed_join_does_not_finish_setup(self):
+        class BadNet(MockNet):
+            def __init__(self):
+                super().__init__()
+                self.fail = True
+
+            def join_wifi(self, ssid, passphrase, open_net):
+                if self.fail:
+                    raise NetError("the home network did not accept the passphrase")
+                return super().join_wifi(ssid, passphrase, open_net)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            net = BadNet()
+            session = SetupSession(tmp, net)
+            code = session.begin()
+            with self.assertRaises(SetupError) as caught:
+                session.submit(self._form(code))
+            self.assertIn("temporary network is back", str(caught.exception))
+            self.assertIsNone(store.load_owner(tmp))
+            self.assertTrue(os.path.isfile(store.path(tmp, store.PAIRING_PLAIN)))
+            self.assertTrue(net.ap_up)
+            net.fail = False
+            owner = session.submit(self._form(code))
+            self.assertTrue(owner["setup_complete"])
+            self.assertFalse(net.ap_up)
+            self.assertFalse(os.path.isfile(store.path(tmp, store.PAIRING_PLAIN)))
+
 
 class PeerTests(unittest.TestCase):
     def test_home_page_is_lan_only(self):
@@ -351,8 +381,14 @@ class UpdateTests(unittest.TestCase):
             seed_slot(state, "a", "1.0.0", "factory\n")
             good = os.path.join(tmp, "good.tar")
             bad = os.path.join(tmp, "bad.tar")
-            build_bundle(good, "1.0.1", {"marker.txt": b"good\n"}, private)
-            build_bundle(bad, "1.1.0", {"marker.txt": b"bad\n"}, private, health={"walk": "fail"})
+            build_bundle(good, "1.0.1", {
+                "marker.txt": b"good\n",
+                "slot_entry.py": PASSING_ENTRY,
+            }, private)
+            build_bundle(bad, "1.1.0", {
+                "marker.txt": b"bad\n",
+                "slot_entry.py": PASSING_ENTRY,
+            }, private, health={"walk": "fail"})
             landed = apply_update(good, state, public)
             self.assertTrue(landed["ok"])
             self.assertEqual(landed["slot"], "b")
@@ -376,7 +412,10 @@ class UpdateTests(unittest.TestCase):
             state = os.path.join(tmp, "state")
             seed_slot(state, "a", "1.0.0", "factory\n")
             bad = os.path.join(tmp, "bad.tar")
-            build_bundle(bad, "9.0.0", {"marker.txt": b"x\n"}, private, health={"supervisor": "fail"})
+            build_bundle(bad, "9.0.0", {
+                "marker.txt": b"x\n",
+                "slot_entry.py": PASSING_ENTRY,
+            }, private, health={"supervisor": "fail"})
             rolled = apply_update(bad, state, public)
             self.assertTrue(rolled["rolled_back"])
             self.assertEqual(rolled["failures"], ["supervisor"])
@@ -389,7 +428,10 @@ class UpdateTests(unittest.TestCase):
             state = os.path.join(tmp, "state")
             os.makedirs(state)
             bundle = os.path.join(tmp, "bundle.tar")
-            build_bundle(bundle, "1.2.0", {"marker.txt": b"ok\n"}, private)
+            build_bundle(bundle, "1.2.0", {
+                "marker.txt": b"ok\n",
+                "slot_entry.py": PASSING_ENTRY,
+            }, private)
             with self.assertRaises(UpdateError):
                 apply_update(bundle, state, PUBLIC_KEY)
             self.assertIsNone(store.read_current(state))
@@ -399,11 +441,38 @@ class UpdateTests(unittest.TestCase):
                 apply_update(tampered, state, public)
             self.assertIsNone(store.read_current(state))
 
-    def test_real_self_test_passes_on_a_clean_slot(self):
+    def test_a_slot_without_code_fails_and_a_real_entry_passes(self):
         with tempfile.TemporaryDirectory() as tmp:
+            ok, failures = run_self_test(tmp)
+            self.assertFalse(ok)
+            self.assertEqual(failures, ["walk", "supervisor"])
             os.makedirs(os.path.join(tmp, "payload"))
+            store.write_text(
+                os.path.join(tmp, "payload", "slot_entry.py"),
+                PASSING_ENTRY.decode("utf-8"),
+                0o644,
+            )
             ok, failures = run_self_test(tmp)
             self.assertTrue(ok, failures)
+
+    def test_an_unsigned_extra_file_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            private, public = _key(tmp)
+            state = os.path.join(tmp, "state")
+            seed_slot(state, "a", "1.0.0", "factory\n")
+            bundle = os.path.join(tmp, "bundle.tar")
+            extra = os.path.join(tmp, "extra.tar")
+            build_bundle(bundle, "1.2.0", {
+                "marker.txt": b"ok\n",
+                "slot_entry.py": PASSING_ENTRY,
+            }, private)
+            _append_member(bundle, extra, "payload/unsigned.py", b"print('no')\n")
+            with self.assertRaises(UpdateError) as caught:
+                apply_update(extra, state, public)
+            self.assertIn("unsigned", str(caught.exception))
+            self.assertEqual(store.read_current(state), "a")
+            slipped = os.path.join(store.slot_path(state, "b"), "payload", "unsigned.py")
+            self.assertFalse(os.path.exists(slipped))
 
     def test_demo_rollback_command(self):
         proc = subprocess.run(
@@ -456,6 +525,19 @@ class LowPackTests(unittest.TestCase):
             self.assertEqual(proc.returncode, 2, proc.stderr)
             self.assertIn("refusing", proc.stderr)
 
+    def test_a_previous_shutdown_does_not_stick_across_a_reboot(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            calls = []
+            text = '{"t": 1, "mode": "sit", "pack_v": %s}\n' % PACK_WALK_STOP_V
+            store.write_json(store.path(tmp, store.SHUTDOWN), {"old": True}, 0o644)
+            first = consider(tmp, calls.append, text)
+            self.assertIsNotNone(first)
+            self.assertIsNone(consider(tmp, calls.append, text))
+            os.remove(store.request_path(tmp))
+            second = consider(tmp, calls.append, text)
+            self.assertIsNotNone(second)
+            self.assertEqual(len(calls), 10)
+
 
 class ServiceTests(unittest.TestCase):
     def test_units_have_watchdogs_and_the_guard_unit_still_does_not_restart(self):
@@ -507,7 +589,7 @@ class ServiceTests(unittest.TestCase):
                         break
                     notes.append(data.decode("utf-8"))
                 self.assertIn("READY=1", notes)
-                store.write_json(store.path(tmp, store.SHUTDOWN_REQUEST), {"reason": "test"}, 0o644)
+                store.write_json(store.request_path(tmp), {"reason": "test"}, 0o644)
                 thread.join(2)
                 self.assertFalse(thread.is_alive())
                 self.assertEqual(box["code"], 0)
@@ -541,9 +623,62 @@ class ServiceTests(unittest.TestCase):
         wifi = wifi_supplicant_conf("House", HOME_SECRET, False)
         self.assertIn(HOME_SECRET, wifi)
         self.assertNotIn(HOME_SECRET, flat)
+        self.assertTrue(wifi_associated("wpa_state=COMPLETED\n"))
+        self.assertFalse(wifi_associated("wpa_state=DISCONNECTED\n"))
+
+    def test_the_selected_slot_is_what_runs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            home = os.path.join(tmp, "home")
+            os.makedirs(os.path.join(home, "Open_Duck_Mini_Runtime", "scripts"))
+            script = os.path.join(tmp, "walk.py")
+            store.write_text(script, "print('slot')\n", 0o644)
+            entry = (
+                "def walk_ok():\n"
+                "    return True\n"
+                "def supervisor_ok():\n"
+                "    return True\n"
+                "def serve_role(role, state, stop):\n"
+                "    path = state + '/ran.txt'\n"
+                "    handle = open(path, 'w', encoding='utf-8')\n"
+                "    try:\n"
+                "        handle.write(role)\n"
+                "    finally:\n"
+                "        handle.close()\n"
+                "    return 7\n"
+                "def walk_argv(home):\n"
+                "    return [%r, %r]\n"
+            ) % (script, script)
+            folder = store.slot_path(tmp, "b")
+            os.makedirs(os.path.join(folder, "payload"))
+            store.write_text(os.path.join(folder, "payload", "slot_entry.py"), entry, 0o644)
+            store.write_current(tmp, "b")
+            stop = threading.Event()
+            code = serve("perception", tmp, stop, interval=0.05)
+            self.assertEqual(code, 7)
+            self.assertEqual(_text(os.path.join(tmp, "ran.txt")), "perception")
+            seen = []
+
+            class Proc:
+                def poll(self):
+                    return 0
+
+                def terminate(self):
+                    return None
+
+                def wait(self, timeout=None):
+                    return 0
+
+            def popen(argv, cwd):
+                seen.append((argv, cwd))
+                return Proc()
+
+            from altaay_lab.software.owner.service import serve_walk
+            walked = serve_walk(tmp, home, threading.Event(), popen=popen, interval=0.01)
+            self.assertEqual(walked, 0)
+            self.assertEqual(seen[0][0], [script, script])
 
 
-def _repack_changed(src, dest):
+def _append_member(src, dest, name, data):
     import io
     import tarfile
     files = {}
@@ -551,13 +686,17 @@ def _repack_changed(src, dest):
         for member in tar.getmembers():
             handle = tar.extractfile(member)
             files[member.name] = b"" if handle is None else handle.read()
-    files["payload/marker.txt"] = b"tampered\n"
+    files[name] = data
     with tarfile.open(dest, "w") as tar:
-        for name in sorted(files):
-            info = tarfile.TarInfo(name)
-            info.size = len(files[name])
+        for item in sorted(files):
+            info = tarfile.TarInfo(item)
+            info.size = len(files[item])
             info.mtime = 0
-            tar.addfile(info, io.BytesIO(files[name]))
+            tar.addfile(info, io.BytesIO(files[item]))
+
+
+def _repack_changed(src, dest):
+    _append_member(src, dest, "payload/marker.txt", b"tampered\n")
 
 
 if __name__ == "__main__":

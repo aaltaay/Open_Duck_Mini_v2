@@ -31,9 +31,11 @@ Bundles are tar files. manifest.json is signed with Ed25519. openssl checks
 the signature against software/owner/update_public_key.pem. A private key is
 not in this repository. Tests mint a key in a temporary directory and delete it.
 
-Two slots, a and b. After the pointer moves, the walk guards and one supervisor
-step run. If either fails, the pointer moves back. That rollback is measured
-in emulation. Never done on hardware.
+Two slots, a and b. The slot's payload/slot_entry.py is the program the
+services run after the pointer moves. The checkout copy is only the
+bootloader. After the pointer moves, that entry runs, and so do the walk
+guards and one supervisor step. If either fails, the pointer moves back.
+An extra file that was not in the signed manifest is refused.
 
 The public key in the tree has no private half stored here. A production key
 a maintainer can sign with is BLOCKER until that private half is created
@@ -55,10 +57,11 @@ systemd units, copied by install_pi.sh and not enabled:
 | odm-walk-guard.service | The older unit. Restart=no, unchanged. Do not enable it together with odm-walk.service. |
 
 The low-pack path stops walk, perception, voice, then the supervisor, then
-powers off. It does not power off while the log says the duck is charging.
-It does not power off when the log has no voltage. --apply is refused unless
-the state directory is the duck's /var/lib/odm, so a test cannot power the
-machine off.
+powers off. The request file is under /run, which a reboot clears, so one
+shutdown does not disable the next boot. It does not power off while the log
+says the duck is charging. It does not power off when the log has no voltage.
+--apply is refused unless the state directory is the duck's /var/lib/odm, so
+a test cannot power the machine off.
 
 ## Tests
 

@@ -102,6 +102,11 @@ def stop_pidfile(pid_path):
         return
 
 
+def wifi_associated(status_text):
+    """True when wpa_cli reports the home network accepted the passphrase."""
+    return "wpa_state=COMPLETED" in str(status_text or "")
+
+
 def wifi_supplicant_conf(ssid, passphrase, open_net):
     ssid = clean_ssid(ssid)
     if open_net:
@@ -195,10 +200,17 @@ class LiveNet:
     def join_wifi(self, ssid, passphrase, open_net):
         conf = os.path.join(self.state, "home-wifi.conf")
         write_text(conf, wifi_supplicant_conf(ssid, passphrase, open_net), 0o600)
-        if shutil.which("wpa_supplicant"):
-            self.runner([
-                "wpa_supplicant", "-B", "-i", AP_INTERFACE, "-c", conf,
-            ])
+        if not shutil.which("wpa_supplicant") or not shutil.which("wpa_cli"):
+            raise NetError("wpa_supplicant is not installed")
+        proc = subprocess.run(
+            ["wpa_supplicant", "-B", "-i", AP_INTERFACE, "-c", conf],
+            check=False,
+            timeout=30,
+        )
+        if proc.returncode != 0:
+            raise NetError("could not start the home network")
+        if not _wait_associated(AP_INTERFACE, 20):
+            raise NetError("the home network did not accept the passphrase")
 
     def speak(self, text):
         spoken = os.path.join(self.state, "spoken.txt")
@@ -214,6 +226,24 @@ class LiveNet:
     def set_hostname(self, name):
         if shutil.which("hostnamectl"):
             self.runner(["hostnamectl", "set-hostname", name])
+
+
+def _wait_associated(interface, seconds):
+    """Set point: 20 s to see wpa_state=COMPLETED. Not a measurement."""
+    import time
+    deadline = time.time() + float(seconds)
+    while time.time() < deadline:
+        proc = subprocess.run(
+            ["wpa_cli", "-i", interface, "status"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if wifi_associated(proc.stdout):
+            return True
+        time.sleep(1)
+    return False
 
 
 def _run(cmd):

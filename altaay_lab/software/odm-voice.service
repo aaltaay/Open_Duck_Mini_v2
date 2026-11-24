@@ -11,6 +11,7 @@ Type=notify
 User=duck
 WorkingDirectory=/home/duck/open_duck_mini_v2
 Environment=PYTHONPATH=/home/duck/open_duck_mini_v2
+Environment=ODM_RUNTIME_DIR=/run/odm
 ExecStart=/usr/bin/python3 -m altaay_lab.software.owner.run_service --role voice --state /var/lib/odm
 WatchdogSec=15
 Restart=on-failure

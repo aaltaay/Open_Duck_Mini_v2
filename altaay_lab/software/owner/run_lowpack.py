@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from altaay_lab.software.owner import store, watchdog  # noqa: E402
+from altaay_lab.software.owner import watchdog  # noqa: E402
 from altaay_lab.software.owner.lowpack import apply_allowed, consider  # noqa: E402
 
 
@@ -36,17 +36,10 @@ def main(argv=None):
     watchdog.notify("READY=1")
     while True:
         consider(args.state, runner)
-        if os_shutdown(args.state):
-            watchdog.notify("STOPPING=1")
-            return 0
         if args.once:
             return 0
         watchdog.notify("WATCHDOG=1")
         time.sleep(5)
-
-
-def os_shutdown(state):
-    return Path(store.path(state, store.SHUTDOWN)).is_file()
 
 
 if __name__ == "__main__":
