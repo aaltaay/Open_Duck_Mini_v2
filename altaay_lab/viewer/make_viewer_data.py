@@ -1039,14 +1039,19 @@ def main():
     ap.add_argument("--out", required=True, help="output folder, must be outside the repo")
     ap.add_argument("--write-bom", action="store_true",
                     help="also write altaay_lab/BOM_FULL.md and altaay_lab/bom_full.csv (text, every part)")
-    ap.add_argument("--scene", choices=["duck", "dock", "docked"], default="duck",
-                    help="duck (default); dock: the charging dock alone (dock.glb.txt, dock_manifest.json); docked: the dock with "
-                         "the duck seated in its sim pose (docked.glb.txt, docked_manifest.json; run the duck scene into --out first)")
+    ap.add_argument("--scene", choices=["duck", "nest", "nested", "dock", "docked"], default="duck",
+                    help="duck (default); nest and nested: nest v2 (viewer/nest_scene.py); "
+                         "dock and docked: the archived wall and paddle dock")
     args = ap.parse_args()
     out = os.path.abspath(args.out)
     if os.path.commonpath([out, REPO]) == REPO:
         sys.exit("refusing to write inside the repo: " + out)
     os.makedirs(out, exist_ok=True)
+    if args.scene in ("nest", "nested"):
+        sys.path.insert(0, HERE)
+        import nest_scene
+        nest_scene.build(out, args.scene, write_glb)
+        return
     if args.scene != "duck":
         sys.path.insert(0, HERE)
         import dock_scene
