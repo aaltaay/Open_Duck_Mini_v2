@@ -1,0 +1,59 @@
+# Two-net nest. Matches wiring/netlist.yaml cable NW and circuitry/NEST_TWO_NET.md.
+# Not a fabricated board. D61 was not edited.
+meta:
+  rev: "2026-11-24"
+  note: "3S in-duck BQ24133, two contact nets, gold domes. MCP73213 is not this board."
+
+setpoints:
+  i_charge_a: 1.006          # calc only, ISET divider
+  v_nest: 15.0               # calc only, inside 13.6 V to 16.0 V
+  v_pack: 12.6               # cited, three cells at 4.2 V, CELL tied to VREF
+  v_window_min: 13.6         # calc only, 12.6 + 1.0 from the EVM note
+  v_window_max: 16.0         # cited, SMAJ16A standoff
+
+components:
+  - id: AD
+    part: nest supply, 15.0 V
+    note: "Adapter tolerance was not published. BLOCKER. 15.0 V is the point inside the window."
+  - id: FRIM
+    part: Littelfuse 0287005.PXCN, 5 A, 32 V
+    role: short
+  - id: PTC
+    part: Littelfuse RXEF185
+    role: wet_or_sustained_short
+    ratings: {i_hold_20c_a: 1.85, i_hold_60c_a: 1.17, i_trip_a: 3.70, v_max: 72, r_max_ohm: 0.12}
+  - id: RSW
+    part: Pololu 2815, reverse voltage protection, 4.5 V to 40 V
+    role: reverse_adapter_and_signature_switch
+  - id: TVS
+    part: Littelfuse SMAJ16A
+    ratings: {v_standoff: 16.0, v_clamp: 26.0, i_clamp_a: 15.4}
+  - id: UWIN
+    part: TI LM393BIDR
+    role: signature window, 1.20 V to 1.65 V
+  - id: RB
+    part: 47.5 kOhm, 1 percent, mat bias
+  - id: RSIG
+    part: 4.99 kOhm, 1 percent, duck signature across the two nets
+  - id: DOME
+    part: five gold domes, 1.5 mm radius, 0.9 mm proud
+    note: "No catalog current. The path rating used here is the SS33. Contact ohms are BLOCKER."
+  - id: SS
+    part: Vishay SS33, ten pieces, two per dome
+    ratings: {v_rrm: 30, i_f_av_a: 3.0, v_f_max_at_3a: 0.50}
+    role: reverse_stripe
+  - id: F2
+    part: Littelfuse 0287005.PXCN, 5 A, 32 V, duck side
+  - id: CHG
+    part: TI BQ24133, CELL tied to VREF, 12.6 V, 1.006 A
+    note: "Not the MCP73213. See NEST_TWO_NET.md."
+  - id: J5IN
+    part: 5 V rail interface, fused pack, domain PACK_9V0_12V6
+    note: "Not connected to U3 in this file's duck harness. P13 stays on VSW."
+
+nets:
+  - {name: NEST_P, from: RSW.VOUT, to: SS.cathodes}
+  - {name: NEST_N, from: AD.return, to: SS.anodes}
+  - {name: CHG_IN, from: F2.OUT, to: CHG.PVCC}
+  - {name: PACK_P, from: CHG.BAT, to: BMS.P+}
+  - {name: AWAKE, from: pack_fuse.OUT, to: J5IN}

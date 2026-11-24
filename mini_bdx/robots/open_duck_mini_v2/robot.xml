@@ -14,6 +14,7 @@
     <mesh name="shin_spacer" file="shin_spacer.stl"/>
     <mesh name="sit_bumper" file="sit_bumper.stl"/>
     <mesh name="sit_seat" file="sit_seat.stl"/>
+    <mesh name="gold_domes" file="gold_domes.stl"/>
     <mesh name="body_front" file="body_front.stl"/>
     <mesh name="usb_c_charger" file="usb_c_charger.stl"/>
     <mesh name="body_back" file="body_back.stl"/>
@@ -125,6 +126,7 @@
 <geom pos="-0.0234884 -0.0191747 0.10489" quat="0.478996 0 -0.877817 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="neck_pad"/>
 
 <geom pos="-0.11 0 -0.0182091" quat="1 0 0 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="sit_seat"/>
+<geom pos="-0.11 0 -0.0182091" quat="1 0 0 0" type="mesh" rgba="0.86 0.68 0.28 1" mesh="gold_domes" contype="0" conaffinity="0"/>
 
 <geom pos="0.02 0 -0.0362091" quat="1 0 0 0" type="mesh" rgba="0.95 0.75 0.2 1" mesh="sit_bumper"/>
 <body name="trunk" pos="-0.024 0 0.0881909">

@@ -2,7 +2,7 @@
 
 Last updated: 2026-11-02 (America/New_York). Follows the wiring decisions D8 to D13, D15, D17, D23 and D25 in DECISIONS.md (D15 replaced D14; D23, the ankle second feeds, 2026-11-02; D25, cable retention and twist, 2026-11-02).
 
-Source of truth: wiring/netlist.yaml (every part, pin, wire, colour, cut length and expected current; schema at the top of the file). Generated from it:
+Source of truth: wiring/netlist.yaml (every part, pin, wire, colour, cut length and expected current; schema at the top of the file). The nest charge path (2026-11-24, two nets, charger in the duck) is circuitry/NEST_TWO_NET.md. Cable NEST is not on sheets 1 to 6. Generated from the netlist:
 - Drawings: wiring/sheets/WIRING_SHEETS.md, five A3 sheets (power, servo bus, Pi and sensors, head expression, harness overview) made by wiring/sheets/make_sheets.py; the run stops if any netlist wire is not drawn in full.
 - Build order, cut list and end treatment per wire: HARNESS_BUILD.md (wiring/make_harness_build.py). Continuity list: audit/continuity_checklist.csv (audit/erc.py). Cable routes in 3D: cables3d/CABLES_3D.md.
 

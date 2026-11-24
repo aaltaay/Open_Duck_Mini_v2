@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<robot name="nest_v2">
+  <!-- Nest mat, version 2. Meshes are metres, copied from altaay_lab/cad/nest_v2/stl.
+       The duck is not in this file. Gold domes are on robot.urdf, link gold_domes.
+       CAD check only. Not a hardware dock. -->
+  <link name="felt_base">
+    <visual>
+      <geometry><mesh filename="nest/felt_base.stl"/></geometry>
+      <material name="felt"><color rgba="0.78 0.71 0.56 1"/></material>
+    </visual>
+  </link>
+  <link name="felt_top">
+    <visual>
+      <geometry><mesh filename="nest/felt_top.stl"/></geometry>
+      <material name="felt_top"><color rgba="0.84 0.76 0.60 1"/></material>
+    </visual>
+  </link>
+  <joint name="felt_top_fixed" type="fixed">
+    <parent link="felt_base"/><child link="felt_top"/>
+  </joint>
+  <link name="stripe_plus">
+    <visual>
+      <geometry><mesh filename="nest/stripe_plus.stl"/></geometry>
+      <material name="plus"><color rgba="0.88 0.72 0.35 1"/></material>
+    </visual>
+  </link>
+  <joint name="stripe_plus_fixed" type="fixed">
+    <parent link="felt_base"/><child link="stripe_plus"/>
+  </joint>
+  <link name="stripe_minus">
+    <visual>
+      <geometry><mesh filename="nest/stripe_minus.stl"/></geometry>
+      <material name="minus"><color rgba="0.65 0.52 0.28 1"/></material>
+    </visual>
+  </link>
+  <joint name="stripe_minus_fixed" type="fixed">
+    <parent link="felt_base"/><child link="stripe_minus"/>
+  </joint>
+  <link name="cord_pocket">
+    <visual>
+      <geometry><mesh filename="nest/cord_pocket.stl"/></geometry>
+      <material name="pla"><color rgba="0.66 0.58 0.46 1"/></material>
+    </visual>
+  </link>
+  <joint name="cord_pocket_fixed" type="fixed">
+    <parent link="felt_base"/><child link="cord_pocket"/>
+  </joint>
+  <link name="cord_cap">
+    <visual>
+      <geometry><mesh filename="nest/cord_cap.stl"/></geometry>
+      <material name="cap"><color rgba="0.74 0.66 0.52 1"/></material>
+    </visual>
+  </link>
+  <joint name="cord_cap_fixed" type="fixed">
+    <parent link="felt_base"/><child link="cord_cap"/>
+  </joint>
+  <link name="wall_card">
+    <visual>
+      <geometry><mesh filename="nest/wall_card.stl"/></geometry>
+      <material name="card"><color rgba="0.45 0.28 0.20 1"/></material>
+    </visual>
+  </link>
+  <joint name="wall_card_fixed" type="fixed">
+    <parent link="felt_base"/><child link="wall_card"/>
+  </joint>
+</robot>

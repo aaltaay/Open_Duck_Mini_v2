@@ -25,3 +25,5 @@ jobs:
         run: python3 altaay_lab/circuitry/check_awake_load.py
       - name: charger board arithmetic
         run: python3 altaay_lab/circuitry/check_charger.py
+      - name: nest two-net set points
+        run: python3 altaay_lab/circuitry/check_nest_setpoints.py
