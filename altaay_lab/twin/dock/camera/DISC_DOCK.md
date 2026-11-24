@@ -72,6 +72,12 @@ Starts at least 70 deg off the nest: 10 of 11 camera docks. Cover: 8 of 13. Side
 
 This is not the 2 of 8 batch, and it is not the 38 of 40 card dock.
 
+## Turn-gate study, not this controller
+
+PR 120 held the crouch until the IMU had turned a fixed 3.10 rad and the disc was behind the nose. On the same 40 starts that run charged 20 of 40 camera and 19 of 40 privileged (sim pass only). Camera sat_off went from 9 to 1, heading from 1 to 14, falls from 1 to 4, and one start timed out. The 14 heading misses sat on the foil with yaw about 137 to 155 deg. A finished half turn that starts while the duck is beside the centre line faces away from the sun, not along the room axis. The leftover angle matches atan of lateral position over range.
+
+A follow-up, not merged, set the turn target to pi plus that atan(lateral/range) and eased the side step after it had pointed at the wall for 3.2 s. Same 40 starts: camera 24 of 40, privileged 13 of 40 (sim pass only). Camera misses were sat_off 12, heading 3, fell 1. By room, camera was day 6 of 10, warm 6 of 10, dim 5 of 10, cool 7 of 10. The median frame was 3.17 ms on this x86 host. In a four-seed probe, seeds 1, 2, and 7 docked (seed 2 had been a heading miss, seed 7 a wall fall). Seed 9 stayed a heading miss at 25.9 deg. The full 40 was 24, under the 29 of this controller, and the privileged count fell to 13 with 15 timeouts. That controller was reverted. The batch in this file is the 29 of 40 controller from before the gate.
+
 ## Frame time
 
 Perception only, around find_nest. The MuJoCo render is not in this number. The call sits on the autonomy thread, not inside the 50 Hz walk step. It is not a Pi.
