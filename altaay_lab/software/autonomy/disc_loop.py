@@ -285,9 +285,10 @@ class DiscLoop:
                 yaw_e = bear
             else:
                 yaw_e = 0.5 * float(yaw_e) + 0.5 * bear
-            self.line_ok = getattr(self, "line_ok", 0) + 1
             aligned = abs(yaw_e) <= 0.10 and (left is None or abs(left) <= 0.05)
-            if aligned or self.t - self.t_phase > 1.5 or self.line_ok >= 8:
+            # Time is the budget. A call count of 8 is 0.16 s at the
+            # 0.02 s step, which ended the correction before it moved.
+            if aligned or self.t - self.t_phase > 1.5:
                 self.phase = "turn"
                 self.turn0 = imu_yaw
                 self.t_phase = self.t

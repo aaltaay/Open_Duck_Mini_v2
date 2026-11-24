@@ -247,7 +247,15 @@ def _ring_geom(val, score, u, v, radius_px, h, w):
         frac = min(left_gap, right_gap) / max(gap, 1.0)
     elif partial:
         frac = 0.5
-    return frac, bool(full), bool(partial), _ring_angle(band)
+    # The annulus above is only where we look. The angle comes from the
+    # cloth pixels inside it. The annulus itself is axis-aligned, so its
+    # own shape is not a yaw.
+    cloth = np.zeros_like(band)
+    if int(outer.sum()) >= 12:
+        floor_c = float(score_c[outer].mean())
+        floor_v = float(val_c[outer].mean())
+        cloth = band & ((score_c > floor_c + 0.012) | (val_c > floor_v + 4.0))
+    return frac, bool(full), bool(partial), _ring_angle(cloth)
 
 
 def _hazards(val, h, w):
@@ -308,6 +316,9 @@ def find_nest(img, fx, fy, cx, cy, roi=None):
     if img.ndim == 3 and img.shape[2] == 4:
         img = img[:, :, :3]
     img = np.asarray(img)
+    # Hazards use the whole field. The window is only for the disc.
+    full = img
+    full_fx, full_fy, full_cx, full_cy = float(fx), float(fy), float(cx), float(cy)
     ox = oy = 0
     if roi is not None:
         ru, rv, rad = roi
@@ -331,7 +342,16 @@ def find_nest(img, fx, fy, cx, cy, roi=None):
         keep = pale.copy()
         keep[disc[2], disc[1]] = False
         pale = keep
-    cliff, obstacle, obstacle_u = _hazards(val, h, w)
+    if ox or oy:
+        haz, _, _, _, _, haz_stride = _bin(full, full_fx, full_fy, full_cx, full_cy)
+        haz_shown = _exposure(_white_balance(haz))
+        _, _, haz_val = _scores(haz_shown)
+        hh, hw = haz_val.shape
+        cliff, obstacle, obstacle_u = _hazards(haz_val, hh, hw)
+        haz_ox, haz_oy, stride_h = 0, 0, haz_stride
+    else:
+        cliff, obstacle, obstacle_u = _hazards(val, h, w)
+        haz_ox, haz_oy, stride_h = ox, oy, stride
     out = {
         "seen": False,
         "clipped": False,
@@ -343,7 +363,7 @@ def find_nest(img, fx, fy, cx, cy, roi=None):
         "occluded": False,
         "cliff": cliff,
         "obstacle": obstacle,
-        "obstacle_u": None if obstacle_u is None else obstacle_u * stride + ox,
+        "obstacle_u": None if obstacle_u is None else obstacle_u * stride_h + haz_ox,
         "stride": stride,
         "work_w": w,
         "work_h": h,
@@ -355,7 +375,11 @@ def find_nest(img, fx, fy, cx, cy, roi=None):
     v = float(ys.mean())
     # A dark chip of the nest (the charger pad, the disc shadow) is not a
     # side hazard. A real obstacle sits away from the disc.
-    if obstacle_u is not None and abs(float(obstacle_u) - u) < 1.15 * max(float(bw), 8.0):
+    if ox or oy:
+        nest_u = None if obstacle_u is None else (obstacle_u * stride_h + haz_ox - ox) / max(stride, 1)
+    else:
+        nest_u = obstacle_u
+    if nest_u is not None and abs(float(nest_u) - u) < 1.15 * max(float(bw), 8.0):
         obstacle = False
         obstacle_u = None
         out["obstacle"] = False

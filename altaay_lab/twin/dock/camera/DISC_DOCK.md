@@ -82,7 +82,7 @@ Perception only, around find_nest. The MuJoCo render is not in this number. The 
 | Ten warm-room episode medians | 15.99 ms to 18.63 ms | 4.22 ms to 4.63 ms | measured on this x86 host |
 | Fastest episode median | 7.84 ms | 2.24 ms | measured on this x86 host |
 
-The cut is the stride-2 bin and the window around the last disc. The docks above used that finder.
+The cut is the stride-2 bin and the window around the last disc. Hazard flags are read from the full field, not that window. One day episode after that split measured 3.51 ms (sim pass only). The 2.62 ms median is the 40-episode batch before the split.
 
 Pi 5, 2 GB, is a 2.4 GHz quad Cortex-A76 (cited, software/pi_fit/BOARDS.md, the product page). A factor of 4 is an assumption, not a cited benchmark: 2.62 times 4 is 10.5 ms (calc only). A measured frame on a Pi 5 is BLOCKER.
 

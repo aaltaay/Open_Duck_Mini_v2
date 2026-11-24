@@ -80,6 +80,26 @@ class FindTests(unittest.TestCase):
         self.assertTrue(est["cliff"])
         self.assertTrue(est["obstacle"])
 
+    def test_a_disc_window_still_sees_the_cliff(self):
+        img = _frame(self.h, self.w, cliff=True)
+        est = find_nest(img, self.fx, self.fy, self.cx, self.cy, roi=(self.cx, int(self.h * 0.58), 36))
+        self.assertTrue(est["cliff"])
+
+    def test_line_up_uses_the_time_budget(self):
+        loop = DiscLoop()
+        loop.phase = "line"
+        loop.t_phase = 0.0
+        est = {"seen": True, "clipped": False, "sun_fwd": 0.38, "sun_left": 0.09,
+               "ring_yaw": 0.0, "cliff": False, "obstacle": False, "obstacle_right": 0.0}
+        cmd = None
+        for _ in range(8):
+            cmd = loop.command(est, 0.0, 0.02)
+        self.assertEqual(loop.phase, "line")
+        self.assertNotEqual(cmd[2], 0.0)
+        loop.t = loop.t_phase + 1.6
+        loop.command(est, 0.0, 0.02)
+        self.assertEqual(loop.phase, "turn")
+
     def test_depth_and_trunk_frame(self):
         width = 40.0
         depth = 0.100 * self.fx / width
