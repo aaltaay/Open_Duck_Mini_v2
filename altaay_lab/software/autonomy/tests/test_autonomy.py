@@ -293,6 +293,26 @@ class LifeTests(unittest.TestCase):
         self.assertNotEqual(row["mode"], "getup")
         self.assertLess(plant.q_mAh - q0, 0.5)
 
+    def test_use_camera_replaces_the_replay_table(self):
+        class Live:
+            def dock(self):
+                return {
+                    "seed": 7, "t_s": 1.0, "charging": True, "reason": "docked",
+                    "fell": False, "source": "camera",
+                }
+
+            def getup(self):
+                return True
+
+        sup = Supervisor(seed=1)
+        sup.use_camera(Live())
+        plant = HomePlant()
+        sup.personality.asked_home = True
+        sup.step(plant, 0.0, 1.0)
+        self.assertEqual(sup.dock_success, 1)
+        self.assertTrue(sup.on_nest)
+        self.assertIn("camera", [row.get("source") for row in sup.log_rows])
+
     def test_hello_is_social(self):
         sup = Supervisor(seed=0, outcomes=Scripted([]))
         plant = HomePlant()

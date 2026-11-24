@@ -5,8 +5,9 @@ guard, the knee heat guard, fall get-up, idle and nap, and the assistant.
 The 50 Hz walk thread is not this loop. Call step() from the other thread in
 the same process. The Runtime is not imported (D6).
 
-On a low pack the duck starts a camera-dock episode. Outcomes are drawn from
-the 40 measured gold-dome sits (38 charging). A miss is tried again until
+On a low pack the duck starts a camera-dock episode. The default outcomes
+are drawn from the 40 measured gold-dome sits (38 charging). use_camera()
+replaces that draw with a live loop. A miss is tried again until
 RETRY_CAP retries are used, then the duck sits and shows help_me. A fall uses
 the flat-floor get-up result, 112 of 112 (sim pass only, VIA_SIT_EVAL.md).
 Two failed get-ups also sit and wait. A pet or a pickup clears the wait.
@@ -125,6 +126,16 @@ class Supervisor:
         self._finish_pending = False
         self._help_counted = False
         self.t = 0.0
+
+    def use_camera(self, outcomes):
+        """Dock from a live camera loop instead of the published replay table.
+
+        outcomes.dock() runs one episode and returns the same fields as a
+        measured row (seed, t_s, charging, reason, fell). The commands inside
+        that episode must come from the camera estimate, not from the true
+        nest pose. The three-day soak keeps the replay table.
+        """
+        self.outcomes = outcomes
 
     def latest_command(self):
         return self.personality._command().as_dict()
@@ -335,7 +346,10 @@ class Supervisor:
             self.dock_fails += 1
             if self.dock_fails > RETRY_CAP:
                 self._become_stuck(plant, "dock")
-        self._log(plant, "dock_result", extra={"ok": ok, "seed": ep["seed"], "reason": ep["reason"]})
+        extra = {"ok": ok, "seed": ep["seed"], "reason": ep["reason"]}
+        if ep.get("source"):
+            extra["source"] = ep["source"]
+        self._log(plant, "dock_result", extra=extra)
 
     def _finish_getup(self, plant):
         ok = bool(self.outcomes.getup())
