@@ -353,6 +353,29 @@ def _spec_of(row):
     }
 
 
+def due_estimate(queue, now, fresh, horizon=0.45):
+    """The pose the controller may use.
+
+    A disc fix is visible only after its queued time. A frame that has just
+    been captured still contributes cliff and obstacle flags.
+    """
+    due = [e for (t, e) in queue if e is not None and t <= now and now - t < horizon]
+    if due:
+        use = dict(due[-1])
+        if fresh is not None:
+            use["cliff"] = fresh["cliff"]
+            use["obstacle"] = fresh["obstacle"]
+            use["obstacle_right"] = fresh["obstacle_right"]
+        return use
+    if fresh is None:
+        return None
+    held = _blank_est()
+    held["cliff"] = fresh["cliff"]
+    held["obstacle"] = fresh["obstacle"]
+    held["obstacle_right"] = fresh["obstacle_right"]
+    return held
+
+
 def _blank_est():
     return {
         "seen": False, "clipped": False, "cliff": False, "obstacle": False,
@@ -412,15 +435,7 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
                     # 0.10 s delay, same window as the marker dock. A miss does
                     # not delete a fix that is still inside the window.
                     sim.est_q.append((sim.t + CD.LAT_S, fresh if fresh["seen"] else None))
-                due = [e for (t, e) in sim.est_q if e is not None and t <= sim.t and sim.t - t < 0.45]
-                if due:
-                    use = dict(due[-1])
-                    if fresh is not None:
-                        use["cliff"] = fresh["cliff"]
-                        use["obstacle"] = fresh["obstacle"]
-                        use["obstacle_right"] = fresh["obstacle_right"]
-                else:
-                    use = fresh
+                use = due_estimate(sim.est_q, sim.t, fresh)
             cmd = loop.command(use, sim.imu_yaw, CD.CTRL_DT)
             if os.environ.get("DISC_DEBUG") and k % 25 == 0:
                 tp = sim.true_pose()

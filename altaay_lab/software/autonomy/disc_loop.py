@@ -97,7 +97,9 @@ class DiscLoop:
                     cmd[0] = 0.0
                     cmd[2] = 0.45 * self.spin
                 elif obstacle and abs(obs_right) < 0.30:
-                    cmd[2] = -0.50 if obs_right > 0.0 else 0.50
+                    # Positive yaw is a left turn. An obstacle on the image
+                    # right (positive) is left behind by turning left.
+                    cmd[2] = 0.50 if obs_right > 0.0 else -0.50
                 elif dist <= SIT_FWD_M and abs(left) <= LAT_OK_M and abs(bearing) < 0.50:
                     self.phase = "turn"
                     self.turn0 = imu_yaw
@@ -129,7 +131,10 @@ class DiscLoop:
                 self.phase = "fail"
                 self.reason = "missed_line"
         elif self.phase == "creep":
-            if seen and est["sun_fwd"] > 0.05:
+            if cliff:
+                cmd[0] = 0.0
+                cmd[2] = 0.45 * self.spin
+            elif seen and est["sun_fwd"] > 0.05:
                 self.phase = "approach"
                 self.t_phase = self.t
             elif self.creep_left <= 0.03:

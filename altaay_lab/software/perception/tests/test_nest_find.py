@@ -136,6 +136,48 @@ class LoopTests(unittest.TestCase):
         cmd = loop.command(None, 0.0, 0.02)
         self.assertGreater(cmd[0], 0.0)
 
+    def test_obstacle_on_the_right_yaws_left(self):
+        loop = DiscLoop()
+        loop.phase = "approach"
+        est = {"seen": True, "clipped": False, "sun_fwd": 0.8, "sun_left": 0.0,
+               "cliff": False, "obstacle": True, "obstacle_right": 0.2}
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertGreater(cmd[2], 0.0)
+        est["obstacle_right"] = -0.2
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertLess(cmd[2], 0.0)
+
+    def test_cliff_stops_a_creep(self):
+        loop = DiscLoop()
+        loop.phase = "approach"
+        loop.last_fwd = 1.15
+        loop.last_left = 0.0
+        loop.ever_seen = True
+        loop.command(None, 0.0, 0.02)
+        self.assertEqual(loop.phase, "creep")
+        est = {"seen": False, "clipped": False, "sun_fwd": None, "sun_left": None,
+               "cliff": True, "obstacle": False, "obstacle_right": 0.0}
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertEqual(loop.phase, "creep")
+        self.assertEqual(cmd[0], 0.0)
+        self.assertNotEqual(cmd[2], 0.0)
+
+    def test_a_new_fix_waits_out_the_latency(self):
+        from altaay_lab.twin.dock.camera.disc_dock import due_estimate
+        fresh = {
+            "seen": True, "sun_fwd": 1.0, "sun_left": 0.05,
+            "cliff": True, "obstacle": False, "obstacle_right": 0.1,
+        }
+        queued = {"seen": True, "sun_fwd": 1.0, "sun_left": 0.0,
+                  "cliff": False, "obstacle": False, "obstacle_right": 0.0}
+        early = due_estimate([(0.10, queued)], 0.0, fresh)
+        self.assertFalse(early["seen"])
+        self.assertTrue(early["cliff"])
+        due = due_estimate([(0.10, queued)], 0.10, fresh)
+        self.assertTrue(due["seen"])
+        self.assertAlmostEqual(due["sun_fwd"], 1.0)
+        self.assertTrue(due["cliff"])
+
     def test_cliff_does_not_walk_forward(self):
         loop = DiscLoop()
         loop.phase = "approach"
