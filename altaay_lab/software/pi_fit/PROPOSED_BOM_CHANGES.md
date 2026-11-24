@@ -50,6 +50,10 @@ The same sum with running current instead of stall is 5.183 A (calc only).
 
 6.653 A is under the chart-read floor of about 7.5 A across 9.0 to 12.6 V in, by about 0.8 A (chart read against calc only). It is over the 6 A combined rating of one header-pin pair, so the wires to VIN and VOUT should be soldered, which is what the Pololu page says for higher power. The speaker current is still missing, so the sum can move up when that number is read.
 
+## Seat for this regulator
+
+CAD check only. The part is 25.4 by 25.4 by 9.5 mm (cited, the Pololu page). With a 2.4 mm plate under it the keep-out is 11.9 by 25.4 by 25.4 mm, the thin side fore and aft. Origin in the print frame: x -30, y -16, z -84. That box clears the print shells by 4.5 mm (body_middle_bottom; the others are at least 8 mm) and clears the hip sweep by 6.21 mm (right hip yaw at -0.175 rad, bottom case). It sits in front of the Pi keep-out with more than 2 mm between the two boxes. The live netlist is not changed.
+
 ## Nest rail
 
 circuitry/NEST_TWO_NET.md, now on altaay-lab, says a later 5 V 5 A regulator can replace U3 when its input accepts the pack window and its output stays on net 5V. It also says the 5 V seat ties U3.VIN to J5IN and drops the VSW feed, and that this does not put the nest on the 5 V pin. The Pi stays a pack-domain load.

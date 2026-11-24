@@ -1,5 +1,6 @@
 """Budget rules. No emulator and no models."""
 
+import json
 import os
 import unittest
 
@@ -94,6 +95,29 @@ class BudgetTests(unittest.TestCase):
         self.assertAlmostEqual(xs[1] - xs[0], HOLE_PITCH_X_MM)
         self.assertAlmostEqual(ys[1] - ys[0], HOLE_PITCH_Y_MM)
         self.assertAlmostEqual(ys[0], (56.0 - 49.0) / 2.0)
+
+    def test_default_generation_keeps_the_hip_clear_seat(self):
+        import importlib.util
+        path = os.path.join(
+            os.path.dirname(__file__), "..", "..", "cad", "pi5_seat", "make_seat.py")
+        spec = importlib.util.spec_from_file_location("pi5_seat_pub", os.path.abspath(path))
+        seat = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(seat)
+        fit = os.path.join(os.path.dirname(path), "seat_fit.json")
+        with open(fit, encoding="utf-8") as handle:
+            before = json.load(handle)["origin_mm"]
+        self.assertEqual(before, [-82.0, -42.0, -48.0])
+
+        def boom(*_a, **_k):
+            raise AssertionError("old grid")
+
+        seat.search = boom
+        self.assertEqual(seat.main([]), 0)
+        with open(fit, encoding="utf-8") as handle:
+            after = json.load(handle)
+        self.assertEqual(after["origin_mm"], [-82.0, -42.0, -48.0])
+        self.assertGreaterEqual(after["servo_mm"], 2.0)
+        self.assertGreaterEqual(after["shell_min_mm"], 2.0)
 
     def test_seat_pilots_are_open_through_the_plate_and_the_boss(self):
         import importlib.util

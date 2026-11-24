@@ -1,101 +1,49 @@
 {
  "label": "CAD check only",
  "fits_in_body": true,
- "clear_mm": 4.5,
- "servo_clear_mm": 0.0,
- "nearest_servo": "hip_roll_assembly wj-wk00-0123middlecase_56.stl",
- "servo_shift_mm": [
-  19.0,
-  0.0,
-  -64.9
- ],
- "servo_visuals": 44,
- "servo_frame": "URDF metres times 1000, then +19.0 mm x and -64.9 mm z so trunk_top matches the print file on all six faces. CAD check only.",
- "clear_rule_mm": 2.0,
+ "shell_change": "none",
  "origin_mm": [
-  -35.0,
-  -24.0,
-  -58.0
+  -82.0,
+  -42.0,
+  -48.0
  ],
  "size_mm": [
-  85.0,
   56.0,
+  85.0,
   15.1
  ],
- "long_side_along_y": false,
- "head": {
-  "fits": false,
-  "triangle_hits": 225,
-  "by_shell": {
-   "head.stl": 225
-  },
+ "long_side_along_y": true,
+ "cooler": "active, 12.70 mm plus 2.4 mm plate",
+ "shell_mm": {
+  "body_middle_top.stl": 8.0,
+  "body_middle_bottom.stl": 6.5,
+  "body_front.stl": 8.0,
+  "body_back.stl": 8.0,
+  "trunk_top.stl": 8.0
+ },
+ "servo_mm": 6.03,
+ "servo_at": "hip_roll_assembly_2 bottom case, right_hip_yaw 0.524 rad",
+ "plate_lip_servo_mm": 4.04,
+ "plate_lip_at": "left hip bottom case, left_hip_yaw -0.524 rad",
+ "hip_sweep": "yaw 7, roll 5, pitch 7 samples, both stops included",
+ "regulator": {
+  "part": "D36V50F5",
   "origin_mm": [
-   -22.42,
-   -28.0,
-   150.01
+   -30.0,
+   -16.0,
+   -84.0
   ],
   "size_mm": [
-   85.0,
-   56.0,
-   15.1
+   11.9,
+   25.4,
+   25.4
   ],
-  "head_bbox_mm": {
-   "min": [
-    -79.8,
-    -98.7,
-    109.7
-   ],
-   "max": [
-    120.0,
-    98.7,
-    169.1
-   ],
-   "size": [
-    199.8,
-    197.3,
-    59.4
-   ]
-  }
+  "servo_mm": 6.21,
+  "shell_mm": 4.5,
+  "shell": "body_middle_bottom.stl"
  },
- "board_mm": [
-  85.0,
-  56.0
- ],
- "hole_d_mm": 2.7,
- "hole_pitch_mm": [
-  58.0,
-  49.0
- ],
- "hole_inset_x_mm": 3.5,
- "hole_inset_y_mm": 3.5,
- "hole_inset_y_label": "calc only, (56 - 49) / 2",
- "holes_board_mm": [
-  [
-   3.5,
-   3.5
-  ],
-  [
-   3.5,
-   52.5
-  ],
-  [
-   61.5,
-   3.5
-  ],
-  [
-   61.5,
-   52.5
-  ]
- ],
- "cooler_mm": [
-  43.5,
-  42.5,
-  12.7
- ],
- "plate_t_mm": 2.4,
- "boss_h_mm": 5.0,
- "pilot_d_mm": 2.0,
- "pcb_thickness": "BLOCKER, not a called-out dimension on the drawing",
+ "camera_route_mm": 240.6,
+ "camera_route": "front edge, forward under the top shell to x 38, up the open column, to the head shell centre. 2 mm tube, CAD check only.",
  "com": {
   "old_head_centre_mm": [
    20.1,
@@ -103,11 +51,11 @@
    139.4
   ],
   "new_centre_mm": [
-   7.5,
-   4.0,
-   -50.5
+   -54.0,
+   0.5,
+   -40.5
   ],
-  "straight_line_mm": 190.3,
+  "straight_line_mm": 194.5,
   "straight_line_label": "calc only, shell centres, not a routed cable",
   "mass_model_kg": 2.949,
   "mass_model_label": "CAD mass model, DECISIONS.md D66, not a scale",
@@ -115,20 +63,20 @@
    {
     "grams": 40.0,
     "label": "calc only, sensitivity around the 50 g shop weight",
-    "com_x_mm": 0.033,
-    "com_z_mm": -1.145
+    "com_x_mm": -0.792,
+    "com_z_mm": -1.011
    },
    {
     "grams": 50.0,
     "label": "calc only, using 50 g cited from raspberrypi.dk additional information, Raspberry Pi 5 4 GB, SC1111. Official drawing prints no mass.",
-    "com_x_mm": 0.058,
-    "com_z_mm": -1.31
+    "com_x_mm": -0.97,
+    "com_z_mm": -1.143
    },
    {
     "grams": 60.0,
     "label": "calc only, sensitivity around the 50 g shop weight",
-    "com_x_mm": 0.083,
-    "com_z_mm": -1.474
+    "com_x_mm": -1.147,
+    "com_z_mm": -1.274
    }
   ],
   "backward_margin_mm": "about 4 to 6",
@@ -136,16 +84,13 @@
  },
  "stl": "altaay_lab/cad/pi5_seat/pi5_seat.stl",
  "png": "altaay_lab/cad/pi5_seat/pi5_seat_in_body.png",
- "sources": {
-  "board": "https://pip.raspberrypi.com/documents/RP-008347-DS-1-raspberry-pi-5-mechanical-drawing.pdf",
-  "cooler": "https://datasheets.raspberrypi.com/cooling/raspberry-pi-active-cooler-mechanical-drawing.pdf"
+ "shell_min_mm": 6.5,
+ "servo_check": {
+  "mm": 6.03,
+  "who": "hip_roll_assembly_2 wj-wk00-0124bottomcase_45.stl",
+  "angles_rad": {
+   "right_hip_yaw": 0.524
+  }
  },
- "hip_slot": {
-  "left_hip_inner_y_mm": 22.64,
-  "right_hip_inner_y_mm": -22.64,
-  "gap_mm": 45.28,
-  "board_y_mm": 56.0,
-  "shortfall_mm": 10.72,
-  "label": "CAD check only, middle-case vertices after the trunk_top shift. The board is wider than the slot between the hip cases."
- }
+ "triangles": 300
 }

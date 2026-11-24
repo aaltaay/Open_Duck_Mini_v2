@@ -27,26 +27,25 @@ The current mount is in the head (MOUNTING.md). A box of this outline, plus the 
 
 The cooler is the official Active Cooler. Drawing: https://datasheets.raspberrypi.com/cooling/raspberry-pi-active-cooler-mechanical-drawing.pdf . Outline 43.50 by 42.50 mm, height 12.70 mm (cited). It clips on with spring pins and takes 5 V from the fan header (cited, product page: 1.09 CFM, 8000 rpm plus or minus 15%). The heating note (https://www.raspberrypi.com/news/heating-and-cooling-raspberry-pi-5/) says throttling starts at 80 C and the hard limit is 85 C, and that a heavy load without the fan reaches that limit. With the cooler, the same note's stress test stayed near 60 to 63 C. Those temperatures are the open-bench test in that note, not the duck body.
 
-The seat is a printed plate, 2.4 mm, with four bosses 5 mm tall and 2.0 mm pilots, the same pilot the other electronics use (MOUNTING.md). The four holes are the drawing holes. The USB short edge faces forward. The header faces left. The MIPI edge faces right, toward the side the neck can leave.
+The seat is a printed plate, 2.4 mm, with four bosses 5 mm tall and 2.0 mm pilots, the same pilot the other electronics use (MOUNTING.md). The four holes are the drawing holes. The 85 mm side runs left to right. The 56 mm side runs fore and aft. The MIPI long edge faces forward. The header faces back. The USB and Ethernet short edges face the sides.
+
+The flat pose with 56 mm across the hips does not fit. The gap between the hip middle cases is 45.28 mm, from y -22.64 to 22.64 (CAD check only), and the board is 56 mm, a shortfall of 10.72 mm (calc only). Standing the board on edge, tilting it, and moving it above the hip cases were searched. The pose that keeps the official Active Cooler and stays at least 2 mm off the shells and the servos sits behind the hips, in front of the back shell.
 
 | Fit | Value | Label |
 |---|---|---|
-| Seat origin, print frame, mm | x -35, y -24, z -58 | CAD check only |
-| Keep-out box | 85 by 56 by 15.1 mm | CAD check only. 15.1 is 12.70 cooler plus 2.4 plate. PCB thickness is not included |
-| Clearance to body shells and trunk_top | 4.5 mm | CAD check only. The rule used was 2 mm |
+| Seat origin, print frame, mm | x -82, y -42, z -48 | CAD check only |
+| Keep-out box | 56 by 85 by 15.1 mm | CAD check only. 56 is fore-aft, 85 is left-right, 15.1 is 12.70 cooler plus 2.4 plate. PCB thickness is not included |
+| Shell clearance | 6.5 mm, to body_middle_bottom | CAD check only. The other four shells are at least 8 mm |
+| Servo clearance over the hip sweep | 6.03 mm | CAD check only. Right hip yaw at its +0.524 rad stop, bottom case of hip_roll_assembly_2 |
+| Plate lip, same sweep | 4.04 mm | CAD check only. The 2 mm lip, left hip yaw at its -0.524 rad stop |
 | Head | does not fit | CAD check only |
+| Shell change | none | the stock print shells are not edited |
 
-Shells checked: body_middle_top, body_middle_bottom, body_front, body_back, trunk_top, and the head for the rejected pose. Servo meshes are in the same check. The URDF is in metres. trunk_top.stl matches the print file on all six faces after +19.0 mm in x and -64.9 mm in z (CAD check only), and that shift is applied to every servo visual. 44 visuals (the case meshes and the two sg90.stl meshes).
+The hip sweep is 7 yaw samples, 5 roll samples, and 7 pitch samples on each side, including both stops (CAD check only). Servo meshes on the hip chain move with those joints. Trunk, neck, and head servo meshes stay at the zero pose. trunk_top.stl matches the print file on all six faces after +19.0 mm in x and -64.9 mm in z, and that shift is applied to every servo visual.
 
-| Servo check | Value | Label |
-|---|---|---|
-| Clearance at the published seat | 0.0 mm | CAD check only. Nearest mesh is hip_roll_assembly, wj-wk00-0123middlecase_56.stl |
-| Gap between the hip middle cases | 45.28 mm (y from -22.64 to 22.64) | CAD check only |
-| Board width | 56 mm | cited, the drawing |
-| Shortfall | 10.72 mm | calc only, 56 minus 45.28. The board is wider than the slot between the hips at this height |
-| Shell clearance | 4.5 mm | CAD check only, unchanged. The 2 mm shell rule still holds |
+A lower-profile passive sink was checked because the Active Cooler stack does not fit the further-forward spot under body_middle_top. The ED-Pi5PCOOLER datasheet lists 65 by 58 by 9.3 mm (cited, https://edatec.cn/storage/file/Pi5coolerdatasheet-en.pdf). With the 2.4 mm plate the stack is 11.7 mm and the in-plane keep-out is 85 by 58 mm. That box at x -80, y -30, z 24 clears the shells by 2.0 mm and the servos by 2.64 mm (CAD check only). Its open-bench sysbench figure is 69.6 C against 84.5 C with no sink, at 25 C ambient (cited, the same sheet). That test is not the duck body. The chosen seat keeps the Active Cooler, because 6.5 mm and 6.03 mm are the larger gaps and no new cooler is required.
 
-Every pose on the 5 mm grid that keeps 2 mm to the print shells also has 0 mm to a servo mesh, so the seat was left at the published origin. The plate STL is altaay_lab/cad/pi5_seat/pi5_seat.stl. The picture, with the servo meshes drawn, is altaay_lab/cad/pi5_seat/pi5_seat_in_body.png.
+The plate STL is altaay_lab/cad/pi5_seat/pi5_seat.stl. The picture, with the servo meshes at the two yaw stops, is altaay_lab/cad/pi5_seat/pi5_seat_in_body.png. The green box in that picture is the regulator keep-out.
 
 ## Centre of mass and the walk
 
@@ -58,25 +57,27 @@ Raspberry Pi DK lists Weight 50 g on the Raspberry Pi 5 4 GB page, manufacturer 
 
 | Pi 5 mass | Fore-aft shift | Vertical shift | Label |
 |---|---|---|---|
-| 40 g | +0.033 mm (forward) | -1.145 mm | calc only, sensitivity around 50 g |
-| 50 g | +0.058 mm | -1.310 mm | calc only, using the cited 50 g shop weight |
-| 60 g | +0.083 mm | -1.474 mm | calc only, sensitivity around 50 g |
+| 40 g | -0.792 mm (aft) | -1.011 mm | calc only, sensitivity around 50 g |
+| 50 g | -0.970 mm | -1.143 mm | calc only, using the cited 50 g shop weight at the new seat centre |
+| 60 g | -1.147 mm | -1.274 mm | calc only, sensitivity around 50 g |
 
-The shared lab gym overlay is not in this checkout. The walk was re-run on the public playground scene at pin b9be205, the same scene as sim/SIM_WALK.md (sim pass only). The script is altaay_lab/sim/pi5_seat_walk.py. It takes 10.0 g off head_assembly and puts 50 g on the trunk at (-0.0115, 0.004, 0.01445) m, which is the seat centre after the trunk_top shift above. Model mass goes from 2.1071 kg to 2.1471 kg (sim pass only, 0.040 kg is 50 g minus 10 g).
+The Active Cooler mass is not on its drawing: BLOCKER, so it is not in this shift. The 0.970 mm aft shift is inside the about 4 to 6 mm backward margin in sim/ADDED_MASS_SIM.md table 7 (sim pass only). It does use part of that margin.
 
-| | Published SIM_WALK.md | This script, stock mass | This script, seat mass |
+The shared lab gym overlay is not in this checkout. The walk was re-run on the public playground scene at pin b9be205, the same scene as sim/SIM_WALK.md (sim pass only). The script is altaay_lab/sim/pi5_seat_walk.py. It takes 10.0 g off head_assembly and puts 50 g on the trunk at (-0.073, 0.0005, 0.02445) m, the new seat centre after the trunk_top shift. Model mass goes from 2.1071 kg to 2.1471 kg (sim pass only).
+
+| | Published SIM_WALK.md | This script, stock mass | This script, new seat |
 |---|---|---|---|
 | Falls | none | none | none |
-| Path | 2.7 m | 2.71 m | 2.67 m |
-| Net | 1.32 m | 1.32 m | 1.21 m |
-| Forward speed, 4 to 14 s | 0.097 m/s | 0.097 m/s | 0.096 m/s |
-| Heading over that 10 s | about 4 deg | 4.2 deg | -0.4 deg |
-| Turn in 6 s | 275 deg | 275.2 deg | 271.3 deg |
-| Trunk height | 0.154 to 0.169 m | min 0.154 m, min up-vector z 0.992 | min 0.154 m, min up-vector z 0.992 |
+| Path | 2.7 m | 2.71 m | 2.57 m |
+| Net | 1.32 m | 1.32 m | 1.16 m |
+| Forward speed, 4 to 14 s | 0.097 m/s | 0.097 m/s | 0.089 m/s |
+| Heading over that 10 s | about 4 deg | 4.2 deg | 6.1 deg |
+| Turn in 6 s | 275 deg | 275.2 deg | 268.4 deg |
+| Trunk height | 0.154 to 0.169 m | min 0.154 m, min up-vector z 0.992 | min 0.154 m, min up-vector z 0.991 |
 
-The seat-mass walk still finishes the 26 s schedule with no fall (sim pass only). Path is 0.04 m shorter and net is 0.11 m shorter than the stock-mass run of the same script. The video is altaay_lab/sim/pi5_seat_walk_sim.mp4 (SIM in the corner, 550 KB). The fore-aft margin in sim/ADDED_MASS_SIM.md table 7 is about 4 to 6 mm behind the estimate (sim pass only). The 0.058 mm shift is forward and far smaller than that margin. This is not a hardware pass.
+The new seat still finishes the 26 s schedule with no fall (sim pass only). Path is 0.14 m shorter than the stock-mass run of the same script, and the straight-walk heading grows from 4.2 deg to 6.1 deg. The video is altaay_lab/sim/pi5_seat_walk_sim.mp4 (SIM in the corner). This is not a hardware pass.
 
-Straight line from the head shell centre to the seat centre is 190.3 mm (calc only). That is not a cable route.
+The camera route is a polyline from the forward MIPI edge, under the top shell to x 38 mm, up that open column, and on to the head shell centre. The centerline is 240.6 mm (CAD check only). A 2 mm tube on that line misses the print shells. It is not a harness with connector tails. The 500 mm cable proposed earlier still covers 240.6 mm.
 
 ## Power
 
@@ -142,11 +143,11 @@ The printed seat is not a bought line.
 
 - Official Pi 5 mass, and the 2 GB board's own mass. The 50 g figure is a 4 GB shop weight. BLOCKER for an official mass.
 - PCB thickness. The drawing's side view has no laminate callout. BLOCKER.
-- Servo clearance is 0.0 mm at the published seat (CAD check only). A pose that clears both the shells and the hip cases was not found on the grid.
-- Routed camera length, USB cable price, cooler price. BLOCKER.
+- Servo clearance at the chosen seat is 6.03 mm over the hip sweep, and 4.04 mm at the plate lip (CAD check only). No shell change.
+- Camera centerline is 240.6 mm (CAD check only). Connector tails and the bend radius are not in that line. USB cable price and Active Cooler price remain BLOCKER. Active Cooler mass is not on its drawing, so the CoM above is the board only.
 - Speaker current of the MAX98357A at the 8 ohm load. BLOCKER. The stall sum without it is 6.503 A (calc only).
 - A measured Pi 5 idle watt, and a CoreMark iterations/s for the Pi 5. BLOCKER.
 - Voice peak on the 2 GB cap, re-measured. BLOCKER. The prior 467 MiB figure is the one that fits under 2048.
 - gpiochip and pwmchip indexes on a Pi 5. BLOCKER.
 - The shared lab gym overlay was not in this checkout. The walk above is the public playground scene (sim pass only).
-- A seat for the D36V50F5 board (25.4 mm square) was not checked. The live netlist part is still the D30V30F5 until Ahmed changes it.
+- The D36V50F5 keep-out clears by 4.5 mm to the shells and 6.21 mm to the hip sweep (CAD check only). The live netlist part is still the D30V30F5 until Ahmed changes it.

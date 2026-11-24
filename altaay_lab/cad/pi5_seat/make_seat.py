@@ -450,7 +450,7 @@ def com_shift(origin, size):
     }
 
 
-def render(shells, origin, size, dest, servo_pts=None):
+def render(shells, origin, size, dest, servo_pts=None, extra=None):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -480,6 +480,10 @@ def render(shells, origin, size, dest, servo_pts=None):
     # corner order from box_corners is ix, iy, iz nested
     for a, b in edges:
         ax.plot(*board[[a, b]].T, color="#1a73e8", linewidth=2.0)
+    if extra is not None:
+        other = box_corners(np.array(extra[0], dtype=float), np.array(extra[1], dtype=float))
+        for a, b in edges:
+            ax.plot(*other[[a, b]].T, color="#188038", linewidth=1.6)
     if servo_pts is not None and len(servo_pts):
         sample = servo_pts[:: max(1, len(servo_pts) // 4000)]
         ax.scatter(sample[:, 0], sample[:, 1], sample[:, 2], s=1, c="#c43b3b", depthshade=False)
@@ -489,7 +493,7 @@ def render(shells, origin, size, dest, servo_pts=None):
     ax.set_xlabel("x forward, mm")
     ax.set_ylabel("y left, mm")
     ax.set_zlabel("z up, mm")
-    ax.set_title("CAD check only: Pi 5 seat, body shells, servo meshes")
+    ax.set_title("CAD check only: seat behind the hips, servos at the yaw stops")
     fig.tight_layout()
     fig.savefig(dest, dpi=110)
     plt.close(fig)
@@ -498,7 +502,8 @@ def render(shells, origin, size, dest, servo_pts=None):
 def remesh(report_path=None):
     """Rewrite the seat STL from the saved pose. Does not rerun the search."""
     path = report_path or os.path.join(HERE, "seat_fit.json")
-    report = json.loads(open(path, encoding="utf-8").read())
+    with open(path, encoding="utf-8") as handle:
+        report = json.loads(handle.read())
     origin = report["origin_mm"]
     swap = bool(report["long_side_along_y"])
     tris = seat_mesh(origin, swap)
@@ -507,12 +512,92 @@ def remesh(report_path=None):
     return stl_path, len(tris)
 
 
+def yaw_stop_cloud():
+    """Servo vertices at the two hip-yaw stops used for the picture.
+
+    Left yaw at its negative stop and right yaw at its positive stop.
+    Those are the samples that set the published gaps. CAD check only.
+    """
+    if HERE not in sys.path:
+        sys.path.insert(0, HERE)
+    import search_pose as sweep
+    angles = {"left_hip_yaw": -0.524, "right_hip_yaw": 0.524}
+    joints, _limits, visuals = sweep.load_model()
+    memo = {}
+    clouds = []
+    for lname, _fn, verts, local in visuals:
+        full = sweep.chain(joints, lname, angles, memo) @ local
+        pts = (full[:3, :3] @ verts[::6].T).T + full[:3, 3]
+        pts = pts * 1000.0 + sweep.SHIFT
+        keep = (
+            (pts[:, 0] > -150.0) & (pts[:, 0] < 70.0)
+            & (pts[:, 1] > -70.0) & (pts[:, 1] < 70.0)
+            & (pts[:, 2] > -110.0) & (pts[:, 2] < 40.0)
+        )
+        if keep.any():
+            clouds.append(pts[keep])
+    if not clouds:
+        return None
+    return np.vstack(clouds)
+
+
+def publish_saved():
+    """Rebuild the STL and the picture from seat_fit.json, then check clearance.
+
+    This is the normal path. It does not run the old grid, which cannot
+    reach this origin and would overwrite the hip-clear seat.
+    """
+    if HERE not in sys.path:
+        sys.path.insert(0, HERE)
+    import search_pose as sweep
+    path = os.path.join(HERE, "seat_fit.json")
+    with open(path, encoding="utf-8") as handle:
+        report = json.loads(handle.read())
+    origin = [float(v) for v in report["origin_mm"]]
+    size = [float(v) for v in report["size_mm"]]
+    stl_path, count = remesh(path)
+    joints, limits, visuals = sweep.load_model()
+    shells = load_shells()
+    bmin = np.array(origin, dtype=float)
+    bmax = bmin + np.array(size, dtype=float)
+    shells_gap = sweep.shell_report(shells, bmin, bmax)
+    worst = sweep.verify(joints, limits, visuals, origin, size)
+    report["shell_mm"] = shells_gap
+    report["shell_min_mm"] = min(shells_gap.values())
+    report["servo_mm"] = worst["mm"]
+    report["servo_check"] = worst
+    report["triangles"] = count
+    png_path = os.path.join(HERE, "pi5_seat_in_body.png")
+    extra = None
+    reg = report.get("regulator") or {}
+    if reg.get("origin_mm") and reg.get("size_mm"):
+        extra = (reg["origin_mm"], reg["size_mm"])
+    try:
+        render(shells, bmin, bmax - bmin, png_path, yaw_stop_cloud(), extra=extra)
+    except ModuleNotFoundError:
+        report["png_skipped"] = "matplotlib is not installed"
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(report, handle, indent=1)
+        handle.write("\n")
+    ok = report["shell_min_mm"] >= CLEAR_MM and worst["mm"] >= CLEAR_MM
+    print(json.dumps({
+        "origin_mm": origin,
+        "shell_min_mm": report["shell_min_mm"],
+        "servo_mm": worst["mm"],
+        "stl": stl_path,
+        "ok": ok,
+    }, indent=1))
+    return 0 if ok else 1
+
+
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     if argv == ["--remesh"]:
         path, count = remesh()
         print(json.dumps({"stl": path, "triangles": count}))
         return 0
+    if argv != ["--legacy-grid"]:
+        return publish_saved()
     shells = load_shells()
     servo_names, servo_pts, shift, servo_counts = servo_points_print_frame()
     head = head_try(shells)
