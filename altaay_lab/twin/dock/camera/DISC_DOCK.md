@@ -78,6 +78,24 @@ PR 120 held the crouch until the IMU had turned a fixed 3.10 rad and the disc wa
 
 A follow-up, not merged, set the turn target to pi plus that atan(lateral/range) and eased the side step after it had pointed at the wall for 3.2 s. Same 40 starts: camera 24 of 40, privileged 13 of 40 (sim pass only). Camera misses were sat_off 12, heading 3, fell 1. By room, camera was day 6 of 10, warm 6 of 10, dim 5 of 10, cool 7 of 10. The median frame was 3.17 ms on this x86 host. In a four-seed probe, seeds 1, 2, and 7 docked (seed 2 had been a heading miss, seed 7 a wall fall). Seed 9 stayed a heading miss at 25.9 deg. The full 40 was 24, under the 29 of this controller, and the privileged count fell to 13 with 15 timeouts. That controller was reverted. The batch in this file is the 29 of 40 controller from before the gate.
 
+## Back-in study, not this controller
+
+The idea was to line up at 0.7 to 0.9 m, half-turn there, and walk backward onto the foil. The run D policy does not walk backward, so that controller was not built and the 40 starts were not re-run. The batch above is still 29 of 40 camera.
+
+Open floor, body yaw about 180 deg, seed 1 room, 3.0 s, sim pass only. Trunk forward is the nose direction. Positive command 0.12 m/s moved the trunk 0.265 m forward and did not fall. Negative commands barely moved:
+
+| Command vx | Trunk forward in 3.0 s | Fell |
+|---|---|---|
+| +0.12 m/s | +0.265 m | no |
+| -0.06 m/s | -0.008 m | no |
+| -0.10 m/s | -0.010 m | no |
+| -0.14 m/s | -0.013 m | no |
+| -0.18 m/s | -0.016 m | no |
+
+A seat at about 0.25 m after a turn at 0.80 m needs roughly half a metre of backward travel. At about 0.005 m/s that does not happen. Adding a yaw-rate command did not start the reverse either (-0.009 m in 3.0 s at vx -0.10 m/s and wz 0.15 rad/s, no fall).
+
+Head yaw soft stops are -105.0 deg and +79.0 deg (cited, software/servo_limits.json). The horizontal field is 41 deg (calc from the cited 66 deg vertical field). The wider stop plus half of that field reaches about 125 deg off the nose (calc only). Straight behind is 180 deg. With the body facing the room at 0.80 m, head pitch -0.35 rad, and the head yaw joint at -104.9 deg, the finder did not see the disc (sim pass only). A standing hold of that stop with the look-down pitch tipped the duck at 1.04 s. The +79 deg stop did not see the disc either. There is no back-in video, because the gait does not reverse.
+
 ## Frame time
 
 Perception only, around find_nest. The MuJoCo render is not in this number. The call sits on the autonomy thread, not inside the 50 Hz walk step. It is not a Pi.
