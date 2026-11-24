@@ -239,11 +239,27 @@ copy_if_changed "$LAB/software/hw_pwm_sitecustomize.py" "$site"
 
 if [ "$MOCK" = 0 ]; then
   venv=$HOME_DIR/.virtualenvs/open-duck-mini-runtime
+  # Pi 5 GPIO and the camera come from apt (python3-lgpio, python3-libgpiod,
+  # python3-picamera2). The bench runs inside this venv, so the venv has to
+  # see those system packages. The Zero path stays isolated.
+  venv_flags=()
+  if [ "$PI5" = 1 ]; then
+    venv_flags=(--system-site-packages)
+  fi
   if [ ! -x "$venv/bin/python" ]; then
-    python3 -m venv "$venv"
+    python3 -m venv "${venv_flags[@]}" "$venv"
     changed=1
   else
     note_same "$venv"
+  fi
+  if [ "$PI5" = 1 ] && [ -f "$venv/pyvenv.cfg" ]; then
+    if grep -q '^include-system-site-packages = false' "$venv/pyvenv.cfg"; then
+      tmp=$(mktemp)
+      sed 's/^include-system-site-packages = false/include-system-site-packages = true/' "$venv/pyvenv.cfg" > "$tmp"
+      cp "$tmp" "$venv/pyvenv.cfg"
+      rm -f "$tmp"
+      note_new "$venv include-system-site-packages"
+    fi
   fi
   if ! "$venv/bin/python" -c 'import rustypot' >/dev/null 2>&1; then
     # shellcheck disable=SC1091

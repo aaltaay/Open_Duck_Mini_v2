@@ -258,6 +258,11 @@ class InstallScript(unittest.TestCase):
             self.assertIn("dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4", text)
             self.assertIn("lgpio or gpiod", text)
             self.assertNotIn("RPi.GPIO", text)
+            with open(script, encoding="utf-8") as fh:
+                install = fh.read()
+            self.assertIn("venv_flags=(--system-site-packages)", install)
+            self.assertIn('python3 -m venv "${venv_flags[@]}" "$venv"', install)
+            self.assertIn("include-system-site-packages = true", install)
 
     def test_pi5_mock_bench_still_passes(self):
         hw = MockHardware()

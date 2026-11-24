@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import os
 import struct
+import sys
 
 import numpy as np
 
@@ -224,26 +225,91 @@ def write_stl(path, tris):
         handle.write(buf)
 
 
-def seat_mesh(origin, swap):
-    """Plate and four bosses in the print frame. Pilots are not solid."""
-    ox, oy, oz = origin
-    plate = np.array([BOARD_Y, BOARD_X] if swap else [BOARD_X, BOARD_Y])
-    # 2 mm lip past the board on the long sides, none past the USB and MIPI edges
-    # so those connectors stay reachable.
-    margin = 2.0
-    p0 = (ox - margin, oy - margin, oz)
-    p1 = (ox + plate[0] + margin, oy + plate[1] + margin, oz + PLATE_T)
-    tris = _box_tris(p0, p1)
+def _split_span(spans, cut_a, cut_b):
+    """Remove [cut_a, cut_b] from a list of [a, b] spans."""
+    nxt = []
+    for a, b in spans:
+        if cut_b <= a or cut_a >= b:
+            nxt.append((a, b))
+            continue
+        if a < cut_a:
+            nxt.append((a, min(b, cut_a)))
+        if cut_b < b:
+            nxt.append((max(a, cut_b), b))
+    return [(a, b) for a, b in nxt if b - a > 1e-6]
+
+
+def rects_minus(outer, holes):
+    """Solid rectangles left after cutting hole rectangles out of outer.
+
+    Each rectangle is (x0, y0, x1, y1). Used so a pilot is an opening, not a
+    note in the JSON.
+    """
+    x0, y0, x1, y1 = outer
+    ys = {y0, y1}
+    for hx0, hy0, hx1, hy1 in holes:
+        ys.add(min(y1, max(y0, hy0)))
+        ys.add(min(y1, max(y0, hy1)))
+    ordered = sorted(ys)
+    solid = []
+    for ya, yb in zip(ordered, ordered[1:]):
+        if yb - ya <= 1e-6:
+            continue
+        mid = (ya + yb) / 2.0
+        spans = [(x0, x1)]
+        for hx0, hy0, hx1, hy1 in holes:
+            if hy0 < mid < hy1:
+                spans = _split_span(spans, hx0, hx1)
+        for a, b in spans:
+            solid.append((a, ya, b, yb))
+    return solid
+
+
+def hole_rects(origin, swap):
+    """2.0 mm square pilots, axis aligned, in the print frame."""
+    ox, oy, _oz = origin
+    half = PILOT_D / 2.0
+    rects = []
     for hx, hy in holes():
         if swap:
             cx, cy = ox + hy, oy + hx
         else:
             cx, cy = ox + hx, oy + hy
-        r = BOSS_D / 2.0
-        tris.extend(_box_tris(
-            (cx - r, cy - r, oz + PLATE_T),
-            (cx + r, cy + r, oz + PLATE_T + BOSS_H),
-        ))
+        rects.append((cx - half, cy - half, cx + half, cy + half))
+    return rects
+
+
+def boss_wall_rects(hole_rect):
+    """Four walls of a boss around one pilot. Outer size is BOSS_D."""
+    hx0, hy0, hx1, hy1 = hole_rect
+    cx = (hx0 + hx1) / 2.0
+    cy = (hy0 + hy1) / 2.0
+    outer = BOSS_D / 2.0
+    return (
+        (cx - outer, cy - outer, cx + outer, hy0),
+        (cx - outer, hy1, cx + outer, cy + outer),
+        (cx - outer, hy0, hx0, hy1),
+        (hx1, hy0, cx + outer, hy1),
+    )
+
+
+def seat_mesh(origin, swap):
+    """Plate and four bosses. Each boss and the plate under it have a 2.0 mm pilot."""
+    ox, oy, oz = [float(v) for v in origin]
+    plate = np.array([BOARD_Y, BOARD_X] if swap else [BOARD_X, BOARD_Y])
+    # 2 mm lip past the board on the long sides, none past the USB and MIPI edges
+    # so those connectors stay reachable.
+    margin = 2.0
+    outer = (ox - margin, oy - margin, ox + plate[0] + margin, oy + plate[1] + margin)
+    openings = hole_rects(origin, swap)
+    tris = []
+    for x0, y0, x1, y1 in rects_minus(outer, openings):
+        tris.extend(_box_tris((x0, y0, oz), (x1, y1, oz + PLATE_T)))
+    z0 = oz + PLATE_T
+    z1 = z0 + BOSS_H
+    for hole in openings:
+        for x0, y0, x1, y1 in boss_wall_rects(hole):
+            tris.extend(_box_tris((x0, y0, z0), (x1, y1, z1)))
     return tris
 
 
@@ -329,7 +395,24 @@ def render(shells, origin, size, dest):
     plt.close(fig)
 
 
-def main():
+def remesh(report_path=None):
+    """Rewrite the seat STL from the saved pose. Does not rerun the search."""
+    path = report_path or os.path.join(HERE, "seat_fit.json")
+    report = json.loads(open(path, encoding="utf-8").read())
+    origin = report["origin_mm"]
+    swap = bool(report["long_side_along_y"])
+    tris = seat_mesh(origin, swap)
+    stl_path = os.path.join(HERE, "pi5_seat.stl")
+    write_stl(stl_path, tris)
+    return stl_path, len(tris)
+
+
+def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv == ["--remesh"]:
+        path, count = remesh()
+        print(json.dumps({"stl": path, "triangles": count}))
+        return 0
     shells = load_shells()
     head = head_try(shells)
     found = search(shells)

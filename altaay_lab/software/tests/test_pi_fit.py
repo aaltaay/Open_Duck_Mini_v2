@@ -95,6 +95,29 @@ class BudgetTests(unittest.TestCase):
         self.assertAlmostEqual(ys[1] - ys[0], HOLE_PITCH_Y_MM)
         self.assertAlmostEqual(ys[0], (56.0 - 49.0) / 2.0)
 
+    def test_seat_pilots_are_open_through_the_plate_and_the_boss(self):
+        import importlib.util
+        path = os.path.join(
+            os.path.dirname(__file__), "..", "..", "cad", "pi5_seat", "make_seat.py")
+        spec = importlib.util.spec_from_file_location("pi5_seat", os.path.abspath(path))
+        seat = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(seat)
+        origin = (0.0, 0.0, 0.0)
+        openings = seat.hole_rects(origin, False)
+        self.assertEqual(len(openings), 4)
+        outer = (-2.0, -2.0, seat.BOARD_X + 2.0, seat.BOARD_Y + 2.0)
+        solid = seat.rects_minus(outer, openings)
+        for hx0, hy0, hx1, hy1 in openings:
+            cx = (hx0 + hx1) / 2.0
+            cy = (hy0 + hy1) / 2.0
+            self.assertAlmostEqual(hx1 - hx0, seat.PILOT_D)
+            for x0, y0, x1, y1 in solid:
+                inside = x0 < cx < x1 and y0 < cy < y1
+                self.assertFalse(inside)
+            for x0, y0, x1, y1 in seat.boss_wall_rects((hx0, hy0, hx1, hy1)):
+                inside = x0 < cx < x1 and y0 < cy < y1
+                self.assertFalse(inside)
+
     def test_pin_is_idle_without_the_variable(self):
         old = os.environ.pop("ODM_WALK_CPU", None)
         try:
