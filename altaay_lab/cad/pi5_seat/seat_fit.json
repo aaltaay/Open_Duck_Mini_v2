@@ -15,8 +15,11 @@
  "long_side_along_y": true,
  "cooler": "active, 12.70 mm plus 2.4 mm plate",
  "shell_mm": {
+  "body_middle_top.stl": 8.0,
   "body_middle_bottom.stl": 6.5,
-  "others_at_least": 8.0
+  "body_front.stl": 8.0,
+  "body_back.stl": 8.0,
+  "trunk_top.stl": 8.0
  },
  "servo_mm": 6.03,
  "servo_at": "hip_roll_assembly_2 bottom case, right_hip_yaw 0.524 rad",
@@ -80,5 +83,14 @@
   "backward_margin_label": "sim pass only, sim/ADDED_MASS_SIM.md table 7"
  },
  "stl": "altaay_lab/cad/pi5_seat/pi5_seat.stl",
- "png": "altaay_lab/cad/pi5_seat/pi5_seat_in_body.png"
+ "png": "altaay_lab/cad/pi5_seat/pi5_seat_in_body.png",
+ "shell_min_mm": 6.5,
+ "servo_check": {
+  "mm": 6.03,
+  "who": "hip_roll_assembly_2 wj-wk00-0124bottomcase_45.stl",
+  "angles_rad": {
+   "right_hip_yaw": 0.524
+  }
+ },
+ "triangles": 300
 }
