@@ -80,3 +80,16 @@ A12. Adapter (Waveshare bus servo adapter, board.stl on trunk_top) has only 2 se
 - New 2026-11-01 6:56 PM ET (exploded-view check): the 2 antennas (antenna.stl: a 150 mm rod, 1.8 mm across, with a 3.8 mm tip bead, measured by the print package check) are in the URDF but not in print/, the print guide or the BOM. Plan: print them in PLA from the URDF mesh as an optional expression part, with spares, since a TPU rod this thin would sag (print/PRINT_PLAN.md).
 - New 2026-11-01 6:56 PM ET (parts check): the Waveshare adapter marks "MAX:6A" at its servo header and is specced for 9 to 12.6 V input. Answer D15: servo power bypasses the adapter (BEC -> belly splices -> one power lead per chain), the adapter carries USB data only.
 - New 2026-11-01 6:56 PM ET (parts check): the Tenergy BMS over-discharge cut (2.40 V per cell) is below the Molicel P30B minimum (2.5 V), and Castle does not publish the CC BEC Pro minimum input voltage. Answer: software cut-off at servo Present Voltage 6.0 V (TEST_PLAN.md section 11) and a BEC input sweep on the bench before assembly (TEST_PLAN.md section 4).
+
+## D. Update 2026-11-24, 1:10 PM ET (roadmap to proof)
+
+Sections A, B, and C stay as written. This note does not close them.
+
+The ranked list from today to a proven duck, the status of gates 0 to 8, and the smallest first hardware purchase are in ROADMAP_TO_PROOF.md. The chart is docs/images/roadmap_gates.png. Nothing was bought. Nothing was printed. No gate has passed.
+
+Read the older rows with these later facts, which the roadmap cites:
+
+- B5 said there was no dock. D61, then D62, picked the nest v2 mat. The dock is still not proven. Camera-only finding is BLOCKER.
+- B6's notes through 2026-11-10 stand. Get-up through the sit is 248 of 296 (sim pass only, twin/sit/getup/VIA_SIT_EVAL.md). That is not gate 7.
+- A2's Castle at 7.2 V is the older rail. The walk notes now hold 12.0 V (ROADMAP_TO_PROOF.md). The 7.2 V sentence stays here as history.
+- The one-click bill is still not ready (PARTS_AUDIT.md). Live stock was not reopened on this date: BLOCKER.
