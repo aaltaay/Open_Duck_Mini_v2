@@ -220,6 +220,7 @@ class InstallScript(unittest.TestCase):
             self.assertEqual(body["components"], [
                 "runtime", "policy", "personality", "dock", "knee_heat",
                 "battery_guard", "walk_service", "antennas_overlay",
+                "setup", "updates", "status_page", "owner_services",
             ])
             self.assertTrue(body["mock"])
             unit_path = os.path.join(tmp, "etc", "systemd", "system", "odm-walk-guard.service")

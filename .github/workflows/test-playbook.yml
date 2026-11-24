@@ -36,3 +36,5 @@ jobs:
           python3 -m unittest discover -s altaay_lab/software/personality/tests -q
       - name: day one install and mock bench
         run: python3 -m unittest discover -s altaay_lab/software/tests -q
+      - name: owner setup, signed updates, and status page
+        run: python3 -m unittest discover -s altaay_lab/software/owner/tests -q

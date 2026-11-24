@@ -126,9 +126,9 @@ ensure_line() {
 }
 
 if [ "$MOCK" = 0 ]; then
-  if ! dpkg -s git python3-pip python3-venv python3-dev i2c-tools >/dev/null 2>&1; then
+  if ! dpkg -s git python3-pip python3-venv python3-dev i2c-tools hostapd dnsmasq >/dev/null 2>&1; then
     sudo apt-get update
-    sudo apt-get install -y git python3-pip python3-venv python3-dev i2c-tools
+    sudo apt-get install -y git python3-pip python3-venv python3-dev i2c-tools hostapd dnsmasq
   else
     note_same "apt packages"
   fi
@@ -220,6 +220,22 @@ fi
 copy_if_changed "$unit_src" "$(root "/etc/systemd/system/odm-walk-guard.service")"
 rm -f "$unit_src"
 
+# Owner units. The walk-guard unit above is unchanged (Restart=no).
+# These are copied and not enabled.
+for unit_name in odm-setup.service odm-status.service odm-supervisor.service \
+    odm-voice.service odm-perception.service odm-walk.service odm-lowpack.service; do
+  unit_body=$(mktemp)
+  sed -e "s|^User=duck|User=$USER_NAME|" \
+      -e "s|/home/duck|$HOME_DIR|g" \
+      -e "s|xdg-duck|xdg-$USER_NAME|g" \
+      -e "s|^Environment=ODM_OWNER_USER=duck|Environment=ODM_OWNER_USER=$USER_NAME|" \
+      "$LAB/software/$unit_name" > "$unit_body"
+  copy_if_changed "$unit_body" "$(root "/etc/systemd/system/$unit_name")"
+  rm -f "$unit_body"
+done
+
+copy_if_changed "$LAB/software/owner/update_public_key.pem" "$(root "/var/lib/odm/update_public_key.pem")"
+
 copy_if_changed "$LAB/software/pi_fit/zramswap.default" "$(root "/etc/default/zramswap")"
 
 site=$(root "$HOME_DIR/.virtualenvs/open-duck-mini-runtime/lib/python3.11/site-packages/sitecustomize.py")
@@ -257,7 +273,11 @@ cat > "$stamp_body" <<EOF
     "knee_heat",
     "battery_guard",
     "walk_service",
-    "antennas_overlay"
+    "antennas_overlay",
+    "setup",
+    "updates",
+    "status_page",
+    "owner_services"
   ],
   "mock": $MOCK
 }
@@ -294,6 +314,18 @@ unit=$(root "/etc/systemd/system/odm-walk-guard.service")
 grep_q '--knee-heat' "$unit" && ok "service passes --knee-heat" || bad "service missing --knee-heat"
 grep_q 'walk_with_guard.py' "$unit" && ok "service starts walk_with_guard.py" || bad "service missing walk program"
 grep_q '^Environment=ODM_HW_PWM=1' "$unit" && ok "service sets the ear PWM overlay" || bad "service missing ODM_HW_PWM"
+grep_q '^Restart=no' "$unit" && ok "walk guard does not restart a stop" || bad "walk guard restart"
+for unit_name in odm-supervisor.service odm-voice.service odm-perception.service odm-walk.service; do
+  one=$(root "/etc/systemd/system/$unit_name")
+  grep_q 'WatchdogSec=' "$one" && ok "$unit_name watchdog" || bad "$unit_name watchdog"
+  grep_q 'StartLimitBurst=3' "$one" && ok "$unit_name restart limit" || bad "$unit_name restart limit"
+done
+grep_q 'RestartPreventExitStatus=4 6 7 8 9 10 11' "$(root "/etc/systemd/system/odm-walk.service")" \
+  && ok "walk restart skips guard exits" || bad "walk restart skips guard exits"
+grep_q 'BEGIN PUBLIC KEY' "$(root "/var/lib/odm/update_public_key.pem")" && ok "update public key" || bad "update public key"
+if grep -q 'PRIVATE KEY' "$(root "/var/lib/odm/update_public_key.pem")"; then
+  bad "private key in the update key"
+fi
 grep_q 'CPUAffinity=0' "$unit" && ok "walk pinned to cpu 0" || bad "walk pin"
 grep_q 'ODM_ORT_THREADS=1' "$unit" && ok "walk onnx threads" || bad "walk onnx threads"
 grep_q 'ALGO=lz4' "$(root "/etc/default/zramswap")" && ok "zram config" || bad "zram config"

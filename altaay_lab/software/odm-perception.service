@@ -1,0 +1,22 @@
+# Camera job under systemd. Frames are not uploaded. Not enabled by install_pi.sh.
+# A live camera on this Pi is BLOCKER. This unit answers the watchdog.
+[Unit]
+Description=Duckie perception
+After=network.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=notify
+User=duck
+WorkingDirectory=/home/duck/open_duck_mini_v2
+Environment=PYTHONPATH=/home/duck/open_duck_mini_v2
+ExecStart=/usr/bin/python3 -m altaay_lab.software.owner.run_service --role perception --state /var/lib/odm
+WatchdogSec=15
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

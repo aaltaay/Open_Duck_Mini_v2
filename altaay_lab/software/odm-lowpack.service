@@ -1,0 +1,20 @@
+# Stops the motion units and powers off when the log says the pack is at
+# the cited 10.0 V walk stop. Not enabled by install_pi.sh.
+# --apply is limited to /var/lib/odm inside the program.
+[Unit]
+Description=Duckie low-pack shutdown
+After=network.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=notify
+WorkingDirectory=/home/duck/open_duck_mini_v2
+Environment=PYTHONPATH=/home/duck/open_duck_mini_v2
+ExecStart=/usr/bin/python3 -m altaay_lab.software.owner.run_lowpack --state /var/lib/odm --apply
+WatchdogSec=15
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,23 @@
+# Autonomy supervisor watchdog. Not the 50 Hz walk. Not enabled by install_pi.sh.
+# Do not enable this until the walk section of the build guide has a written pass.
+[Unit]
+Description=Duckie autonomy supervisor
+After=network.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=notify
+User=duck
+WorkingDirectory=/home/duck/open_duck_mini_v2
+Environment=PYTHONPATH=/home/duck/open_duck_mini_v2
+Environment=ODM_STATE=/var/lib/odm
+ExecStart=/usr/bin/python3 -m altaay_lab.software.owner.run_service --role supervisor --state /var/lib/odm
+WatchdogSec=15
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

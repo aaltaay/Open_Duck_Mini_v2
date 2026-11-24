@@ -43,6 +43,62 @@ What people actually keep a home robot for is discussed in
 [software/companion/USEFULNESS.md](../software/companion/USEFULNESS.md). That note is a reading list.
 It is not a promise that Duckie does those jobs today.
 
+## First boot, with no keyboard
+
+Duckie has no screen. After the Pi image is installed, the next start does not
+need a keyboard. Nothing in this section has been done on a robot.
+Status: **never done on hardware**. A desktop picture of these pages is a demo,
+not the duck. The steps are written in
+[software/owner/OWNER.md](../software/owner/OWNER.md).
+
+1. When the setup service is on and this duck has never been set up, it speaks
+   a pairing code. The code is 8 characters (set point). It is new for this duck.
+   There is no factory password and no cloud account.
+2. Join the Wi-Fi network it names. The name starts with Duckie- and the
+   passphrase is that code. Open 192.168.4.1 (set point). A QR code on that page
+   is the same network, for a second phone. Anyone who can hear the code can
+   join until you save the page. Then the temporary network turns off.
+3. Enter the code, a name, a timezone, and your home Wi-Fi. Kid mode is already
+   selected. Leave it selected unless you mean to turn it off.
+4. Save. The duck joins the home network.
+5. From a phone on that home network, open port 8080 on the duck (set point).
+   Enter the pairing code again. The page shows the battery, the last docks,
+   the falls, and the knee temperature copied from the supervisor log, and it
+   can download that log. It does not answer a device that is not on the home
+   network. A number there is not a new measurement. A pack sensor on the Pi
+   is **BLOCKER**.
+
+The camera stays on the duck. Frames are not uploaded. The microphone stays on
+the duck. Audio is not uploaded.
+
+## Updates
+
+An update is a signed bundle. The duck checks it with the public key in
+[software/owner/update_public_key.pem](../software/owner/update_public_key.pem).
+The private key is not in this repository. Do not put one there. A production
+key that a maintainer can sign with is **BLOCKER** until that private half is
+created offline and this public file is replaced with its pair.
+
+The install keeps two copies. After a new copy is selected, the duck runs a
+self-test of the walk guards and one supervisor step. If either fails, it
+switches back. That rollback is measured in emulation by the tests named in
+[software/owner/OWNER.md](../software/owner/OWNER.md). It has not been done on
+a robot. Status: **never done on hardware**.
+
+## When the pack is low
+
+At or under 10.0 V (cited, the pack walk stop) the low-pack service stops the
+walk, the camera job, the voice job, and the supervisor, then it powers the Pi
+off. It does not do that while the log says the duck is charging. If the log
+has no voltage, it does not invent one and it does not power off. A pack sensor
+on the Pi is **BLOCKER**. The shutdown itself is measured in emulation.
+Status: **never done on hardware**.
+
+A crash of the walk, the supervisor, the voice job, or the camera job is
+restarted at most 3 times in 300 seconds (set point). Each of those jobs is
+expected to answer a watchdog within 15 seconds (set point). The first-boot
+service uses 30 seconds (set point). A guard stop of the walk is not restarted.
+
 ## Setting up the nest
 
 The nest is a felt mat against a wall. Duckie walks onto it, turns around, and sits facing the room
@@ -122,8 +178,10 @@ Kid mode refuses mail, calendar, and open questions. Timers, reminders, the cloc
 and going home still work ([software/companion/ARCHITECTURE.md](../software/companion/ARCHITECTURE.md),
 [software/personality/PERSONALITY.md](../software/personality/PERSONALITY.md)).
 
-How a home turns kid mode on is not designed. **BLOCKER.** There is a software flag, not a switch a child
-can see. Until that switch exists, treat an unattended duck as kid mode: do not connect mail or a calendar.
+How a home turns kid mode on is the first-boot page above. It starts on.
+Only the word adult on that page turns it off. A switch on the body that a
+child can see is still **BLOCKER.** Until the first-boot page is saved, treat
+the duck as kid mode: do not connect mail or a calendar.
 
 Adult mail and calendar need a cloud key kept outside this repo. Do not write a key into a file in the project.
 If the key is missing, those jobs stay off.
@@ -207,14 +265,16 @@ A solvent, a soap, and a washing machine are **BLOCKER**. Do not invent one.
 | Mat does not charge | Domes not touching, dirt, or the charger is not fitted. The board seat is **BLOCKER** | One dry wipe, one more sit. Then stop. Do not raise the nest voltage. | Never done on hardware |
 | Plastic smells hot, or a cell case looks swollen | Stop. This is not a software mood. | Switch off, unplug the nest, move it off soft furniture, and do not charge it. | Never done on hardware |
 | It falls | Get-up is simulation only | Pick it up if the help pose does not clear. Check the shell for a crack before another walk ([TEST_PLAN.md](../TEST_PLAN.md) section 9). | Never done on hardware |
+| The setup page never appears | The setup service is off, or this duck was already set up | The temporary network exists only before the first save. | Never done on hardware |
+| An update did not stay | The self-test failed and the previous copy is back | Leave that copy running. Do not copy a private key onto the duck. | Measured in emulation. Never done on hardware |
 
 ## Safety around people
 
 - Fingers, hair, and pet tails stay out of the hips, knees, and neck while it moves.
 - First walks, when they happen, belong on a soft floor with a person behind the duck ([TEST_PLAN.md](../TEST_PLAN.md) section 9). That choice is still open. Status: **never done on hardware**.
 - Do not let it walk near stairs, a pool, or a street. It is not a stair climber.
-- The camera is for finding the nest and, later, a person you show it. It should be obvious when the camera is on. That cue is not written. **BLOCKER.** There is no face library in this design, and frames are not an upload in the companion note ([software/companion/ARCHITECTURE.md](../software/companion/ARCHITECTURE.md)). A reviewer demo of that behaviour does not exist. **BLOCKER** ([DEFINITION_OF_DONE.md](../DEFINITION_OF_DONE.md) gate 6).
-- Children can use timers, reminders, the clock, weather, the night light, and go home. They do not get mail, calendar, or open questions. The switch that locks this is **BLOCKER**.
+- The camera is for finding the nest and, later, a person you show it. Frames are not uploaded, and audio is not uploaded. A light on the body that shows the camera is on is not written. **BLOCKER.** There is no face library in this design ([software/companion/ARCHITECTURE.md](../software/companion/ARCHITECTURE.md)). A reviewer demo of that behaviour on a robot does not exist. **BLOCKER** ([DEFINITION_OF_DONE.md](../DEFINITION_OF_DONE.md) gate 6).
+- Children can use timers, reminders, the clock, weather, the night light, and go home. They do not get mail, calendar, or open questions. The first-boot page starts in kid mode. A switch on the body is **BLOCKER**.
 
 ## Safety marks and FCC
 
