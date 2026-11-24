@@ -54,6 +54,14 @@ def _bin(img, fx, fy, cx, cy):
     return img, fx / stride, fy / stride, cx / stride, cy / stride, stride
 
 
+def _white_balance(img):
+    """Gray-world balance. A global lamp color divides out. Calc only on the means."""
+    x = img.astype(np.float32)
+    mean = x[::4, ::4].reshape(-1, 3).mean(axis=0)
+    scale = float(np.mean(mean)) / np.maximum(mean, 6.0)
+    return np.clip(x * scale.reshape(1, 1, 3), 0, 255)
+
+
 def _exposure(img):
     """Scale the 95th percentile toward mid white.
 
@@ -66,7 +74,11 @@ def _exposure(img):
 
 
 def _scores(img):
-    """Yellow score and chromaticity. A gain scales the score, so cuts are relative."""
+    """Chromaticity after white balance. A gain and a lamp color both drop out.
+
+    The score is red-minus-blue share, not raw RGB. Green felt stays out
+    because its green share is above its red share.
+    """
     r = img[:, :, 0]
     g = img[:, :, 1]
     b = img[:, :, 2]
@@ -74,9 +86,11 @@ def _scores(img):
     rn = r / s
     gn = g / s
     bn = b / s
-    score = (r + g) * 0.5 - b
+    # Yellow, not the red charge lamp: red and green shares stay close,
+    # and both beat blue. Chromaticity, so a gain does not move the cut.
+    score = (rn + gn) * 0.5 - bn
     val = (r + g + b) / 3.0
-    warm = (score > 22.0) & (rn > bn + 0.08) & (rn > 0.34) & (rn + 0.08 > gn)
+    warm = (score > 0.05) & (gn > 0.24) & (rn > 0.26) & (np.abs(rn - gn) < 0.16) & (val > 28.0)
     return score, warm, val
 
 
@@ -93,7 +107,8 @@ def _pick_disc(score, warm, h, w):
     top = float(np.percentile(score[warm], 90))
     best = None
     best_gold = None
-    for gap in (8.0, 16.0, 28.0, 44.0):
+    # Chromaticity lives near 0 to 0.5, so the gaps are shares, not RGB counts.
+    for gap in (0.03, 0.07, 0.14, 0.24):
         gold = warm & (score >= top - gap)
         disc = _best_disc(gold, h, w)
         if disc is None:
@@ -103,7 +118,7 @@ def _pick_disc(score, warm, h, w):
             best_gold = gold
         # A real disc sits on the yellow peak. The ring is a step below it.
         med = float(np.median(score[disc[2], disc[1]]))
-        if med >= top - 18.0 and disc[3] < 0.55 * w:
+        if med >= top - 0.05 and disc[3] < 0.55 * w:
             return disc, gold
     return best, best_gold
 
@@ -159,68 +174,90 @@ def _best_disc(gold, h, w):
     return best
 
 
-def _ring(pale, u, v, radius_px, h, w):
-    """Pale cloth on both sides of the disc, out where the ring sits.
+def _ring_side(val, score, band, outer):
+    """One side of the cloth against the floor just outside it.
 
-    The ring's outer radius is 4.7 times the disc radius (235 / 50, CAD
-    check only). A floor disc is foreshortened, so the vertical test is
-    loose. The wall cut removes the far side. Left and right should remain.
+    Value catches a warm lamp, which washes the pale ring to gray after
+    the white balance. Chromaticity catches day and dim light, where the
+    cloth and the floor have almost the same brightness. Either step is
+    enough. The cuts are set points from stills of the four rooms.
+    """
+    if int(band.sum()) < 12 or int(outer.sum()) < 12:
+        return False, 0.0
+    dv = float(val[band].mean()) - float(val[outer].mean())
+    dc = float(score[band].mean()) - float(score[outer].mean())
+    ok = dv >= 5.0 or dc >= 0.018
+    return ok, max(dv, 0.0)
+
+
+def _ring_geom(val, score, u, v, radius_px, h, w):
+    """The disc sits inside a local ring of cloth.
+
+    The comparison is a tight annulus around the disc against the floor
+    just outside that annulus. The rest of the frame (wall, window, lamp)
+    is not the floor, and it was rejecting a real disc that sat low in
+    the picture. A yellow floor blob has no step at this radius.
     """
     if radius_px < 2.0:
-        return 0.0, False
-    r_in = 1.5 * radius_px
-    r_out = 5.2 * radius_px
+        return 0.0, False, False
     yy, xx = np.ogrid[:h, :w]
-    dx = xx - u
-    dy = (yy - v) / 0.55
-    rho = np.hypot(dx, dy)
-    band = pale & (rho > r_in) & (rho < r_out)
-    outer = pale & (rho >= r_out)
-    left = int(band[:, : int(max(0, math.floor(u)))].sum()) if u > 1 else 0
-    right = int(band[:, int(min(w - 1, math.ceil(u))):].sum()) if u < w - 1 else 0
-    band_n = int(band.sum())
-    band_frac = float(band.mean()) if band.size else 0.0
-    outer_frac = float(outer.mean()) if outer.size else 0.0
-    # The ring is pale cloth in that annulus, not a yellow cast on the whole floor.
-    both = left >= 8 and right >= 8 and band_frac > 0.01 and band_frac > outer_frac * 2.2
+    rho = np.hypot(xx - u, (yy - v) / 0.55)
+    r = float(radius_px)
+    band = (rho > 2.0 * r) & (rho < 4.4 * r)
+    outer = (rho > 5.2 * r) & (rho < 8.5 * r)
+    left_ok, left_gap = _ring_side(val, score, band & (xx < u), outer & (xx < u))
+    right_ok, right_gap = _ring_side(val, score, band & (xx > u), outer & (xx > u))
+    full = left_ok and right_ok
+    partial = left_ok or right_ok
+    gap = max(left_gap, right_gap)
     frac = 0.0
-    if band_n > 0:
-        frac = min(left, right) / float(band_n)
-    return frac, bool(both)
+    if gap > 0.0 and (left_ok and right_ok):
+        frac = min(left_gap, right_gap) / max(gap, 1.0)
+    elif partial:
+        frac = 0.5
+    return frac, bool(full), bool(partial)
 
 
 def _hazards(val, h, w):
-    """Dark band as a cliff edge, dark compact blob as an obstacle.
+    """A thin dark edge is a cliff. A compact dark blob on the floor is an obstacle.
 
-    The floor model is not a drop. This is the pixel test only.
+    Cuts are relative to the frame median, so a dim room that auto-exposure
+    has lifted does not paint the whole floor as a cliff. The floor model is
+    not a drop. This is the pixel test only.
     """
-    dark = val < 48.0
+    med = float(np.median(val))
+    dark = val < max(20.0, 0.40 * med)
     cliff = False
-    y1 = int(h * 0.45)
-    x0 = int(w * 0.28)
-    x1 = int(w * 0.72)
+    y1 = int(h * 0.55)
+    x0 = int(w * 0.30)
+    x1 = int(w * 0.70)
     region = dark[y1:, x0:x1]
     if region.size:
         row = region.mean(axis=1)
-        # A dark band across the middle of the lower frame. A mark at the side is not this.
-        cliff = bool(np.any(row > 0.55))
+        dark_rows = row > 0.62
+        n_dark = int(dark_rows.sum())
+        # A real edge is a few rows. A dim lower half is not.
+        if 0 < n_dark <= max(3, int(0.14 * len(row))):
+            idx = int(np.argmax(dark_rows))
+            above = val[max(0, y1 + idx - 8): y1 + idx, x0:x1]
+            if above.size and float(above.mean()) > 0.72 * med:
+                cliff = True
     obstacle = False
     obstacle_u = None
-    # Ignore a full-width band. That is the cliff test, not a blob.
     body = dark.copy()
-    # Wall fixtures sit above the floor. An obstacle is a blob on the floor,
-    # in the bottom of the frame.
     body[: int(h * 0.62), :] = False
-    for xs, ys, n in _blobs(body, 36):
+    for xs, ys, n in _blobs(body, 48):
         bw = int(xs.max() - xs.min()) + 1
         bh = int(ys.max() - ys.min()) + 1
-        if bw > 0.55 * w:
+        if bw > 0.45 * w or bh < 8:
             continue
         aspect = bw / float(max(bh, 1))
-        if not 0.25 <= aspect <= 3.0:
+        if not 0.35 <= aspect <= 2.6:
             continue
         extent = n / float(bw * bh)
-        if extent < 0.35:
+        if extent < 0.45:
+            continue
+        if float(val[ys, xs].mean()) > 0.32 * med:
             continue
         obstacle = True
         obstacle_u = float(xs.mean())
@@ -237,10 +274,14 @@ def find_nest(img, fx, fy, cx, cy):
         img = img[:, :, :3]
     img, fx, fy, cx, cy, stride = _bin(np.asarray(img), float(fx), float(fy), float(cx), float(cy))
     h, w = img.shape[:2]
-    shown = _exposure(img)
+    shown = _exposure(_white_balance(img))
     score, warm, val = _scores(shown)
     disc, gold = _pick_disc(score, warm, h, w)
-    pale = warm if gold is None else (warm & ~gold)
+    pale = warm
+    if disc is not None:
+        keep = pale.copy()
+        keep[disc[2], disc[1]] = False
+        pale = keep
     cliff, obstacle, obstacle_u = _hazards(val, h, w)
     out = {
         "seen": False,
@@ -263,7 +304,14 @@ def find_nest(img, fx, fy, cx, cy):
     _, xs, ys, bw, bh, clipped, x0, y0, x1, y1 = disc
     u = float(xs.mean())
     v = float(ys.mean())
-    frac, ring = _ring(pale, u, v, bw / 2.0, h, w)
+    # A dark chip of the nest (the charger pad, the disc shadow) is not a
+    # side hazard. A real obstacle sits away from the disc.
+    if obstacle_u is not None and abs(float(obstacle_u) - u) < 1.15 * max(float(bw), 8.0):
+        obstacle = False
+        obstacle_u = None
+        out["obstacle"] = False
+        out["obstacle_u"] = None
+    frac, ring, partial = _ring_geom(val, score, u, v, bw / 2.0, h, w)
     ring_w = None
     y_a = max(0, int(y0) - int(bh))
     y_b = min(h, int(y1) + int(bh) + 1)
@@ -274,6 +322,18 @@ def find_nest(img, fx, fy, cx, cy):
             ring_w = span
     # A clipped disc hides part of the width. Do not turn that into a range.
     width = float(bw) if not clipped else None
+    # Disc inside a ring, and a pinhole size a nest at 0.25 m to 1.8 m would have.
+    # Farther than 1.8 m the disc is a chip of the cloth (about half the real
+    # width) and the range comes out near 2 m. Those chips are not the disc.
+    # A pale span that is the floor, not the ring, is ignored.
+    depth = SUN_D_M * float(fx) / max(float(bw), 1.0)
+    size_ok = 0.25 <= depth <= 1.8
+    if ring_w is not None:
+        ratio = ring_w / max(float(bw), 1.0)
+        if not 2.0 <= ratio <= 6.8:
+            ring_w = None
+    if not (partial and size_ok):
+        return out
     out.update(
         {
             "seen": True,

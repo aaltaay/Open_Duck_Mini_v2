@@ -8,7 +8,7 @@ import unittest
 
 import numpy as np
 
-from altaay_lab.software.autonomy.disc_loop import SIT_FWD_M, DiscLoop
+from altaay_lab.software.autonomy.disc_loop import HEAD_YAW_HI, HEAD_YAW_LO, SIT_FWD_M, DiscLoop
 from altaay_lab.software.perception.nest_find import find_nest, intrinsics, sun_in_trunk
 
 
@@ -27,7 +27,11 @@ def _frame(h, w, tint=(1.0, 1.0, 1.0), cover=False, cliff=False, blob=False, emp
         disc = (xx - cx) ** 2 + (yy - cy) ** 2 <= radius ** 2
         img[disc] = (230, 178, 56)
         if cover:
-            img[cy - 8:cy + 36, cx + 6:cx + 46] = (168, 189, 148)
+            # One side of the ring, including the cloth above and below the
+            # disc. The disc itself stays.
+            disc_px = (xx - cx) ** 2 + (yy - cy) ** 2 <= radius ** 2
+            right = (xx > cx + 2) & (rho < radius * 5.2) & ~disc_px
+            img[right] = (168, 189, 148)
     if cliff:
         y0 = int(h * 0.78)
         img[y0:y0 + 14, :] = (6, 6, 8)
@@ -105,13 +109,13 @@ class LoopTests(unittest.TestCase):
         self.assertEqual(loop.phase, "approach")
         cmd = loop.command(est, 0.0, 0.02)
         self.assertGreater(cmd[0], 0.05)
-        self.assertEqual(len(cmd), 4)
+        self.assertEqual(len(cmd), 5)
 
     def test_close_sun_turns(self):
         loop = DiscLoop()
         loop.phase = "approach"
         loop.t_phase = 0.0
-        est = {"seen": True, "clipped": False, "sun_fwd": SIT_FWD_M - 0.02, "sun_left": 0.01,
+        est = {"seen": True, "clipped": False, "sun_fwd": SIT_FWD_M - 0.02, "sun_left": 0.06,
                "cliff": False, "obstacle": False, "obstacle_right": 0.0}
         loop.command(est, 0.2, 0.02)
         self.assertEqual(loop.phase, "turn")
@@ -143,9 +147,42 @@ class LoopTests(unittest.TestCase):
                "cliff": False, "obstacle": True, "obstacle_right": 0.2}
         cmd = loop.command(est, 0.0, 0.02)
         self.assertGreater(cmd[2], 0.0)
+        self.assertEqual(cmd[0], 0.0)
         est["obstacle_right"] = -0.2
         cmd = loop.command(est, 0.0, 0.02)
         self.assertLess(cmd[2], 0.0)
+        self.assertEqual(cmd[0], 0.0)
+
+    def test_a_head_yaw_does_not_hide_an_obstacle_on_the_other_side(self):
+        from altaay_lab.software.autonomy.disc_loop import _obs_left
+        # Head looking left. The disc is along that look. An image-right
+        # obstacle is then on the other side of the trunk and is not the disc.
+        self.assertAlmostEqual(_obs_left(0.30, 0.0), 0.30, places=5)
+        self.assertAlmostEqual(_obs_left(0.30, 0.25), 0.05, places=5)
+        loop = DiscLoop()
+        loop.phase = "approach"
+        loop.head_cmd = 0.30
+        est = {"seen": True, "clipped": False, "sun_fwd": 0.8, "sun_left": 0.25,
+               "cliff": False, "obstacle": True, "obstacle_right": 0.25}
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertGreater(cmd[2], 0.0)
+        self.assertEqual(cmd[0], 0.0)
+        est["obstacle_right"] = 0.0
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertNotEqual(cmd[2], 0.50)
+        self.assertNotEqual(cmd[2], -0.50)
+
+    def test_trim_turns_toward_a_sun_that_is_behind(self):
+        loop = DiscLoop()
+        loop.phase = "trim"
+        est = {"seen": True, "clipped": False, "sun_fwd": -0.4, "sun_left": 0.08,
+               "cliff": False, "obstacle": False, "obstacle_right": 0.0}
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertEqual(loop.phase, "trim")
+        self.assertLess(cmd[2], 0.0)
+        est["sun_left"] = -0.08
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertGreater(cmd[2], 0.0)
 
     def test_cliff_stops_a_creep(self):
         loop = DiscLoop()
@@ -177,6 +214,43 @@ class LoopTests(unittest.TestCase):
         self.assertTrue(due["seen"])
         self.assertAlmostEqual(due["sun_fwd"], 1.0)
         self.assertTrue(due["cliff"])
+
+    def test_search_sweeps_inside_the_head_stops(self):
+        loop = DiscLoop()
+        yaws = []
+        spins = []
+        for _ in range(50):
+            cmd = loop.command(None, 0.0, 0.10)
+            yaws.append(cmd[4])
+            spins.append(cmd[2])
+            self.assertGreaterEqual(cmd[4], HEAD_YAW_LO - 1e-6)
+            self.assertLessEqual(cmd[4], HEAD_YAW_HI + 1e-6)
+        # The standing sweep reaches both sides of the stops, then the
+        # body turns. The two are not commanded in the same step.
+        self.assertLess(min(yaws), -0.4)
+        self.assertGreater(max(yaws), 0.4)
+        self.assertTrue(any(abs(z) > 0.4 for z in spins))
+        self.assertGreater(min(yaws), HEAD_YAW_LO - 1e-6)
+        self.assertLess(max(yaws), HEAD_YAW_HI + 1e-6)
+
+    def test_close_negative_bearing_squares_up_before_the_turn(self):
+        loop = DiscLoop()
+        loop.phase = "approach"
+        est = {"seen": True, "clipped": False, "sun_fwd": SIT_FWD_M - 0.02, "sun_left": -0.08,
+               "cliff": False, "obstacle": False, "obstacle_right": 0.0}
+        cmd = loop.command(est, 0.0, 0.02)
+        self.assertEqual(loop.phase, "approach")
+        self.assertLess(cmd[2], 0.0)
+        self.assertEqual(cmd[0], 0.0)
+
+    def test_memory_walks_toward_the_last_bearing(self):
+        loop = DiscLoop()
+        est = {"seen": True, "clipped": False, "sun_fwd": 1.2, "sun_left": 0.15,
+               "cliff": False, "obstacle": False, "obstacle_right": 0.0}
+        loop.command(est, 0.0, 0.02)
+        loop.phase = "search"
+        cmd = loop.command(None, 0.0, 0.02)
+        self.assertGreater(cmd[0], 0.05)
 
     def test_cliff_does_not_walk_forward(self):
         loop = DiscLoop()
