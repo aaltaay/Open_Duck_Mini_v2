@@ -1,1 +1,238 @@
-{"label": "measured in emulation unless a field says otherwise", "verdict": "does not fit", "coremark": {"cited_pi_zero_2w": 3191, "cited_label": "cited", "unthrottled_qemu_user": 7341.7, "throttled_qemu_user": 3195.4, "quota_us": 45700, "quota_period_us": 100000, "throttled_label": "measured in emulation"}, "ram": {"chip_mib": {"value": 512, "label": "cited"}, "linux_visible_mib": {"value": 417.0, "label": "cited"}, "os_used_mib": {"value": 125.4, "label": "cited, locked as a stand-in"}, "baseline_417_cap": {"peak_mib": 417.0, "swap_mib": 125.8, "label": "measured in emulation"}, "fixed_417_cap": {"peak_mib": 417.0, "swap_mib": 108.4, "label": "measured in emulation"}, "fixed_512_cap": {"peak_mib": 467.0, "swap_mib": 0.33, "label": "measured in emulation"}, "idle_python_mib": {"value": 29.1, "label": "measured in emulation"}}, "processes_mib_not_a_sum": {"walk": 124.2, "wake": 242.3, "stt": 220.3, "tts": 225.3, "camera": 80.7, "label": "measured in emulation, each process at its own peak"}, "walk_512_cap": {"cycles": 8880, "work_p50_ms": 1.47, "work_p99_ms": 2.35, "work_misses_over_20ms": 1, "work_max_ms": 20.6, "tail_cycles_after_20": 8860, "tail_work_misses_including_bus": 0, "tail_period_over_21ms": 15, "tail_period_max_ms": 23.2, "bus_ms": 5.18, "bus_label": "calc only", "label": "measured in emulation"}, "camera_s": 2.1, "camera_found": true, "trace_stride": "every 20th cycle, plus any work over 10 ms or period over 25 ms", "trace": [{"i": 0, "work_ms": 1.6, "period_ms": 26.79}, {"i": 1, "work_ms": 1.701, "period_ms": 59.539}, {"i": 2, "work_ms": 1.906, "period_ms": 96.75}, {"i": 3, "work_ms": 20.616, "period_ms": 20.624}, {"i": 4, "work_ms": 1.412, "period_ms": 78.717}, {"i": 6, "work_ms": 1.566, "period_ms": 70.673}, {"i": 7, "work_ms": 1.509, "period_ms": 25.271}, {"i": 8, "work_ms": 1.613, "period_ms": 76.959}, {"i": 10, "work_ms": 1.427, "period_ms": 74.817}, {"i": 11, "work_ms": 1.418, "period_ms": 37.357}, {"i": 12, "work_ms": 1.506, "period_ms": 66.727}, {"i": 14, "work_ms": 1.623, "period_ms": 83.144}, {"i": 15, "work_ms": 1.504, "period_ms": 25.137}, {"i": 16, "work_ms": 1.647, "period_ms": 67.836}, {"i": 20, "work_ms": 1.541, "period_ms": 20.091}, {"i": 40, "work_ms": 1.481, "period_ms": 20.1}, {"i": 60, "work_ms": 1.436, "period_ms": 20.2}, {"i": 80, "work_ms": 1.442, "period_ms": 20.091}, {"i": 100, "work_ms": 1.456, "period_ms": 20.11}, {"i": 120, "work_ms": 1.443, "period_ms": 20.14}, {"i": 140, "work_ms": 1.418, "period_ms": 20.088}, {"i": 160, "work_ms": 1.496, "period_ms": 20.11}, {"i": 180, "work_ms": 1.448, "period_ms": 20.106}, {"i": 200, "work_ms": 1.456, "period_ms": 20.273}, {"i": 220, "work_ms": 1.511, "period_ms": 20.081}, {"i": 240, "work_ms": 1.546, "period_ms": 20.167}, {"i": 260, "work_ms": 1.473, "period_ms": 20.105}, {"i": 280, "work_ms": 1.479, "period_ms": 20.186}, {"i": 300, "work_ms": 1.54, "period_ms": 20.161}, {"i": 320, "work_ms": 1.456, "period_ms": 20.109}, {"i": 340, "work_ms": 1.534, "period_ms": 20.156}, {"i": 360, "work_ms": 1.514, "period_ms": 20.108}, {"i": 380, "work_ms": 1.442, "period_ms": 20.157}, {"i": 400, "work_ms": 1.474, "period_ms": 20.11}, {"i": 420, "work_ms": 1.533, "period_ms": 20.09}, {"i": 440, "work_ms": 1.457, "period_ms": 20.095}, {"i": 460, "work_ms": 1.588, "period_ms": 20.174}, {"i": 480, "work_ms": 1.751, "period_ms": 20.116}, {"i": 500, "work_ms": 1.421, "period_ms": 20.11}, {"i": 520, "work_ms": 1.403, "period_ms": 20.158}, {"i": 540, "work_ms": 1.477, "period_ms": 20.115}, {"i": 560, "work_ms": 1.437, "period_ms": 20.245}, {"i": 580, "work_ms": 1.461, "period_ms": 20.179}, {"i": 600, "work_ms": 1.418, "period_ms": 20.329}, {"i": 620, "work_ms": 1.462, "period_ms": 20.108}, {"i": 640, "work_ms": 1.456, "period_ms": 20.193}, {"i": 660, "work_ms": 1.44, "period_ms": 20.114}, {"i": 680, "work_ms": 1.472, "period_ms": 20.178}, {"i": 700, "work_ms": 1.544, "period_ms": 20.112}, {"i": 720, "work_ms": 1.487, "period_ms": 20.284}, {"i": 740, "work_ms": 1.541, "period_ms": 20.159}, {"i": 760, "work_ms": 1.512, "period_ms": 20.11}, {"i": 780, "work_ms": 1.428, "period_ms": 20.11}, {"i": 800, "work_ms": 1.519, "period_ms": 20.172}, {"i": 820, "work_ms": 1.452, "period_ms": 20.114}, {"i": 840, "work_ms": 1.427, "period_ms": 20.091}, {"i": 860, "work_ms": 1.5, "period_ms": 20.108}, {"i": 880, "work_ms": 1.464, "period_ms": 20.091}, {"i": 900, "work_ms": 1.422, "period_ms": 20.168}, {"i": 920, "work_ms": 1.455, "period_ms": 20.106}, {"i": 940, "work_ms": 1.714, "period_ms": 20.117}, {"i": 960, "work_ms": 1.538, "period_ms": 20.153}, {"i": 980, "work_ms": 1.459, "period_ms": 20.109}, {"i": 1000, "work_ms": 1.448, "period_ms": 20.109}, {"i": 1020, "work_ms": 1.454, "period_ms": 20.094}, {"i": 1040, "work_ms": 1.597, "period_ms": 20.103}, {"i": 1060, "work_ms": 1.469, "period_ms": 20.139}, {"i": 1080, "work_ms": 1.483, "period_ms": 20.222}, {"i": 1100, "work_ms": 1.488, "period_ms": 20.152}, {"i": 1120, "work_ms": 1.438, "period_ms": 20.109}, {"i": 1140, "work_ms": 1.473, "period_ms": 20.106}, {"i": 1160, "work_ms": 1.509, "period_ms": 20.115}, {"i": 1180, "work_ms": 1.537, "period_ms": 20.187}, {"i": 1200, "work_ms": 1.407, "period_ms": 20.162}, {"i": 1220, "work_ms": 1.443, "period_ms": 20.116}, {"i": 1240, "work_ms": 1.494, "period_ms": 20.124}, {"i": 1260, "work_ms": 1.46, "period_ms": 20.135}, {"i": 1280, "work_ms": 1.988, "period_ms": 20.076}, {"i": 1300, "work_ms": 2.066, "period_ms": 20.083}, {"i": 1320, "work_ms": 1.467, "period_ms": 20.204}, {"i": 1340, "work_ms": 1.457, "period_ms": 20.195}, {"i": 1360, "work_ms": 1.558, "period_ms": 20.107}, {"i": 1380, "work_ms": 1.415, "period_ms": 20.107}, {"i": 1400, "work_ms": 1.412, "period_ms": 20.139}, {"i": 1420, "work_ms": 1.49, "period_ms": 20.112}, {"i": 1440, "work_ms": 1.859, "period_ms": 20.113}, {"i": 1460, "work_ms": 1.451, "period_ms": 20.238}, {"i": 1480, "work_ms": 1.569, "period_ms": 20.126}, {"i": 1500, "work_ms": 1.493, "period_ms": 20.172}, {"i": 1520, "work_ms": 2.0, "period_ms": 20.092}, {"i": 1540, "work_ms": 1.461, "period_ms": 20.105}, {"i": 1560, "work_ms": 1.433, "period_ms": 20.131}, {"i": 1580, "work_ms": 1.44, "period_ms": 20.128}, {"i": 1600, "work_ms": 1.462, "period_ms": 20.077}, {"i": 1620, "work_ms": 1.459, "period_ms": 20.081}, {"i": 1640, "work_ms": 1.787, "period_ms": 20.108}, {"i": 1660, "work_ms": 1.459, "period_ms": 20.075}, {"i": 1680, "work_ms": 2.01, "period_ms": 20.088}, {"i": 1700, "work_ms": 2.021, "period_ms": 20.091}, {"i": 1720, "work_ms": 1.516, "period_ms": 20.102}, {"i": 1740, "work_ms": 1.448, "period_ms": 20.082}, {"i": 1760, "work_ms": 1.466, "period_ms": 20.103}, {"i": 1780, "work_ms": 1.504, "period_ms": 20.13}, {"i": 1800, "work_ms": 1.513, "period_ms": 20.104}, {"i": 1820, "work_ms": 1.409, "period_ms": 20.105}, {"i": 1840, "work_ms": 1.434, "period_ms": 20.218}, {"i": 1860, "work_ms": 1.492, "period_ms": 20.138}, {"i": 1880, "work_ms": 1.461, "period_ms": 20.587}, {"i": 1900, "work_ms": 1.423, "period_ms": 20.133}, {"i": 1920, "work_ms": 1.435, "period_ms": 20.296}, {"i": 1940, "work_ms": 2.015, "period_ms": 20.095}, {"i": 1960, "work_ms": 2.032, "period_ms": 20.088}, {"i": 1980, "work_ms": 1.478, "period_ms": 20.106}, {"i": 2000, "work_ms": 2.062, "period_ms": 20.137}, {"i": 2020, "work_ms": 1.523, "period_ms": 20.139}, {"i": 2040, "work_ms": 2.156, "period_ms": 20.105}, {"i": 2060, "work_ms": 1.421, "period_ms": 20.1}, {"i": 2080, "work_ms": 1.538, "period_ms": 20.129}, {"i": 2100, "work_ms": 1.495, "period_ms": 20.1}, {"i": 2120, "work_ms": 1.485, "period_ms": 20.228}, {"i": 2140, "work_ms": 1.48, "period_ms": 20.115}, {"i": 2160, "work_ms": 1.478, "period_ms": 20.098}, {"i": 2180, "work_ms": 1.601, "period_ms": 20.109}, {"i": 2200, "work_ms": 1.483, "period_ms": 20.123}, {"i": 2220, "work_ms": 1.489, "period_ms": 20.157}, {"i": 2240, "work_ms": 1.536, "period_ms": 20.112}, {"i": 2260, "work_ms": 1.446, "period_ms": 20.098}, {"i": 2280, "work_ms": 1.656, "period_ms": 20.124}, {"i": 2300, "work_ms": 1.539, "period_ms": 20.197}, {"i": 2320, "work_ms": 1.463, "period_ms": 20.292}, {"i": 2340, "work_ms": 1.472, "period_ms": 20.155}, {"i": 2360, "work_ms": 1.619, "period_ms": 20.116}, {"i": 2380, "work_ms": 1.469, "period_ms": 20.129}, {"i": 2400, "work_ms": 1.844, "period_ms": 20.185}, {"i": 2420, "work_ms": 1.589, "period_ms": 20.146}, {"i": 2440, "work_ms": 1.473, "period_ms": 20.106}, {"i": 2460, "work_ms": 1.4, "period_ms": 20.104}, {"i": 2480, "work_ms": 1.444, "period_ms": 20.101}, {"i": 2500, "work_ms": 1.415, "period_ms": 20.159}, {"i": 2520, "work_ms": 1.429, "period_ms": 20.115}, {"i": 2540, "work_ms": 1.4, "period_ms": 20.192}, {"i": 2560, "work_ms": 1.442, "period_ms": 20.091}, {"i": 2580, "work_ms": 1.466, "period_ms": 20.107}, {"i": 2600, "work_ms": 1.428, "period_ms": 20.104}, {"i": 2620, "work_ms": 1.444, "period_ms": 20.251}, {"i": 2640, "work_ms": 1.412, "period_ms": 20.108}, {"i": 2660, "work_ms": 1.423, "period_ms": 20.108}, {"i": 2680, "work_ms": 1.434, "period_ms": 20.098}, {"i": 2700, "work_ms": 1.432, "period_ms": 20.133}, {"i": 2720, "work_ms": 1.426, "period_ms": 20.102}, {"i": 2740, "work_ms": 1.458, "period_ms": 20.098}, {"i": 2760, "work_ms": 1.438, "period_ms": 20.09}, {"i": 2780, "work_ms": 1.49, "period_ms": 20.111}, {"i": 2800, "work_ms": 1.442, "period_ms": 20.164}, {"i": 2820, "work_ms": 1.419, "period_ms": 20.235}, {"i": 2840, "work_ms": 1.456, "period_ms": 20.11}, {"i": 2860, "work_ms": 1.468, "period_ms": 20.092}, {"i": 2880, "work_ms": 1.481, "period_ms": 20.263}, {"i": 2900, "work_ms": 1.422, "period_ms": 20.204}, {"i": 2920, "work_ms": 2.519, "period_ms": 20.17}, {"i": 2940, "work_ms": 1.548, "period_ms": 20.151}, {"i": 2960, "work_ms": 1.426, "period_ms": 20.374}, {"i": 2980, "work_ms": 1.432, "period_ms": 20.161}, {"i": 3000, "work_ms": 1.583, "period_ms": 20.109}, {"i": 3020, "work_ms": 1.563, "period_ms": 20.163}, {"i": 3040, "work_ms": 1.437, "period_ms": 20.196}, {"i": 3060, "work_ms": 1.551, "period_ms": 20.102}, {"i": 3080, "work_ms": 1.494, "period_ms": 20.162}, {"i": 3100, "work_ms": 1.687, "period_ms": 20.105}, {"i": 3120, "work_ms": 2.177, "period_ms": 20.106}, {"i": 3140, "work_ms": 1.442, "period_ms": 20.116}, {"i": 3160, "work_ms": 1.457, "period_ms": 20.228}, {"i": 3180, "work_ms": 1.475, "period_ms": 20.124}, {"i": 3200, "work_ms": 1.439, "period_ms": 20.092}, {"i": 3220, "work_ms": 1.442, "period_ms": 20.172}, {"i": 3240, "work_ms": 1.49, "period_ms": 20.155}, {"i": 3260, "work_ms": 1.437, "period_ms": 20.255}, {"i": 3280, "work_ms": 1.449, "period_ms": 20.206}, {"i": 3300, "work_ms": 1.418, "period_ms": 20.22}, {"i": 3320, "work_ms": 1.463, "period_ms": 20.089}, {"i": 3340, "work_ms": 1.396, "period_ms": 20.157}, {"i": 3360, "work_ms": 1.426, "period_ms": 20.074}, {"i": 3380, "work_ms": 1.418, "period_ms": 20.197}, {"i": 3400, "work_ms": 1.453, "period_ms": 20.105}, {"i": 3420, "work_ms": 1.58, "period_ms": 20.099}, {"i": 3440, "work_ms": 1.579, "period_ms": 20.093}, {"i": 3460, "work_ms": 1.474, "period_ms": 20.108}, {"i": 3480, "work_ms": 1.468, "period_ms": 20.092}, {"i": 3500, "work_ms": 1.439, "period_ms": 20.092}, {"i": 3520, "work_ms": 1.558, "period_ms": 20.112}, {"i": 3540, "work_ms": 1.508, "period_ms": 20.105}, {"i": 3560, "work_ms": 1.471, "period_ms": 20.239}, {"i": 3580, "work_ms": 1.836, "period_ms": 20.24}, {"i": 3600, "work_ms": 1.56, "period_ms": 20.183}, {"i": 3620, "work_ms": 1.577, "period_ms": 20.104}, {"i": 3640, "work_ms": 1.64, "period_ms": 20.191}, {"i": 3660, "work_ms": 1.458, "period_ms": 20.107}, {"i": 3680, "work_ms": 1.431, "period_ms": 20.243}, {"i": 3700, "work_ms": 1.513, "period_ms": 20.102}, {"i": 3720, "work_ms": 1.424, "period_ms": 20.107}, {"i": 3740, "work_ms": 1.557, "period_ms": 20.102}, {"i": 3760, "work_ms": 2.327, "period_ms": 20.113}, {"i": 3780, "work_ms": 1.518, "period_ms": 20.209}, {"i": 3800, "work_ms": 1.468, "period_ms": 20.106}, {"i": 3820, "work_ms": 2.016, "period_ms": 20.121}, {"i": 3840, "work_ms": 1.492, "period_ms": 20.205}, {"i": 3860, "work_ms": 1.477, "period_ms": 20.105}, {"i": 3880, "work_ms": 1.58, "period_ms": 20.258}, {"i": 3900, "work_ms": 1.493, "period_ms": 20.221}, {"i": 3920, "work_ms": 1.585, "period_ms": 20.095}, {"i": 3940, "work_ms": 1.927, "period_ms": 20.102}, {"i": 3960, "work_ms": 1.529, "period_ms": 20.218}, {"i": 3980, "work_ms": 1.498, "period_ms": 20.109}, {"i": 4000, "work_ms": 1.582, "period_ms": 20.097}, {"i": 4020, "work_ms": 1.51, "period_ms": 20.239}, {"i": 4040, "work_ms": 1.647, "period_ms": 20.227}, {"i": 4060, "work_ms": 1.455, "period_ms": 20.114}, {"i": 4080, "work_ms": 1.437, "period_ms": 20.103}, {"i": 4100, "work_ms": 1.447, "period_ms": 20.174}, {"i": 4120, "work_ms": 1.528, "period_ms": 20.111}, {"i": 4140, "work_ms": 1.422, "period_ms": 20.18}, {"i": 4160, "work_ms": 1.435, "period_ms": 20.18}, {"i": 4180, "work_ms": 1.709, "period_ms": 20.119}, {"i": 4200, "work_ms": 1.397, "period_ms": 20.142}, {"i": 4220, "work_ms": 1.417, "period_ms": 20.271}, {"i": 4240, "work_ms": 1.447, "period_ms": 20.092}, {"i": 4260, "work_ms": 1.427, "period_ms": 20.1}, {"i": 4280, "work_ms": 1.422, "period_ms": 20.18}, {"i": 4300, "work_ms": 1.446, "period_ms": 20.11}, {"i": 4320, "work_ms": 1.43, "period_ms": 20.089}, {"i": 4340, "work_ms": 1.424, "period_ms": 20.113}, {"i": 4360, "work_ms": 1.49, "period_ms": 20.093}, {"i": 4380, "work_ms": 1.502, "period_ms": 20.087}, {"i": 4400, "work_ms": 1.416, "period_ms": 20.105}, {"i": 4420, "work_ms": 1.574, "period_ms": 20.102}, {"i": 4440, "work_ms": 1.48, "period_ms": 20.121}, {"i": 4460, "work_ms": 1.406, "period_ms": 20.073}, {"i": 4480, "work_ms": 1.419, "period_ms": 20.191}, {"i": 4500, "work_ms": 1.607, "period_ms": 20.092}, {"i": 4520, "work_ms": 1.507, "period_ms": 20.102}, {"i": 4540, "work_ms": 1.412, "period_ms": 20.132}, {"i": 4560, "work_ms": 1.562, "period_ms": 20.167}, {"i": 4580, "work_ms": 1.459, "period_ms": 20.123}, {"i": 4600, "work_ms": 1.473, "period_ms": 20.107}, {"i": 4620, "work_ms": 1.455, "period_ms": 20.134}, {"i": 4640, "work_ms": 1.434, "period_ms": 20.105}, {"i": 4660, "work_ms": 1.469, "period_ms": 20.108}, {"i": 4680, "work_ms": 1.387, "period_ms": 20.165}, {"i": 4700, "work_ms": 1.476, "period_ms": 20.108}, {"i": 4720, "work_ms": 1.423, "period_ms": 20.102}, {"i": 4740, "work_ms": 1.416, "period_ms": 20.108}, {"i": 4760, "work_ms": 1.411, "period_ms": 20.129}, {"i": 4780, "work_ms": 1.433, "period_ms": 20.213}, {"i": 4800, "work_ms": 1.442, "period_ms": 20.096}, {"i": 4820, "work_ms": 1.657, "period_ms": 20.096}, {"i": 4840, "work_ms": 1.748, "period_ms": 20.132}, {"i": 4860, "work_ms": 2.156, "period_ms": 20.113}, {"i": 4880, "work_ms": 2.221, "period_ms": 20.112}, {"i": 4900, "work_ms": 1.68, "period_ms": 20.109}, {"i": 4920, "work_ms": 2.051, "period_ms": 20.209}, {"i": 4940, "work_ms": 1.471, "period_ms": 20.136}, {"i": 4960, "work_ms": 1.449, "period_ms": 20.201}, {"i": 4980, "work_ms": 1.433, "period_ms": 20.11}, {"i": 5000, "work_ms": 1.437, "period_ms": 20.171}, {"i": 5020, "work_ms": 1.396, "period_ms": 20.334}, {"i": 5040, "work_ms": 1.426, "period_ms": 20.194}, {"i": 5060, "work_ms": 1.467, "period_ms": 20.114}, {"i": 5080, "work_ms": 1.472, "period_ms": 20.211}, {"i": 5100, "work_ms": 1.451, "period_ms": 20.151}, {"i": 5120, "work_ms": 1.489, "period_ms": 20.163}, {"i": 5140, "work_ms": 1.417, "period_ms": 20.135}, {"i": 5160, "work_ms": 1.442, "period_ms": 20.1}, {"i": 5180, "work_ms": 1.448, "period_ms": 20.119}, {"i": 5200, "work_ms": 1.451, "period_ms": 20.212}, {"i": 5220, "work_ms": 1.506, "period_ms": 20.096}, {"i": 5240, "work_ms": 1.491, "period_ms": 20.144}, {"i": 5260, "work_ms": 1.403, "period_ms": 20.167}, {"i": 5280, "work_ms": 1.572, "period_ms": 20.108}, {"i": 5300, "work_ms": 1.473, "period_ms": 20.18}, {"i": 5320, "work_ms": 1.437, "period_ms": 20.17}, {"i": 5340, "work_ms": 4.013, "period_ms": 20.14}, {"i": 5360, "work_ms": 1.448, "period_ms": 20.133}, {"i": 5380, "work_ms": 1.444, "period_ms": 20.134}, {"i": 5400, "work_ms": 1.459, "period_ms": 20.107}, {"i": 5420, "work_ms": 1.438, "period_ms": 20.106}, {"i": 5440, "work_ms": 1.393, "period_ms": 20.122}, {"i": 5460, "work_ms": 1.436, "period_ms": 20.078}, {"i": 5480, "work_ms": 1.443, "period_ms": 20.107}, {"i": 5500, "work_ms": 1.431, "period_ms": 20.141}, {"i": 5520, "work_ms": 1.406, "period_ms": 20.154}, {"i": 5540, "work_ms": 1.464, "period_ms": 20.107}, {"i": 5560, "work_ms": 1.405, "period_ms": 20.114}, {"i": 5580, "work_ms": 2.179, "period_ms": 20.11}, {"i": 5600, "work_ms": 1.427, "period_ms": 20.103}, {"i": 5620, "work_ms": 1.458, "period_ms": 20.186}, {"i": 5640, "work_ms": 1.399, "period_ms": 20.105}, {"i": 5660, "work_ms": 1.606, "period_ms": 20.169}, {"i": 5680, "work_ms": 1.466, "period_ms": 20.175}, {"i": 5700, "work_ms": 1.422, "period_ms": 20.088}, {"i": 5720, "work_ms": 1.429, "period_ms": 20.103}, {"i": 5740, "work_ms": 1.456, "period_ms": 20.192}, {"i": 5760, "work_ms": 1.465, "period_ms": 20.175}, {"i": 5780, "work_ms": 1.402, "period_ms": 20.106}, {"i": 5800, "work_ms": 1.864, "period_ms": 20.077}, {"i": 5820, "work_ms": 1.485, "period_ms": 20.143}, {"i": 5840, "work_ms": 1.472, "period_ms": 20.102}, {"i": 5860, "work_ms": 1.588, "period_ms": 20.262}, {"i": 5880, "work_ms": 1.489, "period_ms": 20.211}, {"i": 5900, "work_ms": 1.539, "period_ms": 20.287}, {"i": 5920, "work_ms": 1.477, "period_ms": 20.112}, {"i": 5940, "work_ms": 1.524, "period_ms": 20.109}, {"i": 5960, "work_ms": 1.481, "period_ms": 20.136}, {"i": 5980, "work_ms": 1.603, "period_ms": 20.156}, {"i": 6000, "work_ms": 1.476, "period_ms": 20.274}, {"i": 6020, "work_ms": 1.541, "period_ms": 20.19}, {"i": 6040, "work_ms": 1.541, "period_ms": 20.224}, {"i": 6060, "work_ms": 1.507, "period_ms": 20.099}, {"i": 6080, "work_ms": 1.449, "period_ms": 20.102}, {"i": 6100, "work_ms": 2.192, "period_ms": 20.109}, {"i": 6120, "work_ms": 1.495, "period_ms": 20.221}, {"i": 6140, "work_ms": 1.509, "period_ms": 20.204}, {"i": 6160, "work_ms": 1.814, "period_ms": 20.11}, {"i": 6180, "work_ms": 1.843, "period_ms": 20.148}, {"i": 6200, "work_ms": 1.55, "period_ms": 20.183}, {"i": 6220, "work_ms": 1.419, "period_ms": 20.105}, {"i": 6240, "work_ms": 1.59, "period_ms": 20.235}, {"i": 6260, "work_ms": 1.549, "period_ms": 20.109}, {"i": 6280, "work_ms": 1.561, "period_ms": 20.109}, {"i": 6300, "work_ms": 1.608, "period_ms": 20.093}, {"i": 6320, "work_ms": 1.567, "period_ms": 20.149}, {"i": 6340, "work_ms": 1.57, "period_ms": 20.199}, {"i": 6360, "work_ms": 1.471, "period_ms": 20.116}, {"i": 6380, "work_ms": 1.48, "period_ms": 20.102}, {"i": 6400, "work_ms": 1.445, "period_ms": 20.115}, {"i": 6420, "work_ms": 1.587, "period_ms": 20.164}, {"i": 6440, "work_ms": 1.493, "period_ms": 20.103}, {"i": 6460, "work_ms": 1.576, "period_ms": 20.165}, {"i": 6480, "work_ms": 1.498, "period_ms": 20.118}, {"i": 6500, "work_ms": 1.61, "period_ms": 20.108}, {"i": 6520, "work_ms": 1.554, "period_ms": 20.096}, {"i": 6540, "work_ms": 1.475, "period_ms": 20.132}, {"i": 6560, "work_ms": 1.535, "period_ms": 20.103}, {"i": 6580, "work_ms": 1.445, "period_ms": 20.108}, {"i": 6600, "work_ms": 1.645, "period_ms": 20.108}, {"i": 6620, "work_ms": 1.49, "period_ms": 20.104}, {"i": 6640, "work_ms": 1.456, "period_ms": 20.241}, {"i": 6660, "work_ms": 1.503, "period_ms": 20.106}, {"i": 6680, "work_ms": 1.529, "period_ms": 20.127}, {"i": 6700, "work_ms": 1.564, "period_ms": 20.101}, {"i": 6720, "work_ms": 1.425, "period_ms": 20.092}, {"i": 6740, "work_ms": 1.473, "period_ms": 20.096}, {"i": 6760, "work_ms": 1.857, "period_ms": 20.109}, {"i": 6780, "work_ms": 1.554, "period_ms": 20.113}, {"i": 6800, "work_ms": 1.497, "period_ms": 20.165}, {"i": 6820, "work_ms": 1.415, "period_ms": 20.143}, {"i": 6840, "work_ms": 1.549, "period_ms": 20.089}, {"i": 6860, "work_ms": 1.477, "period_ms": 20.17}, {"i": 6880, "work_ms": 1.444, "period_ms": 20.108}, {"i": 6900, "work_ms": 1.43, "period_ms": 20.095}, {"i": 6920, "work_ms": 1.623, "period_ms": 20.177}, {"i": 6940, "work_ms": 1.449, "period_ms": 20.214}, {"i": 6960, "work_ms": 1.483, "period_ms": 20.218}, {"i": 6980, "work_ms": 1.493, "period_ms": 20.105}, {"i": 7000, "work_ms": 1.421, "period_ms": 20.111}, {"i": 7020, "work_ms": 1.458, "period_ms": 20.157}, {"i": 7040, "work_ms": 1.683, "period_ms": 20.112}, {"i": 7060, "work_ms": 1.66, "period_ms": 20.209}, {"i": 7080, "work_ms": 1.548, "period_ms": 20.13}, {"i": 7100, "work_ms": 2.207, "period_ms": 20.081}, {"i": 7120, "work_ms": 1.457, "period_ms": 20.109}, {"i": 7140, "work_ms": 2.428, "period_ms": 20.121}, {"i": 7160, "work_ms": 1.599, "period_ms": 20.188}, {"i": 7180, "work_ms": 1.522, "period_ms": 20.228}, {"i": 7200, "work_ms": 1.598, "period_ms": 20.182}, {"i": 7220, "work_ms": 1.581, "period_ms": 20.097}, {"i": 7240, "work_ms": 1.533, "period_ms": 20.108}, {"i": 7260, "work_ms": 1.535, "period_ms": 20.238}, {"i": 7280, "work_ms": 1.709, "period_ms": 20.104}, {"i": 7300, "work_ms": 1.538, "period_ms": 20.344}, {"i": 7320, "work_ms": 1.401, "period_ms": 20.09}, {"i": 7340, "work_ms": 1.569, "period_ms": 20.209}, {"i": 7360, "work_ms": 1.441, "period_ms": 20.156}, {"i": 7380, "work_ms": 1.456, "period_ms": 20.102}, {"i": 7400, "work_ms": 1.686, "period_ms": 20.086}, {"i": 7420, "work_ms": 1.552, "period_ms": 20.082}, {"i": 7440, "work_ms": 1.656, "period_ms": 20.1}, {"i": 7460, "work_ms": 1.726, "period_ms": 20.108}, {"i": 7480, "work_ms": 1.643, "period_ms": 20.084}, {"i": 7500, "work_ms": 1.491, "period_ms": 20.288}, {"i": 7520, "work_ms": 1.49, "period_ms": 20.097}, {"i": 7540, "work_ms": 1.546, "period_ms": 20.266}, {"i": 7560, "work_ms": 1.48, "period_ms": 20.102}, {"i": 7580, "work_ms": 1.542, "period_ms": 20.111}, {"i": 7600, "work_ms": 1.433, "period_ms": 20.107}, {"i": 7620, "work_ms": 1.954, "period_ms": 20.119}, {"i": 7640, "work_ms": 1.54, "period_ms": 20.124}, {"i": 7660, "work_ms": 1.502, "period_ms": 20.139}, {"i": 7680, "work_ms": 1.692, "period_ms": 20.105}, {"i": 7700, "work_ms": 1.43, "period_ms": 20.095}, {"i": 7720, "work_ms": 1.563, "period_ms": 20.107}, {"i": 7740, "work_ms": 1.539, "period_ms": 20.178}, {"i": 7760, "work_ms": 1.521, "period_ms": 20.133}, {"i": 7780, "work_ms": 1.404, "period_ms": 20.153}, {"i": 7800, "work_ms": 1.416, "period_ms": 20.125}, {"i": 7820, "work_ms": 1.61, "period_ms": 20.103}, {"i": 7840, "work_ms": 1.435, "period_ms": 20.225}, {"i": 7860, "work_ms": 1.451, "period_ms": 20.111}, {"i": 7880, "work_ms": 1.541, "period_ms": 20.105}, {"i": 7900, "work_ms": 1.492, "period_ms": 20.188}, {"i": 7920, "work_ms": 1.41, "period_ms": 20.202}, {"i": 7940, "work_ms": 1.436, "period_ms": 20.222}, {"i": 7960, "work_ms": 1.425, "period_ms": 20.135}, {"i": 7980, "work_ms": 1.453, "period_ms": 20.216}, {"i": 8000, "work_ms": 1.451, "period_ms": 20.101}, {"i": 8020, "work_ms": 1.596, "period_ms": 20.101}, {"i": 8040, "work_ms": 1.423, "period_ms": 20.147}, {"i": 8060, "work_ms": 1.433, "period_ms": 20.071}, {"i": 8080, "work_ms": 1.472, "period_ms": 20.095}, {"i": 8100, "work_ms": 1.436, "period_ms": 20.166}, {"i": 8120, "work_ms": 1.458, "period_ms": 20.123}, {"i": 8140, "work_ms": 1.466, "period_ms": 20.111}, {"i": 8160, "work_ms": 1.506, "period_ms": 20.242}, {"i": 8180, "work_ms": 1.982, "period_ms": 20.098}, {"i": 8200, "work_ms": 1.433, "period_ms": 20.104}, {"i": 8220, "work_ms": 1.403, "period_ms": 20.102}, {"i": 8240, "work_ms": 1.554, "period_ms": 20.179}, {"i": 8260, "work_ms": 1.405, "period_ms": 20.115}, {"i": 8280, "work_ms": 1.47, "period_ms": 20.108}, {"i": 8300, "work_ms": 1.479, "period_ms": 20.248}, {"i": 8320, "work_ms": 1.558, "period_ms": 20.083}, {"i": 8340, "work_ms": 1.409, "period_ms": 20.212}, {"i": 8360, "work_ms": 1.464, "period_ms": 20.107}, {"i": 8380, "work_ms": 1.457, "period_ms": 20.091}, {"i": 8400, "work_ms": 1.454, "period_ms": 20.106}, {"i": 8420, "work_ms": 1.419, "period_ms": 20.104}, {"i": 8440, "work_ms": 1.453, "period_ms": 20.114}, {"i": 8460, "work_ms": 1.48, "period_ms": 20.215}, {"i": 8480, "work_ms": 1.475, "period_ms": 20.084}, {"i": 8500, "work_ms": 1.437, "period_ms": 20.105}, {"i": 8520, "work_ms": 1.466, "period_ms": 20.168}, {"i": 8540, "work_ms": 1.519, "period_ms": 20.114}, {"i": 8560, "work_ms": 1.563, "period_ms": 20.114}, {"i": 8580, "work_ms": 1.421, "period_ms": 20.253}, {"i": 8600, "work_ms": 1.482, "period_ms": 20.176}, {"i": 8620, "work_ms": 1.606, "period_ms": 20.155}, {"i": 8640, "work_ms": 1.41, "period_ms": 20.106}, {"i": 8660, "work_ms": 1.485, "period_ms": 20.138}, {"i": 8680, "work_ms": 1.498, "period_ms": 20.158}, {"i": 8700, "work_ms": 1.424, "period_ms": 20.096}, {"i": 8720, "work_ms": 1.478, "period_ms": 20.155}, {"i": 8740, "work_ms": 1.427, "period_ms": 20.126}, {"i": 8760, "work_ms": 1.455, "period_ms": 20.189}, {"i": 8780, "work_ms": 1.43, "period_ms": 20.094}, {"i": 8800, "work_ms": 1.436, "period_ms": 20.155}, {"i": 8820, "work_ms": 1.438, "period_ms": 20.123}, {"i": 8840, "work_ms": 1.445, "period_ms": 20.118}, {"i": 8860, "work_ms": 1.455, "period_ms": 20.197}]}
+{
+ "label": "walk and camera measured on the fit host under a 2048 MiB cap. Not a Pi 5. Voice was not re-run.",
+ "verdict": "the prior 467 MiB full-stack peak fits the 2048 MiB cap. This host timing is not a Pi 5 result.",
+ "cap_mib": {
+  "value": 2048.0,
+  "label": "cited chip size, 2 GB"
+ },
+ "prior_full_stack_mib": {
+  "value": 467.0,
+  "label": "measured in emulation, FIT.md Zero study, includes voice"
+ },
+ "this_run": {
+  "label": "measured on the fit host",
+  "cgroup_peak_mib": 42.05,
+  "walk_hwm_mib": 79.6,
+  "camera_hwm_mib": 77.5,
+  "camera_found": true,
+  "camera_s": 0.902,
+  "cycles": 946,
+  "tail_from_cycle": 20,
+  "tail_n": 926,
+  "work_p50_ms": 0.151,
+  "work_p99_ms": 0.305,
+  "work_max_ms": 0.879,
+  "work_misses_over_20ms": 0,
+  "work_plus_bus_misses": 0,
+  "bus_ms": 5.18,
+  "bus_label": "calc only",
+  "tail_max_plus_bus_ms": 6.059,
+  "period_p99_ms": 20.48,
+  "period_max_ms": 100.0
+ },
+ "coremark": {
+  "host_one_thread": 28606.2,
+  "host_label": "measured on the fit host, CoreMark 1.0, size 666, one thread",
+  "cited_pi5": null,
+  "cited_pi5_label": "BLOCKER. The official Pi 5 benchmark post gives Geekbench 6 single-core 774 (16 KB pages) and 764 (4 KB pages), not a CoreMark iterations/s figure.",
+  "geekbench_single_16k": 774,
+  "geekbench_single_4k": 764,
+  "geekbench_source": "https://www.raspberrypi.com/news/benchmarking-raspberry-pi-5/"
+ },
+ "quota": {
+  "us": 11155,
+  "period_us": 100000,
+  "label": "calc only, 3191/28606 of a period, the cited Zero score over the host score. The walk's short inferences stayed under that quota, so the times are the fit host, not a slowed Pi."
+ },
+ "trace_stride": "every 20th tail cycle",
+ "trace": [
+  {
+   "i": 20,
+   "work_ms": 0.279
+  },
+  {
+   "i": 40,
+   "work_ms": 0.162
+  },
+  {
+   "i": 60,
+   "work_ms": 0.164
+  },
+  {
+   "i": 80,
+   "work_ms": 0.172
+  },
+  {
+   "i": 100,
+   "work_ms": 0.183
+  },
+  {
+   "i": 120,
+   "work_ms": 0.154
+  },
+  {
+   "i": 140,
+   "work_ms": 0.163
+  },
+  {
+   "i": 160,
+   "work_ms": 0.163
+  },
+  {
+   "i": 180,
+   "work_ms": 0.174
+  },
+  {
+   "i": 200,
+   "work_ms": 0.17
+  },
+  {
+   "i": 220,
+   "work_ms": 0.149
+  },
+  {
+   "i": 240,
+   "work_ms": 0.145
+  },
+  {
+   "i": 260,
+   "work_ms": 0.231
+  },
+  {
+   "i": 280,
+   "work_ms": 0.16
+  },
+  {
+   "i": 300,
+   "work_ms": 0.157
+  },
+  {
+   "i": 320,
+   "work_ms": 0.137
+  },
+  {
+   "i": 340,
+   "work_ms": 0.135
+  },
+  {
+   "i": 360,
+   "work_ms": 0.28
+  },
+  {
+   "i": 380,
+   "work_ms": 0.135
+  },
+  {
+   "i": 400,
+   "work_ms": 0.189
+  },
+  {
+   "i": 420,
+   "work_ms": 0.167
+  },
+  {
+   "i": 440,
+   "work_ms": 0.139
+  },
+  {
+   "i": 460,
+   "work_ms": 0.143
+  },
+  {
+   "i": 480,
+   "work_ms": 0.163
+  },
+  {
+   "i": 500,
+   "work_ms": 0.107
+  },
+  {
+   "i": 520,
+   "work_ms": 0.15
+  },
+  {
+   "i": 540,
+   "work_ms": 0.143
+  },
+  {
+   "i": 560,
+   "work_ms": 0.207
+  },
+  {
+   "i": 580,
+   "work_ms": 0.303
+  },
+  {
+   "i": 600,
+   "work_ms": 0.15
+  },
+  {
+   "i": 620,
+   "work_ms": 0.142
+  },
+  {
+   "i": 640,
+   "work_ms": 0.115
+  },
+  {
+   "i": 660,
+   "work_ms": 0.12
+  },
+  {
+   "i": 680,
+   "work_ms": 0.129
+  },
+  {
+   "i": 700,
+   "work_ms": 0.12
+  },
+  {
+   "i": 720,
+   "work_ms": 0.16
+  },
+  {
+   "i": 740,
+   "work_ms": 0.139
+  },
+  {
+   "i": 760,
+   "work_ms": 0.134
+  },
+  {
+   "i": 780,
+   "work_ms": 0.111
+  },
+  {
+   "i": 800,
+   "work_ms": 0.292
+  },
+  {
+   "i": 820,
+   "work_ms": 0.156
+  },
+  {
+   "i": 840,
+   "work_ms": 0.182
+  },
+  {
+   "i": 860,
+   "work_ms": 0.122
+  },
+  {
+   "i": 880,
+   "work_ms": 0.164
+  },
+  {
+   "i": 900,
+   "work_ms": 0.141
+  },
+  {
+   "i": 920,
+   "work_ms": 0.139
+  },
+  {
+   "i": 940,
+   "work_ms": 0.158
+  }
+ ]
+}

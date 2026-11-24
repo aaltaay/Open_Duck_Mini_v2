@@ -18,15 +18,19 @@ def draw(report, dest):
     bars = report["bars"]
     names = [item["name"] for item in bars]
     values = [item["mib"] for item in bars]
-    colors = ["#9aa0a6" if item["label"] != "measured in emulation" else "#1a73e8" for item in bars]
+    colors = [item.get("color") or ("#1a73e8" if item["label"] == "measured in emulation" else "#9aa0a6") for item in bars]
     ax = axes[0]
     ax.bar(range(len(names)), values, color=colors)
     ax.set_xticks(range(len(names)))
     ax.set_xticklabels(names, rotation=20, ha="right")
-    ax.axhline(417.0, color="#c5221f", linestyle="--", linewidth=1, label="417 MiB cited Linux-visible")
-    ax.axhline(512.0, color="#188038", linestyle=":", linewidth=1, label="512 MiB cited chip")
+    lines = report.get("ram_lines") or [
+        {"mib": 417.0, "label": "417 MiB cited Linux-visible", "color": "#c5221f"},
+        {"mib": 512.0, "label": "512 MiB cited chip", "color": "#188038"},
+    ]
+    for item in lines:
+        ax.axhline(item["mib"], color=item.get("color", "#188038"), linestyle="--", linewidth=1, label=item["label"])
     ax.set_ylabel("MiB")
-    ax.set_title("RAM: gray is cited, blue is measured in emulation")
+    ax.set_title(report.get("ram_title") or "RAM: gray is cited, blue is measured in emulation")
     ax.legend(fontsize=8, loc="upper right")
 
     work = report.get("during_work_ms") or []
@@ -39,7 +43,7 @@ def draw(report, dest):
         ax2.axhline(bus, color="#e37400", linestyle=":", linewidth=1, label="20 ms minus 5.18 ms bus (calc only)")
     ax2.set_ylabel("ms")
     ax2.set_xlabel("walk cycle during the voice request and the camera frame")
-    ax2.set_title("Walk CPU time on one core throttled to the cited CoreMark")
+    ax2.set_title(report.get("work_title") or "Walk CPU time on one core throttled to the cited CoreMark")
     ax2.legend(fontsize=8, loc="upper right")
     fig.savefig(dest, dpi=120)
     plt.close(fig)

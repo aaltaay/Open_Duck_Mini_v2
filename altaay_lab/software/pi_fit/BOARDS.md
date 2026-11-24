@@ -2,6 +2,8 @@
 
 Written 2026-11-19. The BOM is not changed. Nothing was bought. A number is cited or BLOCKER. This is not a fit measurement.
 
+Note, 2026-11-24: Ahmed chose the Pi 5, 2 GB, and a new body seat. The study, with a proposed BOM delta, is software/pi_fit/PI5_STUDY.md. This note is the earlier comparison. It is not the decision.
+
 The duck body is laid out for the Pi Zero 2 W, 65 mm by 30 mm (cited, https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/). A taller board does not drop into that seat. FIT.md is why this note exists: the published Bookworm Lite image does not leave enough RAM for the stack.
 
 | Board | RAM | Size | Power | Price | Why it is here |
