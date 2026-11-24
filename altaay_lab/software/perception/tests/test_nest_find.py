@@ -55,6 +55,8 @@ class FindTests(unittest.TestCase):
         est = find_nest(img, self.fx, self.fy, self.cx, self.cy)
         self.assertTrue(est["seen"])
         self.assertTrue(est["ring"])
+        self.assertIsNotNone(est.get("ring_yaw"))
+        self.assertLess(abs(est["ring_yaw"]), 0.20)
         self.assertFalse(est["occluded"])
         self.assertGreater(est["width_px"], 30)
         self.assertLess(est["width_px"], 44)
@@ -117,6 +119,10 @@ class LoopTests(unittest.TestCase):
         loop.t_phase = 0.0
         est = {"seen": True, "clipped": False, "sun_fwd": SIT_FWD_M - 0.02, "sun_left": 0.06,
                "cliff": False, "obstacle": False, "obstacle_right": 0.0}
+        loop.command(est, 0.2, 0.02)
+        self.assertEqual(loop.phase, "line")
+        est["sun_left"] = 0.01
+        est["ring_yaw"] = 0.0
         loop.command(est, 0.2, 0.02)
         self.assertEqual(loop.phase, "turn")
 

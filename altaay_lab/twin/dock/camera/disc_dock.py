@@ -265,7 +265,7 @@ class DiscSim(CD.DockSim):
         self.prev = img.copy()
         noisy = CD.degrade(img, self.rng, 1.0, False)
         t0 = time.perf_counter()
-        raw = NF.find_nest(noisy, self.fx, self.fy, self.cx, self.cy)
+        raw = NF.find_nest(noisy, self.fx, self.fy, self.cx, self.cy, roi=getattr(self, "_roi", None))
         self.frame_ms.append((time.perf_counter() - t0) * 1000.0)
         est = {
             "seen": False,
@@ -295,6 +295,14 @@ class DiscSim(CD.DockSim):
                 est["sun_fwd"] = sun["sun_fwd"]
                 est["sun_left"] = sun["sun_left"]
                 est["depth_m"] = sun["depth_m"]
+                if raw.get("ring_yaw") is not None:
+                    est["ring_yaw"] = float(raw["ring_yaw"])
+                if raw.get("width_px"):
+                    self._roi = (float(raw["u"]), float(raw["v"]), max(110.0, 5.0 * float(raw["width_px"])))
+            else:
+                self._roi = None
+        else:
+            self._roi = None
         shown = _draw(noisy, raw)
         return est, shown, raw
 
@@ -395,6 +403,55 @@ def _blank_est():
     }
 
 
+def _sit_once(sim):
+    """Crouch, score, leave the gains saved so a miss can stand again.
+
+    Returns (charging, sat, reason). The pose is the sit. Sim pass only.
+    """
+    target = CD._sit_targets(sim.model, sim.m)
+    sim._gain = sim.model.actuator_gainprm.copy()
+    sim._bias = sim.model.actuator_biasprm.copy()
+    sim.go_pose(target, 3.0, sitting=True)
+    sim.torque_off(1.2)
+    if sim.fallen:
+        return False, False, "fell"
+    x, y, yaw, _, _ = sim.true_pose()
+    scored = CD.score_wells(x, y, yaw)
+    heading = abs(math.degrees(CD.wrap(yaw - math.pi)))
+    geom = bool(scored["contacts_meet"] and heading < 25.0)
+    elec = CD.score_charge(sim, x, y, yaw, geom)
+    if geom and elec.get("charging"):
+        return True, True, "docked"
+    why = "sat_off" if not scored["contacts_meet"] else "heading"
+    return False, True, why
+
+
+def _back_out(sim):
+    """Stand and walk away from the wall, then the loop searches again.
+
+    After the half turn the duck faces the room, so forward is away from
+    the nest. This policy has no reverse speed. About 2 s is the set point.
+    """
+    if getattr(sim, "_gain", None) is not None:
+        sim.model.actuator_gainprm[:] = sim._gain
+        sim.model.actuator_biasprm[:] = sim._bias
+    # The crouch is below the walking fall check. Rise under the sit check,
+    # then walk. Forward faces the room after the half turn.
+    sim.sitting = True
+    sim.go_pose(sim.m.default_actuator, 1.4, sitting=True)
+    sim.sitting = False
+    if sim.fallen:
+        return
+    t0 = sim.t
+    while sim.t < t0 + 2.0 and not sim.fallen:
+        err = CD.wrap(math.pi - sim.true_pose()[2])
+        if abs(err) > 0.45:
+            cmd = (0.0, 0.0, float(max(-0.50, min(0.50, 1.2 * err))), 0.0, 0.0)
+        else:
+            cmd = (0.12, 0.0, float(max(-0.30, min(0.30, 0.8 * err))), -0.35, 0.0)
+        sim.step_policy(cmd)
+
+
 def run_case(spec, privileged=False, record=False, limit_s=48.0):
     sim = DiscSim(spec, record=record)
     loop = DiscLoop()
@@ -409,7 +466,39 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
     try:
         CD._place(sim, spec["x"], spec["y"], math.radians(spec["yaw"]))
         k = 0
-        while sim.t < limit_s and not sim.fallen and loop.phase not in ("sit", "fail"):
+        sits = 0
+        handled = False
+        while sim.t < limit_s and not sim.fallen and sits < 3:
+            if loop.phase in ("sit", "fail"):
+                if loop.phase != "sit":
+                    break
+                sits += 1
+                charged, sat_now, why = _sit_once(sim)
+                handled = True
+                sat = sat_now
+                if charged:
+                    reason = "docked"
+                elif sat_now:
+                    reason = why
+                elif sim.fallen:
+                    reason = "fell"
+                if charged or sim.fallen or sits >= 3 or sim.t >= limit_s - 8.0:
+                    sat = sat_now
+                    if charged:
+                        reason = "docked"
+                    elif sat_now:
+                        reason = why
+                    break
+                # A miss stands and walks away from the wall, then searches again.
+                _back_out(sim)
+                if sim.fallen:
+                    break
+                loop = DiscLoop()
+                sim.est_q = []
+                sim._last_fwd = None
+                sim._last_left = None
+                sim._roi = None
+                continue
             fresh = None
             shown = None
             if privileged:
@@ -465,19 +554,11 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
                 )
             sim.step_policy(cmd)
             k += 1
-        sat = False
-        reason = loop.reason or "timeout"
-        if sim.fallen:
-            reason = "fell"
-        elif loop.phase == "sit":
-            target = CD._sit_targets(sim.model, sim.m)
-            sim.go_pose(target, 3.0, sitting=True)
-            sim.torque_off(1.2)
+        if not handled:
+            sat = False
+            reason = loop.reason or "timeout"
             if sim.fallen:
                 reason = "fell"
-            else:
-                sat = True
-                reason = "sat"
         x, y, yaw, z, up = sim.true_pose()
         scored = CD.score_wells(x, y, yaw)
         heading = abs(math.degrees(CD.wrap(yaw - math.pi)))
@@ -507,6 +588,7 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
             charging=bool(elec.get("charging")),
             reason=reason,
             t_s=round(sim.t, 2),
+            sits=int(sits),
             fell=bool(sim.fallen),
             sat=bool(sat),
             saw_frac=round(saw / tries, 3) if tries else None,
@@ -708,13 +790,17 @@ def forty_specs():
     return specs
 
 
-def run_retries(spec, privileged, tries=3, limit_s=46.0):
-    """First try plus two retries. Stop on a charge. Sim pass only."""
+def run_retries(spec, privileged, tries=1, limit_s=70.0):
+    """One episode. A failed sit stands, backs away, and tries again inside it.
+
+    Repeating the same start from scratch was deterministic, so those retries
+    never changed the result. tries is kept so older callers still run.
+    """
     last = None
-    for attempt in range(int(tries)):
+    for attempt in range(max(1, int(tries))):
         row, _frames = run_case(spec, privileged=privileged, record=False, limit_s=limit_s)
         row = dict(row)
-        row["attempt"] = attempt + 1
+        row["attempt"] = int(row.get("sits") or attempt + 1)
         last = row
         if row.get("charging"):
             break
