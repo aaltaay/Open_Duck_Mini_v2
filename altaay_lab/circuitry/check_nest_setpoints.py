@@ -186,6 +186,13 @@ def main():
                 return True
         return False
     for pair in (
+        ("JNW.1", "BR1.D1"),
+        ("JNW.2", "BR1.D2"),
+        ("JNW.3", "BR1.D3"),
+        ("JNW.4", "BR1.D4"),
+        ("JNW.5", "BR1.D5"),
+        ("RSIG.1", "BR1.P"),
+        ("RSIG.2", "BR1.N"),
         ("BR1.P", "PTC1.A"),
         ("PTC1.B", "F2.IN"),
         ("F2.OUT", "CHG.VIN"),
@@ -195,6 +202,11 @@ def main():
     ):
         if not live(*pair):
             bad += fail("missing nest wire %s to %s" % pair)
+    br = next(c for c in net["components"] if c["id"] == "BR1")
+    diodes = {(row["a"], row["b"]) for row in br.get("internal") or [] if row.get("kind") == "diode"}
+    for i in range(1, 6):
+        if ("D%d" % i, "P") not in diodes or ("D%d" % i, "N") not in diodes:
+            bad += fail("BR1.D%d is missing an SS33 to P or to N" % i)
     # The 5 V pin stays on the pack, and P13 is not moved.
     u3 = next(c for c in net["components"] if c["id"] == "U3")
     vin = next(p for p in u3["pins"] if p["pin"] == "VIN")

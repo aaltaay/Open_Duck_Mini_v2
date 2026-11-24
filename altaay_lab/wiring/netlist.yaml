@@ -80,6 +80,7 @@ domains:
   TOUCH: {v_min: 0.0, v_max: 3.3, note: "MPR121 electrode: the chip charges the pad with a constant current and reads the voltage, 0 to its 3.3 V supply (D51)"}
   SYS_9V: {v_min: 8.8, v_max: 9.2, note: "SUPERSEDED 2026-11-24. The chest SYS strip is not the nest. The live nest domain is NEST_13V6_16V0."}
   NEST_13V6_16V0: {v_min: 13.6, v_max: 16.0, note: "3S nest window. Above 13.6 V (12.6 V plus the 1 V EVM headroom, calc only) and at or under the SMAJ16A 16.0 V standoff (cited). The supply point inside it is 15.0 V."}
+  CONTACT_0V_16V: {v_min: 0.0, v_max: 16.0, note: "A gold dome before the SS33 bridge. The dome may land on plus or minus, so this window is 0 V to the 16.0 V standoff."}
   PACK_OR_6V0_9V2: {v_min: 6.0, v_max: 9.2, note: "Superseded as the current rail input. The 2815 input is the pack through DK7 only (circuitry/SERVO_RAIL.md). This domain is the earlier 2813 input after the D50 OR."}
   SENSE: {v_min: 0.0, v_max: 9.0, note: "dock SENSE strip: NTC reading 0.7 to 2.2 V; the 555 wake pulse 9 V for 100 ms"}
   NTC_WIN: {v_min: 0.0, v_max: 2.6, note: "pack bead divider on the charger board. Not a pin of the MCP73213."}
@@ -107,6 +108,11 @@ nets:
   SYS_IN: {domain: SYS_9V, note: "SUPERSEDED 2026-11-24. Chest SYS strip. The wires that used it are status superseded."}
   NEST_P: {domain: NEST_13V6_16V0, note: "steered plus from the gold domes, after the SS33 cathodes, through the PTC and F2 to CHG.VIN"}
   NEST_N: {domain: GND, note: "steered minus from the gold domes, SS33 anodes, to BMS P-"}
+  WELL_1: {domain: CONTACT_0V_16V, note: "gold dome 1 to its SS33 pair"}
+  WELL_2: {domain: CONTACT_0V_16V, note: "gold dome 2 to its SS33 pair"}
+  WELL_3: {domain: CONTACT_0V_16V, note: "gold dome 3 to its SS33 pair"}
+  WELL_4: {domain: CONTACT_0V_16V, note: "gold dome 4 to its SS33 pair"}
+  WELL_5: {domain: CONTACT_0V_16V, note: "gold dome 5 to its SS33 pair"}
   PACK_OR: {domain: PACK_OR_6V0_9V2, note: "DK6 and DK7 outputs, SW1 VIN (D50)"}
   SW1_ON: {domain: CTRL, note: "Superseded. The current ON pin is the 2815, driven by the Pi through 10 kOhm, with the clamp in circuitry/bq24133_board.yaml (circuitry/SERVO_RAIL.md). This net is the earlier wake pulse to the 2813 ON input (D43)."}
   CTRL_SW: {domain: CTRL, note: "2815 SW pad to the panel switch"}
@@ -1456,11 +1462,11 @@ components:
     groups:
       pads: {connector: "formed gold on the seat wells", pitch_mm: 12, note: "y = -24, -12, 0, +12, +24 mm in the seat face. Each dome can land on either stripe."}
     pins:
-      - {pin: "1", label: "1", name: dome, domain: NEST_13V6_16V0, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
-      - {pin: "2", label: "2", name: dome, domain: NEST_13V6_16V0, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
-      - {pin: "3", label: "3", name: dome, domain: NEST_13V6_16V0, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
-      - {pin: "4", label: "4", name: dome, domain: NEST_13V6_16V0, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
-      - {pin: "5", label: "5", name: dome, domain: NEST_13V6_16V0, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
+      - {pin: "1", label: "1", name: dome, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
+      - {pin: "2", label: "2", name: dome, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
+      - {pin: "3", label: "3", name: dome, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
+      - {pin: "4", label: "4", name: dome, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
+      - {pin: "5", label: "5", name: dome, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] SEAT_CONTACTS.md"}
     source: "[L] circuitry/NEST_TWO_NET.md. 38 of 40 is sim pass only, not a hardware rate."
 
   - id: BR1
@@ -1472,8 +1478,24 @@ components:
     groups:
       pads: {connector: "solder pads on the charger board", pitch_mm: null}
     pins:
+      - {pin: "D1", label: "D1", name: dome 1, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] JNW.1"}
+      - {pin: "D2", label: "D2", name: dome 2, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] JNW.2"}
+      - {pin: "D3", label: "D3", name: dome 3, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] JNW.3"}
+      - {pin: "D4", label: "D4", name: dome 4, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] JNW.4"}
+      - {pin: "D5", label: "D5", name: dome 5, domain: CONTACT_0V_16V, group: pads, dir: passive, source: "[L] JNW.5"}
       - {pin: "P", label: "P", name: steered plus, domain: NEST_13V6_16V0, group: pads, dir: pwr_out, source: "[L] SS33 cathodes"}
       - {pin: "N", label: "N", name: steered minus, domain: GND, group: pads, dir: gnd, source: "[L] SS33 anodes"}
+    internal:
+      - {a: "D1", b: "P", kind: diode, note: "SS33, cathode at P"}
+      - {a: "D1", b: "N", kind: diode, note: "SS33, anode at N"}
+      - {a: "D2", b: "P", kind: diode, note: "SS33, cathode at P"}
+      - {a: "D2", b: "N", kind: diode, note: "SS33, anode at N"}
+      - {a: "D3", b: "P", kind: diode, note: "SS33, cathode at P"}
+      - {a: "D3", b: "N", kind: diode, note: "SS33, anode at N"}
+      - {a: "D4", b: "P", kind: diode, note: "SS33, cathode at P"}
+      - {a: "D4", b: "N", kind: diode, note: "SS33, anode at N"}
+      - {a: "D5", b: "P", kind: diode, note: "SS33, cathode at P"}
+      - {a: "D5", b: "N", kind: diode, note: "SS33, anode at N"}
     source: "[L] circuitry/NEST_TWO_NET.md. Either stripe still feeds the charger the right way."
 
   - id: PTC1
@@ -1604,6 +1626,13 @@ cables:
   - {id: NEST, status: nest, no_route: true, desc: "two-net nest: gold domes, SS33 bridge, RXEF185, F2, BQ24133 input, and the J5IN pack-domain tap for the 5 V seat. Not drawn on sheets 1 to 6. See circuitry/NEST_TWO_NET.md.", regions: [trunk_bottom, battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] circuitry/NEST_TWO_NET.md", twist: {lay_mm: null, note: "no lay until a route exists"}}
 wires:
   # two-net nest (2026-11-24). Cable NEST is not an active sheet cable.
+  - {cable: NEST, from: JNW.1, to: BR1.D1, net: WELL_1, gauge: "22 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [dome, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. One dome may carry the pole."}
+  - {cable: NEST, from: JNW.2, to: BR1.D2, net: WELL_2, gauge: "22 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [dome, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: JNW.3, to: BR1.D3, net: WELL_3, gauge: "22 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [dome, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: JNW.4, to: BR1.D4, net: WELL_4, gauge: "22 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [dome, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: JNW.5, to: BR1.D5, net: WELL_5, gauge: "22 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [dome, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: RSIG.1, to: BR1.P, net: NEST_P, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0003, i_peak_a: 0.0003, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. 4.99 kOhm signature across the steered rails."}
+  - {cable: NEST, from: RSIG.2, to: BR1.N, net: GND, gauge: board, color: black, cut_mm: 0, i_mean_a: 0.0003, i_peak_a: 0.0003, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
   - {cable: NEST, from: BR1.P, to: PTC1.A, net: NEST_P, gauge: board, color: red, cut_mm: 0, i_mean_a: 1.006, i_peak_a: 1.006, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. Calc only current."}
   - {cable: NEST, from: PTC1.B, to: F2.IN, net: NEST_P, gauge: "20 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [radial lead, holder lead], source: "[L] circuitry/NEST_TWO_NET.md"}
   - {cable: NEST, from: F2.OUT, to: CHG.VIN, net: NEST_P, gauge: "20 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [holder lead, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. Pack only, through the charger."}

@@ -1,11 +1,13 @@
 """Nest and nested scenes. The wall and paddle dock stays in dock_scene.py.
 
 nest: the nest v2 meshes in print/nest (millimetres, nest frame).
-nested: those meshes plus the gold domes, moved so the caps sit on the felt.
-That placement is a CAD check only. It is not the 38 of 40 dock pose.
+nested: that mat plus the duck at the recorded sit, turned to face the room,
+seat on the felt. The pose is sim pass only (twin/sit/sit_pose.json). The
+placement on the felt is the same shift cad/nest_v2/nest_v2.py uses.
 """
 import datetime
 import os
+import sys
 
 import numpy as np
 import trimesh
@@ -14,7 +16,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 LAB = os.path.dirname(HERE)
 REPO = os.path.dirname(LAB)
 NEST = os.path.join(REPO, "print", "nest")
-DOMES = os.path.join(REPO, "print", "gold_domes.stl")
 
 COLORS = {
     "felt_base": "felt",
@@ -32,20 +33,43 @@ CATS = {
     "pla": ("Printed PLA", "#c5b9a3"),
     "card": ("Wall card", "#8a5a3b"),
     "gold": ("Gold domes", "#e6c35c"),
+    "duck": ("Duck", "#d9d3c7"),
     "cable": ("Cable", "#e07a1f"),
 }
 
 
+def _geom_mesh(mesh, name):
+    if len(mesh.faces) > 600:
+        step = int(np.ceil(len(mesh.faces) / 600.0))
+        mesh = trimesh.Trimesh(vertices=np.asarray(mesh.vertices), faces=np.asarray(mesh.faces)[::step], process=False)
+        mesh.remove_unreferenced_vertices()
+    return dict(name=name, pos=np.asarray(mesh.vertices, np.float64), idx=np.asarray(mesh.faces, np.int64))
+
+
 def _geom(path, name):
-    m = trimesh.load(path)
-    return dict(name=name, pos=np.asarray(m.vertices, np.float64), idx=np.asarray(m.faces, np.int64))
+    return _geom_mesh(trimesh.load(path), name)
 
 
-def _node(name, mesh, matrix):
+def _duck_on_mat():
+    """Recorded sit, facing the room, seat on the felt. Sim pose, CAD shift."""
+    sys.path.insert(0, os.path.join(REPO, "altaay_lab", "cad", "nest_v2"))
+    import nest_v2
+    posed, _pose = nest_v2.posed_duck()
+    geoms, nodes = [], []
+    for i, (inst, mesh) in enumerate(posed):
+        name = "duck-%s-%d" % (inst["key"], i)
+        geoms.append(_geom_mesh(mesh, name))
+        cat = "gold" if inst["key"] == "gold_domes" else "duck"
+        nodes.append(_node(name, i, np.eye(4), category=cat, sub="duck"))
+    return geoms, nodes
+
+
+def _node(name, mesh, matrix, category=None, sub="mat"):
     return dict(
         name=name, mesh=mesh, matrix=matrix,
-        label=name.replace("_", " "), part=name, category=COLORS.get(name, "pla"),
-        sub="mat", status="SIM",
+        label=name.replace("_", " "), part=name,
+        category=category or COLORS.get(name, "pla"),
+        sub=sub, status="SIM",
         v1=[0, 0, 0], v2=[0, 0, 0], v3=[0, 0, 0],
     )
 
@@ -56,12 +80,12 @@ def build(out, scene, write_glb):
     eye = np.eye(4)
     nodes = [_node(n, i, eye.copy()) for i, n in enumerate(names)]
     if scene == "nested":
-        domes = _geom(DOMES, "gold_domes")
-        # Caps are proud of z = -47.79 in the seat part frame. Felt top is z = 2.
-        M = np.eye(4)
-        M[2, 3] = 2.0 - (-47.79)
-        geoms.append(domes)
-        nodes.append(_node("gold_domes", len(geoms) - 1, M))
+        duck_geoms, duck_nodes = _duck_on_mat()
+        off = len(geoms)
+        for n in duck_nodes:
+            n["mesh"] += off
+        geoms.extend(duck_geoms)
+        nodes.extend(duck_nodes)
     prefix = "nest" if scene == "nest" else "nested"
     nodes_man = {}
     for n in nodes:
@@ -70,7 +94,11 @@ def build(out, scene, write_glb):
     cats = {k: dict(label=v[0], color=v[1], count=0) for k, v in CATS.items()}
     for v in nodes_man.values():
         cats[v["category"]]["count"] += 1
-    printed = [dict(stl=n + ".stl", found=1, expected=1, ok=True) for n in names]
+    printed = [dict(stl=n + ".stl", label=n.replace("_", " "), found=1, expected=1, ok=True, nodes=[n]) for n in names]
+    if scene == "nested":
+        for n in nodes:
+            if n["name"].startswith("duck-"):
+                printed.append(dict(stl=n["name"], label=n["label"], found=1, expected=1, ok=True, nodes=[n["name"]]))
     man = dict(
         meta=dict(
             generated=datetime.date.today().isoformat(),
@@ -81,8 +109,12 @@ def build(out, scene, write_glb):
             note="SIM. Nest v2. Not the wall and paddle dock.",
         ),
         categories=cats,
-        groups=[dict(id="mat", label="Nest", subs=["mat"])],
-        subassemblies={"mat": dict(label="Mat", group="mat", v1=[0, 0, 0], centre=[0, 0, 0])},
+        groups=[dict(id="mat", label="Nest", subs=["mat"])] + (
+            [dict(id="duck", label="Duck", subs=["duck"])] if scene == "nested" else []),
+        subassemblies={
+            "mat": dict(label="Mat", group="mat", v1=[0, 0, 0], centre=[0, 0, 0]),
+            "duck": dict(label="Duck", group="duck", v1=[0, 0, 0], centre=[0, 0, 0]),
+        },
         tray=None,
         nodes=nodes_man,
         servos=[],

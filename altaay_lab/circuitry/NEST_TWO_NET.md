@@ -28,8 +28,10 @@ adapter 15.0 V
   -- SMAJ16A to mat ground
   -- two foil buses
 
-each gold dome -- SS33 to NEST+ (cathode at NEST+)
-              -- SS33 from NEST- (anode at NEST-)
+each gold dome JNW.n -- wire WELL_n -- BR1.Dn
+              -- SS33 to NEST+ (cathode at P)
+              -- SS33 from NEST- (anode at N)
+RSIG 4.99 kOhm across BR1.P and BR1.N
 NEST+ -- F2 5 A -- BQ24133 PVCC
 BQ24133 pack pins -- BMS P+ / P- only
 NEST- -- BMS P-
