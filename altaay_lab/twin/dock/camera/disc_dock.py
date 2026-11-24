@@ -22,7 +22,7 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 
-from altaay_lab.software.autonomy.disc_loop import HEAD_YAW_HI, HEAD_YAW_LO, DiscLoop
+from altaay_lab.software.autonomy.disc_loop import HEAD_YAW_HI, HEAD_YAW_LO, DiscLoop, fall_outranks_sit
 from altaay_lab.software.perception import nest_find as NF
 from altaay_lab.twin.dock.camera import camera_dock as CD
 
@@ -492,6 +492,9 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
                 # A miss stands and walks away from the wall, then searches again.
                 _back_out(sim)
                 if sim.fallen:
+                    # The crouch already happened. The fall is what ended it.
+                    reason = "fell"
+                    sat = False
                     break
                 loop = DiscLoop()
                 sim.est_q = []
@@ -559,6 +562,10 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
             reason = loop.reason or "timeout"
             if sim.fallen:
                 reason = "fell"
+        # A fall while standing, backing out, or searching again is not the
+        # earlier missed sit. sat_off and heading are only for a duck that
+        # is still up.
+        sat, reason = fall_outranks_sit(sat, reason, bool(sim.fallen))
         x, y, yaw, z, up = sim.true_pose()
         scored = CD.score_wells(x, y, yaw)
         heading = abs(math.degrees(CD.wrap(yaw - math.pi)))

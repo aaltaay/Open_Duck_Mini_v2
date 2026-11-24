@@ -8,7 +8,7 @@ import unittest
 
 import numpy as np
 
-from altaay_lab.software.autonomy.disc_loop import HEAD_YAW_HI, HEAD_YAW_LO, SIT_FWD_M, DiscLoop
+from altaay_lab.software.autonomy.disc_loop import HEAD_YAW_HI, HEAD_YAW_LO, SIT_FWD_M, DiscLoop, fall_outranks_sit
 from altaay_lab.software.perception.nest_find import find_nest, intrinsics, sun_in_trunk
 
 
@@ -123,6 +123,14 @@ class FindTests(unittest.TestCase):
 
 
 class LoopTests(unittest.TestCase):
+    def test_a_later_fall_is_not_the_earlier_sit(self):
+        sat, reason = fall_outranks_sit(True, "sat_off", True)
+        self.assertFalse(sat)
+        self.assertEqual(reason, "fell")
+        sat, reason = fall_outranks_sit(True, "sat_off", False)
+        self.assertTrue(sat)
+        self.assertEqual(reason, "sat_off")
+
     def test_far_sun_walks_forward(self):
         loop = DiscLoop()
         est = {"seen": True, "clipped": False, "sun_fwd": 1.2, "sun_left": 0.05,

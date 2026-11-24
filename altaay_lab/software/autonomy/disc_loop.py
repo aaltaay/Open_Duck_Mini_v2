@@ -44,6 +44,16 @@ def _clip(v, lo, hi):
     return float(max(lo, min(hi, v)))
 
 
+def fall_outranks_sit(sat, reason, fallen):
+    """A later fall is the outcome. An earlier crouch must not rename it.
+
+    Returns (sat, reason).
+    """
+    if fallen or reason == "fell":
+        return False, "fell"
+    return bool(sat), reason
+
+
 def _obs_left(head_yaw, image_right):
     """Obstacle bearing in the trunk, left positive.
 
