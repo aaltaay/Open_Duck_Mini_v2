@@ -48,9 +48,15 @@ Awake means not napping and not charging. The 4 misses are draws of the publishe
 
 The picture is altaay_lab/twin/out/videos/autonomy_day.mp4. It is the first simulated day, 36 s, 1280 by 720, 422170 bytes. The caption says SIM and sim pass only. The duck and the stripes are a drawing of that trace, not a MuJoCo frame and not the CAD.
 
+## Live camera, added 2026-11-24
+
+The default soak still draws the published 40. `use_camera()` swaps that draw for one live episode. The episode is `CameraOutcomes` in twin/dock/camera/disc_dock.py. The commands inside it come from the head camera (software/perception/nest_find.py) or, for the baseline only, from the true sun. The three-day soak was not re-run on that loop.
+
+The batch is twin/dock/camera/DISC_DOCK.md. Camera charging is 2 of 8. The privileged sun, same starts and same commands, is 4 of 8 (sim pass only). That is not the 38 of 40 card dock.
+
 ## Still open
 
-- A live camera on the Pi. BLOCKER.
+- A live camera on the Pi. The sim loop above is not that. BLOCKER.
 - Charge on a real board. BLOCKER.
 - A mean pack current on the held 12.0 V rail. BLOCKER.
 - How fast the knee cools. The soak reuses the heat-up time constant. BLOCKER.
