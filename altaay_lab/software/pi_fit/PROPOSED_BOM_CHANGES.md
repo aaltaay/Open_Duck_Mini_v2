@@ -2,7 +2,7 @@
 
 Not applied. BOM.md was not edited. The live netlist `altaay_lab/wiring/netlist.yaml` was not edited. Changing U3 in that file needs Ahmed.
 
-PR 113 (open, BQ24133) already writes `altaay_lab/PROPOSED_BOM_CHANGES.md` for the nest charger. This file sits next to the Pi 5 study so the two proposals can land without one replacing the other.
+The nest charger proposal lives in `altaay_lab/PROPOSED_BOM_CHANGES.md`. This file sits next to the Pi 5 study so the two notes do not overwrite each other.
 
 Nothing here was bought. A number is cited, calc only, chart read, or BLOCKER.
 
@@ -22,7 +22,7 @@ Pololu D36V50F5, item 4091. https://www.pololu.com/product/4091
 | Header pins | 3 A each, 6 A combined per pair | cited. Above that, the page says solder thick wires to the board |
 | Price and stock | $44.95, 0 in stock, status Rationed, backorders allowed | cited, the page on the day this note was written |
 
-The pack window 9.0 to 12.6 V (netlist PACK_9V0_12V6) is inside 5.5 to 50 V and above the chart-read dropout. The nest rail in PR 113 is 15.0 V. That is also inside 5.5 to 50 V, so the same part can be fed from the pack or from the nest rail.
+The pack window 9.0 to 12.6 V (netlist PACK_9V0_12V6) is inside 5.5 to 50 V and above the chart-read dropout. The landed nest note (circuitry/NEST_TWO_NET.md) keeps U3 on that pack domain, at J5IN, and does not put the 15.0 V nest on the 5 V pin. This part's 5.5 V to 50 V input also covers 15.0 V, so a later nest tie would not need a different regulator. This proposal does not make that tie.
 
 ## 5 V load sum
 
@@ -52,9 +52,9 @@ The same sum with running current instead of stall is 5.183 A (calc only).
 
 ## Nest rail
 
-PR 113 says the nest rail can feed the 5 V part, and it keeps the D30V30F5 in the live netlist. This proposal replaces that part with the D36V50F5 and does not change PR 113's files.
+circuitry/NEST_TWO_NET.md, now on altaay-lab, says a later 5 V 5 A regulator can replace U3 when its input accepts the pack window and its output stays on net 5V. It also says the 5 V seat ties U3.VIN to J5IN and drops the VSW feed, and that this does not put the nest on the 5 V pin. The Pi stays a pack-domain load.
 
-PR 113's dome note uses 1.773 A on the nest when the 5 V branch is 5 A (calc only, their CABLE_MAP note), plus 0.910 A charge and 0.250 A servo idle. This study's stall sum is 6.503 / 5.000 times that 5 A assumption (calc only). The nest term scales to 1.773 * (6.503 / 5.000) = 2.306 A, and one dome then carries 0.910 + 0.250 + 2.306 = 3.466 A (calc only, same efficiency PR 113 already used). Those PR 113 numbers stay as they are until Ahmed updates them.
+This proposal is that replacement. VIN is J5IN, domain PACK_9V0_12V6. VOUT stays on net 5V. The 5 V load sum above is on the pack side, so it does not add to the nest dome current. The live netlist still names the D30V30F5 until Ahmed changes it.
 
 ## Netlist study variant
 
@@ -75,7 +75,7 @@ Proposed U3 block. Not copied into `wiring/netlist.yaml`. Pin names VIN, GND, VO
       price_usd: 44.95
       stock: "0, rationed, backorders allowed"
     pins:
-      - {pin: "VIN", name: input from pack or nest rail, domain: PACK_9V0_12V6}
+      - {pin: "VIN", name: input from J5IN, domain: PACK_9V0_12V6}
       - {pin: "GND.1", name: ground, domain: GND}
       - {pin: "GND.2", name: ground, domain: GND}
       - {pin: "VOUT", name: 5 V out, domain: 5V}
