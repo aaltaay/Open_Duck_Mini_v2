@@ -8,9 +8,10 @@ repo root. Nothing here is a hardware pass.
 Mass placement, sim pass only: take 10.0 g off head_assembly (the Zero,
 cited Adafruit 5291) and put 50 g on the trunk at the seat centre. 50 g is
 the shop Weight field for the 4 GB board, SC1111, not an official Raspberry
-Pi mass and not the 2 GB board. Seat centre in the print frame is
-(7.5, 4.0, -50.45) mm. trunk_top matches the print file after +19.0 mm in x
-and -64.9 mm in z, so the trunk-frame position is (-0.0115, 0.004, 0.01445) m.
+Pi mass and not the 2 GB board. The Active Cooler mass is not on its drawing.
+Seat centre in the print frame is (-54.0, 0.5, -40.45) mm. trunk_top matches
+the print file after +19.0 mm in x and -64.9 mm in z, so the trunk-frame
+position is (-0.073, 0.0005, 0.02445) m.
 """
 import os
 import sys
@@ -78,7 +79,7 @@ ZERO_KG = 0.010
 # Shop weight for the 4 GB board. See the module docstring.
 PI5_KG = 0.050
 # Trunk frame, metres. See the module docstring.
-SEAT_POS = (-0.0115, 0.004, 0.01445)
+SEAT_POS = (-0.073, 0.0005, 0.02445)
 # Keep-out box 85 by 56 by 15.1 mm, used only for a positive inertia.
 BOX = (0.085, 0.056, 0.0151)
 

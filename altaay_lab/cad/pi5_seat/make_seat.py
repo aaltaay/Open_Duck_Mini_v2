@@ -450,7 +450,7 @@ def com_shift(origin, size):
     }
 
 
-def render(shells, origin, size, dest, servo_pts=None):
+def render(shells, origin, size, dest, servo_pts=None, extra=None):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -480,6 +480,10 @@ def render(shells, origin, size, dest, servo_pts=None):
     # corner order from box_corners is ix, iy, iz nested
     for a, b in edges:
         ax.plot(*board[[a, b]].T, color="#1a73e8", linewidth=2.0)
+    if extra is not None:
+        other = box_corners(np.array(extra[0], dtype=float), np.array(extra[1], dtype=float))
+        for a, b in edges:
+            ax.plot(*other[[a, b]].T, color="#188038", linewidth=1.6)
     if servo_pts is not None and len(servo_pts):
         sample = servo_pts[:: max(1, len(servo_pts) // 4000)]
         ax.scatter(sample[:, 0], sample[:, 1], sample[:, 2], s=1, c="#c43b3b", depthshade=False)
@@ -489,7 +493,7 @@ def render(shells, origin, size, dest, servo_pts=None):
     ax.set_xlabel("x forward, mm")
     ax.set_ylabel("y left, mm")
     ax.set_zlabel("z up, mm")
-    ax.set_title("CAD check only: Pi 5 seat, body shells, servo meshes")
+    ax.set_title("CAD check only: seat behind the hips, servos at the yaw stops")
     fig.tight_layout()
     fig.savefig(dest, dpi=110)
     plt.close(fig)
