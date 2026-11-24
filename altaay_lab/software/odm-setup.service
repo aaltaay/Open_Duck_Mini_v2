@@ -1,0 +1,24 @@
+# First boot. Speaks a pairing code, opens a temporary Wi-Fi network, and
+# serves the setup page on that network only. Not enabled by install_pi.sh.
+# Do not start this once owner.json exists (the condition below).
+[Unit]
+Description=Duckie first-boot setup page and temporary Wi-Fi
+ConditionPathExists=!/var/lib/odm/owner.json
+After=network.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=notify
+WorkingDirectory=/home/duck/open_duck_mini_v2
+Environment=PYTHONPATH=/home/duck/open_duck_mini_v2
+Environment=ODM_OWNER_USER=duck
+ExecStart=/usr/bin/python3 -m altaay_lab.software.owner.run_setup --live --state /var/lib/odm
+WatchdogSec=30
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=40
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

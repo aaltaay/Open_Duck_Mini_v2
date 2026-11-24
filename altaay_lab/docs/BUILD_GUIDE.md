@@ -491,7 +491,40 @@ The mat is not in the print folder and not in BUILD_ORDER.md. Build it from
 Picture of the mat you should see from above: [images/nest_mat_top.png](images/nest_mat_top.png)
 and [cad/nest_v2/renders/sit_side.png](../cad/nest_v2/renders/sit_side.png).
 
-## 12. Stop here
+## 12. After the Pi is installed
+
+The owner-facing steps are in [OWNERS_MANUAL.md](OWNERS_MANUAL.md). The program
+notes are [software/owner/OWNER.md](../software/owner/OWNER.md).
+Status of this section: **never done on hardware**.
+
+69. [software/install_pi.sh](../software/install_pi.sh) copies the owner units
+    and the update public key. It does not enable them. It does not enable
+    [software/odm-walk-guard.service](../software/odm-walk-guard.service) either.
+    Do not enable odm-walk.service and odm-walk-guard.service together. They
+    would both open the servo bus.
+70. The public key is [software/owner/update_public_key.pem](../software/owner/update_public_key.pem).
+    Do not add a private key to this repository. A production signing key is
+    **BLOCKER** until its private half exists offline and this public file is
+    replaced with the matching half.
+71. When you are ready for a keyboard-free start, enable only the setup service,
+    the status service, and the low-pack service. Leave the walk, the supervisor,
+    the voice job, and the camera job disabled until section 10 has a written pass.
+    The setup service opens a temporary network. It closes that network after
+    the page is saved. The status page is port 8080 (set point) and answers only
+    a device on the home network.
+72. Hostapd and dnsmasq are installed for that temporary network. Do not enable
+    the distribution's own hostapd service. The setup unit starts hostapd with
+    the pairing code as the passphrase. There is no factory password.
+73. The rollback check is measured in emulation:
+
+```bash
+python3 -m unittest discover -s altaay_lab/software/owner/tests -q
+```
+
+    A failed update in that run switches back to the previous copy. That is not
+    a robot.
+
+## 13. Stop here
 
 You do not have a second duck, and you do not have a home robot, until the gates in
 [DEFINITION_OF_DONE.md](../DEFINITION_OF_DONE.md) pass on hardware.

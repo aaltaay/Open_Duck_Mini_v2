@@ -1,0 +1,42 @@
+# Walk with a watchdog and a restart limit. Not enabled by install_pi.sh.
+# Do not enable this together with odm-walk-guard.service. They would both
+# open the servo bus. Guard exits 4, 6, 7, 8, 9, 10, and 11 are not restarted.
+# The ear PWM overlay is ODM_HW_PWM. antennas.py is not edited.
+[Unit]
+Description=Duckie walk with watchdog and restart limit
+After=network.target bluetooth.target
+Wants=bluetooth.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=notify
+User=duck
+WorkingDirectory=/home/duck/open_duck_mini_v2
+Environment=PYTHONPATH=/home/duck/open_duck_mini_v2
+Environment=ODM_HOME=/home/duck
+Environment=ODM_STATE=/var/lib/odm
+Environment=ODM_RUNTIME_DIR=/run/odm
+Environment=ODM_HW_PWM=1
+Environment=ODM_RUNTIME_DIR=/home/duck/Open_Duck_Mini_Runtime
+Environment=ODM_BENCH_OUT=/home/duck/odm_bench_logs
+Environment=PYGAME_HIDE_SUPPORT_PROMPT=1
+Environment=ODM_WALK_CPU=0
+Environment=ODM_WALK_NICE=-10
+Environment=ODM_ORT_THREADS=1
+Environment=MALLOC_ARENA_MAX=2
+Environment=XDG_RUNTIME_DIR=/tmp/xdg-duck
+ExecStartPre=/bin/mkdir -p -m 700 /tmp/xdg-duck
+ExecStart=/usr/bin/python3 -m altaay_lab.software.owner.run_service --role walk --state /var/lib/odm
+Restart=on-failure
+RestartPreventExitStatus=4 6 7 8 9 10 11
+RestartSec=5
+WatchdogSec=15
+TimeoutStopSec=20
+StandardOutput=journal
+StandardError=journal
+CPUAffinity=0
+Nice=-10
+
+[Install]
+WantedBy=multi-user.target
