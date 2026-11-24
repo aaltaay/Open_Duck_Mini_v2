@@ -1,0 +1,74 @@
+{
+ "label": "sim pass only",
+ "scene": "public playground scene_flat_terrain.xml at pin b9be205. The shared lab gym overlay is not in this checkout.",
+ "policy": "BEST_WALK_ONNX_2.onnx",
+ "schedule": "0 to 2 s stand, 2 to 14 s vx 0.15, 14 to 20 s wz 1.0, 20 to 26 s vx 0.15",
+ "previous_published": {
+  "source": "sim/SIM_WALK.md",
+  "path_m": 2.7,
+  "net_m": 1.32,
+  "heading_drift_deg": "about 4 over 10 s",
+  "falls": "none",
+  "forward_speed_m_s": 0.097
+ },
+ "baseline_this_script": {
+  "label": "sim pass only",
+  "falls": [],
+  "min_z_m": 0.154,
+  "min_upz": 0.992,
+  "path_m": 2.71,
+  "net_m": 1.32,
+  "forward_4_to_14_s": {
+   "dist_m": 0.97,
+   "speed_m_s": 0.097,
+   "dyaw_deg": 4.2
+  },
+  "turn_14_to_20_s": {
+   "dist_m": 0.073,
+   "speed_m_s": 0.012,
+   "dyaw_deg": 275.2
+  },
+  "forward_22_to_26_s": {
+   "dist_m": 0.385,
+   "speed_m_s": 0.096,
+   "dyaw_deg": 0.7
+  },
+  "model_mass_kg": 2.1071
+ },
+ "seat_mass": {
+  "label": "sim pass only",
+  "falls": [],
+  "min_z_m": 0.154,
+  "min_upz": 0.992,
+  "path_m": 2.67,
+  "net_m": 1.21,
+  "forward_4_to_14_s": {
+   "dist_m": 0.959,
+   "speed_m_s": 0.096,
+   "dyaw_deg": -0.4
+  },
+  "turn_14_to_20_s": {
+   "dist_m": 0.078,
+   "speed_m_s": 0.013,
+   "dyaw_deg": 271.3
+  },
+  "forward_22_to_26_s": {
+   "dist_m": 0.379,
+   "speed_m_s": 0.095,
+   "dyaw_deg": -1.6
+  },
+  "model_mass_kg": 2.1471
+ },
+ "mass": {
+  "removed_kg": 0.01,
+  "removed_label": "cited, Adafruit 5291, the Zero",
+  "added_kg": 0.05,
+  "added_label": "cited, raspberrypi.dk Weight 50 g for Raspberry Pi 5 4 GB, SC1111. Not the 2 GB board. Official drawing prints no mass.",
+  "seat_pos_m": [
+   -0.0115,
+   0.004,
+   0.01445
+  ],
+  "video": "altaay_lab/sim/pi5_seat_walk_sim.mp4"
+ }
+}

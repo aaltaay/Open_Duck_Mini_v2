@@ -131,7 +131,93 @@ BODY = (
 )
 
 
-def search(shells):
+def rpy_matrix(rpy):
+    roll, pitch, yaw = rpy
+    cr, sr = np.cos(roll), np.sin(roll)
+    cp, sp = np.cos(pitch), np.sin(pitch)
+    cy, sy = np.cos(yaw), np.sin(yaw)
+    rz = np.array([[cy, -sy, 0.0], [sy, cy, 0.0], [0.0, 0.0, 1.0]])
+    ry = np.array([[cp, 0.0, sp], [0.0, 1.0, 0.0], [-sp, 0.0, cp]])
+    rx = np.array([[1.0, 0.0, 0.0], [0.0, cr, -sr], [0.0, sr, cr]])
+    return rz @ ry @ rx
+
+
+def servo_points_print_frame(step=5):
+    """Servo case vertices in the print millimetre frame.
+
+    The URDF is in metres. trunk_top.stl matches the print file on all six
+    faces after +19.0 mm in x and -64.9 mm in z (CAD check only). That same
+    shift is applied to every servo visual.
+    """
+    import xml.etree.ElementTree as ET
+    urdf_dir = os.path.join(ROOT, "mini_bdx", "robots", "open_duck_mini_v2")
+    tree = ET.parse(os.path.join(urdf_dir, "robot.urdf"))
+    root = tree.getroot()
+    joints = {}
+    for joint in root.findall("joint"):
+        origin = joint.find("origin")
+        xyz = np.zeros(3)
+        rpy = np.zeros(3)
+        if origin is not None:
+            xyz = np.array([float(v) for v in origin.attrib.get("xyz", "0 0 0").split()])
+            rpy = np.array([float(v) for v in origin.attrib.get("rpy", "0 0 0").split()])
+        joints[joint.find("child").attrib["link"]] = (
+            joint.find("parent").attrib["link"], xyz, rpy)
+    cache = {}
+
+    def world(link):
+        if link in cache:
+            return cache[link]
+        if link not in joints:
+            cache[link] = np.eye(4)
+            return cache[link]
+        parent, xyz, rpy = joints[link]
+        pose = np.eye(4)
+        pose[:3, :3] = rpy_matrix(rpy)
+        pose[:3, 3] = xyz
+        cache[link] = world(parent) @ pose
+        return cache[link]
+
+    shift = np.array([19.0, 0.0, -64.9])
+    clouds = []
+    names = []
+    for link in root.findall("link"):
+        lname = link.attrib["name"]
+        for vis in link.findall("visual"):
+            mesh = vis.find("geometry/mesh")
+            if mesh is None:
+                continue
+            fn = mesh.attrib["filename"].split("/")[-1]
+            if not (fn.startswith("wj-wk") or fn == "sg90.stl"):
+                continue
+            origin = vis.find("origin")
+            xyz = np.zeros(3)
+            rpy = np.zeros(3)
+            if origin is not None:
+                xyz = np.array([float(v) for v in origin.attrib.get("xyz", "0 0 0").split()])
+                rpy = np.array([float(v) for v in origin.attrib.get("rpy", "0 0 0").split()])
+            pose = world(lname)
+            local = np.eye(4)
+            local[:3, :3] = rpy_matrix(rpy)
+            local[:3, 3] = xyz
+            full = pose @ local
+            verts = load_tris(os.path.join(urdf_dir, fn)).reshape(-1, 3)
+            # One sample in five is enough for a 2 mm clearance and keeps the search short.
+            verts = verts[::step]
+            pts = (full[:3, :3] @ verts.T).T + full[:3, 3]
+            pts = pts * 1000.0 + shift
+            clouds.append(pts)
+            names.append("%s %s" % (lname, fn))
+    counts = [len(c) for c in clouds]
+    return names, np.vstack(clouds), shift.tolist(), counts
+
+
+def point_box_distance(points, bmin, bmax):
+    clamped = np.minimum(np.maximum(points, bmin), bmax)
+    return np.linalg.norm(points - clamped, axis=1)
+
+
+def search(shells, servo_pts):
     """Grid search. x is forward, y is left, z is up, print frame, mm.
 
     The USB end of the board is +x in the board frame, so the board's +x
@@ -152,16 +238,20 @@ def search(shells):
                     total, detail = overlaps(shells, BODY, bmin, bmax)
                     if total:
                         continue
+                    servo_gap = float(point_box_distance(servo_pts, bmin, bmax).min())
                     gap = clearance(shells, BODY, bmin, bmax, limit=6.0)
                     if gap < CLEAR_MM:
                         continue
-                    # Prefer forward (large x), then more clearance.
-                    score = (float(x + size[0]), gap)
+                    # Shells stay on the 2 mm rule. The servo gap is reported
+                    # even when it is under 2 mm, and the search keeps the
+                    # pose with the larger servo gap, then the more forward one.
+                    score = (round(servo_gap, 2), float(x + size[0]))
                     row = {
                         "swap": swap,
                         "origin_mm": [round(v, 2) for v in origin],
                         "size_mm": [round(v, 2) for v in size],
                         "clear_mm": gap,
+                        "servo_clear_mm": round(servo_gap, 2),
                         "score": score,
                     }
                     if best is None or score > best["score"]:
@@ -324,6 +414,13 @@ def com_shift(origin, size):
     hmax = head.reshape(-1, 3).max(axis=0)
     old = (hmin + hmax) / 2.0
     new = origin + size / 2.0
+    # 50 g is the shop Weight field for the 4 GB board (SC1111). The 2 GB
+    # board's own mass is not on that page. 40 g and 60 g stay a sensitivity.
+    labels = {
+        50.0: "calc only, using 50 g cited from raspberrypi.dk additional information, Raspberry Pi 5 4 GB, SC1111. Official drawing prints no mass.",
+        40.0: "calc only, sensitivity around the 50 g shop weight",
+        60.0: "calc only, sensitivity around the 50 g shop weight",
+    }
     rows = []
     for grams in (40.0, 50.0, 60.0):
         m = grams / 1000.0
@@ -335,7 +432,7 @@ def com_shift(origin, size):
         dz = (m * new[2] - ZERO_KG * old[2]) / mass
         rows.append({
             "grams": grams,
-            "label": "calc only, mass is a sensitivity because the Pi 5 weight was not read",
+            "label": labels[grams],
             "com_x_mm": round(float(dx), 3),
             "com_z_mm": round(float(dz), 3),
         })
@@ -353,7 +450,7 @@ def com_shift(origin, size):
     }
 
 
-def render(shells, origin, size, dest):
+def render(shells, origin, size, dest, servo_pts=None):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -383,13 +480,16 @@ def render(shells, origin, size, dest):
     # corner order from box_corners is ix, iy, iz nested
     for a, b in edges:
         ax.plot(*board[[a, b]].T, color="#1a73e8", linewidth=2.0)
+    if servo_pts is not None and len(servo_pts):
+        sample = servo_pts[:: max(1, len(servo_pts) // 4000)]
+        ax.scatter(sample[:, 0], sample[:, 1], sample[:, 2], s=1, c="#c43b3b", depthshade=False)
     ax.set_xlim(-110, 70)
     ax.set_ylim(-60, 60)
     ax.set_zlim(-110, 50)
     ax.set_xlabel("x forward, mm")
     ax.set_ylabel("y left, mm")
     ax.set_zlabel("z up, mm")
-    ax.set_title("CAD check only: Pi 5 seat in the body")
+    ax.set_title("CAD check only: Pi 5 seat, body shells, servo meshes")
     fig.tight_layout()
     fig.savefig(dest, dpi=110)
     plt.close(fig)
@@ -414,18 +514,53 @@ def main(argv=None):
         print(json.dumps({"stl": path, "triangles": count}))
         return 0
     shells = load_shells()
+    servo_names, servo_pts, shift, servo_counts = servo_points_print_frame()
     head = head_try(shells)
-    found = search(shells)
+    found = search(shells, servo_pts)
     if found is None:
         report = {"fits": False, "head": head, "label": "CAD check only"}
     else:
         origin = np.array(found["origin_mm"], dtype=float)
         size = np.array(found["size_mm"], dtype=float)
+        full_names, full_pts, _shift, full_counts = servo_points_print_frame(step=1)
+        nearest_name = None
+        nearest_gap = None
+        cursor = 0
+        for name, count in zip(full_names, full_counts):
+            chunk = full_pts[cursor:cursor + count]
+            cursor += count
+            gap = float(point_box_distance(chunk, origin, origin + size).min())
+            if nearest_gap is None or gap < nearest_gap:
+                nearest_gap = gap
+                nearest_name = name
+        found["servo_clear_mm"] = round(nearest_gap, 2)
+        left_y = None
+        right_y = None
+        cursor = 0
+        for name, count in zip(full_names, full_counts):
+            chunk = full_pts[cursor:cursor + count]
+            cursor += count
+            if "0123middlecase" not in name:
+                continue
+            if name.startswith("hip_roll_assembly "):
+                left_y = float(chunk[:, 1].min())
+            elif name.startswith("hip_roll_assembly_2 "):
+                right_y = float(chunk[:, 1].max())
+        hip_slot = None
+        if left_y is not None and right_y is not None:
+            hip_slot = {
+                "left_hip_inner_y_mm": round(left_y, 2),
+                "right_hip_inner_y_mm": round(right_y, 2),
+                "gap_mm": round(left_y - right_y, 2),
+                "board_y_mm": BOARD_Y,
+                "shortfall_mm": round(BOARD_Y - (left_y - right_y), 2),
+                "label": "CAD check only, middle-case vertices after the trunk_top shift. The board is wider than the slot between the hip cases.",
+            }
         tris = seat_mesh(origin, found["swap"])
         stl_path = os.path.join(HERE, "pi5_seat.stl")
         write_stl(stl_path, tris)
         png_path = os.path.join(HERE, "pi5_seat_in_body.png")
-        render(shells, origin, size, png_path)
+        render(shells, origin, size, png_path, servo_pts)
         com = com_shift(origin, size)
         # Camera is in the head. Straight line from the seat centre to the
         # head shell centre, calc only.
@@ -433,6 +568,12 @@ def main(argv=None):
             "label": "CAD check only",
             "fits_in_body": True,
             "clear_mm": found["clear_mm"],
+            "servo_clear_mm": found.get("servo_clear_mm"),
+            "nearest_servo": nearest_name,
+            "hip_slot": hip_slot,
+            "servo_shift_mm": shift,
+            "servo_visuals": len(servo_names),
+            "servo_frame": "URDF metres times 1000, then +19.0 mm x and -64.9 mm z so trunk_top matches the print file on all six faces. CAD check only.",
             "clear_rule_mm": CLEAR_MM,
             "origin_mm": found["origin_mm"],
             "size_mm": found["size_mm"],
