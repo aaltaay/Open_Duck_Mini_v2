@@ -30,41 +30,69 @@ Warm light. The frame is gray-world balanced, then scored in chromaticity (red a
 
 Half turn. Both paths use the same loop. The turn is 3.10 rad of IMU yaw at 0.45 rad/s, with a side step that is eased off after 2.0 rad, then a short pure yaw with no side step. The side step is what walks the seat onto the foil. Leaving it on for the whole turn walks into the wall. The turn starts at 0.40 m of trunk-to-sun (set point), and only once the last bearing is near the centre line. A start with the disc still off to the right used to finish outside 25 deg.
 
+## Round 3, same 40 starts
+
+The twin has one head camera (onboard). Belly parts in this tree are contact metal, not a view, and there is no back-of-head camera. The final look uses the head, pitched down, while the duck still faces the disc.
+
+Before the half turn, at the same 0.40 m gate, the loop spends up to 1.5 s on the disc centroid (lateral) and the ring ellipse angle (yaw, and only when that angle agrees with the centroid). Then it turns and crouches. A failed sit restores the walk gains, stands, and walks forward. After the half turn, forward faces the room, so that walk leaves the wall. The camera searches again and repeats the approach and the line-up. Two retries, inside the episode. Restarting the same pose from scratch was deterministic, and those retries added no docks.
+
+Walking forward stays on below the sit gate. The old 0.14 m/s floor kept going after the duck was already inside 0.40 m, and that is what put privileged runs through the wall. The stop is now at 0.34 m, inside the gate, so the turn can still start.
+
+The finder bins any frame whose long side is over 360 (the dock frame is 556 tall, so stride 2) and, after a fix, searches only a window around the last disc. The ring test is a window around the disc, not the whole picture.
+
 ## Batch
 
-Forty starts. The poses are the card dock's two lists of twenty (camera_dock.py). Each start is one of the four rooms, in rotation. A felt card covers part of the ring when the seed is a multiple of 3 (13 starts). A dark floor patch and a dark box sit off to the side when the seed is even (20 starts). Limit 50 s. First try plus two retries, the same cap as the card batch (`retries < 2`). A start counts once, on the first charge. Same controller both ways. Sim pass only. Every row is disc_batch.json.
+Same 40 poses, same rooms, same 13 covers, same 20 side hazards. Limit 70 s so a second sit has time. Sim pass only. Rows are disc_batch.json.
 
-Camera charging: 24 of 40. Privileged charging: 19 of 40.
+Camera charging: 29 of 40. Privileged charging: 25 of 40.
 
-All 24 camera charges happened on the first attempt. The other 16 failed all three attempts, so the two retries did not add a dock.
+Before this round, on the same 40: camera 24 of 40, privileged 19 of 40.
 
-Camera by room: day 4 of 10, warm 7 of 10, dim 6 of 10, cool 7 of 10. Starts whose heading was at least 70 deg off the nest: 6 of 11 camera docks, including 150 deg, 160 deg, and -150 deg. Cover on the ring: 7 of 13. Side hazard: 14 of 20.
+| | Before | After |
+|---|---|---|
+| Camera charging | 24 of 40 | 29 of 40 |
+| Privileged charging | 19 of 40 | 25 of 40 |
+| Camera sat_off | 7 | 9 |
+| Camera heading | 4 | 1 |
+| Camera fell | 1 | 1 |
+| Camera other misses | sat 2, timeout 1, missed_line 1 | none of those |
+| Privileged fell | 7 | 1 |
+| Day room, camera | 4 of 10 | 8 of 10 |
+| Warm room, camera | 7 of 10 | 7 of 10 |
+| Dim room, camera | 6 of 10 | 7 of 10 |
+| Cool room, camera | 7 of 10 | 7 of 10 |
 
-Camera misses: sat_off 7, heading 4, sat 2, fell 1, timeout 1, missed_line 1. Privileged misses: fell 7, heading 5, missed_line 5, timeout 3, sat_off 1. The privileged path falls more. The true sun keeps a walk going after the camera has already lost the disc.
+27 of the 29 camera docks were the first sit. Two were the second sit: seed 5 (day, the old sat_off at x=-0.90) and seed 14 (warm). The old batch's retries were a fresh copy of the same start, and none of them docked.
 
-The previous published camera batch was 2 of 8, one try, on a different set of eight starts. Privileged on that set was 4 of 8 (sim pass only). This 40 is not that 8, and it is not the 38 of 40 card dock. The card dock used the wall card and the room card.
+Day was the weak room because two sits were only a few centimetres short of the foil with the heading already inside 25 deg (seeds 33 and 37), one turn started off the line (seed 9), and two barely held the disc (seeds 5 and 29, saw fraction 0.004 and 0.013). The line-up at the 0.40 m gate and the second sit took day from 4 of 10 to 8 of 10. Seed 9 still walks onto the wall and falls (one camera fall, true x=0.053). Seed 29 still sits off on the second try.
 
-Dim light, camera path: the cliff flag was 0 frames on all 10 dim starts. The obstacle flag was not cleared. Those 10 starts raised it on 0 to 40 frames (sim pass only). Across all 40 camera episodes the median obstacle count was 46 frames.
+The remaining camera misses are 9 sat_off, 1 heading, and 1 fall. The heading row is seed 36: contacts meet, the stored yaw error is 12.9 deg, and charging stayed false. Most sat_off poses are still facing the nest area but a half-turn short (yaw about 70 to 110 deg, trunk x about -0.45 to -0.52). Privileged misses: missed_line 5, heading 3, sat_off 3, timeout 3, fell 1. The wall falls went from 7 to 1 because the forward speed now stops inside the sit distance.
+
+Starts at least 70 deg off the nest: 10 of 11 camera docks. Cover: 8 of 13. Side hazard: 14 of 20.
+
+This is not the 2 of 8 batch, and it is not the 38 of 40 card dock.
 
 ## Frame time
 
 Perception only, around find_nest. The MuJoCo render is not in this number. The call sits on the autonomy thread, not inside the 50 Hz walk step. It is not a Pi.
 
-| | Value | Label |
-|---|---|---|
-| Median of the 40 camera episode medians | 11.37 ms | measured on this x86 host, reported at 2400 MHz |
-| Ten warm-room episode medians | 15.99 ms to 18.63 ms | measured on this x86 host |
-| Fastest episode median | 7.84 ms | measured on this x86 host |
+| | Before | After | Label |
+|---|---|---|---|
+| Median of the 40 camera episode medians | 11.37 ms | 2.62 ms | measured on this x86 host, reported at 2400 MHz |
+| Ten warm-room episode medians | 15.99 ms to 18.63 ms | 4.22 ms to 4.63 ms | measured on this x86 host |
+| Fastest episode median | 7.84 ms | 2.24 ms | measured on this x86 host |
 
-Pi 5, 2 GB, is a 2.4 GHz quad Cortex-A76 (cited, software/pi_fit/BOARDS.md, the product page). The clocks match this host's reported 2400 MHz, so a same-work-per-clock copy of 11.37 ms is calc only and is a floor, not a Pi time. This Xeon core does more work per clock than an A76. A factor of 4 is an assumption, not a cited benchmark: 11.37 times 4 is 45.5 ms (calc only). A measured frame on a Pi 5 is BLOCKER.
+The cut is the stride-2 bin and the window around the last disc. Hazard flags are read from the full field, not that window. One day episode after that split measured 3.51 ms (sim pass only). The 2.62 ms median is the 40-episode batch before the split.
+
+Pi 5, 2 GB, is a 2.4 GHz quad Cortex-A76 (cited, software/pi_fit/BOARDS.md, the product page). A factor of 4 is an assumption, not a cited benchmark: 2.62 times 4 is 10.5 ms (calc only). A measured frame on a Pi 5 is BLOCKER.
 
 ## A printed mark, study only
 
-The warm room and the facing-away starts both dock some of the time now, and both still miss. A wall mark would still be a different sensor, not a fix for the cloth. The nest CAD's wall card is 40 mm and is not approved (NEST_V2.md). The old mast carried three AprilTags (dock BOM K13). Neither is on the mat this loop uses. This file does not add a mark. nest_v2 stays as approved.
+The nest CAD's wall card is 40 mm and is not approved (NEST_V2.md). This file does not add a mark. nest_v2 stays as approved.
 
 ## Pictures
 
-Both are sim. The video is one camera dock that starts facing away (heading 150 deg, cool room, side hazard). It opens in the search with no disc, then the head camera shows the disc box, then the half turn. Third person is beside the head camera. Labeled SIM. 980 by 420, 38.1 s, 278923 bytes.
+Both are sim, labeled SIM. The video is seed 5, a day start. The first sit misses. The duck stands, walks out into the room, searches again, and the second sit docks (yaw error 6.0 deg on that recording, sim pass only). Third person is beside the head camera. 980 by 420, 56.0 s, 268655 bytes.
 
 - twin/dock/camera/disc_dock_sim.mp4
 - twin/dock/camera/disc_dock_result.png

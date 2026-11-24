@@ -191,10 +191,11 @@ class DiscLoop:
                     cmd[0] = 0.0
                     cmd[2] = 0.50 if obs_right > 0.0 else -0.50
                 elif near and -0.20 <= bearing <= 0.22:
-                    self.phase = "turn"
-                    self.turn0 = imu_yaw
+                    # Same range as the old half-turn start. A short look
+                    # at the disc and the ring squares the heading first.
+                    self.phase = "line"
                     self.t_phase = self.t
-                    self.kicks = 0
+                    self.line_ok = 0
                 elif near and bearing < -0.20:
                     cmd[0] = 0.0
                     cmd[2] = _clip(1.2 * bearing, -0.50, -0.20)
@@ -208,7 +209,13 @@ class DiscLoop:
                     if abs(bearing) < 0.20:
                         cmd[0] = 0.08
                 else:
-                    cmd[0] = _clip(0.90 * (dist - SIT_FWD_M), 0.14, VX_MAX)
+                    # Well inside the sit distance, the old 0.14 m/s floor
+                    # walked the duck into the wall. The turn gate is at
+                    # 0.40 m, so the stop is inside that, not in front of it.
+                    if dist <= SIT_FWD_M - 0.06:
+                        cmd[0] = 0.0
+                    else:
+                        cmd[0] = _clip(0.90 * (dist - SIT_FWD_M), 0.10, VX_MAX)
                     cmd[1] = _clip(0.55 * aim, -VY_MAX, VY_MAX)
                     cmd[2] = _clip(1.15 * bearing, -0.60, 0.60)
             elif self.last_fwd is not None and self.last_fwd <= 0.85:
@@ -263,6 +270,33 @@ class DiscLoop:
                 self.turn0 = imu_yaw
                 self.t_phase = self.t
                 self.kicks = 0
+        elif self.phase == "line":
+            # Head is already pitched down. Centroid is the lateral offset.
+            # Ring major-axis angle is the yaw when it agrees with that.
+            # At most 1.5 s, then the same half turn as before.
+            cmd[3] = HEAD_DOWN
+            fwd = left = None
+            if seen and est.get("sun_fwd") is not None:
+                fwd = float(est["sun_fwd"])
+                left = float(est["sun_left"])
+            bear = 0.0 if fwd is None else math.atan2(left, max(fwd, 0.05))
+            yaw_e = None if not est else est.get("ring_yaw")
+            if yaw_e is None or fwd is None or abs(float(yaw_e)) > 0.35 or abs(wrap(float(yaw_e) - bear)) > 0.25:
+                yaw_e = bear
+            else:
+                yaw_e = 0.5 * float(yaw_e) + 0.5 * bear
+            aligned = abs(yaw_e) <= 0.10 and (left is None or abs(left) <= 0.05)
+            # Time is the budget. A call count of 8 is 0.16 s at the
+            # 0.02 s step, which ended the correction before it moved.
+            if aligned or self.t - self.t_phase > 1.5:
+                self.phase = "turn"
+                self.turn0 = imu_yaw
+                self.t_phase = self.t
+                self.kicks = 0
+            elif abs(yaw_e) > 0.10:
+                cmd[2] = _clip(1.0 * yaw_e, -0.35, 0.35)
+            elif left is not None:
+                cmd[1] = _clip(0.6 * left, -0.06, 0.06)
         elif self.phase == "turn":
             cmd[3] = 0.0
             turned = abs(wrap(imu_yaw - (self.turn0 or 0.0)))

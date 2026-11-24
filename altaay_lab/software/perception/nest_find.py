@@ -33,7 +33,9 @@ RING_R0_M = 0.082
 RING_R1_M = 0.235
 
 # Set point. Longer than this, the frame is binned. Not a camera mode.
-WORK_LONG = 640
+# 360 keeps the dock frame (556 tall) at stride 2. The unit stills are shorter
+# and stay full size.
+WORK_LONG = 360
 
 
 def intrinsics(w, h, fov_up_deg=66.0):
@@ -190,23 +192,53 @@ def _ring_side(val, score, band, outer):
     return ok, max(dv, 0.0)
 
 
+def _ring_angle(band):
+    """Major-axis angle of the ring, radians, 0 when it lies left to right.
+
+    A circle on the floor, seen by the pitched head, is wide left to right
+    when the duck faces the disc. A yaw tilts that axis. None if the band
+    is too thin to fit.
+    """
+    ys, xs = np.nonzero(band)
+    if xs.size < 40:
+        return None
+    x = xs.astype(np.float64) - float(xs.mean())
+    y = ys.astype(np.float64) - float(ys.mean())
+    mxx = float((x * x).mean())
+    myy = float((y * y).mean())
+    mxy = float((x * y).mean())
+    return 0.5 * math.atan2(2.0 * mxy, mxx - myy)
+
+
 def _ring_geom(val, score, u, v, radius_px, h, w):
     """The disc sits inside a local ring of cloth.
 
     The comparison is a tight annulus around the disc against the floor
-    just outside that annulus. The rest of the frame (wall, window, lamp)
-    is not the floor, and it was rejecting a real disc that sat low in
-    the picture. A yellow floor blob has no step at this radius.
+    just outside that annulus, and only inside a window around the disc.
+    The rest of the frame (wall, window, lamp) is not the floor. A yellow
+    floor blob has no step at this radius.
     """
     if radius_px < 2.0:
-        return 0.0, False, False
-    yy, xx = np.ogrid[:h, :w]
-    rho = np.hypot(xx - u, (yy - v) / 0.55)
+        return 0.0, False, False, None
     r = float(radius_px)
+    rad = int(9.0 * r) + 2
+    x0 = max(0, int(u) - rad)
+    x1 = min(w, int(u) + rad + 1)
+    y0 = max(0, int(v) - rad)
+    y1 = min(h, int(v) + rad + 1)
+    if x1 - x0 < 8 or y1 - y0 < 8:
+        return 0.0, False, False, None
+    val_c = val[y0:y1, x0:x1]
+    score_c = score[y0:y1, x0:x1]
+    hc, wc = val_c.shape
+    uc = float(u) - x0
+    vc = float(v) - y0
+    yy, xx = np.ogrid[:hc, :wc]
+    rho = np.hypot(xx - uc, (yy - vc) / 0.55)
     band = (rho > 2.0 * r) & (rho < 4.4 * r)
     outer = (rho > 5.2 * r) & (rho < 8.5 * r)
-    left_ok, left_gap = _ring_side(val, score, band & (xx < u), outer & (xx < u))
-    right_ok, right_gap = _ring_side(val, score, band & (xx > u), outer & (xx > u))
+    left_ok, left_gap = _ring_side(val_c, score_c, band & (xx < uc), outer & (xx < uc))
+    right_ok, right_gap = _ring_side(val_c, score_c, band & (xx > uc), outer & (xx > uc))
     full = left_ok and right_ok
     partial = left_ok or right_ok
     gap = max(left_gap, right_gap)
@@ -215,7 +247,15 @@ def _ring_geom(val, score, u, v, radius_px, h, w):
         frac = min(left_gap, right_gap) / max(gap, 1.0)
     elif partial:
         frac = 0.5
-    return frac, bool(full), bool(partial)
+    # The annulus above is only where we look. The angle comes from the
+    # cloth pixels inside it. The annulus itself is axis-aligned, so its
+    # own shape is not a yaw.
+    cloth = np.zeros_like(band)
+    if int(outer.sum()) >= 12:
+        floor_c = float(score_c[outer].mean())
+        floor_v = float(val_c[outer].mean())
+        cloth = band & ((score_c > floor_c + 0.012) | (val_c > floor_v + 4.0))
+    return frac, bool(full), bool(partial), _ring_angle(cloth)
 
 
 def _hazards(val, h, w):
@@ -265,14 +305,34 @@ def _hazards(val, h, w):
     return cliff, obstacle, obstacle_u
 
 
-def find_nest(img, fx, fy, cx, cy):
+def find_nest(img, fx, fy, cx, cy, roi=None):
     """One frame in, one estimate out. img is HxWx3 RGB uint8.
 
     range is not in this dict. sun_in_trunk turns the pixel width into metres.
+    roi is (u, v, radius) in the same pixels as img. After a fix, the caller
+    passes the last disc so the next frame skips the rest of the picture.
+    A miss clears it. The crop is not a camera mode.
     """
     if img.ndim == 3 and img.shape[2] == 4:
         img = img[:, :, :3]
-    img, fx, fy, cx, cy, stride = _bin(np.asarray(img), float(fx), float(fy), float(cx), float(cy))
+    img = np.asarray(img)
+    # Hazards use the whole field. The window is only for the disc.
+    full = img
+    full_fx, full_fy, full_cx, full_cy = float(fx), float(fy), float(cx), float(cy)
+    ox = oy = 0
+    if roi is not None:
+        ru, rv, rad = roi
+        h0, w0 = img.shape[:2]
+        x0 = max(0, int(ru - rad))
+        y0 = max(0, int(rv - rad))
+        x1 = min(w0, int(ru + rad))
+        y1 = min(h0, int(rv + rad))
+        if x1 - x0 > 48 and y1 - y0 > 48:
+            img = img[y0:y1, x0:x1]
+            cx = float(cx) - x0
+            cy = float(cy) - y0
+            ox, oy = x0, y0
+    img, fx, fy, cx, cy, stride = _bin(img, float(fx), float(fy), float(cx), float(cy))
     h, w = img.shape[:2]
     shown = _exposure(_white_balance(img))
     score, warm, val = _scores(shown)
@@ -282,7 +342,16 @@ def find_nest(img, fx, fy, cx, cy):
         keep = pale.copy()
         keep[disc[2], disc[1]] = False
         pale = keep
-    cliff, obstacle, obstacle_u = _hazards(val, h, w)
+    if ox or oy:
+        haz, _, _, _, _, haz_stride = _bin(full, full_fx, full_fy, full_cx, full_cy)
+        haz_shown = _exposure(_white_balance(haz))
+        _, _, haz_val = _scores(haz_shown)
+        hh, hw = haz_val.shape
+        cliff, obstacle, obstacle_u = _hazards(haz_val, hh, hw)
+        haz_ox, haz_oy, stride_h = 0, 0, haz_stride
+    else:
+        cliff, obstacle, obstacle_u = _hazards(val, h, w)
+        haz_ox, haz_oy, stride_h = ox, oy, stride
     out = {
         "seen": False,
         "clipped": False,
@@ -294,7 +363,7 @@ def find_nest(img, fx, fy, cx, cy):
         "occluded": False,
         "cliff": cliff,
         "obstacle": obstacle,
-        "obstacle_u": None if obstacle_u is None else obstacle_u * stride,
+        "obstacle_u": None if obstacle_u is None else obstacle_u * stride_h + haz_ox,
         "stride": stride,
         "work_w": w,
         "work_h": h,
@@ -306,12 +375,16 @@ def find_nest(img, fx, fy, cx, cy):
     v = float(ys.mean())
     # A dark chip of the nest (the charger pad, the disc shadow) is not a
     # side hazard. A real obstacle sits away from the disc.
-    if obstacle_u is not None and abs(float(obstacle_u) - u) < 1.15 * max(float(bw), 8.0):
+    if ox or oy:
+        nest_u = None if obstacle_u is None else (obstacle_u * stride_h + haz_ox - ox) / max(stride, 1)
+    else:
+        nest_u = obstacle_u
+    if nest_u is not None and abs(float(nest_u) - u) < 1.15 * max(float(bw), 8.0):
         obstacle = False
         obstacle_u = None
         out["obstacle"] = False
         out["obstacle_u"] = None
-    frac, ring, partial = _ring_geom(val, score, u, v, bw / 2.0, h, w)
+    frac, ring, partial, ring_yaw = _ring_geom(val, score, u, v, bw / 2.0, h, w)
     ring_w = None
     y_a = max(0, int(y0) - int(bh))
     y_b = min(h, int(y1) + int(bh) + 1)
@@ -338,14 +411,15 @@ def find_nest(img, fx, fy, cx, cy):
         {
             "seen": True,
             "clipped": bool(clipped),
-            "u": u * stride,
-            "v": v * stride,
+            "u": u * stride + ox,
+            "v": v * stride + oy,
             "width_px": None if width is None else width * stride,
+            "ring_yaw": None if ring_yaw is None else round(float(ring_yaw), 4),
             "ring_width_px": None if ring_w is None else ring_w * stride,
             "ring": bool(ring),
             "ring_frac": round(float(frac), 3),
             "occluded": bool(clipped or not ring),
-            "box": (x0 * stride, y0 * stride, x1 * stride, y1 * stride),
+            "box": (x0 * stride + ox, y0 * stride + oy, x1 * stride + ox, y1 * stride + oy),
         }
     )
     return out
