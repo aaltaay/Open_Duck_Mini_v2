@@ -359,6 +359,50 @@ def run_stack(args):
     return report
 
 
+def run_walk(args):
+    """Walk, autonomy, and one camera frame. No voice models.
+
+    Used when the voice files are not in the tree. The label stays
+    measured in emulation. It is not the full stack.
+    """
+    import numpy as np
+
+    stop = threading.Event()
+    rows = []
+    sess, name, obs = _policy(args.policy, args.threads)
+    walker = threading.Thread(
+        target=_walk, args=(sess, name, obs, args.seconds, rows, stop, args.walk_cpu), daemon=True)
+    auto = threading.Thread(target=_autonomy, args=(stop, args.auto_cpu), daemon=True)
+    walker.start()
+    time.sleep(0.2)
+    auto.start()
+    camera = run_camera()
+    time.sleep(max(0.0, float(args.seconds) - 0.4))
+    stop.set()
+    walker.join(timeout=2.0)
+    auto.join(timeout=2.0)
+    work = [item[0] for item in rows]
+    period = [item[1] for item in rows]
+    return {
+        "label": "measured in emulation",
+        "role": "walk",
+        "threads": int(args.threads),
+        "policy_input": int(obs.shape[0]),
+        "cycles": len(rows),
+        "all": {"work": work_stats(work), "period": period_jitter_safe(period)},
+        "work_s": [round(item, 6) for item in work],
+        "period_s": [round(item, 6) for item in period],
+        "camera": camera,
+        "self_hwm_mib": _hwm_mib(),
+        "voice": None,
+    }
+
+
+def period_jitter_safe(period):
+    from altaay_lab.software.pi_fit.budget import period_jitter
+    return period_jitter(period)
+
+
 def stage_wake(voice_dir, wav_path):
     from altaay_lab.software.companion.audio_pcm import read_wav
     from altaay_lab.software.companion.pipeline import _frames
@@ -458,7 +502,7 @@ def run_voice_staged(voice_dir, piper, wav_path, wait_stdin):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Pi fit workload")
-    parser.add_argument("--role", choices=("stack", "voice", "voice-staged", "stage-wake", "stage-stt", "stage-tts", "camera"), default="stack")
+    parser.add_argument("--role", choices=("stack", "walk", "voice", "voice-staged", "stage-wake", "stage-stt", "stage-tts", "camera"), default="stack")
     parser.add_argument("--policy", default="")
     parser.add_argument("--voice-dir", default="")
     parser.add_argument("--piper", default="en_US-lessac-low.onnx")
@@ -487,9 +531,14 @@ def main(argv=None):
     elif args.role == "camera":
         report = run_camera()
     else:
-        if not args.policy or not args.wav or not args.voice_dir:
+        if args.role == "walk":
+            if not args.policy:
+                raise SystemExit("walk needs --policy")
+            report = run_walk(args)
+        elif not args.policy or not args.wav or not args.voice_dir:
             raise SystemExit("stack needs --policy, --voice-dir, and --wav")
-        report = run_stack(args)
+        else:
+            report = run_stack(args)
     text = json.dumps(report)
     summary = {
         "label": "measured in emulation",
