@@ -90,7 +90,7 @@ def _three_cells():
     TT.PARAMS["T_cut"] = 200.0
 
 
-def _sit(charger_w, v_servo, i_chg, corner, Ta, hours=6.0, i_idle_a=None):
+def _sit(charger_w, v_servo, i_chg, corner, Ta, hours=6.0, i_idle_a=None, extra_trunk_w=0.0):
     c = TT.CORNERS[corner]
     i_idle = 14 * I_IDLE if i_idle_a is None else i_idle_a
     p_idle = I_IDLE * v_servo if i_idle_a is None else 0.0
@@ -110,6 +110,7 @@ def _sit(charger_w, v_servo, i_chg, corner, Ta, hours=6.0, i_idle_a=None):
         bec_leads=0.0,
         logic=0.15,
         charger=charger_w,
+        steering=extra_trunk_w,
     )
     key = "stand"
     heats = {key: dict(servo=servo, trunk=trunk, head=c["P5V"])}

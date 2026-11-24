@@ -44,6 +44,24 @@ components:
     role: reverse_stripe
   - id: F2
     part: Littelfuse 0287005.PXCN, 5 A, 32 V, duck side
+  - id: OVP
+    part: TI TPS259470ARPWR, SLVSFC9C
+    role: series disconnect between NEST+ and PVCC
+    ratings:
+      v_in_abs: 28
+      v_in_rec_max: 23
+      v_trip_typ: 18.0
+      v_trip_min: 17.745
+      v_trip_max: 18.345
+      t_ovlo_us_typ: 1.2
+      r_on_mohm_max: 45
+      i_lim_min_a: 1.800
+      i_fast_trip_typ_a: 22.2
+  - id: TVS_DUCK
+    part: TI TVS1400DRVR, SLVSED3A
+    role: clamp on PVCC
+    ratings: {v_standoff: 14.0, v_br_min: 16.2, v_br_max: 17.8, v_clamp_max: 19.3, i_clamp_a: 35}
+    note: "19.3 V at 35 A, 125 C, is under the 20 V PVCC absolute maximum. Recommended standoff 14 V is under the 15.0 V set point. Leakage above 14 V is BLOCKER."
   - id: CHG
     part: TI BQ24133, CELL tied to VREF, 12.6 V, 1.006 A
     note: "Not the MCP73213. See NEST_TWO_NET.md."
@@ -54,6 +72,8 @@ components:
 nets:
   - {name: NEST_P, from: RSW.VOUT, to: SS.cathodes}
   - {name: NEST_N, from: AD.return, to: SS.anodes}
-  - {name: CHG_IN, from: F2.OUT, to: CHG.PVCC}
+  - {name: EFUSE_IN, from: F2.OUT, to: OVP.IN}
+  - {name: CHG_IN, from: OVP.OUT, to: CHG.PVCC}
+  - {name: PVCC_CLAMP, from: OVP.OUT, to: TVS_DUCK.K}
   - {name: PACK_P, from: CHG.BAT, to: BMS.P+}
   - {name: AWAKE, from: pack_fuse.OUT, to: J5IN}
