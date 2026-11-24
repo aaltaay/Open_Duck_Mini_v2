@@ -72,19 +72,51 @@ Starts at least 70 deg off the nest: 10 of 11 camera docks. Cover: 8 of 13. Side
 
 This is not the 2 of 8 batch, and it is not the 38 of 40 card dock.
 
+## Round 4, the turn gate
+
+The run D gait's yaw dies near a right angle. A pure yaw command does not restart it once the feet have settled. The old turn left the crouch on a 22 s timeout, so the duck sat there: yaw about 70 to 110 deg, trunk x about -0.45 to -0.52, short of the foil.
+
+The crouch now waits until two things are true. The IMU yaw since the turn started is within 0.18 rad of 3.10 rad, and the disc is behind the nose (a fresh fix with sun_fwd under -0.02 m, or the last fix carried by the IMU to a bearing past 2.2 rad). If the yaw moves less than 0.08 rad in 1 s, the loop pauses for 0.25 s and then takes one forward step with the yaw on, up to three times. If 16 s still is not enough, it takes one 0.55 s step toward the last disc bearing and tries the turn once more, then gives up and the episode walks out and searches again.
+
+That removed the right-angle sits. Finishing the half turn is not the same as facing the room. A 180 deg turn that starts while the duck is beside the centre line faces away from the nest. The leftover angle is the offset, atan of lateral position over range. The heading misses this round sit on the foil with yaw error 25 to 42 deg and trunk y about 0.11 to 0.18 m. Camera heading misses went from 4 to 14. Camera sat_off went from 9 to 1.
+
+Seed 36 in the previous batch had contacts_meet true, stored yaw error 12.9 deg, stripe margin 3.74 mm, and charging false. contacts_meet is the well circle on a stripe. Charging also needs the well geom itself to press at least 0.294 N on both a plus stripe and a minus stripe (30 grams, the gold-contact floor used in camera_dock.py). A 3.74 mm graze can pass the circle test and still not press the gold hard enough. That is a real contact gap, not a mislabeled heading. This round seed 36 walked into the wall instead (true x 0.113 m).
+
+Seed 9 last round fell at true x 0.053 m. This round it did not fall. It sat at x=-0.182 m with yaw error 37.0 deg. Five other camera starts still reached the wall (true x about 0.10 m, seeds 7, 10, 30, 32, 36). The side step that keeps the yaw alive also walks toward the wall, and a long turn carries them onto it.
+
+## Batch
+
+Same 40 starts. Limit 70 s. Sim pass only. This is the batch after the full-field hazard split.
+
+Camera charging: 20 of 40. Privileged charging: 18 of 40.
+
+Before this gate, on the same 40: camera 29 of 40, privileged 25 of 40.
+
+| | Before the gate | With the gate |
+|---|---|---|
+| Camera charging | 29 of 40 | 20 of 40 |
+| Privileged charging | 25 of 40 | 18 of 40 |
+| Camera sat_off | 9 | 1 |
+| Camera heading | 1 | 14 |
+| Camera fell | 1 | 5 |
+| Day, camera | 8 of 10 | 5 of 10 |
+| Warm, camera | 7 of 10 | 4 of 10 |
+| Dim, camera | 7 of 10 | 6 of 10 |
+| Cool, camera | 7 of 10 | 5 of 10 |
+
+The gate did what it was asked. It also lowered the charge count, because a finished half turn from an offset faces the nest's opposite, not the room. This is not 34 of 40, and it is not the 38 of 40 card dock.
+
 ## Frame time
 
-Perception only, around find_nest. The MuJoCo render is not in this number. The call sits on the autonomy thread, not inside the 50 Hz walk step. It is not a Pi.
+Perception only, around find_nest, on the autonomy thread. The MuJoCo render is not in this number. Hazard flags use the full field. This table is the 40-episode batch after that split. It is not a Pi.
 
-| | Before | After | Label |
-|---|---|---|---|
-| Median of the 40 camera episode medians | 11.37 ms | 2.62 ms | measured on this x86 host, reported at 2400 MHz |
-| Ten warm-room episode medians | 15.99 ms to 18.63 ms | 4.22 ms to 4.63 ms | measured on this x86 host |
-| Fastest episode median | 7.84 ms | 2.24 ms | measured on this x86 host |
+| | Value | Label |
+|---|---|---|
+| Median of the 40 camera episode medians | 2.85 ms | measured on this x86 host, reported at 2400 MHz |
+| Ten warm-room episode medians | 4.24 ms to 4.65 ms | measured on this x86 host |
+| Fastest episode median | 2.14 ms | measured on this x86 host |
 
-The cut is the stride-2 bin and the window around the last disc. Hazard flags are read from the full field, not that window. One day episode after that split measured 3.51 ms (sim pass only). The 2.62 ms median is the 40-episode batch before the split.
-
-Pi 5, 2 GB, is a 2.4 GHz quad Cortex-A76 (cited, software/pi_fit/BOARDS.md, the product page). A factor of 4 is an assumption, not a cited benchmark: 2.62 times 4 is 10.5 ms (calc only). A measured frame on a Pi 5 is BLOCKER.
+The previous full-frame median, before the stride-2 bin, was 11.37 ms on the same host. Pi 5, 2 GB, is a 2.4 GHz quad Cortex-A76 (cited, software/pi_fit/BOARDS.md). A factor of 4 is an assumption, not a cited benchmark: 2.85 times 4 is 11.4 ms (calc only). A measured frame on a Pi 5 is BLOCKER.
 
 ## A printed mark, study only
 
@@ -92,7 +124,7 @@ The nest CAD's wall card is 40 mm and is not approved (NEST_V2.md). This file do
 
 ## Pictures
 
-Both are sim, labeled SIM. The video is seed 5, a day start. The first sit misses. The duck stands, walks out into the room, searches again, and the second sit docks (yaw error 6.0 deg on that recording, sim pass only). Third person is beside the head camera. 980 by 420, 56.0 s, 268655 bytes.
+Both are sim, labeled SIM. The video is seed 3. Before the gate this start sat near yaw 70 deg and trunk x=-0.46 m. The crouch now waits, the turn finishes, and the sit docks (yaw error 3.9 deg on that recording, sim pass only). Third person is beside the head camera. 980 by 420, 14.0 s, 90723 bytes.
 
 - twin/dock/camera/disc_dock_sim.mp4
 - twin/dock/camera/disc_dock_result.png

@@ -85,6 +85,18 @@ class FindTests(unittest.TestCase):
         est = find_nest(img, self.fx, self.fy, self.cx, self.cy, roi=(self.cx, int(self.h * 0.58), 36))
         self.assertTrue(est["cliff"])
 
+    def test_a_stalled_turn_does_not_sit(self):
+        loop = DiscLoop()
+        loop._begin_turn(0.0)
+        loop.mem_b = 0.0
+        loop.mem_imu = 0.0
+        loop.mem_t = 0.0
+        est = {"seen": True, "clipped": False, "sun_fwd": 0.40, "sun_left": 0.0,
+               "cliff": False, "obstacle": False, "obstacle_right": 0.0}
+        for _ in range(30):
+            loop.command(est, 0.0, 0.02)
+        self.assertNotIn(loop.phase, ("nudge", "trim", "settle", "sit"))
+
     def test_line_up_uses_the_time_budget(self):
         loop = DiscLoop()
         loop.phase = "line"

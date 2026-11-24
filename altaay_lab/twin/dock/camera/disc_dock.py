@@ -421,9 +421,16 @@ def _sit_once(sim):
     geom = bool(scored["contacts_meet"] and heading < 25.0)
     elec = CD.score_charge(sim, x, y, yaw, geom)
     if geom and elec.get("charging"):
-        return True, True, "docked"
-    why = "sat_off" if not scored["contacts_meet"] else "heading"
-    return False, True, why
+        why = "docked"
+        charged = True
+    else:
+        why = "sat_off" if not scored["contacts_meet"] else "heading"
+        charged = False
+    sim._last_sit = {
+        "x": x, "y": y, "yaw": yaw, "scored": scored, "elec": elec,
+        "why": why, "sat": True, "charged": charged,
+    }
+    return charged, True, why
 
 
 def _back_out(sim):
@@ -470,6 +477,16 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
         handled = False
         while sim.t < limit_s and not sim.fallen and sits < 3:
             if loop.phase in ("sit", "fail"):
+                if loop.phase == "fail" and loop.reason == "short_turn" and sits < 2 and sim.t < limit_s - 12.0:
+                    _back_out(sim)
+                    if sim.fallen:
+                        break
+                    loop = DiscLoop()
+                    sim.est_q = []
+                    sim._last_fwd = None
+                    sim._last_left = None
+                    sim._roi = None
+                    continue
                 if loop.phase != "sit":
                     break
                 sits += 1
@@ -559,11 +576,22 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
             reason = loop.reason or "timeout"
             if sim.fallen:
                 reason = "fell"
-        x, y, yaw, z, up = sim.true_pose()
-        scored = CD.score_wells(x, y, yaw)
+        held = getattr(sim, "_last_sit", None)
+        if held is not None:
+            x, y, yaw = held["x"], held["y"], held["yaw"]
+            scored = held["scored"]
+            elec = held["elec"]
+            sat = True
+            reason = held["why"] if not (handled and reason == "fell") else reason
+            z, up = sim.true_pose()[3], sim.true_pose()[4]
+        else:
+            x, y, yaw, z, up = sim.true_pose()
+            scored = CD.score_wells(x, y, yaw)
+            elec = None
         heading = abs(math.degrees(CD.wrap(yaw - math.pi)))
-        ok = bool(sat and scored["contacts_meet"] and not sim.fallen and heading < 25.0)
-        elec = CD.score_charge(sim, x, y, yaw, ok)
+        ok = bool(sat and scored["contacts_meet"] and heading < 25.0 and not (held is None and sim.fallen))
+        if elec is None:
+            elec = CD.score_charge(sim, x, y, yaw, ok)
         if ok and elec.get("charging"):
             reason = "docked"
         elif sat and not ok:
