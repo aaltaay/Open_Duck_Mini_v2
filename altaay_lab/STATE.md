@@ -1,8 +1,30 @@
 # STATE
 
+Last updated: 2026-11-24 ET. The ranked roadmap is [GAPS.md](GAPS.md). Gates 0 to 8 in [DEFINITION_OF_DONE.md](DEFINITION_OF_DONE.md) are open. Nothing has been printed, welded, bought as a full order, or run on a robot. A sim, a calc, and a CAD check are not a finished duck.
+
+## Where Duckie stands (2026-11-24)
+
+Duckie is a home companion that is supposed to walk, find a nest with the camera only, charge, stay useful for days, and sell at a fair price, with one digital twin of the duck that would ship. It is not that product yet. [GAPS.md](GAPS.md) is the inventory: 42 open rows. Nineteen can move in software or sim with no purchase. Ten need hardware. Ten need a decision. Two need money. One is the Pi 5 redesign, which is already in progress and is not this page's job.
+
+What landed after the 2026-11-11 pause, and what it does not close:
+
+- Run D is the walk `make twin` loads (D66). The report is 41.48 walking minutes, 0 rests, knee peak 38.4 C, pack peak 13.81 A (sim pass only, [twin/out/REPORT.md](twin/out/REPORT.md)). The install script still copies the stock `BEST_WALK_ONNX_2` policy.
+- A separate camera-dock batch charges 38 of 40 sits on 0.9 mm gold domes (sim pass only, [twin/dock/camera/CAMERA_DOCK.md](twin/dock/camera/CAMERA_DOCK.md)). That batch uses wall and room marks. D62 still writes a flush field and camera-only finding. Nest v3 and nest v5 did not beat that batch and are not approvals.
+- The autonomy supervisor, the voice pipeline, the day-one install, the build guide, and the owner's manual are in the tree. The three-day soak replays the dock batch (sim pass only). Voice timing was measured on a desktop. Day one runs on mock hardware.
+- The stack does not fit a Pi Zero 2 W on the published Bookworm Lite memory map (measured in emulation, [software/pi_fit/FIT.md](software/pi_fit/FIT.md)). Ahmed has chosen a Raspberry Pi 5 with 2 GB. The head is still drawn for the Zero. The bill still names the Zero.
+- The charger has no seat. The weld has no part number. The print that would be made misses the structure margin. The two carts in [BOM.md](BOM.md) and [bom/order/ORDER.md](bom/order/ORDER.md) are not one order. Counsel has not cleared a sale ([compliance/FCC_COVERED_ROBOT.md](compliance/FCC_COVERED_ROBOT.md)).
+
+Ahmed, 2026-11-03, still stands: nothing is printed until the twin matches the duck that would be built. The next work that needs no purchase is the top 10 in [GAPS.md](GAPS.md).
+
+The chart of the 42 rows is [docs/images/gaps_by_area.png](docs/images/gaps_by_area.png).
+
+## Earlier header, kept
+
 Last updated: 2026-11-11 7:38 PM ET (America/New_York) by the nest dock archive and handover job (branch claude/nest-dock-archive-handover; the Nest dock section below; the project is paused pending Ahmed). Before that: 2026-11-11 5:03 PM ET (America/New_York) by the nest dock decision job (D61, branch claude/nest-dock-d61). Before that: 2026-11-10 about 11:30 AM ET (America/New_York) by the get-up through the sit job (task 44, branch claude/getup-via-sit; the get-up notes below). Before that: 2026-11-04 about 5:40 PM ET (America/New_York) by the V1 electrical fixes track (track 1b, twin/electrical/fix, branch claude/v1-elec; the lead integrates). Before that: 2026-11-04 about 4:50 PM ET by the V1 electrical track (twin/electrical). Before that: 2026-11-03 about 10:40 PM ET by the twin wave 2 integration agent for the lead (the live twin, get-up, walking speed, human pace and wheels, the GPU retrain stage 0; branch claude/twin-wave2, the lead commits). Before that: 2026-11-03 about 5:00 PM ET by the structure twin integration agent (twin wave 1, the structure twin); 2026-11-03 about 4:00 PM ET by the twin integration agent (power and heat, plus the shared lab gym port); 2026-11-02 about 6:33 AM ET by agent SFX, the last fixes for PR 6. Each job has its own entry in history/.
 
-Phase: digital twin first. Ahmed, 2026-11-03: nothing is printed until the full digital twin is done (physics, heat, strength, the real robot code against the twin, falls, get-up and dock in sim). Nothing bought, nothing printed.
+Phase at that date: digital twin first. Ahmed, 2026-11-03: nothing is printed until the full digital twin is done (physics, heat, strength, the real robot code against the twin, falls, get-up and dock in sim). Nothing bought, nothing printed.
+
+The sections below are the record that was already in this file. Where a later decision superseded a sentence, [GAPS.md](GAPS.md) is the current reading. D61 is unchanged.
 
 ## Nest dock (2026-11-11 ET, D61; twin/dock/nest/HANDOVER.md and README.md; sim pass only, calc only, CAD check only)
 - PAUSED 2026-11-11 evening ET, pending Ahmed. The next agent starts at twin/dock/nest/HANDOVER.md (status, the ranked open problems, his standing rules).
