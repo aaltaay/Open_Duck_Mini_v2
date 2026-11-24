@@ -80,25 +80,26 @@ The crouch now waits until two things are true. The IMU yaw since the turn start
 
 That removed the right-angle sits. Finishing the half turn is not the same as facing the room. A 180 deg turn that starts while the duck is beside the centre line faces away from the nest. The leftover angle is the offset, atan of lateral position over range. The heading misses this round sit on the foil with yaw error 25 to 42 deg and trunk y about 0.11 to 0.18 m. Camera heading misses went from 4 to 14. Camera sat_off went from 9 to 1.
 
-Seed 36 in the previous batch had contacts_meet true, stored yaw error 12.9 deg, stripe margin 3.74 mm, and charging false. contacts_meet is the well circle on a stripe. Charging also needs the well geom itself to press at least 0.294 N on both a plus stripe and a minus stripe (30 grams, the gold-contact floor used in camera_dock.py). A 3.74 mm graze can pass the circle test and still not press the gold hard enough. That is a real contact gap, not a mislabeled heading. This round seed 36 walked into the wall instead (true x 0.113 m).
+Seed 36 in the previous batch had contacts_meet true, stored yaw error 12.9 deg, stripe margin 3.74 mm, and charging false. contacts_meet is the well circle on a stripe. Charging also needs the well geom itself to press at least 0.294 N on both a plus stripe and a minus stripe (30 grams, the gold-contact floor used in camera_dock.py). A 3.74 mm graze can pass the circle test and still not press the gold hard enough. That is a real contact gap, not a mislabeled heading. This round seed 36 did not sit. It timed out at x=-0.581 m with yaw error 159.1 deg.
 
-Seed 9 last round fell at true x 0.053 m. This round it did not fall. It sat at x=-0.182 m with yaw error 37.0 deg. Five other camera starts still reached the wall (true x about 0.10 m, seeds 7, 10, 30, 32, 36). The side step that keeps the yaw alive also walks toward the wall, and a long turn carries them onto it.
+Seed 9 last round fell at true x 0.053 m. This round it did not fall. It sat at x=-0.182 m with yaw error 37.0 deg. Four other camera starts still reached the wall (true x about 0.10 m, seeds 7, 10, 30, 32). The side step that keeps the yaw alive also walks toward the wall, and a long turn carries them onto it.
 
 ## Batch
 
 Same 40 starts. Limit 70 s. Sim pass only. This is the batch after the full-field hazard split.
 
-Camera charging: 20 of 40. Privileged charging: 18 of 40.
+Camera charging: 20 of 40. Privileged charging: 19 of 40.
 
 Before this gate, on the same 40: camera 29 of 40, privileged 25 of 40.
 
 | | Before the gate | With the gate |
 |---|---|---|
 | Camera charging | 29 of 40 | 20 of 40 |
-| Privileged charging | 25 of 40 | 18 of 40 |
+| Privileged charging | 25 of 40 | 19 of 40 |
 | Camera sat_off | 9 | 1 |
 | Camera heading | 1 | 14 |
-| Camera fell | 1 | 5 |
+| Camera fell | 1 | 4 |
+| Camera timeout | 0 | 1 |
 | Day, camera | 8 of 10 | 5 of 10 |
 | Warm, camera | 7 of 10 | 4 of 10 |
 | Dim, camera | 7 of 10 | 6 of 10 |
@@ -112,11 +113,11 @@ Perception only, around find_nest, on the autonomy thread. The MuJoCo render is 
 
 | | Value | Label |
 |---|---|---|
-| Median of the 40 camera episode medians | 2.85 ms | measured on this x86 host, reported at 2400 MHz |
-| Ten warm-room episode medians | 4.24 ms to 4.65 ms | measured on this x86 host |
-| Fastest episode median | 2.14 ms | measured on this x86 host |
+| Median of the 40 camera episode medians | 3.38 ms | measured on this x86 host, reported at 2400 MHz |
+| Ten warm-room episode medians | 4.47 ms to 5.68 ms | measured on this x86 host |
+| Fastest episode median | 2.27 ms | measured on this x86 host |
 
-The previous full-frame median, before the stride-2 bin, was 11.37 ms on the same host. Pi 5, 2 GB, is a 2.4 GHz quad Cortex-A76 (cited, software/pi_fit/BOARDS.md). A factor of 4 is an assumption, not a cited benchmark: 2.85 times 4 is 11.4 ms (calc only). A measured frame on a Pi 5 is BLOCKER.
+The previous full-frame median, before the stride-2 bin, was 11.37 ms on the same host. Pi 5, 2 GB, is a 2.4 GHz quad Cortex-A76 (cited, software/pi_fit/BOARDS.md). A factor of 4 is an assumption, not a cited benchmark: 3.38 times 4 is 13.5 ms (calc only). A measured frame on a Pi 5 is BLOCKER.
 
 ## A printed mark, study only
 

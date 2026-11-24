@@ -44,6 +44,19 @@ def _clip(v, lo, hi):
     return float(max(lo, min(hi, v)))
 
 
+def reported_sit(held, sat, reason, fallen):
+    """Keep an earlier sit only while the duck is still up.
+
+    A later fall is the outcome. The cached miss must not rename it.
+    Returns (sat, reason, use_held).
+    """
+    if fallen or reason == "fell":
+        return False, "fell", False
+    if held is not None:
+        return True, held.get("why") or reason, True
+    return bool(sat), reason, False
+
+
 def _obs_left(head_yaw, image_right):
     """Obstacle bearing in the trunk, left positive.
 
@@ -383,7 +396,11 @@ class DiscLoop:
             if rec is None and self.mem_b is not None:
                 rec = wrap(self.mem_b - wrap(imu_yaw - self.mem_imu))
             if age > 0.55:
+                # Same turn angle. A new clock, or the next step still sees
+                # the old 16 s and fails before the yaw command is issued.
                 self.phase = "turn"
+                self.turn_clock = self.t
+                self.kicks = 0
                 self.spin_t = self.t
                 self.spin_yaw = imu_yaw
             else:

@@ -22,7 +22,7 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 
-from altaay_lab.software.autonomy.disc_loop import HEAD_YAW_HI, HEAD_YAW_LO, DiscLoop
+from altaay_lab.software.autonomy.disc_loop import HEAD_YAW_HI, HEAD_YAW_LO, DiscLoop, reported_sit
 from altaay_lab.software.perception import nest_find as NF
 from altaay_lab.twin.dock.camera import camera_dock as CD
 
@@ -480,6 +480,8 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
                 if loop.phase == "fail" and loop.reason == "short_turn" and sits < 2 and sim.t < limit_s - 12.0:
                     _back_out(sim)
                     if sim.fallen:
+                        reason = "fell"
+                        sat = False
                         break
                     loop = DiscLoop()
                     sim.est_q = []
@@ -509,6 +511,8 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
                 # A miss stands and walks away from the wall, then searches again.
                 _back_out(sim)
                 if sim.fallen:
+                    reason = "fell"
+                    sat = False
                     break
                 loop = DiscLoop()
                 sim.est_q = []
@@ -577,12 +581,11 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
             if sim.fallen:
                 reason = "fell"
         held = getattr(sim, "_last_sit", None)
-        if held is not None:
+        sat, reason, use_held = reported_sit(held, sat, reason, bool(sim.fallen))
+        if use_held:
             x, y, yaw = held["x"], held["y"], held["yaw"]
             scored = held["scored"]
             elec = held["elec"]
-            sat = True
-            reason = held["why"] if not (handled and reason == "fell") else reason
             z, up = sim.true_pose()[3], sim.true_pose()[4]
         else:
             x, y, yaw, z, up = sim.true_pose()
