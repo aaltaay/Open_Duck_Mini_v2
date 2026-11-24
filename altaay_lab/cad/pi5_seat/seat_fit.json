@@ -2,6 +2,15 @@
  "label": "CAD check only",
  "fits_in_body": true,
  "clear_mm": 4.5,
+ "servo_clear_mm": 0.0,
+ "nearest_servo": "hip_roll_assembly wj-wk00-0123middlecase_56.stl",
+ "servo_shift_mm": [
+  19.0,
+  0.0,
+  -64.9
+ ],
+ "servo_visuals": 44,
+ "servo_frame": "URDF metres times 1000, then +19.0 mm x and -64.9 mm z so trunk_top matches the print file on all six faces. CAD check only.",
  "clear_rule_mm": 2.0,
  "origin_mm": [
   -35.0,
@@ -105,19 +114,19 @@
   "rows": [
    {
     "grams": 40.0,
-    "label": "calc only, mass is a sensitivity because the Pi 5 weight was not read",
+    "label": "calc only, sensitivity around the 50 g shop weight",
     "com_x_mm": 0.033,
     "com_z_mm": -1.145
    },
    {
     "grams": 50.0,
-    "label": "calc only, mass is a sensitivity because the Pi 5 weight was not read",
+    "label": "calc only, using 50 g cited from raspberrypi.dk additional information, Raspberry Pi 5 4 GB, SC1111. Official drawing prints no mass.",
     "com_x_mm": 0.058,
     "com_z_mm": -1.31
    },
    {
     "grams": 60.0,
-    "label": "calc only, mass is a sensitivity because the Pi 5 weight was not read",
+    "label": "calc only, sensitivity around the 50 g shop weight",
     "com_x_mm": 0.083,
     "com_z_mm": -1.474
    }
@@ -130,5 +139,13 @@
  "sources": {
   "board": "https://pip.raspberrypi.com/documents/RP-008347-DS-1-raspberry-pi-5-mechanical-drawing.pdf",
   "cooler": "https://datasheets.raspberrypi.com/cooling/raspberry-pi-active-cooler-mechanical-drawing.pdf"
+ },
+ "hip_slot": {
+  "left_hip_inner_y_mm": 22.64,
+  "right_hip_inner_y_mm": -22.64,
+  "gap_mm": 45.28,
+  "board_y_mm": 56.0,
+  "shortfall_mm": 10.72,
+  "label": "CAD check only, middle-case vertices after the trunk_top shift. The board is wider than the slot between the hip cases."
  }
 }

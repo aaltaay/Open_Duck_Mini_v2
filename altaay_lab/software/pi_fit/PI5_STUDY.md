@@ -21,7 +21,7 @@ The official drawing is RP-008347-DS-1 (https://pip.raspberrypi.com/documents/RP
 | Power inlet | USB-C on the short edge at the 3.5 mm hole end | cited, the drawing |
 | USB and Ethernet | the other short edge | cited, the drawing |
 | Camera | two 22-pin MIPI connectors on the long edge opposite the header | cited, the drawing and the product page ("2 x 4-lane MIPI camera/display transceivers") |
-| PCB thickness | not a called-out dimension | BLOCKER |
+| PCB thickness | the side view prints component heights (0.45, 3, 3.2, 3.4, 4.1, 4.4) and no laminate thickness | BLOCKER |
 
 The current mount is in the head (MOUNTING.md). A box of this outline, plus the cooler height below, hits the head shell: 225 triangles (CAD check only). The head shell is 199.8 by 197.3 by 59.4 mm (CAD check only, print/head.stl). The seat moves to the body.
 
@@ -36,21 +36,45 @@ The seat is a printed plate, 2.4 mm, with four bosses 5 mm tall and 2.0 mm pilot
 | Clearance to body shells and trunk_top | 4.5 mm | CAD check only. The rule used was 2 mm |
 | Head | does not fit | CAD check only |
 
-Shells checked: body_middle_top, body_middle_bottom, body_front, body_back, trunk_top, and the head for the rejected pose. Servo meshes were not in that intersection test. Clearance to the servo cases is BLOCKER until those meshes are in the same check. The plate STL is altaay_lab/cad/pi5_seat/pi5_seat.stl. The picture is altaay_lab/cad/pi5_seat/pi5_seat_in_body.png.
+Shells checked: body_middle_top, body_middle_bottom, body_front, body_back, trunk_top, and the head for the rejected pose. Servo meshes are in the same check. The URDF is in metres. trunk_top.stl matches the print file on all six faces after +19.0 mm in x and -64.9 mm in z (CAD check only), and that shift is applied to every servo visual. 44 visuals (the case meshes and the two sg90.stl meshes).
+
+| Servo check | Value | Label |
+|---|---|---|
+| Clearance at the published seat | 0.0 mm | CAD check only. Nearest mesh is hip_roll_assembly, wj-wk00-0123middlecase_56.stl |
+| Gap between the hip middle cases | 45.28 mm (y from -22.64 to 22.64) | CAD check only |
+| Board width | 56 mm | cited, the drawing |
+| Shortfall | 10.72 mm | calc only, 56 minus 45.28. The board is wider than the slot between the hips at this height |
+| Shell clearance | 4.5 mm | CAD check only, unchanged. The 2 mm shell rule still holds |
+
+Every pose on the 5 mm grid that keeps 2 mm to the print shells also has 0 mm to a servo mesh, so the seat was left at the published origin. The plate STL is altaay_lab/cad/pi5_seat/pi5_seat.stl. The picture, with the servo meshes drawn, is altaay_lab/cad/pi5_seat/pi5_seat_in_body.png.
 
 ## Centre of mass and the walk
 
-The walk in the shared lab gym was not re-run. MuJoCo is not what this check ran. The fore-aft margin in sim/ADDED_MASS_SIM.md table 7 is about 4 to 6 mm behind the estimate (sim pass only).
+The official drawing and the product brief print no board mass and no PCB thickness. A shop weight is used below, and it is the 4 GB listing.
 
-Pi 5 mass was not on the product page that was read: BLOCKER. The Zero board is 10.0 g (cited, Adafruit 5291, sim/mass_budget.py). The whole-robot mass used here is 2.949 kg (CAD mass model, DECISIONS.md D66, not a scale). The old position is the head shell centre. The new position is the seat box centre.
+The Zero board is 10.0 g (cited, Adafruit 5291, sim/mass_budget.py). The whole-robot mass used for the shift below is 2.949 kg (CAD mass model, DECISIONS.md D66, not a scale). The old position is the head shell centre. The new position is the seat box centre.
 
-| Assumed Pi 5 mass | Fore-aft shift | Vertical shift | Label |
+Raspberry Pi DK lists Weight 50 g on the Raspberry Pi 5 4 GB page, manufacturer number SC1111 (cited, https://raspberrypi.dk/en/product/raspberry-pi-5-4-gb/, additional information). That is the 4 GB board, not the 2 GB board, and it is a shop weight field, not a figure from the drawing. TME lists gross weight 52.79 g for the 2 GB board SC1642 (cited, https://www.tme.eu/en/details/sc1642/raspberry-pi-minicomputers/raspberry-pi/raspberry-pi-5-2gb-ram/). Gross weight is the listing's shipping figure, so the CoM uses the 50 g shop weight and does not use 52.79 g.
+
+| Pi 5 mass | Fore-aft shift | Vertical shift | Label |
 |---|---|---|---|
-| 40 g | +0.033 mm (forward) | -1.145 mm | calc only |
-| 50 g | +0.058 mm | -1.310 mm | calc only |
-| 60 g | +0.083 mm | -1.474 mm | calc only |
+| 40 g | +0.033 mm (forward) | -1.145 mm | calc only, sensitivity around 50 g |
+| 50 g | +0.058 mm | -1.310 mm | calc only, using the cited 50 g shop weight |
+| 60 g | +0.083 mm | -1.474 mm | calc only, sensitivity around 50 g |
 
-The shift is forward, so it does not spend the backward margin. It is also far smaller than that 4 to 6 mm. That is not a walk pass.
+The shared lab gym overlay is not in this checkout. The walk was re-run on the public playground scene at pin b9be205, the same scene as sim/SIM_WALK.md (sim pass only). The script is altaay_lab/sim/pi5_seat_walk.py. It takes 10.0 g off head_assembly and puts 50 g on the trunk at (-0.0115, 0.004, 0.01445) m, which is the seat centre after the trunk_top shift above. Model mass goes from 2.1071 kg to 2.1471 kg (sim pass only, 0.040 kg is 50 g minus 10 g).
+
+| | Published SIM_WALK.md | This script, stock mass | This script, seat mass |
+|---|---|---|---|
+| Falls | none | none | none |
+| Path | 2.7 m | 2.71 m | 2.67 m |
+| Net | 1.32 m | 1.32 m | 1.21 m |
+| Forward speed, 4 to 14 s | 0.097 m/s | 0.097 m/s | 0.096 m/s |
+| Heading over that 10 s | about 4 deg | 4.2 deg | -0.4 deg |
+| Turn in 6 s | 275 deg | 275.2 deg | 271.3 deg |
+| Trunk height | 0.154 to 0.169 m | min 0.154 m, min up-vector z 0.992 | min 0.154 m, min up-vector z 0.992 |
+
+The seat-mass walk still finishes the 26 s schedule with no fall (sim pass only). Path is 0.04 m shorter and net is 0.11 m shorter than the stock-mass run of the same script. The video is altaay_lab/sim/pi5_seat_walk_sim.mp4 (SIM in the corner, 550 KB). The fore-aft margin in sim/ADDED_MASS_SIM.md table 7 is about 4 to 6 mm behind the estimate (sim pass only). The 0.058 mm shift is forward and far smaller than that margin. This is not a hardware pass.
 
 Straight line from the head shell centre to the seat centre is 190.3 mm (calc only). That is not a cable route.
 
@@ -67,9 +91,11 @@ Set points stay the netlist. None of them move.
 
 The Pi 5 product page asks for 5 V / 5 A DC on USB-C, with Power Delivery (cited, https://www.raspberrypi.com/products/raspberry-pi-5/). The FAQ on that page repeats the 5 V 5 A recommendation.
 
-U3 is the Pololu D30V30F5 (netlist). The product page lists a typical maximum of 3.4 A at 30 V in, and says the typical maximum continuous current is 3 A to 4 A depending on input voltage (cited, https://www.pololu.com/product/4892). 5 A is above that 3 A to 4 A band. The graph point at the pack window 9.0 to 12.6 V was not read off the picture: BLOCKER for the exact amp at 12 V. It is not needed to see that 5 A is outside the published band. The duck also feeds the SG90s and the amp from the same 5 V splice (netlist domain 5V). Those currents are blank in the netlist cable rows: BLOCKER for the sum. The Pi's 5 A alone is already over U3.
+U3 in the live netlist is still the Pololu D30V30F5. The product page lists a typical maximum of 3.4 A at 30 V in, and says the typical maximum continuous current is 3 A to 4 A depending on input voltage (cited, https://www.pololu.com/product/4892). 5 A is above that 3 A to 4 A band.
 
-The 5.00 V set point can stay. The part cannot. The proposed replacement is a 5.0 V regulator whose cited continuous current at 9.0 to 12.6 V in is at least 5 A, with accuracy inside 4% so the domain stays 4.80 to 5.20 V. Pololu's D30V30F5 page points at the D36V50Fx family for higher power. A SKU was not chosen, and its graph was not read: BLOCKER.
+The proposed replacement is the Pololu D36V50F5, item 4091 (cited, https://www.pololu.com/product/4091). Output is 5 V with 4% accuracy, so the domain stays 4.80 to 5.20 V. Input is 5.5 V to 50 V, which covers the pack window. circuitry/NEST_TWO_NET.md keeps this regulator on the pack domain at J5IN and does not put the 15.0 V nest on the 5 V pin. The same input range also covers 15.0 V, so a later nest tie would not need a different part. This proposal does not make that tie. The table's 5.5 A is at 36 V in. On the current graph (picture 0J10751) the 5 V trace reads about 7.5 A near 5 to 6 V in and about 8.2 A near 12 V, so across 9.0 to 12.6 V it is about 7.5 A to about 8.2 A (chart read). Dropout on the 5 V trace is about 1.0 V to 1.1 V at 5 A (chart read, picture 0J10753), so 9.0 V in still clears it. Price $44.95, 0 in stock, rationed, backorders allowed (cited). The full sum, the header-pin limit, and the proposed netlist block are in software/pi_fit/PROPOSED_BOM_CHANGES.md. The live netlist was not edited.
+
+The 5 V loads, from the sheets: Pi 5 supply allocation 5 A (cited, product page; the cooler is on the fan header, so it is inside that 5 A), two SG90 stalls 1.500 A (calc only from 750 mA plus or minus 10% at 4.8 V on the SG90 specification that prints a stall current), MAX98357A quiescent 3.35 mA maximum at 5 V (cited). Sum 6.503 A, or 6.653 A at the high stall tolerance (calc only). Speaker current is not in the quiescent figure: BLOCKER. 6.653 A is under the chart-read floor of about 7.5 A and over the 6 A combined header-pin rating, so the power wires are soldered, as that page says.
 
 The whitepaper minimum band used in BOARDS.md is 4 W to 5 W (cited, RP-010139-WP table 1). A measured idle watt for the duck's image is BLOCKER. The soak below uses 5.0 W, the high end of that minimum band, not the 25 W that 5 V times 5 A would be. 25 W is the supply rating, not a measured draw.
 
@@ -107,19 +133,20 @@ Not applied. Prices are what the cited pages showed. Nothing was bought.
 | Add | Active Cooler | 43.50 by 42.50 by 12.70 mm, 5 V fan header | BLOCKER | official page names resellers and does not print a dollar figure |
 | Replace the camera cable | Adafruit 5820 | 500 mm, 22-pin 0.5 mm to 15-pin 1 mm, for Pi 5 | $2.50, in stock | cited, the 5818 page lists the 500 mm option at $2.50 (https://www.adafruit.com/product/5818). The 200 mm cable is $2.70 and in stock, and the 300 mm was out of stock. Straight line is 190.3 mm (calc only), so 200 mm has 9.7 mm of straight-line slack and no neck bend. Routed length is BLOCKER |
 | Replace line 20 | USB-A to USB-C data cable | Pi 5 USB-A to the Waveshare adapter USB-C | BLOCKER | the current line is USB-C to Micro-B (Adafruit 3878). A listing for the new cable was not read |
-| Replace line 9 | 5.0 V regulator, at least 5 A from 9.0 to 12.6 V | accuracy inside 4%, so the 4.80 to 5.20 V domain stays | BLOCKER | SKU not chosen. D36V50Fx is the family Pololu names, not a pick |
+| Replace line 9 | Pololu D36V50F5, item 4091 | 5 V, 4% accuracy, 5.5 to 50 V in, chart read about 7.5 A to 8.2 A at 9.0 to 12.6 V in | $44.95, 0 in stock, backorders allowed | cited, https://www.pololu.com/product/4091. Proposed only. See software/pi_fit/PROPOSED_BOM_CHANGES.md. The live netlist still says D30V30F5 |
 | Screws | four M2.5x6 instead of the diagonal pair | same line 17f screw | no new line | Buy 20 already covers a Need of 15. Proposed only |
 
 The printed seat is not a bought line.
 
 ## Still open
 
-- Pi 5 mass. BLOCKER.
-- PCB thickness. BLOCKER.
-- Servo-case clearance in the same mesh check. BLOCKER.
-- Routed camera length, USB cable price, cooler price, regulator SKU. BLOCKER.
-- Exact D30V30F5 current at 9.0 to 12.6 V, and the SG90 plus amp sum. BLOCKER. The 5 A miss against the 3 A to 4 A band is not blocked.
+- Official Pi 5 mass, and the 2 GB board's own mass. The 50 g figure is a 4 GB shop weight. BLOCKER for an official mass.
+- PCB thickness. The drawing's side view has no laminate callout. BLOCKER.
+- Servo clearance is 0.0 mm at the published seat (CAD check only). A pose that clears both the shells and the hip cases was not found on the grid.
+- Routed camera length, USB cable price, cooler price. BLOCKER.
+- Speaker current of the MAX98357A at the 8 ohm load. BLOCKER. The stall sum without it is 6.503 A (calc only).
 - A measured Pi 5 idle watt, and a CoreMark iterations/s for the Pi 5. BLOCKER.
 - Voice peak on the 2 GB cap, re-measured. BLOCKER. The prior 467 MiB figure is the one that fits under 2048.
 - gpiochip and pwmchip indexes on a Pi 5. BLOCKER.
-- The walk was not re-run. The fore-aft shift above is calc only.
+- The shared lab gym overlay was not in this checkout. The walk above is the public playground scene (sim pass only).
+- A seat for the D36V50F5 board (25.4 mm square) was not checked. The live netlist part is still the D30V30F5 until Ahmed changes it.
