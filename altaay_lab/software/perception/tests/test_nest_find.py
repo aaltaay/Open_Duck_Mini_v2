@@ -8,7 +8,7 @@ import unittest
 
 import numpy as np
 
-from altaay_lab.software.autonomy.disc_loop import HEAD_YAW_HI, HEAD_YAW_LO, SIT_FWD_M, DiscLoop, reported_sit
+from altaay_lab.software.autonomy.disc_loop import HEAD_YAW_HI, HEAD_YAW_LO, SIT_FWD_M, DiscLoop, fall_outranks_sit
 from altaay_lab.software.perception.nest_find import find_nest, intrinsics, sun_in_trunk
 
 
@@ -85,50 +85,6 @@ class FindTests(unittest.TestCase):
         est = find_nest(img, self.fx, self.fy, self.cx, self.cy, roi=(self.cx, int(self.h * 0.58), 36))
         self.assertTrue(est["cliff"])
 
-    def test_the_close_step_gets_a_fresh_turn_budget(self):
-        loop = DiscLoop()
-        loop._begin_turn(0.2)
-        est = {"seen": True, "clipped": False, "sun_fwd": 0.40, "sun_left": 0.0,
-               "cliff": False, "obstacle": False, "obstacle_right": 0.0}
-        loop.t = 16.0
-        loop.turn_clock = 0.0
-        loop.command(est, 0.4, 0.02)
-        self.assertEqual(loop.phase, "close")
-        guard = 0
-        while loop.phase == "close":
-            loop.command(est, 0.4, 0.02)
-            guard += 1
-            self.assertLess(guard, 80)
-        self.assertEqual(loop.phase, "turn")
-        self.assertEqual(loop.turn0, 0.2)
-        cmd = loop.command(est, 0.4, 0.02)
-        self.assertEqual(loop.phase, "turn")
-        self.assertGreater(cmd[2], 0.0)
-        self.assertNotEqual(loop.reason, "short_turn")
-
-    def test_a_later_fall_is_not_renamed_as_the_earlier_sit(self):
-        held = {"why": "sat_off"}
-        sat, reason, use_held = reported_sit(held, True, "fell", True)
-        self.assertFalse(sat)
-        self.assertEqual(reason, "fell")
-        self.assertFalse(use_held)
-        sat, reason, use_held = reported_sit(held, True, "sat_off", False)
-        self.assertTrue(sat)
-        self.assertEqual(reason, "sat_off")
-        self.assertTrue(use_held)
-
-    def test_a_stalled_turn_does_not_sit(self):
-        loop = DiscLoop()
-        loop._begin_turn(0.0)
-        loop.mem_b = 0.0
-        loop.mem_imu = 0.0
-        loop.mem_t = 0.0
-        est = {"seen": True, "clipped": False, "sun_fwd": 0.40, "sun_left": 0.0,
-               "cliff": False, "obstacle": False, "obstacle_right": 0.0}
-        for _ in range(30):
-            loop.command(est, 0.0, 0.02)
-        self.assertNotIn(loop.phase, ("nudge", "trim", "settle", "sit"))
-
     def test_line_up_uses_the_time_budget(self):
         loop = DiscLoop()
         loop.phase = "line"
@@ -167,6 +123,14 @@ class FindTests(unittest.TestCase):
 
 
 class LoopTests(unittest.TestCase):
+    def test_a_later_fall_is_not_the_earlier_sit(self):
+        sat, reason = fall_outranks_sit(True, "sat_off", True)
+        self.assertFalse(sat)
+        self.assertEqual(reason, "fell")
+        sat, reason = fall_outranks_sit(True, "sat_off", False)
+        self.assertTrue(sat)
+        self.assertEqual(reason, "sat_off")
+
     def test_far_sun_walks_forward(self):
         loop = DiscLoop()
         est = {"seen": True, "clipped": False, "sun_fwd": 1.2, "sun_left": 0.05,

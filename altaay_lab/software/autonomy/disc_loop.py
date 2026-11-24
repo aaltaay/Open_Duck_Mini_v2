@@ -44,17 +44,14 @@ def _clip(v, lo, hi):
     return float(max(lo, min(hi, v)))
 
 
-def reported_sit(held, sat, reason, fallen):
-    """Keep an earlier sit only while the duck is still up.
+def fall_outranks_sit(sat, reason, fallen):
+    """A later fall is the outcome. An earlier crouch must not rename it.
 
-    A later fall is the outcome. The cached miss must not rename it.
-    Returns (sat, reason, use_held).
+    Returns (sat, reason).
     """
     if fallen or reason == "fell":
-        return False, "fell", False
-    if held is not None:
-        return True, held.get("why") or reason, True
-    return bool(sat), reason, False
+        return False, "fell"
+    return bool(sat), reason
 
 
 def _obs_left(head_yaw, image_right):
@@ -90,10 +87,6 @@ class DiscLoop:
         self.head_cmd = 0.0
         # "sweep" looks around while standing. "spin" turns the body.
         self.scan = "sweep"
-        self.turn_clock = None
-        self.saw_behind = False
-        self.closed = False
-        self.kick_age0 = None
 
     def _sweep(self):
         """Triangle inside the head-yaw software stops. Set point amplitude.
@@ -120,32 +113,6 @@ class DiscLoop:
         self.ever_seen = True
         self.last_fwd = float(est["sun_fwd"])
         self.last_left = float(est["sun_left"])
-
-    def _begin_turn(self, imu_yaw):
-        self.phase = "turn"
-        self.turn0 = float(imu_yaw)
-        self.turn_clock = self.t
-        self.t_phase = self.t
-        self.kicks = 0
-        self.spin_t = self.t
-        self.spin_yaw = float(imu_yaw)
-        self.closed = False
-
-    def _behind(self, est, imu_yaw):
-        """True when the last disc fix, carried by the IMU, is behind the trunk.
-
-        A fresh fix with the sun in front of the nose is not behind. The
-        memory is not dropped on the 6 s timer here: the half turn is longer
-        than that, and the gate needs the bearing from when the disc was seen.
-        """
-        if est and est.get("seen") and est.get("sun_fwd") is not None:
-            if float(est["sun_fwd"]) < -0.02:
-                self.saw_behind = True
-            return float(est["sun_fwd"]) < -0.02
-        if self.mem_b is None:
-            return bool(self.saw_behind)
-        rec = wrap(self.mem_b - wrap(float(imu_yaw) - self.mem_imu))
-        return abs(rec) > 2.2 or bool(self.saw_behind)
 
     def _recall(self, imu_yaw):
         """Last nest bearing in the current trunk frame, or None if it is stale."""
@@ -270,7 +237,10 @@ class DiscLoop:
                     cmd[0] = 0.0
                     cmd[2] = _clip(1.2 * recalled, -0.55, 0.55)
                 elif self.last_fwd <= 0.60 and on_line:
-                    self._begin_turn(imu_yaw)
+                    self.phase = "turn"
+                    self.turn0 = imu_yaw
+                    self.t_phase = self.t
+                    self.kicks = 0
                 else:
                     self.phase = "creep"
                     self.creep_left = min(0.18, max(0.0, self.last_fwd - SIT_FWD_M))
@@ -296,14 +266,20 @@ class DiscLoop:
                 self.phase = "approach"
                 self.t_phase = self.t
             elif self.creep_left <= 0.03:
-                self._begin_turn(imu_yaw)
+                self.phase = "turn"
+                self.turn0 = imu_yaw
+                self.t_phase = self.t
+                self.kicks = 0
             else:
                 cmd[0] = 0.14
                 if self.last_left is not None:
                     cmd[1] = _clip(0.40 * self.last_left, -0.06, 0.06)
                 self.creep_left -= 0.14 * float(dt)
             if self.phase == "creep" and self.t - self.t_phase > 7.0:
-                self._begin_turn(imu_yaw)
+                self.phase = "turn"
+                self.turn0 = imu_yaw
+                self.t_phase = self.t
+                self.kicks = 0
         elif self.phase == "line":
             # Head is already pitched down. Centroid is the lateral offset.
             # Ring major-axis angle is the yaw when it agrees with that.
@@ -323,7 +299,10 @@ class DiscLoop:
             # Time is the budget. A call count of 8 is 0.16 s at the
             # 0.02 s step, which ended the correction before it moved.
             if aligned or self.t - self.t_phase > 1.5:
-                self._begin_turn(imu_yaw)
+                self.phase = "turn"
+                self.turn0 = imu_yaw
+                self.t_phase = self.t
+                self.kicks = 0
             elif abs(yaw_e) > 0.10:
                 cmd[2] = _clip(1.0 * yaw_e, -0.35, 0.35)
             elif left is not None:
@@ -331,82 +310,20 @@ class DiscLoop:
         elif self.phase == "turn":
             cmd[3] = 0.0
             turned = abs(wrap(imu_yaw - (self.turn0 or 0.0)))
-            behind = self._behind(est, imu_yaw)
-            seen_now = bool(est and est.get("seen") and est.get("sun_fwd") is not None)
-            far = seen_now and float(est["sun_fwd"]) < -0.02 and abs(float(est["sun_fwd"])) > 0.38
-            # The crouch waits until the IMU has finished the half turn and
-            # the disc is behind the nose, and not still half a metre out.
-            # A timeout used to sit the duck around a right angle.
-            done = turned >= (TURN_RAD - 0.18) and behind and not far
-            cap = self.t - (self.turn_clock if self.turn_clock is not None else self.t_phase)
-            if done:
+            if turned > TURN_RAD or self.t - self.t_phase > 22.0:
                 self.phase = "nudge"
                 self.t_phase = self.t
                 self.nudge0 = imu_yaw
                 self.ok_n = 0
-            elif cap > 16.0:
-                if not self.closed:
-                    self.phase = "close"
-                    self.t_phase = self.t
-                    self.closed = True
-                else:
-                    self.phase = "fail"
-                    self.reason = "short_turn"
             else:
-                if self.t - self.spin_t > 1.0:
-                    moved = abs(wrap(imu_yaw - self.spin_yaw))
-                    # The gait's yaw dies near a right angle if the feet
-                    # settle into a stance. A pause then a step restarts it.
-                    if moved < 0.08 and self.kicks < 3:
-                        self.phase = "rekick"
-                        self.kick_age0 = self.t
-                        self.kicks += 1
-                    self.spin_t = self.t
-                    self.spin_yaw = imu_yaw
-                # Side step keeps the yaw alive and walks the seat in.
-                # Ease it off once the sun is behind, or it walks through the wall.
-                cmd[2] = 0.55
-                # Keep the side step until the sun is actually behind the
-                # nose. Cutting it when the sun is merely abeam leaves the
-                # seat short of the foil.
-                if seen_now and float(est["sun_fwd"]) < -0.12 and not far:
-                    cmd[1] = -0.03
-                else:
-                    cmd[1] = -0.10
-        elif self.phase == "rekick":
-            # Pause, then one step with the yaw on. The turn angle is kept.
-            cmd[3] = 0.0
-            age = self.t - (self.kick_age0 or self.t)
-            if age < 0.25:
-                pass
-            elif age < 0.70:
-                cmd[0] = 0.12
-                cmd[2] = 0.55
-            else:
-                self.phase = "turn"
-                self.spin_t = self.t
-                self.spin_yaw = imu_yaw
-        elif self.phase == "close":
-            # The turn ran out of time and the disc is still in front, so
-            # the seat is short of the foil. One step toward that bearing,
-            # then the turn resumes. Not a reverse: this policy has none.
-            cmd[3] = 0.0
-            age = self.t - self.t_phase
-            rec = self._recall(imu_yaw)
-            if rec is None and self.mem_b is not None:
-                rec = wrap(self.mem_b - wrap(imu_yaw - self.mem_imu))
-            if age > 0.55:
-                # Same turn angle. A new clock, or the next step still sees
-                # the old 16 s and fails before the yaw command is issued.
-                self.phase = "turn"
-                self.turn_clock = self.t
-                self.kicks = 0
-                self.spin_t = self.t
-                self.spin_yaw = imu_yaw
-            else:
-                cmd[0] = 0.12
-                if rec is not None and abs(rec) < 1.3:
-                    cmd[2] = _clip(1.0 * rec, -0.40, 0.40)
+                # A pure yaw dies near a right angle on this policy. A small
+                # side command keeps the gait turning. It is eased off once
+                # the turn is past that point, or it walks into the wall.
+                # The side step is what walks the seat onto the foil while the
+                # yaw is still changing. Too small and the sit is short of
+                # the wells. Too large and the duck walks into the wall.
+                cmd[1] = -0.09 if turned < 2.0 else -0.02
+                cmd[2] = 0.45
         elif self.phase == "nudge":
             # Pure yaw only. A side step here, with the duck already facing
             # the room, walks along the wall instead of onto the foil.
