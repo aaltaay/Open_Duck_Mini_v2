@@ -55,9 +55,36 @@ SS_VRRM = 30.0
 SS_IF = 3.0
 SS_VF_3A = 0.50
 
-# Cited, SMAJ16A, problems/NEST3.md.
+# Cited, SMAJ16A, problems/NEST3.md. Rim clamp. Not a PVCC voltage.
 TVS_STANDOFF = 16.0
 TVS_CLAMP = 26.0
+TVS_I_CLAMP = 15.4
+
+# Cited, SLVSFC9C. TPS259470A, adjustable OVLO.
+EFUSE_IN_ABS = 28.0
+EFUSE_IN_REC = 23.0
+EFUSE_OVLO_LO = 1.183
+EFUSE_OVLO_TYP = 1.20
+EFUSE_OVLO_HI = 1.223
+EFUSE_OVLO_PIN_REC = 1.5
+EFUSE_OVLO_PIN_ABS = 6.5
+EFUSE_T_OVLO_US = 1.2
+EFUSE_RON_MOHM = 45.0
+EFUSE_ILIM_MIN = 1.800
+EFUSE_IFT_TYP = 22.2
+R_OV_TOP = 140e3
+R_OV_BOT = 10e3
+R_UV_TOP = 90.9e3
+R_UV_BOT = 10e3
+
+# Cited, SLVSED3A. TVS1400 on the eFuse output.
+DUCK_VRWM = 14.0
+DUCK_VBR_MIN = 16.2
+DUCK_VBR_MAX = 17.8
+# Highest cited clamp maximum at a current above the 22.2 A fast-trip typical.
+# 19.3 V max at 35 A, 125 C, input starting at the standoff. 18.8 V max at 43 A, 27 C.
+DUCK_CLAMP = 19.3
+DUCK_CLAMP_I = 35.0
 
 # Cited, Littelfuse RXEF series. RXEF185 row and the 60 C rerating.
 PTC_HOLD_20 = 1.85
@@ -134,8 +161,53 @@ def main():
         bad += fail("nest voltage is outside the BQ24133 input limits")
     if NEST_V > TVS_STANDOFF:
         bad += fail("15 V nest is above the SMAJ16A standoff")
-    if TVS_CLAMP > SS_VRRM or TVS_CLAMP > SW_V_MAX:
-        bad += fail("TVS clamp is above a part on that node")
+    if TVS_CLAMP > SS_VRRM or TVS_CLAMP > SW_V_MAX or TVS_CLAMP > EFUSE_IN_ABS:
+        bad += fail("rim TVS clamp is above a part on that node")
+    # Every cited clamp has to sit under the lowest absolute maximum on its node.
+    # The 26.0 V rim clamp is not on PVCC. Putting it there fails this check.
+    nodes = (
+        ("rim and eFuse input", (TVS_CLAMP,), (SS_VRRM, SW_V_MAX, EFUSE_IN_ABS)),
+        ("eFuse output and PVCC", (DUCK_CLAMP, DUCK_VBR_MAX), (BQ_PVCC_ABS,)),
+    )
+    for name, clamps, limits in nodes:
+        worst = max(clamps)
+        limit = min(limits)
+        if worst > limit + 1e-9:
+            bad += fail("%s clamp %.1f V is above the %.1f V absolute maximum on that node" % (name, worst, limit))
+    if max((TVS_CLAMP,)) <= min((BQ_PVCC_ABS,)) + 1e-9:
+        bad += fail("the guard accepted a 26 V clamp on the 20 V PVCC pin")
+    chg_pin = next(p for p in chg["pins"] if p["pin"] == "VIN")
+    chg_dom = net["domains"][chg_pin["domain"]]
+    if float(chg_dom["v_max"]) >= BQ_PVCC_ABS or float(chg_dom["v_max"]) >= TVS_CLAMP:
+        bad += fail("CHG.VIN domain reaches the 26 V clamp or the 20 V absolute maximum")
+    gain = (R_OV_TOP + R_OV_BOT) / R_OV_BOT
+    trip_lo = EFUSE_OVLO_LO * gain
+    trip_typ = EFUSE_OVLO_TYP * gain
+    trip_hi = EFUSE_OVLO_HI * gain
+    if trip_hi >= BQ_PVCC_ABS:
+        bad += fail("OVLO high trip %.3f V is not under the PVCC absolute maximum" % trip_hi)
+    if trip_lo <= TVS_STANDOFF:
+        bad += fail("OVLO low trip %.3f V is inside the 16.0 V window" % trip_lo)
+    if abs(trip_typ - 18.0) > 0.01:
+        bad += fail("OVLO typical trip is not 18.00 V")
+    ugain = (R_UV_TOP + R_UV_BOT) / R_UV_BOT
+    uv_hi = EFUSE_OVLO_HI * ugain
+    if uv_hi >= BQ_VREG + HEADROOM:
+        bad += fail("UVLO high trip %.3f V is above the 13.6 V floor, so the eFuse can stay off in the window" % uv_hi)
+    if EFUSE_ILIM_MIN <= I_CHG:
+        bad += fail("ILIM minimum is not above the charge current")
+    if DUCK_CLAMP_I < EFUSE_IFT_TYP:
+        bad += fail("duck TVS clamp current is under the eFuse fast-trip typical")
+    if TVS_STANDOFF >= DUCK_VBR_MIN:
+        bad += fail("the 16.0 V window is at or above the duck TVS breakdown minimum")
+    ovlo_at_16 = TVS_STANDOFF * R_OV_BOT / (R_OV_TOP + R_OV_BOT)
+    ovlo_at_26 = TVS_CLAMP * R_OV_BOT / (R_OV_TOP + R_OV_BOT)
+    if ovlo_at_16 > EFUSE_OVLO_PIN_REC:
+        bad += fail("OVLO pin at the window top is above the 1.5 V recommended maximum")
+    if ovlo_at_26 > EFUSE_OVLO_PIN_ABS:
+        bad += fail("OVLO pin at the 26 V clamp is above the 6.5 V absolute maximum")
+    if NEST_V > EFUSE_IN_REC or TVS_CLAMP > EFUSE_IN_ABS:
+        bad += fail("eFuse input is outside its cited input limits")
 
     # MCP73213 cannot be this charger. 1.006 A would have fit its current band.
     if not (MCP_I_LO <= I_CHG <= MCP_I_HI):
@@ -152,10 +224,13 @@ def main():
     switch = (SW_MOHM * 1e-3) * I_CHG
     wire = WIRE_OHM * I_CHG
     contacts = 2.0 * CONTACT_V
-    arrived = NEST_V - diode - ptc - switch - wire - contacts
+    efuse = (EFUSE_RON_MOHM * 1e-3) * I_CHG
+    arrived = NEST_V - diode - ptc - switch - wire - contacts - efuse
     floor = BQ_VREG + HEADROOM
-    if arrived < floor - 1e-9 or arrived > TVS_STANDOFF + 1e-9:
-        bad += fail("stacked input %.3f V is outside %.1f V to %.1f V" % (arrived, floor, TVS_STANDOFF))
+    if arrived > TVS_STANDOFF + 1e-9:
+        bad += fail("stacked input %.3f V is above the %.1f V standoff" % (arrived, TVS_STANDOFF))
+    if arrived < BQ_VREG:
+        bad += fail("stacked input %.3f V is under the 12.6 V pack" % arrived)
     if I_CHG > PTC_HOLD_60:
         bad += fail("charge current is above the RXEF185 hold at 60 C")
     if I_CHG >= PTC_TRIP:
@@ -195,7 +270,13 @@ def main():
         ("RSIG.2", "BR1.N"),
         ("BR1.P", "PTC1.A"),
         ("PTC1.B", "F2.IN"),
-        ("F2.OUT", "CHG.VIN"),
+        ("F2.OUT", "OVP.IN"),
+        ("OVP.OUT", "CHG.VIN"),
+        ("OVP.OUT", "TVS1.K"),
+        ("TVS1.A", "OVP.GND"),
+        ("ROV.2", "OVP.OVLO"),
+        ("RUV.2", "OVP.EN"),
+        ("RIL.1", "OVP.ILM"),
         ("BR1.N", "BMS.P-"),
         ("JFO.S", "DK8.VIN"),
         ("DK8.VOUT", "J5IN.S"),
@@ -231,7 +312,16 @@ def main():
         I_CHG, BQ_I_MIN, BQ_I_MAX, CELL_I_MAX, BMS_I_CHG, FUSE_A, SS_IF))
     print("nest %.1f V inside BQ24133 %.1f V to %.1f V. MCP73213 regulates %.2f V and trips at %.0f V, so it is not installed." % (
         NEST_V, BQ_V_MIN, BQ_V_MAX, MCP_VREG, MCP_OVP))
-    print("stacked input %.3f V (calc only), floor %.1f V, standoff %.1f V" % (arrived, floor, TVS_STANDOFF))
+    print("stacked input %.3f V (calc only), EVM note %.1f V, standoff %.1f V" % (arrived, floor, TVS_STANDOFF))
+    if arrived < floor - 1e-9:
+        print("NOTE stacked input is %.3f V under the %.1f V EVM note after the eFuse %.0f mOhm maximum is added to the other maximums"
+              % (floor - arrived, floor, EFUSE_RON_MOHM))
+    print("OVLO trip %.3f V typical, %.3f V to %.3f V, response %.1f us typical (cited)"
+          % (trip_typ, trip_lo, trip_hi, EFUSE_T_OVLO_US))
+    print("duck TVS clamp %.1f V at %.0f A is under the PVCC %.0f V absolute maximum. Recommended standoff %.0f V is under the %.1f V set point. Breakdown minimum %.1f V is above the %.1f V window."
+          % (DUCK_CLAMP, DUCK_CLAMP_I, BQ_PVCC_ABS, DUCK_VRWM, NEST_V, DUCK_VBR_MIN, TVS_STANDOFF))
+    print("rim clamp %.1f V at %.1f A stays on the eFuse input. Absolute maximum %.0f V. Recommended maximum %.0f V."
+          % (TVS_CLAMP, TVS_I_CLAMP, EFUSE_IN_ABS, EFUSE_IN_REC))
     print("signature %.3f V nominal, corners %.3f V to %.3f V, window %.2f V to %.2f V" % (
         v_nom, v_lo, v_hi, WIN_LO, WIN_HI))
     if bad:

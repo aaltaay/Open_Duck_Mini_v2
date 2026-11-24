@@ -79,7 +79,10 @@ domains:
   GND: {v_min: 0.0, v_max: 0.0, note: "common ground, returns to BMS P-"}
   TOUCH: {v_min: 0.0, v_max: 3.3, note: "MPR121 electrode: the chip charges the pad with a constant current and reads the voltage, 0 to its 3.3 V supply (D51)"}
   SYS_9V: {v_min: 8.8, v_max: 9.2, note: "SUPERSEDED 2026-11-24. The chest SYS strip is not the nest. The live nest domain is NEST_13V6_16V0."}
-  NEST_13V6_16V0: {v_min: 13.6, v_max: 16.0, note: "3S nest window. Above 13.6 V (12.6 V plus the 1 V EVM headroom, calc only) and at or under the SMAJ16A 16.0 V standoff (cited). The supply point inside it is 15.0 V."}
+  NEST_13V6_16V0: {v_min: 13.6, v_max: 16.0, note: "3S nest window. Above 13.6 V (12.6 V plus the 1 V EVM headroom, calc only) and at or under the SMAJ16A 16.0 V standoff (cited). The supply point inside it is 15.0 V. This is the operating window, not the 26.0 V surge clamp."}
+  OVLO: {v_min: 0.0, v_max: 1.5, note: "TPS259470 OVLO pin recommended range 0.5 V to 1.5 V (cited, SLVSFC9C). Absolute maximum 6.5 V."}
+  UVLO: {v_min: 0.0, v_max: 5.0, note: "TPS259470 EN/UVLO recommended maximum 5 V (cited, SLVSFC9C). Absolute maximum 6.5 V."}
+  ILIM: {note: "TPS259470 ILM pin. The sheet says the pin voltage is internally limited. No separate maximum was copied."}
   CONTACT_0V_16V: {v_min: 0.0, v_max: 16.0, note: "A gold dome before the SS33 bridge. The dome may land on plus or minus, so this window is 0 V to the 16.0 V standoff."}
   PACK_OR_6V0_9V2: {v_min: 6.0, v_max: 9.2, note: "Superseded as the current rail input. The 2815 input is the pack through DK7 only (circuitry/SERVO_RAIL.md). This domain is the earlier 2813 input after the D50 OR."}
   SENSE: {v_min: 0.0, v_max: 9.0, note: "dock SENSE strip: NTC reading 0.7 to 2.2 V; the 555 wake pulse 9 V for 100 ms"}
@@ -106,7 +109,11 @@ nets:
   HOT_TH: {domain: NTC_WIN, note: "10.0 kOhm over 2.80 kOhm into CU2 INB-"}
   EN_GATE: {domain: GPIO_3V3, note: "CU2 open collectors pull the enable FET gate down and charge stops"}
   SYS_IN: {domain: SYS_9V, note: "SUPERSEDED 2026-11-24. Chest SYS strip. The wires that used it are status superseded."}
-  NEST_P: {domain: NEST_13V6_16V0, note: "steered plus from the gold domes, after the SS33 cathodes, through the PTC and F2 to CHG.VIN"}
+  NEST_P: {domain: NEST_13V6_16V0, note: "steered plus from the gold domes, after the SS33 cathodes, through the PTC and F2 to the eFuse input"}
+  PVCC: {domain: NEST_13V6_16V0, note: "eFuse output and BQ24133 PVCC. The duck-side TVS is on this net. The 26.0 V rim clamp is not."}
+  OVLO_PIN: {domain: OVLO, note: "140 kOhm over 10.0 kOhm from the eFuse input"}
+  UVLO_PIN: {domain: UVLO, note: "90.9 kOhm over 10.0 kOhm from the eFuse input"}
+  ILIM_PIN: {domain: ILIM, note: "1.65 kOhm from ILM to ground. The pin is internally limited (cited, SLVSFC9C)."}
   NEST_N: {domain: GND, note: "steered minus from the gold domes, SS33 anodes, to BMS P-"}
   WELL_1: {domain: CONTACT_0V_16V, note: "gold dome 1 to its SS33 pair"}
   WELL_2: {domain: CONTACT_0V_16V, note: "gold dome 2 to its SS33 pair"}
@@ -203,7 +210,7 @@ components:
       - {pin: "B+", label: "B+", name: charge output +, domain: PACK_9V0_12V6, group: out, dir: pwr_out, source: "[U] CABLE_MAP; label [I]"}
       - {pin: "B-", label: "B-", name: charge output -, domain: GND, group: out, dir: gnd, source: "[L] BQ24133 pack return"}
       - {pin: "TS", label: "TS", name: pack bead, domain: NTC_WIN, group: out, dir: in, source: "[L] D65. The bead reaches this pin."}
-      - {pin: "VIN", label: "PVCC", name: nest after F2, domain: NEST_13V6_16V0, group: out, dir: pwr_in, source: "[L] circuitry/NEST_TWO_NET.md. Two nets. Not the MCP73213."}
+      - {pin: "VIN", label: "PVCC", name: eFuse output, domain: NEST_13V6_16V0, group: out, dir: pwr_in, source: "[L] circuitry/NEST_TWO_NET.md. The 26.0 V rim clamp is not on this pin."}
       - {pin: "USB", label: "USB-C", name: not the 3S input, domain: USB, group: usb, dir: nc, source: "[L] the input is the 15 V nest, circuitry/BQ24133_BOARD.md"}
     source: "[L] D65; circuitry/BQ24133_BOARD.md. CELL at VREF regulates 12.6 V (cited, SLUSAF7D)."
 
@@ -1250,10 +1257,106 @@ components:
       leads: {connector: "ATO holder leads", pitch_mm: null, note: "holder leads soldered to the DC1 wires"}
     pins:
       - {pin: "IN", label: "lead 1", name: from the PTC on NEST_P, domain: NEST_13V6_16V0, group: leads, dir: pwr_in, source: "[L] circuitry/NEST_TWO_NET.md"}
-      - {pin: "OUT", label: "lead 2", name: to CHG.VIN, domain: NEST_13V6_16V0, group: leads, dir: pwr_out, source: "[L] circuitry/NEST_TWO_NET.md"}
+      - {pin: "OUT", label: "lead 2", name: to the eFuse input, domain: NEST_13V6_16V0, group: leads, dir: pwr_out, source: "[L] circuitry/NEST_TWO_NET.md"}
     internal:
       - {a: "IN", b: "OUT", kind: fuse, note: "5 A ATO"}
     source: "[L] D43; seat twin/dock/dock_seats.json"
+
+  - id: OVP
+    ref: OVP
+    part: "TI TPS259470ARPWR. Adjustable OVLO, active current limit, auto-retry. SLVSFC9C. Proposed, not on the bill."
+    kind: protection
+    region: battery_bay
+    ratings: {v_in_abs: 28, v_in_rec_max: 23, t_ovlo_us_typ: 1.2, r_on_mohm_max: 45}
+    groups:
+      pads: {connector: "QFN pads", pitch_mm: null, note: "on the charger board, not a harness connector"}
+    pins:
+      - {pin: "IN", label: "IN", name: from F2, domain: NEST_13V6_16V0, group: pads, dir: pwr_in, source: "[L] circuitry/NEST_TWO_NET.md"}
+      - {pin: "OUT", label: "OUT", name: to CHG.VIN, domain: NEST_13V6_16V0, group: pads, dir: pwr_out, source: "[L] circuitry/NEST_TWO_NET.md"}
+      - {pin: "GND", label: "GND", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] SLVSFC9C"}
+      - {pin: "EN", label: "EN", name: UVLO divider, domain: UVLO, group: pads, dir: in, source: "[L] SLVSFC9C EN/UVLO"}
+      - {pin: "OVLO", label: "OVLO", name: OVLO divider, domain: OVLO, group: pads, dir: in, source: "[L] SLVSFC9C"}
+      - {pin: "ILM", label: "ILM", name: 1.65 kOhm, domain: ILIM, group: pads, dir: passive, source: "[L] SLVSFC9C 1.65 kOhm row"}
+      - {pin: "DVDT", label: "dVdt", name: open, domain: NEST_13V6_16V0, group: pads, dir: nc, source: "[L] left open"}
+      - {pin: "ITIMER", label: "ITIMER", name: open, domain: NEST_13V6_16V0, group: pads, dir: nc, source: "[L] open for the fastest overcurrent response"}
+      - {pin: "FLT", label: "FLT", name: open, domain: NEST_13V6_16V0, group: pads, dir: nc, source: "[L] not used"}
+      - {pin: "AUXOFF", label: "AUXOFF", name: open, domain: NEST_13V6_16V0, group: pads, dir: nc, source: "[L] not used"}
+    internal:
+      - {a: "IN", b: "OUT", kind: switch, note: "opens when OVLO rises through 1.183 V to 1.223 V. 1.2 us typical."}
+    source: "[L] SLVSFC9C. Between NEST+ and PVCC so the 26.0 V rim clamp is not the charger pin."
+
+  - id: TVS1
+    ref: TVS1
+    part: "TI TVS1400DRVR. Flat-clamp TVS on PVCC. SLVSED3A. Proposed, not on the bill."
+    kind: protection
+    region: battery_bay
+    ratings: {v_standoff: 14.0, v_br_min: 16.2, v_clamp_max: 19.3, i_clamp_a: 35}
+    groups:
+      pads: {connector: "SON pads", pitch_mm: null, note: "on the charger board"}
+    pins:
+      - {pin: "K", label: "IO", name: cathode on PVCC, domain: NEST_13V6_16V0, group: pads, dir: passive, source: "[L] SLVSED3A"}
+      - {pin: "A", label: "GND", name: anode, domain: GND, group: pads, dir: gnd, source: "[L] SLVSED3A"}
+    source: "[L] SLVSED3A. Clamp 19.3 V maximum at 35 A and 125 C. That current is above the eFuse fixed fast-trip of 22.2 A typical."
+
+  - id: ROV
+    ref: ROV
+    part: "140 kOhm, 1 percent, OVLO top. Proposed."
+    kind: resistor
+    region: battery_bay
+    groups:
+      pads: {connector: "resistor pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: eFuse input, domain: NEST_13V6_16V0, group: pads, dir: passive, source: "[L] circuitry/NEST_TWO_NET.md"}
+      - {pin: "2", label: "2", name: OVLO pin, domain: OVLO, group: pads, dir: passive, source: "[L] circuitry/NEST_TWO_NET.md"}
+    source: "[L] circuitry/NEST_TWO_NET.md"
+
+  - id: ROB
+    ref: ROB
+    part: "10.0 kOhm, 1 percent, OVLO bottom. Proposed."
+    kind: resistor
+    region: battery_bay
+    groups:
+      pads: {connector: "resistor pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: OVLO pin, domain: OVLO, group: pads, dir: passive, source: "[L] circuitry/NEST_TWO_NET.md"}
+      - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] circuitry/NEST_TWO_NET.md"}
+    source: "[L] circuitry/NEST_TWO_NET.md"
+
+  - id: RUV
+    ref: RUV
+    part: "90.9 kOhm, 1 percent, UVLO top. Proposed."
+    kind: resistor
+    region: battery_bay
+    groups:
+      pads: {connector: "resistor pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: eFuse input, domain: NEST_13V6_16V0, group: pads, dir: passive, source: "[L] circuitry/NEST_TWO_NET.md"}
+      - {pin: "2", label: "2", name: EN pin, domain: UVLO, group: pads, dir: passive, source: "[L] circuitry/NEST_TWO_NET.md"}
+    source: "[L] circuitry/NEST_TWO_NET.md"
+
+  - id: RUB
+    ref: RUB
+    part: "10.0 kOhm, 1 percent, UVLO bottom. Proposed."
+    kind: resistor
+    region: battery_bay
+    groups:
+      pads: {connector: "resistor pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: EN pin, domain: UVLO, group: pads, dir: passive, source: "[L] circuitry/NEST_TWO_NET.md"}
+      - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] circuitry/NEST_TWO_NET.md"}
+    source: "[L] circuitry/NEST_TWO_NET.md"
+
+  - id: RIL
+    ref: RIL
+    part: "1.65 kOhm, 1 percent, ILIM. The cited 1.65 kOhm row. Proposed."
+    kind: resistor
+    region: battery_bay
+    groups:
+      pads: {connector: "resistor pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: ILM pin, domain: ILIM, group: pads, dir: passive, source: "[L] SLVSFC9C"}
+      - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] SLVSFC9C"}
+    source: "[L] SLVSFC9C. ILIM 1.800 A to 2.200 A at 1.65 kOhm."
 
   - id: RT1
     ref: RT1
@@ -1623,7 +1726,7 @@ cables:
   - {id: NT, status: active, no_route: true, desc: "pack bead RT1 to the charger divider plug JNT. The old SENSE tap from JSN to the bead is not in this cable.", regions: [battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] CHARGER_BOARD.md pack NTC. BAY.md names the valley seat and gives no length.", twist: {lay_mm: null, note: "two leads, no lay published"}}
   - {id: NW, status: active, no_route: true, desc: "on the charger board: bead plug to RBIAS, the cold and hot dividers, CU2, CU3, and the enable gate", regions: [battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] charger_board.yaml NTC window. DS20002190C Table 3-1 has no thermistor pin.", twist: {lay_mm: null, note: "board traces, not a twisted cable"}}
   - {id: EF, status: active, no_route: true, desc: "three TPS259827 breakers in series. SPV feeds each IN. SP1 and SP4 leave EFL.OUT, SP2 and SP5 leave EFR.OUT, SP3 leaves EFN.OUT.", regions: [belly], joints: [], polyline_mm: null, rule_mm: null, source: "[L] D65. No 3D route yet.", twist: {lay_mm: null, note: "no lay until the harness length is drawn"}}
-  - {id: NEST, status: nest, no_route: true, desc: "two-net nest: gold domes, SS33 bridge, RXEF185, F2, BQ24133 input, and the J5IN pack-domain tap for the 5 V seat. Not drawn on sheets 1 to 6. See circuitry/NEST_TWO_NET.md.", regions: [trunk_bottom, battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] circuitry/NEST_TWO_NET.md", twist: {lay_mm: null, note: "no lay until a route exists"}}
+  - {id: NEST, status: nest, no_route: true, desc: "two-net nest: gold domes, SS33 bridge, RXEF185, F2, TPS259470 ahead of the BQ24133, TVS1400 on PVCC, and the J5IN pack-domain tap for the 5 V seat. Not drawn on sheets 1 to 6. See circuitry/NEST_TWO_NET.md.", regions: [trunk_bottom, battery_bay], joints: [], polyline_mm: null, rule_mm: null, source: "[L] circuitry/NEST_TWO_NET.md", twist: {lay_mm: null, note: "no lay until a route exists"}}
 wires:
   # two-net nest (2026-11-24). Cable NEST is not an active sheet cable.
   - {cable: NEST, from: JNW.1, to: BR1.D1, net: WELL_1, gauge: "22 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [dome, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. One dome may carry the pole."}
@@ -1635,7 +1738,21 @@ wires:
   - {cable: NEST, from: RSIG.2, to: BR1.N, net: GND, gauge: board, color: black, cut_mm: 0, i_mean_a: 0.0003, i_peak_a: 0.0003, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
   - {cable: NEST, from: BR1.P, to: PTC1.A, net: NEST_P, gauge: board, color: red, cut_mm: 0, i_mean_a: 1.006, i_peak_a: 1.006, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. Calc only current."}
   - {cable: NEST, from: PTC1.B, to: F2.IN, net: NEST_P, gauge: "20 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [radial lead, holder lead], source: "[L] circuitry/NEST_TWO_NET.md"}
-  - {cable: NEST, from: F2.OUT, to: CHG.VIN, net: NEST_P, gauge: "20 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [holder lead, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. Pack only, through the charger."}
+  - {cable: NEST, from: F2.OUT, to: OVP.IN, net: NEST_P, gauge: "20 AWG", color: red, cut_mm: 40, i_mean_a: 1.006, i_peak_a: 1.006, ends: [holder lead, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. The rim clamp can reach this node. The charger pin is the eFuse output."}
+  - {cable: NEST, from: OVP.OUT, to: CHG.VIN, net: PVCC, gauge: board, color: red, cut_mm: 0, i_mean_a: 1.006, i_peak_a: 1.006, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. PVCC is the eFuse output."}
+  - {cable: NEST, from: OVP.OUT, to: TVS1.K, net: PVCC, gauge: board, color: red, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. Duck-side TVS on PVCC."}
+  - {cable: NEST, from: TVS1.A, to: OVP.GND, net: GND, gauge: board, color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: OVP.GND, to: BMS.P-, net: GND, gauge: board, color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: OVP.IN, to: ROV.1, net: NEST_P, gauge: board, color: red, cut_mm: 0, i_mean_a: 0.0001, i_peak_a: 0.0001, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. 140 kOhm OVLO top."}
+  - {cable: NEST, from: ROV.2, to: OVP.OVLO, net: OVLO_PIN, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0001, i_peak_a: 0.0001, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: ROB.1, to: OVP.OVLO, net: OVLO_PIN, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0001, i_peak_a: 0.0001, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. 10.0 kOhm OVLO bottom."}
+  - {cable: NEST, from: ROB.2, to: OVP.GND, net: GND, gauge: board, color: black, cut_mm: 0, i_mean_a: 0.0001, i_peak_a: 0.0001, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: OVP.IN, to: RUV.1, net: NEST_P, gauge: board, color: red, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. 90.9 kOhm UVLO top."}
+  - {cable: NEST, from: RUV.2, to: OVP.EN, net: UVLO_PIN, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: RUB.1, to: OVP.EN, net: UVLO_PIN, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. 10.0 kOhm UVLO bottom."}
+  - {cable: NEST, from: RUB.2, to: OVP.GND, net: GND, gauge: board, color: black, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
+  - {cable: NEST, from: OVP.ILM, to: RIL.1, net: ILIM_PIN, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. 1.65 kOhm."}
+  - {cable: NEST, from: RIL.2, to: OVP.GND, net: GND, gauge: board, color: black, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
   - {cable: NEST, from: BR1.N, to: BMS.P-, net: GND, gauge: "20 AWG", color: black, cut_mm: 80, i_mean_a: 1.006, i_peak_a: 1.006, ends: [solder pad, solder pad], source: "[L] circuitry/NEST_TWO_NET.md"}
   - {cable: NEST, from: JFO.S, to: DK8.VIN, net: PACK_F, gauge: "16 AWG", color: red, cut_mm: 40, i_mean_a: 0.48, i_peak_a: 1.91, ends: [splice, solder pad], source: "[L] circuitry/NEST_TWO_NET.md. Pack domain. Same currents as P13, not a 5 A budget."}
   - {cable: NEST, from: DK8.VOUT, to: J5IN.S, net: PACK_F, gauge: "16 AWG", color: red, cut_mm: 20, i_mean_a: 0.48, i_peak_a: 1.91, ends: [solder pad, splice], source: "[L] circuitry/NEST_TWO_NET.md. 5 V interface. Not tied to U3."}

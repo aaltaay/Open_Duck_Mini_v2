@@ -5,6 +5,9 @@ The duck is awake: the head keeps the 5 V load the thermal model already uses,
 and the servo rail is open (circuitry/SERVO_RAIL.md), so servo current is 0.
 The charger heat is the BQ24133 converter loss at 1.006 A (calc only), not the
 old 1.9 W to 3.2 W MCP73213 band. That chip is not on this 3S pack.
+The two SS33 steering diodes are in the duck. Their heat is 2 times the 0.50 V
+maximum at 3 A times 1.006 A (calc only, an upper bound). It is trunk heat, not
+die heat.
 
 Efficiency is the Figure 10-4 point at 1.00 A (cited chart read, 0.929). The
 figure has no 1.006 A point. Loss is Vbat * 1.006 * (1/0.929 - 1), calc only.
@@ -25,6 +28,8 @@ import gate_bq24133 as G
 
 # Calc only. Same 1.006 A as the netlist. Not a new set point.
 I_CHG = 1.006
+# Cited VF maximum at 3 A, used as an upper bound at 1.006 A. Two diodes.
+P_DIODE = 2.0 * 0.50 * I_CHG
 # Cited chart read, Figure 10-4, AVCC = 15 V, 3 cells, at 1.00 A.
 ETA = 0.929
 PACKS = (10.8, 12.6)
@@ -38,8 +43,9 @@ def main():
         watts = G.loss_w(vbat, I_CHG, ETA)
         for corner in ("central", "high"):
             for room in (25.0, 32.0):
-                row = G._sit(watts, 0.0, I_CHG, corner, room, hours=HOURS, i_idle_a=0.0)
+                row = G._sit(watts, 0.0, I_CHG, corner, room, hours=HOURS, i_idle_a=0.0, extra_trunk_w=P_DIODE)
                 row["pack_V"] = vbat
+                row["diode_W"] = round(P_DIODE, 3)
                 row["i_charge_A"] = I_CHG
                 row["eta"] = ETA
                 row["label"] = "sim pass only"
@@ -57,7 +63,8 @@ def main():
         current_A="1.006 calc only",
         eta_at_1A_chart=ETA,
         hours=HOURS,
-        note="MCP73213 1.9 W to 3.2 W is not this sit. The installed charger is the BQ24133.",
+        diode_W=round(P_DIODE, 3),
+        note="MCP73213 1.9 W to 3.2 W is not this sit. The installed charger is the BQ24133. Steering diode heat is the 0.50 V maximum at 3 A, two diodes, at 1.006 A.",
         rows=rows,
         hottest_cells_C=hottest["cell_end_C"],
         hottest_wall_C=max(r["trunk_wall_end_C"] for r in rows),

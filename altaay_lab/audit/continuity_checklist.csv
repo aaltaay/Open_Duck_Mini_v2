@@ -1,11 +1,31 @@
 cable,from,to,net,gauge,cut_mm,expect,check_no_short_to
-DC1,DKP.CHG,DK2.VIN,CHG_IN,20 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.SYS DKP.GND DKP.SNS
-DC1,JGD.S,DK2.GND,GND,26 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-DC1,DK2.VOUT,F2.IN,CHG_D,20 AWG,180,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK2.VIN DK2.GND
-DC1,F2.OUT,BMS.P+,PACK_P,20 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F2.IN
-DC2,DKP.GND,JGD.S,GND,20 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.SYS DKP.SNS DKP.CHG
-DC2,JGD.S,BMS.P-,GND,20 AWG,210,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-DC3,DKP.SNS,JSN.S,SNS,26 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.SYS DKP.GND DKP.CHG
+NEST,JNW.1,BR1.D1,WELL_1,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JNW.2 JNW.3 JNW.4 JNW.5
+NEST,JNW.2,BR1.D2,WELL_2,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JNW.1 JNW.3 JNW.4 JNW.5
+NEST,JNW.3,BR1.D3,WELL_3,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JNW.1 JNW.2 JNW.4 JNW.5
+NEST,JNW.4,BR1.D4,WELL_4,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JNW.1 JNW.2 JNW.3 JNW.5
+NEST,JNW.5,BR1.D5,WELL_5,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JNW.1 JNW.2 JNW.3 JNW.4
+NEST,RSIG.1,BR1.P,NEST_P,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RSIG.2
+NEST,RSIG.2,BR1.N,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RSIG.1
+NEST,BR1.P,PTC1.A,NEST_P,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BR1.D1 BR1.D2 BR1.D3 BR1.D4 BR1.D5 BR1.N
+NEST,PTC1.B,F2.IN,NEST_P,20 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PTC1.A
+NEST,F2.OUT,OVP.IN,NEST_P,20 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F2.IN
+NEST,OVP.OUT,CHG.VIN,PVCC,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",OVP.IN OVP.GND OVP.EN OVP.OVLO OVP.ILM OVP.DVDT
+NEST,OVP.OUT,TVS1.K,PVCC,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",OVP.IN OVP.GND OVP.EN OVP.OVLO OVP.ILM OVP.DVDT
+NEST,TVS1.A,OVP.GND,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",TVS1.K
+NEST,OVP.GND,BMS.P-,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",OVP.IN OVP.OUT OVP.EN OVP.OVLO OVP.ILM OVP.DVDT
+NEST,OVP.IN,ROV.1,NEST_P,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",OVP.OUT OVP.GND OVP.EN OVP.OVLO OVP.ILM OVP.DVDT
+NEST,ROV.2,OVP.OVLO,OVLO_PIN,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ROV.1
+NEST,ROB.1,OVP.OVLO,OVLO_PIN,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ROB.2
+NEST,ROB.2,OVP.GND,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ROB.1
+NEST,OVP.IN,RUV.1,NEST_P,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",OVP.OUT OVP.GND OVP.EN OVP.OVLO OVP.ILM OVP.DVDT
+NEST,RUV.2,OVP.EN,UVLO_PIN,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RUV.1
+NEST,RUB.1,OVP.EN,UVLO_PIN,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RUB.2
+NEST,RUB.2,OVP.GND,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RUB.1
+NEST,OVP.ILM,RIL.1,ILIM_PIN,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",OVP.IN OVP.OUT OVP.GND OVP.EN OVP.OVLO OVP.DVDT
+NEST,RIL.2,OVP.GND,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RIL.1
+NEST,BR1.N,BMS.P-,GND,20 AWG,80,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",BR1.D1 BR1.D2 BR1.D3 BR1.D4 BR1.D5 BR1.P
+NEST,JFO.S,DK8.VIN,PACK_F,16 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+NEST,DK8.VOUT,J5IN.S,PACK_F,16 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK8.VIN DK8.GND
 DC3,RT1.2,BMS.P-,GND,26 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RT1.1
 CE,JPI.STAT,PI.29,STAT_GPIO,26 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JPI.EN JPI.V3 JPI.GND
 CE,JPI.EN,PI.31,PI_EN,26 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JPI.STAT JPI.V3 JPI.GND
@@ -33,13 +53,8 @@ NW,RHOT.2,CU2.INBM,HOT_TH,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md secti
 NW,CU2.GND,JNT.B,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU2.INAM CU2.INAP CU2.INBP CU2.INBM CU2.OUTA CU2.OUTB
 NW,CU2.OUTA,CQEN.G,EN_GATE,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU2.INAM CU2.INAP CU2.INBP CU2.INBM CU2.OUTB CU2.GND
 NW,CU2.OUTA,CU2.OUTB,EN_GATE,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU2.INAM CU2.INAP CU2.INBP CU2.INBM CU2.OUTB CU2.GND
-DC3,JSN.S,WK1.A,SNS,26 AWG,180,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-DC4,DKP.SYS,DK6.VIN,SYS_IN,20 AWG,190,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.GND DKP.SNS DKP.CHG
-DC4,DK6.VOUT,SW1.VIN,PACK_OR,20 AWG,70,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK6.VIN DK6.GND
-DC4,DK6.GND,SW1.GND,GND,26 AWG,80,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK6.VIN DK6.VOUT
 DC4,DK7.VOUT,SW1.VIN,PACK_OR,16 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK7.VIN DK7.GND
 DC4,DK7.GND,SW1.GND,GND,26 AWG,70,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK7.VIN DK7.VOUT
-DC3,WK1.K,SW1.ON,SW1_ON,26 AWG,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",WK1.A
 P1,PACK.B+,BMS.B+,PACK_P,16 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.B-
 P2,PACK.B-,BMS.B-,CELL_N,16 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.B+
 P3,PACK.MID,BMS.B1,CELL_MID,26 AWG,140,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.MID2

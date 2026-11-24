@@ -20,6 +20,20 @@ Do not buy from this table until a page is opened for stock. No prices are copie
 
 J5IN does not change the 5 V regulator line. A later 5 V 5 A seat can use that node. This delta does not name that regulator.
 
+## Surge path, 2026-11-24. Not applied to BOM.md or bom.json
+
+The rim SMAJ16A stays the one already in the table above. These parts sit between NEST+ and the BQ24133 PVCC pin. Prices were not opened.
+
+| Proposed change | Part | Qty | Why |
+|---|---|---|---|
+| Add | TI TPS259470ARPWR | 1 | Adjustable OVLO, active current limit, auto-retry (SLVSFC9C). Trip 18.345 V maximum (calc only). Response 1.2 us typical (cited). Input absolute maximum 28 V covers the 26.0 V rim clamp. |
+| Add | 140 kOhm and 10.0 kOhm, 1 percent | 1 each | OVLO divider. |
+| Add | 90.9 kOhm and 10.0 kOhm, 1 percent | 1 each | UVLO divider. The high trip is 12.340 V (calc only), under the 13.6 V floor. |
+| Add | 1.65 kOhm, 1 percent | 1 | Cited ILIM row. 1.800 A minimum, above 1.006 A. |
+| Add | TI TVS1400DRVR | 1 | Duck-side clamp on PVCC. 19.3 V maximum at 35 A and 125 C (cited, SLVSED3A), under the 20 V PVCC absolute maximum. Recommended standoff is 14 V. Leakage above 14 V is BLOCKER. See circuitry/NEST_TWO_NET.md. |
+
+U3 stays the Pololu D30V30F5. A 5 V 5 A regulator for a Pi 5 is the board-seat change, not this one.
+
 
 
 Written 2026-11-11 evening ET. Research only. This file does not change BOM.md or bom.json. The nest install agent applies the rows below. PARTS_AUDIT.md, session 2026-11-11 ET, is the evidence. A number from a page opened that session is labeled there. A number from the nest CAD stays CAD check only.
