@@ -52,7 +52,7 @@ The picture is altaay_lab/twin/out/videos/autonomy_day.mp4. It is the first simu
 
 The default soak still draws the published 40. `use_camera()` swaps that draw for one live episode. The episode is `CameraOutcomes` in twin/dock/camera/disc_dock.py. The commands inside it come from the head camera (software/perception/nest_find.py) or, for the baseline only, from the true sun. The three-day soak was not re-run on that loop.
 
-The batch is twin/dock/camera/DISC_DOCK.md. Camera charging is 2 of 8. The privileged sun, same starts and same commands, is 4 of 8 (sim pass only). That is not the 38 of 40 card dock.
+The batch is twin/dock/camera/DISC_DOCK.md. On the 40-start set (four rooms, covers, side hazards, two retries) camera charging is 24 of 40. The privileged sun, same starts and same commands, is 19 of 40 (sim pass only). The earlier camera batch on a different eight starts was 2 of 8. Neither number is the 38 of 40 card dock. Perception for that loop is timed on this thread, not inside the 50 Hz walk step. The median camera episode was 11.37 ms on the x86 host (sim pass only). A Pi 5 frame is BLOCKER.
 
 ## Still open
 

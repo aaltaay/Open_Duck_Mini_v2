@@ -22,7 +22,7 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 
-from altaay_lab.software.autonomy.disc_loop import DiscLoop
+from altaay_lab.software.autonomy.disc_loop import HEAD_YAW_HI, HEAD_YAW_LO, DiscLoop
 from altaay_lab.software.perception import nest_find as NF
 from altaay_lab.twin.dock.camera import camera_dock as CD
 
@@ -305,7 +305,9 @@ class DiscSim(CD.DockSim):
             self.mujoco.mj_step(md, dd)
         self.t += CD.CTRL_DT
         hp = float(cmd[3]) if len(cmd) > 3 else 0.0
-        m.commands = [float(cmd[0]), float(cmd[1]), float(cmd[2]), 0.0, hp, 0.0, 0.0]
+        hy = float(cmd[4]) if len(cmd) > 4 else 0.0
+        hy = max(HEAD_YAW_LO, min(HEAD_YAW_HI, hy))
+        m.commands = [float(cmd[0]), float(cmd[1]), float(cmd[2]), 0.0, hp, hy, 0.0]
         m.imitation_i = (m.imitation_i + m.phase_frequency_factor) % m.PRM.nb_steps_in_period
         ph = m.imitation_i / m.PRM.nb_steps_in_period * 2 * math.pi
         m.imitation_phase = np.array([math.cos(ph), math.sin(ph)])
@@ -326,6 +328,15 @@ class DiscSim(CD.DockSim):
         if aid >= 0:
             lo, hi = self.model.actuator_ctrlrange[aid]
             dd.ctrl[aid] = min(hi, max(lo, hp if abs(hp) > 1e-4 else float(dd.ctrl[aid])))
+        # Head yaw is a policy command during the walk. The policy does not
+        # track it, so a standing search sweep drives the actuator itself.
+        # Forcing that actuator while the body is also yawing tips the duck.
+        standing = abs(float(cmd[0])) < 0.03 and abs(float(cmd[2])) < 0.08
+        if standing and abs(hy) > 0.12:
+            yid = self.mujoco.mj_name2id(self.model, self.mujoco.mjtObj.mjOBJ_ACTUATOR, "head_yaw")
+            if yid >= 0:
+                ylo, yhi = self.model.actuator_ctrlrange[yid]
+                dd.ctrl[yid] = min(yhi, max(ylo, hy))
         self._integrate_gyro()
         x, y, yaw, z, up = self.true_pose()
         self._check_fall(z, up)
@@ -413,10 +424,14 @@ def run_case(spec, privileged=False, record=False, limit_s=48.0):
                         # One frame cannot jump half a metre. That jump is a
                         # speck, not the disc. The last good fix stays in the queue.
                         last = getattr(sim, "_last_fwd", None)
-                        if last is not None and abs(fresh["sun_fwd"] - last) > 0.45:
+                        last_l = getattr(sim, "_last_left", None)
+                        jump = last is not None and abs(fresh["sun_fwd"] - last) > 0.45
+                        slide = last_l is not None and abs(fresh["sun_left"] - last_l) > 0.40
+                        if jump or slide:
                             fresh["seen"] = False
                         else:
                             sim._last_fwd = fresh["sun_fwd"]
+                            sim._last_left = fresh["sun_left"]
                     if fresh["seen"]:
                         saw += 1
                         pf, pl = sim.privileged_sun()
@@ -671,18 +686,106 @@ def probe(spec=None):
         sim.close()
 
 
+def forty_specs():
+    """The card dock's 40 starts, with a room, a cover, and a side hazard.
+
+    The poses are STARTS and STARTS_NEW in camera_dock.py. The lamp, the
+    felt card, and the side box are this file's. Two retries, same rule as
+    the card batch (retries < 2).
+    """
+    rooms = ("day", "warm", "dim", "cool")
+    specs = []
+    for seed, x, y, yaw, _light in list(CD.STARTS) + list(CD.STARTS_NEW):
+        specs.append({
+            "seed": int(seed),
+            "x": float(x),
+            "y": float(y),
+            "yaw": float(yaw),
+            "room": rooms[(int(seed) - 1) % 4],
+            "cover": int(seed) % 3 == 0,
+            "hazard": int(seed) % 2 == 0,
+        })
+    return specs
+
+
+def run_retries(spec, privileged, tries=3, limit_s=46.0):
+    """First try plus two retries. Stop on a charge. Sim pass only."""
+    last = None
+    for attempt in range(int(tries)):
+        row, _frames = run_case(spec, privileged=privileged, record=False, limit_s=limit_s)
+        row = dict(row)
+        row["attempt"] = attempt + 1
+        last = row
+        if row.get("charging"):
+            break
+    return last
+
+
+def _forty_job(job):
+    spec, privileged, limit_s = job
+    os.environ.setdefault("MUJOCO_GL", "osmesa")
+    row = run_retries(spec, privileged, limit_s=limit_s)
+    print(
+        "%s seed %d %s try %s %s yaw %s"
+        % (row["source"], row["seed"], row["room"], row["attempt"], row["reason"], row.get("yaw_err_deg")),
+        flush=True,
+    )
+    return row
+
+
 def main():
     import argparse
     p = argparse.ArgumentParser()
     p.add_argument("--probe", action="store_true")
     p.add_argument("--batch", action="store_true")
+    p.add_argument("--forty", action="store_true")
     p.add_argument("--video", action="store_true")
     p.add_argument("--n", type=int, default=8)
+    p.add_argument("--jobs", type=int, default=3)
     p.add_argument("--limit", type=float, default=48.0)
     p.add_argument("--out", default=os.path.join(os.path.dirname(__file__)))
     args = p.parse_args()
     if args.probe:
         probe()
+        return
+    if args.forty:
+        import multiprocessing as mp
+        jobs = []
+        for spec in forty_specs():
+            jobs.append((spec, False, args.limit))
+            jobs.append((spec, True, args.limit))
+        ctx = mp.get_context("spawn")
+        rows = []
+        with ctx.Pool(max(1, args.jobs)) as pool:
+            for row in pool.imap_unordered(_forty_job, jobs):
+                rows.append(row)
+        rows.sort(key=lambda r: (r["source"], r["seed"]))
+        summary = summarize(rows)
+        payload = {"summary": summary, "rows": rows, "label": "sim pass only", "retries": 2}
+        with open(os.path.join(args.out, "disc_batch.json"), "w", encoding="utf-8") as handle:
+            json.dump(payload, handle, indent=1, sort_keys=True)
+            handle.write("\n")
+        # A search that starts facing away, camera view, if one charged.
+        behind = [
+            r for r in rows
+            if r["source"] == "camera" and r["charging"] and abs(r["start"][2]) >= 70.0
+        ]
+        pick = behind[0] if behind else next((r for r in rows if r["source"] == "camera" and r["charging"]), None)
+        still = None
+        if pick is not None:
+            spec = next(s for s in forty_specs() if s["seed"] == pick["seed"])
+            _row, frames = run_case(spec, privileged=False, record=True, limit_s=args.limit)
+            for wide, cam, phase, est in frames:
+                if est and est.get("seen"):
+                    still = compose(wide, cam, phase, est)
+                    break
+            if still is None and frames:
+                still = compose(*frames[0])
+            if frames:
+                write_video(frames, os.path.join(args.out, "disc_dock_sim.mp4"))
+        if still is not None:
+            write_result(rows, still, os.path.join(args.out, "disc_dock_result.png"))
+        print(json.dumps(summary, sort_keys=True))
         return
     if not args.batch and not args.video:
         p.error("pass --probe, --batch, or --video")

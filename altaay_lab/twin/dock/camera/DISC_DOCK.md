@@ -12,7 +12,7 @@ The render is 320 by 556. Height is the 66 deg axis, so the width is 41 deg (cal
 
 Light is one of four rooms (day, warm, dim, cool), with an 8 percent flicker on the lamp (set point). Every frame gets read noise. Motion blur is a short box whose length is the gyro rate and the head-pitch rate times a 10 ms shutter. The 10 ms is a set point. The brief does not state a shutter. A previous frame is mixed in at 12 percent when that shift is more than 2 px, which stands in for blur between captures.
 
-The walk leaves the head level, and the crouch puts the disc on the bottom edge. While docking, the head-pitch target is -0.35 rad, which is -20 deg, inside the -22 deg software stop (servo_limits.json). The other joints stay on the policy.
+The walk leaves the head level, and the crouch puts the disc on the bottom edge. While docking, the head-pitch target is -0.35 rad, which is -20 deg, inside the -22 deg software stop (servo_limits.json). Head yaw stays a policy command during the walk. For the standing search only, the head-yaw actuator sweeps inside the software stops (-105 deg to +79 deg, same file). It is not driven while the body is also yawing. That pair tips the duck, and the gait then stops turning.
 
 ## What the camera looks at
 
@@ -20,54 +20,51 @@ The cloth is the nest CAD sun and ring, painted in the sim and not colliding: a 
 
 The finder is software/perception/nest_find.py. A fix is the disc width through the pinhole, then the head-joint chain into the trunk. The true sun is not an input on the camera path. It is the input on the privileged path, and it is the score after the sit on both paths.
 
+## What changed after the 2 of 8 batch
+
+Three camera misses from that batch, all still sim, all on this controller. nest_v2 was not touched.
+
+Search. With no fix, the duck stands and sweeps the head inside the software stops, then turns the body at a rate the gait follows. A glimpse is kept for 6 s as a bearing in the trunk, and the walk goes toward that bearing. Forcing the head-yaw actuator during the body turn was dropped. It tipped the duck and the body stopped yawing.
+
+Warm light. The frame is gray-world balanced, then scored in chromaticity (red and green shares against blue), not raw RGB. The disc has to sit in a local ring that is either brighter or more yellow than the floor just outside it. A width that would put the nest past 1.8 m is rejected. Those readings were a chip of the disc, about half the real width, and the range came out near 2 m.
+
+Half turn. Both paths use the same loop. The turn is 3.10 rad of IMU yaw at 0.45 rad/s, with a side step that is eased off after 2.0 rad, then a short pure yaw with no side step. The side step is what walks the seat onto the foil. Leaving it on for the whole turn walks into the wall. The turn starts at 0.40 m of trunk-to-sun (set point), and only once the last bearing is near the centre line. A start with the disc still off to the right used to finish outside 25 deg.
+
 ## Batch
 
-Eight starts. Four rooms. Three of the eight have a felt card on part of the ring. Three have a dark floor patch and a dark box off to the side. One try each. Limit 32 s. Same controller both ways. Sim pass only.
+Forty starts. The poses are the card dock's two lists of twenty (camera_dock.py). Each start is one of the four rooms, in rotation. A felt card covers part of the ring when the seed is a multiple of 3 (13 starts). A dark floor patch and a dark box sit off to the side when the seed is even (20 starts). Limit 50 s. First try plus two retries, the same cap as the card batch (`retries < 2`). A start counts once, on the first charge. Same controller both ways. Sim pass only. Every row is disc_batch.json.
 
-| Seed | Room | Cover | Side hazard | Camera | Privileged |
-|---|---|---|---|---|---|
-| 1 | day | no | no | docked, 17.8 s, yaw err 21.4 deg | docked, 16.2 s, yaw err 24.9 deg |
-| 2 | warm | no | yes | timeout | heading, yaw err 38.5 deg |
-| 3 | dim | yes | no | docked, 17.2 s, yaw err 1.7 deg | docked, 17.5 s, yaw err 6.3 deg |
-| 4 | cool | no | no | heading, yaw err 27.6 deg | heading, yaw err 30.6 deg |
-| 5 | day | yes | yes | timeout | heading, yaw err 34.3 deg |
-| 6 | warm | no | no | timeout | docked, 18.6 s, yaw err 9.1 deg |
-| 7 | dim | no | yes | timeout | heading, yaw err 37.5 deg |
-| 8 | cool | yes | no | no marker | docked, 24.4 s, yaw err 19.1 deg |
+Camera charging: 24 of 40. Privileged charging: 19 of 40.
 
-Camera charging: 2 of 8. Privileged charging: 4 of 8. Sim pass only.
+All 24 camera charges happened on the first attempt. The other 16 failed all three attempts, so the two retries did not add a dock.
 
-On the two camera docks the median range error against the true sun, while the disc was in frame, was -8 mm and -7 mm (sim pass only). Seed 1 saw the disc on 0.300 of frames. Seed 3, with the felt card on the ring, still docked. A new disc fix waits 0.10 s before the controller uses it. An obstacle on the image right gets a left yaw. A creep stops when the frame says cliff.
+Camera by room: day 4 of 10, warm 7 of 10, dim 6 of 10, cool 7 of 10. Starts whose heading was at least 70 deg off the nest: 6 of 11 camera docks, including 150 deg, 160 deg, and -150 deg. Cover on the ring: 7 of 13. Side hazard: 14 of 20.
 
-The earlier gold-dome batch is 38 of 40 charging (sim pass only, SEAT_CONTACTS.md). That run used the wall card and the room card, other starts, and two retries. It is not this controller.
+Camera misses: sat_off 7, heading 4, sat 2, fell 1, timeout 1, missed_line 1. Privileged misses: fell 7, heading 5, missed_line 5, timeout 3, sat_off 1. The privileged path falls more. The true sun keeps a walk going after the camera has already lost the disc.
+
+The previous published camera batch was 2 of 8, one try, on a different set of eight starts. Privileged on that set was 4 of 8 (sim pass only). This 40 is not that 8, and it is not the 38 of 40 card dock. The card dock used the wall card and the room card.
+
+Dim light, camera path: the cliff flag was 0 frames on all 10 dim starts. The obstacle flag was not cleared. Those 10 starts raised it on 0 to 40 frames (sim pass only). Across all 40 camera episodes the median obstacle count was 46 frames.
 
 ## Frame time
 
-Perception only. The MuJoCo render is not in this number. It is not a Pi.
+Perception only, around find_nest. The MuJoCo render is not in this number. The call sits on the autonomy thread, not inside the 50 Hz walk step. It is not a Pi.
 
 | | Value | Label |
 |---|---|---|
-| Median of the eight episode medians | 6.04 ms | measured on this x86 host, reported at 2400 MHz |
-| Warm-room episodes | 14.23 ms and 15.26 ms | measured on this x86 host |
-| Fastest episode median | 3.63 ms | measured on this x86 host |
+| Median of the 40 camera episode medians | 11.37 ms | measured on this x86 host, reported at 2400 MHz |
+| Ten warm-room episode medians | 15.99 ms to 18.63 ms | measured on this x86 host |
+| Fastest episode median | 7.84 ms | measured on this x86 host |
 
-Pi 5, 2 GB, is a 2.4 GHz quad Cortex-A76 (cited, software/pi_fit/BOARDS.md, the product page). The clocks match this host's reported 2400 MHz, so a same-work-per-clock copy of 6.04 ms is calc only and is a floor, not a Pi time. This Xeon core does more work per clock than an A76. A factor of 4 is an assumption, not a cited benchmark: 6.04 times 4 is 24.2 ms (calc only). A measured frame on a Pi 5 is BLOCKER. 24.2 ms is on the autonomy thread, not the 50 Hz walk thread (AUTONOMY.md).
-
-## Where it misses
-
-- Warm light. Seeds 2 and 6 almost never kept a fix (saw fraction 0.006 and 0.002). The lamp pulls the floor toward the cloth, and the yellow peak is no longer the disc. The privileged path does not use color, and seed 6 docked.
-- A start that is not already facing the nest. Seeds 5, 7, and 8 spin. The disc does not stay in frame long enough to walk in. Seed 8 saw nothing. The privileged path still knows the sun: seeds 6 and 8 docked, and 5 and 7 sat with the heading short.
-- The half turn. Four privileged sits and the camera sit on seed 4 missed the 25 deg heading gate (yaw error 27.6 to 38.5 deg). The gait's yaw dies if the turn starts too close to the wall, so the turn starts at 0.42 m of trunk-to-sun (set point). It does not always finish.
-- Dim-room flags. Seed 3 docked and also marked a cliff on 87 frames and an obstacle on 83 frames (sim pass only). The flag is not a reliable stop in that light. The side hazard is not on the walk line.
-- Day seed 1 marked an obstacle on 27 frames and still docked. Same caution.
+Pi 5, 2 GB, is a 2.4 GHz quad Cortex-A76 (cited, software/pi_fit/BOARDS.md, the product page). The clocks match this host's reported 2400 MHz, so a same-work-per-clock copy of 11.37 ms is calc only and is a floor, not a Pi time. This Xeon core does more work per clock than an A76. A factor of 4 is an assumption, not a cited benchmark: 11.37 times 4 is 45.5 ms (calc only). A measured frame on a Pi 5 is BLOCKER.
 
 ## A printed mark, study only
 
-A mark would help the two misses the cloth cannot cover: a warm lamp, and a search that starts facing away. The nest CAD's wall card is 40 mm and is not approved (NEST_V2.md). The old mast carried three AprilTags (dock BOM K13). Neither is on the mat this loop uses. A high-contrast printed mark on the wall, not on the felt, would stay a different color from the floor under a warm lamp and would be visible while the duck turns. This file does not add it. nest_v2 stays as approved.
+The warm room and the facing-away starts both dock some of the time now, and both still miss. A wall mark would still be a different sensor, not a fix for the cloth. The nest CAD's wall card is 40 mm and is not approved (NEST_V2.md). The old mast carried three AprilTags (dock BOM K13). Neither is on the mat this loop uses. This file does not add a mark. nest_v2 stays as approved.
 
 ## Pictures
 
-Both are sim. The video is the seed 1 camera dock, third person beside the head camera, with the disc box when the finder has it. 980 by 420, 14.3 s, 95794 bytes.
+Both are sim. The video is one camera dock that starts facing away (heading 150 deg, cool room, side hazard). It opens in the search with no disc, then the head camera shows the disc box, then the half turn. Third person is beside the head camera. Labeled SIM. 980 by 420, 38.1 s, 278923 bytes.
 
 - twin/dock/camera/disc_dock_sim.mp4
 - twin/dock/camera/disc_dock_result.png
