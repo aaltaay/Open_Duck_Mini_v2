@@ -221,7 +221,18 @@ ND1,GD5.D,ED5.K,DOME_5,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md sectio
 ND1,DP5.K,F2.IN,NEST_PRE,20 AWG,50,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DP5.A
 ND1,DN5.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DN5.K
 ND1,ED5.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ED5.K
-ND1,F2.OUT,CHG.VIN,NEST_P,20 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F2.IN
-ND1,F2.OUT,DK6.VIN,NEST_P,20 AWG,70,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F2.IN
-ND1,EB.K,F2.OUT,NEST_P,20 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",EB.A
+ND1,F2.OUT,OVP.IN,NEST_CLAMP,20 AWG,30,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F2.IN
+ND1,OVP.OUT,CHG.VIN,NEST_P,20 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",OVP.IN OVP.GND OVP.OVLO OVP.EN OVP.ILM OVP.DVDT
+ND1,OVP.OUT,DK6.VIN,NEST_P,20 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",OVP.IN OVP.GND OVP.OVLO OVP.EN OVP.ILM OVP.DVDT
+ND1,EB.K,OVP.IN,NEST_CLAMP,20 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",EB.A
+ND1,OVP.IN,ROV1.1,NEST_CLAMP,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",OVP.OUT OVP.GND OVP.OVLO OVP.EN OVP.ILM OVP.DVDT
+ND1,ROV1.2,OVP.OVLO,OVLO,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ROV1.1
+ND1,ROV2.1,OVP.OVLO,OVLO,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ROV2.2
+ND1,ROV2.2,OVP.GND,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ROV2.1
+ND1,OVP.IN,RUV1.1,NEST_CLAMP,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",OVP.OUT OVP.GND OVP.OVLO OVP.EN OVP.ILM OVP.DVDT
+ND1,RUV1.2,OVP.EN,UVLO,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RUV1.1
+ND1,RUV2.1,OVP.EN,UVLO,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RUV2.2
+ND1,RUV2.2,OVP.GND,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RUV2.1
+ND1,RILM.1,OVP.ILM,ILIM,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RILM.2
+ND1,RILM.2,OVP.GND,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RILM.1
 ND1,EB.A,G.S,GND,22 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",EB.K

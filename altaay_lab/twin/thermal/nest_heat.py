@@ -31,6 +31,9 @@ I_IDLE = 0.021
 I_CHG = 1.006
 ETA_CHG = 0.929          # chart read, BQ24133_HEAT.md Figure 10-4
 ETA_I7C = 0.94           # cited low end, POWER.md section 12
+ETA_5V = 0.94            # cited low end of the D30V30F5 band used in AWAKE_LOAD.md
+NEST_V = 15.0
+DIODE_VF = 0.50          # cited max at 5 A, MBRS540T3/D. Upper bound at a lower current.
 V_PACK = 12.6
 # Loss is Vbat * I * (1/eta - 1). Calc only. The 1.00 A row in the heat note is 0.963 W.
 P_CHG = V_PACK * I_CHG * (1.0 / ETA_CHG - 1.0)
@@ -48,13 +51,25 @@ def idle_servo():
     return dict(P_cu25=z, P_board=z, P_fric=z.copy(), P_idle=np.full(14, p), i2=z)
 
 
+def nest_amps(p5):
+    """Current through one plus diode and one return diode. Calc only."""
+    i_chg = V_PACK * I_CHG / ETA_CHG / NEST_V
+    i_servo = (14 * I_IDLE * V_BUS) / ETA_I7C / NEST_V
+    i_5 = p5 / ETA_5V / NEST_V
+    return i_chg + i_servo + i_5
+
+
 def trunk(c):
     p_servo = 14 * I_IDLE * V_BUS
     bec_loss = p_servo * (1.0 / ETA_I7C - 1.0)
     i = I_CHG
+    i_nest = nest_amps(c["P5V"])
+    # Two diodes conduct. 0.50 V is the 5 A maximum, so this is an upper bound at the lower current.
+    p_diodes = 2.0 * i_nest * DIODE_VF
     return dict(cells=3 * i * i * TT.PARAMS["R_cell"], holder=i * i * c["R_holder"], bms=i * i * c["R_bms"],
                 fuse=i * i * TT.PARAMS["R_fuse"], xt30=i * i * TT.PARAMS["R_xt30"], switch=0.0,
-                wires=i * i * TT.PARAMS["R_wires"], bec=bec_loss, bec_leads=0.0, logic=0.15, charger=P_CHG)
+                wires=i * i * TT.PARAMS["R_wires"], bec=bec_loss, bec_leads=0.0, logic=0.15, charger=P_CHG,
+                diodes=p_diodes)
 
 
 def run(corner, Ta, hours=6.0):
@@ -64,7 +79,9 @@ def run(corner, Ta, hours=6.0):
     r = TT.simulate(lambda t: key, heats, None, c, Ta, t_end=hours * 3600.0, dt=2.0, record=30.0)
     j = [TT.NAMES.index(n) for n in ("left_knee", "right_knee")]
     knee = float(r["Ts"][:, j].max())
+    i_nest = nest_amps(c["P5V"])
     return dict(corner=corner, room_C=Ta, charger_W=round(P_CHG, 3),
+                diode_W=round(2.0 * i_nest * DIODE_VF, 3), nest_A=round(i_nest, 3),
                 cell_C=round(float(r["cells"][-1]), 2),
                 trunk_air_C=round(float(r["trunk_air"][-1]), 2),
                 trunk_wall_C=round(float(r["trunk_wall"][-1]), 2),
@@ -91,13 +108,15 @@ def main():
       % (P_CHG, I_CHG, V_PACK, ETA_CHG))
     a("The 1.00 A chart row in BQ24133_HEAT.md is 0.963 W. This row uses the board's 1.006 A.")
     a("Servos idle at 12.0 V, torque off, rail on. Head heat is the corner P5V already in the thermal twin.")
+    a("Two steering diodes carry that nest current. Their heat uses the cited 0.50 V maximum, which is specified at 5 A, so it is an upper bound here.")
     a("Three cells. Nothing here was measured on a board.")
     a("")
-    a("| Corner | Room | Cells | Trunk air | Trunk wall | Knee reading | Head air |")
-    a("|---|---|---|---|---|---|---|")
+    a("| Corner | Room | Nest A | Diode W | Cells | Trunk air | Trunk wall | Knee reading | Head air |")
+    a("|---|---|---|---|---|---|---|---|---|")
     for r in rows:
-        a("| %s | %.0f C | %.2f C | %.2f C | %.2f C | %.2f C | %.2f C |" % (
-            r["corner"], r["room_C"], r["cell_C"], r["trunk_air_C"], r["trunk_wall_C"], r["knee_C"], r["head_air_C"]))
+        a("| %s | %.0f C | %.3f | %.3f | %.2f C | %.2f C | %.2f C | %.2f C | %.2f C |" % (
+            r["corner"], r["room_C"], r["nest_A"], r["diode_W"], r["cell_C"], r["trunk_air_C"],
+            r["trunk_wall_C"], r["knee_C"], r["head_air_C"]))
     a("")
     a("Hottest cell %.2f C against the cited 0 C to 60 C charge window. %s" % (
         hot["cell_C"], "Inside." if hot["cell_C"] < CELL_MAX else "Crosses."))
@@ -111,7 +130,7 @@ def main():
         "The bound stays under 120 C." if die_hi < TJ_REG else "The bound crosses 120 C."))
     a("")
     a("Felt temperature is not a node. BLOCKER. In-trunk theta of the package is not the 35.7 C/W board. BLOCKER for a confirmed junction.")
-    a("A 25 W Pi 5 is not in this head. The corner P5V is 3 W or 5 W. The board-seat change owns that load.")
+    a("A 25 W Pi 5 is not in this head. The corner P5V is 3 W or 5 W. The 5 V, 5 A supply is pull request 111, not this charger.")
     text = "\n".join(lines) + "\n"
     if "\u2014" in text or "\u2013" in text:
         raise SystemExit("dash")

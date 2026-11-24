@@ -764,8 +764,18 @@ def place_sleeve(j, netlist, E3, runs_of, od_of):
 
 
 # ---------------------------------------------------------------------------------------------- geometry
-def load_mesh(path, to_mm):
+def load_mesh(path, to_mm, scale=None):
+    """Load a mesh. `scale` is the URDF visual scale. `to_mm` then converts metres to the viewer.
+
+    A millimetre STL with scale 0.001 is 1.5 mm across after both steps, not 1.5 m and not 3000 mm.
+    """
     m = trimesh.load(path, force="mesh")
+    if scale is not None:
+        s = np.asarray(scale, float).reshape(-1)
+        if s.size == 1:
+            s = np.repeat(s, 3)
+        if s.size == 3 and np.any(np.abs(s - 1.0) > 1e-12):
+            m.apply_scale(s)
     if to_mm:
         m.apply_scale(1000.0)
     return m
@@ -1086,7 +1096,12 @@ def main():
             T = Tl @ (v.origin if v.origin is not None else np.eye(4))
             T = T.copy()
             T[:3, 3] *= 1000.0
-            inst.append(dict(link=ln, urdf=fn, T=T, src="urdf"))
+            raw_scale = v.geometry.mesh.scale
+            if raw_scale is None:
+                mesh_scale = None
+            else:
+                mesh_scale = [float(x) for x in np.asarray(raw_scale, float).reshape(-1)]
+            inst.append(dict(link=ln, urdf=fn, T=T, src="urdf", scale=mesh_scale))
     n_urdf = len(inst)
     # cross-check with the audit's assembly (sites.json instance indices refer to it)
     asm_path = os.path.join(AUDIT, "assembly.json")
@@ -1152,8 +1167,14 @@ def main():
                          printed=True, mirrored=bool(seen[stem] == 2)))
         mesh_src[stem] = (os.path.join(PRINT_DIR, stem + ".stl"), False)
 
-    # load source meshes once
-    src = {k: load_mesh(p, mm) for k, (p, mm) in mesh_src.items()}
+    # load source meshes once. URDF scale is applied, then metres become millimetres.
+    src = {}
+    for i in inst:
+        key = i["key"]
+        if key in src:
+            continue
+        path, to_mm = mesh_src[key]
+        src[key] = load_mesh(path, to_mm, i.get("scale"))
     # D44 (V1 track 9): the 2S1P Molicel P45B pack in the grown bay replaces the URDF's 18650 cells and holder:
     # 21.4 x 70.0 mm cells on their axes (trunk frame x -133.1, y -9.35 and +12.2, z 31.5) and the pack's two nickel strips
     if "cell" in src:

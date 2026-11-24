@@ -61,6 +61,8 @@ domains:
   PACK_6V0_8V4: {v_min: 6.0, v_max: 8.4, superseded: true, note: "SUPERSEDED 2026-11-13. 2S pack window. The live pack domain is PACK_9V0_12V6."}
   PACK_9V0_12V6: {v_min: 9.0, v_max: 12.6, note: "3S P45B, about 3.0 V to 4.2 V per cell (calc only, 3 times 3.0 and 3 times 4.2). Supersedes PACK_6V0_8V4. The cell cut-off is 2.5 V, so 7.5 V is the sheet floor. This window starts at 9.0 V. Walking stops at 10.0 V (D65). That is the first cited i7C current row."}
   NEST_15V: {v_min: 13.6, v_max: 16.0, note: "Nest supply window. Nominal 15.0 V. Above 12.6 V plus 1.0 V, and at or under the SMAJ16A 16.0 V standoff. problems/NEST3.md."}
+  CLAMP_0V_26V: {v_min: 0.0, v_max: 26.0, note: "SMAJ16A clamp, 26.0 V at 15.4 A (cited, NEST3.md). Only the eFuse input. TPS259470 absolute maximum on IN is 28 V (cited, SLVSFC9C)."}
+  OVLO_0V_6V5: {v_min: 0.0, v_max: 6.5, note: "TPS259470 OVLO and EN pin absolute maximum 6.5 V (cited, SLVSFC9C)."}
   DOME_0V_16V: {v_min: 0.0, v_max: 16.0, note: "One gold dome. It may sit on a plus stripe or a minus stripe. The steering diodes sort it."}
   RAIL_9V0_15V0: {v_min: 9.0, v_max: 15.0, note: "Regulator input while awake. The pack is 9.0 V to 12.6 V through DK7. The nest is 15.0 V through DK6. The i7C holds the servos at 12.0 V. The 5 V regulator stays on this same node so a later 5 A part can replace it without moving the nest."}
   SERVO_7V2: {v_min: 6.0, v_max: 7.4, superseded: true, note: "SUPERSEDED 2026-11-13. BEC was set to 7.2 V (D3). The 16 V pass-through used in the first 3S walks is superseded too. The live servo domain is SERVO_12V0."}
@@ -102,7 +104,11 @@ nets:
   DOME_3: {domain: DOME_0V_16V, note: "Gold dome 3, before the steering diodes."}
   DOME_4: {domain: DOME_0V_16V, note: "Gold dome 4, before the steering diodes."}
   DOME_5: {domain: DOME_0V_16V, note: "Gold dome 5, before the steering diodes."}
-  NEST_P: {domain: NEST_15V, note: "Fused nest plus. Feeds the BQ24133 input and DK6. The awake load does not go through the charger sense resistor."}
+  NEST_P: {domain: NEST_15V, note: "eFuse output. Feeds the BQ24133 input and DK6. The 26 V clamp is not on this net."}
+  NEST_CLAMP: {domain: CLAMP_0V_26V, note: "Fuse output and eFuse input. SMAJ16A can clamp this node to 26.0 V. That is under the TPS259470 28 V absolute maximum and is not the charger pin."}
+  OVLO: {domain: OVLO_0V_6V5, note: "TPS259470 OVLO pin. Divider 140 kOhm over 10.0 kOhm. Trip 18.00 V typical, 18.345 V at the high threshold (calc only)."}
+  UVLO: {domain: OVLO_0V_6V5, note: "TPS259470 EN/UVLO pin. Divider 90.9 kOhm over 10.0 kOhm."}
+  ILIM: {domain: OVLO_0V_6V5, note: "TPS259470 ILM pin. 750 ohm to ground. Cited ILIM minimum 3.96 A."}
   SNS: {domain: SENSE, note: "chest SENSE strip: cell NTC to GND and the wake branch to SW1 ON (D43)"}
   NTC_MID: {domain: NTC_WIN, note: "bead high side. RBIAS is 10.0 kOhm from the charger reference. Cold divider is 10.0 kOhm over 28.0 kOhm. Hot divider is 10.0 kOhm over 2.80 kOhm. Those three are the rbias, rcold, and rhot lines in CHARGER_BOARD.md."}
   STAT_GPIO: {domain: GPIO_3V3, note: "charger STAT to Pi pin 29, through 1 kOhm on the board"}
@@ -1705,7 +1711,7 @@ components:
 
   - id: EB
     ref: D36
-    part: "Littelfuse SMAJ16A, ESD and surge on the fused nest"
+    part: "Littelfuse SMAJ16A on the eFuse input, not on the charger pin"
     kind: diode
     region: trunk_top
     ratings: {vr_v: 40, if_av_a: 5, vf_max_v: 0.50}
@@ -1713,8 +1719,89 @@ components:
       pads: {connector: "SMC solder pads", pitch_mm: null}
     pins:
       - {pin: A, label: A, name: anode, domain: GND, group: pads, dir: passive, source: "[L] MBRS540T3/D"}
-      - {pin: K, label: K, name: cathode, domain: NEST_15V, group: pads, dir: passive, source: "[L] MBRS540T3/D"}
-    source: "[L] https://www.onsemi.com/download/data-sheet/pdf/mbrs540t3-d.pdf , Rev. 13"
+      - {pin: K, label: K, name: cathode, domain: CLAMP_0V_26V, group: pads, dir: passive, source: "[L] SMAJ16A, clamp 26.0 V"}
+    source: "[L] Littelfuse SMAJ series. Response typically under 1.0 ps. Clamp 26.0 V at 15.4 A."
+
+  - id: OVP
+    ref: U7
+    part: "TI TPS259470ARPW eFuse, adjustable OVLO, active current limit"
+    kind: efuse
+    region: trunk_top
+    ratings: {vin_abs_v: 28, vin_op_max_v: 23, ovlo_trip_typ_v: 18.0, t_ovlo_us: 1.2}
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: IN, label: IN, name: clamped nest, domain: CLAMP_0V_26V, group: pads, dir: pwr_in, source: "[L] SLVSFC9C, IN absolute maximum 28 V"}
+      - {pin: OUT, label: OUT, name: to the charger and DK6, domain: NEST_15V, group: pads, dir: pwr_out, source: "[L] SLVSFC9C. Output turns off above the OVLO trip."}
+      - {pin: GND, label: GND, name: ground, domain: GND, group: pads, dir: gnd, source: "[L] SLVSFC9C"}
+      - {pin: OVLO, label: OVLO, name: overvoltage set, domain: OVLO_0V_6V5, group: pads, dir: in, source: "[L] SLVSFC9C, VOV rising 1.183 to 1.223 V"}
+      - {pin: EN, label: EN, name: undervoltage set, domain: OVLO_0V_6V5, group: pads, dir: in, source: "[L] SLVSFC9C, UVLO rising 1.183 to 1.223 V"}
+      - {pin: ILM, label: ILM, name: current limit set, domain: OVLO_0V_6V5, group: pads, dir: in, source: "[L] SLVSFC9C, 750 ohm"}
+      - {pin: DVDT, label: dVdT, name: "open for the internal slew", domain: OVLO_0V_6V5, group: pads, dir: nc, source: "[L] SLVSFC9C test condition dVdT open"}
+      - {pin: ITIMER, label: ITIMER, name: "open for the fastest current response", domain: OVLO_0V_6V5, group: pads, dir: nc, source: "[L] SLVSFC9C"}
+      - {pin: FLT, label: FLT, name: not wired, domain: OVLO_0V_6V5, group: pads, dir: nc, source: "[L] SLVSFC9C"}
+      - {pin: AUX, label: AUXOFF, name: not wired, domain: OVLO_0V_6V5, group: pads, dir: nc, source: "[L] SLVSFC9C"}
+    source: "[L] https://www.ti.com/lit/ds/symlink/tps25947.pdf SLVSFC9C. OVLO response 1.2 us typical."
+
+  - id: ROV1
+    ref: R21
+    part: "140 kOhm 1 percent, OVLO top"
+    kind: resistor
+    region: trunk_top
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: from the eFuse input, domain: CLAMP_0V_26V, group: pads, dir: passive, source: "[L] SLVSFC9C"}
+      - {pin: "2", label: "2", name: OVLO pin, domain: OVLO_0V_6V5, group: pads, dir: passive, source: "[L] SLVSFC9C"}
+    source: "[L] NEST_CHARGE.md"
+
+  - id: ROV2
+    ref: R22
+    part: "10.0 kOhm 1 percent, OVLO bottom"
+    kind: resistor
+    region: trunk_top
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: OVLO pin, domain: OVLO_0V_6V5, group: pads, dir: passive, source: "[L] SLVSFC9C"}
+      - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] SLVSFC9C"}
+    source: "[L] NEST_CHARGE.md"
+
+  - id: RUV1
+    ref: R23
+    part: "90.9 kOhm 1 percent, UVLO top"
+    kind: resistor
+    region: trunk_top
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: from the eFuse input, domain: CLAMP_0V_26V, group: pads, dir: passive, source: "[L] SLVSFC9C"}
+      - {pin: "2", label: "2", name: EN pin, domain: OVLO_0V_6V5, group: pads, dir: passive, source: "[L] SLVSFC9C"}
+    source: "[L] NEST_CHARGE.md"
+
+  - id: RUV2
+    ref: R24
+    part: "10.0 kOhm 1 percent, UVLO bottom"
+    kind: resistor
+    region: trunk_top
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: EN pin, domain: OVLO_0V_6V5, group: pads, dir: passive, source: "[L] SLVSFC9C"}
+      - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] SLVSFC9C"}
+    source: "[L] NEST_CHARGE.md"
+
+  - id: RILM
+    ref: R25
+    part: "750 ohm 1 percent, ILIM set"
+    kind: resistor
+    region: trunk_top
+    groups:
+      pads: {connector: "solder pads", pitch_mm: null}
+    pins:
+      - {pin: "1", label: "1", name: ILM pin, domain: OVLO_0V_6V5, group: pads, dir: passive, source: "[L] SLVSFC9C"}
+      - {pin: "2", label: "2", name: ground, domain: GND, group: pads, dir: gnd, source: "[L] SLVSFC9C"}
+    source: "[L] SLVSFC9C table, RILM 750 ohm, ILIM 3.96 to 4.84 A"
 
 cables:
   - {id: ND1, status: no_route, no_route: true, desc: "Five gold domes to the steering diodes, the 5 A fuse, the charger, and DK6. Two nets, NEST_P and GND.", regions: [trunk_bottom, trunk_top], joints: [], polyline_mm: null, rule_mm: null, source: "[L] NEST_CHARGE.md. Lengths are the short trunk runs, not a 3D route yet. Mass budget skips a cable that is not active until the route exists.", twist: {lay_mm: null, note: "no lay until the route is drawn"}}
@@ -2033,7 +2120,18 @@ wires:
   - {cable: ND1, from: DP5.K, to: F2.IN, net: NEST_PRE, gauge: 20 AWG, color: red, cut_mm: 50, i_mean_a: 1.3, i_peak_a: 3.2, ends: [solder pad, solder pad], source: "[L] NEST_CHARGE.md"}
   - {cable: ND1, from: DN5.A, to: G.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 40, i_mean_a: 1.3, i_peak_a: 3.2, ends: [solder pad, solder pad], source: "[L] NEST_CHARGE.md"}
   - {cable: ND1, from: ED5.A, to: G.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 40, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] NEST_CHARGE.md"}
-  - {cable: ND1, from: F2.OUT, to: CHG.VIN, net: NEST_P, gauge: 20 AWG, color: red, cut_mm: 60, i_mean_a: 0.91, i_peak_a: 1.1, ends: [solder pad, solder pad], source: "[L] NEST_CHARGE.md"}
-  - {cable: ND1, from: F2.OUT, to: DK6.VIN, net: NEST_P, gauge: 20 AWG, color: red, cut_mm: 70, i_mean_a: 2.1, i_peak_a: 3.2, ends: [solder pad, solder pad], source: "[L] NEST_CHARGE.md"}
-  - {cable: ND1, from: EB.K, to: F2.OUT, net: NEST_P, gauge: 20 AWG, color: red, cut_mm: 20, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] NEST_CHARGE.md"}
+  - {cable: ND1, from: F2.OUT, to: OVP.IN, net: NEST_CLAMP, gauge: 20 AWG, color: red, cut_mm: 30, i_mean_a: 2.1, i_peak_a: 3.2, ends: [holder lead, solder pad], source: "[L] NEST_CHARGE.md. The 26 V clamp stops here."}
+  - {cable: ND1, from: OVP.OUT, to: CHG.VIN, net: NEST_P, gauge: 20 AWG, color: red, cut_mm: 40, i_mean_a: 0.91, i_peak_a: 1.1, ends: [solder pad, solder pad], source: "[L] NEST_CHARGE.md. Charger input is the eFuse output."}
+  - {cable: ND1, from: OVP.OUT, to: DK6.VIN, net: NEST_P, gauge: 20 AWG, color: red, cut_mm: 40, i_mean_a: 2.1, i_peak_a: 3.2, ends: [solder pad, solder pad], source: "[L] NEST_CHARGE.md"}
+  - {cable: ND1, from: EB.K, to: OVP.IN, net: NEST_CLAMP, gauge: 20 AWG, color: red, cut_mm: 20, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] NEST_CHARGE.md. SMAJ16A on the eFuse input, not on PVCC."}
+  - {cable: ND1, from: OVP.IN, to: ROV1.1, net: NEST_CLAMP, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] SLVSFC9C equation 2, 140 kOhm"}
+  - {cable: ND1, from: ROV1.2, to: OVP.OVLO, net: OVLO, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] SLVSFC9C"}
+  - {cable: ND1, from: ROV2.1, to: OVP.OVLO, net: OVLO, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] SLVSFC9C, 10.0 kOhm"}
+  - {cable: ND1, from: ROV2.2, to: OVP.GND, net: GND, gauge: board, color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] SLVSFC9C"}
+  - {cable: ND1, from: OVP.IN, to: RUV1.1, net: NEST_CLAMP, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] SLVSFC9C equation 1, 90.9 kOhm"}
+  - {cable: ND1, from: RUV1.2, to: OVP.EN, net: UVLO, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] SLVSFC9C"}
+  - {cable: ND1, from: RUV2.1, to: OVP.EN, net: UVLO, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0002, i_peak_a: 0.0002, ends: [solder pad, solder pad], source: "[L] SLVSFC9C, 10.0 kOhm"}
+  - {cable: ND1, from: RUV2.2, to: OVP.GND, net: GND, gauge: board, color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] SLVSFC9C"}
+  - {cable: ND1, from: RILM.1, to: OVP.ILM, net: ILIM, gauge: board, color: violet, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] SLVSFC9C, 750 ohm, ILIM minimum 3.96 A"}
+  - {cable: ND1, from: RILM.2, to: OVP.GND, net: GND, gauge: board, color: black, cut_mm: 0, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] SLVSFC9C"}
   - {cable: ND1, from: EB.A, to: G.S, net: GND, gauge: 22 AWG, color: black, cut_mm: 20, i_mean_a: 0.0, i_peak_a: 0.0, ends: [solder pad, solder pad], source: "[L] NEST_CHARGE.md"}

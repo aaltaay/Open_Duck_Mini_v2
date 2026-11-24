@@ -173,12 +173,26 @@ def main():
         w = wired("DP%d.K" % i, "F2.IN")
         check("dome %d cathode meets the fuse" % i, w is not None and w["net"] == "NEST_PRE", str(w))
 
-    check("fuse feeds the charger", wired("F2.OUT", "CHG.VIN") is not None, "F2 to CHG")
-    check("fuse feeds the awake diode", wired("F2.OUT", "DK6.VIN") is not None, "F2 to DK6")
+    check("fuse feeds the eFuse input", wired("F2.OUT", "OVP.IN") is not None, "F2 to OVP")
+    check("eFuse output feeds the charger", wired("OVP.OUT", "CHG.VIN") is not None, "OVP to CHG")
+    check("eFuse output feeds the awake diode", wired("OVP.OUT", "DK6.VIN") is not None, "OVP to DK6")
+    check("clamp diode is on the eFuse input", wired("EB.K", "OVP.IN") is not None, "EB")
+    check("clamp diode is not on the charger pin", wired("EB.K", "CHG.VIN") is None, "EB not on CHG")
     check("awake diode still joins the pack diode at the switch",
           wired("DK6.VOUT", "SW1.VIN") is not None and wired("DK7.VOUT", "SW1.VIN") is not None,
           "DK6 and DK7")
-    check("bus TVS is on the fused nest", wired("EB.K", "F2.OUT") is not None, "EB")
+    # SLVSFC9C: VOV rising 1.183 to 1.223 V, typical 1.20 V. Divider 140k / 10.0k.
+    rov_top, rov_bot = 140e3, 10.0e3
+    gain = (rov_top + rov_bot) / rov_bot
+    trip_typ = 1.20 * gain
+    trip_hi = 1.223 * gain
+    trip_lo = 1.183 * gain
+    check("OVLO typical trip is 18.00 V", abs(trip_typ - 18.0) < 0.01, "%.3f V" % trip_typ)
+    check("OVLO high trip is under 20 V", trip_hi < 20.0, "%.3f V" % trip_hi)
+    check("OVLO low trip is above the 16 V standoff", trip_lo > TVS_STANDOFF, "%.3f V" % trip_lo)
+    check("26 V clamp is under the eFuse 28 V absolute maximum", TVS_CLAMP < 28.0, "%.1f V" % TVS_CLAMP)
+    # 750 ohm row: ILIM minimum 3.96 A (cited table).
+    check("eFuse limit minimum covers the dome current", 3.96 >= cur["total"], "3.96 A vs %.3f A" % cur["total"])
 
     rail = net["domains"]["RAIL_9V0_15V0"]
     check("rail covers the pack and the nest",
@@ -192,8 +206,8 @@ def main():
     print("charge input %.3f A, servo idle %.3f A, Pi 5 branch %.3f A, total %.3f A (calc only)"
           % (cur["charge"], cur["servo"], cur["pi5"], cur["total"]))
     print("diode heat upper bound %.3f W on the 700 mm2 pad, rise %.1f C (calc only)" % (heat, rise_pad))
-    print("TVS clamp %.1f V is over the PVCC %.0f V absolute maximum. The 1 us before the ACFET opens is BLOCKER."
-          % (TVS_CLAMP, PVCC_ABS))
+    print("Clamp %.1f V is on the eFuse input (absolute maximum 28 V). OVLO high trip %.3f V is under the PVCC %.0f V absolute maximum. Response 1.2 us typical (cited, SLVSFC9C)."
+          % (TVS_CLAMP, 1.223 * 15.0, PVCC_ABS))
     print("cell charge window %.0f C to %.0f C (cited). Felt grade and contact ohms stay BLOCKER."
           % (CELL_CHG_MIN_C, CELL_CHG_MAX_C))
     if err:

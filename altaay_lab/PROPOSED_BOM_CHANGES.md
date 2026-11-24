@@ -59,7 +59,11 @@ Do not edit BOM.md from this table. Nothing is bought. Prices were not opened fo
 | Proposed line | Part | Qty | Why |
 |---|---|---|---|
 | nest diode | onsemi MBRS540T3G | 10 | Five plus diodes and five return diodes. 40 V, 5 A, 0.50 V max at 5 A (cited, MBRS540T3/D Rev. 13). One dome may carry 2.933 A (calc only). |
-| nest TVS | Littelfuse SMAJ16A | 6 | One on each dome and one on the fused nest. Standoff 16.0 V (cited, NEST3.md). |
+| nest TVS | Littelfuse SMAJ16A | 6 | One on each dome and one on the eFuse input. Standoff 16.0 V, clamp 26.0 V (cited, NEST3.md). Not on the charger pin. |
+| nest eFuse | TI TPS259470ARPW | 1 | OVLO trip 18.00 V typical, 18.345 V at the high threshold (calc only from the cited 1.183 V to 1.223 V). Response 1.2 us typical (cited, SLVSFC9C). IN absolute maximum 28 V covers the 26.0 V clamp. |
+| OVLO divider | 140 kOhm and 10.0 kOhm, 1 percent | 1 each | Sets the 18.00 V trip. |
+| UVLO divider | 90.9 kOhm and 10.0 kOhm, 1 percent | 1 each | Keeps the eFuse on at the 15.0 V nest. |
+| ILIM resistor | 750 ohm, 1 percent | 1 | Cited row: 3.96 A minimum. |
 | mat fuse | Littelfuse 0287005.PXCN, 5 A ATO | 1 | In the cord pocket, ahead of the stripes, so a coin short opens it. The duck already has F2 of the same part. |
 | diode copper | 700 mm2, 2 ounce pad under each MBRS540 | 10 pads | The minimum pad is 111 C/W and crosses 150 C on the VF bound. The sheet's 700 mm2 pad is 64 C/W (cited). |
 
