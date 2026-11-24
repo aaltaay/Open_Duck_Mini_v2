@@ -2675,4 +2675,148 @@
         <child link="right_roll_pad" />
         <axis xyz="0 0 0"/>
     </joint>
+    <link name="gold_dome_1">
+        <visual>
+            <origin xyz="-0.108 -0.024 -0.065400" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package:///gold_dome.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="gold_dome_1_material">
+                <color rgba="0.83 0.69 0.22 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.108 -0.024 -0.065400" rpy="0 0 0" />
+            <geometry>
+                <sphere radius="0.0015"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="5.9e-05"/>
+            <inertia ixx="2.1e-11" ixy="0" ixz="0" iyy="2.1e-11" iyz="0" izz="2.1e-11" />
+        </inertial>
+    </link>
+    <joint name="gold_dome_1_fixed" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="trunk_assembly" />
+        <child link="gold_dome_1" />
+        <axis xyz="0 0 0"/>
+    </joint>
+
+    <link name="gold_dome_2">
+        <visual>
+            <origin xyz="-0.108 -0.012 -0.065400" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package:///gold_dome.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="gold_dome_2_material">
+                <color rgba="0.83 0.69 0.22 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.108 -0.012 -0.065400" rpy="0 0 0" />
+            <geometry>
+                <sphere radius="0.0015"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="5.9e-05"/>
+            <inertia ixx="2.1e-11" ixy="0" ixz="0" iyy="2.1e-11" iyz="0" izz="2.1e-11" />
+        </inertial>
+    </link>
+    <joint name="gold_dome_2_fixed" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="trunk_assembly" />
+        <child link="gold_dome_2" />
+        <axis xyz="0 0 0"/>
+    </joint>
+
+    <link name="gold_dome_3">
+        <visual>
+            <origin xyz="-0.108 0.0 -0.065400" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package:///gold_dome.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="gold_dome_3_material">
+                <color rgba="0.83 0.69 0.22 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.108 0.0 -0.065400" rpy="0 0 0" />
+            <geometry>
+                <sphere radius="0.0015"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="5.9e-05"/>
+            <inertia ixx="2.1e-11" ixy="0" ixz="0" iyy="2.1e-11" iyz="0" izz="2.1e-11" />
+        </inertial>
+    </link>
+    <joint name="gold_dome_3_fixed" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="trunk_assembly" />
+        <child link="gold_dome_3" />
+        <axis xyz="0 0 0"/>
+    </joint>
+
+    <link name="gold_dome_4">
+        <visual>
+            <origin xyz="-0.108 0.012 -0.065400" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package:///gold_dome.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="gold_dome_4_material">
+                <color rgba="0.83 0.69 0.22 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.108 0.012 -0.065400" rpy="0 0 0" />
+            <geometry>
+                <sphere radius="0.0015"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="5.9e-05"/>
+            <inertia ixx="2.1e-11" ixy="0" ixz="0" iyy="2.1e-11" iyz="0" izz="2.1e-11" />
+        </inertial>
+    </link>
+    <joint name="gold_dome_4_fixed" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="trunk_assembly" />
+        <child link="gold_dome_4" />
+        <axis xyz="0 0 0"/>
+    </joint>
+
+    <link name="gold_dome_5">
+        <visual>
+            <origin xyz="-0.108 0.024 -0.065400" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package:///gold_dome.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="gold_dome_5_material">
+                <color rgba="0.83 0.69 0.22 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="-0.108 0.024 -0.065400" rpy="0 0 0" />
+            <geometry>
+                <sphere radius="0.0015"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="5.9e-05"/>
+            <inertia ixx="2.1e-11" ixy="0" ixz="0" iyy="2.1e-11" iyz="0" izz="2.1e-11" />
+        </inertial>
+    </link>
+    <joint name="gold_dome_5_fixed" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="trunk_assembly" />
+        <child link="gold_dome_5" />
+        <axis xyz="0 0 0"/>
+    </joint>
 </robot>

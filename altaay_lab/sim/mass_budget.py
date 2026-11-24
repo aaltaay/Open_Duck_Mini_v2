@@ -251,7 +251,9 @@ LINK_ALIAS = {"left_antenna_holder": "head_assembly", "right_antenna_holder": "h
               "left_ankle_pads": "foot_assembly", "right_ankle_pads": "foot_assembly_2", "left_hip_pad": "left_roll_to_pitch_assembly",
               "right_hip_pad": "right_roll_to_pitch_assembly", "sit_seat": "trunk_assembly", "sit_bumper": "trunk_assembly",
               "neck_stop": "trunk_assembly", "neck_pads": "trunk_assembly", "head_pad": "head_pitch_to_yaw",
-              "left_roll_pad": "left_roll_to_pitch_assembly", "right_roll_pad": "right_roll_to_pitch_assembly"}
+              "left_roll_pad": "left_roll_to_pitch_assembly", "right_roll_pad": "right_roll_to_pitch_assembly",
+              "gold_dome_1": "trunk_assembly", "gold_dome_2": "trunk_assembly", "gold_dome_3": "trunk_assembly",
+              "gold_dome_4": "trunk_assembly", "gold_dome_5": "trunk_assembly"}
 
 class Item:
     def __init__(self, name, cat, mass_g, source, link, mass_obj, in_model, note=""):
@@ -346,6 +348,12 @@ def build_budget(holder_g=None, include_antennas=False):
         elif base == "roll_bearing":
             V = mesh_props(P)[0]; g = V * 1e6 * BEARING_STEEL
             items.append(Item("6804ZZ bearing", "mechanical", g, S["bearing"][1], tgt, mesh_mass(P, T, g / 1000), True))
+        elif base == "gold_dome":
+            # 0.9 mm cap on a 1.5 mm radius, gold 19.3 g/cm3. Calc only. Not in the walk MJCF.
+            g = 0.059
+            items.append(Item("gold charging dome", "mechanical", g,
+                              "[L] calc only, spherical cap, NEST_CHARGE.md", tgt,
+                              box_mass(g / 1000.0, np.zeros(3), (0.003, 0.003, 0.003)), False))
         else:
             raise RuntimeError("unhandled CAD part " + fn)
     # ---- head-region print parts that the URDF does not have (same frame as print/head.stl) ----

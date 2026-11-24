@@ -1,0 +1,23 @@
+{
+ "proud_mm": 0.9,
+ "radius_mm": 1.5,
+ "y_mm": [
+  -24,
+  -12,
+  0,
+  12,
+  24
+ ],
+ "proud_m": 0.0009,
+ "radius_m": 0.0015,
+ "y_m": [
+  -0.024,
+  -0.012,
+  0.0,
+  0.012,
+  0.024
+ ],
+ "x_m": -0.108,
+ "face_z_m": -0.066,
+ "note": "CAD check only for the mesh. 0.9 mm proud is the sim contact from SEAT_CONTACTS.md."
+}

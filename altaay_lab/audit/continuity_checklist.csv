@@ -1,12 +1,4 @@
 cable,from,to,net,gauge,cut_mm,expect,check_no_short_to
-DC1,DKP.CHG,DK2.VIN,CHG_IN,20 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.SYS DKP.GND DKP.SNS
-DC1,JGD.S,DK2.GND,GND,26 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-DC1,DK2.VOUT,F2.IN,CHG_D,20 AWG,180,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK2.VIN DK2.GND
-DC1,F2.OUT,BMS.P+,PACK_P,20 AWG,110,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F2.IN
-DC2,DKP.GND,JGD.S,GND,20 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.SYS DKP.SNS DKP.CHG
-DC2,JGD.S,BMS.P-,GND,20 AWG,210,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-DC3,DKP.SNS,JSN.S,SNS,26 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.SYS DKP.GND DKP.CHG
-DC3,RT1.2,BMS.P-,GND,26 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",RT1.1
 CE,JPI.STAT,PI.29,STAT_GPIO,26 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JPI.EN JPI.V3 JPI.GND
 CE,JPI.EN,PI.31,PI_EN,26 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JPI.STAT JPI.V3 JPI.GND
 CE,JPI.V3,PI.1,3V3,26 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",JPI.STAT JPI.EN JPI.GND
@@ -33,13 +25,10 @@ NW,RHOT.2,CU2.INBM,HOT_TH,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md secti
 NW,CU2.GND,JNT.B,GND,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU2.INAM CU2.INAP CU2.INBP CU2.INBM CU2.OUTA CU2.OUTB
 NW,CU2.OUTA,CQEN.G,EN_GATE,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU2.INAM CU2.INAP CU2.INBP CU2.INBM CU2.OUTB CU2.GND
 NW,CU2.OUTA,CU2.OUTB,EN_GATE,board,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",CU2.INAM CU2.INAP CU2.INBP CU2.INBM CU2.OUTB CU2.GND
-DC3,JSN.S,WK1.A,SNS,26 AWG,180,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
-DC4,DKP.SYS,DK6.VIN,SYS_IN,20 AWG,190,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DKP.GND DKP.SNS DKP.CHG
 DC4,DK6.VOUT,SW1.VIN,PACK_OR,20 AWG,70,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK6.VIN DK6.GND
 DC4,DK6.GND,SW1.GND,GND,26 AWG,80,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK6.VIN DK6.VOUT
 DC4,DK7.VOUT,SW1.VIN,PACK_OR,16 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK7.VIN DK7.GND
 DC4,DK7.GND,SW1.GND,GND,26 AWG,70,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DK7.VIN DK7.VOUT
-DC3,WK1.K,SW1.ON,SW1_ON,26 AWG,0,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",WK1.A
 P1,PACK.B+,BMS.B+,PACK_P,16 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.B-
 P2,PACK.B-,BMS.B-,CELL_N,16 AWG,120,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.B+
 P3,PACK.MID,BMS.B1,CELL_MID,26 AWG,140,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",PACK.MID2
@@ -202,3 +191,37 @@ EF,SPV.S,EFR.IN,SERVO_7V2,16 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md secti
 EF,SPG.S,EFR.GND,GND,16 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 EF,SPV.S,EFN.IN,SERVO_7V2,16 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
 EF,SPG.S,EFN.GND,GND,16 AWG,,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,GD1.D,DP1.A,DOME_1,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,GD1.D,DN1.K,DOME_1,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,GD1.D,ED1.K,DOME_1,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,DP1.K,F2.IN,NEST_PRE,20 AWG,50,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DP1.A
+ND1,DN1.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DN1.K
+ND1,ED1.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ED1.K
+ND1,GD2.D,DP2.A,DOME_2,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,GD2.D,DN2.K,DOME_2,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,GD2.D,ED2.K,DOME_2,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,DP2.K,F2.IN,NEST_PRE,20 AWG,50,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DP2.A
+ND1,DN2.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DN2.K
+ND1,ED2.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ED2.K
+ND1,GD3.D,DP3.A,DOME_3,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,GD3.D,DN3.K,DOME_3,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,GD3.D,ED3.K,DOME_3,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,DP3.K,F2.IN,NEST_PRE,20 AWG,50,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DP3.A
+ND1,DN3.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DN3.K
+ND1,ED3.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ED3.K
+ND1,GD4.D,DP4.A,DOME_4,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,GD4.D,DN4.K,DOME_4,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,GD4.D,ED4.K,DOME_4,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,DP4.K,F2.IN,NEST_PRE,20 AWG,50,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DP4.A
+ND1,DN4.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DN4.K
+ND1,ED4.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ED4.K
+ND1,GD5.D,DP5.A,DOME_5,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,GD5.D,DN5.K,DOME_5,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,GD5.D,ED5.K,DOME_5,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",
+ND1,DP5.K,F2.IN,NEST_PRE,20 AWG,50,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DP5.A
+ND1,DN5.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",DN5.K
+ND1,ED5.A,G.S,GND,22 AWG,40,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",ED5.K
+ND1,F2.OUT,CHG.VIN,NEST_P,20 AWG,60,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F2.IN
+ND1,F2.OUT,DK6.VIN,NEST_P,20 AWG,70,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",F2.IN
+ND1,EB.K,F2.OUT,NEST_P,20 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",EB.A
+ND1,EB.A,G.S,GND,22 AWG,20,"under 1 ohm, read in ohms (TEST_PLAN.md section 2)",EB.K

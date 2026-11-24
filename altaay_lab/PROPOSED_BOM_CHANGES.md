@@ -52,6 +52,21 @@ The rows below stay as the record of the spring-pin proposal. They are not the n
 | 17j, 17k, 17l | BelMetric said the configuration is not available. Re-select the exact size on the page before those three are counted as in stock. | NOT TODAY |
 | 10r, E7r | Leave Buy at 0. | DO NOT ORDER |
 
+## Nest charger delta, 2026-11-24
+
+Do not edit BOM.md from this table. Nothing is bought. Prices were not opened for these lines, so the dollars are BLOCKER.
+
+| Proposed line | Part | Qty | Why |
+|---|---|---|---|
+| nest diode | onsemi MBRS540T3G | 10 | Five plus diodes and five return diodes. 40 V, 5 A, 0.50 V max at 5 A (cited, MBRS540T3/D Rev. 13). One dome may carry 2.933 A (calc only). |
+| nest TVS | Littelfuse SMAJ16A | 6 | One on each dome and one on the fused nest. Standoff 16.0 V (cited, NEST3.md). |
+| mat fuse | Littelfuse 0287005.PXCN, 5 A ATO | 1 | In the cord pocket, ahead of the stripes, so a coin short opens it. The duck already has F2 of the same part. |
+| diode copper | 700 mm2, 2 ounce pad under each MBRS540 | 10 pads | The minimum pad is 111 C/W and crosses 150 C on the VF bound. The sheet's 700 mm2 pad is 64 C/W (cited). |
+
+Do not add the MCP73213 eval board. It regulates at 8.40 V and this pack charges to 12.6 V. The BQ24133 is already the netlist charger. Do not add a second one from this note.
+
+The D30V30F5 stays. It does not publish 5 A. A Pi 5 at 5 V and 5 A needs a different regulator. That change belongs to the board-seat work. The nest rail can feed it.
+
 ## One-click
 
 A single order of today's BOM.md is still wrong. It would buy DK1, which the nest no longer uses. It would skip the nest. It would include lines that are out of stock or have no part number (3, 6, 7, 17m, 22c, 26, 30, 33, E2, L2, TE4). E5 stays on the order: D33 restored the side projector lamp. The clean in-stock lines are listed in PARTS_AUDIT.md under "What a one-click can buy after this session".
